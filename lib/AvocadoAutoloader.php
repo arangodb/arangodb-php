@@ -1,0 +1,76 @@
+<?php
+
+/**
+ * AvocadoDB PHP client: autoloader
+ * 
+ * @modulegroup AvocadoDbPhpClient
+ * @author Jan Steemann
+ * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
+ */
+
+namespace triagens;
+
+/**
+ * AvocadoAutoloader
+ * 
+ * Handles automatic loading of missing class files
+ * The autoloader can be nested with other autoloaders. It will only
+ * process classes from its own namespace and ignore all others.
+ */
+class AvocadoAutoloader {
+  private static $libDir = NULL;
+  private static $extension;
+
+  /**
+   * Initialise the autoloader
+   *
+   * @throws AvocadoException
+   * @return void
+   */
+  public static function init() {
+    self::checkEnvironment();
+
+    self::$libDir    = dirname(__FILE__) . DIRECTORY_SEPARATOR;
+    self::$extension = '.php';
+  }
+
+  /**
+   * Handle loading of an unknown class
+   *
+   * This will only handle class from its own namespace and ignore all others.
+   * This allows multiple autoloaders to be used in a nested fashion.
+   *
+   * @param string $className 
+   * @return void
+   */
+  public static function load($className) {
+    $namespace = __NAMESPACE__ . '\\';
+    $length = strlen($namespace);
+
+    if (substr($className, 0, $length) !== $namespace) {
+      return;
+    }
+
+    // init() must have been called before
+    assert(self::$libDir !== NULL);
+
+    require_once self::$libDir . substr($className, $length) . self::$extension;
+  }
+  
+  /**
+   * Check the runtime environment
+   *
+   * This will check whether the runtime environment is compatible with the
+   * Avocado PHP client.
+   *
+   * @throws AvocadoException
+   * @return void
+   */
+  private static function checkEnvironment() {
+    list($major, $minor) = explode('.', phpversion());
+
+    if ((int) $major < 5 or ((int) $major === 5 && (int) $minor < 3)) {
+      throw new AvocadoClientException('Incompatible PHP environment. Expecting PHP 5.3 or higher');
+    }
+  }
+}
