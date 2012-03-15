@@ -4,7 +4,7 @@ namespace triagens;
 
 class AvocadoStatement {
   private $_connection = NULL;
-  private $_maxResults = NULL;
+  private $_batchSize = NULL;
   private $_doCount    = false;
   private $_query      = NULL;
   private $_sanitize   = false;
@@ -23,8 +23,8 @@ class AvocadoStatement {
       $this->setCount($data["count"]);
     }
 
-    if (isset($data["maxResults"])) {
-      $this->setMaxResults($data["maxResults"]);
+    if (isset($data["batchSize"])) {
+      $this->setMaxResults($data["batchSize"]);
     }
 
     if (isset($data["bindVars"])) {
@@ -49,8 +49,8 @@ class AvocadoStatement {
     else {
       $data["bindVars"] = NULL;
     }
-    if ($this->_maxResults > 0) {
-      $data["maxResults"] = $this->_maxResults;
+    if ($this->_batchSize > 0) {
+      $data["batchSize"] = $this->_batchSize;
     }
 
     return $data;
@@ -98,11 +98,11 @@ class AvocadoStatement {
       throw new AvocadoException("Max result valuee should be a positive integer");
     }
 
-    $this->_maxResults = (int) $value;
+    $this->_batchSize = (int) $value;
   }
 
   public function getMaxResults() {
-    return $this->_maxResults;
+    return $this->_batchSize;
   }
 
   private function getCursorOptions() {

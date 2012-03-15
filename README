@@ -1,0 +1,3 @@
+PHP client for AvocadoDB
+
+First version features select queries and cursors
