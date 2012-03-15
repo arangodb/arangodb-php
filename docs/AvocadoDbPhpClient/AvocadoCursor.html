@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class AvocadoCursor</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class AvocadoCursor</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+											<a href="#sec-const-summary">Constants</a> (<a href="#sec-consts">details</a>)
+						
+			</div>
+	<div class="info-box-body">
+                <p class="implements">
+            Implements interfaces:
+            <ul>
+                <li>Iterator (internal interface)</li>            </ul>
+        </p>
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">AvocadoCursor</p>
+<p class="description"><p>Provides access to the results of a select statement  The cursor might not contain all results in the beginning.  If the result set is too big to be transferred in one go, the  cursor might issue additional HTTP requests to fetch the  remaining results from the server.</p></p>
+		<p class="notes">
+			Located in <a class="field" href="_AvocadoCursor.php.html">/AvocadoCursor.php</a> (line <span class="field">26</span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+
+	<a name="sec-const-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Class Constant Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Constants</span> (<a href="#sec-consts">details</a>)
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			<div class="const-summary">
+								<div class="const-title">
+					<a href="#ENTRY_HASMORE" title="details" class="const-name">ENTRY_HASMORE</a> = 					<span class="var-type"> 'hasMore'</span>
+
+				</div>
+								<div class="const-title">
+					<a href="#ENTRY_ID" title="details" class="const-name">ENTRY_ID</a> = 					<span class="var-type"> '_id'</span>
+
+				</div>
+								<div class="const-title">
+					<a href="#ENTRY_RESULT" title="details" class="const-name">ENTRY_RESULT</a> = 					<span class="var-type"> 'result'</span>
+
+				</div>
+								<div class="const-title">
+					<a href="#ENTRY_REV" title="details" class="const-name">ENTRY_REV</a> = 					<span class="var-type"> '_rev'</span>
+
+				</div>
+								<div class="const-title">
+					<a href="#ENTRY_SANITIZE" title="details" class="const-name">ENTRY_SANITIZE</a> = 					<span class="var-type"> 'sanitize'</span>
+
+				</div>
+								<div class="const-title">
+					<a href="#URL" title="details" class="const-name">URL</a> = 					<span class="var-type"> '/_api/cursor'</span>
+
+				</div>
+							</div>
+		</div>
+	</div>
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-const-summary">Constants</a> (<a href="#sec-consts">details</a>)
+							
+									<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																												
+												<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
+											(<span class="var-type"><a href="../AvocadoDbPhpClient/AvocadoConnection.html">AvocadoConnection</a></span>&nbsp;<span class="var-name">$connection</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$data</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$options</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#current" title="details" class="method-name">current</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">bool</span>
+										<a href="#delete" title="details" class="method-name">delete</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#getAll" title="details" class="method-name">getAll</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">int</span>
+										<a href="#getCount" title="details" class="method-name">getCount</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">int</span>
+										<a href="#key" title="details" class="method-name">key</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#next" title="details" class="method-name">next</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#rewind" title="details" class="method-name">rewind</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">bool</span>
+										<a href="#valid" title="details" class="method-name">valid</a>
+										()
+									</div>
+								</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-const-summary">Constants</a> (<a href="#sec-consts">details</a>)
+							
+										<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number">51</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Initialise the cursor with the first results and some metadata</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			__construct
+		</span>
+					(<span class="var-type"><a href="../AvocadoDbPhpClient/AvocadoConnection.html">AvocadoConnection</a></span>&nbsp;<span class="var-name">$connection</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$data</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$options</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../AvocadoDbPhpClient/AvocadoConnection.html">AvocadoConnection</a></span>
+				<span class="var-name">$connection</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$data</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$options</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcurrent" id="current"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">current</span> (line <span class="line-number">137</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Return the current result row, necessary for Iterator</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			current
+		</span>
+				()
+			</div>
+	
+		
+				<hr class="separator" />
+		<div class="notes">Implementation of:</div>
+			<dl>
+			<dt>Iterator::current</dt>
+					</dl>
+			
+	</div>
+<a name="methoddelete" id="delete"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">delete</span> (line <span class="line-number">78</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Explicitly delete the cursor  This might issue an HTTP DELETE request to inform the server about  the deletion.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> AvocadoException</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">bool</span>
+		<span class="method-name">
+			delete
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetAll" id="getAll"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getAll</span> (line <span class="line-number">115</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get all results as an array  This might issue additional HTTP requests to fetch any outstanding  results from the server</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> AvocadoException</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			getAll
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetCount" id="getCount"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getCount</span> (line <span class="line-number">99</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get the total number of results in the cursor  This might issue additional HTTP requests to fetch any outstanding  results from the server</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> AvocadoException</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">int</span>
+		<span class="method-name">
+			getCount
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodkey" id="key"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">key</span> (line <span class="line-number">146</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Return the index of the current result row, necessary for Iterator</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">int</span>
+		<span class="method-name">
+			key
+		</span>
+				()
+			</div>
+	
+		
+				<hr class="separator" />
+		<div class="notes">Implementation of:</div>
+			<dl>
+			<dt>Iterator::key</dt>
+					</dl>
+			
+	</div>
+<a name="methodnext" id="next"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">next</span> (line <span class="line-number">155</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Advance the cursor, necessary for Iterator</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			next
+		</span>
+				()
+			</div>
+	
+		
+				<hr class="separator" />
+		<div class="notes">Implementation of:</div>
+			<dl>
+			<dt>Iterator::next</dt>
+					</dl>
+			
+	</div>
+<a name="methodrewind" id="rewind"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">rewind</span> (line <span class="line-number">128</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Rewind the cursor, necessary for Iterator</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			rewind
+		</span>
+				()
+			</div>
+	
+		
+				<hr class="separator" />
+		<div class="notes">Implementation of:</div>
+			<dl>
+			<dt>Iterator::rewind</dt>
+					</dl>
+			
+	</div>
+<a name="methodvalid" id="valid"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">valid</span> (line <span class="line-number">167</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Check if cursor can be advanced further, necessary for Iterator  This might issue additional HTTP requests to fetch any outstanding  results from the server</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> AvocadoException</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">bool</span>
+		<span class="method-name">
+			valid
+		</span>
+				()
+			</div>
+	
+		
+				<hr class="separator" />
+		<div class="notes">Implementation of:</div>
+			<dl>
+			<dt>Iterator::valid</dt>
+					</dl>
+			
+	</div>
+						
+		</div>
+	</div>
+
+	<a name="sec-consts"></a>
+	<div class="info-box">
+		<div class="info-box-title">Class Constants</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Constants</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			<a name="constENTRY_HASMORE" id="ENTRY_HASMORE"><!-- --></A>
+<div class="evenrow">
+
+	<div class="const-header">
+		<span class="const-title">
+			<span class="const-name">ENTRY_HASMORE</span>
+			 = <span class="const-default"> 'hasMore'</span>
+			(line <span class="line-number">39</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+</div>
+<a name="constENTRY_ID" id="ENTRY_ID"><!-- --></A>
+<div class="oddrow">
+
+	<div class="const-header">
+		<span class="const-title">
+			<span class="const-name">ENTRY_ID</span>
+			 = <span class="const-default"> '_id'</span>
+			(line <span class="line-number">37</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+</div>
+<a name="constENTRY_RESULT" id="ENTRY_RESULT"><!-- --></A>
+<div class="evenrow">
+
+	<div class="const-header">
+		<span class="const-title">
+			<span class="const-name">ENTRY_RESULT</span>
+			 = <span class="const-default"> 'result'</span>
+			(line <span class="line-number">40</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+</div>
+<a name="constENTRY_REV" id="ENTRY_REV"><!-- --></A>
+<div class="oddrow">
+
+	<div class="const-header">
+		<span class="const-title">
+			<span class="const-name">ENTRY_REV</span>
+			 = <span class="const-default"> '_rev'</span>
+			(line <span class="line-number">38</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+</div>
+<a name="constENTRY_SANITIZE" id="ENTRY_SANITIZE"><!-- --></A>
+<div class="evenrow">
+
+	<div class="const-header">
+		<span class="const-title">
+			<span class="const-name">ENTRY_SANITIZE</span>
+			 = <span class="const-default"> 'sanitize'</span>
+			(line <span class="line-number">41</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+</div>
+<a name="constURL" id="URL"><!-- --></A>
+<div class="oddrow">
+
+	<div class="const-header">
+		<span class="const-title">
+			<span class="const-name">URL</span>
+			 = <span class="const-default"> '/_api/cursor'</span>
+			(line <span class="line-number">35</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+</div>
+						
+		</div>
+	</div>
+
+	<p class="notes" id="credit">
+		Documentation generated on Thu, 15 Mar 2012 16:34:04 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>
