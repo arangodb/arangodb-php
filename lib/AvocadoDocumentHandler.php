@@ -3,7 +3,7 @@
 /**
  * AvocadoDB PHP client: document handler
  * 
- * @modulegroup AvocadoDbPhpClient
+ * @package AvocadoDbPhpClient
  * @author Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -16,8 +16,9 @@ namespace triagens;
  * A document handler that fetches documents from the server and
  * persists them on the server. It does so by issueing the 
  * appropriate HTTP requests to the server.
+ *
+ * @package AvocadoDbPhpClient
  */
-
 class AvocadoDocumentHandler {
   private $_connection;
 

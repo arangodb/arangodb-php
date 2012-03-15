@@ -3,7 +3,7 @@
 /**
  * AvocadoDB PHP client: statement
  * 
- * @modulegroup AvocadoDbPhpClient
+ * @package AvocadoDbPhpClient
  * @author Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -18,8 +18,9 @@ namespace triagens;
  * server. Optional bind parameters can be used when issueing the
  * statement to separate the statement from the values.
  * Executing a statement will result in a cursor being created.
+ *
+ * @package AvocadoDbPhpClient
  */
-
 class AvocadoStatement {
   private $_connection  = NULL;
   private $_batchSize   = NULL;

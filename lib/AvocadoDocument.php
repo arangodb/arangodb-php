@@ -3,7 +3,7 @@
 /**
  * AvocadoDB PHP client: single document 
  * 
- * @modulegroup AvocadoDbPhpClient
+ * @package AvocadoDbPhpClient
  * @author Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -14,6 +14,8 @@ namespace triagens;
  * AvocadoDocument
  * 
  * Value object representing a single collection-based document
+ *
+ * @package AvocadoDbPhpClient
  */
 class AvocadoDocument {
   private $_id      = NULL;

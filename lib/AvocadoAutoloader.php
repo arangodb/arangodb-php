@@ -3,7 +3,7 @@
 /**
  * AvocadoDB PHP client: autoloader
  * 
- * @modulegroup AvocadoDbPhpClient
+ * @package AvocadoDbPhpClient
  * @author Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -16,6 +16,8 @@ namespace triagens;
  * Handles automatic loading of missing class files
  * The autoloader can be nested with other autoloaders. It will only
  * process classes from its own namespace and ignore all others.
+ *
+ * @package AvocadoDbPhpClient
  */
 class AvocadoAutoloader {
   private static $libDir = NULL;

@@ -3,7 +3,7 @@
 /**
  * AvocadoDB PHP client: connection
  * 
- * @modulegroup AvocadoDbPhpClient
+ * @package AvocadoDbPhpClient
  * @author Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -18,8 +18,9 @@ namespace triagens;
  * persistent connection and keep its state.
  * Instead, connections are established on the fly for each request
  * and are destroyed afterwards.
+ *
+ * @package AvocadoDbPhpClient
  */
-
 class AvocadoConnection {
   private $_options;
 

@@ -3,12 +3,14 @@
 /**
  * AvocadoDB PHP client: result set cursor
  * 
- * @modulegroup AvocadoDbPhpClient
+ * @package AvocadoDbPhpClient
  * @author Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
 
 namespace triagens;
+
+use \Iterator as Iterator;
 
 /**
  * AvocadoCursor
@@ -18,8 +20,10 @@ namespace triagens;
  * If the result set is too big to be transferred in one go, the
  * cursor might issue additional HTTP requests to fetch the
  * remaining results from the server.
+ *
+ * @package AvocadoDbPhpClient
  */
-class AvocadoCursor implements \Iterator {
+class AvocadoCursor implements Iterator {
   private $_connection;
   private $_options;
   private $_result;

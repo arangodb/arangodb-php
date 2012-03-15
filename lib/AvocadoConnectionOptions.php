@@ -3,12 +3,14 @@
 /**
  * AvocadoDB PHP client: connection options
  * 
- * @modulegroup AvocadoDbPhpClient
+ * @package AvocadoDbPhpClient
  * @author Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
 
 namespace triagens;
+
+use \ArrayAccess as ArrayAccess;
 
 /**
  * AvocadoConnectionOptions
@@ -17,8 +19,10 @@ namespace triagens;
  * This class also provides the default values for the connection
  * options and will perform a simple validation of them.
  * It provides array access to its members.
+ *
+ * @package AvocadoDbPhpClient
  */
-class AvocadoConnectionOptions implements \ArrayAccess {
+class AvocadoConnectionOptions implements ArrayAccess {
   private $_values = array();
 
   const OPTION_HOST     = 'host';

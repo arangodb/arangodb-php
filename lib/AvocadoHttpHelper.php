@@ -3,7 +3,7 @@
 /**
  * AvocadoDB PHP client: http helper methods
  * 
- * @modulegroup AvocadoDbPhpClient
+ * @package AvocadoDbPhpClient
  * @author Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -14,6 +14,8 @@ namespace triagens;
  * AvocadoHttpHelper
  * 
  * Helper methods for HTTP request/response handling
+ *
+ * @package AvocadoDbPhpClient
  */
 class AvocadoHttpHelper {
   const METHOD_POST     = 'POST';

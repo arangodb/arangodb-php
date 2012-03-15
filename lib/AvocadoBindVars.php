@@ -3,7 +3,7 @@
 /**
  * AvocadoDB PHP client: bind variables
  * 
- * @modulegroup AvocadoDbPhpClient
+ * @package AvocadoDbPhpClient
  * @author Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -15,8 +15,9 @@ namespace triagens;
  * 
  * A simple container for bind variables
  * This container also handles validation of the bind values.
+ *
+ * @package AvocadoDbPhpClient
  */
-
 class AvocadoBindVars {
   private $_values = array();
 

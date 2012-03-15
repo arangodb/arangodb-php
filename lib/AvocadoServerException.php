@@ -3,7 +3,7 @@
 /**
  * AvocadoDB PHP client: server exception
  * 
- * @modulegroup AvocadoDbPhpClient
+ * @package AvocadoDbPhpClient
  * @author Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -19,6 +19,8 @@ namespace triagens;
  * the server. In case the server provides additional details
  * about the error, these details can be queried using the 
  * getDetails() function.
+ *
+ * @package AvocadoDbPhpClient
  */
 class AvocadoServerException extends AvocadoException {
   private $_details    = array();

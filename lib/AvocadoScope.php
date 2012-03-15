@@ -3,7 +3,7 @@
 /**
  * AvocadoDB PHP client: scope
  * 
- * @modulegroup AvocadoDbPhpClient
+ * @package AvocadoDbPhpClient
  * @author Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -15,6 +15,8 @@ namespace triagens;
  * 
  * Executes a function on scope entry and executes another function
  * (cleanup) when the scope is exited 
+ *
+ * @package AvocadoDbPhpClient
  */
 class AvocadoScope {
   private $_initFunc;

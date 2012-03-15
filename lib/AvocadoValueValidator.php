@@ -3,7 +3,7 @@
 /**
  * AvocadoDB PHP client: value validator
  * 
- * @modulegroup AvocadoDbPhpClient
+ * @package AvocadoDbPhpClient
  * @author Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -14,8 +14,9 @@ namespace triagens;
  * AvocadoValueValidator
  * 
  * A simple validator for values to be stored in the database
+ *
+ * @package AvocadoDbPhpClient
  */
-
 class AvocadoValueValidator {
   /**
    * Validate the value of a variable

@@ -3,7 +3,7 @@
 /**
  * AvocadoDB PHP client: HTTP response
  * 
- * @modulegroup AvocadoDbPhpClient
+ * @package AvocadoDbPhpClient
  * @author Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -14,6 +14,8 @@ namespace triagens;
  * AvocadoHttpResponse
  * 
  * Container class for HTTP responses
+ *
+ * @package AvocadoDbPhpClient
  */
 class AvocadoHttpResponse {
   private $_header  = '';

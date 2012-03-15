@@ -3,7 +3,7 @@
 /**
  * AvocadoDB PHP client: URL helper methods
  * 
- * @modulegroup AvocadoDbPhpClient
+ * @package AvocadoDbPhpClient
  * @author Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -14,8 +14,9 @@ namespace triagens;
  * AvocadoURLHelper
  * 
  * Some helper methods to construct and process URLs
+ *
+ * @package AvocadoDbPhpClient
  */
-
 abstract class AvocadoURLHelper {
   /**
    * Get the document id from a location header

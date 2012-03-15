@@ -1,8 +1,18 @@
 PHP client for AvocadoDB
+------------------------
 
-The PHP client allows REST-based access to documents on the server.
+This PHP client allows REST-based access to documents on the server.
 The AvocadoDocumentHandler class should be used for these purposes.
 There is an example for REST-based documents access in the file examples/document.php.
 
-The PHP client also allows to issue more complex queries using the AvocadoStatement class.
+Furthermore, the PHP client also allows to issue more complex queries using the AvocadoStatement class.
 There is an example for this kind of statements in the file examples/select.php.
+
+To use the PHP client, you must include the file autoloader.php from the main directory.
+The autoloader will care about loading additionally required classes on the fly. The autoloader can
+be nested with other autoloaders.
+
+
+Requirements:
+- AvocadoDB database server
+- PHP 5.3 or higher
