@@ -54,7 +54,7 @@ class AvocadoAutoloader {
     // init() must have been called before
     assert(self::$libDir !== NULL);
 
-    require_once self::$libDir . substr($className, $length) . self::$extension;
+    require self::$libDir . substr($className, $length) . self::$extension;
   }
   
   /**

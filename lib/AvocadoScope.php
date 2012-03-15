@@ -88,4 +88,13 @@ class AvocadoScope {
     $this->_state = self::STATE_ENTERED;
   }
 
+  /**
+   * Clone function
+   * Scopes should never be cloned so this is private
+   *
+   * @return void
+   */
+  private function __clone() {
+    throw new AvocadoClientException('This should never happen');
+  }
 }

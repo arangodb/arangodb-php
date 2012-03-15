@@ -92,11 +92,18 @@ class AvocadoDocumentHandler {
     return $id;
   }
 
+  /**
+   * Update an existing document in a collection
+   * This will update the document on the server
+   *
+   * @throws AvocadoException
+   * @return bool 
+   */
   public function update($collectionId, $documentId, AvocadoDocument $document) {
     $data = $document->getAll();
     $result = $this->_connection->put(AvocadoUrlHelper::buildUrl(self::URL, $collectionId, $documentId), json_encode($data));
 
-    return $result;
+    return true;
   }
 
   /**

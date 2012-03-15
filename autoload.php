@@ -2,17 +2,8 @@
 
 namespace triagens;
 
-class AvocadoAutoloader {
-  public static function load($className) {
-    $namespace = __NAMESPACE__ . '\\';
-    if (substr($className, 0, strlen($namespace)) !== $namespace) {
-      return;
-    }
+require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'AvocadoAutoloader.php';
 
-    $libDir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR;
-
-    require_once $libDir . substr($className, strlen($namespace)) . ".php";
-  }
-}
+AvocadoAutoloader::init();
 
 spl_autoload_register(__NAMESPACE__ . '\AvocadoAutoloader::load');

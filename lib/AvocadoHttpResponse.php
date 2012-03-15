@@ -22,40 +22,28 @@ class AvocadoHttpResponse {
   private $_result  = '';
   private $_httpCode;
 
+  const SEPARATOR   = "\r\n";
+
   /**
    * Set up the response
    *
+   * @throws AvocadoException
    * @param string $responseString
    * @return void
    */
   public function __construct($responseString) {
-    $inBody = false;
-
-    foreach (explode("\r\n", $responseString) as $line) {
-      if (!$inBody and $line === '') {
-        $inBody = true;
-        continue;
-      }
-      if ($inBody) {
-        $this->_body .= $line;
-      }
-      else {
-        if ($this->_header === '') {
-          $this->_result = $line;
-          if (preg_match("/^HTTP\/\d+\.\d+\s+(\d+)/",$line, $matches)) {
-            $this->_httpCode = (int) $matches[1];
-          }
-        }
-        else {
-          list($key, $value) = explode(':', $line, 2);
-          $this->_headers[trim($key)] = trim($value);
-        }
-
-        $this->_header .= $line;
-      }
+    $barrier = self::SEPARATOR . self::SEPARATOR;
+    $border = strpos($responseString, $barrier);
+    if ($border === false) {
+      throw new AvocadoClientException('Got an invalid response from the server');
     }
+
+    $this->_header = substr($responseString, 0, $border);
+    $this->_body   = substr($responseString, $border + strlen($barrier));
+
+    $this->setupHeaders();
   }
-  
+
   /**
    * Return the HTTP status code of the response
    *
@@ -63,6 +51,21 @@ class AvocadoHttpResponse {
    */
   public function getHttpCode() {
     return $this->_httpCode;
+  }
+  
+  /**
+   * Return an individual HTTP headers of the response
+   *
+   * @return string
+   */
+  public function getHeader($name) {
+    $name = strtolower($name);
+
+    if (isset($this->_headers[$name])) {
+      return $this->_headers[$name];
+    }
+
+    return NULL;
   }
 
   /**
@@ -91,4 +94,47 @@ class AvocadoHttpResponse {
   public function getResult() {
     return $this->_result;
   }
+  
+  /**
+   * Return the data from the JSON-encoded body
+   *
+   * @throws AvocadoException
+   * @return string
+   */
+  public function getJson() {
+    $body = $this->getBody();
+    $json = json_decode($body, true);
+
+    if (!is_array($json)) {
+      // should be an array, fail otherwise
+      throw new AvocadoClientException('Got a malformed result from the server');
+    }
+
+    return $json;
+  }
+
+  /**
+   * Create an array of HTTP headers
+   *
+   * @return void
+   */
+  private function setupHeaders() {
+    foreach (explode(self::SEPARATOR, $this->_header) as $lineNumber => $line) {
+      $line = trim($line);
+
+      if ($lineNumber == 0) {
+        // first line of result is special
+        $this->_result = $line;
+        if (preg_match("/^HTTP\/\d+\.\d+\s+(\d+)/",$line, $matches)) {
+          $this->_httpCode = (int) $matches[1];
+        }
+      }
+      else {
+        // other lines contain key:value-like headers
+        list($key, $value) = explode(':', $line, 2);
+        $this->_headers[strtolower(trim($key))] = trim($value);
+      }
+    }
+  }
+  
 }
