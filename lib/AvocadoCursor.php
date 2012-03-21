@@ -24,12 +24,46 @@ use \Iterator as Iterator;
  * @package AvocadoDbPhpClient
  */
 class AvocadoCursor implements Iterator {
+  /**
+   * The connection object
+   * @var AvocadoConnection
+   */
   private $_connection;
+
+  /**
+   * Cursor options
+   * @var array
+   */
   private $_options;
+  
+  /**
+   * The result set
+   * @var array
+   */
   private $_result;
+  
+  /**
+   * "has more" indicator - if true, the server has more results
+   * @var bool
+   */
   private $_hasMore;
+  
+  /**
+   * cursor id - might be NULL if cursor does not have an id
+   * @var mixed
+   */
   private $_id;
+
+  /**
+   * current position in result set iteration (zero-based)
+   * @var int
+   */
   private $_position;
+  
+  /**
+   * total length of result set (in number of documents)
+   * @var int
+   */
   private $_length;
 
   const URL             = '/_api/cursor'; 

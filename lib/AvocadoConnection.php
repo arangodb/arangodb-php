@@ -22,6 +22,10 @@ namespace triagens;
  * @package AvocadoDbPhpClient
  */
 class AvocadoConnection {
+  /**
+   * Connection options
+   * @var array 
+   */
   private $_options;
 
   /**
@@ -78,7 +82,6 @@ class AvocadoConnection {
    *
    * @throws AvocadoException
    * @param string $url
-   * @param string $data
    * @return array
    */
   public function delete($url) {

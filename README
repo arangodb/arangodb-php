@@ -9,10 +9,9 @@ Furthermore, the PHP client also allows to issue more complex queries using the 
 There is an example for this kind of statements in the file examples/select.php.
 
 To use the PHP client, you must include the file autoloader.php from the main directory.
-The autoloader will care about loading additionally required classes on the fly. The autoloader can
-be nested with other autoloaders.
+The autoloader will care about loading additionally required classes on the fly. The autoloader can be nested with other autoloaders.
 
 
 Requirements:
 - AvocadoDB database server
-- PHP 5.3 or higher
+- PHP version 5.3 or higher

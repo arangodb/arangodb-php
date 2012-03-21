@@ -18,10 +18,34 @@ namespace triagens;
  * @package AvocadoDbPhpClient
  */
 class AvocadoHttpResponse {
+  /**
+   * The header retrieved
+   * @var string
+   */
   private $_header  = '';
+  
+  /**
+   * The body retrieved
+   * @var string
+   */
   private $_body    = '';
+  
+  /**
+   * All headers retrieved as an assoc array
+   * @var array
+   */
   private $_headers = array();
+  
+  /**
+   * The result statusline (first line of HTTP response header)
+   * @var string
+   */
   private $_result  = '';
+  
+  /**
+   * The HTTP status code of the response
+   * @var int
+   */
   private $_httpCode;
 
   const SEPARATOR   = "\r\n";
@@ -34,6 +58,8 @@ class AvocadoHttpResponse {
    * @return void
    */
   public function __construct($responseString) {
+    assert(is_string($responseString);
+
     $barrier = self::SEPARATOR . self::SEPARATOR;
     $border = strpos($responseString, $barrier);
     if ($border === false) {
@@ -58,9 +84,12 @@ class AvocadoHttpResponse {
   /**
    * Return an individual HTTP headers of the response
    *
+   * @param string $name
    * @return string
    */
   public function getHeader($name) {
+    assert(is_string($name));
+
     $name = strtolower($name);
 
     if (isset($this->_headers[$name])) {

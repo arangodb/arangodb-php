@@ -19,9 +19,28 @@ namespace triagens;
  * @package AvocadoDbPhpClient
  */
 class AvocadoScope {
+  /**
+   * Initialization function (called on scope entry)
+   * @var callable
+   */
   private $_initFunc;
+  
+  /**
+   * Exit function (called when scope is left)
+   * @var callable
+   */
   private $_exitFunc;
+  
+  /**
+   * Value returned by call to init function
+   * @var mixed
+   */
   private $_value;
+  
+  /**
+   * Current scope state
+   * @var mixed
+   */
   private $_state = self::STATE_NONE;
 
   const STATE_NONE    = 0;

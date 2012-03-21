@@ -20,8 +20,13 @@ namespace triagens;
  * @package AvocadoDbPhpClient
  */
 class AvocadoAutoloader {
+  /**
+   * Directory with library files
+   * @var string
+   */
   private static $libDir = NULL;
-  private static $extension;
+
+  const EXTENSION = '.php';
 
   /**
    * Initialise the autoloader
@@ -33,7 +38,6 @@ class AvocadoAutoloader {
     self::checkEnvironment();
 
     self::$libDir    = dirname(__FILE__) . DIRECTORY_SEPARATOR;
-    self::$extension = '.php';
   }
 
   /**
@@ -56,7 +60,7 @@ class AvocadoAutoloader {
     // init() must have been called before
     assert(self::$libDir !== NULL);
 
-    require self::$libDir . substr($className, $length) . self::$extension;
+    require self::$libDir . substr($className, $length) . self::EXTENSION;
   }
   
   /**

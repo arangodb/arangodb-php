@@ -23,6 +23,10 @@ use \ArrayAccess as ArrayAccess;
  * @package AvocadoDbPhpClient
  */
 class AvocadoConnectionOptions implements ArrayAccess {
+  /**
+   * The current options
+   * @var array 
+   */
   private $_values = array();
 
   const OPTION_HOST     = 'host';
@@ -37,6 +41,7 @@ class AvocadoConnectionOptions implements ArrayAccess {
    * Set defaults, use options provided by client and validate them
    *
    * @throws AvocadoException
+   * @param array $options
    * @return void
    */
   public function __construct(array $options) {

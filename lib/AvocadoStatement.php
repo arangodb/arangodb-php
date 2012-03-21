@@ -22,13 +22,42 @@ namespace triagens;
  * @package AvocadoDbPhpClient
  */
 class AvocadoStatement {
+  /**
+   * The connection object
+   * @var AvocadoConnection
+   */
   private $_connection  = NULL;
-  private $_batchSize   = NULL;
-  private $_doCount     = false;
-  private $_query       = NULL;
-  private $_sanitize    = false;
+  
+  /**
+   * The bind variables and values used for the statement
+   * @var AvocadoBindVars
+   */
   private $_bindVars;
- 
+  
+  /**
+   * The current batch size (number of result documents retrieved per roundtrip)
+   * @var mixed
+   */
+  private $_batchSize   = NULL;
+  
+  /**
+   * The count flag (should server return total number of results)
+   * @var bool
+   */
+  private $_doCount     = false;
+  
+  /**
+   * The query string
+   * @var string
+   */
+  private $_query       = NULL;
+  
+  /**
+   * Sanitation flag (if set, the _id and _rev attributes will be removed from the results)
+   * @var bool
+   */
+  private $_sanitize    = false;
+  
   const ENTRY_QUERY     = 'query';
   const ENTRY_COUNT     = 'count';
   const ENTRY_BATCHSIZE = 'batchSize';

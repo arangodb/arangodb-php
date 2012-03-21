@@ -1,0 +1,270 @@
+<!DOCTYPE html><html xmlns:date="http://exslt.org/dates-and-times" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>AvocadoDbPhpClient » \triagens\AvocadoDocumentHandler</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">AvocadoDbPhpClient</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Packages</a></li>
+<li><a href="../packages/db_AvocadoDbPhpClient.html"><i class="icon-folder-open"></i> AvocadoDbPhpClient</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors</a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers (TODO/FIXME)</a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements</a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods</li>
+<li class="method public "><a href="#__construct" title="__construct :: Construct a new document handler"><span class="description">Construct a new document handler</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#add" title="add :: Add a document to a collection
+This will add the document to the collection and return the document's id"><span class="description">Add a document to a collection
+This will add the document to the collection and return the document's id</span><pre>add()</pre></a></li>
+<li class="method public "><a href="#delete" title="delete :: Delete a document from a collection"><span class="description">Delete a document from a collection</span><pre>delete()</pre></a></li>
+<li class="method public "><a href="#get" title="get :: Get a single document from a collection"><span class="description">Get a single document from a collection</span><pre>get()</pre></a></li>
+<li class="method public "><a href="#getAllIds" title="getAllIds :: Get the list of all documents' ids from a collection"><span class="description">Get the list of all documents' ids from a collection</span><pre>getAllIds()</pre></a></li>
+<li class="method public "><a href="#update" title="update :: Update an existing document in a collection
+This will update the document on the server"><span class="description">Update an existing document in a collection
+This will update the document on the server</span><pre>update()</pre></a></li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties</li>
+<li class="nav-header private">» Private</li>
+<li class="property private "><a href="#%24_connection" title="$_connection :: Connection object"><span class="description">Connection object</span><pre>$_connection</pre></a></li>
+<li class="nav-header">
+<i class="icon-custom icon-constant"></i> Constants</li>
+<li class="constant  "><a href="#ENTRY_DOCUMENTS" title="ENTRY_DOCUMENTS :: "><span class="description">ENTRY_DOCUMENTS</span><pre>ENTRY_DOCUMENTS</pre></a></li>
+<li class="constant  "><a href="#URL" title="URL :: "><span class="description">URL</span><pre>URL</pre></a></li>
+</ul>
+</div>
+<div class="span8">
+<a name="%5Ctriagens%5CAvocadoDocumentHandler" id="\triagens\AvocadoDocumentHandler"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/db_triagens.html">triagens</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/db_%5Ctriagens%5CAvocadoDocumentHandler.html">AvocadoDocumentHandler</a>
+</li>
+</ul>
+<div href="../classes/db_%5Ctriagens%5CAvocadoDocumentHandler.html" class="element class">
+<p class="short_description">AvocadoDocumentHandler</p>
+<div class="details">
+<p class="long_description"><p>A document handler that fetches documents from the server and
+persists them on the server. It does so by issueing the
+appropriate HTTP requests to the server.</p></p>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="..//packages/db_AvocadoDbPhpClient.html">AvocadoDbPhpClient</a></td>
+</tr></table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a name="__construct" id="__construct"></a><div class="element clickable method public __construct" data-toggle="collapse" data-target=".__construct .collapse">
+<h2>Construct a new document handler</h2>
+<pre>__construct(AvocadoConnection $connection) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$connection</h4>
+<code><a href="../classes/db_%5Ctriagens%5CAvocadoConnection.html">\triagens\AvocadoConnection</a></code>
+</div>
+</div></div>
+</div>
+<a name="add" id="add"></a><div class="element clickable method public add" data-toggle="collapse" data-target=".add .collapse">
+<h2>Add a document to a collection
+This will add the document to the collection and return the document's id</h2>
+<pre>add(mixed $collectionId, AvocadoDocument $document) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code>
+</div>
+<div class="subelement argument">
+<h4>$document</h4>
+<code><a href="../classes/db_%5Ctriagens%5CAvocadoDocument.html">\triagens\AvocadoDocument</a></code>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/db_%5Ctriagens%5CAvocadoException.html">\triagens\AvocadoException</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="delete" id="delete"></a><div class="element clickable method public delete" data-toggle="collapse" data-target=".delete .collapse">
+<h2>Delete a document from a collection</h2>
+<pre>delete(mixed $collectionId, mixed $documentId) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code>
+</div>
+<div class="subelement argument">
+<h4>$documentId</h4>
+<code>mixed</code>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/db_%5Ctriagens%5CAvocadoException.html">\triagens\AvocadoException</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="get" id="get"></a><div class="element clickable method public get" data-toggle="collapse" data-target=".get .collapse">
+<h2>Get a single document from a collection</h2>
+<pre>get(mixed $collectionId, mixed $documentId) : <a href="../classes/db_%5Ctriagens%5CAvocadoDocument.html">\triagens\AvocadoDocument</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code>
+</div>
+<div class="subelement argument">
+<h4>$documentId</h4>
+<code>mixed</code>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/db_%5Ctriagens%5CAvocadoException.html">\triagens\AvocadoException</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/db_%5Ctriagens%5CAvocadoDocument.html">\triagens\AvocadoDocument</a></code></div>
+</div></div>
+</div>
+<a name="getAllIds" id="getAllIds"></a><div class="element clickable method public getAllIds" data-toggle="collapse" data-target=".getAllIds .collapse">
+<h2>Get the list of all documents' ids from a collection</h2>
+<pre>getAllIds(mixed $collectionId) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/db_%5Ctriagens%5CAvocadoException.html">\triagens\AvocadoException</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
+</div></div>
+</div>
+<a name="update" id="update"></a><div class="element clickable method public update" data-toggle="collapse" data-target=".update .collapse">
+<h2>Update an existing document in a collection
+This will update the document on the server</h2>
+<pre>update(mixed $collectionId, mixed $documentId, AvocadoDocument $document) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code>
+</div>
+<div class="subelement argument">
+<h4>$documentId</h4>
+<code>mixed</code>
+</div>
+<div class="subelement argument">
+<h4>$document</h4>
+<code><a href="../classes/db_%5Ctriagens%5CAvocadoDocument.html">\triagens\AvocadoDocument</a></code>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/db_%5Ctriagens%5CAvocadoException.html">\triagens\AvocadoException</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a name="%24_connection" id="$_connection"> </a><div class="element clickable property private $_connection" data-toggle="collapse" data-target=".$_connection .collapse">
+<h2>Connection object</h2>
+<pre>$_connection </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>param</th>
+<td>&lt;p&gt;AvocadoConnection&lt;/p&gt;</td>
+</tr></table>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-constant"></i> Constants</h3>
+<a name="ENTRY_DOCUMENTS" id="ENTRY_DOCUMENTS"> </a><div class="element clickable constant  ENTRY_DOCUMENTS" data-toggle="collapse" data-target=".ENTRY_DOCUMENTS .collapse">
+<h2>ENTRY_DOCUMENTS</h2>
+<pre>ENTRY_DOCUMENTS </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+</div>
+<a name="URL" id="URL"> </a><div class="element clickable constant  URL" data-toggle="collapse" data-target=".URL .collapse">
+<h2>URL</h2>
+<pre>URL </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a1</a> and<br>
+            generated on 2012-03-21T13:38:59+01:00.<br></footer></div>
+</div>
+</body>
+</html>

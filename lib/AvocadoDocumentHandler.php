@@ -20,6 +20,10 @@ namespace triagens;
  * @package AvocadoDbPhpClient
  */
 class AvocadoDocumentHandler {
+  /**
+   * Connection object
+   * @param AvocadoConnection
+   */
   private $_connection;
 
   const URL              = '/document';
@@ -28,6 +32,7 @@ class AvocadoDocumentHandler {
   /**
    * Construct a new document handler
    *
+   * @param AvocadoConnection $connection
    * @return void
    */
   public function __construct(AvocadoConnection $connection) {
@@ -38,6 +43,8 @@ class AvocadoDocumentHandler {
    * Get a single document from a collection
    *
    * @throws AvocadoException
+   * @param mixed $collectionId
+   * @param mixed $documentId
    * @return AvocadoDocument
    */
   public function get($collectionId, $documentId) {
@@ -53,6 +60,7 @@ class AvocadoDocumentHandler {
    * Get the list of all documents' ids from a collection
    *
    * @throws AvocadoException
+   * @param mixed $collectionId
    * @return array
    */
   public function getAllIds($collectionId) {
@@ -77,6 +85,8 @@ class AvocadoDocumentHandler {
    * This will add the document to the collection and return the document's id
    *
    * @throws AvocadoException
+   * @param mixed $collectionId
+   * @param AvocadoDocument $document
    * @return string 
    */
   public function add($collectionId, AvocadoDocument $document) {
@@ -99,6 +109,9 @@ class AvocadoDocumentHandler {
    * This will update the document on the server
    *
    * @throws AvocadoException
+   * @param mixed $collectionId
+   * @param mixed $documentId
+   * @param AvocadoDocument $document
    * @return bool 
    */
   public function update($collectionId, $documentId, AvocadoDocument $document) {
@@ -112,6 +125,8 @@ class AvocadoDocumentHandler {
    * Delete a document from a collection
    *
    * @throws AvocadoException
+   * @param mixed $collectionId
+   * @param mixed $documentId
    * @return bool 
    */
   public function delete($collectionId, $documentId) {

@@ -23,6 +23,10 @@ namespace triagens;
  * @package AvocadoDbPhpClient
  */
 class AvocadoServerException extends AvocadoException {
+  /**
+   * Optional details for the exception
+   * @param array 
+   */
   private $_details    = array();
 
   const ENTRY_CODE     = 'errorNum';

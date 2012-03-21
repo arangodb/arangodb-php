@@ -18,9 +18,28 @@ namespace triagens;
  * @package AvocadoDbPhpClient
  */
 class AvocadoDocument {
+  /**
+   * The document id (might be NULL for new documents)
+   * @var mixed
+   */
   private $_id      = NULL;
+  
+  /**
+   * The document revision (might be NULL for new documents)
+   * @var mixed
+   */
   private $_rev     = NULL;
+  
+  /**
+   * The document attributes (names/values)
+   * @var array
+   */
   private $_values  = array();
+
+  /**
+   * Flag to indicate whether document was changed locally
+   * @var bool
+   */
   private $_changed;
 
   const ENTRY_ID    = '_id';

@@ -19,6 +19,10 @@ namespace triagens;
  * @package AvocadoDbPhpClient
  */
 class AvocadoBindVars {
+  /**
+   * Current bind values
+   * @var array
+   */
   private $_values = array();
 
   /**
