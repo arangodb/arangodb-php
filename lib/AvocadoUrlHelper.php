@@ -49,5 +49,18 @@ abstract class AvocadoURLHelper {
 
     return $url;
   }
+  
+  /**
+   * Append parameters to a URL
+   *
+   * @param string $baseUrl
+   * @param array $params
+   * @return string 
+   */
+  public static function appendParamsUrl($baseUrl, array $params) {
+    $url = $baseUrl . '?' . http_build_query($params);
+
+    return $url;
+  }
 
 }

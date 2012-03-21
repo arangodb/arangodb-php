@@ -22,7 +22,7 @@ namespace triagens;
 class AvocadoDocumentHandler {
   private $_connection;
 
-  const URL              = '/collection';
+  const URL              = '/document';
   const ENTRY_DOCUMENTS  = 'documents';
   
   /**
@@ -56,7 +56,7 @@ class AvocadoDocumentHandler {
    * @return array
    */
   public function getAllIds($collectionId) {
-    $url = AvocadoUrlHelper::buildUrl(self::URL, $collectionId);
+    $url = AvocadoUrlHelper::appendParamsUrl(self::URL, array('collection' => $collectionId));
     $response = $this->_connection->get($url);
     
     $data = $response->getJson();
@@ -81,7 +81,8 @@ class AvocadoDocumentHandler {
    */
   public function add($collectionId, AvocadoDocument $document) {
     $data = $document->getAll();
-    $response = $this->_connection->post(AvocadoUrlHelper::buildUrl(self::URL, $collectionId), json_encode($data));
+    $url = AvocadoUrlHelper::appendParamsUrl(self::URL, array('collection' => $collectionId));
+    $response = $this->_connection->post($url, json_encode($data));
 
     $location = $response->getHeader('location');
     if (!$location) {
