@@ -11,9 +11,7 @@
 namespace triagens\Avocado;
 
 /**
- * ServerException
- * 
- * This will be thrown by the client when the server returns an
+ * This exception type will be thrown by the client when the server returns an
  * error in response to a client request.
  * The exception code is the HTTP status code as returned by
  * the server. In case the server provides additional details

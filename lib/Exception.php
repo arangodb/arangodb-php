@@ -11,8 +11,6 @@
 namespace triagens\Avocado;
 
 /**
- * Exception
- * 
  * Exception base class used to throw Avocado specific exceptions
  *
  * @package AvocadoDbPhpClient

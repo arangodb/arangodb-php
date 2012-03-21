@@ -11,8 +11,6 @@
 namespace triagens\Avocado;
 
 /**
- * ValueValidator
- * 
  * A simple validator for values to be stored in the database
  *
  * @package AvocadoDbPhpClient

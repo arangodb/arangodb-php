@@ -11,8 +11,6 @@
 namespace triagens\Avocado;
 
 /**
- * HttpResponse
- * 
  * Container class for HTTP responses
  *
  * @package AvocadoDbPhpClient

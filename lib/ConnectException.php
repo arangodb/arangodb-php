@@ -11,9 +11,7 @@
 namespace triagens\Avocado;
 
 /**
- * ConnectException
- * 
- * This will be thrown by the client when there is an error
+ * This exception type will be thrown by the client when there is an error
  * during connecting to the server
  *
  * @package AvocadoDbPhpClient

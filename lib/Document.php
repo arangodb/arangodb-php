@@ -11,8 +11,6 @@
 namespace triagens\Avocado;
 
 /**
- * Document
- * 
  * Value object representing a single collection-based document
  *
  * @package AvocadoDbPhpClient

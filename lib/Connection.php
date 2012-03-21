@@ -11,8 +11,6 @@
 namespace triagens\Avocado;
 
 /**
- * Connection
- * 
  * Provides access to the AvocadoDB server
  * As all access is done using HTTP, we do not need to establish a
  * persistent connection and keep its state.

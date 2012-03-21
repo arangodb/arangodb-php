@@ -11,8 +11,6 @@
 namespace triagens\Avocado;
 
 /**
- * DocumentHandler
- * 
  * A document handler that fetches documents from the server and
  * persists them on the server. It does so by issueing the 
  * appropriate HTTP requests to the server.

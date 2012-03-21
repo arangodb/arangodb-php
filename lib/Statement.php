@@ -11,8 +11,6 @@
 namespace triagens\Avocado;
 
 /**
- * Statement
- * 
  * Container for a select statement
  * A statement is an SQL-like query that can be issues to the
  * server. Optional bind parameters can be used when issueing the

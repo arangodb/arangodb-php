@@ -11,8 +11,6 @@
 namespace triagens\Avocado;
 
 /**
- * HttpHelper
- * 
  * Helper methods for HTTP request/response handling
  *
  * @package AvocadoDbPhpClient

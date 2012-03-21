@@ -11,9 +11,7 @@
 namespace triagens\Avocado;
 
 /**
- * Defaults
- * 
- * Contains default values used by the server
+ * Contains default values used by the client
  *
  * @package AvocadoDbPhpClient
  */

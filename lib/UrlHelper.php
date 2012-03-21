@@ -11,8 +11,6 @@
 namespace triagens\Avocado;
 
 /**
- * URLHelper
- * 
  * Some helper methods to construct and process URLs
  *
  * @package AvocadoDbPhpClient

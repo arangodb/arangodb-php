@@ -11,9 +11,7 @@
 namespace triagens\Avocado;
 
 /**
- * ClientException
- * 
- * This will be thrown by the client when there is an error
+ * This exception type will be thrown by the client when there is an error
  * on the client side, i.e. something the server is not involved in.
  *
  * @package AvocadoDbPhpClient

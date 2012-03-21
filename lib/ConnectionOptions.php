@@ -11,9 +11,7 @@
 namespace triagens\Avocado;
 
 /**
- * ConnectionOptions
- * 
- * Simple container for connection options.
+ * Simple container class for connection options.
  * This class also provides the default values for the connection
  * options and will perform a simple validation of them.
  * It provides array access to its members.

@@ -11,8 +11,6 @@
 namespace triagens\Avocado;
 
 /**
- * Cursor
- * 
  * Provides access to the results of a select statement
  * The cursor might not contain all results in the beginning.
  * If the result set is too big to be transferred in one go, the

@@ -11,8 +11,6 @@
 namespace triagens\Avocado;
 
 /**
- * BindVars
- * 
  * A simple container for bind variables
  * This container also handles validation of the bind values.
  *

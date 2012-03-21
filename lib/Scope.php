@@ -11,8 +11,6 @@
 namespace triagens\Avocado;
 
 /**
- * Scope
- * 
  * Executes a function on scope entry and executes another function
  * (cleanup) when the scope is exited 
  *
