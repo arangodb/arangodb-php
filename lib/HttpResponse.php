@@ -8,16 +8,16 @@
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
 
-namespace triagens;
+namespace triagens\Avocado;
 
 /**
- * AvocadoHttpResponse
+ * HttpResponse
  * 
  * Container class for HTTP responses
  *
  * @package AvocadoDbPhpClient
  */
-class AvocadoHttpResponse {
+class HttpResponse {
   /**
    * The header retrieved
    * @var string
@@ -53,17 +53,17 @@ class AvocadoHttpResponse {
   /**
    * Set up the response
    *
-   * @throws AvocadoException
-   * @param string $responseString
+   * @throws ClientException
+   * @param string $responseString - the complete HTTP response as supplied by the server
    * @return void
    */
   public function __construct($responseString) {
-    assert(is_string($responseString);
+    assert(is_string($responseString));
 
     $barrier = self::SEPARATOR . self::SEPARATOR;
     $border = strpos($responseString, $barrier);
     if ($border === false) {
-      throw new AvocadoClientException('Got an invalid response from the server');
+      throw new ClientException('Got an invalid response from the server');
     }
 
     $this->_header = substr($responseString, 0, $border);
@@ -75,7 +75,7 @@ class AvocadoHttpResponse {
   /**
    * Return the HTTP status code of the response
    *
-   * @return int
+   * @return int - HTTP status code of response
    */
   public function getHttpCode() {
     return $this->_httpCode;
@@ -84,8 +84,8 @@ class AvocadoHttpResponse {
   /**
    * Return an individual HTTP headers of the response
    *
-   * @param string $name
-   * @return string
+   * @param string $name - name of header
+   * @return string - header value, NULL if header wasn't set in response
    */
   public function getHeader($name) {
     assert(is_string($name));
@@ -102,7 +102,7 @@ class AvocadoHttpResponse {
   /**
    * Return the HTTP headers of the response
    *
-   * @return array
+   * @return array - array of all headers with values
    */
   public function getHeaders() {
     return $this->_headers;
@@ -111,16 +111,16 @@ class AvocadoHttpResponse {
   /**
    * Return the body of the response
    *
-   * @return array
+   * @return string - body of the response
    */
   public function getBody() {
     return $this->_body;
   }
   
   /**
-   * Return the result line (first header) of the response
+   * Return the result line (first header line) of the response
    *
-   * @return string
+   * @return string - the result line (first line of header)
    */
   public function getResult() {
     return $this->_result;
@@ -129,8 +129,8 @@ class AvocadoHttpResponse {
   /**
    * Return the data from the JSON-encoded body
    *
-   * @throws AvocadoException
-   * @return string
+   * @throws ClientException
+   * @return array - array of values from the JSON-encoded response body
    */
   public function getJson() {
     $body = $this->getBody();
@@ -138,14 +138,14 @@ class AvocadoHttpResponse {
 
     if (!is_array($json)) {
       // should be an array, fail otherwise
-      throw new AvocadoClientException('Got a malformed result from the server');
+      throw new ClientException('Got a malformed result from the server');
     }
 
     return $json;
   }
 
   /**
-   * Create an array of HTTP headers
+   * Set up an array of HTTP headers
    *
    * @return void
    */

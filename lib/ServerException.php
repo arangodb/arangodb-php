@@ -8,10 +8,10 @@
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
 
-namespace triagens;
+namespace triagens\Avocado;
 
 /**
- * AvocadoServerException
+ * ServerException
  * 
  * This will be thrown by the client when the server returns an
  * error in response to a client request.
@@ -22,14 +22,21 @@ namespace triagens;
  *
  * @package AvocadoDbPhpClient
  */
-class AvocadoServerException extends AvocadoException {
+class ServerException extends Exception {
   /**
    * Optional details for the exception
    * @param array 
    */
   private $_details    = array();
 
+  /**
+   * Error number index
+   */
   const ENTRY_CODE     = 'errorNum';
+  
+  /**
+   * Error message index
+   */
   const ENTRY_MESSAGE  = 'errorMessage';
   
   /**
@@ -38,7 +45,7 @@ class AvocadoServerException extends AvocadoException {
    * If the server provides additional details about the error
    * that occurred, they will be put here.
    *
-   * @param array $details
+   * @param array $details - array of exception details
    * @return void
    */
   public function setDetails(array $details) {
@@ -51,7 +58,7 @@ class AvocadoServerException extends AvocadoException {
    * If the server has provided additional details about the error
    * that occurred, they can be queries using the method
    *
-   * @return array
+   * @return array - array of details
    */
   public function getDetails() {
     return $this->_details;
@@ -63,7 +70,7 @@ class AvocadoServerException extends AvocadoException {
    * If the server has provided additional details about the error
    * that occurred, this will return the server error code
    *
-   * @return mixed
+   * @return int - server error code
    */
   public function getServerCode() {
     if (isset($this->_details[self::ENTRY_CODE])) {
@@ -79,7 +86,7 @@ class AvocadoServerException extends AvocadoException {
    * If the server has provided additional details about the error
    * that occurred, this will return the server error string
    *
-   * @return string
+   * @return string - server error message
    */
   public function getServerMessage() {
     if (isset($this->_details[self::ENTRY_MESSAGE])) {

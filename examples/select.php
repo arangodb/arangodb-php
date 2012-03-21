@@ -1,6 +1,6 @@
 <?php
 
-namespace triagens;
+namespace triagens\Avocado;
 
 require dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'autoload.php';
 
@@ -27,10 +27,10 @@ $connectionOptions = array(
 );
 
 try {
-  $connection = new AvocadoConnection($connectionOptions);
+  $connection = new Connection($connectionOptions);
 
   foreach ($statements as $query => $bindVars) {
-    $statement = new AvocadoStatement($connection, array(
+    $statement = new Statement($connection, array(
       "query" => $query, 
       "count" => true, 
       "batchSize" => 5, 
@@ -38,16 +38,18 @@ try {
       "sanitize" => true,
     ));
 
+    print $statement."\n\n";
+
     $cursor = $statement->execute();
     var_dump($cursor->getAll());
   }
 }
-catch (AvocadoConnectException $e) {
+catch (ConnectException $e) {
   var_dump($e->getMessage());
 }
-catch (AvocadoServerException $e) {
+catch (ServerException $e) {
   var_dump($e->getMessage(), $e->getServerCode(), $e->getServerMessage());
 }
-catch (AvocadoClientException $e) {
+catch (ClientException $e) {
   var_dump($e->getMessage());
 }

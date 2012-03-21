@@ -8,12 +8,10 @@
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
 
-namespace triagens;
-
-use \Iterator as Iterator;
+namespace triagens\Avocado;
 
 /**
- * AvocadoCursor
+ * Cursor
  * 
  * Provides access to the results of a select statement
  * The cursor might not contain all results in the beginning.
@@ -23,10 +21,10 @@ use \Iterator as Iterator;
  *
  * @package AvocadoDbPhpClient
  */
-class AvocadoCursor implements Iterator {
+class Cursor implements \Iterator {
   /**
    * The connection object
-   * @var AvocadoConnection
+   * @var Connection
    */
   private $_connection;
 
@@ -66,23 +64,45 @@ class AvocadoCursor implements Iterator {
    */
   private $_length;
 
+  /**
+   * base URL part for cursor related operations
+   */
   const URL             = '/_api/cursor'; 
 
+  /**
+   * result entry for cursor id, result row entry for document id
+   */
   const ENTRY_ID        = '_id';
+  
+  /**
+   * result row entry for revision id
+   */
   const ENTRY_REV       = '_rev';
+  
+  /**
+   * result entry for "hasMore" flag
+   */
   const ENTRY_HASMORE   = 'hasMore';
+  
+  /**
+   * result entry for result documents
+   */
   const ENTRY_RESULT    = 'result';
+  
+  /**
+   * sanitize option entry
+   */
   const ENTRY_SANITIZE  = 'sanitize';
 
   /**
    * Initialise the cursor with the first results and some metadata
    *
-   * @param AvocadoConnection $connection
-   * @param array $data
-   * @param array $options
+   * @param Connection $connection - connection to be used
+   * @param array $data - initial result data as returned by the server
+   * @param array $options - cursor options
    * @return void 
    */
-  public function __construct(AvocadoConnection $connection, array $data, array $options) {
+  public function __construct(Connection $connection, array $data, array $options) {
     $this->_connection = $connection;
 
     $this->_id = NULL;
@@ -96,7 +116,7 @@ class AvocadoCursor implements Iterator {
 
     $this->_options = $options;
     $this->_result = $this->sanitize((array) $data[self::ENTRY_RESULT]);
-    $this->setLength();
+    $this->updateLength();
 
     $this->rewind();
   }
@@ -106,8 +126,8 @@ class AvocadoCursor implements Iterator {
    * This might issue an HTTP DELETE request to inform the server about
    * the deletion.
    *
-   * @throws AvocadoException
-   * @return bool
+   * @throws Exception
+   * @return bool - true if the server acknowledged the deletion request, false otherwise
    */
   public function delete() {
     if ($this->_id) {
@@ -127,8 +147,8 @@ class AvocadoCursor implements Iterator {
    * This might issue additional HTTP requests to fetch any outstanding
    * results from the server
    *
-   * @throws AvocadoException
-   * @return int
+   * @throws Exception
+   * @return int - total number of results
    */
   public function getCount() {
     while ($this->_hasMore) {
@@ -143,8 +163,8 @@ class AvocadoCursor implements Iterator {
    * This might issue additional HTTP requests to fetch any outstanding
    * results from the server
    *
-   * @throws AvocadoException
-   * @return array
+   * @throws Exception
+   * @return array - an array of all results
    */
   public function getAll() {
     while ($this->_hasMore) {
@@ -166,7 +186,7 @@ class AvocadoCursor implements Iterator {
   /**
    * Return the current result row, necessary for Iterator
    *
-   * @return mixed
+   * @return array - the current result row as an assoc array
    */
   public function current() {
     return $this->_result[$this->_position];
@@ -175,7 +195,7 @@ class AvocadoCursor implements Iterator {
   /**
    * Return the index of the current result row, necessary for Iterator
    *
-   * @return int
+   * @return int - the current result row index
    */
   public function key() {
     return $this->_position;
@@ -195,8 +215,8 @@ class AvocadoCursor implements Iterator {
    * This might issue additional HTTP requests to fetch any outstanding
    * results from the server
    *
-   * @throws AvocadoException
-   * @return bool
+   * @throws Exception
+   * @return bool - true if the cursor can be advanced further, false if cursor is at end
    */
   public function valid() {
     if ($this->_position <= $this->_length -1) {
@@ -220,8 +240,8 @@ class AvocadoCursor implements Iterator {
    * This will remove the _id and _rev attributes from the results if the
    * "sanitize" option is set
    *
-   * @param array $rows
-   * @return array
+   * @param array $rows - array of rows to be sanitized
+   * @return array - sanitized rows
    */
   private function sanitize(array $rows) {
     if (isset($this->_options[self::ENTRY_SANITIZE]) and $this->_options[self::ENTRY_SANITIZE]) {
@@ -236,12 +256,12 @@ class AvocadoCursor implements Iterator {
   /**
    * Fetch outstanding results from the server
    *
-   * @throws AvocadoException
+   * @throws Exception
    * @return void
    */
   private function fetchOutstanding() {
     // continuation
-    $response = $this->_connection->put(self::URL . "/" . $this->_id, "");
+    $response = $this->_connection->put(self::URL . "/" . $this->_id, '');
     $data = $response->getJson();
 
     $this->_hasMore = (bool) $data[self::ENTRY_HASMORE];
@@ -252,7 +272,7 @@ class AvocadoCursor implements Iterator {
       $this->_id = NULL;
     }
 
-    $this->setLength();
+    $this->updateLength();
   }
 
   /**
@@ -260,7 +280,7 @@ class AvocadoCursor implements Iterator {
    *
    * @return void
    */
-  private function setLength() {
+  private function updateLength() {
     $this->_length = count($this->_result); 
   }
 }

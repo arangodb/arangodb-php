@@ -1,6 +1,6 @@
 <?php
 
-namespace triagens;
+namespace triagens\Avocado;
 
 require dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'autoload.php';
 
@@ -19,15 +19,15 @@ $connectionOptions = array(
 );
 
 try {
-  $connection = new AvocadoConnection($connectionOptions);
+  $connection = new Connection($connectionOptions);
 
   // get the ids of all documents in the collection
-  $handler = new AvocadoDocumentHandler($connection);
+  $handler = new DocumentHandler($connection);
   $result = $handler->getAllIds("fux");
   var_dump($result);
 
   // create a new document
-  $document = new AvocadoDocument();
+  $document = new Document();
   $document->set("name", "fux");
   $document->level = 1;
   $document->vists = array(1, 2, 3);
@@ -42,7 +42,7 @@ try {
   // update this document
   $document->nonsense = "hihi";
   unset($document->name);
-  $result = $handler->update("fux", $id, $document);
+  $result = $handler->update("fux", $document);
   var_dump($result);
   
   // get the updated document back
@@ -54,12 +54,12 @@ try {
   var_dump($result);
 
 }
-catch (AvocadoConnectException $e) {
+catch (ConnectException $e) {
   var_dump($e->getMessage());
 }
-catch (AvocadoServerException $e) {
+catch (ServerException $e) {
   var_dump($e->getMessage(), $e->getServerCode(), $e->getServerMessage());
 }
-catch (AvocadoClientException $e) {
+catch (ClientException $e) {
   var_dump($e->getMessage());
 }

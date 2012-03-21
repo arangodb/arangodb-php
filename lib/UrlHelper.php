@@ -8,21 +8,21 @@
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
 
-namespace triagens;
+namespace triagens\Avocado;
 
 /**
- * AvocadoURLHelper
+ * URLHelper
  * 
  * Some helper methods to construct and process URLs
  *
  * @package AvocadoDbPhpClient
  */
-abstract class AvocadoURLHelper {
+abstract class URLHelper {
   /**
    * Get the document id from a location header
    *
-   * @param string $location 
-   * @return string 
+   * @param string $location - HTTP response location header
+   * @return string - document id parsed from header
    */
   public static function getDocumentIdFromLocation($location) {
     list(,,, $id) = explode('/', $location);
@@ -30,11 +30,11 @@ abstract class AvocadoURLHelper {
   }
   
   /**
-   * Construct a URL from a base URL and additional parts
-   * This function accepts varargs
+   * Construct a URL from a base URL and additional parts, seperated with '/' each
+   * This function accepts variable arguments.
    *
-   * @param string $baseUrl
-   * @return string 
+   * @param string $baseUrl - base URL
+   * @return string - assembled URL
    */
   public static function buildUrl($baseUrl) {
     $argv = func_get_args();
@@ -52,10 +52,11 @@ abstract class AvocadoURLHelper {
   
   /**
    * Append parameters to a URL
+   * Parameter values will be URL-encoded
    *
-   * @param string $baseUrl
-   * @param array $params
-   * @return string 
+   * @param string $baseUrl - base URL
+   * @param array $params - an array of parameters
+   * @return string - the assembled URL
    */
   public static function appendParamsUrl($baseUrl, array $params) {
     $url = $baseUrl . '?' . http_build_query($params);

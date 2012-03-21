@@ -8,15 +8,15 @@
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
 
-namespace triagens;
+namespace triagens\Avocado;
 
 /**
- * AvocadoConnectException
+ * ConnectException
  * 
  * This will be thrown by the client when there is an error
  * during connecting to the server
  *
  * @package AvocadoDbPhpClient
  */
-class AvocadoConnectException extends AvocadoException {
+class ConnectException extends Exception {
 }

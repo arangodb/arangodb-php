@@ -1,9 +1,9 @@
 <?php
 
-namespace triagens;
+namespace triagens\Avocado;
 
-require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'AvocadoAutoloader.php';
+require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'Autoloader.php';
 
-AvocadoAutoloader::init();
+Autoloader::init();
 
-spl_autoload_register(__NAMESPACE__ . '\AvocadoAutoloader::load');
+spl_autoload_register(__NAMESPACE__ . '\Autoloader::load');

@@ -8,17 +8,17 @@
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
 
-namespace triagens;
+namespace triagens\Avocado;
 
 /**
- * AvocadoBindVars
+ * BindVars
  * 
  * A simple container for bind variables
  * This container also handles validation of the bind values.
  *
  * @package AvocadoDbPhpClient
  */
-class AvocadoBindVars {
+class BindVars {
   /**
    * Current bind values
    * @var array
@@ -28,7 +28,7 @@ class AvocadoBindVars {
   /**
    * Get all registered bind variables
    *
-   * @return array
+   * @return array - array of all registered bind variables
    */
   public function getAll() {
     return $this->_values;
@@ -37,7 +37,7 @@ class AvocadoBindVars {
   /**
    * Get the number of bind variables registered
    *
-   * @return int
+   * @return int - number of bind variables registered
    */
   public function getCount() {
     return count($this->_values);
@@ -46,8 +46,8 @@ class AvocadoBindVars {
   /**
    * Get the value of a bind variable with a specific name
    *
-   * @param string name
-   * @return int
+   * @param string name - name of bind variable
+   * @return mixed - value of bind variable
    */
   public function get($name) {
     if (!array_key_exists($name, $this->_values)) {
@@ -64,25 +64,25 @@ class AvocadoBindVars {
    * double, bool and array. Arrays must not contain any other
    * than these types.
    *
-   * @throws AvocadoException
-   * @param string name
-   * @param string value
+   * @throws ClientException
+   * @param mixed name - name of bind variable OR an array with all bind variables
+   * @param string value - value for bind variable
    * @return void
    */
   public function set($name, $value = NULL) {
     if (is_array($name)) {
       foreach ($name as $value) {
-        AvocadoValueValidator::validate($value);
+        ValueValidator::validate($value);
       }
       $this->_values = $name;
     }
     else if (is_int($name) || is_string($name)) {
       $key = (string) $name;
       $this->_values[$name] = $value;
-      AvocadoValueValidator::validate($value);
+      ValueValidator::validate($value);
     }
     else {
-      throw new AvocadoClientException('Bind variable name should be string, int or array');
+      throw new ClientException('Bind variable name should be string, int or array');
     }
   }
   

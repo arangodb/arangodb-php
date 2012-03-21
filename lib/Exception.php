@@ -8,16 +8,14 @@
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
 
-namespace triagens;
-
-use \Exception as Exception;
+namespace triagens\Avocado;
 
 /**
- * AvocadoException
+ * Exception
  * 
  * Exception base class used to throw Avocado specific exceptions
  *
  * @package AvocadoDbPhpClient
  */
-class AvocadoException extends Exception {
+class Exception extends \Exception {
 }

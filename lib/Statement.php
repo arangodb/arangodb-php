@@ -8,10 +8,10 @@
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
 
-namespace triagens;
+namespace triagens\Avocado;
 
 /**
- * AvocadoStatement
+ * Statement
  * 
  * Container for a select statement
  * A statement is an SQL-like query that can be issues to the
@@ -21,16 +21,16 @@ namespace triagens;
  *
  * @package AvocadoDbPhpClient
  */
-class AvocadoStatement {
+class Statement {
   /**
    * The connection object
-   * @var AvocadoConnection
+   * @var Connection
    */
   private $_connection  = NULL;
   
   /**
    * The bind variables and values used for the statement
-   * @var AvocadoBindVars
+   * @var BindVars
    */
   private $_bindVars;
   
@@ -58,22 +58,37 @@ class AvocadoStatement {
    */
   private $_sanitize    = false;
   
+  /**
+   * Query string index
+   */
   const ENTRY_QUERY     = 'query';
+
+  /**
+   * Count option index
+   */
   const ENTRY_COUNT     = 'count';
+  
+  /**
+   * Batch size index
+   */
   const ENTRY_BATCHSIZE = 'batchSize';
+  
+  /**
+   * Bind variables index
+   */
   const ENTRY_BINDVARS  = 'bindVars';
    
   /**
    * Initialise the statement
    *
-   * @throws AvocadoException
-   * @param AvocadoConnection $connection
-   * @param array $data
+   * @throws Exception
+   * @param Connection $connection - the connection to be used
+   * @param array $data - statement initialization data
    * @return void
    */
-  public function __construct(AvocadoConnection $connection, array $data) {
+  public function __construct(Connection $connection, array $data) {
     $this->_connection = $connection;
-    $this->_bindVars   = new AvocadoBindVars();
+    $this->_bindVars   = new BindVars();
 
     $this->setQuery(@$data[self::ENTRY_QUERY]);
     
@@ -89,36 +104,45 @@ class AvocadoStatement {
       $this->_bindVars->set($data[self::ENTRY_BINDVARS]);
     }
 
-    if (isset($data[AvocadoCursor::ENTRY_SANITIZE])) {
-      $this->_sanitize = (bool) $data[AvocadoCursor::ENTRY_SANITIZE];
+    if (isset($data[Cursor::ENTRY_SANITIZE])) {
+      $this->_sanitize = (bool) $data[Cursor::ENTRY_SANITIZE];
     }
   }
   
   /**
    * Execute the statement
    * This will post the query to the server and return the results as
-   * an AvocadoCursor. The cursor can then be used to iterate the results.
+   * a Cursor. The cursor can then be used to iterate the results.
    *
-   * @throws AvocadoException
-   * @return AvocadoCursor
+   * @throws Exception
+   * @return Cursor
    */
   public function execute() {
     $data = $this->buildData();
-    $response = $this->_connection->post(AvocadoCursor::URL, json_encode($data));
+    $response = $this->_connection->post(Cursor::URL, json_encode($data));
 
-    return new AvocadoCursor($this->_connection, $response->getJson(), $this->getCursorOptions());
+    return new Cursor($this->_connection, $response->getJson(), $this->getCursorOptions());
   }
 
   /**
    * Invoke the statement
    * This will simply call execute(). Arguments are ignored.
    *
-   * @throws AvocadoException
-   * @param mixed $args
-   * @return AvocadoCursor
+   * @throws Exception 
+   * @param mixed $args - arguments for invocation, will be ignored
+   * @return Cursor - the result cursor
    */
   public function __invoke($args) {
     return $this->execute();
+  }
+
+  /**
+   * Return a string representation of the statement
+   *
+   * @return string - the current query string
+   */
+  public function __toString() {
+    return $this->_query;
   }
   
   /**
@@ -130,9 +154,9 @@ class AvocadoStatement {
    * double, bool and array. Arrays must not contain any other
    * than these types.
    *
-   * @throws AvocadoException
-   * @param mixed $key
-   * @param mixed $value
+   * @throws Exception
+   * @param mixed $key - name of bind variable OR an array of all bind variables
+   * @param mixed $value - value for bind variable
    * @return void
    */
   public function bind($key, $value = NULL) {
@@ -142,7 +166,7 @@ class AvocadoStatement {
   /**
    * Get all bind parameters as an array
    *
-   * @return array
+   * @return array - array of bind variables/values
    */
   public function getBindVars() {
     return $this->_bindVars->getAll();
@@ -151,13 +175,13 @@ class AvocadoStatement {
   /**
    * Set the query string
    *
-   * @throws AvocadoException
-   * @param string $query
+   * @throws ClientException
+   * @param string $query - query string
    * @return void
    */
   public function setQuery($query) {
     if (!is_string($query)) {
-      throw new AvocadoClientException('Query should be a string');
+      throw new ClientException('Query should be a string');
     }
 
     $this->_query = $query;
@@ -166,7 +190,7 @@ class AvocadoStatement {
   /**
    * Get the query string
    *
-   * @return string
+   * @return string - current query string value
    */
   public function getQuery() {
     return $this->_query;
@@ -175,7 +199,7 @@ class AvocadoStatement {
   /**
    * Set the count option for the statement
    *
-   * @param bool $value
+   * @param bool $value - value for count option
    * @return void
    */
   public function setCount($value) {
@@ -185,7 +209,7 @@ class AvocadoStatement {
   /**
    * Get the count option value of the statement
    *
-   * @return bool 
+   * @return bool - current value of count option
    */
   public function getCount() {
     return $this->_doCount;
@@ -199,13 +223,13 @@ class AvocadoStatement {
    * provides the additional results. The server-side cursor can
    * be accessed by the client with subsequent HTTP requests.
    *
-   * @throws AvocadoException
-   * @param int $value
+   * @throws ClientException
+   * @param int $value - batch size value
    * @return void
    */
   public function setBatchSize($value) {
     if (!is_int($value) || (int) $value <= 0) {
-      throw new AvocadoClientException('Batch size should be a positive integer');
+      throw new ClientException('Batch size should be a positive integer');
     }
 
     $this->_batchSize = (int) $value;
@@ -214,17 +238,16 @@ class AvocadoStatement {
   /**
    * Get the batch size for the statement
    *
-   * @return int
+   * @return int - current batch size value
    */
   public function getBatchSize() {
     return $this->_batchSize;
   }
   
   /**
-   * Build an array of data to be posted to the server when
-   * issueing the statement
+   * Build an array of data to be posted to the server when issueing the statement
    *
-   * @return array
+   * @return array - array of data to be sent to server
    */
   private function buildData() {
     $data = array(
@@ -246,11 +269,11 @@ class AvocadoStatement {
   /**
    * Return an array of cursor options
    *
-   * @return array
+   * @return array - array of options
    */
   private function getCursorOptions() {
     return array(
-      AvocadoCursor::ENTRY_SANITIZE => (bool) $this->_sanitize,
+      Cursor::ENTRY_SANITIZE => (bool) $this->_sanitize,
     );
   }
 

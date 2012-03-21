@@ -8,15 +8,15 @@
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
 
-namespace triagens;
+namespace triagens\Avocado;
 
 /**
- * AvocadoClientException
+ * ClientException
  * 
  * This will be thrown by the client when there is an error
  * on the client side, i.e. something the server is not involved in.
  *
  * @package AvocadoDbPhpClient
  */
-class AvocadoClientException extends AvocadoException {
+class ClientException extends Exception {
 }

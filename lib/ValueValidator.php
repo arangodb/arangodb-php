@@ -8,22 +8,23 @@
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
 
-namespace triagens;
+namespace triagens\Avocado;
 
 /**
- * AvocadoValueValidator
+ * ValueValidator
  * 
  * A simple validator for values to be stored in the database
  *
  * @package AvocadoDbPhpClient
  */
-class AvocadoValueValidator {
+class ValueValidator {
   /**
    * Validate the value of a variable
+   * Allowed value types are string, integer, double and booleans. Arrays are also allowed if they contain only one of the former types.
    *
-   * @throws AvocadoException
-   * @param mixed value
-   * @return void
+   * @throws ClientException
+   * @param mixed value - value to validate
+   * @return void - will throw if an invalid value type is passed
    */
   public static function validate($value) {
     if (is_string($value) || is_int($value) || is_double($value) || is_bool($value)) {
@@ -41,6 +42,6 @@ class AvocadoValueValidator {
     }
 
     // type is invalid
-    throw new AvocadoClientException('Invalid bind parameter value');
+    throw new ClientException('Invalid bind parameter value');
   }
 }

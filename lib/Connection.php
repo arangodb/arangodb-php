@@ -8,10 +8,10 @@
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
 
-namespace triagens;
+namespace triagens\Avocado;
 
 /**
- * AvocadoConnection
+ * Connection
  * 
  * Provides access to the AvocadoDB server
  * As all access is done using HTTP, we do not need to establish a
@@ -21,7 +21,7 @@ namespace triagens;
  *
  * @package AvocadoDbPhpClient
  */
-class AvocadoConnection {
+class Connection {
   /**
    * Connection options
    * @var array 
@@ -31,72 +31,72 @@ class AvocadoConnection {
   /**
    * Set up the connection object, validate the options provided
    *
-   * @throws AvocadoException
-   * @param array $options
+   * @throws Exception
+   * @param array $options - initial connection options
    * @return void
    */
   public function __construct(array $options) {
-    $this->_options = new AvocadoConnectionOptions($options);
+    $this->_options = new ConnectionOptions($options);
   }
   
   /**
    * Issue an HTTP GET request
    *
-   * @throws AvocadoException
-   * @param string $url
-   * @return array
+   * @throws Exception
+   * @param string $url - GET URL
+   * @return HttpResponse
    */
   public function get($url) {
-    $response = $this->executeRequest(AvocadoHttpHelper::METHOD_GET, $url, '');
+    $response = $this->executeRequest(HttpHelper::METHOD_GET, $url, '');
     return $this->parseResponse($response);
   }
   
   /**
    * Issue an HTTP POST request with the data provided
    *
-   * @throws AvocadoException
-   * @param string $url
-   * @param string $data
-   * @return array
+   * @throws Exception
+   * @param string $url - POST URL
+   * @param string $data - body to post
+   * @return HttpResponse
    */
   public function post($url, $data) {
-    $response = $this->executeRequest(AvocadoHttpHelper::METHOD_POST, $url, $data);
+    $response = $this->executeRequest(HttpHelper::METHOD_POST, $url, $data);
     return $this->parseResponse($response);
   }
 
   /**
    * Issue an HTTP PUT request with the data provided
    *
-   * @throws AvocadoException
-   * @param string $url
-   * @param string $data
-   * @return array
+   * @throws Exception
+   * @param string $url - PUT URL
+   * @param string $data - body to post
+   * @return HttpResponse
    */
   public function put($url, $data) {
-    $response = $this->executeRequest(AvocadoHttpHelper::METHOD_PUT, $url, $data);
+    $response = $this->executeRequest(HttpHelper::METHOD_PUT, $url, $data);
     return $this->parseResponse($response);
   }
   
   /**
    * Issue an HTTP DELETE request with the data provided
    *
-   * @throws AvocadoException
-   * @param string $url
-   * @return array
+   * @throws Exception
+   * @param string $url - DELETE URL
+   * @return HttpResponse
    */
   public function delete($url) {
-    $response = $this->executeRequest(AvocadoHttpHelper::METHOD_DELETE, $url, '');
+    $response = $this->executeRequest(HttpHelper::METHOD_DELETE, $url, '');
     return $this->parseResponse($response);
   }
 
   /**
    * Parse the response return the body values as an assoc array
    *
-   * @throws AvocadoException
-   * @param AvocadoHttpResponse $response
-   * @return AvocadoHttpResponse
+   * @throws Exception
+   * @param HttpResponse $response - the response as supplied by the server
+   * @return HttpResponse
    */
-  private function parseResponse(AvocadoHttpResponse $response) {
+  private function parseResponse(HttpResponse $response) {
     $httpCode = $response->getHttpCode();
 
     if ($httpCode < 200 || $httpCode >= 400) {
@@ -109,14 +109,14 @@ class AvocadoConnection {
         $details = json_decode($body, true);
         if (is_array($details)) {
           // yes, we got details
-          $exception = new AvocadoServerException($response->getResult(), $httpCode);
+          $exception = new ServerException($response->getResult(), $httpCode);
           $exception->setDetails($details);
           throw $exception;
         }
       }
 
       // no details found, throw normal exception
-      throw new AvocadoServerException($response->getResult(), $httpCode);
+      throw new ServerException($response->getResult(), $httpCode);
     }
 
     return $response;
@@ -124,18 +124,25 @@ class AvocadoConnection {
   
   /**
    * Execute an HTTP request and return the results
+   * 
+   * This function will throw if no connection to the server can be established or if
+   * there is a problem during data exchange with the server.
+   * The function might temporarily alter the value of the php.ini value 'default_socket_timeout' but
+   * will restore it.
    *
-   * @throws AvocadoException
-   * @param string $method 
-   * @param string $url 
-   * @param string $data 
-   * @return AvocadoHttpResponse
+   * @throws Exception
+   * @param string $method - HTTP request method
+   * @param string $url - HTTP URL
+   * @param string $data - data to post in body
+   * @return HttpResponse
    */
   private function executeRequest($method, $url, $data) {
+    HttpHelper::validateMethod($method);
+
     // create request data
-    $request = AvocadoHttpHelper::buildRequest($this->_options[AvocadoConnectionOptions::OPTION_HOST], $method, $url, $data);
+    $request = HttpHelper::buildRequest($this->_options[ConnectionOptions::OPTION_HOST], $method, $url, $data);
     
-    $traceFunc = $this->_options[AvocadoConnectionOptions::OPTION_TRACE];
+    $traceFunc = $this->_options[ConnectionOptions::OPTION_TRACE];
     if ($traceFunc) {
       // call tracer func
       $traceFunc('send', $request);
@@ -149,26 +156,28 @@ class AvocadoConnection {
       ini_set('default_socket_timeout', $value);
     };
 
-    $scope = new AvocadoScope($getFunc, $setFunc);
-    $setFunc($this->_options[AvocadoConnectionOptions::OPTION_TIMEOUT]);
+    $scope = new Scope($getFunc, $setFunc);
+    $setFunc($this->_options[ConnectionOptions::OPTION_TIMEOUT]);
 
     // open the socket. note: this might throw if the connection cannot be established
-    $connection = AvocadoHttpHelper::createConnection($this->_options);
+    $connection = HttpHelper::createConnection($this->_options);
     if ($connection) {
       // send data and get response back
-      $result = AvocadoHttpHelper::transfer($connection, $request);
+      $result = HttpHelper::transfer($connection, $request);
       // must close the connection
       fclose($connection);
+      $scope->leave();
       
       if ($traceFunc) {
         // call tracer func
         $traceFunc('receive',$result);
       }
 
-      return new AvocadoHttpResponse($result);
+      return new HttpResponse($result);
     } 
 
-    throw new AvocadoClientException('Whoops, this should never happen');
+    $scope->leave();
+    throw new ClientException('Whoops, this should never happen');
   }
 
 }

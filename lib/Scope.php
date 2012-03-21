@@ -8,17 +8,17 @@
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
 
-namespace triagens;
+namespace triagens\Avocado;
 
 /**
- * AvocadoScope
+ * Scope
  * 
  * Executes a function on scope entry and executes another function
  * (cleanup) when the scope is exited 
  *
  * @package AvocadoDbPhpClient
  */
-class AvocadoScope {
+class Scope {
   /**
    * Initialization function (called on scope entry)
    * @var callable
@@ -43,15 +43,26 @@ class AvocadoScope {
    */
   private $_state = self::STATE_NONE;
 
+  /**
+   * Scope has not been entered
+   */
   const STATE_NONE    = 0;
+  
+  /**
+   * Scope has been entered but not left
+   */
   const STATE_ENTERED = 1;
+  
+  /**
+   * Scope has been entered and left
+   */
   const STATE_LEFT    = 2;
 
   /**
    * Initialise the scope
    *
-   * @param callable $initFunc
-   * @param callable $exitFunc
+   * @param callable $initFunc - function to be called when scope is entered
+   * @param callable $exitFunc - function to be called when scope if left
    * @return void
    */
   public function __construct($initFunc, $exitFunc) {
@@ -113,9 +124,10 @@ class AvocadoScope {
    * Clone function
    * Scopes should never be cloned so this is private
    *
+   * @throws ClientException
    * @return void
    */
   private function __clone() {
-    throw new AvocadoClientException('This should never happen');
+    throw new ClientException('This should never happen');
   }
 }

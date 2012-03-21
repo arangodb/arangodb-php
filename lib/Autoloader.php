@@ -8,10 +8,10 @@
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
 
-namespace triagens;
+namespace triagens\Avocado;
 
 /**
- * AvocadoAutoloader
+ * Autoloader
  * 
  * Handles automatic loading of missing class files
  * The autoloader can be nested with other autoloaders. It will only
@@ -19,19 +19,22 @@ namespace triagens;
  *
  * @package AvocadoDbPhpClient
  */
-class AvocadoAutoloader {
+class Autoloader {
   /**
    * Directory with library files
    * @var string
    */
   private static $libDir = NULL;
-
+  
+  /**
+   * Class file extension
+   */
   const EXTENSION = '.php';
 
   /**
    * Initialise the autoloader
    *
-   * @throws AvocadoException
+   * @throws Exception
    * @return void
    */
   public static function init() {
@@ -46,7 +49,7 @@ class AvocadoAutoloader {
    * This will only handle class from its own namespace and ignore all others.
    * This allows multiple autoloaders to be used in a nested fashion.
    *
-   * @param string $className 
+   * @param string $className - name of class to be loaded 
    * @return void
    */
   public static function load($className) {
@@ -69,14 +72,14 @@ class AvocadoAutoloader {
    * This will check whether the runtime environment is compatible with the
    * Avocado PHP client.
    *
-   * @throws AvocadoException
+   * @throws ClientException
    * @return void
    */
   private static function checkEnvironment() {
     list($major, $minor) = explode('.', phpversion());
 
     if ((int) $major < 5 or ((int) $major === 5 && (int) $minor < 3)) {
-      throw new AvocadoClientException('Incompatible PHP environment. Expecting PHP 5.3 or higher');
+      throw new ClientException('Incompatible PHP environment. Expecting PHP 5.3 or higher');
     }
   }
 }
