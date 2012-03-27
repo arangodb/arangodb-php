@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
 <meta charset="utf-8">
-<title>AvocadoDbPhpClient » \triagens\Avocado\BindVars</title>
+<title>AvocadoDbPhpClient » \triagens\Avocado\UpdatePolicy</title>
 <meta name="author" content="Mike van Riel">
 <meta name="description" content="">
 <link href="../css/template.css" rel="stylesheet" media="all">
@@ -54,32 +54,26 @@
 <ul class="side-nav nav nav-list">
 <li class="nav-header">
 <i class="icon-custom icon-method"></i> Methods</li>
-<li class="method public "><a href="#get" title="get :: Get the value of a bind variable with a specific name"><span class="description">Get the value of a bind variable with a specific name</span><pre>get()</pre></a></li>
-<li class="method public "><a href="#getAll" title="getAll :: Get all registered bind variables"><span class="description">Get all registered bind variables</span><pre>getAll()</pre></a></li>
-<li class="method public "><a href="#getCount" title="getCount :: Get the number of bind variables registered"><span class="description">Get the number of bind variables registered</span><pre>getCount()</pre></a></li>
-<li class="method public "><a href="#set" title="set :: Set the value of a single bind variable or set all bind variables at once
-This will also validate the bind values."><span class="description">Set the value of a single bind variable or set all bind variables at once
-This will also validate the bind values.</span><pre>set()</pre></a></li>
+<li class="method public "><a href="#validate" title="validate :: Check if the supplied policy value is valid"><span class="description">Check if the supplied policy value is valid</span><pre>validate()</pre></a></li>
 <li class="nav-header">
-<i class="icon-custom icon-property"></i> Properties</li>
-<li class="nav-header private">» Private</li>
-<li class="property private "><a href="#%24_values" title="$_values :: Current bind values"><span class="description">Current bind values</span><pre>$_values</pre></a></li>
+<i class="icon-custom icon-constant"></i> Constants</li>
+<li class="constant  "><a href="#ERROR" title="ERROR :: an error will be returned in case of conflicting versions"><span class="description">an error will be returned in case of conflicting versions</span><pre>ERROR</pre></a></li>
+<li class="constant  "><a href="#LAST" title="LAST :: last update will win in case of conflicting versions"><span class="description">last update will win in case of conflicting versions</span><pre>LAST</pre></a></li>
 </ul>
 </div>
 <div class="span8">
-<a name="%5Ctriagens%5CAvocado%5CBindVars" id="\triagens\Avocado\BindVars"></a><ul class="breadcrumb">
+<a name="%5Ctriagens%5CAvocado%5CUpdatePolicy" id="\triagens\Avocado\UpdatePolicy"></a><ul class="breadcrumb">
 <li>
 <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
 </li>
 <li><a href="../namespaces/db_triagens.html">triagens</a></li>
 <span class="divider">\</span><li><a href="../namespaces/db_triagens%5CAvocado.html">Avocado</a></li>
 <li class="active">
-<span class="divider">\</span><a href="../classes/db_%5Ctriagens%5CAvocado%5CBindVars.html">BindVars</a>
+<span class="divider">\</span><a href="../classes/db_%5Ctriagens%5CAvocado%5CUpdatePolicy.html">UpdatePolicy</a>
 </li>
 </ul>
-<div href="../classes/db_%5Ctriagens%5CAvocado%5CBindVars.html" class="element class">
-<p class="short_description">A simple container for bind variables
-This container also handles validation of the bind values.</p>
+<div href="../classes/db_%5Ctriagens%5CAvocado%5CUpdatePolicy.html" class="element class">
+<p class="short_description">Document update policies</p>
 <div class="details">
 <p class="long_description"></p>
 <table class="table table-bordered"><tr>
@@ -88,61 +82,18 @@ This container also handles validation of the bind values.</p>
 </tr></table>
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
-<a name="get" id="get"></a><div class="element clickable method public get" data-toggle="collapse" data-target=".get .collapse">
-<h2>Get the value of a bind variable with a specific name</h2>
-<pre>get(string $name) : mixed</pre>
+<a name="validate" id="validate"></a><div class="element clickable method public validate" data-toggle="collapse" data-target=".validate .collapse">
+<h2>Check if the supplied policy value is valid</h2>
+<pre>validate(string $value) : void</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="span8">
 <p class="long_description"></p>
 <h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$name</h4>
-<code>string</code><p>name - name of bind variable</p>
-</div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>- value of bind variable</div>
-</div></div>
-</div>
-<a name="getAll" id="getAll"></a><div class="element clickable method public getAll" data-toggle="collapse" data-target=".getAll .collapse">
-<h2>Get all registered bind variables</h2>
-<pre>getAll() : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="span8">
-<p class="long_description"></p>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>array</code>- array of all registered bind variables</div>
-</div></div>
-</div>
-<a name="getCount" id="getCount"></a><div class="element clickable method public getCount" data-toggle="collapse" data-target=".getCount .collapse">
-<h2>Get the number of bind variables registered</h2>
-<pre>getCount() : int</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="span8">
-<p class="long_description"></p>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>int</code>- number of bind variables registered</div>
-</div></div>
-</div>
-<a name="set" id="set"></a><div class="element clickable method public set" data-toggle="collapse" data-target=".set .collapse">
-<h2>Set the value of a single bind variable or set all bind variables at once
-This will also validate the bind values.</h2>
-<pre>set(mixed $name, string $value) : void</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="span8">
-<p class="long_description"><p>Allowed value types for bind parameters are string, int,
-double, bool and array. Arrays must not contain any other
-than these types.</p></p>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$name</h4>
-<code>mixed</code><p>name - name of bind variable OR an array with all bind variables</p>
-</div>
 <div class="subelement argument">
 <h4>$value</h4>
-<code>string</code><p>value - value for bind variable</p>
+<code>string</code><ul>
+<li>update policy value</li>
+</ul>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -152,10 +103,16 @@ than these types.</p></p>
 </div></div>
 </div>
 <h3>
-<i class="icon-custom icon-property"></i> Properties</h3>
-<a name="%24_values" id="$_values"> </a><div class="element clickable property private $_values" data-toggle="collapse" data-target=".$_values .collapse">
-<h2>Current bind values</h2>
-<pre>$_values : array</pre>
+<i class="icon-custom icon-constant"></i> Constants</h3>
+<a name="ERROR" id="ERROR"> </a><div class="element clickable constant  ERROR" data-toggle="collapse" data-target=".ERROR .collapse">
+<h2>an error will be returned in case of conflicting versions</h2>
+<pre>ERROR </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+</div>
+<a name="LAST" id="LAST"> </a><div class="element clickable constant  LAST" data-toggle="collapse" data-target=".LAST .collapse">
+<h2>last update will win in case of conflicting versions</h2>
+<pre>LAST </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
 </div>

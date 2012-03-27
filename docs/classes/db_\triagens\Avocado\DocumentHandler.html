@@ -246,7 +246,7 @@ This will throw if the list cannot be fetched from the server</h2>
 <h2>Update an existing document in a collection
 This will update the document on the server
 This will throw if the document cannot be updated</h2>
-<pre>update(mixed $collectionId, Document $document) : bool</pre>
+<pre>update(mixed $collectionId, Document $document, bool $policy) : bool</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="span8">
 <p class="long_description"></p>
@@ -261,6 +261,12 @@ This will throw if the document cannot be updated</h2>
 <h4>$document</h4>
 <code><a href="../classes/db_%5Ctriagens%5CAvocado%5CDocument.html">\triagens\Avocado\Document</a></code><ul>
 <li>document to be updated</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$policy</h4>
+<code>bool</code><ul>
+<li>update policy to be used in case of conflict</li>
 </ul>
 </div>
 <h3>Exceptions</h3>
@@ -331,7 +337,7 @@ This will throw if the document cannot be updated</h2>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a1</a> and<br>
-            generated on 2012-03-27T17:33:40+02:00.<br></footer></div>
+            generated on 2012-03-27T17:47:58+02:00.<br></footer></div>
 </div>
 </body>
 </html>

@@ -23,32 +23,37 @@ class ConnectionOptions implements \ArrayAccess {
    * The current options
    * @var array 
    */
-  private $_values = array();
+  private $_values           = array();
 
   /**
    * Host name string index constant
    */
-  const OPTION_HOST     = 'host';
+  const OPTION_HOST          = 'host';
   
   /**
    * Port number index constant
    */
-  const OPTION_PORT     = 'port';
+  const OPTION_PORT          = 'port';
   
   /**
    * Timeout value index constant
    */
-  const OPTION_TIMEOUT  = 'timeout';
+  const OPTION_TIMEOUT       = 'timeout';
 
   /**
    * Trace function index constant
    */
-  const OPTION_TRACE    = 'trace';
+  const OPTION_TRACE         = 'trace';
   
   /**
-   * Create collections if they don't exist
+   * "Create collections if they don't exist" index constant
    */
-  const OPTION_CREATE   = 'create';
+  const OPTION_CREATE        = 'create';
+  
+  /**
+   * Update policy index constant
+   */
+  const OPTION_UPDATE_POLICY = 'policy';
   
   /**
    * Set defaults, use options provided by client and validate them
@@ -128,10 +133,11 @@ class ConnectionOptions implements \ArrayAccess {
    */
   private function getDefaults() {
     return array(
-      self::OPTION_PORT    => DefaultValues::DEFAULT_PORT,
-      self::OPTION_TIMEOUT => DefaultValues::DEFAULT_TIMEOUT,
-      self::OPTION_TRACE   => NULL,
-      self::OPTION_CREATE  => false,
+      self::OPTION_PORT          => DefaultValues::DEFAULT_PORT,
+      self::OPTION_TIMEOUT       => DefaultValues::DEFAULT_TIMEOUT,
+      self::OPTION_TRACE         => NULL,
+      self::OPTION_CREATE        => false,
+      self::OPTION_UPDATE_POLICY => UpdatePolicy::ERROR,
     );
   }
   
@@ -145,9 +151,12 @@ class ConnectionOptions implements \ArrayAccess {
     if (!isset($this->_values[self::OPTION_HOST]) || !is_string($this->_values[self::OPTION_HOST])) {
       throw new ClientException('host should be a string');
     }
+
     if (!isset($this->_values[self::OPTION_PORT]) || !is_int($this->_values[self::OPTION_PORT])) {
       throw new ClientException('port should be an integer');
     }
+
+    UpdatePolicy::validate($this->_values[self::OPTION_UPDATE_POLICY]);
   }
 
 }

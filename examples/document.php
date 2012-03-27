@@ -17,6 +17,7 @@ $connectionOptions = array(
   "timeout" => 3,
   "trace" => $traceFunc,
   "create" => false,
+  "policy" => "last",
 );
 
 try {

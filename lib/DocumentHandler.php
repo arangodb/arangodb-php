@@ -126,13 +126,21 @@ class DocumentHandler {
    * @throws Exception
    * @param mixed $collectionId - collection id as string or number
    * @param Document $document - document to be updated
+   * @param bool $policy - update policy to be used in case of conflict
    * @return bool - always true, will throw if there is an error
    */
-  public function update($collectionId, Document $document) {
+  public function update($collectionId, Document $document, $policy = NULL) {
     $documentId = $this->getDocumentId($document);
+
+    if ($policy === NULL) {
+      $policy = $this->_connection->getOption(ConnectionOptions::OPTION_UPDATE_POLICY);
+    }
+    UpdatePolicy::validate($policy);
     
     $data = $document->getAll();
-    $result = $this->_connection->put(UrlHelper::buildUrl(self::URL, $collectionId, $documentId), json_encode($data));
+    $url = UrlHelper::buildUrl(self::URL, $collectionId, $documentId);
+    $url = UrlHelper::appendParamsUrl($url, array('policy' => $policy));
+    $result = $this->_connection->put($url, json_encode($data));
 
     return true;
   }
