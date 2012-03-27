@@ -36,6 +36,19 @@ class Connection {
   public function __construct(array $options) {
     $this->_options = new ConnectionOptions($options);
   }
+
+  /**
+   * Get an option set for the connection
+   *
+   * @throws ClientException
+   * @param string name - name of option
+   * @return mixed
+   */
+  public function getOption($name) {
+    assert(is_string($name));
+
+    return $this->_options[$name];
+  }
   
   /**
    * Issue an HTTP GET request

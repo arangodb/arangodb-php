@@ -46,9 +46,14 @@ class ConnectionOptions implements \ArrayAccess {
   const OPTION_TRACE    = 'trace';
   
   /**
+   * Create collections if they don't exist
+   */
+  const OPTION_CREATE   = 'create';
+  
+  /**
    * Set defaults, use options provided by client and validate them
    *
-   * @throws Exception
+   * @throws ClientException
    * @param array $options - initial options
    * @return void
    */
@@ -76,7 +81,7 @@ class ConnectionOptions implements \ArrayAccess {
    */
   public function offsetSet($offset, $value) {
     $this->_values[$offset] = $value;
-    $this->_validate();
+    $this->validate();
   }
   
   /**
@@ -98,7 +103,7 @@ class ConnectionOptions implements \ArrayAccess {
    */
   public function offsetUnset($offset) {
     unset($this->_values[$offset]);
-    $this->_validate();
+    $this->validate();
   }
 
   /**
@@ -126,6 +131,7 @@ class ConnectionOptions implements \ArrayAccess {
       self::OPTION_PORT    => DefaultValues::DEFAULT_PORT,
       self::OPTION_TIMEOUT => DefaultValues::DEFAULT_TIMEOUT,
       self::OPTION_TRACE   => NULL,
+      self::OPTION_CREATE  => false,
     );
   }
   

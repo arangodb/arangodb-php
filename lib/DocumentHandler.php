@@ -95,11 +95,17 @@ class DocumentHandler {
    * @throws Exception
    * @param mixed $collectionId - collection id as string or number
    * @param Document $document - the document to be added
+   * @param bool $create - create the collection if it does not yet exist
    * @return mixed - id of document created
    */
-  public function add($collectionId, Document $document) {
+  public function add($collectionId, Document $document, $create = NULL) {
+    if ($create === NULL) {
+      $create = $this->_connection->getOption(ConnectionOptions::OPTION_CREATE);
+    }
+
     $data = $document->getAll();
-    $url = UrlHelper::appendParamsUrl(self::URL, array('collection' => $collectionId));
+    $params = array('collection' => $collectionId, 'createCollection' => $create ? "true" : "false");
+    $url = UrlHelper::appendParamsUrl(self::URL, $params); 
     $response = $this->_connection->post($url, json_encode($data));
 
     $location = $response->getHeader('location');

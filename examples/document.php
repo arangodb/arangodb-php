@@ -16,13 +16,14 @@ $connectionOptions = array(
   "host" => "localhost",
   "timeout" => 3,
   "trace" => $traceFunc,
+  "create" => false,
 );
 
 try {
   $connection = new Connection($connectionOptions);
+  $handler = new DocumentHandler($connection);
 
   // get the ids of all documents in the collection
-  $handler = new DocumentHandler($connection);
   $result = $handler->getAllIds("fux");
   var_dump($result);
 

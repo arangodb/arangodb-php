@@ -598,7 +598,7 @@ that occurred, this will return the server error string</p>]]></long-description
       </method>
     </class>
   </file>
-  <file path="Connection.php" hash="343ee9309f92294cbe4ffa33f201d0fe" package="AvocadoDbPhpClient">
+  <file path="Connection.php" hash="e89441a454dbffd69a4b64874f084020" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: connection]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -652,43 +652,40 @@ and are destroyed afterwards.</p>]]></long-description>
         </argument>
       </method>
       <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="47" package="">
-        <name>get</name>
+        <name>getOption</name>
         <type>function</type>
         <docblock line="40">
-          <description><![CDATA[Issue an HTTP GET request]]></description>
+          <description><![CDATA[Get an option set for the connection]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="40" name="throws" description="" type="\triagens\Avocado\Exception">
-            <type by_reference="false">\triagens\Avocado\Exception</type>
+          <tag line="40" name="throws" description="" type="\triagens\Avocado\ClientException">
+            <type by_reference="false">\triagens\Avocado\ClientException</type>
           </tag>
-          <tag line="40" name="param" description="- GET URL" type="string" variable="$url">
+          <tag line="40" name="param" description="name - name of option" type="string" variable="$name">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="40" name="return" description="" type="\triagens\Avocado\HttpResponse">
-            <type by_reference="false">\triagens\Avocado\HttpResponse</type>
+          <tag line="40" name="return" description="" type="mixed">
+            <type by_reference="false">mixed</type>
           </tag>
         </docblock>
         <argument line="47">
-          <name>$url</name>
+          <name>$name</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
       <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="60" package="">
-        <name>post</name>
+        <name>get</name>
         <type>function</type>
-        <docblock line="52">
-          <description><![CDATA[Issue an HTTP POST request with the data provided]]></description>
+        <docblock line="53">
+          <description><![CDATA[Issue an HTTP GET request]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="52" name="throws" description="" type="\triagens\Avocado\Exception">
+          <tag line="53" name="throws" description="" type="\triagens\Avocado\Exception">
             <type by_reference="false">\triagens\Avocado\Exception</type>
           </tag>
-          <tag line="52" name="param" description="- POST URL" type="string" variable="$url">
+          <tag line="53" name="param" description="- GET URL" type="string" variable="$url">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="52" name="param" description="- body to post" type="string" variable="$data">
-            <type by_reference="false">string</type>
-          </tag>
-          <tag line="52" name="return" description="" type="\triagens\Avocado\HttpResponse">
+          <tag line="53" name="return" description="" type="\triagens\Avocado\HttpResponse">
             <type by_reference="false">\triagens\Avocado\HttpResponse</type>
           </tag>
         </docblock>
@@ -697,22 +694,17 @@ and are destroyed afterwards.</p>]]></long-description>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="60">
-          <name>$data</name>
-          <default><![CDATA[]]></default>
-          <type/>
-        </argument>
       </method>
       <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="73" package="">
-        <name>put</name>
+        <name>post</name>
         <type>function</type>
         <docblock line="65">
-          <description><![CDATA[Issue an HTTP PUT request with the data provided]]></description>
+          <description><![CDATA[Issue an HTTP POST request with the data provided]]></description>
           <long-description><![CDATA[]]></long-description>
           <tag line="65" name="throws" description="" type="\triagens\Avocado\Exception">
             <type by_reference="false">\triagens\Avocado\Exception</type>
           </tag>
-          <tag line="65" name="param" description="- PUT URL" type="string" variable="$url">
+          <tag line="65" name="param" description="- POST URL" type="string" variable="$url">
             <type by_reference="false">string</type>
           </tag>
           <tag line="65" name="param" description="- body to post" type="string" variable="$data">
@@ -733,86 +725,116 @@ and are destroyed afterwards.</p>]]></long-description>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="85" package="">
-        <name>delete</name>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="86" package="">
+        <name>put</name>
         <type>function</type>
         <docblock line="78">
-          <description><![CDATA[Issue an HTTP DELETE request with the data provided]]></description>
+          <description><![CDATA[Issue an HTTP PUT request with the data provided]]></description>
           <long-description><![CDATA[]]></long-description>
           <tag line="78" name="throws" description="" type="\triagens\Avocado\Exception">
             <type by_reference="false">\triagens\Avocado\Exception</type>
           </tag>
-          <tag line="78" name="param" description="- DELETE URL" type="string" variable="$url">
+          <tag line="78" name="param" description="- PUT URL" type="string" variable="$url">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="78" name="param" description="- body to post" type="string" variable="$data">
             <type by_reference="false">string</type>
           </tag>
           <tag line="78" name="return" description="" type="\triagens\Avocado\HttpResponse">
             <type by_reference="false">\triagens\Avocado\HttpResponse</type>
           </tag>
         </docblock>
-        <argument line="85">
+        <argument line="86">
+          <name>$url</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="86">
+          <name>$data</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="98" package="">
+        <name>delete</name>
+        <type>function</type>
+        <docblock line="91">
+          <description><![CDATA[Issue an HTTP DELETE request with the data provided]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="91" name="throws" description="" type="\triagens\Avocado\Exception">
+            <type by_reference="false">\triagens\Avocado\Exception</type>
+          </tag>
+          <tag line="91" name="param" description="- DELETE URL" type="string" variable="$url">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="91" name="return" description="" type="\triagens\Avocado\HttpResponse">
+            <type by_reference="false">\triagens\Avocado\HttpResponse</type>
+          </tag>
+        </docblock>
+        <argument line="98">
           <name>$url</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\Avocado" line="97" package="">
+      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\Avocado" line="110" package="">
         <name>parseResponse</name>
         <type>function</type>
-        <docblock line="90">
+        <docblock line="103">
           <description><![CDATA[Parse the response return the body values as an assoc array]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="90" name="throws" description="" type="\triagens\Avocado\Exception">
+          <tag line="103" name="throws" description="" type="\triagens\Avocado\Exception">
             <type by_reference="false">\triagens\Avocado\Exception</type>
           </tag>
-          <tag line="90" name="param" description="- the response as supplied by the server" type="\triagens\Avocado\HttpResponse" variable="$response">
+          <tag line="103" name="param" description="- the response as supplied by the server" type="\triagens\Avocado\HttpResponse" variable="$response">
             <type by_reference="false">\triagens\Avocado\HttpResponse</type>
           </tag>
-          <tag line="90" name="return" description="" type="\triagens\Avocado\HttpResponse">
+          <tag line="103" name="return" description="" type="\triagens\Avocado\HttpResponse">
             <type by_reference="false">\triagens\Avocado\HttpResponse</type>
           </tag>
         </docblock>
-        <argument line="97">
+        <argument line="110">
           <name>$response</name>
           <default><![CDATA[]]></default>
           <type>HttpResponse</type>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\Avocado" line="137" package="">
+      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\Avocado" line="150" package="">
         <name>executeRequest</name>
         <type>function</type>
-        <docblock line="123">
+        <docblock line="136">
           <description><![CDATA[Execute an HTTP request and return the results]]></description>
           <long-description><![CDATA[<p>This function will throw if no connection to the server can be established or if
 there is a problem during data exchange with the server.
 The function might temporarily alter the value of the php.ini value 'default_socket_timeout' but
 will restore it.</p>]]></long-description>
-          <tag line="123" name="throws" description="" type="\triagens\Avocado\Exception">
+          <tag line="136" name="throws" description="" type="\triagens\Avocado\Exception">
             <type by_reference="false">\triagens\Avocado\Exception</type>
           </tag>
-          <tag line="123" name="param" description="- HTTP request method" type="string" variable="$method">
+          <tag line="136" name="param" description="- HTTP request method" type="string" variable="$method">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="123" name="param" description="- HTTP URL" type="string" variable="$url">
+          <tag line="136" name="param" description="- HTTP URL" type="string" variable="$url">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="123" name="param" description="- data to post in body" type="string" variable="$data">
+          <tag line="136" name="param" description="- data to post in body" type="string" variable="$data">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="123" name="return" description="" type="\triagens\Avocado\HttpResponse">
+          <tag line="136" name="return" description="" type="\triagens\Avocado\HttpResponse">
             <type by_reference="false">\triagens\Avocado\HttpResponse</type>
           </tag>
         </docblock>
-        <argument line="137">
+        <argument line="150">
           <name>$method</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="137">
+        <argument line="150">
           <name>$url</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="137">
+        <argument line="150">
           <name>$data</name>
           <default><![CDATA[]]></default>
           <type/>
@@ -1654,7 +1676,7 @@ This will remove the _id and _rev attributes from the results if the
       </method>
     </class>
   </file>
-  <file path="DocumentHandler.php" hash="01280c75a01cfcd299e88b52e19411df" package="AvocadoDbPhpClient">
+  <file path="DocumentHandler.php" hash="78833b55dc892b8efa38c18a04b9a552" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: document handler]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -1771,7 +1793,7 @@ This will throw if the list cannot be fetched from the server]]></description>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="100" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="101" package="">
         <name>add</name>
         <type>function</type>
         <docblock line="90">
@@ -1788,100 +1810,108 @@ This will throw if the document cannot be created]]></description>
           <tag line="90" name="param" description="- the document to be added" type="\triagens\Avocado\Document" variable="$document">
             <type by_reference="false">\triagens\Avocado\Document</type>
           </tag>
+          <tag line="90" name="param" description="- create the collection if it does not yet exist" type="bool" variable="$create">
+            <type by_reference="false">bool</type>
+          </tag>
           <tag line="90" name="return" description="- id of document created" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
         </docblock>
-        <argument line="100">
+        <argument line="101">
           <name>$collectionId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="100">
+        <argument line="101">
           <name>$document</name>
           <default><![CDATA[]]></default>
           <type>Document</type>
         </argument>
+        <argument line="101">
+          <name>$create</name>
+          <default><![CDATA[NULL]]></default>
+          <type/>
+        </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="125" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="131" package="">
         <name>update</name>
         <type>function</type>
-        <docblock line="115">
+        <docblock line="121">
           <description><![CDATA[Update an existing document in a collection
 This will update the document on the server
 This will throw if the document cannot be updated]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="115" name="throws" description="" type="\triagens\Avocado\Exception">
+          <tag line="121" name="throws" description="" type="\triagens\Avocado\Exception">
             <type by_reference="false">\triagens\Avocado\Exception</type>
           </tag>
-          <tag line="115" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
+          <tag line="121" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="115" name="param" description="- document to be updated" type="\triagens\Avocado\Document" variable="$document">
+          <tag line="121" name="param" description="- document to be updated" type="\triagens\Avocado\Document" variable="$document">
             <type by_reference="false">\triagens\Avocado\Document</type>
           </tag>
-          <tag line="115" name="return" description="- always true, will throw if there is an error" type="bool">
+          <tag line="121" name="return" description="- always true, will throw if there is an error" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
-        <argument line="125">
+        <argument line="131">
           <name>$collectionId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="125">
+        <argument line="131">
           <name>$document</name>
           <default><![CDATA[]]></default>
           <type>Document</type>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="142" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="148" package="">
         <name>delete</name>
         <type>function</type>
-        <docblock line="134">
+        <docblock line="140">
           <description><![CDATA[Delete a document from a collection]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="134" name="throws" description="" type="\triagens\Avocado\Exception">
+          <tag line="140" name="throws" description="" type="\triagens\Avocado\Exception">
             <type by_reference="false">\triagens\Avocado\Exception</type>
           </tag>
-          <tag line="134" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
+          <tag line="140" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="134" name="param" description="- document id OR document to be updated" type="mixed" variable="$document">
+          <tag line="140" name="param" description="- document id OR document to be updated" type="mixed" variable="$document">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="134" name="return" description="- always true, will throw if there is an error" type="bool">
+          <tag line="140" name="return" description="- always true, will throw if there is an error" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
-        <argument line="142">
+        <argument line="148">
           <name>$collectionId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="142">
+        <argument line="148">
           <name>$document</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\Avocado" line="158" package="">
+      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\Avocado" line="164" package="">
         <name>getDocumentId</name>
         <type>function</type>
-        <docblock line="150">
+        <docblock line="156">
           <description><![CDATA[Helper function to get a document id from a document or a document id value]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="150" name="throws" description="" type="\triagens\Avocado\ClientException">
+          <tag line="156" name="throws" description="" type="\triagens\Avocado\ClientException">
             <type by_reference="false">\triagens\Avocado\ClientException</type>
           </tag>
-          <tag line="150" name="param" description="- document id OR document to be updated" type="mixed" variable="$document">
+          <tag line="156" name="param" description="- document id OR document to be updated" type="mixed" variable="$document">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="150" name="return" description="- document id, will throw if there is an error" type="mixed">
+          <tag line="156" name="return" description="- document id, will throw if there is an error" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
         </docblock>
-        <argument line="158">
+        <argument line="164">
           <name>$document</name>
           <default><![CDATA[]]></default>
           <type/>
@@ -1994,7 +2024,7 @@ than these types.</p>]]></long-description>
       </method>
     </class>
   </file>
-  <file path="ConnectionOptions.php" hash="0f7febb5317a1840bd9ba9a934900f14" package="AvocadoDbPhpClient">
+  <file path="ConnectionOptions.php" hash="5dd2ff2b7f7f522c51e3932f2f3d4e63" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: connection options]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -2046,6 +2076,14 @@ It provides array access to its members.</p>]]></long-description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </constant>
+      <constant namespace="triagens\Avocado" line="51" package="Default">
+        <name>OPTION_CREATE</name>
+        <value><![CDATA['create']]></value>
+        <docblock line="48">
+          <description><![CDATA[Create collections if they don't exist]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
       <property final="false" static="false" visibility="private" line="26" package="Default">
         <name>$_values</name>
         <default><![CDATA[array()]]></default>
@@ -2057,153 +2095,153 @@ It provides array access to its members.</p>]]></long-description>
           </tag>
         </docblock>
       </property>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="55" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="60" package="">
         <name>__construct</name>
         <type>function</type>
-        <docblock line="48">
+        <docblock line="53">
           <description><![CDATA[Set defaults, use options provided by client and validate them]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="48" name="throws" description="" type="\triagens\Avocado\Exception">
-            <type by_reference="false">\triagens\Avocado\Exception</type>
+          <tag line="53" name="throws" description="" type="\triagens\Avocado\ClientException">
+            <type by_reference="false">\triagens\Avocado\ClientException</type>
           </tag>
-          <tag line="48" name="param" description="- initial options" type="array" variable="$options">
+          <tag line="53" name="param" description="- initial options" type="array" variable="$options">
             <type by_reference="false">array</type>
           </tag>
-          <tag line="48" name="return" description="" type="void">
+          <tag line="53" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="55">
+        <argument line="60">
           <name>$options</name>
           <default><![CDATA[]]></default>
           <type>array</type>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="65" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="70" package="">
         <name>getAll</name>
         <type>function</type>
-        <docblock line="60">
+        <docblock line="65">
           <description><![CDATA[Get all options]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="60" name="return" description="- all options as an array" type="array">
+          <tag line="65" name="return" description="- all options as an array" type="array">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="77" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="82" package="">
         <name>offsetSet</name>
         <type>function</type>
-        <docblock line="69">
+        <docblock line="74">
           <description><![CDATA[Set and validate a specific option, necessary for ArrayAccess]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="69" name="throws" description="" type="\triagens\Avocado\Exception">
+          <tag line="74" name="throws" description="" type="\triagens\Avocado\Exception">
             <type by_reference="false">\triagens\Avocado\Exception</type>
           </tag>
-          <tag line="69" name="param" description="- name of option" type="string" variable="$offset">
+          <tag line="74" name="param" description="- name of option" type="string" variable="$offset">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="69" name="param" description="- value for option" type="mixed" variable="$value">
+          <tag line="74" name="param" description="- value for option" type="mixed" variable="$value">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="69" name="return" description="" type="void">
+          <tag line="74" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="77">
+        <argument line="82">
           <name>$offset</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="77">
+        <argument line="82">
           <name>$value</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="88" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="93" package="">
         <name>offsetExists</name>
         <type>function</type>
-        <docblock line="82">
+        <docblock line="87">
           <description><![CDATA[Check whether an option exists, necessary for ArrayAccess]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="82" name="param" description="-name of option" type="string" variable="$offset">
+          <tag line="87" name="param" description="-name of option" type="string" variable="$offset">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="82" name="return" description="- true if option exists, false otherwise" type="bool">
+          <tag line="87" name="return" description="- true if option exists, false otherwise" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
-        <argument line="88">
+        <argument line="93">
           <name>$offset</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="99" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="104" package="">
         <name>offsetUnset</name>
         <type>function</type>
-        <docblock line="92">
+        <docblock line="97">
           <description><![CDATA[Remove an option and validate, necessary for ArrayAccess]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="92" name="throws" description="" type="\triagens\Avocado\Exception">
+          <tag line="97" name="throws" description="" type="\triagens\Avocado\Exception">
             <type by_reference="false">\triagens\Avocado\Exception</type>
           </tag>
-          <tag line="92" name="param" description="- name of option" type="string" variable="$offset">
+          <tag line="97" name="param" description="- name of option" type="string" variable="$offset">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="92" name="return" description="" type="void">
+          <tag line="97" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="99">
+        <argument line="104">
           <name>$offset</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="111" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="116" package="">
         <name>offsetGet</name>
         <type>function</type>
-        <docblock line="104">
+        <docblock line="109">
           <description><![CDATA[Get a specific option, necessary for ArrayAccess]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="104" name="throws" description="" type="\triagens\Avocado\ClientException">
+          <tag line="109" name="throws" description="" type="\triagens\Avocado\ClientException">
             <type by_reference="false">\triagens\Avocado\ClientException</type>
           </tag>
-          <tag line="104" name="param" description="- name of option" type="string" variable="$offset">
+          <tag line="109" name="param" description="- name of option" type="string" variable="$offset">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="104" name="return" description="- value of option, will throw if option is not set" type="mixed">
+          <tag line="109" name="return" description="- value of option, will throw if option is not set" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
         </docblock>
-        <argument line="111">
+        <argument line="116">
           <name>$offset</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\Avocado" line="124" package="">
+      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\Avocado" line="129" package="">
         <name>getDefaults</name>
         <type>function</type>
-        <docblock line="119">
+        <docblock line="124">
           <description><![CDATA[Get the default values for the options]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="119" name="return" description="- array of default connection options" type="array">
+          <tag line="124" name="return" description="- array of default connection options" type="array">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\Avocado" line="138" package="">
+      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\Avocado" line="144" package="">
         <name>validate</name>
         <type>function</type>
-        <docblock line="132">
+        <docblock line="138">
           <description><![CDATA[Validate the options]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="132" name="throws" description="" type="\triagens\Avocado\ClientException">
+          <tag line="138" name="throws" description="" type="\triagens\Avocado\ClientException">
             <type by_reference="false">\triagens\Avocado\ClientException</type>
           </tag>
-          <tag line="132" name="return" description="- will throw if an invalid option value is found" type="void">
+          <tag line="138" name="return" description="- will throw if an invalid option value is found" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
