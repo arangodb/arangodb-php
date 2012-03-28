@@ -60,7 +60,7 @@ class Document {
   }
 
   /**
-   * Factory method to constructs a new document using the values passed to populate it
+   * Factory method to construct a new document using the values passed to populate it
    *
    * @throws ClientException
    * @param array $values - initial values for document
@@ -106,7 +106,7 @@ class Document {
    * @return string - JSON-encoded document 
    */
   public function toJson() {
-    return json_encode($this->_values);
+    return json_encode($this->getAll());
   }
   
   /**
@@ -115,7 +115,7 @@ class Document {
    * @return string - PHP serialized document 
    */
   public function toSerialized() {
-    return serialize($this->_values);
+    return serialize($this->getAll());
   }
 
   /**
@@ -241,7 +241,7 @@ class Document {
       throw new ClientException('Should not update the id of an existing document');
     }
 
-    return $this->_id = $id;
+    $this->_id = $id;
   }
 
   /**

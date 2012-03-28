@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
 <meta charset="utf-8">
-<title>AvocadoDbPhpClient » \triagens\Avocado\DocumentHandler</title>
+<title>AvocadoDbPhpClient » \triagens\Avocado\CollectionHandler</title>
 <meta name="author" content="Mike van Riel">
 <meta name="description" content="">
 <link href="../css/template.css" rel="stylesheet" media="all">
@@ -54,50 +54,47 @@
 <ul class="side-nav nav nav-list">
 <li class="nav-header">
 <i class="icon-custom icon-method"></i> Methods</li>
-<li class="method public "><a href="#__construct" title="__construct :: Construct a new document handler"><span class="description">Construct a new document handler</span><pre>__construct()</pre></a></li>
-<li class="method public "><a href="#add" title="add :: Add a document to a collection
-This will add the document to the collection and return the document's id
-This will throw if the document cannot be created"><span class="description">Add a document to a collection
-This will add the document to the collection and return the document's id
-This will throw if the document cannot be created</span><pre>add()</pre></a></li>
-<li class="method public "><a href="#delete" title="delete :: Delete a document from a collection"><span class="description">Delete a document from a collection</span><pre>delete()</pre></a></li>
-<li class="method public "><a href="#get" title="get :: Get a single document from a collection
-This will throw if the document cannot be fetched from the server"><span class="description">Get a single document from a collection
-This will throw if the document cannot be fetched from the server</span><pre>get()</pre></a></li>
-<li class="method public "><a href="#getAllIds" title="getAllIds :: Get the list of all documents' ids from a collection
-This will throw if the list cannot be fetched from the server"><span class="description">Get the list of all documents' ids from a collection
-This will throw if the list cannot be fetched from the server</span><pre>getAllIds()</pre></a></li>
-<li class="method public "><a href="#update" title="update :: Update an existing document in a collection
-This will update the document on the server
-This will throw if the document cannot be updated"><span class="description">Update an existing document in a collection
-This will update the document on the server
-This will throw if the document cannot be updated</span><pre>update()</pre></a></li>
-<li class="nav-header private">» Private</li>
-<li class="method private "><a href="#getDocumentId" title="getDocumentId :: Helper function to get a document id from a document or a document id value"><span class="description">Helper function to get a document id from a document or a document id value</span><pre>getDocumentId()</pre></a></li>
+<li class="method public "><a href="#__construct" title="__construct :: Construct a new collection handler"><span class="description">Construct a new collection handler</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#add" title="add :: Adds a new collection on the server
+This will add the collection on the server and return its id
+This will throw if the collection cannot be created"><span class="description">Adds a new collection on the server
+This will add the collection on the server and return its id
+This will throw if the collection cannot be created</span><pre>add()</pre></a></li>
+<li class="method public "><a href="#delete" title="delete :: Delete a collection"><span class="description">Delete a collection</span><pre>delete()</pre></a></li>
+<li class="method public "><a href="#get" title="get :: Get information about a collection
+This will throw if the collection cannot be fetched from the server"><span class="description">Get information about a collection
+This will throw if the collection cannot be fetched from the server</span><pre>get()</pre></a></li>
+<li class="method public "><a href="#getCount" title="getCount :: Get the number of documents in a collection
+This will throw if the collection cannot be fetched from the server"><span class="description">Get the number of documents in a collection
+This will throw if the collection cannot be fetched from the server</span><pre>getCount()</pre></a></li>
+<li class="method public "><a href="#getFigures" title="getFigures :: Get figures for a collection
+This will throw if the collection cannot be fetched from the server"><span class="description">Get figures for a collection
+This will throw if the collection cannot be fetched from the server</span><pre>getFigures()</pre></a></li>
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties</li>
 <li class="nav-header private">» Private</li>
 <li class="property private "><a href="#%24_connection" title="$_connection :: Connection object"><span class="description">Connection object</span><pre>$_connection</pre></a></li>
 <li class="nav-header">
 <i class="icon-custom icon-constant"></i> Constants</li>
-<li class="constant  "><a href="#ENTRY_DOCUMENTS" title="ENTRY_DOCUMENTS :: documents array index"><span class="description">documents array index</span><pre>ENTRY_DOCUMENTS</pre></a></li>
-<li class="constant  "><a href="#URL" title="URL :: URL base part for all document-related REST calls"><span class="description">URL base part for all document-related REST calls</span><pre>URL</pre></a></li>
+<li class="constant  "><a href="#OPTION_COUNT" title="OPTION_COUNT :: count option"><span class="description">count option</span><pre>OPTION_COUNT</pre></a></li>
+<li class="constant  "><a href="#OPTION_FIGURES" title="OPTION_FIGURES :: figures option"><span class="description">figures option</span><pre>OPTION_FIGURES</pre></a></li>
+<li class="constant  "><a href="#URL" title="URL :: URL base part for all collection-related REST calls"><span class="description">URL base part for all collection-related REST calls</span><pre>URL</pre></a></li>
 </ul>
 </div>
 <div class="span8">
-<a name="%5Ctriagens%5CAvocado%5CDocumentHandler" id="\triagens\Avocado\DocumentHandler"></a><ul class="breadcrumb">
+<a name="%5Ctriagens%5CAvocado%5CCollectionHandler" id="\triagens\Avocado\CollectionHandler"></a><ul class="breadcrumb">
 <li>
 <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
 </li>
 <li><a href="../namespaces/db_triagens.html">triagens</a></li>
 <span class="divider">\</span><li><a href="../namespaces/db_triagens%5CAvocado.html">Avocado</a></li>
 <li class="active">
-<span class="divider">\</span><a href="../classes/db_%5Ctriagens%5CAvocado%5CDocumentHandler.html">DocumentHandler</a>
+<span class="divider">\</span><a href="../classes/db_%5Ctriagens%5CAvocado%5CCollectionHandler.html">CollectionHandler</a>
 </li>
 </ul>
-<div href="../classes/db_%5Ctriagens%5CAvocado%5CDocumentHandler.html" class="element class">
-<p class="short_description">A document handler that fetches documents from the server and
-persists them on the server. It does so by issueing the
+<div href="../classes/db_%5Ctriagens%5CAvocado%5CCollectionHandler.html" class="element class">
+<p class="short_description">A collection handler that fetches collection data from the server and
+creates collections on the server. It does so by issueing the
 appropriate HTTP requests to the server.</p>
 <div class="details">
 <p class="long_description"></p>
@@ -108,7 +105,7 @@ appropriate HTTP requests to the server.</p>
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
 <a name="__construct" id="__construct"></a><div class="element clickable method public __construct" data-toggle="collapse" data-target=".__construct .collapse">
-<h2>Construct a new document handler</h2>
+<h2>Construct a new collection handler</h2>
 <pre>__construct(Connection $connection) : void</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="span8">
@@ -123,30 +120,18 @@ appropriate HTTP requests to the server.</p>
 </div></div>
 </div>
 <a name="add" id="add"></a><div class="element clickable method public add" data-toggle="collapse" data-target=".add .collapse">
-<h2>Add a document to a collection
-This will add the document to the collection and return the document's id
-This will throw if the document cannot be created</h2>
-<pre>add(mixed $collectionId, Document $document, bool $create) : mixed</pre>
+<h2>Adds a new collection on the server
+This will add the collection on the server and return its id
+This will throw if the collection cannot be created</h2>
+<pre>add(Collection $collection) : mixed</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="span8">
 <p class="long_description"></p>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collectionId</h4>
-<code>mixed</code><ul>
-<li>collection id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$document</h4>
-<code><a href="../classes/db_%5Ctriagens%5CAvocado%5CDocument.html">\triagens\Avocado\Document</a></code><ul>
-<li>the document to be added</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$create</h4>
-<code>bool</code><ul>
-<li>create the collection if it does not yet exist</li>
+<h4>$collection</h4>
+<code><a href="../classes/db_%5Ctriagens%5CAvocado%5CCollection.html">\triagens\Avocado\Collection</a></code><ul>
+<li>collection object to be created on the server</li>
 </ul>
 </div>
 <h3>Exceptions</h3>
@@ -156,26 +141,20 @@ This will throw if the document cannot be created</h2>
 </tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
-<code>mixed</code>- id of document created</div>
+<code>mixed</code>- id of collection created</div>
 </div></div>
 </div>
 <a name="delete" id="delete"></a><div class="element clickable method public delete" data-toggle="collapse" data-target=".delete .collapse">
-<h2>Delete a document from a collection</h2>
-<pre>delete(mixed $collectionId, mixed $document) : bool</pre>
+<h2>Delete a collection</h2>
+<pre>delete(mixed $collection) : bool</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="span8">
 <p class="long_description"></p>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collectionId</h4>
+<h4>$collection</h4>
 <code>mixed</code><ul>
-<li>collection id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$document</h4>
-<code>mixed</code><ul>
-<li>document id OR document to be updated</li>
+<li>collection id as string or number or collection object</li>
 </ul>
 </div>
 <h3>Exceptions</h3>
@@ -189,9 +168,9 @@ This will throw if the document cannot be created</h2>
 </div></div>
 </div>
 <a name="get" id="get"></a><div class="element clickable method public get" data-toggle="collapse" data-target=".get .collapse">
-<h2>Get a single document from a collection
-This will throw if the document cannot be fetched from the server</h2>
-<pre>get(mixed $collectionId, mixed $documentId) : <a href="../classes/db_%5Ctriagens%5CAvocado%5CDocument.html">\triagens\Avocado\Document</a></pre>
+<h2>Get information about a collection
+This will throw if the collection cannot be fetched from the server</h2>
+<pre>get(mixed $collectionId) : <a href="../classes/db_%5Ctriagens%5CAvocado%5CCollection.html">\triagens\Avocado\Collection</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="span8">
 <p class="long_description"></p>
@@ -202,12 +181,6 @@ This will throw if the document cannot be fetched from the server</h2>
 <li>collection id as a string or number</li>
 </ul>
 </div>
-<div class="subelement argument">
-<h4>$documentId</h4>
-<code>mixed</code><ul>
-<li>document identifier</li>
-</ul>
-</div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
 <th><code><a href="../classes/db_%5Ctriagens%5CAvocado%5CException.html">\triagens\Avocado\Exception</a></code></th>
@@ -215,13 +188,13 @@ This will throw if the document cannot be fetched from the server</h2>
 </tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
-<code><a href="../classes/db_%5Ctriagens%5CAvocado%5CDocument.html">\triagens\Avocado\Document</a></code>- the document fetched from the server</div>
+<code><a href="../classes/db_%5Ctriagens%5CAvocado%5CCollection.html">\triagens\Avocado\Collection</a></code>- the collection fetched from the server</div>
 </div></div>
 </div>
-<a name="getAllIds" id="getAllIds"></a><div class="element clickable method public getAllIds" data-toggle="collapse" data-target=".getAllIds .collapse">
-<h2>Get the list of all documents' ids from a collection
-This will throw if the list cannot be fetched from the server</h2>
-<pre>getAllIds(mixed $collectionId) : array</pre>
+<a name="getCount" id="getCount"></a><div class="element clickable method public getCount" data-toggle="collapse" data-target=".getCount .collapse">
+<h2>Get the number of documents in a collection
+This will throw if the collection cannot be fetched from the server</h2>
+<pre>getCount(mixed $collectionId) : int</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="span8">
 <p class="long_description"></p>
@@ -229,7 +202,7 @@ This will throw if the list cannot be fetched from the server</h2>
 <div class="subelement argument">
 <h4>$collectionId</h4>
 <code>mixed</code><ul>
-<li>collection id as string or number</li>
+<li>collection id as a string or number</li>
 </ul>
 </div>
 <h3>Exceptions</h3>
@@ -239,14 +212,13 @@ This will throw if the list cannot be fetched from the server</h2>
 </tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
-<code>array</code>- ids of documents in the collection</div>
+<code>int</code>- the number of documents in the collection</div>
 </div></div>
 </div>
-<a name="update" id="update"></a><div class="element clickable method public update" data-toggle="collapse" data-target=".update .collapse">
-<h2>Update an existing document in a collection
-This will update the document on the server
-This will throw if the document cannot be updated</h2>
-<pre>update(mixed $collectionId, Document $document, bool $policy) : bool</pre>
+<a name="getFigures" id="getFigures"></a><div class="element clickable method public getFigures" data-toggle="collapse" data-target=".getFigures .collapse">
+<h2>Get figures for a collection
+This will throw if the collection cannot be fetched from the server</h2>
+<pre>getFigures(mixed $collectionId) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="span8">
 <p class="long_description"></p>
@@ -254,19 +226,7 @@ This will throw if the document cannot be updated</h2>
 <div class="subelement argument">
 <h4>$collectionId</h4>
 <code>mixed</code><ul>
-<li>collection id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$document</h4>
-<code><a href="../classes/db_%5Ctriagens%5CAvocado%5CDocument.html">\triagens\Avocado\Document</a></code><ul>
-<li>document to be updated</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$policy</h4>
-<code>bool</code><ul>
-<li>update policy to be used in case of conflict</li>
+<li>collection id as a string or number</li>
 </ul>
 </div>
 <h3>Exceptions</h3>
@@ -276,30 +236,7 @@ This will throw if the document cannot be updated</h2>
 </tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
-<code>bool</code>- always true, will throw if there is an error</div>
-</div></div>
-</div>
-<a name="getDocumentId" id="getDocumentId"></a><div class="element clickable method private getDocumentId" data-toggle="collapse" data-target=".getDocumentId .collapse">
-<h2>Helper function to get a document id from a document or a document id value</h2>
-<pre>getDocumentId(mixed $document) : mixed</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="span8">
-<p class="long_description"></p>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$document</h4>
-<code>mixed</code><ul>
-<li>document id OR document to be updated</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/db_%5Ctriagens%5CAvocado%5CClientException.html">\triagens\Avocado\ClientException</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>- document id, will throw if there is an error</div>
+<code>array</code>- the figures for the collection</div>
 </div></div>
 </div>
 <h3>
@@ -318,14 +255,20 @@ This will throw if the document cannot be updated</h2>
 </div>
 <h3>
 <i class="icon-custom icon-constant"></i> Constants</h3>
-<a name="ENTRY_DOCUMENTS" id="ENTRY_DOCUMENTS"> </a><div class="element clickable constant  ENTRY_DOCUMENTS" data-toggle="collapse" data-target=".ENTRY_DOCUMENTS .collapse">
-<h2>documents array index</h2>
-<pre>ENTRY_DOCUMENTS </pre>
+<a name="OPTION_COUNT" id="OPTION_COUNT"> </a><div class="element clickable constant  OPTION_COUNT" data-toggle="collapse" data-target=".OPTION_COUNT .collapse">
+<h2>count option</h2>
+<pre>OPTION_COUNT </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+</div>
+<a name="OPTION_FIGURES" id="OPTION_FIGURES"> </a><div class="element clickable constant  OPTION_FIGURES" data-toggle="collapse" data-target=".OPTION_FIGURES .collapse">
+<h2>figures option</h2>
+<pre>OPTION_FIGURES </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
 </div>
 <a name="URL" id="URL"> </a><div class="element clickable constant  URL" data-toggle="collapse" data-target=".URL .collapse">
-<h2>URL base part for all document-related REST calls</h2>
+<h2>URL base part for all collection-related REST calls</h2>
 <pre>URL </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>

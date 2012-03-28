@@ -22,37 +22,32 @@ $connectionOptions = array(
 
 try {
   $connection = new Connection($connectionOptions);
-  $handler = new DocumentHandler($connection);
-
-  // get the ids of all documents in the collection
-  $result = $handler->getAllIds("fux");
-  var_dump($result);
-
-  // create a new document
-  $document = new Document();
-  $document->set("name", "fux");
-  $document->level = 1;
-  $document->vists = array(1, 2, 3);
-
-  $id = $handler->add("fux", $document);
-  var_dump("CREATED A NEW DOCUMENT WITH ID: ", $id);
-
-  // get this document from the server
-  $result = $handler->get("fux", $id);
-  var_dump($result);
-
-  // update this document
-  $document->nonsense = "hihi";
-  unset($document->name);
-  $result = $handler->update("fux", $document);
+  $handler = new CollectionHandler($connection);
+  
+  // get an existing collection
+  $result = $handler->get("peng");
   var_dump($result);
   
-  // get the updated document back
-  $result = $handler->get("fux", $id);
+  // get number of documents from an existing collection
+  $result = $handler->getCount("peng");
+  var_dump($result);
+  
+  // get figures for an existing collection
+  $result = $handler->getFigures("peng");
+  var_dump($result);
+  
+  // create a new collection
+  $col = new Collection();
+  $col->setName("hihi2");
+  $result = $handler->add($col);
+  var_dump($result);
+  
+  // get an existing collection
+  $result = $handler->get("hihi2");
   var_dump($result);
 
-  // delete the document
-  $result = $handler->delete("fux", $id);
+  // delete the collection
+  $result = $handler->delete("hihi2");
   var_dump($result);
 
 }

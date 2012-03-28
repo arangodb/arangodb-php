@@ -48,12 +48,17 @@ class ConnectionOptions implements \ArrayAccess {
   /**
    * "Create collections if they don't exist" index constant
    */
-  const OPTION_CREATE        = 'create';
+  const OPTION_CREATE        = 'createCollection';
   
   /**
    * Update policy index constant
    */
   const OPTION_UPDATE_POLICY = 'policy';
+  
+  /**
+   * Wait for sync index constant
+   */
+  const OPTION_WAIT_SYNC     = 'waitForSync';
   
   /**
    * Set defaults, use options provided by client and validate them
@@ -135,9 +140,10 @@ class ConnectionOptions implements \ArrayAccess {
     return array(
       self::OPTION_PORT          => DefaultValues::DEFAULT_PORT,
       self::OPTION_TIMEOUT       => DefaultValues::DEFAULT_TIMEOUT,
+      self::OPTION_CREATE        => DefaultValues::DEFAULT_CREATE,
+      self::OPTION_UPDATE_POLICY => DefaultValues::DEFAULT_UPDATE_POLICY,
+      self::OPTION_WAIT_SYNC     => DefaultValues::DEFAULT_WAIT_SYNC,
       self::OPTION_TRACE         => NULL,
-      self::OPTION_CREATE        => false,
-      self::OPTION_UPDATE_POLICY => UpdatePolicy::ERROR,
     );
   }
   

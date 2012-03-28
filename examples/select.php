@@ -8,6 +8,11 @@ require dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '
 $statements = array(
   "select f from fux f" => array(),
   "select u from users u" => NULL,
+  "select u from users u where u.id == 1 +@id@" => array("id" => 6),
+  "select u from users u where u.id == 2+ @id@" => array("id" => 6),
+  "select u from users u where u.id == 3+ @id@" => array("id" => 6),
+  "select u from users u where u.id == 4+ @id@" => array("id" => 6),
+  "select u from users u where u.id == 5+ @id@" => array("id" => 6),
   "select u from users u where u.id == @id@" => array("id" => 6),
   "select u from users u where u.id == @id@ && u.name != @name@" => array("id" => 6, "name" => "fux"),
 );
@@ -20,10 +25,10 @@ $traceFunc = function($type, $data) {
 
 /* set up connection options */
 $connectionOptions = array(
-  "port" => 9000,
-  "host" => "localhost",
-  "timeout" => 3,
-  "trace" => $traceFunc,
+  ConnectionOptions::OPTION_PORT            => 9000,
+  ConnectionOptions::OPTION_HOST            => "localhost",
+  ConnectionOptions::OPTION_TIMEOUT         => 3,
+  ConnectionOptions::OPTION_TRACE           => $traceFunc,
 );
 
 try {

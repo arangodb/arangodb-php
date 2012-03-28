@@ -104,7 +104,7 @@ class DocumentHandler {
     }
 
     $data = $document->getAll();
-    $params = array('collection' => $collectionId, 'createCollection' => $create ? "true" : "false");
+    $params = array('collection' => $collectionId, ConnectionOptions::OPTION_CREATE => $create ? "true" : "false");
     $url = UrlHelper::appendParamsUrl(self::URL, $params); 
     $response = $this->_connection->post($url, json_encode($data));
 
@@ -139,7 +139,7 @@ class DocumentHandler {
     
     $data = $document->getAll();
     $url = UrlHelper::buildUrl(self::URL, $collectionId, $documentId);
-    $url = UrlHelper::appendParamsUrl($url, array('policy' => $policy));
+    $url = UrlHelper::appendParamsUrl($url, array(ConnectionOptions::OPTION_UPDATE_POLICY => $policy));
     $result = $this->_connection->put($url, json_encode($data));
 
     return true;
