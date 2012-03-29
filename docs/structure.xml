@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project version="2.0.0a1" title="AvocadoDbPhpClient">
-  <file path="HttpHelper.php" hash="24eaaf9c08b241abc52858f45e49074f" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/HttpHelper.php" hash="24eaaf9c08b241abc52858f45e49074f" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: http helper methods]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -183,7 +183,7 @@ It is the caller's responsibility to close the socket]]></description>
       </method>
     </class>
   </file>
-  <file path="Scope.php" hash="9c1d90a6a50631c432ad18b4e73517e8" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/Scope.php" hash="9c1d90a6a50631c432ad18b4e73517e8" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: scope]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -351,7 +351,7 @@ Scopes should never be cloned so this is private]]></description>
       </method>
     </class>
   </file>
-  <file path="Exception.php" hash="4ae0b92de0ef29fd0e1cbc9ade4f150d" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/Exception.php" hash="4ae0b92de0ef29fd0e1cbc9ade4f150d" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: exception base class]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -370,7 +370,7 @@ Scopes should never be cloned so this is private]]></description>
       </docblock>
     </class>
   </file>
-  <file path="Autoloader.php" hash="c3cf4887599684e4c987bff5c05bd4db" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/Autoloader.php" hash="c3cf4887599684e4c987bff5c05bd4db" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: autoloader]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -459,7 +459,7 @@ Avocado PHP client.</p>]]></long-description>
       </method>
     </class>
   </file>
-  <file path="Collection.php" hash="0b8e367861d2bd51c0962b3b6a3c5780" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/Collection.php" hash="0b8e367861d2bd51c0962b3b6a3c5780" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: single collection]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -756,7 +756,7 @@ bigger than PHP_INT_MAX. To reliably store a collection id elsewhere, a PHP stri
       </method>
     </class>
   </file>
-  <file path="DefaultValues.php" hash="421d373a94b93e103cebb150fd6ee00f" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/DefaultValues.php" hash="421d373a94b93e103cebb150fd6ee00f" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: default values]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -815,7 +815,7 @@ bigger than PHP_INT_MAX. To reliably store a collection id elsewhere, a PHP stri
       </constant>
     </class>
   </file>
-  <file path="ServerException.php" hash="fdc124020f9cb342dad6d9188614eada" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/ServerException.php" hash="fdc124020f9cb342dad6d9188614eada" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: server exception]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -919,7 +919,7 @@ that occurred, this will return the server error string</p>]]></long-description
       </method>
     </class>
   </file>
-  <file path="Connection.php" hash="e89441a454dbffd69a4b64874f084020" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/Connection.php" hash="e89441a454dbffd69a4b64874f084020" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: connection]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -1163,7 +1163,7 @@ will restore it.</p>]]></long-description>
       </method>
     </class>
   </file>
-  <file path="UpdatePolicy.php" hash="27042cd64452c36649b310313285da61" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/UpdatePolicy.php" hash="27042cd64452c36649b310313285da61" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: update policies]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -1220,7 +1220,7 @@ will restore it.</p>]]></long-description>
       </method>
     </class>
   </file>
-  <file path="ValueValidator.php" hash="70a8bb3c9c392544c28cad73d1e95a33" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/ValueValidator.php" hash="70a8bb3c9c392544c28cad73d1e95a33" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: value validator]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -1262,7 +1262,7 @@ Allowed value types are string, integer, double and booleans. Arrays are also al
       </method>
     </class>
   </file>
-  <file path="CollectionHandler.php" hash="730de7b266135448f0cbe065303d12bc" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/CollectionHandler.php" hash="730de7b266135448f0cbe065303d12bc" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: collection handler]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -1450,7 +1450,7 @@ This will throw if the collection cannot be created]]></description>
       </method>
     </class>
   </file>
-  <file path="UrlHelper.php" hash="69ad211b21e8bc886cea278b13156a22" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/UrlHelper.php" hash="69ad211b21e8bc886cea278b13156a22" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: URL helper methods]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -1536,7 +1536,7 @@ Parameter values will be URL-encoded]]></description>
       </method>
     </class>
   </file>
-  <file path="Statement.php" hash="5387ad35dcd64bb437f900b9ad2fc7db" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/Statement.php" hash="5387ad35dcd64bb437f900b9ad2fc7db" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: statement]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -1905,7 +1905,7 @@ be accessed by the client with subsequent HTTP requests.]]></description>
       </method>
     </class>
   </file>
-  <file path="Cursor.php" hash="a721bcb7527bca338511c7f46cf95830" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/Cursor.php" hash="a721bcb7527bca338511c7f46cf95830" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: result set cursor]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -2242,7 +2242,7 @@ This will remove the _id and _rev attributes from the results if the
       </method>
     </class>
   </file>
-  <file path="DocumentHandler.php" hash="28c460509cf5676f4f9b2052e2bad4e7" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/DocumentHandler.php" hash="28c460509cf5676f4f9b2052e2bad4e7" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: document handler]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -2493,7 +2493,7 @@ This will throw if the document cannot be updated]]></description>
       </method>
     </class>
   </file>
-  <file path="BindVars.php" hash="81e0ec2e8215fde925aad0c0ffc136a0" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/BindVars.php" hash="81e0ec2e8215fde925aad0c0ffc136a0" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: bind variables]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -2598,7 +2598,7 @@ than these types.</p>]]></long-description>
       </method>
     </class>
   </file>
-  <file path="ConnectionOptions.php" hash="c68503860f9de51eb4960f293a428f6d" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/ConnectionOptions.php" hash="c68503860f9de51eb4960f293a428f6d" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: connection options]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -2838,7 +2838,7 @@ It provides array access to its members.</p>]]></long-description>
       </method>
     </class>
   </file>
-  <file path="ConnectException.php" hash="806d7555dc31ab803c62ad8d8040997e" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/ConnectException.php" hash="806d7555dc31ab803c62ad8d8040997e" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: connect exception]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -2858,7 +2858,7 @@ during connecting to the server]]></description>
       </docblock>
     </class>
   </file>
-  <file path="Document.php" hash="af2e26ba551f4a03be0c3eae74fc7983" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/Document.php" hash="af2e26ba551f4a03be0c3eae74fc7983" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: single document]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -3228,7 +3228,7 @@ bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string
       </method>
     </class>
   </file>
-  <file path="ClientException.php" hash="01dd71bdbfef5d8500d646b7622a76d9" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/ClientException.php" hash="01dd71bdbfef5d8500d646b7622a76d9" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: client exception]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -3248,7 +3248,7 @@ on the client side, i.e. something the server is not involved in.]]></descriptio
       </docblock>
     </class>
   </file>
-  <file path="HttpResponse.php" hash="3be2611e4a1ca3cfb05bf987c9fd683b" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/HttpResponse.php" hash="3be2611e4a1ca3cfb05bf987c9fd683b" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: HTTP response]]></description>
       <long-description><![CDATA[]]></long-description>

@@ -33,21 +33,21 @@
 </g>
 <!-- \\triagens\\Avocado\\HttpHelper -->
 <g id="node3" class="node"><title>\\triagens\\Avocado\\HttpHelper</title>
-<a xlink:href="db_HttpHelper.html" xlink:title="HttpHelper" target="_parent">
+<a xlink:href="db_triagens_Avocado_HttpHelper.html" xlink:title="HttpHelper" target="_parent">
 <polygon fill="none" stroke="black" points="436,-1086 352,-1086 352,-1050 436,-1050 436,-1086"/>
 <text text-anchor="middle" x="394" y="-1065.1" font-family="Courier,monospace" font-size="11.00">HttpHelper</text>
 </a>
 </g>
 <!-- \\triagens\\Avocado\\Scope -->
 <g id="node4" class="node"><title>\\triagens\\Avocado\\Scope</title>
-<a xlink:href="db_Scope.html" xlink:title="Scope" target="_parent">
+<a xlink:href="db_triagens_Avocado_Scope.html" xlink:title="Scope" target="_parent">
 <polygon fill="none" stroke="black" points="421,-1032 367,-1032 367,-996 421,-996 421,-1032"/>
 <text text-anchor="middle" x="394" y="-1011.1" font-family="Courier,monospace" font-size="11.00">Scope</text>
 </a>
 </g>
 <!-- \\triagens\\Avocado\\Exception -->
 <g id="node5" class="node"><title>\\triagens\\Avocado\\Exception</title>
-<a xlink:href="db_Exception.html" xlink:title="Exception" target="_parent">
+<a xlink:href="db_triagens_Avocado_Exception.html" xlink:title="Exception" target="_parent">
 <polygon fill="none" stroke="black" points="255,-222 179,-222 179,-186 255,-186 255,-222"/>
 <text text-anchor="middle" x="217" y="-201.1" font-family="Courier,monospace" font-size="11.00">Exception</text>
 </a>
@@ -64,21 +64,21 @@
 </g>
 <!-- \\triagens\\Avocado\\Autoloader -->
 <g id="node6" class="node"><title>\\triagens\\Avocado\\Autoloader</title>
-<a xlink:href="db_Autoloader.html" xlink:title="Autoloader" target="_parent">
+<a xlink:href="db_triagens_Avocado_Autoloader.html" xlink:title="Autoloader" target="_parent">
 <polygon fill="none" stroke="black" points="436,-978 352,-978 352,-942 436,-942 436,-978"/>
 <text text-anchor="middle" x="394" y="-957.1" font-family="Courier,monospace" font-size="11.00">Autoloader</text>
 </a>
 </g>
 <!-- \\triagens\\Avocado\\Collection -->
 <g id="node7" class="node"><title>\\triagens\\Avocado\\Collection</title>
-<a xlink:href="db_Collection.html" xlink:title="Collection" target="_parent">
+<a xlink:href="db_triagens_Avocado_Collection.html" xlink:title="Collection" target="_parent">
 <polygon fill="none" stroke="black" points="436,-924 352,-924 352,-888 436,-888 436,-924"/>
 <text text-anchor="middle" x="394" y="-903.1" font-family="Courier,monospace" font-size="11.00">Collection</text>
 </a>
 </g>
 <!-- \\triagens\\Avocado\\DefaultValues -->
 <g id="node8" class="node"><title>\\triagens\\Avocado\\DefaultValues</title>
-<a xlink:href="db_DefaultValues.html" xlink:title="«abstract»&lt;br/&gt;DefaultValues" target="_parent">
+<a xlink:href="db_triagens_Avocado_DefaultValues.html" xlink:title="«abstract»&lt;br/&gt;DefaultValues" target="_parent">
 <polygon fill="none" stroke="black" points="446,-870 342,-870 342,-834 446,-834 446,-870"/>
 <text text-anchor="start" x="360" y="-857.433" font-family="Courier,monospace" font-size="11.00">«abstract»</text>
 <text text-anchor="start" x="350" y="-844.233" font-family="Courier,monospace" font-size="11.00">DefaultValues</text>
@@ -86,7 +86,7 @@
 </g>
 <!-- \\triagens\\Avocado\\ServerException -->
 <g id="node9" class="node"><title>\\triagens\\Avocado\\ServerException</title>
-<a xlink:href="db_ServerException.html" xlink:title="ServerException" target="_parent">
+<a xlink:href="db_triagens_Avocado_ServerException.html" xlink:title="ServerException" target="_parent">
 <polygon fill="none" stroke="black" points="453,-816 335,-816 335,-780 453,-780 453,-816"/>
 <text text-anchor="middle" x="394" y="-795.1" font-family="Courier,monospace" font-size="11.00">ServerException</text>
 </a>
@@ -98,35 +98,35 @@
 </g>
 <!-- \\triagens\\Avocado\\Connection -->
 <g id="node10" class="node"><title>\\triagens\\Avocado\\Connection</title>
-<a xlink:href="db_Connection.html" xlink:title="Connection" target="_parent">
+<a xlink:href="db_triagens_Avocado_Connection.html" xlink:title="Connection" target="_parent">
 <polygon fill="none" stroke="black" points="436,-762 352,-762 352,-726 436,-726 436,-762"/>
 <text text-anchor="middle" x="394" y="-741.1" font-family="Courier,monospace" font-size="11.00">Connection</text>
 </a>
 </g>
 <!-- \\triagens\\Avocado\\UpdatePolicy -->
 <g id="node11" class="node"><title>\\triagens\\Avocado\\UpdatePolicy</title>
-<a xlink:href="db_UpdatePolicy.html" xlink:title="UpdatePolicy" target="_parent">
+<a xlink:href="db_triagens_Avocado_UpdatePolicy.html" xlink:title="UpdatePolicy" target="_parent">
 <polygon fill="none" stroke="black" points="443,-708 345,-708 345,-672 443,-672 443,-708"/>
 <text text-anchor="middle" x="394" y="-687.1" font-family="Courier,monospace" font-size="11.00">UpdatePolicy</text>
 </a>
 </g>
 <!-- \\triagens\\Avocado\\ValueValidator -->
 <g id="node12" class="node"><title>\\triagens\\Avocado\\ValueValidator</title>
-<a xlink:href="db_ValueValidator.html" xlink:title="ValueValidator" target="_parent">
+<a xlink:href="db_triagens_Avocado_ValueValidator.html" xlink:title="ValueValidator" target="_parent">
 <polygon fill="none" stroke="black" points="449,-654 339,-654 339,-618 449,-618 449,-654"/>
 <text text-anchor="middle" x="394" y="-633.1" font-family="Courier,monospace" font-size="11.00">ValueValidator</text>
 </a>
 </g>
 <!-- \\triagens\\Avocado\\CollectionHandler -->
 <g id="node13" class="node"><title>\\triagens\\Avocado\\CollectionHandler</title>
-<a xlink:href="db_CollectionHandler.html" xlink:title="CollectionHandler" target="_parent">
+<a xlink:href="db_triagens_Avocado_CollectionHandler.html" xlink:title="CollectionHandler" target="_parent">
 <polygon fill="none" stroke="black" points="459,-600 329,-600 329,-564 459,-564 459,-600"/>
 <text text-anchor="middle" x="394" y="-579.1" font-family="Courier,monospace" font-size="11.00">CollectionHandler</text>
 </a>
 </g>
 <!-- \\triagens\\Avocado\\URLHelper -->
 <g id="node14" class="node"><title>\\triagens\\Avocado\\URLHelper</title>
-<a xlink:href="db_UrlHelper.html" xlink:title="«abstract»&lt;br/&gt;URLHelper" target="_parent">
+<a xlink:href="db_triagens_Avocado_UrlHelper.html" xlink:title="«abstract»&lt;br/&gt;URLHelper" target="_parent">
 <polygon fill="none" stroke="black" points="436,-546 352,-546 352,-510 436,-510 436,-546"/>
 <text text-anchor="start" x="360" y="-533.433" font-family="Courier,monospace" font-size="11.00">«abstract»</text>
 <text text-anchor="start" x="363.5" y="-520.233" font-family="Courier,monospace" font-size="11.00">URLHelper</text>
@@ -134,42 +134,42 @@
 </g>
 <!-- \\triagens\\Avocado\\Statement -->
 <g id="node15" class="node"><title>\\triagens\\Avocado\\Statement</title>
-<a xlink:href="db_Statement.html" xlink:title="Statement" target="_parent">
+<a xlink:href="db_triagens_Avocado_Statement.html" xlink:title="Statement" target="_parent">
 <polygon fill="none" stroke="black" points="432,-492 356,-492 356,-456 432,-456 432,-492"/>
 <text text-anchor="middle" x="394" y="-471.1" font-family="Courier,monospace" font-size="11.00">Statement</text>
 </a>
 </g>
 <!-- \\triagens\\Avocado\\Cursor -->
 <g id="node16" class="node"><title>\\triagens\\Avocado\\Cursor</title>
-<a xlink:href="db_Cursor.html" xlink:title="Cursor" target="_parent">
+<a xlink:href="db_triagens_Avocado_Cursor.html" xlink:title="Cursor" target="_parent">
 <polygon fill="none" stroke="black" points="422,-438 366,-438 366,-402 422,-402 422,-438"/>
 <text text-anchor="middle" x="394" y="-417.1" font-family="Courier,monospace" font-size="11.00">Cursor</text>
 </a>
 </g>
 <!-- \\triagens\\Avocado\\DocumentHandler -->
 <g id="node17" class="node"><title>\\triagens\\Avocado\\DocumentHandler</title>
-<a xlink:href="db_DocumentHandler.html" xlink:title="DocumentHandler" target="_parent">
+<a xlink:href="db_triagens_Avocado_DocumentHandler.html" xlink:title="DocumentHandler" target="_parent">
 <polygon fill="none" stroke="black" points="453,-384 335,-384 335,-348 453,-348 453,-384"/>
 <text text-anchor="middle" x="394" y="-363.1" font-family="Courier,monospace" font-size="11.00">DocumentHandler</text>
 </a>
 </g>
 <!-- \\triagens\\Avocado\\BindVars -->
 <g id="node18" class="node"><title>\\triagens\\Avocado\\BindVars</title>
-<a xlink:href="db_BindVars.html" xlink:title="BindVars" target="_parent">
+<a xlink:href="db_triagens_Avocado_BindVars.html" xlink:title="BindVars" target="_parent">
 <polygon fill="none" stroke="black" points="429,-330 359,-330 359,-294 429,-294 429,-330"/>
 <text text-anchor="middle" x="394" y="-309.1" font-family="Courier,monospace" font-size="11.00">BindVars</text>
 </a>
 </g>
 <!-- \\triagens\\Avocado\\ConnectionOptions -->
 <g id="node19" class="node"><title>\\triagens\\Avocado\\ConnectionOptions</title>
-<a xlink:href="db_ConnectionOptions.html" xlink:title="ConnectionOptions" target="_parent">
+<a xlink:href="db_triagens_Avocado_ConnectionOptions.html" xlink:title="ConnectionOptions" target="_parent">
 <polygon fill="none" stroke="black" points="459,-276 329,-276 329,-240 459,-240 459,-276"/>
 <text text-anchor="middle" x="394" y="-255.1" font-family="Courier,monospace" font-size="11.00">ConnectionOptions</text>
 </a>
 </g>
 <!-- \\triagens\\Avocado\\ConnectException -->
 <g id="node20" class="node"><title>\\triagens\\Avocado\\ConnectException</title>
-<a xlink:href="db_ConnectException.html" xlink:title="ConnectException" target="_parent">
+<a xlink:href="db_triagens_Avocado_ConnectException.html" xlink:title="ConnectException" target="_parent">
 <polygon fill="none" stroke="black" points="456,-222 332,-222 332,-186 456,-186 456,-222"/>
 <text text-anchor="middle" x="394" y="-201.1" font-family="Courier,monospace" font-size="11.00">ConnectException</text>
 </a>
@@ -181,14 +181,14 @@
 </g>
 <!-- \\triagens\\Avocado\\Document -->
 <g id="node21" class="node"><title>\\triagens\\Avocado\\Document</title>
-<a xlink:href="db_Document.html" xlink:title="Document" target="_parent">
+<a xlink:href="db_triagens_Avocado_Document.html" xlink:title="Document" target="_parent">
 <polygon fill="none" stroke="black" points="429,-168 359,-168 359,-132 429,-132 429,-168"/>
 <text text-anchor="middle" x="394" y="-147.1" font-family="Courier,monospace" font-size="11.00">Document</text>
 </a>
 </g>
 <!-- \\triagens\\Avocado\\ClientException -->
 <g id="node22" class="node"><title>\\triagens\\Avocado\\ClientException</title>
-<a xlink:href="db_ClientException.html" xlink:title="ClientException" target="_parent">
+<a xlink:href="db_triagens_Avocado_ClientException.html" xlink:title="ClientException" target="_parent">
 <polygon fill="none" stroke="black" points="453,-114 335,-114 335,-78 453,-78 453,-114"/>
 <text text-anchor="middle" x="394" y="-93.1" font-family="Courier,monospace" font-size="11.00">ClientException</text>
 </a>
@@ -200,7 +200,7 @@
 </g>
 <!-- \\triagens\\Avocado\\HttpResponse -->
 <g id="node23" class="node"><title>\\triagens\\Avocado\\HttpResponse</title>
-<a xlink:href="db_HttpResponse.html" xlink:title="HttpResponse" target="_parent">
+<a xlink:href="db_triagens_Avocado_HttpResponse.html" xlink:title="HttpResponse" target="_parent">
 <polygon fill="none" stroke="black" points="443,-60 345,-60 345,-24 443,-24 443,-60"/>
 <text text-anchor="middle" x="394" y="-39.1" font-family="Courier,monospace" font-size="11.00">HttpResponse</text>
 </a>
