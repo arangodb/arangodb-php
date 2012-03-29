@@ -2,7 +2,7 @@
 
 namespace triagens\Avocado;
 
-require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'Autoloader.php';
+require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'triagens' . DIRECTORY_SEPARATOR . 'Avocado' . DIRECTORY_SEPARATOR . 'Autoloader.php';
 
 Autoloader::init();
 
