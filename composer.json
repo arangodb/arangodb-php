@@ -2,7 +2,7 @@
   "name": "triagens/Avocado",
   "type": "library",
   "description": "AvocadoDB PHP client",
-  "keywords": ["database","AvocadoDB"],
+  "keywords": ["database","AvocadoDB","document","NoSQL"],
   "homepage": "https://github.com/triAGENS/AvocadoDB-PHP",
   "license": "Apache2",
   "authors": [
