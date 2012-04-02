@@ -117,7 +117,7 @@ class Statement {
    */
   public function execute() {
     $data = $this->buildData();
-    $response = $this->_connection->post(Cursor::URL, json_encode($data));
+    $response = $this->_connection->post(Urls::URL_CURSOR, json_encode($data));
 
     return new Cursor($this->_connection, $response->getJson(), $this->getCursorOptions());
   }

@@ -62,4 +62,14 @@ abstract class URLHelper {
     return $url;
   }
 
+  /**
+   * Get a string from a boolean value
+   *
+   * @param mixed $value - the value
+   * @return string - "true" if $value evaluates to true, "false" otherwise
+   */
+  public static function getBoolString($value) {
+    return $value ? 'true' : 'false';
+  }
+
 }

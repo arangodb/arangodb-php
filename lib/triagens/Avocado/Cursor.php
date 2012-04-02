@@ -62,10 +62,6 @@ class Cursor implements \Iterator {
    */
   private $_length;
 
-  /**
-   * base URL part for cursor related operations
-   */
-  const URL             = '/_api/cursor'; 
 
   /**
    * result entry for cursor id, result row entry for document id
@@ -130,7 +126,7 @@ class Cursor implements \Iterator {
   public function delete() {
     if ($this->_id) {
       try {
-        $this->_connection->delete(self::URL . '/' . $this->_id);
+        $this->_connection->delete(Urls::URL_CURSOR . '/' . $this->_id);
         return true;
       } 
       catch (Exception $e) {
@@ -259,7 +255,7 @@ class Cursor implements \Iterator {
    */
   private function fetchOutstanding() {
     // continuation
-    $response = $this->_connection->put(self::URL . "/" . $this->_id, '');
+    $response = $this->_connection->put(Urls::URL_CURSOR . "/" . $this->_id, '');
     $data = $response->getJson();
 
     $this->_hasMore = (bool) $data[self::ENTRY_HASMORE];
