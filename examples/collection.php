@@ -49,7 +49,12 @@ try {
   // delete the collection
   $result = $handler->delete("hihi2");
   var_dump($result);
-
+  
+  // rename a collection
+  // $handler->rename($col,"hihi30");
+  
+  // truncate an existing collection
+  // $result = $handler->truncate("foo");
 }
 catch (ConnectException $e) {
   var_dump($e->getMessage());

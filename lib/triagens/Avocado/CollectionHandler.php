@@ -38,6 +38,16 @@ class CollectionHandler {
    * figures option
    */
   const OPTION_FIGURES   = 'figures';
+  
+  /**
+   * truncate option
+   */
+  const OPTION_TRUNCATE  = 'truncate';
+  
+  /**
+   * rename option
+   */
+  const OPTION_RENAME    = 'rename';
 
   /**
    * Construct a new collection handler
@@ -152,5 +162,55 @@ class CollectionHandler {
 
     return true;
   }
+  
+  /**
+   * Rename a collection
+   *
+   * @throws Exception
+   * @param mixed $collection - collection id as string or number or collection object
+   * @param string $name - new name for collection
+   * @return bool - always true, will throw if there is an error
+   */
+  public function rename($collection, $name) {
+    if ($collection instanceof Collection) {
+      $collectionId = $collection->getId();
+    }
+    else {
+      $collectionId = $collection;
+    }
 
+    if (!$collectionId || !(is_string($collectionId) || is_double($collectionId) || is_int($collectionId))) {
+      throw new ClientException('Cannot alter a collection without a collection id');
+    }
+
+    $params = array(Collection::ENTRY_NAME => $newName);
+    $result = $this->_connection->put(UrlHelper::buildUrl(self::URL, $collectionId, self::OPTION_RENAME), json_encode($params));
+
+    return true;
+  }
+
+  /**
+   * Truncate a collection
+   * This will remove all documents from the collection but will leave the metadata and indexes intact.
+   *
+   * @throws Exception
+   * @param mixed $collection - collection id as string or number or collection object
+   * @return bool - always true, will throw if there is an error
+   */
+  public function truncate($collection) {
+    if ($collection instanceof Collection) {
+      $collectionId = $collection->getId();
+    }
+    else {
+      $collectionId = $collection;
+    }
+
+    if (!$collectionId || !(is_string($collectionId) || is_double($collectionId) || is_int($collectionId))) {
+      throw new ClientException('Cannot alter a collection without a collection id');
+    }
+
+    $result = $this->_connection->put(UrlHelper::buildUrl(self::URL, $collectionId, self::OPTION_TRUNCATE), '');
+
+    return true;
+  }
 }

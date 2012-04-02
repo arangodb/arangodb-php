@@ -70,6 +70,10 @@ This will throw if the collection cannot be fetched from the server</span><pre>g
 <li class="method public "><a href="#getFigures" title="getFigures :: Get figures for a collection
 This will throw if the collection cannot be fetched from the server"><span class="description">Get figures for a collection
 This will throw if the collection cannot be fetched from the server</span><pre>getFigures()</pre></a></li>
+<li class="method public "><a href="#rename" title="rename :: Rename a collection"><span class="description">Rename a collection</span><pre>rename()</pre></a></li>
+<li class="method public "><a href="#truncate" title="truncate :: Truncate a collection
+This will remove all documents from the collection but will leave the metadata and indexes intact."><span class="description">Truncate a collection
+This will remove all documents from the collection but will leave the metadata and indexes intact.</span><pre>truncate()</pre></a></li>
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties</li>
 <li class="nav-header private">» Private</li>
@@ -78,6 +82,8 @@ This will throw if the collection cannot be fetched from the server</span><pre>g
 <i class="icon-custom icon-constant"></i> Constants</li>
 <li class="constant  "><a href="#OPTION_COUNT" title="OPTION_COUNT :: count option"><span class="description">count option</span><pre>OPTION_COUNT</pre></a></li>
 <li class="constant  "><a href="#OPTION_FIGURES" title="OPTION_FIGURES :: figures option"><span class="description">figures option</span><pre>OPTION_FIGURES</pre></a></li>
+<li class="constant  "><a href="#OPTION_RENAME" title="OPTION_RENAME :: rename option"><span class="description">rename option</span><pre>OPTION_RENAME</pre></a></li>
+<li class="constant  "><a href="#OPTION_TRUNCATE" title="OPTION_TRUNCATE :: truncate option"><span class="description">truncate option</span><pre>OPTION_TRUNCATE</pre></a></li>
 <li class="constant  "><a href="#URL" title="URL :: URL base part for all collection-related REST calls"><span class="description">URL base part for all collection-related REST calls</span><pre>URL</pre></a></li>
 </ul>
 </div>
@@ -239,6 +245,59 @@ This will throw if the collection cannot be fetched from the server</h2>
 <code>array</code>- the figures for the collection</div>
 </div></div>
 </div>
+<a name="rename" id="rename"></a><div class="element clickable method public rename" data-toggle="collapse" data-target=".rename .collapse">
+<h2>Rename a collection</h2>
+<pre>rename(mixed $collection, string $name) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collection</h4>
+<code>mixed</code><ul>
+<li>collection id as string or number or collection object</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code><ul>
+<li>new name for collection</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/db_%5Ctriagens%5CAvocado%5CException.html">\triagens\Avocado\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>bool</code>- always true, will throw if there is an error</div>
+</div></div>
+</div>
+<a name="truncate" id="truncate"></a><div class="element clickable method public truncate" data-toggle="collapse" data-target=".truncate .collapse">
+<h2>Truncate a collection
+This will remove all documents from the collection but will leave the metadata and indexes intact.</h2>
+<pre>truncate(mixed $collection) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collection</h4>
+<code>mixed</code><ul>
+<li>collection id as string or number or collection object</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/db_%5Ctriagens%5CAvocado%5CException.html">\triagens\Avocado\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>bool</code>- always true, will throw if there is an error</div>
+</div></div>
+</div>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
 <a name="%24_connection" id="$_connection"> </a><div class="element clickable property private $_connection" data-toggle="collapse" data-target=".$_connection .collapse">
@@ -267,6 +326,18 @@ This will throw if the collection cannot be fetched from the server</h2>
 <div class="labels"></div>
 <div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
 </div>
+<a name="OPTION_RENAME" id="OPTION_RENAME"> </a><div class="element clickable constant  OPTION_RENAME" data-toggle="collapse" data-target=".OPTION_RENAME .collapse">
+<h2>rename option</h2>
+<pre>OPTION_RENAME </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+</div>
+<a name="OPTION_TRUNCATE" id="OPTION_TRUNCATE"> </a><div class="element clickable constant  OPTION_TRUNCATE" data-toggle="collapse" data-target=".OPTION_TRUNCATE .collapse">
+<h2>truncate option</h2>
+<pre>OPTION_TRUNCATE </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+</div>
 <a name="URL" id="URL"> </a><div class="element clickable constant  URL" data-toggle="collapse" data-target=".URL .collapse">
 <h2>URL base part for all collection-related REST calls</h2>
 <pre>URL </pre>
@@ -280,7 +351,7 @@ This will throw if the collection cannot be fetched from the server</h2>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a1</a> and<br>
-            generated on 2012-03-29T16:45:44+02:00.<br></footer></div>
+            generated on 2012-04-02T17:53:15+02:00.<br></footer></div>
 </div>
 </body>
 </html>

@@ -1262,7 +1262,7 @@ Allowed value types are string, integer, double and booleans. Arrays are also al
       </method>
     </class>
   </file>
-  <file path="triagens/Avocado/CollectionHandler.php" hash="730de7b266135448f0cbe065303d12bc" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/CollectionHandler.php" hash="343d13c4c67537080361638d51250e3a" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: collection handler]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -1305,6 +1305,22 @@ appropriate HTTP requests to the server.]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </constant>
+      <constant namespace="triagens\Avocado" line="45" package="Default">
+        <name>OPTION_TRUNCATE</name>
+        <value><![CDATA['truncate']]></value>
+        <docblock line="42">
+          <description><![CDATA[truncate option]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="triagens\Avocado" line="50" package="Default">
+        <name>OPTION_RENAME</name>
+        <value><![CDATA['rename']]></value>
+        <docblock line="47">
+          <description><![CDATA[rename option]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
       <property final="false" static="false" visibility="private" line="25" package="Default">
         <name>$_connection</name>
         <default><![CDATA[]]></default>
@@ -1314,135 +1330,188 @@ appropriate HTTP requests to the server.]]></description>
           <tag line="21" name="param" description="Connection" type="" variable=""/>
         </docblock>
       </property>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="48" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="58" package="">
         <name>__construct</name>
         <type>function</type>
-        <docblock line="42">
+        <docblock line="52">
           <description><![CDATA[Construct a new collection handler]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="42" name="param" description="- connection to be used" type="\triagens\Avocado\Connection" variable="$connection">
+          <tag line="52" name="param" description="- connection to be used" type="\triagens\Avocado\Connection" variable="$connection">
             <type by_reference="false">\triagens\Avocado\Connection</type>
           </tag>
-          <tag line="42" name="return" description="" type="void">
+          <tag line="52" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="48">
+        <argument line="58">
           <name>$connection</name>
           <default><![CDATA[]]></default>
           <type>Connection</type>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="60" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="70" package="">
         <name>get</name>
         <type>function</type>
-        <docblock line="52">
+        <docblock line="62">
           <description><![CDATA[Get information about a collection
 This will throw if the collection cannot be fetched from the server]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="52" name="throws" description="" type="\triagens\Avocado\Exception">
+          <tag line="62" name="throws" description="" type="\triagens\Avocado\Exception">
             <type by_reference="false">\triagens\Avocado\Exception</type>
           </tag>
-          <tag line="52" name="param" description="- collection id as a string or number" type="mixed" variable="$collectionId">
+          <tag line="62" name="param" description="- collection id as a string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="52" name="return" description="- the collection fetched from the server" type="\triagens\Avocado\Collection">
+          <tag line="62" name="return" description="- the collection fetched from the server" type="\triagens\Avocado\Collection">
             <type by_reference="false">\triagens\Avocado\Collection</type>
           </tag>
         </docblock>
-        <argument line="60">
+        <argument line="70">
           <name>$collectionId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="77" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="87" package="">
         <name>getCount</name>
         <type>function</type>
-        <docblock line="69">
+        <docblock line="79">
           <description><![CDATA[Get the number of documents in a collection
 This will throw if the collection cannot be fetched from the server]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="69" name="throws" description="" type="\triagens\Avocado\Exception">
+          <tag line="79" name="throws" description="" type="\triagens\Avocado\Exception">
             <type by_reference="false">\triagens\Avocado\Exception</type>
           </tag>
-          <tag line="69" name="param" description="- collection id as a string or number" type="mixed" variable="$collectionId">
+          <tag line="79" name="param" description="- collection id as a string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="69" name="return" description="- the number of documents in the collection" type="int">
+          <tag line="79" name="return" description="- the number of documents in the collection" type="int">
             <type by_reference="false">int</type>
           </tag>
         </docblock>
-        <argument line="77">
+        <argument line="87">
           <name>$collectionId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="95" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="105" package="">
         <name>getFigures</name>
         <type>function</type>
-        <docblock line="87">
+        <docblock line="97">
           <description><![CDATA[Get figures for a collection
 This will throw if the collection cannot be fetched from the server]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="87" name="throws" description="" type="\triagens\Avocado\Exception">
+          <tag line="97" name="throws" description="" type="\triagens\Avocado\Exception">
             <type by_reference="false">\triagens\Avocado\Exception</type>
           </tag>
-          <tag line="87" name="param" description="- collection id as a string or number" type="mixed" variable="$collectionId">
+          <tag line="97" name="param" description="- collection id as a string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="87" name="return" description="- the figures for the collection" type="array">
+          <tag line="97" name="return" description="- the figures for the collection" type="array">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
-        <argument line="95">
+        <argument line="105">
           <name>$collectionId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="114" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="124" package="">
         <name>add</name>
         <type>function</type>
-        <docblock line="105">
+        <docblock line="115">
           <description><![CDATA[Adds a new collection on the server
 This will add the collection on the server and return its id
 This will throw if the collection cannot be created]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="105" name="throws" description="" type="\triagens\Avocado\Exception">
+          <tag line="115" name="throws" description="" type="\triagens\Avocado\Exception">
             <type by_reference="false">\triagens\Avocado\Exception</type>
           </tag>
-          <tag line="105" name="param" description="- collection object to be created on the server" type="\triagens\Avocado\Collection" variable="$collection">
+          <tag line="115" name="param" description="- collection object to be created on the server" type="\triagens\Avocado\Collection" variable="$collection">
             <type by_reference="false">\triagens\Avocado\Collection</type>
           </tag>
-          <tag line="105" name="return" description="- id of collection created" type="mixed">
+          <tag line="115" name="return" description="- id of collection created" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
         </docblock>
-        <argument line="114">
+        <argument line="124">
           <name>$collection</name>
           <default><![CDATA[]]></default>
           <type>Collection</type>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="139" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="149" package="">
         <name>delete</name>
         <type>function</type>
-        <docblock line="132">
+        <docblock line="142">
           <description><![CDATA[Delete a collection]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="132" name="throws" description="" type="\triagens\Avocado\Exception">
+          <tag line="142" name="throws" description="" type="\triagens\Avocado\Exception">
             <type by_reference="false">\triagens\Avocado\Exception</type>
           </tag>
-          <tag line="132" name="param" description="- collection id as string or number or collection object" type="mixed" variable="$collection">
+          <tag line="142" name="param" description="- collection id as string or number or collection object" type="mixed" variable="$collection">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="132" name="return" description="- always true, will throw if there is an error" type="bool">
+          <tag line="142" name="return" description="- always true, will throw if there is an error" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
-        <argument line="139">
+        <argument line="149">
+          <name>$collection</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="174" package="">
+        <name>rename</name>
+        <type>function</type>
+        <docblock line="166">
+          <description><![CDATA[Rename a collection]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="166" name="throws" description="" type="\triagens\Avocado\Exception">
+            <type by_reference="false">\triagens\Avocado\Exception</type>
+          </tag>
+          <tag line="166" name="param" description="- collection id as string or number or collection object" type="mixed" variable="$collection">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="166" name="param" description="- new name for collection" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="166" name="return" description="- always true, will throw if there is an error" type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="174">
+          <name>$collection</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="174">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="200" package="">
+        <name>truncate</name>
+        <type>function</type>
+        <docblock line="192">
+          <description><![CDATA[Truncate a collection
+This will remove all documents from the collection but will leave the metadata and indexes intact.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="192" name="throws" description="" type="\triagens\Avocado\Exception">
+            <type by_reference="false">\triagens\Avocado\Exception</type>
+          </tag>
+          <tag line="192" name="param" description="- collection id as string or number or collection object" type="mixed" variable="$collection">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="192" name="return" description="- always true, will throw if there is an error" type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="200">
           <name>$collection</name>
           <default><![CDATA[]]></default>
           <type/>
