@@ -60,6 +60,7 @@
 <li class="method public "><a href="#getHeaders" title="getHeaders :: Return the HTTP headers of the response"><span class="description">Return the HTTP headers of the response</span><pre>getHeaders()</pre></a></li>
 <li class="method public "><a href="#getHttpCode" title="getHttpCode :: Return the HTTP status code of the response"><span class="description">Return the HTTP status code of the response</span><pre>getHttpCode()</pre></a></li>
 <li class="method public "><a href="#getJson" title="getJson :: Return the data from the JSON-encoded body"><span class="description">Return the data from the JSON-encoded body</span><pre>getJson()</pre></a></li>
+<li class="method public "><a href="#getLocationHeader" title="getLocationHeader :: Return the location HTTP header of the response"><span class="description">Return the location HTTP header of the response</span><pre>getLocationHeader()</pre></a></li>
 <li class="method public "><a href="#getResult" title="getResult :: Return the result line (first header line) of the response"><span class="description">Return the result line (first header line) of the response</span><pre>getResult()</pre></a></li>
 <li class="nav-header private">» Private</li>
 <li class="method private "><a href="#setupHeaders" title="setupHeaders :: Set up an array of HTTP headers"><span class="description">Set up an array of HTTP headers</span><pre>setupHeaders()</pre></a></li>
@@ -73,7 +74,7 @@
 <li class="property private "><a href="#%24_result" title="$_result :: The result statusline (first line of HTTP response header)"><span class="description">The result statusline (first line of HTTP response header)</span><pre>$_result</pre></a></li>
 <li class="nav-header">
 <i class="icon-custom icon-constant"></i> Constants</li>
-<li class="constant  "><a href="#SEPARATOR" title="SEPARATOR :: "><span class="description">SEPARATOR</span><pre>SEPARATOR</pre></a></li>
+<li class="constant  "><a href="#HEADER_LOCATION" title="HEADER_LOCATION :: HTTP location header"><span class="description">HTTP location header</span><pre>HEADER_LOCATION</pre></a></li>
 </ul>
 </div>
 <div class="span8">
@@ -184,6 +185,17 @@
 <code>array</code>- array of values from the JSON-encoded response body</div>
 </div></div>
 </div>
+<a name="getLocationHeader" id="getLocationHeader"></a><div class="element clickable method public getLocationHeader" data-toggle="collapse" data-target=".getLocationHeader .collapse">
+<h2>Return the location HTTP header of the response</h2>
+<pre>getLocationHeader() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>- header value, NULL is header wasn't set in response</div>
+</div></div>
+</div>
 <a name="getResult" id="getResult"></a><div class="element clickable method public getResult" data-toggle="collapse" data-target=".getResult .collapse">
 <h2>Return the result line (first header line) of the response</h2>
 <pre>getResult() : string</pre>
@@ -235,9 +247,9 @@
 </div>
 <h3>
 <i class="icon-custom icon-constant"></i> Constants</h3>
-<a name="SEPARATOR" id="SEPARATOR"> </a><div class="element clickable constant  SEPARATOR" data-toggle="collapse" data-target=".SEPARATOR .collapse">
-<h2>SEPARATOR</h2>
-<pre>SEPARATOR </pre>
+<a name="HEADER_LOCATION" id="HEADER_LOCATION"> </a><div class="element clickable constant  HEADER_LOCATION" data-toggle="collapse" data-target=".HEADER_LOCATION .collapse">
+<h2>HTTP location header</h2>
+<pre>HEADER_LOCATION </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
 </div>
@@ -248,7 +260,7 @@
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a1</a> and<br>
-            generated on 2012-04-03T16:50:51+02:00.<br></footer></div>
+            generated on 2012-04-03T16:51:18+02:00.<br></footer></div>
 </div>
 </body>
 </html>

@@ -54,7 +54,7 @@
 <ul class="side-nav nav nav-list">
 <li class="nav-header">
 <i class="icon-custom icon-method"></i> Methods</li>
-<li class="method public "><a href="#__construct" title="__construct :: Construct a new document handler"><span class="description">Construct a new document handler</span><pre>__construct()</pre></a></li>
+<li class="method public inherited"><a href="#__construct" title="__construct :: Construct a new handler"><span class="description">Construct a new handler</span><pre>__construct()</pre></a></li>
 <li class="method public "><a href="#add" title="add :: Add a document to a collection
 This will add the document to the collection and return the document's id
 This will throw if the document cannot be created"><span class="description">Add a document to a collection
@@ -67,21 +67,27 @@ This will throw if the document cannot be fetched from the server</span><pre>get
 <li class="method public "><a href="#getAllIds" title="getAllIds :: Get the list of all documents' ids from a collection
 This will throw if the list cannot be fetched from the server"><span class="description">Get the list of all documents' ids from a collection
 This will throw if the list cannot be fetched from the server</span><pre>getAllIds()</pre></a></li>
+<li class="method public "><a href="#getByExample" title="getByExample :: Get document(s) by specifying an example
+This will throw if the list cannot be fetched from the server"><span class="description">Get document(s) by specifying an example
+This will throw if the list cannot be fetched from the server</span><pre>getByExample()</pre></a></li>
 <li class="method public "><a href="#update" title="update :: Update an existing document in a collection
 This will update the document on the server
 This will throw if the document cannot be updated"><span class="description">Update an existing document in a collection
 This will update the document on the server
 This will throw if the document cannot be updated</span><pre>update()</pre></a></li>
+<li class="nav-header protected">» Protected</li>
+<li class="method protected inherited"><a href="#getConnection" title="getConnection :: Return the connection object"><span class="description">Return the connection object</span><pre>getConnection()</pre></a></li>
 <li class="nav-header private">» Private</li>
 <li class="method private "><a href="#getDocumentId" title="getDocumentId :: Helper function to get a document id from a document or a document id value"><span class="description">Helper function to get a document id from a document or a document id value</span><pre>getDocumentId()</pre></a></li>
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties</li>
 <li class="nav-header private">» Private</li>
-<li class="property private "><a href="#%24_connection" title="$_connection :: Connection object"><span class="description">Connection object</span><pre>$_connection</pre></a></li>
+<li class="property private inherited"><a href="#%24_connection" title="$_connection :: Connection object"><span class="description">Connection object</span><pre>$_connection</pre></a></li>
 <li class="nav-header">
 <i class="icon-custom icon-constant"></i> Constants</li>
 <li class="constant  "><a href="#ENTRY_DOCUMENTS" title="ENTRY_DOCUMENTS :: documents array index"><span class="description">documents array index</span><pre>ENTRY_DOCUMENTS</pre></a></li>
-<li class="constant  "><a href="#URL" title="URL :: URL base part for all document-related REST calls"><span class="description">URL base part for all document-related REST calls</span><pre>URL</pre></a></li>
+<li class="constant  "><a href="#OPTION_COLLECTION" title="OPTION_COLLECTION :: collection parameter"><span class="description">collection parameter</span><pre>OPTION_COLLECTION</pre></a></li>
+<li class="constant  "><a href="#OPTION_EXAMPLE" title="OPTION_EXAMPLE :: example parameter"><span class="description">example parameter</span><pre>OPTION_EXAMPLE</pre></a></li>
 </ul>
 </div>
 <div class="span8">
@@ -108,11 +114,15 @@ appropriate HTTP requests to the server.</p>
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
 <a name="__construct" id="__construct"></a><div class="element clickable method public __construct" data-toggle="collapse" data-target=".__construct .collapse">
-<h2>Construct a new document handler</h2>
+<h2>Construct a new handler</h2>
 <pre>__construct(Connection $connection) : void</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="span8">
 <p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\Avocado\Handler::__construct()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$connection</h4>
@@ -242,6 +252,36 @@ This will throw if the list cannot be fetched from the server</h2>
 <code>array</code>- ids of documents in the collection</div>
 </div></div>
 </div>
+<a name="getByExample" id="getByExample"></a><div class="element clickable method public getByExample" data-toggle="collapse" data-target=".getByExample .collapse">
+<h2>Get document(s) by specifying an example
+This will throw if the list cannot be fetched from the server</h2>
+<pre>getByExample(mixed $collectionId, mixed $document) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>collection id as string or number</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$document</h4>
+<code>mixed</code><ul>
+<li>the example document as a Document object or an array</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/db_%5Ctriagens%5CAvocado%5CException.html">\triagens\Avocado\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- documents matching the example [0...n]</div>
+</div></div>
+</div>
 <a name="update" id="update"></a><div class="element clickable method public update" data-toggle="collapse" data-target=".update .collapse">
 <h2>Update an existing document in a collection
 This will update the document on the server
@@ -279,6 +319,21 @@ This will throw if the document cannot be updated</h2>
 <code>bool</code>- always true, will throw if there is an error</div>
 </div></div>
 </div>
+<a name="getConnection" id="getConnection"></a><div class="element clickable method protected getConnection" data-toggle="collapse" data-target=".getConnection .collapse">
+<h2>Return the connection object</h2>
+<pre>getConnection() : <a href="../classes/db_%5Ctriagens%5CAvocado%5CConnection.html">\triagens\Avocado\Connection</a></pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\Avocado\Handler::getConnection()</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/db_%5Ctriagens%5CAvocado%5CConnection.html">\triagens\Avocado\Connection</a></code>- the connection object</div>
+</div></div>
+</div>
 <a name="getDocumentId" id="getDocumentId"></a><div class="element clickable method private getDocumentId" data-toggle="collapse" data-target=".getDocumentId .collapse">
 <h2>Helper function to get a document id from a document or a document id value</h2>
 <pre>getDocumentId(mixed $document) : mixed</pre>
@@ -307,13 +362,19 @@ This will throw if the document cannot be updated</h2>
 <a name="%24_connection" id="$_connection"> </a><div class="element clickable property private $_connection" data-toggle="collapse" data-target=".$_connection .collapse">
 <h2>Connection object</h2>
 <pre>$_connection </pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="span8">
 <p class="long_description"></p>
-<table class="table table-bordered"><tr>
+<table class="table table-bordered">
+<tr>
 <th>param</th>
 <td>&lt;p&gt;Connection&lt;/p&gt;</td>
-</tr></table>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\triagens\Avocado\Handler::$$_connection</td>
+</tr>
+</table>
 </div></div>
 </div>
 <h3>
@@ -324,9 +385,15 @@ This will throw if the document cannot be updated</h2>
 <div class="labels"></div>
 <div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
 </div>
-<a name="URL" id="URL"> </a><div class="element clickable constant  URL" data-toggle="collapse" data-target=".URL .collapse">
-<h2>URL base part for all document-related REST calls</h2>
-<pre>URL </pre>
+<a name="OPTION_COLLECTION" id="OPTION_COLLECTION"> </a><div class="element clickable constant  OPTION_COLLECTION" data-toggle="collapse" data-target=".OPTION_COLLECTION .collapse">
+<h2>collection parameter</h2>
+<pre>OPTION_COLLECTION </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+</div>
+<a name="OPTION_EXAMPLE" id="OPTION_EXAMPLE"> </a><div class="element clickable constant  OPTION_EXAMPLE" data-toggle="collapse" data-target=".OPTION_EXAMPLE .collapse">
+<h2>example parameter</h2>
+<pre>OPTION_EXAMPLE </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
 </div>
@@ -337,7 +404,7 @@ This will throw if the document cannot be updated</h2>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a1</a> and<br>
-            generated on 2012-04-03T16:50:51+02:00.<br></footer></div>
+            generated on 2012-04-03T16:51:18+02:00.<br></footer></div>
 </div>
 </body>
 </html>

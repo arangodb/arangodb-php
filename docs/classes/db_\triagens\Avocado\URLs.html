@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
 <meta charset="utf-8">
-<title>AvocadoDbPhpClient » \triagens\Avocado\URLHelper</title>
+<title>AvocadoDbPhpClient » \triagens\Avocado\URLs</title>
 <meta name="author" content="Mike van Riel">
 <meta name="description" content="">
 <link href="../css/template.css" rel="stylesheet" media="all">
@@ -53,30 +53,26 @@
 </div>
 <ul class="side-nav nav nav-list">
 <li class="nav-header">
-<i class="icon-custom icon-method"></i> Methods</li>
-<li class="method public "><a href="#appendParamsUrl" title="appendParamsUrl :: Append parameters to a URL
-Parameter values will be URL-encoded"><span class="description">Append parameters to a URL
-Parameter values will be URL-encoded</span><pre>appendParamsUrl()</pre></a></li>
-<li class="method public "><a href="#buildUrl" title="buildUrl :: Construct a URL from a base URL and additional parts, seperated with '/' each
-This function accepts variable arguments."><span class="description">Construct a URL from a base URL and additional parts, seperated with '/' each
-This function accepts variable arguments.</span><pre>buildUrl()</pre></a></li>
-<li class="method public "><a href="#getBoolString" title="getBoolString :: Get a string from a boolean value"><span class="description">Get a string from a boolean value</span><pre>getBoolString()</pre></a></li>
-<li class="method public "><a href="#getDocumentIdFromLocation" title="getDocumentIdFromLocation :: Get the document id from a location header"><span class="description">Get the document id from a location header</span><pre>getDocumentIdFromLocation()</pre></a></li>
+<i class="icon-custom icon-constant"></i> Constants</li>
+<li class="constant  "><a href="#URL_COLLECTION" title="URL_COLLECTION :: URL base part for all collection-related REST calls"><span class="description">URL base part for all collection-related REST calls</span><pre>URL_COLLECTION</pre></a></li>
+<li class="constant  "><a href="#URL_CURSOR" title="URL_CURSOR :: base URL part for cursor related operations"><span class="description">base URL part for cursor related operations</span><pre>URL_CURSOR</pre></a></li>
+<li class="constant  "><a href="#URL_DOCUMENT" title="URL_DOCUMENT :: URL base part for all document-related REST calls"><span class="description">URL base part for all document-related REST calls</span><pre>URL_DOCUMENT</pre></a></li>
+<li class="constant  "><a href="#URL_EXAMPLE" title="URL_EXAMPLE :: base URL part for select-by-example"><span class="description">base URL part for select-by-example</span><pre>URL_EXAMPLE</pre></a></li>
 </ul>
 </div>
 <div class="span8">
-<a name="%5Ctriagens%5CAvocado%5CURLHelper" id="\triagens\Avocado\URLHelper"></a><ul class="breadcrumb">
+<a name="%5Ctriagens%5CAvocado%5CURLs" id="\triagens\Avocado\URLs"></a><ul class="breadcrumb">
 <li>
 <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
 </li>
 <li><a href="../namespaces/db_triagens.html">triagens</a></li>
 <span class="divider">\</span><li><a href="../namespaces/db_triagens%5CAvocado.html">Avocado</a></li>
 <li class="active">
-<span class="divider">\</span><a href="../classes/db_%5Ctriagens%5CAvocado%5CURLHelper.html">URLHelper</a>
+<span class="divider">\</span><a href="../classes/db_%5Ctriagens%5CAvocado%5CURLs.html">URLs</a>
 </li>
 </ul>
-<div href="../classes/db_%5Ctriagens%5CAvocado%5CURLHelper.html" class="element class">
-<p class="short_description">Some helper methods to construct and process URLs</p>
+<div href="../classes/db_%5Ctriagens%5CAvocado%5CURLs.html" class="element class">
+<p class="short_description">Some basic URLs</p>
 <div class="details">
 <p class="long_description"></p>
 <table class="table table-bordered"><tr>
@@ -84,86 +80,30 @@ This function accepts variable arguments.</span><pre>buildUrl()</pre></a></li>
 <td><a href="..//packages/db_AvocadoDbPhpClient.html">AvocadoDbPhpClient</a></td>
 </tr></table>
 <h3>
-<i class="icon-custom icon-method"></i> Methods</h3>
-<a name="appendParamsUrl" id="appendParamsUrl"></a><div class="element clickable method public appendParamsUrl" data-toggle="collapse" data-target=".appendParamsUrl .collapse">
-<h2>Append parameters to a URL
-Parameter values will be URL-encoded</h2>
-<pre>appendParamsUrl(string $baseUrl, array $params) : string</pre>
+<i class="icon-custom icon-constant"></i> Constants</h3>
+<a name="URL_COLLECTION" id="URL_COLLECTION"> </a><div class="element clickable constant  URL_COLLECTION" data-toggle="collapse" data-target=".URL_COLLECTION .collapse">
+<h2>URL base part for all collection-related REST calls</h2>
+<pre>URL_COLLECTION </pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8">
-<p class="long_description"></p>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$baseUrl</h4>
-<code>string</code><ul>
-<li>base URL</li>
-</ul>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
 </div>
-<div class="subelement argument">
-<h4>$params</h4>
-<code>array</code><ul>
-<li>an array of parameters</li>
-</ul>
-</div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>string</code>- the assembled URL</div>
-</div></div>
-</div>
-<a name="buildUrl" id="buildUrl"></a><div class="element clickable method public buildUrl" data-toggle="collapse" data-target=".buildUrl .collapse">
-<h2>Construct a URL from a base URL and additional parts, seperated with '/' each
-This function accepts variable arguments.</h2>
-<pre>buildUrl(string $baseUrl) : string</pre>
+<a name="URL_CURSOR" id="URL_CURSOR"> </a><div class="element clickable constant  URL_CURSOR" data-toggle="collapse" data-target=".URL_CURSOR .collapse">
+<h2>base URL part for cursor related operations</h2>
+<pre>URL_CURSOR </pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8">
-<p class="long_description"></p>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$baseUrl</h4>
-<code>string</code><ul>
-<li>base URL</li>
-</ul>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
 </div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>string</code>- assembled URL</div>
-</div></div>
-</div>
-<a name="getBoolString" id="getBoolString"></a><div class="element clickable method public getBoolString" data-toggle="collapse" data-target=".getBoolString .collapse">
-<h2>Get a string from a boolean value</h2>
-<pre>getBoolString(mixed $value) : string</pre>
+<a name="URL_DOCUMENT" id="URL_DOCUMENT"> </a><div class="element clickable constant  URL_DOCUMENT" data-toggle="collapse" data-target=".URL_DOCUMENT .collapse">
+<h2>URL base part for all document-related REST calls</h2>
+<pre>URL_DOCUMENT </pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8">
-<p class="long_description"></p>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$value</h4>
-<code>mixed</code><ul>
-<li>the value</li>
-</ul>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
 </div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>string</code>- "true" if $value evaluates to true, "false" otherwise</div>
-</div></div>
-</div>
-<a name="getDocumentIdFromLocation" id="getDocumentIdFromLocation"></a><div class="element clickable method public getDocumentIdFromLocation" data-toggle="collapse" data-target=".getDocumentIdFromLocation .collapse">
-<h2>Get the document id from a location header</h2>
-<pre>getDocumentIdFromLocation(string $location) : string</pre>
+<a name="URL_EXAMPLE" id="URL_EXAMPLE"> </a><div class="element clickable constant  URL_EXAMPLE" data-toggle="collapse" data-target=".URL_EXAMPLE .collapse">
+<h2>base URL part for select-by-example</h2>
+<pre>URL_EXAMPLE </pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8">
-<p class="long_description"></p>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$location</h4>
-<code>string</code><ul>
-<li>HTTP response location header</li>
-</ul>
-</div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>string</code>- document id parsed from header</div>
-</div></div>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
 </div>
 </div>
 </div>

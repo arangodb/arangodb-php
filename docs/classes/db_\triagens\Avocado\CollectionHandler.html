@@ -54,7 +54,7 @@
 <ul class="side-nav nav nav-list">
 <li class="nav-header">
 <i class="icon-custom icon-method"></i> Methods</li>
-<li class="method public "><a href="#__construct" title="__construct :: Construct a new collection handler"><span class="description">Construct a new collection handler</span><pre>__construct()</pre></a></li>
+<li class="method public inherited"><a href="#__construct" title="__construct :: Construct a new handler"><span class="description">Construct a new handler</span><pre>__construct()</pre></a></li>
 <li class="method public "><a href="#add" title="add :: Adds a new collection on the server
 This will add the collection on the server and return its id
 This will throw if the collection cannot be created"><span class="description">Adds a new collection on the server
@@ -74,17 +74,18 @@ This will throw if the collection cannot be fetched from the server</span><pre>g
 <li class="method public "><a href="#truncate" title="truncate :: Truncate a collection
 This will remove all documents from the collection but will leave the metadata and indexes intact."><span class="description">Truncate a collection
 This will remove all documents from the collection but will leave the metadata and indexes intact.</span><pre>truncate()</pre></a></li>
+<li class="nav-header protected">» Protected</li>
+<li class="method protected inherited"><a href="#getConnection" title="getConnection :: Return the connection object"><span class="description">Return the connection object</span><pre>getConnection()</pre></a></li>
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties</li>
 <li class="nav-header private">» Private</li>
-<li class="property private "><a href="#%24_connection" title="$_connection :: Connection object"><span class="description">Connection object</span><pre>$_connection</pre></a></li>
+<li class="property private inherited"><a href="#%24_connection" title="$_connection :: Connection object"><span class="description">Connection object</span><pre>$_connection</pre></a></li>
 <li class="nav-header">
 <i class="icon-custom icon-constant"></i> Constants</li>
 <li class="constant  "><a href="#OPTION_COUNT" title="OPTION_COUNT :: count option"><span class="description">count option</span><pre>OPTION_COUNT</pre></a></li>
 <li class="constant  "><a href="#OPTION_FIGURES" title="OPTION_FIGURES :: figures option"><span class="description">figures option</span><pre>OPTION_FIGURES</pre></a></li>
 <li class="constant  "><a href="#OPTION_RENAME" title="OPTION_RENAME :: rename option"><span class="description">rename option</span><pre>OPTION_RENAME</pre></a></li>
 <li class="constant  "><a href="#OPTION_TRUNCATE" title="OPTION_TRUNCATE :: truncate option"><span class="description">truncate option</span><pre>OPTION_TRUNCATE</pre></a></li>
-<li class="constant  "><a href="#URL" title="URL :: URL base part for all collection-related REST calls"><span class="description">URL base part for all collection-related REST calls</span><pre>URL</pre></a></li>
 </ul>
 </div>
 <div class="span8">
@@ -111,11 +112,15 @@ appropriate HTTP requests to the server.</p>
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
 <a name="__construct" id="__construct"></a><div class="element clickable method public __construct" data-toggle="collapse" data-target=".__construct .collapse">
-<h2>Construct a new collection handler</h2>
+<h2>Construct a new handler</h2>
 <pre>__construct(Connection $connection) : void</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="span8">
 <p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\Avocado\Handler::__construct()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$connection</h4>
@@ -298,18 +303,39 @@ This will remove all documents from the collection but will leave the metadata a
 <code>bool</code>- always true, will throw if there is an error</div>
 </div></div>
 </div>
+<a name="getConnection" id="getConnection"></a><div class="element clickable method protected getConnection" data-toggle="collapse" data-target=".getConnection .collapse">
+<h2>Return the connection object</h2>
+<pre>getConnection() : <a href="../classes/db_%5Ctriagens%5CAvocado%5CConnection.html">\triagens\Avocado\Connection</a></pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\Avocado\Handler::getConnection()</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/db_%5Ctriagens%5CAvocado%5CConnection.html">\triagens\Avocado\Connection</a></code>- the connection object</div>
+</div></div>
+</div>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
 <a name="%24_connection" id="$_connection"> </a><div class="element clickable property private $_connection" data-toggle="collapse" data-target=".$_connection .collapse">
 <h2>Connection object</h2>
 <pre>$_connection </pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="span8">
 <p class="long_description"></p>
-<table class="table table-bordered"><tr>
+<table class="table table-bordered">
+<tr>
 <th>param</th>
 <td>&lt;p&gt;Connection&lt;/p&gt;</td>
-</tr></table>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\triagens\Avocado\Handler::$$_connection</td>
+</tr>
+</table>
 </div></div>
 </div>
 <h3>
@@ -338,12 +364,6 @@ This will remove all documents from the collection but will leave the metadata a
 <div class="labels"></div>
 <div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
 </div>
-<a name="URL" id="URL"> </a><div class="element clickable constant  URL" data-toggle="collapse" data-target=".URL .collapse">
-<h2>URL base part for all collection-related REST calls</h2>
-<pre>URL </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
-</div>
 </div>
 </div>
 </div>
@@ -351,7 +371,7 @@ This will remove all documents from the collection but will leave the metadata a
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a1</a> and<br>
-            generated on 2012-04-03T16:50:51+02:00.<br></footer></div>
+            generated on 2012-04-03T16:51:18+02:00.<br></footer></div>
 </div>
 </body>
 </html>
