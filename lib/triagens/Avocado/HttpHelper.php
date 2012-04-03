@@ -47,6 +47,11 @@ class HttpHelper {
   const EOL             = "\r\n";
   
   /**
+   * HTTP protocol used
+   */
+  const PROTOCOL        = 'HTTP/1.1';
+  
+  /**
    * Validate an HTTP request method name
    *
    * @throws ClientException
@@ -81,15 +86,15 @@ class HttpHelper {
       $type = 'Content-Type: application/json' . self::EOL;
     }
 
-    $request = $method . ' ' . $url . ' HTTP/1.1' . self::EOL .
-               'Host: ' . $host . self::EOL . 
+    $request = sprintf('%s %s %s%s', $method, $url, self::PROTOCOL, self::EOL) .
+               sprintf('Host: %s%s', $host, self::EOL) . 
                $type.
-               'Content-Length: ' . $length . self::EOL . self::EOL .
+               sprintf('Content-Length: %s%s%s', $length, self::EOL, self::EOL) .
                $body; 
 
     return $request;
   }
-  
+
   /**
    * Execute an HTTP request on an opened socket
    * It is the caller's responsibility to close the socket

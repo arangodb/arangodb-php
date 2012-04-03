@@ -17,18 +17,7 @@ namespace triagens\Avocado;
  *
  * @package AvocadoDbPhpClient
  */
-class CollectionHandler {
-  /**
-   * Connection object
-   * @param Connection
-   */
-  private $_connection;
-
-  /**
-   * URL base part for all collection-related REST calls
-   */
-  const URL              = '/_api/collection';
-
+class CollectionHandler extends Handler {
   /**
    * count option
    */
@@ -50,16 +39,6 @@ class CollectionHandler {
   const OPTION_RENAME    = 'rename';
 
   /**
-   * Construct a new collection handler
-   *
-   * @param Connection $connection - connection to be used
-   * @return void
-   */
-  public function __construct(Connection $connection) {
-    $this->_connection = $connection;
-  }
-  
-  /**
    * Get information about a collection
    * This will throw if the collection cannot be fetched from the server
    *
@@ -68,8 +47,8 @@ class CollectionHandler {
    * @return Collection - the collection fetched from the server
    */
   public function get($collectionId) {
-    $url = UrlHelper::buildUrl(self::URL, $collectionId);
-    $response = $this->_connection->get($url);
+    $url = UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId);
+    $response = $this->getConnection()->get($url);
 
     $data = $response->getJson();
 
@@ -85,8 +64,8 @@ class CollectionHandler {
    * @return int - the number of documents in the collection
    */
   public function getCount($collectionId) {
-    $url = UrlHelper::buildUrl(self::URL, $collectionId, self::OPTION_COUNT);
-    $response = $this->_connection->get($url);
+    $url = UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_COUNT);
+    $response = $this->getConnection()->get($url);
 
     $data = $response->getJson();
     $count = $data[self::OPTION_COUNT];
@@ -103,8 +82,8 @@ class CollectionHandler {
    * @return array - the figures for the collection
    */
   public function getFigures($collectionId) {
-    $url = UrlHelper::buildUrl(self::URL, $collectionId, self::OPTION_FIGURES);
-    $response = $this->_connection->get($url);
+    $url = UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_FIGURES);
+    $response = $this->getConnection()->get($url);
 
     $data = $response->getJson();
     $figures = $data[self::OPTION_FIGURES];
@@ -123,16 +102,17 @@ class CollectionHandler {
    */
   public function add(Collection $collection) {
     if ($collection->getWaitForSync() === NULL) {
-      $collection->setWaitForSync($this->_connection->getOption(ConnectionOptions::OPTION_WAIT_SYNC));
+      $collection->setWaitForSync($this->getConnection()->getOption(ConnectionOptions::OPTION_WAIT_SYNC));
     }
 
     $params = array(Collection::ENTRY_NAME => $collection->getName(), Collection::ENTRY_WAIT_SYNC => $collection->getWaitForSync());
-    $response = $this->_connection->post(self::URL, json_encode($params));
+    $response = $this->getConnection()->post(Urls::URL_COLLECTION, json_encode($params));
 
-    $location = $response->getHeader('location');
+    $location = $response->getLocationHeader();
     if (!$location) {
       throw new ClientException('Did not find location header in server response');
     }
+
     $id = UrlHelper::getDocumentIdFromLocation($location);
     $collection->setId($id);
 
@@ -158,7 +138,7 @@ class CollectionHandler {
       throw new ClientException('Cannot alter a collection without a collection id');
     }
 
-    $result = $this->_connection->delete(UrlHelper::buildUrl(self::URL, $collectionId));
+    $result = $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId));
 
     return true;
   }
@@ -184,7 +164,7 @@ class CollectionHandler {
     }
 
     $params = array(Collection::ENTRY_NAME => $newName);
-    $result = $this->_connection->put(UrlHelper::buildUrl(self::URL, $collectionId, self::OPTION_RENAME), json_encode($params));
+    $result = $this->getConnection()->put(UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_RENAME), json_encode($params));
 
     return true;
   }
@@ -209,7 +189,7 @@ class CollectionHandler {
       throw new ClientException('Cannot alter a collection without a collection id');
     }
 
-    $result = $this->_connection->put(UrlHelper::buildUrl(self::URL, $collectionId, self::OPTION_TRUNCATE), '');
+    $result = $this->getConnection()->put(UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_TRUNCATE), '');
 
     return true;
   }

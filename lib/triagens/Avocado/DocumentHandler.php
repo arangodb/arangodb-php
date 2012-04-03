@@ -17,32 +17,21 @@ namespace triagens\Avocado;
  *
  * @package AvocadoDbPhpClient
  */
-class DocumentHandler {
-  /**
-   * Connection object
-   * @param Connection
-   */
-  private $_connection;
-
-  /**
-   * URL base part for all document-related REST calls
-   */
-  const URL              = '/document';
-
+class DocumentHandler extends Handler {
   /**
    * documents array index
    */
-  const ENTRY_DOCUMENTS  = 'documents';
+  const ENTRY_DOCUMENTS   = 'documents';
   
   /**
-   * Construct a new document handler
-   *
-   * @param Connection $connection - connection to be used
-   * @return void
+   * collection parameter
    */
-  public function __construct(Connection $connection) {
-    $this->_connection = $connection;
-  }
+  const OPTION_COLLECTION = 'collection';
+  
+  /**
+   * example parameter
+   */
+  const OPTION_EXAMPLE    = 'example';
   
   /**
    * Get a single document from a collection
@@ -54,8 +43,8 @@ class DocumentHandler {
    * @return Document - the document fetched from the server
    */
   public function get($collectionId, $documentId) {
-    $url = UrlHelper::buildUrl(self::URL, $collectionId, $documentId);
-    $response = $this->_connection->get($url);
+    $url = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
+    $response = $this->getConnection()->get($url);
 
     $data = $response->getJson();
 
@@ -71,8 +60,8 @@ class DocumentHandler {
    * @return array - ids of documents in the collection
    */
   public function getAllIds($collectionId) {
-    $url = UrlHelper::appendParamsUrl(self::URL, array('collection' => $collectionId));
-    $response = $this->_connection->get($url);
+    $url = UrlHelper::appendParamsUrl(Urls::URL_DOCUMENT, array(self::OPTION_COLLECTION => $collectionId));
+    $response = $this->getConnection()->get($url);
     
     $data = $response->getJson();
     if (!isset($data[self::ENTRY_DOCUMENTS])) {
@@ -85,6 +74,41 @@ class DocumentHandler {
     }
 
     return $ids;
+  }
+
+  /**
+   * Get document(s) by specifying an example
+   * This will throw if the list cannot be fetched from the server
+   *
+   * @throws Exception
+   * @param mixed $collectionId - collection id as string or number
+   * @param mixed $document - the example document as a Document object or an array
+   * @return array - documents matching the example [0...n]
+   */
+  public function getByExample($collectionId, $document) {
+    if (is_array($document)) {
+      $document = Document::createFromArray($document);
+    }
+
+    if (!($document instanceof Document)) {
+      throw new ClientException('Invalid example document specification');
+    }
+    
+    $data = array(self::OPTION_COLLECTION => $collectionId, self::OPTION_EXAMPLE => $document->getAll());
+
+    $response = $this->getConnection()->put(Urls::URL_EXAMPLE, json_encode($data));
+    
+    $data = $response->getJson();
+    if (!is_array($data)) {
+      throw new ClientException('Got an invalid document list from the server');
+    }
+
+    $documents = array();
+    foreach ($data as $document) {
+      $documents[] = Document::createFromArray($document);
+    }
+
+    return $documents;
   }
   
   /**
@@ -100,15 +124,15 @@ class DocumentHandler {
    */
   public function add($collectionId, Document $document, $create = NULL) {
     if ($create === NULL) {
-      $create = $this->_connection->getOption(ConnectionOptions::OPTION_CREATE);
+      $create = $this->getConnection()->getOption(ConnectionOptions::OPTION_CREATE);
     }
 
     $data = $document->getAll();
-    $params = array('collection' => $collectionId, ConnectionOptions::OPTION_CREATE => $create ? "true" : "false");
-    $url = UrlHelper::appendParamsUrl(self::URL, $params); 
-    $response = $this->_connection->post($url, json_encode($data));
+    $params = array(self::OPTION_COLLECTION => $collectionId, ConnectionOptions::OPTION_CREATE => UrlHelper::getBoolString($create));
+    $url = UrlHelper::appendParamsUrl(Urls::URL_DOCUMENT, $params); 
+    $response = $this->getConnection()->post($url, json_encode($data));
 
-    $location = $response->getHeader('location');
+    $location = $response->getLocationHeader();
     if (!$location) {
       throw new ClientException('Did not find location header in server response');
     }
@@ -133,14 +157,15 @@ class DocumentHandler {
     $documentId = $this->getDocumentId($document);
 
     if ($policy === NULL) {
-      $policy = $this->_connection->getOption(ConnectionOptions::OPTION_UPDATE_POLICY);
+      $policy = $this->getConnection()->getOption(ConnectionOptions::OPTION_UPDATE_POLICY);
     }
+
     UpdatePolicy::validate($policy);
     
     $data = $document->getAll();
-    $url = UrlHelper::buildUrl(self::URL, $collectionId, $documentId);
+    $url = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
     $url = UrlHelper::appendParamsUrl($url, array(ConnectionOptions::OPTION_UPDATE_POLICY => $policy));
-    $result = $this->_connection->put($url, json_encode($data));
+    $result = $this->getConnection()->put($url, json_encode($data));
 
     return true;
   }
@@ -156,7 +181,7 @@ class DocumentHandler {
   public function delete($collectionId, $document) {
     $documentId = $this->getDocumentId($document);
 
-    $result = $this->_connection->delete(UrlHelper::buildUrl(self::URL, $collectionId, $documentId));
+    $result = $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId));
 
     return true;
   }

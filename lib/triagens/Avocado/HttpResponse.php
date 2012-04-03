@@ -45,8 +45,11 @@ class HttpResponse {
    * @var int
    */
   private $_httpCode;
-
-  const SEPARATOR   = "\r\n";
+  
+  /**
+   * HTTP location header
+   */
+  const HEADER_LOCATION = 'location';
 
   /**
    * Set up the response
@@ -58,7 +61,7 @@ class HttpResponse {
   public function __construct($responseString) {
     assert(is_string($responseString));
 
-    $barrier = self::SEPARATOR . self::SEPARATOR;
+    $barrier = HttpHelper::EOL . HttpHelper::EOL;
     $border = strpos($responseString, $barrier);
     if ($border === false) {
       throw new ClientException('Got an invalid response from the server');
@@ -107,6 +110,15 @@ class HttpResponse {
   }
   
   /**
+   * Return the location HTTP header of the response
+   *
+   * @return string - header value, NULL is header wasn't set in response
+   */
+  public function getLocationHeader() {
+    return $this->getHeader(self::HEADER_LOCATION);
+  }
+  
+  /**
    * Return the body of the response
    *
    * @return string - body of the response
@@ -148,7 +160,7 @@ class HttpResponse {
    * @return void
    */
   private function setupHeaders() {
-    foreach (explode(self::SEPARATOR, $this->_header) as $lineNumber => $line) {
+    foreach (explode(HttpHelper::EOL, $this->_header) as $lineNumber => $line) {
       $line = trim($line);
 
       if ($lineNumber == 0) {

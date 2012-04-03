@@ -12,17 +12,21 @@ $traceFunc = function($type, $data) {
 
 /* set up connection options */
 $connectionOptions = array(
-  ConnectionOptions::OPTION_PORT            => 9000,
-  ConnectionOptions::OPTION_HOST            => "localhost",
-  ConnectionOptions::OPTION_TIMEOUT         => 3,
-  ConnectionOptions::OPTION_TRACE           => $traceFunc,
-  ConnectionOptions::OPTION_CREATE          => false,
-  ConnectionOptions::OPTION_UPDATE_POLICY   => "last",
+  ConnectionOptions::OPTION_PORT            => 9000,               // port to connect to
+  ConnectionOptions::OPTION_HOST            => "localhost",        // host to connect to
+  ConnectionOptions::OPTION_TIMEOUT         => 3,                  // timeout in seconds
+  ConnectionOptions::OPTION_TRACE           => $traceFunc,         // tracer function
+  ConnectionOptions::OPTION_CREATE          => false,              // do not create unknown collections automatically
+  ConnectionOptions::OPTION_UPDATE_POLICY   => UpdatePolicy::LAST, // last update wins
 );
 
 try {
   $connection = new Connection($connectionOptions);
   $handler = new DocumentHandler($connection);
+
+  // get documents by example
+  $result = $handler->getByExample("users", array("name"=>"John","age"=>19));
+  var_dump($result);
 
   // get the ids of all documents in the collection
   $result = $handler->getAllIds("fux");
