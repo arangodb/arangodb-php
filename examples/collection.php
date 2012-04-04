@@ -2,23 +2,7 @@
 
 namespace triagens\Avocado;
 
-require dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'autoload.php';
-
-/* set up a trace function that will be called for each communication with the server */
-$traceFunc = function($type, $data) {
-  print "TRACE FOR ". $type . PHP_EOL;
-  var_dump($data);
-};
-
-/* set up connection options */
-$connectionOptions = array(
-  ConnectionOptions::OPTION_PORT            => 9000,
-  ConnectionOptions::OPTION_HOST            => "localhost",
-  ConnectionOptions::OPTION_TIMEOUT         => 3,
-  ConnectionOptions::OPTION_TRACE           => $traceFunc,
-  ConnectionOptions::OPTION_CREATE          => false,
-  ConnectionOptions::OPTION_UPDATE_POLICY   => "last",
-);
+require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'init.php';
 
 try {
   $connection = new Connection($connectionOptions);
