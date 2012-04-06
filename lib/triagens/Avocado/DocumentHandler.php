@@ -154,7 +154,8 @@ class DocumentHandler extends Handler {
    * @return bool - always true, will throw if there is an error
    */
   public function update($collectionId, Document $document, $policy = NULL) {
-    $documentId = $this->getDocumentId($document);
+    $collectionId = $this->getCollectionId($document);
+    $documentId   = $this->getDocumentId($document);
 
     if ($policy === NULL) {
       $policy = $this->getConnection()->getOption(ConnectionOptions::OPTION_UPDATE_POLICY);
@@ -193,10 +194,10 @@ class DocumentHandler extends Handler {
    * @param mixed $document - document id OR document to be updated
    * @return mixed - document id, will throw if there is an error
    */
-
   private function getDocumentId($document) {
     if ($document instanceof Document) {
-      $documentId = $document->getId();
+      $id = $document->getId();
+      list(, $documentId) = explode('/', $document->getId(), 2);
     }
     else {
       $documentId = $document;
@@ -207,6 +208,25 @@ class DocumentHandler extends Handler {
     }
 
     return $documentId;
+  }
+  
+  /**
+   * Helper function to get a collection id from a document
+   *
+   * @throws ClientException
+   * @param Document $document - document id 
+   * @return mixed - collection id, will throw if there is an error
+   */
+  private function getCollectionId(Document $document) {
+    $id = $document->getId();
+
+    list($collectionId,) = explode('/', $id, 2);
+
+    if (!$collectionId || !(is_string($collectionId) || is_double($collectionId) || is_int($collectionId))) {
+      throw new ClientException('Cannot alter a document without a document id');
+    }
+
+    return $collectionId;
   }
     
 }
