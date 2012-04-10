@@ -136,10 +136,18 @@ class DocumentHandler extends Handler {
     if (!$location) {
       throw new ClientException('Did not find location header in server response');
     }
-    $id = UrlHelper::getDocumentIdFromLocation($location);
-    $document->setId($id);
 
-    return $id;
+    $json = $response->getJson();
+    $id = UrlHelper::getDocumentIdFromLocation($location);
+
+    $document->setInternalId($json[Document::ENTRY_ID]);
+    $document->setRevision($json[Document::ENTRY_REV]);
+    
+    if ($id != $document->getId()) {
+      throw new ClientException('Got an invalid response from the server');
+    }
+
+    return $document->getId();
   }
 
   /**
@@ -196,8 +204,7 @@ class DocumentHandler extends Handler {
    */
   private function getDocumentId($document) {
     if ($document instanceof Document) {
-      $id = $document->getId();
-      list(, $documentId) = explode('/', $document->getId(), 2);
+      $documentId = $document->getId();
     }
     else {
       $documentId = $document;
@@ -218,9 +225,7 @@ class DocumentHandler extends Handler {
    * @return mixed - collection id, will throw if there is an error
    */
   private function getCollectionId(Document $document) {
-    $id = $document->getId();
-
-    list($collectionId,) = explode('/', $id, 2);
+    $collectionId = $document->getCollectionId();
 
     if (!$collectionId || !(is_string($collectionId) || is_double($collectionId) || is_int($collectionId))) {
       throw new ClientException('Cannot alter a document without a document id');

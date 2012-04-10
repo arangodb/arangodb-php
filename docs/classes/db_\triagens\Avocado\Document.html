@@ -69,17 +69,27 @@ Returns the document as JSON-encoded string</span><pre>__toString()</pre></a></l
 <li class="method public "><a href="#get" title="get :: Get a document attribute"><span class="description">Get a document attribute</span><pre>get()</pre></a></li>
 <li class="method public "><a href="#getAll" title="getAll :: Get all document attributes"><span class="description">Get all document attributes</span><pre>getAll()</pre></a></li>
 <li class="method public "><a href="#getChanged" title="getChanged :: Get the changed flag"><span class="description">Get the changed flag</span><pre>getChanged()</pre></a></li>
+<li class="method public "><a href="#getCollectionId" title="getCollectionId :: Get the collection id (if already known)
+Collection ids are generated on the server only. Collection ids are numeric but might be
+bigger than PHP_INT_MAX. To reliably store a collection id elsewhere, a PHP string should be used"><span class="description">Get the collection id (if already known)
+Collection ids are generated on the server only. Collection ids are numeric but might be
+bigger than PHP_INT_MAX. To reliably store a collection id elsewhere, a PHP string should be used</span><pre>getCollectionId()</pre></a></li>
 <li class="method public "><a href="#getId" title="getId :: Get the document id (if already known)
 Document ids are generated on the server only. Document ids are numeric but might be
 bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string should be used"><span class="description">Get the document id (if already known)
 Document ids are generated on the server only. Document ids are numeric but might be
 bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string should be used</span><pre>getId()</pre></a></li>
+<li class="method public "><a href="#getInternalId" title="getInternalId :: Get the internal document id (if already known)
+Document ids are generated on the server only. Document ids consist of collection id and
+document id, in the format collectionid/documentid"><span class="description">Get the internal document id (if already known)
+Document ids are generated on the server only. Document ids consist of collection id and
+document id, in the format collectionid/documentid</span><pre>getInternalId()</pre></a></li>
 <li class="method public "><a href="#getRevision" title="getRevision :: Get the document revision (if already known)"><span class="description">Get the document revision (if already known)</span><pre>getRevision()</pre></a></li>
 <li class="method public "><a href="#set" title="set :: Set a document attribute"><span class="description">Set a document attribute</span><pre>set()</pre></a></li>
 <li class="method public "><a href="#setChanged" title="setChanged :: Set the changed flag"><span class="description">Set the changed flag</span><pre>setChanged()</pre></a></li>
-<li class="method public "><a href="#setId" title="setId :: Set the document id
-This will throw if the id of an existing document gets updated to some other id"><span class="description">Set the document id
-This will throw if the id of an existing document gets updated to some other id</span><pre>setId()</pre></a></li>
+<li class="method public "><a href="#setInternalId" title="setInternalId :: Set the internal document id
+This will throw if the id of an existing document gets updated to some other id"><span class="description">Set the internal document id
+This will throw if the id of an existing document gets updated to some other id</span><pre>setInternalId()</pre></a></li>
 <li class="method public "><a href="#setRevision" title="setRevision :: Set the document revision
 Revision ids are generated on the server only. Document ids are numeric but might be
 bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string should be used"><span class="description">Set the document revision
@@ -255,6 +265,19 @@ Returns the document as JSON-encoded string</h2>
 <code>bool</code>- true if document was changed, false otherwise</div>
 </div></div>
 </div>
+<a name="getCollectionId" id="getCollectionId"></a><div class="element clickable method public getCollectionId" data-toggle="collapse" data-target=".getCollectionId .collapse">
+<h2>Get the collection id (if already known)
+Collection ids are generated on the server only. Collection ids are numeric but might be
+bigger than PHP_INT_MAX. To reliably store a collection id elsewhere, a PHP string should be used</h2>
+<pre>getCollectionId() : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>- collection id, might be NULL if document does not yet have an id</div>
+</div></div>
+</div>
 <a name="getId" id="getId"></a><div class="element clickable method public getId" data-toggle="collapse" data-target=".getId .collapse">
 <h2>Get the document id (if already known)
 Document ids are generated on the server only. Document ids are numeric but might be
@@ -266,6 +289,19 @@ bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string
 <h3>Returns</h3>
 <div class="subelement response">
 <code>mixed</code>- document id, might be NULL if document does not yet have an id</div>
+</div></div>
+</div>
+<a name="getInternalId" id="getInternalId"></a><div class="element clickable method public getInternalId" data-toggle="collapse" data-target=".getInternalId .collapse">
+<h2>Get the internal document id (if already known)
+Document ids are generated on the server only. Document ids consist of collection id and
+document id, in the format collectionid/documentid</h2>
+<pre>getInternalId() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>- internal document id, might be NULL if document does not yet have an id</div>
 </div></div>
 </div>
 <a name="getRevision" id="getRevision"></a><div class="element clickable method public getRevision" data-toggle="collapse" data-target=".getRevision .collapse">
@@ -322,18 +358,18 @@ exception if the value is invalid.</p></p>
 </div>
 </div></div>
 </div>
-<a name="setId" id="setId"></a><div class="element clickable method public setId" data-toggle="collapse" data-target=".setId .collapse">
-<h2>Set the document id
+<a name="setInternalId" id="setInternalId"></a><div class="element clickable method public setInternalId" data-toggle="collapse" data-target=".setInternalId .collapse">
+<h2>Set the internal document id
 This will throw if the id of an existing document gets updated to some other id</h2>
-<pre>setId(mixed $id) : void</pre>
+<pre>setInternalId(string $id) : void</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="span8">
 <p class="long_description"></p>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$id</h4>
-<code>mixed</code><ul>
-<li>document id</li>
+<code>string</code><ul>
+<li>internal document id</li>
 </ul>
 </div>
 <h3>Exceptions</h3>
@@ -392,7 +428,7 @@ bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string
 </div>
 <a name="%24_id" id="$_id"> </a><div class="element clickable property private $_id" data-toggle="collapse" data-target=".$_id .collapse">
 <h2>The document id (might be NULL for new documents)</h2>
-<pre>$_id : mixed</pre>
+<pre>$_id : string</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
 </div>
@@ -429,7 +465,7 @@ bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a1</a> and<br>
-            generated on 2012-04-03T16:51:18+02:00.<br></footer></div>
+            generated on 2012-04-10T10:52:38+02:00.<br></footer></div>
 </div>
 </body>
 </html>

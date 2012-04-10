@@ -23,7 +23,7 @@ abstract class URLHelper {
    * @return string - document id parsed from header
    */
   public static function getDocumentIdFromLocation($location) {
-    list(,,, $id) = explode('/', $location);
+    @list(,,, $id) = explode('/', $location);
     return $id;
   }
   

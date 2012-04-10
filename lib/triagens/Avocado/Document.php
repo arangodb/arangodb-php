@@ -18,7 +18,7 @@ namespace triagens\Avocado;
 class Document {
   /**
    * The document id (might be NULL for new documents)
-   * @var mixed - document id
+   * @var string - document id
    */
   private $_id      = NULL;
   
@@ -139,7 +139,7 @@ class Document {
     ValueValidator::validate($value);
 
     if ($key === self::ENTRY_ID) {
-      $this->setId($value);
+      $this->setInternalId($value);
       return;
     }
     
@@ -229,21 +229,36 @@ class Document {
   }
   
   /**
-   * Set the document id 
+   * Set the internal document id 
    * This will throw if the id of an existing document gets updated to some other id
    *
    * @throws ClientException
-   * @param mixed $id - document id
+   * @param string $id - internal document id
    * @return void
    */
-  public function setId($id) {
+  public function setInternalId($id) {
     if ($this->_id !== NULL && $this->_id != $id) {
       throw new ClientException('Should not update the id of an existing document');
+    }
+
+    if (!preg_match('/^\d+\/\d+$/', $id)) {
+      throw new ClientException('Invalid format for document id');
     }
 
     $this->_id = $id;
   }
 
+  /**
+   * Get the internal document id (if already known)
+   * Document ids are generated on the server only. Document ids consist of collection id and
+   * document id, in the format collectionid/documentid
+   *
+   * @return string - internal document id, might be NULL if document does not yet have an id
+   */
+  public function getInternalId() {
+    return $this->_id; 
+  }
+  
   /**
    * Get the document id (if already known)
    * Document ids are generated on the server only. Document ids are numeric but might be
@@ -252,7 +267,22 @@ class Document {
    * @return mixed - document id, might be NULL if document does not yet have an id
    */
   public function getId() {
-    return $this->_id; 
+    @list(, $documentId) = explode('/', $this->_id, 2);
+
+    return $documentId;
+  }
+  
+  /**
+   * Get the collection id (if already known)
+   * Collection ids are generated on the server only. Collection ids are numeric but might be
+   * bigger than PHP_INT_MAX. To reliably store a collection id elsewhere, a PHP string should be used 
+   *
+   * @return mixed - collection id, might be NULL if document does not yet have an id
+   */
+  public function getCollectionId() {
+    @list($collectionId) = explode('/', $this->_id, 2);
+
+    return $collectionId;
   }
   
   /**

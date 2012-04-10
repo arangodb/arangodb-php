@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project version="2.0.0a1" title="AvocadoDbPhpClient">
-  <file path="triagens/Avocado/HttpHelper.php" hash="d044fffaf9d5f115873cf5c73877d3fa" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/HttpHelper.php" hash="c21a34ec1dc9a6710d73faa6be70c01f" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: http helper methods]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -1491,7 +1491,7 @@ This will remove all documents from the collection but will leave the metadata a
       </method>
     </class>
   </file>
-  <file path="triagens/Avocado/UrlHelper.php" hash="d230b018d2a73ebf04ed57bff1741fcc" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/UrlHelper.php" hash="1592b04e9f4c6fcc91896ccbf75e9e8e" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: URL helper methods]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -2352,7 +2352,7 @@ This will remove the _id and _rev attributes from the results if the
       </method>
     </class>
   </file>
-  <file path="triagens/Avocado/DocumentHandler.php" hash="8f484345bebbc86f52a744491546bc2d" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/DocumentHandler.php" hash="0308e757df676992a4f85614c2954e1c" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: document handler]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -2520,96 +2520,118 @@ This will throw if the document cannot be created]]></description>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="156" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="164" package="">
         <name>update</name>
         <type>function</type>
-        <docblock line="145">
+        <docblock line="153">
           <description><![CDATA[Update an existing document in a collection
 This will update the document on the server
 This will throw if the document cannot be updated]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="145" name="throws" description="" type="\triagens\Avocado\Exception">
+          <tag line="153" name="throws" description="" type="\triagens\Avocado\Exception">
             <type by_reference="false">\triagens\Avocado\Exception</type>
           </tag>
-          <tag line="145" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
+          <tag line="153" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="145" name="param" description="- document to be updated" type="\triagens\Avocado\Document" variable="$document">
+          <tag line="153" name="param" description="- document to be updated" type="\triagens\Avocado\Document" variable="$document">
             <type by_reference="false">\triagens\Avocado\Document</type>
           </tag>
-          <tag line="145" name="param" description="- update policy to be used in case of conflict" type="bool" variable="$policy">
+          <tag line="153" name="param" description="- update policy to be used in case of conflict" type="bool" variable="$policy">
             <type by_reference="false">bool</type>
           </tag>
-          <tag line="145" name="return" description="- always true, will throw if there is an error" type="bool">
+          <tag line="153" name="return" description="- always true, will throw if there is an error" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
-        <argument line="156">
+        <argument line="164">
           <name>$collectionId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="156">
+        <argument line="164">
           <name>$document</name>
           <default><![CDATA[]]></default>
           <type>Document</type>
         </argument>
-        <argument line="156">
+        <argument line="164">
           <name>$policy</name>
           <default><![CDATA[NULL]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="181" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="190" package="">
         <name>delete</name>
         <type>function</type>
-        <docblock line="173">
+        <docblock line="182">
           <description><![CDATA[Delete a document from a collection]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="173" name="throws" description="" type="\triagens\Avocado\Exception">
+          <tag line="182" name="throws" description="" type="\triagens\Avocado\Exception">
             <type by_reference="false">\triagens\Avocado\Exception</type>
           </tag>
-          <tag line="173" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
+          <tag line="182" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="173" name="param" description="- document id OR document to be updated" type="mixed" variable="$document">
+          <tag line="182" name="param" description="- document id OR document to be updated" type="mixed" variable="$document">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="173" name="return" description="- always true, will throw if there is an error" type="bool">
+          <tag line="182" name="return" description="- always true, will throw if there is an error" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
-        <argument line="181">
+        <argument line="190">
           <name>$collectionId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="181">
+        <argument line="190">
           <name>$document</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\Avocado" line="197" package="">
+      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\Avocado" line="205" package="">
         <name>getDocumentId</name>
         <type>function</type>
-        <docblock line="189">
+        <docblock line="198">
           <description><![CDATA[Helper function to get a document id from a document or a document id value]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="189" name="throws" description="" type="\triagens\Avocado\ClientException">
+          <tag line="198" name="throws" description="" type="\triagens\Avocado\ClientException">
             <type by_reference="false">\triagens\Avocado\ClientException</type>
           </tag>
-          <tag line="189" name="param" description="- document id OR document to be updated" type="mixed" variable="$document">
+          <tag line="198" name="param" description="- document id OR document to be updated" type="mixed" variable="$document">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="189" name="return" description="- document id, will throw if there is an error" type="mixed">
+          <tag line="198" name="return" description="- document id, will throw if there is an error" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
         </docblock>
-        <argument line="197">
+        <argument line="205">
           <name>$document</name>
           <default><![CDATA[]]></default>
           <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\Avocado" line="227" package="">
+        <name>getCollectionId</name>
+        <type>function</type>
+        <docblock line="220">
+          <description><![CDATA[Helper function to get a collection id from a document]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="220" name="throws" description="" type="\triagens\Avocado\ClientException">
+            <type by_reference="false">\triagens\Avocado\ClientException</type>
+          </tag>
+          <tag line="220" name="param" description="- document id" type="\triagens\Avocado\Document" variable="$document">
+            <type by_reference="false">\triagens\Avocado\Document</type>
+          </tag>
+          <tag line="220" name="return" description="- collection id, will throw if there is an error" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="227">
+          <name>$document</name>
+          <default><![CDATA[]]></default>
+          <type>Document</type>
         </argument>
       </method>
     </class>
@@ -3030,7 +3052,7 @@ during connecting to the server]]></description>
       </docblock>
     </class>
   </file>
-  <file path="triagens/Avocado/Document.php" hash="af2e26ba551f4a03be0c3eae74fc7983" package="AvocadoDbPhpClient">
+  <file path="triagens/Avocado/Document.php" hash="3d6e367dfc4c0738d378dab081ebbab1" package="AvocadoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[AvocadoDB PHP client: single document]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -3069,8 +3091,8 @@ during connecting to the server]]></description>
         <docblock line="19">
           <description><![CDATA[The document id (might be NULL for new documents)]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="19" name="var" description="- document id" type="mixed">
-            <type by_reference="false">mixed</type>
+          <tag line="19" name="var" description="- document id" type="string">
+            <type by_reference="false">string</type>
           </tag>
         </docblock>
       </property>
@@ -3331,17 +3353,17 @@ This function is mapped to get() internally.]]></description>
         </docblock>
       </method>
       <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="239" package="">
-        <name>setId</name>
+        <name>setInternalId</name>
         <type>function</type>
         <docblock line="231">
-          <description><![CDATA[Set the document id
+          <description><![CDATA[Set the internal document id
 This will throw if the id of an existing document gets updated to some other id]]></description>
           <long-description><![CDATA[]]></long-description>
           <tag line="231" name="throws" description="" type="\triagens\Avocado\ClientException">
             <type by_reference="false">\triagens\Avocado\ClientException</type>
           </tag>
-          <tag line="231" name="param" description="- document id" type="mixed" variable="$id">
-            <type by_reference="false">mixed</type>
+          <tag line="231" name="param" description="- internal document id" type="string" variable="$id">
+            <type by_reference="false">string</type>
           </tag>
           <tag line="231" name="return" description="" type="void">
             <type by_reference="false">void</type>
@@ -3353,47 +3375,73 @@ This will throw if the id of an existing document gets updated to some other id]
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="254" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="258" package="">
+        <name>getInternalId</name>
+        <type>function</type>
+        <docblock line="251">
+          <description><![CDATA[Get the internal document id (if already known)
+Document ids are generated on the server only. Document ids consist of collection id and
+document id, in the format collectionid/documentid]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="251" name="return" description="- internal document id, might be NULL if document does not yet have an id" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="269" package="">
         <name>getId</name>
         <type>function</type>
-        <docblock line="247">
+        <docblock line="262">
           <description><![CDATA[Get the document id (if already known)
 Document ids are generated on the server only. Document ids are numeric but might be
 bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string should be used]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="247" name="return" description="- document id, might be NULL if document does not yet have an id" type="mixed">
+          <tag line="262" name="return" description="- document id, might be NULL if document does not yet have an id" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="266" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="282" package="">
+        <name>getCollectionId</name>
+        <type>function</type>
+        <docblock line="275">
+          <description><![CDATA[Get the collection id (if already known)
+Collection ids are generated on the server only. Collection ids are numeric but might be
+bigger than PHP_INT_MAX. To reliably store a collection id elsewhere, a PHP string should be used]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="275" name="return" description="- collection id, might be NULL if document does not yet have an id" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="296" package="">
         <name>setRevision</name>
         <type>function</type>
-        <docblock line="258">
+        <docblock line="288">
           <description><![CDATA[Set the document revision
 Revision ids are generated on the server only. Document ids are numeric but might be
 bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string should be used]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="258" name="param" description="- revision id" type="mixed" variable="$rev">
+          <tag line="288" name="param" description="- revision id" type="mixed" variable="$rev">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="258" name="return" description="" type="void">
+          <tag line="288" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="266">
+        <argument line="296">
           <name>$rev</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="275" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\Avocado" line="305" package="">
         <name>getRevision</name>
         <type>function</type>
-        <docblock line="270">
+        <docblock line="300">
           <description><![CDATA[Get the document revision (if already known)]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="270" name="return" description="- revision id, might be NULL if document does not yet have an id" type="mixed">
+          <tag line="300" name="return" description="- revision id, might be NULL if document does not yet have an id" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
         </docblock>
