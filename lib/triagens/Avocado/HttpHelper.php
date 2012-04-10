@@ -133,8 +133,8 @@ class HttpHelper {
   public static function createConnection(ConnectionOptions $options) {
     $fp = @fsockopen($options[ConnectionOptions::OPTION_HOST],
                      $options[ConnectionOptions::OPTION_PORT], 
-                     &$number,
-                     &$message, 
+                     $number,
+                     $message, 
                      $options[ConnectionOptions::OPTION_TIMEOUT]); 
     if (!$fp) {
       throw new ConnectException($message, $number);
