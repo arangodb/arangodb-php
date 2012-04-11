@@ -14,34 +14,34 @@ try {
   var_dump($result);
 
   // get the ids of all documents in the collection
-  $result = $handler->getAllIds("fux");
+  $result = $handler->getAllIds("users");
   var_dump($result);
 
   // create a new document
-  $document = new Document();
-  $document->set("name", "fux");
-  $document->level = 1;
-  $document->vists = array(1, 2, 3);
+  $user = new Document();
+  $user->set("name", "users");
+  $user->level = 1;
+  $user->vists = array(1, 2, 3);
 
-  $id = $handler->add("fux", $document);
+  $id = $handler->add("users", $user);
   var_dump("CREATED A NEW DOCUMENT WITH ID: ", $id);
 
   // get this document from the server
-  $result = $handler->get("fux", $id);
-  var_dump($result);
+  $userFromServer = $handler->getById("users", $id);
+  var_dump($userFromServer);
 
   // update this document
-  $document->nonsense = "hihi";
-  unset($document->name);
-  $result = $handler->update("fux", $document);
+  $userFromServer->nonsense = "hihi";
+  unset($userFromServer->name);
+  $result = $handler->update($userFromServer);
   var_dump($result);
   
   // get the updated document back
-  $result = $handler->get("fux", $id);
+  $result = $handler->get("users", $id);
   var_dump($result);
 
   // delete the document
-  $result = $handler->delete("fux", $id);
+  $result = $handler->deleteById("users", $id);
   var_dump($result);
 
 }

@@ -8,37 +8,37 @@ try {
   $connection = new Connection($connectionOptions);
   $handler = new CollectionHandler($connection);
   
-  // get an existing collection
-  $result = $handler->get("peng");
-  var_dump($result);
-  
-  // get number of documents from an existing collection
-  $result = $handler->getCount("peng");
-  var_dump($result);
-  
-  // get figures for an existing collection
-  $result = $handler->getFigures("peng");
-  var_dump($result);
-  
   // create a new collection
   $col = new Collection();
-  $col->setName("hihi2");
+  $col->setName("hihi");
   $result = $handler->add($col);
   var_dump($result);
   
   // get an existing collection
-  $result = $handler->get("hihi2");
+  $result = $handler->get("hihi");
   var_dump($result);
 
+  // get an existing collection
+  $result = $handler->get("hihi");
+  var_dump($result);
+  
+  // get number of documents from an existing collection
+  $result = $handler->getCount("hihi");
+  var_dump($result);
+  
+  // get figures for an existing collection
+  $result = $handler->getFigures("hihi");
+  var_dump($result);
+  
   // delete the collection
-  $result = $handler->delete("hihi2");
+  $result = $handler->delete("hihi");
   var_dump($result);
   
   // rename a collection
-  // $handler->rename($col,"hihi30");
+  // $handler->rename($col, "hihi30");
   
   // truncate an existing collection
-  // $result = $handler->truncate("foo");
+  // $result = $handler->truncate("hihi");
 }
 catch (ConnectException $e) {
   var_dump($e->getMessage());

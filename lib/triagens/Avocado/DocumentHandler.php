@@ -35,7 +35,7 @@ class DocumentHandler extends Handler {
   
   /**
    * Get a single document from a collection
-   * This will throw if the document cannot be fetched from the server
+   * Alias method for getById()
    *
    * @throws Exception
    * @param mixed $collectionId - collection id as a string or number
@@ -43,6 +43,19 @@ class DocumentHandler extends Handler {
    * @return Document - the document fetched from the server
    */
   public function get($collectionId, $documentId) {
+    return $this->getById($collectionId, $documentId);
+  }
+
+  /**
+   * Get a single document from a collection
+   * This will throw if the document cannot be fetched from the server
+   *
+   * @throws Exception
+   * @param mixed $collectionId - collection id as a string or number
+   * @param mixed $documentId - document identifier
+   * @return Document - the document fetched from the server
+   */
+  public function getById($collectionId, $documentId) {
     $url = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
     $response = $this->getConnection()->get($url);
 
@@ -151,20 +164,35 @@ class DocumentHandler extends Handler {
   }
 
   /**
-   * Update an existing document in a collection
+   * Update an existing document in a collection, identified by the document itself
+   * This will update the document on the server
+   * This will throw if the document cannot be updated
+   *
+   * @throws Exception
+   * @param Document $document - document to be updated
+   * @param bool $policy - update policy to be used in case of conflict
+   * @return bool - always true, will throw if there is an error
+   */
+  public function update(Document $document, $policy = NULL) {
+    $collectionId = $this->getCollectionId($document);
+    $documentId   = $this->getDocumentId($document);
+
+    return $this->updateById($collectionId, $documentId, $document, $policy);
+  }
+  
+  /**
+   * Update an existing document in a collection, identified by collection id and document id
    * This will update the document on the server
    * This will throw if the document cannot be updated
    *
    * @throws Exception
    * @param mixed $collectionId - collection id as string or number
+   * @param mixed $documentId - document id as string or number
    * @param Document $document - document to be updated
    * @param bool $policy - update policy to be used in case of conflict
    * @return bool - always true, will throw if there is an error
    */
-  public function update($collectionId, Document $document, $policy = NULL) {
-    $collectionId = $this->getCollectionId($document);
-    $documentId   = $this->getDocumentId($document);
-
+  public function updateById($collectionId, $documentId, Document $document, $policy = NULL) {
     if ($policy === NULL) {
       $policy = $this->getConnection()->getOption(ConnectionOptions::OPTION_UPDATE_POLICY);
     }
@@ -180,16 +208,28 @@ class DocumentHandler extends Handler {
   }
 
   /**
-   * Delete a document from a collection
+   * Delete a document from a collection, identified by the document itself
+   *
+   * @throws Exception
+   * @param Document $document - document to be updated
+   * @return bool - always true, will throw if there is an error
+   */
+  public function delete(Document $document) {
+    $collectionId = $this->getCollectionId($document);
+    $documentId   = $this->getDocumentId($document);
+
+    return $this->deleteById($collectionId, $documentId);
+  }
+  
+  /**
+   * Delete a document from a collection, identified by the collection id and document id
    *
    * @throws Exception
    * @param mixed $collectionId - collection id as string or number
-   * @param mixed $document - document id OR document to be updated
+   * @param mixed $documentId - document id as string or number
    * @return bool - always true, will throw if there is an error
    */
-  public function delete($collectionId, $document) {
-    $documentId = $this->getDocumentId($document);
-
+  public function deleteById($collectionId, $documentId) {
     $result = $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId));
 
     return true;

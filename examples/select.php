@@ -6,7 +6,7 @@ require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'init.php';
 
 /* set up some example statements */
 $statements = array(
-  "select f from fux f" => array(),
+  "select u from users u" => array(),
   "select u from users u" => NULL,
   "select u from users u where u.id == 1 +@id@" => array("id" => 6),
   "select u from users u where u.id == 2+ @id@" => array("id" => 6),
