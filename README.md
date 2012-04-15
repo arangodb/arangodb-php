@@ -256,29 +256,28 @@ To retrieve a document from the server, the get() method of the DocumentHandler 
 
     The result of the get() method is a Document object that you can use in an OO fashion:
 
-javascript
     object(triagens\Avocado\Document)##6 (4) {
-        ["_id":"triagens\Avocado\Document":private]=&gt;
+        ["_id":"triagens\Avocado\Document":private]=>
         string(15) "2377907/4818344"
-        ["_rev":"triagens\Avocado\Document":private]=&gt;
+        ["_rev":"triagens\Avocado\Document":private]=>
         int(4818344)
-        ["_values":"triagens\Avocado\Document":private]=&gt;
+        ["_values":"triagens\Avocado\Document":private]=>
         array(3) {
-            ["age"]=&gt;
+            ["age"]=>
             int(25)
-            ["name"]=&gt;
+            ["name"]=>
             string(4) "John"
-            ["likes"]=&gt;
+            ["likes"]=>
             array(3) {
-                [0]=&gt;
+                [0]=>
                 string(7) "fishing"
-                [1]=&gt;
+                [1]=>
                 string(6) "hiking"
-                [2]=&gt;
+                [2]=>
                 string(8) "swimming"
             }
         }
-        ["_changed":"triagens\Avocado\Document":private]=&gt;
+        ["_changed":"triagens\Avocado\Document":private]=>
         bool(false)
     }
 
