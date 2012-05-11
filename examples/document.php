@@ -1,6 +1,6 @@
 <?php
 
-namespace triagens\Avocado;
+namespace triagens\ArangoDb;
 
 require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'init.php';
 
@@ -9,17 +9,24 @@ try {
   $connection = new Connection($connectionOptions);
   $handler = new DocumentHandler($connection);
 
+  // create a new document
+  $user = new Document();
+  $user->set("name", "John");
+  $user->age=19;
+
+  $id = $handler->add("users", $user);
+
   // get documents by example
-  $result = $handler->getByExample("users", array("name"=>"John","age"=>19));
-  var_dump($result);
+  $cursor = $handler->getByExample("users", array("name"=>"John","age"=>19));
+  var_dump($cursor->getAll());
 
   // get the ids of all documents in the collection
   $result = $handler->getAllIds("users");
   var_dump($result);
 
-  // create a new document
+  // create another new document
   $user = new Document();
-  $user->set("name", "users");
+  $user->set("name", "j-lo");
   $user->level = 1;
   $user->vists = array(1, 2, 3);
 

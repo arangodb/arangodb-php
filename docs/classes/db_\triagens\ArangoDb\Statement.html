@@ -1,0 +1,444 @@
+<!DOCTYPE html><html xmlns:date="http://exslt.org/dates-and-times" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>ArangoDB PHP client API » \triagens\ArangoDb\Statement</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">ArangoDB PHP client API</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/db_triagens.html"><i class="icon-th"></i> triagens</a></li>
+<li><a>Packages</a></li>
+<li><a href="../packages/db_ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors</a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers (TODO/FIXME)</a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements</a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods</li>
+<li class="method public "><a href="#__construct" title="__construct :: Initialise the statement"><span class="description">Initialise the statement</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#__invoke" title="__invoke :: Invoke the statement
+This will simply call execute(). Arguments are ignored."><span class="description">Invoke the statement
+This will simply call execute(). Arguments are ignored.</span><pre>__invoke()</pre></a></li>
+<li class="method public "><a href="#__toString" title="__toString :: Return a string representation of the statement"><span class="description">Return a string representation of the statement</span><pre>__toString()</pre></a></li>
+<li class="method public "><a href="#bind" title="bind :: Bind a parameter to the statement
+This method can either be called with a string $key and a
+separate value in $value, or with an array of all bind
+bind parameters in $key, with $value being NULL."><span class="description">Bind a parameter to the statement
+This method can either be called with a string $key and a
+separate value in $value, or with an array of all bind
+bind parameters in $key, with $value being NULL.</span><pre>bind()</pre></a></li>
+<li class="method public "><a href="#execute" title="execute :: Execute the statement
+This will post the query to the server and return the results as
+a Cursor. The cursor can then be used to iterate the results."><span class="description">Execute the statement
+This will post the query to the server and return the results as
+a Cursor. The cursor can then be used to iterate the results.</span><pre>execute()</pre></a></li>
+<li class="method public "><a href="#getBatchSize" title="getBatchSize :: Get the batch size for the statement"><span class="description">Get the batch size for the statement</span><pre>getBatchSize()</pre></a></li>
+<li class="method public "><a href="#getBindVars" title="getBindVars :: Get all bind parameters as an array"><span class="description">Get all bind parameters as an array</span><pre>getBindVars()</pre></a></li>
+<li class="method public "><a href="#getCount" title="getCount :: Get the count option value of the statement"><span class="description">Get the count option value of the statement</span><pre>getCount()</pre></a></li>
+<li class="method public "><a href="#getQuery" title="getQuery :: Get the query string"><span class="description">Get the query string</span><pre>getQuery()</pre></a></li>
+<li class="method public "><a href="#setBatchSize" title="setBatchSize :: Set the batch size for the statement
+The batch size is the number of results to be transferred
+in one server roundtrip. If a query produces more results
+than the batch size, it creates a server-side cursor that
+provides the additional results. The server-side cursor can
+be accessed by the client with subsequent HTTP requests."><span class="description">Set the batch size for the statement
+The batch size is the number of results to be transferred
+in one server roundtrip. If a query produces more results
+than the batch size, it creates a server-side cursor that
+provides the additional results. The server-side cursor can
+be accessed by the client with subsequent HTTP requests.</span><pre>setBatchSize()</pre></a></li>
+<li class="method public "><a href="#setCount" title="setCount :: Set the count option for the statement"><span class="description">Set the count option for the statement</span><pre>setCount()</pre></a></li>
+<li class="method public "><a href="#setQuery" title="setQuery :: Set the query string"><span class="description">Set the query string</span><pre>setQuery()</pre></a></li>
+<li class="nav-header private">» Private</li>
+<li class="method private "><a href="#buildData" title="buildData :: Build an array of data to be posted to the server when issueing the statement"><span class="description">Build an array of data to be posted to the server when issueing the statement</span><pre>buildData()</pre></a></li>
+<li class="method private "><a href="#getCursorOptions" title="getCursorOptions :: Return an array of cursor options"><span class="description">Return an array of cursor options</span><pre>getCursorOptions()</pre></a></li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties</li>
+<li class="nav-header private">» Private</li>
+<li class="property private "><a href="#%24_batchSize" title="$_batchSize :: The current batch size (number of result documents retrieved per roundtrip)"><span class="description">The current batch size (number of result documents retrieved per roundtrip)</span><pre>$_batchSize</pre></a></li>
+<li class="property private "><a href="#%24_bindVars" title="$_bindVars :: The bind variables and values used for the statement"><span class="description">The bind variables and values used for the statement</span><pre>$_bindVars</pre></a></li>
+<li class="property private "><a href="#%24_connection" title="$_connection :: The connection object"><span class="description">The connection object</span><pre>$_connection</pre></a></li>
+<li class="property private "><a href="#%24_doCount" title="$_doCount :: The count flag (should server return total number of results)"><span class="description">The count flag (should server return total number of results)</span><pre>$_doCount</pre></a></li>
+<li class="property private "><a href="#%24_query" title="$_query :: The query string"><span class="description">The query string</span><pre>$_query</pre></a></li>
+<li class="property private "><a href="#%24_sanitize" title="$_sanitize :: Sanitation flag (if set, the _id and _rev attributes will be removed from the results)"><span class="description">Sanitation flag (if set, the _id and _rev attributes will be removed from the results)</span><pre>$_sanitize</pre></a></li>
+<li class="nav-header">
+<i class="icon-custom icon-constant"></i> Constants</li>
+<li class="constant  "><a href="#ENTRY_BATCHSIZE" title="ENTRY_BATCHSIZE :: Batch size index"><span class="description">Batch size index</span><pre>ENTRY_BATCHSIZE</pre></a></li>
+<li class="constant  "><a href="#ENTRY_BINDVARS" title="ENTRY_BINDVARS :: Bind variables index"><span class="description">Bind variables index</span><pre>ENTRY_BINDVARS</pre></a></li>
+<li class="constant  "><a href="#ENTRY_COUNT" title="ENTRY_COUNT :: Count option index"><span class="description">Count option index</span><pre>ENTRY_COUNT</pre></a></li>
+<li class="constant  "><a href="#ENTRY_QUERY" title="ENTRY_QUERY :: Query string index"><span class="description">Query string index</span><pre>ENTRY_QUERY</pre></a></li>
+</ul>
+</div>
+<div class="span8">
+<a name="%5Ctriagens%5CArangoDb%5CStatement" id="\triagens\ArangoDb\Statement"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/db_triagens.html">triagens</a></li>
+<span class="divider">\</span><li><a href="../namespaces/db_triagens%5CArangoDb.html">ArangoDb</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/db_%5Ctriagens%5CArangoDb%5CStatement.html">Statement</a>
+</li>
+</ul>
+<div href="../classes/db_%5Ctriagens%5CArangoDb%5CStatement.html" class="element class">
+<p class="short_description">Container for a read-only ("select") statement
+A statement is an AQL query that can be issued to the
+server. Optional bind parameters can be used when issueing the
+statement to separate the statement from the values.</p>
+<div class="details">
+<p class="long_description"><p>Executing a statement will result in a cursor being created.</p></p>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="..//packages/db_ArangoDbPhpClient.html">ArangoDbPhpClient</a></td>
+</tr></table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a name="__construct" id="__construct"></a><div class="element clickable method public __construct" data-toggle="collapse" data-target=".__construct .collapse">
+<h2>Initialise the statement</h2>
+<pre>__construct(Connection $connection, array $data) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$connection</h4>
+<code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CConnection.html">\triagens\ArangoDb\Connection</a></code><ul>
+<li>the connection to be used</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$data</h4>
+<code>array</code><ul>
+<li>statement initialization data</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CException.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a name="__invoke" id="__invoke"></a><div class="element clickable method public __invoke" data-toggle="collapse" data-target=".__invoke .collapse">
+<h2>Invoke the statement
+This will simply call execute(). Arguments are ignored.</h2>
+<pre>__invoke(mixed $args) : <a href="../classes/db_%5Ctriagens%5CArangoDb%5CCursor.html">\triagens\ArangoDb\Cursor</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$args</h4>
+<code>mixed</code><ul>
+<li>arguments for invocation, will be ignored</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CException.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CCursor.html">\triagens\ArangoDb\Cursor</a></code>- the result cursor</div>
+</div></div>
+</div>
+<a name="__toString" id="__toString"></a><div class="element clickable method public __toString" data-toggle="collapse" data-target=".__toString .collapse">
+<h2>Return a string representation of the statement</h2>
+<pre>__toString() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>- the current query string</div>
+</div></div>
+</div>
+<a name="bind" id="bind"></a><div class="element clickable method public bind" data-toggle="collapse" data-target=".bind .collapse">
+<h2>Bind a parameter to the statement
+This method can either be called with a string $key and a
+separate value in $value, or with an array of all bind
+bind parameters in $key, with $value being NULL.</h2>
+<pre>bind(mixed $key, mixed $value) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"><p>Allowed value types for bind parameters are string, int,
+double, bool and array. Arrays must not contain any other
+than these types.</p></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$key</h4>
+<code>mixed</code><ul>
+<li>name of bind variable OR an array of all bind variables</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>mixed</code><ul>
+<li>value for bind variable</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CException.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a name="execute" id="execute"></a><div class="element clickable method public execute" data-toggle="collapse" data-target=".execute .collapse">
+<h2>Execute the statement
+This will post the query to the server and return the results as
+a Cursor. The cursor can then be used to iterate the results.</h2>
+<pre>execute() : <a href="../classes/db_%5Ctriagens%5CArangoDb%5CCursor.html">\triagens\ArangoDb\Cursor</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CException.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CCursor.html">\triagens\ArangoDb\Cursor</a></code></div>
+</div></div>
+</div>
+<a name="getBatchSize" id="getBatchSize"></a><div class="element clickable method public getBatchSize" data-toggle="collapse" data-target=".getBatchSize .collapse">
+<h2>Get the batch size for the statement</h2>
+<pre>getBatchSize() : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>int</code>- current batch size value</div>
+</div></div>
+</div>
+<a name="getBindVars" id="getBindVars"></a><div class="element clickable method public getBindVars" data-toggle="collapse" data-target=".getBindVars .collapse">
+<h2>Get all bind parameters as an array</h2>
+<pre>getBindVars() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- array of bind variables/values</div>
+</div></div>
+</div>
+<a name="getCount" id="getCount"></a><div class="element clickable method public getCount" data-toggle="collapse" data-target=".getCount .collapse">
+<h2>Get the count option value of the statement</h2>
+<pre>getCount() : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>bool</code>- current value of count option</div>
+</div></div>
+</div>
+<a name="getQuery" id="getQuery"></a><div class="element clickable method public getQuery" data-toggle="collapse" data-target=".getQuery .collapse">
+<h2>Get the query string</h2>
+<pre>getQuery() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>- current query string value</div>
+</div></div>
+</div>
+<a name="setBatchSize" id="setBatchSize"></a><div class="element clickable method public setBatchSize" data-toggle="collapse" data-target=".setBatchSize .collapse">
+<h2>Set the batch size for the statement
+The batch size is the number of results to be transferred
+in one server roundtrip. If a query produces more results
+than the batch size, it creates a server-side cursor that
+provides the additional results. The server-side cursor can
+be accessed by the client with subsequent HTTP requests.</h2>
+<pre>setBatchSize(int $value) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>int</code><ul>
+<li>batch size value</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a name="setCount" id="setCount"></a><div class="element clickable method public setCount" data-toggle="collapse" data-target=".setCount .collapse">
+<h2>Set the count option for the statement</h2>
+<pre>setCount(bool $value) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>bool</code><ul>
+<li>value for count option</li>
+</ul>
+</div>
+</div></div>
+</div>
+<a name="setQuery" id="setQuery"></a><div class="element clickable method public setQuery" data-toggle="collapse" data-target=".setQuery .collapse">
+<h2>Set the query string</h2>
+<pre>setQuery(string $query) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$query</h4>
+<code>string</code><ul>
+<li>query string</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a name="buildData" id="buildData"></a><div class="element clickable method private buildData" data-toggle="collapse" data-target=".buildData .collapse">
+<h2>Build an array of data to be posted to the server when issueing the statement</h2>
+<pre>buildData() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- array of data to be sent to server</div>
+</div></div>
+</div>
+<a name="getCursorOptions" id="getCursorOptions"></a><div class="element clickable method private getCursorOptions" data-toggle="collapse" data-target=".getCursorOptions .collapse">
+<h2>Return an array of cursor options</h2>
+<pre>getCursorOptions() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- array of options</div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a name="%24_batchSize" id="$_batchSize"> </a><div class="element clickable property private $_batchSize" data-toggle="collapse" data-target=".$_batchSize .collapse">
+<h2>The current batch size (number of result documents retrieved per roundtrip)</h2>
+<pre>$_batchSize : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+</div>
+<a name="%24_bindVars" id="$_bindVars"> </a><div class="element clickable property private $_bindVars" data-toggle="collapse" data-target=".$_bindVars .collapse">
+<h2>The bind variables and values used for the statement</h2>
+<pre>$_bindVars : <a href="../classes/db_%5Ctriagens%5CArangoDb%5CBindVars.html">\triagens\ArangoDb\BindVars</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+</div>
+<a name="%24_connection" id="$_connection"> </a><div class="element clickable property private $_connection" data-toggle="collapse" data-target=".$_connection .collapse">
+<h2>The connection object</h2>
+<pre>$_connection : <a href="../classes/db_%5Ctriagens%5CArangoDb%5CConnection.html">\triagens\ArangoDb\Connection</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+</div>
+<a name="%24_doCount" id="$_doCount"> </a><div class="element clickable property private $_doCount" data-toggle="collapse" data-target=".$_doCount .collapse">
+<h2>The count flag (should server return total number of results)</h2>
+<pre>$_doCount : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+</div>
+<a name="%24_query" id="$_query"> </a><div class="element clickable property private $_query" data-toggle="collapse" data-target=".$_query .collapse">
+<h2>The query string</h2>
+<pre>$_query : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+</div>
+<a name="%24_sanitize" id="$_sanitize"> </a><div class="element clickable property private $_sanitize" data-toggle="collapse" data-target=".$_sanitize .collapse">
+<h2>Sanitation flag (if set, the _id and _rev attributes will be removed from the results)</h2>
+<pre>$_sanitize : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+</div>
+<h3>
+<i class="icon-custom icon-constant"></i> Constants</h3>
+<a name="ENTRY_BATCHSIZE" id="ENTRY_BATCHSIZE"> </a><div class="element clickable constant  ENTRY_BATCHSIZE" data-toggle="collapse" data-target=".ENTRY_BATCHSIZE .collapse">
+<h2>Batch size index</h2>
+<pre>ENTRY_BATCHSIZE </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+</div>
+<a name="ENTRY_BINDVARS" id="ENTRY_BINDVARS"> </a><div class="element clickable constant  ENTRY_BINDVARS" data-toggle="collapse" data-target=".ENTRY_BINDVARS .collapse">
+<h2>Bind variables index</h2>
+<pre>ENTRY_BINDVARS </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+</div>
+<a name="ENTRY_COUNT" id="ENTRY_COUNT"> </a><div class="element clickable constant  ENTRY_COUNT" data-toggle="collapse" data-target=".ENTRY_COUNT .collapse">
+<h2>Count option index</h2>
+<pre>ENTRY_COUNT </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+</div>
+<a name="ENTRY_QUERY" id="ENTRY_QUERY"> </a><div class="element clickable constant  ENTRY_QUERY" data-toggle="collapse" data-target=".ENTRY_QUERY .collapse">
+<h2>Query string index</h2>
+<pre>ENTRY_QUERY </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a1</a> and<br>
+            generated on 2012-05-11T09:21:21+02:00.<br></footer></div>
+</div>
+</body>
+</html>

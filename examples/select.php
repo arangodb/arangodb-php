@@ -1,20 +1,15 @@
 <?php
 
-namespace triagens\Avocado;
+namespace triagens\ArangoDb;
 
 require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'init.php';
 
 /* set up some example statements */
 $statements = array(
-  "select u from users u" => array(),
-  "select u from users u" => NULL,
-  "select u from users u where u.id == 1 +@id@" => array("id" => 6),
-  "select u from users u where u.id == 2+ @id@" => array("id" => 6),
-  "select u from users u where u.id == 3+ @id@" => array("id" => 6),
-  "select u from users u where u.id == 4+ @id@" => array("id" => 6),
-  "select u from users u where u.id == 5+ @id@" => array("id" => 6),
-  "select u from users u where u.id == @id@" => array("id" => 6),
-  "select u from users u where u.id == @id@ && u.name != @name@" => array("id" => 6, "name" => "fux"),
+  "for u in users return u" => array(),
+  "for u in users return u" => NULL,
+  "for u in users filter u.id == @id return u" => array("id" => 6),
+  "for u in users filter u.id == @id && u.name != @name return u" => array("id" => 1, "name" => "fox"),
 );
 
 

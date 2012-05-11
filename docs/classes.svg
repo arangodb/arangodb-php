@@ -20,7 +20,7 @@
 <path fill="none" stroke="gray" d="M162,-20C162,-14 168,-8 174,-8"/>
 <text text-anchor="middle" x="323" y="-1188.1" font-family="Times Roman,serif" font-size="11.00" fill="gray">triagens</text>
 </g>
-<g id="graph3" class="cluster"><title>cluster_triagens\Avocado</title>
+<g id="graph3" class="cluster"><title>cluster_triagens\ArangoDb</title>
 <polyline fill="none" stroke="gray" points="182,-16 464,-16 "/>
 <path fill="none" stroke="gray" d="M464,-16C470,-16 476,-22 476,-28"/>
 <polyline fill="none" stroke="gray" points="476,-28 476,-1159 "/>
@@ -29,25 +29,25 @@
 <path fill="none" stroke="gray" d="M182,-1171C176,-1171 170,-1165 170,-1159"/>
 <polyline fill="none" stroke="gray" points="170,-1159 170,-28 "/>
 <path fill="none" stroke="gray" d="M170,-28C170,-22 176,-16 182,-16"/>
-<text text-anchor="middle" x="323" y="-1157.1" font-family="Times Roman,serif" font-size="11.00" fill="gray">Avocado</text>
+<text text-anchor="middle" x="323" y="-1157.1" font-family="Times Roman,serif" font-size="11.00" fill="gray">ArangoDb</text>
 </g>
-<!-- \\triagens\\Avocado\\HttpHelper -->
-<g id="node3" class="node"><title>\\triagens\\Avocado\\HttpHelper</title>
-<a xlink:href="db_triagens_Avocado_HttpHelper.html" xlink:title="HttpHelper" target="_parent">
+<!-- \\triagens\\ArangoDb\\HttpHelper -->
+<g id="node3" class="node"><title>\\triagens\\ArangoDb\\HttpHelper</title>
+<a xlink:href="db_triagens_ArangoDb_HttpHelper.html" xlink:title="HttpHelper" target="_parent">
 <polygon fill="none" stroke="black" points="444,-1140 360,-1140 360,-1104 444,-1104 444,-1140"/>
 <text text-anchor="middle" x="402" y="-1119.1" font-family="Courier,monospace" font-size="11.00">HttpHelper</text>
 </a>
 </g>
-<!-- \\triagens\\Avocado\\Scope -->
-<g id="node4" class="node"><title>\\triagens\\Avocado\\Scope</title>
-<a xlink:href="db_triagens_Avocado_Scope.html" xlink:title="Scope" target="_parent">
+<!-- \\triagens\\ArangoDb\\Scope -->
+<g id="node4" class="node"><title>\\triagens\\ArangoDb\\Scope</title>
+<a xlink:href="db_triagens_ArangoDb_Scope.html" xlink:title="Scope" target="_parent">
 <polygon fill="none" stroke="black" points="429,-1086 375,-1086 375,-1050 429,-1050 429,-1086"/>
 <text text-anchor="middle" x="402" y="-1065.1" font-family="Courier,monospace" font-size="11.00">Scope</text>
 </a>
 </g>
-<!-- \\triagens\\Avocado\\Exception -->
-<g id="node5" class="node"><title>\\triagens\\Avocado\\Exception</title>
-<a xlink:href="db_triagens_Avocado_Exception.html" xlink:title="Exception" target="_parent">
+<!-- \\triagens\\ArangoDb\\Exception -->
+<g id="node5" class="node"><title>\\triagens\\ArangoDb\\Exception</title>
+<a xlink:href="db_triagens_ArangoDb_Exception.html" xlink:title="Exception" target="_parent">
 <polygon fill="none" stroke="black" points="259,-222 183,-222 183,-186 259,-186 259,-222"/>
 <text text-anchor="middle" x="221" y="-201.1" font-family="Courier,monospace" font-size="11.00">Exception</text>
 </a>
@@ -57,176 +57,176 @@
 <ellipse fill="none" stroke="black" cx="53" cy="-204" rx="53.033" ry="19.0919"/>
 <text text-anchor="middle" x="53" y="-200.9" font-family="Times Roman,serif" font-size="14.00" fill="gray">\Exception</text>
 </g>
-<!-- \\triagens\\Avocado\\Exception&#45;&gt;\\Exception -->
-<g id="edge4" class="edge"><title>\\triagens\\Avocado\\Exception&#45;&gt;\\Exception</title>
+<!-- \\triagens\\ArangoDb\\Exception&#45;&gt;\\Exception -->
+<g id="edge4" class="edge"><title>\\triagens\\ArangoDb\\Exception&#45;&gt;\\Exception</title>
 <path fill="none" stroke="black" d="M182.457,-204C162.8,-204 138.389,-204 116.08,-204"/>
 <polygon fill="none" stroke="black" points="116.003,-200.5 106.003,-204 116.003,-207.5 116.003,-200.5"/>
 </g>
-<!-- \\triagens\\Avocado\\Autoloader -->
-<g id="node6" class="node"><title>\\triagens\\Avocado\\Autoloader</title>
-<a xlink:href="db_triagens_Avocado_Autoloader.html" xlink:title="Autoloader" target="_parent">
+<!-- \\triagens\\ArangoDb\\Autoloader -->
+<g id="node6" class="node"><title>\\triagens\\ArangoDb\\Autoloader</title>
+<a xlink:href="db_triagens_ArangoDb_Autoloader.html" xlink:title="Autoloader" target="_parent">
 <polygon fill="none" stroke="black" points="444,-1032 360,-1032 360,-996 444,-996 444,-1032"/>
 <text text-anchor="middle" x="402" y="-1011.1" font-family="Courier,monospace" font-size="11.00">Autoloader</text>
 </a>
 </g>
-<!-- \\triagens\\Avocado\\Collection -->
-<g id="node7" class="node"><title>\\triagens\\Avocado\\Collection</title>
-<a xlink:href="db_triagens_Avocado_Collection.html" xlink:title="Collection" target="_parent">
+<!-- \\triagens\\ArangoDb\\Collection -->
+<g id="node7" class="node"><title>\\triagens\\ArangoDb\\Collection</title>
+<a xlink:href="db_triagens_ArangoDb_Collection.html" xlink:title="Collection" target="_parent">
 <polygon fill="none" stroke="black" points="444,-978 360,-978 360,-942 444,-942 444,-978"/>
 <text text-anchor="middle" x="402" y="-957.1" font-family="Courier,monospace" font-size="11.00">Collection</text>
 </a>
 </g>
-<!-- \\triagens\\Avocado\\DefaultValues -->
-<g id="node8" class="node"><title>\\triagens\\Avocado\\DefaultValues</title>
-<a xlink:href="db_triagens_Avocado_DefaultValues.html" xlink:title="«abstract»&lt;br/&gt;DefaultValues" target="_parent">
+<!-- \\triagens\\ArangoDb\\DefaultValues -->
+<g id="node8" class="node"><title>\\triagens\\ArangoDb\\DefaultValues</title>
+<a xlink:href="db_triagens_ArangoDb_DefaultValues.html" xlink:title="«abstract»&lt;br/&gt;DefaultValues" target="_parent">
 <polygon fill="none" stroke="black" points="454,-924 350,-924 350,-888 454,-888 454,-924"/>
 <text text-anchor="start" x="368" y="-911.433" font-family="Courier,monospace" font-size="11.00">«abstract»</text>
 <text text-anchor="start" x="358" y="-898.233" font-family="Courier,monospace" font-size="11.00">DefaultValues</text>
 </a>
 </g>
-<!-- \\triagens\\Avocado\\ServerException -->
-<g id="node9" class="node"><title>\\triagens\\Avocado\\ServerException</title>
-<a xlink:href="db_triagens_Avocado_ServerException.html" xlink:title="ServerException" target="_parent">
+<!-- \\triagens\\ArangoDb\\ServerException -->
+<g id="node9" class="node"><title>\\triagens\\ArangoDb\\ServerException</title>
+<a xlink:href="db_triagens_ArangoDb_ServerException.html" xlink:title="ServerException" target="_parent">
 <polygon fill="none" stroke="black" points="461,-222 343,-222 343,-186 461,-186 461,-222"/>
 <text text-anchor="middle" x="402" y="-201.1" font-family="Courier,monospace" font-size="11.00">ServerException</text>
 </a>
 </g>
-<!-- \\triagens\\Avocado\\ServerException&#45;&gt;\\triagens\\Avocado\\Exception -->
-<g id="edge6" class="edge"><title>\\triagens\\Avocado\\ServerException&#45;&gt;\\triagens\\Avocado\\Exception</title>
+<!-- \\triagens\\ArangoDb\\ServerException&#45;&gt;\\triagens\\ArangoDb\\Exception -->
+<g id="edge6" class="edge"><title>\\triagens\\ArangoDb\\ServerException&#45;&gt;\\triagens\\ArangoDb\\Exception</title>
 <path fill="none" stroke="black" d="M342.734,-204C319.041,-204 292.093,-204 269.584,-204"/>
 <polygon fill="none" stroke="black" points="269.583,-200.5 259.583,-204 269.583,-207.5 269.583,-200.5"/>
 </g>
-<!-- \\triagens\\Avocado\\Connection -->
-<g id="node10" class="node"><title>\\triagens\\Avocado\\Connection</title>
-<a xlink:href="db_triagens_Avocado_Connection.html" xlink:title="Connection" target="_parent">
+<!-- \\triagens\\ArangoDb\\Connection -->
+<g id="node10" class="node"><title>\\triagens\\ArangoDb\\Connection</title>
+<a xlink:href="db_triagens_ArangoDb_Connection.html" xlink:title="Connection" target="_parent">
 <polygon fill="none" stroke="black" points="444,-816 360,-816 360,-780 444,-780 444,-816"/>
 <text text-anchor="middle" x="402" y="-795.1" font-family="Courier,monospace" font-size="11.00">Connection</text>
 </a>
 </g>
-<!-- \\triagens\\Avocado\\UpdatePolicy -->
-<g id="node11" class="node"><title>\\triagens\\Avocado\\UpdatePolicy</title>
-<a xlink:href="db_triagens_Avocado_UpdatePolicy.html" xlink:title="UpdatePolicy" target="_parent">
+<!-- \\triagens\\ArangoDb\\UpdatePolicy -->
+<g id="node11" class="node"><title>\\triagens\\ArangoDb\\UpdatePolicy</title>
+<a xlink:href="db_triagens_ArangoDb_UpdatePolicy.html" xlink:title="UpdatePolicy" target="_parent">
 <polygon fill="none" stroke="black" points="451,-762 353,-762 353,-726 451,-726 451,-762"/>
 <text text-anchor="middle" x="402" y="-741.1" font-family="Courier,monospace" font-size="11.00">UpdatePolicy</text>
 </a>
 </g>
-<!-- \\triagens\\Avocado\\ValueValidator -->
-<g id="node12" class="node"><title>\\triagens\\Avocado\\ValueValidator</title>
-<a xlink:href="db_triagens_Avocado_ValueValidator.html" xlink:title="ValueValidator" target="_parent">
+<!-- \\triagens\\ArangoDb\\ValueValidator -->
+<g id="node12" class="node"><title>\\triagens\\ArangoDb\\ValueValidator</title>
+<a xlink:href="db_triagens_ArangoDb_ValueValidator.html" xlink:title="ValueValidator" target="_parent">
 <polygon fill="none" stroke="black" points="457,-708 347,-708 347,-672 457,-672 457,-708"/>
 <text text-anchor="middle" x="402" y="-687.1" font-family="Courier,monospace" font-size="11.00">ValueValidator</text>
 </a>
 </g>
-<!-- \\triagens\\Avocado\\CollectionHandler -->
-<g id="node13" class="node"><title>\\triagens\\Avocado\\CollectionHandler</title>
-<a xlink:href="db_triagens_Avocado_CollectionHandler.html" xlink:title="CollectionHandler" target="_parent">
+<!-- \\triagens\\ArangoDb\\CollectionHandler -->
+<g id="node13" class="node"><title>\\triagens\\ArangoDb\\CollectionHandler</title>
+<a xlink:href="db_triagens_ArangoDb_CollectionHandler.html" xlink:title="CollectionHandler" target="_parent">
 <polygon fill="none" stroke="black" points="467,-654 337,-654 337,-618 467,-618 467,-654"/>
 <text text-anchor="middle" x="402" y="-633.1" font-family="Courier,monospace" font-size="11.00">CollectionHandler</text>
 </a>
 </g>
-<!-- \\triagens\\Avocado\\Handler -->
-<g id="node15" class="node"><title>\\triagens\\Avocado\\Handler</title>
-<a xlink:href="db_triagens_Avocado_Handler.html" xlink:title="«abstract»&lt;br/&gt;Handler" target="_parent">
+<!-- \\triagens\\ArangoDb\\Handler -->
+<g id="node15" class="node"><title>\\triagens\\ArangoDb\\Handler</title>
+<a xlink:href="db_triagens_ArangoDb_Handler.html" xlink:title="«abstract»&lt;br/&gt;Handler" target="_parent">
 <polygon fill="none" stroke="black" points="263,-762 179,-762 179,-726 263,-726 263,-762"/>
 <text text-anchor="start" x="187" y="-749.433" font-family="Courier,monospace" font-size="11.00">«abstract»</text>
 <text text-anchor="start" x="197" y="-736.233" font-family="Courier,monospace" font-size="11.00">Handler</text>
 </a>
 </g>
-<!-- \\triagens\\Avocado\\CollectionHandler&#45;&gt;\\triagens\\Avocado\\Handler -->
-<g id="edge8" class="edge"><title>\\triagens\\Avocado\\CollectionHandler&#45;&gt;\\triagens\\Avocado\\Handler</title>
+<!-- \\triagens\\ArangoDb\\CollectionHandler&#45;&gt;\\triagens\\ArangoDb\\Handler -->
+<g id="edge8" class="edge"><title>\\triagens\\ArangoDb\\CollectionHandler&#45;&gt;\\triagens\\ArangoDb\\Handler</title>
 <path fill="none" stroke="black" d="M354.172,-654.063C347.956,-656.845 341.755,-659.849 336,-663 305.801,-679.536 273.985,-702.426 251.492,-719.656"/>
 <polygon fill="none" stroke="black" points="249.117,-717.069 243.351,-725.957 253.401,-722.604 249.117,-717.069"/>
 </g>
-<!-- \\triagens\\Avocado\\URLHelper -->
-<g id="node14" class="node"><title>\\triagens\\Avocado\\URLHelper</title>
-<a xlink:href="db_triagens_Avocado_UrlHelper.html" xlink:title="«abstract»&lt;br/&gt;URLHelper" target="_parent">
+<!-- \\triagens\\ArangoDb\\URLHelper -->
+<g id="node14" class="node"><title>\\triagens\\ArangoDb\\URLHelper</title>
+<a xlink:href="db_triagens_ArangoDb_UrlHelper.html" xlink:title="«abstract»&lt;br/&gt;URLHelper" target="_parent">
 <polygon fill="none" stroke="black" points="444,-600 360,-600 360,-564 444,-564 444,-600"/>
 <text text-anchor="start" x="368" y="-587.433" font-family="Courier,monospace" font-size="11.00">«abstract»</text>
 <text text-anchor="start" x="371.5" y="-574.233" font-family="Courier,monospace" font-size="11.00">URLHelper</text>
 </a>
 </g>
-<!-- \\triagens\\Avocado\\Statement -->
-<g id="node16" class="node"><title>\\triagens\\Avocado\\Statement</title>
-<a xlink:href="db_triagens_Avocado_Statement.html" xlink:title="Statement" target="_parent">
+<!-- \\triagens\\ArangoDb\\Statement -->
+<g id="node16" class="node"><title>\\triagens\\ArangoDb\\Statement</title>
+<a xlink:href="db_triagens_ArangoDb_Statement.html" xlink:title="Statement" target="_parent">
 <polygon fill="none" stroke="black" points="440,-546 364,-546 364,-510 440,-510 440,-546"/>
 <text text-anchor="middle" x="402" y="-525.1" font-family="Courier,monospace" font-size="11.00">Statement</text>
 </a>
 </g>
-<!-- \\triagens\\Avocado\\Cursor -->
-<g id="node17" class="node"><title>\\triagens\\Avocado\\Cursor</title>
-<a xlink:href="db_triagens_Avocado_Cursor.html" xlink:title="Cursor" target="_parent">
+<!-- \\triagens\\ArangoDb\\Cursor -->
+<g id="node17" class="node"><title>\\triagens\\ArangoDb\\Cursor</title>
+<a xlink:href="db_triagens_ArangoDb_Cursor.html" xlink:title="Cursor" target="_parent">
 <polygon fill="none" stroke="black" points="430,-492 374,-492 374,-456 430,-456 430,-492"/>
 <text text-anchor="middle" x="402" y="-471.1" font-family="Courier,monospace" font-size="11.00">Cursor</text>
 </a>
 </g>
-<!-- \\triagens\\Avocado\\DocumentHandler -->
-<g id="node18" class="node"><title>\\triagens\\Avocado\\DocumentHandler</title>
-<a xlink:href="db_triagens_Avocado_DocumentHandler.html" xlink:title="DocumentHandler" target="_parent">
+<!-- \\triagens\\ArangoDb\\DocumentHandler -->
+<g id="node18" class="node"><title>\\triagens\\ArangoDb\\DocumentHandler</title>
+<a xlink:href="db_triagens_ArangoDb_DocumentHandler.html" xlink:title="DocumentHandler" target="_parent">
 <polygon fill="none" stroke="black" points="461,-870 343,-870 343,-834 461,-834 461,-870"/>
 <text text-anchor="middle" x="402" y="-849.1" font-family="Courier,monospace" font-size="11.00">DocumentHandler</text>
 </a>
 </g>
-<!-- \\triagens\\Avocado\\DocumentHandler&#45;&gt;\\triagens\\Avocado\\Handler -->
-<g id="edge10" class="edge"><title>\\triagens\\Avocado\\DocumentHandler&#45;&gt;\\triagens\\Avocado\\Handler</title>
+<!-- \\triagens\\ArangoDb\\DocumentHandler&#45;&gt;\\triagens\\ArangoDb\\Handler -->
+<g id="edge10" class="edge"><title>\\triagens\\ArangoDb\\DocumentHandler&#45;&gt;\\triagens\\ArangoDb\\Handler</title>
 <path fill="none" stroke="black" d="M354.172,-833.937C347.956,-831.155 341.755,-828.151 336,-825 305.801,-808.464 273.985,-785.574 251.492,-768.344"/>
 <polygon fill="none" stroke="black" points="253.401,-765.396 243.351,-762.043 249.117,-770.931 253.401,-765.396"/>
 </g>
-<!-- \\triagens\\Avocado\\BindVars -->
-<g id="node19" class="node"><title>\\triagens\\Avocado\\BindVars</title>
-<a xlink:href="db_triagens_Avocado_BindVars.html" xlink:title="BindVars" target="_parent">
+<!-- \\triagens\\ArangoDb\\BindVars -->
+<g id="node19" class="node"><title>\\triagens\\ArangoDb\\BindVars</title>
+<a xlink:href="db_triagens_ArangoDb_BindVars.html" xlink:title="BindVars" target="_parent">
 <polygon fill="none" stroke="black" points="437,-384 367,-384 367,-348 437,-348 437,-384"/>
 <text text-anchor="middle" x="402" y="-363.1" font-family="Courier,monospace" font-size="11.00">BindVars</text>
 </a>
 </g>
-<!-- \\triagens\\Avocado\\URLs -->
-<g id="node20" class="node"><title>\\triagens\\Avocado\\URLs</title>
-<a xlink:href="db_triagens_Avocado_Urls.html" xlink:title="«abstract»&lt;br/&gt;URLs" target="_parent">
+<!-- \\triagens\\ArangoDb\\URLs -->
+<g id="node20" class="node"><title>\\triagens\\ArangoDb\\URLs</title>
+<a xlink:href="db_triagens_ArangoDb_Urls.html" xlink:title="«abstract»&lt;br/&gt;URLs" target="_parent">
 <polygon fill="none" stroke="black" points="444,-330 360,-330 360,-294 444,-294 444,-330"/>
 <text text-anchor="start" x="368" y="-317.433" font-family="Courier,monospace" font-size="11.00">«abstract»</text>
 <text text-anchor="start" x="388" y="-304.233" font-family="Courier,monospace" font-size="11.00">URLs</text>
 </a>
 </g>
-<!-- \\triagens\\Avocado\\ConnectionOptions -->
-<g id="node21" class="node"><title>\\triagens\\Avocado\\ConnectionOptions</title>
-<a xlink:href="db_triagens_Avocado_ConnectionOptions.html" xlink:title="ConnectionOptions" target="_parent">
+<!-- \\triagens\\ArangoDb\\ConnectionOptions -->
+<g id="node21" class="node"><title>\\triagens\\ArangoDb\\ConnectionOptions</title>
+<a xlink:href="db_triagens_ArangoDb_ConnectionOptions.html" xlink:title="ConnectionOptions" target="_parent">
 <polygon fill="none" stroke="black" points="467,-276 337,-276 337,-240 467,-240 467,-276"/>
 <text text-anchor="middle" x="402" y="-255.1" font-family="Courier,monospace" font-size="11.00">ConnectionOptions</text>
 </a>
 </g>
-<!-- \\triagens\\Avocado\\ConnectException -->
-<g id="node22" class="node"><title>\\triagens\\Avocado\\ConnectException</title>
-<a xlink:href="db_triagens_Avocado_ConnectException.html" xlink:title="ConnectException" target="_parent">
+<!-- \\triagens\\ArangoDb\\ConnectException -->
+<g id="node22" class="node"><title>\\triagens\\ArangoDb\\ConnectException</title>
+<a xlink:href="db_triagens_ArangoDb_ConnectException.html" xlink:title="ConnectException" target="_parent">
 <polygon fill="none" stroke="black" points="464,-114 340,-114 340,-78 464,-78 464,-114"/>
 <text text-anchor="middle" x="402" y="-93.1" font-family="Courier,monospace" font-size="11.00">ConnectException</text>
 </a>
 </g>
-<!-- \\triagens\\Avocado\\ConnectException&#45;&gt;\\triagens\\Avocado\\Exception -->
-<g id="edge12" class="edge"><title>\\triagens\\Avocado\\ConnectException&#45;&gt;\\triagens\\Avocado\\Exception</title>
+<!-- \\triagens\\ArangoDb\\ConnectException&#45;&gt;\\triagens\\ArangoDb\\Exception -->
+<g id="edge12" class="edge"><title>\\triagens\\ArangoDb\\ConnectException&#45;&gt;\\triagens\\ArangoDb\\Exception</title>
 <path fill="none" stroke="black" d="M354.172,-114.063C347.956,-116.845 341.755,-119.849 336,-123 305.801,-139.536 273.985,-162.426 251.492,-179.656"/>
 <polygon fill="none" stroke="black" points="249.117,-177.069 243.351,-185.957 253.401,-182.604 249.117,-177.069"/>
 </g>
-<!-- \\triagens\\Avocado\\Document -->
-<g id="node23" class="node"><title>\\triagens\\Avocado\\Document</title>
-<a xlink:href="db_triagens_Avocado_Document.html" xlink:title="Document" target="_parent">
+<!-- \\triagens\\ArangoDb\\Document -->
+<g id="node23" class="node"><title>\\triagens\\ArangoDb\\Document</title>
+<a xlink:href="db_triagens_ArangoDb_Document.html" xlink:title="Document" target="_parent">
 <polygon fill="none" stroke="black" points="437,-168 367,-168 367,-132 437,-132 437,-168"/>
 <text text-anchor="middle" x="402" y="-147.1" font-family="Courier,monospace" font-size="11.00">Document</text>
 </a>
 </g>
-<!-- \\triagens\\Avocado\\ClientException -->
-<g id="node24" class="node"><title>\\triagens\\Avocado\\ClientException</title>
-<a xlink:href="db_triagens_Avocado_ClientException.html" xlink:title="ClientException" target="_parent">
+<!-- \\triagens\\ArangoDb\\ClientException -->
+<g id="node24" class="node"><title>\\triagens\\ArangoDb\\ClientException</title>
+<a xlink:href="db_triagens_ArangoDb_ClientException.html" xlink:title="ClientException" target="_parent">
 <polygon fill="none" stroke="black" points="461,-438 343,-438 343,-402 461,-402 461,-438"/>
 <text text-anchor="middle" x="402" y="-417.1" font-family="Courier,monospace" font-size="11.00">ClientException</text>
 </a>
 </g>
-<!-- \\triagens\\Avocado\\ClientException&#45;&gt;\\triagens\\Avocado\\Exception -->
-<g id="edge14" class="edge"><title>\\triagens\\Avocado\\ClientException&#45;&gt;\\triagens\\Avocado\\Exception</title>
+<!-- \\triagens\\ArangoDb\\ClientException&#45;&gt;\\triagens\\ArangoDb\\Exception -->
+<g id="edge14" class="edge"><title>\\triagens\\ArangoDb\\ClientException&#45;&gt;\\triagens\\ArangoDb\\Exception</title>
 <path fill="none" stroke="black" d="M348.708,-401.826C344.179,-399.226 339.862,-396.294 336,-393 283.2,-347.96 247.644,-272.346 231.294,-231.754"/>
 <polygon fill="none" stroke="black" points="234.466,-230.256 227.552,-222.228 227.95,-232.816 234.466,-230.256"/>
 </g>
-<!-- \\triagens\\Avocado\\HttpResponse -->
-<g id="node25" class="node"><title>\\triagens\\Avocado\\HttpResponse</title>
-<a xlink:href="db_triagens_Avocado_HttpResponse.html" xlink:title="HttpResponse" target="_parent">
+<!-- \\triagens\\ArangoDb\\HttpResponse -->
+<g id="node25" class="node"><title>\\triagens\\ArangoDb\\HttpResponse</title>
+<a xlink:href="db_triagens_ArangoDb_HttpResponse.html" xlink:title="HttpResponse" target="_parent">
 <polygon fill="none" stroke="black" points="451,-60 353,-60 353,-24 451,-24 451,-60"/>
 <text text-anchor="middle" x="402" y="-39.1" font-family="Courier,monospace" font-size="11.00">HttpResponse</text>
 </a>

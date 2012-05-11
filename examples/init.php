@@ -1,6 +1,6 @@
 <?php
 
-namespace triagens\Avocado;
+namespace triagens\ArangoDb;
 
 require dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'autoload.php';
 

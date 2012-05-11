@@ -1,10 +1,10 @@
-# PHP client for AvocadoDB
+# PHP client for ArangoDB
 
 This PHP client allows REST-based access to documents on the server.
-The AvocadoDocumentHandler class should be used for these purposes.
+The ArangoDocumentHandler class should be used for these purposes.
 There is an example for REST-based documents access in the file examples/document.php.
 
-Furthermore, the PHP client also allows to issue more complex queries using the AvocadoStatement class.
+Furthermore, the PHP client also allows to issue more complex queries using the ArangoStatement class.
 There is an example for this kind of statements in the file examples/select.php.
 
 To use the PHP client, you must include the file autoloader.php from the main directory.
@@ -12,23 +12,23 @@ The autoloader will care about loading additionally required classes on the fly.
 
 
 Requirements:
-* AvocadoDB database server
+* ArangoDB database server
 * PHP version 5.3 or higher
 
-# Using AvocadoDB with PHP
+# Using ArangoDB with PHP
 
-To use AvocadoDB as a data store in your PHP project, use the [AvocadoDB PHP client](https://github.com/triAGENS/AvocadoDB-PHP)
+To use ArangoDB as a data store in your PHP project, use the [ArangoDB PHP client](https://github.com/triAGENS/ArangoDB-PHP)
  client.
 
-The AvocadoDB PHP client is an API that allows you to send and retrieve documents from AvocadoDB from out of your PHP application. The client library itself is written in PHP and has no further dependencies but just plain PHP 5.3 (or higher).
+The ArangoDB PHP client is an API that allows you to send and retrieve documents from ArangoDB from out of your PHP application. The client library itself is written in PHP and has no further dependencies but just plain PHP 5.3 (or higher).
 
-The client library provides document and collection classes you can use to work with documents and collections in an OO fashion. When exchanging document data with the server, the library internally will use the [HTTP REST interface of AvocadoDB](https://github.com/triAGENS/AvocadoDB/wiki/OTWP). The library user does not have to care about this fact as all the details of the REST interface are abstracted by the client library.
+The client library provides document and collection classes you can use to work with documents and collections in an OO fashion. When exchanging document data with the server, the library internally will use the [HTTP REST interface of ArangoDB](https://github.com/triAGENS/ArangoDB/wiki/OTWP). The library user does not have to care about this fact as all the details of the REST interface are abstracted by the client library.
 
 ## Getting started
 
-To get started you need PHP 5.3 or higher plus an AvocadoDB server running on any host that you can access.
+To get started you need PHP 5.3 or higher plus an ArangoDB server running on any host that you can access.
 
-There are two alternative ways to get the AvocadoDB PHP client:
+There are two alternative ways to get the ArangoDB PHP client:
 
  * Using packagist/composer
  * Cloning the git repository
@@ -41,44 +41,44 @@ Get the composer.phar file from [getcomposer.org](http://getcomposer.org):
 
     curl -s http://getcomposer.org/installer | php
 
-This will put the composer.phar file into the current directory. Next, create a new directory for your project, e.g. avocphp, and move into it:
+This will put the composer.phar file into the current directory. Next, create a new directory for your project, e.g. arangophp, and move into it:
 
-    mkdir avocphp && cd avocphp
+    mkdir arangophp && cd arangophp
 
 Then, use composer's init command to define the initial dependencies for your project:
 
     php ../composer.phar init
 
 This will fire up composer's interactive config generator. It will ask you several questions, and the below example shows how you can answer them. Most questions have reasonable default settings and you can should use the defaults whenever you're unsure.
-When asked for a package name, type ## triagens/Avocado. This is the package name for the AvocadoDB PHP client. When being asked for a package number (package ##), you can either use dev-master (latest version) or one of the designated tagged versions.
+When asked for a package name, type ## triagens/Arango. This is the package name for the ArangoDB PHP client. When being asked for a package number (package ##), you can either use dev-master (latest version) or one of the designated tagged versions.
 
     Welcome to the Composer config generator
 
 This command will guide you through creating your composer.json config.
 
-    Package name (/) [jsteemann/avocphp]:
-    Description []: An example application using AvocadoDB PHP client
+    Package name (/) [jsteemann/arangophp]:
+    Description []: An example application using ArangoDB PHP client
     Author [jsteemann]:
 
     Define your dependencies.
 
     Would you like to define your dependencies interactively [yes]? yes
-    Search for a package []: triagens/Avocado
+    Search for a package []: triagens/Arango
 
-    Found 3 packages matching triagens/Avocado
+    Found 3 packages matching triagens/Arango
 
-    [0] triagens/Avocado dev-master
-    [1] TRIAGENS/AVOCADO V0.1.1
-    [2] TRIAGENS/AVOCADO V0.0.1
+    [0] triagens/ArangoDb dev-master
+    [1] triagens/ArangoDb V0.1.1
+    [2] triagens/ArangoDb V0.0.1
 
     Enter package ## to add, or a couple if it is not listed []: 0
     Search for a package []:
 
     {
-        "name": "jsteemann/avocphp",
-        "description": "An example application using AvocadoDB PHP client",
+        "name": "jsteemann/arangophp",
+        "description": "An example application using ArangoDB PHP client",
         "require": {
-            "triagens/avocado": "dev-master"
+            "triagens/arangodb": "dev-master"
         },
         "authors": [
         {
@@ -91,78 +91,78 @@ This command will guide you through creating your composer.json config.
     Do you confirm generation [yes]? yes
     Would you like the vendor directory added to your .gitignore [yes]?
 
-The above has created a file composer.json in your current directory, which contains information about your project plus the project dependencies. The AvocadoDB PHP client is one the dependencies, and it can be installed by running the following command:
+The above has created a file composer.json in your current directory, which contains information about your project plus the project dependencies. The ArangoDB PHP client is one the dependencies, and it can be installed by running the following command:
 
     php ../composer.phar update
     Updating dependencies
-    - Package triagens/avocado (dev-master)
+    - Package triagens/arangodb (dev-master)
     Cloning e4e9107aec3d1e0c914e40436f77fed0e5df2485
 
     Writing lock file
     Generating autoload files
 
 
-Running this command has created a subdirectory vendor in the current directory. The vendor directory contains a subdirectory triagens that contains the AvocadoDB PHP client library files. The vendor directory also contains a subdirectory .composer that contains auto-generated autoloader files for all dependencies you defined in your composer.json file (the file auto-generated by running the previous init command).
+Running this command has created a subdirectory vendor in the current directory. The vendor directory contains a subdirectory triagens that contains the ArangoDB PHP client library files. The vendor directory also contains a subdirectory .composer that contains auto-generated autoloader files for all dependencies you defined in your composer.json file (the file auto-generated by running the previous init command).
 
-You need to include the generated autoloader file in your project when using the AvocadoDB PHP classes. You can do so by adding the following line to any PHP file that will use them:
+You need to include the generated autoloader file in your project when using the ArangoDB PHP classes. You can do so by adding the following line to any PHP file that will use them:
 
     require 'vendor/.composer/autoload.php';
 
 ## Alternative 2: Cloning the git repository
 
-When preferring this alternative, you need to have a git client installed. To clone the AvocadoDB PHP client repository from github, execute the following command in your project directory:
+When preferring this alternative, you need to have a git client installed. To clone the ArangoDB PHP client repository from github, execute the following command in your project directory:
 
-    git clone "https://github.com/triAGENS/AvocadoDB-PHP.git"
+    git clone "https://github.com/triAGENS/ArangoDB-PHP.git"
 
 
-This will create a subdirectory AvocadoDB-PHP in your current directory. It contains all the files of the client library. It also includes a dedicated autoloader that you can use for autoloading the client libraries class files.
+This will create a subdirectory ArangoDB-PHP in your current directory. It contains all the files of the client library. It also includes a dedicated autoloader that you can use for autoloading the client libraries class files.
 To invoke this autoloader, add the following line to your PHP files that will use the library:
 
-    require 'AvocadoDB-PHP/autoload.php';
+    require 'ArangoDB-PHP/autoload.php';
 
 
-The AvocadoDB PHP client's autoloader will only care about its own class files and will not handle any other files. That means it is fully nestable with other autoloaders.
+The ArangoDB PHP client's autoloader will only care about its own class files and will not handle any other files. That means it is fully nestable with other autoloaders.
 
 ## Setting up the connection options
 
-In order to use AvocadoDB, you need to specify the connection options. We do so by creating a PHP array $connectionOptions. Put this code into a file named test.php in your current directory:
+In order to use ArangoDB, you need to specify the connection options. We do so by creating a PHP array $connectionOptions. Put this code into a file named test.php in your current directory:
 
 
     // use the following line when using packagist/composer
     // require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . '.composer' . DIRECTORY_SEPARATOR . 'autoload.php';
 
     // use the following line when using git
-    require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'AvocadoDB-PHP' . DIRECTORY_SEPARATOR . 'autoload.php';
+    require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ArangoDB-PHP' . DIRECTORY_SEPARATOR . 'autoload.php';
 
     // set up some aliases for less typing later
-    use triagens\Avocado\Connection as AvocadoConnection;
-    use triagens\Avocado\ConnectionOptions as AvocadoConnectionOptions;
-    use triagens\Avocado\DocumentHandler as AvocadoDocumentHandler;
-    use triagens\Avocado\Document as AvocadoDocument;
-    use triagens\Avocado\Exception as AvocadoException;
-    use triagens\Avocado\ConnectException as AvocadoConnectException;
-    use triagens\Avocado\ClientException as AvocadoClientException;
-    use triagens\Avocado\ServerException as AvocadoServerException;
-    use triagens\Avocado\UpdatePolicy as AvocadoUpdatePolicy;
+    use triagens\Arango\Connection as ArangoConnection;
+    use triagens\Arango\ConnectionOptions as ArangoConnectionOptions;
+    use triagens\Arango\DocumentHandler as ArangoDocumentHandler;
+    use triagens\Arango\Document as ArangoDocument;
+    use triagens\Arango\Exception as ArangoException;
+    use triagens\Arango\ConnectException as ArangoConnectException;
+    use triagens\Arango\ClientException as ArangoClientException;
+    use triagens\Arango\ServerException as ArangoServerException;
+    use triagens\Arango\UpdatePolicy as ArangoUpdatePolicy;
 
     // set up some basic connection options
     $connectionOptions = array(
         // server port
-        AvocadoConnectionOptions::OPTION_PORT => 8529,
+        ArangoConnectionOptions::OPTION_PORT => 8529,
         // server host
-        AvocadoConnectionOptions::OPTION_HOST => 'localhost',
+        ArangoConnectionOptions::OPTION_HOST => 'localhost',
         // connect timeout in seconds
-        AvocadoConnectionOptions::OPTION_TIMEOUT => 3,
+        ArangoConnectionOptions::OPTION_TIMEOUT => 3,
         // optionally create new collections when inserting documents
-        AvocadoConnectionOptions::OPTION_CREATE => true,
+        ArangoConnectionOptions::OPTION_CREATE => true,
         // optionally create new collections when inserting documents
-        AvocadoConnectionOptions::OPTION_UPDATE_POLICY => AvocadoUpdatePolicy::LAST,
+        ArangoConnectionOptions::OPTION_UPDATE_POLICY => ArangoUpdatePolicy::LAST,
     );
 
-    $connection = new AvocadoConnection($connectionOptions);
+    $connection = new ArangoConnection($connectionOptions);
 
 
-This will make the client connect to AvocadoDB
+This will make the client connect to ArangoDB
 
 * running on localhost (OPTION_HOST)
 * on the default port 8529 (OPTION_PORT)
@@ -186,10 +186,10 @@ After we got the settings, we can start with creating an initial document. We wi
 The below code will first set up the document locally in a variable name $user, and then push it to the server and return the document id created by the server:
 
 
-    $handler = new AvocadoDocumentHandler($connection);
+    $handler = new ArangoDocumentHandler($connection);
 
     // create a new document
-    $user = new AvocadoDocument();
+    $user = new ArangoDocument();
 
     // use set method to set document properties
     $user->set("name", "John");
@@ -217,11 +217,11 @@ The above code will work but it does not check for any errors. To make it work i
 
 
     try {
-    $connection = new AvocadoConnection($connectionOptions);
-    $handler = new AvocadoDocumentHandler($connection);
+    $connection = new ArangoConnection($connectionOptions);
+    $handler = new ArangoDocumentHandler($connection);
 
     // create a new document
-    $user = new AvocadoDocument();
+    $user = new ArangoDocument();
 
     // use set method to set document properties
     $user->set("name", "John");
@@ -235,11 +235,11 @@ The above code will work but it does not check for any errors. To make it work i
 
     // print the document id created by the server
     var_dump($id);
-    } catch (AvocadoConnectException $e) {
+    } catch (ArangoConnectException $e) {
       print 'Connection error: ' . $e->getMessage() . PHP_EOL;
-    } catch (AvocadoClientException $e) {
+    } catch (ArangoClientException $e) {
       print 'Client error: ' . $e->getMessage() . PHP_EOL;
-    } catch (AvocadoServerException $e) {
+    } catch (ArangoServerException $e) {
       print 'Server error: ' . $e->getServerCode() . ':' . $e->getServerMessage() . ' ' . $e->getMessage() . PHP_EOL;
     }
 
@@ -256,12 +256,12 @@ To retrieve a document from the server, the get() method of the DocumentHandler 
 
     The result of the get() method is a Document object that you can use in an OO fashion:
 
-    object(triagens\Avocado\Document)##6 (4) {
-        ["_id":"triagens\Avocado\Document":private]=>
+    object(triagens\Arango\Document)##6 (4) {
+        ["_id":"triagens\Arango\Document":private]=>
         string(15) "2377907/4818344"
-        ["_rev":"triagens\Avocado\Document":private]=>
+        ["_rev":"triagens\Arango\Document":private]=>
         int(4818344)
-        ["_values":"triagens\Avocado\Document":private]=>
+        ["_values":"triagens\Arango\Document":private]=>
         array(3) {
             ["age"]=>
             int(25)
@@ -277,7 +277,7 @@ To retrieve a document from the server, the get() method of the DocumentHandler 
                 string(8) "swimming"
             }
         }
-        ["_changed":"triagens\Avocado\Document":private]=>
+        ["_changed":"triagens\Arango\Document":private]=>
         bool(false)
     }
 
@@ -354,39 +354,39 @@ Here's the full code that combines all the pieces outlined above:
     // use the following line when using packagist/composer
     //require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . '.composer' . DIRECTORY_SEPARATOR . 'autoload.php';
     // use the following line when using git
-    require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'AvocadoDB-PHP' . DIRECTORY_SEPARATOR . 'autoload.php';
+    require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ArangoDB-PHP' . DIRECTORY_SEPARATOR . 'autoload.php';
 
     // set up some aliases for less typing later
-    use triagens\Avocado\Connection as AvocadoConnection;
-    use triagens\Avocado\ConnectionOptions as AvocadoConnectionOptions;
-    use triagens\Avocado\DocumentHandler as AvocadoDocumentHandler;
-    use triagens\Avocado\Document as AvocadoDocument;
-    use triagens\Avocado\Exception as AvocadoException;
-    use triagens\Avocado\ConnectException as AvocadoConnectException;
-    use triagens\Avocado\ClientException as AvocadoClientException;
-    use triagens\Avocado\ServerException as AvocadoServerException;
-    use triagens\Avocado\UpdatePolicy as AvocadoUpdatePolicy;
+    use triagens\Arango\Connection as ArangoConnection;
+    use triagens\Arango\ConnectionOptions as ArangoConnectionOptions;
+    use triagens\Arango\DocumentHandler as ArangoDocumentHandler;
+    use triagens\Arango\Document as ArangoDocument;
+    use triagens\Arango\Exception as ArangoException;
+    use triagens\Arango\ConnectException as ArangoConnectException;
+    use triagens\Arango\ClientException as ArangoClientException;
+    use triagens\Arango\ServerException as ArangoServerException;
+    use triagens\Arango\UpdatePolicy as ArangoUpdatePolicy;
 
     // set up some basic connection options
     $connectionOptions = array(
         // server port
-        AvocadoConnectionOptions::OPTION_PORT => 8529,
+        ArangoConnectionOptions::OPTION_PORT => 8529,
         // server host
-        AvocadoConnectionOptions::OPTION_HOST => 'localhost',
+        ArangoConnectionOptions::OPTION_HOST => 'localhost',
         // connect timeout in seconds
-        AvocadoConnectionOptions::OPTION_TIMEOUT => 3,
+        ArangoConnectionOptions::OPTION_TIMEOUT => 3,
         // optionally create new collections when inserting documents
-        AvocadoConnectionOptions::OPTION_CREATE => true,
+        ArangoConnectionOptions::OPTION_CREATE => true,
         // optionally create new collections when inserting documents
-        AvocadoConnectionOptions::OPTION_UPDATE_POLICY => AvocadoUpdatePolicy::LAST,
+        ArangoConnectionOptions::OPTION_UPDATE_POLICY => ArangoUpdatePolicy::LAST,
     );
 
     try {
-        $connection = new AvocadoConnection($connectionOptions);
-        $handler = new AvocadoDocumentHandler($connection);
+        $connection = new ArangoConnection($connectionOptions);
+        $handler = new ArangoDocumentHandler($connection);
 
         // create a new document
-        $user = new AvocadoDocument();
+        $user = new ArangoDocument();
 
         // use set method to set document properties
         $user->set("name", "John");
@@ -426,13 +426,13 @@ Here's the full code that combines all the pieces outlined above:
         $result = $handler->delete($userFromServer);
         var_dump($result);
     }
-    catch (AvocadoConnectException $e) {
+    catch (ArangoConnectException $e) {
         print 'Connection error: ' . $e->getMessage() . PHP_EOL;
     }
-    catch (AvocadoClientException $e) {
+    catch (ArangoClientException $e) {
         print 'Client error: ' . $e->getMessage() . PHP_EOL;
     }
-    catch (AvocadoServerException $e) {
+    catch (ArangoServerException $e) {
         print 'Server error: ' . $e->getServerCode() . ':' . $e->getServerMessage() . ' ' . $e->getMessage() . PHP_EOL;
     }
 
@@ -443,4 +443,4 @@ More example code, containing some code to create, delete and rename collections
 
 There is also a PHPDoc documentation for the complete library in the library's docs subdirectory. Point your browser at this directory to get a click-through version of the documentation.
 
-Furthermore, check the AvocadoDB PHP client on github.com regularly for new releases and updates: [https://github.com/triAGENS/AvocadoDB-PHP](https://github.com/triAGENS/AvocadoDB-PHP)
+Furthermore, check the ArangoDB PHP client on github.com regularly for new releases and updates: [https://github.com/triAGENS/ArangoDB-PHP](https://github.com/triAGENS/ArangoDB-PHP)

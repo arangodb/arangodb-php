@@ -1,14 +1,14 @@
 {
-  "name": "triagens/Avocado",
+  "name": "triagens/ArangoDb",
   "type": "library",
-  "description": "AvocadoDB PHP client",
-  "keywords": ["database","AvocadoDB","document","NoSQL"],
-  "homepage": "https://github.com/triAGENS/AvocadoDB-PHP",
+  "description": "ArangodDb PHP client",
+  "keywords": ["database","ArangoDb","Arango","document store","NoSQL"],
+  "homepage": "https://github.com/triAGENS/ArangoDB-PHP",
   "license": "Apache2",
   "authors": [
     {
       "name": "Jan Steemann",
-      "homepage": "https://github.com/triAGENS/AvocadoDB-PHP"
+      "homepage": "https://github.com/triAGENS/ArangoDB-PHP"
     }
   ],
   "require": {
@@ -16,13 +16,13 @@
   },
   "autoload": {
     "psr-0": {
-      "triagens\\Avocado": "lib/"
+      "triagens\\ArangoDb": "lib/"
     }
   },
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/triAGENS/AvocadoDB-PHP"
+      "url": "https://github.com/triAGENS/ArangoDB-PHP"
     }
   ]
 }
