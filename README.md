@@ -135,15 +135,15 @@ In order to use ArangoDB, you need to specify the connection options. We do so b
     require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ArangoDB-PHP' . DIRECTORY_SEPARATOR . 'autoload.php';
 
     // set up some aliases for less typing later
-    use triagens\Arango\Connection as ArangoConnection;
-    use triagens\Arango\ConnectionOptions as ArangoConnectionOptions;
-    use triagens\Arango\DocumentHandler as ArangoDocumentHandler;
-    use triagens\Arango\Document as ArangoDocument;
-    use triagens\Arango\Exception as ArangoException;
-    use triagens\Arango\ConnectException as ArangoConnectException;
-    use triagens\Arango\ClientException as ArangoClientException;
-    use triagens\Arango\ServerException as ArangoServerException;
-    use triagens\Arango\UpdatePolicy as ArangoUpdatePolicy;
+    use triagens\Arangodb\Connection as ArangoConnection;
+    use triagens\Arangodb\ConnectionOptions as ArangoConnectionOptions;
+    use triagens\Arangodb\DocumentHandler as ArangoDocumentHandler;
+    use triagens\Arangodb\Document as ArangoDocument;
+    use triagens\Arangodb\Exception as ArangoException;
+    use triagens\Arangodb\ConnectException as ArangoConnectException;
+    use triagens\Arangodb\ClientException as ArangoClientException;
+    use triagens\Arangodb\ServerException as ArangoServerException;
+    use triagens\Arangodb\UpdatePolicy as ArangoUpdatePolicy;
 
     // set up some basic connection options
     $connectionOptions = array(
@@ -256,12 +256,12 @@ To retrieve a document from the server, the get() method of the DocumentHandler 
 
     The result of the get() method is a Document object that you can use in an OO fashion:
 
-    object(triagens\Arango\Document)##6 (4) {
-        ["_id":"triagens\Arango\Document":private]=>
+    object(triagens\ArangoDb\Document)##6 (4) {
+        ["_id":"triagens\ArangoDb\Document":private]=>
         string(15) "2377907/4818344"
-        ["_rev":"triagens\Arango\Document":private]=>
+        ["_rev":"triagens\ArangoDb\Document":private]=>
         int(4818344)
-        ["_values":"triagens\Arango\Document":private]=>
+        ["_values":"triagens\ArangoDb\Document":private]=>
         array(3) {
             ["age"]=>
             int(25)
@@ -277,7 +277,7 @@ To retrieve a document from the server, the get() method of the DocumentHandler 
                 string(8) "swimming"
             }
         }
-        ["_changed":"triagens\Arango\Document":private]=>
+        ["_changed":"triagens\ArangoDb\Document":private]=>
         bool(false)
     }
 
@@ -285,17 +285,17 @@ To retrieve a document from the server, the get() method of the DocumentHandler 
 
 Whenever the document id is yet unknown, but you want to fetch a document from the server by any of its other properties, you can use the getByExample() method. It allows you to provide an example of the document that you are looking for. The example should either be a Document object with the relevant properties set, or, a PHP array with the propeties that you are looking for:
 
-    $documents = $handler->getByExample('users', array('name'=>'John'));
-    var_dump($documents);
+    $cursor = $handler->getByExample('users', array('name'=>'John'));
+    var_dump($cursor->getAll());
 
     $user = new Document();
     $user->name = 'John';
-    $documents = $handler->getByExample('users', $user);
-    var_dump($documents);
+    $cursor = $handler->getByExample('users', $user);
+    var_dump($cursor->getAll());
 
 
-This will return all documents from the specified collection (here: "users") with the properties provided in the example (here: that have an attribute "name" with a value of "John"). The result is a PHP array of Document objects.
-Note that getByExample() might return multiple documents if the example is not unambigious.
+This will return all documents from the specified collection (here: "users") with the properties provided in the example (here: that have an attribute "name" with a value of "John"). The result is a cursor which can be iterated sequentially or completely. We have chosen to get the complete result set above by calling the cursor's getAll() method.
+Note that getByExample() might return multiple documents if the example is ambigious.
 
 ## Updating a document
 
@@ -357,15 +357,15 @@ Here's the full code that combines all the pieces outlined above:
     require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ArangoDB-PHP' . DIRECTORY_SEPARATOR . 'autoload.php';
 
     // set up some aliases for less typing later
-    use triagens\Arango\Connection as ArangoConnection;
-    use triagens\Arango\ConnectionOptions as ArangoConnectionOptions;
-    use triagens\Arango\DocumentHandler as ArangoDocumentHandler;
-    use triagens\Arango\Document as ArangoDocument;
-    use triagens\Arango\Exception as ArangoException;
-    use triagens\Arango\ConnectException as ArangoConnectException;
-    use triagens\Arango\ClientException as ArangoClientException;
-    use triagens\Arango\ServerException as ArangoServerException;
-    use triagens\Arango\UpdatePolicy as ArangoUpdatePolicy;
+    use triagens\ArangoDb\Connection as ArangoConnection;
+    use triagens\ArangoDb\ConnectionOptions as ArangoConnectionOptions;
+    use triagens\ArangoDb\DocumentHandler as ArangoDocumentHandler;
+    use triagens\ArangoDb\Document as ArangoDocument;
+    use triagens\ArangoDb\Exception as ArangoException;
+    use triagens\ArangoDb\ConnectException as ArangoConnectException;
+    use triagens\ArangoDb\ClientException as ArangoClientException;
+    use triagens\ArangoDb\ServerException as ArangoServerException;
+    use triagens\ArangoDb\UpdatePolicy as ArangoUpdatePolicy;
 
     // set up some basic connection options
     $connectionOptions = array(
@@ -407,8 +407,8 @@ Here's the full code that combines all the pieces outlined above:
         var_dump($userFromServer);
 
         // get a document list back from the server, using a document example
-        $result = $handler->getByExample('users', array('name'=>'John'));
-        var_dump($result);
+        $cursor = $handler->getByExample('users', array('name'=>'John'));
+        var_dump($cursor->getAll());
 
         // update a document
         $userFromServer->likes = array('fishing', 'swimming');
