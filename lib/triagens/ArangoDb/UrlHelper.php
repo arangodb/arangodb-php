@@ -23,6 +23,17 @@ abstract class URLHelper {
    * @return string - document id parsed from header
    */
   public static function getDocumentIdFromLocation($location) {
+    @list(,,,, $id) = explode('/', $location);
+    return $id;
+  }
+
+  /**
+   * Get the collection id from a location header
+   *
+   * @param string $location - HTTP response location header
+   * @return string - collection id parsed from header
+   */
+  public static function getCollectionIdFromLocation($location) {
     @list(,,, $id) = explode('/', $location);
     return $id;
   }

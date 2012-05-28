@@ -19,7 +19,7 @@ abstract class URLs {
   /**
    * URL base part for all document-related REST calls
    */
-  const URL_DOCUMENT           = '/document';
+  const URL_DOCUMENT           = '/_api/document';
   
   /**
    * URL base part for all collection-related REST calls

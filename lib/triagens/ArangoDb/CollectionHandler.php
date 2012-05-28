@@ -113,7 +113,7 @@ class CollectionHandler extends Handler {
       throw new ClientException('Did not find location header in server response');
     }
 
-    $id = UrlHelper::getDocumentIdFromLocation($location);
+    $id = UrlHelper::getCollectionIdFromLocation($location);
     $collection->setId($id);
 
     return $id;

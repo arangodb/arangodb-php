@@ -146,7 +146,7 @@ class DocumentHandler extends Handler {
 
     $document->setInternalId($json[Document::ENTRY_ID]);
     $document->setRevision($json[Document::ENTRY_REV]);
-    
+   
     if ($id != $document->getId()) {
       throw new ClientException('Got an invalid response from the server');
     }
