@@ -110,13 +110,6 @@ class Cursor implements \Iterator {
 
     $this->rewind();
   }
-
-  private function addDocumentsFromArray(array $data)
-  {
-    foreach ($this->sanitize($data) as $row) {
-      $this->_result[] = Document::createFromArray($row);
-    }
-  }
   
   /**
    * Explicitly delete the cursor
@@ -230,6 +223,19 @@ class Cursor implements \Iterator {
     $this->fetchOutstanding();
 
     return ($this->_position <= $this->_length - 1);
+  }
+  
+  /**
+   * Create an array of documents from the input array
+   * @param array $data - array of incoming "document" arrays
+   *
+   * @return void 
+   */
+  private function addDocumentsFromArray(array $data)
+  {
+    foreach ($this->sanitize($data) as $row) {
+      $this->_result[] = Document::createFromArray($row);
+    }
   }
 
   /**
