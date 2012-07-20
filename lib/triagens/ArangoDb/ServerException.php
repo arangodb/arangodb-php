@@ -38,6 +38,15 @@ class ServerException extends Exception {
   const ENTRY_MESSAGE  = 'errorMessage';
   
   /**
+   * Return a string representation of the exception
+   *
+   * @return string - string representation
+   */
+  public function __toString() {
+    return __CLASS__ . ': ' . $this->getServerCode() . ' ' . $this->getMessage();
+  }
+  
+  /**
    * Set exception details
    *
    * If the server provides additional details about the error
@@ -75,7 +84,7 @@ class ServerException extends Exception {
       return $this->_details[self::ENTRY_CODE];
     }
 
-    return NULL;
+    return $this->getCode();
   }
 
   /**

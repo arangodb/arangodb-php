@@ -24,14 +24,25 @@ class ConnectionOptions implements \ArrayAccess {
    * @var array 
    */
   private $_values           = array();
+  
+  /**
+   * The connection endpoint object
+   * @var Endpoint 
+   */
+  private $_endpoint         = NULL;
+  
+  /**
+   * Endpoint string index constant
+   */
+  const OPTION_ENDPOINT      = 'endpoint';
 
   /**
-   * Host name string index constant
+   * Host name string index constant (deprecated, use endpoint instead)
    */
   const OPTION_HOST          = 'host';
   
   /**
-   * Port number index constant
+   * Port number index constant (deprecated, use endpoint instead)
    */
   const OPTION_PORT          = 'port';
   
@@ -59,6 +70,26 @@ class ConnectionOptions implements \ArrayAccess {
    * Wait for sync index constant
    */
   const OPTION_WAIT_SYNC     = 'waitForSync';
+
+  /**
+   * Authentication user name
+   */
+  const OPTION_AUTH_USER     = 'AuthUser';
+  
+  /**
+   * Authentication password
+   */
+  const OPTION_AUTH_PASSWD   = 'AuthPasswd';
+  
+  /**
+   * Authentication type
+   */
+  const OPTION_AUTH_TYPE     = 'AuthType';
+  
+  /**
+   * Connection 
+   */
+  const OPTION_CONNECTION    = 'Connection';
   
   /**
    * Set defaults, use options provided by client and validate them
@@ -68,7 +99,7 @@ class ConnectionOptions implements \ArrayAccess {
    * @return void
    */
   public function __construct(array $options) {
-    $this->_values = array_merge($this->getDefaults(), $options);
+    $this->_values = array_merge(self::getDefaults(), $options);
     $this->validate();
   }
 
@@ -130,21 +161,60 @@ class ConnectionOptions implements \ArrayAccess {
 
     return $this->_values[$offset];
   }
-  
+
+  /**
+   * Get the endpoint object for the connection
+   *
+   * @throws ClientException
+   * @return Endpoint - endpoint object
+   */
+  public function getEndpoint() {
+    if ($this->_endpoint === NULL) {
+      // will also validate the endpoint
+      $this->_endpoint = new Endpoint($this->_values[self::OPTION_ENDPOINT]);
+    }
+
+    return $this->_endpoint;
+  }
+
   /**
    * Get the default values for the options
    *
    * @return array - array of default connection options
    */
-  private function getDefaults() {
+  private static function getDefaults() {
     return array(
+      self::OPTION_ENDPOINT      => NULL,
+      self::OPTION_HOST          => NULL,
       self::OPTION_PORT          => DefaultValues::DEFAULT_PORT,
       self::OPTION_TIMEOUT       => DefaultValues::DEFAULT_TIMEOUT,
       self::OPTION_CREATE        => DefaultValues::DEFAULT_CREATE,
       self::OPTION_UPDATE_POLICY => DefaultValues::DEFAULT_UPDATE_POLICY,
       self::OPTION_WAIT_SYNC     => DefaultValues::DEFAULT_WAIT_SYNC,
+      self::OPTION_CONNECTION    => DefaultValues::DEFAULT_CONNECTION,
       self::OPTION_TRACE         => NULL,
+      self::OPTION_AUTH_USER     => NULL,
+      self::OPTION_AUTH_PASSWD   => NULL,
+      self::OPTION_AUTH_TYPE     => NULL,
     );
+  }
+
+  /**
+   * Return the supported authorization types
+   *
+   * @return array - array with supported authorization types
+   */
+  private static function getSupportedAuthTypes() {
+    return array('Basic');
+  }
+
+  /**
+   * Return the supported connection types
+   *
+   * @return array - array with supported connection types
+   */
+  private static function getSupportedConnectionTypes() {
+    return array('Close', 'Keep-Alive');
   }
   
   /**
@@ -154,12 +224,39 @@ class ConnectionOptions implements \ArrayAccess {
    * @return void - will throw if an invalid option value is found
    */
   private function validate() {
-    if (!isset($this->_values[self::OPTION_HOST]) || !is_string($this->_values[self::OPTION_HOST])) {
+    if (isset($this->_values[self::OPTION_HOST]) && !is_string($this->_values[self::OPTION_HOST])) {
       throw new ClientException('host should be a string');
     }
 
-    if (!isset($this->_values[self::OPTION_PORT]) || !is_int($this->_values[self::OPTION_PORT])) {
+    if (isset($this->_values[self::OPTION_PORT]) && !is_int($this->_values[self::OPTION_PORT])) {
       throw new ClientException('port should be an integer');
+    }
+    
+    // can use either endpoint or host/port
+    if (isset($this->_values[self::OPTION_HOST]) && isset($this->_values[self::OPTION_ENDPOINT])) {
+      throw new ClientException('must not specify both host and enpoint');
+    }
+    else {
+      if (isset($this->_values[self::OPTION_HOST]) && !isset($this->_values[self::OPTION_ENDPOINT])) {
+        // upgrade host/port to an endpoint
+        $this->_values[self::OPTION_ENDPOINT] = 'tcp://' . $this->_values[self::OPTION_HOST] . ':' . $this->_values[self::OPTION_PORT];
+      }
+    }
+
+    assert(isset($this->_values[self::OPTION_ENDPOINT]));
+    // set up a new endpoint, this will also validate it
+    $this->getEndpoint();
+    if (Endpoint::getType(self::OPTION_ENDPOINT) === Endpoint::TYPE_UNIX) {
+      // must set port to 0 for UNIX sockets
+      $this->_values[self::OPTION_PORT] = 0;
+    }
+
+    if (isset($this->_values[self::OPTION_AUTH_TYPE]) && !in_array($this->_values[self::OPTION_AUTH_TYPE], self::getSupportedAuthTypes())) {
+      throw new ClientException('unsupported authorization method');
+    }
+
+    if (isset($this->_values[self::OPTION_CONNECTION]) && !in_array($this->_values[self::OPTION_CONNECTION], self::getSupportedConnectionTypes())) {
+      throw new ClientException(sprintf("unsupported connection value '%s'", $this->_values[self::OPTION_CONNECTION]));
     }
 
     UpdatePolicy::validate($this->_values[self::OPTION_UPDATE_POLICY]);

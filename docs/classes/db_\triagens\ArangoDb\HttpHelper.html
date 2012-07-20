@@ -68,9 +68,10 @@ It is the caller's responsibility to close the socket</span><pre>transfer()</pre
 <li class="constant  "><a href="#EOL" title="EOL :: End of line mark used in HTTP"><span class="description">End of line mark used in HTTP</span><pre>EOL</pre></a></li>
 <li class="constant  "><a href="#METHOD_DELETE" title="METHOD_DELETE :: HTTP DELETE string constant"><span class="description">HTTP DELETE string constant</span><pre>METHOD_DELETE</pre></a></li>
 <li class="constant  "><a href="#METHOD_GET" title="METHOD_GET :: HTTP GET string constant"><span class="description">HTTP GET string constant</span><pre>METHOD_GET</pre></a></li>
+<li class="constant  "><a href="#METHOD_HEAD" title="METHOD_HEAD :: HTTP HEAD string constant"><span class="description">HTTP HEAD string constant</span><pre>METHOD_HEAD</pre></a></li>
 <li class="constant  "><a href="#METHOD_POST" title="METHOD_POST :: HTTP POST string constant"><span class="description">HTTP POST string constant</span><pre>METHOD_POST</pre></a></li>
 <li class="constant  "><a href="#METHOD_PUT" title="METHOD_PUT :: HTTP PUT string constant"><span class="description">HTTP PUT string constant</span><pre>METHOD_PUT</pre></a></li>
-<li class="constant  "><a href="#PROTOCOL" title="PROTOCOL :: HTTP protocol used"><span class="description">HTTP protocol used</span><pre>PROTOCOL</pre></a></li>
+<li class="constant  "><a href="#PROTOCOL" title="PROTOCOL :: HTTP protocol version used, hard-coded to version 1.1"><span class="description">HTTP protocol version used, hard-coded to version 1.1</span><pre>PROTOCOL</pre></a></li>
 </ul>
 </div>
 <div class="span8">
@@ -96,15 +97,15 @@ It is the caller's responsibility to close the socket</span><pre>transfer()</pre
 <i class="icon-custom icon-method"></i> Methods</h3>
 <a name="buildRequest" id="buildRequest"></a><div class="element clickable method public buildRequest" data-toggle="collapse" data-target=".buildRequest .collapse">
 <h2>Create a request string (header and body)</h2>
-<pre>buildRequest(string $host, string $method, string $url, string $body) : string</pre>
+<pre>buildRequest(ConnectionOptions $options, string $method, string $url, string $body) : string</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="span8">
 <p class="long_description"></p>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$host</h4>
-<code>string</code><ul>
-<li>host name</li>
+<h4>$options</h4>
+<code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CConnectionOptions.html">\triagens\ArangoDb\ConnectionOptions</a></code><ul>
+<li>connection options</li>
 </ul>
 </div>
 <div class="subelement argument">
@@ -228,6 +229,12 @@ It is the caller's responsibility to close the socket</h2>
 <div class="labels"></div>
 <div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
 </div>
+<a name="METHOD_HEAD" id="METHOD_HEAD"> </a><div class="element clickable constant  METHOD_HEAD" data-toggle="collapse" data-target=".METHOD_HEAD .collapse">
+<h2>HTTP HEAD string constant</h2>
+<pre>METHOD_HEAD </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+</div>
 <a name="METHOD_POST" id="METHOD_POST"> </a><div class="element clickable constant  METHOD_POST" data-toggle="collapse" data-target=".METHOD_POST .collapse">
 <h2>HTTP POST string constant</h2>
 <pre>METHOD_POST </pre>
@@ -241,7 +248,7 @@ It is the caller's responsibility to close the socket</h2>
 <div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
 </div>
 <a name="PROTOCOL" id="PROTOCOL"> </a><div class="element clickable constant  PROTOCOL" data-toggle="collapse" data-target=".PROTOCOL .collapse">
-<h2>HTTP protocol used</h2>
+<h2>HTTP protocol version used, hard-coded to version 1.1</h2>
 <pre>PROTOCOL </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
@@ -253,7 +260,7 @@ It is the caller's responsibility to close the socket</h2>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a1</a> and<br>
-            generated on 2012-05-11T09:21:21+02:00.<br></footer></div>
+            generated on 2012-07-20T11:57:12+02:00.<br></footer></div>
 </div>
 </body>
 </html>

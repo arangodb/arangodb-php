@@ -80,6 +80,7 @@ results from the server"><span class="description">Check if cursor can be advanc
 This might issue additional HTTP requests to fetch any outstanding
 results from the server</span><pre>valid()</pre></a></li>
 <li class="nav-header private">» Private</li>
+<li class="method private "><a href="#addDocumentsFromArray" title="addDocumentsFromArray :: Create an array of documents from the input array"><span class="description">Create an array of documents from the input array</span><pre>addDocumentsFromArray()</pre></a></li>
 <li class="method private "><a href="#fetchOutstanding" title="fetchOutstanding :: Fetch outstanding results from the server"><span class="description">Fetch outstanding results from the server</span><pre>fetchOutstanding()</pre></a></li>
 <li class="method private "><a href="#sanitize" title='sanitize :: Sanitize the result set rows
 This will remove the _id and _rev attributes from the results if the
@@ -262,6 +263,21 @@ results from the server</h2>
 <code>bool</code>- true if the cursor can be advanced further, false if cursor is at end</div>
 </div></div>
 </div>
+<a name="addDocumentsFromArray" id="addDocumentsFromArray"></a><div class="element clickable method private addDocumentsFromArray" data-toggle="collapse" data-target=".addDocumentsFromArray .collapse">
+<h2>Create an array of documents from the input array</h2>
+<pre>addDocumentsFromArray(array $data) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$data</h4>
+<code>array</code><ul>
+<li>array of incoming "document" arrays</li>
+</ul>
+</div>
+</div></div>
+</div>
 <a name="fetchOutstanding" id="fetchOutstanding"></a><div class="element clickable method private fetchOutstanding" data-toggle="collapse" data-target=".fetchOutstanding .collapse">
 <h2>Fetch outstanding results from the server</h2>
 <pre>fetchOutstanding() : void</pre>
@@ -378,7 +394,7 @@ This will remove the _id and _rev attributes from the results if the
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a1</a> and<br>
-            generated on 2012-05-11T09:21:21+02:00.<br></footer></div>
+            generated on 2012-07-20T11:57:12+02:00.<br></footer></div>
 </div>
 </body>
 </html>

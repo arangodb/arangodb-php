@@ -55,6 +55,7 @@
 <li class="nav-header">
 <i class="icon-custom icon-method"></i> Methods</li>
 <li class="method public "><a href="#__construct" title="__construct :: Set up the connection object, validate the options provided"><span class="description">Set up the connection object, validate the options provided</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#__destruct" title="__destruct :: Close existing connection handle if a keep-alive connection was used"><span class="description">Close existing connection handle if a keep-alive connection was used</span><pre>__destruct()</pre></a></li>
 <li class="method public "><a href="#delete" title="delete :: Issue an HTTP DELETE request with the data provided"><span class="description">Issue an HTTP DELETE request with the data provided</span><pre>delete()</pre></a></li>
 <li class="method public "><a href="#get" title="get :: Issue an HTTP GET request"><span class="description">Issue an HTTP GET request</span><pre>get()</pre></a></li>
 <li class="method public "><a href="#getOption" title="getOption :: Get an option set for the connection"><span class="description">Get an option set for the connection</span><pre>getOption()</pre></a></li>
@@ -62,11 +63,16 @@
 <li class="method public "><a href="#put" title="put :: Issue an HTTP PUT request with the data provided"><span class="description">Issue an HTTP PUT request with the data provided</span><pre>put()</pre></a></li>
 <li class="nav-header private">» Private</li>
 <li class="method private "><a href="#executeRequest" title="executeRequest :: Execute an HTTP request and return the results"><span class="description">Execute an HTTP request and return the results</span><pre>executeRequest()</pre></a></li>
+<li class="method private "><a href="#getHandle" title="getHandle :: Get a connection handle
+If keep-alive connections are used, the handle will be stored and re-used"><span class="description">Get a connection handle
+If keep-alive connections are used, the handle will be stored and re-used</span><pre>getHandle()</pre></a></li>
 <li class="method private "><a href="#parseResponse" title="parseResponse :: Parse the response return the body values as an assoc array"><span class="description">Parse the response return the body values as an assoc array</span><pre>parseResponse()</pre></a></li>
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties</li>
 <li class="nav-header private">» Private</li>
+<li class="property private "><a href="#%24_handle" title="$_handle :: Connection handle, used in case of keep-alive"><span class="description">Connection handle, used in case of keep-alive</span><pre>$_handle</pre></a></li>
 <li class="property private "><a href="#%24_options" title="$_options :: Connection options"><span class="description">Connection options</span><pre>$_options</pre></a></li>
+<li class="property private "><a href="#%24_useKeepAlive" title="$_useKeepAlive :: Flag if keep-alive connections are used"><span class="description">Flag if keep-alive connections are used</span><pre>$_useKeepAlive</pre></a></li>
 </ul>
 </div>
 <div class="span8">
@@ -112,6 +118,12 @@ and are destroyed afterwards.</p></p>
 <td></td>
 </tr></table>
 </div></div>
+</div>
+<a name="__destruct" id="__destruct"></a><div class="element clickable method public __destruct" data-toggle="collapse" data-target=".__destruct .collapse">
+<h2>Close existing connection handle if a keep-alive connection was used</h2>
+<pre>__destruct() : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
 </div>
 <a name="delete" id="delete"></a><div class="element clickable method public delete" data-toggle="collapse" data-target=".delete .collapse">
 <h2>Issue an HTTP DELETE request with the data provided</h2>
@@ -270,6 +282,18 @@ will restore it.</p></p>
 <div class="subelement response"><code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CHttpResponse.html">\triagens\ArangoDb\HttpResponse</a></code></div>
 </div></div>
 </div>
+<a name="getHandle" id="getHandle"></a><div class="element clickable method private getHandle" data-toggle="collapse" data-target=".getHandle .collapse">
+<h2>Get a connection handle
+If keep-alive connections are used, the handle will be stored and re-used</h2>
+<pre>getHandle() : resource</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8">
+<p class="long_description"></p>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>resource</code>- connection handle</div>
+</div></div>
+</div>
 <a name="parseResponse" id="parseResponse"></a><div class="element clickable method private parseResponse" data-toggle="collapse" data-target=".parseResponse .collapse">
 <h2>Parse the response return the body values as an assoc array</h2>
 <pre>parseResponse(HttpResponse $response) : <a href="../classes/db_%5Ctriagens%5CArangoDb%5CHttpResponse.html">\triagens\ArangoDb\HttpResponse</a></pre>
@@ -294,9 +318,21 @@ will restore it.</p></p>
 </div>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
+<a name="%24_handle" id="$_handle"> </a><div class="element clickable property private $_handle" data-toggle="collapse" data-target=".$_handle .collapse">
+<h2>Connection handle, used in case of keep-alive</h2>
+<pre>$_handle : resource</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+</div>
 <a name="%24_options" id="$_options"> </a><div class="element clickable property private $_options" data-toggle="collapse" data-target=".$_options .collapse">
 <h2>Connection options</h2>
 <pre>$_options : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+</div>
+<a name="%24_useKeepAlive" id="$_useKeepAlive"> </a><div class="element clickable property private $_useKeepAlive" data-toggle="collapse" data-target=".$_useKeepAlive .collapse">
+<h2>Flag if keep-alive connections are used</h2>
+<pre>$_useKeepAlive : bool</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
 </div>
@@ -307,7 +343,7 @@ will restore it.</p></p>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a1</a> and<br>
-            generated on 2012-05-11T09:21:21+02:00.<br></footer></div>
+            generated on 2012-07-20T11:57:12+02:00.<br></footer></div>
 </div>
 </body>
 </html>

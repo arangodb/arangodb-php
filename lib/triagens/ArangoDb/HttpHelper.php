@@ -35,6 +35,11 @@ class HttpHelper {
    * HTTP GET string constant
    */
   const METHOD_GET      = 'GET';
+  
+  /**
+   * HTTP HEAD string constant
+   */
+  const METHOD_HEAD     = 'HEAD';
 
   /**
    * Chunk size (number of bytes processed in one batch)
@@ -47,7 +52,7 @@ class HttpHelper {
   const EOL             = "\r\n";
   
   /**
-   * HTTP protocol used
+   * HTTP protocol version used, hard-coded to version 1.1
    */
   const PROTOCOL        = 'HTTP/1.1';
   
@@ -62,7 +67,8 @@ class HttpHelper {
     if ($method === self::METHOD_POST   ||
         $method === self::METHOD_PUT    ||
         $method === self::METHOD_DELETE ||
-        $method === self::METHOD_GET) {
+        $method === self::METHOD_GET    ||
+        $method === self::METHOD_HEAD) {
       return true;
     }
 
@@ -72,23 +78,47 @@ class HttpHelper {
   /**
    * Create a request string (header and body)
    *
-   * @param string $host - host name
+   * @param ConnectionOptions $options - connection options
    * @param string $method - HTTP method
    * @param string $url - HTTP URL
    * @param string $body - optional body to post
    * @return string - assembled HTTP request string
    */
-  public static function buildRequest($host, $method, $url, $body) {
-    $type = '';
+  public static function buildRequest(ConnectionOptions $options, $method, $url, $body) {
+    $host = $contentType = $authorization = $connection = '';
     $length = strlen($body);
 
-    if ($length > 0) {
-      $type = 'Content-Type: application/json' . self::EOL;
+    $endpoint = $options[ConnectionOptions::OPTION_ENDPOINT];
+    if (Endpoint::getType($endpoint) !== Endpoint::TYPE_UNIX) {
+      $host = sprintf('Host: %s%s', Endpoint::getHost($endpoint), self::EOL);
     }
 
+    if ($length > 0) {
+      // if body is set, we should set a content-type header
+      $contentType = 'Content-Type: application/json' . self::EOL;
+    }
+
+    if (isset($options[ConnectionOptions::OPTION_AUTH_TYPE]) && isset($options[ConnectionOptions::OPTION_AUTH_USER])) {
+      // add authorization header
+      $authorizationValue = base64_encode($options[ConnectionOptions::OPTION_AUTH_USER] . ':' . $options[ConnectionOptions::OPTION_AUTH_PASSWD]);
+
+      $authorization = sprintf('Authorization: %s %s%s', 
+                               $options[ConnectionOptions::OPTION_AUTH_TYPE], 
+                               $authorizationValue,
+                               self::EOL);
+    }
+
+    if (isset($options[ConnectionOptions::OPTION_CONNECTION])) {
+      // add connection header
+      $connection = sprintf("Connection: %s%s", $options[ConnectionOptions::OPTION_CONNECTION], self::EOL);
+    }
+
+    // finally assemble the request
     $request = sprintf('%s %s %s%s', $method, $url, self::PROTOCOL, self::EOL) .
-               sprintf('Host: %s%s', $host, self::EOL) . 
-               $type.
+               $host .
+               $contentType .
+               $authorization .
+               $connection .
                sprintf('Content-Length: %s%s%s', $length, self::EOL, self::EOL) .
                $body; 
 
@@ -110,11 +140,35 @@ class HttpHelper {
     @fwrite($socket, $request);
     @fflush($socket);
 
+    $contentLength = NULL;
+    $expectedLength = NULL;
+    $totalRead = 0;
+
     $result = '';
     while (!feof($socket)) {
       $read = @fread($socket, self::CHUNK_SIZE);
+      if ($read === false || $read === '') {
+        break;
+      }
+      $totalRead += strlen($read);
+
       $result .= $read;
-      if (strlen($read) < self::CHUNK_SIZE) {
+
+      if ($contentLength === NULL) {
+        if (preg_match("/[cC]ontent-[lL]ength: (\d+)/", $result, $matches)) {
+          $contentLength = (int) $matches[1];
+        }
+      }
+
+      if ($contentLength !== NULL && $expectedLength === NULL) {
+        $bodyStart = strpos($result, "\r\n\r\n");
+        if ($bodyStart !== false) {
+          $bodyStart += 4;
+          $expectedLength = $bodyStart + $contentLength;
+        }
+      }
+
+      if ($totalRead >= $expectedLength) {
         break;
       }
     }
@@ -131,7 +185,7 @@ class HttpHelper {
    * @return resource - socket with server connection, will throw when no connection can be established
    */
   public static function createConnection(ConnectionOptions $options) {
-    $fp = @fsockopen($options[ConnectionOptions::OPTION_HOST],
+    $fp = @fsockopen($options[ConnectionOptions::OPTION_ENDPOINT],
                      $options[ConnectionOptions::OPTION_PORT], 
                      $number,
                      $message, 

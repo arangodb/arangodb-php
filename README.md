@@ -91,7 +91,7 @@ This command will guide you through creating your composer.json config.
     Do you confirm generation [yes]? yes
     Would you like the vendor directory added to your .gitignore [yes]?
 
-The above has created a file composer.json in your current directory, which contains information about your project plus the project dependencies. The ArangoDB PHP client is one the dependencies, and it can be installed by running the following command:
+The above has created a file composer.json in your current directory, which contains information about your project plus the project dependencies. The ArangoDB PHP client is the only dependency for now, and it can be installed by running the following command:
 
     php ../composer.phar update
     Updating dependencies

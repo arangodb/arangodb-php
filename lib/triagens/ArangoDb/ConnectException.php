@@ -17,4 +17,12 @@ namespace triagens\ArangoDb;
  * @package ArangoDbPhpClient
  */
 class ConnectException extends Exception {
+  /**
+   * Return a string representation of the exception
+   *
+   * @return string - string representation
+   */
+  public function __toString() {
+    return __CLASS__ . ': ' . $this->getMessage();
+  }
 }

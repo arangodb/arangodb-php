@@ -20,7 +20,7 @@ try {
     $statement = new Statement($connection, array(
       "query" => $query, 
       "count" => true, 
-      "batchSize" => 5, 
+      "batchSize" => 1000, 
       "bindVars" => $bindVars, 
       "sanitize" => true,
     ));
@@ -32,11 +32,11 @@ try {
   }
 }
 catch (ConnectException $e) {
-  var_dump($e->getMessage());
+  print $e . PHP_EOL;
 }
 catch (ServerException $e) {
-  var_dump($e->getMessage(), $e->getServerCode(), $e->getServerMessage());
+  print $e . PHP_EOL;
 }
 catch (ClientException $e) {
-  var_dump($e->getMessage());
+  print $e . PHP_EOL;
 }
