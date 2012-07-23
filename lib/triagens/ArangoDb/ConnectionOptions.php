@@ -246,7 +246,7 @@ class ConnectionOptions implements \ArrayAccess {
     assert(isset($this->_values[self::OPTION_ENDPOINT]));
     // set up a new endpoint, this will also validate it
     $this->getEndpoint();
-    if (Endpoint::getType(self::OPTION_ENDPOINT) === Endpoint::TYPE_UNIX) {
+    if (Endpoint::getType($this->_values[self::OPTION_ENDPOINT]) === Endpoint::TYPE_UNIX) {
       // must set port to 0 for UNIX sockets
       $this->_values[self::OPTION_PORT] = 0;
     }
