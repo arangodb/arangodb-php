@@ -1745,7 +1745,7 @@ Parameter values will be URL-encoded]]></description>
       </method>
     </class>
   </file>
-  <file path="triagens/ArangoDb/Endpoint.php" hash="b0a44d4c1293dea7532abb68049044f0" package="ArangoDbPhpClient">
+  <file path="triagens/ArangoDb/Endpoint.php" hash="f8aefad29402b1b1099e95868c3079f3" package="ArangoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[ArangoDB PHP client: endpoint]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -1753,7 +1753,7 @@ Parameter values will be URL-encoded]]></description>
       <tag line="3" name="author" description="Jan Steemann"/>
       <tag line="3" name="copyright" description="Copyright 2012, triagens GmbH, Cologne, Germany"/>
     </docblock>
-    <class final="false" abstract="false" namespace="triagens\ArangoDb" line="22" package="ArangoDbPhpClient">
+    <class final="false" abstract="false" namespace="triagens\ArangoDb" line="25" package="ArangoDbPhpClient">
       <name>Endpoint</name>
       <full_name>\triagens\ArangoDb\Endpoint</full_name>
       <extends/>
@@ -1762,138 +1762,155 @@ Parameter values will be URL-encoded]]></description>
 An endpoint contains the server location the client connects to
 the following endpoint types are currently supported (more to be added later):
 - tcp://host:port for tcp connections
-- unix://socket for UNIX sockets]]></description>
-        <long-description><![CDATA[]]></long-description>
+- unix://socket for UNIX sockets (provided the server supports this)
+- ssl://host:port for SSL connections (provided the server supports this)]]></description>
+        <long-description><![CDATA[<p>Note: SSL support is added in ArangoDB server 1.1</p>]]></long-description>
         <tag line="13" name="package" description="ArangoDbPhpClient"/>
       </docblock>
-      <constant namespace="triagens\ArangoDb" line="32" package="Default">
+      <constant namespace="triagens\ArangoDb" line="35" package="Default">
         <name>TYPE_TCP</name>
         <value><![CDATA['tcp']]></value>
-        <docblock line="29">
+        <docblock line="32">
           <description><![CDATA[TCP endpoint type]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </constant>
-      <constant namespace="triagens\ArangoDb" line="37" package="Default">
+      <constant namespace="triagens\ArangoDb" line="40" package="Default">
+        <name>TYPE_SSL</name>
+        <value><![CDATA['ssl']]></value>
+        <docblock line="37">
+          <description><![CDATA[SSL endpoint type]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="triagens\ArangoDb" line="45" package="Default">
         <name>TYPE_UNIX</name>
         <value><![CDATA['unix']]></value>
-        <docblock line="34">
+        <docblock line="42">
           <description><![CDATA[UNIX socket endpoint type]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </constant>
-      <constant namespace="triagens\ArangoDb" line="42" package="Default">
+      <constant namespace="triagens\ArangoDb" line="50" package="Default">
         <name>REGEXP_TCP</name>
         <value><![CDATA['/^tcp:\/\/(.+?):(\d+)\/?$/']]></value>
-        <docblock line="39">
+        <docblock line="47">
           <description><![CDATA[Regexp for TCP endpoints]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </constant>
-      <constant namespace="triagens\ArangoDb" line="47" package="Default">
+      <constant namespace="triagens\ArangoDb" line="55" package="Default">
+        <name>REGEXP_SSL</name>
+        <value><![CDATA['/^ssl:\/\/(.+?):(\d+)\/?$/']]></value>
+        <docblock line="52">
+          <description><![CDATA[Regexp for SSL endpoints]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="triagens\ArangoDb" line="60" package="Default">
         <name>REGEXP_UNIX</name>
         <value><![CDATA['/^unix:\/\/(.+)$/']]></value>
-        <docblock line="44">
+        <docblock line="57">
           <description><![CDATA[Regexp for UNIX socket endpoints]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </constant>
-      <property final="false" static="false" visibility="private" line="27" package="Default">
+      <property final="false" static="false" visibility="private" line="30" package="Default">
         <name>$_value</name>
         <default><![CDATA[]]></default>
-        <docblock line="23">
+        <docblock line="26">
           <description><![CDATA[Current endpoint value]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="23" name="var" description="" type="string">
+          <tag line="26" name="var" description="" type="string">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
       </property>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="56" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="69" package="">
         <name>__construct</name>
         <type>function</type>
-        <docblock line="49">
+        <docblock line="62">
           <description><![CDATA[Create a new endpoint]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="49" name="throws" description="" type="\triagens\ArangoDb\ClientException">
+          <tag line="62" name="throws" description="" type="\triagens\ArangoDb\ClientException">
             <type by_reference="false">\triagens\ArangoDb\ClientException</type>
           </tag>
-          <tag line="49" name="param" description="- endpoint specification" type="string" variable="$value">
+          <tag line="62" name="param" description="- endpoint specification" type="string" variable="$value">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="49" name="return" description="" type="void">
+          <tag line="62" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="56">
+        <argument line="69">
           <name>$value</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="69" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="82" package="">
         <name>__toString</name>
         <type>function</type>
-        <docblock line="64">
+        <docblock line="77">
           <description><![CDATA[Return a string representation of the endpoint]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="64" name="return" description="- string representation of the endpoint" type="string">
+          <tag line="77" name="return" description="- string representation of the endpoint" type="string">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="true" visibility="public" namespace="triagens\ArangoDb" line="79" package="">
+      <method final="false" abstract="false" static="true" visibility="public" namespace="triagens\ArangoDb" line="92" package="">
         <name>getType</name>
         <type>function</type>
-        <docblock line="73">
+        <docblock line="86">
           <description><![CDATA[Return the type of an endpoint]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="73" name="param" description="- endpoint specification value" type="string" variable="$value">
+          <tag line="86" name="param" description="- endpoint specification value" type="string" variable="$value">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="73" name="return" description="- endpoint type" type="string">
+          <tag line="86" name="return" description="- endpoint type" type="string">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
-        <argument line="79">
+        <argument line="92">
           <name>$value</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="true" visibility="public" namespace="triagens\ArangoDb" line="97" package="">
+      <method final="false" abstract="false" static="true" visibility="public" namespace="triagens\ArangoDb" line="114" package="">
         <name>getHost</name>
         <type>function</type>
-        <docblock line="91">
+        <docblock line="108">
           <description><![CDATA[Return the host name of an endpoint]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="91" name="param" description="- endpoint specification value" type="string" variable="$value">
+          <tag line="108" name="param" description="- endpoint specification value" type="string" variable="$value">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="91" name="return" description="- host name" type="string">
+          <tag line="108" name="return" description="- host name" type="string">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
-        <argument line="97">
+        <argument line="114">
           <name>$value</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="true" visibility="public" namespace="triagens\ArangoDb" line="111" package="">
+      <method final="false" abstract="false" static="true" visibility="public" namespace="triagens\ArangoDb" line="132" package="">
         <name>isValid</name>
         <type>function</type>
-        <docblock line="105">
+        <docblock line="126">
           <description><![CDATA[check whether an endpoint specification is valid]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="105" name="param" description="- endpoint specification value" type="string" variable="$value">
+          <tag line="126" name="param" description="- endpoint specification value" type="string" variable="$value">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="105" name="return" description="- true if endpoint specification is valid, false otherwise" type="bool">
+          <tag line="126" name="return" description="- true if endpoint specification is valid, false otherwise" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
-        <argument line="111">
+        <argument line="132">
           <name>$value</name>
           <default><![CDATA[]]></default>
           <type/>
@@ -3170,7 +3187,7 @@ than these types.</p>]]></long-description>
       </constant>
     </class>
   </file>
-  <file path="triagens/ArangoDb/ConnectionOptions.php" hash="5880d3fc28681abc0293716672aaec01" package="ArangoDbPhpClient">
+  <file path="triagens/ArangoDb/ConnectionOptions.php" hash="9839c53d857689e1734956fece10c44d" package="ArangoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[ArangoDB PHP client: connection options]]></description>
       <long-description><![CDATA[]]></long-description>

@@ -15,7 +15,10 @@ namespace triagens\ArangoDb;
  * An endpoint contains the server location the client connects to
  * the following endpoint types are currently supported (more to be added later):
  * - tcp://host:port for tcp connections
- * - unix://socket for UNIX sockets
+ * - unix://socket for UNIX sockets (provided the server supports this)
+ * - ssl://host:port for SSL connections (provided the server supports this)
+ *
+ * Note: SSL support is added in ArangoDB server 1.1
  *
  * @package ArangoDbPhpClient
  */
@@ -30,6 +33,11 @@ class Endpoint {
    * TCP endpoint type 
    */
   const TYPE_TCP    = 'tcp';
+  
+  /**
+   * SSL endpoint type 
+   */
+  const TYPE_SSL    = 'ssl';
 
   /**
    * UNIX socket endpoint type 
@@ -40,6 +48,11 @@ class Endpoint {
    * Regexp for TCP endpoints
    */
   const REGEXP_TCP  = '/^tcp:\/\/(.+?):(\d+)\/?$/';
+  
+  /**
+   * Regexp for SSL endpoints
+   */
+  const REGEXP_SSL  = '/^ssl:\/\/(.+?):(\d+)\/?$/';
 
   /**
    * Regexp for UNIX socket endpoints
@@ -81,6 +94,10 @@ class Endpoint {
       return self::TYPE_TCP;
     }
 
+    if (preg_match(self::REGEXP_SSL, $value)) {
+      return self::TYPE_SSL;
+    }
+
     if (preg_match(self::REGEXP_UNIX, $value)) {
       return self::TYPE_UNIX;
     }
@@ -96,6 +113,10 @@ class Endpoint {
    */
   public static function getHost($value) {
     if (preg_match(self::REGEXP_TCP, $value, $matches)) {
+      return $matches[1];
+    }
+    
+    if (preg_match(self::REGEXP_SSL, $value, $matches)) {
       return $matches[1];
     }
 

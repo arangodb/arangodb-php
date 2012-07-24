@@ -65,8 +65,10 @@
 <li class="property private "><a href="#%24_value" title="$_value :: Current endpoint value"><span class="description">Current endpoint value</span><pre>$_value</pre></a></li>
 <li class="nav-header">
 <i class="icon-custom icon-constant"></i> Constants</li>
+<li class="constant  "><a href="#REGEXP_SSL" title="REGEXP_SSL :: Regexp for SSL endpoints"><span class="description">Regexp for SSL endpoints</span><pre>REGEXP_SSL</pre></a></li>
 <li class="constant  "><a href="#REGEXP_TCP" title="REGEXP_TCP :: Regexp for TCP endpoints"><span class="description">Regexp for TCP endpoints</span><pre>REGEXP_TCP</pre></a></li>
 <li class="constant  "><a href="#REGEXP_UNIX" title="REGEXP_UNIX :: Regexp for UNIX socket endpoints"><span class="description">Regexp for UNIX socket endpoints</span><pre>REGEXP_UNIX</pre></a></li>
+<li class="constant  "><a href="#TYPE_SSL" title="TYPE_SSL :: SSL endpoint type"><span class="description">SSL endpoint type</span><pre>TYPE_SSL</pre></a></li>
 <li class="constant  "><a href="#TYPE_TCP" title="TYPE_TCP :: TCP endpoint type"><span class="description">TCP endpoint type</span><pre>TYPE_TCP</pre></a></li>
 <li class="constant  "><a href="#TYPE_UNIX" title="TYPE_UNIX :: UNIX socket endpoint type"><span class="description">UNIX socket endpoint type</span><pre>TYPE_UNIX</pre></a></li>
 </ul>
@@ -87,9 +89,10 @@
 An endpoint contains the server location the client connects to
 the following endpoint types are currently supported (more to be added later):
 - tcp://host:port for tcp connections
-- unix://socket for UNIX sockets</p>
+- unix://socket for UNIX sockets (provided the server supports this)
+- ssl://host:port for SSL connections (provided the server supports this)</p>
 <div class="details">
-<p class="long_description"></p>
+<p class="long_description"><p>Note: SSL support is added in ArangoDB server 1.1</p></p>
 <table class="table table-bordered"><tr>
 <th>package</th>
 <td><a href="..//packages/db_ArangoDbPhpClient.html">ArangoDbPhpClient</a></td>
@@ -191,6 +194,12 @@ the following endpoint types are currently supported (more to be added later):
 </div>
 <h3>
 <i class="icon-custom icon-constant"></i> Constants</h3>
+<a name="REGEXP_SSL" id="REGEXP_SSL"> </a><div class="element clickable constant  REGEXP_SSL" data-toggle="collapse" data-target=".REGEXP_SSL .collapse">
+<h2>Regexp for SSL endpoints</h2>
+<pre>REGEXP_SSL </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+</div>
 <a name="REGEXP_TCP" id="REGEXP_TCP"> </a><div class="element clickable constant  REGEXP_TCP" data-toggle="collapse" data-target=".REGEXP_TCP .collapse">
 <h2>Regexp for TCP endpoints</h2>
 <pre>REGEXP_TCP </pre>
@@ -200,6 +209,12 @@ the following endpoint types are currently supported (more to be added later):
 <a name="REGEXP_UNIX" id="REGEXP_UNIX"> </a><div class="element clickable constant  REGEXP_UNIX" data-toggle="collapse" data-target=".REGEXP_UNIX .collapse">
 <h2>Regexp for UNIX socket endpoints</h2>
 <pre>REGEXP_UNIX </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+</div>
+<a name="TYPE_SSL" id="TYPE_SSL"> </a><div class="element clickable constant  TYPE_SSL" data-toggle="collapse" data-target=".TYPE_SSL .collapse">
+<h2>SSL endpoint type</h2>
+<pre>TYPE_SSL </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
 </div>
@@ -222,7 +237,7 @@ the following endpoint types are currently supported (more to be added later):
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a1</a> and<br>
-            generated on 2012-07-20T11:57:12+02:00.<br></footer></div>
+            generated on 2012-07-24T10:06:27+02:00.<br></footer></div>
 </div>
 </body>
 </html>
