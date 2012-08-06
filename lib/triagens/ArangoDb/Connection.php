@@ -132,17 +132,31 @@ class Connection {
    * @return resource - connection handle
    */
   private function getHandle() {
-    if ($this->_useKeepAlive && $this->_handle) {
+    if ($this->_useKeepAlive && $this->_handle && is_resource($this->_handle)) {
       // keep-alive and handle was created already
       $handle = $this->_handle;
-    }
-    else {
-      // no keep-alive or no handle available
-      $handle = HttpHelper::createConnection($this->_options);
 
-      if ($this->_useKeepAlive && is_resource($handle)) {
-        $this->_handle = $handle; 
+      // check if connection is still valid
+      if (!feof($handle)) {
+        // connection still valid
+        return $handle;
       }
+      
+      // close handle
+      @fclose($this->_handle);
+      $this->_handle = 0;
+
+      if (!$this->_options[ConnectionOptions::OPTION_RECONNECT]) {
+        // if reconnect option not set, this is the end
+        throw new ClientException('Server has closed the connection already.');
+      }
+    }
+
+    // no keep-alive or no handle available yet or a reconnect
+    $handle = HttpHelper::createConnection($this->_options);
+
+    if ($this->_useKeepAlive && is_resource($handle)) {
+      $this->_handle = $handle; 
     }
 
     return $handle;

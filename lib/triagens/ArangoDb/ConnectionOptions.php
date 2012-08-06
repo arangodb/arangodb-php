@@ -90,6 +90,11 @@ class ConnectionOptions implements \ArrayAccess {
    * Connection 
    */
   const OPTION_CONNECTION    = 'Connection';
+
+  /**
+   * Reconnect flag
+   */
+  const OPTION_RECONNECT     = 'Reconnect';
   
   /**
    * Set defaults, use options provided by client and validate them
@@ -196,6 +201,7 @@ class ConnectionOptions implements \ArrayAccess {
       self::OPTION_AUTH_USER     => NULL,
       self::OPTION_AUTH_PASSWD   => NULL,
       self::OPTION_AUTH_TYPE     => NULL,
+      self::OPTION_RECONNECT     => false,
     );
   }
 

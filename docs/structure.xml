@@ -954,7 +954,7 @@ that occurred, this will return the server error string</p>]]></long-description
       </method>
     </class>
   </file>
-  <file path="triagens/ArangoDb/Connection.php" hash="acadb36aaeaed415dbaddc2ad75ae26e" package="ArangoDbPhpClient">
+  <file path="triagens/ArangoDb/Connection.php" hash="28c35c66990d47a088762de1533c5635" package="ArangoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[ArangoDB PHP client: connection]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -1178,64 +1178,64 @@ If keep-alive connections are used, the handle will be stored and re-used]]></de
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="158" package="">
+      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="172" package="">
         <name>parseResponse</name>
         <type>function</type>
-        <docblock line="151">
+        <docblock line="165">
           <description><![CDATA[Parse the response return the body values as an assoc array]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="151" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="165" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="151" name="param" description="- the response as supplied by the server" type="\triagens\ArangoDb\HttpResponse" variable="$response">
+          <tag line="165" name="param" description="- the response as supplied by the server" type="\triagens\ArangoDb\HttpResponse" variable="$response">
             <type by_reference="false">\triagens\ArangoDb\HttpResponse</type>
           </tag>
-          <tag line="151" name="return" description="" type="\triagens\ArangoDb\HttpResponse">
+          <tag line="165" name="return" description="" type="\triagens\ArangoDb\HttpResponse">
             <type by_reference="false">\triagens\ArangoDb\HttpResponse</type>
           </tag>
         </docblock>
-        <argument line="158">
+        <argument line="172">
           <name>$response</name>
           <default><![CDATA[]]></default>
           <type>HttpResponse</type>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="198" package="">
+      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="212" package="">
         <name>executeRequest</name>
         <type>function</type>
-        <docblock line="184">
+        <docblock line="198">
           <description><![CDATA[Execute an HTTP request and return the results]]></description>
           <long-description><![CDATA[<p>This function will throw if no connection to the server can be established or if
 there is a problem during data exchange with the server.
 The function might temporarily alter the value of the php.ini value 'default_socket_timeout' but
 will restore it.</p>]]></long-description>
-          <tag line="184" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="198" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="184" name="param" description="- HTTP request method" type="string" variable="$method">
+          <tag line="198" name="param" description="- HTTP request method" type="string" variable="$method">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="184" name="param" description="- HTTP URL" type="string" variable="$url">
+          <tag line="198" name="param" description="- HTTP URL" type="string" variable="$url">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="184" name="param" description="- data to post in body" type="string" variable="$data">
+          <tag line="198" name="param" description="- data to post in body" type="string" variable="$data">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="184" name="return" description="" type="\triagens\ArangoDb\HttpResponse">
+          <tag line="198" name="return" description="" type="\triagens\ArangoDb\HttpResponse">
             <type by_reference="false">\triagens\ArangoDb\HttpResponse</type>
           </tag>
         </docblock>
-        <argument line="198">
+        <argument line="212">
           <name>$method</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="198">
+        <argument line="212">
           <name>$url</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="198">
+        <argument line="212">
           <name>$data</name>
           <default><![CDATA[]]></default>
           <type/>
@@ -3187,7 +3187,7 @@ than these types.</p>]]></long-description>
       </constant>
     </class>
   </file>
-  <file path="triagens/ArangoDb/ConnectionOptions.php" hash="9839c53d857689e1734956fece10c44d" package="ArangoDbPhpClient">
+  <file path="triagens/ArangoDb/ConnectionOptions.php" hash="a9c615f1bb4b37f770a8be38b4a7197b" package="ArangoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[ArangoDB PHP client: connection options]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -3303,6 +3303,14 @@ It provides array access to its members.</p>]]></long-description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </constant>
+      <constant namespace="triagens\ArangoDb" line="97" package="Default">
+        <name>OPTION_RECONNECT</name>
+        <value><![CDATA['Reconnect']]></value>
+        <docblock line="94">
+          <description><![CDATA[Reconnect flag]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
       <property final="false" static="false" visibility="private" line="26" package="Default">
         <name>$_values</name>
         <default><![CDATA[array()]]></default>
@@ -3325,189 +3333,189 @@ It provides array access to its members.</p>]]></long-description>
           </tag>
         </docblock>
       </property>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="101" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="106" package="">
         <name>__construct</name>
         <type>function</type>
-        <docblock line="94">
+        <docblock line="99">
           <description><![CDATA[Set defaults, use options provided by client and validate them]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="94" name="throws" description="" type="\triagens\ArangoDb\ClientException">
+          <tag line="99" name="throws" description="" type="\triagens\ArangoDb\ClientException">
             <type by_reference="false">\triagens\ArangoDb\ClientException</type>
           </tag>
-          <tag line="94" name="param" description="- initial options" type="array" variable="$options">
+          <tag line="99" name="param" description="- initial options" type="array" variable="$options">
             <type by_reference="false">array</type>
           </tag>
-          <tag line="94" name="return" description="" type="void">
+          <tag line="99" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="101">
+        <argument line="106">
           <name>$options</name>
           <default><![CDATA[]]></default>
           <type>array</type>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="111" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="116" package="">
         <name>getAll</name>
         <type>function</type>
-        <docblock line="106">
+        <docblock line="111">
           <description><![CDATA[Get all options]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="106" name="return" description="- all options as an array" type="array">
+          <tag line="111" name="return" description="- all options as an array" type="array">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="123" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="128" package="">
         <name>offsetSet</name>
         <type>function</type>
-        <docblock line="115">
+        <docblock line="120">
           <description><![CDATA[Set and validate a specific option, necessary for ArrayAccess]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="115" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="120" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="115" name="param" description="- name of option" type="string" variable="$offset">
+          <tag line="120" name="param" description="- name of option" type="string" variable="$offset">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="115" name="param" description="- value for option" type="mixed" variable="$value">
+          <tag line="120" name="param" description="- value for option" type="mixed" variable="$value">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="115" name="return" description="" type="void">
+          <tag line="120" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="123">
+        <argument line="128">
           <name>$offset</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="123">
+        <argument line="128">
           <name>$value</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="134" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="139" package="">
         <name>offsetExists</name>
         <type>function</type>
-        <docblock line="128">
+        <docblock line="133">
           <description><![CDATA[Check whether an option exists, necessary for ArrayAccess]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="128" name="param" description="-name of option" type="string" variable="$offset">
+          <tag line="133" name="param" description="-name of option" type="string" variable="$offset">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="128" name="return" description="- true if option exists, false otherwise" type="bool">
+          <tag line="133" name="return" description="- true if option exists, false otherwise" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
-        <argument line="134">
+        <argument line="139">
           <name>$offset</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="145" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="150" package="">
         <name>offsetUnset</name>
         <type>function</type>
-        <docblock line="138">
+        <docblock line="143">
           <description><![CDATA[Remove an option and validate, necessary for ArrayAccess]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="138" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="143" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="138" name="param" description="- name of option" type="string" variable="$offset">
+          <tag line="143" name="param" description="- name of option" type="string" variable="$offset">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="138" name="return" description="" type="void">
+          <tag line="143" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="145">
+        <argument line="150">
           <name>$offset</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="157" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="162" package="">
         <name>offsetGet</name>
         <type>function</type>
-        <docblock line="150">
+        <docblock line="155">
           <description><![CDATA[Get a specific option, necessary for ArrayAccess]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="150" name="throws" description="" type="\triagens\ArangoDb\ClientException">
+          <tag line="155" name="throws" description="" type="\triagens\ArangoDb\ClientException">
             <type by_reference="false">\triagens\ArangoDb\ClientException</type>
           </tag>
-          <tag line="150" name="param" description="- name of option" type="string" variable="$offset">
+          <tag line="155" name="param" description="- name of option" type="string" variable="$offset">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="150" name="return" description="- value of option, will throw if option is not set" type="mixed">
+          <tag line="155" name="return" description="- value of option, will throw if option is not set" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
         </docblock>
-        <argument line="157">
+        <argument line="162">
           <name>$offset</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="171" package="">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="176" package="">
         <name>getEndpoint</name>
         <type>function</type>
-        <docblock line="165">
+        <docblock line="170">
           <description><![CDATA[Get the endpoint object for the connection]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="165" name="throws" description="" type="\triagens\ArangoDb\ClientException">
+          <tag line="170" name="throws" description="" type="\triagens\ArangoDb\ClientException">
             <type by_reference="false">\triagens\ArangoDb\ClientException</type>
           </tag>
-          <tag line="165" name="return" description="- endpoint object" type="\triagens\ArangoDb\Endpoint">
+          <tag line="170" name="return" description="- endpoint object" type="\triagens\ArangoDb\Endpoint">
             <type by_reference="false">\triagens\ArangoDb\Endpoint</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="true" visibility="private" namespace="triagens\ArangoDb" line="185" package="">
+      <method final="false" abstract="false" static="true" visibility="private" namespace="triagens\ArangoDb" line="190" package="">
         <name>getDefaults</name>
         <type>function</type>
-        <docblock line="180">
+        <docblock line="185">
           <description><![CDATA[Get the default values for the options]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="180" name="return" description="- array of default connection options" type="array">
+          <tag line="185" name="return" description="- array of default connection options" type="array">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="true" visibility="private" namespace="triagens\ArangoDb" line="207" package="">
+      <method final="false" abstract="false" static="true" visibility="private" namespace="triagens\ArangoDb" line="213" package="">
         <name>getSupportedAuthTypes</name>
         <type>function</type>
-        <docblock line="202">
+        <docblock line="208">
           <description><![CDATA[Return the supported authorization types]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="202" name="return" description="- array with supported authorization types" type="array">
+          <tag line="208" name="return" description="- array with supported authorization types" type="array">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="true" visibility="private" namespace="triagens\ArangoDb" line="216" package="">
+      <method final="false" abstract="false" static="true" visibility="private" namespace="triagens\ArangoDb" line="222" package="">
         <name>getSupportedConnectionTypes</name>
         <type>function</type>
-        <docblock line="211">
+        <docblock line="217">
           <description><![CDATA[Return the supported connection types]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="211" name="return" description="- array with supported connection types" type="array">
+          <tag line="217" name="return" description="- array with supported connection types" type="array">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="226" package="">
+      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="232" package="">
         <name>validate</name>
         <type>function</type>
-        <docblock line="220">
+        <docblock line="226">
           <description><![CDATA[Validate the options]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="220" name="throws" description="" type="\triagens\ArangoDb\ClientException">
+          <tag line="226" name="throws" description="" type="\triagens\ArangoDb\ClientException">
             <type by_reference="false">\triagens\ArangoDb\ClientException</type>
           </tag>
-          <tag line="220" name="return" description="- will throw if an invalid option value is found" type="void">
+          <tag line="226" name="return" description="- will throw if an invalid option value is found" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
