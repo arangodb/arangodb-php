@@ -135,15 +135,15 @@ In order to use ArangoDB, you need to specify the connection options. We do so b
     require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ArangoDB-PHP' . DIRECTORY_SEPARATOR . 'autoload.php';
 
     // set up some aliases for less typing later
-    use triagens\Arangodb\Connection as ArangoConnection;
-    use triagens\Arangodb\ConnectionOptions as ArangoConnectionOptions;
-    use triagens\Arangodb\DocumentHandler as ArangoDocumentHandler;
-    use triagens\Arangodb\Document as ArangoDocument;
-    use triagens\Arangodb\Exception as ArangoException;
-    use triagens\Arangodb\ConnectException as ArangoConnectException;
-    use triagens\Arangodb\ClientException as ArangoClientException;
-    use triagens\Arangodb\ServerException as ArangoServerException;
-    use triagens\Arangodb\UpdatePolicy as ArangoUpdatePolicy;
+    use triagens\ArangoDb\Connection as ArangoConnection;
+    use triagens\ArangoDb\ConnectionOptions as ArangoConnectionOptions;
+    use triagens\ArangoDb\DocumentHandler as ArangoDocumentHandler;
+    use triagens\ArangoDb\Document as ArangoDocument;
+    use triagens\ArangoDb\Exception as ArangoException;
+    use triagens\ArangoDb\ConnectException as ArangoConnectException;
+    use triagens\ArangoDb\ClientException as ArangoClientException;
+    use triagens\ArangoDb\ServerException as ArangoServerException;
+    use triagens\ArangoDb\UpdatePolicy as ArangoUpdatePolicy;
 
     // set up some basic connection options
     $connectionOptions = array(
