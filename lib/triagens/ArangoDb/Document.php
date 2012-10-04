@@ -73,7 +73,7 @@ class Document {
       $document->set($key, $value);
     }
 
-    $document->setChanged(false);
+    $document->setChanged(true);
 
     return $document;
   }
@@ -87,7 +87,8 @@ class Document {
   public function __clone() {
     $this->_id = NULL;
     $this->_rev = NULL;
-    $this->_changed = false;
+
+    // do not change the _changed flag here
   }
   
   /**
