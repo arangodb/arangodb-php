@@ -1,4 +1,4 @@
-<!DOCTYPE html><html xmlns:date="http://exslt.org/dates-and-times" lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
@@ -20,9 +20,9 @@
 <a href="#api" class="dropdown-toggle" data-toggle="dropdown">
                                     API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a>Namespaces</a></li>
-<li><a href="../namespaces/db_triagens.html"><i class="icon-th"></i> triagens</a></li>
+<li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
 <li><a>Packages</a></li>
-<li><a href="../packages/db_ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
+<li><a href="../packages/ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
 </ul>
 </li>
 <li class="dropdown" id="charts-menu">
@@ -32,9 +32,12 @@
 <li class="dropdown" id="reports-menu">
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
-<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors</a></li>
-<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers (TODO/FIXME)</a></li>
-<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements</a></li>
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">0</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
 </ul>
 </li>
 </ul></div>
@@ -51,73 +54,76 @@
 <span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
 <button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
 </div>
-<ul class="side-nav nav nav-list">
-<li class="nav-header">
-<i class="icon-custom icon-constant"></i> Constants</li>
-<li class="constant  "><a href="#DEFAULT_CONNECTION" title="DEFAULT_CONNECTION :: Default value for HTTP Connection header"><span class="description">Default value for HTTP Connection header</span><pre>DEFAULT_CONNECTION</pre></a></li>
-<li class="constant  "><a href="#DEFAULT_CREATE" title="DEFAULT_CREATE :: Default value for createCollection (create the collection on the fly when the first document is added to an unknown collection)"><span class="description">Default value for createCollection (create the collection on the fly when the first document is added to an unknown collection)</span><pre>DEFAULT_CREATE</pre></a></li>
-<li class="constant  "><a href="#DEFAULT_PORT" title="DEFAULT_PORT :: Default port number (used if no port specified)"><span class="description">Default port number (used if no port specified)</span><pre>DEFAULT_PORT</pre></a></li>
-<li class="constant  "><a href="#DEFAULT_TIMEOUT" title="DEFAULT_TIMEOUT :: Default timeout value (used if no timeout value specified)"><span class="description">Default timeout value (used if no timeout value specified)</span><pre>DEFAULT_TIMEOUT</pre></a></li>
-<li class="constant  "><a href="#DEFAULT_UPDATE_POLICY" title="DEFAULT_UPDATE_POLICY :: Default update policy"><span class="description">Default update policy</span><pre>DEFAULT_UPDATE_POLICY</pre></a></li>
-<li class="constant  "><a href="#DEFAULT_WAIT_SYNC" title="DEFAULT_WAIT_SYNC :: Default value for waitForSync (fsync all data to disk on document updates/insertions/deletions)"><span class="description">Default value for waitForSync (fsync all data to disk on document updates/insertions/deletions)</span><pre>DEFAULT_WAIT_SYNC</pre></a></li>
+<ul class="side-nav nav nav-list"><li class="nav-header">
+<i class="icon-custom icon-constant"></i> Constants
+                    <ul>
+<li class="constant  "><a href="#constant_DEFAULT_CONNECTION" title="DEFAULT_CONNECTION :: Default value for HTTP Connection header"><span class="description">Default value for HTTP Connection header</span><pre>DEFAULT_CONNECTION</pre></a></li>
+<li class="constant  "><a href="#constant_DEFAULT_CREATE" title="DEFAULT_CREATE :: Default value for createCollection (create the collection on the fly when the first document is added to an unknown collection)"><span class="description">Default value for createCollection (create the collection on the fly when the first document is added to an unknown collection)</span><pre>DEFAULT_CREATE</pre></a></li>
+<li class="constant  "><a href="#constant_DEFAULT_PORT" title="DEFAULT_PORT :: Default port number (used if no port specified)"><span class="description">Default port number (used if no port specified)</span><pre>DEFAULT_PORT</pre></a></li>
+<li class="constant  "><a href="#constant_DEFAULT_TIMEOUT" title="DEFAULT_TIMEOUT :: Default timeout value (used if no timeout value specified)"><span class="description">Default timeout value (used if no timeout value specified)</span><pre>DEFAULT_TIMEOUT</pre></a></li>
+<li class="constant  "><a href="#constant_DEFAULT_UPDATE_POLICY" title="DEFAULT_UPDATE_POLICY :: Default update policy"><span class="description">Default update policy</span><pre>DEFAULT_UPDATE_POLICY</pre></a></li>
+<li class="constant  "><a href="#constant_DEFAULT_WAIT_SYNC" title="DEFAULT_WAIT_SYNC :: Default value for waitForSync (fsync all data to disk on document updates/insertions/deletions)"><span class="description">Default value for waitForSync (fsync all data to disk on document updates/insertions/deletions)</span><pre>DEFAULT_WAIT_SYNC</pre></a></li>
 </ul>
+</li></ul>
 </div>
 <div class="span8">
-<a name="%5Ctriagens%5CArangoDb%5CDefaultValues" id="\triagens\ArangoDb\DefaultValues"></a><ul class="breadcrumb">
+<a id="\triagens\ArangoDb\DefaultValues"></a><ul class="breadcrumb">
 <li>
 <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
 </li>
-<li><a href="../namespaces/db_triagens.html">triagens</a></li>
-<span class="divider">\</span><li><a href="../namespaces/db_triagens%5CArangoDb.html">ArangoDb</a></li>
+<li><a href="../namespaces/triagens.html">triagens</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
+</li>
 <li class="active">
-<span class="divider">\</span><a href="../classes/db_%5Ctriagens%5CArangoDb%5CDefaultValues.html">DefaultValues</a>
+<span class="divider">\</span><a href="../classes/triagens.ArangoDb.DefaultValues.html">DefaultValues</a>
 </li>
 </ul>
-<div href="../classes/db_%5Ctriagens%5CArangoDb%5CDefaultValues.html" class="element class">
+<div class="element class">
 <p class="short_description">Contains default values used by the client</p>
 <div class="details">
-<p class="long_description"></p>
+<div class="long_description"></div>
 <table class="table table-bordered"><tr>
 <th>package</th>
-<td><a href="..//packages/db_ArangoDbPhpClient.html">ArangoDbPhpClient</a></td>
+<td><a href="../packages/ArangoDbPhpClient.html">ArangoDbPhpClient</a></td>
 </tr></table>
 <h3>
 <i class="icon-custom icon-constant"></i> Constants</h3>
-<a name="DEFAULT_CONNECTION" id="DEFAULT_CONNECTION"> </a><div class="element clickable constant  DEFAULT_CONNECTION" data-toggle="collapse" data-target=".DEFAULT_CONNECTION .collapse">
+<a id="constant_DEFAULT_CONNECTION"> </a><div class="element clickable constant  constant_DEFAULT_CONNECTION" data-toggle="collapse" data-target=".constant_DEFAULT_CONNECTION .collapse">
 <h2>Default value for HTTP Connection header</h2>
 <pre>DEFAULT_CONNECTION </pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a name="DEFAULT_CREATE" id="DEFAULT_CREATE"> </a><div class="element clickable constant  DEFAULT_CREATE" data-toggle="collapse" data-target=".DEFAULT_CREATE .collapse">
+<a id="constant_DEFAULT_CREATE"> </a><div class="element clickable constant  constant_DEFAULT_CREATE" data-toggle="collapse" data-target=".constant_DEFAULT_CREATE .collapse">
 <h2>Default value for createCollection (create the collection on the fly when the first document is added to an unknown collection)</h2>
 <pre>DEFAULT_CREATE </pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a name="DEFAULT_PORT" id="DEFAULT_PORT"> </a><div class="element clickable constant  DEFAULT_PORT" data-toggle="collapse" data-target=".DEFAULT_PORT .collapse">
+<a id="constant_DEFAULT_PORT"> </a><div class="element clickable constant  constant_DEFAULT_PORT" data-toggle="collapse" data-target=".constant_DEFAULT_PORT .collapse">
 <h2>Default port number (used if no port specified)</h2>
 <pre>DEFAULT_PORT </pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a name="DEFAULT_TIMEOUT" id="DEFAULT_TIMEOUT"> </a><div class="element clickable constant  DEFAULT_TIMEOUT" data-toggle="collapse" data-target=".DEFAULT_TIMEOUT .collapse">
+<a id="constant_DEFAULT_TIMEOUT"> </a><div class="element clickable constant  constant_DEFAULT_TIMEOUT" data-toggle="collapse" data-target=".constant_DEFAULT_TIMEOUT .collapse">
 <h2>Default timeout value (used if no timeout value specified)</h2>
 <pre>DEFAULT_TIMEOUT </pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a name="DEFAULT_UPDATE_POLICY" id="DEFAULT_UPDATE_POLICY"> </a><div class="element clickable constant  DEFAULT_UPDATE_POLICY" data-toggle="collapse" data-target=".DEFAULT_UPDATE_POLICY .collapse">
+<a id="constant_DEFAULT_UPDATE_POLICY"> </a><div class="element clickable constant  constant_DEFAULT_UPDATE_POLICY" data-toggle="collapse" data-target=".constant_DEFAULT_UPDATE_POLICY .collapse">
 <h2>Default update policy</h2>
 <pre>DEFAULT_UPDATE_POLICY </pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a name="DEFAULT_WAIT_SYNC" id="DEFAULT_WAIT_SYNC"> </a><div class="element clickable constant  DEFAULT_WAIT_SYNC" data-toggle="collapse" data-target=".DEFAULT_WAIT_SYNC .collapse">
+<a id="constant_DEFAULT_WAIT_SYNC"> </a><div class="element clickable constant  constant_DEFAULT_WAIT_SYNC" data-toggle="collapse" data-target=".constant_DEFAULT_WAIT_SYNC .collapse">
 <h2>Default value for waitForSync (fsync all data to disk on document updates/insertions/deletions)</h2>
 <pre>DEFAULT_WAIT_SYNC </pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 </div>
 </div>
@@ -125,8 +131,8 @@
 </div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
-            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a1</a> and<br>
-            generated on 2012-08-06T15:44:13+02:00.<br></footer></div>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
+            generated on 2012-10-04T10:55:44+02:00.<br></footer></div>
 </div>
 </body>
 </html>

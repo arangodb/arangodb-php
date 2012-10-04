@@ -10,7 +10,7 @@ function initializeContents()
     $(".element a.more").hide();
 
     $(".clickable.class,.clickable.interface").click(function() {
-        document.location = $(this).attr('href');
+        document.location = $("a.more", this).attr('href');
     });
 
     // change the cursor to a pointer to make it more explicit that this it clickable
@@ -107,13 +107,13 @@ $(document).ready(function() {
         $(this).parents('.side-nav').find('.active').removeClass('active');
         $(this).parent().addClass('active');
         $('div.namespace-contents').load(
-            this.href + ' div.namespace-contents', {}, function(){
+            this.href + ' div.namespace-contents', function(){
                 initializeContents();
                 $(window).scrollTop($('div.namespace-contents').position().top);
             }
         );
         $('div.package-contents').load(
-            this.href + ' div.package-contents', {}, function(){
+            this.href + ' div.package-contents', function(){
                 initializeContents();
                 $(window).scrollTop($('div.package-contents').position().top);
             }
@@ -140,7 +140,10 @@ $(document).ready(function() {
             var thisPath = filterPath(this.pathname) || locationPath;
             if (locationPath == thisPath && (location.hostname == this.hostname || !this.hostname) && this.hash.replace(/#/, ''))
             {
-                var $target = $(this.hash), target = this.hash;
+                var target = decodeURIComponent(this.hash.replace(/#/,''));
+                // note: I'm using attribute selector, because id selector can't match elements with '$' 
+                var $target = $('[id="'+target+'"]');
+
                 if ($target.length > 0)
                 {
                     $(this).click(function (event)

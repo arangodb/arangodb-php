@@ -1,4 +1,4 @@
-<!DOCTYPE html><html xmlns:date="http://exslt.org/dates-and-times" lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
@@ -20,9 +20,9 @@
 <a href="#api" class="dropdown-toggle" data-toggle="dropdown">
                                     API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a>Namespaces</a></li>
-<li><a href="../namespaces/db_triagens.html"><i class="icon-th"></i> triagens</a></li>
+<li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
 <li><a>Packages</a></li>
-<li><a href="../packages/db_ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
+<li><a href="../packages/ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
 </ul>
 </li>
 <li class="dropdown" id="charts-menu">
@@ -32,9 +32,12 @@
 <li class="dropdown" id="reports-menu">
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
-<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors</a></li>
-<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers (TODO/FIXME)</a></li>
-<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements</a></li>
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">0</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
 </ul>
 </li>
 </ul></div>
@@ -55,7 +58,7 @@
 <li class="nav-header">
 <i class="icon-map-marker"></i> Packages</li>
 <li>
-<a href="../packages/db_ArangoDbPhpClient.html" title="ArangoDbPhpClient"><i class="icon-folder-open"></i>ArangoDbPhpClient</a><ul class="nav nav-list nav-packages"></ul>
+<a href="../packages/ArangoDbPhpClient.html" title="ArangoDbPhpClient"><i class="icon-folder-open"></i>ArangoDbPhpClient</a><ul class="nav nav-list nav-packages"></ul>
 </li>
 <li class="nav-header">
 <i class="icon-custom icon-class"></i> Classes</li>
@@ -64,8 +67,7 @@
 (cleanup) when the scope is exited">Scope</a></li>
 <li><a href="#Exception" title="Exception base class used to throw Arango specific exceptions">Exception</a></li>
 <li><a href="#Autoloader" title="Handles automatic loading of missing class files
-The autoloader can be nested with other autoloaders. It will only
-process classes from its own namespace and ignore all others.">Autoloader</a></li>
+The autoloader can be nested with other autoloaders.">Autoloader</a></li>
 <li><a href="#Collection" title="Value object representing a collection">Collection</a></li>
 <li><a href="#DefaultValues" title="Contains default values used by the client">DefaultValues</a></li>
 <li><a href="#ServerException" title="This exception type will be thrown by the client when the server returns an
@@ -76,8 +78,7 @@ persistent connection and keep its state.">Connection</a></li>
 <li><a href="#UpdatePolicy" title="Document update policies">UpdatePolicy</a></li>
 <li><a href="#ValueValidator" title="A simple validator for values to be stored in the database">ValueValidator</a></li>
 <li><a href="#CollectionHandler" title="A collection handler that fetches collection data from the server and
-creates collections on the server. It does so by issueing the
-appropriate HTTP requests to the server.">CollectionHandler</a></li>
+creates collections on the server.">CollectionHandler</a></li>
 <li><a href="#URLHelper" title="Some helper methods to construct and process URLs">URLHelper</a></li>
 <li><a href="#Handler" title="A base class for REST-based handlers">Handler</a></li>
 <li><a href="#Endpoint" title="Endpoint specification
@@ -88,13 +89,11 @@ the following endpoint types are currently supported (more to be added later):
 - ssl://host:port for SSL connections (provided the server supports this)">Endpoint</a></li>
 <li><a href="#Statement" title='Container for a read-only ("select") statement
 A statement is an AQL query that can be issued to the
-server. Optional bind parameters can be used when issueing the
-statement to separate the statement from the values.'>Statement</a></li>
+server.'>Statement</a></li>
 <li><a href="#Cursor" title="Provides access to the results of a read-only statement
 The cursor might not contain all results in the beginning.">Cursor</a></li>
 <li><a href="#DocumentHandler" title="A document handler that fetches documents from the server and
-persists them on the server. It does so by issueing the
-appropriate HTTP requests to the server.">DocumentHandler</a></li>
+persists them on the server.">DocumentHandler</a></li>
 <li><a href="#BindVars" title="A simple container for bind variables
 This container also handles validation of the bind values.">BindVars</a></li>
 <li><a href="#URLs" title="Some basic URLs">URLs</a></li>
@@ -103,119 +102,112 @@ This container also handles validation of the bind values.">BindVars</a></li>
 during connecting to the server">ConnectException</a></li>
 <li><a href="#Document" title="Value object representing a single collection-based document">Document</a></li>
 <li><a href="#ClientException" title="This exception type will be thrown by the client when there is an error
-on the client side, i.e. something the server is not involved in.">ClientException</a></li>
+on the client side, i.e.">ClientException</a></li>
 <li><a href="#HttpResponse" title="Container class for HTTP responses">HttpResponse</a></li>
 </ul>
 </div>
 <div class="span8 package-contents">
-<ul class="breadcrumb">
-<li>
-<a href="../index.html"><i class="icon-folder-open"></i></a><span class="divider">\</span>
-</li>
-<li class="active"><a href="../packages/db_ArangoDbPhpClient.html">ArangoDbPhpClient</a></li>
-</ul>
+<ul class="breadcrumb"><li>
+<a href="../index.html"><i class="icon-folder-open"></i></a><span class="divider">\</span><li class="active"><a href="../packages/ArangoDbPhpClient.html">ArangoDbPhpClient</a></li>
+</li></ul>
 <div class="package-indent">
-<div class="alert alert-info">This package does not contain any documentable elements</div>
 <h3>
 <i class="icon-custom icon-class"></i> Classes and interfaces</h3>
-<a name="Autoloader" id="Autoloader"></a><div class="element ajax clickable class" href="../classes/db_%5Ctriagens%5CArangoDb%5CAutoloader.html">
-<h1>Autoloader<a href="../classes/db_%5Ctriagens%5CArangoDb%5CAutoloader.html">¶</a>
+<div id="Autoloader" class="element ajax clickable class">
+<h1>Autoloader<a href="../classes/triagens.ArangoDb.Autoloader.html">¶</a>
 </h1>
 <p class="short_description">Handles automatic loading of missing class files
-The autoloader can be nested with other autoloaders. It will only
-process classes from its own namespace and ignore all others.</p>
+The autoloader can be nested with other autoloaders.</p>
 <div class="details collapse"></div>
-<a href="../classes/db_%5Ctriagens%5CArangoDb%5CAutoloader.html" class="more">« More »</a>
+<a href="../classes/triagens.ArangoDb.Autoloader.html" class="more">« More »</a>
 </div>
-<a name="BindVars" id="BindVars"></a><div class="element ajax clickable class" href="../classes/db_%5Ctriagens%5CArangoDb%5CBindVars.html">
-<h1>BindVars<a href="../classes/db_%5Ctriagens%5CArangoDb%5CBindVars.html">¶</a>
+<div id="BindVars" class="element ajax clickable class">
+<h1>BindVars<a href="../classes/triagens.ArangoDb.BindVars.html">¶</a>
 </h1>
 <p class="short_description">A simple container for bind variables
 This container also handles validation of the bind values.</p>
 <div class="details collapse"></div>
-<a href="../classes/db_%5Ctriagens%5CArangoDb%5CBindVars.html" class="more">« More »</a>
+<a href="../classes/triagens.ArangoDb.BindVars.html" class="more">« More »</a>
 </div>
-<a name="ClientException" id="ClientException"></a><div class="element ajax clickable class" href="../classes/db_%5Ctriagens%5CArangoDb%5CClientException.html">
-<h1>ClientException<a href="../classes/db_%5Ctriagens%5CArangoDb%5CClientException.html">¶</a>
+<div id="ClientException" class="element ajax clickable class">
+<h1>ClientException<a href="../classes/triagens.ArangoDb.ClientException.html">¶</a>
 </h1>
 <p class="short_description">This exception type will be thrown by the client when there is an error
-on the client side, i.e. something the server is not involved in.</p>
+on the client side, i.e.</p>
 <div class="details collapse"></div>
-<a href="../classes/db_%5Ctriagens%5CArangoDb%5CClientException.html" class="more">« More »</a>
+<a href="../classes/triagens.ArangoDb.ClientException.html" class="more">« More »</a>
 </div>
-<a name="Collection" id="Collection"></a><div class="element ajax clickable class" href="../classes/db_%5Ctriagens%5CArangoDb%5CCollection.html">
-<h1>Collection<a href="../classes/db_%5Ctriagens%5CArangoDb%5CCollection.html">¶</a>
+<div id="Collection" class="element ajax clickable class">
+<h1>Collection<a href="../classes/triagens.ArangoDb.Collection.html">¶</a>
 </h1>
 <p class="short_description">Value object representing a collection</p>
 <div class="details collapse"></div>
-<a href="../classes/db_%5Ctriagens%5CArangoDb%5CCollection.html" class="more">« More »</a>
+<a href="../classes/triagens.ArangoDb.Collection.html" class="more">« More »</a>
 </div>
-<a name="CollectionHandler" id="CollectionHandler"></a><div class="element ajax clickable class" href="../classes/db_%5Ctriagens%5CArangoDb%5CCollectionHandler.html">
-<h1>CollectionHandler<a href="../classes/db_%5Ctriagens%5CArangoDb%5CCollectionHandler.html">¶</a>
+<div id="CollectionHandler" class="element ajax clickable class">
+<h1>CollectionHandler<a href="../classes/triagens.ArangoDb.CollectionHandler.html">¶</a>
 </h1>
 <p class="short_description">A collection handler that fetches collection data from the server and
-creates collections on the server. It does so by issueing the
-appropriate HTTP requests to the server.</p>
+creates collections on the server.</p>
 <div class="details collapse"></div>
-<a href="../classes/db_%5Ctriagens%5CArangoDb%5CCollectionHandler.html" class="more">« More »</a>
+<a href="../classes/triagens.ArangoDb.CollectionHandler.html" class="more">« More »</a>
 </div>
-<a name="ConnectException" id="ConnectException"></a><div class="element ajax clickable class" href="../classes/db_%5Ctriagens%5CArangoDb%5CConnectException.html">
-<h1>ConnectException<a href="../classes/db_%5Ctriagens%5CArangoDb%5CConnectException.html">¶</a>
+<div id="ConnectException" class="element ajax clickable class">
+<h1>ConnectException<a href="../classes/triagens.ArangoDb.ConnectException.html">¶</a>
 </h1>
 <p class="short_description">This exception type will be thrown by the client when there is an error
 during connecting to the server</p>
 <div class="details collapse"></div>
-<a href="../classes/db_%5Ctriagens%5CArangoDb%5CConnectException.html" class="more">« More »</a>
+<a href="../classes/triagens.ArangoDb.ConnectException.html" class="more">« More »</a>
 </div>
-<a name="Connection" id="Connection"></a><div class="element ajax clickable class" href="../classes/db_%5Ctriagens%5CArangoDb%5CConnection.html">
-<h1>Connection<a href="../classes/db_%5Ctriagens%5CArangoDb%5CConnection.html">¶</a>
+<div id="Connection" class="element ajax clickable class">
+<h1>Connection<a href="../classes/triagens.ArangoDb.Connection.html">¶</a>
 </h1>
 <p class="short_description">Provides access to the ArangoDB server
 As all access is done using HTTP, we do not need to establish a
 persistent connection and keep its state.</p>
 <div class="details collapse"></div>
-<a href="../classes/db_%5Ctriagens%5CArangoDb%5CConnection.html" class="more">« More »</a>
+<a href="../classes/triagens.ArangoDb.Connection.html" class="more">« More »</a>
 </div>
-<a name="ConnectionOptions" id="ConnectionOptions"></a><div class="element ajax clickable class" href="../classes/db_%5Ctriagens%5CArangoDb%5CConnectionOptions.html">
-<h1>ConnectionOptions<a href="../classes/db_%5Ctriagens%5CArangoDb%5CConnectionOptions.html">¶</a>
+<div id="ConnectionOptions" class="element ajax clickable class">
+<h1>ConnectionOptions<a href="../classes/triagens.ArangoDb.ConnectionOptions.html">¶</a>
 </h1>
 <p class="short_description">Simple container class for connection options.</p>
 <div class="details collapse"></div>
-<a href="../classes/db_%5Ctriagens%5CArangoDb%5CConnectionOptions.html" class="more">« More »</a>
+<a href="../classes/triagens.ArangoDb.ConnectionOptions.html" class="more">« More »</a>
 </div>
-<a name="Cursor" id="Cursor"></a><div class="element ajax clickable class" href="../classes/db_%5Ctriagens%5CArangoDb%5CCursor.html">
-<h1>Cursor<a href="../classes/db_%5Ctriagens%5CArangoDb%5CCursor.html">¶</a>
+<div id="Cursor" class="element ajax clickable class">
+<h1>Cursor<a href="../classes/triagens.ArangoDb.Cursor.html">¶</a>
 </h1>
 <p class="short_description">Provides access to the results of a read-only statement
 The cursor might not contain all results in the beginning.</p>
 <div class="details collapse"></div>
-<a href="../classes/db_%5Ctriagens%5CArangoDb%5CCursor.html" class="more">« More »</a>
+<a href="../classes/triagens.ArangoDb.Cursor.html" class="more">« More »</a>
 </div>
-<a name="DefaultValues" id="DefaultValues"></a><div class="element ajax clickable class" href="../classes/db_%5Ctriagens%5CArangoDb%5CDefaultValues.html">
-<h1>DefaultValues<a href="../classes/db_%5Ctriagens%5CArangoDb%5CDefaultValues.html">¶</a>
+<div id="DefaultValues" class="element ajax clickable class">
+<h1>DefaultValues<a href="../classes/triagens.ArangoDb.DefaultValues.html">¶</a>
 </h1>
 <p class="short_description">Contains default values used by the client</p>
 <div class="details collapse"></div>
-<a href="../classes/db_%5Ctriagens%5CArangoDb%5CDefaultValues.html" class="more">« More »</a>
+<a href="../classes/triagens.ArangoDb.DefaultValues.html" class="more">« More »</a>
 </div>
-<a name="Document" id="Document"></a><div class="element ajax clickable class" href="../classes/db_%5Ctriagens%5CArangoDb%5CDocument.html">
-<h1>Document<a href="../classes/db_%5Ctriagens%5CArangoDb%5CDocument.html">¶</a>
+<div id="Document" class="element ajax clickable class">
+<h1>Document<a href="../classes/triagens.ArangoDb.Document.html">¶</a>
 </h1>
 <p class="short_description">Value object representing a single collection-based document</p>
 <div class="details collapse"></div>
-<a href="../classes/db_%5Ctriagens%5CArangoDb%5CDocument.html" class="more">« More »</a>
+<a href="../classes/triagens.ArangoDb.Document.html" class="more">« More »</a>
 </div>
-<a name="DocumentHandler" id="DocumentHandler"></a><div class="element ajax clickable class" href="../classes/db_%5Ctriagens%5CArangoDb%5CDocumentHandler.html">
-<h1>DocumentHandler<a href="../classes/db_%5Ctriagens%5CArangoDb%5CDocumentHandler.html">¶</a>
+<div id="DocumentHandler" class="element ajax clickable class">
+<h1>DocumentHandler<a href="../classes/triagens.ArangoDb.DocumentHandler.html">¶</a>
 </h1>
 <p class="short_description">A document handler that fetches documents from the server and
-persists them on the server. It does so by issueing the
-appropriate HTTP requests to the server.</p>
+persists them on the server.</p>
 <div class="details collapse"></div>
-<a href="../classes/db_%5Ctriagens%5CArangoDb%5CDocumentHandler.html" class="more">« More »</a>
+<a href="../classes/triagens.ArangoDb.DocumentHandler.html" class="more">« More »</a>
 </div>
-<a name="Endpoint" id="Endpoint"></a><div class="element ajax clickable class" href="../classes/db_%5Ctriagens%5CArangoDb%5CEndpoint.html">
-<h1>Endpoint<a href="../classes/db_%5Ctriagens%5CArangoDb%5CEndpoint.html">¶</a>
+<div id="Endpoint" class="element ajax clickable class">
+<h1>Endpoint<a href="../classes/triagens.ArangoDb.Endpoint.html">¶</a>
 </h1>
 <p class="short_description">Endpoint specification
 An endpoint contains the server location the client connects to
@@ -224,97 +216,96 @@ the following endpoint types are currently supported (more to be added later):
 - unix://socket for UNIX sockets (provided the server supports this)
 - ssl://host:port for SSL connections (provided the server supports this)</p>
 <div class="details collapse"></div>
-<a href="../classes/db_%5Ctriagens%5CArangoDb%5CEndpoint.html" class="more">« More »</a>
+<a href="../classes/triagens.ArangoDb.Endpoint.html" class="more">« More »</a>
 </div>
-<a name="Exception" id="Exception"></a><div class="element ajax clickable class" href="../classes/db_%5Ctriagens%5CArangoDb%5CException.html">
-<h1>Exception<a href="../classes/db_%5Ctriagens%5CArangoDb%5CException.html">¶</a>
+<div id="Exception" class="element ajax clickable class">
+<h1>Exception<a href="../classes/triagens.ArangoDb.Exception.html">¶</a>
 </h1>
 <p class="short_description">Exception base class used to throw Arango specific exceptions</p>
 <div class="details collapse"></div>
-<a href="../classes/db_%5Ctriagens%5CArangoDb%5CException.html" class="more">« More »</a>
+<a href="../classes/triagens.ArangoDb.Exception.html" class="more">« More »</a>
 </div>
-<a name="Handler" id="Handler"></a><div class="element ajax clickable class" href="../classes/db_%5Ctriagens%5CArangoDb%5CHandler.html">
-<h1>Handler<a href="../classes/db_%5Ctriagens%5CArangoDb%5CHandler.html">¶</a>
+<div id="Handler" class="element ajax clickable class">
+<h1>Handler<a href="../classes/triagens.ArangoDb.Handler.html">¶</a>
 </h1>
 <p class="short_description">A base class for REST-based handlers</p>
 <div class="details collapse"></div>
-<a href="../classes/db_%5Ctriagens%5CArangoDb%5CHandler.html" class="more">« More »</a>
+<a href="../classes/triagens.ArangoDb.Handler.html" class="more">« More »</a>
 </div>
-<a name="HttpHelper" id="HttpHelper"></a><div class="element ajax clickable class" href="../classes/db_%5Ctriagens%5CArangoDb%5CHttpHelper.html">
-<h1>HttpHelper<a href="../classes/db_%5Ctriagens%5CArangoDb%5CHttpHelper.html">¶</a>
+<div id="HttpHelper" class="element ajax clickable class">
+<h1>HttpHelper<a href="../classes/triagens.ArangoDb.HttpHelper.html">¶</a>
 </h1>
 <p class="short_description">Helper methods for HTTP request/response handling</p>
 <div class="details collapse"></div>
-<a href="../classes/db_%5Ctriagens%5CArangoDb%5CHttpHelper.html" class="more">« More »</a>
+<a href="../classes/triagens.ArangoDb.HttpHelper.html" class="more">« More »</a>
 </div>
-<a name="HttpResponse" id="HttpResponse"></a><div class="element ajax clickable class" href="../classes/db_%5Ctriagens%5CArangoDb%5CHttpResponse.html">
-<h1>HttpResponse<a href="../classes/db_%5Ctriagens%5CArangoDb%5CHttpResponse.html">¶</a>
+<div id="HttpResponse" class="element ajax clickable class">
+<h1>HttpResponse<a href="../classes/triagens.ArangoDb.HttpResponse.html">¶</a>
 </h1>
 <p class="short_description">Container class for HTTP responses</p>
 <div class="details collapse"></div>
-<a href="../classes/db_%5Ctriagens%5CArangoDb%5CHttpResponse.html" class="more">« More »</a>
+<a href="../classes/triagens.ArangoDb.HttpResponse.html" class="more">« More »</a>
 </div>
-<a name="Scope" id="Scope"></a><div class="element ajax clickable class" href="../classes/db_%5Ctriagens%5CArangoDb%5CScope.html">
-<h1>Scope<a href="../classes/db_%5Ctriagens%5CArangoDb%5CScope.html">¶</a>
+<div id="Scope" class="element ajax clickable class">
+<h1>Scope<a href="../classes/triagens.ArangoDb.Scope.html">¶</a>
 </h1>
 <p class="short_description">Executes a function on scope entry and executes another function
 (cleanup) when the scope is exited</p>
 <div class="details collapse"></div>
-<a href="../classes/db_%5Ctriagens%5CArangoDb%5CScope.html" class="more">« More »</a>
+<a href="../classes/triagens.ArangoDb.Scope.html" class="more">« More »</a>
 </div>
-<a name="ServerException" id="ServerException"></a><div class="element ajax clickable class" href="../classes/db_%5Ctriagens%5CArangoDb%5CServerException.html">
-<h1>ServerException<a href="../classes/db_%5Ctriagens%5CArangoDb%5CServerException.html">¶</a>
+<div id="ServerException" class="element ajax clickable class">
+<h1>ServerException<a href="../classes/triagens.ArangoDb.ServerException.html">¶</a>
 </h1>
 <p class="short_description">This exception type will be thrown by the client when the server returns an
 error in response to a client request.</p>
 <div class="details collapse"></div>
-<a href="../classes/db_%5Ctriagens%5CArangoDb%5CServerException.html" class="more">« More »</a>
+<a href="../classes/triagens.ArangoDb.ServerException.html" class="more">« More »</a>
 </div>
-<a name="Statement" id="Statement"></a><div class="element ajax clickable class" href="../classes/db_%5Ctriagens%5CArangoDb%5CStatement.html">
-<h1>Statement<a href="../classes/db_%5Ctriagens%5CArangoDb%5CStatement.html">¶</a>
+<div id="Statement" class="element ajax clickable class">
+<h1>Statement<a href="../classes/triagens.ArangoDb.Statement.html">¶</a>
 </h1>
 <p class="short_description">Container for a read-only ("select") statement
 A statement is an AQL query that can be issued to the
-server. Optional bind parameters can be used when issueing the
-statement to separate the statement from the values.</p>
+server.</p>
 <div class="details collapse"></div>
-<a href="../classes/db_%5Ctriagens%5CArangoDb%5CStatement.html" class="more">« More »</a>
+<a href="../classes/triagens.ArangoDb.Statement.html" class="more">« More »</a>
 </div>
-<a name="URLHelper" id="URLHelper"></a><div class="element ajax clickable class" href="../classes/db_%5Ctriagens%5CArangoDb%5CURLHelper.html">
-<h1>URLHelper<a href="../classes/db_%5Ctriagens%5CArangoDb%5CURLHelper.html">¶</a>
+<div id="URLHelper" class="element ajax clickable class">
+<h1>URLHelper<a href="../classes/triagens.ArangoDb.URLHelper.html">¶</a>
 </h1>
 <p class="short_description">Some helper methods to construct and process URLs</p>
 <div class="details collapse"></div>
-<a href="../classes/db_%5Ctriagens%5CArangoDb%5CURLHelper.html" class="more">« More »</a>
+<a href="../classes/triagens.ArangoDb.URLHelper.html" class="more">« More »</a>
 </div>
-<a name="URLs" id="URLs"></a><div class="element ajax clickable class" href="../classes/db_%5Ctriagens%5CArangoDb%5CURLs.html">
-<h1>URLs<a href="../classes/db_%5Ctriagens%5CArangoDb%5CURLs.html">¶</a>
+<div id="URLs" class="element ajax clickable class">
+<h1>URLs<a href="../classes/triagens.ArangoDb.URLs.html">¶</a>
 </h1>
 <p class="short_description">Some basic URLs</p>
 <div class="details collapse"></div>
-<a href="../classes/db_%5Ctriagens%5CArangoDb%5CURLs.html" class="more">« More »</a>
+<a href="../classes/triagens.ArangoDb.URLs.html" class="more">« More »</a>
 </div>
-<a name="UpdatePolicy" id="UpdatePolicy"></a><div class="element ajax clickable class" href="../classes/db_%5Ctriagens%5CArangoDb%5CUpdatePolicy.html">
-<h1>UpdatePolicy<a href="../classes/db_%5Ctriagens%5CArangoDb%5CUpdatePolicy.html">¶</a>
+<div id="UpdatePolicy" class="element ajax clickable class">
+<h1>UpdatePolicy<a href="../classes/triagens.ArangoDb.UpdatePolicy.html">¶</a>
 </h1>
 <p class="short_description">Document update policies</p>
 <div class="details collapse"></div>
-<a href="../classes/db_%5Ctriagens%5CArangoDb%5CUpdatePolicy.html" class="more">« More »</a>
+<a href="../classes/triagens.ArangoDb.UpdatePolicy.html" class="more">« More »</a>
 </div>
-<a name="ValueValidator" id="ValueValidator"></a><div class="element ajax clickable class" href="../classes/db_%5Ctriagens%5CArangoDb%5CValueValidator.html">
-<h1>ValueValidator<a href="../classes/db_%5Ctriagens%5CArangoDb%5CValueValidator.html">¶</a>
+<div id="ValueValidator" class="element ajax clickable class">
+<h1>ValueValidator<a href="../classes/triagens.ArangoDb.ValueValidator.html">¶</a>
 </h1>
 <p class="short_description">A simple validator for values to be stored in the database</p>
 <div class="details collapse"></div>
-<a href="../classes/db_%5Ctriagens%5CArangoDb%5CValueValidator.html" class="more">« More »</a>
+<a href="../classes/triagens.ArangoDb.ValueValidator.html" class="more">« More »</a>
 </div>
 </div>
 </div>
 </div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
-            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a1</a> and<br>
-            generated on 2012-08-06T15:44:13+02:00.<br></footer></div>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
+            generated on 2012-10-04T10:55:44+02:00.<br></footer></div>
 </div>
 </body>
 </html>

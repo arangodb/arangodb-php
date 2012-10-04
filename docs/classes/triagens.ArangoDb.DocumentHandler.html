@@ -1,4 +1,4 @@
-<!DOCTYPE html><html xmlns:date="http://exslt.org/dates-and-times" lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
@@ -20,9 +20,9 @@
 <a href="#api" class="dropdown-toggle" data-toggle="dropdown">
                                     API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a>Namespaces</a></li>
-<li><a href="../namespaces/db_triagens.html"><i class="icon-th"></i> triagens</a></li>
+<li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
 <li><a>Packages</a></li>
-<li><a href="../packages/db_ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
+<li><a href="../packages/ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
 </ul>
 </li>
 <li class="dropdown" id="charts-menu">
@@ -32,9 +32,12 @@
 <li class="dropdown" id="reports-menu">
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
-<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors</a></li>
-<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers (TODO/FIXME)</a></li>
-<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements</a></li>
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">0</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
 </ul>
 </li>
 </ul></div>
@@ -53,83 +56,98 @@
 </div>
 <ul class="side-nav nav nav-list">
 <li class="nav-header">
-<i class="icon-custom icon-method"></i> Methods</li>
-<li class="method public inherited"><a href="#__construct" title="__construct :: Construct a new handler"><span class="description">Construct a new handler</span><pre>__construct()</pre></a></li>
-<li class="method public "><a href="#add" title="add :: Add a document to a collection
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public inherited"><a href="#method___construct" title="__construct :: Construct a new handler"><span class="description">Construct a new handler</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#method_add" title="add :: Add a document to a collection
 This will add the document to the collection and return the document's id
 This will throw if the document cannot be created"><span class="description">Add a document to a collection
 This will add the document to the collection and return the document's id
 This will throw if the document cannot be created</span><pre>add()</pre></a></li>
-<li class="method public "><a href="#delete" title="delete :: Delete a document from a collection, identified by the document itself"><span class="description">Delete a document from a collection, identified by the document itself</span><pre>delete()</pre></a></li>
-<li class="method public "><a href="#deleteById" title="deleteById :: Delete a document from a collection, identified by the collection id and document id"><span class="description">Delete a document from a collection, identified by the collection id and document id</span><pre>deleteById()</pre></a></li>
-<li class="method public "><a href="#get" title="get :: Get a single document from a collection
+<li class="method public "><a href="#method_delete" title="delete :: Delete a document from a collection, identified by the document itself"><span class="description">Delete a document from a collection, identified by the document itself</span><pre>delete()</pre></a></li>
+<li class="method public "><a href="#method_deleteById" title="deleteById :: Delete a document from a collection, identified by the collection id and document id"><span class="description">Delete a document from a collection, identified by the collection id and document id</span><pre>deleteById()</pre></a></li>
+<li class="method public "><a href="#method_get" title="get :: Get a single document from a collection
 Alias method for getById()"><span class="description">Get a single document from a collection
 Alias method for getById()</span><pre>get()</pre></a></li>
-<li class="method public "><a href="#getAllIds" title="getAllIds :: Get the list of all documents' ids from a collection
+<li class="method public "><a href="#method_getAllIds" title="getAllIds :: Get the list of all documents' ids from a collection
 This will throw if the list cannot be fetched from the server"><span class="description">Get the list of all documents' ids from a collection
 This will throw if the list cannot be fetched from the server</span><pre>getAllIds()</pre></a></li>
-<li class="method public "><a href="#getByExample" title="getByExample :: Get document(s) by specifying an example
+<li class="method public "><a href="#method_getByExample" title="getByExample :: Get document(s) by specifying an example
 This will throw if the list cannot be fetched from the server"><span class="description">Get document(s) by specifying an example
 This will throw if the list cannot be fetched from the server</span><pre>getByExample()</pre></a></li>
-<li class="method public "><a href="#getById" title="getById :: Get a single document from a collection
+<li class="method public "><a href="#method_getById" title="getById :: Get a single document from a collection
 This will throw if the document cannot be fetched from the server"><span class="description">Get a single document from a collection
 This will throw if the document cannot be fetched from the server</span><pre>getById()</pre></a></li>
-<li class="method public "><a href="#update" title="update :: Update an existing document in a collection, identified by the document itself
+<li class="method public "><a href="#method_update" title="update :: Update an existing document in a collection, identified by the document itself
 This will update the document on the server
 This will throw if the document cannot be updated"><span class="description">Update an existing document in a collection, identified by the document itself
 This will update the document on the server
 This will throw if the document cannot be updated</span><pre>update()</pre></a></li>
-<li class="method public "><a href="#updateById" title="updateById :: Update an existing document in a collection, identified by collection id and document id
+<li class="method public "><a href="#method_updateById" title="updateById :: Update an existing document in a collection, identified by collection id and document id
 This will update the document on the server
 This will throw if the document cannot be updated"><span class="description">Update an existing document in a collection, identified by collection id and document id
 This will update the document on the server
 This will throw if the document cannot be updated</span><pre>updateById()</pre></a></li>
-<li class="nav-header protected">» Protected</li>
-<li class="method protected inherited"><a href="#getConnection" title="getConnection :: Return the connection object"><span class="description">Return the connection object</span><pre>getConnection()</pre></a></li>
-<li class="nav-header private">» Private</li>
-<li class="method private "><a href="#getCollectionId" title="getCollectionId :: Helper function to get a collection id from a document"><span class="description">Helper function to get a collection id from a document</span><pre>getCollectionId()</pre></a></li>
-<li class="method private "><a href="#getCursorOptions" title="getCursorOptions :: Return an array of cursor options"><span class="description">Return an array of cursor options</span><pre>getCursorOptions()</pre></a></li>
-<li class="method private "><a href="#getDocumentId" title="getDocumentId :: Helper function to get a document id from a document or a document id value"><span class="description">Helper function to get a document id from a document or a document id value</span><pre>getDocumentId()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul><li class="method protected inherited"><a href="#method_getConnection" title="getConnection :: Return the connection object"><span class="description">Return the connection object</span><pre>getConnection()</pre></a></li></ul>
+</li>
+<li class="nav-header private">» Private
+                    <ul>
+<li class="method private "><a href="#method_getCollectionId" title="getCollectionId :: Helper function to get a collection id from a document"><span class="description">Helper function to get a collection id from a document</span><pre>getCollectionId()</pre></a></li>
+<li class="method private "><a href="#method_getCursorOptions" title="getCursorOptions :: Return an array of cursor options"><span class="description">Return an array of cursor options</span><pre>getCursorOptions()</pre></a></li>
+<li class="method private "><a href="#method_getDocumentId" title="getDocumentId :: Helper function to get a document id from a document or a document id value"><span class="description">Helper function to get a document id from a document or a document id value</span><pre>getDocumentId()</pre></a></li>
+</ul>
+</li>
 <li class="nav-header">
-<i class="icon-custom icon-property"></i> Properties</li>
-<li class="nav-header private">» Private</li>
-<li class="property private inherited"><a href="#%24_connection" title="$_connection :: Connection object"><span class="description">Connection object</span><pre>$_connection</pre></a></li>
+<i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header private">» Private
+                    <ul><li class="property private inherited"><a href="#property__connection" title="$_connection :: Connection object"><span class="description">Connection object</span><pre>$_connection</pre></a></li></ul>
+</li>
 <li class="nav-header">
-<i class="icon-custom icon-constant"></i> Constants</li>
-<li class="constant  "><a href="#ENTRY_DOCUMENTS" title="ENTRY_DOCUMENTS :: documents array index"><span class="description">documents array index</span><pre>ENTRY_DOCUMENTS</pre></a></li>
-<li class="constant  "><a href="#OPTION_COLLECTION" title="OPTION_COLLECTION :: collection parameter"><span class="description">collection parameter</span><pre>OPTION_COLLECTION</pre></a></li>
-<li class="constant  "><a href="#OPTION_EXAMPLE" title="OPTION_EXAMPLE :: example parameter"><span class="description">example parameter</span><pre>OPTION_EXAMPLE</pre></a></li>
+<i class="icon-custom icon-constant"></i> Constants
+                    <ul>
+<li class="constant  "><a href="#constant_ENTRY_DOCUMENTS" title="ENTRY_DOCUMENTS :: documents array index"><span class="description">documents array index</span><pre>ENTRY_DOCUMENTS</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_COLLECTION" title="OPTION_COLLECTION :: collection parameter"><span class="description">collection parameter</span><pre>OPTION_COLLECTION</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_EXAMPLE" title="OPTION_EXAMPLE :: example parameter"><span class="description">example parameter</span><pre>OPTION_EXAMPLE</pre></a></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="span8">
-<a name="%5Ctriagens%5CArangoDb%5CDocumentHandler" id="\triagens\ArangoDb\DocumentHandler"></a><ul class="breadcrumb">
+<a id="\triagens\ArangoDb\DocumentHandler"></a><ul class="breadcrumb">
 <li>
 <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
 </li>
-<li><a href="../namespaces/db_triagens.html">triagens</a></li>
-<span class="divider">\</span><li><a href="../namespaces/db_triagens%5CArangoDb.html">ArangoDb</a></li>
+<li><a href="../namespaces/triagens.html">triagens</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
+</li>
 <li class="active">
-<span class="divider">\</span><a href="../classes/db_%5Ctriagens%5CArangoDb%5CDocumentHandler.html">DocumentHandler</a>
+<span class="divider">\</span><a href="../classes/triagens.ArangoDb.DocumentHandler.html">DocumentHandler</a>
 </li>
 </ul>
-<div href="../classes/db_%5Ctriagens%5CArangoDb%5CDocumentHandler.html" class="element class">
+<div class="element class">
 <p class="short_description">A document handler that fetches documents from the server and
-persists them on the server. It does so by issueing the
-appropriate HTTP requests to the server.</p>
+persists them on the server.</p>
 <div class="details">
-<p class="long_description"></p>
+<div class="long_description"><p>It does so by issueing the
+appropriate HTTP requests to the server.</p></div>
 <table class="table table-bordered"><tr>
 <th>package</th>
-<td><a href="..//packages/db_ArangoDbPhpClient.html">ArangoDbPhpClient</a></td>
+<td><a href="../packages/ArangoDbPhpClient.html">ArangoDbPhpClient</a></td>
 </tr></table>
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
-<a name="__construct" id="__construct"></a><div class="element clickable method public __construct" data-toggle="collapse" data-target=".__construct .collapse">
+<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
 <h2>Construct a new handler</h2>
-<pre>__construct(Connection $connection) : void</pre>
+<pre>__construct(\triagens\ArangoDb\Connection $connection) : void</pre>
 <div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="span8">
-<p class="long_description"></p>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
 <table class="table table-bordered"><tr>
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\Handler::__construct()</td>
@@ -137,20 +155,20 @@ appropriate HTTP requests to the server.</p>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$connection</h4>
-<code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CConnection.html">\triagens\ArangoDb\Connection</a></code><ul>
+<code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code><ul>
 <li>connection to be used</li>
 </ul>
 </div>
 </div></div>
 </div>
-<a name="add" id="add"></a><div class="element clickable method public add" data-toggle="collapse" data-target=".add .collapse">
+<a id="method_add"></a><div class="element clickable method public method_add" data-toggle="collapse" data-target=".method_add .collapse">
 <h2>Add a document to a collection
 This will add the document to the collection and return the document's id
 This will throw if the document cannot be created</h2>
-<pre>add(mixed $collectionId, Document $document, bool $create) : mixed</pre>
+<pre>add(mixed $collectionId, \triagens\ArangoDb\Document $document, bool $create) : mixed</pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8">
-<p class="long_description"></p>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -160,7 +178,7 @@ This will throw if the document cannot be created</h2>
 </div>
 <div class="subelement argument">
 <h4>$document</h4>
-<code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CDocument.html">\triagens\ArangoDb\Document</a></code><ul>
+<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
 <li>the document to be added</li>
 </ul>
 </div>
@@ -172,7 +190,7 @@ This will throw if the document cannot be created</h2>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
-<th><code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CException.html">\triagens\ArangoDb\Exception</a></code></th>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
 <td></td>
 </tr></table>
 <h3>Returns</h3>
@@ -180,22 +198,22 @@ This will throw if the document cannot be created</h2>
 <code>mixed</code>- id of document created</div>
 </div></div>
 </div>
-<a name="delete" id="delete"></a><div class="element clickable method public delete" data-toggle="collapse" data-target=".delete .collapse">
+<a id="method_delete"></a><div class="element clickable method public method_delete" data-toggle="collapse" data-target=".method_delete .collapse">
 <h2>Delete a document from a collection, identified by the document itself</h2>
-<pre>delete(Document $document) : bool</pre>
+<pre>delete(\triagens\ArangoDb\Document $document) : bool</pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8">
-<p class="long_description"></p>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$document</h4>
-<code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CDocument.html">\triagens\ArangoDb\Document</a></code><ul>
+<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
 <li>document to be updated</li>
 </ul>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
-<th><code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CException.html">\triagens\ArangoDb\Exception</a></code></th>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
 <td></td>
 </tr></table>
 <h3>Returns</h3>
@@ -203,12 +221,12 @@ This will throw if the document cannot be created</h2>
 <code>bool</code>- always true, will throw if there is an error</div>
 </div></div>
 </div>
-<a name="deleteById" id="deleteById"></a><div class="element clickable method public deleteById" data-toggle="collapse" data-target=".deleteById .collapse">
+<a id="method_deleteById"></a><div class="element clickable method public method_deleteById" data-toggle="collapse" data-target=".method_deleteById .collapse">
 <h2>Delete a document from a collection, identified by the collection id and document id</h2>
 <pre>deleteById(mixed $collectionId, mixed $documentId) : bool</pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8">
-<p class="long_description"></p>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -224,7 +242,7 @@ This will throw if the document cannot be created</h2>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
-<th><code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CException.html">\triagens\ArangoDb\Exception</a></code></th>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
 <td></td>
 </tr></table>
 <h3>Returns</h3>
@@ -232,13 +250,13 @@ This will throw if the document cannot be created</h2>
 <code>bool</code>- always true, will throw if there is an error</div>
 </div></div>
 </div>
-<a name="get" id="get"></a><div class="element clickable method public get" data-toggle="collapse" data-target=".get .collapse">
+<a id="method_get"></a><div class="element clickable method public method_get" data-toggle="collapse" data-target=".method_get .collapse">
 <h2>Get a single document from a collection
 Alias method for getById()</h2>
-<pre>get(mixed $collectionId, mixed $documentId) : <a href="../classes/db_%5Ctriagens%5CArangoDb%5CDocument.html">\triagens\ArangoDb\Document</a></pre>
+<pre>get(mixed $collectionId, mixed $documentId) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8">
-<p class="long_description"></p>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -254,21 +272,21 @@ Alias method for getById()</h2>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
-<th><code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CException.html">\triagens\ArangoDb\Exception</a></code></th>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
 <td></td>
 </tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
-<code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CDocument.html">\triagens\ArangoDb\Document</a></code>- the document fetched from the server</div>
+<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>- the document fetched from the server</div>
 </div></div>
 </div>
-<a name="getAllIds" id="getAllIds"></a><div class="element clickable method public getAllIds" data-toggle="collapse" data-target=".getAllIds .collapse">
+<a id="method_getAllIds"></a><div class="element clickable method public method_getAllIds" data-toggle="collapse" data-target=".method_getAllIds .collapse">
 <h2>Get the list of all documents' ids from a collection
 This will throw if the list cannot be fetched from the server</h2>
 <pre>getAllIds(mixed $collectionId) : array</pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8">
-<p class="long_description"></p>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -278,7 +296,7 @@ This will throw if the list cannot be fetched from the server</h2>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
-<th><code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CException.html">\triagens\ArangoDb\Exception</a></code></th>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
 <td></td>
 </tr></table>
 <h3>Returns</h3>
@@ -286,13 +304,13 @@ This will throw if the list cannot be fetched from the server</h2>
 <code>array</code>- ids of documents in the collection</div>
 </div></div>
 </div>
-<a name="getByExample" id="getByExample"></a><div class="element clickable method public getByExample" data-toggle="collapse" data-target=".getByExample .collapse">
+<a id="method_getByExample"></a><div class="element clickable method public method_getByExample" data-toggle="collapse" data-target=".method_getByExample .collapse">
 <h2>Get document(s) by specifying an example
 This will throw if the list cannot be fetched from the server</h2>
 <pre>getByExample(mixed $collectionId, mixed $document, bool $sanitize) : array</pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8">
-<p class="long_description"></p>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -314,7 +332,7 @@ This will throw if the list cannot be fetched from the server</h2>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
-<th><code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CException.html">\triagens\ArangoDb\Exception</a></code></th>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
 <td></td>
 </tr></table>
 <h3>Returns</h3>
@@ -322,13 +340,13 @@ This will throw if the list cannot be fetched from the server</h2>
 <code>array</code>- documents matching the example [0...n]</div>
 </div></div>
 </div>
-<a name="getById" id="getById"></a><div class="element clickable method public getById" data-toggle="collapse" data-target=".getById .collapse">
+<a id="method_getById"></a><div class="element clickable method public method_getById" data-toggle="collapse" data-target=".method_getById .collapse">
 <h2>Get a single document from a collection
 This will throw if the document cannot be fetched from the server</h2>
-<pre>getById(mixed $collectionId, mixed $documentId) : <a href="../classes/db_%5Ctriagens%5CArangoDb%5CDocument.html">\triagens\ArangoDb\Document</a></pre>
+<pre>getById(mixed $collectionId, mixed $documentId) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8">
-<p class="long_description"></p>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -344,26 +362,26 @@ This will throw if the document cannot be fetched from the server</h2>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
-<th><code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CException.html">\triagens\ArangoDb\Exception</a></code></th>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
 <td></td>
 </tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
-<code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CDocument.html">\triagens\ArangoDb\Document</a></code>- the document fetched from the server</div>
+<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>- the document fetched from the server</div>
 </div></div>
 </div>
-<a name="update" id="update"></a><div class="element clickable method public update" data-toggle="collapse" data-target=".update .collapse">
+<a id="method_update"></a><div class="element clickable method public method_update" data-toggle="collapse" data-target=".method_update .collapse">
 <h2>Update an existing document in a collection, identified by the document itself
 This will update the document on the server
 This will throw if the document cannot be updated</h2>
-<pre>update(Document $document, bool $policy) : bool</pre>
+<pre>update(\triagens\ArangoDb\Document $document, bool $policy) : bool</pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8">
-<p class="long_description"></p>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$document</h4>
-<code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CDocument.html">\triagens\ArangoDb\Document</a></code><ul>
+<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
 <li>document to be updated</li>
 </ul>
 </div>
@@ -375,7 +393,7 @@ This will throw if the document cannot be updated</h2>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
-<th><code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CException.html">\triagens\ArangoDb\Exception</a></code></th>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
 <td></td>
 </tr></table>
 <h3>Returns</h3>
@@ -383,14 +401,14 @@ This will throw if the document cannot be updated</h2>
 <code>bool</code>- always true, will throw if there is an error</div>
 </div></div>
 </div>
-<a name="updateById" id="updateById"></a><div class="element clickable method public updateById" data-toggle="collapse" data-target=".updateById .collapse">
+<a id="method_updateById"></a><div class="element clickable method public method_updateById" data-toggle="collapse" data-target=".method_updateById .collapse">
 <h2>Update an existing document in a collection, identified by collection id and document id
 This will update the document on the server
 This will throw if the document cannot be updated</h2>
-<pre>updateById(mixed $collectionId, mixed $documentId, Document $document, bool $policy) : bool</pre>
+<pre>updateById(mixed $collectionId, mixed $documentId, \triagens\ArangoDb\Document $document, bool $policy) : bool</pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8">
-<p class="long_description"></p>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -406,7 +424,7 @@ This will throw if the document cannot be updated</h2>
 </div>
 <div class="subelement argument">
 <h4>$document</h4>
-<code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CDocument.html">\triagens\ArangoDb\Document</a></code><ul>
+<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
 <li>document to be updated</li>
 </ul>
 </div>
@@ -418,7 +436,7 @@ This will throw if the document cannot be updated</h2>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
-<th><code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CException.html">\triagens\ArangoDb\Exception</a></code></th>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
 <td></td>
 </tr></table>
 <h3>Returns</h3>
@@ -426,37 +444,37 @@ This will throw if the document cannot be updated</h2>
 <code>bool</code>- always true, will throw if there is an error</div>
 </div></div>
 </div>
-<a name="getConnection" id="getConnection"></a><div class="element clickable method protected getConnection" data-toggle="collapse" data-target=".getConnection .collapse">
+<a id="method_getConnection"></a><div class="element clickable method protected method_getConnection" data-toggle="collapse" data-target=".method_getConnection .collapse">
 <h2>Return the connection object</h2>
-<pre>getConnection() : <a href="../classes/db_%5Ctriagens%5CArangoDb%5CConnection.html">\triagens\ArangoDb\Connection</a></pre>
+<pre>getConnection() : <a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></pre>
 <div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="span8">
-<p class="long_description"></p>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
 <table class="table table-bordered"><tr>
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\Handler::getConnection()</td>
 </tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
-<code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CConnection.html">\triagens\ArangoDb\Connection</a></code>- the connection object</div>
+<code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>- the connection object</div>
 </div></div>
 </div>
-<a name="getCollectionId" id="getCollectionId"></a><div class="element clickable method private getCollectionId" data-toggle="collapse" data-target=".getCollectionId .collapse">
+<a id="method_getCollectionId"></a><div class="element clickable method private method_getCollectionId" data-toggle="collapse" data-target=".method_getCollectionId .collapse">
 <h2>Helper function to get a collection id from a document</h2>
-<pre>getCollectionId(Document $document) : mixed</pre>
+<pre>getCollectionId(\triagens\ArangoDb\Document $document) : mixed</pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8">
-<p class="long_description"></p>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$document</h4>
-<code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CDocument.html">\triagens\ArangoDb\Document</a></code><ul>
+<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
 <li>document id</li>
 </ul>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
-<th><code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
+<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
 <td></td>
 </tr></table>
 <h3>Returns</h3>
@@ -464,12 +482,12 @@ This will throw if the document cannot be updated</h2>
 <code>mixed</code>- collection id, will throw if there is an error</div>
 </div></div>
 </div>
-<a name="getCursorOptions" id="getCursorOptions"></a><div class="element clickable method private getCursorOptions" data-toggle="collapse" data-target=".getCursorOptions .collapse">
+<a id="method_getCursorOptions"></a><div class="element clickable method private method_getCursorOptions" data-toggle="collapse" data-target=".method_getCursorOptions .collapse">
 <h2>Return an array of cursor options</h2>
 <pre>getCursorOptions(bool $sanitize) : array</pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8">
-<p class="long_description"></p>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$sanitize</h4>
@@ -482,12 +500,12 @@ This will throw if the document cannot be updated</h2>
 <code>array</code>- array of options</div>
 </div></div>
 </div>
-<a name="getDocumentId" id="getDocumentId"></a><div class="element clickable method private getDocumentId" data-toggle="collapse" data-target=".getDocumentId .collapse">
+<a id="method_getDocumentId"></a><div class="element clickable method private method_getDocumentId" data-toggle="collapse" data-target=".method_getDocumentId .collapse">
 <h2>Helper function to get a document id from a document or a document id value</h2>
 <pre>getDocumentId(mixed $document) : mixed</pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8">
-<p class="long_description"></p>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$document</h4>
@@ -497,7 +515,7 @@ This will throw if the document cannot be updated</h2>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
-<th><code><a href="../classes/db_%5Ctriagens%5CArangoDb%5CClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
+<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
 <td></td>
 </tr></table>
 <h3>Returns</h3>
@@ -507,16 +525,16 @@ This will throw if the document cannot be updated</h2>
 </div>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
-<a name="%24_connection" id="$_connection"> </a><div class="element clickable property private $_connection" data-toggle="collapse" data-target=".$_connection .collapse">
+<a id="property__connection"> </a><div class="element clickable property private property__connection" data-toggle="collapse" data-target=".property__connection .collapse">
 <h2>Connection object</h2>
 <pre>$_connection </pre>
 <div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="span8">
-<p class="long_description"></p>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
 <table class="table table-bordered">
 <tr>
 <th>param</th>
-<td>&lt;p&gt;Connection&lt;/p&gt;</td>
+<td><p>Connection</p></td>
 </tr>
 <tr>
 <th>inherited_from</th>
@@ -527,23 +545,23 @@ This will throw if the document cannot be updated</h2>
 </div>
 <h3>
 <i class="icon-custom icon-constant"></i> Constants</h3>
-<a name="ENTRY_DOCUMENTS" id="ENTRY_DOCUMENTS"> </a><div class="element clickable constant  ENTRY_DOCUMENTS" data-toggle="collapse" data-target=".ENTRY_DOCUMENTS .collapse">
+<a id="constant_ENTRY_DOCUMENTS"> </a><div class="element clickable constant  constant_ENTRY_DOCUMENTS" data-toggle="collapse" data-target=".constant_ENTRY_DOCUMENTS .collapse">
 <h2>documents array index</h2>
 <pre>ENTRY_DOCUMENTS </pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a name="OPTION_COLLECTION" id="OPTION_COLLECTION"> </a><div class="element clickable constant  OPTION_COLLECTION" data-toggle="collapse" data-target=".OPTION_COLLECTION .collapse">
+<a id="constant_OPTION_COLLECTION"> </a><div class="element clickable constant  constant_OPTION_COLLECTION" data-toggle="collapse" data-target=".constant_OPTION_COLLECTION .collapse">
 <h2>collection parameter</h2>
 <pre>OPTION_COLLECTION </pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a name="OPTION_EXAMPLE" id="OPTION_EXAMPLE"> </a><div class="element clickable constant  OPTION_EXAMPLE" data-toggle="collapse" data-target=".OPTION_EXAMPLE .collapse">
+<a id="constant_OPTION_EXAMPLE"> </a><div class="element clickable constant  constant_OPTION_EXAMPLE" data-toggle="collapse" data-target=".constant_OPTION_EXAMPLE .collapse">
 <h2>example parameter</h2>
 <pre>OPTION_EXAMPLE </pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 </div>
 </div>
@@ -551,8 +569,8 @@ This will throw if the document cannot be updated</h2>
 </div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
-            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a1</a> and<br>
-            generated on 2012-08-06T15:44:13+02:00.<br></footer></div>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
+            generated on 2012-10-04T10:55:44+02:00.<br></footer></div>
 </div>
 </body>
 </html>

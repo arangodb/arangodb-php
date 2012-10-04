@@ -1,4 +1,4 @@
-<!DOCTYPE html><html xmlns:date="http://exslt.org/dates-and-times" lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
@@ -20,9 +20,9 @@
 <a href="#api" class="dropdown-toggle" data-toggle="dropdown">
                                     API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a>Namespaces</a></li>
-<li><a href="../namespaces/db_triagens.html"><i class="icon-th"></i> triagens</a></li>
+<li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
 <li><a>Packages</a></li>
-<li><a href="../packages/db_ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
+<li><a href="../packages/ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
 </ul>
 </li>
 <li class="dropdown" id="charts-menu">
@@ -32,9 +32,12 @@
 <li class="dropdown" id="reports-menu">
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
-<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors</a></li>
-<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers (TODO/FIXME)</a></li>
-<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements</a></li>
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">0</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
 </ul>
 </li>
 </ul></div>
@@ -51,59 +54,62 @@
 <span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
 <button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
 </div>
-<ul class="side-nav nav nav-list">
-<li class="nav-header">
-<i class="icon-custom icon-constant"></i> Constants</li>
-<li class="constant  "><a href="#URL_COLLECTION" title="URL_COLLECTION :: URL base part for all collection-related REST calls"><span class="description">URL base part for all collection-related REST calls</span><pre>URL_COLLECTION</pre></a></li>
-<li class="constant  "><a href="#URL_CURSOR" title="URL_CURSOR :: base URL part for cursor related operations"><span class="description">base URL part for cursor related operations</span><pre>URL_CURSOR</pre></a></li>
-<li class="constant  "><a href="#URL_DOCUMENT" title="URL_DOCUMENT :: URL base part for all document-related REST calls"><span class="description">URL base part for all document-related REST calls</span><pre>URL_DOCUMENT</pre></a></li>
-<li class="constant  "><a href="#URL_EXAMPLE" title="URL_EXAMPLE :: base URL part for select-by-example"><span class="description">base URL part for select-by-example</span><pre>URL_EXAMPLE</pre></a></li>
+<ul class="side-nav nav nav-list"><li class="nav-header">
+<i class="icon-custom icon-constant"></i> Constants
+                    <ul>
+<li class="constant  "><a href="#constant_URL_COLLECTION" title="URL_COLLECTION :: URL base part for all collection-related REST calls"><span class="description">URL base part for all collection-related REST calls</span><pre>URL_COLLECTION</pre></a></li>
+<li class="constant  "><a href="#constant_URL_CURSOR" title="URL_CURSOR :: base URL part for cursor related operations"><span class="description">base URL part for cursor related operations</span><pre>URL_CURSOR</pre></a></li>
+<li class="constant  "><a href="#constant_URL_DOCUMENT" title="URL_DOCUMENT :: URL base part for all document-related REST calls"><span class="description">URL base part for all document-related REST calls</span><pre>URL_DOCUMENT</pre></a></li>
+<li class="constant  "><a href="#constant_URL_EXAMPLE" title="URL_EXAMPLE :: base URL part for select-by-example"><span class="description">base URL part for select-by-example</span><pre>URL_EXAMPLE</pre></a></li>
 </ul>
+</li></ul>
 </div>
 <div class="span8">
-<a name="%5Ctriagens%5CArangoDb%5CURLs" id="\triagens\ArangoDb\URLs"></a><ul class="breadcrumb">
+<a id="\triagens\ArangoDb\URLs"></a><ul class="breadcrumb">
 <li>
 <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
 </li>
-<li><a href="../namespaces/db_triagens.html">triagens</a></li>
-<span class="divider">\</span><li><a href="../namespaces/db_triagens%5CArangoDb.html">ArangoDb</a></li>
+<li><a href="../namespaces/triagens.html">triagens</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
+</li>
 <li class="active">
-<span class="divider">\</span><a href="../classes/db_%5Ctriagens%5CArangoDb%5CURLs.html">URLs</a>
+<span class="divider">\</span><a href="../classes/triagens.ArangoDb.URLs.html">URLs</a>
 </li>
 </ul>
-<div href="../classes/db_%5Ctriagens%5CArangoDb%5CURLs.html" class="element class">
+<div class="element class">
 <p class="short_description">Some basic URLs</p>
 <div class="details">
-<p class="long_description"></p>
+<div class="long_description"></div>
 <table class="table table-bordered"><tr>
 <th>package</th>
-<td><a href="..//packages/db_ArangoDbPhpClient.html">ArangoDbPhpClient</a></td>
+<td><a href="../packages/ArangoDbPhpClient.html">ArangoDbPhpClient</a></td>
 </tr></table>
 <h3>
 <i class="icon-custom icon-constant"></i> Constants</h3>
-<a name="URL_COLLECTION" id="URL_COLLECTION"> </a><div class="element clickable constant  URL_COLLECTION" data-toggle="collapse" data-target=".URL_COLLECTION .collapse">
+<a id="constant_URL_COLLECTION"> </a><div class="element clickable constant  constant_URL_COLLECTION" data-toggle="collapse" data-target=".constant_URL_COLLECTION .collapse">
 <h2>URL base part for all collection-related REST calls</h2>
 <pre>URL_COLLECTION </pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a name="URL_CURSOR" id="URL_CURSOR"> </a><div class="element clickable constant  URL_CURSOR" data-toggle="collapse" data-target=".URL_CURSOR .collapse">
+<a id="constant_URL_CURSOR"> </a><div class="element clickable constant  constant_URL_CURSOR" data-toggle="collapse" data-target=".constant_URL_CURSOR .collapse">
 <h2>base URL part for cursor related operations</h2>
 <pre>URL_CURSOR </pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a name="URL_DOCUMENT" id="URL_DOCUMENT"> </a><div class="element clickable constant  URL_DOCUMENT" data-toggle="collapse" data-target=".URL_DOCUMENT .collapse">
+<a id="constant_URL_DOCUMENT"> </a><div class="element clickable constant  constant_URL_DOCUMENT" data-toggle="collapse" data-target=".constant_URL_DOCUMENT .collapse">
 <h2>URL base part for all document-related REST calls</h2>
 <pre>URL_DOCUMENT </pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a name="URL_EXAMPLE" id="URL_EXAMPLE"> </a><div class="element clickable constant  URL_EXAMPLE" data-toggle="collapse" data-target=".URL_EXAMPLE .collapse">
+<a id="constant_URL_EXAMPLE"> </a><div class="element clickable constant  constant_URL_EXAMPLE" data-toggle="collapse" data-target=".constant_URL_EXAMPLE .collapse">
 <h2>base URL part for select-by-example</h2>
 <pre>URL_EXAMPLE </pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="span8"><p class="long_description"></p></div></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 </div>
 </div>
@@ -111,8 +117,8 @@
 </div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
-            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a1</a> and<br>
-            generated on 2012-08-06T15:44:13+02:00.<br></footer></div>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
+            generated on 2012-10-04T10:55:44+02:00.<br></footer></div>
 </div>
 </body>
 </html>
