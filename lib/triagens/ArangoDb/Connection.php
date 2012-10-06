@@ -21,6 +21,12 @@ namespace triagens\ArangoDb;
  */
 class Connection {
   /**
+   * Api Version
+   * @var string
+   */
+  public static  $_apiVersion = '0.3.1';
+
+  /**
    * Connection options
    * @var array 
    */
@@ -257,4 +263,12 @@ class Connection {
     throw new ClientException('Whoops, this should never happen');
   }
 
+    /**
+     * Get the client api version
+     *
+     * @return string
+     */
+    public static function getVersion() {
+        return self::$_apiVersion;
+    }
 }
