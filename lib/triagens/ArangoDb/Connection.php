@@ -119,6 +119,19 @@ class Connection {
   }
   
   /**
+   * Issue an HTTP PATCH request with the data provided
+   *
+   * @throws Exception
+   * @param string $url - PATCH URL
+   * @param string $data - body to post
+   * @return HttpResponse
+   */
+  public function patch($url, $data) {
+    $response = $this->executeRequest(HttpHelper::METHOD_PATCH, $url, $data);
+    return $this->parseResponse($response);
+  }
+  
+  /**
    * Issue an HTTP DELETE request with the data provided
    *
    * @throws Exception

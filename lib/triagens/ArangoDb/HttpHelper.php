@@ -40,6 +40,11 @@ class HttpHelper {
    * HTTP HEAD string constant
    */
   const METHOD_HEAD     = 'HEAD';
+  
+  /**
+   * HTTP PATCH string constant
+   */
+  const METHOD_PATCH    = 'PATCH';
 
   /**
    * Chunk size (number of bytes processed in one batch)
@@ -68,7 +73,8 @@ class HttpHelper {
         $method === self::METHOD_PUT    ||
         $method === self::METHOD_DELETE ||
         $method === self::METHOD_GET    ||
-        $method === self::METHOD_HEAD) {
+        $method === self::METHOD_HEAD   ||
+        $method === self::METHOD_PATCH) {
       return true;
     }
 
