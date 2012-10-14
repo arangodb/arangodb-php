@@ -37,7 +37,7 @@
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
-                <span class="label label-info">0</span></a></li>
+                <span class="label label-info">11</span></a></li>
 </ul>
 </li>
 </ul></div>
@@ -62,48 +62,48 @@
 </li>
 <li class="nav-header">
 <i class="icon-custom icon-class"></i> Classes</li>
-<li><a href="#HttpHelper" title="Helper methods for HTTP request/response handling">HttpHelper</a></li>
+<li><a href="#ValueValidator" title="A simple validator for values to be stored in the database">ValueValidator</a></li>
+<li><a href="#Exception" title="Exception base class used to throw Arango specific exceptions">Exception</a></li>
+<li><a href="#BindVars" title="A simple container for bind variables
+This container also handles validation of the bind values.">BindVars</a></li>
 <li><a href="#Scope" title="Executes a function on scope entry and executes another function
 (cleanup) when the scope is exited">Scope</a></li>
-<li><a href="#Exception" title="Exception base class used to throw Arango specific exceptions">Exception</a></li>
-<li><a href="#Autoloader" title="Handles automatic loading of missing class files
-The autoloader can be nested with other autoloaders.">Autoloader</a></li>
-<li><a href="#Collection" title="Value object representing a collection">Collection</a></li>
-<li><a href="#DefaultValues" title="Contains default values used by the client">DefaultValues</a></li>
-<li><a href="#ServerException" title="This exception type will be thrown by the client when the server returns an
-error in response to a client request.">ServerException</a></li>
+<li><a href="#ConnectionOptions" title="Simple container class for connection options.">ConnectionOptions</a></li>
+<li><a href="#Statement" title='Container for a read-only ("select") statement
+A statement is an AQL query that can be issued to the
+server.'>Statement</a></li>
+<li><a href="#DocumentHandler" title="A document handler that fetches documents from the server and
+persists them on the server.">DocumentHandler</a></li>
 <li><a href="#Connection" title="Provides access to the ArangoDB server
 As all access is done using HTTP, we do not need to establish a
 persistent connection and keep its state.">Connection</a></li>
+<li><a href="#DefaultValues" title="Contains default values used by the client">DefaultValues</a></li>
+<li><a href="#ConnectException" title="This exception type will be thrown by the client when there is an error
+during connecting to the server">ConnectException</a></li>
+<li><a href="#ClientException" title="This exception type will be thrown by the client when there is an error
+on the client side, i.e.">ClientException</a></li>
+<li><a href="#ServerException" title="This exception type will be thrown by the client when the server returns an
+error in response to a client request.">ServerException</a></li>
+<li><a href="#HttpResponse" title="Container class for HTTP responses">HttpResponse</a></li>
 <li><a href="#UpdatePolicy" title="Document update policies">UpdatePolicy</a></li>
-<li><a href="#ValueValidator" title="A simple validator for values to be stored in the database">ValueValidator</a></li>
 <li><a href="#CollectionHandler" title="A collection handler that fetches collection data from the server and
 creates collections on the server.">CollectionHandler</a></li>
-<li><a href="#URLHelper" title="Some helper methods to construct and process URLs">URLHelper</a></li>
-<li><a href="#Handler" title="A base class for REST-based handlers">Handler</a></li>
 <li><a href="#Endpoint" title="Endpoint specification
 An endpoint contains the server location the client connects to
 the following endpoint types are currently supported (more to be added later):
 - tcp://host:port for tcp connections
 - unix://socket for UNIX sockets (provided the server supports this)
 - ssl://host:port for SSL connections (provided the server supports this)">Endpoint</a></li>
-<li><a href="#Statement" title='Container for a read-only ("select") statement
-A statement is an AQL query that can be issued to the
-server.'>Statement</a></li>
+<li><a href="#Collection" title="Value object representing a collection">Collection</a></li>
+<li><a href="#HttpHelper" title="Helper methods for HTTP request/response handling">HttpHelper</a></li>
+<li><a href="#Document" title="Value object representing a single collection-based document">Document</a></li>
+<li><a href="#URLHelper" title="Some helper methods to construct and process URLs">URLHelper</a></li>
+<li><a href="#Handler" title="A base class for REST-based handlers">Handler</a></li>
+<li><a href="#Autoloader" title="Handles automatic loading of missing class files
+The autoloader can be nested with other autoloaders.">Autoloader</a></li>
+<li><a href="#URLs" title="Some basic URLs">URLs</a></li>
 <li><a href="#Cursor" title="Provides access to the results of a read-only statement
 The cursor might not contain all results in the beginning.">Cursor</a></li>
-<li><a href="#DocumentHandler" title="A document handler that fetches documents from the server and
-persists them on the server.">DocumentHandler</a></li>
-<li><a href="#BindVars" title="A simple container for bind variables
-This container also handles validation of the bind values.">BindVars</a></li>
-<li><a href="#URLs" title="Some basic URLs">URLs</a></li>
-<li><a href="#ConnectionOptions" title="Simple container class for connection options.">ConnectionOptions</a></li>
-<li><a href="#ConnectException" title="This exception type will be thrown by the client when there is an error
-during connecting to the server">ConnectException</a></li>
-<li><a href="#Document" title="Value object representing a single collection-based document">Document</a></li>
-<li><a href="#ClientException" title="This exception type will be thrown by the client when there is an error
-on the client side, i.e.">ClientException</a></li>
-<li><a href="#HttpResponse" title="Container class for HTTP responses">HttpResponse</a></li>
 </ul>
 </div>
 <div class="span8 package-contents">
@@ -305,7 +305,7 @@ server.</p>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-04T10:55:44+02:00.<br></footer></div>
+            generated on 2012-10-14T17:33:26+03:00.<br></footer></div>
 </div>
 </body>
 </html>

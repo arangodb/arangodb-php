@@ -5,6 +5,7 @@
  * 
  * @package ArangoDbPhpClient
  * @author Jan Steemann
+ * @author Frank Mayer
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
 
@@ -71,22 +72,13 @@ class DocumentHandler extends Handler {
    * @throws Exception
    * @param mixed $collectionId - collection id as string or number
    * @return array - ids of documents in the collection
+   * 
+   * @deprecated to be deprecated in version 2.0 - This function is being replaced by  CollectionHandler::getAllIds()
+   * 
    */
   public function getAllIds($collectionId) {
-    $url = UrlHelper::appendParamsUrl(Urls::URL_DOCUMENT, array(self::OPTION_COLLECTION => $collectionId));
-    $response = $this->getConnection()->get($url);
-    
-    $data = $response->getJson();
-    if (!isset($data[self::ENTRY_DOCUMENTS])) {
-      throw new ClientException('Got an invalid document list from the server');
-    }
-
-    $ids = array();
-    foreach ($data[self::ENTRY_DOCUMENTS] as $location) {
-      $ids[] = UrlHelper::getDocumentIdFromLocation($location);
-    }
-
-    return $ids;
+    $collectionHandler=new CollectionHandler($this->getConnection());
+  return $collectionHandler->getAllIds($collectionId);
   }
 
   /**
@@ -98,21 +90,12 @@ class DocumentHandler extends Handler {
    * @param mixed $document - the example document as a Document object or an array
    * @param bool $sanitize - remove _id and _rev attributes from result documents
    * @return array - documents matching the example [0...n]
+   * 
+   * @deprecated to be deprecated in version 2.0 - This function is being replaced by CollectionHandler::byExample() 
    */
   public function getByExample($collectionId, $document, $sanitize = false) {
-    if (is_array($document)) {
-      $document = Document::createFromArray($document);
-    }
-
-    if (!($document instanceof Document)) {
-      throw new ClientException('Invalid example document specification');
-    }
-    
-    $data = array(self::OPTION_COLLECTION => $collectionId, self::OPTION_EXAMPLE => $document->getAll());
-
-    $response = $this->getConnection()->put(Urls::URL_EXAMPLE, json_encode($data));
-    
-    return new Cursor($this->getConnection(), $response->getJson(), $this->getCursorOptions($sanitize));
+    $collectionHandler=new CollectionHandler($this->getConnection());
+  return $collectionHandler->byExample($collectionId, $document, $sanitize);
   }
   
   /**
@@ -124,9 +107,29 @@ class DocumentHandler extends Handler {
    * @param mixed $collectionId - collection id as string or number
    * @param Document $document - the document to be added
    * @param bool $create - create the collection if it does not yet exist
-   * @return mixed - id of document created
+   * @return mixed - id of document created \
+   * 
+   * @deprecated to be deprecated in version 2.0 - This function is being replaced by save()
+   *
    */
+   
   public function add($collectionId, Document $document, $create = NULL) {
+    return $this->save($collectionId, $document, $create);
+  }
+  
+  /**
+   * save a document to a collection
+   * This will add the document to the collection and return the document's id
+   * This will throw if the document cannot be saved
+   *
+   * @throws Exception
+   * @param mixed $collectionId - collection id as string or number
+   * @param Document $document - the document to be added
+   * @param bool $create - create the collection if it does not yet exist
+   * @return mixed - id of document created
+   * @since 1.0
+   */
+  public function save($collectionId, Document $document, $create = NULL) {
     if ($create === NULL) {
       $create = $this->getConnection()->getOption(ConnectionOptions::OPTION_CREATE);
     }
@@ -163,8 +166,24 @@ class DocumentHandler extends Handler {
    * @param Document $document - document to be updated
    * @param bool $policy - update policy to be used in case of conflict
    * @return bool - always true, will throw if there is an error
+   * 
+   * @deprecated Attention!! To be deprecated in version 1.1 - This function is being replaced by replace()
    */
   public function update(Document $document, $policy = NULL) {
+    return $this->replace( $document, $policy);
+  }
+  
+  /**
+   * Replace an existing document in a collection, identified by the document itself
+   * This will update the document on the server
+   * This will throw if the document cannot be replaced
+   *
+   * @throws Exception
+   * @param Document $document - document to be updated
+   * @param bool $policy - update policy to be used in case of conflict
+   * @return bool - always true, will throw if there is an error
+   */
+  public function replace(Document $document, $policy = NULL) {
     $collectionId = $this->getCollectionId($document);
     $documentId   = $this->getDocumentId($document);
 
@@ -182,8 +201,27 @@ class DocumentHandler extends Handler {
    * @param Document $document - document to be updated
    * @param bool $policy - update policy to be used in case of conflict
    * @return bool - always true, will throw if there is an error
+   * 
+   * @deprecated Attention!! To be deprecated in version 1.1 - This function is being replaced by replaceById()
    */
   public function updateById($collectionId, $documentId, Document $document, $policy = NULL) {
+    $this->replaceById($collectionId, $documentId, $document, $policy);
+    return true;
+  }
+  
+  /**
+   * Replace an existing document in a collection, identified by collection id and document id
+   * This will update the document on the server
+   * This will throw if the document cannot be Replaced
+   *
+   * @throws Exception
+   * @param mixed $collectionId - collection id as string or number
+   * @param mixed $documentId - document id as string or number
+   * @param Document $document - document to be updated
+   * @param bool $policy - update policy to be used in case of conflict
+   * @return bool - always true, will throw if there is an error
+   */
+  public function replaceById($collectionId, $documentId, Document $document, $policy = NULL) {
     if ($policy === NULL) {
       $policy = $this->getConnection()->getOption(ConnectionOptions::OPTION_UPDATE_POLICY);
     }
@@ -204,13 +242,27 @@ class DocumentHandler extends Handler {
    * @throws Exception
    * @param Document $document - document to be updated
    * @return bool - always true, will throw if there is an error
+   * 
+   * @deprecated To be deprecated in version 2.0 - This function is being replaced by remove()
+   * 
    */
   public function delete(Document $document) {
+    return $this->remove($document);
+  }                                
+  
+  /**
+   * Remove a document from a collection, identified by the document itself
+   *
+   * @throws Exception
+   * @param Document $document - document to be updated
+   * @return bool - always true, will throw if there is an error
+   */
+  public function remove(Document $document) {
     $collectionId = $this->getCollectionId($document);
     $documentId   = $this->getDocumentId($document);
 
     return $this->deleteById($collectionId, $documentId);
-  }
+  }                                
   
   /**
    * Delete a document from a collection, identified by the collection id and document id
@@ -219,8 +271,24 @@ class DocumentHandler extends Handler {
    * @param mixed $collectionId - collection id as string or number
    * @param mixed $documentId - document id as string or number
    * @return bool - always true, will throw if there is an error
+   * 
+   * @deprecated To be deprecated in version 2.0 - This function is being replaced by removeById()
    */
   public function deleteById($collectionId, $documentId) {
+    $result = $this->removeById($collectionId, $documentId);
+
+    return true;
+  }
+  
+  /**
+   * Remove a document from a collection, identified by the collection id and document id
+   *
+   * @throws Exception
+   * @param mixed $collectionId - collection id as string or number
+   * @param mixed $documentId - document id as string or number
+   * @return bool - always true, will throw if there is an error
+   */
+  public function removeById($collectionId, $documentId) {
     $result = $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId));
 
     return true;
@@ -264,7 +332,7 @@ class DocumentHandler extends Handler {
 
     return $collectionId;
   }
-  
+
   /**
    * Return an array of cursor options
    *

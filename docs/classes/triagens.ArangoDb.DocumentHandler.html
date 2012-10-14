@@ -37,7 +37,7 @@
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
-                <span class="label label-info">0</span></a></li>
+                <span class="label label-info">11</span></a></li>
 </ul>
 </li>
 </ul></div>
@@ -78,6 +78,23 @@ This will throw if the list cannot be fetched from the server</span><pre>getByEx
 <li class="method public "><a href="#method_getById" title="getById :: Get a single document from a collection
 This will throw if the document cannot be fetched from the server"><span class="description">Get a single document from a collection
 This will throw if the document cannot be fetched from the server</span><pre>getById()</pre></a></li>
+<li class="method public "><a href="#method_remove" title="remove :: Remove a document from a collection, identified by the document itself"><span class="description">Remove a document from a collection, identified by the document itself</span><pre>remove()</pre></a></li>
+<li class="method public "><a href="#method_removeById" title="removeById :: Remove a document from a collection, identified by the collection id and document id"><span class="description">Remove a document from a collection, identified by the collection id and document id</span><pre>removeById()</pre></a></li>
+<li class="method public "><a href="#method_replace" title="replace :: Replace an existing document in a collection, identified by the document itself
+This will update the document on the server
+This will throw if the document cannot be replaced"><span class="description">Replace an existing document in a collection, identified by the document itself
+This will update the document on the server
+This will throw if the document cannot be replaced</span><pre>replace()</pre></a></li>
+<li class="method public "><a href="#method_replaceById" title="replaceById :: Replace an existing document in a collection, identified by collection id and document id
+This will update the document on the server
+This will throw if the document cannot be Replaced"><span class="description">Replace an existing document in a collection, identified by collection id and document id
+This will update the document on the server
+This will throw if the document cannot be Replaced</span><pre>replaceById()</pre></a></li>
+<li class="method public "><a href="#method_save" title="save :: save a document to a collection
+This will add the document to the collection and return the document's id
+This will throw if the document cannot be saved"><span class="description">save a document to a collection
+This will add the document to the collection and return the document's id
+This will throw if the document cannot be saved</span><pre>save()</pre></a></li>
 <li class="method public "><a href="#method_update" title="update :: Update an existing document in a collection, identified by the document itself
 This will update the document on the server
 This will throw if the document cannot be updated"><span class="description">Update an existing document in a collection, identified by the document itself
@@ -169,6 +186,10 @@ This will throw if the document cannot be created</h2>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>deprecated</th>
+<td>to be deprecated in version 2.0 - This function is being replaced by save()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -195,7 +216,7 @@ This will throw if the document cannot be created</h2>
 </tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
-<code>mixed</code>- id of document created</div>
+<code>mixed</code>- id of document created \</div>
 </div></div>
 </div>
 <a id="method_delete"></a><div class="element clickable method public method_delete" data-toggle="collapse" data-target=".method_delete .collapse">
@@ -204,6 +225,10 @@ This will throw if the document cannot be created</h2>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>deprecated</th>
+<td>To be deprecated in version 2.0 - This function is being replaced by remove()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$document</h4>
@@ -227,6 +252,10 @@ This will throw if the document cannot be created</h2>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>deprecated</th>
+<td>To be deprecated in version 2.0 - This function is being replaced by removeById()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -287,6 +316,10 @@ This will throw if the list cannot be fetched from the server</h2>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>deprecated</th>
+<td>to be deprecated in version 2.0 - This function is being replaced by  CollectionHandler::getAllIds()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -311,6 +344,10 @@ This will throw if the list cannot be fetched from the server</h2>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>deprecated</th>
+<td>to be deprecated in version 2.0 - This function is being replaced by CollectionHandler::byExample()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -370,6 +407,173 @@ This will throw if the document cannot be fetched from the server</h2>
 <code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>- the document fetched from the server</div>
 </div></div>
 </div>
+<a id="method_remove"></a><div class="element clickable method public method_remove" data-toggle="collapse" data-target=".method_remove .collapse">
+<h2>Remove a document from a collection, identified by the document itself</h2>
+<pre>remove(\triagens\ArangoDb\Document $document) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$document</h4>
+<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
+<li>document to be updated</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>bool</code>- always true, will throw if there is an error</div>
+</div></div>
+</div>
+<a id="method_removeById"></a><div class="element clickable method public method_removeById" data-toggle="collapse" data-target=".method_removeById .collapse">
+<h2>Remove a document from a collection, identified by the collection id and document id</h2>
+<pre>removeById(mixed $collectionId, mixed $documentId) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>collection id as string or number</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$documentId</h4>
+<code>mixed</code><ul>
+<li>document id as string or number</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>bool</code>- always true, will throw if there is an error</div>
+</div></div>
+</div>
+<a id="method_replace"></a><div class="element clickable method public method_replace" data-toggle="collapse" data-target=".method_replace .collapse">
+<h2>Replace an existing document in a collection, identified by the document itself
+This will update the document on the server
+This will throw if the document cannot be replaced</h2>
+<pre>replace(\triagens\ArangoDb\Document $document, bool $policy) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$document</h4>
+<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
+<li>document to be updated</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$policy</h4>
+<code>bool</code><ul>
+<li>update policy to be used in case of conflict</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>bool</code>- always true, will throw if there is an error</div>
+</div></div>
+</div>
+<a id="method_replaceById"></a><div class="element clickable method public method_replaceById" data-toggle="collapse" data-target=".method_replaceById .collapse">
+<h2>Replace an existing document in a collection, identified by collection id and document id
+This will update the document on the server
+This will throw if the document cannot be Replaced</h2>
+<pre>replaceById(mixed $collectionId, mixed $documentId, \triagens\ArangoDb\Document $document, bool $policy) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>collection id as string or number</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$documentId</h4>
+<code>mixed</code><ul>
+<li>document id as string or number</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$document</h4>
+<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
+<li>document to be updated</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$policy</h4>
+<code>bool</code><ul>
+<li>update policy to be used in case of conflict</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>bool</code>- always true, will throw if there is an error</div>
+</div></div>
+</div>
+<a id="method_save"></a><div class="element clickable method public method_save" data-toggle="collapse" data-target=".method_save .collapse">
+<h2>save a document to a collection
+This will add the document to the collection and return the document's id
+This will throw if the document cannot be saved</h2>
+<pre>save(mixed $collectionId, \triagens\ArangoDb\Document $document, bool $create) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>since</th>
+<td>1.0</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>collection id as string or number</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$document</h4>
+<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
+<li>the document to be added</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$create</h4>
+<code>bool</code><ul>
+<li>create the collection if it does not yet exist</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>- id of document created</div>
+</div></div>
+</div>
 <a id="method_update"></a><div class="element clickable method public method_update" data-toggle="collapse" data-target=".method_update .collapse">
 <h2>Update an existing document in a collection, identified by the document itself
 This will update the document on the server
@@ -378,6 +582,10 @@ This will throw if the document cannot be updated</h2>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>deprecated</th>
+<td>Attention!! To be deprecated in version 1.1 - This function is being replaced by replace()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$document</h4>
@@ -409,6 +617,10 @@ This will throw if the document cannot be updated</h2>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>deprecated</th>
+<td>Attention!! To be deprecated in version 1.1 - This function is being replaced by replaceById()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -570,7 +782,7 @@ This will throw if the document cannot be updated</h2>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-04T10:55:44+02:00.<br></footer></div>
+            generated on 2012-10-14T17:33:26+03:00.<br></footer></div>
 </div>
 </body>
 </html>

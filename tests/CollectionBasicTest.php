@@ -8,7 +8,7 @@
  * @author Frank Mayer
  */
 
-namespace triagens\ArangoDB;
+namespace triagens\ArangoDb;
 
 class CollectionBasicTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,9 +24,9 @@ class CollectionBasicTest extends \PHPUnit_Framework_TestCase
     {
         $connection = $this->connection;
         $collection = new \triagens\ArangoDb\Collection();
-        $this->assertInstanceOf('triagens\ArangoDB\Collection', $collection);
+        $this->assertInstanceOf('triagens\ArangoDb\Collection', $collection);
         $collectionHandler = new \triagens\ArangoDb\CollectionHandler($connection);
-        $this->assertInstanceOf('triagens\ArangoDB\Collection', $collection);
+        $this->assertInstanceOf('triagens\ArangoDb\Collection', $collection);
     }
 
     /**
@@ -42,6 +42,7 @@ class CollectionBasicTest extends \PHPUnit_Framework_TestCase
         $collection->setName($name);
 
         $response = $collectionHandler->add($collection);
+        #$collection->properties();
 
         $this->assertTrue(is_numeric($response), 'Did not return a numeric id!');
 
@@ -52,7 +53,7 @@ class CollectionBasicTest extends \PHPUnit_Framework_TestCase
 
         $response = $collectionHandler->delete($collection);
     }
-
+    
     public function tearDown()
     {
         unset($this->connection);

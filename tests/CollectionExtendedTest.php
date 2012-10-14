@@ -7,7 +7,7 @@
  * @author Frank Mayer
  */
 
-namespace triagens\ArangoDB;
+namespace triagens\ArangoDb;
 
 class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,30 +16,29 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         $this->connection = getConnection();
         $this->collection = new \triagens\ArangoDb\Collection();
         $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
+        $this->documentHandler = new \triagens\ArangoDb\DocumentHandler($this->connection);
+
     }
 
     /**
      * test for creation, get, and delete of a collection with waitForSync default value (no setting)
      */
-    public function testCreateAndDeleteCollectionWithWaitForSyncDefault()
+    public function testCreateGetAndDeleteCollectionWithWaitForSyncDefault()
     {
         $collection = $this->collection;
         $collectionHandler = $this->collectionHandler;
 
         $resultingAttribute = $collection->getWaitForSync();
-        print_r($resultingAttribute);
         $this->assertTrue(null === $resultingAttribute, 'Default waitForSync in API should be NULL!');
 
         $collection->setName('ArangoDB-PHP-TestSuite-TestCollection-01');
+       
 
         $response = $collectionHandler->add($collection);
 
         $this->assertTrue(is_numeric($response), 'Adding collection did not return an id!');
 
         $resultingCollection = $collectionHandler->get($response);
-
-        $resultingAttribute = $resultingCollection->getWaitForSync();
-        $this->assertTrue(false === $resultingAttribute, 'Default Server waitForSync should return false!');
 
         $response = $collectionHandler->delete($collection);
         $this->assertTrue(true === $response, 'Delete should return true!');
@@ -52,17 +51,16 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
     {
         $collection = $this->collection;
         $collectionHandler = $this->collectionHandler;
-
         $collection->setWaitForSync(true);
         $resultingAttribute = $collection->getWaitForSync();
+        
         $this->assertTrue(true === $resultingAttribute, 'WaitForSync should be true!');
         $collection->setName('ArangoDB-PHP-TestSuite-TestCollection-01');
 
         $response = $collectionHandler->add($collection);
-
-        $resultingCollection = $collectionHandler->get($response);
-
-        $resultingAttribute = $resultingCollection->getWaitForSync();
+        
+        #$collection->properties();                        
+        $resultingAttribute = $collection->getWaitForSync();
         $this->assertTrue(true === $resultingAttribute, 'Server waitForSync should return true!');
 
         $response = $collectionHandler->delete($collection);
@@ -70,7 +68,7 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * test for creation, get, and delete of a collection given its settings through createFromArray()
+     * test for creation, get, and delete of a collection given its settings through createFromArray() and waitForSync set to true
      */
     public function testCreateGetAndDeleteCollectionThroughCreateFromArrayWithWaitForSyncTrue()
     {
@@ -80,9 +78,36 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         $response = $collectionHandler->add($collection);
 
         $resultingCollection = $collectionHandler->get($response);
-
-        $resultingAttribute = $resultingCollection->getWaitForSync();
+        
+        #$collection->properties();                        
+        $resultingAttribute = $collection->getWaitForSync();
         $this->assertTrue(true === $resultingAttribute, 'Server waitForSync should return true!');
+
+        $response = $collectionHandler->delete($collection);
+        $this->assertTrue(true === $response, 'Delete should return true!');
+    }
+
+    /**
+     * test for creation, getAllIds, and delete of a collection given its settings through createFromArray()
+     */
+    public function testCreateGetAllIdsAndDeleteCollectionThroughCreateFromArray()
+    {
+        $collectionHandler = $this->collectionHandler;
+
+        $collection = Collection::createFromArray(array('name' => 'ArangoDB-PHP-TestSuite-TestCollection-01'));
+        $response = $collectionHandler->add($collection);
+
+        $documentHandler = $this->documentHandler;
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $documentId = $documentHandler->add($collection->getId(), $document);
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2'));
+        $documentId = $documentHandler->add($collection->getId(), $document);
+
+        $arrayOfDocuments = $collectionHandler->getAllIds($collection->getId());
+       
+        $this->assertTrue(true === (is_array($arrayOfDocuments) && (count($arrayOfDocuments)==2)), 'Should return an array of 2 document ids!');
 
         $response = $collectionHandler->delete($collection);
         $this->assertTrue(true === $response, 'Delete should return true!');
@@ -101,6 +126,9 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(true === ($result['waitForSync'] == true), 'waitForSync should return true!');
 
     }
+    
+    
+    
 
     public function tearDown()
     {

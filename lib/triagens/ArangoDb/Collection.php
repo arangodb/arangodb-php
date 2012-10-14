@@ -48,6 +48,11 @@ class Collection {
    * Collection 'waitForSync' index
    */
   const ENTRY_WAIT_SYNC   = 'waitForSync';
+
+  /**
+   * properties option
+   */
+  const OPTION_PROPERTIES     = 'properties';
   
   /**
    * Constructs an empty collection
@@ -223,11 +228,6 @@ class Collection {
    */
   public function setWaitForSync($value) {
     assert(is_null($value) || is_bool($value));
-    
-    if ($this->_waitForSync !== NULL && $this->_waitForSync !== $value) {
-      throw new ClientException('Should not update the waitForSync value of an existing collection');
-    }
-
     $this->_waitForSync = $value; 
   }
   
@@ -239,4 +239,8 @@ class Collection {
   public function getWaitForSync() {
     return $this->_waitForSync; 
   }
+         
+   
+  
+  
 }
