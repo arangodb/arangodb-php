@@ -7,7 +7,7 @@
  * @author Frank Mayer
  */
 
-namespace triagens\ArangoDB;
+namespace triagens\ArangoDb;
 
 class StatementTest extends \PHPUnit_Framework_TestCase
 {

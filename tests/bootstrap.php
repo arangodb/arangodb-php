@@ -19,7 +19,6 @@ function getConnectionOptions(){
 
     $traceFunc = function($type, $data) {
         print "TRACE FOR ". $type . PHP_EOL;
-        var_dump($data);
     };
 
     return array(
