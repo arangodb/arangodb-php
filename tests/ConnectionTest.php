@@ -7,7 +7,7 @@
  * @author Frank Mayer
  */
 
-namespace triagens\ArangoDB;
+namespace triagens\ArangoDb;
 
 class ConnectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,7 +17,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
     public function testInitializeConnection()
     {
         $connection = getConnection();
-        $this->assertInstanceOf('triagens\ArangoDB\Connection', $connection);
+        $this->assertInstanceOf('triagens\ArangoDb\Connection', $connection);
     }
 
     /**
@@ -29,4 +29,15 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         $response = $connection->get('/_admin/status');
         $this->assertTrue($response->getHttpCode() == 200, 'Did not return http code 200');
     }
+    
+    /**
+     * Test if we can get the api version
+     */
+    public function testGetApiVersion()
+    {
+        $connection = getConnection();
+        $response = $connection->getVersion();
+        $this->assertTrue($response!=="", 'Version String is empty!');
+    }
+    
 }

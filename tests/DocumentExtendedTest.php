@@ -7,7 +7,7 @@
  * @author Frank Mayer
  */
 
-namespace triagens\ArangoDB;
+namespace triagens\ArangoDb;
 
 class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
 {
@@ -38,6 +38,58 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
         $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue'));
         $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue'));
+
+        $response = $documentHandler->delete($document);
+        $this->assertTrue(true === $response, 'Delete should return true!');
+    }
+
+    /**
+     * test for creation, get by example, and delete of a document given its settings through createFromArray()
+     */
+    public function testCreateGetbyExampleAndDeleteDocumentThroughCreateFromArray()
+    {
+        $documentHandler = $this->documentHandler;
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+
+        $cursor = $documentHandler->getByExample($this->collection->getId(), $document);
+
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+        $resultingDocument=$cursor->current();
+        
+        $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue'));
+        $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue'));
+
+        $response = $documentHandler->delete($document);
+        $this->assertTrue(true === $response, 'Delete should return true!');
+    }
+
+    /**
+     * test for creation, update, get, and delete of a document given its settings through createFromArray()
+     */
+    public function testCreateUpdateGetAndDeleteDocumentThroughCreateFromArray()
+    {
+        $documentHandler = $this->documentHandler;
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+
+        $document->set('someAttribute','someValue2');
+        $document->set('someOtherAttribute','someOtherValue2');
+        $result = $documentHandler->update($document);
+
+        $this->assertTrue($result);
+        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+
+        $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
+        
+        $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue2'));
+        $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'));
 
         $response = $documentHandler->delete($document);
         $this->assertTrue(true === $response, 'Delete should return true!');

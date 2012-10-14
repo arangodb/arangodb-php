@@ -37,7 +37,7 @@
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
-                <span class="label label-info">0</span></a></li>
+                <span class="label label-info">11</span></a></li>
 </ul>
 </li>
 </ul></div>
@@ -64,10 +64,28 @@ This will add the collection on the server and return its id
 This will throw if the collection cannot be created"><span class="description">Adds a new collection on the server
 This will add the collection on the server and return its id
 This will throw if the collection cannot be created</span><pre>add()</pre></a></li>
+<li class="method public "><a href="#method_byExample" title="byExample :: Get document(s) by specifying an example
+This will throw if the list cannot be fetched from the server"><span class="description">Get document(s) by specifying an example
+This will throw if the list cannot be fetched from the server</span><pre>byExample()</pre></a></li>
+<li class="method public "><a href="#method_count" title="count :: Get the number of documents in a collection
+This will throw if the collection cannot be fetched from the server"><span class="description">Get the number of documents in a collection
+This will throw if the collection cannot be fetched from the server</span><pre>count()</pre></a></li>
+<li class="method public "><a href="#method_create" title="create :: Creates a new collection on the server
+This will add the collection on the server and return its id
+This will throw if the collection cannot be created"><span class="description">Creates a new collection on the server
+This will add the collection on the server and return its id
+This will throw if the collection cannot be created</span><pre>create()</pre></a></li>
 <li class="method public "><a href="#method_delete" title="delete :: Delete a collection"><span class="description">Delete a collection</span><pre>delete()</pre></a></li>
+<li class="method public "><a href="#method_drop" title="drop :: Drop a collection"><span class="description">Drop a collection</span><pre>drop()</pre></a></li>
+<li class="method public "><a href="#method_figures" title="figures :: Get figures for a collection
+This will throw if the collection cannot be fetched from the server"><span class="description">Get figures for a collection
+This will throw if the collection cannot be fetched from the server</span><pre>figures()</pre></a></li>
 <li class="method public "><a href="#method_get" title="get :: Get information about a collection
 This will throw if the collection cannot be fetched from the server"><span class="description">Get information about a collection
 This will throw if the collection cannot be fetched from the server</span><pre>get()</pre></a></li>
+<li class="method public "><a href="#method_getAllIds" title="getAllIds :: Get the list of all documents' ids from a collection
+This will throw if the list cannot be fetched from the server"><span class="description">Get the list of all documents' ids from a collection
+This will throw if the list cannot be fetched from the server</span><pre>getAllIds()</pre></a></li>
 <li class="method public "><a href="#method_getCount" title="getCount :: Get the number of documents in a collection
 This will throw if the collection cannot be fetched from the server"><span class="description">Get the number of documents in a collection
 This will throw if the collection cannot be fetched from the server</span><pre>getCount()</pre></a></li>
@@ -83,6 +101,9 @@ This will remove all documents from the collection but will leave the metadata a
 <li class="nav-header protected">» Protected
                     <ul><li class="method protected inherited"><a href="#method_getConnection" title="getConnection :: Return the connection object"><span class="description">Return the connection object</span><pre>getConnection()</pre></a></li></ul>
 </li>
+<li class="nav-header private">» Private
+                    <ul><li class="method private "><a href="#method_getCursorOptions" title="getCursorOptions :: Return an array of cursor options"><span class="description">Return an array of cursor options</span><pre>getCursorOptions()</pre></a></li></ul>
+</li>
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties
                     <ul></ul>
@@ -93,7 +114,10 @@ This will remove all documents from the collection but will leave the metadata a
 <li class="nav-header">
 <i class="icon-custom icon-constant"></i> Constants
                     <ul>
+<li class="constant  "><a href="#constant_ENTRY_DOCUMENTS" title="ENTRY_DOCUMENTS :: documents array index"><span class="description">documents array index</span><pre>ENTRY_DOCUMENTS</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_COLLECTION" title="OPTION_COLLECTION :: collection parameter"><span class="description">collection parameter</span><pre>OPTION_COLLECTION</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_COUNT" title="OPTION_COUNT :: count option"><span class="description">count option</span><pre>OPTION_COUNT</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_EXAMPLE" title="OPTION_EXAMPLE :: example parameter"><span class="description">example parameter</span><pre>OPTION_EXAMPLE</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_FIGURES" title="OPTION_FIGURES :: figures option"><span class="description">figures option</span><pre>OPTION_FIGURES</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_RENAME" title="OPTION_RENAME :: rename option"><span class="description">rename option</span><pre>OPTION_RENAME</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_TRUNCATE" title="OPTION_TRUNCATE :: truncate option"><span class="description">truncate option</span><pre>OPTION_TRUNCATE</pre></a></li>
@@ -153,6 +177,95 @@ This will throw if the collection cannot be created</h2>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>deprecated</th>
+<td>To be deprecated in version 2.0 - This function is being replaced by create()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collection</h4>
+<code><a href="../classes/triagens.ArangoDb.Collection.html">\triagens\ArangoDb\Collection</a></code><ul>
+<li>collection object to be created on the server</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>- id of collection created</div>
+</div></div>
+</div>
+<a id="method_byExample"></a><div class="element clickable method public method_byExample" data-toggle="collapse" data-target=".method_byExample .collapse">
+<h2>Get document(s) by specifying an example
+This will throw if the list cannot be fetched from the server</h2>
+<pre>byExample(mixed $collectionId, mixed $document, bool $sanitize) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>collection id as string or number</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$document</h4>
+<code>mixed</code><ul>
+<li>the example document as a Document object or an array</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$sanitize</h4>
+<code>bool</code><ul>
+<li>remove _id and _rev attributes from result documents</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- documents matching the example [0...n]</div>
+</div></div>
+</div>
+<a id="method_count"></a><div class="element clickable method public method_count" data-toggle="collapse" data-target=".method_count .collapse">
+<h2>Get the number of documents in a collection
+This will throw if the collection cannot be fetched from the server</h2>
+<pre>count(mixed $collectionId) : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>collection id as a string or number</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>int</code>- the number of documents in the collection</div>
+</div></div>
+</div>
+<a id="method_create"></a><div class="element clickable method public method_create" data-toggle="collapse" data-target=".method_create .collapse">
+<h2>Creates a new collection on the server
+This will add the collection on the server and return its id
+This will throw if the collection cannot be created</h2>
+<pre>create(\triagens\ArangoDb\Collection $collection) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collection</h4>
@@ -176,6 +289,10 @@ This will throw if the collection cannot be created</h2>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>deprecated</th>
+<td>To be deprecated in version 2.0 - This function is being replaced by drop()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collection</h4>
@@ -191,6 +308,53 @@ This will throw if the collection cannot be created</h2>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>bool</code>- always true, will throw if there is an error</div>
+</div></div>
+</div>
+<a id="method_drop"></a><div class="element clickable method public method_drop" data-toggle="collapse" data-target=".method_drop .collapse">
+<h2>Drop a collection</h2>
+<pre>drop(mixed $collection) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collection</h4>
+<code>mixed</code><ul>
+<li>collection id as string or number or collection object</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>bool</code>- always true, will throw if there is an error</div>
+</div></div>
+</div>
+<a id="method_figures"></a><div class="element clickable method public method_figures" data-toggle="collapse" data-target=".method_figures .collapse">
+<h2>Get figures for a collection
+This will throw if the collection cannot be fetched from the server</h2>
+<pre>figures(mixed $collectionId) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>collection id as a string or number</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- the figures for the collection</div>
 </div></div>
 </div>
 <a id="method_get"></a><div class="element clickable method public method_get" data-toggle="collapse" data-target=".method_get .collapse">
@@ -217,6 +381,30 @@ This will throw if the collection cannot be fetched from the server</h2>
 <code><a href="../classes/triagens.ArangoDb.Collection.html">\triagens\ArangoDb\Collection</a></code>- the collection fetched from the server</div>
 </div></div>
 </div>
+<a id="method_getAllIds"></a><div class="element clickable method public method_getAllIds" data-toggle="collapse" data-target=".method_getAllIds .collapse">
+<h2>Get the list of all documents' ids from a collection
+This will throw if the list cannot be fetched from the server</h2>
+<pre>getAllIds(mixed $collectionId) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>collection id as string or number</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- ids of documents in the collection</div>
+</div></div>
+</div>
 <a id="method_getCount"></a><div class="element clickable method public method_getCount" data-toggle="collapse" data-target=".method_getCount .collapse">
 <h2>Get the number of documents in a collection
 This will throw if the collection cannot be fetched from the server</h2>
@@ -224,6 +412,10 @@ This will throw if the collection cannot be fetched from the server</h2>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>deprecated</th>
+<td>To be deprecated in version 2.0 - This function is being replaced by count()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -248,6 +440,10 @@ This will throw if the collection cannot be fetched from the server</h2>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>deprecated</th>
+<td>To be deprecated in version 2.0 - This function is being replaced by figures()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -333,6 +529,24 @@ This will remove all documents from the collection but will leave the metadata a
 <code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>- the connection object</div>
 </div></div>
 </div>
+<a id="method_getCursorOptions"></a><div class="element clickable method private method_getCursorOptions" data-toggle="collapse" data-target=".method_getCursorOptions .collapse">
+<h2>Return an array of cursor options</h2>
+<pre>getCursorOptions(bool $sanitize) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$sanitize</h4>
+<code>bool</code><ul>
+<li>sanitize flag</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- array of options</div>
+</div></div>
+</div>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
 <a id="property__connection"> </a><div class="element clickable property private property__connection" data-toggle="collapse" data-target=".property__connection .collapse">
@@ -355,9 +569,27 @@ This will remove all documents from the collection but will leave the metadata a
 </div>
 <h3>
 <i class="icon-custom icon-constant"></i> Constants</h3>
+<a id="constant_ENTRY_DOCUMENTS"> </a><div class="element clickable constant  constant_ENTRY_DOCUMENTS" data-toggle="collapse" data-target=".constant_ENTRY_DOCUMENTS .collapse">
+<h2>documents array index</h2>
+<pre>ENTRY_DOCUMENTS </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_COLLECTION"> </a><div class="element clickable constant  constant_OPTION_COLLECTION" data-toggle="collapse" data-target=".constant_OPTION_COLLECTION .collapse">
+<h2>collection parameter</h2>
+<pre>OPTION_COLLECTION </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="constant_OPTION_COUNT"> </a><div class="element clickable constant  constant_OPTION_COUNT" data-toggle="collapse" data-target=".constant_OPTION_COUNT .collapse">
 <h2>count option</h2>
 <pre>OPTION_COUNT </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_EXAMPLE"> </a><div class="element clickable constant  constant_OPTION_EXAMPLE" data-toggle="collapse" data-target=".constant_OPTION_EXAMPLE .collapse">
+<h2>example parameter</h2>
+<pre>OPTION_EXAMPLE </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
@@ -386,7 +618,7 @@ This will remove all documents from the collection but will leave the metadata a
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-04T10:55:44+02:00.<br></footer></div>
+            generated on 2012-10-14T17:33:26+03:00.<br></footer></div>
 </div>
 </body>
 </html>

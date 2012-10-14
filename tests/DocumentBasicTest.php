@@ -7,7 +7,7 @@
  * @author Frank Mayer
  */
 
-namespace triagens\ArangoDB;
+namespace triagens\ArangoDb;
 
 class DocumentBasicTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,8 +29,8 @@ class DocumentBasicTest extends \PHPUnit_Framework_TestCase
         $this->collection = new \triagens\ArangoDb\Collection();
         $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
         $document = new \triagens\ArangoDb\Document();
-        $this->assertInstanceOf('triagens\ArangoDB\Document', $document);
-        $this->assertInstanceOf('triagens\ArangoDB\Document', $document);
+        $this->assertInstanceOf('triagens\ArangoDb\Document', $document);
+        $this->assertInstanceOf('triagens\ArangoDb\Document', $document);
         unset ($document);
     }
 
@@ -48,8 +48,6 @@ class DocumentBasicTest extends \PHPUnit_Framework_TestCase
         $document->someAttribute = 'someValue';
 
         $documentId = $documentHandler->add($collection->getId(), $document);
-
-        print_r($documentId);
 
         $resultingDocument = $documentHandler->get($collection->getId(), $documentId);
 

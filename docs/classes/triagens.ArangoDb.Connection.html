@@ -37,7 +37,7 @@
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
-                <span class="label label-info">0</span></a></li>
+                <span class="label label-info">11</span></a></li>
 </ul>
 </li>
 </ul></div>
@@ -63,6 +63,8 @@
 <li class="method public "><a href="#method_delete" title="delete :: Issue an HTTP DELETE request with the data provided"><span class="description">Issue an HTTP DELETE request with the data provided</span><pre>delete()</pre></a></li>
 <li class="method public "><a href="#method_get" title="get :: Issue an HTTP GET request"><span class="description">Issue an HTTP GET request</span><pre>get()</pre></a></li>
 <li class="method public "><a href="#method_getOption" title="getOption :: Get an option set for the connection"><span class="description">Get an option set for the connection</span><pre>getOption()</pre></a></li>
+<li class="method public "><a href="#method_getVersion" title="getVersion :: Get the client api version"><span class="description">Get the client api version</span><pre>getVersion()</pre></a></li>
+<li class="method public "><a href="#method_patch" title="patch :: Issue an HTTP PATCH request with the data provided"><span class="description">Issue an HTTP PATCH request with the data provided</span><pre>patch()</pre></a></li>
 <li class="method public "><a href="#method_post" title="post :: Issue an HTTP POST request with the data provided"><span class="description">Issue an HTTP POST request with the data provided</span><pre>post()</pre></a></li>
 <li class="method public "><a href="#method_put" title="put :: Issue an HTTP PUT request with the data provided"><span class="description">Issue an HTTP PUT request with the data provided</span><pre>put()</pre></a></li>
 </ul>
@@ -78,7 +80,7 @@ If keep-alive connections are used, the handle will be stored and re-used</span>
 </li>
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties
-                    <ul></ul>
+                    <ul><li class="property public "><a href="#property__apiVersion" title="$_apiVersion :: Api Version"><span class="description">Api Version</span><pre>$_apiVersion</pre></a></li></ul>
 </li>
 <li class="nav-header private">» Private
                     <ul>
@@ -203,6 +205,44 @@ and are destroyed afterwards.</p></div>
 </tr></table>
 <h3>Returns</h3>
 <div class="subelement response"><code>mixed</code></div>
+</div></div>
+</div>
+<a id="method_getVersion"></a><div class="element clickable method public method_getVersion" data-toggle="collapse" data-target=".method_getVersion .collapse">
+<h2>Get the client api version</h2>
+<pre>getVersion() : string</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_patch"></a><div class="element clickable method public method_patch" data-toggle="collapse" data-target=".method_patch .collapse">
+<h2>Issue an HTTP PATCH request with the data provided</h2>
+<pre>patch(string $url, string $data) : <a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$url</h4>
+<code>string</code><ul>
+<li>PATCH URL</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$data</h4>
+<code>string</code><ul>
+<li>body to post</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></code></div>
 </div></div>
 </div>
 <a id="method_post"></a><div class="element clickable method public method_post" data-toggle="collapse" data-target=".method_post .collapse">
@@ -334,6 +374,12 @@ If keep-alive connections are used, the handle will be stored and re-used</h2>
 </div>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property__apiVersion"> </a><div class="element clickable property public property__apiVersion" data-toggle="collapse" data-target=".property__apiVersion .collapse">
+<h2>Api Version</h2>
+<pre>$_apiVersion : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="property__handle"> </a><div class="element clickable property private property__handle" data-toggle="collapse" data-target=".property__handle .collapse">
 <h2>Connection handle, used in case of keep-alive</h2>
 <pre>$_handle : resource</pre>
@@ -359,7 +405,7 @@ If keep-alive connections are used, the handle will be stored and re-used</h2>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-04T10:55:44+02:00.<br></footer></div>
+            generated on 2012-10-14T17:33:26+03:00.<br></footer></div>
 </div>
 </body>
 </html>
