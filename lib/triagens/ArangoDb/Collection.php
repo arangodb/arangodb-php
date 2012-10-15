@@ -237,10 +237,11 @@ class Collection {
   }
   
   /**
-   * Set the collection type
+   * Set the collection type. This is useful before a collection is create() 'ed in order to set a different type than the normal one. 
+   * For example this must be set to 3 in order to create an edge-collection.
    *
    * @throws ClientException
-   * @param string $type - type
+   * @param int $type - type = 2 -> normal collection, type = 3 -> edge-collection
    * @return void
    */
   public function setType($type) {

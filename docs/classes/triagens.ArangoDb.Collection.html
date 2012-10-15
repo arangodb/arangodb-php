@@ -71,12 +71,14 @@ Returns the collection as JSON-encoded string</span><pre>__toString()</pre></a><
 Collection ids are generated on the server only."><span class="description">Get the collection id (if already known)
 Collection ids are generated on the server only.</span><pre>getId()</pre></a></li>
 <li class="method public "><a href="#method_getName" title="getName :: Get the collection name (if already known)"><span class="description">Get the collection name (if already known)</span><pre>getName()</pre></a></li>
+<li class="method public "><a href="#method_getType" title="getType :: Get the collection type (if already known)"><span class="description">Get the collection type (if already known)</span><pre>getType()</pre></a></li>
 <li class="method public "><a href="#method_getWaitForSync" title="getWaitForSync :: Get the waitForSync value (if already known)"><span class="description">Get the waitForSync value (if already known)</span><pre>getWaitForSync()</pre></a></li>
 <li class="method public "><a href="#method_set" title="set :: Set a collection attribute"><span class="description">Set a collection attribute</span><pre>set()</pre></a></li>
 <li class="method public "><a href="#method_setId" title="setId :: Set the collection id
 This will throw if the id of an existing collection gets updated to some other id"><span class="description">Set the collection id
 This will throw if the id of an existing collection gets updated to some other id</span><pre>setId()</pre></a></li>
 <li class="method public "><a href="#method_setName" title="setName :: Set the collection name"><span class="description">Set the collection name</span><pre>setName()</pre></a></li>
+<li class="method public "><a href="#method_setType" title="setType :: Set the collection type."><span class="description">Set the collection type.</span><pre>setType()</pre></a></li>
 <li class="method public "><a href="#method_setWaitForSync" title="setWaitForSync :: Set the waitForSync value"><span class="description">Set the waitForSync value</span><pre>setWaitForSync()</pre></a></li>
 <li class="method public "><a href="#method_toJson" title="toJson :: Returns the collection as JSON-encoded string"><span class="description">Returns the collection as JSON-encoded string</span><pre>toJson()</pre></a></li>
 <li class="method public "><a href="#method_toSerialized" title="toSerialized :: Returns the collection as a serialized string"><span class="description">Returns the collection as a serialized string</span><pre>toSerialized()</pre></a></li>
@@ -90,6 +92,7 @@ This will throw if the id of an existing collection gets updated to some other i
                     <ul>
 <li class="property private "><a href="#property__id" title="$_id :: The collection id (might be NULL for new collections)"><span class="description">The collection id (might be NULL for new collections)</span><pre>$_id</pre></a></li>
 <li class="property private "><a href="#property__name" title="$_name :: The collection name (might be NULL for new collections)"><span class="description">The collection name (might be NULL for new collections)</span><pre>$_name</pre></a></li>
+<li class="property private "><a href="#property__type" title="$_type :: The collection type (might be NULL for new collections)"><span class="description">The collection type (might be NULL for new collections)</span><pre>$_type</pre></a></li>
 <li class="property private "><a href="#property__waitForSync" title="$_waitForSync :: The collection waitForSync value (might be NULL for new collections)"><span class="description">The collection waitForSync value (might be NULL for new collections)</span><pre>$_waitForSync</pre></a></li>
 </ul>
 </li>
@@ -98,6 +101,7 @@ This will throw if the id of an existing collection gets updated to some other i
                     <ul>
 <li class="constant  "><a href="#constant_ENTRY_ID" title="ENTRY_ID :: Collection id index"><span class="description">Collection id index</span><pre>ENTRY_ID</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_NAME" title="ENTRY_NAME :: Collection name index"><span class="description">Collection name index</span><pre>ENTRY_NAME</pre></a></li>
+<li class="constant  "><a href="#constant_ENTRY_TYPE" title="ENTRY_TYPE :: Collection type index"><span class="description">Collection type index</span><pre>ENTRY_TYPE</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_WAIT_SYNC" title="ENTRY_WAIT_SYNC :: Collection 'waitForSync' index"><span class="description">Collection 'waitForSync' index</span><pre>ENTRY_WAIT_SYNC</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_PROPERTIES" title="OPTION_PROPERTIES :: properties option"><span class="description">properties option</span><pre>OPTION_PROPERTIES</pre></a></li>
 </ul>
@@ -209,6 +213,17 @@ bigger than PHP_INT_MAX. To reliably store a collection id elsewhere, a PHP stri
 <code>string</code>- name</div>
 </div></div>
 </div>
+<a id="method_getType"></a><div class="element clickable method public method_getType" data-toggle="collapse" data-target=".method_getType .collapse">
+<h2>Get the collection type (if already known)</h2>
+<pre>getType() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>- name</div>
+</div></div>
+</div>
 <a id="method_getWaitForSync"></a><div class="element clickable method public method_getWaitForSync" data-toggle="collapse" data-target=".method_getWaitForSync .collapse">
 <h2>Get the waitForSync value (if already known)</h2>
 <pre>getWaitForSync() : bool</pre>
@@ -289,6 +304,27 @@ This will throw if the id of an existing collection gets updated to some other i
 </tr></table>
 </div></div>
 </div>
+<a id="method_setType"></a><div class="element clickable method public method_setType" data-toggle="collapse" data-target=".method_setType .collapse">
+<h2>Set the collection type.</h2>
+<pre>setType(int $type) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This is useful before a collection is create() 'ed in order to set a different type than the normal one.
+For example this must be set to 3 in order to create an edge-collection.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$type</h4>
+<code>int</code><ul>
+<li>type = 2 -> normal collection, type = 3 -> edge-collection</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
 <a id="method_setWaitForSync"></a><div class="element clickable method public method_setWaitForSync" data-toggle="collapse" data-target=".method_setWaitForSync .collapse">
 <h2>Set the waitForSync value</h2>
 <pre>setWaitForSync(bool $value) : void</pre>
@@ -340,6 +376,12 @@ This will throw if the id of an existing collection gets updated to some other i
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="property__type"> </a><div class="element clickable property private property__type" data-toggle="collapse" data-target=".property__type .collapse">
+<h2>The collection type (might be NULL for new collections)</h2>
+<pre>$_type : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="property__waitForSync"> </a><div class="element clickable property private property__waitForSync" data-toggle="collapse" data-target=".property__waitForSync .collapse">
 <h2>The collection waitForSync value (might be NULL for new collections)</h2>
 <pre>$_waitForSync : bool</pre>
@@ -357,6 +399,12 @@ This will throw if the id of an existing collection gets updated to some other i
 <a id="constant_ENTRY_NAME"> </a><div class="element clickable constant  constant_ENTRY_NAME" data-toggle="collapse" data-target=".constant_ENTRY_NAME .collapse">
 <h2>Collection name index</h2>
 <pre>ENTRY_NAME </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_ENTRY_TYPE"> </a><div class="element clickable constant  constant_ENTRY_TYPE" data-toggle="collapse" data-target=".constant_ENTRY_TYPE .collapse">
+<h2>Collection type index</h2>
+<pre>ENTRY_TYPE </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
@@ -379,7 +427,7 @@ This will throw if the id of an existing collection gets updated to some other i
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-14T17:33:26+03:00.<br></footer></div>
+            generated on 2012-10-15T07:43:08+03:00.<br></footer></div>
 </div>
 </body>
 </html>
