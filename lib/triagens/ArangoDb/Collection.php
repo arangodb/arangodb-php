@@ -63,7 +63,17 @@ class Collection {
   /**
    * properties option
    */
-  const OPTION_PROPERTIES     = 'properties';
+  const OPTION_PROPERTIES = 'properties';
+  
+  /**
+   * document collection type
+   */
+  const TYPE_DOCUMENT     = 2;
+  
+  /**
+   * edge collection type
+   */
+  const TYPE_EDGE         = 3;
   
   /**
    * Constructs an empty collection
@@ -88,6 +98,15 @@ class Collection {
     }
 
     return $collection;
+  }
+  
+  /**
+   * Get the default collection type
+   *
+   * @return string - name
+   */
+  public static function getDefaultType() {
+    return self::TYPE_DOCUMENT;
   }
   
   /**
@@ -140,7 +159,7 @@ class Collection {
       self::ENTRY_ID        => $this->_id,
       self::ENTRY_NAME      => $this->_name,
       self::ENTRY_WAIT_SYNC => $this->_waitForSync,
-      self::ENTRY_TYPE => $this->_type,
+      self::ENTRY_TYPE      => $this->_type,
     );
   }
   
@@ -175,6 +194,7 @@ class Collection {
       $this->setWaitForSync($value);
       return;
     }
+
     if ($key === self::ENTRY_TYPE) {
       $this->setType($value);
       return;
@@ -247,8 +267,12 @@ class Collection {
   public function setType($type) {
     assert(is_int($type));
 
-    if ($this->_type !== NULL && $this->$type != $type) {
+    if ($this->_type !== NULL && $this->_type != $type) {
       throw new ClientException('Should not update the type of an existing collection');
+    }
+
+    if ($type != self::TYPE_DOCUMENT && $type != self::TYPE_EDGE) {
+      throw new ClientException('Invalid type used for collection');
     }
 
     $this->_type = $type;
@@ -282,8 +306,5 @@ class Collection {
   public function getWaitForSync() {
     return $this->_waitForSync; 
   }
-         
-   
-  
   
 }

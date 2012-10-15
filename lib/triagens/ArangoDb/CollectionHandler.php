@@ -165,7 +165,8 @@ class CollectionHandler extends Handler {
     if ($collection->getWaitForSync() === NULL) {
       $collection->setWaitForSync($this->getConnection()->getOption(ConnectionOptions::OPTION_WAIT_SYNC));
     }
-    $type = $collection->getType()? $collection->getType(): 2;
+
+    $type = $collection->getType() ? $collection->getType() : Collection::getDefaultType();
     $params = array(Collection::ENTRY_NAME => $collection->getName(), Collection::ENTRY_TYPE => $type, Collection::ENTRY_WAIT_SYNC => $collection->getWaitForSync());
     $response = $this->getConnection()->post(Urls::URL_COLLECTION, json_encode($params));
 
@@ -331,5 +332,4 @@ class CollectionHandler extends Handler {
     );
   }  
   
-
 }
