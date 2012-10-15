@@ -76,6 +76,9 @@ Returns the document as JSON-encoded string</span><pre>__toString()</pre></a></l
 <li class="method public "><a href="#method_getCollectionId" title="getCollectionId :: Get the collection id (if already known)
 Collection ids are generated on the server only."><span class="description">Get the collection id (if already known)
 Collection ids are generated on the server only.</span><pre>getCollectionId()</pre></a></li>
+<li class="method public "><a href="#method_getHandle" title="getHandle :: Convenience function to get the document handle (if already known) - is an alias to getInternalId()
+Document handles are generated on the server only."><span class="description">Convenience function to get the document handle (if already known) - is an alias to getInternalId()
+Document handles are generated on the server only.</span><pre>getHandle()</pre></a></li>
 <li class="method public "><a href="#method_getId" title="getId :: Get the document id (if already known)
 Document ids are generated on the server only."><span class="description">Get the document id (if already known)
 Document ids are generated on the server only.</span><pre>getId()</pre></a></li>
@@ -99,12 +102,12 @@ Revision ids are generated on the server only.</span><pre>setRevision()</pre></a
 <i class="icon-custom icon-property"></i> Properties
                     <ul></ul>
 </li>
-<li class="nav-header private">» Private
+<li class="nav-header protected">» Protected
                     <ul>
-<li class="property private "><a href="#property__changed" title="$_changed :: Flag to indicate whether document was changed locally"><span class="description">Flag to indicate whether document was changed locally</span><pre>$_changed</pre></a></li>
-<li class="property private "><a href="#property__id" title="$_id :: The document id (might be NULL for new documents)"><span class="description">The document id (might be NULL for new documents)</span><pre>$_id</pre></a></li>
-<li class="property private "><a href="#property__rev" title="$_rev :: The document revision (might be NULL for new documents)"><span class="description">The document revision (might be NULL for new documents)</span><pre>$_rev</pre></a></li>
-<li class="property private "><a href="#property__values" title="$_values :: The document attributes (names/values)"><span class="description">The document attributes (names/values)</span><pre>$_values</pre></a></li>
+<li class="property protected "><a href="#property__changed" title="$_changed :: Flag to indicate whether document was changed locally"><span class="description">Flag to indicate whether document was changed locally</span><pre>$_changed</pre></a></li>
+<li class="property protected "><a href="#property__id" title="$_id :: The document id (might be NULL for new documents)"><span class="description">The document id (might be NULL for new documents)</span><pre>$_id</pre></a></li>
+<li class="property protected "><a href="#property__rev" title="$_rev :: The document revision (might be NULL for new documents)"><span class="description">The document revision (might be NULL for new documents)</span><pre>$_rev</pre></a></li>
+<li class="property protected "><a href="#property__values" title="$_values :: The document attributes (names/values)"><span class="description">The document attributes (names/values)</span><pre>$_values</pre></a></li>
 </ul>
 </li>
 <li class="nav-header">
@@ -286,6 +289,19 @@ bigger than PHP_INT_MAX. To reliably store a collection id elsewhere, a PHP stri
 <code>mixed</code>- collection id, might be NULL if document does not yet have an id</div>
 </div></div>
 </div>
+<a id="method_getHandle"></a><div class="element clickable method public method_getHandle" data-toggle="collapse" data-target=".method_getHandle .collapse">
+<h2>Convenience function to get the document handle (if already known) - is an alias to getInternalId()
+Document handles are generated on the server only.</h2>
+<pre>getHandle() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Document handles consist of collection id and
+document id, in the format collectionid/documentid</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>- internal document id, might be NULL if document does not yet have an id</div>
+</div></div>
+</div>
 <a id="method_getId"></a><div class="element clickable method public method_getId" data-toggle="collapse" data-target=".method_getId .collapse">
 <h2>Get the document id (if already known)
 Document ids are generated on the server only.</h2>
@@ -428,25 +444,25 @@ bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string
 </div>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
-<a id="property__changed"> </a><div class="element clickable property private property__changed" data-toggle="collapse" data-target=".property__changed .collapse">
+<a id="property__changed"> </a><div class="element clickable property protected property__changed" data-toggle="collapse" data-target=".property__changed .collapse">
 <h2>Flag to indicate whether document was changed locally</h2>
 <pre>$_changed : bool</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a id="property__id"> </a><div class="element clickable property private property__id" data-toggle="collapse" data-target=".property__id .collapse">
+<a id="property__id"> </a><div class="element clickable property protected property__id" data-toggle="collapse" data-target=".property__id .collapse">
 <h2>The document id (might be NULL for new documents)</h2>
 <pre>$_id : string</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a id="property__rev"> </a><div class="element clickable property private property__rev" data-toggle="collapse" data-target=".property__rev .collapse">
+<a id="property__rev"> </a><div class="element clickable property protected property__rev" data-toggle="collapse" data-target=".property__rev .collapse">
 <h2>The document revision (might be NULL for new documents)</h2>
 <pre>$_rev : mixed</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a id="property__values"> </a><div class="element clickable property private property__values" data-toggle="collapse" data-target=".property__values .collapse">
+<a id="property__values"> </a><div class="element clickable property protected property__values" data-toggle="collapse" data-target=".property__values .collapse">
 <h2>The document attributes (names/values)</h2>
 <pre>$_values : array</pre>
 <div class="labels"></div>
@@ -473,7 +489,7 @@ bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-14T17:33:26+03:00.<br></footer></div>
+            generated on 2012-10-15T07:43:08+03:00.<br></footer></div>
 </div>
 </body>
 </html>
