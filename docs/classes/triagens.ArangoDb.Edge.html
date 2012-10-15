@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
 <meta charset="utf-8">
-<title>ArangoDB PHP client API » \triagens\ArangoDb\Document</title>
+<title>ArangoDB PHP client API » \triagens\ArangoDb\Edge</title>
 <meta name="author" content="Mike van Riel">
 <meta name="description" content="">
 <link href="../css/template.css" rel="stylesheet" media="all">
@@ -61,41 +61,45 @@
 <li class="method public "><a href="#method___clone" title="__clone :: Clone a document
 Returns the clone"><span class="description">Clone a document
 Returns the clone</span><pre>__clone()</pre></a></li>
-<li class="method public "><a href="#method___construct" title="__construct :: Constructs an empty document"><span class="description">Constructs an empty document</span><pre>__construct()</pre></a></li>
-<li class="method public "><a href="#method___get" title="__get :: Get a document attribute, magic method
+<li class="method public inherited"><a href="#method___construct" title="__construct :: Constructs an empty document"><span class="description">Constructs an empty document</span><pre>__construct()</pre></a></li>
+<li class="method public inherited"><a href="#method___get" title="__get :: Get a document attribute, magic method
 This function is mapped to get() internally."><span class="description">Get a document attribute, magic method
 This function is mapped to get() internally.</span><pre>__get()</pre></a></li>
-<li class="method public "><a href="#method___set" title="__set :: Set a document attribute, magic method"><span class="description">Set a document attribute, magic method</span><pre>__set()</pre></a></li>
-<li class="method public "><a href="#method___toString" title="__toString :: Get a string representation of the document
+<li class="method public inherited"><a href="#method___set" title="__set :: Set a document attribute, magic method"><span class="description">Set a document attribute, magic method</span><pre>__set()</pre></a></li>
+<li class="method public inherited"><a href="#method___toString" title="__toString :: Get a string representation of the document
 Returns the document as JSON-encoded string"><span class="description">Get a string representation of the document
 Returns the document as JSON-encoded string</span><pre>__toString()</pre></a></li>
-<li class="method public "><a href="#method_createFromArray" title="createFromArray :: Factory method to construct a new document using the values passed to populate it"><span class="description">Factory method to construct a new document using the values passed to populate it</span><pre>createFromArray()</pre></a></li>
-<li class="method public "><a href="#method_get" title="get :: Get a document attribute"><span class="description">Get a document attribute</span><pre>get()</pre></a></li>
-<li class="method public "><a href="#method_getAll" title="getAll :: Get all document attributes"><span class="description">Get all document attributes</span><pre>getAll()</pre></a></li>
-<li class="method public "><a href="#method_getChanged" title="getChanged :: Get the changed flag"><span class="description">Get the changed flag</span><pre>getChanged()</pre></a></li>
-<li class="method public "><a href="#method_getCollectionId" title="getCollectionId :: Get the collection id (if already known)
+<li class="method public inherited"><a href="#method_createFromArray" title="createFromArray :: Factory method to construct a new document using the values passed to populate it"><span class="description">Factory method to construct a new document using the values passed to populate it</span><pre>createFromArray()</pre></a></li>
+<li class="method public inherited"><a href="#method_get" title="get :: Get a document attribute"><span class="description">Get a document attribute</span><pre>get()</pre></a></li>
+<li class="method public inherited"><a href="#method_getAll" title="getAll :: Get all document attributes"><span class="description">Get all document attributes</span><pre>getAll()</pre></a></li>
+<li class="method public inherited"><a href="#method_getChanged" title="getChanged :: Get the changed flag"><span class="description">Get the changed flag</span><pre>getChanged()</pre></a></li>
+<li class="method public inherited"><a href="#method_getCollectionId" title="getCollectionId :: Get the collection id (if already known)
 Collection ids are generated on the server only."><span class="description">Get the collection id (if already known)
 Collection ids are generated on the server only.</span><pre>getCollectionId()</pre></a></li>
-<li class="method public "><a href="#method_getHandle" title="getHandle :: Convenience function to get the document handle (if already known) - is an alias to getInternalId()
+<li class="method public "><a href="#method_getFrom" title="getFrom :: Get the 'from' vertex document-handler (if already known)"><span class="description">Get the 'from' vertex document-handler (if already known)</span><pre>getFrom()</pre></a></li>
+<li class="method public inherited"><a href="#method_getHandle" title="getHandle :: Convenience function to get the document handle (if already known) - is an alias to getInternalId()
 Document handles are generated on the server only."><span class="description">Convenience function to get the document handle (if already known) - is an alias to getInternalId()
 Document handles are generated on the server only.</span><pre>getHandle()</pre></a></li>
-<li class="method public "><a href="#method_getId" title="getId :: Get the document id (if already known)
+<li class="method public inherited"><a href="#method_getId" title="getId :: Get the document id (if already known)
 Document ids are generated on the server only."><span class="description">Get the document id (if already known)
 Document ids are generated on the server only.</span><pre>getId()</pre></a></li>
-<li class="method public "><a href="#method_getInternalId" title="getInternalId :: Get the internal document id (if already known)
+<li class="method public inherited"><a href="#method_getInternalId" title="getInternalId :: Get the internal document id (if already known)
 Document ids are generated on the server only."><span class="description">Get the internal document id (if already known)
 Document ids are generated on the server only.</span><pre>getInternalId()</pre></a></li>
-<li class="method public "><a href="#method_getRevision" title="getRevision :: Get the document revision (if already known)"><span class="description">Get the document revision (if already known)</span><pre>getRevision()</pre></a></li>
+<li class="method public inherited"><a href="#method_getRevision" title="getRevision :: Get the document revision (if already known)"><span class="description">Get the document revision (if already known)</span><pre>getRevision()</pre></a></li>
+<li class="method public "><a href="#method_getTo" title="getTo :: Get the 'to' vertex document-handler (if already known)"><span class="description">Get the 'to' vertex document-handler (if already known)</span><pre>getTo()</pre></a></li>
 <li class="method public "><a href="#method_set" title="set :: Set a document attribute"><span class="description">Set a document attribute</span><pre>set()</pre></a></li>
-<li class="method public "><a href="#method_setChanged" title="setChanged :: Set the changed flag"><span class="description">Set the changed flag</span><pre>setChanged()</pre></a></li>
-<li class="method public "><a href="#method_setInternalId" title="setInternalId :: Set the internal document id
+<li class="method public inherited"><a href="#method_setChanged" title="setChanged :: Set the changed flag"><span class="description">Set the changed flag</span><pre>setChanged()</pre></a></li>
+<li class="method public "><a href="#method_setFrom" title="setFrom :: Set the 'from' vertex document-handler"><span class="description">Set the 'from' vertex document-handler</span><pre>setFrom()</pre></a></li>
+<li class="method public inherited"><a href="#method_setInternalId" title="setInternalId :: Set the internal document id
 This will throw if the id of an existing document gets updated to some other id"><span class="description">Set the internal document id
 This will throw if the id of an existing document gets updated to some other id</span><pre>setInternalId()</pre></a></li>
-<li class="method public "><a href="#method_setRevision" title="setRevision :: Set the document revision
+<li class="method public inherited"><a href="#method_setRevision" title="setRevision :: Set the document revision
 Revision ids are generated on the server only."><span class="description">Set the document revision
 Revision ids are generated on the server only.</span><pre>setRevision()</pre></a></li>
-<li class="method public "><a href="#method_toJson" title="toJson :: Returns the document as JSON-encoded string"><span class="description">Returns the document as JSON-encoded string</span><pre>toJson()</pre></a></li>
-<li class="method public "><a href="#method_toSerialized" title="toSerialized :: Returns the document as a serialized string"><span class="description">Returns the document as a serialized string</span><pre>toSerialized()</pre></a></li>
+<li class="method public "><a href="#method_setTo" title="setTo :: Set the 'to' vertex document-handler"><span class="description">Set the 'to' vertex document-handler</span><pre>setTo()</pre></a></li>
+<li class="method public inherited"><a href="#method_toJson" title="toJson :: Returns the document as JSON-encoded string"><span class="description">Returns the document as JSON-encoded string</span><pre>toJson()</pre></a></li>
+<li class="method public inherited"><a href="#method_toSerialized" title="toSerialized :: Returns the document as a serialized string"><span class="description">Returns the document as a serialized string</span><pre>toSerialized()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header">
@@ -104,23 +108,27 @@ Revision ids are generated on the server only.</span><pre>setRevision()</pre></a
 </li>
 <li class="nav-header protected">» Protected
                     <ul>
-<li class="property protected "><a href="#property__changed" title="$_changed :: Flag to indicate whether document was changed locally"><span class="description">Flag to indicate whether document was changed locally</span><pre>$_changed</pre></a></li>
-<li class="property protected "><a href="#property__id" title="$_id :: The document id (might be NULL for new documents)"><span class="description">The document id (might be NULL for new documents)</span><pre>$_id</pre></a></li>
-<li class="property protected "><a href="#property__rev" title="$_rev :: The document revision (might be NULL for new documents)"><span class="description">The document revision (might be NULL for new documents)</span><pre>$_rev</pre></a></li>
-<li class="property protected "><a href="#property__values" title="$_values :: The document attributes (names/values)"><span class="description">The document attributes (names/values)</span><pre>$_values</pre></a></li>
+<li class="property protected inherited"><a href="#property__changed" title="$_changed :: Flag to indicate whether document was changed locally"><span class="description">Flag to indicate whether document was changed locally</span><pre>$_changed</pre></a></li>
+<li class="property protected "><a href="#property__from" title="$_from :: The edge's from (might be NULL for new documents)"><span class="description">The edge's from (might be NULL for new documents)</span><pre>$_from</pre></a></li>
+<li class="property protected inherited"><a href="#property__id" title="$_id :: The document id (might be NULL for new documents)"><span class="description">The document id (might be NULL for new documents)</span><pre>$_id</pre></a></li>
+<li class="property protected inherited"><a href="#property__rev" title="$_rev :: The document revision (might be NULL for new documents)"><span class="description">The document revision (might be NULL for new documents)</span><pre>$_rev</pre></a></li>
+<li class="property protected "><a href="#property__to" title="$_to :: The edge's to (might be NULL for new documents)"><span class="description">The edge's to (might be NULL for new documents)</span><pre>$_to</pre></a></li>
+<li class="property protected inherited"><a href="#property__values" title="$_values :: The document attributes (names/values)"><span class="description">The document attributes (names/values)</span><pre>$_values</pre></a></li>
 </ul>
 </li>
 <li class="nav-header">
 <i class="icon-custom icon-constant"></i> Constants
                     <ul>
-<li class="constant  "><a href="#constant_ENTRY_ID" title="ENTRY_ID :: Document id index"><span class="description">Document id index</span><pre>ENTRY_ID</pre></a></li>
-<li class="constant  "><a href="#constant_ENTRY_REV" title="ENTRY_REV :: Revision id index"><span class="description">Revision id index</span><pre>ENTRY_REV</pre></a></li>
+<li class="constant  "><a href="#constant_ENTRY_FROM" title="ENTRY_FROM :: Document _from index"><span class="description">Document _from index</span><pre>ENTRY_FROM</pre></a></li>
+<li class="constant  inherited"><a href="#constant_ENTRY_ID" title="ENTRY_ID :: Document id index"><span class="description">Document id index</span><pre>ENTRY_ID</pre></a></li>
+<li class="constant  inherited"><a href="#constant_ENTRY_REV" title="ENTRY_REV :: Revision id index"><span class="description">Revision id index</span><pre>ENTRY_REV</pre></a></li>
+<li class="constant  "><a href="#constant_ENTRY_TO" title="ENTRY_TO :: Revision _to index"><span class="description">Revision _to index</span><pre>ENTRY_TO</pre></a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="span8">
-<a id="\triagens\ArangoDb\Document"></a><ul class="breadcrumb">
+<a id="\triagens\ArangoDb\Edge"></a><ul class="breadcrumb">
 <li>
 <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
 </li>
@@ -129,7 +137,7 @@ Revision ids are generated on the server only.</span><pre>setRevision()</pre></a
 <span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
 </li>
 <li class="active">
-<span class="divider">\</span><a href="../classes/triagens.ArangoDb.Document.html">Document</a>
+<span class="divider">\</span><a href="../classes/triagens.ArangoDb.Edge.html">Edge</a>
 </li>
 </ul>
 <div class="element class">
@@ -152,16 +160,26 @@ Returns the clone</h2>
 <a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
 <h2>Constructs an empty document</h2>
 <pre>__construct() : void</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::__construct()</td>
+</tr></table>
+</div></div>
 </div>
 <a id="method___get"></a><div class="element clickable method public method___get" data-toggle="collapse" data-target=".method___get .collapse">
 <h2>Get a document attribute, magic method
 This function is mapped to get() internally.</h2>
 <pre>__get(string $key) : mixed</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::__get()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$key</h4>
@@ -177,11 +195,15 @@ This function is mapped to get() internally.</h2>
 <a id="method___set"></a><div class="element clickable method public method___set" data-toggle="collapse" data-target=".method___set .collapse">
 <h2>Set a document attribute, magic method</h2>
 <pre>__set(string $key, mixed $value) : void</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This is a magic method that allows the object to be used without
 declaring all document attributes first.
 This function is mapped to set() internally.</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::__set()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$key</h4>
@@ -206,9 +228,13 @@ This function is mapped to set() internally.</p></div>
 <h2>Get a string representation of the document
 Returns the document as JSON-encoded string</h2>
 <pre>__toString() : string</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::__toString()</td>
+</tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>string</code>- JSON-encoded document</div>
@@ -217,9 +243,15 @@ Returns the document as JSON-encoded string</h2>
 <a id="method_createFromArray"></a><div class="element clickable method public method_createFromArray" data-toggle="collapse" data-target=".method_createFromArray .collapse">
 <h2>Factory method to construct a new document using the values passed to populate it</h2>
 <pre>createFromArray(array $values) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
-<div class="labels"><span class="label">Static</span></div>
+<div class="labels">
+<span class="label">Inherited</span><span class="label">Static</span>
+</div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::createFromArray()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$values</h4>
@@ -239,9 +271,13 @@ Returns the document as JSON-encoded string</h2>
 <a id="method_get"></a><div class="element clickable method public method_get" data-toggle="collapse" data-target=".method_get .collapse">
 <h2>Get a document attribute</h2>
 <pre>get(string $key) : mixed</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::get()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$key</h4>
@@ -257,9 +293,13 @@ Returns the document as JSON-encoded string</h2>
 <a id="method_getAll"></a><div class="element clickable method public method_getAll" data-toggle="collapse" data-target=".method_getAll .collapse">
 <h2>Get all document attributes</h2>
 <pre>getAll() : array</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::getAll()</td>
+</tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>array</code>- array of all document attributes/values</div>
@@ -268,9 +308,13 @@ Returns the document as JSON-encoded string</h2>
 <a id="method_getChanged"></a><div class="element clickable method public method_getChanged" data-toggle="collapse" data-target=".method_getChanged .collapse">
 <h2>Get the changed flag</h2>
 <pre>getChanged() : bool</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::getChanged()</td>
+</tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>bool</code>- true if document was changed, false otherwise</div>
@@ -280,23 +324,42 @@ Returns the document as JSON-encoded string</h2>
 <h2>Get the collection id (if already known)
 Collection ids are generated on the server only.</h2>
 <pre>getCollectionId() : mixed</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>Collection ids are numeric but might be
 bigger than PHP_INT_MAX. To reliably store a collection id elsewhere, a PHP string should be used</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::getCollectionId()</td>
+</tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>mixed</code>- collection id, might be NULL if document does not yet have an id</div>
+</div></div>
+</div>
+<a id="method_getFrom"></a><div class="element clickable method public method_getFrom" data-toggle="collapse" data-target=".method_getFrom .collapse">
+<h2>Get the 'from' vertex document-handler (if already known)</h2>
+<pre>getFrom() : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>- document-handler</div>
 </div></div>
 </div>
 <a id="method_getHandle"></a><div class="element clickable method public method_getHandle" data-toggle="collapse" data-target=".method_getHandle .collapse">
 <h2>Convenience function to get the document handle (if already known) - is an alias to getInternalId()
 Document handles are generated on the server only.</h2>
 <pre>getHandle() : string</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>Document handles consist of collection id and
 document id, in the format collectionid/documentid</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::getHandle()</td>
+</tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>string</code>- internal document id, might be NULL if document does not yet have an id</div>
@@ -306,10 +369,14 @@ document id, in the format collectionid/documentid</p></div>
 <h2>Get the document id (if already known)
 Document ids are generated on the server only.</h2>
 <pre>getId() : mixed</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>Document ids are numeric but might be
 bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string should be used</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::getId()</td>
+</tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>mixed</code>- document id, might be NULL if document does not yet have an id</div>
@@ -319,10 +386,14 @@ bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string
 <h2>Get the internal document id (if already known)
 Document ids are generated on the server only.</h2>
 <pre>getInternalId() : string</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>Document ids consist of collection id and
 document id, in the format collectionid/documentid</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::getInternalId()</td>
+</tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>string</code>- internal document id, might be NULL if document does not yet have an id</div>
@@ -331,12 +402,27 @@ document id, in the format collectionid/documentid</p></div>
 <a id="method_getRevision"></a><div class="element clickable method public method_getRevision" data-toggle="collapse" data-target=".method_getRevision .collapse">
 <h2>Get the document revision (if already known)</h2>
 <pre>getRevision() : mixed</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::getRevision()</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>- revision id, might be NULL if document does not yet have an id</div>
+</div></div>
+</div>
+<a id="method_getTo"></a><div class="element clickable method public method_getTo" data-toggle="collapse" data-target=".method_getTo .collapse">
+<h2>Get the 'to' vertex document-handler (if already known)</h2>
+<pre>getTo() : mixed</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Returns</h3>
 <div class="subelement response">
-<code>mixed</code>- revision id, might be NULL if document does not yet have an id</div>
+<code>mixed</code>- document-handler</div>
 </div></div>
 </div>
 <a id="method_set"></a><div class="element clickable method public method_set" data-toggle="collapse" data-target=".method_set .collapse">
@@ -370,9 +456,13 @@ exception if the value is invalid.</p></div>
 <a id="method_setChanged"></a><div class="element clickable method public method_setChanged" data-toggle="collapse" data-target=".method_setChanged .collapse">
 <h2>Set the changed flag</h2>
 <pre>setChanged(bool $value) : void</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::setChanged()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$value</h4>
@@ -382,13 +472,35 @@ exception if the value is invalid.</p></div>
 </div>
 </div></div>
 </div>
+<a id="method_setFrom"></a><div class="element clickable method public method_setFrom" data-toggle="collapse" data-target=".method_setFrom .collapse">
+<h2>Set the 'from' vertex document-handler</h2>
+<pre>setFrom(mixed $from) : <a href="../classes/triagens.ArangoDb.Edge.html">\triagens\ArangoDb\Edge</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$from</h4>
+<code>mixed</code><ul>
+<li>from vertex</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/triagens.ArangoDb.Edge.html">\triagens\ArangoDb\Edge</a></code>- edge object</div>
+</div></div>
+</div>
 <a id="method_setInternalId"></a><div class="element clickable method public method_setInternalId" data-toggle="collapse" data-target=".method_setInternalId .collapse">
 <h2>Set the internal document id
 This will throw if the id of an existing document gets updated to some other id</h2>
 <pre>setInternalId(string $id) : void</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::setInternalId()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$id</h4>
@@ -407,10 +519,14 @@ This will throw if the id of an existing document gets updated to some other id<
 <h2>Set the document revision
 Revision ids are generated on the server only.</h2>
 <pre>setRevision(mixed $rev) : void</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>Document ids are numeric but might be
 bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string should be used</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::setRevision()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$rev</h4>
@@ -420,12 +536,34 @@ bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string
 </div>
 </div></div>
 </div>
-<a id="method_toJson"></a><div class="element clickable method public method_toJson" data-toggle="collapse" data-target=".method_toJson .collapse">
-<h2>Returns the document as JSON-encoded string</h2>
-<pre>toJson() : string</pre>
+<a id="method_setTo"></a><div class="element clickable method public method_setTo" data-toggle="collapse" data-target=".method_setTo .collapse">
+<h2>Set the 'to' vertex document-handler</h2>
+<pre>setTo(mixed $to) : <a href="../classes/triagens.ArangoDb.Edge.html">\triagens\ArangoDb\Edge</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$to</h4>
+<code>mixed</code><ul>
+<li>to vertex</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/triagens.ArangoDb.Edge.html">\triagens\ArangoDb\Edge</a></code>- edge object</div>
+</div></div>
+</div>
+<a id="method_toJson"></a><div class="element clickable method public method_toJson" data-toggle="collapse" data-target=".method_toJson .collapse">
+<h2>Returns the document as JSON-encoded string</h2>
+<pre>toJson() : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::toJson()</td>
+</tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>string</code>- JSON-encoded document</div>
@@ -434,9 +572,13 @@ bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string
 <a id="method_toSerialized"></a><div class="element clickable method public method_toSerialized" data-toggle="collapse" data-target=".method_toSerialized .collapse">
 <h2>Returns the document as a serialized string</h2>
 <pre>toSerialized() : string</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::toSerialized()</td>
+</tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>string</code>- PHP serialized document</div>
@@ -447,38 +589,98 @@ bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string
 <a id="property__changed"> </a><div class="element clickable property protected property__changed" data-toggle="collapse" data-target=".property__changed .collapse">
 <h2>Flag to indicate whether document was changed locally</h2>
 <pre>$_changed : bool</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::$$_changed</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property__from"> </a><div class="element clickable property protected property__from" data-toggle="collapse" data-target=".property__from .collapse">
+<h2>The edge's from (might be NULL for new documents)</h2>
+<pre>$_from : mixed</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="property__id"> </a><div class="element clickable property protected property__id" data-toggle="collapse" data-target=".property__id .collapse">
 <h2>The document id (might be NULL for new documents)</h2>
 <pre>$_id : string</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::$$_id</td>
+</tr></table>
+</div></div>
 </div>
 <a id="property__rev"> </a><div class="element clickable property protected property__rev" data-toggle="collapse" data-target=".property__rev .collapse">
 <h2>The document revision (might be NULL for new documents)</h2>
 <pre>$_rev : mixed</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::$$_rev</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property__to"> </a><div class="element clickable property protected property__to" data-toggle="collapse" data-target=".property__to .collapse">
+<h2>The edge's to (might be NULL for new documents)</h2>
+<pre>$_to : mixed</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="property__values"> </a><div class="element clickable property protected property__values" data-toggle="collapse" data-target=".property__values .collapse">
 <h2>The document attributes (names/values)</h2>
 <pre>$_values : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::$$_values</td>
+</tr></table>
+</div></div>
 </div>
 <h3>
 <i class="icon-custom icon-constant"></i> Constants</h3>
+<a id="constant_ENTRY_FROM"> </a><div class="element clickable constant  constant_ENTRY_FROM" data-toggle="collapse" data-target=".constant_ENTRY_FROM .collapse">
+<h2>Document _from index</h2>
+<pre>ENTRY_FROM </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="constant_ENTRY_ID"> </a><div class="element clickable constant  constant_ENTRY_ID" data-toggle="collapse" data-target=".constant_ENTRY_ID .collapse">
 <h2>Document id index</h2>
 <pre>ENTRY_ID </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::ENTRY_ID</td>
+</tr></table>
+</div></div>
 </div>
 <a id="constant_ENTRY_REV"> </a><div class="element clickable constant  constant_ENTRY_REV" data-toggle="collapse" data-target=".constant_ENTRY_REV .collapse">
 <h2>Revision id index</h2>
 <pre>ENTRY_REV </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::ENTRY_REV</td>
+</tr></table>
+</div></div>
+</div>
+<a id="constant_ENTRY_TO"> </a><div class="element clickable constant  constant_ENTRY_TO" data-toggle="collapse" data-target=".constant_ENTRY_TO .collapse">
+<h2>Revision _to index</h2>
+<pre>ENTRY_TO </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>

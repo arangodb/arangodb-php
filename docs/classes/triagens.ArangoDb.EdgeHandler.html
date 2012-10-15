@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
 <meta charset="utf-8">
-<title>ArangoDB PHP client API » \triagens\ArangoDb\DocumentHandler</title>
+<title>ArangoDB PHP client API » \triagens\ArangoDb\EdgeHandler</title>
 <meta name="author" content="Mike van Riel">
 <meta name="description" content="">
 <link href="../css/template.css" rel="stylesheet" media="all">
@@ -59,48 +59,46 @@
 <i class="icon-custom icon-method"></i> Methods
                     <ul>
 <li class="method public inherited"><a href="#method___construct" title="__construct :: Construct a new handler"><span class="description">Construct a new handler</span><pre>__construct()</pre></a></li>
-<li class="method public "><a href="#method_add" title="add :: Add a document to a collection
-This will add the document to the collection and return the document's id
-This will throw if the document cannot be created"><span class="description">Add a document to a collection
-This will add the document to the collection and return the document's id
-This will throw if the document cannot be created</span><pre>add()</pre></a></li>
-<li class="method public "><a href="#method_delete" title="delete :: Delete a document from a collection, identified by the document itself"><span class="description">Delete a document from a collection, identified by the document itself</span><pre>delete()</pre></a></li>
-<li class="method public "><a href="#method_deleteById" title="deleteById :: Delete a document from a collection, identified by the collection id and document id"><span class="description">Delete a document from a collection, identified by the collection id and document id</span><pre>deleteById()</pre></a></li>
-<li class="method public "><a href="#method_get" title="get :: Get a single document from a collection
+<li class="method public inherited"><a href="#method_delete" title="delete :: Delete a document from a collection, identified by the document itself"><span class="description">Delete a document from a collection, identified by the document itself</span><pre>delete()</pre></a></li>
+<li class="method public inherited"><a href="#method_deleteById" title="deleteById :: Delete a document from a collection, identified by the collection id and document id"><span class="description">Delete a document from a collection, identified by the collection id and document id</span><pre>deleteById()</pre></a></li>
+<li class="method public "><a href="#method_edges" title="edges :: Get edges for a given vertex"><span class="description">Get edges for a given vertex</span><pre>edges()</pre></a></li>
+<li class="method public inherited"><a href="#method_get" title="get :: Get a single document from a collection
 Alias method for getById()"><span class="description">Get a single document from a collection
 Alias method for getById()</span><pre>get()</pre></a></li>
-<li class="method public "><a href="#method_getAllIds" title="getAllIds :: Get the list of all documents' ids from a collection
+<li class="method public inherited"><a href="#method_getAllIds" title="getAllIds :: Get the list of all documents' ids from a collection
 This will throw if the list cannot be fetched from the server"><span class="description">Get the list of all documents' ids from a collection
 This will throw if the list cannot be fetched from the server</span><pre>getAllIds()</pre></a></li>
-<li class="method public "><a href="#method_getByExample" title="getByExample :: Get document(s) by specifying an example
+<li class="method public inherited"><a href="#method_getByExample" title="getByExample :: Get document(s) by specifying an example
 This will throw if the list cannot be fetched from the server"><span class="description">Get document(s) by specifying an example
 This will throw if the list cannot be fetched from the server</span><pre>getByExample()</pre></a></li>
-<li class="method public "><a href="#method_getById" title="getById :: Get a single document from a collection
+<li class="method public inherited"><a href="#method_getById" title="getById :: Get a single document from a collection
 This will throw if the document cannot be fetched from the server"><span class="description">Get a single document from a collection
 This will throw if the document cannot be fetched from the server</span><pre>getById()</pre></a></li>
-<li class="method public "><a href="#method_remove" title="remove :: Remove a document from a collection, identified by the document itself"><span class="description">Remove a document from a collection, identified by the document itself</span><pre>remove()</pre></a></li>
-<li class="method public "><a href="#method_removeById" title="removeById :: Remove a document from a collection, identified by the collection id and document id"><span class="description">Remove a document from a collection, identified by the collection id and document id</span><pre>removeById()</pre></a></li>
-<li class="method public "><a href="#method_replace" title="replace :: Replace an existing document in a collection, identified by the document itself
+<li class="method public "><a href="#method_inEdges" title="inEdges :: Get inbound edges for a given vertex"><span class="description">Get inbound edges for a given vertex</span><pre>inEdges()</pre></a></li>
+<li class="method public "><a href="#method_outEdges" title="outEdges :: Get outbound edges for a given vertex"><span class="description">Get outbound edges for a given vertex</span><pre>outEdges()</pre></a></li>
+<li class="method public inherited"><a href="#method_remove" title="remove :: Remove a document from a collection, identified by the document itself"><span class="description">Remove a document from a collection, identified by the document itself</span><pre>remove()</pre></a></li>
+<li class="method public inherited"><a href="#method_removeById" title="removeById :: Remove a document from a collection, identified by the collection id and document id"><span class="description">Remove a document from a collection, identified by the collection id and document id</span><pre>removeById()</pre></a></li>
+<li class="method public inherited"><a href="#method_replace" title="replace :: Replace an existing document in a collection, identified by the document itself
 This will update the document on the server
 This will throw if the document cannot be replaced"><span class="description">Replace an existing document in a collection, identified by the document itself
 This will update the document on the server
 This will throw if the document cannot be replaced</span><pre>replace()</pre></a></li>
-<li class="method public "><a href="#method_replaceById" title="replaceById :: Replace an existing document in a collection, identified by collection id and document id
+<li class="method public inherited"><a href="#method_replaceById" title="replaceById :: Replace an existing document in a collection, identified by collection id and document id
 This will update the document on the server
 This will throw if the document cannot be Replaced"><span class="description">Replace an existing document in a collection, identified by collection id and document id
 This will update the document on the server
 This will throw if the document cannot be Replaced</span><pre>replaceById()</pre></a></li>
-<li class="method public "><a href="#method_save" title="save :: save a document to a collection
-This will add the document to the collection and return the document's id
-This will throw if the document cannot be saved"><span class="description">save a document to a collection
-This will add the document to the collection and return the document's id
-This will throw if the document cannot be saved</span><pre>save()</pre></a></li>
-<li class="method public "><a href="#method_update" title="update :: Update an existing document in a collection, identified by the document itself
+<li class="method public "><a href="#method_saveEdge" title="saveEdge :: save a adge to an edge-collection
+This will save the edge to the collection and return the edges-document's id
+This will throw if the document cannot be saved"><span class="description">save a adge to an edge-collection
+This will save the edge to the collection and return the edges-document's id
+This will throw if the document cannot be saved</span><pre>saveEdge()</pre></a></li>
+<li class="method public inherited"><a href="#method_update" title="update :: Update an existing document in a collection, identified by the document itself
 This will update the document on the server
 This will throw if the document cannot be updated"><span class="description">Update an existing document in a collection, identified by the document itself
 This will update the document on the server
 This will throw if the document cannot be updated</span><pre>update()</pre></a></li>
-<li class="method public "><a href="#method_updateById" title="updateById :: Update an existing document in a collection, identified by collection id and document id
+<li class="method public inherited"><a href="#method_updateById" title="updateById :: Update an existing document in a collection, identified by collection id and document id
 This will update the document on the server
 This will throw if the document cannot be updated"><span class="description">Update an existing document in a collection, identified by collection id and document id
 This will update the document on the server
@@ -112,9 +110,9 @@ This will throw if the document cannot be updated</span><pre>updateById()</pre><
 </li>
 <li class="nav-header private">» Private
                     <ul>
-<li class="method private "><a href="#method_getCollectionId" title="getCollectionId :: Helper function to get a collection id from a document"><span class="description">Helper function to get a collection id from a document</span><pre>getCollectionId()</pre></a></li>
-<li class="method private "><a href="#method_getCursorOptions" title="getCursorOptions :: Return an array of cursor options"><span class="description">Return an array of cursor options</span><pre>getCursorOptions()</pre></a></li>
-<li class="method private "><a href="#method_getDocumentId" title="getDocumentId :: Helper function to get a document id from a document or a document id value"><span class="description">Helper function to get a document id from a document or a document id value</span><pre>getDocumentId()</pre></a></li>
+<li class="method private inherited"><a href="#method_getCollectionId" title="getCollectionId :: Helper function to get a collection id from a document"><span class="description">Helper function to get a collection id from a document</span><pre>getCollectionId()</pre></a></li>
+<li class="method private inherited"><a href="#method_getCursorOptions" title="getCursorOptions :: Return an array of cursor options"><span class="description">Return an array of cursor options</span><pre>getCursorOptions()</pre></a></li>
+<li class="method private inherited"><a href="#method_getDocumentId" title="getDocumentId :: Helper function to get a document id from a document or a document id value"><span class="description">Helper function to get a document id from a document or a document id value</span><pre>getDocumentId()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header">
@@ -129,13 +127,17 @@ This will throw if the document cannot be updated</span><pre>updateById()</pre><
                     <ul>
 <li class="constant  "><a href="#constant_ENTRY_DOCUMENTS" title="ENTRY_DOCUMENTS :: documents array index"><span class="description">documents array index</span><pre>ENTRY_DOCUMENTS</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_COLLECTION" title="OPTION_COLLECTION :: collection parameter"><span class="description">collection parameter</span><pre>OPTION_COLLECTION</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_DIRECTION" title="OPTION_DIRECTION :: direction parameter"><span class="description">direction parameter</span><pre>OPTION_DIRECTION</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_EXAMPLE" title="OPTION_EXAMPLE :: example parameter"><span class="description">example parameter</span><pre>OPTION_EXAMPLE</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_FROM" title="OPTION_FROM :: example parameter"><span class="description">example parameter</span><pre>OPTION_FROM</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_TO" title="OPTION_TO :: example parameter"><span class="description">example parameter</span><pre>OPTION_TO</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_VERTEX" title="OPTION_VERTEX :: vertex parameter"><span class="description">vertex parameter</span><pre>OPTION_VERTEX</pre></a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="span8">
-<a id="\triagens\ArangoDb\DocumentHandler"></a><ul class="breadcrumb">
+<a id="\triagens\ArangoDb\EdgeHandler"></a><ul class="breadcrumb">
 <li>
 <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
 </li>
@@ -144,7 +146,7 @@ This will throw if the document cannot be updated</span><pre>updateById()</pre><
 <span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
 </li>
 <li class="active">
-<span class="divider">\</span><a href="../classes/triagens.ArangoDb.DocumentHandler.html">DocumentHandler</a>
+<span class="divider">\</span><a href="../classes/triagens.ArangoDb.EdgeHandler.html">EdgeHandler</a>
 </li>
 </ul>
 <div class="element class">
@@ -165,10 +167,16 @@ appropriate HTTP requests to the server.</p></div>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
-<table class="table table-bordered"><tr>
+<table class="table table-bordered">
+<tr>
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\Handler::__construct()</td>
-</tr></table>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::__construct()</td>
+</tr>
+</table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$connection</h4>
@@ -178,56 +186,15 @@ appropriate HTTP requests to the server.</p></div>
 </div>
 </div></div>
 </div>
-<a id="method_add"></a><div class="element clickable method public method_add" data-toggle="collapse" data-target=".method_add .collapse">
-<h2>Add a document to a collection
-This will add the document to the collection and return the document's id
-This will throw if the document cannot be created</h2>
-<pre>add(mixed $collectionId, \triagens\ArangoDb\Document $document, bool $create) : mixed</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>deprecated</th>
-<td>to be deprecated in version 2.0 - This function is being replaced by save()</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$collectionId</h4>
-<code>mixed</code><ul>
-<li>collection id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$document</h4>
-<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
-<li>the document to be added</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$create</h4>
-<code>bool</code><ul>
-<li>create the collection if it does not yet exist</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>- id of document created \</div>
-</div></div>
-</div>
 <a id="method_delete"></a><div class="element clickable method public method_delete" data-toggle="collapse" data-target=".method_delete .collapse">
 <h2>Delete a document from a collection, identified by the document itself</h2>
 <pre>delete(\triagens\ArangoDb\Document $document) : bool</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
-<th>deprecated</th>
-<td>To be deprecated in version 2.0 - This function is being replaced by remove()</td>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::delete()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -249,12 +216,12 @@ This will throw if the document cannot be created</h2>
 <a id="method_deleteById"></a><div class="element clickable method public method_deleteById" data-toggle="collapse" data-target=".method_deleteById .collapse">
 <h2>Delete a document from a collection, identified by the collection id and document id</h2>
 <pre>deleteById(mixed $collectionId, mixed $documentId) : bool</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
-<th>deprecated</th>
-<td>To be deprecated in version 2.0 - This function is being replaced by removeById()</td>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::deleteById()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -279,13 +246,56 @@ This will throw if the document cannot be created</h2>
 <code>bool</code>- always true, will throw if there is an error</div>
 </div></div>
 </div>
+<a id="method_edges"></a><div class="element clickable method public method_edges" data-toggle="collapse" data-target=".method_edges .collapse">
+<h2>Get edges for a given vertex</h2>
+<pre>edges(mixed $collectionId, mixed $vertexHandle, string $direction) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>since</th>
+<td>1.0</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>edge-collection id as string or number</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$vertexHandle</h4>
+<code>mixed</code><ul>
+<li>the vertex involved</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$direction</h4>
+<code>string</code><ul>
+<li>optional defaults to 'any'. Other possible Values 'in' & 'out'</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- array of cursors</div>
+</div></div>
+</div>
 <a id="method_get"></a><div class="element clickable method public method_get" data-toggle="collapse" data-target=".method_get .collapse">
 <h2>Get a single document from a collection
 Alias method for getById()</h2>
 <pre>get(mixed $collectionId, mixed $documentId) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::get()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -313,12 +323,12 @@ Alias method for getById()</h2>
 <h2>Get the list of all documents' ids from a collection
 This will throw if the list cannot be fetched from the server</h2>
 <pre>getAllIds(mixed $collectionId) : array</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
-<th>deprecated</th>
-<td>to be deprecated in version 2.0 - This function is being replaced by  CollectionHandler::getAllIds()</td>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::getAllIds()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -341,12 +351,12 @@ This will throw if the list cannot be fetched from the server</h2>
 <h2>Get document(s) by specifying an example
 This will throw if the list cannot be fetched from the server</h2>
 <pre>getByExample(mixed $collectionId, mixed $document, bool $sanitize) : array</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
-<th>deprecated</th>
-<td>to be deprecated in version 2.0 - This function is being replaced by CollectionHandler::byExample()</td>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::getByExample()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -381,9 +391,13 @@ This will throw if the list cannot be fetched from the server</h2>
 <h2>Get a single document from a collection
 This will throw if the document cannot be fetched from the server</h2>
 <pre>getById(mixed $collectionId, mixed $documentId) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::getById()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -407,12 +421,74 @@ This will throw if the document cannot be fetched from the server</h2>
 <code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>- the document fetched from the server</div>
 </div></div>
 </div>
-<a id="method_remove"></a><div class="element clickable method public method_remove" data-toggle="collapse" data-target=".method_remove .collapse">
-<h2>Remove a document from a collection, identified by the document itself</h2>
-<pre>remove(\triagens\ArangoDb\Document $document) : bool</pre>
+<a id="method_inEdges"></a><div class="element clickable method public method_inEdges" data-toggle="collapse" data-target=".method_inEdges .collapse">
+<h2>Get inbound edges for a given vertex</h2>
+<pre>inEdges(mixed $collectionId, mixed $vertexHandle) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>edge-collection id as string or number</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$vertexHandle</h4>
+<code>mixed</code><ul>
+<li>the vertex involved</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- array of cursors</div>
+</div></div>
+</div>
+<a id="method_outEdges"></a><div class="element clickable method public method_outEdges" data-toggle="collapse" data-target=".method_outEdges .collapse">
+<h2>Get outbound edges for a given vertex</h2>
+<pre>outEdges(mixed $collectionId, mixed $vertexHandle) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>edge-collection id as string or number</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$vertexHandle</h4>
+<code>mixed</code><ul>
+<li>the vertex involved</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- array of cursors</div>
+</div></div>
+</div>
+<a id="method_remove"></a><div class="element clickable method public method_remove" data-toggle="collapse" data-target=".method_remove .collapse">
+<h2>Remove a document from a collection, identified by the document itself</h2>
+<pre>remove(\triagens\ArangoDb\Document $document) : bool</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::remove()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$document</h4>
@@ -433,9 +509,13 @@ This will throw if the document cannot be fetched from the server</h2>
 <a id="method_removeById"></a><div class="element clickable method public method_removeById" data-toggle="collapse" data-target=".method_removeById .collapse">
 <h2>Remove a document from a collection, identified by the collection id and document id</h2>
 <pre>removeById(mixed $collectionId, mixed $documentId) : bool</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::removeById()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -464,9 +544,13 @@ This will throw if the document cannot be fetched from the server</h2>
 This will update the document on the server
 This will throw if the document cannot be replaced</h2>
 <pre>replace(\triagens\ArangoDb\Document $document, bool $policy) : bool</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::replace()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$document</h4>
@@ -495,9 +579,13 @@ This will throw if the document cannot be replaced</h2>
 This will update the document on the server
 This will throw if the document cannot be Replaced</h2>
 <pre>replaceById(mixed $collectionId, mixed $documentId, \triagens\ArangoDb\Document $document, bool $policy) : bool</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::replaceById()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -533,11 +621,11 @@ This will throw if the document cannot be Replaced</h2>
 <code>bool</code>- always true, will throw if there is an error</div>
 </div></div>
 </div>
-<a id="method_save"></a><div class="element clickable method public method_save" data-toggle="collapse" data-target=".method_save .collapse">
-<h2>save a document to a collection
-This will add the document to the collection and return the document's id
+<a id="method_saveEdge"></a><div class="element clickable method public method_saveEdge" data-toggle="collapse" data-target=".method_saveEdge .collapse">
+<h2>save a adge to an edge-collection
+This will save the edge to the collection and return the edges-document's id
 This will throw if the document cannot be saved</h2>
-<pre>save(mixed $collectionId, \triagens\ArangoDb\Document $document, bool $create) : mixed</pre>
+<pre>saveEdge(mixed $collectionId, mixed $from, mixed $to, \triagens\ArangoDb\Document $document, bool $create) : mixed</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -550,6 +638,18 @@ This will throw if the document cannot be saved</h2>
 <h4>$collectionId</h4>
 <code>mixed</code><ul>
 <li>collection id as string or number</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$from</h4>
+<code>mixed</code><ul>
+<li>from vertex</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$to</h4>
+<code>mixed</code><ul>
+<li>to vertex</li>
 </ul>
 </div>
 <div class="subelement argument">
@@ -579,12 +679,12 @@ This will throw if the document cannot be saved</h2>
 This will update the document on the server
 This will throw if the document cannot be updated</h2>
 <pre>update(\triagens\ArangoDb\Document $document, bool $policy) : bool</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
-<th>deprecated</th>
-<td>Attention!! To be deprecated in version 1.1 - This function is being replaced by replace()</td>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::update()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -614,12 +714,12 @@ This will throw if the document cannot be updated</h2>
 This will update the document on the server
 This will throw if the document cannot be updated</h2>
 <pre>updateById(mixed $collectionId, mixed $documentId, \triagens\ArangoDb\Document $document, bool $policy) : bool</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
-<th>deprecated</th>
-<td>Attention!! To be deprecated in version 1.1 - This function is being replaced by replaceById()</td>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::updateById()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -662,10 +762,16 @@ This will throw if the document cannot be updated</h2>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
-<table class="table table-bordered"><tr>
+<table class="table table-bordered">
+<tr>
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\Handler::getConnection()</td>
-</tr></table>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::getConnection()</td>
+</tr>
+</table>
 <h3>Returns</h3>
 <div class="subelement response">
 <code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>- the connection object</div>
@@ -674,9 +780,13 @@ This will throw if the document cannot be updated</h2>
 <a id="method_getCollectionId"></a><div class="element clickable method private method_getCollectionId" data-toggle="collapse" data-target=".method_getCollectionId .collapse">
 <h2>Helper function to get a collection id from a document</h2>
 <pre>getCollectionId(\triagens\ArangoDb\Document $document) : mixed</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::getCollectionId()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$document</h4>
@@ -697,9 +807,13 @@ This will throw if the document cannot be updated</h2>
 <a id="method_getCursorOptions"></a><div class="element clickable method private method_getCursorOptions" data-toggle="collapse" data-target=".method_getCursorOptions .collapse">
 <h2>Return an array of cursor options</h2>
 <pre>getCursorOptions(bool $sanitize) : array</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::getCursorOptions()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$sanitize</h4>
@@ -715,9 +829,13 @@ This will throw if the document cannot be updated</h2>
 <a id="method_getDocumentId"></a><div class="element clickable method private method_getDocumentId" data-toggle="collapse" data-target=".method_getDocumentId .collapse">
 <h2>Helper function to get a document id from a document or a document id value</h2>
 <pre>getDocumentId(mixed $document) : mixed</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::getDocumentId()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$document</h4>
@@ -752,6 +870,10 @@ This will throw if the document cannot be updated</h2>
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\Handler::$$_connection</td>
 </tr>
+<tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::$$_connection</td>
+</tr>
 </table>
 </div></div>
 </div>
@@ -769,9 +891,33 @@ This will throw if the document cannot be updated</h2>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="constant_OPTION_DIRECTION"> </a><div class="element clickable constant  constant_OPTION_DIRECTION" data-toggle="collapse" data-target=".constant_OPTION_DIRECTION .collapse">
+<h2>direction parameter</h2>
+<pre>OPTION_DIRECTION </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="constant_OPTION_EXAMPLE"> </a><div class="element clickable constant  constant_OPTION_EXAMPLE" data-toggle="collapse" data-target=".constant_OPTION_EXAMPLE .collapse">
 <h2>example parameter</h2>
 <pre>OPTION_EXAMPLE </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_FROM"> </a><div class="element clickable constant  constant_OPTION_FROM" data-toggle="collapse" data-target=".constant_OPTION_FROM .collapse">
+<h2>example parameter</h2>
+<pre>OPTION_FROM </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_TO"> </a><div class="element clickable constant  constant_OPTION_TO" data-toggle="collapse" data-target=".constant_OPTION_TO .collapse">
+<h2>example parameter</h2>
+<pre>OPTION_TO </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_VERTEX"> </a><div class="element clickable constant  constant_OPTION_VERTEX" data-toggle="collapse" data-target=".constant_OPTION_VERTEX .collapse">
+<h2>vertex parameter</h2>
+<pre>OPTION_VERTEX </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
