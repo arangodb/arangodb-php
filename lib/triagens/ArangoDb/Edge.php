@@ -16,39 +16,39 @@ namespace triagens\ArangoDb;
  * @package ArangoDbPhpClient
  */
 class Edge extends Document {
+//  /**
+//   * The document id (might be NULL for new documents)
+//   * @var string - document id
+//   */
+//  private $_id      = NULL;
+//  
+//  /**
+//   * The document revision (might be NULL for new documents)
+//   * @var mixed
+//   */
+//  private $_rev     = NULL;
+//  
   /**
-   * The document id (might be NULL for new documents)
-   * @var string - document id
-   */
-  private $_id      = NULL;
-  
-  /**
-   * The document revision (might be NULL for new documents)
+   * The edge's from (might be NULL for new documents)
    * @var mixed
    */
-  private $_rev     = NULL;
+  protected $_from     = NULL;
   
   /**
-   * The document attributes (names/values)
-   * @var array
+   * The edge's to (might be NULL for new documents)
+   * @var mixed
    */
-  private $_values  = array();
-
-  /**
-   * Flag to indicate whether document was changed locally
-   * @var bool
-   */
-  private $_changed;
-
-  /**
-   * Document _id index
-   */
-  const ENTRY_ID    = '_id';
+  protected $_to     = NULL;
   
-  /**
-   * Revision _rev index
-   */
-  const ENTRY_REV   = '_rev';
+// /**
+//   * Document _id index
+//   */
+//  const ENTRY_ID    = '_id';
+//  
+//  /**
+//   * Revision _rev index
+//   */
+//  const ENTRY_REV   = '_rev';
   
   /**
    * Document _from index
@@ -71,8 +71,8 @@ class Edge extends Document {
   public function __clone() {
     $this->_id = NULL;
     $this->_rev = NULL;
-    $this->_to = NULL;
-    $this->_from = NULL;
+//    $this->_to = NULL;
+//    $this->_from = NULL;
 
     // do not change the _changed flag here
   }
@@ -109,12 +109,12 @@ class Edge extends Document {
     }
 
     if ($key === self::ENTRY_FROM) {
-      $this->setInternalId($value);
+      $this->setFrom($value);
       return;
     }
     
     if ($key === self::ENTRY_TO) {
-      $this->setRevision($value);
+      $this->setTo($value);
       return;
     }
 
@@ -129,22 +129,45 @@ class Edge extends Document {
     $this->_values[$key] = $value;
   }
   
-  
+ 
   /**
-   * Get the document revision (if already known)
+   * Get the 'from' vertex document-handler (if already known)
    *
-   * @return mixed - revision id, might be NULL if document does not yet have an id
+   * @return mixed - document-handler
    */
   public function getFrom() {
     return $this->_from;
   }
+  
   /**
-   * Get the document revision (if already known)
+   * Get the 'to' vertex document-handler (if already known) 
    *
-   * @return mixed - revision id, might be NULL if document does not yet have an id
+   * @return mixed - document-handler
    */
   public function getTo() {
     return $this->_to;
+  }
+  
+  /**
+   * Set the 'from' vertex document-handler
+   *
+   * @param mixed $from - from vertex
+   * @return Edge - edge object
+   */
+  public function setFrom($from) {
+      $this->_from=$from;
+    return $this;
+  }
+  
+  /**
+   * Set the 'to' vertex document-handler
+   *
+   * @param mixed $to - to vertex
+   * @return Edge - edge object
+   */
+  public function setTo($to) {
+      $this->_to=$to;
+    return $this;
   }
 
 }
