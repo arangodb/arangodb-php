@@ -133,7 +133,6 @@ class DocumentHandler extends Handler {
     if ($create === NULL) {
       $create = $this->getConnection()->getOption(ConnectionOptions::OPTION_CREATE);
     }
-
     $data = $document->getAll();
     $params = array(self::OPTION_COLLECTION => $collectionId, ConnectionOptions::OPTION_CREATE => UrlHelper::getBoolString($create));
     $url = UrlHelper::appendParamsUrl(Urls::URL_DOCUMENT, $params); 

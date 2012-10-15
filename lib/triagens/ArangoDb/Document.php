@@ -20,25 +20,25 @@ class Document {
    * The document id (might be NULL for new documents)
    * @var string - document id
    */
-  private $_id      = NULL;
+  protected $_id      = NULL;
   
   /**
    * The document revision (might be NULL for new documents)
    * @var mixed
    */
-  private $_rev     = NULL;
+  protected $_rev     = NULL;
   
   /**
    * The document attributes (names/values)
    * @var array
    */
-  private $_values  = array();
+  protected $_values  = array();
 
   /**
    * Flag to indicate whether document was changed locally
    * @var bool
    */
-  private $_changed;
+  protected $_changed;
 
   /**
    * Document id index
@@ -258,6 +258,17 @@ class Document {
    */
   public function getInternalId() {
     return $this->_id; 
+  }
+  
+  /**
+   * Convenience function to get the document handle (if already known) - is an alias to getInternalId()
+   * Document handles are generated on the server only. Document handles consist of collection id and
+   * document id, in the format collectionid/documentid
+   *
+   * @return string - internal document id, might be NULL if document does not yet have an id
+   */
+  public function getHandle() {
+    return $this->getInternalId(); 
   }
   
   /**
