@@ -80,6 +80,7 @@ class Document {
   
   /**
    * Clone a document
+   * 
    * Returns the clone 
    *
    * @return void
@@ -93,6 +94,7 @@ class Document {
   
   /**
    * Get a string representation of the document
+   * 
    * Returns the document as JSON-encoded string
    *
    * @return string - JSON-encoded document 
@@ -243,6 +245,7 @@ class Document {
   
   /**
    * Set the internal document id 
+   * 
    * This will throw if the id of an existing document gets updated to some other id
    *
    * @throws ClientException
@@ -263,6 +266,7 @@ class Document {
 
   /**
    * Get the internal document id (if already known)
+   * 
    * Document ids are generated on the server only. Document ids consist of collection id and
    * document id, in the format collectionid/documentid
    *
@@ -274,6 +278,7 @@ class Document {
   
   /**
    * Convenience function to get the document handle (if already known) - is an alias to getInternalId()
+   * 
    * Document handles are generated on the server only. Document handles consist of collection id and
    * document id, in the format collectionid/documentid
    *
@@ -285,6 +290,7 @@ class Document {
   
   /**
    * Get the document id (if already known)
+   * 
    * Document ids are generated on the server only. Document ids are numeric but might be
    * bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string should be used 
    *
@@ -298,6 +304,7 @@ class Document {
   
   /**
    * Get the collection id (if already known)
+   * 
    * Collection ids are generated on the server only. Collection ids are numeric but might be
    * bigger than PHP_INT_MAX. To reliably store a collection id elsewhere, a PHP string should be used 
    *
@@ -311,6 +318,7 @@ class Document {
   
   /**
    * Set the document revision
+   * 
    * Revision ids are generated on the server only. Document ids are numeric but might be
    * bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string should be used 
    *

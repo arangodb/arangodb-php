@@ -36,6 +36,7 @@ class DocumentHandler extends Handler {
   
   /**
    * Get a single document from a collection
+   * 
    * Alias method for getById()
    *
    * @throws Exception
@@ -49,6 +50,7 @@ class DocumentHandler extends Handler {
 
   /**
    * Get a single document from a collection
+   * 
    * This will throw if the document cannot be fetched from the server
    *
    * @throws Exception
@@ -83,6 +85,7 @@ class DocumentHandler extends Handler {
 
   /**
    * Get document(s) by specifying an example
+   * 
    * This will throw if the list cannot be fetched from the server
    *
    * @throws Exception
@@ -100,7 +103,9 @@ class DocumentHandler extends Handler {
   
   /**
    * Add a document to a collection
+   * 
    * This will add the document to the collection and return the document's id
+   * 
    * This will throw if the document cannot be created
    *
    * @throws Exception
@@ -158,8 +163,11 @@ class DocumentHandler extends Handler {
 
   /**
    * Update an existing document in a collection, identified by the document itself
+   * 
    * This will update the document on the server
+   * 
    * This will throw if the document cannot be updated
+   * 
    * If policy is set to error (locally or globally through the connectionoptions)
    * and the passed document has a _rev value set, the database will check 
    * that the revision of the to-be-replaced document is the same as the one given.
@@ -177,8 +185,11 @@ class DocumentHandler extends Handler {
   
   /**
    * Replace an existing document in a collection, identified by the document itself
+   * 
    * This will update the document on the server
-   * This will throw if the document cannot be replaced
+   * 
+   * This will throw if the document cannot be updated
+   * 
    * If policy is set to error (locally or globally through the connectionoptions)
    * and the passed document has a _rev value set, the database will check 
    * that the revision of the to-be-replaced document is the same as the one given.
@@ -197,8 +208,11 @@ class DocumentHandler extends Handler {
   
   /**
    * Update an existing document in a collection, identified by collection id and document id
+   * 
    * This will update the document on the server
+   * 
    * This will throw if the document cannot be updated
+   * 
    * If policy is set to error (locally or globally through the connectionoptions)
    * and the passed document has a _rev value set, the database will check 
    * that the revision of the to-be-replaced document is the same as the one given.
@@ -219,8 +233,11 @@ class DocumentHandler extends Handler {
   
   /**
    * Replace an existing document in a collection, identified by collection id and document id
+   * 
    * This will update the document on the server
+   * 
    * This will throw if the document cannot be Replaced
+   * 
    * If policy is set to error (locally or globally through the connectionoptions)
    * and the passed document has a _rev value set, the database will check 
    * that the revision of the to-be-replaced document is the same as the one given.
