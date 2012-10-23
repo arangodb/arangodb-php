@@ -62,47 +62,25 @@
 <li class="method public inherited"><a href="#method_delete" title="delete :: Delete a document from a collection, identified by the document itself"><span class="description">Delete a document from a collection, identified by the document itself</span><pre>delete()</pre></a></li>
 <li class="method public inherited"><a href="#method_deleteById" title="deleteById :: Delete a document from a collection, identified by the collection id and document id"><span class="description">Delete a document from a collection, identified by the collection id and document id</span><pre>deleteById()</pre></a></li>
 <li class="method public "><a href="#method_edges" title="edges :: Get edges for a given vertex"><span class="description">Get edges for a given vertex</span><pre>edges()</pre></a></li>
-<li class="method public inherited"><a href="#method_get" title="get :: Get a single document from a collection
-Alias method for getById()"><span class="description">Get a single document from a collection
-Alias method for getById()</span><pre>get()</pre></a></li>
+<li class="method public inherited"><a href="#method_get" title="get :: Get a single document from a collection"><span class="description">Get a single document from a collection</span><pre>get()</pre></a></li>
 <li class="method public inherited"><a href="#method_getAllIds" title="getAllIds :: Get the list of all documents' ids from a collection
 This will throw if the list cannot be fetched from the server"><span class="description">Get the list of all documents' ids from a collection
 This will throw if the list cannot be fetched from the server</span><pre>getAllIds()</pre></a></li>
-<li class="method public inherited"><a href="#method_getByExample" title="getByExample :: Get document(s) by specifying an example
-This will throw if the list cannot be fetched from the server"><span class="description">Get document(s) by specifying an example
-This will throw if the list cannot be fetched from the server</span><pre>getByExample()</pre></a></li>
-<li class="method public inherited"><a href="#method_getById" title="getById :: Get a single document from a collection
-This will throw if the document cannot be fetched from the server"><span class="description">Get a single document from a collection
-This will throw if the document cannot be fetched from the server</span><pre>getById()</pre></a></li>
+<li class="method public inherited"><a href="#method_getByExample" title="getByExample :: Get document(s) by specifying an example"><span class="description">Get document(s) by specifying an example</span><pre>getByExample()</pre></a></li>
+<li class="method public inherited"><a href="#method_getById" title="getById :: Get a single document from a collection"><span class="description">Get a single document from a collection</span><pre>getById()</pre></a></li>
 <li class="method public "><a href="#method_inEdges" title="inEdges :: Get inbound edges for a given vertex"><span class="description">Get inbound edges for a given vertex</span><pre>inEdges()</pre></a></li>
 <li class="method public "><a href="#method_outEdges" title="outEdges :: Get outbound edges for a given vertex"><span class="description">Get outbound edges for a given vertex</span><pre>outEdges()</pre></a></li>
 <li class="method public inherited"><a href="#method_remove" title="remove :: Remove a document from a collection, identified by the document itself"><span class="description">Remove a document from a collection, identified by the document itself</span><pre>remove()</pre></a></li>
 <li class="method public inherited"><a href="#method_removeById" title="removeById :: Remove a document from a collection, identified by the collection id and document id"><span class="description">Remove a document from a collection, identified by the collection id and document id</span><pre>removeById()</pre></a></li>
-<li class="method public inherited"><a href="#method_replace" title="replace :: Replace an existing document in a collection, identified by the document itself
-This will update the document on the server
-This will throw if the document cannot be replaced"><span class="description">Replace an existing document in a collection, identified by the document itself
-This will update the document on the server
-This will throw if the document cannot be replaced</span><pre>replace()</pre></a></li>
-<li class="method public inherited"><a href="#method_replaceById" title="replaceById :: Replace an existing document in a collection, identified by collection id and document id
-This will update the document on the server
-This will throw if the document cannot be Replaced"><span class="description">Replace an existing document in a collection, identified by collection id and document id
-This will update the document on the server
-This will throw if the document cannot be Replaced</span><pre>replaceById()</pre></a></li>
+<li class="method public inherited"><a href="#method_replace" title="replace :: Replace an existing document in a collection, identified by the document itself"><span class="description">Replace an existing document in a collection, identified by the document itself</span><pre>replace()</pre></a></li>
+<li class="method public inherited"><a href="#method_replaceById" title="replaceById :: Replace an existing document in a collection, identified by collection id and document id"><span class="description">Replace an existing document in a collection, identified by collection id and document id</span><pre>replaceById()</pre></a></li>
 <li class="method public "><a href="#method_saveEdge" title="saveEdge :: save a adge to an edge-collection
 This will save the edge to the collection and return the edges-document's id
 This will throw if the document cannot be saved"><span class="description">save a adge to an edge-collection
 This will save the edge to the collection and return the edges-document's id
 This will throw if the document cannot be saved</span><pre>saveEdge()</pre></a></li>
-<li class="method public inherited"><a href="#method_update" title="update :: Update an existing document in a collection, identified by the document itself
-This will update the document on the server
-This will throw if the document cannot be updated"><span class="description">Update an existing document in a collection, identified by the document itself
-This will update the document on the server
-This will throw if the document cannot be updated</span><pre>update()</pre></a></li>
-<li class="method public inherited"><a href="#method_updateById" title="updateById :: Update an existing document in a collection, identified by collection id and document id
-This will update the document on the server
-This will throw if the document cannot be updated"><span class="description">Update an existing document in a collection, identified by collection id and document id
-This will update the document on the server
-This will throw if the document cannot be updated</span><pre>updateById()</pre></a></li>
+<li class="method public inherited"><a href="#method_update" title="update :: Update an existing document in a collection, identified by the document itself"><span class="description">Update an existing document in a collection, identified by the document itself</span><pre>update()</pre></a></li>
+<li class="method public inherited"><a href="#method_updateById" title="updateById :: Update an existing document in a collection, identified by collection id and document id"><span class="description">Update an existing document in a collection, identified by collection id and document id</span><pre>updateById()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header protected">» Protected
@@ -286,12 +264,11 @@ appropriate HTTP requests to the server.</p></div>
 </div></div>
 </div>
 <a id="method_get"></a><div class="element clickable method public method_get" data-toggle="collapse" data-target=".method_get .collapse">
-<h2>Get a single document from a collection
-Alias method for getById()</h2>
+<h2>Get a single document from a collection</h2>
 <pre>get(mixed $collectionId, mixed $documentId) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>Alias method for getById()</p></div>
 <table class="table table-bordered"><tr>
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\DocumentHandler::get()</td>
@@ -348,12 +325,11 @@ This will throw if the list cannot be fetched from the server</h2>
 </div></div>
 </div>
 <a id="method_getByExample"></a><div class="element clickable method public method_getByExample" data-toggle="collapse" data-target=".method_getByExample .collapse">
-<h2>Get document(s) by specifying an example
-This will throw if the list cannot be fetched from the server</h2>
+<h2>Get document(s) by specifying an example</h2>
 <pre>getByExample(mixed $collectionId, mixed $document, bool $sanitize) : array</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This will throw if the list cannot be fetched from the server</p></div>
 <table class="table table-bordered"><tr>
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\DocumentHandler::getByExample()</td>
@@ -388,12 +364,11 @@ This will throw if the list cannot be fetched from the server</h2>
 </div></div>
 </div>
 <a id="method_getById"></a><div class="element clickable method public method_getById" data-toggle="collapse" data-target=".method_getById .collapse">
-<h2>Get a single document from a collection
-This will throw if the document cannot be fetched from the server</h2>
+<h2>Get a single document from a collection</h2>
 <pre>getById(mixed $collectionId, mixed $documentId) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This will throw if the document cannot be fetched from the server</p></div>
 <table class="table table-bordered"><tr>
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\DocumentHandler::getById()</td>
@@ -540,13 +515,17 @@ This will throw if the document cannot be fetched from the server</h2>
 </div></div>
 </div>
 <a id="method_replace"></a><div class="element clickable method public method_replace" data-toggle="collapse" data-target=".method_replace .collapse">
-<h2>Replace an existing document in a collection, identified by the document itself
-This will update the document on the server
-This will throw if the document cannot be replaced</h2>
+<h2>Replace an existing document in a collection, identified by the document itself</h2>
 <pre>replace(\triagens\ArangoDb\Document $document, bool $policy) : bool</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This will update the document on the server</p>
+
+<p>This will throw if the document cannot be updated</p>
+
+<p>If policy is set to error (locally or globally through the connectionoptions)
+and the passed document has a _rev value set, the database will check
+that the revision of the to-be-replaced document is the same as the one given.</p></div>
 <table class="table table-bordered"><tr>
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\DocumentHandler::replace()</td>
@@ -575,13 +554,17 @@ This will throw if the document cannot be replaced</h2>
 </div></div>
 </div>
 <a id="method_replaceById"></a><div class="element clickable method public method_replaceById" data-toggle="collapse" data-target=".method_replaceById .collapse">
-<h2>Replace an existing document in a collection, identified by collection id and document id
-This will update the document on the server
-This will throw if the document cannot be Replaced</h2>
+<h2>Replace an existing document in a collection, identified by collection id and document id</h2>
 <pre>replaceById(mixed $collectionId, mixed $documentId, \triagens\ArangoDb\Document $document, bool $policy) : bool</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This will update the document on the server</p>
+
+<p>This will throw if the document cannot be Replaced</p>
+
+<p>If policy is set to error (locally or globally through the connectionoptions)
+and the passed document has a _rev value set, the database will check
+that the revision of the to-be-replaced document is the same as the one given.</p></div>
 <table class="table table-bordered"><tr>
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\DocumentHandler::replaceById()</td>
@@ -675,13 +658,17 @@ This will throw if the document cannot be saved</h2>
 </div></div>
 </div>
 <a id="method_update"></a><div class="element clickable method public method_update" data-toggle="collapse" data-target=".method_update .collapse">
-<h2>Update an existing document in a collection, identified by the document itself
-This will update the document on the server
-This will throw if the document cannot be updated</h2>
+<h2>Update an existing document in a collection, identified by the document itself</h2>
 <pre>update(\triagens\ArangoDb\Document $document, bool $policy) : bool</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This will update the document on the server</p>
+
+<p>This will throw if the document cannot be updated</p>
+
+<p>If policy is set to error (locally or globally through the connectionoptions)
+and the passed document has a _rev value set, the database will check
+that the revision of the to-be-replaced document is the same as the one given.</p></div>
 <table class="table table-bordered"><tr>
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\DocumentHandler::update()</td>
@@ -710,13 +697,17 @@ This will throw if the document cannot be updated</h2>
 </div></div>
 </div>
 <a id="method_updateById"></a><div class="element clickable method public method_updateById" data-toggle="collapse" data-target=".method_updateById .collapse">
-<h2>Update an existing document in a collection, identified by collection id and document id
-This will update the document on the server
-This will throw if the document cannot be updated</h2>
+<h2>Update an existing document in a collection, identified by collection id and document id</h2>
 <pre>updateById(mixed $collectionId, mixed $documentId, \triagens\ArangoDb\Document $document, bool $policy) : bool</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This will update the document on the server</p>
+
+<p>This will throw if the document cannot be updated</p>
+
+<p>If policy is set to error (locally or globally through the connectionoptions)
+and the passed document has a _rev value set, the database will check
+that the revision of the to-be-replaced document is the same as the one given.</p></div>
 <table class="table table-bordered"><tr>
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\DocumentHandler::updateById()</td>
@@ -928,7 +919,7 @@ This will throw if the document cannot be updated</h2>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-15T10:57:55+02:00.<br></footer></div>
+            generated on 2012-10-23T11:35:58+03:00.<br></footer></div>
 </div>
 </body>
 </html>
