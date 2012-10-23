@@ -62,6 +62,11 @@ class ConnectionOptions implements \ArrayAccess {
   const OPTION_CREATE        = 'createCollection';
   
   /**
+   * Update revision constant
+   */
+  const OPTION_REVISION = 'rev';
+  
+  /**
    * Update policy index constant
    */
   const OPTION_UPDATE_POLICY = 'policy';
@@ -195,6 +200,7 @@ class ConnectionOptions implements \ArrayAccess {
       self::OPTION_TIMEOUT       => DefaultValues::DEFAULT_TIMEOUT,
       self::OPTION_CREATE        => DefaultValues::DEFAULT_CREATE,
       self::OPTION_UPDATE_POLICY => DefaultValues::DEFAULT_UPDATE_POLICY,
+      self::OPTION_REVISION      => NULL,
       self::OPTION_WAIT_SYNC     => DefaultValues::DEFAULT_WAIT_SYNC,
       self::OPTION_CONNECTION    => DefaultValues::DEFAULT_CONNECTION,
       self::OPTION_TRACE         => NULL,

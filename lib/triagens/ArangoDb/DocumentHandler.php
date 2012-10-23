@@ -160,6 +160,9 @@ class DocumentHandler extends Handler {
    * Update an existing document in a collection, identified by the document itself
    * This will update the document on the server
    * This will throw if the document cannot be updated
+   * If policy is set to error (locally or globally through the connectionoptions)
+   * and the passed document has a _rev value set, the database will check 
+   * that the revision of the to-be-replaced document is the same as the one given.
    *
    * @throws Exception
    * @param Document $document - document to be updated
@@ -176,6 +179,9 @@ class DocumentHandler extends Handler {
    * Replace an existing document in a collection, identified by the document itself
    * This will update the document on the server
    * This will throw if the document cannot be replaced
+   * If policy is set to error (locally or globally through the connectionoptions)
+   * and the passed document has a _rev value set, the database will check 
+   * that the revision of the to-be-replaced document is the same as the one given.
    *
    * @throws Exception
    * @param Document $document - document to be updated
@@ -193,6 +199,9 @@ class DocumentHandler extends Handler {
    * Update an existing document in a collection, identified by collection id and document id
    * This will update the document on the server
    * This will throw if the document cannot be updated
+   * If policy is set to error (locally or globally through the connectionoptions)
+   * and the passed document has a _rev value set, the database will check 
+   * that the revision of the to-be-replaced document is the same as the one given.
    *
    * @throws Exception
    * @param mixed $collectionId - collection id as string or number
@@ -212,6 +221,9 @@ class DocumentHandler extends Handler {
    * Replace an existing document in a collection, identified by collection id and document id
    * This will update the document on the server
    * This will throw if the document cannot be Replaced
+   * If policy is set to error (locally or globally through the connectionoptions)
+   * and the passed document has a _rev value set, the database will check 
+   * that the revision of the to-be-replaced document is the same as the one given.
    *
    * @throws Exception
    * @param mixed $collectionId - collection id as string or number
@@ -221,15 +233,24 @@ class DocumentHandler extends Handler {
    * @return bool - always true, will throw if there is an error
    */
   public function replaceById($collectionId, $documentId, Document $document, $policy = NULL) {
+    $rev = $document->getRevision();
+   if (!is_null($rev)) {
+       $params[ConnectionOptions::OPTION_REVISION]=$rev;
+    } 
+
+
+
     if ($policy === NULL) {
       $policy = $this->getConnection()->getOption(ConnectionOptions::OPTION_UPDATE_POLICY);
     }
-
+    $params[ConnectionOptions::OPTION_UPDATE_POLICY]=$policy;
+    
+    
     UpdatePolicy::validate($policy);
     
     $data = $document->getAll();
     $url = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
-    $url = UrlHelper::appendParamsUrl($url, array(ConnectionOptions::OPTION_UPDATE_POLICY => $policy));
+    $url = UrlHelper::appendParamsUrl($url, $params);
     $result = $this->getConnection()->put($url, json_encode($data));
 
     return true;
