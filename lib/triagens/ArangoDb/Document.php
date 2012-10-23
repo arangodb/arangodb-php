@@ -204,10 +204,22 @@ class Document {
   /**
    * Get all document attributes
    *
+   * @param boolean $includeInternals - true to include the internal attributes. Defaults to false
    * @return array - array of all document attributes/values
    */
-  public function getAll() {
-    return $this->_values;
+  public function getAll($includeInternals=false) {
+    $data=$this->_values;
+    $nonInternals=array('_changed', '_values');
+    if ($includeInternals == true) {
+      foreach ($this as $key => $value) {
+        if (substr($key,0,1) == '_' && substr($key,0,2) !== '__' && !in_array($key, $nonInternals)) {
+
+            $data[$key] = $value;        
+
+        }
+      }
+    }
+    return $data;
   }
   
   /**
