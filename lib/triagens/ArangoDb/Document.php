@@ -80,6 +80,7 @@ class Document {
   
   /**
    * Clone a document
+   * 
    * Returns the clone 
    *
    * @return void
@@ -93,6 +94,7 @@ class Document {
   
   /**
    * Get a string representation of the document
+   * 
    * Returns the document as JSON-encoded string
    *
    * @return string - JSON-encoded document 
@@ -192,6 +194,7 @@ class Document {
 
   /**
    * Get a document attribute, magic method
+   * 
    * This function is mapped to get() internally.
    *
    * @param string $key - name of attribute
@@ -204,10 +207,22 @@ class Document {
   /**
    * Get all document attributes
    *
+   * @param boolean $includeInternals - true to include the internal attributes. Defaults to false
    * @return array - array of all document attributes/values
    */
-  public function getAll() {
-    return $this->_values;
+  public function getAll($includeInternals=false) {
+    $data=$this->_values;
+    $nonInternals=array('_changed', '_values');
+    if ($includeInternals == true) {
+      foreach ($this as $key => $value) {
+        if (substr($key,0,1) == '_' && substr($key,0,2) !== '__' && !in_array($key, $nonInternals)) {
+
+            $data[$key] = $value;        
+
+        }
+      }
+    }
+    return $data;
   }
   
   /**
@@ -231,6 +246,7 @@ class Document {
   
   /**
    * Set the internal document id 
+   * 
    * This will throw if the id of an existing document gets updated to some other id
    *
    * @throws ClientException
@@ -251,6 +267,7 @@ class Document {
 
   /**
    * Get the internal document id (if already known)
+   * 
    * Document ids are generated on the server only. Document ids consist of collection id and
    * document id, in the format collectionid/documentid
    *
@@ -262,6 +279,7 @@ class Document {
   
   /**
    * Convenience function to get the document handle (if already known) - is an alias to getInternalId()
+   * 
    * Document handles are generated on the server only. Document handles consist of collection id and
    * document id, in the format collectionid/documentid
    *
@@ -273,6 +291,7 @@ class Document {
   
   /**
    * Get the document id (if already known)
+   * 
    * Document ids are generated on the server only. Document ids are numeric but might be
    * bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string should be used 
    *
@@ -286,6 +305,7 @@ class Document {
   
   /**
    * Get the collection id (if already known)
+   * 
    * Collection ids are generated on the server only. Collection ids are numeric but might be
    * bigger than PHP_INT_MAX. To reliably store a collection id elsewhere, a PHP string should be used 
    *
@@ -299,6 +319,7 @@ class Document {
   
   /**
    * Set the document revision
+   * 
    * Revision ids are generated on the server only. Document ids are numeric but might be
    * bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string should be used 
    *

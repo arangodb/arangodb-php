@@ -16,18 +16,6 @@ namespace triagens\ArangoDb;
  * @package ArangoDbPhpClient
  */
 class Edge extends Document {
-//  /**
-//   * The document id (might be NULL for new documents)
-//   * @var string - document id
-//   */
-//  private $_id      = NULL;
-//  
-//  /**
-//   * The document revision (might be NULL for new documents)
-//   * @var mixed
-//   */
-//  private $_rev     = NULL;
-//  
   /**
    * The edge's from (might be NULL for new documents)
    * @var mixed
@@ -39,16 +27,6 @@ class Edge extends Document {
    * @var mixed
    */
   protected $_to     = NULL;
-  
-// /**
-//   * Document _id index
-//   */
-//  const ENTRY_ID    = '_id';
-//  
-//  /**
-//   * Revision _rev index
-//   */
-//  const ENTRY_REV   = '_rev';
   
   /**
    * Document _from index
@@ -71,8 +49,6 @@ class Edge extends Document {
   public function __clone() {
     $this->_id = NULL;
     $this->_rev = NULL;
-//    $this->_to = NULL;
-//    $this->_from = NULL;
 
     // do not change the _changed flag here
   }
