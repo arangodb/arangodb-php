@@ -89,6 +89,7 @@ This will throw if the document cannot be saved</span><pre>save()</pre></a></li>
 <li class="method private "><a href="#method_getCollectionId" title="getCollectionId :: Helper function to get a collection id from a document"><span class="description">Helper function to get a collection id from a document</span><pre>getCollectionId()</pre></a></li>
 <li class="method private "><a href="#method_getCursorOptions" title="getCursorOptions :: Return an array of cursor options"><span class="description">Return an array of cursor options</span><pre>getCursorOptions()</pre></a></li>
 <li class="method private "><a href="#method_getDocumentId" title="getDocumentId :: Helper function to get a document id from a document or a document id value"><span class="description">Helper function to get a document id from a document or a document id value</span><pre>getDocumentId()</pre></a></li>
+<li class="method private "><a href="#method_getRevision" title="getRevision :: Helper function to get a document id from a document or a document id value"><span class="description">Helper function to get a document id from a document or a document id value</span><pre>getRevision()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header">
@@ -195,7 +196,7 @@ appropriate HTTP requests to the server.</p></div>
 </div>
 <a id="method_delete"></a><div class="element clickable method public method_delete" data-toggle="collapse" data-target=".method_delete .collapse">
 <h2>Delete a document from a collection, identified by the document itself</h2>
-<pre>delete(\triagens\ArangoDb\Document $document) : bool</pre>
+<pre>delete(\triagens\ArangoDb\Document $document, mixed $policy) : bool</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -210,6 +211,12 @@ appropriate HTTP requests to the server.</p></div>
 <li>document to be updated</li>
 </ul>
 </div>
+<div class="subelement argument">
+<h4>$policy</h4>
+<code>mixed</code><ul>
+<li>policy to be used in case of conflict</li>
+</ul>
+</div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
 <th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
@@ -222,7 +229,7 @@ appropriate HTTP requests to the server.</p></div>
 </div>
 <a id="method_deleteById"></a><div class="element clickable method public method_deleteById" data-toggle="collapse" data-target=".method_deleteById .collapse">
 <h2>Delete a document from a collection, identified by the collection id and document id</h2>
-<pre>deleteById(mixed $collectionId, mixed $documentId) : bool</pre>
+<pre>deleteById(mixed $collectionId, mixed $documentId, mixed $revision, mixed $policy) : bool</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -241,6 +248,18 @@ appropriate HTTP requests to the server.</p></div>
 <h4>$documentId</h4>
 <code>mixed</code><ul>
 <li>document id as string or number</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$revision</h4>
+<code>mixed</code><ul>
+<li>revision of the document to be deleted</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$policy</h4>
+<code>mixed</code><ul>
+<li>policy to be used in case of conflict</li>
 </ul>
 </div>
 <h3>Exceptions</h3>
@@ -380,7 +399,7 @@ This will throw if the list cannot be fetched from the server</h2>
 </div>
 <a id="method_remove"></a><div class="element clickable method public method_remove" data-toggle="collapse" data-target=".method_remove .collapse">
 <h2>Remove a document from a collection, identified by the document itself</h2>
-<pre>remove(\triagens\ArangoDb\Document $document) : bool</pre>
+<pre>remove(\triagens\ArangoDb\Document $document, mixed $policy) : bool</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -388,7 +407,13 @@ This will throw if the list cannot be fetched from the server</h2>
 <div class="subelement argument">
 <h4>$document</h4>
 <code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
-<li>document to be updated</li>
+<li>document to be removed</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$policy</h4>
+<code>mixed</code><ul>
+<li>policy to be used in case of conflict</li>
 </ul>
 </div>
 <h3>Exceptions</h3>
@@ -403,7 +428,7 @@ This will throw if the list cannot be fetched from the server</h2>
 </div>
 <a id="method_removeById"></a><div class="element clickable method public method_removeById" data-toggle="collapse" data-target=".method_removeById .collapse">
 <h2>Remove a document from a collection, identified by the collection id and document id</h2>
-<pre>removeById(mixed $collectionId, mixed $documentId) : bool</pre>
+<pre>removeById(mixed $collectionId, mixed $documentId, mixed $revision, mixed $policy) : bool</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -420,6 +445,18 @@ This will throw if the list cannot be fetched from the server</h2>
 <li>document id as string or number</li>
 </ul>
 </div>
+<div class="subelement argument">
+<h4>$revision</h4>
+<code>mixed</code><ul>
+<li>revision of the document to be deleted</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$policy</h4>
+<code>mixed</code><ul>
+<li>policy to be used in case of conflict</li>
+</ul>
+</div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
 <th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
@@ -432,7 +469,7 @@ This will throw if the list cannot be fetched from the server</h2>
 </div>
 <a id="method_replace"></a><div class="element clickable method public method_replace" data-toggle="collapse" data-target=".method_replace .collapse">
 <h2>Replace an existing document in a collection, identified by the document itself</h2>
-<pre>replace(\triagens\ArangoDb\Document $document, bool $policy) : bool</pre>
+<pre>replace(\triagens\ArangoDb\Document $document, mixed $policy) : bool</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will update the document on the server</p>
@@ -451,7 +488,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
 </div>
 <div class="subelement argument">
 <h4>$policy</h4>
-<code>bool</code><ul>
+<code>mixed</code><ul>
 <li>update policy to be used in case of conflict</li>
 </ul>
 </div>
@@ -467,7 +504,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
 </div>
 <a id="method_replaceById"></a><div class="element clickable method public method_replaceById" data-toggle="collapse" data-target=".method_replaceById .collapse">
 <h2>Replace an existing document in a collection, identified by collection id and document id</h2>
-<pre>replaceById(mixed $collectionId, mixed $documentId, \triagens\ArangoDb\Document $document, bool $policy) : bool</pre>
+<pre>replaceById(mixed $collectionId, mixed $documentId, \triagens\ArangoDb\Document $document, mixed $policy) : bool</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will update the document on the server</p>
@@ -498,7 +535,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
 </div>
 <div class="subelement argument">
 <h4>$policy</h4>
-<code>bool</code><ul>
+<code>mixed</code><ul>
 <li>update policy to be used in case of conflict</li>
 </ul>
 </div>
@@ -555,7 +592,7 @@ This will throw if the document cannot be saved</h2>
 </div>
 <a id="method_update"></a><div class="element clickable method public method_update" data-toggle="collapse" data-target=".method_update .collapse">
 <h2>Update an existing document in a collection, identified by the document itself</h2>
-<pre>update(\triagens\ArangoDb\Document $document, bool $policy) : bool</pre>
+<pre>update(\triagens\ArangoDb\Document $document, mixed $policy) : bool</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will update the document on the server</p>
@@ -578,7 +615,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
 </div>
 <div class="subelement argument">
 <h4>$policy</h4>
-<code>bool</code><ul>
+<code>mixed</code><ul>
 <li>update policy to be used in case of conflict</li>
 </ul>
 </div>
@@ -594,7 +631,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
 </div>
 <a id="method_updateById"></a><div class="element clickable method public method_updateById" data-toggle="collapse" data-target=".method_updateById .collapse">
 <h2>Update an existing document in a collection, identified by collection id and document id</h2>
-<pre>updateById(mixed $collectionId, mixed $documentId, \triagens\ArangoDb\Document $document, bool $policy) : bool</pre>
+<pre>updateById(mixed $collectionId, mixed $documentId, \triagens\ArangoDb\Document $document, mixed $policy) : bool</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will update the document on the server</p>
@@ -629,7 +666,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
 </div>
 <div class="subelement argument">
 <h4>$policy</h4>
-<code>bool</code><ul>
+<code>mixed</code><ul>
 <li>update policy to be used in case of conflict</li>
 </ul>
 </div>
@@ -722,6 +759,29 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <code>mixed</code>- document id, will throw if there is an error</div>
 </div></div>
 </div>
+<a id="method_getRevision"></a><div class="element clickable method private method_getRevision" data-toggle="collapse" data-target=".method_getRevision .collapse">
+<h2>Helper function to get a document id from a document or a document id value</h2>
+<pre>getRevision(mixed $document) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$document</h4>
+<code>mixed</code><ul>
+<li>document id OR document to be updated</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>- document id, will throw if there is an error</div>
+</div></div>
+</div>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
 <a id="property__connection"> </a><div class="element clickable property private property__connection" data-toggle="collapse" data-target=".property__connection .collapse">
@@ -769,7 +829,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-23T11:35:58+03:00.<br></footer></div>
+            generated on 2012-10-28T21:56:52+02:00.<br></footer></div>
 </div>
 </body>
 </html>

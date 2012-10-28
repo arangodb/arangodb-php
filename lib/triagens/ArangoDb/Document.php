@@ -194,6 +194,7 @@ class Document {
 
   /**
    * Get a document attribute, magic method
+   * 
    * This function is mapped to get() internally.
    *
    * @param string $key - name of attribute

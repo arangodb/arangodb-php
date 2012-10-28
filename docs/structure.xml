@@ -1068,7 +1068,7 @@ be accessed by the client with subsequent HTTP requests.</p>]]></long-descriptio
       </method>
     </class>
   </file>
-  <file path="DocumentHandler.php" hash="30b60717abc094007a464c2364762170" package="ArangoDbPhpClient">
+  <file path="DocumentHandler.php" hash="e7221f032ab2291a91fb9d28b4d5da0a" package="ArangoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[ArangoDB PHP client: document handler]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -1077,253 +1077,253 @@ be accessed by the client with subsequent HTTP requests.</p>]]></long-descriptio
       <tag line="3" name="author" description="Frank Mayer"/>
       <tag line="3" name="copyright" description="Copyright 2012, triagens GmbH, Cologne, Germany"/>
     </docblock>
-    <class final="false" abstract="false" namespace="triagens\ArangoDb" line="21" package="ArangoDbPhpClient">
+    <class final="false" abstract="false" namespace="triagens\ArangoDb" line="22" package="ArangoDbPhpClient">
       <extends>\triagens\ArangoDb\Handler</extends>
       <name>DocumentHandler</name>
       <full_name>\triagens\ArangoDb\DocumentHandler</full_name>
-      <docblock line="14">
+      <docblock line="15">
         <description><![CDATA[A document handler that fetches documents from the server and
 persists them on the server.]]></description>
         <long-description><![CDATA[<p>It does so by issueing the
 appropriate HTTP requests to the server.</p>]]></long-description>
-        <tag line="14" name="package" description="ArangoDbPhpClient"/>
+        <tag line="15" name="package" description="ArangoDbPhpClient"/>
       </docblock>
-      <constant namespace="triagens\ArangoDb" line="25" package="ArangoDbPhpClient">
+      <constant namespace="triagens\ArangoDb" line="26" package="ArangoDbPhpClient">
         <name>ENTRY_DOCUMENTS</name>
         <full_name>ENTRY_DOCUMENTS</full_name>
         <value><![CDATA['documents']]></value>
-        <docblock line="22">
+        <docblock line="23">
           <description><![CDATA[documents array index]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </constant>
-      <constant namespace="triagens\ArangoDb" line="30" package="ArangoDbPhpClient">
+      <constant namespace="triagens\ArangoDb" line="31" package="ArangoDbPhpClient">
         <name>OPTION_COLLECTION</name>
         <full_name>OPTION_COLLECTION</full_name>
         <value><![CDATA['collection']]></value>
-        <docblock line="27">
+        <docblock line="28">
           <description><![CDATA[collection parameter]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </constant>
-      <constant namespace="triagens\ArangoDb" line="35" package="ArangoDbPhpClient">
+      <constant namespace="triagens\ArangoDb" line="36" package="ArangoDbPhpClient">
         <name>OPTION_EXAMPLE</name>
         <full_name>OPTION_EXAMPLE</full_name>
         <value><![CDATA['example']]></value>
-        <docblock line="32">
+        <docblock line="33">
           <description><![CDATA[example parameter]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </constant>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="47" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="49" package="ArangoDbPhpClient">
         <name>get</name>
         <full_name>get</full_name>
-        <docblock line="37">
+        <docblock line="39">
           <description><![CDATA[Get a single document from a collection]]></description>
           <long-description><![CDATA[<p>Alias method for getById()</p>]]></long-description>
-          <tag line="37" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="39" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="37" name="param" description="- collection id as a string or number" type="mixed" variable="$collectionId">
+          <tag line="39" name="param" description="- collection id as a string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="37" name="param" description="- document identifier" type="mixed" variable="$documentId">
+          <tag line="39" name="param" description="- document identifier" type="mixed" variable="$documentId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="37" name="return" description="- the document fetched from the server" type="\triagens\ArangoDb\Document">
+          <tag line="39" name="return" description="- the document fetched from the server" type="\triagens\ArangoDb\Document">
             <type by_reference="false">\triagens\ArangoDb\Document</type>
           </tag>
         </docblock>
-        <argument line="47">
+        <argument line="49">
           <name>$collectionId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="47">
+        <argument line="49">
           <name>$documentId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="61" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="64" package="ArangoDbPhpClient">
         <name>getById</name>
         <full_name>getById</full_name>
-        <docblock line="51">
+        <docblock line="54">
           <description><![CDATA[Get a single document from a collection]]></description>
           <long-description><![CDATA[<p>This will throw if the document cannot be fetched from the server</p>]]></long-description>
-          <tag line="51" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="54" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="51" name="param" description="- collection id as a string or number" type="mixed" variable="$collectionId">
+          <tag line="54" name="param" description="- collection id as a string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="51" name="param" description="- document identifier" type="mixed" variable="$documentId">
+          <tag line="54" name="param" description="- document identifier" type="mixed" variable="$documentId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="51" name="return" description="- the document fetched from the server" type="\triagens\ArangoDb\Document">
+          <tag line="54" name="return" description="- the document fetched from the server" type="\triagens\ArangoDb\Document">
             <type by_reference="false">\triagens\ArangoDb\Document</type>
           </tag>
         </docblock>
-        <argument line="61">
+        <argument line="64">
           <name>$collectionId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="61">
+        <argument line="64">
           <name>$documentId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="81" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="85" package="ArangoDbPhpClient">
         <name>getAllIds</name>
         <full_name>getAllIds</full_name>
-        <docblock line="70">
+        <docblock line="74">
           <description><![CDATA[Get the list of all documents' ids from a collection
 This will throw if the list cannot be fetched from the server]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="70" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="74" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="70" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
+          <tag line="74" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="70" name="return" description="- ids of documents in the collection" type="array">
+          <tag line="74" name="return" description="- ids of documents in the collection" type="array">
             <type by_reference="false">array</type>
           </tag>
-          <tag line="70" name="deprecated" description="to be deprecated in version 2.0 - This function is being replaced by  CollectionHandler::getAllIds()"/>
+          <tag line="74" name="deprecated" description="to be deprecated in version 2.0 - This function is being replaced by  CollectionHandler::getAllIds()"/>
         </docblock>
-        <argument line="81">
+        <argument line="85">
           <name>$collectionId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="99" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="104" package="ArangoDbPhpClient">
         <name>getByExample</name>
         <full_name>getByExample</full_name>
-        <docblock line="86">
+        <docblock line="91">
           <description><![CDATA[Get document(s) by specifying an example]]></description>
           <long-description><![CDATA[<p>This will throw if the list cannot be fetched from the server</p>]]></long-description>
-          <tag line="86" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="91" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="86" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
+          <tag line="91" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="86" name="param" description="- the example document as a Document object or an array" type="mixed" variable="$document">
+          <tag line="91" name="param" description="- the example document as a Document object or an array" type="mixed" variable="$document">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="86" name="param" description="- remove _id and _rev attributes from result documents" type="bool" variable="$sanitize">
+          <tag line="91" name="param" description="- remove _id and _rev attributes from result documents" type="bool" variable="$sanitize">
             <type by_reference="false">bool</type>
           </tag>
-          <tag line="86" name="return" description="- documents matching the example [0...n]" type="array">
+          <tag line="91" name="return" description="- documents matching the example [0...n]" type="array">
             <type by_reference="false">array</type>
           </tag>
-          <tag line="86" name="deprecated" description="to be deprecated in version 2.0 - This function is being replaced by CollectionHandler::byExample()"/>
+          <tag line="91" name="deprecated" description="to be deprecated in version 2.0 - This function is being replaced by CollectionHandler::byExample()"/>
         </docblock>
-        <argument line="99">
+        <argument line="104">
           <name>$collectionId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="99">
+        <argument line="104">
           <name>$document</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="99">
+        <argument line="104">
           <name>$sanitize</name>
           <default><![CDATA[false]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="121" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="127" package="ArangoDbPhpClient">
         <name>add</name>
         <full_name>add</full_name>
-        <docblock line="104">
+        <docblock line="110">
           <description><![CDATA[Add a document to a collection]]></description>
           <long-description><![CDATA[<p>This will add the document to the collection and return the document's id</p>
 
 <p>This will throw if the document cannot be created</p>]]></long-description>
-          <tag line="104" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="110" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="104" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
+          <tag line="110" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="104" name="param" description="- the document to be added" type="\triagens\ArangoDb\Document" variable="$document">
+          <tag line="110" name="param" description="- the document to be added" type="\triagens\ArangoDb\Document" variable="$document">
             <type by_reference="false">\triagens\ArangoDb\Document</type>
           </tag>
-          <tag line="104" name="param" description="- create the collection if it does not yet exist" type="bool" variable="$create">
+          <tag line="110" name="param" description="- create the collection if it does not yet exist" type="bool" variable="$create">
             <type by_reference="false">bool</type>
           </tag>
-          <tag line="104" name="return" description="- id of document created \" type="mixed">
+          <tag line="110" name="return" description="- id of document created \" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="104" name="deprecated" description="to be deprecated in version 2.0 - This function is being replaced by save()"/>
+          <tag line="110" name="deprecated" description="to be deprecated in version 2.0 - This function is being replaced by save()"/>
         </docblock>
-        <argument line="121">
+        <argument line="127">
           <name>$collectionId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="121">
+        <argument line="127">
           <name>$document</name>
           <default><![CDATA[]]></default>
           <type>\triagens\ArangoDb\Document</type>
         </argument>
-        <argument line="121">
+        <argument line="127">
           <name>$create</name>
           <default><![CDATA[NULL]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="137" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="144" package="ArangoDbPhpClient">
         <name>save</name>
         <full_name>save</full_name>
-        <docblock line="125">
+        <docblock line="132">
           <description><![CDATA[save a document to a collection
 This will add the document to the collection and return the document's id
 This will throw if the document cannot be saved]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="125" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="132" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="125" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
+          <tag line="132" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="125" name="param" description="- the document to be added" type="\triagens\ArangoDb\Document" variable="$document">
+          <tag line="132" name="param" description="- the document to be added" type="\triagens\ArangoDb\Document" variable="$document">
             <type by_reference="false">\triagens\ArangoDb\Document</type>
           </tag>
-          <tag line="125" name="param" description="- create the collection if it does not yet exist" type="bool" variable="$create">
+          <tag line="132" name="param" description="- create the collection if it does not yet exist" type="bool" variable="$create">
             <type by_reference="false">bool</type>
           </tag>
-          <tag line="125" name="return" description="- id of document created" type="mixed">
+          <tag line="132" name="return" description="- id of document created" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="125" name="since" description="1.0"/>
+          <tag line="132" name="since" description="1.0"/>
         </docblock>
-        <argument line="137">
+        <argument line="144">
           <name>$collectionId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="137">
+        <argument line="144">
           <name>$document</name>
           <default><![CDATA[]]></default>
           <type>\triagens\ArangoDb\Document</type>
         </argument>
-        <argument line="137">
+        <argument line="144">
           <name>$create</name>
           <default><![CDATA[NULL]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="182" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="190" package="ArangoDbPhpClient">
         <name>update</name>
         <full_name>update</full_name>
-        <docblock line="164">
+        <docblock line="172">
           <description><![CDATA[Update an existing document in a collection, identified by the document itself]]></description>
           <long-description><![CDATA[<p>This will update the document on the server</p>
 
@@ -1332,35 +1332,35 @@ This will throw if the document cannot be saved]]></description>
 <p>If policy is set to error (locally or globally through the connectionoptions)
 and the passed document has a _rev value set, the database will check
 that the revision of the to-be-replaced document is the same as the one given.</p>]]></long-description>
-          <tag line="164" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="172" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="164" name="param" description="- document to be updated" type="\triagens\ArangoDb\Document" variable="$document">
+          <tag line="172" name="param" description="- document to be updated" type="\triagens\ArangoDb\Document" variable="$document">
             <type by_reference="false">\triagens\ArangoDb\Document</type>
           </tag>
-          <tag line="164" name="param" description="- update policy to be used in case of conflict" type="bool" variable="$policy">
+          <tag line="172" name="param" description="- update policy to be used in case of conflict" type="mixed" variable="$policy">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="172" name="return" description="- always true, will throw if there is an error" type="bool">
             <type by_reference="false">bool</type>
           </tag>
-          <tag line="164" name="return" description="- always true, will throw if there is an error" type="bool">
-            <type by_reference="false">bool</type>
-          </tag>
-          <tag line="164" name="deprecated" description="Attention!! To be deprecated in version 1.1 - This function is being replaced by replace()"/>
+          <tag line="172" name="deprecated" description="Attention!! To be deprecated in version 1.1 - This function is being replaced by replace()"/>
         </docblock>
-        <argument line="182">
+        <argument line="190">
           <name>$document</name>
           <default><![CDATA[]]></default>
           <type>\triagens\ArangoDb\Document</type>
         </argument>
-        <argument line="182">
+        <argument line="190">
           <name>$policy</name>
           <default><![CDATA[NULL]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="202" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="211" package="ArangoDbPhpClient">
         <name>replace</name>
         <full_name>replace</full_name>
-        <docblock line="186">
+        <docblock line="195">
           <description><![CDATA[Replace an existing document in a collection, identified by the document itself]]></description>
           <long-description><![CDATA[<p>This will update the document on the server</p>
 
@@ -1369,34 +1369,34 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <p>If policy is set to error (locally or globally through the connectionoptions)
 and the passed document has a _rev value set, the database will check
 that the revision of the to-be-replaced document is the same as the one given.</p>]]></long-description>
-          <tag line="186" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="195" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="186" name="param" description="- document to be updated" type="\triagens\ArangoDb\Document" variable="$document">
+          <tag line="195" name="param" description="- document to be updated" type="\triagens\ArangoDb\Document" variable="$document">
             <type by_reference="false">\triagens\ArangoDb\Document</type>
           </tag>
-          <tag line="186" name="param" description="- update policy to be used in case of conflict" type="bool" variable="$policy">
-            <type by_reference="false">bool</type>
+          <tag line="195" name="param" description="- update policy to be used in case of conflict" type="mixed" variable="$policy">
+            <type by_reference="false">mixed</type>
           </tag>
-          <tag line="186" name="return" description="- always true, will throw if there is an error" type="bool">
+          <tag line="195" name="return" description="- always true, will throw if there is an error" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
-        <argument line="202">
+        <argument line="211">
           <name>$document</name>
           <default><![CDATA[]]></default>
           <type>\triagens\ArangoDb\Document</type>
         </argument>
-        <argument line="202">
+        <argument line="211">
           <name>$policy</name>
           <default><![CDATA[NULL]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="229" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="239" package="ArangoDbPhpClient">
         <name>updateById</name>
         <full_name>updateById</full_name>
-        <docblock line="209">
+        <docblock line="219">
           <description><![CDATA[Update an existing document in a collection, identified by collection id and document id]]></description>
           <long-description><![CDATA[<p>This will update the document on the server</p>
 
@@ -1405,51 +1405,51 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <p>If policy is set to error (locally or globally through the connectionoptions)
 and the passed document has a _rev value set, the database will check
 that the revision of the to-be-replaced document is the same as the one given.</p>]]></long-description>
-          <tag line="209" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="219" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="209" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
+          <tag line="219" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="209" name="param" description="- document id as string or number" type="mixed" variable="$documentId">
+          <tag line="219" name="param" description="- document id as string or number" type="mixed" variable="$documentId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="209" name="param" description="- document to be updated" type="\triagens\ArangoDb\Document" variable="$document">
+          <tag line="219" name="param" description="- document to be updated" type="\triagens\ArangoDb\Document" variable="$document">
             <type by_reference="false">\triagens\ArangoDb\Document</type>
           </tag>
-          <tag line="209" name="param" description="- update policy to be used in case of conflict" type="bool" variable="$policy">
+          <tag line="219" name="param" description="- update policy to be used in case of conflict" type="mixed" variable="$policy">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="219" name="return" description="- always true, will throw if there is an error" type="bool">
             <type by_reference="false">bool</type>
           </tag>
-          <tag line="209" name="return" description="- always true, will throw if there is an error" type="bool">
-            <type by_reference="false">bool</type>
-          </tag>
-          <tag line="209" name="deprecated" description="Attention!! To be deprecated in version 1.1 - This function is being replaced by replaceById()"/>
+          <tag line="219" name="deprecated" description="Attention!! To be deprecated in version 1.1 - This function is being replaced by replaceById()"/>
         </docblock>
-        <argument line="229">
+        <argument line="239">
           <name>$collectionId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="229">
+        <argument line="239">
           <name>$documentId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="229">
+        <argument line="239">
           <name>$document</name>
           <default><![CDATA[]]></default>
           <type>\triagens\ArangoDb\Document</type>
         </argument>
-        <argument line="229">
+        <argument line="239">
           <name>$policy</name>
           <default><![CDATA[NULL]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="252" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="263" package="ArangoDbPhpClient">
         <name>replaceById</name>
         <full_name>replaceById</full_name>
-        <docblock line="234">
+        <docblock line="245">
           <description><![CDATA[Replace an existing document in a collection, identified by collection id and document id]]></description>
           <long-description><![CDATA[<p>This will update the document on the server</p>
 
@@ -1458,210 +1458,280 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <p>If policy is set to error (locally or globally through the connectionoptions)
 and the passed document has a _rev value set, the database will check
 that the revision of the to-be-replaced document is the same as the one given.</p>]]></long-description>
-          <tag line="234" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="245" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="234" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
+          <tag line="245" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="234" name="param" description="- document id as string or number" type="mixed" variable="$documentId">
+          <tag line="245" name="param" description="- document id as string or number" type="mixed" variable="$documentId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="234" name="param" description="- document to be updated" type="\triagens\ArangoDb\Document" variable="$document">
+          <tag line="245" name="param" description="- document to be updated" type="\triagens\ArangoDb\Document" variable="$document">
             <type by_reference="false">\triagens\ArangoDb\Document</type>
           </tag>
-          <tag line="234" name="param" description="- update policy to be used in case of conflict" type="bool" variable="$policy">
-            <type by_reference="false">bool</type>
+          <tag line="245" name="param" description="- update policy to be used in case of conflict" type="mixed" variable="$policy">
+            <type by_reference="false">mixed</type>
           </tag>
-          <tag line="234" name="return" description="- always true, will throw if there is an error" type="bool">
+          <tag line="245" name="return" description="- always true, will throw if there is an error" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
-        <argument line="252">
+        <argument line="263">
           <name>$collectionId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="252">
+        <argument line="263">
           <name>$documentId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="252">
+        <argument line="263">
           <name>$document</name>
           <default><![CDATA[]]></default>
           <type>\triagens\ArangoDb\Document</type>
         </argument>
-        <argument line="252">
+        <argument line="263">
           <name>$policy</name>
           <default><![CDATA[NULL]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="286" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="296" package="ArangoDbPhpClient">
         <name>delete</name>
         <full_name>delete</full_name>
-        <docblock line="276">
+        <docblock line="285">
           <description><![CDATA[Delete a document from a collection, identified by the document itself]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="276" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="285" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="276" name="param" description="- document to be updated" type="\triagens\ArangoDb\Document" variable="$document">
+          <tag line="285" name="param" description="- document to be updated" type="\triagens\ArangoDb\Document" variable="$document">
             <type by_reference="false">\triagens\ArangoDb\Document</type>
           </tag>
-          <tag line="276" name="return" description="- always true, will throw if there is an error" type="bool">
+          <tag line="285" name="param" description="- policy to be used in case of conflict" type="mixed" variable="$policy">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="285" name="return" description="- always true, will throw if there is an error" type="bool">
             <type by_reference="false">bool</type>
           </tag>
-          <tag line="276" name="deprecated" description="To be deprecated in version 2.0 - This function is being replaced by remove()"/>
+          <tag line="285" name="deprecated" description="To be deprecated in version 2.0 - This function is being replaced by remove()"/>
         </docblock>
-        <argument line="286">
+        <argument line="296">
           <name>$document</name>
           <default><![CDATA[]]></default>
           <type>\triagens\ArangoDb\Document</type>
         </argument>
+        <argument line="296">
+          <name>$policy</name>
+          <default><![CDATA[NULL]]></default>
+          <type/>
+        </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="297" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="309" package="ArangoDbPhpClient">
         <name>remove</name>
         <full_name>remove</full_name>
-        <docblock line="290">
+        <docblock line="301">
           <description><![CDATA[Remove a document from a collection, identified by the document itself]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="290" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="301" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="290" name="param" description="- document to be updated" type="\triagens\ArangoDb\Document" variable="$document">
+          <tag line="301" name="param" description="- document to be removed" type="\triagens\ArangoDb\Document" variable="$document">
             <type by_reference="false">\triagens\ArangoDb\Document</type>
           </tag>
-          <tag line="290" name="return" description="- always true, will throw if there is an error" type="bool">
+          <tag line="301" name="param" description="- policy to be used in case of conflict" type="mixed" variable="$policy">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="301" name="return" description="- always true, will throw if there is an error" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
-        <argument line="297">
+        <argument line="309">
           <name>$document</name>
           <default><![CDATA[]]></default>
           <type>\triagens\ArangoDb\Document</type>
         </argument>
+        <argument line="309">
+          <name>$policy</name>
+          <default><![CDATA[NULL]]></default>
+          <type/>
+        </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="314" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="331" package="ArangoDbPhpClient">
         <name>deleteById</name>
         <full_name>deleteById</full_name>
-        <docblock line="304">
+        <docblock line="319">
           <description><![CDATA[Delete a document from a collection, identified by the collection id and document id]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="304" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="319" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="304" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
+          <tag line="319" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="304" name="param" description="- document id as string or number" type="mixed" variable="$documentId">
+          <tag line="319" name="param" description="- document id as string or number" type="mixed" variable="$documentId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="304" name="return" description="- always true, will throw if there is an error" type="bool">
+          <tag line="319" name="param" description="- revision of the document to be deleted" type="mixed" variable="$revision">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="319" name="param" description="- policy to be used in case of conflict" type="mixed" variable="$policy">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="319" name="return" description="- always true, will throw if there is an error" type="bool">
             <type by_reference="false">bool</type>
           </tag>
-          <tag line="304" name="deprecated" description="To be deprecated in version 2.0 - This function is being replaced by removeById()"/>
+          <tag line="319" name="deprecated" description="To be deprecated in version 2.0 - This function is being replaced by removeById()"/>
         </docblock>
-        <argument line="314">
+        <argument line="331">
           <name>$collectionId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="314">
+        <argument line="331">
           <name>$documentId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
+        <argument line="331">
+          <name>$revision</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="331">
+          <name>$policy</name>
+          <default><![CDATA[NULL]]></default>
+          <type/>
+        </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="328" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="348" package="ArangoDbPhpClient">
         <name>removeById</name>
         <full_name>removeById</full_name>
-        <docblock line="320">
+        <docblock line="338">
           <description><![CDATA[Remove a document from a collection, identified by the collection id and document id]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="320" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="338" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="320" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
+          <tag line="338" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="320" name="param" description="- document id as string or number" type="mixed" variable="$documentId">
+          <tag line="338" name="param" description="- document id as string or number" type="mixed" variable="$documentId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="320" name="return" description="- always true, will throw if there is an error" type="bool">
+          <tag line="338" name="param" description="- revision of the document to be deleted" type="mixed" variable="$revision">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="338" name="param" description="- policy to be used in case of conflict" type="mixed" variable="$policy">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="338" name="return" description="- always true, will throw if there is an error" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
-        <argument line="328">
+        <argument line="348">
           <name>$collectionId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="328">
+        <argument line="348">
           <name>$documentId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
+        <argument line="348">
+          <name>$revision</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="348">
+          <name>$policy</name>
+          <default><![CDATA[NULL]]></default>
+          <type/>
+        </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="341" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="375" package="ArangoDbPhpClient">
         <name>getDocumentId</name>
         <full_name>getDocumentId</full_name>
-        <docblock line="334">
+        <docblock line="368">
           <description><![CDATA[Helper function to get a document id from a document or a document id value]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="334" name="throws" description="" type="\triagens\ArangoDb\ClientException">
+          <tag line="368" name="throws" description="" type="\triagens\ArangoDb\ClientException">
             <type by_reference="false">\triagens\ArangoDb\ClientException</type>
           </tag>
-          <tag line="334" name="param" description="- document id OR document to be updated" type="mixed" variable="$document">
+          <tag line="368" name="param" description="- document id OR document to be updated" type="mixed" variable="$document">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="334" name="return" description="- document id, will throw if there is an error" type="mixed">
+          <tag line="368" name="return" description="- document id, will throw if there is an error" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
         </docblock>
-        <argument line="341">
+        <argument line="375">
           <name>$document</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="363" package="ArangoDbPhpClient">
-        <name>getCollectionId</name>
-        <full_name>getCollectionId</full_name>
-        <docblock line="356">
-          <description><![CDATA[Helper function to get a collection id from a document]]></description>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="398" package="ArangoDbPhpClient">
+        <name>getRevision</name>
+        <full_name>getRevision</full_name>
+        <docblock line="391">
+          <description><![CDATA[Helper function to get a document id from a document or a document id value]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="356" name="throws" description="" type="\triagens\ArangoDb\ClientException">
+          <tag line="391" name="throws" description="" type="\triagens\ArangoDb\ClientException">
             <type by_reference="false">\triagens\ArangoDb\ClientException</type>
           </tag>
-          <tag line="356" name="param" description="- document id" type="\triagens\ArangoDb\Document" variable="$document">
-            <type by_reference="false">\triagens\ArangoDb\Document</type>
+          <tag line="391" name="param" description="- document id OR document to be updated" type="mixed" variable="$document">
+            <type by_reference="false">mixed</type>
           </tag>
-          <tag line="356" name="return" description="- collection id, will throw if there is an error" type="mixed">
+          <tag line="391" name="return" description="- document id, will throw if there is an error" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
         </docblock>
-        <argument line="363">
+        <argument line="398">
+          <name>$document</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="417" package="ArangoDbPhpClient">
+        <name>getCollectionId</name>
+        <full_name>getCollectionId</full_name>
+        <docblock line="410">
+          <description><![CDATA[Helper function to get a collection id from a document]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="410" name="throws" description="" type="\triagens\ArangoDb\ClientException">
+            <type by_reference="false">\triagens\ArangoDb\ClientException</type>
+          </tag>
+          <tag line="410" name="param" description="- document id" type="\triagens\ArangoDb\Document" variable="$document">
+            <type by_reference="false">\triagens\ArangoDb\Document</type>
+          </tag>
+          <tag line="410" name="return" description="- collection id, will throw if there is an error" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="417">
           <name>$document</name>
           <default><![CDATA[]]></default>
           <type>\triagens\ArangoDb\Document</type>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="379" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="434" package="ArangoDbPhpClient">
         <name>getCursorOptions</name>
         <full_name>getCursorOptions</full_name>
-        <docblock line="373">
+        <docblock line="428">
           <description><![CDATA[Return an array of cursor options]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="373" name="param" description="- sanitize flag" type="bool" variable="$sanitize">
+          <tag line="428" name="param" description="- sanitize flag" type="bool" variable="$sanitize">
             <type by_reference="false">bool</type>
           </tag>
-          <tag line="373" name="return" description="- array of options" type="array">
+          <tag line="428" name="return" description="- array of options" type="array">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
-        <argument line="379">
+        <argument line="434">
           <name>$sanitize</name>
           <default><![CDATA[]]></default>
           <type/>
