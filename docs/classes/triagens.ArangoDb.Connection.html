@@ -72,9 +72,7 @@
 <li class="nav-header private">» Private
                     <ul>
 <li class="method private "><a href="#method_executeRequest" title="executeRequest :: Execute an HTTP request and return the results"><span class="description">Execute an HTTP request and return the results</span><pre>executeRequest()</pre></a></li>
-<li class="method private "><a href="#method_getHandle" title="getHandle :: Get a connection handle
-If keep-alive connections are used, the handle will be stored and re-used"><span class="description">Get a connection handle
-If keep-alive connections are used, the handle will be stored and re-used</span><pre>getHandle()</pre></a></li>
+<li class="method private "><a href="#method_getHandle" title="getHandle :: Get a connection handle"><span class="description">Get a connection handle</span><pre>getHandle()</pre></a></li>
 <li class="method private "><a href="#method_parseResponse" title="parseResponse :: Parse the response return the body values as an assoc array"><span class="description">Parse the response return the body values as an assoc array</span><pre>parseResponse()</pre></a></li>
 </ul>
 </li>
@@ -307,8 +305,9 @@ and are destroyed afterwards.</p></div>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This function will throw if no connection to the server can be established or if
-there is a problem during data exchange with the server.
-The function might temporarily alter the value of the php.ini value 'default_socket_timeout' but
+there is a problem during data exchange with the server.</p>
+
+<p>The function might temporarily alter the value of the php.ini value 'default_socket_timeout' but
 will restore it.</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -339,12 +338,11 @@ will restore it.</p></div>
 </div></div>
 </div>
 <a id="method_getHandle"></a><div class="element clickable method private method_getHandle" data-toggle="collapse" data-target=".method_getHandle .collapse">
-<h2>Get a connection handle
-If keep-alive connections are used, the handle will be stored and re-used</h2>
+<h2>Get a connection handle</h2>
 <pre>getHandle() : resource</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>If keep-alive connections are used, the handle will be stored and re-used</p></div>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>resource</code>- connection handle</div>
@@ -405,7 +403,7 @@ If keep-alive connections are used, the handle will be stored and re-used</h2>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-28T21:56:52+02:00.<br></footer></div>
+            generated on 2012-10-29T15:55:44+02:00.<br></footer></div>
 </div>
 </body>
 </html>

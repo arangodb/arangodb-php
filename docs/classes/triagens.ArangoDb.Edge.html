@@ -58,13 +58,9 @@
 <li class="nav-header">
 <i class="icon-custom icon-method"></i> Methods
                     <ul>
-<li class="method public "><a href="#method___clone" title="__clone :: Clone a document
-Returns the clone"><span class="description">Clone a document
-Returns the clone</span><pre>__clone()</pre></a></li>
+<li class="method public "><a href="#method___clone" title="__clone :: Clone a document"><span class="description">Clone a document</span><pre>__clone()</pre></a></li>
 <li class="method public inherited"><a href="#method___construct" title="__construct :: Constructs an empty document"><span class="description">Constructs an empty document</span><pre>__construct()</pre></a></li>
-<li class="method public inherited"><a href="#method___get" title="__get :: Get a document attribute, magic method
-This function is mapped to get() internally."><span class="description">Get a document attribute, magic method
-This function is mapped to get() internally.</span><pre>__get()</pre></a></li>
+<li class="method public inherited"><a href="#method___get" title="__get :: Get a document attribute, magic method"><span class="description">Get a document attribute, magic method</span><pre>__get()</pre></a></li>
 <li class="method public inherited"><a href="#method___set" title="__set :: Set a document attribute, magic method"><span class="description">Set a document attribute, magic method</span><pre>__set()</pre></a></li>
 <li class="method public inherited"><a href="#method___toString" title="__toString :: Get a string representation of the document"><span class="description">Get a string representation of the document</span><pre>__toString()</pre></a></li>
 <li class="method public inherited"><a href="#method_createFromArray" title="createFromArray :: Factory method to construct a new document using the values passed to populate it"><span class="description">Factory method to construct a new document using the values passed to populate it</span><pre>createFromArray()</pre></a></li>
@@ -137,8 +133,7 @@ This function is mapped to get() internally.</span><pre>__get()</pre></a></li>
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
 <a id="method___clone"></a><div class="element clickable method public method___clone" data-toggle="collapse" data-target=".method___clone .collapse">
-<h2>Clone a document
-Returns the clone</h2>
+<h2>Clone a document</h2>
 <pre>__clone() : void</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"><p>Returns the clone</p></div></div></div>
@@ -156,12 +151,11 @@ Returns the clone</h2>
 </div></div>
 </div>
 <a id="method___get"></a><div class="element clickable method public method___get" data-toggle="collapse" data-target=".method___get .collapse">
-<h2>Get a document attribute, magic method
-This function is mapped to get() internally.</h2>
+<h2>Get a document attribute, magic method</h2>
 <pre>__get(string $key) : mixed</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This function is mapped to get() internally.</p></div>
 <table class="table table-bordered"><tr>
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\Document::__get()</td>
@@ -418,8 +412,9 @@ document id, in the format collectionid/documentid</p></div>
 <pre>set(string $key, mixed $value) : void</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>The key (attribute name) must be a string.
-This will validate the value of the attribute and might throw an
+<div class="long_description"><p>The key (attribute name) must be a string.</p>
+
+<p>This will validate the value of the attribute and might throw an
 exception if the value is invalid.</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -507,8 +502,10 @@ exception if the value is invalid.</p></div>
 <pre>setRevision(mixed $rev) : void</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>Revision ids are generated on the server only. Document ids are numeric but might be
-bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string should be used</p></div>
+<div class="long_description"><p>Revision ids are generated on the server only.</p>
+
+<p>Document ids are numeric but might be bigger than PHP_INT_MAX.
+To reliably store a document id elsewhere, a PHP string should be used</p></div>
 <table class="table table-bordered"><tr>
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\Document::setRevision()</td>
@@ -677,7 +674,7 @@ bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-28T21:56:52+02:00.<br></footer></div>
+            generated on 2012-10-29T15:55:44+02:00.<br></footer></div>
 </div>
 </body>
 </html>

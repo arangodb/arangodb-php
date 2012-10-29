@@ -18,6 +18,7 @@ namespace triagens\ArangoDb;
 abstract class Handler {
   /**
    * Connection object
+   * 
    * @param Connection
    */
   private $_connection;

@@ -63,9 +63,7 @@
 <li class="method public inherited"><a href="#method_deleteById" title="deleteById :: Delete a document from a collection, identified by the collection id and document id"><span class="description">Delete a document from a collection, identified by the collection id and document id</span><pre>deleteById()</pre></a></li>
 <li class="method public "><a href="#method_edges" title="edges :: Get edges for a given vertex"><span class="description">Get edges for a given vertex</span><pre>edges()</pre></a></li>
 <li class="method public inherited"><a href="#method_get" title="get :: Get a single document from a collection"><span class="description">Get a single document from a collection</span><pre>get()</pre></a></li>
-<li class="method public inherited"><a href="#method_getAllIds" title="getAllIds :: Get the list of all documents' ids from a collection
-This will throw if the list cannot be fetched from the server"><span class="description">Get the list of all documents' ids from a collection
-This will throw if the list cannot be fetched from the server</span><pre>getAllIds()</pre></a></li>
+<li class="method public inherited"><a href="#method_getAllIds" title="getAllIds :: Get the list of all documents' ids from a collection"><span class="description">Get the list of all documents' ids from a collection</span><pre>getAllIds()</pre></a></li>
 <li class="method public inherited"><a href="#method_getByExample" title="getByExample :: Get document(s) by specifying an example"><span class="description">Get document(s) by specifying an example</span><pre>getByExample()</pre></a></li>
 <li class="method public inherited"><a href="#method_getById" title="getById :: Get a single document from a collection"><span class="description">Get a single document from a collection</span><pre>getById()</pre></a></li>
 <li class="method public "><a href="#method_inEdges" title="inEdges :: Get inbound edges for a given vertex"><span class="description">Get inbound edges for a given vertex</span><pre>inEdges()</pre></a></li>
@@ -74,11 +72,7 @@ This will throw if the list cannot be fetched from the server</span><pre>getAllI
 <li class="method public inherited"><a href="#method_removeById" title="removeById :: Remove a document from a collection, identified by the collection id and document id"><span class="description">Remove a document from a collection, identified by the collection id and document id</span><pre>removeById()</pre></a></li>
 <li class="method public inherited"><a href="#method_replace" title="replace :: Replace an existing document in a collection, identified by the document itself"><span class="description">Replace an existing document in a collection, identified by the document itself</span><pre>replace()</pre></a></li>
 <li class="method public inherited"><a href="#method_replaceById" title="replaceById :: Replace an existing document in a collection, identified by collection id and document id"><span class="description">Replace an existing document in a collection, identified by collection id and document id</span><pre>replaceById()</pre></a></li>
-<li class="method public "><a href="#method_saveEdge" title="saveEdge :: save a adge to an edge-collection
-This will save the edge to the collection and return the edges-document's id
-This will throw if the document cannot be saved"><span class="description">save a adge to an edge-collection
-This will save the edge to the collection and return the edges-document's id
-This will throw if the document cannot be saved</span><pre>saveEdge()</pre></a></li>
+<li class="method public "><a href="#method_saveEdge" title="saveEdge :: save an edge to an edge-collection"><span class="description">save an edge to an edge-collection</span><pre>saveEdge()</pre></a></li>
 <li class="method public inherited"><a href="#method_update" title="update :: Update an existing document in a collection, identified by the document itself"><span class="description">Update an existing document in a collection, identified by the document itself</span><pre>update()</pre></a></li>
 <li class="method public inherited"><a href="#method_updateById" title="updateById :: Update an existing document in a collection, identified by collection id and document id"><span class="description">Update an existing document in a collection, identified by collection id and document id</span><pre>updateById()</pre></a></li>
 </ul>
@@ -129,10 +123,10 @@ This will throw if the document cannot be saved</span><pre>saveEdge()</pre></a><
 </li>
 </ul>
 <div class="element class">
-<p class="short_description">A document handler that fetches documents from the server and
+<p class="short_description">An edge-document handler that fetches edges from the server and
 persists them on the server.</p>
 <div class="details">
-<div class="long_description"><p>It does so by issueing the
+<div class="long_description"><p>It does so by issuing the
 appropriate HTTP requests to the server.</p></div>
 <table class="table table-bordered"><tr>
 <th>package</th>
@@ -316,12 +310,11 @@ appropriate HTTP requests to the server.</p></div>
 </div></div>
 </div>
 <a id="method_getAllIds"></a><div class="element clickable method public method_getAllIds" data-toggle="collapse" data-target=".method_getAllIds .collapse">
-<h2>Get the list of all documents' ids from a collection
-This will throw if the list cannot be fetched from the server</h2>
+<h2>Get the list of all documents' ids from a collection</h2>
 <pre>getAllIds(mixed $collectionId) : array</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This will throw if the list cannot be fetched from the server</p></div>
 <table class="table table-bordered"><tr>
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\DocumentHandler::getAllIds()</td>
@@ -642,13 +635,13 @@ that the revision of the to-be-replaced document is the same as the one given.</
 </div></div>
 </div>
 <a id="method_saveEdge"></a><div class="element clickable method public method_saveEdge" data-toggle="collapse" data-target=".method_saveEdge .collapse">
-<h2>save a adge to an edge-collection
-This will save the edge to the collection and return the edges-document's id
-This will throw if the document cannot be saved</h2>
+<h2>save an edge to an edge-collection</h2>
 <pre>saveEdge(mixed $collectionId, mixed $from, mixed $to, \triagens\ArangoDb\Document $document, bool $create) : mixed</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This will save the edge to the collection and return the edges-document's id</p>
+
+<p>This will throw if the document cannot be saved</p></div>
 <table class="table table-bordered"><tr>
 <th>since</th>
 <td>1.0</td>
@@ -983,7 +976,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-28T21:56:52+02:00.<br></footer></div>
+            generated on 2012-10-29T15:55:44+02:00.<br></footer></div>
 </div>
 </body>
 </html>

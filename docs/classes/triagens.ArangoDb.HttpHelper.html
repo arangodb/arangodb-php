@@ -59,12 +59,8 @@
 <i class="icon-custom icon-method"></i> Methods
                     <ul>
 <li class="method public "><a href="#method_buildRequest" title="buildRequest :: Create a request string (header and body)"><span class="description">Create a request string (header and body)</span><pre>buildRequest()</pre></a></li>
-<li class="method public "><a href="#method_createConnection" title="createConnection :: Create a one-time HTTP connection by opening a socket to the server
-It is the caller's responsibility to close the socket"><span class="description">Create a one-time HTTP connection by opening a socket to the server
-It is the caller's responsibility to close the socket</span><pre>createConnection()</pre></a></li>
-<li class="method public "><a href="#method_transfer" title="transfer :: Execute an HTTP request on an opened socket
-It is the caller's responsibility to close the socket"><span class="description">Execute an HTTP request on an opened socket
-It is the caller's responsibility to close the socket</span><pre>transfer()</pre></a></li>
+<li class="method public "><a href="#method_createConnection" title="createConnection :: Create a one-time HTTP connection by opening a socket to the server"><span class="description">Create a one-time HTTP connection by opening a socket to the server</span><pre>createConnection()</pre></a></li>
+<li class="method public "><a href="#method_transfer" title="transfer :: Execute an HTTP request on an opened socket"><span class="description">Execute an HTTP request on an opened socket</span><pre>transfer()</pre></a></li>
 <li class="method public "><a href="#method_validateMethod" title="validateMethod :: Validate an HTTP request method name"><span class="description">Validate an HTTP request method name</span><pre>validateMethod()</pre></a></li>
 </ul>
 </li>
@@ -144,12 +140,11 @@ It is the caller's responsibility to close the socket</span><pre>transfer()</pre
 </div></div>
 </div>
 <a id="method_createConnection"></a><div class="element clickable method public method_createConnection" data-toggle="collapse" data-target=".method_createConnection .collapse">
-<h2>Create a one-time HTTP connection by opening a socket to the server
-It is the caller's responsibility to close the socket</h2>
+<h2>Create a one-time HTTP connection by opening a socket to the server</h2>
 <pre>createConnection(\triagens\ArangoDb\ConnectionOptions $options) : resource</pre>
 <div class="labels"><span class="label">Static</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>It is the caller's responsibility to close the socket</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$options</h4>
@@ -168,12 +163,11 @@ It is the caller's responsibility to close the socket</h2>
 </div></div>
 </div>
 <a id="method_transfer"></a><div class="element clickable method public method_transfer" data-toggle="collapse" data-target=".method_transfer .collapse">
-<h2>Execute an HTTP request on an opened socket
-It is the caller's responsibility to close the socket</h2>
+<h2>Execute an HTTP request on an opened socket</h2>
 <pre>transfer(resource $socket, string $request) : string</pre>
 <div class="labels"><span class="label">Static</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>It is the caller's responsibility to close the socket</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$socket</h4>
@@ -278,7 +272,7 @@ It is the caller's responsibility to close the socket</h2>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-28T21:56:52+02:00.<br></footer></div>
+            generated on 2012-10-29T15:55:44+02:00.<br></footer></div>
 </div>
 </body>
 </html>

@@ -18,30 +18,35 @@ namespace triagens\ArangoDb;
 class HttpResponse {
   /**
    * The header retrieved
+   * 
    * @var string
    */
   private $_header  = '';
   
   /**
    * The body retrieved
+   * 
    * @var string
    */
   private $_body    = '';
   
   /**
    * All headers retrieved as an assoc array
+   * 
    * @var array
    */
   private $_headers = array();
   
   /**
    * The result statusline (first line of HTTP response header)
+   * 
    * @var string
    */
   private $_result  = '';
   
   /**
    * The HTTP status code of the response
+   * 
    * @var int
    */
   private $_httpCode;

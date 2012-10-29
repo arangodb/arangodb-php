@@ -45,6 +45,7 @@ class Autoloader {
    * Handle loading of an unknown class
    *
    * This will only handle class from its own namespace and ignore all others.
+   * 
    * This allows multiple autoloaders to be used in a nested fashion.
    *
    * @param string $className - name of class to be loaded 

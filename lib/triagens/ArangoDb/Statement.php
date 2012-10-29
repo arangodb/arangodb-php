@@ -13,7 +13,7 @@ namespace triagens\ArangoDb;
 /**
  * Container for a read-only ("select") statement
  * A statement is an AQL query that can be issued to the
- * server. Optional bind parameters can be used when issueing the
+ * server. Optional bind parameters can be used when issuing the
  * statement to separate the statement from the values.
  * Executing a statement will result in a cursor being created.
  *
@@ -22,36 +22,42 @@ namespace triagens\ArangoDb;
 class Statement {
   /**
    * The connection object
+   * 
    * @var Connection
    */
   private $_connection  = NULL;
   
   /**
    * The bind variables and values used for the statement
+   * 
    * @var BindVars
    */
   private $_bindVars;
   
   /**
    * The current batch size (number of result documents retrieved per roundtrip)
+   * 
    * @var mixed
    */
   private $_batchSize   = NULL;
   
   /**
    * The count flag (should server return total number of results)
+   * 
    * @var bool
    */
   private $_doCount     = false;
   
   /**
    * The query string
+   * 
    * @var string
    */
   private $_query       = NULL;
   
   /**
    * Sanitation flag (if set, the _id and _rev attributes will be removed from the results)
+   * 
    * @var bool
    */
   private $_sanitize    = false;
@@ -109,6 +115,7 @@ class Statement {
   
   /**
    * Execute the statement
+   * 
    * This will post the query to the server and return the results as
    * a Cursor. The cursor can then be used to iterate the results.
    *
@@ -124,6 +131,7 @@ class Statement {
 
   /**
    * Invoke the statement
+   * 
    * This will simply call execute(). Arguments are ignored.
    *
    * @throws Exception 
@@ -145,9 +153,11 @@ class Statement {
   
   /**
    * Bind a parameter to the statement
+   * 
    * This method can either be called with a string $key and a
    * separate value in $value, or with an array of all bind
    * bind parameters in $key, with $value being NULL.
+   * 
    * Allowed value types for bind parameters are string, int,
    * double, bool and array. Arrays must not contain any other
    * than these types.
@@ -215,11 +225,13 @@ class Statement {
 
   /**
    * Set the batch size for the statement 
+   * 
    * The batch size is the number of results to be transferred
    * in one server roundtrip. If a query produces more results
    * than the batch size, it creates a server-side cursor that
-   * provides the additional results. The server-side cursor can
-   * be accessed by the client with subsequent HTTP requests.
+   * provides the additional results. 
+   * 
+   * The server-side cursor can be accessed by the client with subsequent HTTP requests.
    *
    * @throws ClientException
    * @param int $value - batch size value
@@ -243,7 +255,7 @@ class Statement {
   }
   
   /**
-   * Build an array of data to be posted to the server when issueing the statement
+   * Build an array of data to be posted to the server when issuing the statement
    *
    * @return array - array of data to be sent to server
    */

@@ -57,7 +57,9 @@ class BindVars {
   
   /**
    * Set the value of a single bind variable or set all bind variables at once
+   * 
    * This will also validate the bind values.
+   * 
    * Allowed value types for bind parameters are string, int,
    * double, bool and array. Arrays must not contain any other
    * than these types.

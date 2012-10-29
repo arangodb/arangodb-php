@@ -40,6 +40,7 @@ abstract class URLHelper {
   
   /**
    * Construct a URL from a base URL and additional parts, seperated with '/' each
+   * 
    * This function accepts variable arguments.
    *
    * @param string $baseUrl - base URL
@@ -61,6 +62,7 @@ abstract class URLHelper {
   
   /**
    * Append parameters to a URL
+   * 
    * Parameter values will be URL-encoded
    *
    * @param string $baseUrl - base URL

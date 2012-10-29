@@ -133,6 +133,7 @@ class HttpHelper {
 
   /**
    * Execute an HTTP request on an opened socket
+   * 
    * It is the caller's responsibility to close the socket
    *
    * @param resource $socket - connection socket (must be open)
@@ -184,6 +185,7 @@ class HttpHelper {
 
   /**
    * Create a one-time HTTP connection by opening a socket to the server
+   * 
    * It is the caller's responsibility to close the socket
    *
    * @throws ConnectException
