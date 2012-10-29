@@ -18,6 +18,7 @@ namespace triagens\ArangoDb;
 class ValueValidator {
   /**
    * Validate the value of a variable
+   * 
    * Allowed value types are string, integer, double and booleans. Arrays are also allowed if they contain only one of the former types.
    *
    * @throws ClientException

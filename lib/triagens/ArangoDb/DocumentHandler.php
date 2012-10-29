@@ -14,7 +14,7 @@ namespace triagens\ArangoDb;
 
 /**
  * A document handler that fetches documents from the server and
- * persists them on the server. It does so by issueing the 
+ * persists them on the server. It does so by issuing the 
  * appropriate HTTP requests to the server.
  *
  * @package ArangoDbPhpClient

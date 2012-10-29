@@ -111,6 +111,7 @@ class Collection {
   
   /**
    * Clone a collection
+   * 
    * Returns the clone 
    *
    * @return void
@@ -123,6 +124,7 @@ class Collection {
   
   /**
    * Get a string representation of the collection
+   * 
    * Returns the collection as JSON-encoded string
    *
    * @return string - JSON-encoded collection
@@ -167,6 +169,7 @@ class Collection {
    * Set a collection attribute
    *
    * The key (attribute name) must be a string.
+   * 
    * This will validate the value of the attribute and might throw an
    * exception if the value is invalid.
    *
@@ -205,6 +208,7 @@ class Collection {
   
   /**
    * Set the collection id 
+   * 
    * This will throw if the id of an existing collection gets updated to some other id
    *
    * @throws ClientException
@@ -221,8 +225,11 @@ class Collection {
   
   /**
    * Get the collection id (if already known)
-   * Collection ids are generated on the server only. Collection ids are numeric but might be
-   * bigger than PHP_INT_MAX. To reliably store a collection id elsewhere, a PHP string should be used 
+   * 
+   * Collection ids are generated on the server only. 
+   * 
+   * Collection ids are numeric but might be bigger than PHP_INT_MAX. 
+   * To reliably store a collection id elsewhere, a PHP string should be used 
    *
    * @return mixed - collection id, might be NULL if collection does not yet have an id
    */
@@ -257,7 +264,9 @@ class Collection {
   }
   
   /**
-   * Set the collection type. This is useful before a collection is create() 'ed in order to set a different type than the normal one. 
+   * Set the collection type. 
+   * 
+   * This is useful before a collection is create() 'ed in order to set a different type than the normal one. 
    * For example this must be set to 3 in order to create an edge-collection.
    *
    * @throws ClientException

@@ -12,7 +12,7 @@ namespace triagens\ArangoDb;
 
 /**
  * A collection handler that fetches collection data from the server and
- * creates collections on the server. It does so by issueing the 
+ * creates collections on the server. It does so by issuing the 
  * appropriate HTTP requests to the server.
  *
  * @package ArangoDbPhpClient
@@ -56,6 +56,7 @@ class CollectionHandler extends Handler {
 
   /**
    * Get information about a collection
+   * 
    * This will throw if the collection cannot be fetched from the server
    *
    * @throws Exception
@@ -73,6 +74,7 @@ class CollectionHandler extends Handler {
   
   /**
    * Get the number of documents in a collection
+   * 
    * This will throw if the collection cannot be fetched from the server
    *
    * @throws Exception
@@ -89,6 +91,7 @@ class CollectionHandler extends Handler {
   
   /**
    * Get the number of documents in a collection
+   * 
    * This will throw if the collection cannot be fetched from the server
    *
    * @throws Exception
@@ -107,6 +110,7 @@ class CollectionHandler extends Handler {
   
   /**
    * Get figures for a collection
+   * 
    * This will throw if the collection cannot be fetched from the server
    *
    * @throws Exception
@@ -121,6 +125,7 @@ class CollectionHandler extends Handler {
   
   /**
    * Get figures for a collection
+   * 
    * This will throw if the collection cannot be fetched from the server
    *
    * @throws Exception
@@ -139,7 +144,9 @@ class CollectionHandler extends Handler {
 
   /**
    * Adds a new collection on the server
+   * 
    * This will add the collection on the server and return its id
+   * 
    * This will throw if the collection cannot be created
    *
    * @throws Exception
@@ -154,7 +161,9 @@ class CollectionHandler extends Handler {
 
   /**
    * Creates a new collection on the server
+   * 
    * This will add the collection on the server and return its id
+   * 
    * This will throw if the collection cannot be created
    *
    * @throws Exception
@@ -246,6 +255,7 @@ class CollectionHandler extends Handler {
 
   /**
    * Truncate a collection
+   * 
    * This will remove all documents from the collection but will leave the metadata and indexes intact.
    *
    * @throws Exception
@@ -271,6 +281,7 @@ class CollectionHandler extends Handler {
   
   /**
    * Get document(s) by specifying an example
+   * 
    * This will throw if the list cannot be fetched from the server
    *
    * @throws Exception
@@ -297,6 +308,7 @@ class CollectionHandler extends Handler {
   
   /**
    * Get the list of all documents' ids from a collection
+   * 
    * This will throw if the list cannot be fetched from the server
    *
    * @throws Exception

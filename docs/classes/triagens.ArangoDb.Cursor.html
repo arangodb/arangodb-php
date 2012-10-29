@@ -60,40 +60,20 @@
                     <ul>
 <li class="method public "><a href="#method___construct" title="__construct :: Initialise the cursor with the first results and some metadata"><span class="description">Initialise the cursor with the first results and some metadata</span><pre>__construct()</pre></a></li>
 <li class="method public "><a href="#method_current" title="current :: Return the current result row, necessary for Iterator"><span class="description">Return the current result row, necessary for Iterator</span><pre>current()</pre></a></li>
-<li class="method public "><a href="#method_delete" title="delete :: Explicitly delete the cursor
-This might issue an HTTP DELETE request to inform the server about
-the deletion."><span class="description">Explicitly delete the cursor
-This might issue an HTTP DELETE request to inform the server about
-the deletion.</span><pre>delete()</pre></a></li>
-<li class="method public "><a href="#method_getAll" title="getAll :: Get all results as an array
-This might issue additional HTTP requests to fetch any outstanding
-results from the server"><span class="description">Get all results as an array
-This might issue additional HTTP requests to fetch any outstanding
-results from the server</span><pre>getAll()</pre></a></li>
-<li class="method public "><a href="#method_getCount" title="getCount :: Get the total number of results in the cursor
-This might issue additional HTTP requests to fetch any outstanding
-results from the server"><span class="description">Get the total number of results in the cursor
-This might issue additional HTTP requests to fetch any outstanding
-results from the server</span><pre>getCount()</pre></a></li>
+<li class="method public "><a href="#method_delete" title="delete :: Explicitly delete the cursor"><span class="description">Explicitly delete the cursor</span><pre>delete()</pre></a></li>
+<li class="method public "><a href="#method_getAll" title="getAll :: Get all results as an array"><span class="description">Get all results as an array</span><pre>getAll()</pre></a></li>
+<li class="method public "><a href="#method_getCount" title="getCount :: Get the total number of results in the cursor"><span class="description">Get the total number of results in the cursor</span><pre>getCount()</pre></a></li>
 <li class="method public "><a href="#method_key" title="key :: Return the index of the current result row, necessary for Iterator"><span class="description">Return the index of the current result row, necessary for Iterator</span><pre>key()</pre></a></li>
 <li class="method public "><a href="#method_next" title="next :: Advance the cursor, necessary for Iterator"><span class="description">Advance the cursor, necessary for Iterator</span><pre>next()</pre></a></li>
 <li class="method public "><a href="#method_rewind" title="rewind :: Rewind the cursor, necessary for Iterator"><span class="description">Rewind the cursor, necessary for Iterator</span><pre>rewind()</pre></a></li>
-<li class="method public "><a href="#method_valid" title="valid :: Check if cursor can be advanced further, necessary for Iterator
-This might issue additional HTTP requests to fetch any outstanding
-results from the server"><span class="description">Check if cursor can be advanced further, necessary for Iterator
-This might issue additional HTTP requests to fetch any outstanding
-results from the server</span><pre>valid()</pre></a></li>
+<li class="method public "><a href="#method_valid" title="valid :: Check if cursor can be advanced further, necessary for Iterator"><span class="description">Check if cursor can be advanced further, necessary for Iterator</span><pre>valid()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header private">» Private
                     <ul>
 <li class="method private "><a href="#method_addDocumentsFromArray" title="addDocumentsFromArray :: Create an array of documents from the input array"><span class="description">Create an array of documents from the input array</span><pre>addDocumentsFromArray()</pre></a></li>
 <li class="method private "><a href="#method_fetchOutstanding" title="fetchOutstanding :: Fetch outstanding results from the server"><span class="description">Fetch outstanding results from the server</span><pre>fetchOutstanding()</pre></a></li>
-<li class="method private "><a href="#method_sanitize" title='sanitize :: Sanitize the result set rows
-This will remove the _id and _rev attributes from the results if the
-"sanitize" option is set'><span class="description">Sanitize the result set rows
-This will remove the _id and _rev attributes from the results if the
-"sanitize" option is set</span><pre>sanitize()</pre></a></li>
+<li class="method private "><a href="#method_sanitize" title="sanitize :: Sanitize the result set rows"><span class="description">Sanitize the result set rows</span><pre>sanitize()</pre></a></li>
 <li class="method private "><a href="#method_updateLength" title="updateLength :: Set the length of the (fetched) result set"><span class="description">Set the length of the (fetched) result set</span><pre>updateLength()</pre></a></li>
 </ul>
 </li>
@@ -137,10 +117,11 @@ This will remove the _id and _rev attributes from the results if the
 </li>
 </ul>
 <div class="element class">
-<p class="short_description">Provides access to the results of a read-only statement
-The cursor might not contain all results in the beginning.</p>
+<p class="short_description">Provides access to the results of a read-only statement</p>
 <div class="details">
-<div class="long_description"><p>If the result set is too big to be transferred in one go, the
+<div class="long_description"><p>The cursor might not contain all results in the beginning.</p>
+
+<p>If the result set is too big to be transferred in one go, the
 cursor might issue additional HTTP requests to fetch the
 remaining results from the server.</p></div>
 <table class="table table-bordered"><tr>
@@ -188,13 +169,12 @@ remaining results from the server.</p></div>
 </div></div>
 </div>
 <a id="method_delete"></a><div class="element clickable method public method_delete" data-toggle="collapse" data-target=".method_delete .collapse">
-<h2>Explicitly delete the cursor
-This might issue an HTTP DELETE request to inform the server about
-the deletion.</h2>
+<h2>Explicitly delete the cursor</h2>
 <pre>delete() : bool</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This might issue an HTTP DELETE request to inform the server about
+the deletion.</p></div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
 <th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
@@ -206,13 +186,12 @@ the deletion.</h2>
 </div></div>
 </div>
 <a id="method_getAll"></a><div class="element clickable method public method_getAll" data-toggle="collapse" data-target=".method_getAll .collapse">
-<h2>Get all results as an array
-This might issue additional HTTP requests to fetch any outstanding
-results from the server</h2>
+<h2>Get all results as an array</h2>
 <pre>getAll() : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This might issue additional HTTP requests to fetch any outstanding
+results from the server</p></div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
 <th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
@@ -224,13 +203,12 @@ results from the server</h2>
 </div></div>
 </div>
 <a id="method_getCount"></a><div class="element clickable method public method_getCount" data-toggle="collapse" data-target=".method_getCount .collapse">
-<h2>Get the total number of results in the cursor
-This might issue additional HTTP requests to fetch any outstanding
-results from the server</h2>
+<h2>Get the total number of results in the cursor</h2>
 <pre>getCount() : int</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This might issue additional HTTP requests to fetch any outstanding
+results from the server</p></div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
 <th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
@@ -265,13 +243,12 @@ results from the server</h2>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="method_valid"></a><div class="element clickable method public method_valid" data-toggle="collapse" data-target=".method_valid .collapse">
-<h2>Check if cursor can be advanced further, necessary for Iterator
-This might issue additional HTTP requests to fetch any outstanding
-results from the server</h2>
+<h2>Check if cursor can be advanced further, necessary for Iterator</h2>
 <pre>valid() : bool</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This might issue additional HTTP requests to fetch any outstanding
+results from the server</p></div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
 <th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
@@ -311,13 +288,12 @@ results from the server</h2>
 </div></div>
 </div>
 <a id="method_sanitize"></a><div class="element clickable method private method_sanitize" data-toggle="collapse" data-target=".method_sanitize .collapse">
-<h2>Sanitize the result set rows
-This will remove the _id and _rev attributes from the results if the
-"sanitize" option is set</h2>
+<h2>Sanitize the result set rows</h2>
 <pre>sanitize(array $rows) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This will remove the _id and _rev attributes from the results if the
+"sanitize" option is set</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$rows</h4>
@@ -413,7 +389,7 @@ This will remove the _id and _rev attributes from the results if the
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-28T21:56:52+02:00.<br></footer></div>
+            generated on 2012-10-29T15:55:44+02:00.<br></footer></div>
 </div>
 </body>
 </html>

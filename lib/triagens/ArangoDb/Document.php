@@ -320,8 +320,10 @@ class Document {
   /**
    * Set the document revision
    * 
-   * Revision ids are generated on the server only. Document ids are numeric but might be
-   * bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string should be used 
+   * Revision ids are generated on the server only. 
+   * 
+   * Document ids are numeric but might be bigger than PHP_INT_MAX. 
+   * To reliably store a document id elsewhere, a PHP string should be used 
    *
    * @param mixed $rev - revision id
    * @return void

@@ -175,7 +175,20 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(true === ($resultingDocument3->someAttribute == 'someValue2'));
         $this->assertTrue(true === ($resultingDocument3->someOtherAttribute == 'someOtherValue2'));
 
-        $response = $documentHandler->delete($resultingDocument);
+       
+        $e=null;
+        try {
+                  $response = $documentHandler->delete($resultingDocument, "error");
+        } catch (\Exception $e) {
+            // don't bother us... just give us the $e
+        }
+        
+        $this->assertInstanceOf('Exception', $e, "Delete should have raised an exception here");
+        $this->assertTrue($e->getMessage() == 'HTTP/1.1 412 Precondition Failed');
+        unset ($e);
+        
+      
+        $response = $documentHandler->delete($resultingDocument3, "error");
         $this->assertTrue(true === $response, 'Delete should return true!');
     }
 

@@ -59,38 +59,22 @@
 <i class="icon-custom icon-method"></i> Methods
                     <ul>
 <li class="method public "><a href="#method___construct" title="__construct :: Initialise the statement"><span class="description">Initialise the statement</span><pre>__construct()</pre></a></li>
-<li class="method public "><a href="#method___invoke" title="__invoke :: Invoke the statement
-This will simply call execute()."><span class="description">Invoke the statement
-This will simply call execute().</span><pre>__invoke()</pre></a></li>
+<li class="method public "><a href="#method___invoke" title="__invoke :: Invoke the statement"><span class="description">Invoke the statement</span><pre>__invoke()</pre></a></li>
 <li class="method public "><a href="#method___toString" title="__toString :: Return a string representation of the statement"><span class="description">Return a string representation of the statement</span><pre>__toString()</pre></a></li>
-<li class="method public "><a href="#method_bind" title="bind :: Bind a parameter to the statement
-This method can either be called with a string $key and a
-separate value in $value, or with an array of all bind
-bind parameters in $key, with $value being NULL."><span class="description">Bind a parameter to the statement
-This method can either be called with a string $key and a
-separate value in $value, or with an array of all bind
-bind parameters in $key, with $value being NULL.</span><pre>bind()</pre></a></li>
-<li class="method public "><a href="#method_execute" title="execute :: Execute the statement
-This will post the query to the server and return the results as
-a Cursor."><span class="description">Execute the statement
-This will post the query to the server and return the results as
-a Cursor.</span><pre>execute()</pre></a></li>
+<li class="method public "><a href="#method_bind" title="bind :: Bind a parameter to the statement"><span class="description">Bind a parameter to the statement</span><pre>bind()</pre></a></li>
+<li class="method public "><a href="#method_execute" title="execute :: Execute the statement"><span class="description">Execute the statement</span><pre>execute()</pre></a></li>
 <li class="method public "><a href="#method_getBatchSize" title="getBatchSize :: Get the batch size for the statement"><span class="description">Get the batch size for the statement</span><pre>getBatchSize()</pre></a></li>
 <li class="method public "><a href="#method_getBindVars" title="getBindVars :: Get all bind parameters as an array"><span class="description">Get all bind parameters as an array</span><pre>getBindVars()</pre></a></li>
 <li class="method public "><a href="#method_getCount" title="getCount :: Get the count option value of the statement"><span class="description">Get the count option value of the statement</span><pre>getCount()</pre></a></li>
 <li class="method public "><a href="#method_getQuery" title="getQuery :: Get the query string"><span class="description">Get the query string</span><pre>getQuery()</pre></a></li>
-<li class="method public "><a href="#method_setBatchSize" title="setBatchSize :: Set the batch size for the statement
-The batch size is the number of results to be transferred
-in one server roundtrip."><span class="description">Set the batch size for the statement
-The batch size is the number of results to be transferred
-in one server roundtrip.</span><pre>setBatchSize()</pre></a></li>
+<li class="method public "><a href="#method_setBatchSize" title="setBatchSize :: Set the batch size for the statement"><span class="description">Set the batch size for the statement</span><pre>setBatchSize()</pre></a></li>
 <li class="method public "><a href="#method_setCount" title="setCount :: Set the count option for the statement"><span class="description">Set the count option for the statement</span><pre>setCount()</pre></a></li>
 <li class="method public "><a href="#method_setQuery" title="setQuery :: Set the query string"><span class="description">Set the query string</span><pre>setQuery()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header private">» Private
                     <ul>
-<li class="method private "><a href="#method_buildData" title="buildData :: Build an array of data to be posted to the server when issueing the statement"><span class="description">Build an array of data to be posted to the server when issueing the statement</span><pre>buildData()</pre></a></li>
+<li class="method private "><a href="#method_buildData" title="buildData :: Build an array of data to be posted to the server when issuing the statement"><span class="description">Build an array of data to be posted to the server when issuing the statement</span><pre>buildData()</pre></a></li>
 <li class="method private "><a href="#method_getCursorOptions" title="getCursorOptions :: Return an array of cursor options"><span class="description">Return an array of cursor options</span><pre>getCursorOptions()</pre></a></li>
 </ul>
 </li>
@@ -137,7 +121,7 @@ in one server roundtrip.</span><pre>setBatchSize()</pre></a></li>
 A statement is an AQL query that can be issued to the
 server.</p>
 <div class="details">
-<div class="long_description"><p>Optional bind parameters can be used when issueing the
+<div class="long_description"><p>Optional bind parameters can be used when issuing the
 statement to separate the statement from the values.
 Executing a statement will result in a cursor being created.</p></div>
 <table class="table table-bordered"><tr>
@@ -173,12 +157,11 @@ Executing a statement will result in a cursor being created.</p></div>
 </div></div>
 </div>
 <a id="method___invoke"></a><div class="element clickable method public method___invoke" data-toggle="collapse" data-target=".method___invoke .collapse">
-<h2>Invoke the statement
-This will simply call execute().</h2>
+<h2>Invoke the statement</h2>
 <pre>__invoke(mixed $args) : <a href="../classes/triagens.ArangoDb.Cursor.html">\triagens\ArangoDb\Cursor</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>Arguments are ignored.</p></div>
+<div class="long_description"><p>This will simply call execute(). Arguments are ignored.</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$args</h4>
@@ -208,14 +191,15 @@ This will simply call execute().</h2>
 </div></div>
 </div>
 <a id="method_bind"></a><div class="element clickable method public method_bind" data-toggle="collapse" data-target=".method_bind .collapse">
-<h2>Bind a parameter to the statement
-This method can either be called with a string $key and a
-separate value in $value, or with an array of all bind
-bind parameters in $key, with $value being NULL.</h2>
+<h2>Bind a parameter to the statement</h2>
 <pre>bind(mixed $key, mixed $value) : void</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>Allowed value types for bind parameters are string, int,
+<div class="long_description"><p>This method can either be called with a string $key and a
+separate value in $value, or with an array of all bind
+bind parameters in $key, with $value being NULL.</p>
+
+<p>Allowed value types for bind parameters are string, int,
 double, bool and array. Arrays must not contain any other
 than these types.</p></div>
 <h3>Parameters</h3>
@@ -239,13 +223,12 @@ than these types.</p></div>
 </div></div>
 </div>
 <a id="method_execute"></a><div class="element clickable method public method_execute" data-toggle="collapse" data-target=".method_execute .collapse">
-<h2>Execute the statement
-This will post the query to the server and return the results as
-a Cursor.</h2>
+<h2>Execute the statement</h2>
 <pre>execute() : <a href="../classes/triagens.ArangoDb.Cursor.html">\triagens\ArangoDb\Cursor</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>The cursor can then be used to iterate the results.</p></div>
+<div class="long_description"><p>This will post the query to the server and return the results as
+a Cursor. The cursor can then be used to iterate the results.</p></div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
 <th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
@@ -300,16 +283,16 @@ a Cursor.</h2>
 </div></div>
 </div>
 <a id="method_setBatchSize"></a><div class="element clickable method public method_setBatchSize" data-toggle="collapse" data-target=".method_setBatchSize .collapse">
-<h2>Set the batch size for the statement
-The batch size is the number of results to be transferred
-in one server roundtrip.</h2>
+<h2>Set the batch size for the statement</h2>
 <pre>setBatchSize(int $value) : void</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>If a query produces more results
+<div class="long_description"><p>The batch size is the number of results to be transferred
+in one server roundtrip. If a query produces more results
 than the batch size, it creates a server-side cursor that
-provides the additional results. The server-side cursor can
-be accessed by the client with subsequent HTTP requests.</p></div>
+provides the additional results.</p>
+
+<p>The server-side cursor can be accessed by the client with subsequent HTTP requests.</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$value</h4>
@@ -360,7 +343,7 @@ be accessed by the client with subsequent HTTP requests.</p></div>
 </div></div>
 </div>
 <a id="method_buildData"></a><div class="element clickable method private method_buildData" data-toggle="collapse" data-target=".method_buildData .collapse">
-<h2>Build an array of data to be posted to the server when issueing the statement</h2>
+<h2>Build an array of data to be posted to the server when issuing the statement</h2>
 <pre>buildData() : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
@@ -452,7 +435,7 @@ be accessed by the client with subsequent HTTP requests.</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-28T21:56:52+02:00.<br></footer></div>
+            generated on 2012-10-29T15:55:44+02:00.<br></footer></div>
 </div>
 </body>
 </html>
