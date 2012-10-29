@@ -1,0 +1,37 @@
+v1.0.0 (XXXX-XX-XX)
+-------------------
+
+* issue #18: Implemented revision check with policy = "error" 
+  for update/replace and delete/remove methods.
+
+* issue #17: Implemented basic edges support
+
+* issue #14: Refactored function names to better match the server api.
+  This results in sevaral methods being deprecated:
+
+DocumentHandler:
+  update(), updateById() => These are replaced by replace() and replaceById(). They will have their behavior changed in api version 1.1 in favor for the update method that has been added in ArangoDb 1.1
+
+  delete(), deleteById() => These are replaced by remove() and removeById(). They will be removed in api version 2.0.
+
+  add() => This is being replaced by the new save() method. add() will be removed in api version 2.0.
+
+  getByExample() => This is being replaced by CollectionHandler::byExample(). byExample() will be removed in api version 2.0.
+
+  getAllIds() => This is being replaced by CollectionHandler::getAllIds(). getAllIds() will be removed in api version 2.0.
+
+CollectionHandler:
+
+  add() => This is being replaced by the new create() method. add() will be removed in api version 2.0.
+
+  delete() => This is being replaced by the new drop() method. delete() will be removed in api version 2.0.
+
+  getCount() => This is being replaced by the new count() method. getCount() will be removed in api version 2.0.
+
+  getFigures() => This is being replaced by the new figures() method. getFigures() will be removed in api version 2.0.
+
+
+
+* issue #11: Written initial unit tests for api.
+* issue #10: Implemented api version info constant and a getVersion() method to go with it.
+
