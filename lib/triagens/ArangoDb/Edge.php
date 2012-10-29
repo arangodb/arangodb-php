@@ -42,6 +42,7 @@ class Edge extends Document {
   
   /**
    * Clone a document
+   * 
    * Returns the clone 
    *
    * @return void
@@ -58,6 +59,7 @@ class Edge extends Document {
    * Set a document attribute
    *
    * The key (attribute name) must be a string.
+   * 
    * This will validate the value of the attribute and might throw an
    * exception if the value is invalid.
    *

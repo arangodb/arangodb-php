@@ -12,8 +12,8 @@
 namespace triagens\ArangoDb;
 
 /**
- * A document handler that fetches documents from the server and
- * persists them on the server. It does so by issueing the 
+ * An edge-document handler that fetches edges from the server and
+ * persists them on the server. It does so by issuing the 
  * appropriate HTTP requests to the server.
  *
  * @package ArangoDbPhpClient
@@ -84,8 +84,10 @@ class EdgeHandler extends DocumentHandler {
   
     
   /**
-   * save a adge to an edge-collection
+   * save an edge to an edge-collection
+   * 
    * This will save the edge to the collection and return the edges-document's id
+   * 
    * This will throw if the document cannot be saved
    *
    * @throws Exception

@@ -58,25 +58,18 @@
 <li class="nav-header">
 <i class="icon-custom icon-method"></i> Methods
                     <ul>
-<li class="method public "><a href="#method___clone" title="__clone :: Clone a collection
-Returns the clone"><span class="description">Clone a collection
-Returns the clone</span><pre>__clone()</pre></a></li>
+<li class="method public "><a href="#method___clone" title="__clone :: Clone a collection"><span class="description">Clone a collection</span><pre>__clone()</pre></a></li>
 <li class="method public "><a href="#method___construct" title="__construct :: Constructs an empty collection"><span class="description">Constructs an empty collection</span><pre>__construct()</pre></a></li>
-<li class="method public "><a href="#method___toString" title="__toString :: Get a string representation of the collection
-Returns the collection as JSON-encoded string"><span class="description">Get a string representation of the collection
-Returns the collection as JSON-encoded string</span><pre>__toString()</pre></a></li>
+<li class="method public "><a href="#method___toString" title="__toString :: Get a string representation of the collection"><span class="description">Get a string representation of the collection</span><pre>__toString()</pre></a></li>
 <li class="method public "><a href="#method_createFromArray" title="createFromArray :: Factory method to construct a new collection"><span class="description">Factory method to construct a new collection</span><pre>createFromArray()</pre></a></li>
 <li class="method public "><a href="#method_getAll" title="getAll :: Get all collection attributes"><span class="description">Get all collection attributes</span><pre>getAll()</pre></a></li>
-<li class="method public "><a href="#method_getId" title="getId :: Get the collection id (if already known)
-Collection ids are generated on the server only."><span class="description">Get the collection id (if already known)
-Collection ids are generated on the server only.</span><pre>getId()</pre></a></li>
+<li class="method public "><a href="#method_getDefaultType" title="getDefaultType :: Get the default collection type"><span class="description">Get the default collection type</span><pre>getDefaultType()</pre></a></li>
+<li class="method public "><a href="#method_getId" title="getId :: Get the collection id (if already known)"><span class="description">Get the collection id (if already known)</span><pre>getId()</pre></a></li>
 <li class="method public "><a href="#method_getName" title="getName :: Get the collection name (if already known)"><span class="description">Get the collection name (if already known)</span><pre>getName()</pre></a></li>
 <li class="method public "><a href="#method_getType" title="getType :: Get the collection type (if already known)"><span class="description">Get the collection type (if already known)</span><pre>getType()</pre></a></li>
 <li class="method public "><a href="#method_getWaitForSync" title="getWaitForSync :: Get the waitForSync value (if already known)"><span class="description">Get the waitForSync value (if already known)</span><pre>getWaitForSync()</pre></a></li>
 <li class="method public "><a href="#method_set" title="set :: Set a collection attribute"><span class="description">Set a collection attribute</span><pre>set()</pre></a></li>
-<li class="method public "><a href="#method_setId" title="setId :: Set the collection id
-This will throw if the id of an existing collection gets updated to some other id"><span class="description">Set the collection id
-This will throw if the id of an existing collection gets updated to some other id</span><pre>setId()</pre></a></li>
+<li class="method public "><a href="#method_setId" title="setId :: Set the collection id"><span class="description">Set the collection id</span><pre>setId()</pre></a></li>
 <li class="method public "><a href="#method_setName" title="setName :: Set the collection name"><span class="description">Set the collection name</span><pre>setName()</pre></a></li>
 <li class="method public "><a href="#method_setType" title="setType :: Set the collection type."><span class="description">Set the collection type.</span><pre>setType()</pre></a></li>
 <li class="method public "><a href="#method_setWaitForSync" title="setWaitForSync :: Set the waitForSync value"><span class="description">Set the waitForSync value</span><pre>setWaitForSync()</pre></a></li>
@@ -104,6 +97,8 @@ This will throw if the id of an existing collection gets updated to some other i
 <li class="constant  "><a href="#constant_ENTRY_TYPE" title="ENTRY_TYPE :: Collection type index"><span class="description">Collection type index</span><pre>ENTRY_TYPE</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_WAIT_SYNC" title="ENTRY_WAIT_SYNC :: Collection 'waitForSync' index"><span class="description">Collection 'waitForSync' index</span><pre>ENTRY_WAIT_SYNC</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_PROPERTIES" title="OPTION_PROPERTIES :: properties option"><span class="description">properties option</span><pre>OPTION_PROPERTIES</pre></a></li>
+<li class="constant  "><a href="#constant_TYPE_DOCUMENT" title="TYPE_DOCUMENT :: document collection type"><span class="description">document collection type</span><pre>TYPE_DOCUMENT</pre></a></li>
+<li class="constant  "><a href="#constant_TYPE_EDGE" title="TYPE_EDGE :: edge collection type"><span class="description">edge collection type</span><pre>TYPE_EDGE</pre></a></li>
 </ul>
 </li>
 </ul>
@@ -132,11 +127,10 @@ This will throw if the id of an existing collection gets updated to some other i
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
 <a id="method___clone"></a><div class="element clickable method public method___clone" data-toggle="collapse" data-target=".method___clone .collapse">
-<h2>Clone a collection
-Returns the clone</h2>
+<h2>Clone a collection</h2>
 <pre>__clone() : void</pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>Returns the clone</p></div></div></div>
 </div>
 <a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
 <h2>Constructs an empty collection</h2>
@@ -145,12 +139,11 @@ Returns the clone</h2>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="method___toString"></a><div class="element clickable method public method___toString" data-toggle="collapse" data-target=".method___toString .collapse">
-<h2>Get a string representation of the collection
-Returns the collection as JSON-encoded string</h2>
+<h2>Get a string representation of the collection</h2>
 <pre>__toString() : string</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>Returns the collection as JSON-encoded string</p></div>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>string</code>- JSON-encoded collection</div>
@@ -189,14 +182,26 @@ Returns the collection as JSON-encoded string</h2>
 <code>array</code>- array of all collection attributes</div>
 </div></div>
 </div>
+<a id="method_getDefaultType"></a><div class="element clickable method public method_getDefaultType" data-toggle="collapse" data-target=".method_getDefaultType .collapse">
+<h2>Get the default collection type</h2>
+<pre>getDefaultType() : string</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>- name</div>
+</div></div>
+</div>
 <a id="method_getId"></a><div class="element clickable method public method_getId" data-toggle="collapse" data-target=".method_getId .collapse">
-<h2>Get the collection id (if already known)
-Collection ids are generated on the server only.</h2>
+<h2>Get the collection id (if already known)</h2>
 <pre>getId() : mixed</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>Collection ids are numeric but might be
-bigger than PHP_INT_MAX. To reliably store a collection id elsewhere, a PHP string should be used</p></div>
+<div class="long_description"><p>Collection ids are generated on the server only.</p>
+
+<p>Collection ids are numeric but might be bigger than PHP_INT_MAX.
+To reliably store a collection id elsewhere, a PHP string should be used</p></div>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>mixed</code>- collection id, might be NULL if collection does not yet have an id</div>
@@ -240,8 +245,9 @@ bigger than PHP_INT_MAX. To reliably store a collection id elsewhere, a PHP stri
 <pre>set(string $key, mixed $value) : void</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>The key (attribute name) must be a string.
-This will validate the value of the attribute and might throw an
+<div class="long_description"><p>The key (attribute name) must be a string.</p>
+
+<p>This will validate the value of the attribute and might throw an
 exception if the value is invalid.</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -264,12 +270,11 @@ exception if the value is invalid.</p></div>
 </div></div>
 </div>
 <a id="method_setId"></a><div class="element clickable method public method_setId" data-toggle="collapse" data-target=".method_setId .collapse">
-<h2>Set the collection id
-This will throw if the id of an existing collection gets updated to some other id</h2>
+<h2>Set the collection id</h2>
 <pre>setId(mixed $id) : void</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This will throw if the id of an existing collection gets updated to some other id</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$id</h4>
@@ -420,6 +425,18 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="constant_TYPE_DOCUMENT"> </a><div class="element clickable constant  constant_TYPE_DOCUMENT" data-toggle="collapse" data-target=".constant_TYPE_DOCUMENT .collapse">
+<h2>document collection type</h2>
+<pre>TYPE_DOCUMENT </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_TYPE_EDGE"> </a><div class="element clickable constant  constant_TYPE_EDGE" data-toggle="collapse" data-target=".constant_TYPE_EDGE .collapse">
+<h2>edge collection type</h2>
+<pre>TYPE_EDGE </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 </div>
 </div>
 </div>
@@ -427,7 +444,7 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-28T21:56:52+02:00.<br></footer></div>
+            generated on 2012-10-29T15:55:44+02:00.<br></footer></div>
 </div>
 </body>
 </html>

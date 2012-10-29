@@ -22,24 +22,28 @@ namespace triagens\ArangoDb;
 class Connection {
   /**
    * Api Version
+   * 
    * @var string
    */
   public static  $_apiVersion = '1.0.0';
 
   /**
    * Connection options
+   * 
    * @var array 
    */
   private $_options;
   
   /**
    * Connection handle, used in case of keep-alive
+   * 
    * @var resource
    */
   private $_handle;
 
   /**
    * Flag if keep-alive connections are used
+   * 
    * @var bool
    */
   private $_useKeepAlive;
@@ -146,6 +150,7 @@ class Connection {
 
   /**
    * Get a connection handle
+   * 
    * If keep-alive connections are used, the handle will be stored and re-used
    *
    * @return resource - connection handle
@@ -219,6 +224,7 @@ class Connection {
    * 
    * This function will throw if no connection to the server can be established or if
    * there is a problem during data exchange with the server.
+   * 
    * The function might temporarily alter the value of the php.ini value 'default_socket_timeout' but
    * will restore it.
    *

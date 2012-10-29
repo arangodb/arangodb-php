@@ -59,43 +59,19 @@
 <i class="icon-custom icon-method"></i> Methods
                     <ul>
 <li class="method public inherited"><a href="#method___construct" title="__construct :: Construct a new handler"><span class="description">Construct a new handler</span><pre>__construct()</pre></a></li>
-<li class="method public "><a href="#method_add" title="add :: Adds a new collection on the server
-This will add the collection on the server and return its id
-This will throw if the collection cannot be created"><span class="description">Adds a new collection on the server
-This will add the collection on the server and return its id
-This will throw if the collection cannot be created</span><pre>add()</pre></a></li>
-<li class="method public "><a href="#method_byExample" title="byExample :: Get document(s) by specifying an example
-This will throw if the list cannot be fetched from the server"><span class="description">Get document(s) by specifying an example
-This will throw if the list cannot be fetched from the server</span><pre>byExample()</pre></a></li>
-<li class="method public "><a href="#method_count" title="count :: Get the number of documents in a collection
-This will throw if the collection cannot be fetched from the server"><span class="description">Get the number of documents in a collection
-This will throw if the collection cannot be fetched from the server</span><pre>count()</pre></a></li>
-<li class="method public "><a href="#method_create" title="create :: Creates a new collection on the server
-This will add the collection on the server and return its id
-This will throw if the collection cannot be created"><span class="description">Creates a new collection on the server
-This will add the collection on the server and return its id
-This will throw if the collection cannot be created</span><pre>create()</pre></a></li>
+<li class="method public "><a href="#method_add" title="add :: Adds a new collection on the server"><span class="description">Adds a new collection on the server</span><pre>add()</pre></a></li>
+<li class="method public "><a href="#method_byExample" title="byExample :: Get document(s) by specifying an example"><span class="description">Get document(s) by specifying an example</span><pre>byExample()</pre></a></li>
+<li class="method public "><a href="#method_count" title="count :: Get the number of documents in a collection"><span class="description">Get the number of documents in a collection</span><pre>count()</pre></a></li>
+<li class="method public "><a href="#method_create" title="create :: Creates a new collection on the server"><span class="description">Creates a new collection on the server</span><pre>create()</pre></a></li>
 <li class="method public "><a href="#method_delete" title="delete :: Delete a collection"><span class="description">Delete a collection</span><pre>delete()</pre></a></li>
 <li class="method public "><a href="#method_drop" title="drop :: Drop a collection"><span class="description">Drop a collection</span><pre>drop()</pre></a></li>
-<li class="method public "><a href="#method_figures" title="figures :: Get figures for a collection
-This will throw if the collection cannot be fetched from the server"><span class="description">Get figures for a collection
-This will throw if the collection cannot be fetched from the server</span><pre>figures()</pre></a></li>
-<li class="method public "><a href="#method_get" title="get :: Get information about a collection
-This will throw if the collection cannot be fetched from the server"><span class="description">Get information about a collection
-This will throw if the collection cannot be fetched from the server</span><pre>get()</pre></a></li>
-<li class="method public "><a href="#method_getAllIds" title="getAllIds :: Get the list of all documents' ids from a collection
-This will throw if the list cannot be fetched from the server"><span class="description">Get the list of all documents' ids from a collection
-This will throw if the list cannot be fetched from the server</span><pre>getAllIds()</pre></a></li>
-<li class="method public "><a href="#method_getCount" title="getCount :: Get the number of documents in a collection
-This will throw if the collection cannot be fetched from the server"><span class="description">Get the number of documents in a collection
-This will throw if the collection cannot be fetched from the server</span><pre>getCount()</pre></a></li>
-<li class="method public "><a href="#method_getFigures" title="getFigures :: Get figures for a collection
-This will throw if the collection cannot be fetched from the server"><span class="description">Get figures for a collection
-This will throw if the collection cannot be fetched from the server</span><pre>getFigures()</pre></a></li>
+<li class="method public "><a href="#method_figures" title="figures :: Get figures for a collection"><span class="description">Get figures for a collection</span><pre>figures()</pre></a></li>
+<li class="method public "><a href="#method_get" title="get :: Get information about a collection"><span class="description">Get information about a collection</span><pre>get()</pre></a></li>
+<li class="method public "><a href="#method_getAllIds" title="getAllIds :: Get the list of all documents' ids from a collection"><span class="description">Get the list of all documents' ids from a collection</span><pre>getAllIds()</pre></a></li>
+<li class="method public "><a href="#method_getCount" title="getCount :: Get the number of documents in a collection"><span class="description">Get the number of documents in a collection</span><pre>getCount()</pre></a></li>
+<li class="method public "><a href="#method_getFigures" title="getFigures :: Get figures for a collection"><span class="description">Get figures for a collection</span><pre>getFigures()</pre></a></li>
 <li class="method public "><a href="#method_rename" title="rename :: Rename a collection"><span class="description">Rename a collection</span><pre>rename()</pre></a></li>
-<li class="method public "><a href="#method_truncate" title="truncate :: Truncate a collection
-This will remove all documents from the collection but will leave the metadata and indexes intact."><span class="description">Truncate a collection
-This will remove all documents from the collection but will leave the metadata and indexes intact.</span><pre>truncate()</pre></a></li>
+<li class="method public "><a href="#method_truncate" title="truncate :: Truncate a collection"><span class="description">Truncate a collection</span><pre>truncate()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header protected">» Protected
@@ -142,7 +118,7 @@ This will remove all documents from the collection but will leave the metadata a
 <p class="short_description">A collection handler that fetches collection data from the server and
 creates collections on the server.</p>
 <div class="details">
-<div class="long_description"><p>It does so by issueing the
+<div class="long_description"><p>It does so by issuing the
 appropriate HTTP requests to the server.</p></div>
 <table class="table table-bordered"><tr>
 <th>package</th>
@@ -170,13 +146,13 @@ appropriate HTTP requests to the server.</p></div>
 </div></div>
 </div>
 <a id="method_add"></a><div class="element clickable method public method_add" data-toggle="collapse" data-target=".method_add .collapse">
-<h2>Adds a new collection on the server
-This will add the collection on the server and return its id
-This will throw if the collection cannot be created</h2>
+<h2>Adds a new collection on the server</h2>
 <pre>add(\triagens\ArangoDb\Collection $collection) : mixed</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This will add the collection on the server and return its id</p>
+
+<p>This will throw if the collection cannot be created</p></div>
 <table class="table table-bordered"><tr>
 <th>deprecated</th>
 <td>To be deprecated in version 2.0 - This function is being replaced by create()</td>
@@ -199,12 +175,11 @@ This will throw if the collection cannot be created</h2>
 </div></div>
 </div>
 <a id="method_byExample"></a><div class="element clickable method public method_byExample" data-toggle="collapse" data-target=".method_byExample .collapse">
-<h2>Get document(s) by specifying an example
-This will throw if the list cannot be fetched from the server</h2>
+<h2>Get document(s) by specifying an example</h2>
 <pre>byExample(mixed $collectionId, mixed $document, bool $sanitize) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This will throw if the list cannot be fetched from the server</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -235,12 +210,11 @@ This will throw if the list cannot be fetched from the server</h2>
 </div></div>
 </div>
 <a id="method_count"></a><div class="element clickable method public method_count" data-toggle="collapse" data-target=".method_count .collapse">
-<h2>Get the number of documents in a collection
-This will throw if the collection cannot be fetched from the server</h2>
+<h2>Get the number of documents in a collection</h2>
 <pre>count(mixed $collectionId) : int</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This will throw if the collection cannot be fetched from the server</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -259,13 +233,13 @@ This will throw if the collection cannot be fetched from the server</h2>
 </div></div>
 </div>
 <a id="method_create"></a><div class="element clickable method public method_create" data-toggle="collapse" data-target=".method_create .collapse">
-<h2>Creates a new collection on the server
-This will add the collection on the server and return its id
-This will throw if the collection cannot be created</h2>
+<h2>Creates a new collection on the server</h2>
 <pre>create(\triagens\ArangoDb\Collection $collection) : mixed</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This will add the collection on the server and return its id</p>
+
+<p>This will throw if the collection cannot be created</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collection</h4>
@@ -334,12 +308,11 @@ This will throw if the collection cannot be created</h2>
 </div></div>
 </div>
 <a id="method_figures"></a><div class="element clickable method public method_figures" data-toggle="collapse" data-target=".method_figures .collapse">
-<h2>Get figures for a collection
-This will throw if the collection cannot be fetched from the server</h2>
+<h2>Get figures for a collection</h2>
 <pre>figures(mixed $collectionId) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This will throw if the collection cannot be fetched from the server</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -358,12 +331,11 @@ This will throw if the collection cannot be fetched from the server</h2>
 </div></div>
 </div>
 <a id="method_get"></a><div class="element clickable method public method_get" data-toggle="collapse" data-target=".method_get .collapse">
-<h2>Get information about a collection
-This will throw if the collection cannot be fetched from the server</h2>
+<h2>Get information about a collection</h2>
 <pre>get(mixed $collectionId) : <a href="../classes/triagens.ArangoDb.Collection.html">\triagens\ArangoDb\Collection</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This will throw if the collection cannot be fetched from the server</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -382,12 +354,11 @@ This will throw if the collection cannot be fetched from the server</h2>
 </div></div>
 </div>
 <a id="method_getAllIds"></a><div class="element clickable method public method_getAllIds" data-toggle="collapse" data-target=".method_getAllIds .collapse">
-<h2>Get the list of all documents' ids from a collection
-This will throw if the list cannot be fetched from the server</h2>
+<h2>Get the list of all documents' ids from a collection</h2>
 <pre>getAllIds(mixed $collectionId) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This will throw if the list cannot be fetched from the server</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -406,12 +377,11 @@ This will throw if the list cannot be fetched from the server</h2>
 </div></div>
 </div>
 <a id="method_getCount"></a><div class="element clickable method public method_getCount" data-toggle="collapse" data-target=".method_getCount .collapse">
-<h2>Get the number of documents in a collection
-This will throw if the collection cannot be fetched from the server</h2>
+<h2>Get the number of documents in a collection</h2>
 <pre>getCount(mixed $collectionId) : int</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This will throw if the collection cannot be fetched from the server</p></div>
 <table class="table table-bordered"><tr>
 <th>deprecated</th>
 <td>To be deprecated in version 2.0 - This function is being replaced by count()</td>
@@ -434,12 +404,11 @@ This will throw if the collection cannot be fetched from the server</h2>
 </div></div>
 </div>
 <a id="method_getFigures"></a><div class="element clickable method public method_getFigures" data-toggle="collapse" data-target=".method_getFigures .collapse">
-<h2>Get figures for a collection
-This will throw if the collection cannot be fetched from the server</h2>
+<h2>Get figures for a collection</h2>
 <pre>getFigures(mixed $collectionId) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This will throw if the collection cannot be fetched from the server</p></div>
 <table class="table table-bordered"><tr>
 <th>deprecated</th>
 <td>To be deprecated in version 2.0 - This function is being replaced by figures()</td>
@@ -491,12 +460,11 @@ This will throw if the collection cannot be fetched from the server</h2>
 </div></div>
 </div>
 <a id="method_truncate"></a><div class="element clickable method public method_truncate" data-toggle="collapse" data-target=".method_truncate .collapse">
-<h2>Truncate a collection
-This will remove all documents from the collection but will leave the metadata and indexes intact.</h2>
+<h2>Truncate a collection</h2>
 <pre>truncate(mixed $collection) : bool</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This will remove all documents from the collection but will leave the metadata and indexes intact.</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collection</h4>
@@ -618,7 +586,7 @@ This will remove all documents from the collection but will leave the metadata a
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-28T21:56:52+02:00.<br></footer></div>
+            generated on 2012-10-29T15:55:44+02:00.<br></footer></div>
 </div>
 </body>
 </html>

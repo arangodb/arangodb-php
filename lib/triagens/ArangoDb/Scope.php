@@ -19,24 +19,28 @@ namespace triagens\ArangoDb;
 class Scope {
   /**
    * Initialization function (called on scope entry)
+   * 
    * @var callable
    */
   private $_initFunc;
   
   /**
    * Exit function (called when scope is left)
+   * 
    * @var callable
    */
   private $_exitFunc;
   
   /**
    * Value returned by call to init function
+   * 
    * @var mixed
    */
   private $_value;
   
   /**
    * Current scope state
+   * 
    * @var mixed
    */
   private $_state = self::STATE_NONE;
@@ -75,6 +79,7 @@ class Scope {
 
   /**
    * Destroy the scope
+   * 
    * This will call leave() to ensure the scope is definitely left
    *
    * @return void
@@ -85,6 +90,7 @@ class Scope {
   
   /**
    * Leave the scope
+   * 
    * This will execute the exit func with the value returned by the
    * call to the init func.
    * leave() will check whether the scope has already been left to avoid
@@ -106,6 +112,7 @@ class Scope {
 
   /**
    * Enter the scope
+   * 
    * This will call the init func and store its result value
    *
    * @return void
@@ -120,6 +127,7 @@ class Scope {
 
   /**
    * Clone function
+   * 
    * Scopes should never be cloned so this is private
    *
    * @throws ClientException

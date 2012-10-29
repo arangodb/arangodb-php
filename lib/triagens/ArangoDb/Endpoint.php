@@ -12,6 +12,7 @@ namespace triagens\ArangoDb;
 
 /**
  * Endpoint specification
+ * 
  * An endpoint contains the server location the client connects to
  * the following endpoint types are currently supported (more to be added later):
  * - tcp://host:port for tcp connections

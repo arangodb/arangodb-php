@@ -12,7 +12,9 @@ namespace triagens\ArangoDb;
 
 /**
  * Provides access to the results of a read-only statement
+ * 
  * The cursor might not contain all results in the beginning.
+ * 
  * If the result set is too big to be transferred in one go, the
  * cursor might issue additional HTTP requests to fetch the
  * remaining results from the server.
@@ -113,6 +115,7 @@ class Cursor implements \Iterator {
   
   /**
    * Explicitly delete the cursor
+   * 
    * This might issue an HTTP DELETE request to inform the server about
    * the deletion.
    *
@@ -134,6 +137,7 @@ class Cursor implements \Iterator {
   
   /**
    * Get the total number of results in the cursor
+   * 
    * This might issue additional HTTP requests to fetch any outstanding
    * results from the server
    *
@@ -150,6 +154,7 @@ class Cursor implements \Iterator {
   
   /**
    * Get all results as an array 
+   * 
    * This might issue additional HTTP requests to fetch any outstanding
    * results from the server
    *
@@ -202,6 +207,7 @@ class Cursor implements \Iterator {
   
   /**
    * Check if cursor can be advanced further, necessary for Iterator
+   * 
    * This might issue additional HTTP requests to fetch any outstanding
    * results from the server
    *
@@ -227,8 +233,8 @@ class Cursor implements \Iterator {
   
   /**
    * Create an array of documents from the input array
+   * 
    * @param array $data - array of incoming "document" arrays
-   *
    * @return void 
    */
   private function addDocumentsFromArray(array $data)
@@ -240,6 +246,7 @@ class Cursor implements \Iterator {
 
   /**
    * Sanitize the result set rows
+   * 
    * This will remove the _id and _rev attributes from the results if the
    * "sanitize" option is set
    *
