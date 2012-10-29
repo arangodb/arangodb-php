@@ -175,13 +175,6 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(true === ($resultingDocument3->someAttribute == 'someValue2'));
         $this->assertTrue(true === ($resultingDocument3->someOtherAttribute == 'someOtherValue2'));
 
-
-        var_dump($resultingDocument3);
-        
-        
-        
-        var_dump($resultingDocument);
-        debugbreak("1@192.168.2.3");
         $response = $documentHandler->delete($resultingDocument);
         $this->assertTrue(true === $response, 'Delete should return true!');
     }
