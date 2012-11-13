@@ -201,13 +201,20 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
     {
         $documentHandler = $this->documentHandler;
 
-        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue', 'someThirdAttribute' => 'someThirdValue'));
         $documentHandler->add($this->collection->getId(), $document);
-
+        
+        // set hidden fields
+        $document->setHiddenAttributes(array('someThirdAttribute'));
+        
         $result = $document->getAll();
 
         $this->assertTrue(true === ($result['someAttribute'] == 'someValue'));
         $this->assertTrue(true === ($result['someOtherAttribute'] == 'someOtherValue'));
+        
+        // Check if the hidden field is actually hidden...
+        $this->assertArrayNotHasKey('someThirdAttribute', $result);
+        
         
         $result = $document->getAll(true);
         $this->assertArrayHasKey('_id', $result);

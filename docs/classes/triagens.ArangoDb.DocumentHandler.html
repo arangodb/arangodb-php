@@ -81,7 +81,6 @@
 <li class="nav-header private">» Private
                     <ul>
 <li class="method private "><a href="#method_getCollectionId" title="getCollectionId :: Helper function to get a collection id from a document"><span class="description">Helper function to get a collection id from a document</span><pre>getCollectionId()</pre></a></li>
-<li class="method private "><a href="#method_getCursorOptions" title="getCursorOptions :: Return an array of cursor options"><span class="description">Return an array of cursor options</span><pre>getCursorOptions()</pre></a></li>
 <li class="method private "><a href="#method_getDocumentId" title="getDocumentId :: Helper function to get a document id from a document or a document id value"><span class="description">Helper function to get a document id from a document or a document id value</span><pre>getDocumentId()</pre></a></li>
 <li class="method private "><a href="#method_getRevision" title="getRevision :: Helper function to get a document id from a document or a document id value"><span class="description">Helper function to get a document id from a document or a document id value</span><pre>getRevision()</pre></a></li>
 </ul>
@@ -157,7 +156,7 @@ appropriate HTTP requests to the server.</p></div>
 <p>This will throw if the document cannot be created</p></div>
 <table class="table table-bordered"><tr>
 <th>deprecated</th>
-<td>to be deprecated in version 2.0 - This function is being replaced by save()</td>
+<td>to be removed in version 2.0 - This function is being replaced by save()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -196,7 +195,7 @@ appropriate HTTP requests to the server.</p></div>
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
 <th>deprecated</th>
-<td>To be deprecated in version 2.0 - This function is being replaced by remove()</td>
+<td>to be removed in version 2.0 - This function is being replaced by remove()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -229,7 +228,7 @@ appropriate HTTP requests to the server.</p></div>
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
 <th>deprecated</th>
-<td>To be deprecated in version 2.0 - This function is being replaced by removeById()</td>
+<td>to be removed in version 2.0 - This function is being replaced by removeById()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -268,7 +267,7 @@ appropriate HTTP requests to the server.</p></div>
 </div>
 <a id="method_get"></a><div class="element clickable method public method_get" data-toggle="collapse" data-target=".method_get .collapse">
 <h2>Get a single document from a collection</h2>
-<pre>get(mixed $collectionId, mixed $documentId) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
+<pre>get(mixed $collectionId, mixed $documentId, array $options) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>Alias method for getById()</p></div>
@@ -284,6 +283,14 @@ appropriate HTTP requests to the server.</p></div>
 <code>mixed</code><ul>
 <li>document identifier</li>
 </ul>
+</div>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><ul>
+<li>optional, array of options </li>
+</ul>
+
+<p>Options are : <li>'includeInternals' - true to include the internal attributes. Defaults to false</li> <li>'ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li> </p>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -303,7 +310,7 @@ appropriate HTTP requests to the server.</p></div>
 <div class="long_description"><p>This will throw if the list cannot be fetched from the server</p></div>
 <table class="table table-bordered"><tr>
 <th>deprecated</th>
-<td>to be deprecated in version 2.0 - This function is being replaced by  CollectionHandler::getAllIds()</td>
+<td>to be removed in version 2.0 - This function is being replaced by  CollectionHandler::getAllIds()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -330,7 +337,7 @@ appropriate HTTP requests to the server.</p></div>
 <div class="long_description"><p>This will throw if the list cannot be fetched from the server</p></div>
 <table class="table table-bordered"><tr>
 <th>deprecated</th>
-<td>to be deprecated in version 2.0 - This function is being replaced by CollectionHandler::byExample()</td>
+<td>to be removed in version 2.0 - This function is being replaced by CollectionHandler::byExample()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -363,7 +370,7 @@ appropriate HTTP requests to the server.</p></div>
 </div>
 <a id="method_getById"></a><div class="element clickable method public method_getById" data-toggle="collapse" data-target=".method_getById .collapse">
 <h2>Get a single document from a collection</h2>
-<pre>getById(mixed $collectionId, mixed $documentId) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
+<pre>getById(mixed $collectionId, mixed $documentId, array $options) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw if the document cannot be fetched from the server</p></div>
@@ -379,6 +386,14 @@ appropriate HTTP requests to the server.</p></div>
 <code>mixed</code><ul>
 <li>document identifier</li>
 </ul>
+</div>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><ul>
+<li>optional, array of options </li>
+</ul>
+
+<p>Options are : <li>'includeInternals' - true to include the internal attributes. Defaults to false</li> <li>'ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li> </p>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -597,7 +612,7 @@ and the passed document has a _rev value set, the database will check
 that the revision of the to-be-replaced document is the same as the one given.</p></div>
 <table class="table table-bordered"><tr>
 <th>deprecated</th>
-<td>Attention!! To be deprecated in version 1.1 - This function is being replaced by replace()</td>
+<td>Attention!! to be removed in version 1.1 - This function is being replaced by replace()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -636,7 +651,7 @@ and the passed document has a _rev value set, the database will check
 that the revision of the to-be-replaced document is the same as the one given.</p></div>
 <table class="table table-bordered"><tr>
 <th>deprecated</th>
-<td>Attention!! To be deprecated in version 1.1 - This function is being replaced by replaceById()</td>
+<td>Attention!! to be removed in version 1.1 - This function is being replaced by replaceById()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -709,24 +724,6 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <h3>Returns</h3>
 <div class="subelement response">
 <code>mixed</code>- collection id, will throw if there is an error</div>
-</div></div>
-</div>
-<a id="method_getCursorOptions"></a><div class="element clickable method private method_getCursorOptions" data-toggle="collapse" data-target=".method_getCursorOptions .collapse">
-<h2>Return an array of cursor options</h2>
-<pre>getCursorOptions(bool $sanitize) : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$sanitize</h4>
-<code>bool</code><ul>
-<li>sanitize flag</li>
-</ul>
-</div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>array</code>- array of options</div>
 </div></div>
 </div>
 <a id="method_getDocumentId"></a><div class="element clickable method private method_getDocumentId" data-toggle="collapse" data-target=".method_getDocumentId .collapse">
@@ -822,7 +819,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-29T15:55:44+02:00.<br></footer></div>
+            generated on 2012-11-14T08:57:00+02:00.<br></footer></div>
 </div>
 </body>
 </html>

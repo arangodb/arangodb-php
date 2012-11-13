@@ -62,18 +62,21 @@
 <li class="method public "><a href="#method___construct" title="__construct :: Constructs an empty document"><span class="description">Constructs an empty document</span><pre>__construct()</pre></a></li>
 <li class="method public "><a href="#method___get" title="__get :: Get a document attribute, magic method"><span class="description">Get a document attribute, magic method</span><pre>__get()</pre></a></li>
 <li class="method public "><a href="#method___set" title="__set :: Set a document attribute, magic method"><span class="description">Set a document attribute, magic method</span><pre>__set()</pre></a></li>
-<li class="method public "><a href="#method___toString" title="__toString :: Get a string representation of the document"><span class="description">Get a string representation of the document</span><pre>__toString()</pre></a></li>
+<li class="method public "><a href="#method___toString" title="__toString :: Get a string representation of the document."><span class="description">Get a string representation of the document.</span><pre>__toString()</pre></a></li>
 <li class="method public "><a href="#method_createFromArray" title="createFromArray :: Factory method to construct a new document using the values passed to populate it"><span class="description">Factory method to construct a new document using the values passed to populate it</span><pre>createFromArray()</pre></a></li>
+<li class="method public "><a href="#method_filterHiddenAttributes" title="filterHiddenAttributes :: Returns the attributes with the hidden ones removed"><span class="description">Returns the attributes with the hidden ones removed</span><pre>filterHiddenAttributes()</pre></a></li>
 <li class="method public "><a href="#method_get" title="get :: Get a document attribute"><span class="description">Get a document attribute</span><pre>get()</pre></a></li>
 <li class="method public "><a href="#method_getAll" title="getAll :: Get all document attributes"><span class="description">Get all document attributes</span><pre>getAll()</pre></a></li>
 <li class="method public "><a href="#method_getChanged" title="getChanged :: Get the changed flag"><span class="description">Get the changed flag</span><pre>getChanged()</pre></a></li>
 <li class="method public "><a href="#method_getCollectionId" title="getCollectionId :: Get the collection id (if already known)"><span class="description">Get the collection id (if already known)</span><pre>getCollectionId()</pre></a></li>
 <li class="method public "><a href="#method_getHandle" title="getHandle :: Convenience function to get the document handle (if already known) - is an alias to getInternalId()"><span class="description">Convenience function to get the document handle (if already known) - is an alias to getInternalId()</span><pre>getHandle()</pre></a></li>
+<li class="method public "><a href="#method_getHiddenAttributes" title="getHiddenAttributes :: Get the hidden attributes"><span class="description">Get the hidden attributes</span><pre>getHiddenAttributes()</pre></a></li>
 <li class="method public "><a href="#method_getId" title="getId :: Get the document id (if already known)"><span class="description">Get the document id (if already known)</span><pre>getId()</pre></a></li>
 <li class="method public "><a href="#method_getInternalId" title="getInternalId :: Get the internal document id (if already known)"><span class="description">Get the internal document id (if already known)</span><pre>getInternalId()</pre></a></li>
 <li class="method public "><a href="#method_getRevision" title="getRevision :: Get the document revision (if already known)"><span class="description">Get the document revision (if already known)</span><pre>getRevision()</pre></a></li>
 <li class="method public "><a href="#method_set" title="set :: Set a document attribute"><span class="description">Set a document attribute</span><pre>set()</pre></a></li>
 <li class="method public "><a href="#method_setChanged" title="setChanged :: Set the changed flag"><span class="description">Set the changed flag</span><pre>setChanged()</pre></a></li>
+<li class="method public "><a href="#method_setHiddenAttributes" title="setHiddenAttributes :: Set the hidden attributes"><span class="description">Set the hidden attributes</span><pre>setHiddenAttributes()</pre></a></li>
 <li class="method public "><a href="#method_setInternalId" title="setInternalId :: Set the internal document id"><span class="description">Set the internal document id</span><pre>setInternalId()</pre></a></li>
 <li class="method public "><a href="#method_setRevision" title="setRevision :: Set the document revision"><span class="description">Set the document revision</span><pre>setRevision()</pre></a></li>
 <li class="method public "><a href="#method_toJson" title="toJson :: Returns the document as JSON-encoded string"><span class="description">Returns the document as JSON-encoded string</span><pre>toJson()</pre></a></li>
@@ -87,6 +90,7 @@
 <li class="nav-header protected">» Protected
                     <ul>
 <li class="property protected "><a href="#property__changed" title="$_changed :: Flag to indicate whether document was changed locally"><span class="description">Flag to indicate whether document was changed locally</span><pre>$_changed</pre></a></li>
+<li class="property protected "><a href="#property__hidden" title="$_hidden :: Flag to indicate whether document was changed locally"><span class="description">Flag to indicate whether document was changed locally</span><pre>$_hidden</pre></a></li>
 <li class="property protected "><a href="#property__id" title="$_id :: The document id (might be NULL for new documents)"><span class="description">The document id (might be NULL for new documents)</span><pre>$_id</pre></a></li>
 <li class="property protected "><a href="#property__rev" title="$_rev :: The document revision (might be NULL for new documents)"><span class="description">The document revision (might be NULL for new documents)</span><pre>$_rev</pre></a></li>
 <li class="property protected "><a href="#property__values" title="$_values :: The document attributes (names/values)"><span class="description">The document attributes (names/values)</span><pre>$_values</pre></a></li>
@@ -95,6 +99,7 @@
 <li class="nav-header">
 <i class="icon-custom icon-constant"></i> Constants
                     <ul>
+<li class="constant  "><a href="#constant_ENTRY_HIDDEN" title="ENTRY_HIDDEN :: hidden atttribute index"><span class="description">hidden atttribute index</span><pre>ENTRY_HIDDEN</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_ID" title="ENTRY_ID :: Document id index"><span class="description">Document id index</span><pre>ENTRY_ID</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_REV" title="ENTRY_REV :: Revision id index"><span class="description">Revision id index</span><pre>ENTRY_REV</pre></a></li>
 </ul>
@@ -132,9 +137,18 @@
 </div>
 <a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
 <h2>Constructs an empty document</h2>
-<pre>__construct() : void</pre>
+<pre>__construct(array $options) : void</pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><ul>
+<li>optional, initial $options for document</li>
+</ul>
+</div>
+</div></div>
 </div>
 <a id="method___get"></a><div class="element clickable method public method___get" data-toggle="collapse" data-target=".method___get .collapse">
 <h2>Get a document attribute, magic method</h2>
@@ -183,11 +197,13 @@ This function is mapped to set() internally.</p></div>
 </div></div>
 </div>
 <a id="method___toString"></a><div class="element clickable method public method___toString" data-toggle="collapse" data-target=".method___toString .collapse">
-<h2>Get a string representation of the document</h2>
+<h2>Get a string representation of the document.</h2>
 <pre>__toString() : string</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>Returns the document as JSON-encoded string</p></div>
+<div class="long_description"><p>It will not output hidden attributes.</p>
+
+<p>Returns the document as JSON-encoded string</p></div>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>string</code>- JSON-encoded document</div>
@@ -195,7 +211,7 @@ This function is mapped to set() internally.</p></div>
 </div>
 <a id="method_createFromArray"></a><div class="element clickable method public method_createFromArray" data-toggle="collapse" data-target=".method_createFromArray .collapse">
 <h2>Factory method to construct a new document using the values passed to populate it</h2>
-<pre>createFromArray(array $values) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
+<pre>createFromArray(array $values, array $options) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
 <div class="labels"><span class="label">Static</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -206,6 +222,12 @@ This function is mapped to set() internally.</p></div>
 <li>initial values for document</li>
 </ul>
 </div>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><ul>
+<li>optional, initial options for document</li>
+</ul>
+</div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
 <th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
@@ -213,6 +235,24 @@ This function is mapped to set() internally.</p></div>
 </tr></table>
 <h3>Returns</h3>
 <div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code></div>
+</div></div>
+</div>
+<a id="method_filterHiddenAttributes"></a><div class="element clickable method public method_filterHiddenAttributes" data-toggle="collapse" data-target=".method_filterHiddenAttributes .collapse">
+<h2>Returns the attributes with the hidden ones removed</h2>
+<pre>filterHiddenAttributes(array $attributes) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$attributes</h4>
+<code>array</code><ul>
+<li>attributes array</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- attributes array</div>
 </div></div>
 </div>
 <a id="method_get"></a><div class="element clickable method public method_get" data-toggle="collapse" data-target=".method_get .collapse">
@@ -235,16 +275,18 @@ This function is mapped to set() internally.</p></div>
 </div>
 <a id="method_getAll"></a><div class="element clickable method public method_getAll" data-toggle="collapse" data-target=".method_getAll .collapse">
 <h2>Get all document attributes</h2>
-<pre>getAll(boolean $includeInternals) : array</pre>
+<pre>getAll(mixed $options) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$includeInternals</h4>
-<code>boolean</code><ul>
-<li>true to include the internal attributes. Defaults to false</li>
+<h4>$options</h4>
+<code>mixed</code><ul>
+<li>optional, array of options for the getAll function, or the boolean value for $includeInternals </li>
 </ul>
+
+<p>Options are : <li>'includeInternals' - true to include the internal attributes. Defaults to false</li> <li>'ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li> </p>
 </div>
 <h3>Returns</h3>
 <div class="subelement response">
@@ -284,6 +326,17 @@ document id, in the format collectionid/documentid</p></div>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>string</code>- internal document id, might be NULL if document does not yet have an id</div>
+</div></div>
+</div>
+<a id="method_getHiddenAttributes"></a><div class="element clickable method public method_getHiddenAttributes" data-toggle="collapse" data-target=".method_getHiddenAttributes .collapse">
+<h2>Get the hidden attributes</h2>
+<pre>getHiddenAttributes() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>$attributes - array of attributes</div>
 </div></div>
 </div>
 <a id="method_getId"></a><div class="element clickable method public method_getId" data-toggle="collapse" data-target=".method_getId .collapse">
@@ -364,6 +417,21 @@ exception if the value is invalid.</p></div>
 </div>
 </div></div>
 </div>
+<a id="method_setHiddenAttributes"></a><div class="element clickable method public method_setHiddenAttributes" data-toggle="collapse" data-target=".method_setHiddenAttributes .collapse">
+<h2>Set the hidden attributes</h2>
+<pre>setHiddenAttributes(array $attributes) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$attributes</h4>
+<code>array</code><ul>
+<li>array of attributes</li>
+</ul>
+</div>
+</div></div>
+</div>
 <a id="method_setInternalId"></a><div class="element clickable method public method_setInternalId" data-toggle="collapse" data-target=".method_setInternalId .collapse">
 <h2>Set the internal document id</h2>
 <pre>setInternalId(string $id) : void</pre>
@@ -404,10 +472,19 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 </div>
 <a id="method_toJson"></a><div class="element clickable method public method_toJson" data-toggle="collapse" data-target=".method_toJson .collapse">
 <h2>Returns the document as JSON-encoded string</h2>
-<pre>toJson() : string</pre>
+<pre>toJson(array $options) : string</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><ul>
+<li>optional, array of options that will be passed to the getAll function </li>
+</ul>
+
+<p>Options are : <li>'includeInternals' - true to include the internal attributes. Defaults to false</li> <li>'ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li> </p>
+</div>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>string</code>- JSON-encoded document</div>
@@ -415,10 +492,19 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 </div>
 <a id="method_toSerialized"></a><div class="element clickable method public method_toSerialized" data-toggle="collapse" data-target=".method_toSerialized .collapse">
 <h2>Returns the document as a serialized string</h2>
-<pre>toSerialized() : string</pre>
+<pre>toSerialized(array $options) : string</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><ul>
+<li>optional, array of options that will be passed to the getAll function </li>
+</ul>
+
+<p>Options are : <li>'includeInternals' - true to include the internal attributes. Defaults to false</li> <li>'ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li> </p>
+</div>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>string</code>- PHP serialized document</div>
@@ -429,6 +515,12 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 <a id="property__changed"> </a><div class="element clickable property protected property__changed" data-toggle="collapse" data-target=".property__changed .collapse">
 <h2>Flag to indicate whether document was changed locally</h2>
 <pre>$_changed : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property__hidden"> </a><div class="element clickable property protected property__hidden" data-toggle="collapse" data-target=".property__hidden .collapse">
+<h2>Flag to indicate whether document was changed locally</h2>
+<pre>$_hidden : bool</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
@@ -452,6 +544,12 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 </div>
 <h3>
 <i class="icon-custom icon-constant"></i> Constants</h3>
+<a id="constant_ENTRY_HIDDEN"> </a><div class="element clickable constant  constant_ENTRY_HIDDEN" data-toggle="collapse" data-target=".constant_ENTRY_HIDDEN .collapse">
+<h2>hidden atttribute index</h2>
+<pre>ENTRY_HIDDEN </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="constant_ENTRY_ID"> </a><div class="element clickable constant  constant_ENTRY_ID" data-toggle="collapse" data-target=".constant_ENTRY_ID .collapse">
 <h2>Document id index</h2>
 <pre>ENTRY_ID </pre>
@@ -471,7 +569,7 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-29T15:55:44+02:00.<br></footer></div>
+            generated on 2012-11-14T08:57:00+02:00.<br></footer></div>
 </div>
 </body>
 </html>
