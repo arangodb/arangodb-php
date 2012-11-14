@@ -81,7 +81,7 @@ class Document {
    * @return Document
    */
   public static function createFromArray(array $values, array $options = array()) {
-    $document = new self($options);
+    $document = new static($options);
     
     foreach ($values as $key => $value) {
       $document->set($key, $value);
