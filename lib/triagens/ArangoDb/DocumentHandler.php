@@ -44,10 +44,15 @@ class DocumentHandler extends Handler {
    * @throws Exception
    * @param mixed $collectionId - collection id as a string or number
    * @param mixed $documentId - document identifier
+   * @param array $options - optional, array of options
+   * <p>Options are : 
+   * <li>'includeInternals' - true to include the internal attributes. Defaults to false</li>
+   * <li>'ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+   * </p>
    * @return Document - the document fetched from the server
    */
-  public function get($collectionId, $documentId) {
-    return $this->getById($collectionId, $documentId);
+  public function get($collectionId, $documentId, array $options = array()) {
+    return $this->getById($collectionId, $documentId, $options);
   }
 
 
@@ -59,15 +64,20 @@ class DocumentHandler extends Handler {
    * @throws Exception
    * @param mixed $collectionId - collection id as a string or number
    * @param mixed $documentId - document identifier
+   * @param array $options - optional, array of options
+   * <p>Options are : 
+   * <li>'includeInternals' - true to include the internal attributes. Defaults to false</li>
+   * <li>'ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+   * </p>
    * @return Document - the document fetched from the server
    */
-  public function getById($collectionId, $documentId) {
+  public function getById($collectionId, $documentId, array $options = array()) {
     $url = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
     $response = $this->getConnection()->get($url);
 
     $data = $response->getJson();
 
-    return Document::createFromArray($data);
+    return Document::createFromArray($data, $options);
   }
 
 
@@ -80,7 +90,7 @@ class DocumentHandler extends Handler {
    * @param mixed $collectionId - collection id as string or number
    * @return array - ids of documents in the collection
    * 
-   * @deprecated to be deprecated in version 2.0 - This function is being replaced by  CollectionHandler::getAllIds()
+   * @deprecated to be removed in version 2.0 - This function is being replaced by  CollectionHandler::getAllIds()
    * 
    */
   public function getAllIds($collectionId) {
@@ -100,7 +110,7 @@ class DocumentHandler extends Handler {
    * @param bool $sanitize - remove _id and _rev attributes from result documents
    * @return array - documents matching the example [0...n]
    * 
-   * @deprecated to be deprecated in version 2.0 - This function is being replaced by CollectionHandler::byExample() 
+   * @deprecated to be removed in version 2.0 - This function is being replaced by CollectionHandler::byExample() 
    */
   public function getByExample($collectionId, $document, $sanitize = false) {
     $collectionHandler=new CollectionHandler($this->getConnection());
@@ -121,7 +131,7 @@ class DocumentHandler extends Handler {
    * @param bool $create - create the collection if it does not yet exist
    * @return mixed - id of document created \
    * 
-   * @deprecated to be deprecated in version 2.0 - This function is being replaced by save()
+   * @deprecated to be removed in version 2.0 - This function is being replaced by save()
    *
    */
    
@@ -188,7 +198,7 @@ class DocumentHandler extends Handler {
    * @param mixed $policy - update policy to be used in case of conflict
    * @return bool - always true, will throw if there is an error
    * 
-   * @deprecated Attention!! To be deprecated in version 1.1 - This function is being replaced by replace()
+   * @deprecated Attention!! to be removed in version 1.1 - This function is being replaced by replace()
    */
   public function update(Document $document, $policy = NULL) {
     return $this->replace( $document, $policy);
@@ -237,7 +247,7 @@ class DocumentHandler extends Handler {
    * @param mixed $policy - update policy to be used in case of conflict
    * @return bool - always true, will throw if there is an error
    * 
-   * @deprecated Attention!! To be deprecated in version 1.1 - This function is being replaced by replaceById()
+   * @deprecated Attention!! to be removed in version 1.1 - This function is being replaced by replaceById()
    */
   public function updateById($collectionId, $documentId, Document $document, $policy = NULL) {
     $this->replaceById($collectionId, $documentId, $document, $policy);
@@ -293,7 +303,7 @@ class DocumentHandler extends Handler {
    * @param mixed $policy - policy to be used in case of conflict
    * @return bool - always true, will throw if there is an error
    * 
-   * @deprecated To be deprecated in version 2.0 - This function is being replaced by remove()
+   * @deprecated to be removed in version 2.0 - This function is being replaced by remove()
    * 
    */
   public function delete(Document $document, $policy = NULL) {
@@ -329,7 +339,7 @@ class DocumentHandler extends Handler {
    * @param mixed $policy - policy to be used in case of conflict
    * @return bool - always true, will throw if there is an error
    * 
-   * @deprecated To be deprecated in version 2.0 - This function is being replaced by removeById()
+   * @deprecated to be removed in version 2.0 - This function is being replaced by removeById()
    */
   public function deleteById($collectionId, $documentId, $revision, $policy = NULL) {
     $result = $this->removeById($collectionId, $documentId, $revision, $policy);
@@ -426,17 +436,4 @@ class DocumentHandler extends Handler {
     return $collectionId;
   }
 
-
-  /**
-   * Return an array of cursor options
-   *
-   * @param bool $sanitize - sanitize flag
-   * @return array - array of options
-   */
-  private function getCursorOptions($sanitize) {
-    return array(
-      Cursor::ENTRY_SANITIZE => $sanitize,
-    );
-  }
-    
 }
