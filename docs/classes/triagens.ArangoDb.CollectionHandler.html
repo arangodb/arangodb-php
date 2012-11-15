@@ -155,7 +155,7 @@ appropriate HTTP requests to the server.</p></div>
 <p>This will throw if the collection cannot be created</p></div>
 <table class="table table-bordered"><tr>
 <th>deprecated</th>
-<td>To be deprecated in version 2.0 - This function is being replaced by create()</td>
+<td>to be removed in version 2.0 - This function is being replaced by create()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -176,7 +176,7 @@ appropriate HTTP requests to the server.</p></div>
 </div>
 <a id="method_byExample"></a><div class="element clickable method public method_byExample" data-toggle="collapse" data-target=".method_byExample .collapse">
 <h2>Get document(s) by specifying an example</h2>
-<pre>byExample(mixed $collectionId, mixed $document, bool $sanitize) : array</pre>
+<pre>byExample(mixed $collectionId, mixed $document, bool | array $options) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw if the list cannot be fetched from the server</p></div>
@@ -194,10 +194,12 @@ appropriate HTTP requests to the server.</p></div>
 </ul>
 </div>
 <div class="subelement argument">
-<h4>$sanitize</h4>
-<code>bool</code><ul>
-<li>remove _id and _rev attributes from result documents</li>
+<h4>$options</h4>
+<code>bool</code><code>array</code><ul>
+<li>optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options. </li>
 </ul>
+
+<p>Options are : <li>'sanitize' - true to remove _id and _rev attributes from result documents. Defaults to false.</li> <li>'hiddenAttributes' - set an array of hidden attributes for created documents. <p> This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. The difference is, that if you're returning a resultset of documents, the getall() is already called and the hidden attributes would not be applied to the attributes. </p> </li> </p>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -265,7 +267,7 @@ appropriate HTTP requests to the server.</p></div>
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
 <th>deprecated</th>
-<td>To be deprecated in version 2.0 - This function is being replaced by drop()</td>
+<td>to be removed in version 2.0 - This function is being replaced by drop()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -384,7 +386,7 @@ appropriate HTTP requests to the server.</p></div>
 <div class="long_description"><p>This will throw if the collection cannot be fetched from the server</p></div>
 <table class="table table-bordered"><tr>
 <th>deprecated</th>
-<td>To be deprecated in version 2.0 - This function is being replaced by count()</td>
+<td>to be removed in version 2.0 - This function is being replaced by count()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -411,7 +413,7 @@ appropriate HTTP requests to the server.</p></div>
 <div class="long_description"><p>This will throw if the collection cannot be fetched from the server</p></div>
 <table class="table table-bordered"><tr>
 <th>deprecated</th>
-<td>To be deprecated in version 2.0 - This function is being replaced by figures()</td>
+<td>to be removed in version 2.0 - This function is being replaced by figures()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -586,7 +588,7 @@ appropriate HTTP requests to the server.</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-29T15:55:44+02:00.<br></footer></div>
+            generated on 2012-11-14T08:57:00+02:00.<br></footer></div>
 </div>
 </body>
 </html>

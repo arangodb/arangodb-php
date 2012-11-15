@@ -107,7 +107,7 @@ class Cursor implements \Iterator {
 
     $this->_options = $options;
     $this->_result = array();
-    $this->addDocumentsFromArray((array) $data[self::ENTRY_RESULT]);
+    $this->addDocumentsFromArray((array) $data[self::ENTRY_RESULT], $options);
     $this->updateLength();
 
     $this->rewind();
@@ -235,12 +235,13 @@ class Cursor implements \Iterator {
    * Create an array of documents from the input array
    * 
    * @param array $data - array of incoming "document" arrays
+   * @param array $options - array of document options
    * @return void 
    */
-  private function addDocumentsFromArray(array $data)
+  private function addDocumentsFromArray(array $data, $options=array())
   {
     foreach ($this->sanitize($data) as $row) {
-      $this->_result[] = Document::createFromArray($row);
+      $this->_result[] = Document::createFromArray($row, $options);
     }
   }
 
@@ -275,7 +276,7 @@ class Cursor implements \Iterator {
     $data = $response->getJson();
 
     $this->_hasMore = (bool) $data[self::ENTRY_HASMORE];
-    $this->addDocumentsFromArray($data[self::ENTRY_RESULT]);
+    $this->addDocumentsFromArray($data[self::ENTRY_RESULT], $this->_options);
 
     if (!$this->_hasMore) {
       // we have fetch the complete result set and can unset the id now 

@@ -81,7 +81,7 @@ class CollectionHandler extends Handler {
    * @param mixed $collectionId - collection id as a string or number
    * @return int - the number of documents in the collection
    * 
-   * @deprecated To be deprecated in version 2.0 - This function is being replaced by count()
+   * @deprecated to be removed in version 2.0 - This function is being replaced by count()
    */
   public function getCount($collectionId) {
     return $this->count($collectionId);
@@ -117,7 +117,7 @@ class CollectionHandler extends Handler {
    * @param mixed $collectionId - collection id as a string or number
    * @return array - the figures for the collection
    * 
-   * @deprecated To be deprecated in version 2.0 - This function is being replaced by figures()
+   * @deprecated to be removed in version 2.0 - This function is being replaced by figures()
    */
   public function getFigures($collectionId) {
     return $this->figures($collectionId);
@@ -153,7 +153,7 @@ class CollectionHandler extends Handler {
    * @param Collection $collection - collection object to be created on the server
    * @return mixed - id of collection created
    * 
-   * @deprecated To be deprecated in version 2.0 - This function is being replaced by create()
+   * @deprecated to be removed in version 2.0 - This function is being replaced by create()
    */
   public function add(Collection $collection) {
     return $this->create($collection);
@@ -197,7 +197,7 @@ class CollectionHandler extends Handler {
    * @param mixed $collection - collection id as string or number or collection object
    * @return bool - always true, will throw if there is an error
    * 
-   * @deprecated To be deprecated in version 2.0 - This function is being replaced by drop()
+   * @deprecated to be removed in version 2.0 - This function is being replaced by drop()
    */
   public function delete($collection) {
     return $this->drop($collection);
@@ -283,27 +283,48 @@ class CollectionHandler extends Handler {
    * Get document(s) by specifying an example
    * 
    * This will throw if the list cannot be fetched from the server
+   * 
    *
    * @throws Exception
    * @param mixed $collectionId - collection id as string or number
    * @param mixed $document - the example document as a Document object or an array
-   * @param bool $sanitize - remove _id and _rev attributes from result documents
+   * @param bool|array $options - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
+   * <p>Options are : 
+   * <li>'sanitize' - true to remove _id and _rev attributes from result documents. Defaults to false.</li>
+   * <li>'hiddenAttributes' - set an array of hidden attributes for created documents.
+   * <p>
+   *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. 
+   *                                The difference is, that if you're returning a resultset of documents, the getall() is already called 
+   *                                and the hidden attributes would not be applied to the attributes.
+   * </p>
+   * </li>
+   * </p>
+   * 
    * @return array - documents matching the example [0...n]
    */
-  public function byExample($collectionId, $document, $sanitize = false) {
+  public function byExample($collectionId, $document, $options = array()) {
+    // This preserves compatibility for the old sanitize parameter.
+    $sanitize=false;
+    if (!is_array($options)){
+      $sanitize = $options;
+      $options=array();
+    }else{
+       $sanitize = array_key_exists('sanitize',$options) ? $options['sanitize'] : $sanitize;
+    }
+    $options=array_merge($options, $this->getCursorOptions($sanitize));
     if (is_array($document)) {
-      $document = Document::createFromArray($document);
+      $document = Document::createFromArray($document, $options);
     }
 
     if (!($document instanceof Document)) {
       throw new ClientException('Invalid example document specification');
     }
     
-    $data = array(self::OPTION_COLLECTION => $collectionId, self::OPTION_EXAMPLE => $document->getAll());
+    $data = array(self::OPTION_COLLECTION => $collectionId, self::OPTION_EXAMPLE => $document->getAll(array('ignoreHiddenAttributes'=>true)));
 
     $response = $this->getConnection()->put(Urls::URL_EXAMPLE, json_encode($data));
     
-    return new Cursor($this->getConnection(), $response->getJson(), $this->getCursorOptions($sanitize));
+    return new Cursor($this->getConnection(), $response->getJson(), $options );
   }  
   
   /**

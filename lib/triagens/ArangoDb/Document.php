@@ -39,6 +39,12 @@ class Document {
    * @var bool
    */
   protected $_changed;
+  
+  /**
+   * Flag to indicate whether document was changed locally
+   * @var bool
+   */
+  protected $_hidden = array();
 
   /**
    * Document id index
@@ -50,13 +56,20 @@ class Document {
    */
   const ENTRY_REV   = '_rev';
 
+ /**
+   * hidden atttribute index
+   */
+  const ENTRY_HIDDEN   = '_hidden';
+
   /**
    * Constructs an empty document
    *
+   * @param array $options - optional, initial $options for document
    * @return void
    */
-  public function __construct() {
+  public function __construct(array $options = array()) {
     $this->setChanged(false);
+    if (array_key_exists('hiddenAttributes',$options))$this->setHiddenAttributes($options['hiddenAttributes']);
   }
 
   /**
@@ -64,10 +77,11 @@ class Document {
    *
    * @throws ClientException
    * @param array $values - initial values for document
+   * @param array $options - optional, initial options for document
    * @return Document
    */
-  public static function createFromArray(array $values) {
-    $document = new self();
+  public static function createFromArray(array $values, array $options = array()) {
+    $document = new static($options);
     
     foreach ($values as $key => $value) {
       $document->set($key, $value);
@@ -93,7 +107,9 @@ class Document {
   }
   
   /**
-   * Get a string representation of the document
+   * Get a string representation of the document.
+   * 
+   * It will not output hidden attributes.
    * 
    * Returns the document as JSON-encoded string
    *
@@ -105,22 +121,55 @@ class Document {
   
   /**
    * Returns the document as JSON-encoded string
-   *
+   * 
+   * @param array $options - optional, array of options that will be passed to the getAll function
+   * <p>Options are : 
+   * <li>'includeInternals' - true to include the internal attributes. Defaults to false</li>
+   * <li>'ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+   * </p>
+   * 
    * @return string - JSON-encoded document 
    */
-  public function toJson() {
-    return json_encode($this->getAll());
+  public function toJson($options=array()) {
+    return json_encode($this->getAll($options));
   }
   
   /**
    * Returns the document as a serialized string
-   *
+   * 
+   * @param array $options - optional, array of options that will be passed to the getAll function
+   * <p>Options are : 
+   * <li>'includeInternals' - true to include the internal attributes. Defaults to false</li>
+   * <li>'ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+   * </p>
+   * 
    * @return string - PHP serialized document 
    */
-  public function toSerialized() {
-    return serialize($this->getAll());
+  public function toSerialized($options=array()) {
+    return serialize($this->getAll($options));
   }
 
+  /**
+   * Returns the attributes with the hidden ones removed
+   *
+   * @param array - attributes array 
+   * @return array - attributes array 
+   */
+  public function filterHiddenAttributes($attributes) {
+    $hiddenAttributes=$this->getHiddenAttributes();
+        
+    if (is_array($hiddenAttributes)) {
+      foreach ($hiddenAttributes as $hiddenAttributeName) {
+        if (!in_array($hiddenAttributeName, $attributes)) {
+            unset ($attributes[$hiddenAttributeName]);
+        }
+      }
+    }
+    
+    unset ($attributes['_hidden']);
+    
+    return $attributes;
+  }
   /**
    * Set a document attribute
    *
@@ -207,22 +256,60 @@ class Document {
   /**
    * Get all document attributes
    *
-   * @param boolean $includeInternals - true to include the internal attributes. Defaults to false
+   * @param mixed $options - optional, array of options for the getAll function, or the boolean value for $includeInternals
+   * <p>Options are : 
+   * <li>'includeInternals' - true to include the internal attributes. Defaults to false</li>
+   * <li>'ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+   * </p>
    * @return array - array of all document attributes/values
    */
-  public function getAll($includeInternals=false) {
+  public function getAll($options=array()) {
+    // This preserves compatibility for the old includeInternals parameter.
+    $includeInternals = false;
+    $ignoreHiddenAttributes = false;
+
+    if (!is_array($options)){
+      $includeInternals = $options;
+    }else{
+      $includeInternals = array_key_exists('includeInternals',$options) ? $options['includeInternals'] : $includeInternals;
+      $ignoreHiddenAttributes = array_key_exists('ignoreHiddenAttributes',$options) ? $options['ignoreHiddenAttributes'] : $ignoreHiddenAttributes;
+    }
+    
     $data=$this->_values;
-    $nonInternals=array('_changed', '_values');
+    $nonInternals=array('_changed', '_values', '_hidden');
+    
     if ($includeInternals == true) {
       foreach ($this as $key => $value) {
         if (substr($key,0,1) == '_' && substr($key,0,2) !== '__' && !in_array($key, $nonInternals)) {
-
             $data[$key] = $value;        
-
         }
       }
     }
+    
+    if ($ignoreHiddenAttributes==false) {
+      $data=$this->filterHiddenAttributes($data);
+    }
+    
     return $data;
+  }
+  
+  /**
+   * Set the hidden attributes
+   * 
+   * @param array $attributes - array of attributes
+   * @return void
+   */
+  public function setHiddenAttributes(array $attributes) {
+    $this->_hidden = $attributes;
+  }
+  
+  /**
+   * Get the hidden attributes
+   * 
+   * @return array $attributes - array of attributes
+   */
+  public function getHiddenAttributes() {
+    return $this->_hidden;
   }
   
   /**
