@@ -335,13 +335,13 @@ class DocumentHandler extends Handler {
    * @throws Exception
    * @param mixed $collectionId - collection id as string or number
    * @param mixed $documentId - document id as string or number
-   * @param  mixed $revision - revision of the document to be deleted
+   * @param  mixed $revision - optional revision of the document to be deleted
    * @param mixed $policy - policy to be used in case of conflict
    * @return bool - always true, will throw if there is an error
    * 
    * @deprecated to be removed in version 2.0 - This function is being replaced by removeById()
    */
-  public function deleteById($collectionId, $documentId, $revision, $policy = NULL) {
+  public function deleteById($collectionId, $documentId, $revision = NULL, $policy = NULL) {
     $result = $this->removeById($collectionId, $documentId, $revision, $policy);
 
     return true;
@@ -354,11 +354,11 @@ class DocumentHandler extends Handler {
    * @throws Exception
    * @param mixed $collectionId - collection id as string or number
    * @param mixed $documentId - document id as string or number
-   * @param  mixed $revision - revision of the document to be deleted
+   * @param  mixed $revision - optional revision of the document to be deleted
    * @param mixed $policy - policy to be used in case of conflict
    * @return bool - always true, will throw if there is an error
    */
-  public function removeById($collectionId, $documentId, $revision, $policy = NULL) {
+  public function removeById($collectionId, $documentId, $revision = NULL, $policy = NULL) {
    if (!is_null($revision)) {
        $params[ConnectionOptions::OPTION_REVISION]=$revision;
     } 
