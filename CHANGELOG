@@ -1,6 +1,28 @@
 v1.0.0 (XXXX-XX-XX)
 -------------------
 
+* issue #23: Fixed: DocumentHandler::deleteById() and removeById() : Parameter $revision should be optional.
+  Fixed bug, written missing tests and corrected documentation
+
+* issue #21: Added hiding of fields for documents. Written tests and documentation.
+  Implemented new feautre, written tests and documentation
+
+  Hiding of fields for documents:
+
+      This applies to getAll(), __toString(), toJson() and toSerialized().
+      getAll() now can be passed an array of options instead of the boolean 'includeInternals'.
+      DocumentHandler::get() and getById() can also be given those options
+
+      CollectionHandler::byExample() can also be given those options
+
+      All the above functions except the __toString can be given an array of options
+      currently these options are:
+
+      'includeInternals' - true to include the internal attributes. Defaults to false
+
+      'ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false
+
+
 * issue #18: Implemented revision check with policy = "error" 
   for update/replace and delete/remove methods.
 
@@ -33,5 +55,6 @@ CollectionHandler:
 
 
 * issue #11: Written initial unit tests for api.
+
 * issue #10: Implemented api version info constant and a getVersion() method to go with it.
 

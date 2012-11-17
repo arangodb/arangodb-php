@@ -24,7 +24,7 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
     /**
      * test for creation, get, and delete of a document given its settings through createFromArray()
      */
-    public function testCreateGetAndDeleteDocumentThroughCreateFromArray()
+    public function testCreateWithCreateFromArrayGetAndDeleteDocument()
     {
         $documentHandler = $this->documentHandler;
 
@@ -46,7 +46,7 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
     /**
      * test for creation, get by example, and delete of a document given its settings through createFromArray()
      */
-    public function testCreateGetbyExampleAndDeleteDocumentThroughCreateFromArray()
+    public function testCreateWithCreateFromArrayGetbyExampleAndDeleteDocument()
     {
         $documentHandler = $this->documentHandler;
 
@@ -70,7 +70,7 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
     /**
      * test for creation, update, get, and delete of a document given its settings through createFromArray()
      */
-    public function testCreateUpdateGetAndDeleteDocumentThroughCreateFromArray()
+    public function testCreateWithCreateFromArrayUpdateGetAndDeleteDocument()
     {
         $documentHandler = $this->documentHandler;
 
@@ -94,6 +94,76 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $response = $documentHandler->delete($document);
         $this->assertTrue(true === $response, 'Delete should return true!');
     }
+    
+    /**
+     * test for deletion of a document with deleteById() not giving the revision
+     */
+    public function testDeleteDocumentWithDeleteByIdWithoutRevision()
+    {
+        $documentHandler = $this->documentHandler;
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+
+        $document->set('someAttribute','someValue2');
+        $document->set('someOtherAttribute','someOtherValue2');
+        $result = $documentHandler->update($document);
+
+        $this->assertTrue($result);
+        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+
+        $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
+        
+        $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue2'));
+        $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'));
+
+        $response = $documentHandler->deleteById($this->collection->getId(), $documentId);
+        $this->assertTrue(true === $response, 'Delete should return true!');
+    }
+    
+    /**
+     * test for deletion of a document with deleteById() given the revision
+     */
+    public function testDeleteDocumentWithDeleteByIdWithRevisionAndPolicyIsError()
+    {
+        $documentHandler = $this->documentHandler;
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+
+        $revision=$document->getRevision();
+          try{
+             $documentHandler->deleteById($this->collection->getId(), $documentId, $revision-1000, 'error');
+          }catch(\triagens\ArangoDb\ServerException $e){
+            $this->assertTrue(true);
+          }
+        
+        $response = $documentHandler->deleteById($this->collection->getId(), $documentId, $revision, 'error');
+        $this->assertTrue(true === $response, 'deleteById() should return true! (because correct revision given)');
+    }
+    
+    /**
+     * test for deletion of a document with deleteById() given the revision
+     */
+    public function testDeleteDocumentWithDeleteByIdWithRevisionAndPolicyIsLast()
+    {
+        $documentHandler = $this->documentHandler;
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+
+        $revision=$document->getRevision();
+
+        $response=$documentHandler->deleteById($this->collection->getId(), $documentId, $revision-1000, 'last');
+        $this->assertTrue(true === $response, 'deleteById() should return true! (because policy  is "last write wins")');
+    }
+    
     
     /**
      * test for creation, update, get, and delete having update and delete doing revision checks.

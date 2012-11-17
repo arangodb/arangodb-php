@@ -1064,7 +1064,7 @@ provides the additional results.</p>
       </method>
     </class>
   </file>
-  <file path="DocumentHandler.php" hash="e6f2c382f69a2f9d5b4415a9561acb86" package="ArangoDbPhpClient">
+  <file path="DocumentHandler.php" hash="6027541b9f1bdafe5179ee70a73cc828" package="ArangoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[ArangoDB PHP client: document handler]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -1585,7 +1585,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
           <tag line="332" name="param" description="- document id as string or number" type="mixed" variable="$documentId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="332" name="param" description="- revision of the document to be deleted" type="mixed" variable="$revision">
+          <tag line="332" name="param" description="- optional revision of the document to be deleted" type="mixed" variable="$revision">
             <type by_reference="false">mixed</type>
           </tag>
           <tag line="332" name="param" description="- policy to be used in case of conflict" type="mixed" variable="$policy">
@@ -1608,7 +1608,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
         </argument>
         <argument line="344">
           <name>$revision</name>
-          <default><![CDATA[]]></default>
+          <default><![CDATA[NULL]]></default>
           <type/>
         </argument>
         <argument line="344">
@@ -1632,7 +1632,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
           <tag line="351" name="param" description="- document id as string or number" type="mixed" variable="$documentId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="351" name="param" description="- revision of the document to be deleted" type="mixed" variable="$revision">
+          <tag line="351" name="param" description="- optional revision of the document to be deleted" type="mixed" variable="$revision">
             <type by_reference="false">mixed</type>
           </tag>
           <tag line="351" name="param" description="- policy to be used in case of conflict" type="mixed" variable="$policy">
@@ -1654,7 +1654,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
         </argument>
         <argument line="361">
           <name>$revision</name>
-          <default><![CDATA[]]></default>
+          <default><![CDATA[NULL]]></default>
           <type/>
         </argument>
         <argument line="361">
@@ -3794,7 +3794,7 @@ For example this must be set to 3 in order to create an edge-collection.</p>]]><
       </method>
     </class>
   </file>
-  <file path="Document.php" hash="12e93ec20988eb8c2b93f5180034092d" package="ArangoDbPhpClient">
+  <file path="Document.php" hash="051990cf5d1e4382676c08b7ccdfe33a" package="ArangoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[ArangoDB PHP client: single document]]></description>
       <long-description><![CDATA[]]></long-description>
