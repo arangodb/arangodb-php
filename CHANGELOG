@@ -1,4 +1,4 @@
-v1.0.0 (XXXX-XX-XX)
+v1.0.0 (2012-11-29)
 -------------------
 
 * issue #23: Fixed: DocumentHandler::deleteById() and removeById() : Parameter $revision should be optional.
