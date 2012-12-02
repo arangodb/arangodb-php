@@ -183,7 +183,7 @@ class DocumentHandler extends Handler {
 
 
   /**
-   * Update an existing document in a collection, identified by the document itself
+   * Update an existing document in a collection, identified by the including _id and optionally _rev in the patch document.
    * 
    * This will update the document on the server
    * 
@@ -194,14 +194,17 @@ class DocumentHandler extends Handler {
    * that the revision of the to-be-replaced document is the same as the one given.
    *
    * @throws Exception
-   * @param Document $document - document to be updated
+   * @param Document $document - The patch document that will update the document in question
    * @param mixed $policy - update policy to be used in case of conflict
    * @return bool - always true, will throw if there is an error
    * 
    * @deprecated Attention!! to be removed in version 1.1 - This function is being replaced by replace()
    */
   public function update(Document $document, $policy = NULL) {
-    return $this->replace( $document, $policy);
+    $collectionId = $this->getCollectionId($document);
+    $documentId   = $this->getDocumentId($document);
+
+    return $this->updateById($collectionId, $documentId, $document, $policy);
   }
 
 
@@ -225,7 +228,7 @@ class DocumentHandler extends Handler {
     $collectionId = $this->getCollectionId($document);
     $documentId   = $this->getDocumentId($document);
 
-    return $this->updateById($collectionId, $documentId, $document, $policy);
+    return $this->replaceById($collectionId, $documentId, $document, $policy);
   }
 
 
@@ -243,15 +246,31 @@ class DocumentHandler extends Handler {
    * @throws Exception
    * @param mixed $collectionId - collection id as string or number
    * @param mixed $documentId - document id as string or number
-   * @param Document $document - document to be updated
+   * @param Document $document - patch document which contains the attributes and values to be updated
    * @param mixed $policy - update policy to be used in case of conflict
    * @return bool - always true, will throw if there is an error
    * 
    * @deprecated Attention!! to be removed in version 1.1 - This function is being replaced by replaceById()
    */
   public function updateById($collectionId, $documentId, Document $document, $policy = NULL) {
-    $this->replaceById($collectionId, $documentId, $document, $policy);
-    return true;
+    $revision = $document->getRevision();
+    if (!is_null($revision)) {
+      $params[ConnectionOptions::OPTION_REVISION]=$revision;
+    } 
+
+    if ($policy === NULL) {
+      $policy = $this->getConnection()->getOption(ConnectionOptions::OPTION_UPDATE_POLICY);
+    }
+    $params[ConnectionOptions::OPTION_UPDATE_POLICY]=$policy;
+
+    UpdatePolicy::validate($policy);
+
+    $url = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
+    $url = UrlHelper::appendParamsUrl($url, $params);
+    $result = $this->getConnection()->patch($url, json_encode($document->getAll()));
+   
+    return true;  
+    
   }
   
 
@@ -280,9 +299,9 @@ class DocumentHandler extends Handler {
     } 
 
     if ($policy === NULL) {
-      $policy = $this->getConnection()->getOption(ConnectionOptions::OPTION_UPDATE_POLICY);
+      $policy = $this->getConnection()->getOption(ConnectionOptions::OPTION_REPLACE_POLICY);
     }
-    $params[ConnectionOptions::OPTION_UPDATE_POLICY]=$policy;
+    $params[ConnectionOptions::OPTION_REPLACE_POLICY]=$policy;
 
     UpdatePolicy::validate($policy);
 
@@ -364,9 +383,9 @@ class DocumentHandler extends Handler {
     } 
 
     if ($policy === NULL) {
-      $policy = $this->getConnection()->getOption(ConnectionOptions::OPTION_UPDATE_POLICY);
+      $policy = $this->getConnection()->getOption(ConnectionOptions::OPTION_DELETE_POLICY);
     }
-    $params[ConnectionOptions::OPTION_UPDATE_POLICY]=$policy;
+    $params[ConnectionOptions::OPTION_DELETE_POLICY]=$policy;
     
     UpdatePolicy::validate($policy);
     
