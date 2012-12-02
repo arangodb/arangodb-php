@@ -127,7 +127,7 @@ class Connection {
    *
    * @throws Exception
    * @param string $url - PATCH URL
-   * @param string $data - body to post
+   * @param string $data - patch body
    * @return HttpResponse
    */
   public function patch($url, $data) {
@@ -256,7 +256,6 @@ class Connection {
 
     $scope = new Scope($getFunc, $setFunc);
     $setFunc($this->_options[ConnectionOptions::OPTION_TIMEOUT]);
-
     // open the socket. note: this might throw if the connection cannot be established
     $handle = $this->getHandle();
     if ($handle) {
