@@ -72,6 +72,11 @@ class ConnectionOptions implements \ArrayAccess {
   const OPTION_UPDATE_POLICY = 'policy';
 
   /**
+   * Update keepnull constant
+   */
+  const OPTION_UPDATE_KEEPNULL = 'keepNull';
+
+  /**
    * Replace policy index constant
    */
   const OPTION_REPLACE_POLICY = 'policy';
