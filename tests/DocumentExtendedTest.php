@@ -95,6 +95,37 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $response = $documentHandler->delete($resultingDocument);
         $this->assertTrue(true === $response, 'Delete should return true!');
     }
+
+
+    /**
+     * test for updating a document using update()
+     */
+    public function testUpdateDocumentDontKeepNull()
+    {
+        $documentHandler = $this->documentHandler;
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
+        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+
+        $patchDocument =  new \triagens\ArangoDb\Document();
+        $patchDocument->set('_id',$document->getHandle());
+        $patchDocument->set('_rev',$document->getRevision());
+        $patchDocument->set('someAttribute', null);
+        $patchDocument->set('someOtherAttribute', 'someOtherValue2');
+        $result = $documentHandler->update($patchDocument,array("keepNull"=>false));
+
+        $this->assertTrue($result);
+        
+        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+        $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
+        
+        $this->assertTrue(true === ($resultingDocument->someAttribute == null), 'Should be : null, is: '.$resultingDocument->someAttribute);
+        $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'), 'Should be :someOtherValue2, is: '.$resultingDocument->someOtherAttribute);
+        $response = $documentHandler->delete($resultingDocument);
+        $this->assertTrue(true === $response, 'Delete should return true!');
+    }
     
     
     /**
