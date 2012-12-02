@@ -37,7 +37,7 @@
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
-                <span class="label label-info">11</span></a></li>
+                <span class="label label-info">9</span></a></li>
 </ul>
 </li>
 </ul></div>
@@ -73,8 +73,10 @@
 <li class="method public inherited"><a href="#method_replace" title="replace :: Replace an existing document in a collection, identified by the document itself"><span class="description">Replace an existing document in a collection, identified by the document itself</span><pre>replace()</pre></a></li>
 <li class="method public inherited"><a href="#method_replaceById" title="replaceById :: Replace an existing document in a collection, identified by collection id and document id"><span class="description">Replace an existing document in a collection, identified by collection id and document id</span><pre>replaceById()</pre></a></li>
 <li class="method public "><a href="#method_saveEdge" title="saveEdge :: save an edge to an edge-collection"><span class="description">save an edge to an edge-collection</span><pre>saveEdge()</pre></a></li>
-<li class="method public inherited"><a href="#method_update" title="update :: Update an existing document in a collection, identified by the document itself"><span class="description">Update an existing document in a collection, identified by the document itself</span><pre>update()</pre></a></li>
-<li class="method public inherited"><a href="#method_updateById" title="updateById :: Update an existing document in a collection, identified by collection id and document id"><span class="description">Update an existing document in a collection, identified by collection id and document id</span><pre>updateById()</pre></a></li>
+<li class="method public inherited"><a href="#method_update" title="update :: Update an existing document in a collection, identified by the including _id and optionally _rev in the patch document."><span class="description">Update an existing document in a collection, identified by the including _id and optionally _rev in the patch document.</span><pre>update()</pre></a></li>
+<li class="method public inherited"><a href="#method_updateById" title="updateById :: Update an existing document in a collection, identified by collection id and document id
+Attention - The behavior of this method has changed since version 1.1"><span class="description">Update an existing document in a collection, identified by collection id and document id
+Attention - The behavior of this method has changed since version 1.1</span><pre>updateById()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header protected">» Protected
@@ -703,11 +705,13 @@ that the revision of the to-be-replaced document is the same as the one given.</
 </div></div>
 </div>
 <a id="method_update"></a><div class="element clickable method public method_update" data-toggle="collapse" data-target=".method_update .collapse">
-<h2>Update an existing document in a collection, identified by the document itself</h2>
-<pre>update(\triagens\ArangoDb\Document $document, mixed $policy) : bool</pre>
+<h2>Update an existing document in a collection, identified by the including _id and optionally _rev in the patch document.</h2>
+<pre>update(\triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This will update the document on the server</p>
+<div class="long_description"><p>Attention - The behavior of this method has changed since version 1.1</p>
+
+<p>This will update the document on the server</p>
 
 <p>This will throw if the document cannot be updated</p>
 
@@ -722,14 +726,16 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <div class="subelement argument">
 <h4>$document</h4>
 <code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
-<li>document to be updated</li>
+<li>The patch document that will update the document in question</li>
 </ul>
 </div>
 <div class="subelement argument">
-<h4>$policy</h4>
+<h4>$options</h4>
 <code>mixed</code><ul>
-<li>update policy to be used in case of conflict</li>
+<li>optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method) </li>
 </ul>
+
+<p>Options are : <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li> <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li> </p>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -742,8 +748,9 @@ that the revision of the to-be-replaced document is the same as the one given.</
 </div></div>
 </div>
 <a id="method_updateById"></a><div class="element clickable method public method_updateById" data-toggle="collapse" data-target=".method_updateById .collapse">
-<h2>Update an existing document in a collection, identified by collection id and document id</h2>
-<pre>updateById(mixed $collectionId, mixed $documentId, \triagens\ArangoDb\Document $document, mixed $policy) : bool</pre>
+<h2>Update an existing document in a collection, identified by collection id and document id
+Attention - The behavior of this method has changed since version 1.1</h2>
+<pre>updateById(mixed $collectionId, mixed $documentId, \triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will update the document on the server</p>
@@ -773,14 +780,16 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <div class="subelement argument">
 <h4>$document</h4>
 <code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
-<li>document to be updated</li>
+<li>patch document which contains the attributes and values to be updated</li>
 </ul>
 </div>
 <div class="subelement argument">
-<h4>$policy</h4>
+<h4>$options</h4>
 <code>mixed</code><ul>
-<li>update policy to be used in case of conflict</li>
+<li>optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method) </li>
 </ul>
+
+<p>Options are : <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li> <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li> </p>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -969,7 +978,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-11-18T00:58:44+02:00.<br></footer></div>
+            generated on 2012-12-02T22:25:29+02:00.<br></footer></div>
 </div>
 </body>
 </html>

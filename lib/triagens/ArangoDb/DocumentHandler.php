@@ -198,7 +198,7 @@ class DocumentHandler extends Handler {
    * @param Document $document - The patch document that will update the document in question
    * @param mixed $options - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
    * <p>Options are : 
-   * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL (use delfault)</li>
+   * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
    * <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
    * </p>
    * @return bool - always true, will throw if there is an error
@@ -253,7 +253,7 @@ class DocumentHandler extends Handler {
    * @param Document $document - patch document which contains the attributes and values to be updated
    * @param mixed $options - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
    * <p>Options are : 
-   * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL (use delfault)</li>
+   * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
    * <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
    * </p>
    * @return bool - always true, will throw if there is an error
