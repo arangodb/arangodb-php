@@ -70,6 +70,16 @@ class ConnectionOptions implements \ArrayAccess {
    * Update policy index constant
    */
   const OPTION_UPDATE_POLICY = 'policy';
+
+  /**
+   * Replace policy index constant
+   */
+  const OPTION_REPLACE_POLICY = 'policy';
+  
+ /**
+   * Delete policy index constant
+   */
+  const OPTION_DELETE_POLICY = 'policy';
   
   /**
    * Wait for sync index constant
@@ -200,6 +210,8 @@ class ConnectionOptions implements \ArrayAccess {
       self::OPTION_TIMEOUT       => DefaultValues::DEFAULT_TIMEOUT,
       self::OPTION_CREATE        => DefaultValues::DEFAULT_CREATE,
       self::OPTION_UPDATE_POLICY => DefaultValues::DEFAULT_UPDATE_POLICY,
+      self::OPTION_REPLACE_POLICY => DefaultValues::DEFAULT_REPLACE_POLICY,
+      self::OPTION_DELETE_POLICY => DefaultValues::DEFAULT_DELETE_POLICY,
       self::OPTION_REVISION      => NULL,
       self::OPTION_WAIT_SYNC     => DefaultValues::DEFAULT_WAIT_SYNC,
       self::OPTION_CONNECTION    => DefaultValues::DEFAULT_CONNECTION,
@@ -272,6 +284,8 @@ class ConnectionOptions implements \ArrayAccess {
     }
 
     UpdatePolicy::validate($this->_values[self::OPTION_UPDATE_POLICY]);
+    UpdatePolicy::validate($this->_values[self::OPTION_REPLACE_POLICY]);
+    UpdatePolicy::validate($this->_values[self::OPTION_DELETE_POLICY]);
   }
 
 }

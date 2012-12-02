@@ -45,4 +45,16 @@ abstract class DefaultValues {
    * Default update policy
    */
   const DEFAULT_UPDATE_POLICY = UpdatePolicy::ERROR;
+
+  /**
+   * Default replace policy
+   */
+  const DEFAULT_REPLACE_POLICY = UpdatePolicy::ERROR;
+
+  /**
+   * Default delete policy
+   */
+  const DEFAULT_DELETE_POLICY = UpdatePolicy::ERROR;
+
+
 }
