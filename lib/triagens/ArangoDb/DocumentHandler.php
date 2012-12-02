@@ -184,6 +184,7 @@ class DocumentHandler extends Handler {
 
   /**
    * Update an existing document in a collection, identified by the including _id and optionally _rev in the patch document.
+   * Attention - The behavior of this method has changed since version 1.1
    * 
    * This will update the document on the server
    * 
@@ -195,16 +196,18 @@ class DocumentHandler extends Handler {
    *
    * @throws Exception
    * @param Document $document - The patch document that will update the document in question
-   * @param mixed $policy - update policy to be used in case of conflict
+   * @param mixed $options - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+   * <p>Options are : 
+   * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL (use delfault)</li>
+   * <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+   * </p>
    * @return bool - always true, will throw if there is an error
-   * 
-   * @deprecated Attention!! to be removed in version 1.1 - This function is being replaced by replace()
    */
-  public function update(Document $document, $policy = NULL) {
+  public function update(Document $document, $options = NULL) {
     $collectionId = $this->getCollectionId($document);
     $documentId   = $this->getDocumentId($document);
 
-    return $this->updateById($collectionId, $documentId, $document, $policy);
+    return $this->updateById($collectionId, $documentId, $document, $options);
   }
 
 
@@ -234,6 +237,7 @@ class DocumentHandler extends Handler {
 
   /**
    * Update an existing document in a collection, identified by collection id and document id
+   * Attention - The behavior of this method has changed since version 1.1
    * 
    * This will update the document on the server
    * 
@@ -247,12 +251,26 @@ class DocumentHandler extends Handler {
    * @param mixed $collectionId - collection id as string or number
    * @param mixed $documentId - document id as string or number
    * @param Document $document - patch document which contains the attributes and values to be updated
-   * @param mixed $policy - update policy to be used in case of conflict
+   * @param mixed $options - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+   * <p>Options are : 
+   * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL (use delfault)</li>
+   * <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+   * </p>
    * @return bool - always true, will throw if there is an error
-   * 
-   * @deprecated Attention!! to be removed in version 1.1 - This function is being replaced by replaceById()
    */
-  public function updateById($collectionId, $documentId, Document $document, $policy = NULL) {
+  public function updateById($collectionId, $documentId, Document $document, $options = NULL) {
+   // This preserves compatibility for the old policy parameter.
+    $policy = null;
+    $keepNull = true;
+
+    if (!is_array($options)){
+      $policy = $options;
+    }else{
+      $policy = array_key_exists('policy',$options) ? $options['policy'] : $policy;
+      $keepNull = array_key_exists('keepNull',$options) ? $options['keepNull'] : $keepNull;
+    }
+    
+    
     $revision = $document->getRevision();
     if (!is_null($revision)) {
       $params[ConnectionOptions::OPTION_REVISION]=$revision;
@@ -262,6 +280,7 @@ class DocumentHandler extends Handler {
       $policy = $this->getConnection()->getOption(ConnectionOptions::OPTION_UPDATE_POLICY);
     }
     $params[ConnectionOptions::OPTION_UPDATE_POLICY]=$policy;
+    $params[ConnectionOptions::OPTION_UPDATE_KEEPNULL]=$keepNull;
 
     UpdatePolicy::validate($policy);
 
