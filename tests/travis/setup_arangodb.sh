@@ -3,8 +3,8 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
-VERSION=1.0.2
-#VERSION=1.1.beta1
+VERSION=1.0.4
+#VERSION=1.1.beta2
 
 
 NAME=ArangoDB-$VERSION

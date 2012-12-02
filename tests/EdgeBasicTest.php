@@ -74,16 +74,12 @@ class EdgeBasicTest extends \PHPUnit_Framework_TestCase
         $resultingDocument = $documentHandler->get($edgeCollection->getId(), $edgeDocumentId);
         
         $resultingEdge = $documentHandler->get($edgeCollection->getId(), $edgeDocumentId);
-        #var_dump($resultingDocument);
-        #var_dump($resultingEdge);
-        
         
         $resultingAttribute = $resultingEdge->label;
         $this->assertTrue($resultingAttribute === 'knows', 'Attribute set on the Edge is different from the one retrieved!');
 
         
         $edgesQuery1Result=$edgeDocumentHandler->edges($edgeCollection->getId(),$documentHandle1,'out');
-        #var_dump($edgesQuery1Result);
         $this->assertArrayHasKey('documents',$edgesQuery1Result, "edges didn't return an array with a documents attribute!");     
         
         $statement = new \triagens\ArangoDb\Statement($connection, array(
@@ -96,16 +92,13 @@ class EdgeBasicTest extends \PHPUnit_Framework_TestCase
         $cursor = $statement->execute();
 
         $result = $cursor->current();
-        #var_dump($result);
         $this->assertInstanceOf('triagens\ArangoDb\Document',$result, "IN PATHS statement did not return a document object!");
-        #var_dump($resultingDocument);        
         $resultingDocument->set('label','knows not');
        
         $resultingDocument2 = $documentHandler->update($resultingDocument);
 
           
         $resultingEdge = $documentHandler->get($edgeCollection->getId(), $edgeDocumentId);
-        #var_dump($resultingEdge); 
         $resultingAttribute = $resultingEdge->label;
         $this->assertTrue($resultingAttribute === 'knows not', 'Attribute "knows not" set on the Edge is different from the one retrieved ('.$resultingAttribute.')!');
         
@@ -114,7 +107,7 @@ class EdgeBasicTest extends \PHPUnit_Framework_TestCase
         $response = $documentHandler->delete($document2);
         
         // On ArangoDB 1.0 deleting a vertice doesn't delete the associated edge. Caution!
-        $response = $edgeDocumentHandler->delete($edgeDocument);
+        $response = $edgeDocumentHandler->delete($resultingEdge);
         
     }
 
