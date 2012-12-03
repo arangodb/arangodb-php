@@ -2,13 +2,7 @@
 <phpunit  bootstrap="bootstrap.php" colors="true" verbose="true" backupGlobals="false">
   <testsuites>
     <testsuite name="ArangoDB-PHP">
-        <file>ConnectionTest.php</file>
-        <file>CollectionBasicTest.php</file>
-        <file>CollectionExtendedTest.php</file>
-        <file>DocumentBasicTest.php</file>
-        <file>DocumentExtendedTest.php</file>
-        <file>EdgeBasicTest.php</file>
-        <file>StatementTest.php</file>
+        <directory>.</directory>
     </testsuite>
   </testsuites>
 </phpunit>

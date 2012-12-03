@@ -1,0 +1,11 @@
+language: php
+
+php: 
+  - 5.3
+  - 5.4
+
+before_script:
+  - chmod 777 ./tests/travis/setup_arangodb.sh
+  - ./tests/travis/setup_arangodb.sh
+
+script: phpunit --configuration ./tests/phpunit.xml
