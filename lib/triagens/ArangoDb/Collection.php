@@ -28,11 +28,6 @@ class Collection {
    */
   private $_name          = NULL;
   
-  /**
-   * The collection type (might be NULL for new collections)
-   * @var int - collection type
-   */
-  private $_type          = NULL;
   
   /**
    * The collection waitForSync value (might be NULL for new collections)
@@ -161,7 +156,6 @@ class Collection {
       self::ENTRY_ID        => $this->_id,
       self::ENTRY_NAME      => $this->_name,
       self::ENTRY_WAIT_SYNC => $this->_waitForSync,
-      self::ENTRY_TYPE      => $this->_type,
     );
   }
   
@@ -197,12 +191,7 @@ class Collection {
       $this->setWaitForSync($value);
       return;
     }
-
-    if ($key === self::ENTRY_TYPE) {
-      $this->setType($value);
-      return;
-    }
-   
+  
     // unknown attribute, will be ignored 
   }
   
@@ -263,38 +252,6 @@ class Collection {
     return $this->_name; 
   }
   
-  /**
-   * Set the collection type. 
-   * 
-   * This is useful before a collection is create() 'ed in order to set a different type than the normal one. 
-   * For example this must be set to 3 in order to create an edge-collection.
-   *
-   * @throws ClientException
-   * @param int $type - type = 2 -> normal collection, type = 3 -> edge-collection
-   * @return void
-   */
-  public function setType($type) {
-    assert(is_int($type));
-
-    if ($this->_type !== NULL && $this->_type != $type) {
-      throw new ClientException('Should not update the type of an existing collection');
-    }
-
-    if ($type != self::TYPE_DOCUMENT && $type != self::TYPE_EDGE) {
-      throw new ClientException('Invalid type used for collection');
-    }
-
-    $this->_type = $type;
-  }
-  
-  /**
-   * Get the collection type (if already known)
-   *
-   * @return string - name
-   */
-  public function getType() {
-    return $this->_type; 
-  }
   
   /**
    * Set the waitForSync value
