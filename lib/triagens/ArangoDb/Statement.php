@@ -128,6 +128,37 @@ class Statement {
 
     return new Cursor($this->_connection, $response->getJson(), $this->getCursorOptions());
   }
+  
+  /**
+   * Explain the statement's executionplan
+   * 
+   * This will post the query to the server and return execution plan as a result cursor.
+   * The cursor can then be used to iterate the results.
+   *
+   * @throws Exception
+   * @return Cursor
+   */
+  public function explain() {
+    $data = $this->buildData();
+    $response = $this->_connection->post(Urls::URL_EXPLAIN, json_encode($data));
+    return $response->getJson();
+  }
+
+  /**
+   * Valiudates the statement
+   * 
+   * This will post the query to the server for validation.
+   * The cursor can then be used to iterate the results.
+   *
+   * @throws Exception
+   * @return Cursor
+   */
+  public function validate() {
+    $data = $this->buildData();
+    $response = $this->_connection->post(Urls::URL_QUERY, json_encode($data));
+
+    return $response->getJson();
+  }
 
   /**
    * Invoke the statement

@@ -37,6 +37,16 @@ abstract class URLs {
   const URL_CURSOR             = '/_api/cursor'; 
 
   /**
+   * base URL part for aql explain related operations
+   */
+  const URL_EXPLAIN             = '/_api/explain'; 
+
+  /**
+   * base URL part for aql query validation related operations
+   */
+  const URL_QUERY             = '/_api/query'; 
+
+  /**
    * base URL part for select-by-example
    */
   const URL_EXAMPLE            = '/_api/simple/by-example'; 
