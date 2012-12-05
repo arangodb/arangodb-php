@@ -23,7 +23,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     /**
      * This is just a test to really test connectivity with the server before moving on to further tests.
      */
-    public function testCreateAndDeleteDocument()
+    public function testExecuteStatement()
     {
         $connection = $this->connection;
         $collection = $this->collection;
@@ -46,9 +46,65 @@ class StatementTest extends \PHPUnit_Framework_TestCase
 
         $result = $cursor->current();
 
-        $this->assertTrue($result->someAttribute === 'someValue', 'Created document id is not numeric!');
+        $this->assertTrue($result->someAttribute === 'someValue', 'Expected value someValue, found :'.$result->someAttribute);
     }
 
+    
+    /**
+     * Test if the explain function works
+     */
+    public function testExplainStatement()
+    {
+        $connection = $this->connection;
+        $collection = $this->collection;
+        $collectionHandler = $this->collectionHandler;
+        $document = new \triagens\ArangoDb\Document();
+        $documentHandler = new \triagens\ArangoDb\DocumentHandler($connection);
+
+        $document->someAttribute = 'someValue';
+
+        $documentId = $documentHandler->add($collection->getId(), $document);
+
+        $statement = new \triagens\ArangoDb\Statement($connection, array(
+            "query" => '',
+            "count" => true,
+            "batchSize" => 1000,
+            "sanitize" => true,
+        ));
+        $statement->setQuery('FOR a IN `ArangoDB-PHP-TestSuite-TestCollection-01` RETURN a');
+        $result = $statement->explain();
+
+        $this->assertArrayHasKey('plan', $result, "result-array does not contain plan !");    
+    }
+
+
+    /**
+     * Test if the validate function works
+     */
+    public function testValidateStatement()
+    {
+        $connection = $this->connection;
+        $collection = $this->collection;
+        $collectionHandler = $this->collectionHandler;
+        $document = new \triagens\ArangoDb\Document();
+        $documentHandler = new \triagens\ArangoDb\DocumentHandler($connection);
+
+        $document->someAttribute = 'someValue';
+
+        $documentId = $documentHandler->add($collection->getId(), $document);
+
+        $statement = new \triagens\ArangoDb\Statement($connection, array(
+            "query" => '',
+            "count" => true,
+            "batchSize" => 1000,
+            "sanitize" => true,
+        ));
+        $statement->setQuery('FOR a IN `ArangoDB-PHP-TestSuite-TestCollection-01` RETURN a');
+        $result = $statement->validate();
+        $this->assertArrayHasKey('bindVars', $result, "result-array does not contain plan !");    
+    }
+
+    
     public function tearDown()
     {
         try {

@@ -32,12 +32,40 @@ abstract class URLs {
   const URL_COLLECTION         = '/_api/collection';
 
   /**
+   * URL base part for all index-related REST calls
+   */
+  const URL_INDEX         = '/_api/index';
+
+  /**
    * base URL part for cursor related operations
    */
   const URL_CURSOR             = '/_api/cursor'; 
 
   /**
+   * base URL part for aql explain related operations
+   */
+  const URL_EXPLAIN             = '/_api/explain'; 
+
+  /**
+   * base URL part for aql query validation related operations
+   */
+  const URL_QUERY             = '/_api/query'; 
+
+  /**
    * base URL part for select-by-example
    */
   const URL_EXAMPLE            = '/_api/simple/by-example'; 
+
+  /**
+   * base URL part for select-range
+   */
+  const URL_RANGE            = '/_api/simple/range'; 
+  /**
+   * base URL part for select-range
+   */
+  const URL_NEAR            = '/_api/simple/near'; 
+  /**
+   * base URL part for select-range
+   */
+  const URL_WITHIN            = '/_api/simple/within'; 
 }
