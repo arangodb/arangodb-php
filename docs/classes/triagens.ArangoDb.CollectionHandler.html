@@ -70,8 +70,12 @@
 <li class="method public "><a href="#method_getAllIds" title="getAllIds :: Get the list of all documents' ids from a collection"><span class="description">Get the list of all documents' ids from a collection</span><pre>getAllIds()</pre></a></li>
 <li class="method public "><a href="#method_getCount" title="getCount :: Get the number of documents in a collection"><span class="description">Get the number of documents in a collection</span><pre>getCount()</pre></a></li>
 <li class="method public "><a href="#method_getFigures" title="getFigures :: Get figures for a collection"><span class="description">Get figures for a collection</span><pre>getFigures()</pre></a></li>
+<li class="method public "><a href="#method_index" title="index :: Creates an index on a collection on the server"><span class="description">Creates an index on a collection on the server</span><pre>index()</pre></a></li>
+<li class="method public "><a href="#method_near" title="near :: Get document(s) by specifying near"><span class="description">Get document(s) by specifying near</span><pre>near()</pre></a></li>
+<li class="method public "><a href="#method_range" title="range :: Get document(s) by specifying range"><span class="description">Get document(s) by specifying range</span><pre>range()</pre></a></li>
 <li class="method public "><a href="#method_rename" title="rename :: Rename a collection"><span class="description">Rename a collection</span><pre>rename()</pre></a></li>
 <li class="method public "><a href="#method_truncate" title="truncate :: Truncate a collection"><span class="description">Truncate a collection</span><pre>truncate()</pre></a></li>
+<li class="method public "><a href="#method_within" title="within :: Get document(s) by specifying within"><span class="description">Get document(s) by specifying within</span><pre>within()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header protected">» Protected
@@ -91,12 +95,25 @@
 <i class="icon-custom icon-constant"></i> Constants
                     <ul>
 <li class="constant  "><a href="#constant_ENTRY_DOCUMENTS" title="ENTRY_DOCUMENTS :: documents array index"><span class="description">documents array index</span><pre>ENTRY_DOCUMENTS</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_ATTRIBUTE" title="OPTION_ATTRIBUTE :: attribute parameter"><span class="description">attribute parameter</span><pre>OPTION_ATTRIBUTE</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_CLOSED" title="OPTION_CLOSED :: closed parameter"><span class="description">closed parameter</span><pre>OPTION_CLOSED</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_COLLECTION" title="OPTION_COLLECTION :: collection parameter"><span class="description">collection parameter</span><pre>OPTION_COLLECTION</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_COUNT" title="OPTION_COUNT :: count option"><span class="description">count option</span><pre>OPTION_COUNT</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_DISTANCE" title="OPTION_DISTANCE :: distance parameter"><span class="description">distance parameter</span><pre>OPTION_DISTANCE</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_EXAMPLE" title="OPTION_EXAMPLE :: example parameter"><span class="description">example parameter</span><pre>OPTION_EXAMPLE</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_FIELDS" title="OPTION_FIELDS :: count fields"><span class="description">count fields</span><pre>OPTION_FIELDS</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_FIGURES" title="OPTION_FIGURES :: figures option"><span class="description">figures option</span><pre>OPTION_FIGURES</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_LATITUDE" title="OPTION_LATITUDE :: latidude parameter"><span class="description">latidude parameter</span><pre>OPTION_LATITUDE</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_LEFT" title="OPTION_LEFT :: left parameter"><span class="description">left parameter</span><pre>OPTION_LEFT</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_LIMIT" title="OPTION_LIMIT :: limit parameter"><span class="description">limit parameter</span><pre>OPTION_LIMIT</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_LONGITUDE" title="OPTION_LONGITUDE :: longitude parameter"><span class="description">longitude parameter</span><pre>OPTION_LONGITUDE</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_RADIUS" title="OPTION_RADIUS :: radius parameter"><span class="description">radius parameter</span><pre>OPTION_RADIUS</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_RENAME" title="OPTION_RENAME :: rename option"><span class="description">rename option</span><pre>OPTION_RENAME</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_RIGHT" title="OPTION_RIGHT :: right parameter"><span class="description">right parameter</span><pre>OPTION_RIGHT</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_SKIP" title="OPTION_SKIP :: skip parameter"><span class="description">skip parameter</span><pre>OPTION_SKIP</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_TRUNCATE" title="OPTION_TRUNCATE :: truncate option"><span class="description">truncate option</span><pre>OPTION_TRUNCATE</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_TYPE" title="OPTION_TYPE :: count unique"><span class="description">count unique</span><pre>OPTION_TYPE</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_UNIQUE" title="OPTION_UNIQUE :: count unique"><span class="description">count unique</span><pre>OPTION_UNIQUE</pre></a></li>
 </ul>
 </li>
 </ul>
@@ -432,6 +449,141 @@ appropriate HTTP requests to the server.</p></div>
 <code>array</code>- the figures for the collection</div>
 </div></div>
 </div>
+<a id="method_index"></a><div class="element clickable method public method_index" data-toggle="collapse" data-target=".method_index .collapse">
+<h2>Creates an index on a collection on the server</h2>
+<pre>index(mixed $collectionId, string $type, array $attributes, boolean $unique) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will create an index on the collection on the server and return its id</p>
+
+<p>This will throw if the index cannot be created</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>The id of the collection where the index is to be created</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$type</h4>
+<code>string</code><ul>
+<li>index type: hash, skiplist or geo</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$attributes</h4>
+<code>array</code><ul>
+<li>an array of attributes that can be defined like array('a') or array('a', 'b.c')</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$unique</h4>
+<code>boolean</code><ul>
+<li>true/false to create a unique index</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>- id of collection created</div>
+</div></div>
+</div>
+<a id="method_near"></a><div class="element clickable method public method_near" data-toggle="collapse" data-target=".method_near .collapse">
+<h2>Get document(s) by specifying near</h2>
+<pre>near(mixed $collectionId, double $latitude, double $longitude, array $options) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will throw if the list cannot be fetched from the server</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>collection id as string or number</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$latitude</h4>
+<code>double</code><ul>
+<li>The latitude of the coordinate.</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$longitude</h4>
+<code>double</code><ul>
+<li>The longitude of the coordinate.</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><ul>
+<li>optional array of options. </li>
+</ul>
+
+<p>Options are : <li>'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li> <li>'hiddenAttributes' - Set an array of hidden attributes for created documents. <p> This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. The difference is, that if you're returning a resultset of documents, the getall() is already called and the hidden attributes would not be applied to the attributes. </p> <li>'distance' - If given, the attribute key used to store the distance. (optional) <li>'skip' - The documents to skip in the query. <li>'limit' - The maximal amount of documents to return. </li> </p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- documents matching the example [0...n]</div>
+</div></div>
+</div>
+<a id="method_range"></a><div class="element clickable method public method_range" data-toggle="collapse" data-target=".method_range .collapse">
+<h2>Get document(s) by specifying range</h2>
+<pre>range(mixed $collectionId, string $attribute, mixed $left, mixed $right, array $options) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will throw if the list cannot be fetched from the server</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>collection id as string or number</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$attribute</h4>
+<code>string</code><ul>
+<li>the attribute path , like 'a', 'a.b', etc...</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$left</h4>
+<code>mixed</code><ul>
+<li>The lower bound.</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$right</h4>
+<code>mixed</code><ul>
+<li>The upper bound.</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><ul>
+<li>optional array of options. </li>
+</ul>
+
+<p>Options are : <li>'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li> <li>'hiddenAttributes' - Set an array of hidden attributes for created documents. <p> This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. The difference is, that if you're returning a resultset of documents, the getall() is already called and the hidden attributes would not be applied to the attributes. </p> <li>'closed' - If true, use interval including left and right, otherwise exclude right, but include left. <li>'skip' - The documents to skip in the query. <li>'limit' - The maximal amount of documents to return. </li> </p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- documents matching the example [0...n]</div>
+</div></div>
+</div>
 <a id="method_rename"></a><div class="element clickable method public method_rename" data-toggle="collapse" data-target=".method_rename .collapse">
 <h2>Rename a collection</h2>
 <pre>rename(mixed $collection, string $name) : bool</pre>
@@ -482,6 +634,55 @@ appropriate HTTP requests to the server.</p></div>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>bool</code>- always true, will throw if there is an error</div>
+</div></div>
+</div>
+<a id="method_within"></a><div class="element clickable method public method_within" data-toggle="collapse" data-target=".method_within .collapse">
+<h2>Get document(s) by specifying within</h2>
+<pre>within(mixed $collectionId, double $latitude, double $longitude, int $radius, array $options) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will throw if the list cannot be fetched from the server</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>collection id as string or number</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$latitude</h4>
+<code>double</code><ul>
+<li>The latitude of the coordinate.</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$longitude</h4>
+<code>double</code><ul>
+<li>The longitude of the coordinate.</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$radius</h4>
+<code>int</code><ul>
+<li>The maximal radius (in meters).</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><ul>
+<li>optional array of options. </li>
+</ul>
+
+<p>Options are : <li>'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li> <li>'hiddenAttributes' - Set an array of hidden attributes for created documents. <p> This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. The difference is, that if you're returning a resultset of documents, the getall() is already called and the hidden attributes would not be applied to the attributes. </p> <li>'distance' - If given, the attribute key used to store the distance. (optional) <li>'skip' - The documents to skip in the query. <li>'limit' - The maximal amount of documents to return. </li> </p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- documents matching the example [0...n]</div>
 </div></div>
 </div>
 <a id="method_getConnection"></a><div class="element clickable method protected method_getConnection" data-toggle="collapse" data-target=".method_getConnection .collapse">
@@ -545,6 +746,18 @@ appropriate HTTP requests to the server.</p></div>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="constant_OPTION_ATTRIBUTE"> </a><div class="element clickable constant  constant_OPTION_ATTRIBUTE" data-toggle="collapse" data-target=".constant_OPTION_ATTRIBUTE .collapse">
+<h2>attribute parameter</h2>
+<pre>OPTION_ATTRIBUTE </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_CLOSED"> </a><div class="element clickable constant  constant_OPTION_CLOSED" data-toggle="collapse" data-target=".constant_OPTION_CLOSED .collapse">
+<h2>closed parameter</h2>
+<pre>OPTION_CLOSED </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="constant_OPTION_COLLECTION"> </a><div class="element clickable constant  constant_OPTION_COLLECTION" data-toggle="collapse" data-target=".constant_OPTION_COLLECTION .collapse">
 <h2>collection parameter</h2>
 <pre>OPTION_COLLECTION </pre>
@@ -557,9 +770,21 @@ appropriate HTTP requests to the server.</p></div>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="constant_OPTION_DISTANCE"> </a><div class="element clickable constant  constant_OPTION_DISTANCE" data-toggle="collapse" data-target=".constant_OPTION_DISTANCE .collapse">
+<h2>distance parameter</h2>
+<pre>OPTION_DISTANCE </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="constant_OPTION_EXAMPLE"> </a><div class="element clickable constant  constant_OPTION_EXAMPLE" data-toggle="collapse" data-target=".constant_OPTION_EXAMPLE .collapse">
 <h2>example parameter</h2>
 <pre>OPTION_EXAMPLE </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_FIELDS"> </a><div class="element clickable constant  constant_OPTION_FIELDS" data-toggle="collapse" data-target=".constant_OPTION_FIELDS .collapse">
+<h2>count fields</h2>
+<pre>OPTION_FIELDS </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
@@ -569,15 +794,69 @@ appropriate HTTP requests to the server.</p></div>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="constant_OPTION_LATITUDE"> </a><div class="element clickable constant  constant_OPTION_LATITUDE" data-toggle="collapse" data-target=".constant_OPTION_LATITUDE .collapse">
+<h2>latidude parameter</h2>
+<pre>OPTION_LATITUDE </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_LEFT"> </a><div class="element clickable constant  constant_OPTION_LEFT" data-toggle="collapse" data-target=".constant_OPTION_LEFT .collapse">
+<h2>left parameter</h2>
+<pre>OPTION_LEFT </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_LIMIT"> </a><div class="element clickable constant  constant_OPTION_LIMIT" data-toggle="collapse" data-target=".constant_OPTION_LIMIT .collapse">
+<h2>limit parameter</h2>
+<pre>OPTION_LIMIT </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_LONGITUDE"> </a><div class="element clickable constant  constant_OPTION_LONGITUDE" data-toggle="collapse" data-target=".constant_OPTION_LONGITUDE .collapse">
+<h2>longitude parameter</h2>
+<pre>OPTION_LONGITUDE </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_RADIUS"> </a><div class="element clickable constant  constant_OPTION_RADIUS" data-toggle="collapse" data-target=".constant_OPTION_RADIUS .collapse">
+<h2>radius parameter</h2>
+<pre>OPTION_RADIUS </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="constant_OPTION_RENAME"> </a><div class="element clickable constant  constant_OPTION_RENAME" data-toggle="collapse" data-target=".constant_OPTION_RENAME .collapse">
 <h2>rename option</h2>
 <pre>OPTION_RENAME </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="constant_OPTION_RIGHT"> </a><div class="element clickable constant  constant_OPTION_RIGHT" data-toggle="collapse" data-target=".constant_OPTION_RIGHT .collapse">
+<h2>right parameter</h2>
+<pre>OPTION_RIGHT </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_SKIP"> </a><div class="element clickable constant  constant_OPTION_SKIP" data-toggle="collapse" data-target=".constant_OPTION_SKIP .collapse">
+<h2>skip parameter</h2>
+<pre>OPTION_SKIP </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="constant_OPTION_TRUNCATE"> </a><div class="element clickable constant  constant_OPTION_TRUNCATE" data-toggle="collapse" data-target=".constant_OPTION_TRUNCATE .collapse">
 <h2>truncate option</h2>
 <pre>OPTION_TRUNCATE </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_TYPE"> </a><div class="element clickable constant  constant_OPTION_TYPE" data-toggle="collapse" data-target=".constant_OPTION_TYPE .collapse">
+<h2>count unique</h2>
+<pre>OPTION_TYPE </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_UNIQUE"> </a><div class="element clickable constant  constant_OPTION_UNIQUE" data-toggle="collapse" data-target=".constant_OPTION_UNIQUE .collapse">
+<h2>count unique</h2>
+<pre>OPTION_UNIQUE </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
@@ -588,7 +867,7 @@ appropriate HTTP requests to the server.</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-12-02T22:25:29+02:00.<br></footer></div>
+            generated on 2012-12-05T20:49:15+02:00.<br></footer></div>
 </div>
 </body>
 </html>

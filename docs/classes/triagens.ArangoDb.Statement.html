@@ -63,6 +63,7 @@
 <li class="method public "><a href="#method___toString" title="__toString :: Return a string representation of the statement"><span class="description">Return a string representation of the statement</span><pre>__toString()</pre></a></li>
 <li class="method public "><a href="#method_bind" title="bind :: Bind a parameter to the statement"><span class="description">Bind a parameter to the statement</span><pre>bind()</pre></a></li>
 <li class="method public "><a href="#method_execute" title="execute :: Execute the statement"><span class="description">Execute the statement</span><pre>execute()</pre></a></li>
+<li class="method public "><a href="#method_explain" title="explain :: Explain the statement's execution plan"><span class="description">Explain the statement's execution plan</span><pre>explain()</pre></a></li>
 <li class="method public "><a href="#method_getBatchSize" title="getBatchSize :: Get the batch size for the statement"><span class="description">Get the batch size for the statement</span><pre>getBatchSize()</pre></a></li>
 <li class="method public "><a href="#method_getBindVars" title="getBindVars :: Get all bind parameters as an array"><span class="description">Get all bind parameters as an array</span><pre>getBindVars()</pre></a></li>
 <li class="method public "><a href="#method_getCount" title="getCount :: Get the count option value of the statement"><span class="description">Get the count option value of the statement</span><pre>getCount()</pre></a></li>
@@ -70,6 +71,7 @@
 <li class="method public "><a href="#method_setBatchSize" title="setBatchSize :: Set the batch size for the statement"><span class="description">Set the batch size for the statement</span><pre>setBatchSize()</pre></a></li>
 <li class="method public "><a href="#method_setCount" title="setCount :: Set the count option for the statement"><span class="description">Set the count option for the statement</span><pre>setCount()</pre></a></li>
 <li class="method public "><a href="#method_setQuery" title="setQuery :: Set the query string"><span class="description">Set the query string</span><pre>setQuery()</pre></a></li>
+<li class="method public "><a href="#method_validate" title="validate :: Validates the statement"><span class="description">Validates the statement</span><pre>validate()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header private">» Private
@@ -238,6 +240,21 @@ a Cursor. The cursor can then be used to iterate the results.</p></div>
 <div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Cursor.html">\triagens\ArangoDb\Cursor</a></code></div>
 </div></div>
 </div>
+<a id="method_explain"></a><div class="element clickable method public method_explain" data-toggle="collapse" data-target=".method_explain .collapse">
+<h2>Explain the statement's execution plan</h2>
+<pre>explain() : Array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will post the query to the server and return the execution plan as an array.</p></div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>Array</code></div>
+</div></div>
+</div>
 <a id="method_getBatchSize"></a><div class="element clickable method public method_getBatchSize" data-toggle="collapse" data-target=".method_getBatchSize .collapse">
 <h2>Get the batch size for the statement</h2>
 <pre>getBatchSize() : int</pre>
@@ -342,6 +359,21 @@ provides the additional results.</p>
 </tr></table>
 </div></div>
 </div>
+<a id="method_validate"></a><div class="element clickable method public method_validate" data-toggle="collapse" data-target=".method_validate .collapse">
+<h2>Validates the statement</h2>
+<pre>validate() : Array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will post the query to the server for validation and return the validation result as an array.</p></div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>Array</code></div>
+</div></div>
+</div>
 <a id="method_buildData"></a><div class="element clickable method private method_buildData" data-toggle="collapse" data-target=".method_buildData .collapse">
 <h2>Build an array of data to be posted to the server when issuing the statement</h2>
 <pre>buildData() : array</pre>
@@ -435,7 +467,7 @@ provides the additional results.</p>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-12-02T22:25:29+02:00.<br></footer></div>
+            generated on 2012-12-05T20:49:15+02:00.<br></footer></div>
 </div>
 </body>
 </html>

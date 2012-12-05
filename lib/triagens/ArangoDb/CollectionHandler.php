@@ -263,10 +263,10 @@ class CollectionHandler extends Handler {
    * This will throw if the index cannot be created
    *
    * @throws Exception
-   * @param CollectionId $collectionId - The id of the collection where the index is to be created
-   * @param Type $type - index type: hash, skiplist or geo 
-   * @param Attributes $attributes - an array of attributes that can be defined like this ['a'] or ['a', 'b.c']
-   * @param Unique $unique - true/false to create a unique index 
+   * @param mixed $collectionId - The id of the collection where the index is to be created
+   * @param string $type - index type: hash, skiplist or geo 
+   * @param array $attributes - an array of attributes that can be defined like array('a') or array('a', 'b.c')
+   * @param boolean $unique - true/false to create a unique index 
    * @return mixed - id of collection created
    */
   public function index($collectionId, $type="", $attributes=array(), $unique=false) {
