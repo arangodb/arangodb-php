@@ -127,7 +127,7 @@ class Connection {
    *
    * @throws Exception
    * @param string $url - PATCH URL
-   * @param string $data - body to post
+   * @param string $data - patch body
    * @return HttpResponse
    */
   public function patch($url, $data) {
