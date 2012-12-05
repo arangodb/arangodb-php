@@ -51,7 +51,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
 
     
     /**
-     * This is just a test to really test connectivity with the server before moving on to further tests.
+     * Test if the explain function works
      */
     public function testExplainStatement()
     {
@@ -79,7 +79,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * This is just a test to really test connectivity with the server before moving on to further tests.
+     * Test if the validate function works
      */
     public function testValidateStatement()
     {
