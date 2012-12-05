@@ -35,6 +35,71 @@ class CollectionHandler extends Handler {
   const OPTION_EXAMPLE    = 'example';
 
   /**
+   * attribute parameter
+   */
+  const OPTION_ATTRIBUTE    = 'attribute';
+
+  /**
+   * left parameter
+   */
+  const OPTION_LEFT    = 'left';
+
+  /**
+   * right parameter
+   */
+  const OPTION_RIGHT    = 'right';
+
+ /**
+   * closed parameter
+   */
+  const OPTION_CLOSED    = 'closed';
+
+ /**
+   * latidude parameter
+   */
+  const OPTION_LATITUDE    = 'latitude';
+
+ /**
+   * longitude parameter
+   */
+  const OPTION_LONGITUDE    = 'longitude';
+
+ /**
+   * distance parameter
+   */
+  const OPTION_DISTANCE    = 'distance';
+
+ /**
+   * radius parameter
+   */
+  const OPTION_RADIUS    = 'radius';
+
+ /**
+   * skip parameter
+   */
+  const OPTION_SKIP    = 'skip';
+
+ /**
+   * limit parameter
+   */
+  const OPTION_LIMIT    = 'limit';
+
+  /**
+   * count fields
+   */
+  const OPTION_FIELDS     = 'fields';
+
+  /**
+   * count unique
+   */
+  const OPTION_UNIQUE     = 'unique';
+
+  /**
+   * count unique
+   */
+  const OPTION_TYPE     = 'type';
+
+  /**
    * count option
    */
   const OPTION_COUNT     = 'count';
@@ -189,6 +254,42 @@ class CollectionHandler extends Handler {
 
     return $id;
   }
+  
+  /**
+   * Creates an index on a collection on the server
+   * 
+   * This will create an index on the collection on the server and return its id
+   * 
+   * This will throw if the index cannot be created
+   *
+   * @throws Exception
+   * @param CollectionId $collectionId - The id of the collection where the index is to be created
+   * @param Type $type - index type: hash, skiplist or geo 
+   * @param Attributes $attributes - an array of attributes that can be defined like this ['a'] or ['a', 'b.c']
+   * @param Unique $unique - true/false to create a unique index 
+   * @return mixed - id of collection created
+   */
+  public function index($collectionId, $type="", $attributes=array(), $unique=false) {
+
+    $urlParams = array(self::OPTION_COLLECTION => $collectionId);
+    $bodyParams = array(self::OPTION_TYPE => $type, self::OPTION_FIELDS => $attributes, self::OPTION_UNIQUE => $unique);
+    $url = UrlHelper::appendParamsUrl(Urls::URL_INDEX, $urlParams); 
+    $response = $this->getConnection()->post($url, json_encode($bodyParams));
+
+    $httpCode = $response->getHttpCode();
+    switch ($httpCode) {
+       case 404:
+          throw new ClientException('Collection-identifier is unknown');
+    
+         break;
+       case 400:
+          throw new ClientException('cannot create unique index due to documents violating uniqueness');
+         break;
+    }
+
+    $result = $response->getJson();
+    return $result;
+  }
 
   /**
    * Delete a collection
@@ -326,6 +427,152 @@ class CollectionHandler extends Handler {
     
     return new Cursor($this->getConnection(), $response->getJson(), $options );
   }  
+  
+
+  /**
+   * Get document(s) by specifying range
+   * 
+   * This will throw if the list cannot be fetched from the server
+   * 
+   *
+   * @throws Exception
+   * @param mixed $collectionId - collection id as string or number
+   * @param string $attribute - the attribute path , like 'a', 'a.b', etc...
+   * @param mixed $left - The lower bound.
+   * @param mixed $right - The upper bound.
+   * @param array $options - optional array of options.
+   * <p>Options are : 
+   * <li>'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+   * <li>'hiddenAttributes' - Set an array of hidden attributes for created documents.
+   * <p>
+   *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. 
+   *                                The difference is, that if you're returning a resultset of documents, the getall() is already called 
+   *                                and the hidden attributes would not be applied to the attributes.
+   * </p>
+   *  
+   * <li>'closed' - If true, use interval including left and right, otherwise exclude right, but include left. 
+   * <li>'skip' - The documents to skip in the query. 
+   * <li>'limit' - The maximal amount of documents to return.
+   * </li>
+   * </p>
+   * 
+   * @return array - documents matching the example [0...n]
+   */
+  public function range($collectionId, $attribute, $left, $right, $options = array()) {
+    $closed = NULL;
+    $skip = NULL;
+    $limit = NULL;
+    $sanitize = false;
+    $options = array_merge($options, $this->getCursorOptions($sanitize));
+    extract($options, EXTR_IF_EXISTS);
+
+    if ($attribute ==='') {
+      throw new ClientException('Invalid attribute specification');
+    }
+    
+    $data = array(self::OPTION_COLLECTION => $collectionId, self::OPTION_ATTRIBUTE => $attribute, self::OPTION_LEFT => $left, self::OPTION_RIGHT => $right);
+    if ($closed) {$data[self::OPTION_CLOSED] = $closed;};
+    if ($skip) {$data[self::OPTION_SKIP] = $skip;};
+    if ($limit) {$data[self::OPTION_LIMIT] = $limit;};
+   
+    $response = $this->getConnection()->put(Urls::URL_RANGE, json_encode($data));
+    
+    return new Cursor($this->getConnection(), $response->getJson(), $options );
+  }    
+  
+  
+  /**
+   * Get document(s) by specifying near
+   * 
+   * This will throw if the list cannot be fetched from the server
+   * 
+   *
+   * @throws Exception
+   * @param mixed $collectionId - collection id as string or number
+   * @param double $latitude - The latitude of the coordinate.
+   * @param double $longitude - The longitude of the coordinate.
+   * @param array $options - optional array of options.
+   * <p>Options are : 
+   * <li>'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+   * <li>'hiddenAttributes' - Set an array of hidden attributes for created documents.
+   * <p>
+   *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. 
+   *                                The difference is, that if you're returning a resultset of documents, the getall() is already called 
+   *                                and the hidden attributes would not be applied to the attributes.
+   * </p>
+   *  
+   * <li>'distance' - If given, the attribute key used to store the distance. (optional)
+   * <li>'skip' - The documents to skip in the query. 
+   * <li>'limit' - The maximal amount of documents to return.
+   * </li>
+   * </p>
+   * 
+   * @return array - documents matching the example [0...n]
+   */
+  public function near($collectionId, $latitude, $longitude, $options = array()) {
+    $distance = NULL;
+    $skip = NULL;
+    $limit = NULL;
+    $sanitize = false;
+    $options = array_merge($options, $this->getCursorOptions($sanitize));
+    extract($options, EXTR_IF_EXISTS);
+    
+    $data = array(self::OPTION_COLLECTION => $collectionId, self::OPTION_LATITUDE => $latitude, self::OPTION_LONGITUDE => $longitude);
+    if ($skip) {$data[self::OPTION_SKIP] = $skip;};
+    if ($limit) {$data[self::OPTION_LIMIT] = $limit;};
+    if ($distance) {$data[self::OPTION_DISTANCE] = $distance;};
+    $response = $this->getConnection()->put(Urls::URL_NEAR, json_encode($data));
+
+    return new Cursor($this->getConnection(), $response->getJson(), $options);
+  }    
+  
+  
+  /**
+   * Get document(s) by specifying within
+   * 
+   * This will throw if the list cannot be fetched from the server
+   * 
+   *
+   * @throws Exception
+   * @param mixed $collectionId - collection id as string or number
+   * @param double $latitude - The latitude of the coordinate.
+   * @param double $longitude - The longitude of the coordinate.
+   * @param int $radius - The maximal radius (in meters).
+   * @param array $options - optional array of options.
+   * <p>Options are : 
+   * <li>'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+   * <li>'hiddenAttributes' - Set an array of hidden attributes for created documents.
+   * <p>
+   *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. 
+   *                                The difference is, that if you're returning a resultset of documents, the getall() is already called 
+   *                                and the hidden attributes would not be applied to the attributes.
+   * </p>
+   *  
+   * <li>'distance' - If given, the attribute key used to store the distance. (optional)
+   * <li>'skip' - The documents to skip in the query. 
+   * <li>'limit' - The maximal amount of documents to return.
+   * </li>
+   * </p>
+   * 
+   * @return array - documents matching the example [0...n]
+    */
+  public function within($collectionId, $latitude, $longitude, $radius, $options = array()) {
+    $distance = NULL;
+    $skip = NULL;
+    $limit = NULL;
+    $sanitize = false;
+    $options = array_merge($options, $this->getCursorOptions($sanitize));
+    extract($options, EXTR_IF_EXISTS);
+    
+    $data = array(self::OPTION_COLLECTION => $collectionId, self::OPTION_LATITUDE => $latitude, self::OPTION_LONGITUDE => $longitude, self::OPTION_RADIUS => $radius);
+    if ($skip) {$data[self::OPTION_SKIP] = $skip;};
+    if ($limit) {$data[self::OPTION_LIMIT] = $limit;};
+    if ($distance) {$data[self::OPTION_DISTANCE] = $distance;};
+    $response = $this->getConnection()->put(Urls::URL_WITHIN, json_encode($data));
+
+    return new Cursor($this->getConnection(), $response->getJson(), $options);
+  }    
+  
   
   /**
    * Get the list of all documents' ids from a collection

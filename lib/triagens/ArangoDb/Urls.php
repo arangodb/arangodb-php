@@ -32,6 +32,11 @@ abstract class URLs {
   const URL_COLLECTION         = '/_api/collection';
 
   /**
+   * URL base part for all index-related REST calls
+   */
+  const URL_INDEX         = '/_api/index';
+
+  /**
    * base URL part for cursor related operations
    */
   const URL_CURSOR             = '/_api/cursor'; 
@@ -50,4 +55,17 @@ abstract class URLs {
    * base URL part for select-by-example
    */
   const URL_EXAMPLE            = '/_api/simple/by-example'; 
+
+  /**
+   * base URL part for select-range
+   */
+  const URL_RANGE            = '/_api/simple/range'; 
+  /**
+   * base URL part for select-range
+   */
+  const URL_NEAR            = '/_api/simple/near'; 
+  /**
+   * base URL part for select-range
+   */
+  const URL_WITHIN            = '/_api/simple/within'; 
 }
