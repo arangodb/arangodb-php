@@ -1,3 +1,40 @@
+v1.1.0 (xxxx-xx-xx)
+-------------------
+
+* issue #22: Feature: Implement update() and updateById() methods on documents for 1.1 API
+
+
+
+
+v1.0.1 (2012-12-05)
+-------------------
+
+* issue #29: Feature: Implement Explain function for AQL queries
+
+ New Statement methods:
+
+  - $statement->explain();
+  - $statement->validate();
+  
+
+  
+* issue #28: Feature: Implement missing simple-query-related functionality 
+
+ Added Commands:
+ 
+ - CollectionHandler->range($collectionId, $attribute, $left, $right, $options);
+
+ - CollectionHandler->near($collectionId, $latitude, $longitude, $options);
+
+ - CollectionHandler->within($collectionId, $latitude, $longitude, $radius, $options);
+
+ Also added missing index creation method
+ 
+ - CollectionHandler->index($type, $fields, $unique) ;
+
+ 
+ 
+
 v1.0.0 (2012-11-29)
 -------------------
 
