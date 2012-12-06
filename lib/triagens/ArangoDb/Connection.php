@@ -49,6 +49,13 @@ class Connection {
   private $_useKeepAlive;
 
   /**
+   * Batches Array
+   * 
+   * @var array 
+   */
+  private $_batches;
+  
+  /**
    * Set up the connection object, validate the options provided
    *
    * @throws Exception
@@ -288,5 +295,60 @@ class Connection {
      */
     public static function getVersion() {
         return self::$_apiVersion;
+    }
+    
+
+    /**
+     * Start capturing commands in order to send them over the wire as a batch.
+     * @param string $batchId - Identifier of the batch. Can be any valid array-key.
+     * @param array $options - Options
+     * @return Batch - Returns the active batch object
+     */
+    public function captureBatch($batchId, $options=array()) {
+            var_dump($this);
+
+      if ($this->_batches[$batchId] && is_a($this->_batches[$batchId], 'Batch')){
+        $this->_activeBatch=$batchId;
+        $this->_captureBatch=true;
+      } else {
+        $this->_batches[$batchId]=new Batch();
+        $this->_activeBatch=$batchId;
+        $this->_captureBatch=true;
+      }
+      return $this->getActiveBatch();
+    }     
+
+
+    /**
+     * Stop capturing commands
+     * @param array $options - Options
+     * @return Batch - Returns the active batch object
+     */
+    public function stopCaptureBatch($options=array()) {
+        
+      $this->_captureBatch=false;
+      return $this->getActiveBatch();
+    }     
+
+
+    /**
+    * returns the active batch
+    *     
+    */
+    public function getActiveBatch(){
+      return $this->_batches[$this->_activeBatch];
+      
+    }
+
+
+    /**
+    * This sends the active batch to the server for batch processing.
+    * If a batchId is given, it first sets that batch as active and then sends it.
+    * 
+    */
+    public function processBatch($batchId = ''){
+        # do batch processing
+      return $this->_batches[$this->_activeBatch];
+      
     }
 }
