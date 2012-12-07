@@ -240,7 +240,7 @@ class Connection {
         // check if we can find details in the response body
         $details = json_decode($body, true);
         if (is_array($details)) {
-          #var_dump($details);
+         
           // yes, we got details
           $exception = new ServerException($response->getResult(), $httpCode);
           $exception->setDetails($details);
@@ -249,6 +249,7 @@ class Connection {
       }
 
       // no details found, throw normal exception
+       #var_dump($response);
       throw new ServerException($response->getResult(), $httpCode);
     }
 
@@ -383,7 +384,6 @@ class Connection {
      * @return Batch - Returns the active batch object
      */
     public function stopCaptureBatch($options=array()) {
-        
       $this->_captureBatch=false;
       return $this->getActiveBatch();
     }     
@@ -394,10 +394,7 @@ class Connection {
     *     
     */
     public function getActiveBatch(){
-   #    var_dump($this->_batches);      
-    #   var_dump($this->_activeBatch);      
       return $this->_batches[$this->_activeBatch];
-      
     }
 
 
@@ -414,19 +411,15 @@ class Connection {
     if (count($payload)==0) {
       throw new ClientException('Can\'t process empty batch.');
     }
-    foreach ($payload as $key => $value) {
-      #var_dump ($value);
-     // $data = $data .= HttpHelper::EOL;
+    foreach ($payload as $partKey => $partValue) {
       $data = $data .= '--' . HttpHelper::MIME_BOUNDARY . HttpHelper::EOL;
       
       $data = $data .= 'Content-Type: application/x-arango-batchpart' . HttpHelper::EOL . HttpHelper::EOL;
-      $data = $data .= $value['request'].HttpHelper::EOL;
+      $data = $data .= $partValue['request'].HttpHelper::EOL;
     }
-     $data= $data .= '--'. HttpHelper::MIME_BOUNDARY . '--' . HttpHelper::EOL . HttpHelper::EOL;
+    $data= $data .= '--'. HttpHelper::MIME_BOUNDARY . '--' . HttpHelper::EOL . HttpHelper::EOL;
+
     
-    
-    
-    #$params = array(self::OPTION_COLLECTION => $collectionId, ConnectionOptions::OPTION_CREATE => UrlHelper::getBoolString($create));
     $params = array();
     $url = UrlHelper::appendParamsUrl(Urls::URL_BATCH, $params); 
     $response = $this->post($url, ($data));
@@ -434,17 +427,43 @@ class Connection {
     $body = $response->getBody();
     
     $body = trim($body, '--'. HttpHelper::MIME_BOUNDARY. '--');
-    $a = split('--'. HttpHelper::MIME_BOUNDARY. HttpHelper::EOL , $body);
+    $batchParts = split('--'. HttpHelper::MIME_BOUNDARY. HttpHelper::EOL , $body);
     
-    #array_pop($a);
-    #array_shift($a);
-    
-    foreach ($a as $key => $value) {
-      #var_dump($value);
-      $response = new HttpResponse($value);
-      $responses[]= $response;
-    }
-        # do batch processing
+      foreach ($batchParts as $partKey => $partValue) {
+        
+        $response = new HttpResponse($partValue);
+        
+              $body = $response->getBody();
+              $response = new HttpResponse($body);
+              $response = $this->parseResponse($response);
+
+        switch ($payload[$partKey]['type']) {
+           case 'document':
+              $json=$response->getJson();
+              $id=$json[Document::ENTRY_ID];
+              $response=$id;
+             break;
+           case 'edge':
+              $json=$response->getJson();
+              $id=$json[Edge::ENTRY_ID];
+              $response=$id;
+             break;
+           case 'collection':
+              $json=$response->getJson();
+              $id=$json[Collection::ENTRY_ID];
+              $response=$id;
+             break;
+           case 'cursor':
+              $json=$response->getJson();
+              $response=$json;
+             break;
+           default:
+                       
+           break;
+        }
+        
+        $responses[]= $response;
+      }
       return $responses;
       
     }
@@ -462,8 +481,10 @@ class Connection {
       $batchPart=NULL;
       if($this->_captureBatch===true){
         
-        $batchPart = $this->_batches[$this->_activeBatch]->append($request);
-       #var_dump($batchPart) ;
+        $batch=$this->getActiveBatch();
+        #var_dump($batch) ;
+
+        $batchPart = $batch->append($request);
       } 
         # do batch processing
       return $batchPart;

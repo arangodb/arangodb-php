@@ -21,7 +21,7 @@ class BatchTest extends \PHPUnit_Framework_TestCase
         $this->documentHandler = new DocumentHandler($this->connection);
     }
     
-    public function testCreateBatch(){
+    public function testCreateDocumentBatch(){
 //        #var_dump($batch);
          $batch = $this->connection->captureBatch('myBatch');
 
@@ -40,19 +40,62 @@ class BatchTest extends \PHPUnit_Framework_TestCase
         
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
 
-     #   $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
-     #   var_dump($resultingDocument);
-      #  $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
-       # $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue'));
-#        $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue'));
-
-    #    $response = $documentHandler->delete($document);
-#        $this->assertTrue(true === $response, 'Delete should return true!');
-
- 
         
         $batch = $this->connection->processBatch();
-        var_dump ($batch);
+        #var_dump ($batch);
+        //todo: check if we have both inserted documents
+        
+    }
+
+ 
+    public function testCreateMixedBatchWithNoPartIds(){
+        $batch = $this->connection->captureBatch('myBatch');
+        $this->assertInstanceOf('\triagens\ArangoDb\Batch', $batch);
+
+        // Create collection        
+        $connection = $this->connection;
+        $collection = new \triagens\ArangoDb\Collection();
+        $collectionHandler = new \triagens\ArangoDb\CollectionHandler($connection);
+
+        $name = 'ArangoDB-PHP-TestSuite-TestCollection-02';
+        $collection->setName($name);
+        $response = $collectionHandler->add($collection);
+
+        $this->assertTrue(is_numeric($response), 'Did not return a numeric id!');
+
+        // Create documents
+        $documentHandler = $this->documentHandler;
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
+        
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2'));
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
+        
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+
+        
+        $batch = $this->connection->processBatch();
+        //todo: check if we have both inserted documents
+        
+        // Get previously created collection and delete it, from inside a batch
+        $resultingCollection = $collectionHandler->get($batch[0]);
+
+        $resultingAttribute = $resultingCollection->getName();
+        $this->assertTrue($name === $resultingAttribute, 'The created collection name and resulting collection name do not match!');
+
+        $this->assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
+
+        $batch = $this->connection->captureBatch('myBatch2');
+        $this->assertInstanceOf('\triagens\ArangoDb\Batch', $batch);
+                
+        $response = $collectionHandler->delete($resultingCollection);        
+        
+        $batch = $this->connection->processBatch();
+        #var_dump ($batch);
+        
         
     }
 

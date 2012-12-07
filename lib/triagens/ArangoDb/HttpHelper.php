@@ -104,7 +104,7 @@ class HttpHelper {
     if (Endpoint::getType($endpoint) !== Endpoint::TYPE_UNIX) {
       $host = sprintf('Host: %s%s', Endpoint::getHost($endpoint), self::EOL);
     }
-#var_dump($options);
+
     if ($options[ConnectionOptions::OPTION_BATCH]===true) {
       $contentType = 'Content-Type: multipart/form-data; boundary=' . self::MIME_BOUNDARY . self::EOL;
     }
@@ -115,7 +115,6 @@ class HttpHelper {
       }
       
     }
-#var_dump($contentType);
 
     if (isset($options[ConnectionOptions::OPTION_AUTH_TYPE]) && isset($options[ConnectionOptions::OPTION_AUTH_USER])) {
       // add authorization header

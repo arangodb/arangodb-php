@@ -71,7 +71,6 @@ class CollectionBasicTest extends \PHPUnit_Framework_TestCase
         $name = 'ArangoDB-PHP-TestSuite-TestCollection-01';
         $collection->setName($name);
         $response = $collectionHandler->add($collection);
-        #$collection->properties();
 
         $this->assertTrue(is_numeric($response), 'Did not return a numeric id!');
 

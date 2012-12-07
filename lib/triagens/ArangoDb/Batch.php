@@ -20,26 +20,41 @@ namespace triagens\ArangoDb;
 
 class Batch {
   
+ 
+  /**
+  * The array of BatchParts array
+  * 
+  * @var $_batchParts array 
+  */
   private $_batchParts = array();
   
-   /**
-   * $_captureBatch boolean
-   * 
-   * @var array 
-   */
   
-
+  /**
+  * put your comment there...
+  * 
+  * @param mixed $request - 
+  * @return HttpResponse
+  */
   public function append($request){
-    #var_dump($request);
+    if (preg_match('%/_api/simple/(?P<simple>\w*)|/_api/(?P<direct>\w*)%ix', $request, $regs)) {
+      $result = $regs[0];
+    } else {
+      $result = "";
+    }
+
+    $type = $regs['direct']!='' ? $regs['direct'] : $regs['simple'] ;
     
-    
-    
-    $result='HTTP/1.1 202 Accepted' . HttpHelper::EOL .'location: /_api/document/0/0' . HttpHelper::EOL .'server: triagens GmbH High-Performance HTTP Server' . HttpHelper::EOL .'content-type: application/json; charset=utf-8' . HttpHelper::EOL .'etag: "0"' . HttpHelper::EOL .'connection: Close' . HttpHelper::EOL . HttpHelper::EOL .'{"error":false,"_id":"0/0","_rev":0}'. HttpHelper::EOL . HttpHelper::EOL;
-    
+    $result  = 'HTTP/1.1 202 Accepted' . HttpHelper::EOL;
+    $result .= 'location: /_api/document/0/0' . HttpHelper::EOL ;
+    $result .= 'server: triagens GmbH High-Performance HTTP Server' . HttpHelper::EOL;
+    $result .= 'content-type: application/json; charset=utf-8' . HttpHelper::EOL;
+    $result .= 'etag: "0"' . HttpHelper::EOL;
+    $result .= 'connection: Close' . HttpHelper::EOL . HttpHelper::EOL;
+    $result .= '{"error":false,"_id":"0/0","_rev":0}'. HttpHelper::EOL . HttpHelper::EOL;
     
     $response=new HttpResponse($result);
-    $this->_batchParts[]=array('request' => $request, 'response' => $response);
-      return $response;
+    $this->_batchParts[]=array('type' => $type, 'request' => $request, 'response' => $response);
+    return $response;
   }
 
 
