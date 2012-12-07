@@ -117,6 +117,16 @@ class ConnectionOptions implements \ArrayAccess {
   const OPTION_RECONNECT     = 'Reconnect';
   
   /**
+   * Batch flag
+   */
+  const OPTION_BATCH     = 'Batch';
+
+  /**
+   * Batchpart flag
+   */
+  const OPTION_BATCHPART     = 'BatchPart';
+  
+  /**
    * Set defaults, use options provided by client and validate them
    *
    * @throws ClientException
@@ -225,6 +235,8 @@ class ConnectionOptions implements \ArrayAccess {
       self::OPTION_AUTH_PASSWD   => NULL,
       self::OPTION_AUTH_TYPE     => NULL,
       self::OPTION_RECONNECT     => false,
+      self::OPTION_BATCH         => false,
+      self::OPTION_BATCHPART     => false,
     );
   }
 

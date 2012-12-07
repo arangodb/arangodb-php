@@ -150,10 +150,10 @@ class HttpResponse {
   public function getJson() {
     $body = $this->getBody();
     $json = json_decode($body, true);
-
+    #var_dump($body);
     if (!is_array($json)) {
       // should be an array, fail otherwise
-      throw new ClientException('Got a malformed result from the server');
+      throw new ClientException('Got a malformed result from the server'.$body. print_r($json,true));
     }
 
     return $json;

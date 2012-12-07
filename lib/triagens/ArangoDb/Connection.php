@@ -53,7 +53,35 @@ class Connection {
    * 
    * @var array 
    */
-  private $_batches;
+  private $_batches = array();
+  
+  
+  /**
+   * $_activeBatch boolean
+   * 
+   * @var array 
+   */
+   
+   
+  private $_activeBatch = null;
+  
+   /**
+   * $_captureBatch boolean
+   * 
+   * @var array 
+   */
+   
+   
+  private $_captureBatch = false;
+  
+   /**
+   * $_captureBatch boolean
+   * 
+   * @var array 
+   */
+   
+   
+  private $_batchRequest = false;
   
   /**
    * Set up the connection object, validate the options provided
@@ -212,6 +240,7 @@ class Connection {
         // check if we can find details in the response body
         $details = json_decode($body, true);
         if (is_array($details)) {
+          #var_dump($details);
           // yes, we got details
           $exception = new ServerException($response->getResult(), $httpCode);
           $exception->setDetails($details);
@@ -245,7 +274,34 @@ class Connection {
     HttpHelper::validateMethod($method);
 
     // create request data
-    $request = HttpHelper::buildRequest($this->_options, $method, $url, $data);
+    if ($this->_batchRequest === false){
+      
+      if($this->_captureBatch===true){
+        $this->_options->offsetSet(ConnectionOptions::OPTION_BATCHPART, true);
+        $request = HttpHelper::buildRequest($this->_options, $method, $url, $data);
+        $this->_options->offsetSet(ConnectionOptions::OPTION_BATCHPART, false);
+
+      }else{
+        $request = HttpHelper::buildRequest($this->_options, $method, $url, $data);
+      }
+      $batchPart = $this->doBatch($request);
+      #var_dump ($batchPart);
+      if (!is_null($batchPart) ){
+        
+        return $batchPart;
+      }    
+    }else{
+      $this->_batchRequest=false;
+
+      $this->_options->offsetSet(ConnectionOptions::OPTION_BATCH, true);
+      #var_dump($this->_options);   
+                                         
+      $request = HttpHelper::buildRequest($this->_options, $method, $url, $data);
+      $this->_options->offsetSet(ConnectionOptions::OPTION_BATCH, false);
+      #var_dump($this->_options);  
+      //var_dump($request);  
+    }
+    
     
     $traceFunc = $this->_options[ConnectionOptions::OPTION_TRACE];
     if ($traceFunc) {
@@ -260,7 +316,7 @@ class Connection {
     $setFunc = function($value) {
       ini_set('default_socket_timeout', $value);
     };
-
+    #var_dump($request); 
     $scope = new Scope($getFunc, $setFunc);
     $setFunc($this->_options[ConnectionOptions::OPTION_TIMEOUT]);
     // open the socket. note: this might throw if the connection cannot be established
@@ -268,7 +324,7 @@ class Connection {
     if ($handle) {
       // send data and get response back
       $result = HttpHelper::transfer($handle, $request);
-
+#var_dump($result);
       if (!$this->_useKeepAlive) {
         // must close the connection
         fclose($handle);
@@ -305,15 +361,17 @@ class Connection {
      * @return Batch - Returns the active batch object
      */
     public function captureBatch($batchId, $options=array()) {
-            var_dump($this);
+          
 
-      if ($this->_batches[$batchId] && is_a($this->_batches[$batchId], 'Batch')){
+      if (array_key_exists($batchId ,$this->_batches) && is_a($this->_batches[$batchId], 'Batch')){
         $this->_activeBatch=$batchId;
         $this->_captureBatch=true;
+        // echo "exists"; var_dump($this->_batches);
       } else {
         $this->_batches[$batchId]=new Batch();
         $this->_activeBatch=$batchId;
         $this->_captureBatch=true;
+       // echo "does not exist"; var_dump($this->getActiveBatch());      
       }
       return $this->getActiveBatch();
     }     
@@ -336,6 +394,8 @@ class Connection {
     *     
     */
     public function getActiveBatch(){
+   #    var_dump($this->_batches);      
+    #   var_dump($this->_activeBatch);      
       return $this->_batches[$this->_activeBatch];
       
     }
@@ -346,9 +406,69 @@ class Connection {
     * If a batchId is given, it first sets that batch as active and then sends it.
     * 
     */
-    public function processBatch($batchId = ''){
+    public function processBatch($batchId = '', $options=array()){
+    $this->stopCaptureBatch();
+    $this->_batchRequest = true;
+    $data = '';
+    $payload = $this->_batches[$this->_activeBatch]->getPayload();
+    if (count($payload)==0) {
+      throw new ClientException('Can\'t process empty batch.');
+    }
+    foreach ($payload as $key => $value) {
+      #var_dump ($value);
+     // $data = $data .= HttpHelper::EOL;
+      $data = $data .= '--' . HttpHelper::MIME_BOUNDARY . HttpHelper::EOL;
+      
+      $data = $data .= 'Content-Type: application/x-arango-batchpart' . HttpHelper::EOL . HttpHelper::EOL;
+      $data = $data .= $value['request'].HttpHelper::EOL;
+    }
+     $data= $data .= '--'. HttpHelper::MIME_BOUNDARY . '--' . HttpHelper::EOL . HttpHelper::EOL;
+    
+    
+    
+    #$params = array(self::OPTION_COLLECTION => $collectionId, ConnectionOptions::OPTION_CREATE => UrlHelper::getBoolString($create));
+    $params = array();
+    $url = UrlHelper::appendParamsUrl(Urls::URL_BATCH, $params); 
+    $response = $this->post($url, ($data));
+    
+    $body = $response->getBody();
+    
+    $body = trim($body, '--'. HttpHelper::MIME_BOUNDARY. '--');
+    $a = split('--'. HttpHelper::MIME_BOUNDARY. HttpHelper::EOL , $body);
+    
+    #array_pop($a);
+    #array_shift($a);
+    
+    foreach ($a as $key => $value) {
+      #var_dump($value);
+      $response = new HttpResponse($value);
+      $responses[]= $response;
+    }
         # do batch processing
-      return $this->_batches[$this->_activeBatch];
+      return $responses;
       
     }
+
+
+    /**
+    * This is a helper function to executeRequest that captures requests if we're in batch mode
+    * 
+    * This checks if we're in batch mode and returns a placeholder object,
+    * since we need to return some object that is expected by the caller.
+    * if we're not in batch mode it doesn't return anything, and 
+    * 
+    */
+    private function doBatch($request){
+      $batchPart=NULL;
+      if($this->_captureBatch===true){
+        
+        $batchPart = $this->_batches[$this->_activeBatch]->append($request);
+       #var_dump($batchPart) ;
+      } 
+        # do batch processing
+      return $batchPart;
+      
+    }
+    
+    
 }

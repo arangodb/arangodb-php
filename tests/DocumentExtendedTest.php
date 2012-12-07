@@ -34,7 +34,7 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
 
         $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
-
+      #  var_dump($resultingDocument);
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
         $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue'));
         $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue'));

@@ -22,11 +22,44 @@ class BatchTest extends \PHPUnit_Framework_TestCase
     }
     
     public function testCreateBatch(){
-        $batch = $this->connection->captureBatch('myBatch');
-        #var_dump($batch);
+//        #var_dump($batch);
+         $batch = $this->connection->captureBatch('myBatch');
+
         $this->assertInstanceOf('\triagens\ArangoDb\Batch', $batch);
+        
+ 
+        $documentHandler = $this->documentHandler;
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
+        
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2'));
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
+        
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+
+     #   $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+     #   var_dump($resultingDocument);
+      #  $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
+       # $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue'));
+#        $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue'));
+
+    #    $response = $documentHandler->delete($document);
+#        $this->assertTrue(true === $response, 'Delete should return true!');
+
+ 
+        
+        $batch = $this->connection->processBatch();
+        var_dump ($batch);
+        
     }
 
+ 
+ 
+ 
+ 
  
     public function tearDown()
     {

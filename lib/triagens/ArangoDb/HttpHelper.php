@@ -60,6 +60,12 @@ class HttpHelper {
    * HTTP protocol version used, hard-coded to version 1.1
    */
   const PROTOCOL        = 'HTTP/1.1';
+
+  /**
+   * HTTP protocol version used, hard-coded to version 1.1
+   */
+  const MIME_BOUNDARY        = 'XXXsubpartXXX';
+
   
   /**
    * Validate an HTTP request method name
@@ -98,11 +104,18 @@ class HttpHelper {
     if (Endpoint::getType($endpoint) !== Endpoint::TYPE_UNIX) {
       $host = sprintf('Host: %s%s', Endpoint::getHost($endpoint), self::EOL);
     }
-
-    if ($length > 0) {
-      // if body is set, we should set a content-type header
-      $contentType = 'Content-Type: application/json' . self::EOL;
+#var_dump($options);
+    if ($options[ConnectionOptions::OPTION_BATCH]===true) {
+      $contentType = 'Content-Type: multipart/form-data; boundary=' . self::MIME_BOUNDARY . self::EOL;
     }
+    else {
+      if ($length > 0 && $options[ConnectionOptions::OPTION_BATCHPART]===false) {
+        // if body is set, we should set a content-type header
+        $contentType = 'Content-Type: application/json' . self::EOL;
+      }
+      
+    }
+#var_dump($contentType);
 
     if (isset($options[ConnectionOptions::OPTION_AUTH_TYPE]) && isset($options[ConnectionOptions::OPTION_AUTH_USER])) {
       // add authorization header
