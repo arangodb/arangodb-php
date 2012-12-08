@@ -153,7 +153,7 @@ class HttpResponse {
 
     if (!is_array($json)) {
       // should be an array, fail otherwise
-      throw new ClientException('Got a malformed result from the server'.$body. print_r($json,true));
+      throw new ClientException('Got a malformed result from the server');
     }
 
     return $json;

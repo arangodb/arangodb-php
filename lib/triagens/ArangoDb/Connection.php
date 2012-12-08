@@ -57,7 +57,7 @@ class Connection {
   
   
   /**
-   * $_activeBatch boolean
+   * $_activeBatch object
    * 
    * @var array 
    */
@@ -228,7 +228,7 @@ class Connection {
    * @param HttpResponse $response - the response as supplied by the server
    * @return HttpResponse
    */
-  private function parseResponse(HttpResponse $response) {
+  public function parseResponse(HttpResponse $response) {
     $httpCode = $response->getHttpCode();
 
     if ($httpCode < 200 || $httpCode >= 400) {
@@ -285,7 +285,7 @@ class Connection {
       }else{
         $request = HttpHelper::buildRequest($this->_options, $method, $url, $data);
       }
-      $batchPart = $this->doBatch($request);
+      $batchPart = $this->doBatch($method, $request);
       #var_dump ($batchPart);
       if (!is_null($batchPart) ){
         
@@ -361,21 +361,22 @@ class Connection {
      * @param array $options - Options
      * @return Batch - Returns the active batch object
      */
-    public function captureBatch($batchId, $options=array()) {
+  //  public function captureBatch($batchId, $options=array()) {
           
 
-      if (array_key_exists($batchId ,$this->_batches) && is_a($this->_batches[$batchId], 'Batch')){
-        $this->_activeBatch=$batchId;
-        $this->_captureBatch=true;
+ //     if (array_key_exists($batchId ,$this->_batches) && is_a($this->_batches[$batchId], 'Batch')){
+//        $this->_activeBatch=$batch;
+//        $this->_captureBatch=true;
         // echo "exists"; var_dump($this->_batches);
-      } else {
-        $this->_batches[$batchId]=new Batch();
-        $this->_activeBatch=$batchId;
-        $this->_captureBatch=true;
+//      } else {
+//        $batch=new Batch($this);
+//        $this->_batches[$batchId]=$batch;
+//        $this->_activeBatch=$batch;
+//        $this->_captureBatch=true;
        // echo "does not exist"; var_dump($this->getActiveBatch());      
-      }
-      return $this->getActiveBatch();
-    }     
+//      }
+//      return $this->getActiveBatch();
+    //}     
 
 
     /**
@@ -394,7 +395,55 @@ class Connection {
     *     
     */
     public function getActiveBatch(){
-      return $this->_batches[$this->_activeBatch];
+      return $this->_activeBatch;
+    }
+
+    /**
+    * Sets the active Batch for this connection
+    * 
+    * @param Batch $batch - Sets the given batch as active
+    * @return the active batch
+    *     
+    */
+    public function setActiveBatch($batch){
+      $this->_activeBatch = $batch;
+      return $this->_activeBatch;
+    }
+    
+    
+    /**
+    * Sets the batch capture state (true, if capturing)
+    * 
+    * @param boolean $state true to turn on capture batch mode, false to turn it off
+    * 
+    * @return $state
+    */
+    public function setCaptureBatch($state){
+      $this->_captureBatch=$state;
+      return $this->_captureBatch;
+    }
+
+
+    /**
+    * Sets connection into Batchrequest mode. This is needed for some oprtations to act differently when in this mode
+    * 
+    * @param boolean $state sets the connection state to batch request, meaning it is crrently doing a batch request.
+    * 
+    * returns the active batch
+    *     
+    */
+    public function setBatchRequest($state){
+      $this->_batchRequest=$state;
+      return $this->_batchRequest;
+    }
+
+    
+    /**
+    * returns the active batch
+    *     
+    */
+    public function getBatches(){
+      return $this->_batches;
     }
 
 
@@ -403,88 +452,93 @@ class Connection {
     * If a batchId is given, it first sets that batch as active and then sends it.
     * 
     */
-    public function processBatch($batchId = '', $options=array()){
-    $this->stopCaptureBatch();
-    $this->_batchRequest = true;
-    $data = '';
-    $payload = $this->_batches[$this->_activeBatch]->getPayload();
-    if (count($payload)==0) {
-      throw new ClientException('Can\'t process empty batch.');
-    }
-    foreach ($payload as $partKey => $partValue) {
-      $data = $data .= '--' . HttpHelper::MIME_BOUNDARY . HttpHelper::EOL;
-      
-      $data = $data .= 'Content-Type: application/x-arango-batchpart' . HttpHelper::EOL . HttpHelper::EOL;
-      $data = $data .= $partValue['request'].HttpHelper::EOL;
-    }
-    $data= $data .= '--'. HttpHelper::MIME_BOUNDARY . '--' . HttpHelper::EOL . HttpHelper::EOL;
+//    public function processBatch($batchId = '', $options=array()){
+//    $this->stopCaptureBatch();
+//    $this->_batchRequest = true;
+//    $data = '';
+//    $payload = $this->_activeBatch->getPayload();
+//    if (count($payload)==0) {
+//      throw new ClientException('Can\'t process empty batch.');
+//    }
+//    foreach ($payload as $partKey => $partValue) {
+//      $data = $data .= '--' . HttpHelper::MIME_BOUNDARY . HttpHelper::EOL;
+//      
+//      $data = $data .= 'Content-Type: application/x-arango-batchpart' . HttpHelper::EOL . HttpHelper::EOL;
+//      $data = $data .= $partValue['request'].HttpHelper::EOL;
+//    }
+//    $data= $data .= '--'. HttpHelper::MIME_BOUNDARY . '--' . HttpHelper::EOL . HttpHelper::EOL;
 
-    
-    $params = array();
-    $url = UrlHelper::appendParamsUrl(Urls::URL_BATCH, $params); 
-    $response = $this->post($url, ($data));
-    
-    $body = $response->getBody();
-    
-    $body = trim($body, '--'. HttpHelper::MIME_BOUNDARY. '--');
-    $batchParts = split('--'. HttpHelper::MIME_BOUNDARY. HttpHelper::EOL , $body);
-    
-      foreach ($batchParts as $partKey => $partValue) {
-        
-        $response = new HttpResponse($partValue);
-        
-              $body = $response->getBody();
-              $response = new HttpResponse($body);
-              $response = $this->parseResponse($response);
+//    
+//    $params = array();
+//    $url = UrlHelper::appendParamsUrl(Urls::URL_BATCH, $params); 
+//    $response = $this->post($url, ($data));
+//    
+//    $body = $response->getBody();
+//    
+//    $body = trim($body, '--'. HttpHelper::MIME_BOUNDARY. '--');
+//    $batchParts = split('--'. HttpHelper::MIME_BOUNDARY. HttpHelper::EOL , $body);
+//    
+//      foreach ($batchParts as $partKey => $partValue) {
+//        
+//        $response = new HttpResponse($partValue);
+//        
+//              $body = $response->getBody();
+//              $response = new HttpResponse($body);
+//              $response = $this->parseResponse($response);
 
-        switch ($payload[$partKey]['type']) {
-           case 'document':
-              $json=$response->getJson();
-              $id=$json[Document::ENTRY_ID];
-              $response=$id;
-             break;
-           case 'edge':
-              $json=$response->getJson();
-              $id=$json[Edge::ENTRY_ID];
-              $response=$id;
-             break;
-           case 'collection':
-              $json=$response->getJson();
-              $id=$json[Collection::ENTRY_ID];
-              $response=$id;
-             break;
-           case 'cursor':
-              $json=$response->getJson();
-              $response=$json;
-             break;
-           default:
-                       
-           break;
-        }
-        
-        $responses[]= $response;
-      }
-      return $responses;
-      
-    }
+//        switch ($payload[$partKey]['type']) {
+//           case 'document':
+//              $json=$response->getJson();
+//              $id=$json[Document::ENTRY_ID];
+//              $response=$id;
+//             break;
+//           case 'edge':
+//              $json=$response->getJson();
+//              $id=$json[Edge::ENTRY_ID];
+//              $response=$id;
+//             break;
+//           case 'collection':
+//              $json=$response->getJson();
+//              $id=$json[Collection::ENTRY_ID];
+//              $response=$id;
+//             break;
+//           case 'cursor':
+//              $json=$response->getJson();
+//              $response=$json;
+//             break;
+//           default:
+//                       
+//           break;
+//        }
+//        
+//        $responses[]= $response;
+//      }
+//      return $responses;
+//      
+//    }
 
 
     /**
     * This is a helper function to executeRequest that captures requests if we're in batch mode
     * 
+    * @param mixed $method - The method of the request (GET, POST...)
+    * 
+    * @param string $request - The request to process  
+    * 
     * This checks if we're in batch mode and returns a placeholder object,
     * since we need to return some object that is expected by the caller.
     * if we're not in batch mode it doesn't return anything, and 
     * 
+    * @return the Batchpart or null if not in batch capturing mode
     */
-    private function doBatch($request){
+    private function doBatch($method, $request){
       $batchPart=NULL;
       if($this->_captureBatch===true){
         
         $batch=$this->getActiveBatch();
         #var_dump($batch) ;
 
-        $batchPart = $batch->append($request);
+        $batchPart = $batch->append($method, $request);
       } 
         # do batch processing
       return $batchPart;
