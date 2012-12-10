@@ -68,7 +68,7 @@ class CollectionBasicTest extends \PHPUnit_Framework_TestCase
         $collection = new \triagens\ArangoDb\Collection();
         $collectionHandler = new \triagens\ArangoDb\CollectionHandler($connection);
 
-        $name = 'ArangoDB-PHP-TestSuite-TestCollection-01';
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
         $collection->setName($name);
         $response = $collectionHandler->add($collection);
 

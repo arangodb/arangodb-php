@@ -31,7 +31,7 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         $resultingAttribute = $collection->getWaitForSync();
         $this->assertTrue(null === $resultingAttribute, 'Default waitForSync in API should be NULL!');
 
-        $collection->setName('ArangoDB-PHP-TestSuite-TestCollection-01');
+        $collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
        
 
         $response = $collectionHandler->add($collection);
@@ -55,7 +55,7 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         $resultingAttribute = $collection->getWaitForSync();
         
         $this->assertTrue(true === $resultingAttribute, 'WaitForSync should be true!');
-        $collection->setName('ArangoDB-PHP-TestSuite-TestCollection-01');
+        $collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
 
         $response = $collectionHandler->add($collection);
         
@@ -74,7 +74,7 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
     {
         $collectionHandler = $this->collectionHandler;
 
-        $collection = Collection::createFromArray(array('name' => 'ArangoDB-PHP-TestSuite-TestCollection-01', 'waitForSync' => true));
+        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true));
         $response = $collectionHandler->add($collection);
 
         $resultingCollection = $collectionHandler->get($response);
@@ -94,7 +94,7 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
     {
         $collectionHandler = $this->collectionHandler;
 
-        $collection = Collection::createFromArray(array('name' => 'ArangoDB-PHP-TestSuite-TestCollection-01'));
+        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
         $response = $collectionHandler->add($collection);
 
         $documentHandler = $this->documentHandler;
@@ -118,11 +118,11 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAll()
     {
-        $collection = Collection::createFromArray(array('name' => 'ArangoDB-PHP-TestSuite-TestCollection-01', 'waitForSync' => true));
+        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true));
         $result = $collection->getAll();
 
         $this->assertArrayHasKey('id', $result, 'Id field should exist, empty or with an id');
-        $this->assertTrue(true === ($result['name'] == 'ArangoDB-PHP-TestSuite-TestCollection-01'), 'name should return ArangoDB-PHP-TestSuite-TestCollection-01!');
+        $this->assertTrue(true === ($result['name'] == 'ArangoDB_PHP_TestSuite_TestCollection_01'), 'name should return ArangoDB_PHP_TestSuite_TestCollection_01!');
         $this->assertTrue(true === ($result['waitForSync'] == true), 'waitForSync should return true!');
 
     }
@@ -136,7 +136,7 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         // set up collections, indexes and test-documents     
         $collectionHandler = $this->collectionHandler;
 
-        $collection = Collection::createFromArray(array('name' => 'ArangoDB-PHP-TestSuite-TestCollection-01'));
+        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
         $response = $collectionHandler->add($collection);
  
         $indexRes= $collectionHandler->index($collection->getId(), 'skiplist', array('index'));
@@ -221,7 +221,7 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         // set up collections, indexes and test-documents     
         $collectionHandler = $this->collectionHandler;
 
-        $collection = Collection::createFromArray(array('name' => 'ArangoDB-PHP-TestSuite-TestCollection-01'));
+        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
         $response = $collectionHandler->add($collection);
  
         $indexRes= $collectionHandler->index($collection->getId(), 'geo', array('loc'));
@@ -293,7 +293,7 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         // set up collections, indexes and test-documents     
         $collectionHandler = $this->collectionHandler;
 
-        $collection = Collection::createFromArray(array('name' => 'ArangoDB-PHP-TestSuite-TestCollection-01'));
+        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
         $response = $collectionHandler->add($collection);
  
         $indexRes= $collectionHandler->index($collection->getId(), 'geo', array('loc'));
@@ -360,7 +360,7 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         try {
-            $response = $this->collectionHandler->delete('ArangoDB-PHP-TestSuite-TestCollection-01');
+            $response = $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }

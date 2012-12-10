@@ -2314,7 +2314,7 @@ that the revision of the to-be-replaced document is the same as the one given.&l
       </method>
     </class>
   </file>
-  <file path="Connection.php" hash="c706758318803fb6b1249454e0f6bb23" package="ArangoDbPhpClient">
+  <file path="Connection.php" hash="40771461c3b68b674bc31a5b277a07ff" package="ArangoDbPhpClient">
     <docblock line="3">
       <description>ArangoDB PHP client: connection</description>
       <long-description></long-description>
@@ -2644,170 +2644,170 @@ and are destroyed afterwards.&lt;/p&gt;</long-description>
           <type>\triagens\ArangoDb\HttpResponse</type>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="274" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="273" package="ArangoDbPhpClient">
         <name>executeRequest</name>
         <full_name>executeRequest</full_name>
-        <docblock line="259">
+        <docblock line="258">
           <description>Execute an HTTP request and return the results</description>
           <long-description>&lt;p&gt;This function will throw if no connection to the server can be established or if
 there is a problem during data exchange with the server.&lt;/p&gt;
 
 &lt;p&gt;The function might temporarily alter the value of the php.ini value 'default_socket_timeout' but
 will restore it.&lt;/p&gt;</long-description>
-          <tag line="259" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="258" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="259" name="param" description="- HTTP request method" type="string" variable="$method">
+          <tag line="258" name="param" description="- HTTP request method" type="string" variable="$method">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="259" name="param" description="- HTTP URL" type="string" variable="$url">
+          <tag line="258" name="param" description="- HTTP URL" type="string" variable="$url">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="259" name="param" description="- data to post in body" type="string" variable="$data">
+          <tag line="258" name="param" description="- data to post in body" type="string" variable="$data">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="259" name="return" description="" type="\triagens\ArangoDb\HttpResponse">
+          <tag line="258" name="return" description="" type="\triagens\ArangoDb\HttpResponse">
             <type by_reference="false">\triagens\ArangoDb\HttpResponse</type>
           </tag>
         </docblock>
-        <argument line="274">
+        <argument line="273">
           <name>$method</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="274">
+        <argument line="273">
           <name>$url</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="274">
+        <argument line="273">
           <name>$data</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="true" visibility="public" namespace="triagens\ArangoDb" line="353" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="true" visibility="public" namespace="triagens\ArangoDb" line="345" package="ArangoDbPhpClient">
         <name>getVersion</name>
         <full_name>getVersion</full_name>
-        <docblock line="348">
+        <docblock line="340">
           <description>Get the client api version</description>
           <long-description></long-description>
-          <tag line="348" name="return" description="" type="string">
+          <tag line="340" name="return" description="" type="string">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="387" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="355" package="ArangoDbPhpClient">
         <name>stopCaptureBatch</name>
         <full_name>stopCaptureBatch</full_name>
-        <docblock line="382">
+        <docblock line="350">
           <description>Stop capturing commands</description>
           <long-description></long-description>
-          <tag line="382" name="param" description="- Options" type="array" variable="$options">
+          <tag line="350" name="param" description="- Options" type="array" variable="$options">
             <type by_reference="false">array</type>
           </tag>
-          <tag line="382" name="return" description="- Returns the active batch object" type="\triagens\ArangoDb\Batch">
+          <tag line="350" name="return" description="- Returns the active batch object" type="\triagens\ArangoDb\Batch">
             <type by_reference="false">\triagens\ArangoDb\Batch</type>
           </tag>
         </docblock>
-        <argument line="387">
+        <argument line="355">
           <name>$options</name>
           <default>array()</default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="397" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="365" package="ArangoDbPhpClient">
         <name>getActiveBatch</name>
         <full_name>getActiveBatch</full_name>
-        <docblock line="393">
+        <docblock line="361">
           <description>returns the active batch</description>
           <long-description></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="408" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="376" package="ArangoDbPhpClient">
         <name>setActiveBatch</name>
         <full_name>setActiveBatch</full_name>
-        <docblock line="401">
+        <docblock line="369">
           <description>Sets the active Batch for this connection</description>
           <long-description></long-description>
-          <tag line="401" name="param" description="- Sets the given batch as active" type="\triagens\ArangoDb\Batch" variable="$batch">
+          <tag line="369" name="param" description="- Sets the given batch as active" type="\triagens\ArangoDb\Batch" variable="$batch">
             <type by_reference="false">\triagens\ArangoDb\Batch</type>
           </tag>
-          <tag line="401" name="return" description="active batch" type="\triagens\ArangoDb\the">
+          <tag line="369" name="return" description="active batch" type="\triagens\ArangoDb\the">
             <type by_reference="false">\triagens\ArangoDb\the</type>
           </tag>
         </docblock>
-        <argument line="408">
+        <argument line="376">
           <name>$batch</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="421" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="389" package="ArangoDbPhpClient">
         <name>setCaptureBatch</name>
         <full_name>setCaptureBatch</full_name>
-        <docblock line="414">
+        <docblock line="382">
           <description>Sets the batch capture state (true, if capturing)</description>
           <long-description></long-description>
-          <tag line="414" name="param" description="true to turn on capture batch mode, false to turn it off" type="boolean" variable="$state">
+          <tag line="382" name="param" description="true to turn on capture batch mode, false to turn it off" type="boolean" variable="$state">
             <type by_reference="false">boolean</type>
           </tag>
-          <tag line="414" name="return" description="" type="\triagens\ArangoDb\$state">
+          <tag line="382" name="return" description="" type="\triagens\ArangoDb\$state">
             <type by_reference="false">\triagens\ArangoDb\$state</type>
           </tag>
         </docblock>
-        <argument line="421">
+        <argument line="389">
           <name>$state</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="435" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="403" package="ArangoDbPhpClient">
         <name>setBatchRequest</name>
         <full_name>setBatchRequest</full_name>
-        <docblock line="427">
+        <docblock line="395">
           <description>Sets connection into Batchrequest mode.</description>
           <long-description>&lt;p&gt;This is needed for some oprtations to act differently when in this mode&lt;/p&gt;</long-description>
-          <tag line="427" name="param" description="sets the connection state to batch request, meaning it is crrently doing a batch request.&#10;returns the active batch" type="boolean" variable="$state">
+          <tag line="395" name="param" description="sets the connection state to batch request, meaning it is crrently doing a batch request.&#10;returns the active batch" type="boolean" variable="$state">
             <type by_reference="false">boolean</type>
           </tag>
         </docblock>
-        <argument line="435">
+        <argument line="403">
           <name>$state</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="445" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="413" package="ArangoDbPhpClient">
         <name>getBatches</name>
         <full_name>getBatches</full_name>
-        <docblock line="441">
+        <docblock line="409">
           <description>returns the active batch</description>
           <long-description></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="534" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="431" package="ArangoDbPhpClient">
         <name>doBatch</name>
         <full_name>doBatch</full_name>
-        <docblock line="521">
+        <docblock line="418">
           <description>This is a helper function to executeRequest that captures requests if we're in batch mode</description>
           <long-description></long-description>
-          <tag line="521" name="param" description="- The method of the request (GET, POST...)" type="mixed" variable="$method">
+          <tag line="418" name="param" description="- The method of the request (GET, POST...)" type="mixed" variable="$method">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="521" name="param" description="- The request to process&#10;This checks if we're in batch mode and returns a placeholder object,&#10;since we need to return some object that is expected by the caller.&#10;if we're not in batch mode it doesn't return anything, and" type="string" variable="$request">
+          <tag line="418" name="param" description="- The request to process&#10;This checks if we're in batch mode and returns a placeholder object,&#10;since we need to return some object that is expected by the caller.&#10;if we're not in batch mode it doesn't return anything, and" type="string" variable="$request">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="521" name="return" description="Batchpart or null if not in batch capturing mode" type="\triagens\ArangoDb\the">
+          <tag line="418" name="return" description="Batchpart or null if not in batch capturing mode" type="\triagens\ArangoDb\the">
             <type by_reference="false">\triagens\ArangoDb\the</type>
           </tag>
         </docblock>
-        <argument line="534">
+        <argument line="431">
           <name>$method</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="534">
+        <argument line="431">
           <name>$request</name>
           <default></default>
           <type/>

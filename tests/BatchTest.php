@@ -24,6 +24,8 @@ class BatchTest extends \PHPUnit_Framework_TestCase
     public function testCreateDocumentBatch(){
 
         $batch = new Batch($this->connection);
+        
+        // not needed, but just here to test if anything goes wrong if it's called again...
         $batch->startCapture();
 
         $this->assertInstanceOf('\triagens\ArangoDb\Batch', $batch);
@@ -130,10 +132,11 @@ class BatchTest extends \PHPUnit_Framework_TestCase
             "sanitize" => true,
         ));
 
+        // set batchsize to 10, so we can test if an additional http request is done when we getAll() a bit later
         $statement = new Statement($connection, array(
             "query" => '',
             "count" => true,
-            "batchSize" => 1000,
+            "batchSize" => 10,
             "sanitize" => true,
         ));
         
@@ -151,7 +154,7 @@ class BatchTest extends \PHPUnit_Framework_TestCase
         
         $stmtCursor= $batch->getProcessedPartResponse('myBatchPart');
         
-        $this->assertTrue(count($stmtCursor->getAll()) == 13, 'At the time of statement execution there should be 3 documents found! Found: '.count($stmtCursor->getAll()));
+        $this->assertTrue(count($stmtCursor->getAll()) == 13, 'At the time of statement execution there should be 13 documents found! Found: '.count($stmtCursor->getAll()));
        
         // This fails but we'll just make a note because such a query is not needed to be batched.
         //$docsAfterRemoval=$batch->getProcessedPartResponse('docsAfterRemoval'); 

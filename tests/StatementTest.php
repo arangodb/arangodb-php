@@ -16,7 +16,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
         $this->connection = getConnection();
         $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
         $this->collection = new \triagens\ArangoDb\Collection();
-        $this->collection->setName('ArangoDB-PHP-TestSuite-TestCollection-01');
+        $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
         $this->collectionHandler->add($this->collection);
     }
 
@@ -41,7 +41,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
             "batchSize" => 1000,
             "sanitize" => true,
         ));
-        $statement->setQuery('FOR a IN `ArangoDB-PHP-TestSuite-TestCollection-01` RETURN a');
+        $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a');
         $cursor = $statement->execute();
 
         $result = $cursor->current();
@@ -71,7 +71,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
             "batchSize" => 1000,
             "sanitize" => true,
         ));
-        $statement->setQuery('FOR a IN `ArangoDB-PHP-TestSuite-TestCollection-01` RETURN a');
+        $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a');
         $result = $statement->explain();
 
         $this->assertArrayHasKey('plan', $result, "result-array does not contain plan !");    
@@ -99,7 +99,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
             "batchSize" => 1000,
             "sanitize" => true,
         ));
-        $statement->setQuery('FOR a IN `ArangoDB-PHP-TestSuite-TestCollection-01` RETURN a');
+        $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a');
         $result = $statement->validate();
         $this->assertArrayHasKey('bindVars', $result, "result-array does not contain plan !");    
     }
@@ -108,7 +108,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         try {
-            $response = $this->collectionHandler->delete('ArangoDB-PHP-TestSuite-TestCollection-01');
+            $response = $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
