@@ -56,5 +56,9 @@ abstract class DefaultValues {
    */
   const DEFAULT_DELETE_POLICY = UpdatePolicy::ERROR;
 
-
+  /**
+   * Default value for checking if data is UTF-8 conform
+   */
+  const DEFAULT_CHECK_UTF8_CONFORM     = true;
+  
 }

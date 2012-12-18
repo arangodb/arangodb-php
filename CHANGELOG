@@ -1,6 +1,12 @@
 v1.1.0 (xxxx-xx-xx)
 -------------------
 
+* issue #30: Fixed Bug: Character encoding and json_encode leads to data loss
+
+* issue #15: Feature: Implement Batch support for using with ArangoDB 1.1 
+
+* issue #28: Feature: implement missing simple-query-related functionality => range(), near(), within()
+
 * issue #22: Feature: Implement update() and updateById() methods on documents for 1.1 API
 
 

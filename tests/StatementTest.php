@@ -51,6 +51,42 @@ class StatementTest extends \PHPUnit_Framework_TestCase
 
     
     /**
+     * This is just a test to really test connectivity with the server before moving on to further tests.
+     * We expect an exception here:
+     * 
+     * @expectedException triagens\ArangoDb\ClientException
+    */
+    public function testExecuteStatementWithWrongEncoding()
+    {
+        $connection = $this->connection;
+        $collection = $this->collection;
+        $collectionHandler = $this->collectionHandler;
+        $document = new \triagens\ArangoDb\Document();
+        $documentHandler = new \triagens\ArangoDb\DocumentHandler($connection);
+
+        $document->someAttribute = 'someValue';
+
+        $documentId = $documentHandler->add($collection->getId(), $document);
+
+        $statement = new \triagens\ArangoDb\Statement($connection, array(
+            "query" => '',
+            "count" => true,
+            "batchSize" => 1000,
+            "sanitize" => true,
+        ));
+        // inject wrong encoding       
+        $isoValue=iconv("UTF-8","ISO-8859-1//TRANSLIT","'FOR ü IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN ü");
+        
+        $statement->setQuery($isoValue);
+        $cursor = $statement->execute();
+
+        $result = $cursor->current();
+
+        $this->assertTrue($result->someAttribute === 'someValue', 'Expected value someValue, found :'.$result->someAttribute);
+    }
+
+    
+    /**
      * Test if the explain function works
      */
     public function testExplainStatement()

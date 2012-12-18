@@ -60,12 +60,17 @@
                     <ul>
 <li class="method public "><a href="#method___construct" title="__construct :: Set up the connection object, validate the options provided"><span class="description">Set up the connection object, validate the options provided</span><pre>__construct()</pre></a></li>
 <li class="method public "><a href="#method___destruct" title="__destruct :: Close existing connection handle if a keep-alive connection was used"><span class="description">Close existing connection handle if a keep-alive connection was used</span><pre>__destruct()</pre></a></li>
+<li class="method public "><a href="#method_check_encoding" title="check_encoding :: This function checks that the encoding of the keys and
+values of the array are utf-8, recursively."><span class="description">This function checks that the encoding of the keys and
+values of the array are utf-8, recursively.</span><pre>check_encoding()</pre></a></li>
 <li class="method public "><a href="#method_delete" title="delete :: Issue an HTTP DELETE request with the data provided"><span class="description">Issue an HTTP DELETE request with the data provided</span><pre>delete()</pre></a></li>
+<li class="method public "><a href="#method_detect_utf" title="detect_utf :: This function checks that the encoding of a string is utf."><span class="description">This function checks that the encoding of a string is utf.</span><pre>detect_utf()</pre></a></li>
 <li class="method public "><a href="#method_get" title="get :: Issue an HTTP GET request"><span class="description">Issue an HTTP GET request</span><pre>get()</pre></a></li>
 <li class="method public "><a href="#method_getActiveBatch" title="getActiveBatch :: returns the active batch"><span class="description">returns the active batch</span><pre>getActiveBatch()</pre></a></li>
 <li class="method public "><a href="#method_getBatches" title="getBatches :: returns the active batch"><span class="description">returns the active batch</span><pre>getBatches()</pre></a></li>
 <li class="method public "><a href="#method_getOption" title="getOption :: Get an option set for the connection"><span class="description">Get an option set for the connection</span><pre>getOption()</pre></a></li>
 <li class="method public "><a href="#method_getVersion" title="getVersion :: Get the client api version"><span class="description">Get the client api version</span><pre>getVersion()</pre></a></li>
+<li class="method public "><a href="#method_json_encode_wrapper" title="json_encode_wrapper :: This is a json_encode() wrapper that also checks if the data is utf-8 conform."><span class="description">This is a json_encode() wrapper that also checks if the data is utf-8 conform.</span><pre>json_encode_wrapper()</pre></a></li>
 <li class="method public "><a href="#method_parseResponse" title="parseResponse :: Parse the response return the body values as an assoc array"><span class="description">Parse the response return the body values as an assoc array</span><pre>parseResponse()</pre></a></li>
 <li class="method public "><a href="#method_patch" title="patch :: Issue an HTTP PATCH request with the data provided"><span class="description">Issue an HTTP PATCH request with the data provided</span><pre>patch()</pre></a></li>
 <li class="method public "><a href="#method_post" title="post :: Issue an HTTP POST request with the data provided"><span class="description">Issue an HTTP POST request with the data provided</span><pre>post()</pre></a></li>
@@ -152,6 +157,19 @@ and are destroyed afterwards.</p></div>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="method_check_encoding"></a><div class="element clickable method public method_check_encoding" data-toggle="collapse" data-target=".method_check_encoding .collapse">
+<h2>This function checks that the encoding of the keys and
+values of the array are utf-8, recursively.</h2>
+<pre>check_encoding(array $data) </pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>It will raise an exception if it encounters wrong encoded strings.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$data</h4>
+<code>array</code><p>the data to check</p></div>
+</div></div>
+</div>
 <a id="method_delete"></a><div class="element clickable method public method_delete" data-toggle="collapse" data-target=".method_delete .collapse">
 <h2>Issue an HTTP DELETE request with the data provided</h2>
 <pre>delete(string $url) : <a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></pre>
@@ -172,6 +190,21 @@ and are destroyed afterwards.</p></div>
 </tr></table>
 <h3>Returns</h3>
 <div class="subelement response"><code><a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_detect_utf"></a><div class="element clickable method public method_detect_utf" data-toggle="collapse" data-target=".method_detect_utf .collapse">
+<h2>This function checks that the encoding of a string is utf.</h2>
+<pre>detect_utf(array $string) : boolean</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>It only checks for printable characters.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$string</h4>
+<code>array</code><p>the data to check</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>boolean</code>true if string is UTF-8, false if not</div>
 </div></div>
 </div>
 <a id="method_get"></a><div class="element clickable method public method_get" data-toggle="collapse" data-target=".method_get .collapse">
@@ -236,6 +269,26 @@ and are destroyed afterwards.</p></div>
 <div class="long_description"></div>
 <h3>Returns</h3>
 <div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_json_encode_wrapper"></a><div class="element clickable method public method_json_encode_wrapper" data-toggle="collapse" data-target=".method_json_encode_wrapper .collapse">
+<h2>This is a json_encode() wrapper that also checks if the data is utf-8 conform.</h2>
+<pre>json_encode_wrapper(mixed $data, mixed $options) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>internally it calls the check_encoding() method. If that method does not throw
+an Exception, this method will happilly return the json_encoded data.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$data</h4>
+<code>mixed</code><p>the data to encode</p></div>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>mixed</code><p>the options for the json_encode() call</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>the result of the json_encode</div>
 </div></div>
 </div>
 <a id="method_parseResponse"></a><div class="element clickable method public method_parseResponse" data-toggle="collapse" data-target=".method_parseResponse .collapse">
@@ -540,7 +593,7 @@ will restore it.</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2012-12-10T12:05:48+02:00.<br></footer></div>
+            generated on 2012-12-18T02:15:05+02:00.<br></footer></div>
 </div>
 </body>
 </html>

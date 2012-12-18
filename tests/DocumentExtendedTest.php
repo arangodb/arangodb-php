@@ -21,10 +21,39 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $this->documentHandler = new DocumentHandler($this->connection);
     }
 
+    
+     /**
+     * test for creation of document with non utf encoding. This tests for failure of such an action.
+     * We expect an exception here:
+     * 
+     * @expectedException triagens\ArangoDb\ClientException
+     */     
+    public function testCreateDocumentWithWrongEncoding()
+    {
+        $documentHandler = $this->documentHandler;
+        $isoKey=iconv("UTF-8","ISO-8859-1//TRANSLIT","someWrongEncododedAttribute");
+        $isoValue=iconv("UTF-8","ISO-8859-1//TRANSLIT","someWrongEncodedValueü");
+        
+        $document = Document::createFromArray(array( $isoKey=> $isoValue, 'someOtherAttribute' => 'someOtherValue'));
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+
+        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+
+        $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
+        $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue'));
+        $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue'));
+
+        $response = $documentHandler->delete($document);
+        $this->assertTrue(true === $response, 'Delete should return true!');
+    }
+    
+    
     /**
      * test for creation, get, and delete of a document given its settings through createFromArray()
      */
-    public function testCreateWithCreateFromArrayGetAndDeleteDocument()
+    public function testCreateDocumentWithCreateFromArrayGetAndDeleteDocument()
     {
         $documentHandler = $this->documentHandler;
 
@@ -34,7 +63,7 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
 
         $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
-      #  var_dump($resultingDocument);
+
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
         $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue'));
         $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue'));
@@ -46,7 +75,7 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
     /**
      * test for creation, get by example, and delete of a document given its settings through createFromArray()
      */
-    public function testCreateWithCreateFromArrayGetbyExampleAndDeleteDocument()
+    public function testCreateDocumentWithCreateFromArrayGetbyExampleAndDeleteDocument()
     {
         $documentHandler = $this->documentHandler;
 
@@ -83,6 +112,42 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $patchDocument->set('_id',$document->getHandle());
         $patchDocument->set('_rev',$document->getRevision());
         $patchDocument->set('someOtherAttribute', 'someOtherValue2');
+        $result = $documentHandler->update($patchDocument);
+
+        $this->assertTrue($result);
+        
+        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+        $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
+        
+        $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue'), 'Should be :someValue, is: '.$resultingDocument->someAttribute);
+        $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'), 'Should be :someOtherValue2, is: '.$resultingDocument->someOtherAttribute);
+        $response = $documentHandler->delete($resultingDocument);
+        $this->assertTrue(true === $response, 'Delete should return true!');
+    }
+
+    /**
+     * test for updating a document using update() with wrong encoding
+     * We expect an exception here:
+     * 
+     * @expectedException triagens\ArangoDb\ClientException
+     */
+    public function testUpdateDocumentWithWrongEncoding()
+    {
+        $documentHandler = $this->documentHandler;
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
+        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+
+        $patchDocument =  new \triagens\ArangoDb\Document();
+        $patchDocument->set('_id',$document->getHandle());
+        $patchDocument->set('_rev',$document->getRevision());
+        
+        // inject wrong encoding       
+        $isoValue=iconv("UTF-8","ISO-8859-1//TRANSLIT","someWrongEncodedValueü");
+        
+        $patchDocument->set('someOtherAttribute', $isoValue);
         $result = $documentHandler->update($patchDocument);
 
         $this->assertTrue($result);
@@ -141,6 +206,42 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
 
         $document->set('someAttribute','someValue2');
+        $document->set('someOtherAttribute','someOtherValue2');
+        $result = $documentHandler->replace($document);
+
+        $this->assertTrue($result);
+        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+
+        $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
+        
+        $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue2'), 'Should be :someValue2, is: '.$resultingDocument->someAttribute);
+        $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'), 'Should be :someOtherValue2, is: '.$resultingDocument->someOtherAttribute);
+
+        $response = $documentHandler->delete($resultingDocument);
+        $this->assertTrue(true === $response, 'Delete should return true!');
+    }
+    
+    
+   /**
+     * test for replacing a document using replace() with wrong encoding
+     * We expect an exception here:
+     * 
+     * @expectedException triagens\ArangoDb\ClientException
+     */
+    public function testReplaceDocumentWithWrongEncoding()
+    {
+        $documentHandler = $this->documentHandler;
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+
+        // inject wrong encoding       
+        $isoKey=iconv("UTF-8","ISO-8859-1//TRANSLIT","someWrongEncododedAttribute");
+        $isoValue=iconv("UTF-8","ISO-8859-1//TRANSLIT","someWrongEncodedValueü");
+        
+        $document->set($isoKey, $isoValue);
         $document->set('someOtherAttribute','someOtherValue2');
         $result = $documentHandler->replace($document);
 

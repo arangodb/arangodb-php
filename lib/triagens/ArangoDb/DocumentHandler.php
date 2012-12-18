@@ -161,7 +161,8 @@ class DocumentHandler extends Handler {
     $data = $document->getAll();
     $params = array(self::OPTION_COLLECTION => $collectionId, ConnectionOptions::OPTION_CREATE => UrlHelper::getBoolString($create));
     $url = UrlHelper::appendParamsUrl(Urls::URL_DOCUMENT, $params); 
-    $response = $this->getConnection()->post($url, json_encode($data));
+    
+    $response = $this->getConnection()->post($url,  $this->getConnection()->json_encode_wrapper($data));
 
     $location = $response->getLocationHeader();
     if (!$location) {
@@ -286,7 +287,7 @@ class DocumentHandler extends Handler {
 
     $url = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
     $url = UrlHelper::appendParamsUrl($url, $params);
-    $result = $this->getConnection()->patch($url, json_encode($document->getAll()));
+    $result = $this->getConnection()->patch($url, $this->getConnection()->json_encode_wrapper($document->getAll()));
    
     return true;  
     
@@ -327,7 +328,7 @@ class DocumentHandler extends Handler {
     $data = $document->getAll();
     $url = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
     $url = UrlHelper::appendParamsUrl($url, $params);
-    $result = $this->getConnection()->put($url, json_encode($data));
+    $result = $this->getConnection()->put($url, $this->getConnection()->json_encode_wrapper($data));
 
     return true;
   }

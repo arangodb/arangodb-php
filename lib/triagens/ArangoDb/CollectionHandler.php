@@ -242,7 +242,7 @@ class CollectionHandler extends Handler {
 
     $type = $collection->getType() ? $collection->getType() : Collection::getDefaultType();
     $params = array(Collection::ENTRY_NAME => $collection->getName(), Collection::ENTRY_TYPE => $type, Collection::ENTRY_WAIT_SYNC => $collection->getWaitForSync());
-    $response = $this->getConnection()->post(Urls::URL_COLLECTION, json_encode($params));
+    $response = $this->getConnection()->post(Urls::URL_COLLECTION, $this->getConnection()->json_encode_wrapper($params));
 
     $location = $response->getLocationHeader();
     if (!$location) {
@@ -274,7 +274,7 @@ class CollectionHandler extends Handler {
     $urlParams = array(self::OPTION_COLLECTION => $collectionId);
     $bodyParams = array(self::OPTION_TYPE => $type, self::OPTION_FIELDS => $attributes, self::OPTION_UNIQUE => $unique);
     $url = UrlHelper::appendParamsUrl(Urls::URL_INDEX, $urlParams); 
-    $response = $this->getConnection()->post($url, json_encode($bodyParams));
+    $response = $this->getConnection()->post($url, $this->getConnection()->json_encode_wrapper($bodyParams));
 
     $httpCode = $response->getHttpCode();
     switch ($httpCode) {
@@ -348,8 +348,8 @@ class CollectionHandler extends Handler {
       throw new ClientException('Cannot alter a collection without a collection id');
     }
 
-    $params = array(Collection::ENTRY_NAME => $newName);
-    $result = $this->getConnection()->put(UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_RENAME), json_encode($params));
+    $params = array(Collection::ENTRY_NAME => $name);
+    $result = $this->getConnection()->put(UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_RENAME), $this->getConnection()->json_encode_wrapper($params));
 
     return true;
   }
@@ -423,7 +423,7 @@ class CollectionHandler extends Handler {
     
     $data = array(self::OPTION_COLLECTION => $collectionId, self::OPTION_EXAMPLE => $document->getAll(array('ignoreHiddenAttributes'=>true)));
 
-    $response = $this->getConnection()->put(Urls::URL_EXAMPLE, json_encode($data));
+    $response = $this->getConnection()->put(Urls::URL_EXAMPLE, $this->getConnection()->json_encode_wrapper($data));
     
     return new Cursor($this->getConnection(), $response->getJson(), $options );
   }  
@@ -475,7 +475,7 @@ class CollectionHandler extends Handler {
     if ($skip) {$data[self::OPTION_SKIP] = $skip;};
     if ($limit) {$data[self::OPTION_LIMIT] = $limit;};
    
-    $response = $this->getConnection()->put(Urls::URL_RANGE, json_encode($data));
+    $response = $this->getConnection()->put(Urls::URL_RANGE, $this->getConnection()->json_encode_wrapper($data));
     
     return new Cursor($this->getConnection(), $response->getJson(), $options );
   }    
@@ -521,7 +521,7 @@ class CollectionHandler extends Handler {
     if ($skip) {$data[self::OPTION_SKIP] = $skip;};
     if ($limit) {$data[self::OPTION_LIMIT] = $limit;};
     if ($distance) {$data[self::OPTION_DISTANCE] = $distance;};
-    $response = $this->getConnection()->put(Urls::URL_NEAR, json_encode($data));
+    $response = $this->getConnection()->put(Urls::URL_NEAR, $this->getConnection()->json_encode_wrapper($data));
 
     return new Cursor($this->getConnection(), $response->getJson(), $options);
   }    
@@ -568,7 +568,7 @@ class CollectionHandler extends Handler {
     if ($skip) {$data[self::OPTION_SKIP] = $skip;};
     if ($limit) {$data[self::OPTION_LIMIT] = $limit;};
     if ($distance) {$data[self::OPTION_DISTANCE] = $distance;};
-    $response = $this->getConnection()->put(Urls::URL_WITHIN, json_encode($data));
+    $response = $this->getConnection()->put(Urls::URL_WITHIN, $this->getConnection()->json_encode_wrapper($data));
 
     return new Cursor($this->getConnection(), $response->getJson(), $options);
   }    

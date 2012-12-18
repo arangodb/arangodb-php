@@ -45,6 +45,68 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * test for creation, rename, and delete of a collection 
+     */
+    public function testCreateRenameAndDeleteCollection()
+    {
+        $collection = $this->collection;
+        $collectionHandler = $this->collectionHandler;
+
+
+        $collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
+       
+
+        $response = $collectionHandler->add($collection);
+
+        $this->assertTrue(is_numeric($response), 'Adding collection did not return an id!');
+
+        $resultingCollection = $collectionHandler->get($response);
+
+        $response = $collectionHandler->rename($resultingCollection, 'ArangoDB_PHP_TestSuite_TestCollection_01_renamed');
+        
+        $resultingCollectionRenamed = $collectionHandler->get( 'ArangoDB_PHP_TestSuite_TestCollection_01_renamed');
+        $newName=$resultingCollectionRenamed->getName();
+
+        $this->assertTrue($newName == 'ArangoDB_PHP_TestSuite_TestCollection_01_renamed', 'Collection was not renamed!');
+        $response = $collectionHandler->delete($resultingCollectionRenamed);
+        $this->assertTrue(true === $response, 'Delete should return true!');
+    }
+
+    /**
+     * test for creation, rename, and delete of a collection with wrong encoding
+     * 
+     * We expect an exception here:
+     * 
+     * @expectedException triagens\ArangoDb\ClientException
+     * 
+     */
+    public function testCreateRenameAndDeleteCollectionWithWrongEncoding()
+    {
+        $collection = $this->collection;
+        $collectionHandler = $this->collectionHandler;
+
+
+        $collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
+       
+
+        $response = $collectionHandler->add($collection);
+
+        $this->assertTrue(is_numeric($response), 'Adding collection did not return an id!');
+
+        $resultingCollection = $collectionHandler->get($response);
+
+        // inject wrong encoding       
+        $isoValue=iconv("UTF-8","ISO-8859-1//TRANSLIT","ArangoDB_PHP_TestSuite_TestCollection_01_renamedü");
+        
+        $response = $collectionHandler->rename($resultingCollection, $isoValue);
+
+        
+        $response = $collectionHandler->delete($resultingCollection);
+        $this->assertTrue(true === $response, 'Delete should return true!');
+    }
+
+    
+    /**
      * test for creation, get, and delete of a collection with waitForSync set to true
      */
     public function testCreateGetAndDeleteCollectionWithWaitForSyncTrue()
@@ -131,6 +193,7 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
    /**
      * test for creation of a skip-list indexed collection and querying by range (first level and nested), with closed, skip and limit options
      */
+     
     public function testCreateSkipListIndexedCollectionAddDocumentsAndQueryRange()
     {
         // set up collections, indexes and test-documents     
@@ -146,7 +209,7 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
          
 
         $documentHandler = $this->documentHandler;
-
+        
         $document1 = Document::createFromArray(array('index' => 2, 'someOtherAttribute' => 'someValue2', 'nested' => array('index'=>3, 'someNestedAttribute3'=>'someNestedValue3')));
         $documentId1 = $documentHandler->add($collection->getId(), $document1);
         $document2 = Document::createFromArray(array('index' => 1, 'someOtherAttribute' => 'someValue1', 'nested' => array('index'=>2, 'someNestedAttribute3'=>'someNestedValue2')));
@@ -204,7 +267,6 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         $resultArray = $rangeResult->getAll();
         $this->asserttrue($resultArray[0]->nested['index']==3, "This value should be 3 !");
         $this->assertArrayNotHasKey(1, $resultArray, "Should not have a second key !");
-
 
         
         // Clean up...

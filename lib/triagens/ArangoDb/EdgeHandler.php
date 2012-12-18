@@ -108,7 +108,7 @@ class EdgeHandler extends DocumentHandler {
     $data = $document->getAll();
     $params = array(self::OPTION_COLLECTION => $collectionId, self::OPTION_FROM => $document->getFrom(), self::OPTION_TO => $document->getTo());
     $url = UrlHelper::appendParamsUrl(Urls::URL_EDGE, $params); 
-    $response = $this->getConnection()->post($url, json_encode($data));
+    $response = $this->getConnection()->post($url, $this->getConnection()->json_encode_wrapper($data));
 
     $location = $response->getLocationHeader();
     if (!$location) {

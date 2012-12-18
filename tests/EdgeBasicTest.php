@@ -42,7 +42,7 @@ class EdgeBasicTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Try to create and delete a document
+     * Try to create and delete an edge
      */
     public function testCreateAndDeleteEdge()
     {
@@ -69,6 +69,81 @@ class EdgeBasicTest extends \PHPUnit_Framework_TestCase
         
         
         $edgeDocument->set('label','knows');
+        $edgeDocumentId = $edgeDocumentHandler->saveEdge($edgeCollection->getId(), $documentHandle1, $documentHandle2, $edgeDocument);
+        
+        $resultingDocument = $documentHandler->get($edgeCollection->getId(), $edgeDocumentId);
+        
+        $resultingEdge = $documentHandler->get($edgeCollection->getId(), $edgeDocumentId);
+        
+        $resultingAttribute = $resultingEdge->label;
+        $this->assertTrue($resultingAttribute === 'knows', 'Attribute set on the Edge is different from the one retrieved!');
+
+        
+        $edgesQuery1Result=$edgeDocumentHandler->edges($edgeCollection->getId(),$documentHandle1,'out');
+        $this->assertArrayHasKey('documents',$edgesQuery1Result, "edges didn't return an array with a documents attribute!");     
+        
+        $statement = new \triagens\ArangoDb\Statement($connection, array(
+            "query" => '',
+            "count" => true,
+            "batchSize" => 1000,
+            "sanitize" => true,
+        ));
+        $statement->setQuery('FOR p IN PATHS(ArangoDBPHPTestSuiteTestCollection01, ArangoDBPHPTestSuiteTestEdgeCollection01, "outbound")  RETURN p');
+        $cursor = $statement->execute();
+
+        $result = $cursor->current();
+        $this->assertInstanceOf('triagens\ArangoDb\Document',$result, "IN PATHS statement did not return a document object!");
+        $resultingDocument->set('label','knows not');
+       
+        $resultingDocument2 = $documentHandler->update($resultingDocument);
+
+          
+        $resultingEdge = $documentHandler->get($edgeCollection->getId(), $edgeDocumentId);
+        $resultingAttribute = $resultingEdge->label;
+        $this->assertTrue($resultingAttribute === 'knows not', 'Attribute "knows not" set on the Edge is different from the one retrieved ('.$resultingAttribute.')!');
+        
+        
+        $response = $documentHandler->delete($document1);
+        $response = $documentHandler->delete($document2);
+        
+        // On ArangoDB 1.0 deleting a vertice doesn't delete the associated edge. Caution!
+        $response = $edgeDocumentHandler->delete($resultingEdge);
+        
+    } 
+    
+    
+     /**
+     * Try to create and delete an edge with wrong encoding
+     * We expect an exception here:
+     * 
+     * @expectedException triagens\ArangoDb\ClientException
+     */
+    public function testCreateAndDeleteEdgeWithWrongEncoding()
+    {
+        $connection = $this->connection;
+        $collection = $this->collection;
+        $edgeCollection = $this->edgeCollection;
+        $collectionHandler = $this->collectionHandler;
+        
+        $document1 = new \triagens\ArangoDb\Document();
+        $document2 = new \triagens\ArangoDb\Document();
+        $documentHandler = new \triagens\ArangoDb\DocumentHandler($connection);
+        
+        $edgeDocument = new \triagens\ArangoDb\Edge();
+        $edgeDocumentHandler = new \triagens\ArangoDb\EdgeHandler($connection);
+
+        $document1->someAttribute = 'someValue1';
+        $document2->someAttribute = 'someValue2';
+        
+        
+        $documentId1 = $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
+        $documentId2 = $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandle1=$document1->getHandle();
+        $documentHandle2=$document2->getHandle();
+        
+        $isoValue=iconv("UTF-8","ISO-8859-1//TRANSLIT","knowsü");
+        $edgeDocument->set('label',$isoValue);
+        
         $edgeDocumentId = $edgeDocumentHandler->saveEdge($edgeCollection->getId(), $documentHandle1, $documentHandle2, $edgeDocument);
         
         $resultingDocument = $documentHandler->get($edgeCollection->getId(), $edgeDocumentId);

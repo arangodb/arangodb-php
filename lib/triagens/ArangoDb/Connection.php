@@ -441,5 +441,82 @@ class Connection {
       
     }
     
+   
+    /**
+    * This function checks that the encoding of a string is utf.
+    * It only checks for printable characters.
+    * 
+    * 
+    * @param array $string the data to check
+    * 
+    * @return boolean true if string is UTF-8, false if not
+    */     
+    public static function detect_utf($string){
+     if (preg_match('%^(?:
+          [\x09\x0A\x0D\x20-\x7E]            # ASCII
+        | [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
+        | \xE0[\xA0-\xBF][\x80-\xBF]         # excluding overlongs
+        | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}  # straight 3-byte
+        | \xED[\x80-\x9F][\x80-\xBF]         # excluding surrogates
+        | \xF0[\x90-\xBF][\x80-\xBF]{2}      # planes 1-3
+        | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
+        | \xF4[\x80-\x8F][\x80-\xBF]{2}      # plane 16
+    )*$%xs', $string)){
+        return true;
+      }
+    else
+      {
+        return false;    
+      }
+    }
+   
+   
+    /**
+    * This function checks that the encoding of the keys and
+    * values of the array are utf-8, recursively.
+    * It will raise an exception if it encounters wrong encoded strings.
+    * 
+    * @param array $data the data to check
+    * 
+    */  
+       public static function check_encoding($data){
+         foreach ($data as $key=>$value) {
+              if (!is_array($value)){
+                // check if the multibyte library function is installed and use it.
+                if (function_exists('mb_detect_encoding')) {
+                  // check with mb library
+                  if (mb_detect_encoding($key,'UTF-8',true) === false) throw new ClientException("Only UTF-8 encoded keys allowed. Wrong encoding in key string: ". $key);
+                  if (mb_detect_encoding($value,'UTF-8',true) === false) throw new ClientException("Only UTF-8 encoded values allowed. Wrong encoding in value string: ". $value);
+                 
+                } else {
+                  // fallback to preg_match checking
+                  if (self::detect_utf($key) == false) throw new ClientException("Only UTF-8 encoded keys allowed. Wrong encoding in key string: ". $key);
+                  if (self::detect_utf($value) == false) throw new ClientException("Only UTF-8 encoded values allowed. Wrong encoding in value string: ". $value);
+                } 
+              }else{
+                self::check_encoding($value);
+              }
+            }
+       }
+   
+
+   /**
+    * This is a json_encode() wrapper that also checks if the data is utf-8 conform.
+    * internally it calls the check_encoding() method. If that method does not throw
+    * an Exception, this method will happilly return the json_encoded data.
+    * 
+    * @param mixed $data the data to encode
+    * @param mixed $options the options for the json_encode() call
+    * 
+    * @return string the result of the json_encode
+    */
+    public function json_encode_wrapper($data, $options = NULL){
+      if ($this->_options[ConnectionOptions::OPTION_CHECK_UTF8_CONFORM] === true){
+        self::check_encoding($data);
+      }
+      $response = json_encode($data, $options);
+      return $response;
+    }
+    
     
 }
