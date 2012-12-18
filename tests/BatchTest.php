@@ -110,8 +110,8 @@ class BatchTest extends \PHPUnit_Framework_TestCase
         
         $batch = new Batch($this->connection);
 
-        $docId1=split('/',$testDocument1PartResponse);
-        $docId2=split('/',$testDocument2PartResponse);
+        $docId1=explode('/',$testDocument1PartResponse);
+        $docId2=explode('/',$testDocument2PartResponse);
         $documentHandler->getById($resultingCollectionId, $docId1[1]);
         $documentHandler->getById($resultingCollectionId, $docId2[1]);
 
