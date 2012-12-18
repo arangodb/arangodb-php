@@ -19,6 +19,11 @@ class BatchTest extends \PHPUnit_Framework_TestCase
         $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
         $this->collectionHandler->add($this->collection);
         $this->documentHandler = new DocumentHandler($this->connection);
+        $this->edgeCollection = new \triagens\ArangoDb\Collection();
+        $this->edgeCollection->setName('ArangoDBPHPTestSuiteTestEdgeCollection01');
+        $this->edgeCollection->set('type', 3);
+        $this->collectionHandler->add($this->edgeCollection);
+        
     }
     
     public function testCreateDocumentBatch(){
@@ -51,6 +56,8 @@ class BatchTest extends \PHPUnit_Framework_TestCase
 
  
     public function testCreateMixedBatchWithPartIds(){
+
+        $edgeCollection = $this->edgeCollection;
       
         $batch = new Batch($this->connection);
         $this->assertInstanceOf('\triagens\ArangoDb\Batch', $batch);
@@ -59,7 +66,7 @@ class BatchTest extends \PHPUnit_Framework_TestCase
         $connection = $this->connection;
         $collection = new Collection();
         $collectionHandler = new CollectionHandler($connection);
-
+               
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_02';
         $collection->setName($name);
         
@@ -116,8 +123,25 @@ class BatchTest extends \PHPUnit_Framework_TestCase
         $documentHandler->getById($resultingCollectionId, $docId2[1]);
 
         $result= $batch->process();    
+        
         $document1= $batch->getProcessedPartResponse(0);
         $document2= $batch->getProcessedPartResponse(1);
+
+        $batch = new Batch($this->connection);        
+        // test edge creation
+        $edgeDocument = new \triagens\ArangoDb\Edge();
+        $edgeDocumentHandler = new \triagens\ArangoDb\EdgeHandler($connection);
+        $edgeDocument->set('label', 'knows');
+        $edgeDocumentId = $edgeDocumentHandler->saveEdge($edgeCollection->getId(), $document1->getHandle(), $document2->getHandle(), $edgeDocument);
+
+        $result= $batch->process();
+
+        $edge= $batch->getProcessedPartResponse(0);
+        
+        
+        $this->assertFalse(is_a($edge, 'triagens\ArangoDb\HttpResponse'), 'Edge batch creation did return an error: '.print_r($edge,true));
+        $this->assertTrue($edge==!'', 'Edge batch creation did return empty string: '.print_r($edge,true));
+        
         
         $batch = new Batch($this->connection);
         
@@ -127,11 +151,14 @@ class BatchTest extends \PHPUnit_Framework_TestCase
         $document->someAttribute = 'someValue';
         $documentId = $documentHandler->add($resultingCollection->getId(), $document);
 
+        // set the next batchpart id
         $batch->nextBatchPartId('myBatchPart');
+        // set cursor options for the next batchpart
         $batch->nextBatchPartCursorOptions(array(
             "sanitize" => true,
         ));
-
+        
+        
         // set batchsize to 10, so we can test if an additional http request is done when we getAll() a bit later
         $statement = new Statement($connection, array(
             "query" => '',
@@ -179,6 +206,11 @@ class BatchTest extends \PHPUnit_Framework_TestCase
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
+        try {
+            $response = $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestEdgeCollection01');
+        } catch (\Exception $e) {
+            #don't bother us, if it's already deleted.
+        }        
 
         unset($this->collectionHandler);
         unset($this->collection);

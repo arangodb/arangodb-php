@@ -221,11 +221,13 @@ class BatchPart {
           $id=$json[Document::ENTRY_ID];
           $response=$json;
           $response = Document::createFromArray($json, $this->getCursorOptions());
-         break;
+          break;
        case 'document':
           $json=$response->getJson();
+          if($json['error']===false){
           $id=$json[Document::ENTRY_ID];
           $response=$id;
+          }
          break;
        case 'getedge':
           $json=$response->getJson();
@@ -235,19 +237,23 @@ class BatchPart {
          break;
        case 'edge':
           $json=$response->getJson();
+          if($json['error']===false){
           $id=$json[Edge::ENTRY_ID];
           $response=$id;
+          }
          break;
        case 'getcollection':
           $json=$response->getJson();
-          $id=$json[Edge::ENTRY_ID];
+          $id=$json[Collection::ENTRY_ID];
           $response=$json;
           $response = Collection::createFromArray($json, $this->getCursorOptions());
          break;
        case 'collection':
           $json=$response->getJson();
+          if($json['error']===false){
           $id=$json[Collection::ENTRY_ID];
           $response=$id;
+          }
          break;
        case 'cursor':
            $response = new Cursor($this->_batch->getConnection(), $response->getJson(), $this->getCursorOptions());
