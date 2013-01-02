@@ -32,6 +32,11 @@ abstract class DefaultValues {
   const DEFAULT_WAIT_SYNC     = false;
   
   /**
+   * Default value for waitForSync (fsync all data to disk on document updates/insertions/deletions)
+   */
+  const DEFAULT_JOURNAL_SIZE     = 33554432;
+
+  /**
    * Default value for createCollection (create the collection on the fly when the first document is added to an unknown collection)
    */
   const DEFAULT_CREATE        = false;

@@ -91,6 +91,11 @@ class ConnectionOptions implements \ArrayAccess {
    */
   const OPTION_WAIT_SYNC     = 'waitForSync';
 
+ /**
+   * Wait for sync index constant
+   */
+  const OPTION_JOURNAL_SIZE     = 'journalSize';
+
   /**
    * Authentication user name
    */
@@ -234,6 +239,7 @@ class ConnectionOptions implements \ArrayAccess {
       self::OPTION_DELETE_POLICY      => DefaultValues::DEFAULT_DELETE_POLICY,
       self::OPTION_REVISION           => NULL,
       self::OPTION_WAIT_SYNC          => DefaultValues::DEFAULT_WAIT_SYNC,
+      self::OPTION_JOURNAL_SIZE       => DefaultValues::DEFAULT_JOURNAL_SIZE,
       self::OPTION_CONNECTION         => DefaultValues::DEFAULT_CONNECTION,
       self::OPTION_TRACE              => NULL,
       self::OPTION_AUTH_USER          => NULL,

@@ -240,8 +240,12 @@ class CollectionHandler extends Handler {
       $collection->setWaitForSync($this->getConnection()->getOption(ConnectionOptions::OPTION_WAIT_SYNC));
     }
 
+    if ($collection->getJournalSize() === NULL) {
+        $collection->setJournalSize($this->getConnection()->getOption(ConnectionOptions::OPTION_JOURNAL_SIZE));
+    }
+
     $type = $collection->getType() ? $collection->getType() : Collection::getDefaultType();
-    $params = array(Collection::ENTRY_NAME => $collection->getName(), Collection::ENTRY_TYPE => $type, Collection::ENTRY_WAIT_SYNC => $collection->getWaitForSync());
+    $params = array(Collection::ENTRY_NAME => $collection->getName(), Collection::ENTRY_TYPE => $type, Collection::ENTRY_WAIT_SYNC => $collection->getWaitForSync(), Collection::ENTRY_JOURNAL_SIZE => $collection->getJournalSize());
     $response = $this->getConnection()->post(Urls::URL_COLLECTION, $this->getConnection()->json_encode_wrapper($params));
 
     $location = $response->getLocationHeader();

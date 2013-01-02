@@ -109,21 +109,26 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
     /**
      * test for creation, get, and delete of a collection with waitForSync set to true
      */
-    public function testCreateGetAndDeleteCollectionWithWaitForSyncTrue()
+    public function testCreateGetAndDeleteCollectionWithWaitForSyncTrueAndJournalSizeSet()
     {
         $collection = $this->collection;
         $collectionHandler = $this->collectionHandler;
         $collection->setWaitForSync(true);
-        $resultingAttribute = $collection->getWaitForSync();
-        
-        $this->assertTrue(true === $resultingAttribute, 'WaitForSync should be true!');
+        $collection->setJournalSize(1024*1024*2);
+        $resultingWaitForSyncAttribute = $collection->getWaitForSync();
+        $resultingJournalSizeAttribute = $collection->getJournalSize();
+
+        $this->assertTrue(true === $resultingWaitForSyncAttribute, 'WaitForSync should be true!');
+        $this->assertTrue($resultingJournalSizeAttribute == 1024*1024*2, 'JournalSize should be 2MB!');
         $collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
 
         $response = $collectionHandler->add($collection);
         
         #$collection->properties();                        
-        $resultingAttribute = $collection->getWaitForSync();
-        $this->assertTrue(true === $resultingAttribute, 'Server waitForSync should return true!');
+        $resultingWaitForSyncAttribute = $collection->getWaitForSync();
+        $resultingJournalSizeAttribute = $collection->getJournalSize();
+        $this->assertTrue(true === $resultingWaitForSyncAttribute, 'Server waitForSync should return true!');
+        $this->assertTrue($resultingJournalSizeAttribute == 1024*1024*2, 'JournalSize should be 2MB!');
 
         $response = $collectionHandler->delete($collection);
         $this->assertTrue(true === $response, 'Delete should return true!');

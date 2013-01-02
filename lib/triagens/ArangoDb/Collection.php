@@ -41,6 +41,12 @@ class Collection {
   private $_waitForSync   = NULL;
   
   /**
+   * The collection journalSize value (might be NULL for new collections)
+   * @var int - journalSize value
+   */
+  private $_journalSize   = NULL;
+
+  /**
    * Collection id index
    */
   const ENTRY_ID          = 'id';
@@ -59,6 +65,11 @@ class Collection {
    * Collection 'waitForSync' index
    */
   const ENTRY_WAIT_SYNC   = 'waitForSync';
+
+  /**
+   * Collection 'journalSize' index
+   */
+  const ENTRY_JOURNAL_SIZE   = 'journalSize';
 
   /**
    * properties option
@@ -120,6 +131,7 @@ class Collection {
     $this->_id          = NULL;
     $this->_name        = NULL;
     $this->_waitForSync = NULL;
+    $this->_journalSize = NULL;
   }
   
   /**
@@ -161,6 +173,7 @@ class Collection {
       self::ENTRY_ID        => $this->_id,
       self::ENTRY_NAME      => $this->_name,
       self::ENTRY_WAIT_SYNC => $this->_waitForSync,
+      self::ENTRY_JOURNAL_SIZE => $this->_journalSize,
       self::ENTRY_TYPE      => $this->_type,
     );
   }
@@ -195,6 +208,11 @@ class Collection {
 
     if ($key === self::ENTRY_WAIT_SYNC) {
       $this->setWaitForSync($value);
+      return;
+    }
+
+    if ($key === self::ENTRY_JOURNAL_SIZE) {
+      $this->setJournalSize($value);
       return;
     }
 
@@ -316,4 +334,24 @@ class Collection {
     return $this->_waitForSync; 
   }
   
+  /**
+   * Set the journalSize value
+   *
+   * @param bool $value - waitForSync value
+   * @return void
+   */
+  public function setJournalSize($value) {
+    assert(is_int($value));
+    $this->_journalSize = $value;
+  }
+
+  /**
+   * Get the journalSize value (if already known)
+   *
+   * @return bool - journalSize value
+   */
+  public function getJournalSize() {
+    return $this->_journalSize;
+  }
+
 }
