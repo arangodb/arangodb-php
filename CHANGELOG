@@ -1,6 +1,14 @@
 v1.1.0 (xxxx-xx-xx)
 -------------------
 
+* Some refactoring in CollectionHandler.php
+
+* Implemented loading and unloading collections through collectionHandler->load(collection) and collectionHandler->unload(collection), written tests.
+
+* Implemented collectionHandler->getProperties(collection), written tests.
+
+* Implemented setting and getting journalSize, included in defaultvalues and written tests.
+
 * issue #30: Fixed Bug: Character encoding and json_encode leads to data loss
 
 * issue #15: Feature: Implement Batch support for using with ArangoDB 1.1 

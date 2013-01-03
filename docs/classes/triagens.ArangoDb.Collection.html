@@ -65,11 +65,13 @@
 <li class="method public "><a href="#method_getAll" title="getAll :: Get all collection attributes"><span class="description">Get all collection attributes</span><pre>getAll()</pre></a></li>
 <li class="method public "><a href="#method_getDefaultType" title="getDefaultType :: Get the default collection type"><span class="description">Get the default collection type</span><pre>getDefaultType()</pre></a></li>
 <li class="method public "><a href="#method_getId" title="getId :: Get the collection id (if already known)"><span class="description">Get the collection id (if already known)</span><pre>getId()</pre></a></li>
+<li class="method public "><a href="#method_getJournalSize" title="getJournalSize :: Get the journalSize value (if already known)"><span class="description">Get the journalSize value (if already known)</span><pre>getJournalSize()</pre></a></li>
 <li class="method public "><a href="#method_getName" title="getName :: Get the collection name (if already known)"><span class="description">Get the collection name (if already known)</span><pre>getName()</pre></a></li>
 <li class="method public "><a href="#method_getType" title="getType :: Get the collection type (if already known)"><span class="description">Get the collection type (if already known)</span><pre>getType()</pre></a></li>
 <li class="method public "><a href="#method_getWaitForSync" title="getWaitForSync :: Get the waitForSync value (if already known)"><span class="description">Get the waitForSync value (if already known)</span><pre>getWaitForSync()</pre></a></li>
 <li class="method public "><a href="#method_set" title="set :: Set a collection attribute"><span class="description">Set a collection attribute</span><pre>set()</pre></a></li>
 <li class="method public "><a href="#method_setId" title="setId :: Set the collection id"><span class="description">Set the collection id</span><pre>setId()</pre></a></li>
+<li class="method public "><a href="#method_setJournalSize" title="setJournalSize :: Set the journalSize value"><span class="description">Set the journalSize value</span><pre>setJournalSize()</pre></a></li>
 <li class="method public "><a href="#method_setName" title="setName :: Set the collection name"><span class="description">Set the collection name</span><pre>setName()</pre></a></li>
 <li class="method public "><a href="#method_setType" title="setType :: Set the collection type."><span class="description">Set the collection type.</span><pre>setType()</pre></a></li>
 <li class="method public "><a href="#method_setWaitForSync" title="setWaitForSync :: Set the waitForSync value"><span class="description">Set the waitForSync value</span><pre>setWaitForSync()</pre></a></li>
@@ -84,6 +86,7 @@
 <li class="nav-header private">» Private
                     <ul>
 <li class="property private "><a href="#property__id" title="$_id :: The collection id (might be NULL for new collections)"><span class="description"></span><pre>$_id</pre></a></li>
+<li class="property private "><a href="#property__journalSize" title="$_journalSize :: The collection journalSize value (might be NULL for new collections)"><span class="description"></span><pre>$_journalSize</pre></a></li>
 <li class="property private "><a href="#property__name" title="$_name :: The collection name (might be NULL for new collections)"><span class="description"></span><pre>$_name</pre></a></li>
 <li class="property private "><a href="#property__type" title="$_type :: The collection type (might be NULL for new collections)"><span class="description"></span><pre>$_type</pre></a></li>
 <li class="property private "><a href="#property__waitForSync" title="$_waitForSync :: The collection waitForSync value (might be NULL for new collections)"><span class="description"></span><pre>$_waitForSync</pre></a></li>
@@ -93,6 +96,7 @@
 <i class="icon-custom icon-constant"></i> Constants
                     <ul>
 <li class="constant  "><a href="#constant_ENTRY_ID" title="ENTRY_ID :: Collection id index"><span class="description">Collection id index</span><pre>ENTRY_ID</pre></a></li>
+<li class="constant  "><a href="#constant_ENTRY_JOURNAL_SIZE" title="ENTRY_JOURNAL_SIZE :: Collection 'journalSize' index"><span class="description">Collection 'journalSize' index</span><pre>ENTRY_JOURNAL_SIZE</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_NAME" title="ENTRY_NAME :: Collection name index"><span class="description">Collection name index</span><pre>ENTRY_NAME</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_TYPE" title="ENTRY_TYPE :: Collection type index"><span class="description">Collection type index</span><pre>ENTRY_TYPE</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_WAIT_SYNC" title="ENTRY_WAIT_SYNC :: Collection 'waitForSync' index"><span class="description">Collection 'waitForSync' index</span><pre>ENTRY_WAIT_SYNC</pre></a></li>
@@ -207,6 +211,17 @@ To reliably store a collection id elsewhere, a PHP string should be used</p></di
 <code>mixed</code>- collection id, might be NULL if collection does not yet have an id</div>
 </div></div>
 </div>
+<a id="method_getJournalSize"></a><div class="element clickable method public method_getJournalSize" data-toggle="collapse" data-target=".method_getJournalSize .collapse">
+<h2>Get the journalSize value (if already known)</h2>
+<pre>getJournalSize() : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>bool</code>- journalSize value</div>
+</div></div>
+</div>
 <a id="method_getName"></a><div class="element clickable method public method_getName" data-toggle="collapse" data-target=".method_getName .collapse">
 <h2>Get the collection name (if already known)</h2>
 <pre>getName() : string</pre>
@@ -287,6 +302,21 @@ exception if the value is invalid.</p></div>
 <th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
 <td></td>
 </tr></table>
+</div></div>
+</div>
+<a id="method_setJournalSize"></a><div class="element clickable method public method_setJournalSize" data-toggle="collapse" data-target=".method_setJournalSize .collapse">
+<h2>Set the journalSize value</h2>
+<pre>setJournalSize(bool $value) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>bool</code><ul>
+<li>waitForSync value</li>
+</ul>
+</div>
 </div></div>
 </div>
 <a id="method_setName"></a><div class="element clickable method public method_setName" data-toggle="collapse" data-target=".method_setName .collapse">
@@ -375,6 +405,12 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="property__journalSize"> </a><div class="element clickable property private property__journalSize" data-toggle="collapse" data-target=".property__journalSize .collapse">
+<h2></h2>
+<pre>$_journalSize : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="property__name"> </a><div class="element clickable property private property__name" data-toggle="collapse" data-target=".property__name .collapse">
 <h2></h2>
 <pre>$_name : string</pre>
@@ -398,6 +434,12 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 <a id="constant_ENTRY_ID"> </a><div class="element clickable constant  constant_ENTRY_ID" data-toggle="collapse" data-target=".constant_ENTRY_ID .collapse">
 <h2>Collection id index</h2>
 <pre>ENTRY_ID </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_ENTRY_JOURNAL_SIZE"> </a><div class="element clickable constant  constant_ENTRY_JOURNAL_SIZE" data-toggle="collapse" data-target=".constant_ENTRY_JOURNAL_SIZE .collapse">
+<h2>Collection 'journalSize' index</h2>
+<pre>ENTRY_JOURNAL_SIZE </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
@@ -444,7 +486,7 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2012-12-18T02:15:05+02:00.<br></footer></div>
+            generated on 2013-01-03T23:05:18+02:00.<br></footer></div>
 </div>
 </body>
 </html>

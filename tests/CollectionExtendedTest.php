@@ -118,13 +118,48 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         $resultingWaitForSyncAttribute = $collection->getWaitForSync();
         $resultingJournalSizeAttribute = $collection->getJournalSize();
 
+
+
+
         $this->assertTrue(true === $resultingWaitForSyncAttribute, 'WaitForSync should be true!');
         $this->assertTrue($resultingJournalSizeAttribute == 1024*1024*2, 'JournalSize should be 2MB!');
         $collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
 
         $response = $collectionHandler->add($collection);
-        
-        #$collection->properties();                        
+
+        // here we check the collectionHandler->getProperties function
+        $properties = $collectionHandler->getProperties($collection->getId());
+        $this->assertObjectHasAttribute('_waitForSync', $properties, 'waiForSync field should exist, empty or with an id');
+        $this->assertObjectHasAttribute('_journalSize', $properties, 'journalSize field should exist, empty or with an id');
+
+        // here we check the collectionHandler->unload() function
+        // First fill it a bit to make sure it's loaded...
+        $documentHandler = $this->documentHandler;
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $documentId = $documentHandler->add($collection->getId(), $document);
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2'));
+        $documentId = $documentHandler->add($collection->getId(), $document);
+
+        $arrayOfDocuments = $collectionHandler->getAllIds($collection->getId());
+
+        $this->assertTrue(true === (is_array($arrayOfDocuments) && (count($arrayOfDocuments)==2)), 'Should return an array of 2 document ids!');
+
+        //now check
+        $unloadResult = $collectionHandler->unload($collection->getId());
+        $unloadResult = $unloadResult->getJson();
+        $this->assertArrayHasKey('status', $unloadResult, 'status field should exist');
+        $this->assertTrue(($unloadResult['status'] == 4 || $unloadResult['status'] == 2), 'Collection status should be 4 (in the process of being unloaded) or 2 (unloaded). Found: '.$unloadResult['status'].'!');
+
+
+        // here we check the collectionHandler->load() function
+        $loadResult = $collectionHandler->load($collection->getId());
+        $loadResult = $loadResult->getJson();
+        $this->assertArrayHasKey('status', $loadResult, 'status field should exist');
+        $this->assertTrue($loadResult['status'] == 3, 'Collection status should be 3(loaded). Found: '.$unloadResult['status'].'!');
+
+
         $resultingWaitForSyncAttribute = $collection->getWaitForSync();
         $resultingJournalSizeAttribute = $collection->getJournalSize();
         $this->assertTrue(true === $resultingWaitForSyncAttribute, 'Server waitForSync should return true!');
@@ -175,6 +210,51 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         $arrayOfDocuments = $collectionHandler->getAllIds($collection->getId());
        
         $this->assertTrue(true === (is_array($arrayOfDocuments) && (count($arrayOfDocuments)==2)), 'Should return an array of 2 document ids!');
+
+        $response = $collectionHandler->delete($collection);
+        $this->assertTrue(true === $response, 'Delete should return true!');
+    }
+
+   /**
+     * test for creating, filling with documents and truncating the collection.
+     */
+    public function testCreateFilAndTruncateCollection()
+    {
+        $collectionHandler = $this->collectionHandler;
+
+        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
+        $response = $collectionHandler->add($collection);
+
+        $documentHandler = $this->documentHandler;
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $documentId = $documentHandler->add($collection->getId(), $document);
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2'));
+        $documentId = $documentHandler->add($collection->getId(), $document);
+
+        $arrayOfDocuments = $collectionHandler->getAllIds($collection->getId());
+
+        $this->assertTrue(true === (is_array($arrayOfDocuments) && (count($arrayOfDocuments)==2)), 'Should return an array of 2 document ids!');
+
+        //truncate, given the collection object
+        $collectionHandler->truncate($collection);
+
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $documentId = $documentHandler->add($collection->getId(), $document);
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2'));
+        $documentId = $documentHandler->add($collection->getId(), $document);
+
+        $arrayOfDocuments = $collectionHandler->getAllIds($collection->getId());
+
+        $this->assertTrue(true === (is_array($arrayOfDocuments) && (count($arrayOfDocuments)==2)), 'Should return an array of 2 document ids!');
+
+        //truncate, given the collection id
+        $collectionHandler->truncate($collection->getId());
+
+
 
         $response = $collectionHandler->delete($collection);
         $this->assertTrue(true === $response, 'Delete should return true!');
