@@ -105,15 +105,30 @@ class CollectionHandler extends Handler {
   const OPTION_COUNT     = 'count';
 
   /**
+   * properties option
+   */
+  const OPTION_PROPERTIES     = 'properties';
+
+  /**
    * figures option
    */
   const OPTION_FIGURES   = 'figures';
   
   /**
+   * load option
+   */
+  const OPTION_LOAD  = 'load';
+  
+  /**
+   * unload option
+   */
+  const OPTION_UNLOAD  = 'unload';
+
+  /**
    * truncate option
    */
   const OPTION_TRUNCATE  = 'truncate';
-  
+
   /**
    * rename option
    */
@@ -137,6 +152,24 @@ class CollectionHandler extends Handler {
     return Collection::createFromArray($data);
   }
   
+  /**
+   * Get properties of a collection
+   *
+   * This will throw if the collection cannot be fetched from the server
+   *
+   * @throws Exception
+   * @param mixed $collectionId - collection id as a string or number
+   * @return Collection - the collection fetched from the server
+   */
+  public function getProperties($collectionId) {
+    $url = UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_PROPERTIES);
+    $response = $this->getConnection()->get($url);
+
+    $data = $response->getJson();
+
+    return Collection::createFromArray($data);
+  }
+
   /**
    * Get the number of documents in a collection
    * 
@@ -236,13 +269,17 @@ class CollectionHandler extends Handler {
    * @return mixed - id of collection created
    */
   public function create(Collection $collection) {
-    if ($collection->getWaitForSync() === NULL) {
+    if ($collection->getWaitForSync() === null) {
       $collection->setWaitForSync($this->getConnection()->getOption(ConnectionOptions::OPTION_WAIT_SYNC));
     }
 
-    #$type = $collection->getType() ? $collection->getType() : Collection::getDefaultType();
-    $params = array(Collection::ENTRY_NAME => $collection->getName(), Collection::ENTRY_WAIT_SYNC => $collection->getWaitForSync());
-    $response = $this->getConnection()->post(Urls::URL_COLLECTION, json_encode($params));
+    if ($collection->getJournalSize() === null) {
+        $collection->setJournalSize($this->getConnection()->getOption(ConnectionOptions::OPTION_JOURNAL_SIZE));
+    }
+
+    $type = $collection->getType() ? $collection->getType() : Collection::getDefaultType();
+    $params = array(Collection::ENTRY_NAME => $collection->getName(), Collection::ENTRY_TYPE => $type, Collection::ENTRY_WAIT_SYNC => $collection->getWaitForSync(), Collection::ENTRY_JOURNAL_SIZE => $collection->getJournalSize());
+    $response = $this->getConnection()->post(Urls::URL_COLLECTION, $this->getConnection()->json_encode_wrapper($params));
 
     $location = $response->getLocationHeader();
     if (!$location) {
@@ -274,7 +311,7 @@ class CollectionHandler extends Handler {
     $urlParams = array(self::OPTION_COLLECTION => $collectionId);
     $bodyParams = array(self::OPTION_TYPE => $type, self::OPTION_FIELDS => $attributes, self::OPTION_UNIQUE => $unique);
     $url = UrlHelper::appendParamsUrl(Urls::URL_INDEX, $urlParams); 
-    $response = $this->getConnection()->post($url, json_encode($bodyParams));
+    $response = $this->getConnection()->post($url, $this->getConnection()->json_encode_wrapper($bodyParams));
 
     $httpCode = $response->getHttpCode();
     switch ($httpCode) {
@@ -312,18 +349,13 @@ class CollectionHandler extends Handler {
    * @return bool - always true, will throw if there is an error
    */
   public function drop($collection) {
-    if ($collection instanceof Collection) {
-      $collectionId = $collection->getId();
-    }
-    else {
-      $collectionId = $collection;
-    }
+      $collectionId = $this->getCollectionId($collection);
 
-    if (!$collectionId || !(is_string($collectionId) || is_double($collectionId) || is_int($collectionId))) {
-      throw new ClientException('Cannot alter a collection without a collection id');
-    }
+      if ($this->isValidCollectionId($collectionId)) {
+          throw new ClientException('Cannot alter a collection without a collection id');
+      }
 
-    $result = $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId));
+      $result = $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId));
 
     return true;
   }
@@ -337,26 +369,65 @@ class CollectionHandler extends Handler {
    * @return bool - always true, will throw if there is an error
    */
   public function rename($collection, $name) {
-    if ($collection instanceof Collection) {
-      $collectionId = $collection->getId();
-    }
-    else {
-      $collectionId = $collection;
-    }
+      $collectionId = $this->getCollectionId($collection);
 
-    if (!$collectionId || !(is_string($collectionId) || is_double($collectionId) || is_int($collectionId))) {
-      throw new ClientException('Cannot alter a collection without a collection id');
-    }
+      if ($this->isValidCollectionId($collectionId)) {
+          throw new ClientException('Cannot alter a collection without a collection id');
+      }
 
-    $params = array(Collection::ENTRY_NAME => $newName);
-    $result = $this->getConnection()->put(UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_RENAME), json_encode($params));
+      $params = array(Collection::ENTRY_NAME => $name);
+    $result = $this->getConnection()->put(UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_RENAME), $this->getConnection()->json_encode_wrapper($params));
 
     return true;
   }
 
   /**
-   * Truncate a collection
+   * Load a collection into the server's memory
    * 
+   * This will load the given collection into the server's memory.
+   *
+   * @throws Exception
+   * @param mixed $collection - collection id as string or number or collection object
+   * @return bool - always true, will throw if there is an error
+   */
+  public function load($collection) {
+      $collectionId = $this->getCollectionId($collection);
+
+      if ($this->isValidCollectionId($collectionId)) {
+          throw new ClientException('Cannot alter a collection without a collection id');
+      }
+
+      $result = $this->getConnection()->put(UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_LOAD), '');
+
+    return $result;
+  }
+
+
+  /**
+   * Unload a collection from the server's memory
+   *
+   * This will unload the given collection from the server's memory.
+   *
+   * @throws Exception
+   * @param mixed $collection - collection id as string or number or collection object
+   * @return bool - always true, will throw if there is an error
+   */
+  public function unload($collection) {
+      $collectionId = $this->getCollectionId($collection);
+
+      if ($this->isValidCollectionId($collectionId)) {
+          throw new ClientException('Cannot alter a collection without a collection id');
+      }
+
+      $result = $this->getConnection()->put(UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_UNLOAD), '');
+
+    return $result;
+  }
+
+
+   /**
+   * Truncate a collection
+   *
    * This will remove all documents from the collection but will leave the metadata and indexes intact.
    *
    * @throws Exception
@@ -364,14 +435,9 @@ class CollectionHandler extends Handler {
    * @return bool - always true, will throw if there is an error
    */
   public function truncate($collection) {
-    if ($collection instanceof Collection) {
-      $collectionId = $collection->getId();
-    }
-    else {
-      $collectionId = $collection;
-    }
+      $collectionId = $this->getCollectionId($collection);
 
-    if (!$collectionId || !(is_string($collectionId) || is_double($collectionId) || is_int($collectionId))) {
+      if ($this->isValidCollectionId($collectionId)) {
       throw new ClientException('Cannot alter a collection without a collection id');
     }
 
@@ -379,8 +445,8 @@ class CollectionHandler extends Handler {
 
     return true;
   }
-  
-  /**
+
+      /**
    * Get document(s) by specifying an example
    * 
    * This will throw if the list cannot be fetched from the server
@@ -423,11 +489,12 @@ class CollectionHandler extends Handler {
     
     $data = array(self::OPTION_COLLECTION => $collectionId, self::OPTION_EXAMPLE => $document->getAll(array('ignoreHiddenAttributes'=>true)));
 
-    $response = $this->getConnection()->put(Urls::URL_EXAMPLE, json_encode($data));
+    $response = $this->getConnection()->put(Urls::URL_EXAMPLE, $this->getConnection()->json_encode_wrapper($data));
     
     return new Cursor($this->getConnection(), $response->getJson(), $options );
   }  
   
+
   /**
    * Get document(s) by specifying range
    * 
@@ -458,9 +525,9 @@ class CollectionHandler extends Handler {
    * @return array - documents matching the example [0...n]
    */
   public function range($collectionId, $attribute, $left, $right, $options = array()) {
-    $closed = NULL;
-    $skip = NULL;
-    $limit = NULL;
+    $closed = null;
+    $skip = null;
+    $limit = null;
     $sanitize = false;
     $options = array_merge($options, $this->getCursorOptions($sanitize));
     extract($options, EXTR_IF_EXISTS);
@@ -474,7 +541,7 @@ class CollectionHandler extends Handler {
     if ($skip) {$data[self::OPTION_SKIP] = $skip;};
     if ($limit) {$data[self::OPTION_LIMIT] = $limit;};
    
-    $response = $this->getConnection()->put(Urls::URL_RANGE, json_encode($data));
+    $response = $this->getConnection()->put(Urls::URL_RANGE, $this->getConnection()->json_encode_wrapper($data));
     
     return new Cursor($this->getConnection(), $response->getJson(), $options );
   }    
@@ -509,9 +576,9 @@ class CollectionHandler extends Handler {
    * @return array - documents matching the example [0...n]
    */
   public function near($collectionId, $latitude, $longitude, $options = array()) {
-    $distance = NULL;
-    $skip = NULL;
-    $limit = NULL;
+    $distance = null;
+    $skip = null;
+    $limit = null;
     $sanitize = false;
     $options = array_merge($options, $this->getCursorOptions($sanitize));
     extract($options, EXTR_IF_EXISTS);
@@ -520,7 +587,7 @@ class CollectionHandler extends Handler {
     if ($skip) {$data[self::OPTION_SKIP] = $skip;};
     if ($limit) {$data[self::OPTION_LIMIT] = $limit;};
     if ($distance) {$data[self::OPTION_DISTANCE] = $distance;};
-    $response = $this->getConnection()->put(Urls::URL_NEAR, json_encode($data));
+    $response = $this->getConnection()->put(Urls::URL_NEAR, $this->getConnection()->json_encode_wrapper($data));
 
     return new Cursor($this->getConnection(), $response->getJson(), $options);
   }    
@@ -556,9 +623,9 @@ class CollectionHandler extends Handler {
    * @return array - documents matching the example [0...n]
     */
   public function within($collectionId, $latitude, $longitude, $radius, $options = array()) {
-    $distance = NULL;
-    $skip = NULL;
-    $limit = NULL;
+    $distance = null;
+    $skip = null;
+    $limit = null;
     $sanitize = false;
     $options = array_merge($options, $this->getCursorOptions($sanitize));
     extract($options, EXTR_IF_EXISTS);
@@ -567,7 +634,7 @@ class CollectionHandler extends Handler {
     if ($skip) {$data[self::OPTION_SKIP] = $skip;};
     if ($limit) {$data[self::OPTION_LIMIT] = $limit;};
     if ($distance) {$data[self::OPTION_DISTANCE] = $distance;};
-    $response = $this->getConnection()->put(Urls::URL_WITHIN, json_encode($data));
+    $response = $this->getConnection()->put(Urls::URL_WITHIN, $this->getConnection()->json_encode_wrapper($data));
 
     return new Cursor($this->getConnection(), $response->getJson(), $options);
   }    
@@ -598,7 +665,8 @@ class CollectionHandler extends Handler {
 
     return $ids;
   }
-    
+
+
   /**
    * Return an array of cursor options
    *
@@ -609,6 +677,41 @@ class CollectionHandler extends Handler {
     return array(
       Cursor::ENTRY_SANITIZE => $sanitize,
     );
-  }  
-  
+  }
+    /**
+     * Checks if the collectionId given, is valid. Returns true if it is, or false if it is not.
+     *
+     * @param $collectionId
+     *
+     * @return bool
+     */
+    public function isValidCollectionId($collectionId)
+    {
+        return !$collectionId || !(is_string($collectionId) || is_double($collectionId) || is_int($collectionId));
+    }
+
+
+    /**
+     * Gets the collectionId from the given collectionObject or string/integer
+     *
+     * @param mixed $collection
+     *
+     * @return mixed
+     */
+    public function getCollectionId($collection)
+    {
+        if ($collection instanceof Collection) {
+            $collectionId = $collection->getId();
+
+            return $collectionId;
+        }
+        else {
+            $collectionId = $collection;
+
+            return $collectionId;
+        }
+    }
+
+
+
 }

@@ -26,7 +26,7 @@ class ValueValidator {
    * @return void - will throw if an invalid value type is passed
    */
   public static function validate($value) {
-    if (is_string($value) || is_int($value) || is_double($value) || is_bool($value)) {
+    if (is_string($value) || is_int($value) || is_double($value) || is_bool($value) || is_null($value)) {
       // type is allowed
       return;
     }

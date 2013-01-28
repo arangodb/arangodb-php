@@ -70,11 +70,31 @@ class ConnectionOptions implements \ArrayAccess {
    * Update policy index constant
    */
   const OPTION_UPDATE_POLICY = 'policy';
+
+  /**
+   * Update keepnull constant
+   */
+  const OPTION_UPDATE_KEEPNULL = 'keepNull';
+
+  /**
+   * Replace policy index constant
+   */
+  const OPTION_REPLACE_POLICY = 'policy';
+  
+ /**
+   * Delete policy index constant
+   */
+  const OPTION_DELETE_POLICY = 'policy';
   
   /**
    * Wait for sync index constant
    */
   const OPTION_WAIT_SYNC     = 'waitForSync';
+
+ /**
+   * Wait for sync index constant
+   */
+  const OPTION_JOURNAL_SIZE     = 'journalSize';
 
   /**
    * Authentication user name
@@ -100,6 +120,21 @@ class ConnectionOptions implements \ArrayAccess {
    * Reconnect flag
    */
   const OPTION_RECONNECT     = 'Reconnect';
+  
+  /**
+   * Batch flag
+   */
+  const OPTION_BATCH     = 'Batch';
+
+  /**
+   * Batchpart flag
+   */
+  const OPTION_BATCHPART     = 'BatchPart';
+  
+  /**
+   * UTF-8 CHeck Flag
+   */
+  const OPTION_CHECK_UTF8_CONFORM     = 'CheckUtf8Conform';
   
   /**
    * Set defaults, use options provided by client and validate them
@@ -194,20 +229,26 @@ class ConnectionOptions implements \ArrayAccess {
    */
   private static function getDefaults() {
     return array(
-      self::OPTION_ENDPOINT      => NULL,
-      self::OPTION_HOST          => NULL,
-      self::OPTION_PORT          => DefaultValues::DEFAULT_PORT,
-      self::OPTION_TIMEOUT       => DefaultValues::DEFAULT_TIMEOUT,
-      self::OPTION_CREATE        => DefaultValues::DEFAULT_CREATE,
-      self::OPTION_UPDATE_POLICY => DefaultValues::DEFAULT_UPDATE_POLICY,
-      self::OPTION_REVISION      => NULL,
-      self::OPTION_WAIT_SYNC     => DefaultValues::DEFAULT_WAIT_SYNC,
-      self::OPTION_CONNECTION    => DefaultValues::DEFAULT_CONNECTION,
-      self::OPTION_TRACE         => NULL,
-      self::OPTION_AUTH_USER     => NULL,
-      self::OPTION_AUTH_PASSWD   => NULL,
-      self::OPTION_AUTH_TYPE     => NULL,
-      self::OPTION_RECONNECT     => false,
+      self::OPTION_ENDPOINT           => NULL,
+      self::OPTION_HOST               => NULL,
+      self::OPTION_PORT               => DefaultValues::DEFAULT_PORT,
+      self::OPTION_TIMEOUT            => DefaultValues::DEFAULT_TIMEOUT,
+      self::OPTION_CREATE             => DefaultValues::DEFAULT_CREATE,
+      self::OPTION_UPDATE_POLICY      => DefaultValues::DEFAULT_UPDATE_POLICY,
+      self::OPTION_REPLACE_POLICY     => DefaultValues::DEFAULT_REPLACE_POLICY,
+      self::OPTION_DELETE_POLICY      => DefaultValues::DEFAULT_DELETE_POLICY,
+      self::OPTION_REVISION           => NULL,
+      self::OPTION_WAIT_SYNC          => DefaultValues::DEFAULT_WAIT_SYNC,
+      self::OPTION_JOURNAL_SIZE       => DefaultValues::DEFAULT_JOURNAL_SIZE,
+      self::OPTION_CONNECTION         => DefaultValues::DEFAULT_CONNECTION,
+      self::OPTION_TRACE              => NULL,
+      self::OPTION_AUTH_USER          => NULL,
+      self::OPTION_AUTH_PASSWD        => NULL,
+      self::OPTION_AUTH_TYPE          => NULL,
+      self::OPTION_RECONNECT          => false,
+      self::OPTION_BATCH              => false,
+      self::OPTION_BATCHPART          => false,
+      self::OPTION_CHECK_UTF8_CONFORM => DefaultValues::DEFAULT_CHECK_UTF8_CONFORM,
     );
   }
 
@@ -272,6 +313,8 @@ class ConnectionOptions implements \ArrayAccess {
     }
 
     UpdatePolicy::validate($this->_values[self::OPTION_UPDATE_POLICY]);
+    UpdatePolicy::validate($this->_values[self::OPTION_REPLACE_POLICY]);
+    UpdatePolicy::validate($this->_values[self::OPTION_DELETE_POLICY]);
   }
 
 }

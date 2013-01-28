@@ -113,6 +113,15 @@ class Statement {
     }
   }
   
+   /**
+   * Return the connection object
+   *
+   * @return Connection - the connection object
+   */
+  protected function getConnection() {
+    return $this->_connection;
+  }
+  
   /**
    * Execute the statement
    * 
@@ -124,7 +133,7 @@ class Statement {
    */
   public function execute() {
     $data = $this->buildData();
-    $response = $this->_connection->post(Urls::URL_CURSOR, json_encode($data));
+    $response = $this->_connection->post(Urls::URL_CURSOR, $this->getConnection()->json_encode_wrapper($data));
 
     return new Cursor($this->_connection, $response->getJson(), $this->getCursorOptions());
   }
@@ -140,7 +149,7 @@ class Statement {
    */
   public function explain() {
     $data = $this->buildData();
-    $response = $this->_connection->post(Urls::URL_EXPLAIN, json_encode($data));
+    $response = $this->_connection->post(Urls::URL_EXPLAIN, $this->getConnection()->json_encode_wrapper($data));
     
     return $response->getJson();
   }
@@ -156,7 +165,7 @@ class Statement {
    */
   public function validate() {
     $data = $this->buildData();
-    $response = $this->_connection->post(Urls::URL_QUERY, json_encode($data));
+    $response = $this->_connection->post(Urls::URL_QUERY, $this->getConnection()->json_encode_wrapper($data));
 
     return $response->getJson();
   }

@@ -68,13 +68,18 @@
 <li class="method public "><a href="#method_figures" title="figures :: Get figures for a collection"><span class="description">Get figures for a collection</span><pre>figures()</pre></a></li>
 <li class="method public "><a href="#method_get" title="get :: Get information about a collection"><span class="description">Get information about a collection</span><pre>get()</pre></a></li>
 <li class="method public "><a href="#method_getAllIds" title="getAllIds :: Get the list of all documents' ids from a collection"><span class="description">Get the list of all documents' ids from a collection</span><pre>getAllIds()</pre></a></li>
+<li class="method public "><a href="#method_getCollectionId" title="getCollectionId :: Gets the collectionId from the given collectionObject or string/integer"><span class="description">Gets the collectionId from the given collectionObject or string/integer</span><pre>getCollectionId()</pre></a></li>
 <li class="method public "><a href="#method_getCount" title="getCount :: Get the number of documents in a collection"><span class="description">Get the number of documents in a collection</span><pre>getCount()</pre></a></li>
 <li class="method public "><a href="#method_getFigures" title="getFigures :: Get figures for a collection"><span class="description">Get figures for a collection</span><pre>getFigures()</pre></a></li>
+<li class="method public "><a href="#method_getProperties" title="getProperties :: Get properties of a collection"><span class="description">Get properties of a collection</span><pre>getProperties()</pre></a></li>
 <li class="method public "><a href="#method_index" title="index :: Creates an index on a collection on the server"><span class="description">Creates an index on a collection on the server</span><pre>index()</pre></a></li>
+<li class="method public "><a href="#method_isValidCollectionId" title="isValidCollectionId :: Checks if the collectionId given, is valid."><span class="description">Checks if the collectionId given, is valid.</span><pre>isValidCollectionId()</pre></a></li>
+<li class="method public "><a href="#method_load" title="load :: Load a collection into the server's memory"><span class="description">Load a collection into the server's memory</span><pre>load()</pre></a></li>
 <li class="method public "><a href="#method_near" title="near :: Get document(s) by specifying near"><span class="description">Get document(s) by specifying near</span><pre>near()</pre></a></li>
 <li class="method public "><a href="#method_range" title="range :: Get document(s) by specifying range"><span class="description">Get document(s) by specifying range</span><pre>range()</pre></a></li>
 <li class="method public "><a href="#method_rename" title="rename :: Rename a collection"><span class="description">Rename a collection</span><pre>rename()</pre></a></li>
 <li class="method public "><a href="#method_truncate" title="truncate :: Truncate a collection"><span class="description">Truncate a collection</span><pre>truncate()</pre></a></li>
+<li class="method public "><a href="#method_unload" title="unload :: Unload a collection from the server's memory"><span class="description">Unload a collection from the server's memory</span><pre>unload()</pre></a></li>
 <li class="method public "><a href="#method_within" title="within :: Get document(s) by specifying within"><span class="description">Get document(s) by specifying within</span><pre>within()</pre></a></li>
 </ul>
 </li>
@@ -89,7 +94,7 @@
                     <ul></ul>
 </li>
 <li class="nav-header private">» Private
-                    <ul><li class="property private inherited"><a href="#property__connection" title="$_connection :: Connection object"><span class="description">Connection object</span><pre>$_connection</pre></a></li></ul>
+                    <ul><li class="property private inherited"><a href="#property__connection" title="$_connection :: Connection object"><span class="description"></span><pre>$_connection</pre></a></li></ul>
 </li>
 <li class="nav-header">
 <i class="icon-custom icon-constant"></i> Constants
@@ -106,7 +111,9 @@
 <li class="constant  "><a href="#constant_OPTION_LATITUDE" title="OPTION_LATITUDE :: latidude parameter"><span class="description">latidude parameter</span><pre>OPTION_LATITUDE</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_LEFT" title="OPTION_LEFT :: left parameter"><span class="description">left parameter</span><pre>OPTION_LEFT</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_LIMIT" title="OPTION_LIMIT :: limit parameter"><span class="description">limit parameter</span><pre>OPTION_LIMIT</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_LOAD" title="OPTION_LOAD :: load option"><span class="description">load option</span><pre>OPTION_LOAD</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_LONGITUDE" title="OPTION_LONGITUDE :: longitude parameter"><span class="description">longitude parameter</span><pre>OPTION_LONGITUDE</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_PROPERTIES" title="OPTION_PROPERTIES :: properties option"><span class="description">properties option</span><pre>OPTION_PROPERTIES</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_RADIUS" title="OPTION_RADIUS :: radius parameter"><span class="description">radius parameter</span><pre>OPTION_RADIUS</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_RENAME" title="OPTION_RENAME :: rename option"><span class="description">rename option</span><pre>OPTION_RENAME</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_RIGHT" title="OPTION_RIGHT :: right parameter"><span class="description">right parameter</span><pre>OPTION_RIGHT</pre></a></li>
@@ -114,6 +121,7 @@
 <li class="constant  "><a href="#constant_OPTION_TRUNCATE" title="OPTION_TRUNCATE :: truncate option"><span class="description">truncate option</span><pre>OPTION_TRUNCATE</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_TYPE" title="OPTION_TYPE :: count unique"><span class="description">count unique</span><pre>OPTION_TYPE</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_UNIQUE" title="OPTION_UNIQUE :: count unique"><span class="description">count unique</span><pre>OPTION_UNIQUE</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_UNLOAD" title="OPTION_UNLOAD :: unload option"><span class="description">unload option</span><pre>OPTION_UNLOAD</pre></a></li>
 </ul>
 </li>
 </ul>
@@ -213,10 +221,19 @@ appropriate HTTP requests to the server.</p></div>
 <div class="subelement argument">
 <h4>$options</h4>
 <code>bool</code><code>array</code><ul>
-<li>optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options. </li>
+<li>optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.</li>
 </ul>
 
-<p>Options are : <li>'sanitize' - true to remove _id and _rev attributes from result documents. Defaults to false.</li> <li>'hiddenAttributes' - set an array of hidden attributes for created documents. <p> This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. The difference is, that if you're returning a resultset of documents, the getall() is already called and the hidden attributes would not be applied to the attributes. </p> </li> </p>
+<p>Options are :
+<li>'sanitize' - true to remove _id and _rev attributes from result documents. Defaults to false.</li>
+<li>'hiddenAttributes' - set an array of hidden attributes for created documents.
+<p>
+                               This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.
+                               The difference is, that if you're returning a resultset of documents, the getall() is already called
+                               and the hidden attributes would not be applied to the attributes.
+</p>
+</li>
+</p>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -395,6 +412,21 @@ appropriate HTTP requests to the server.</p></div>
 <code>array</code>- ids of documents in the collection</div>
 </div></div>
 </div>
+<a id="method_getCollectionId"></a><div class="element clickable method public method_getCollectionId" data-toggle="collapse" data-target=".method_getCollectionId .collapse">
+<h2>Gets the collectionId from the given collectionObject or string/integer</h2>
+<pre>getCollectionId(mixed $collection) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collection</h4>
+<code>mixed</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>mixed</code></div>
+</div></div>
+</div>
 <a id="method_getCount"></a><div class="element clickable method public method_getCount" data-toggle="collapse" data-target=".method_getCount .collapse">
 <h2>Get the number of documents in a collection</h2>
 <pre>getCount(mixed $collectionId) : int</pre>
@@ -449,6 +481,29 @@ appropriate HTTP requests to the server.</p></div>
 <code>array</code>- the figures for the collection</div>
 </div></div>
 </div>
+<a id="method_getProperties"></a><div class="element clickable method public method_getProperties" data-toggle="collapse" data-target=".method_getProperties .collapse">
+<h2>Get properties of a collection</h2>
+<pre>getProperties(mixed $collectionId) : <a href="../classes/triagens.ArangoDb.Collection.html">\triagens\ArangoDb\Collection</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will throw if the collection cannot be fetched from the server</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>collection id as a string or number</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/triagens.ArangoDb.Collection.html">\triagens\ArangoDb\Collection</a></code>- the collection fetched from the server</div>
+</div></div>
+</div>
 <a id="method_index"></a><div class="element clickable method public method_index" data-toggle="collapse" data-target=".method_index .collapse">
 <h2>Creates an index on a collection on the server</h2>
 <pre>index(mixed $collectionId, string $type, array $attributes, boolean $unique) : mixed</pre>
@@ -492,6 +547,41 @@ appropriate HTTP requests to the server.</p></div>
 <code>mixed</code>- id of collection created</div>
 </div></div>
 </div>
+<a id="method_isValidCollectionId"></a><div class="element clickable method public method_isValidCollectionId" data-toggle="collapse" data-target=".method_isValidCollectionId .collapse">
+<h2>Checks if the collectionId given, is valid.</h2>
+<pre>isValidCollectionId($collectionId) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Returns true if it is, or false if it is not.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$collectionId</h4></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a id="method_load"></a><div class="element clickable method public method_load" data-toggle="collapse" data-target=".method_load .collapse">
+<h2>Load a collection into the server's memory</h2>
+<pre>load(mixed $collection) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will load the given collection into the server's memory.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collection</h4>
+<code>mixed</code><ul>
+<li>collection id as string or number or collection object</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>bool</code>- always true, will throw if there is an error</div>
+</div></div>
+</div>
 <a id="method_near"></a><div class="element clickable method public method_near" data-toggle="collapse" data-target=".method_near .collapse">
 <h2>Get document(s) by specifying near</h2>
 <pre>near(mixed $collectionId, double $latitude, double $longitude, array $options) : array</pre>
@@ -520,10 +610,22 @@ appropriate HTTP requests to the server.</p></div>
 <div class="subelement argument">
 <h4>$options</h4>
 <code>array</code><ul>
-<li>optional array of options. </li>
+<li>optional array of options.</li>
 </ul>
 
-<p>Options are : <li>'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li> <li>'hiddenAttributes' - Set an array of hidden attributes for created documents. <p> This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. The difference is, that if you're returning a resultset of documents, the getall() is already called and the hidden attributes would not be applied to the attributes. </p> <li>'distance' - If given, the attribute key used to store the distance. (optional) <li>'skip' - The documents to skip in the query. <li>'limit' - The maximal amount of documents to return. </li> </p>
+<p>Options are :
+<li>'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+<li>'hiddenAttributes' - Set an array of hidden attributes for created documents.
+<p>
+                               This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.
+                               The difference is, that if you're returning a resultset of documents, the getall() is already called
+                               and the hidden attributes would not be applied to the attributes.
+</p>
+<li>'distance' - If given, the attribute key used to store the distance. (optional)
+<li>'skip' - The documents to skip in the query.
+<li>'limit' - The maximal amount of documents to return.
+</li>
+</p>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -569,10 +671,22 @@ appropriate HTTP requests to the server.</p></div>
 <div class="subelement argument">
 <h4>$options</h4>
 <code>array</code><ul>
-<li>optional array of options. </li>
+<li>optional array of options.</li>
 </ul>
 
-<p>Options are : <li>'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li> <li>'hiddenAttributes' - Set an array of hidden attributes for created documents. <p> This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. The difference is, that if you're returning a resultset of documents, the getall() is already called and the hidden attributes would not be applied to the attributes. </p> <li>'closed' - If true, use interval including left and right, otherwise exclude right, but include left. <li>'skip' - The documents to skip in the query. <li>'limit' - The maximal amount of documents to return. </li> </p>
+<p>Options are :
+<li>'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+<li>'hiddenAttributes' - Set an array of hidden attributes for created documents.
+<p>
+                               This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.
+                               The difference is, that if you're returning a resultset of documents, the getall() is already called
+                               and the hidden attributes would not be applied to the attributes.
+</p>
+<li>'closed' - If true, use interval including left and right, otherwise exclude right, but include left.
+<li>'skip' - The documents to skip in the query.
+<li>'limit' - The maximal amount of documents to return.
+</li>
+</p>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -636,6 +750,29 @@ appropriate HTTP requests to the server.</p></div>
 <code>bool</code>- always true, will throw if there is an error</div>
 </div></div>
 </div>
+<a id="method_unload"></a><div class="element clickable method public method_unload" data-toggle="collapse" data-target=".method_unload .collapse">
+<h2>Unload a collection from the server's memory</h2>
+<pre>unload(mixed $collection) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will unload the given collection from the server's memory.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collection</h4>
+<code>mixed</code><ul>
+<li>collection id as string or number or collection object</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>bool</code>- always true, will throw if there is an error</div>
+</div></div>
+</div>
 <a id="method_within"></a><div class="element clickable method public method_within" data-toggle="collapse" data-target=".method_within .collapse">
 <h2>Get document(s) by specifying within</h2>
 <pre>within(mixed $collectionId, double $latitude, double $longitude, int $radius, array $options) : array</pre>
@@ -670,10 +807,22 @@ appropriate HTTP requests to the server.</p></div>
 <div class="subelement argument">
 <h4>$options</h4>
 <code>array</code><ul>
-<li>optional array of options. </li>
+<li>optional array of options.</li>
 </ul>
 
-<p>Options are : <li>'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li> <li>'hiddenAttributes' - Set an array of hidden attributes for created documents. <p> This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. The difference is, that if you're returning a resultset of documents, the getall() is already called and the hidden attributes would not be applied to the attributes. </p> <li>'distance' - If given, the attribute key used to store the distance. (optional) <li>'skip' - The documents to skip in the query. <li>'limit' - The maximal amount of documents to return. </li> </p>
+<p>Options are :
+<li>'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+<li>'hiddenAttributes' - Set an array of hidden attributes for created documents.
+<p>
+                               This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.
+                               The difference is, that if you're returning a resultset of documents, the getall() is already called
+                               and the hidden attributes would not be applied to the attributes.
+</p>
+<li>'distance' - If given, the attribute key used to store the distance. (optional)
+<li>'skip' - The documents to skip in the query.
+<li>'limit' - The maximal amount of documents to return.
+</li>
+</p>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -721,7 +870,7 @@ appropriate HTTP requests to the server.</p></div>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
 <a id="property__connection"> </a><div class="element clickable property private property__connection" data-toggle="collapse" data-target=".property__connection .collapse">
-<h2>Connection object</h2>
+<h2></h2>
 <pre>$_connection </pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
@@ -729,7 +878,7 @@ appropriate HTTP requests to the server.</p></div>
 <table class="table table-bordered">
 <tr>
 <th>param</th>
-<td><p>Connection</p></td>
+<td></td>
 </tr>
 <tr>
 <th>inherited_from</th>
@@ -812,9 +961,21 @@ appropriate HTTP requests to the server.</p></div>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="constant_OPTION_LOAD"> </a><div class="element clickable constant  constant_OPTION_LOAD" data-toggle="collapse" data-target=".constant_OPTION_LOAD .collapse">
+<h2>load option</h2>
+<pre>OPTION_LOAD </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="constant_OPTION_LONGITUDE"> </a><div class="element clickable constant  constant_OPTION_LONGITUDE" data-toggle="collapse" data-target=".constant_OPTION_LONGITUDE .collapse">
 <h2>longitude parameter</h2>
 <pre>OPTION_LONGITUDE </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_PROPERTIES"> </a><div class="element clickable constant  constant_OPTION_PROPERTIES" data-toggle="collapse" data-target=".constant_OPTION_PROPERTIES .collapse">
+<h2>properties option</h2>
+<pre>OPTION_PROPERTIES </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
@@ -860,14 +1021,20 @@ appropriate HTTP requests to the server.</p></div>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="constant_OPTION_UNLOAD"> </a><div class="element clickable constant  constant_OPTION_UNLOAD" data-toggle="collapse" data-target=".constant_OPTION_UNLOAD .collapse">
+<h2>unload option</h2>
+<pre>OPTION_UNLOAD </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
-            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-12-05T20:49:15+02:00.<br></footer></div>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2013-01-03T23:05:18+02:00.<br></footer></div>
 </div>
 </body>
 </html>

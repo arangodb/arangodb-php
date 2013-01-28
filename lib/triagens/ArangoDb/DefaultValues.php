@@ -32,6 +32,11 @@ abstract class DefaultValues {
   const DEFAULT_WAIT_SYNC     = false;
   
   /**
+   * Default value for waitForSync (fsync all data to disk on document updates/insertions/deletions)
+   */
+  const DEFAULT_JOURNAL_SIZE     = 33554432;
+
+  /**
    * Default value for createCollection (create the collection on the fly when the first document is added to an unknown collection)
    */
   const DEFAULT_CREATE        = false;
@@ -45,4 +50,20 @@ abstract class DefaultValues {
    * Default update policy
    */
   const DEFAULT_UPDATE_POLICY = UpdatePolicy::ERROR;
+
+  /**
+   * Default replace policy
+   */
+  const DEFAULT_REPLACE_POLICY = UpdatePolicy::ERROR;
+
+  /**
+   * Default delete policy
+   */
+  const DEFAULT_DELETE_POLICY = UpdatePolicy::ERROR;
+
+  /**
+   * Default value for checking if data is UTF-8 conform
+   */
+  const DEFAULT_CHECK_UTF8_CONFORM     = true;
+  
 }

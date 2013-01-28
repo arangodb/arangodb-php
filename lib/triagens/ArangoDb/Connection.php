@@ -25,7 +25,7 @@ class Connection {
    * 
    * @var string
    */
-  public static  $_apiVersion = '1.0.1';
+  public static  $_apiVersion = '1.1.0';
 
   /**
    * Connection options
@@ -48,6 +48,41 @@ class Connection {
    */
   private $_useKeepAlive;
 
+  /**
+   * Batches Array
+   * 
+   * @var array 
+   */
+  private $_batches = array();
+  
+  
+  /**
+   * $_activeBatch object
+   * 
+   * @var array 
+   */
+   
+   
+  private $_activeBatch = null;
+  
+   /**
+   * $_captureBatch boolean
+   * 
+   * @var array 
+   */
+   
+   
+  private $_captureBatch = false;
+  
+   /**
+   * $_captureBatch boolean
+   * 
+   * @var array 
+   */
+   
+   
+  private $_batchRequest = false;
+  
   /**
    * Set up the connection object, validate the options provided
    *
@@ -193,7 +228,7 @@ class Connection {
    * @param HttpResponse $response - the response as supplied by the server
    * @return HttpResponse
    */
-  private function parseResponse(HttpResponse $response) {
+  public function parseResponse(HttpResponse $response) {
     $httpCode = $response->getHttpCode();
 
     if ($httpCode < 200 || $httpCode >= 400) {
@@ -205,6 +240,7 @@ class Connection {
         // check if we can find details in the response body
         $details = json_decode($body, true);
         if (is_array($details)) {
+         
           // yes, we got details
           $exception = new ServerException($response->getResult(), $httpCode);
           $exception->setDetails($details);
@@ -238,7 +274,29 @@ class Connection {
     HttpHelper::validateMethod($method);
 
     // create request data
-    $request = HttpHelper::buildRequest($this->_options, $method, $url, $data);
+    if ($this->_batchRequest === false){
+      
+      if($this->_captureBatch===true){
+        $this->_options->offsetSet(ConnectionOptions::OPTION_BATCHPART, true);
+        $request = HttpHelper::buildRequest($this->_options, $method, $url, $data);
+        $this->_options->offsetSet(ConnectionOptions::OPTION_BATCHPART, false);
+
+      }else{
+        $request = HttpHelper::buildRequest($this->_options, $method, $url, $data);
+      }
+      $batchPart = $this->doBatch($method, $request);
+      if (!is_null($batchPart) ){
+        return $batchPart;
+      }    
+    }else{
+      $this->_batchRequest=false;
+
+      $this->_options->offsetSet(ConnectionOptions::OPTION_BATCH, true);
+                                         
+      $request = HttpHelper::buildRequest($this->_options, $method, $url, $data);
+      $this->_options->offsetSet(ConnectionOptions::OPTION_BATCH, false);
+    }
+    
     
     $traceFunc = $this->_options[ConnectionOptions::OPTION_TRACE];
     if ($traceFunc) {
@@ -253,16 +311,13 @@ class Connection {
     $setFunc = function($value) {
       ini_set('default_socket_timeout', $value);
     };
-
     $scope = new Scope($getFunc, $setFunc);
     $setFunc($this->_options[ConnectionOptions::OPTION_TIMEOUT]);
-
     // open the socket. note: this might throw if the connection cannot be established
     $handle = $this->getHandle();
     if ($handle) {
       // send data and get response back
       $result = HttpHelper::transfer($handle, $request);
-
       if (!$this->_useKeepAlive) {
         // must close the connection
         fclose($handle);
@@ -290,4 +345,178 @@ class Connection {
     public static function getVersion() {
         return self::$_apiVersion;
     }
+    
+
+    /**
+     * Stop capturing commands
+     * @param array $options - Options
+     * @return Batch - Returns the active batch object
+     */
+    public function stopCaptureBatch($options=array()) {
+      $this->_captureBatch=false;
+      return $this->getActiveBatch();
+    }     
+
+
+    /**
+    * returns the active batch
+    *     
+    */
+    public function getActiveBatch(){
+      return $this->_activeBatch;
+    }
+
+    /**
+    * Sets the active Batch for this connection
+    * 
+    * @param Batch $batch - Sets the given batch as active
+    * @return the active batch
+    *     
+    */
+    public function setActiveBatch($batch){
+      $this->_activeBatch = $batch;
+      return $this->_activeBatch;
+    }
+    
+    
+    /**
+    * Sets the batch capture state (true, if capturing)
+    * 
+    * @param boolean $state true to turn on capture batch mode, false to turn it off
+    * 
+    * @return $state
+    */
+    public function setCaptureBatch($state){
+      $this->_captureBatch=$state;
+      return $this->_captureBatch;
+    }
+
+
+    /**
+    * Sets connection into Batchrequest mode. This is needed for some oprtations to act differently when in this mode
+    * 
+    * @param boolean $state sets the connection state to batch request, meaning it is crrently doing a batch request.
+    * 
+    * returns the active batch
+    *     
+    */
+    public function setBatchRequest($state){
+      $this->_batchRequest=$state;
+      return $this->_batchRequest;
+    }
+
+    
+    /**
+    * returns the active batch
+    *     
+    */
+    public function getBatches(){
+      return $this->_batches;
+    }
+
+
+    /**
+    * This is a helper function to executeRequest that captures requests if we're in batch mode
+    * 
+    * @param mixed $method - The method of the request (GET, POST...)
+    * 
+    * @param string $request - The request to process  
+    * 
+    * This checks if we're in batch mode and returns a placeholder object,
+    * since we need to return some object that is expected by the caller.
+    * if we're not in batch mode it doesn't return anything, and 
+    * 
+    * @return the Batchpart or null if not in batch capturing mode
+    */
+    private function doBatch($method, $request){
+      $batchPart=NULL;
+      if($this->_captureBatch===true){
+        
+        $batch=$this->getActiveBatch();
+
+        $batchPart = $batch->append($method, $request);
+      } 
+        # do batch processing
+      return $batchPart;
+      
+    }
+    
+   
+    /**
+    * This function checks that the encoding of a string is utf.
+    * It only checks for printable characters.
+    * 
+    * 
+    * @param array $string the data to check
+    * 
+    * @return boolean true if string is UTF-8, false if not
+    */     
+    public static function detect_utf($string){
+     if (preg_match('%^(?:
+          [\x09\x0A\x0D\x20-\x7E]            # ASCII
+        | [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
+        | \xE0[\xA0-\xBF][\x80-\xBF]         # excluding overlongs
+        | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}  # straight 3-byte
+        | \xED[\x80-\x9F][\x80-\xBF]         # excluding surrogates
+        | \xF0[\x90-\xBF][\x80-\xBF]{2}      # planes 1-3
+        | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
+        | \xF4[\x80-\x8F][\x80-\xBF]{2}      # plane 16
+    )*$%xs', $string)){
+        return true;
+      }
+    else
+      {
+        return false;    
+      }
+    }
+   
+   
+    /**
+    * This function checks that the encoding of the keys and
+    * values of the array are utf-8, recursively.
+    * It will raise an exception if it encounters wrong encoded strings.
+    * 
+    * @param array $data the data to check
+    * 
+    */  
+       public static function check_encoding($data){
+         foreach ($data as $key=>$value) {
+              if (!is_array($value)){
+                // check if the multibyte library function is installed and use it.
+                if (function_exists('mb_detect_encoding')) {
+                  // check with mb library
+                  if (mb_detect_encoding($key,'UTF-8',true) === false) throw new ClientException("Only UTF-8 encoded keys allowed. Wrong encoding in key string: ". $key);
+                  if (mb_detect_encoding($value,'UTF-8',true) === false) throw new ClientException("Only UTF-8 encoded values allowed. Wrong encoding in value string: ". $value);
+                 
+                } else {
+                  // fallback to preg_match checking
+                  if (self::detect_utf($key) == false) throw new ClientException("Only UTF-8 encoded keys allowed. Wrong encoding in key string: ". $key);
+                  if (self::detect_utf($value) == false) throw new ClientException("Only UTF-8 encoded values allowed. Wrong encoding in value string: ". $value);
+                } 
+              }else{
+                self::check_encoding($value);
+              }
+            }
+       }
+   
+
+   /**
+    * This is a json_encode() wrapper that also checks if the data is utf-8 conform.
+    * internally it calls the check_encoding() method. If that method does not throw
+    * an Exception, this method will happilly return the json_encoded data.
+    * 
+    * @param mixed $data the data to encode
+    * @param mixed $options the options for the json_encode() call
+    * 
+    * @return string the result of the json_encode
+    */
+    public function json_encode_wrapper($data, $options = NULL){
+      if ($this->_options[ConnectionOptions::OPTION_CHECK_UTF8_CONFORM] === true){
+        self::check_encoding($data);
+      }
+      $response = json_encode($data, $options);
+      return $response;
+    }
+    
+    
 }

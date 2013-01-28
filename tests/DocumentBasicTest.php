@@ -16,7 +16,7 @@ class DocumentBasicTest extends \PHPUnit_Framework_TestCase
         $this->connection = getConnection();
         $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
         $this->collection = new \triagens\ArangoDb\Collection();
-        $this->collection->setName('ArangoDB-PHP-TestSuite-TestCollection-01');
+        $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
         $this->collectionHandler->add($this->collection);
     }
 
@@ -60,7 +60,7 @@ class DocumentBasicTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         try {
-            $response = $this->collectionHandler->delete('ArangoDB-PHP-TestSuite-TestCollection-01');
+            $response = $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }

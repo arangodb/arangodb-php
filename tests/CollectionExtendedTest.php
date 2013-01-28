@@ -31,7 +31,7 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         $resultingAttribute = $collection->getWaitForSync();
         $this->assertTrue(null === $resultingAttribute, 'Default waitForSync in API should be NULL!');
 
-        $collection->setName('ArangoDB-PHP-TestSuite-TestCollection-01');
+        $collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
        
 
         $response = $collectionHandler->add($collection);
@@ -45,23 +45,125 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * test for creation, rename, and delete of a collection 
+     */
+    public function testCreateRenameAndDeleteCollection()
+    {
+        $collection = $this->collection;
+        $collectionHandler = $this->collectionHandler;
+
+
+        $collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
+       
+
+        $response = $collectionHandler->add($collection);
+
+        $this->assertTrue(is_numeric($response), 'Adding collection did not return an id!');
+
+        $resultingCollection = $collectionHandler->get($response);
+
+        $response = $collectionHandler->rename($resultingCollection, 'ArangoDB_PHP_TestSuite_TestCollection_01_renamed');
+        
+        $resultingCollectionRenamed = $collectionHandler->get( 'ArangoDB_PHP_TestSuite_TestCollection_01_renamed');
+        $newName=$resultingCollectionRenamed->getName();
+
+        $this->assertTrue($newName == 'ArangoDB_PHP_TestSuite_TestCollection_01_renamed', 'Collection was not renamed!');
+        $response = $collectionHandler->delete($resultingCollectionRenamed);
+        $this->assertTrue(true === $response, 'Delete should return true!');
+    }
+
+    /**
+     * test for creation, rename, and delete of a collection with wrong encoding
+     * 
+     * We expect an exception here:
+     * 
+     * @expectedException triagens\ArangoDb\ClientException
+     * 
+     */
+    public function testCreateRenameAndDeleteCollectionWithWrongEncoding()
+    {
+        $collection = $this->collection;
+        $collectionHandler = $this->collectionHandler;
+
+
+        $collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
+       
+
+        $response = $collectionHandler->add($collection);
+
+        $this->assertTrue(is_numeric($response), 'Adding collection did not return an id!');
+
+        $resultingCollection = $collectionHandler->get($response);
+
+        // inject wrong encoding       
+        $isoValue=iconv("UTF-8","ISO-8859-1//TRANSLIT","ArangoDB_PHP_TestSuite_TestCollection_01_renamedü");
+        
+        $response = $collectionHandler->rename($resultingCollection, $isoValue);
+
+        
+        $response = $collectionHandler->delete($resultingCollection);
+        $this->assertTrue(true === $response, 'Delete should return true!');
+    }
+
+    
+    /**
      * test for creation, get, and delete of a collection with waitForSync set to true
      */
-    public function testCreateGetAndDeleteCollectionWithWaitForSyncTrue()
+    public function testCreateGetAndDeleteCollectionWithWaitForSyncTrueAndJournalSizeSet()
     {
         $collection = $this->collection;
         $collectionHandler = $this->collectionHandler;
         $collection->setWaitForSync(true);
-        $resultingAttribute = $collection->getWaitForSync();
-        
-        $this->assertTrue(true === $resultingAttribute, 'WaitForSync should be true!');
-        $collection->setName('ArangoDB-PHP-TestSuite-TestCollection-01');
+        $collection->setJournalSize(1024*1024*2);
+        $resultingWaitForSyncAttribute = $collection->getWaitForSync();
+        $resultingJournalSizeAttribute = $collection->getJournalSize();
+
+
+
+
+        $this->assertTrue(true === $resultingWaitForSyncAttribute, 'WaitForSync should be true!');
+        $this->assertTrue($resultingJournalSizeAttribute == 1024*1024*2, 'JournalSize should be 2MB!');
+        $collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
 
         $response = $collectionHandler->add($collection);
-        
-        #$collection->properties();                        
-        $resultingAttribute = $collection->getWaitForSync();
-        $this->assertTrue(true === $resultingAttribute, 'Server waitForSync should return true!');
+
+        // here we check the collectionHandler->getProperties function
+        $properties = $collectionHandler->getProperties($collection->getId());
+        $this->assertObjectHasAttribute('_waitForSync', $properties, 'waiForSync field should exist, empty or with an id');
+        $this->assertObjectHasAttribute('_journalSize', $properties, 'journalSize field should exist, empty or with an id');
+
+        // here we check the collectionHandler->unload() function
+        // First fill it a bit to make sure it's loaded...
+        $documentHandler = $this->documentHandler;
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $documentId = $documentHandler->add($collection->getId(), $document);
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2'));
+        $documentId = $documentHandler->add($collection->getId(), $document);
+
+        $arrayOfDocuments = $collectionHandler->getAllIds($collection->getId());
+
+        $this->assertTrue(true === (is_array($arrayOfDocuments) && (count($arrayOfDocuments)==2)), 'Should return an array of 2 document ids!');
+
+        //now check
+        $unloadResult = $collectionHandler->unload($collection->getId());
+        $unloadResult = $unloadResult->getJson();
+        $this->assertArrayHasKey('status', $unloadResult, 'status field should exist');
+        $this->assertTrue(($unloadResult['status'] == 4 || $unloadResult['status'] == 2), 'Collection status should be 4 (in the process of being unloaded) or 2 (unloaded). Found: '.$unloadResult['status'].'!');
+
+
+        // here we check the collectionHandler->load() function
+        $loadResult = $collectionHandler->load($collection->getId());
+        $loadResult = $loadResult->getJson();
+        $this->assertArrayHasKey('status', $loadResult, 'status field should exist');
+        $this->assertTrue($loadResult['status'] == 3, 'Collection status should be 3(loaded). Found: '.$unloadResult['status'].'!');
+
+
+        $resultingWaitForSyncAttribute = $collection->getWaitForSync();
+        $resultingJournalSizeAttribute = $collection->getJournalSize();
+        $this->assertTrue(true === $resultingWaitForSyncAttribute, 'Server waitForSync should return true!');
+        $this->assertTrue($resultingJournalSizeAttribute == 1024*1024*2, 'JournalSize should be 2MB!');
 
         $response = $collectionHandler->delete($collection);
         $this->assertTrue(true === $response, 'Delete should return true!');
@@ -74,7 +176,7 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
     {
         $collectionHandler = $this->collectionHandler;
 
-        $collection = Collection::createFromArray(array('name' => 'ArangoDB-PHP-TestSuite-TestCollection-01', 'waitForSync' => true));
+        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true));
         $response = $collectionHandler->add($collection);
 
         $resultingCollection = $collectionHandler->get($response);
@@ -94,7 +196,7 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
     {
         $collectionHandler = $this->collectionHandler;
 
-        $collection = Collection::createFromArray(array('name' => 'ArangoDB-PHP-TestSuite-TestCollection-01'));
+        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
         $response = $collectionHandler->add($collection);
 
         $documentHandler = $this->documentHandler;
@@ -113,16 +215,61 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(true === $response, 'Delete should return true!');
     }
 
+   /**
+     * test for creating, filling with documents and truncating the collection.
+     */
+    public function testCreateFilAndTruncateCollection()
+    {
+        $collectionHandler = $this->collectionHandler;
+
+        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
+        $response = $collectionHandler->add($collection);
+
+        $documentHandler = $this->documentHandler;
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $documentId = $documentHandler->add($collection->getId(), $document);
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2'));
+        $documentId = $documentHandler->add($collection->getId(), $document);
+
+        $arrayOfDocuments = $collectionHandler->getAllIds($collection->getId());
+
+        $this->assertTrue(true === (is_array($arrayOfDocuments) && (count($arrayOfDocuments)==2)), 'Should return an array of 2 document ids!');
+
+        //truncate, given the collection object
+        $collectionHandler->truncate($collection);
+
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $documentId = $documentHandler->add($collection->getId(), $document);
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2'));
+        $documentId = $documentHandler->add($collection->getId(), $document);
+
+        $arrayOfDocuments = $collectionHandler->getAllIds($collection->getId());
+
+        $this->assertTrue(true === (is_array($arrayOfDocuments) && (count($arrayOfDocuments)==2)), 'Should return an array of 2 document ids!');
+
+        //truncate, given the collection id
+        $collectionHandler->truncate($collection->getId());
+
+
+
+        $response = $collectionHandler->delete($collection);
+        $this->assertTrue(true === $response, 'Delete should return true!');
+    }
+
     /**
      * test to set some attributes and get all attributes of the collection through getAll()
      */
     public function testGetAll()
     {
-        $collection = Collection::createFromArray(array('name' => 'ArangoDB-PHP-TestSuite-TestCollection-01', 'waitForSync' => true));
+        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true));
         $result = $collection->getAll();
 
         $this->assertArrayHasKey('id', $result, 'Id field should exist, empty or with an id');
-        $this->assertTrue(true === ($result['name'] == 'ArangoDB-PHP-TestSuite-TestCollection-01'), 'name should return ArangoDB-PHP-TestSuite-TestCollection-01!');
+        $this->assertTrue(true === ($result['name'] == 'ArangoDB_PHP_TestSuite_TestCollection_01'), 'name should return ArangoDB_PHP_TestSuite_TestCollection_01!');
         $this->assertTrue(true === ($result['waitForSync'] == true), 'waitForSync should return true!');
 
     }
@@ -131,12 +278,13 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
    /**
      * test for creation of a skip-list indexed collection and querying by range (first level and nested), with closed, skip and limit options
      */
+     
     public function testCreateSkipListIndexedCollectionAddDocumentsAndQueryRange()
     {
         // set up collections, indexes and test-documents     
         $collectionHandler = $this->collectionHandler;
 
-        $collection = Collection::createFromArray(array('name' => 'ArangoDB-PHP-TestSuite-TestCollection-01'));
+        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
         $response = $collectionHandler->add($collection);
  
         $indexRes= $collectionHandler->index($collection->getId(), 'skiplist', array('index'));
@@ -146,7 +294,7 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
          
 
         $documentHandler = $this->documentHandler;
-
+        
         $document1 = Document::createFromArray(array('index' => 2, 'someOtherAttribute' => 'someValue2', 'nested' => array('index'=>3, 'someNestedAttribute3'=>'someNestedValue3')));
         $documentId1 = $documentHandler->add($collection->getId(), $document1);
         $document2 = Document::createFromArray(array('index' => 1, 'someOtherAttribute' => 'someValue1', 'nested' => array('index'=>2, 'someNestedAttribute3'=>'someNestedValue2')));
@@ -205,7 +353,6 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         $this->asserttrue($resultArray[0]->nested['index']==3, "This value should be 3 !");
         $this->assertArrayNotHasKey(1, $resultArray, "Should not have a second key !");
 
-
         
         // Clean up...
         $response = $collectionHandler->delete($collection);
@@ -221,7 +368,7 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         // set up collections, indexes and test-documents     
         $collectionHandler = $this->collectionHandler;
 
-        $collection = Collection::createFromArray(array('name' => 'ArangoDB-PHP-TestSuite-TestCollection-01'));
+        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
         $response = $collectionHandler->add($collection);
  
         $indexRes= $collectionHandler->index($collection->getId(), 'geo', array('loc'));
@@ -293,7 +440,7 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         // set up collections, indexes and test-documents     
         $collectionHandler = $this->collectionHandler;
 
-        $collection = Collection::createFromArray(array('name' => 'ArangoDB-PHP-TestSuite-TestCollection-01'));
+        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
         $response = $collectionHandler->add($collection);
  
         $indexRes= $collectionHandler->index($collection->getId(), 'geo', array('loc'));
@@ -360,7 +507,7 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         try {
-            $response = $this->collectionHandler->delete('ArangoDB-PHP-TestSuite-TestCollection-01');
+            $response = $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }

@@ -68,4 +68,8 @@ abstract class URLs {
    * base URL part for select-range
    */
   const URL_WITHIN            = '/_api/simple/within'; 
+  /**
+   * base URL part for batch processing
+   */
+  const URL_BATCH            = '/_api/batch'; 
 }

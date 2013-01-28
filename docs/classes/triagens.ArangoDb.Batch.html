@@ -1,0 +1,543 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>ArangoDB PHP client API » \triagens\ArangoDb\Batch</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">ArangoDB PHP client API</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
+<li><a>Packages</a></li>
+<li><a href="../packages/ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">0</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">9</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public "><a href="#method___construct" title="__construct :: Constructor for Batch instance."><span class="description">Constructor for Batch instance.</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#method_activate" title="activate :: Activates the batch."><span class="description">Activates the batch.</span><pre>activate()</pre></a></li>
+<li class="method public "><a href="#method_append" title="append :: Append the request to the batchpart"><span class="description">Append the request to the batchpart</span><pre>append()</pre></a></li>
+<li class="method public "><a href="#method_countParts" title="countParts :: Get the total count of the batch parts"><span class="description">Get the total count of the batch parts</span><pre>countParts()</pre></a></li>
+<li class="method public "><a href="#method_getActive" title="getActive :: Gets active batch in given connection."><span class="description">Gets active batch in given connection.</span><pre>getActive()</pre></a></li>
+<li class="method public "><a href="#method_getBatchParts" title="getBatchParts :: Returns the array of batchparts"><span class="description">Returns the array of batchparts</span><pre>getBatchParts()</pre></a></li>
+<li class="method public "><a href="#method_getCapture" title="getCapture :: Returns true, if given connection is in batch mode."><span class="description">Returns true, if given connection is in batch mode.</span><pre>getCapture()</pre></a></li>
+<li class="method public "><a href="#method_getConnection" title="getConnection :: Return this batch's connection"><span class="description">Return this batch's connection</span><pre>getConnection()</pre></a></li>
+<li class="method public "><a href="#method_getPart" title="getPart :: Get the batch part identified by the array key (0."><span class="description">Get the batch part identified by the array key (0.</span><pre>getPart()</pre></a></li>
+<li class="method public "><a href="#method_getPartResponse" title="getPartResponse :: Get the batch part identified by the array key (0."><span class="description">Get the batch part identified by the array key (0.</span><pre>getPartResponse()</pre></a></li>
+<li class="method public "><a href="#method_getProcessedPartResponse" title="getProcessedPartResponse :: Get the batch part identified by the array key (0."><span class="description">Get the batch part identified by the array key (0.</span><pre>getProcessedPartResponse()</pre></a></li>
+<li class="method public "><a href="#method_isActive" title="isActive :: Returns true, if this batch is active in its associated connection."><span class="description">Returns true, if this batch is active in its associated connection.</span><pre>isActive()</pre></a></li>
+<li class="method public "><a href="#method_isCapturing" title="isCapturing :: Returns true, if this batch is capturing requests."><span class="description">Returns true, if this batch is capturing requests.</span><pre>isCapturing()</pre></a></li>
+<li class="method public "><a href="#method_nextBatchPartCursorOptions" title="nextBatchPartCursorOptions :: Set client side cursor options (for example: sanitize) for the next batch part."><span class="description">Set client side cursor options (for example: sanitize) for the next batch part.</span><pre>nextBatchPartCursorOptions()</pre></a></li>
+<li class="method public "><a href="#method_nextBatchPartId" title="nextBatchPartId :: Sets the id of the next batchpart."><span class="description">Sets the id of the next batchpart.</span><pre>nextBatchPartId()</pre></a></li>
+<li class="method public "><a href="#method_process" title="process :: Processes this batch."><span class="description">Processes this batch.</span><pre>process()</pre></a></li>
+<li class="method public "><a href="#method_setActive" title="setActive :: Sets the batch active in its assiated connection."><span class="description">Sets the batch active in its assiated connection.</span><pre>setActive()</pre></a></li>
+<li class="method public "><a href="#method_setCapture" title="setCapture :: Sets the batch's assciated connection into capture mode."><span class="description">Sets the batch's assciated connection into capture mode.</span><pre>setCapture()</pre></a></li>
+<li class="method public "><a href="#method_setConnection" title="setConnection :: Sets the connection for he current batch."><span class="description">Sets the connection for he current batch.</span><pre>setConnection()</pre></a></li>
+<li class="method public "><a href="#method_splitWithContentIdKey" title="splitWithContentIdKey :: Split batch request and use ContentId as array key"><span class="description">Split batch request and use ContentId as array key</span><pre>splitWithContentIdKey()</pre></a></li>
+<li class="method public "><a href="#method_startCapture" title="startCapture :: Start capuring requests."><span class="description">Start capuring requests.</span><pre>startCapture()</pre></a></li>
+<li class="method public "><a href="#method_stopCapture" title="stopCapture :: Stop capturing requests."><span class="description">Stop capturing requests.</span><pre>stopCapture()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header private">» Private
+                    <ul>
+<li class="method private "><a href="#method_getCursorOptions" title="getCursorOptions :: Return an array of cursor options"><span class="description">Return an array of cursor options</span><pre>getCursorOptions()</pre></a></li>
+<li class="method private "><a href="#method_setBatchRequest" title="setBatchRequest :: Sets connection into Batch-Request mode."><span class="description">Sets connection into Batch-Request mode.</span><pre>setBatchRequest()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header private">» Private
+                    <ul>
+<li class="property private "><a href="#property__alphaKeys" title="$_alphaKeys :: The $_alphaKeys object for the batchpart creation"><span class="description"></span><pre>$_alphaKeys</pre></a></li>
+<li class="property private "><a href="#property__batchPartCursorOptions" title="$_batchPartCursorOptions :: An array of BatchPartCursor options"><span class="description"></span><pre>$_batchPartCursorOptions</pre></a></li>
+<li class="property private "><a href="#property__batchParts" title="$_batchParts :: The array of BatchPart objects"><span class="description"></span><pre>$_batchParts</pre></a></li>
+<li class="property private "><a href="#property__connection" title="$_connection :: The connection object"><span class="description"></span><pre>$_connection</pre></a></li>
+<li class="property private "><a href="#property__nextBatchPartId" title="$_nextBatchPartId :: The array of BatchPart objects"><span class="description"></span><pre>$_nextBatchPartId</pre></a></li>
+<li class="property private "><a href="#property__processed" title="$_processed :: Flag that signals if this batch was processed or not."><span class="description"></span><pre>$_processed</pre></a></li>
+<li class="property private "><a href="#property__sanitize" title="$_sanitize :: The sanitize default value"><span class="description"></span><pre>$_sanitize</pre></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\triagens\ArangoDb\Batch"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/triagens.html">triagens</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/triagens.ArangoDb.Batch.html">Batch</a>
+</li>
+</ul>
+<div class="element class">
+<p class="short_description">Provides batching functionality</p>
+<div class="details">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>package</th>
+<td><a href="../packages/ArangoDbPhpClient.html">ArangoDbPhpClient</a></td>
+</tr>
+<tr>
+<th>example</th>
+<td>ArangoDb/examples/batch.php aaaa</td>
+</tr>
+</table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
+<h2>Constructor for Batch instance.</h2>
+<pre>__construct(\triagens\ArangoDb\Connection $connection, $options) : <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Batch instance by default starts capturing request after initiated.
+To disable this, pass startCapture=>false inside the options array parameter</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$connection</h4>
+<code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code><p>that this batch class will monitor for requests in order to batch them. Connection parameter is mandatory.</p></div>
+<div class="subelement argument">
+<h4>$options</h4><p>An array of options for Batch construction. See below for options:</p>
+
+<p>Options are :
+<li>'sanitize' - True to remove _id and _rev attributes from result documents returned from this batch. Defaults to false.</li>
+<li>'$startCapture' - Start batch capturing immediately after batch instantiation. Defaults to true.
+</li>
+</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></code></div>
+</div></div>
+</div>
+<a id="method_activate"></a><div class="element clickable method public method_activate" data-toggle="collapse" data-target=".method_activate .collapse">
+<h2>Activates the batch.</h2>
+<pre>activate(array $options) : object</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This sets the batch active in its assiated connection and also starts capturing.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>object</code>$this</div>
+</div></div>
+</div>
+<a id="method_append"></a><div class="element clickable method public method_append" data-toggle="collapse" data-target=".method_append .collapse">
+<h2>Append the request to the batchpart</h2>
+<pre>append(mixed $method, mixed $request) : <a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$method</h4>
+<code>mixed</code><ul>
+<li>The method of the request (GET, POST...)</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$request</h4>
+<code>mixed</code><ul>
+<li>The request that will get appended to the batch</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_countParts"></a><div class="element clickable method public method_countParts" data-toggle="collapse" data-target=".method_countParts .collapse">
+<h2>Get the total count of the batch parts</h2>
+<pre>countParts() : integer</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>integer</code>$count</div>
+</div></div>
+</div>
+<a id="method_getActive"></a><div class="element clickable method public method_getActive" data-toggle="collapse" data-target=".method_getActive .collapse">
+<h2>Gets active batch in given connection.</h2>
+<pre>getActive(<a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a> $connection) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$connection</h4>
+<code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>
+</div>
+</div></div>
+</div>
+<a id="method_getBatchParts"></a><div class="element clickable method public method_getBatchParts" data-toggle="collapse" data-target=".method_getBatchParts .collapse">
+<h2>Returns the array of batchparts</h2>
+<pre>getBatchParts() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>$_batchParts</div>
+</div></div>
+</div>
+<a id="method_getCapture"></a><div class="element clickable method public method_getCapture" data-toggle="collapse" data-target=".method_getCapture .collapse">
+<h2>Returns true, if given connection is in batch mode.</h2>
+<pre>getCapture(<a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a> $connection) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$connection</h4>
+<code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>
+</div>
+</div></div>
+</div>
+<a id="method_getConnection"></a><div class="element clickable method public method_getConnection" data-toggle="collapse" data-target=".method_getConnection .collapse">
+<h2>Return this batch's connection</h2>
+<pre>getConnection() : <a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code></div>
+</div></div>
+</div>
+<a id="method_getPart"></a><div class="element clickable method public method_getPart" data-toggle="collapse" data-target=".method_getPart .collapse">
+<h2>Get the batch part identified by the array key (0.</h2>
+<pre>getPart($partId) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>..n) or its id (if it was set with nextBatchPartId($id) )</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$partId</h4><p>the batch part id. Either it's numeric key or a given name.</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>$batchPart</div>
+</div></div>
+</div>
+<a id="method_getPartResponse"></a><div class="element clickable method public method_getPartResponse" data-toggle="collapse" data-target=".method_getPartResponse .collapse">
+<h2>Get the batch part identified by the array key (0.</h2>
+<pre>getPartResponse($partId) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>..n) or its id (if it was set with nextBatchPartId($id) )</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$partId</h4><p>the batch part id. Either it's numeric key or a given name.</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>$partId</div>
+</div></div>
+</div>
+<a id="method_getProcessedPartResponse"></a><div class="element clickable method public method_getProcessedPartResponse" data-toggle="collapse" data-target=".method_getProcessedPartResponse .collapse">
+<h2>Get the batch part identified by the array key (0.</h2>
+<pre>getProcessedPartResponse($partId) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>..n) or its id (if it was set with nextBatchPartId($id) )</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$partId</h4><p>the batch part id. Either it's numeric key or a given name.</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>$partId</div>
+</div></div>
+</div>
+<a id="method_isActive"></a><div class="element clickable method public method_isActive" data-toggle="collapse" data-target=".method_isActive .collapse">
+<h2>Returns true, if this batch is active in its associated connection.</h2>
+<pre>isActive() : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a id="method_isCapturing"></a><div class="element clickable method public method_isCapturing" data-toggle="collapse" data-target=".method_isCapturing .collapse">
+<h2>Returns true, if this batch is capturing requests.</h2>
+<pre>isCapturing() : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a id="method_nextBatchPartCursorOptions"></a><div class="element clickable method public method_nextBatchPartCursorOptions" data-toggle="collapse" data-target=".method_nextBatchPartCursorOptions .collapse">
+<h2>Set client side cursor options (for example: sanitize) for the next batch part.</h2>
+<pre>nextBatchPartCursorOptions(mixed $batchPartCursorOptions) : <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$batchPartCursorOptions</h4>
+<code>mixed</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></code></div>
+</div></div>
+</div>
+<a id="method_nextBatchPartId"></a><div class="element clickable method public method_nextBatchPartId" data-toggle="collapse" data-target=".method_nextBatchPartId .collapse">
+<h2>Sets the id of the next batchpart.</h2>
+<pre>nextBatchPartId(mixed $batchPartId) : <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>The id can later be used to retrieve the batchpart.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$batchPartId</h4>
+<code>mixed</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></code></div>
+</div></div>
+</div>
+<a id="method_process"></a><div class="element clickable method public method_process" data-toggle="collapse" data-target=".method_process .collapse">
+<h2>Processes this batch.</h2>
+<pre>process() : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This sends the captured requests to the server as one batch.</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>bool</code>- true if processing of the batch was  or the HttpResponse object in case of a failure. A successful process just means that tha parts were processed. Each part has it's own response though and should be checked on its own.</div>
+</div></div>
+</div>
+<a id="method_setActive"></a><div class="element clickable method public method_setActive" data-toggle="collapse" data-target=".method_setActive .collapse">
+<h2>Sets the batch active in its assiated connection.</h2>
+<pre>setActive(object $object) : object</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$object</h4>
+<code>object</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>object</code>$this</div>
+</div></div>
+</div>
+<a id="method_setCapture"></a><div class="element clickable method public method_setCapture" data-toggle="collapse" data-target=".method_setCapture .collapse">
+<h2>Sets the batch's assciated connection into capture mode.</h2>
+<pre>setCapture(boolean $state) : object</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$state</h4>
+<code>boolean</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>object</code>$this</div>
+</div></div>
+</div>
+<a id="method_setConnection"></a><div class="element clickable method public method_setConnection" data-toggle="collapse" data-target=".method_setConnection .collapse">
+<h2>Sets the connection for he current batch.</h2>
+<pre>setConnection(<a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a> $connection) : <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>(mostly internal function)</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$connection</h4>
+<code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></code></div>
+</div></div>
+</div>
+<a id="method_splitWithContentIdKey"></a><div class="element clickable method public method_splitWithContentIdKey" data-toggle="collapse" data-target=".method_splitWithContentIdKey .collapse">
+<h2>Split batch request and use ContentId as array key</h2>
+<pre>splitWithContentIdKey(mixed $pattern, mixed $string) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$pattern</h4>
+<code>mixed</code>
+</div>
+<div class="subelement argument">
+<h4>$string</h4>
+<code>mixed</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>$array - Array of batchparts</div>
+</div></div>
+</div>
+<a id="method_startCapture"></a><div class="element clickable method public method_startCapture" data-toggle="collapse" data-target=".method_startCapture .collapse">
+<h2>Start capuring requests.</h2>
+<pre>startCapture(array $options) : <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>To stop capturing, use stopCapture()</p>
+
+<p>see triagens\ArangoDb\Batch::stopCapture()</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></code></div>
+</div></div>
+</div>
+<a id="method_stopCapture"></a><div class="element clickable method public method_stopCapture" data-toggle="collapse" data-target=".method_stopCapture .collapse">
+<h2>Stop capturing requests.</h2>
+<pre>stopCapture(array $options) : <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>If the batch has not been processed yet, more requests can be appended by calling startCapture() again.</p>
+
+<p>see Batch::startCapture()</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></code></div>
+</div></div>
+</div>
+<a id="method_getCursorOptions"></a><div class="element clickable method private method_getCursorOptions" data-toggle="collapse" data-target=".method_getCursorOptions .collapse">
+<h2>Return an array of cursor options</h2>
+<pre>getCursorOptions() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- array of options</div>
+</div></div>
+</div>
+<a id="method_setBatchRequest"></a><div class="element clickable method private method_setBatchRequest" data-toggle="collapse" data-target=".method_setBatchRequest .collapse">
+<h2>Sets connection into Batch-Request mode.</h2>
+<pre>setBatchRequest(<a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a> $state) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This is necessary to distinguish between normal and the batch request.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$state</h4>
+<code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>
+</div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property__alphaKeys"> </a><div class="element clickable property private property__alphaKeys" data-toggle="collapse" data-target=".property__alphaKeys .collapse">
+<h2></h2>
+<pre>$_alphaKeys : object</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property__batchPartCursorOptions"> </a><div class="element clickable property private property__batchPartCursorOptions" data-toggle="collapse" data-target=".property__batchPartCursorOptions .collapse">
+<h2></h2>
+<pre>$_batchPartCursorOptions : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property__batchParts"> </a><div class="element clickable property private property__batchParts" data-toggle="collapse" data-target=".property__batchParts .collapse">
+<h2></h2>
+<pre>$_batchParts : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property__connection"> </a><div class="element clickable property private property__connection" data-toggle="collapse" data-target=".property__connection .collapse">
+<h2></h2>
+<pre>$_connection : object</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property__nextBatchPartId"> </a><div class="element clickable property private property__nextBatchPartId" data-toggle="collapse" data-target=".property__nextBatchPartId .collapse">
+<h2></h2>
+<pre>$_nextBatchPartId : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property__processed"> </a><div class="element clickable property private property__processed" data-toggle="collapse" data-target=".property__processed .collapse">
+<h2></h2>
+<pre>$_processed : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>Processed => true ,or not processed => false</p></div></div></div>
+</div>
+<a id="property__sanitize"> </a><div class="element clickable property private property__sanitize" data-toggle="collapse" data-target=".property__sanitize .collapse">
+<h2></h2>
+<pre>$_sanitize : object</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2013-01-03T23:05:18+02:00.<br></footer></div>
+</div>
+</body>
+</html>

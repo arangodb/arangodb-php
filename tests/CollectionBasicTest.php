@@ -37,7 +37,28 @@ class CollectionBasicTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('triagens\ArangoDb\Collection', $collection);
     }
     
+    /**
+     * Test setting and getting collection types
+     */
+    public function testInitializeCollectionWithDocumentType()
+    {
+        $collection = new \triagens\ArangoDb\Collection();
+        $collection->setType(Collection::TYPE_DOCUMENT);
+
+        $this->assertEquals(Collection::TYPE_DOCUMENT, $collection->getType());
+    }
     
+    /**
+     * Test setting and getting collection types
+     */
+    public function testInitializeCollectionWithEdgeType()
+    {
+        $collection = new \triagens\ArangoDb\Collection();
+        $collection->setType(Collection::TYPE_EDGE);
+
+        $this->assertEquals(Collection::TYPE_EDGE, $collection->getType());
+    }
+
     /**
      * Try to create and delete a collection
      */
@@ -47,9 +68,8 @@ class CollectionBasicTest extends \PHPUnit_Framework_TestCase
         $collection = new \triagens\ArangoDb\Collection();
         $collectionHandler = new \triagens\ArangoDb\CollectionHandler($connection);
 
-        $name = 'ArangoDB-PHP-TestSuite-TestCollection-01';
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
         $collection->setName($name);
-
         $response = $collectionHandler->add($collection);
 
         $this->assertTrue(is_numeric($response), 'Did not return a numeric id!');
@@ -58,6 +78,8 @@ class CollectionBasicTest extends \PHPUnit_Framework_TestCase
 
         $resultingAttribute = $resultingCollection->getName();
         $this->assertTrue($name === $resultingAttribute, 'The created collection name and resulting collection name do not match!');
+
+        $this->assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
 
         $response = $collectionHandler->delete($collection);
     }
