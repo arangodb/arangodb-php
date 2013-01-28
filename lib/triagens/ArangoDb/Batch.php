@@ -156,8 +156,8 @@ class Batch {
       return $this;
     }else{
       throw new ClientException('Cannot stop capturing with this batch. Batch is not active...'); 
-      }
-    }     
+    }
+  }     
 
 
   /**
@@ -401,6 +401,7 @@ class Batch {
         $batchPartResponses[$partKey]= $response;
         $this->getPart($partKey)->setResponse($batchPartResponses[$partKey]);
       }
+
       return $this;
   }
 
@@ -424,6 +425,10 @@ class Batch {
   * @return mixed $batchPart
   */
   public function getPart($partId) {
+    if (! isset($this->_batchParts[$partId])) {
+      throw new ClientException('Request batch part does not exist.'); 
+    }
+
     $batchPart = $this->_batchParts[$partId];
     return $batchPart;
   }
