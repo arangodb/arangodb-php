@@ -254,7 +254,10 @@ class Collection {
   public function getId() {
     return $this->_id; 
   }
-  
+
+
+
+
   /**
    * Set the collection name
    *

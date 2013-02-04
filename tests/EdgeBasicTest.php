@@ -69,7 +69,7 @@ class EdgeBasicTest extends \PHPUnit_Framework_TestCase
         
         
         $edgeDocument->set('label','knows');
-        $edgeDocumentId = $edgeDocumentHandler->saveEdge($edgeCollection->getId(), $documentHandle1, $documentHandle2, $edgeDocument);
+        $edgeDocumentId = $edgeDocumentHandler->saveEdge($edgeCollection->getName(), $documentHandle1, $documentHandle2, $edgeDocument);
         
         $resultingDocument = $documentHandler->get($edgeCollection->getId(), $edgeDocumentId);
         
@@ -98,7 +98,7 @@ class EdgeBasicTest extends \PHPUnit_Framework_TestCase
         $resultingDocument2 = $documentHandler->update($resultingDocument);
 
           
-        $resultingEdge = $documentHandler->get($edgeCollection->getId(), $edgeDocumentId);
+        $resultingEdge = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
         $resultingAttribute = $resultingEdge->label;
         $this->assertTrue($resultingAttribute === 'knows not', 'Attribute "knows not" set on the Edge is different from the one retrieved ('.$resultingAttribute.')!');
         

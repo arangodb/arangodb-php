@@ -31,14 +31,15 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         $resultingAttribute = $collection->getWaitForSync();
         $this->assertTrue(null === $resultingAttribute, 'Default waitForSync in API should be NULL!');
 
-        $collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        $collection->setName($name);
        
 
         $response = $collectionHandler->add($collection);
 
         $this->assertTrue(is_numeric($response), 'Adding collection did not return an id!');
 
-        $resultingCollection = $collectionHandler->get($response);
+        $resultingCollection = $collectionHandler->get($name);
 
         $response = $collectionHandler->delete($collection);
         $this->assertTrue(true === $response, 'Delete should return true!');
@@ -53,14 +54,14 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         $collectionHandler = $this->collectionHandler;
 
 
-        $collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
-       
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        $collection->setName($name);
 
         $response = $collectionHandler->add($collection);
 
         $this->assertTrue(is_numeric($response), 'Adding collection did not return an id!');
 
-        $resultingCollection = $collectionHandler->get($response);
+        $resultingCollection = $collectionHandler->get($name);
 
         $response = $collectionHandler->rename($resultingCollection, 'ArangoDB_PHP_TestSuite_TestCollection_01_renamed');
         
@@ -86,14 +87,14 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         $collectionHandler = $this->collectionHandler;
 
 
-        $collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
-       
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        $collection->setName($name);
 
         $response = $collectionHandler->add($collection);
 
         $this->assertTrue(is_numeric($response), 'Adding collection did not return an id!');
 
-        $resultingCollection = $collectionHandler->get($response);
+        $resultingCollection = $collectionHandler->get($name);
 
         // inject wrong encoding       
         $isoValue=iconv("UTF-8","ISO-8859-1//TRANSLIT","ArangoDB_PHP_TestSuite_TestCollection_01_renamedü");
@@ -123,12 +124,14 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue(true === $resultingWaitForSyncAttribute, 'WaitForSync should be true!');
         $this->assertTrue($resultingJournalSizeAttribute == 1024*1024*2, 'JournalSize should be 2MB!');
-        $collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
+
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        $collection->setName($name);
 
         $response = $collectionHandler->add($collection);
 
         // here we check the collectionHandler->getProperties function
-        $properties = $collectionHandler->getProperties($collection->getId());
+        $properties = $collectionHandler->getProperties($collection->getName());
         $this->assertObjectHasAttribute('_waitForSync', $properties, 'waiForSync field should exist, empty or with an id');
         $this->assertObjectHasAttribute('_journalSize', $properties, 'journalSize field should exist, empty or with an id');
 
@@ -137,24 +140,24 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         $documentHandler = $this->documentHandler;
 
         $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
-        $documentId = $documentHandler->add($collection->getId(), $document);
+        $documentId = $documentHandler->add($collection->getName(), $document);
 
         $document = Document::createFromArray(array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2'));
-        $documentId = $documentHandler->add($collection->getId(), $document);
+        $documentId = $documentHandler->add($collection->getName(), $document);
 
-        $arrayOfDocuments = $collectionHandler->getAllIds($collection->getId());
+        $arrayOfDocuments = $collectionHandler->getAllIds($collection->getName());
 
         $this->assertTrue(true === (is_array($arrayOfDocuments) && (count($arrayOfDocuments)==2)), 'Should return an array of 2 document ids!');
 
         //now check
-        $unloadResult = $collectionHandler->unload($collection->getId());
+        $unloadResult = $collectionHandler->unload($collection->getName());
         $unloadResult = $unloadResult->getJson();
         $this->assertArrayHasKey('status', $unloadResult, 'status field should exist');
         $this->assertTrue(($unloadResult['status'] == 4 || $unloadResult['status'] == 2), 'Collection status should be 4 (in the process of being unloaded) or 2 (unloaded). Found: '.$unloadResult['status'].'!');
 
 
         // here we check the collectionHandler->load() function
-        $loadResult = $collectionHandler->load($collection->getId());
+        $loadResult = $collectionHandler->load($collection->getName());
         $loadResult = $loadResult->getJson();
         $this->assertArrayHasKey('status', $loadResult, 'status field should exist');
         $this->assertTrue($loadResult['status'] == 3, 'Collection status should be 3(loaded). Found: '.$unloadResult['status'].'!');

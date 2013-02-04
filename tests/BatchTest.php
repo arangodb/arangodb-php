@@ -132,7 +132,7 @@ class BatchTest extends \PHPUnit_Framework_TestCase
         $edgeDocument = new \triagens\ArangoDb\Edge();
         $edgeDocumentHandler = new \triagens\ArangoDb\EdgeHandler($connection);
         $edgeDocument->set('label', 'knows');
-        $edgeDocumentId = $edgeDocumentHandler->saveEdge($edgeCollection->getId(), $document1->getHandle(), $document2->getHandle(), $edgeDocument);
+        $edgeDocumentId = $edgeDocumentHandler->saveEdge($edgeCollection->getName(), $document1->getHandle(), $document2->getHandle(), $edgeDocument);
 
         $result= $batch->process();
 
@@ -202,6 +202,10 @@ class BatchTest extends \PHPUnit_Framework_TestCase
     {
         try {
             $response = $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+        } catch (\Exception $e) {
+            // don't bother us, if it's already deleted.
+        }
+        try {
             $response = $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_02');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.

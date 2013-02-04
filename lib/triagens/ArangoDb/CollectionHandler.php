@@ -281,12 +281,12 @@ class CollectionHandler extends Handler {
     $params = array(Collection::ENTRY_NAME => $collection->getName(), Collection::ENTRY_TYPE => $type, Collection::ENTRY_WAIT_SYNC => $collection->getWaitForSync(), Collection::ENTRY_JOURNAL_SIZE => $collection->getJournalSize());
     $response = $this->getConnection()->post(Urls::URL_COLLECTION, $this->getConnection()->json_encode_wrapper($params));
 
-    $location = $response->getLocationHeader();
-    if (!$location) {
-      throw new ClientException('Did not find location header in server response');
-    }
-
-    $id = UrlHelper::getCollectionIdFromLocation($location);
+//    $location = $response->getLocationHeader();
+//    if (!$location) {
+//      throw new ClientException('Did not find location header in server response');
+//    }
+    $jsonResponse=$response->getJson();
+    $id = $jsonResponse['id'];
     $collection->setId($id);
 
     return $id;
@@ -349,13 +349,13 @@ class CollectionHandler extends Handler {
    * @return bool - always true, will throw if there is an error
    */
   public function drop($collection) {
-      $collectionId = $this->getCollectionId($collection);
+      $collectionName = $this->getCollectionName($collection);
 
-      if ($this->isValidCollectionId($collectionId)) {
+      if ($this->isValidCollectionId($collectionName)) {
           throw new ClientException('Cannot alter a collection without a collection id');
       }
 
-      $result = $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId));
+      $result = $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionName));
 
     return true;
   }
@@ -702,6 +702,27 @@ class CollectionHandler extends Handler {
     {
         if ($collection instanceof Collection) {
             $collectionId = $collection->getId();
+
+            return $collectionId;
+        }
+        else {
+            $collectionId = $collection;
+
+            return $collectionId;
+        }
+    }
+
+    /**
+     * Gets the collectionId from the given collectionObject or string/integer
+     *
+     * @param mixed $collection
+     *
+     * @return mixed
+     */
+    public function getCollectionName($collection)
+    {
+        if ($collection instanceof Collection) {
+            $collectionId = $collection->getName();
 
             return $collectionId;
         }

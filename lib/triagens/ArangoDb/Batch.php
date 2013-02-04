@@ -311,7 +311,7 @@ class Batch {
     $result .= 'content-type: application/json; charset=utf-8' . HttpHelper::EOL;
     $result .= 'etag: "0"' . HttpHelper::EOL;
     $result .= 'connection: Close' . HttpHelper::EOL . HttpHelper::EOL;
-    $result .= '{"error":false,"_id":"0/0","_rev":0,"hasMore":1, "result":[{}], "documents":[{}]}'. HttpHelper::EOL . HttpHelper::EOL;
+    $result .= '{"error":false,"_id":"0/0","id":"0","_rev":0,"hasMore":1, "result":[{}], "documents":[{}]}'. HttpHelper::EOL . HttpHelper::EOL;
     
     $response=new HttpResponse($result);
     $id = is_null($this->_nextBatchPartId) ? '' : $this->_nextBatchPartId;

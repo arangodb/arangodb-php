@@ -21,7 +21,13 @@ class Document {
    * @var string - document id
    */
   protected $_id      = NULL;
-  
+
+  /**
+   * The document key (might be NULL for new documents)
+   * @var string - document id
+   */
+  protected $_key      = NULL;
+
   /**
    * The document revision (might be NULL for new documents)
    * @var mixed
@@ -51,6 +57,11 @@ class Document {
    */
   const ENTRY_ID    = '_id';
   
+  /**
+   * Document key index
+   */
+  const ENTRY_KEY    = '_key';
+
   /**
    * Revision id index
    */
@@ -101,6 +112,7 @@ class Document {
    */
   public function __clone() {
     $this->_id = NULL;
+    $this->_key = NULL;
     $this->_rev = NULL;
 
     // do not change the _changed flag here
@@ -194,7 +206,12 @@ class Document {
       $this->setInternalId($value);
       return;
     }
-    
+
+    if ($key === self::ENTRY_KEY) {
+      $this->setInternalKey($value);
+      return;
+    }
+
     if ($key === self::ENTRY_REV) {
       $this->setRevision($value);
       return;
@@ -345,11 +362,32 @@ class Document {
       throw new ClientException('Should not update the id of an existing document');
     }
 
-    if (!preg_match('/^\d+\/\d+$/', $id)) {
+    if (!preg_match('/^\w+\/\w+$/', $id)) {
       throw new ClientException('Invalid format for document id');
     }
 
     $this->_id = $id;
+  }
+
+  /**
+   * Set the internal document key
+   *
+   * This will throw if the key of an existing document gets updated to some other key
+   *
+   * @throws ClientException
+   * @param string $key - internal document key
+   * @return void
+   */
+  public function setInternalKey($key) {
+    if ($this->_key !== NULL && $this->_key != $key) {
+      throw new ClientException('Should not update the key of an existing document');
+    }
+
+    if (!preg_match('/^\w+$/', $key)) {
+      throw new ClientException('Invalid format for document key');
+    }
+
+    $this->_key = $key;
   }
 
   /**
@@ -364,6 +402,15 @@ class Document {
     return $this->_id; 
   }
   
+  /**
+   * Get the internal document key (if already known)
+   *
+   * @return string - internal document key, might be NULL if document does not yet have a key
+   */
+  public function getInternalKey() {
+    return $this->_key;
+  }
+
   /**
    * Convenience function to get the document handle (if already known) - is an alias to getInternalId()
    * 
@@ -390,6 +437,17 @@ class Document {
     return $documentId;
   }
   
+  /**
+   * Get the document key (if already known).
+   * Alias function for getInternalKey()
+   *
+   * @return mixed - document key, might be NULL if document does not yet have a key
+   */
+  public function getKey() {
+
+    return $this->getInternalKey();
+  }
+
   /**
    * Get the collection id (if already known)
    * 
