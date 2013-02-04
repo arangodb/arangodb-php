@@ -306,7 +306,11 @@ class Document {
     if ($ignoreHiddenAttributes==false) {
       $data=$this->filterHiddenAttributes($data);
     }
-    
+
+    if (!is_null($this->_key)) {
+      $data['_key']=$this->_key;
+    }
+
     return $data;
   }
   

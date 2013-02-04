@@ -52,7 +52,30 @@ class DocumentBasicTest extends \PHPUnit_Framework_TestCase
         $resultingDocument = $documentHandler->get($collection->getId(), $documentId);
 
         $resultingAttribute = $resultingDocument->someAttribute;
-        $this->assertTrue($resultingAttribute === 'someValue', 'Created document id is not numeric!');
+        $this->assertTrue($resultingAttribute === 'someValue', 'Resulting Attribute should be "someValue". It\'s :'.$resultingAttribute);
+
+        $response = $documentHandler->delete($document);
+    }
+
+    /**
+     * Try to create and delete a document using a defined key
+     */
+    public function testCreateAndDeleteDocumentUsingDefinedKey()
+    {
+        $connection = $this->connection;
+        $collection = $this->collection;
+        $collectionHandler = $this->collectionHandler;
+        $document = new \triagens\ArangoDb\Document();
+        $documentHandler = new \triagens\ArangoDb\DocumentHandler($connection);
+
+        $document->someAttribute = 'someValue';
+        $document->set('_key','frank01');
+        $documentId = $documentHandler->add($collection->getName(), $document);
+
+        $resultingDocument = $documentHandler->get($collection->getName(), $documentId);
+
+        $resultingAttribute = $resultingDocument->someAttribute;
+        $this->assertTrue($resultingAttribute === 'someValue', 'Resulting Attribute should be "someValue". It\'s :'.$resultingAttribute);
 
         $response = $documentHandler->delete($document);
     }
