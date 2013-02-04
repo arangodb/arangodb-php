@@ -238,7 +238,7 @@ class Collection {
       throw new ClientException('Should not update the id of an existing collection');
     }
 
-    return $this->_id = $id;
+    return $this->_id =  (string) $id;
   }
   
   /**
@@ -272,7 +272,7 @@ class Collection {
       throw new ClientException('Should not update the name of an existing collection');
     }
 
-    $this->_name = $name;
+    $this->_name =  (string) $name;
   }
   
   /**
