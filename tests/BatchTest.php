@@ -14,18 +14,111 @@ class BatchTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->connection = getConnection();
+
+        $this->documentHandler = new DocumentHandler($this->connection);
         $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
+
         $this->collection = new \triagens\ArangoDb\Collection();
         $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
         $this->collectionHandler->add($this->collection);
-        $this->documentHandler = new DocumentHandler($this->connection);
+
         $this->edgeCollection = new \triagens\ArangoDb\Collection();
         $this->edgeCollection->setName('ArangoDBPHPTestSuiteTestEdgeCollection01');
         $this->edgeCollection->set('type', 3);
         $this->collectionHandler->add($this->edgeCollection);
-        
+    }
+
+    public function testEmptyBatch () {
+      $batch = new Batch($this->connection);
+      $this->assertEquals(0, $batch->countParts());
+      $this->assertEquals(array(), $batch->getBatchParts());
+
+      try {
+        // should fail
+        $this->assertEquals(NULL, $batch->getPart('foo'));
+        $this->fail('we should have got an exception');
+      }
+      catch (ClientException $e) {
+      }
+
+      try {
+        // should fail on client, too
+        $responses = $batch->process();
+        $this->fail('we should have got an exception');
+      }
+      catch (ClientException $e) {
+      }
     }
     
+    public function testPartIds () {
+        $batch = new Batch($this->connection);
+        $this->assertEquals(0, $batch->countParts());
+        
+        for ($i = 0; $i < 10; ++$i) {
+          $batch->nextBatchPartId('doc' . $i);
+          $document = Document::createFromArray(array('test1' => $i, 'test2' => ($i + 1)));
+          $documentId = $this->documentHandler->add($this->collection->getId(), $document);
+        }
+        
+        $this->assertEquals(10, $batch->countParts());
+        
+        $batch->process();
+
+        for ($i = 0; $i < 10; ++$i) {
+          $part = $batch->getPart('doc' . $i);
+          $this->assertInstanceOf('\triagens\ArangoDb\BatchPart', $part);
+          
+          $this->assertEquals('doc' . $i, $part->getId());
+          $this->assertEquals(202, $part->getHttpCode());
+          
+          $response = $batch->getPartResponse('doc' . $i);
+          $this->assertEquals(202, $response->getHttpCode());
+        }
+      
+        try {
+          // should fail
+          $this->assertEquals(NULL, $batch->getPart('foo'));
+          $this->fail('we should have got an exception');
+        }
+        catch (ClientException $e) {
+        }
+    }
+    
+    public function testProcessProcess () {
+        try {  
+          // clean up first
+          $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_02');
+        }
+        catch (Exception $e) {
+        }
+        
+        $batch = new Batch($this->connection);
+        $this->assertEquals(0, $batch->countParts());
+        
+        $collection = new Collection();
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        $collection->setName($name);
+        $response = $this->collectionHandler->add($collection);
+
+        $part = $batch->getPart(0);
+        $this->assertInstanceOf('\triagens\ArangoDb\BatchPart', $part);
+        $this->assertEquals(202, $part->getHttpCode());
+
+        // call process once (this does not clear the batch)
+        $responses = $batch->process();
+        $this->assertEquals(200, $part->getHttpCode());
+
+        $response = $batch->getPartResponse(0);
+        $this->assertEquals(200, $response->getHttpCode());
+
+        // this will process the same batch again
+        $responses = $batch->process(); 
+        $response = $batch->getPartResponse(0);
+
+        // bad request, because collection already exists
+        $this->assertEquals(400, $response->getHttpCode());
+    }
+
     public function testCreateDocumentBatch(){
 
         $batch = new Batch($this->connection);
@@ -54,7 +147,6 @@ class BatchTest extends \PHPUnit_Framework_TestCase
         $testDocument2PartResponse = $batch->getProcessedPartResponse(1);
     }
 
- 
     public function testCreateMixedBatchWithPartIds(){
 
         $edgeCollection = $this->edgeCollection;
@@ -196,7 +288,6 @@ class BatchTest extends \PHPUnit_Framework_TestCase
 
         
     }
-
  
     public function tearDown()
     {
