@@ -7,7 +7,9 @@ v1.2.0 (xxxx-xx-xx)
 
 * Implemented document creation using predefined key.
 
+* Implemented getIndexes() and dropIndex() methods in the CollectionHandler.
 
+* Extended Tests to include FULLTEXT index creation and deletion.
 
 
 

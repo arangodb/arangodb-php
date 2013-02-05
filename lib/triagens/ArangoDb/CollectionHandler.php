@@ -328,6 +328,42 @@ class CollectionHandler extends Handler {
     return $result;
   }
 
+
+    /**
+     * Get indexes of a collection
+     *
+     * This will throw if the collection cannot be fetched from the server
+     *
+     * @throws Exception
+     * @param mixed $collectionId - collection id as a string or number
+     * @return array $data - the indexes result-set from the server
+     */
+    public function getIndexes($collectionId) {
+        $urlParams = array(self::OPTION_COLLECTION => $collectionId);
+        $url = UrlHelper::appendParamsUrl(Urls::URL_INDEX, $urlParams);
+        $response = $this->getConnection()->get($url);
+
+        $data = $response->getJson();
+
+        return $data;
+    }
+
+
+    /**
+     * Drop an index
+     *
+     * @throws Exception
+     * @param mixed $indexHandle - index handle (collection name / index id)
+     * @return bool - always true, will throw if there is an error
+     */
+    public function dropIndex($indexHandle) {
+        $handle=explode("/",$indexHandle);
+        $result = $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_INDEX, $handle[0], $handle[1]));
+
+        return true;
+    }
+
+
   /**
    * Delete a collection
    * 
