@@ -24,8 +24,8 @@ class EdgeBasicTest extends \PHPUnit_Framework_TestCase
         $this->collectionHandler->add($this->edgeCollection);
         
         $this->collectionHandler->add($this->collection);
-        
     }
+
 
     /**
      * Test if Edge and EdgeHandler instances can be initialized
@@ -40,6 +40,7 @@ class EdgeBasicTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('triagens\ArangoDb\Edge', $document);
         unset ($document);
     }
+
 
     /**
      * Try to create and delete an edge
@@ -112,7 +113,7 @@ class EdgeBasicTest extends \PHPUnit_Framework_TestCase
     } 
     
     
-     /**
+    /**
      * Try to create and delete an edge with wrong encoding
      * We expect an exception here:
      * 
@@ -185,6 +186,7 @@ class EdgeBasicTest extends \PHPUnit_Framework_TestCase
         $response = $edgeDocumentHandler->delete($resultingEdge);
         
     }
+
 
     public function tearDown()
     {

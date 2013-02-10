@@ -72,6 +72,7 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(true === $response, 'Delete should return true!');
     }
 
+
     /**
      * test for creation, get by example, and delete of a document given its settings through createFromArray()
      */
@@ -95,6 +96,7 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $response = $documentHandler->delete($document);
         $this->assertTrue(true === $response, 'Delete should return true!');
     }
+
 
     /**
      * test for updating a document using update()
@@ -124,6 +126,7 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $response = $documentHandler->delete($resultingDocument);
         $this->assertTrue(true === $response, 'Delete should return true!');
     }
+
 
     /**
      * test for updating a document using update() with wrong encoding
@@ -256,7 +259,8 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $response = $documentHandler->delete($resultingDocument);
         $this->assertTrue(true === $response, 'Delete should return true!');
     }
-    
+
+
     /**
      * test for deletion of a document with deleteById() not giving the revision
      */
@@ -284,7 +288,8 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $response = $documentHandler->deleteById($this->collection->getId(), $documentId);
         $this->assertTrue(true === $response, 'Delete should return true!');
     }
-    
+
+
     /**
      * test for deletion of a document with deleteById() given the revision
      */
@@ -307,7 +312,8 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $response = $documentHandler->deleteById($this->collection->getId(), $documentId, $revision, 'error');
         $this->assertTrue(true === $response, 'deleteById() should return true! (because correct revision given)');
     }
-    
+
+
     /**
      * test for deletion of a document with deleteById() given the revision
      */
@@ -406,7 +412,6 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(true === ($resultingDocument3->someAttribute == 'someValue'));
         $this->assertTrue(true === ($resultingDocument3->someOtherAttribute == 'someOtherValue2'));
 
-       
         $e=null;
         try {
                   $response = $documentHandler->delete($resultingDocument, "error");
@@ -417,8 +422,7 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Exception', $e, "Delete should have raised an exception here");
         $this->assertTrue($e->getMessage() == 'HTTP/1.1 412 Precondition Failed');
         unset ($e);
-        
-      
+
         $response = $documentHandler->delete($resultingDocument3, "error");
         $this->assertTrue(true === $response, 'Delete should return true!');
     }
@@ -504,7 +508,6 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(true === ($resultingDocument3->someAttribute == 'someValue2'));
         $this->assertTrue(true === ($resultingDocument3->someOtherAttribute == 'someOtherValue2'));
 
-       
         $e=null;
         try {
                   $response = $documentHandler->delete($resultingDocument, "error");
@@ -515,8 +518,7 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Exception', $e, "Delete should have raised an exception here");
         $this->assertTrue($e->getMessage() == 'HTTP/1.1 412 Precondition Failed');
         unset ($e);
-        
-      
+
         $response = $documentHandler->delete($resultingDocument3, "error");
         $this->assertTrue(true === $response, 'Delete should return true!');
     }
@@ -543,12 +545,12 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         
         // Check if the hidden field is actually hidden...
         $this->assertArrayNotHasKey('someThirdAttribute', $result);
-        
-        
+
         $result = $document->getAll(true);
         $this->assertArrayHasKey('_id', $result);
         $this->assertArrayHasKey('_rev', $result);
     }
+
 
     public function tearDown()
     {
