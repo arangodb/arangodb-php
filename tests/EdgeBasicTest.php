@@ -71,15 +71,15 @@ class EdgeBasicTest extends \PHPUnit_Framework_TestCase
         $edgeDocument->set('label','knows');
         $edgeDocumentId = $edgeDocumentHandler->saveEdge($edgeCollection->getName(), $documentHandle1, $documentHandle2, $edgeDocument);
         
-        $resultingDocument = $documentHandler->get($edgeCollection->getId(), $edgeDocumentId);
+        $resultingDocument = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
         
-        $resultingEdge = $documentHandler->get($edgeCollection->getId(), $edgeDocumentId);
+        $resultingEdge = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
         
         $resultingAttribute = $resultingEdge->label;
         $this->assertTrue($resultingAttribute === 'knows', 'Attribute set on the Edge is different from the one retrieved!');
 
         
-        $edgesQuery1Result=$edgeDocumentHandler->edges($edgeCollection->getId(),$documentHandle1,'out');
+        $edgesQuery1Result=$edgeDocumentHandler->edges($edgeCollection->getName(),$documentHandle1,'out');
         $this->assertArrayHasKey('documents',$edgesQuery1Result, "edges didn't return an array with a documents attribute!");     
         
         $statement = new \triagens\ArangoDb\Statement($connection, array(
