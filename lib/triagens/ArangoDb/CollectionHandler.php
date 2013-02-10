@@ -134,6 +134,7 @@ class CollectionHandler extends Handler {
    */
   const OPTION_RENAME    = 'rename';
 
+
   /**
    * Get information about a collection
    * 
@@ -151,7 +152,8 @@ class CollectionHandler extends Handler {
 
     return Collection::createFromArray($data);
   }
-  
+
+
   /**
    * Get properties of a collection
    *
@@ -170,6 +172,7 @@ class CollectionHandler extends Handler {
     return Collection::createFromArray($data);
   }
 
+
   /**
    * Get the number of documents in a collection
    * 
@@ -183,7 +186,6 @@ class CollectionHandler extends Handler {
    */
   public function getCount($collectionId) {
     return $this->count($collectionId);
-
   }
   
   
@@ -205,7 +207,8 @@ class CollectionHandler extends Handler {
 
     return (int) $count;
   }
-  
+
+
   /**
    * Get figures for a collection
    * 
@@ -220,7 +223,8 @@ class CollectionHandler extends Handler {
   public function getFigures($collectionId) {
     return $this->figures($collectionId);
   }
-  
+
+
   /**
    * Get figures for a collection
    * 
@@ -240,6 +244,7 @@ class CollectionHandler extends Handler {
     return $figures;
   }
 
+
   /**
    * Adds a new collection on the server
    * 
@@ -256,6 +261,7 @@ class CollectionHandler extends Handler {
   public function add(Collection $collection) {
     return $this->create($collection);
   }
+
 
   /**
    * Creates a new collection on the server
@@ -281,17 +287,18 @@ class CollectionHandler extends Handler {
     $params = array(Collection::ENTRY_NAME => $collection->getName(), Collection::ENTRY_TYPE => $type, Collection::ENTRY_WAIT_SYNC => $collection->getWaitForSync(), Collection::ENTRY_JOURNAL_SIZE => $collection->getJournalSize());
     $response = $this->getConnection()->post(Urls::URL_COLLECTION, $this->getConnection()->json_encode_wrapper($params));
 
-//    $location = $response->getLocationHeader();
-//    if (!$location) {
-//      throw new ClientException('Did not find location header in server response');
-//    }
+    $location = $response->getLocationHeader();
+    if (!$location) {
+      throw new ClientException('Did not find location header in server response');
+    }
     $jsonResponse=$response->getJson();
     $id = $jsonResponse['id'];
     $collection->setId($id);
 
     return $id;
   }
-  
+
+
   /**
    * Creates an index on a collection on the server
    * 
@@ -376,7 +383,8 @@ class CollectionHandler extends Handler {
   public function delete($collection) {
     return $this->drop($collection);
   }
-  
+
+
   /**
    * Drop a collection
    *
@@ -482,6 +490,7 @@ class CollectionHandler extends Handler {
     return true;
   }
 
+
   /**
    * Get document(s) by specifying an example
    * 
@@ -529,7 +538,8 @@ class CollectionHandler extends Handler {
     
     return new Cursor($this->getConnection(), $response->getJson(), $options );
   }  
-  
+
+
   /**
    * Remove document(s) by specifying an example
    *
@@ -697,7 +707,7 @@ class CollectionHandler extends Handler {
    * </p>
    * 
    * @return array - documents matching the example [0...n]
-    */
+   */
   public function within($collectionId, $latitude, $longitude, $radius, $options = array()) {
     $distance = null;
     $skip = null;
@@ -754,6 +764,8 @@ class CollectionHandler extends Handler {
       Cursor::ENTRY_SANITIZE => $sanitize,
     );
   }
+
+
     /**
      * Checks if the collectionId given, is valid. Returns true if it is, or false if it is not.
      *
@@ -788,6 +800,7 @@ class CollectionHandler extends Handler {
         }
     }
 
+
     /**
      * Gets the collectionId from the given collectionObject or string/integer
      *
@@ -808,7 +821,4 @@ class CollectionHandler extends Handler {
             return $collectionId;
         }
     }
-
-
-
 }
