@@ -35,6 +35,11 @@ class CollectionHandler extends Handler {
   const OPTION_EXAMPLE    = 'example';
 
   /**
+   * example parameter
+   */
+  const OPTION_CREATE_COLLECTION    = 'createCollection';
+
+  /**
    * attribute parameter
    */
   const OPTION_ATTRIBUTE    = 'attribute';
@@ -821,4 +826,98 @@ class CollectionHandler extends Handler {
             return $collectionId;
         }
     }
+
+
+
+    /**
+     * Import documents from a file
+     *
+     * This will throw on all errors except insertion errors
+     *
+     * @throws Exception
+     * @param mixed $collectionId - collection id as string or number
+     * @param mixed $importFileName - The filename that holds the import data.
+     * @param array $options - optional - an array of options.
+     * <p>Options are :
+     * <li>
+     * 'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.
+     *           if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.
+     *           if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.
+     *
+     * More info on how the import functionality works: https://github.com/triAGENS/ArangoDB/wiki/HttpImport
+     * </li>
+     * <li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
+     * </p>
+     * @return int - number of documents that were deleted
+     */
+    public function importFromFile($collectionId, $importFileName, $options = array('createCollection'=>false, 'type'=>null)) {
+
+        $contents = file_get_contents($importFileName);
+        if ($contents===false) {
+            throw new ClientException('Input file "'.$importFileName.'" could not be found.');
+        }
+
+       $result = $this->import($collectionId, $contents, $options);
+        return $result ;
+    }
+
+
+    /**
+     * Import documents into a collection
+     *
+     * This will throw on all errors except insertion errors
+     *
+     * @throws Exception
+     * @param mixed $collectionId - collection id as string or number
+     * @param mixed $importData - The data to import. This can be a string holding the data according to the type of import, or an array of documents
+     * @param array $options - optional - an array of options.
+     * <p>Options are :
+     * <li>
+     * 'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.
+     *           if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.
+     *           if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.
+     *
+     * More info on how the import functionality works: https://github.com/triAGENS/ArangoDB/wiki/HttpImport
+     * </li>
+     * <li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
+     * </p>
+     * @return int - number of documents that were deleted
+     */
+    public function import($collectionId, $importData, $options = array('createCollection'=>false, 'type'=>null)) {
+        $tmpContent='';
+        if (is_array($importData)){
+            foreach ($importData as $document) {
+                $tmpContent .= $document->toJson()."\r\n";
+            }
+            $importData = $tmpContent;
+            unset($tmpContent);
+            $options['type'] = 'documents';
+        }
+
+        $params[self::OPTION_COLLECTION] =  $collectionId;
+        if (array_key_exists('createCollection', $options)){
+            $params[self::OPTION_CREATE_COLLECTION ] = $options['createCollection'] == true ? true : false;
+        }
+        if (array_key_exists('type', $options)){
+            switch ($options['type']){
+                case "documents":
+                    $params[self::OPTION_TYPE] = 'documents';
+                    break;
+                case "array":
+                    $params[self::OPTION_TYPE] = 'array';
+                    break;
+            }
+        }
+
+        $url = UrlHelper::appendParamsUrl(Urls::URL_IMPORT, $params);
+
+        $response = $this->getConnection()->post($url, $importData);
+
+        $responseArray=$response->getJson();
+
+        return $responseArray ;
+
+    }
+
+
 }

@@ -184,7 +184,6 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
 
         $resultingCollection = $collectionHandler->get($response);
         
-        #$collection->properties();                        
         $resultingAttribute = $collection->getWaitForSync();
         $this->assertTrue(true === $resultingAttribute, 'Server waitForSync should return true!');
 
@@ -210,7 +209,6 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         $document3 = Document::createFromArray(array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue'));
         $documentId3 = $documentHandler->add($collection->getId(), $document3);
 
-
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
         $this->assertTrue(is_numeric($documentId2), 'Did not return an id!');
         $this->assertTrue(is_numeric($documentId3), 'Did not return an id!');
@@ -219,6 +217,145 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         $result =  $collectionHandler->removeByExample($collection->getId(), $documentExample);
         $this->assertTrue($result === 2);
     }
+
+
+    /**
+     * test for import of documents, Headers-Values Style
+     */
+    public function testImportFromFileUsingHeadersAndValues()
+    {
+        $collectionHandler = $this->collectionHandler;
+        $result = $collectionHandler->importFromFile('importCollection_01_arango_unittests', __DIR__.'/files_for_tests/import_file_header_values.txt', $options = array('createCollection'=>true));
+
+        $this->assertTrue($result['error'] === false && $result['created']==2);
+
+        $statement = new \triagens\ArangoDb\Statement($this->connection, array(
+                                                                              "query" => '',
+                                                                              "count" => true,
+                                                                              "batchSize" => 1000,
+                                                                              "sanitize" => true,
+                                                                         ));
+        $query='FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
+
+        $statement->setQuery($query);
+
+        $cursor = $statement->execute();
+
+        $result = $cursor->current();
+
+        $this->assertTrue($result->getKey() == 'test1' && $result->firstName=='Joe', 'Document returned did not contain expected data.');
+        $cursor->next();
+        $result = $cursor->current();
+
+        $this->assertTrue($result->getKey() == 'test2' && $result->firstName=='Jane', 'Document returned did not contain expected data.');
+
+        $collectionHandler->drop('importCollection_01_arango_unittests');
+   }
+
+
+    /**
+     * test for import of documents, Line by Line Documents Style
+     */
+    public function testImportFromFileUsingDocumentsLineByLine()
+    {
+        $collectionHandler = $this->collectionHandler;
+        $result = $collectionHandler->importFromFile('importCollection_01_arango_unittests', __DIR__.'/files_for_tests/import_file_line_by_line.txt', $options = array('createCollection'=>true, 'type'=>'documents'));
+        $this->assertTrue($result['error'] === false && $result['created']==2);
+
+        $statement = new \triagens\ArangoDb\Statement($this->connection, array(
+                                                                              "query" => '',
+                                                                              "count" => true,
+                                                                              "batchSize" => 1000,
+                                                                              "sanitize" => true,
+                                                                         ));
+        $query='FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
+
+        $statement->setQuery($query);
+
+        $cursor = $statement->execute();
+
+        $result = $cursor->current();
+
+        $this->assertTrue($result->getKey() == 'test1' && $result->firstName=='Joe', 'Document returned did not contain expected data.');
+        $cursor->next();
+        $result = $cursor->current();
+
+        $this->assertTrue($result->getKey() == 'test2' && $result->firstName=='Jane', 'Document returned did not contain expected data.');
+
+        $collectionHandler->drop('importCollection_01_arango_unittests');
+   }
+
+
+    /**
+     * test for import of documents, Line by Line result-set Style
+     */
+    public function testImportFromFileUsingResultSet()
+    {
+        $collectionHandler = $this->collectionHandler;
+        $result = $collectionHandler->importFromFile('importCollection_01_arango_unittests', __DIR__.'/files_for_tests/import_file_resultset.txt', $options = array('createCollection'=>true, 'type'=>'array'));
+        $this->assertTrue($result['error'] === false && $result['created']==2);
+
+        $statement = new \triagens\ArangoDb\Statement($this->connection, array(
+                                                                              "query" => '',
+                                                                              "count" => true,
+                                                                              "batchSize" => 1000,
+                                                                              "sanitize" => true,
+                                                                         ));
+        $query='FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
+
+        $statement->setQuery($query);
+
+        $cursor = $statement->execute();
+
+        $result = $cursor->current();
+
+        $this->assertTrue($result->getKey() == 'test1' && $result->firstName=='Joe', 'Document returned did not contain expected data.');
+        $cursor->next();
+        $result = $cursor->current();
+
+        $this->assertTrue($result->getKey() == 'test2' && $result->firstName=='Jane', 'Document returned did not contain expected data.');
+
+        $collectionHandler->drop('importCollection_01_arango_unittests');
+   }
+
+
+    /**
+     * test for import of documents by giving an array of documents
+     */
+    public function testImportFromArrayOfDocuments()
+    {
+        $collectionHandler = $this->collectionHandler;
+
+        $document1 = Document::createFromArray(array('firstName' => 'Joe', 'lastName' => 'Public','age' => 42, 'gender' => 'male','_key'=>'test1'));
+        $document2 = Document::createFromArray(array('firstName' => 'Jane', 'lastName' => 'Doe','age' => 31, 'gender' => 'female','_key'=>'test2'));
+
+        $data = array($document1,$document2);
+        $result = $collectionHandler->import('importCollection_01_arango_unittests', $data, $options = array('createCollection'=>true));
+
+        $this->assertTrue($result['error'] === false && $result['created']==2);
+
+        $statement = new \triagens\ArangoDb\Statement($this->connection, array(
+                                                                        "query" => '',
+                                                                        "count" => true,
+                                                                        "batchSize" => 1000,
+                                                                        "sanitize" => true,
+                                                                   ));
+        $query='FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
+
+        $statement->setQuery($query);
+
+        $cursor = $statement->execute();
+
+        $result = $cursor->current();
+
+        $this->assertTrue($result->getKey() == 'test1' && $result->firstName=='Joe', 'Document returned did not contain expected data.');
+        $cursor->next();
+        $result = $cursor->current();
+
+        $this->assertTrue($result->getKey() == 'test2' && $result->firstName=='Jane', 'Document returned did not contain expected data.');
+
+        $collectionHandler->drop('importCollection_01_arango_unittests');
+   }
 
 
     /**
@@ -574,7 +711,11 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
-
+       try {
+           $response = $this->collectionHandler->drop('importCollection_01_arango_unittests');
+        } catch (\Exception $e) {
+            // don't bother us, if it's already deleted.
+        }
         unset($this->collectionHandler);
         unset($this->collection);
         unset($this->connection);
