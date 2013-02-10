@@ -57,6 +57,11 @@ abstract class URLs {
   const URL_EXAMPLE            = '/_api/simple/by-example'; 
 
   /**
+   * base URL part for remove-by-example
+   */
+  const URL_REMOVE_BY_EXAMPLE            = '/_api/simple/remove-by-example';
+
+  /**
    * base URL part for select-range
    */
   const URL_RANGE            = '/_api/simple/range'; 

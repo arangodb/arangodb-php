@@ -261,7 +261,7 @@ class CollectionHandler extends Handler {
    * Creates a new collection on the server
    * 
    * This will add the collection on the server and return its id
-   * 
+   * The id is mainly returned for backwards compatibility, but you should use the collection name for any reference to the collection.   *
    * This will throw if the collection cannot be created
    *
    * @throws Exception
@@ -461,7 +461,7 @@ class CollectionHandler extends Handler {
   }
 
 
-   /**
+  /**
    * Truncate a collection
    *
    * This will remove all documents from the collection but will leave the metadata and indexes intact.
@@ -482,7 +482,7 @@ class CollectionHandler extends Handler {
     return true;
   }
 
-      /**
+  /**
    * Get document(s) by specifying an example
    * 
    * This will throw if the list cannot be fetched from the server
@@ -530,6 +530,46 @@ class CollectionHandler extends Handler {
     return new Cursor($this->getConnection(), $response->getJson(), $options );
   }  
   
+  /**
+   * Remove document(s) by specifying an example
+   *
+   * This will throw on any error
+   *
+   * @throws Exception
+   * @param mixed $collectionId - collection id as string or number
+   * @param mixed $document - the example document as a Document object or an array
+   * @param bool|array $options - optional - an array of options.
+   * <p>Options are :
+   * <li>
+   * 'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk.
+   * If this is not specified, then the collection's default sync behavior will be applied.
+   * </li>
+   * </p>
+   *
+   * @return int - number of documents that were deleted
+   */
+  public function removeByExample($collectionId, $document, $options = array()) {
+    if (is_array($document)) {
+      $document = Document::createFromArray($document, $options);
+    }
+
+    if (!($document instanceof Document)) {
+      throw new ClientException('Invalid example document specification');
+    }
+
+    $data = array(self::OPTION_COLLECTION => $collectionId, self::OPTION_EXAMPLE => $document->getAll(array('ignoreHiddenAttributes'=>true)));
+
+    $response = $this->getConnection()->put(Urls::URL_REMOVE_BY_EXAMPLE, $this->getConnection()->json_encode_wrapper($data));
+
+    $responseArray=$response->getJson();
+
+    if ($responseArray['error']===true) {
+      throw new ClientException('Invalid example document specification');
+    }
+
+    return $responseArray['deleted'] ;
+  }
+
 
   /**
    * Get document(s) by specifying range

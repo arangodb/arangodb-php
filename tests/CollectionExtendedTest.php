@@ -192,6 +192,35 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(true === $response, 'Delete should return true!');
     }
 
+
+    /**
+     * test for creation of documents, and removal by example
+     */
+    public function testCreateDocumentsWithCreateFromArrayAndRemoveByExample()
+    {
+        $documentHandler = $this->documentHandler;
+        $collectionHandler = $this->collectionHandler;
+
+        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true));
+        $response = $collectionHandler->add($collection);
+        $document = Document::createFromArray(array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue'));
+        $documentId = $documentHandler->add($collection->getId(), $document);
+        $document2 = Document::createFromArray(array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2'));
+        $documentId2 = $documentHandler->add($collection->getId(), $document2);
+        $document3 = Document::createFromArray(array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue'));
+        $documentId3 = $documentHandler->add($collection->getId(), $document3);
+
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId2), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId3), 'Did not return an id!');
+
+        $documentExample = Document::createFromArray(array('someOtherAttribute' => 'someOtherValue'));
+        $result =  $collectionHandler->removeByExample($collection->getId(), $documentExample);
+        $this->assertTrue($result === 2);
+    }
+
+
     /**
      * test for creation, getAllIds, and delete of a collection given its settings through createFromArray()
      */
@@ -221,7 +250,7 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
    /**
      * test for creating, filling with documents and truncating the collection.
      */
-    public function testCreateFilAndTruncateCollection()
+    public function testCreateFillAndTruncateCollection()
     {
         $collectionHandler = $this->collectionHandler;
 
