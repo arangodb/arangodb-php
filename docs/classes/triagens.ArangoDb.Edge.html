@@ -74,6 +74,8 @@
 <li class="method public inherited"><a href="#method_getHiddenAttributes" title="getHiddenAttributes :: Get the hidden attributes"><span class="description">Get the hidden attributes</span><pre>getHiddenAttributes()</pre></a></li>
 <li class="method public inherited"><a href="#method_getId" title="getId :: Get the document id (if already known)"><span class="description">Get the document id (if already known)</span><pre>getId()</pre></a></li>
 <li class="method public inherited"><a href="#method_getInternalId" title="getInternalId :: Get the internal document id (if already known)"><span class="description">Get the internal document id (if already known)</span><pre>getInternalId()</pre></a></li>
+<li class="method public inherited"><a href="#method_getInternalKey" title="getInternalKey :: Get the internal document key (if already known)"><span class="description">Get the internal document key (if already known)</span><pre>getInternalKey()</pre></a></li>
+<li class="method public inherited"><a href="#method_getKey" title="getKey :: Get the document key (if already known)."><span class="description">Get the document key (if already known).</span><pre>getKey()</pre></a></li>
 <li class="method public inherited"><a href="#method_getRevision" title="getRevision :: Get the document revision (if already known)"><span class="description">Get the document revision (if already known)</span><pre>getRevision()</pre></a></li>
 <li class="method public "><a href="#method_getTo" title="getTo :: Get the 'to' vertex document-handler (if already known)"><span class="description">Get the 'to' vertex document-handler (if already known)</span><pre>getTo()</pre></a></li>
 <li class="method public "><a href="#method_set" title="set :: Set a document attribute"><span class="description">Set a document attribute</span><pre>set()</pre></a></li>
@@ -81,6 +83,7 @@
 <li class="method public "><a href="#method_setFrom" title="setFrom :: Set the 'from' vertex document-handler"><span class="description">Set the 'from' vertex document-handler</span><pre>setFrom()</pre></a></li>
 <li class="method public inherited"><a href="#method_setHiddenAttributes" title="setHiddenAttributes :: Set the hidden attributes"><span class="description">Set the hidden attributes</span><pre>setHiddenAttributes()</pre></a></li>
 <li class="method public inherited"><a href="#method_setInternalId" title="setInternalId :: Set the internal document id"><span class="description">Set the internal document id</span><pre>setInternalId()</pre></a></li>
+<li class="method public inherited"><a href="#method_setInternalKey" title="setInternalKey :: Set the internal document key"><span class="description">Set the internal document key</span><pre>setInternalKey()</pre></a></li>
 <li class="method public inherited"><a href="#method_setRevision" title="setRevision :: Set the document revision"><span class="description">Set the document revision</span><pre>setRevision()</pre></a></li>
 <li class="method public "><a href="#method_setTo" title="setTo :: Set the 'to' vertex document-handler"><span class="description">Set the 'to' vertex document-handler</span><pre>setTo()</pre></a></li>
 <li class="method public inherited"><a href="#method_toJson" title="toJson :: Returns the document as JSON-encoded string"><span class="description">Returns the document as JSON-encoded string</span><pre>toJson()</pre></a></li>
@@ -97,6 +100,7 @@
 <li class="property protected "><a href="#property__from" title="$_from :: The edge's from (might be NULL for new documents)"><span class="description"></span><pre>$_from</pre></a></li>
 <li class="property protected inherited"><a href="#property__hidden" title="$_hidden :: Flag to indicate whether document was changed locally"><span class="description"></span><pre>$_hidden</pre></a></li>
 <li class="property protected inherited"><a href="#property__id" title="$_id :: The document id (might be NULL for new documents)"><span class="description"></span><pre>$_id</pre></a></li>
+<li class="property protected inherited"><a href="#property__key" title="$_key :: The document key (might be NULL for new documents)"><span class="description"></span><pre>$_key</pre></a></li>
 <li class="property protected inherited"><a href="#property__rev" title="$_rev :: The document revision (might be NULL for new documents)"><span class="description"></span><pre>$_rev</pre></a></li>
 <li class="property protected "><a href="#property__to" title="$_to :: The edge's to (might be NULL for new documents)"><span class="description"></span><pre>$_to</pre></a></li>
 <li class="property protected inherited"><a href="#property__values" title="$_values :: The document attributes (names/values)"><span class="description"></span><pre>$_values</pre></a></li>
@@ -108,6 +112,7 @@
 <li class="constant  "><a href="#constant_ENTRY_FROM" title="ENTRY_FROM :: Document _from index"><span class="description">Document _from index</span><pre>ENTRY_FROM</pre></a></li>
 <li class="constant  inherited"><a href="#constant_ENTRY_HIDDEN" title="ENTRY_HIDDEN :: hidden atttribute index"><span class="description">hidden atttribute index</span><pre>ENTRY_HIDDEN</pre></a></li>
 <li class="constant  inherited"><a href="#constant_ENTRY_ID" title="ENTRY_ID :: Document id index"><span class="description">Document id index</span><pre>ENTRY_ID</pre></a></li>
+<li class="constant  inherited"><a href="#constant_ENTRY_KEY" title="ENTRY_KEY :: Document key index"><span class="description">Document key index</span><pre>ENTRY_KEY</pre></a></li>
 <li class="constant  inherited"><a href="#constant_ENTRY_REV" title="ENTRY_REV :: Revision id index"><span class="description">Revision id index</span><pre>ENTRY_REV</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_TO" title="ENTRY_TO :: Revision _to index"><span class="description">Revision _to index</span><pre>ENTRY_TO</pre></a></li>
 </ul>
@@ -443,6 +448,36 @@ document id, in the format collectionid/documentid</p></div>
 <code>string</code>- internal document id, might be NULL if document does not yet have an id</div>
 </div></div>
 </div>
+<a id="method_getInternalKey"></a><div class="element clickable method public method_getInternalKey" data-toggle="collapse" data-target=".method_getInternalKey .collapse">
+<h2>Get the internal document key (if already known)</h2>
+<pre>getInternalKey() : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::getInternalKey()</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>- internal document key, might be NULL if document does not yet have a key</div>
+</div></div>
+</div>
+<a id="method_getKey"></a><div class="element clickable method public method_getKey" data-toggle="collapse" data-target=".method_getKey .collapse">
+<h2>Get the document key (if already known).</h2>
+<pre>getKey() : mixed</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Alias function for getInternalKey()</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::getKey()</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>- document key, might be NULL if document does not yet have a key</div>
+</div></div>
+</div>
 <a id="method_getRevision"></a><div class="element clickable method public method_getRevision" data-toggle="collapse" data-target=".method_getRevision .collapse">
 <h2>Get the document revision (if already known)</h2>
 <pre>getRevision() : mixed</pre>
@@ -569,6 +604,30 @@ exception if the value is invalid.</p></div>
 <h4>$id</h4>
 <code>string</code><ul>
 <li>internal document id</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_setInternalKey"></a><div class="element clickable method public method_setInternalKey" data-toggle="collapse" data-target=".method_setInternalKey .collapse">
+<h2>Set the internal document key</h2>
+<pre>setInternalKey(string $key) : void</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will throw if the key of an existing document gets updated to some other key</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::setInternalKey()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$key</h4>
+<code>string</code><ul>
+<li>internal document key</li>
 </ul>
 </div>
 <h3>Exceptions</h3>
@@ -716,6 +775,18 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 </tr></table>
 </div></div>
 </div>
+<a id="property__key"> </a><div class="element clickable property protected property__key" data-toggle="collapse" data-target=".property__key .collapse">
+<h2></h2>
+<pre>$_key : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::$$_key</td>
+</tr></table>
+</div></div>
+</div>
 <a id="property__rev"> </a><div class="element clickable property protected property__rev" data-toggle="collapse" data-target=".property__rev .collapse">
 <h2></h2>
 <pre>$_rev : mixed</pre>
@@ -778,6 +849,18 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 </tr></table>
 </div></div>
 </div>
+<a id="constant_ENTRY_KEY"> </a><div class="element clickable constant  constant_ENTRY_KEY" data-toggle="collapse" data-target=".constant_ENTRY_KEY .collapse">
+<h2>Document key index</h2>
+<pre>ENTRY_KEY </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::ENTRY_KEY</td>
+</tr></table>
+</div></div>
+</div>
 <a id="constant_ENTRY_REV"> </a><div class="element clickable constant  constant_ENTRY_REV" data-toggle="collapse" data-target=".constant_ENTRY_REV .collapse">
 <h2>Revision id index</h2>
 <pre>ENTRY_REV </pre>
@@ -803,7 +886,7 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-01-03T23:05:18+02:00.<br></footer></div>
+            generated on 2013-02-11T02:07:38+02:00.<br></footer></div>
 </div>
 </body>
 </html>

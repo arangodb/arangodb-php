@@ -65,18 +65,24 @@
 <li class="method public "><a href="#method_create" title="create :: Creates a new collection on the server"><span class="description">Creates a new collection on the server</span><pre>create()</pre></a></li>
 <li class="method public "><a href="#method_delete" title="delete :: Delete a collection"><span class="description">Delete a collection</span><pre>delete()</pre></a></li>
 <li class="method public "><a href="#method_drop" title="drop :: Drop a collection"><span class="description">Drop a collection</span><pre>drop()</pre></a></li>
+<li class="method public "><a href="#method_dropIndex" title="dropIndex :: Drop an index"><span class="description">Drop an index</span><pre>dropIndex()</pre></a></li>
 <li class="method public "><a href="#method_figures" title="figures :: Get figures for a collection"><span class="description">Get figures for a collection</span><pre>figures()</pre></a></li>
 <li class="method public "><a href="#method_get" title="get :: Get information about a collection"><span class="description">Get information about a collection</span><pre>get()</pre></a></li>
 <li class="method public "><a href="#method_getAllIds" title="getAllIds :: Get the list of all documents' ids from a collection"><span class="description">Get the list of all documents' ids from a collection</span><pre>getAllIds()</pre></a></li>
 <li class="method public "><a href="#method_getCollectionId" title="getCollectionId :: Gets the collectionId from the given collectionObject or string/integer"><span class="description">Gets the collectionId from the given collectionObject or string/integer</span><pre>getCollectionId()</pre></a></li>
+<li class="method public "><a href="#method_getCollectionName" title="getCollectionName :: Gets the collectionId from the given collectionObject or string/integer"><span class="description">Gets the collectionId from the given collectionObject or string/integer</span><pre>getCollectionName()</pre></a></li>
 <li class="method public "><a href="#method_getCount" title="getCount :: Get the number of documents in a collection"><span class="description">Get the number of documents in a collection</span><pre>getCount()</pre></a></li>
 <li class="method public "><a href="#method_getFigures" title="getFigures :: Get figures for a collection"><span class="description">Get figures for a collection</span><pre>getFigures()</pre></a></li>
+<li class="method public "><a href="#method_getIndexes" title="getIndexes :: Get indexes of a collection"><span class="description">Get indexes of a collection</span><pre>getIndexes()</pre></a></li>
 <li class="method public "><a href="#method_getProperties" title="getProperties :: Get properties of a collection"><span class="description">Get properties of a collection</span><pre>getProperties()</pre></a></li>
+<li class="method public "><a href="#method_import" title="import :: Import documents into a collection"><span class="description">Import documents into a collection</span><pre>import()</pre></a></li>
+<li class="method public "><a href="#method_importFromFile" title="importFromFile :: Import documents from a file"><span class="description">Import documents from a file</span><pre>importFromFile()</pre></a></li>
 <li class="method public "><a href="#method_index" title="index :: Creates an index on a collection on the server"><span class="description">Creates an index on a collection on the server</span><pre>index()</pre></a></li>
 <li class="method public "><a href="#method_isValidCollectionId" title="isValidCollectionId :: Checks if the collectionId given, is valid."><span class="description">Checks if the collectionId given, is valid.</span><pre>isValidCollectionId()</pre></a></li>
 <li class="method public "><a href="#method_load" title="load :: Load a collection into the server's memory"><span class="description">Load a collection into the server's memory</span><pre>load()</pre></a></li>
 <li class="method public "><a href="#method_near" title="near :: Get document(s) by specifying near"><span class="description">Get document(s) by specifying near</span><pre>near()</pre></a></li>
 <li class="method public "><a href="#method_range" title="range :: Get document(s) by specifying range"><span class="description">Get document(s) by specifying range</span><pre>range()</pre></a></li>
+<li class="method public "><a href="#method_removeByExample" title="removeByExample :: Remove document(s) by specifying an example"><span class="description">Remove document(s) by specifying an example</span><pre>removeByExample()</pre></a></li>
 <li class="method public "><a href="#method_rename" title="rename :: Rename a collection"><span class="description">Rename a collection</span><pre>rename()</pre></a></li>
 <li class="method public "><a href="#method_truncate" title="truncate :: Truncate a collection"><span class="description">Truncate a collection</span><pre>truncate()</pre></a></li>
 <li class="method public "><a href="#method_unload" title="unload :: Unload a collection from the server's memory"><span class="description">Unload a collection from the server's memory</span><pre>unload()</pre></a></li>
@@ -104,6 +110,7 @@
 <li class="constant  "><a href="#constant_OPTION_CLOSED" title="OPTION_CLOSED :: closed parameter"><span class="description">closed parameter</span><pre>OPTION_CLOSED</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_COLLECTION" title="OPTION_COLLECTION :: collection parameter"><span class="description">collection parameter</span><pre>OPTION_COLLECTION</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_COUNT" title="OPTION_COUNT :: count option"><span class="description">count option</span><pre>OPTION_COUNT</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_CREATE_COLLECTION" title="OPTION_CREATE_COLLECTION :: example parameter"><span class="description">example parameter</span><pre>OPTION_CREATE_COLLECTION</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_DISTANCE" title="OPTION_DISTANCE :: distance parameter"><span class="description">distance parameter</span><pre>OPTION_DISTANCE</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_EXAMPLE" title="OPTION_EXAMPLE :: example parameter"><span class="description">example parameter</span><pre>OPTION_EXAMPLE</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_FIELDS" title="OPTION_FIELDS :: count fields"><span class="description">count fields</span><pre>OPTION_FIELDS</pre></a></li>
@@ -224,13 +231,13 @@ appropriate HTTP requests to the server.</p></div>
 <li>optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.</li>
 </ul>
 
-<p>Options are :
+<p>Options are :<br>
 <li>'sanitize' - true to remove _id and _rev attributes from result documents. Defaults to false.</li>
 <li>'hiddenAttributes' - set an array of hidden attributes for created documents.
 <p>
-                               This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.
-                               The difference is, that if you're returning a resultset of documents, the getall() is already called
-                               and the hidden attributes would not be applied to the attributes.
+                               This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+                               The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+                               and the hidden attributes would not be applied to the attributes.<br>
 </p>
 </li>
 </p>
@@ -273,9 +280,9 @@ appropriate HTTP requests to the server.</p></div>
 <pre>create(\triagens\ArangoDb\Collection $collection) : mixed</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This will add the collection on the server and return its id</p>
-
-<p>This will throw if the collection cannot be created</p></div>
+<div class="long_description"><p>This will add the collection on the server and return its id
+The id is mainly returned for backwards compatibility, but you should use the collection name for any reference to the collection.   *
+This will throw if the collection cannot be created</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collection</h4>
@@ -331,6 +338,29 @@ appropriate HTTP requests to the server.</p></div>
 <h4>$collection</h4>
 <code>mixed</code><ul>
 <li>collection id as string or number or collection object</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>bool</code>- always true, will throw if there is an error</div>
+</div></div>
+</div>
+<a id="method_dropIndex"></a><div class="element clickable method public method_dropIndex" data-toggle="collapse" data-target=".method_dropIndex .collapse">
+<h2>Drop an index</h2>
+<pre>dropIndex(mixed $indexHandle) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$indexHandle</h4>
+<code>mixed</code><ul>
+<li>index handle (collection name / index id)</li>
 </ul>
 </div>
 <h3>Exceptions</h3>
@@ -427,6 +457,21 @@ appropriate HTTP requests to the server.</p></div>
 <div class="subelement response"><code>mixed</code></div>
 </div></div>
 </div>
+<a id="method_getCollectionName"></a><div class="element clickable method public method_getCollectionName" data-toggle="collapse" data-target=".method_getCollectionName .collapse">
+<h2>Gets the collectionId from the given collectionObject or string/integer</h2>
+<pre>getCollectionName(mixed $collection) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collection</h4>
+<code>mixed</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>mixed</code></div>
+</div></div>
+</div>
 <a id="method_getCount"></a><div class="element clickable method public method_getCount" data-toggle="collapse" data-target=".method_getCount .collapse">
 <h2>Get the number of documents in a collection</h2>
 <pre>getCount(mixed $collectionId) : int</pre>
@@ -481,6 +526,29 @@ appropriate HTTP requests to the server.</p></div>
 <code>array</code>- the figures for the collection</div>
 </div></div>
 </div>
+<a id="method_getIndexes"></a><div class="element clickable method public method_getIndexes" data-toggle="collapse" data-target=".method_getIndexes .collapse">
+<h2>Get indexes of a collection</h2>
+<pre>getIndexes(mixed $collectionId) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will throw if the collection cannot be fetched from the server</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>collection id as a string or number</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>$data - the indexes result-set from the server</div>
+</div></div>
+</div>
 <a id="method_getProperties"></a><div class="element clickable method public method_getProperties" data-toggle="collapse" data-target=".method_getProperties .collapse">
 <h2>Get properties of a collection</h2>
 <pre>getProperties(mixed $collectionId) : <a href="../classes/triagens.ArangoDb.Collection.html">\triagens\ArangoDb\Collection</a></pre>
@@ -502,6 +570,99 @@ appropriate HTTP requests to the server.</p></div>
 <h3>Returns</h3>
 <div class="subelement response">
 <code><a href="../classes/triagens.ArangoDb.Collection.html">\triagens\ArangoDb\Collection</a></code>- the collection fetched from the server</div>
+</div></div>
+</div>
+<a id="method_import"></a><div class="element clickable method public method_import" data-toggle="collapse" data-target=".method_import .collapse">
+<h2>Import documents into a collection</h2>
+<pre>import(mixed $collectionId, mixed $importData, array $options) : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will throw on all errors except insertion errors</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>collection id as string or number</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$importData</h4>
+<code>mixed</code><ul>
+<li>The data to import. This can be a string holding the data according to the type of import, or an array of documents</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><ul>
+<li>optional - an array of options.</li>
+</ul>
+
+<p>Options are :<br>
+<li>
+'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
+          if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.<br>
+          if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.<br>
+<br>
+More info on how the import functionality works: <a href ="https://github.com/triAGENS/ArangoDB/wiki/HttpImport">https://github.com/triAGENS/ArangoDB/wiki/HttpImport</a>
+<br>
+</li>
+<li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
+</p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>int</code>- number of documents that were deleted</div>
+</div></div>
+</div>
+<a id="method_importFromFile"></a><div class="element clickable method public method_importFromFile" data-toggle="collapse" data-target=".method_importFromFile .collapse">
+<h2>Import documents from a file</h2>
+<pre>importFromFile(mixed $collectionId, mixed $importFileName, array $options) : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will throw on all errors except insertion errors</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>collection id as string or number</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$importFileName</h4>
+<code>mixed</code><ul>
+<li>The filename that holds the import data.</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><ul>
+<li>optional - an array of options.</li>
+</ul>
+
+<p>Options are :<br>
+'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
+          if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.<br>
+          if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.<br>
+<br>
+More info on how the import functionality works: <a href ="https://github.com/triAGENS/ArangoDB/wiki/HttpImport">https://github.com/triAGENS/ArangoDB/wiki/HttpImport</a>
+<br>
+</li>
+<li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
+</p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>int</code>- number of documents that were deleted</div>
 </div></div>
 </div>
 <a id="method_index"></a><div class="element clickable method public method_index" data-toggle="collapse" data-target=".method_index .collapse">
@@ -613,13 +774,13 @@ appropriate HTTP requests to the server.</p></div>
 <li>optional array of options.</li>
 </ul>
 
-<p>Options are :
+<p>Options are :<br>
 <li>'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
 <li>'hiddenAttributes' - Set an array of hidden attributes for created documents.
 <p>
-                               This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.
-                               The difference is, that if you're returning a resultset of documents, the getall() is already called
-                               and the hidden attributes would not be applied to the attributes.
+                               This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+                               The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+                               and the hidden attributes would not be applied to the attributes.<br>
 </p>
 <li>'distance' - If given, the attribute key used to store the distance. (optional)
 <li>'skip' - The documents to skip in the query.
@@ -674,13 +835,13 @@ appropriate HTTP requests to the server.</p></div>
 <li>optional array of options.</li>
 </ul>
 
-<p>Options are :
+<p>Options are :<br>
 <li>'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
 <li>'hiddenAttributes' - Set an array of hidden attributes for created documents.
 <p>
-                               This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.
-                               The difference is, that if you're returning a resultset of documents, the getall() is already called
-                               and the hidden attributes would not be applied to the attributes.
+                               This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
+                               The difference is, that if you're returning a resultset of documents, the getall() is already called<br>
+                               and the hidden attributes would not be applied to the attributes.<br>
 </p>
 <li>'closed' - If true, use interval including left and right, otherwise exclude right, but include left.
 <li>'skip' - The documents to skip in the query.
@@ -696,6 +857,48 @@ appropriate HTTP requests to the server.</p></div>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>array</code>- documents matching the example [0...n]</div>
+</div></div>
+</div>
+<a id="method_removeByExample"></a><div class="element clickable method public method_removeByExample" data-toggle="collapse" data-target=".method_removeByExample .collapse">
+<h2>Remove document(s) by specifying an example</h2>
+<pre>removeByExample(mixed $collectionId, mixed $document, bool | array $options) : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will throw on any error</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>collection id as string or number</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$document</h4>
+<code>mixed</code><ul>
+<li>the example document as a Document object or an array</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>bool</code><code>array</code><ul>
+<li>optional - an array of options.</li>
+</ul>
+
+<p>Options are :<br>
+<li>
+'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk.<br>
+If this is not specified, then the collection's default sync behavior will be applied.
+</li>
+</p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>int</code>- number of documents that were deleted</div>
 </div></div>
 </div>
 <a id="method_rename"></a><div class="element clickable method public method_rename" data-toggle="collapse" data-target=".method_rename .collapse">
@@ -810,13 +1013,13 @@ appropriate HTTP requests to the server.</p></div>
 <li>optional array of options.</li>
 </ul>
 
-<p>Options are :
+<p>Options are :<br>
 <li>'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
 <li>'hiddenAttributes' - Set an array of hidden attributes for created documents.
 <p>
-                               This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.
-                               The difference is, that if you're returning a resultset of documents, the getall() is already called
-                               and the hidden attributes would not be applied to the attributes.
+                               This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
+                               The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+                               and the hidden attributes would not be applied to the attributes.<br>
 </p>
 <li>'distance' - If given, the attribute key used to store the distance. (optional)
 <li>'skip' - The documents to skip in the query.
@@ -916,6 +1119,12 @@ appropriate HTTP requests to the server.</p></div>
 <a id="constant_OPTION_COUNT"> </a><div class="element clickable constant  constant_OPTION_COUNT" data-toggle="collapse" data-target=".constant_OPTION_COUNT .collapse">
 <h2>count option</h2>
 <pre>OPTION_COUNT </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_CREATE_COLLECTION"> </a><div class="element clickable constant  constant_OPTION_CREATE_COLLECTION" data-toggle="collapse" data-target=".constant_OPTION_CREATE_COLLECTION .collapse">
+<h2>example parameter</h2>
+<pre>OPTION_CREATE_COLLECTION </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
@@ -1034,7 +1243,7 @@ appropriate HTTP requests to the server.</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-01-03T23:05:18+02:00.<br></footer></div>
+            generated on 2013-02-11T02:07:38+02:00.<br></footer></div>
 </div>
 </body>
 </html>

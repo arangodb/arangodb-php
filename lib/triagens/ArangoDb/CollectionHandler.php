@@ -506,13 +506,13 @@ class CollectionHandler extends Handler {
    * @param mixed $collectionId - collection id as string or number
    * @param mixed $document - the example document as a Document object or an array
    * @param bool|array $options - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
-   * <p>Options are : 
+   * <p>Options are :<br>
    * <li>'sanitize' - true to remove _id and _rev attributes from result documents. Defaults to false.</li>
    * <li>'hiddenAttributes' - set an array of hidden attributes for created documents.
    * <p>
-   *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. 
-   *                                The difference is, that if you're returning a resultset of documents, the getall() is already called 
-   *                                and the hidden attributes would not be applied to the attributes.
+   *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+   *                                The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+   *                                and the hidden attributes would not be applied to the attributes.<br>
    * </p>
    * </li>
    * </p>
@@ -554,9 +554,9 @@ class CollectionHandler extends Handler {
    * @param mixed $collectionId - collection id as string or number
    * @param mixed $document - the example document as a Document object or an array
    * @param bool|array $options - optional - an array of options.
-   * <p>Options are :
+   * <p>Options are :<br>
    * <li>
-   * 'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk.
+   * 'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk.<br>
    * If this is not specified, then the collection's default sync behavior will be applied.
    * </li>
    * </p>
@@ -598,13 +598,13 @@ class CollectionHandler extends Handler {
    * @param mixed $left - The lower bound.
    * @param mixed $right - The upper bound.
    * @param array $options - optional array of options.
-   * <p>Options are : 
+   * <p>Options are :<br>
    * <li>'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
    * <li>'hiddenAttributes' - Set an array of hidden attributes for created documents.
    * <p>
-   *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. 
-   *                                The difference is, that if you're returning a resultset of documents, the getall() is already called 
-   *                                and the hidden attributes would not be applied to the attributes.
+   *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
+   *                                The difference is, that if you're returning a resultset of documents, the getall() is already called<br>
+   *                                and the hidden attributes would not be applied to the attributes.<br>
    * </p>
    *  
    * <li>'closed' - If true, use interval including left and right, otherwise exclude right, but include left. 
@@ -649,13 +649,13 @@ class CollectionHandler extends Handler {
    * @param double $latitude - The latitude of the coordinate.
    * @param double $longitude - The longitude of the coordinate.
    * @param array $options - optional array of options.
-   * <p>Options are : 
+   * <p>Options are :<br>
    * <li>'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
    * <li>'hiddenAttributes' - Set an array of hidden attributes for created documents.
    * <p>
-   *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. 
-   *                                The difference is, that if you're returning a resultset of documents, the getall() is already called 
-   *                                and the hidden attributes would not be applied to the attributes.
+   *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+   *                                The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+   *                                and the hidden attributes would not be applied to the attributes.<br>
    * </p>
    *  
    * <li>'distance' - If given, the attribute key used to store the distance. (optional)
@@ -696,13 +696,13 @@ class CollectionHandler extends Handler {
    * @param double $longitude - The longitude of the coordinate.
    * @param int $radius - The maximal radius (in meters).
    * @param array $options - optional array of options.
-   * <p>Options are : 
+   * <p>Options are :<br>
    * <li>'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
    * <li>'hiddenAttributes' - Set an array of hidden attributes for created documents.
    * <p>
-   *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. 
-   *                                The difference is, that if you're returning a resultset of documents, the getall() is already called 
-   *                                and the hidden attributes would not be applied to the attributes.
+   *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
+   *                                The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+   *                                and the hidden attributes would not be applied to the attributes.<br>
    * </p>
    *  
    * <li>'distance' - If given, the attribute key used to store the distance. (optional)
@@ -838,13 +838,13 @@ class CollectionHandler extends Handler {
      * @param mixed $collectionId - collection id as string or number
      * @param mixed $importFileName - The filename that holds the import data.
      * @param array $options - optional - an array of options.
-     * <p>Options are :
-     * <li>
-     * 'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.
-     *           if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.
-     *           if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.
-     *
-     * More info on how the import functionality works: https://github.com/triAGENS/ArangoDB/wiki/HttpImport
+     * <p>Options are :<br>
+     * 'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
+     *           if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.<br>
+     *           if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.<br>
+     * <br>
+     * More info on how the import functionality works: <a href ="https://github.com/triAGENS/ArangoDB/wiki/HttpImport">https://github.com/triAGENS/ArangoDB/wiki/HttpImport</a>
+     * <br>
      * </li>
      * <li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
      * </p>
@@ -871,13 +871,14 @@ class CollectionHandler extends Handler {
      * @param mixed $collectionId - collection id as string or number
      * @param mixed $importData - The data to import. This can be a string holding the data according to the type of import, or an array of documents
      * @param array $options - optional - an array of options.
-     * <p>Options are :
+     * <p>Options are :<br>
      * <li>
-     * 'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.
-     *           if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.
-     *           if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.
-     *
-     * More info on how the import functionality works: https://github.com/triAGENS/ArangoDB/wiki/HttpImport
+     * 'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
+     *           if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.<br>
+     *           if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.<br>
+     * <br>
+     * More info on how the import functionality works: <a href ="https://github.com/triAGENS/ArangoDB/wiki/HttpImport">https://github.com/triAGENS/ArangoDB/wiki/HttpImport</a>
+     * <br>
      * </li>
      * <li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
      * </p>

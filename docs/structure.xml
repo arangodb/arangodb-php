@@ -41,7 +41,7 @@
       </method>
     </class>
   </file>
-  <file path="Batch.php" hash="abf6335fef630fad560e80188bec1401" package="ArangoDbPhpClient">
+  <file path="Batch.php" hash="581246017ee5a4a5d45061396fe7e506" package="ArangoDbPhpClient">
     <docblock line="3">
       <description>ArangoDB PHP client: batch</description>
       <long-description></long-description>
@@ -415,135 +415,135 @@ To disable this, pass startCapture=&gt;false inside the options array parameter&
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="339" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="335" package="ArangoDbPhpClient">
         <name>splitWithContentIdKey</name>
         <full_name>splitWithContentIdKey</full_name>
-        <docblock line="331">
+        <docblock line="327">
           <description>Split batch request and use ContentId as array key</description>
           <long-description></long-description>
-          <tag line="331" name="param" description="" type="mixed" variable="$pattern">
+          <tag line="327" name="param" description="" type="mixed" variable="$pattern">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="331" name="param" description="" type="mixed" variable="$string">
+          <tag line="327" name="param" description="" type="mixed" variable="$string">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="331" name="return" description="$array - Array of batchparts" type="array">
+          <tag line="327" name="return" description="$array - Array of batchparts" type="array">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
-        <argument line="339">
+        <argument line="335">
           <name>$pattern</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="339">
+        <argument line="335">
           <name>$string</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="362" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="358" package="ArangoDbPhpClient">
         <name>process</name>
         <full_name>process</full_name>
-        <docblock line="357">
+        <docblock line="353">
           <description>Processes this batch.</description>
           <long-description>&lt;p&gt;This sends the captured requests to the server as one batch.&lt;/p&gt;</long-description>
-          <tag line="357" name="return" description="- true if processing of the batch was  or the HttpResponse object in case of a failure. A successful process just means that tha parts were processed. Each part has it's own response though and should be checked on its own." type="bool">
+          <tag line="353" name="return" description="- true if processing of the batch was  or the HttpResponse object in case of a failure. A successful process just means that tha parts were processed. Each part has it's own response though and should be checked on its own." type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="413" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="410" package="ArangoDbPhpClient">
         <name>countParts</name>
         <full_name>countParts</full_name>
-        <docblock line="408">
+        <docblock line="405">
           <description>Get the total count of the batch parts</description>
           <long-description></long-description>
-          <tag line="408" name="return" description="$count" type="integer">
+          <tag line="405" name="return" description="$count" type="integer">
             <type by_reference="false">integer</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="426" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="423" package="ArangoDbPhpClient">
         <name>getPart</name>
         <full_name>getPart</full_name>
-        <docblock line="419">
+        <docblock line="416">
           <description>Get the batch part identified by the array key (0.</description>
           <long-description>&lt;p&gt;..n) or its id (if it was set with nextBatchPartId($id) )&lt;/p&gt;</long-description>
-          <tag line="419" name="param" description="the batch part id. Either it's numeric key or a given name." type="\triagens\ArangoDb\" variable="$partId"/>
-          <tag line="419" name="return" description="$batchPart" type="mixed">
+          <tag line="416" name="param" description="the batch part id. Either it's numeric key or a given name." type="\triagens\ArangoDb\" variable="$partId"/>
+          <tag line="416" name="return" description="$batchPart" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
         </docblock>
-        <argument line="426">
+        <argument line="423">
           <name>$partId</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="439" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="440" package="ArangoDbPhpClient">
         <name>getPartResponse</name>
         <full_name>getPartResponse</full_name>
-        <docblock line="432">
+        <docblock line="433">
           <description>Get the batch part identified by the array key (0.</description>
           <long-description>&lt;p&gt;..n) or its id (if it was set with nextBatchPartId($id) )&lt;/p&gt;</long-description>
-          <tag line="432" name="param" description="the batch part id. Either it's numeric key or a given name." type="\triagens\ArangoDb\" variable="$partId"/>
-          <tag line="432" name="return" description="$partId" type="mixed">
+          <tag line="433" name="param" description="the batch part id. Either it's numeric key or a given name." type="\triagens\ArangoDb\" variable="$partId"/>
+          <tag line="433" name="return" description="$partId" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
         </docblock>
-        <argument line="439">
+        <argument line="440">
           <name>$partId</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="452" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="453" package="ArangoDbPhpClient">
         <name>getProcessedPartResponse</name>
         <full_name>getProcessedPartResponse</full_name>
-        <docblock line="445">
+        <docblock line="446">
           <description>Get the batch part identified by the array key (0.</description>
           <long-description>&lt;p&gt;..n) or its id (if it was set with nextBatchPartId($id) )&lt;/p&gt;</long-description>
-          <tag line="445" name="param" description="the batch part id. Either it's numeric key or a given name." type="\triagens\ArangoDb\" variable="$partId"/>
-          <tag line="445" name="return" description="$partId" type="mixed">
+          <tag line="446" name="param" description="the batch part id. Either it's numeric key or a given name." type="\triagens\ArangoDb\" variable="$partId"/>
+          <tag line="446" name="return" description="$partId" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
         </docblock>
-        <argument line="452">
+        <argument line="453">
           <name>$partId</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="463" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="464" package="ArangoDbPhpClient">
         <name>getBatchParts</name>
         <full_name>getBatchParts</full_name>
-        <docblock line="458">
+        <docblock line="459">
           <description>Returns the array of batchparts</description>
           <long-description></long-description>
-          <tag line="458" name="return" description="$_batchParts" type="array">
+          <tag line="459" name="return" description="$_batchParts" type="array">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="473" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="474" package="ArangoDbPhpClient">
         <name>getCursorOptions</name>
         <full_name>getCursorOptions</full_name>
-        <docblock line="468">
+        <docblock line="469">
           <description>Return an array of cursor options</description>
           <long-description></long-description>
-          <tag line="468" name="return" description="- array of options" type="array">
+          <tag line="469" name="return" description="- array of options" type="array">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="483" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="484" package="ArangoDbPhpClient">
         <name>getConnection</name>
         <full_name>getConnection</full_name>
-        <docblock line="478">
+        <docblock line="479">
           <description>Return this batch's connection</description>
           <long-description></long-description>
-          <tag line="478" name="return" description="" type="\triagens\ArangoDb\Connection">
+          <tag line="479" name="return" description="" type="\triagens\ArangoDb\Connection">
             <type by_reference="false">\triagens\ArangoDb\Connection</type>
           </tag>
         </docblock>
@@ -843,7 +843,7 @@ duplicate execution of the exit func.&lt;/p&gt;</long-description>
       </method>
     </class>
   </file>
-  <file path="ConnectionOptions.php" hash="6e1184c64e2fdb3f2936b372db21d40b" package="ArangoDbPhpClient">
+  <file path="ConnectionOptions.php" hash="43b9a49cab7644885e3ab5fa1b72009e" package="ArangoDbPhpClient">
     <docblock line="3">
       <description>ArangoDB PHP client: connection options</description>
       <long-description></long-description>
@@ -2343,7 +2343,7 @@ that the revision of the to-be-replaced document is the same as the one given.&l
       </method>
     </class>
   </file>
-  <file path="Connection.php" hash="65bc9e8d8fdec7c14d43950ffc1c611a" package="ArangoDbPhpClient">
+  <file path="Connection.php" hash="a4fa9b34b44aafd168f468b18131564b" package="ArangoDbPhpClient">
     <docblock line="3">
       <description>ArangoDB PHP client: connection</description>
       <long-description></long-description>
@@ -2365,7 +2365,7 @@ and are destroyed afterwards.&lt;/p&gt;</long-description>
       </docblock>
       <property final="false" static="true" visibility="public" line="28" namespace="triagens\ArangoDb" package="Default">
         <name>$_apiVersion</name>
-        <default>'1.0.0'</default>
+        <default>'1.2.0'</default>
         <docblock line="23">
           <description>Api Version</description>
           <long-description></long-description>
@@ -2908,7 +2908,7 @@ an Exception, this method will happilly return the json_encoded data.&lt;/p&gt;<
       </method>
     </class>
   </file>
-  <file path="DefaultValues.php" hash="97a3ca62e45d58243267626acec29646" package="ArangoDbPhpClient">
+  <file path="DefaultValues.php" hash="a13b787c53ace14a909edb04ef70c351" package="ArangoDbPhpClient">
     <docblock line="3">
       <description>ArangoDB PHP client: default values</description>
       <long-description></long-description>
@@ -3778,7 +3778,7 @@ that occurred, this will return the server error string&lt;/p&gt;</long-descript
       </method>
     </class>
   </file>
-  <file path="CollectionHandler.php" hash="90cce9fb63f4348cae0ca25ddacf7ffd" package="ArangoDbPhpClient">
+  <file path="CollectionHandler.php" hash="d475d0a323719f8656889a14dbf1d4d5" package="ArangoDbPhpClient">
     <docblock line="3">
       <description>ArangoDB PHP client: collection handler</description>
       <long-description></long-description>
@@ -3825,824 +3825,1011 @@ appropriate HTTP requests to the server.&lt;/p&gt;</long-description>
         </docblock>
       </constant>
       <constant namespace="triagens\ArangoDb" line="40" package="ArangoDbPhpClient">
-        <name>OPTION_ATTRIBUTE</name>
-        <full_name>OPTION_ATTRIBUTE</full_name>
-        <value>'attribute'</value>
+        <name>OPTION_CREATE_COLLECTION</name>
+        <full_name>OPTION_CREATE_COLLECTION</full_name>
+        <value>'createCollection'</value>
         <docblock line="37">
-          <description>attribute parameter</description>
+          <description>example parameter</description>
           <long-description></long-description>
         </docblock>
       </constant>
       <constant namespace="triagens\ArangoDb" line="45" package="ArangoDbPhpClient">
-        <name>OPTION_LEFT</name>
-        <full_name>OPTION_LEFT</full_name>
-        <value>'left'</value>
+        <name>OPTION_ATTRIBUTE</name>
+        <full_name>OPTION_ATTRIBUTE</full_name>
+        <value>'attribute'</value>
         <docblock line="42">
-          <description>left parameter</description>
+          <description>attribute parameter</description>
           <long-description></long-description>
         </docblock>
       </constant>
       <constant namespace="triagens\ArangoDb" line="50" package="ArangoDbPhpClient">
-        <name>OPTION_RIGHT</name>
-        <full_name>OPTION_RIGHT</full_name>
-        <value>'right'</value>
+        <name>OPTION_LEFT</name>
+        <full_name>OPTION_LEFT</full_name>
+        <value>'left'</value>
         <docblock line="47">
-          <description>right parameter</description>
+          <description>left parameter</description>
           <long-description></long-description>
         </docblock>
       </constant>
       <constant namespace="triagens\ArangoDb" line="55" package="ArangoDbPhpClient">
-        <name>OPTION_CLOSED</name>
-        <full_name>OPTION_CLOSED</full_name>
-        <value>'closed'</value>
+        <name>OPTION_RIGHT</name>
+        <full_name>OPTION_RIGHT</full_name>
+        <value>'right'</value>
         <docblock line="52">
-          <description>closed parameter</description>
+          <description>right parameter</description>
           <long-description></long-description>
         </docblock>
       </constant>
       <constant namespace="triagens\ArangoDb" line="60" package="ArangoDbPhpClient">
-        <name>OPTION_LATITUDE</name>
-        <full_name>OPTION_LATITUDE</full_name>
-        <value>'latitude'</value>
+        <name>OPTION_CLOSED</name>
+        <full_name>OPTION_CLOSED</full_name>
+        <value>'closed'</value>
         <docblock line="57">
-          <description>latidude parameter</description>
+          <description>closed parameter</description>
           <long-description></long-description>
         </docblock>
       </constant>
       <constant namespace="triagens\ArangoDb" line="65" package="ArangoDbPhpClient">
-        <name>OPTION_LONGITUDE</name>
-        <full_name>OPTION_LONGITUDE</full_name>
-        <value>'longitude'</value>
+        <name>OPTION_LATITUDE</name>
+        <full_name>OPTION_LATITUDE</full_name>
+        <value>'latitude'</value>
         <docblock line="62">
-          <description>longitude parameter</description>
+          <description>latidude parameter</description>
           <long-description></long-description>
         </docblock>
       </constant>
       <constant namespace="triagens\ArangoDb" line="70" package="ArangoDbPhpClient">
-        <name>OPTION_DISTANCE</name>
-        <full_name>OPTION_DISTANCE</full_name>
-        <value>'distance'</value>
+        <name>OPTION_LONGITUDE</name>
+        <full_name>OPTION_LONGITUDE</full_name>
+        <value>'longitude'</value>
         <docblock line="67">
-          <description>distance parameter</description>
+          <description>longitude parameter</description>
           <long-description></long-description>
         </docblock>
       </constant>
       <constant namespace="triagens\ArangoDb" line="75" package="ArangoDbPhpClient">
-        <name>OPTION_RADIUS</name>
-        <full_name>OPTION_RADIUS</full_name>
-        <value>'radius'</value>
+        <name>OPTION_DISTANCE</name>
+        <full_name>OPTION_DISTANCE</full_name>
+        <value>'distance'</value>
         <docblock line="72">
-          <description>radius parameter</description>
+          <description>distance parameter</description>
           <long-description></long-description>
         </docblock>
       </constant>
       <constant namespace="triagens\ArangoDb" line="80" package="ArangoDbPhpClient">
-        <name>OPTION_SKIP</name>
-        <full_name>OPTION_SKIP</full_name>
-        <value>'skip'</value>
+        <name>OPTION_RADIUS</name>
+        <full_name>OPTION_RADIUS</full_name>
+        <value>'radius'</value>
         <docblock line="77">
-          <description>skip parameter</description>
+          <description>radius parameter</description>
           <long-description></long-description>
         </docblock>
       </constant>
       <constant namespace="triagens\ArangoDb" line="85" package="ArangoDbPhpClient">
-        <name>OPTION_LIMIT</name>
-        <full_name>OPTION_LIMIT</full_name>
-        <value>'limit'</value>
+        <name>OPTION_SKIP</name>
+        <full_name>OPTION_SKIP</full_name>
+        <value>'skip'</value>
         <docblock line="82">
-          <description>limit parameter</description>
+          <description>skip parameter</description>
           <long-description></long-description>
         </docblock>
       </constant>
       <constant namespace="triagens\ArangoDb" line="90" package="ArangoDbPhpClient">
-        <name>OPTION_FIELDS</name>
-        <full_name>OPTION_FIELDS</full_name>
-        <value>'fields'</value>
+        <name>OPTION_LIMIT</name>
+        <full_name>OPTION_LIMIT</full_name>
+        <value>'limit'</value>
         <docblock line="87">
-          <description>count fields</description>
+          <description>limit parameter</description>
           <long-description></long-description>
         </docblock>
       </constant>
       <constant namespace="triagens\ArangoDb" line="95" package="ArangoDbPhpClient">
-        <name>OPTION_UNIQUE</name>
-        <full_name>OPTION_UNIQUE</full_name>
-        <value>'unique'</value>
+        <name>OPTION_FIELDS</name>
+        <full_name>OPTION_FIELDS</full_name>
+        <value>'fields'</value>
         <docblock line="92">
-          <description>count unique</description>
+          <description>count fields</description>
           <long-description></long-description>
         </docblock>
       </constant>
       <constant namespace="triagens\ArangoDb" line="100" package="ArangoDbPhpClient">
-        <name>OPTION_TYPE</name>
-        <full_name>OPTION_TYPE</full_name>
-        <value>'type'</value>
+        <name>OPTION_UNIQUE</name>
+        <full_name>OPTION_UNIQUE</full_name>
+        <value>'unique'</value>
         <docblock line="97">
           <description>count unique</description>
           <long-description></long-description>
         </docblock>
       </constant>
       <constant namespace="triagens\ArangoDb" line="105" package="ArangoDbPhpClient">
-        <name>OPTION_COUNT</name>
-        <full_name>OPTION_COUNT</full_name>
-        <value>'count'</value>
+        <name>OPTION_TYPE</name>
+        <full_name>OPTION_TYPE</full_name>
+        <value>'type'</value>
         <docblock line="102">
-          <description>count option</description>
+          <description>count unique</description>
           <long-description></long-description>
         </docblock>
       </constant>
       <constant namespace="triagens\ArangoDb" line="110" package="ArangoDbPhpClient">
-        <name>OPTION_PROPERTIES</name>
-        <full_name>OPTION_PROPERTIES</full_name>
-        <value>'properties'</value>
+        <name>OPTION_COUNT</name>
+        <full_name>OPTION_COUNT</full_name>
+        <value>'count'</value>
         <docblock line="107">
-          <description>properties option</description>
+          <description>count option</description>
           <long-description></long-description>
         </docblock>
       </constant>
       <constant namespace="triagens\ArangoDb" line="115" package="ArangoDbPhpClient">
-        <name>OPTION_FIGURES</name>
-        <full_name>OPTION_FIGURES</full_name>
-        <value>'figures'</value>
+        <name>OPTION_PROPERTIES</name>
+        <full_name>OPTION_PROPERTIES</full_name>
+        <value>'properties'</value>
         <docblock line="112">
-          <description>figures option</description>
+          <description>properties option</description>
           <long-description></long-description>
         </docblock>
       </constant>
       <constant namespace="triagens\ArangoDb" line="120" package="ArangoDbPhpClient">
-        <name>OPTION_LOAD</name>
-        <full_name>OPTION_LOAD</full_name>
-        <value>'load'</value>
+        <name>OPTION_FIGURES</name>
+        <full_name>OPTION_FIGURES</full_name>
+        <value>'figures'</value>
         <docblock line="117">
-          <description>load option</description>
+          <description>figures option</description>
           <long-description></long-description>
         </docblock>
       </constant>
       <constant namespace="triagens\ArangoDb" line="125" package="ArangoDbPhpClient">
-        <name>OPTION_UNLOAD</name>
-        <full_name>OPTION_UNLOAD</full_name>
-        <value>'unload'</value>
+        <name>OPTION_LOAD</name>
+        <full_name>OPTION_LOAD</full_name>
+        <value>'load'</value>
         <docblock line="122">
-          <description>unload option</description>
+          <description>load option</description>
           <long-description></long-description>
         </docblock>
       </constant>
       <constant namespace="triagens\ArangoDb" line="130" package="ArangoDbPhpClient">
-        <name>OPTION_TRUNCATE</name>
-        <full_name>OPTION_TRUNCATE</full_name>
-        <value>'truncate'</value>
+        <name>OPTION_UNLOAD</name>
+        <full_name>OPTION_UNLOAD</full_name>
+        <value>'unload'</value>
         <docblock line="127">
-          <description>truncate option</description>
+          <description>unload option</description>
           <long-description></long-description>
         </docblock>
       </constant>
       <constant namespace="triagens\ArangoDb" line="135" package="ArangoDbPhpClient">
+        <name>OPTION_TRUNCATE</name>
+        <full_name>OPTION_TRUNCATE</full_name>
+        <value>'truncate'</value>
+        <docblock line="132">
+          <description>truncate option</description>
+          <long-description></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="triagens\ArangoDb" line="140" package="ArangoDbPhpClient">
         <name>OPTION_RENAME</name>
         <full_name>OPTION_RENAME</full_name>
         <value>'rename'</value>
-        <docblock line="132">
+        <docblock line="137">
           <description>rename option</description>
           <long-description></long-description>
         </docblock>
       </constant>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="146" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="152" package="ArangoDbPhpClient">
         <name>get</name>
         <full_name>get</full_name>
-        <docblock line="137">
+        <docblock line="143">
           <description>Get information about a collection</description>
           <long-description>&lt;p&gt;This will throw if the collection cannot be fetched from the server&lt;/p&gt;</long-description>
-          <tag line="137" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="143" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="137" name="param" description="- collection id as a string or number" type="mixed" variable="$collectionId">
+          <tag line="143" name="param" description="- collection id as a string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="137" name="return" description="- the collection fetched from the server" type="\triagens\ArangoDb\Collection">
+          <tag line="143" name="return" description="- the collection fetched from the server" type="\triagens\ArangoDb\Collection">
             <type by_reference="false">\triagens\ArangoDb\Collection</type>
           </tag>
         </docblock>
-        <argument line="146">
+        <argument line="152">
           <name>$collectionId</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="164" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="171" package="ArangoDbPhpClient">
         <name>getProperties</name>
         <full_name>getProperties</full_name>
-        <docblock line="155">
+        <docblock line="162">
           <description>Get properties of a collection</description>
           <long-description>&lt;p&gt;This will throw if the collection cannot be fetched from the server&lt;/p&gt;</long-description>
-          <tag line="155" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="162" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="155" name="param" description="- collection id as a string or number" type="mixed" variable="$collectionId">
+          <tag line="162" name="param" description="- collection id as a string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="155" name="return" description="- the collection fetched from the server" type="\triagens\ArangoDb\Collection">
+          <tag line="162" name="return" description="- the collection fetched from the server" type="\triagens\ArangoDb\Collection">
             <type by_reference="false">\triagens\ArangoDb\Collection</type>
           </tag>
         </docblock>
-        <argument line="164">
+        <argument line="171">
           <name>$collectionId</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="184" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="192" package="ArangoDbPhpClient">
         <name>getCount</name>
         <full_name>getCount</full_name>
-        <docblock line="173">
+        <docblock line="181">
           <description>Get the number of documents in a collection</description>
           <long-description>&lt;p&gt;This will throw if the collection cannot be fetched from the server&lt;/p&gt;</long-description>
-          <tag line="173" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="181" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="173" name="param" description="- collection id as a string or number" type="mixed" variable="$collectionId">
+          <tag line="181" name="param" description="- collection id as a string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="173" name="return" description="- the number of documents in the collection" type="int">
+          <tag line="181" name="return" description="- the number of documents in the collection" type="int">
             <type by_reference="false">int</type>
           </tag>
-          <tag line="173" name="deprecated" description="to be removed in version 2.0 - This function is being replaced by count()"/>
+          <tag line="181" name="deprecated" description="to be removed in version 2.0 - This function is being replaced by count()"/>
         </docblock>
-        <argument line="184">
+        <argument line="192">
           <name>$collectionId</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="199" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="206" package="ArangoDbPhpClient">
         <name>count</name>
         <full_name>count</full_name>
-        <docblock line="190">
+        <docblock line="197">
           <description>Get the number of documents in a collection</description>
           <long-description>&lt;p&gt;This will throw if the collection cannot be fetched from the server&lt;/p&gt;</long-description>
-          <tag line="190" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="197" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="190" name="param" description="- collection id as a string or number" type="mixed" variable="$collectionId">
+          <tag line="197" name="param" description="- collection id as a string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="190" name="return" description="- the number of documents in the collection" type="int">
+          <tag line="197" name="return" description="- the number of documents in the collection" type="int">
             <type by_reference="false">int</type>
           </tag>
         </docblock>
-        <argument line="199">
+        <argument line="206">
           <name>$collectionId</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="220" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="228" package="ArangoDbPhpClient">
         <name>getFigures</name>
         <full_name>getFigures</full_name>
-        <docblock line="209">
+        <docblock line="217">
           <description>Get figures for a collection</description>
           <long-description>&lt;p&gt;This will throw if the collection cannot be fetched from the server&lt;/p&gt;</long-description>
-          <tag line="209" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="217" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="209" name="param" description="- collection id as a string or number" type="mixed" variable="$collectionId">
+          <tag line="217" name="param" description="- collection id as a string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="209" name="return" description="- the figures for the collection" type="array">
+          <tag line="217" name="return" description="- the figures for the collection" type="array">
             <type by_reference="false">array</type>
           </tag>
-          <tag line="209" name="deprecated" description="to be removed in version 2.0 - This function is being replaced by figures()"/>
+          <tag line="217" name="deprecated" description="to be removed in version 2.0 - This function is being replaced by figures()"/>
         </docblock>
-        <argument line="220">
+        <argument line="228">
           <name>$collectionId</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="233" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="242" package="ArangoDbPhpClient">
         <name>figures</name>
         <full_name>figures</full_name>
-        <docblock line="224">
+        <docblock line="233">
           <description>Get figures for a collection</description>
           <long-description>&lt;p&gt;This will throw if the collection cannot be fetched from the server&lt;/p&gt;</long-description>
-          <tag line="224" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="233" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="224" name="param" description="- collection id as a string or number" type="mixed" variable="$collectionId">
+          <tag line="233" name="param" description="- collection id as a string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="224" name="return" description="- the figures for the collection" type="array">
+          <tag line="233" name="return" description="- the figures for the collection" type="array">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
-        <argument line="233">
+        <argument line="242">
           <name>$collectionId</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="256" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="266" package="ArangoDbPhpClient">
         <name>add</name>
         <full_name>add</full_name>
-        <docblock line="243">
+        <docblock line="253">
           <description>Adds a new collection on the server</description>
           <long-description>&lt;p&gt;This will add the collection on the server and return its id&lt;/p&gt;
 
 &lt;p&gt;This will throw if the collection cannot be created&lt;/p&gt;</long-description>
-          <tag line="243" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="253" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="243" name="param" description="- collection object to be created on the server" type="\triagens\ArangoDb\Collection" variable="$collection">
+          <tag line="253" name="param" description="- collection object to be created on the server" type="\triagens\ArangoDb\Collection" variable="$collection">
             <type by_reference="false">\triagens\ArangoDb\Collection</type>
           </tag>
-          <tag line="243" name="return" description="- id of collection created" type="mixed">
+          <tag line="253" name="return" description="- id of collection created" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="243" name="deprecated" description="to be removed in version 2.0 - This function is being replaced by create()"/>
+          <tag line="253" name="deprecated" description="to be removed in version 2.0 - This function is being replaced by create()"/>
         </docblock>
-        <argument line="256">
+        <argument line="266">
           <name>$collection</name>
           <default></default>
           <type>\triagens\ArangoDb\Collection</type>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="271" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="282" package="ArangoDbPhpClient">
         <name>create</name>
         <full_name>create</full_name>
-        <docblock line="260">
+        <docblock line="271">
           <description>Creates a new collection on the server</description>
-          <long-description>&lt;p&gt;This will add the collection on the server and return its id&lt;/p&gt;
-
-&lt;p&gt;This will throw if the collection cannot be created&lt;/p&gt;</long-description>
-          <tag line="260" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <long-description>&lt;p&gt;This will add the collection on the server and return its id
+The id is mainly returned for backwards compatibility, but you should use the collection name for any reference to the collection.   *
+This will throw if the collection cannot be created&lt;/p&gt;</long-description>
+          <tag line="271" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="260" name="param" description="- collection object to be created on the server" type="\triagens\ArangoDb\Collection" variable="$collection">
+          <tag line="271" name="param" description="- collection object to be created on the server" type="\triagens\ArangoDb\Collection" variable="$collection">
             <type by_reference="false">\triagens\ArangoDb\Collection</type>
           </tag>
-          <tag line="260" name="return" description="- id of collection created" type="mixed">
+          <tag line="271" name="return" description="- id of collection created" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
         </docblock>
-        <argument line="271">
+        <argument line="282">
           <name>$collection</name>
           <default></default>
           <type>\triagens\ArangoDb\Collection</type>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="309" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="321" package="ArangoDbPhpClient">
         <name>index</name>
         <full_name>index</full_name>
-        <docblock line="295">
+        <docblock line="307">
           <description>Creates an index on a collection on the server</description>
           <long-description>&lt;p&gt;This will create an index on the collection on the server and return its id&lt;/p&gt;
 
 &lt;p&gt;This will throw if the index cannot be created&lt;/p&gt;</long-description>
-          <tag line="295" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="307" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="295" name="param" description="- The id of the collection where the index is to be created" type="mixed" variable="$collectionId">
+          <tag line="307" name="param" description="- The id of the collection where the index is to be created" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="295" name="param" description="- index type: hash, skiplist or geo" type="string" variable="$type">
+          <tag line="307" name="param" description="- index type: hash, skiplist or geo" type="string" variable="$type">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="295" name="param" description="- an array of attributes that can be defined like array('a') or array('a', 'b.c')" type="array" variable="$attributes">
+          <tag line="307" name="param" description="- an array of attributes that can be defined like array('a') or array('a', 'b.c')" type="array" variable="$attributes">
             <type by_reference="false">array</type>
           </tag>
-          <tag line="295" name="param" description="- true/false to create a unique index" type="boolean" variable="$unique">
+          <tag line="307" name="param" description="- true/false to create a unique index" type="boolean" variable="$unique">
             <type by_reference="false">boolean</type>
           </tag>
-          <tag line="295" name="return" description="- id of collection created" type="mixed">
+          <tag line="307" name="return" description="- id of collection created" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
         </docblock>
-        <argument line="309">
+        <argument line="321">
           <name>$collectionId</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="309">
+        <argument line="321">
           <name>$type</name>
           <default>""</default>
           <type/>
         </argument>
-        <argument line="309">
+        <argument line="321">
           <name>$attributes</name>
           <default>array()</default>
           <type/>
         </argument>
-        <argument line="309">
+        <argument line="321">
           <name>$unique</name>
           <default>false</default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="340" package="ArangoDbPhpClient">
-        <name>delete</name>
-        <full_name>delete</full_name>
-        <docblock line="331">
-          <description>Delete a collection</description>
-          <long-description></long-description>
-          <tag line="331" name="throws" description="" type="\triagens\ArangoDb\Exception">
-            <type by_reference="false">\triagens\ArangoDb\Exception</type>
-          </tag>
-          <tag line="331" name="param" description="- collection id as string or number or collection object" type="mixed" variable="$collection">
-            <type by_reference="false">mixed</type>
-          </tag>
-          <tag line="331" name="return" description="- always true, will throw if there is an error" type="bool">
-            <type by_reference="false">bool</type>
-          </tag>
-          <tag line="331" name="deprecated" description="to be removed in version 2.0 - This function is being replaced by drop()"/>
-        </docblock>
-        <argument line="340">
-          <name>$collection</name>
-          <default></default>
-          <type/>
-        </argument>
-      </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="351" package="ArangoDbPhpClient">
-        <name>drop</name>
-        <full_name>drop</full_name>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="353" package="ArangoDbPhpClient">
+        <name>getIndexes</name>
+        <full_name>getIndexes</full_name>
         <docblock line="344">
-          <description>Drop a collection</description>
-          <long-description></long-description>
+          <description>Get indexes of a collection</description>
+          <long-description>&lt;p&gt;This will throw if the collection cannot be fetched from the server&lt;/p&gt;</long-description>
           <tag line="344" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="344" name="param" description="- collection id as string or number or collection object" type="mixed" variable="$collection">
+          <tag line="344" name="param" description="- collection id as a string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="344" name="return" description="- always true, will throw if there is an error" type="bool">
-            <type by_reference="false">bool</type>
+          <tag line="344" name="return" description="$data - the indexes result-set from the server" type="array">
+            <type by_reference="false">array</type>
           </tag>
         </docblock>
-        <argument line="351">
-          <name>$collection</name>
+        <argument line="353">
+          <name>$collectionId</name>
           <default></default>
           <type/>
         </argument>
       </method>
       <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="371" package="ArangoDbPhpClient">
-        <name>rename</name>
-        <full_name>rename</full_name>
-        <docblock line="363">
-          <description>Rename a collection</description>
+        <name>dropIndex</name>
+        <full_name>dropIndex</full_name>
+        <docblock line="364">
+          <description>Drop an index</description>
           <long-description></long-description>
-          <tag line="363" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="364" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="363" name="param" description="- collection id as string or number or collection object" type="mixed" variable="$collection">
+          <tag line="364" name="param" description="- index handle (collection name / index id)" type="mixed" variable="$indexHandle">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="363" name="param" description="- new name for collection" type="string" variable="$name">
-            <type by_reference="false">string</type>
-          </tag>
-          <tag line="363" name="return" description="- always true, will throw if there is an error" type="bool">
+          <tag line="364" name="return" description="- always true, will throw if there is an error" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
         <argument line="371">
+          <name>$indexHandle</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="388" package="ArangoDbPhpClient">
+        <name>delete</name>
+        <full_name>delete</full_name>
+        <docblock line="379">
+          <description>Delete a collection</description>
+          <long-description></long-description>
+          <tag line="379" name="throws" description="" type="\triagens\ArangoDb\Exception">
+            <type by_reference="false">\triagens\ArangoDb\Exception</type>
+          </tag>
+          <tag line="379" name="param" description="- collection id as string or number or collection object" type="mixed" variable="$collection">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="379" name="return" description="- always true, will throw if there is an error" type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+          <tag line="379" name="deprecated" description="to be removed in version 2.0 - This function is being replaced by drop()"/>
+        </docblock>
+        <argument line="388">
           <name>$collection</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="371">
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="400" package="ArangoDbPhpClient">
+        <name>drop</name>
+        <full_name>drop</full_name>
+        <docblock line="393">
+          <description>Drop a collection</description>
+          <long-description></long-description>
+          <tag line="393" name="throws" description="" type="\triagens\ArangoDb\Exception">
+            <type by_reference="false">\triagens\ArangoDb\Exception</type>
+          </tag>
+          <tag line="393" name="param" description="- collection id as string or number or collection object" type="mixed" variable="$collection">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="393" name="return" description="- always true, will throw if there is an error" type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="400">
+          <name>$collection</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="420" package="ArangoDbPhpClient">
+        <name>rename</name>
+        <full_name>rename</full_name>
+        <docblock line="412">
+          <description>Rename a collection</description>
+          <long-description></long-description>
+          <tag line="412" name="throws" description="" type="\triagens\ArangoDb\Exception">
+            <type by_reference="false">\triagens\ArangoDb\Exception</type>
+          </tag>
+          <tag line="412" name="param" description="- collection id as string or number or collection object" type="mixed" variable="$collection">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="412" name="param" description="- new name for collection" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="412" name="return" description="- always true, will throw if there is an error" type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="420">
+          <name>$collection</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="420">
           <name>$name</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="393" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="442" package="ArangoDbPhpClient">
         <name>load</name>
         <full_name>load</full_name>
-        <docblock line="384">
+        <docblock line="433">
           <description>Load a collection into the server's memory</description>
           <long-description>&lt;p&gt;This will load the given collection into the server's memory.&lt;/p&gt;</long-description>
-          <tag line="384" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="433" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="384" name="param" description="- collection id as string or number or collection object" type="mixed" variable="$collection">
+          <tag line="433" name="param" description="- collection id as string or number or collection object" type="mixed" variable="$collection">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="384" name="return" description="- always true, will throw if there is an error" type="bool">
+          <tag line="433" name="return" description="- always true, will throw if there is an error" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
-        <argument line="393">
+        <argument line="442">
           <name>$collection</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="415" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="464" package="ArangoDbPhpClient">
         <name>unload</name>
         <full_name>unload</full_name>
-        <docblock line="406">
+        <docblock line="455">
           <description>Unload a collection from the server's memory</description>
           <long-description>&lt;p&gt;This will unload the given collection from the server's memory.&lt;/p&gt;</long-description>
-          <tag line="406" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="455" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="406" name="param" description="- collection id as string or number or collection object" type="mixed" variable="$collection">
+          <tag line="455" name="param" description="- collection id as string or number or collection object" type="mixed" variable="$collection">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="406" name="return" description="- always true, will throw if there is an error" type="bool">
+          <tag line="455" name="return" description="- always true, will throw if there is an error" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
-        <argument line="415">
+        <argument line="464">
           <name>$collection</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="437" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="486" package="ArangoDbPhpClient">
         <name>truncate</name>
         <full_name>truncate</full_name>
-        <docblock line="428">
+        <docblock line="477">
           <description>Truncate a collection</description>
           <long-description>&lt;p&gt;This will remove all documents from the collection but will leave the metadata and indexes intact.&lt;/p&gt;</long-description>
-          <tag line="428" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="477" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="428" name="param" description="- collection id as string or number or collection object" type="mixed" variable="$collection">
+          <tag line="477" name="param" description="- collection id as string or number or collection object" type="mixed" variable="$collection">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="428" name="return" description="- always true, will throw if there is an error" type="bool">
+          <tag line="477" name="return" description="- always true, will throw if there is an error" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
-        <argument line="437">
+        <argument line="486">
           <name>$collection</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="472" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="522" package="ArangoDbPhpClient">
         <name>byExample</name>
         <full_name>byExample</full_name>
-        <docblock line="449">
+        <docblock line="499">
           <description>Get document(s) by specifying an example</description>
           <long-description>&lt;p&gt;This will throw if the list cannot be fetched from the server&lt;/p&gt;</long-description>
-          <tag line="449" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="499" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="449" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
+          <tag line="499" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="449" name="param" description="- the example document as a Document object or an array" type="mixed" variable="$document">
+          <tag line="499" name="param" description="- the example document as a Document object or an array" type="mixed" variable="$document">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="449" name="param" description="- optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.&#10;&lt;p&gt;Options are :&#10;&lt;li&gt;'sanitize' - true to remove _id and _rev attributes from result documents. Defaults to false.&lt;/li&gt;&#10;&lt;li&gt;'hiddenAttributes' - set an array of hidden attributes for created documents.&#10;&lt;p&gt;&#10;                               This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.&#10;                               The difference is, that if you're returning a resultset of documents, the getall() is already called&#10;                               and the hidden attributes would not be applied to the attributes.&#10;&lt;/p&gt;&#10;&lt;/li&gt;&#10;&lt;/p&gt;" type="bool|array" variable="$options">
+          <tag line="499" name="param" description="- optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.&#10;&lt;p&gt;Options are :&lt;br&gt;&#10;&lt;li&gt;'sanitize' - true to remove _id and _rev attributes from result documents. Defaults to false.&lt;/li&gt;&#10;&lt;li&gt;'hiddenAttributes' - set an array of hidden attributes for created documents.&#10;&lt;p&gt;&#10;                               This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. &lt;br&gt;&#10;                               The difference is, that if you're returning a resultset of documents, the getall() is already called &lt;br&gt;&#10;                               and the hidden attributes would not be applied to the attributes.&lt;br&gt;&#10;&lt;/p&gt;&#10;&lt;/li&gt;&#10;&lt;/p&gt;" type="bool|array" variable="$options">
             <type by_reference="false">bool</type>
             <type by_reference="false">array</type>
           </tag>
-          <tag line="449" name="return" description="- documents matching the example [0...n]" type="array">
+          <tag line="499" name="return" description="- documents matching the example [0...n]" type="array">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
-        <argument line="472">
+        <argument line="522">
           <name>$collectionId</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="472">
+        <argument line="522">
           <name>$document</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="472">
+        <argument line="522">
           <name>$options</name>
           <default>array()</default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="527" package="ArangoDbPhpClient">
-        <name>range</name>
-        <full_name>range</full_name>
-        <docblock line="498">
-          <description>Get document(s) by specifying range</description>
-          <long-description>&lt;p&gt;This will throw if the list cannot be fetched from the server&lt;/p&gt;</long-description>
-          <tag line="498" name="throws" description="" type="\triagens\ArangoDb\Exception">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="566" package="ArangoDbPhpClient">
+        <name>removeByExample</name>
+        <full_name>removeByExample</full_name>
+        <docblock line="548">
+          <description>Remove document(s) by specifying an example</description>
+          <long-description>&lt;p&gt;This will throw on any error&lt;/p&gt;</long-description>
+          <tag line="548" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="498" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
+          <tag line="548" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="498" name="param" description="- the attribute path , like 'a', 'a.b', etc..." type="string" variable="$attribute">
-            <type by_reference="false">string</type>
-          </tag>
-          <tag line="498" name="param" description="- The lower bound." type="mixed" variable="$left">
+          <tag line="548" name="param" description="- the example document as a Document object or an array" type="mixed" variable="$document">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="498" name="param" description="- The upper bound." type="mixed" variable="$right">
-            <type by_reference="false">mixed</type>
-          </tag>
-          <tag line="498" name="param" description="- optional array of options.&#10;&lt;p&gt;Options are :&#10;&lt;li&gt;'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.&lt;/li&gt;&#10;&lt;li&gt;'hiddenAttributes' - Set an array of hidden attributes for created documents.&#10;&lt;p&gt;&#10;                               This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.&#10;                               The difference is, that if you're returning a resultset of documents, the getall() is already called&#10;                               and the hidden attributes would not be applied to the attributes.&#10;&lt;/p&gt;&#10;&lt;li&gt;'closed' - If true, use interval including left and right, otherwise exclude right, but include left.&#10;&lt;li&gt;'skip' - The documents to skip in the query.&#10;&lt;li&gt;'limit' - The maximal amount of documents to return.&#10;&lt;/li&gt;&#10;&lt;/p&gt;" type="array" variable="$options">
+          <tag line="548" name="param" description="- optional - an array of options.&#10;&lt;p&gt;Options are :&lt;br&gt;&#10;&lt;li&gt;&#10;'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk.&lt;br&gt;&#10;If this is not specified, then the collection's default sync behavior will be applied.&#10;&lt;/li&gt;&#10;&lt;/p&gt;" type="bool|array" variable="$options">
+            <type by_reference="false">bool</type>
             <type by_reference="false">array</type>
           </tag>
-          <tag line="498" name="return" description="- documents matching the example [0...n]" type="array">
-            <type by_reference="false">array</type>
+          <tag line="548" name="return" description="- number of documents that were deleted" type="int">
+            <type by_reference="false">int</type>
           </tag>
         </docblock>
-        <argument line="527">
+        <argument line="566">
           <name>$collectionId</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="527">
+        <argument line="566">
+          <name>$document</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="566">
+          <name>$options</name>
+          <default>array()</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="618" package="ArangoDbPhpClient">
+        <name>range</name>
+        <full_name>range</full_name>
+        <docblock line="589">
+          <description>Get document(s) by specifying range</description>
+          <long-description>&lt;p&gt;This will throw if the list cannot be fetched from the server&lt;/p&gt;</long-description>
+          <tag line="589" name="throws" description="" type="\triagens\ArangoDb\Exception">
+            <type by_reference="false">\triagens\ArangoDb\Exception</type>
+          </tag>
+          <tag line="589" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="589" name="param" description="- the attribute path , like 'a', 'a.b', etc..." type="string" variable="$attribute">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="589" name="param" description="- The lower bound." type="mixed" variable="$left">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="589" name="param" description="- The upper bound." type="mixed" variable="$right">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="589" name="param" description="- optional array of options.&#10;&lt;p&gt;Options are :&lt;br&gt;&#10;&lt;li&gt;'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.&lt;/li&gt;&#10;&lt;li&gt;'hiddenAttributes' - Set an array of hidden attributes for created documents.&#10;&lt;p&gt;&#10;                               This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.&lt;br&gt;&#10;                               The difference is, that if you're returning a resultset of documents, the getall() is already called&lt;br&gt;&#10;                               and the hidden attributes would not be applied to the attributes.&lt;br&gt;&#10;&lt;/p&gt;&#10;&lt;li&gt;'closed' - If true, use interval including left and right, otherwise exclude right, but include left.&#10;&lt;li&gt;'skip' - The documents to skip in the query.&#10;&lt;li&gt;'limit' - The maximal amount of documents to return.&#10;&lt;/li&gt;&#10;&lt;/p&gt;" type="array" variable="$options">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="589" name="return" description="- documents matching the example [0...n]" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+        <argument line="618">
+          <name>$collectionId</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="618">
           <name>$attribute</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="527">
+        <argument line="618">
           <name>$left</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="527">
+        <argument line="618">
           <name>$right</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="527">
+        <argument line="618">
           <name>$options</name>
           <default>array()</default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="578" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="669" package="ArangoDbPhpClient">
         <name>near</name>
         <full_name>near</full_name>
-        <docblock line="550">
+        <docblock line="641">
           <description>Get document(s) by specifying near</description>
           <long-description>&lt;p&gt;This will throw if the list cannot be fetched from the server&lt;/p&gt;</long-description>
-          <tag line="550" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="641" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="550" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
+          <tag line="641" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="550" name="param" description="- The latitude of the coordinate." type="double" variable="$latitude">
+          <tag line="641" name="param" description="- The latitude of the coordinate." type="double" variable="$latitude">
             <type by_reference="false">double</type>
           </tag>
-          <tag line="550" name="param" description="- The longitude of the coordinate." type="double" variable="$longitude">
+          <tag line="641" name="param" description="- The longitude of the coordinate." type="double" variable="$longitude">
             <type by_reference="false">double</type>
           </tag>
-          <tag line="550" name="param" description="- optional array of options.&#10;&lt;p&gt;Options are :&#10;&lt;li&gt;'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.&lt;/li&gt;&#10;&lt;li&gt;'hiddenAttributes' - Set an array of hidden attributes for created documents.&#10;&lt;p&gt;&#10;                               This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.&#10;                               The difference is, that if you're returning a resultset of documents, the getall() is already called&#10;                               and the hidden attributes would not be applied to the attributes.&#10;&lt;/p&gt;&#10;&lt;li&gt;'distance' - If given, the attribute key used to store the distance. (optional)&#10;&lt;li&gt;'skip' - The documents to skip in the query.&#10;&lt;li&gt;'limit' - The maximal amount of documents to return.&#10;&lt;/li&gt;&#10;&lt;/p&gt;" type="array" variable="$options">
+          <tag line="641" name="param" description="- optional array of options.&#10;&lt;p&gt;Options are :&lt;br&gt;&#10;&lt;li&gt;'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.&lt;/li&gt;&#10;&lt;li&gt;'hiddenAttributes' - Set an array of hidden attributes for created documents.&#10;&lt;p&gt;&#10;                               This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. &lt;br&gt;&#10;                               The difference is, that if you're returning a resultset of documents, the getall() is already called &lt;br&gt;&#10;                               and the hidden attributes would not be applied to the attributes.&lt;br&gt;&#10;&lt;/p&gt;&#10;&lt;li&gt;'distance' - If given, the attribute key used to store the distance. (optional)&#10;&lt;li&gt;'skip' - The documents to skip in the query.&#10;&lt;li&gt;'limit' - The maximal amount of documents to return.&#10;&lt;/li&gt;&#10;&lt;/p&gt;" type="array" variable="$options">
             <type by_reference="false">array</type>
           </tag>
-          <tag line="550" name="return" description="- documents matching the example [0...n]" type="array">
+          <tag line="641" name="return" description="- documents matching the example [0...n]" type="array">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
-        <argument line="578">
+        <argument line="669">
           <name>$collectionId</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="578">
+        <argument line="669">
           <name>$latitude</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="578">
+        <argument line="669">
           <name>$longitude</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="578">
+        <argument line="669">
           <name>$options</name>
           <default>array()</default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="625" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="716" package="ArangoDbPhpClient">
         <name>within</name>
         <full_name>within</full_name>
-        <docblock line="596">
+        <docblock line="687">
           <description>Get document(s) by specifying within</description>
           <long-description>&lt;p&gt;This will throw if the list cannot be fetched from the server&lt;/p&gt;</long-description>
-          <tag line="596" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="687" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="596" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
+          <tag line="687" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="596" name="param" description="- The latitude of the coordinate." type="double" variable="$latitude">
+          <tag line="687" name="param" description="- The latitude of the coordinate." type="double" variable="$latitude">
             <type by_reference="false">double</type>
           </tag>
-          <tag line="596" name="param" description="- The longitude of the coordinate." type="double" variable="$longitude">
+          <tag line="687" name="param" description="- The longitude of the coordinate." type="double" variable="$longitude">
             <type by_reference="false">double</type>
           </tag>
-          <tag line="596" name="param" description="- The maximal radius (in meters)." type="int" variable="$radius">
+          <tag line="687" name="param" description="- The maximal radius (in meters)." type="int" variable="$radius">
             <type by_reference="false">int</type>
           </tag>
-          <tag line="596" name="param" description="- optional array of options.&#10;&lt;p&gt;Options are :&#10;&lt;li&gt;'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.&lt;/li&gt;&#10;&lt;li&gt;'hiddenAttributes' - Set an array of hidden attributes for created documents.&#10;&lt;p&gt;&#10;                               This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.&#10;                               The difference is, that if you're returning a resultset of documents, the getall() is already called&#10;                               and the hidden attributes would not be applied to the attributes.&#10;&lt;/p&gt;&#10;&lt;li&gt;'distance' - If given, the attribute key used to store the distance. (optional)&#10;&lt;li&gt;'skip' - The documents to skip in the query.&#10;&lt;li&gt;'limit' - The maximal amount of documents to return.&#10;&lt;/li&gt;&#10;&lt;/p&gt;" type="array" variable="$options">
+          <tag line="687" name="param" description="- optional array of options.&#10;&lt;p&gt;Options are :&lt;br&gt;&#10;&lt;li&gt;'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.&lt;/li&gt;&#10;&lt;li&gt;'hiddenAttributes' - Set an array of hidden attributes for created documents.&#10;&lt;p&gt;&#10;                               This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.&lt;br&gt;&#10;                               The difference is, that if you're returning a resultset of documents, the getall() is already called &lt;br&gt;&#10;                               and the hidden attributes would not be applied to the attributes.&lt;br&gt;&#10;&lt;/p&gt;&#10;&lt;li&gt;'distance' - If given, the attribute key used to store the distance. (optional)&#10;&lt;li&gt;'skip' - The documents to skip in the query.&#10;&lt;li&gt;'limit' - The maximal amount of documents to return.&#10;&lt;/li&gt;&#10;&lt;/p&gt;" type="array" variable="$options">
             <type by_reference="false">array</type>
           </tag>
-          <tag line="596" name="return" description="- documents matching the example [0...n]" type="array">
+          <tag line="687" name="return" description="- documents matching the example [0...n]" type="array">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
-        <argument line="625">
+        <argument line="716">
           <name>$collectionId</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="625">
+        <argument line="716">
           <name>$latitude</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="625">
+        <argument line="716">
           <name>$longitude</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="625">
+        <argument line="716">
           <name>$radius</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="625">
+        <argument line="716">
           <name>$options</name>
           <default>array()</default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="652" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="743" package="ArangoDbPhpClient">
         <name>getAllIds</name>
         <full_name>getAllIds</full_name>
-        <docblock line="643">
+        <docblock line="734">
           <description>Get the list of all documents' ids from a collection</description>
           <long-description>&lt;p&gt;This will throw if the list cannot be fetched from the server&lt;/p&gt;</long-description>
-          <tag line="643" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="734" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="643" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
+          <tag line="734" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="643" name="return" description="- ids of documents in the collection" type="array">
+          <tag line="734" name="return" description="- ids of documents in the collection" type="array">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
-        <argument line="652">
+        <argument line="743">
           <name>$collectionId</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="676" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="767" package="ArangoDbPhpClient">
         <name>getCursorOptions</name>
         <full_name>getCursorOptions</full_name>
-        <docblock line="670">
+        <docblock line="761">
           <description>Return an array of cursor options</description>
           <long-description></long-description>
-          <tag line="670" name="param" description="- sanitize flag" type="bool" variable="$sanitize">
+          <tag line="761" name="param" description="- sanitize flag" type="bool" variable="$sanitize">
             <type by_reference="false">bool</type>
           </tag>
-          <tag line="670" name="return" description="- array of options" type="array">
+          <tag line="761" name="return" description="- array of options" type="array">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
-        <argument line="676">
+        <argument line="767">
           <name>$sanitize</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="688" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="781" package="ArangoDbPhpClient">
         <name>isValidCollectionId</name>
         <full_name>isValidCollectionId</full_name>
-        <docblock line="681">
+        <docblock line="774">
           <description>Checks if the collectionId given, is valid.</description>
           <long-description>&lt;p&gt;Returns true if it is, or false if it is not.&lt;/p&gt;</long-description>
-          <tag line="681" name="param" description="" type="\triagens\ArangoDb\" variable="$collectionId"/>
-          <tag line="681" name="return" description="" type="bool">
+          <tag line="774" name="param" description="" type="\triagens\ArangoDb\" variable="$collectionId"/>
+          <tag line="774" name="return" description="" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
-        <argument line="688">
+        <argument line="781">
           <name>$collectionId</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="701" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="794" package="ArangoDbPhpClient">
         <name>getCollectionId</name>
         <full_name>getCollectionId</full_name>
-        <docblock line="694">
+        <docblock line="787">
           <description>Gets the collectionId from the given collectionObject or string/integer</description>
           <long-description></long-description>
-          <tag line="694" name="param" description="" type="mixed" variable="$collection">
+          <tag line="787" name="param" description="" type="mixed" variable="$collection">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="694" name="return" description="" type="mixed">
+          <tag line="787" name="return" description="" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
         </docblock>
-        <argument line="701">
+        <argument line="794">
           <name>$collection</name>
           <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="816" package="ArangoDbPhpClient">
+        <name>getCollectionName</name>
+        <full_name>getCollectionName</full_name>
+        <docblock line="809">
+          <description>Gets the collectionId from the given collectionObject or string/integer</description>
+          <long-description></long-description>
+          <tag line="809" name="param" description="" type="mixed" variable="$collection">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="809" name="return" description="" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="816">
+          <name>$collection</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="853" package="ArangoDbPhpClient">
+        <name>importFromFile</name>
+        <full_name>importFromFile</full_name>
+        <docblock line="832">
+          <description>Import documents from a file</description>
+          <long-description>&lt;p&gt;This will throw on all errors except insertion errors&lt;/p&gt;</long-description>
+          <tag line="832" name="throws" description="" type="\triagens\ArangoDb\Exception">
+            <type by_reference="false">\triagens\ArangoDb\Exception</type>
+          </tag>
+          <tag line="832" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="832" name="param" description="- The filename that holds the import data." type="mixed" variable="$importFileName">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="832" name="param" description="- optional - an array of options.&#10;&lt;p&gt;Options are :&lt;br&gt;&#10;'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.&lt;br&gt;&#10;          if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.&lt;br&gt;&#10;          if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.&lt;br&gt;&#10;&lt;br&gt;&#10;More info on how the import functionality works: &lt;a href =&quot;https://github.com/triAGENS/ArangoDB/wiki/HttpImport&quot;&gt;https://github.com/triAGENS/ArangoDB/wiki/HttpImport&lt;/a&gt;&#10;&lt;br&gt;&#10;&lt;/li&gt;&#10;&lt;li&gt;'createCollection' - If true, create the collection if it doesn't exist. Defaults to false &lt;/li&gt;&#10;&lt;/p&gt;" type="array" variable="$options">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="832" name="return" description="- number of documents that were deleted" type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+        <argument line="853">
+          <name>$collectionId</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="853">
+          <name>$importFileName</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="853">
+          <name>$options</name>
+          <default>array('createCollection' =&gt; false, 'type' =&gt; null)</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="887" package="ArangoDbPhpClient">
+        <name>import</name>
+        <full_name>import</full_name>
+        <docblock line="865">
+          <description>Import documents into a collection</description>
+          <long-description>&lt;p&gt;This will throw on all errors except insertion errors&lt;/p&gt;</long-description>
+          <tag line="865" name="throws" description="" type="\triagens\ArangoDb\Exception">
+            <type by_reference="false">\triagens\ArangoDb\Exception</type>
+          </tag>
+          <tag line="865" name="param" description="- collection id as string or number" type="mixed" variable="$collectionId">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="865" name="param" description="- The data to import. This can be a string holding the data according to the type of import, or an array of documents" type="mixed" variable="$importData">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="865" name="param" description="- optional - an array of options.&#10;&lt;p&gt;Options are :&lt;br&gt;&#10;&lt;li&gt;&#10;'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.&lt;br&gt;&#10;          if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.&lt;br&gt;&#10;          if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.&lt;br&gt;&#10;&lt;br&gt;&#10;More info on how the import functionality works: &lt;a href =&quot;https://github.com/triAGENS/ArangoDB/wiki/HttpImport&quot;&gt;https://github.com/triAGENS/ArangoDB/wiki/HttpImport&lt;/a&gt;&#10;&lt;br&gt;&#10;&lt;/li&gt;&#10;&lt;li&gt;'createCollection' - If true, create the collection if it doesn't exist. Defaults to false &lt;/li&gt;&#10;&lt;/p&gt;" type="array" variable="$options">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="865" name="return" description="- number of documents that were deleted" type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+        <argument line="887">
+          <name>$collectionId</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="887">
+          <name>$importData</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="887">
+          <name>$options</name>
+          <default>array('createCollection' =&gt; false, 'type' =&gt; null)</default>
           <type/>
         </argument>
       </method>
@@ -4828,7 +5015,7 @@ the following endpoint types are currently supported (more to be added later):
       </method>
     </class>
   </file>
-  <file path="Collection.php" hash="7fe7132d197950869b0368d068a12526" package="ArangoDbPhpClient">
+  <file path="Collection.php" hash="a948141f01b72c6d7a75daa9696c1a2d" package="ArangoDbPhpClient">
     <docblock line="3">
       <description>ArangoDB PHP client: single collection</description>
       <long-description></long-description>
@@ -5140,136 +5327,136 @@ To reliably store a collection id elsewhere, a PHP string should be used&lt;/p&g
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="265" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="268" package="ArangoDbPhpClient">
         <name>setName</name>
         <full_name>setName</full_name>
-        <docblock line="258">
+        <docblock line="261">
           <description>Set the collection name</description>
           <long-description></long-description>
-          <tag line="258" name="throws" description="" type="\triagens\ArangoDb\ClientException">
+          <tag line="261" name="throws" description="" type="\triagens\ArangoDb\ClientException">
             <type by_reference="false">\triagens\ArangoDb\ClientException</type>
           </tag>
-          <tag line="258" name="param" description="- name" type="string" variable="$name">
+          <tag line="261" name="param" description="- name" type="string" variable="$name">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="258" name="return" description="" type="void">
+          <tag line="261" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="265">
+        <argument line="268">
           <name>$name</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="280" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="283" package="ArangoDbPhpClient">
         <name>getName</name>
         <full_name>getName</full_name>
-        <docblock line="275">
+        <docblock line="278">
           <description>Get the collection name (if already known)</description>
           <long-description></long-description>
-          <tag line="275" name="return" description="- name" type="string">
+          <tag line="278" name="return" description="- name" type="string">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="294" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="297" package="ArangoDbPhpClient">
         <name>setType</name>
         <full_name>setType</full_name>
-        <docblock line="284">
+        <docblock line="287">
           <description>Set the collection type.</description>
           <long-description>&lt;p&gt;This is useful before a collection is create() 'ed in order to set a different type than the normal one.
 For example this must be set to 3 in order to create an edge-collection.&lt;/p&gt;</long-description>
-          <tag line="284" name="throws" description="" type="\triagens\ArangoDb\ClientException">
+          <tag line="287" name="throws" description="" type="\triagens\ArangoDb\ClientException">
             <type by_reference="false">\triagens\ArangoDb\ClientException</type>
           </tag>
-          <tag line="284" name="param" description="- type = 2 -&gt; normal collection, type = 3 -&gt; edge-collection" type="int" variable="$type">
+          <tag line="287" name="param" description="- type = 2 -&gt; normal collection, type = 3 -&gt; edge-collection" type="int" variable="$type">
             <type by_reference="false">int</type>
           </tag>
-          <tag line="284" name="return" description="" type="void">
+          <tag line="287" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="294">
+        <argument line="297">
           <name>$type</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="313" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="316" package="ArangoDbPhpClient">
         <name>getType</name>
         <full_name>getType</full_name>
-        <docblock line="308">
+        <docblock line="311">
           <description>Get the collection type (if already known)</description>
           <long-description></long-description>
-          <tag line="308" name="return" description="- name" type="string">
+          <tag line="311" name="return" description="- name" type="string">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="323" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="326" package="ArangoDbPhpClient">
         <name>setWaitForSync</name>
         <full_name>setWaitForSync</full_name>
-        <docblock line="317">
+        <docblock line="320">
           <description>Set the waitForSync value</description>
           <long-description></long-description>
-          <tag line="317" name="param" description="- waitForSync value" type="bool" variable="$value">
+          <tag line="320" name="param" description="- waitForSync value" type="bool" variable="$value">
             <type by_reference="false">bool</type>
           </tag>
-          <tag line="317" name="return" description="" type="void">
+          <tag line="320" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="323">
+        <argument line="326">
           <name>$value</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="333" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="336" package="ArangoDbPhpClient">
         <name>getWaitForSync</name>
         <full_name>getWaitForSync</full_name>
-        <docblock line="328">
+        <docblock line="331">
           <description>Get the waitForSync value (if already known)</description>
           <long-description></long-description>
-          <tag line="328" name="return" description="- waitForSync value" type="bool">
+          <tag line="331" name="return" description="- waitForSync value" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="343" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="346" package="ArangoDbPhpClient">
         <name>setJournalSize</name>
         <full_name>setJournalSize</full_name>
-        <docblock line="337">
+        <docblock line="340">
           <description>Set the journalSize value</description>
           <long-description></long-description>
-          <tag line="337" name="param" description="- waitForSync value" type="bool" variable="$value">
+          <tag line="340" name="param" description="- waitForSync value" type="bool" variable="$value">
             <type by_reference="false">bool</type>
           </tag>
-          <tag line="337" name="return" description="" type="void">
+          <tag line="340" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="343">
+        <argument line="346">
           <name>$value</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="353" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="356" package="ArangoDbPhpClient">
         <name>getJournalSize</name>
         <full_name>getJournalSize</full_name>
-        <docblock line="348">
+        <docblock line="351">
           <description>Get the journalSize value (if already known)</description>
           <long-description></long-description>
-          <tag line="348" name="return" description="- journalSize value" type="bool">
+          <tag line="351" name="return" description="- journalSize value" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
       </method>
     </class>
   </file>
-  <file path="HttpHelper.php" hash="0d9bf31d88b0e809a2e9d015f727742d" package="ArangoDbPhpClient">
+  <file path="HttpHelper.php" hash="dbbf4b0905c0ad01030b9e9de9c6b817" package="ArangoDbPhpClient">
     <docblock line="3">
       <description>ArangoDB PHP client: http helper methods</description>
       <long-description></long-description>
@@ -5492,7 +5679,7 @@ For example this must be set to 3 in order to create an edge-collection.&lt;/p&g
       </method>
     </class>
   </file>
-  <file path="Document.php" hash="051990cf5d1e4382676c08b7ccdfe33a" package="ArangoDbPhpClient">
+  <file path="Document.php" hash="a3d849526645382902038017aa815ef5" package="ArangoDbPhpClient">
     <docblock line="3">
       <description>ArangoDB PHP client: single document</description>
       <long-description></long-description>
@@ -5509,29 +5696,38 @@ For example this must be set to 3 in order to create an edge-collection.&lt;/p&g
         <long-description></long-description>
         <tag line="13" name="package" description="ArangoDbPhpClient"/>
       </docblock>
-      <constant namespace="triagens\ArangoDb" line="52" package="ArangoDbPhpClient">
+      <constant namespace="triagens\ArangoDb" line="58" package="ArangoDbPhpClient">
         <name>ENTRY_ID</name>
         <full_name>ENTRY_ID</full_name>
         <value>'_id'</value>
-        <docblock line="49">
+        <docblock line="55">
           <description>Document id index</description>
           <long-description></long-description>
         </docblock>
       </constant>
-      <constant namespace="triagens\ArangoDb" line="57" package="ArangoDbPhpClient">
+      <constant namespace="triagens\ArangoDb" line="63" package="ArangoDbPhpClient">
+        <name>ENTRY_KEY</name>
+        <full_name>ENTRY_KEY</full_name>
+        <value>'_key'</value>
+        <docblock line="60">
+          <description>Document key index</description>
+          <long-description></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="triagens\ArangoDb" line="68" package="ArangoDbPhpClient">
         <name>ENTRY_REV</name>
         <full_name>ENTRY_REV</full_name>
         <value>'_rev'</value>
-        <docblock line="54">
+        <docblock line="65">
           <description>Revision id index</description>
           <long-description></long-description>
         </docblock>
       </constant>
-      <constant namespace="triagens\ArangoDb" line="62" package="ArangoDbPhpClient">
+      <constant namespace="triagens\ArangoDb" line="73" package="ArangoDbPhpClient">
         <name>ENTRY_HIDDEN</name>
         <full_name>ENTRY_HIDDEN</full_name>
         <value>'_hidden'</value>
-        <docblock line="59">
+        <docblock line="70">
           <description>hidden atttribute index</description>
           <long-description></long-description>
         </docblock>
@@ -5548,41 +5744,41 @@ For example this must be set to 3 in order to create an edge-collection.&lt;/p&g
         </docblock>
       </property>
       <property final="false" static="false" visibility="protected" line="29" namespace="triagens\ArangoDb" package="Default">
-        <name>$_rev</name>
+        <name>$_key</name>
         <default>NULL</default>
         <docblock line="25">
-          <description>The document revision (might be NULL for new documents)</description>
+          <description>The document key (might be NULL for new documents)</description>
           <long-description></long-description>
-          <tag line="25" name="var" description="" type="mixed">
-            <type by_reference="false">mixed</type>
+          <tag line="25" name="var" description="- document id" type="string">
+            <type by_reference="false">string</type>
           </tag>
         </docblock>
       </property>
       <property final="false" static="false" visibility="protected" line="35" namespace="triagens\ArangoDb" package="Default">
-        <name>$_values</name>
-        <default>array()</default>
+        <name>$_rev</name>
+        <default>NULL</default>
         <docblock line="31">
-          <description>The document attributes (names/values)</description>
+          <description>The document revision (might be NULL for new documents)</description>
           <long-description></long-description>
-          <tag line="31" name="var" description="" type="array">
-            <type by_reference="false">array</type>
+          <tag line="31" name="var" description="" type="mixed">
+            <type by_reference="false">mixed</type>
           </tag>
         </docblock>
       </property>
       <property final="false" static="false" visibility="protected" line="41" namespace="triagens\ArangoDb" package="Default">
-        <name>$_changed</name>
-        <default></default>
+        <name>$_values</name>
+        <default>array()</default>
         <docblock line="37">
-          <description>Flag to indicate whether document was changed locally</description>
+          <description>The document attributes (names/values)</description>
           <long-description></long-description>
-          <tag line="37" name="var" description="" type="bool">
-            <type by_reference="false">bool</type>
+          <tag line="37" name="var" description="" type="array">
+            <type by_reference="false">array</type>
           </tag>
         </docblock>
       </property>
       <property final="false" static="false" visibility="protected" line="47" namespace="triagens\ArangoDb" package="Default">
-        <name>$_hidden</name>
-        <default>array()</default>
+        <name>$_changed</name>
+        <default></default>
         <docblock line="43">
           <description>Flag to indicate whether document was changed locally</description>
           <long-description></long-description>
@@ -5591,416 +5787,471 @@ For example this must be set to 3 in order to create an edge-collection.&lt;/p&g
           </tag>
         </docblock>
       </property>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="70" package="ArangoDbPhpClient">
+      <property final="false" static="false" visibility="protected" line="53" namespace="triagens\ArangoDb" package="Default">
+        <name>$_hidden</name>
+        <default>array()</default>
+        <docblock line="49">
+          <description>Flag to indicate whether document was changed locally</description>
+          <long-description></long-description>
+          <tag line="49" name="var" description="" type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="81" package="ArangoDbPhpClient">
         <name>__construct</name>
         <full_name>__construct</full_name>
-        <docblock line="64">
+        <docblock line="75">
           <description>Constructs an empty document</description>
           <long-description></long-description>
-          <tag line="64" name="param" description="- optional, initial $options for document" type="array" variable="$options">
+          <tag line="75" name="param" description="- optional, initial $options for document" type="array" variable="$options">
             <type by_reference="false">array</type>
           </tag>
-          <tag line="64" name="return" description="" type="void">
+          <tag line="75" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="70">
+        <argument line="81">
           <name>$options</name>
           <default>array()</default>
           <type>array</type>
         </argument>
       </method>
-      <method final="false" abstract="false" static="true" visibility="public" namespace="triagens\ArangoDb" line="83" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="true" visibility="public" namespace="triagens\ArangoDb" line="94" package="ArangoDbPhpClient">
         <name>createFromArray</name>
         <full_name>createFromArray</full_name>
-        <docblock line="75">
+        <docblock line="86">
           <description>Factory method to construct a new document using the values passed to populate it</description>
           <long-description></long-description>
-          <tag line="75" name="throws" description="" type="\triagens\ArangoDb\ClientException">
+          <tag line="86" name="throws" description="" type="\triagens\ArangoDb\ClientException">
             <type by_reference="false">\triagens\ArangoDb\ClientException</type>
           </tag>
-          <tag line="75" name="param" description="- initial values for document" type="array" variable="$values">
+          <tag line="86" name="param" description="- initial values for document" type="array" variable="$values">
             <type by_reference="false">array</type>
           </tag>
-          <tag line="75" name="param" description="- optional, initial options for document" type="array" variable="$options">
+          <tag line="86" name="param" description="- optional, initial options for document" type="array" variable="$options">
             <type by_reference="false">array</type>
           </tag>
-          <tag line="75" name="return" description="" type="\triagens\ArangoDb\Document">
+          <tag line="86" name="return" description="" type="\triagens\ArangoDb\Document">
             <type by_reference="false">\triagens\ArangoDb\Document</type>
           </tag>
         </docblock>
-        <argument line="83">
+        <argument line="94">
           <name>$values</name>
           <default></default>
           <type>array</type>
         </argument>
-        <argument line="83">
+        <argument line="94">
           <name>$options</name>
           <default>array()</default>
           <type>array</type>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="102" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="113" package="ArangoDbPhpClient">
         <name>__clone</name>
         <full_name>__clone</full_name>
-        <docblock line="95">
+        <docblock line="106">
           <description>Clone a document</description>
           <long-description>&lt;p&gt;Returns the clone&lt;/p&gt;</long-description>
-          <tag line="95" name="return" description="" type="void">
+          <tag line="106" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="118" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="130" package="ArangoDbPhpClient">
         <name>__toString</name>
         <full_name>__toString</full_name>
-        <docblock line="109">
+        <docblock line="121">
           <description>Get a string representation of the document.</description>
           <long-description>&lt;p&gt;It will not output hidden attributes.&lt;/p&gt;
 
 &lt;p&gt;Returns the document as JSON-encoded string&lt;/p&gt;</long-description>
-          <tag line="109" name="return" description="- JSON-encoded document" type="string">
+          <tag line="121" name="return" description="- JSON-encoded document" type="string">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="133" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="145" package="ArangoDbPhpClient">
         <name>toJson</name>
         <full_name>toJson</full_name>
-        <docblock line="122">
+        <docblock line="134">
           <description>Returns the document as JSON-encoded string</description>
           <long-description></long-description>
-          <tag line="122" name="param" description="- optional, array of options that will be passed to the getAll function&#10;&lt;p&gt;Options are :&#10;&lt;li&gt;'includeInternals' - true to include the internal attributes. Defaults to false&lt;/li&gt;&#10;&lt;li&gt;'ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false&lt;/li&gt;&#10;&lt;/p&gt;" type="array" variable="$options">
+          <tag line="134" name="param" description="- optional, array of options that will be passed to the getAll function&#10;&lt;p&gt;Options are :&#10;&lt;li&gt;'includeInternals' - true to include the internal attributes. Defaults to false&lt;/li&gt;&#10;&lt;li&gt;'ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false&lt;/li&gt;&#10;&lt;/p&gt;" type="array" variable="$options">
             <type by_reference="false">array</type>
           </tag>
-          <tag line="122" name="return" description="- JSON-encoded document" type="string">
+          <tag line="134" name="return" description="- JSON-encoded document" type="string">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
-        <argument line="133">
+        <argument line="145">
           <name>$options</name>
           <default>array()</default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="148" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="160" package="ArangoDbPhpClient">
         <name>toSerialized</name>
         <full_name>toSerialized</full_name>
-        <docblock line="137">
+        <docblock line="149">
           <description>Returns the document as a serialized string</description>
           <long-description></long-description>
-          <tag line="137" name="param" description="- optional, array of options that will be passed to the getAll function&#10;&lt;p&gt;Options are :&#10;&lt;li&gt;'includeInternals' - true to include the internal attributes. Defaults to false&lt;/li&gt;&#10;&lt;li&gt;'ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false&lt;/li&gt;&#10;&lt;/p&gt;" type="array" variable="$options">
+          <tag line="149" name="param" description="- optional, array of options that will be passed to the getAll function&#10;&lt;p&gt;Options are :&#10;&lt;li&gt;'includeInternals' - true to include the internal attributes. Defaults to false&lt;/li&gt;&#10;&lt;li&gt;'ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false&lt;/li&gt;&#10;&lt;/p&gt;" type="array" variable="$options">
             <type by_reference="false">array</type>
           </tag>
-          <tag line="137" name="return" description="- PHP serialized document" type="string">
+          <tag line="149" name="return" description="- PHP serialized document" type="string">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
-        <argument line="148">
+        <argument line="160">
           <name>$options</name>
           <default>array()</default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="158" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="170" package="ArangoDbPhpClient">
         <name>filterHiddenAttributes</name>
         <full_name>filterHiddenAttributes</full_name>
-        <docblock line="152">
+        <docblock line="164">
           <description>Returns the attributes with the hidden ones removed</description>
           <long-description></long-description>
-          <tag line="152" name="param" description="- attributes array" type="array" variable="$attributes">
+          <tag line="164" name="param" description="- attributes array" type="array" variable="$attributes">
             <type by_reference="false">array</type>
           </tag>
-          <tag line="152" name="return" description="- attributes array" type="array">
+          <tag line="164" name="return" description="- attributes array" type="array">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
-        <argument line="158">
+        <argument line="170">
           <name>$attributes</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="185" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="197" package="ArangoDbPhpClient">
         <name>set</name>
         <full_name>set</full_name>
-        <docblock line="173">
+        <docblock line="185">
           <description>Set a document attribute</description>
           <long-description>&lt;p&gt;The key (attribute name) must be a string.
 This will validate the value of the attribute and might throw an
 exception if the value is invalid.&lt;/p&gt;</long-description>
-          <tag line="173" name="throws" description="" type="\triagens\ArangoDb\ClientException">
+          <tag line="185" name="throws" description="" type="\triagens\ArangoDb\ClientException">
             <type by_reference="false">\triagens\ArangoDb\ClientException</type>
           </tag>
-          <tag line="173" name="param" description="- attribute name" type="string" variable="$key">
+          <tag line="185" name="param" description="- attribute name" type="string" variable="$key">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="173" name="param" description="- value for attribute" type="mixed" variable="$value">
+          <tag line="185" name="param" description="- value for attribute" type="mixed" variable="$value">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="173" name="return" description="" type="void">
+          <tag line="185" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="185">
+        <argument line="197">
           <name>$key</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="185">
+        <argument line="197">
           <name>$value</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="226" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="243" package="ArangoDbPhpClient">
         <name>__set</name>
         <full_name>__set</full_name>
-        <docblock line="214">
+        <docblock line="231">
           <description>Set a document attribute, magic method</description>
           <long-description>&lt;p&gt;This is a magic method that allows the object to be used without
 declaring all document attributes first.
 This function is mapped to set() internally.&lt;/p&gt;</long-description>
-          <tag line="214" name="throws" description="" type="\triagens\ArangoDb\ClientException">
+          <tag line="231" name="throws" description="" type="\triagens\ArangoDb\ClientException">
             <type by_reference="false">\triagens\ArangoDb\ClientException</type>
           </tag>
-          <tag line="214" name="param" description="- attribute name" type="string" variable="$key">
+          <tag line="231" name="param" description="- attribute name" type="string" variable="$key">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="214" name="param" description="- value for attribute" type="mixed" variable="$value">
+          <tag line="231" name="param" description="- value for attribute" type="mixed" variable="$value">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="214" name="return" description="" type="void">
+          <tag line="231" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="226">
+        <argument line="243">
           <name>$key</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="226">
+        <argument line="243">
           <name>$value</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="236" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="253" package="ArangoDbPhpClient">
         <name>get</name>
         <full_name>get</full_name>
-        <docblock line="230">
+        <docblock line="247">
           <description>Get a document attribute</description>
           <long-description></long-description>
-          <tag line="230" name="param" description="- name of attribute" type="string" variable="$key">
+          <tag line="247" name="param" description="- name of attribute" type="string" variable="$key">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="230" name="return" description="- value of attribute, NULL if attribute is not set" type="mixed">
+          <tag line="247" name="return" description="- value of attribute, NULL if attribute is not set" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
         </docblock>
-        <argument line="236">
+        <argument line="253">
           <name>$key</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="252" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="269" package="ArangoDbPhpClient">
         <name>__get</name>
         <full_name>__get</full_name>
-        <docblock line="244">
+        <docblock line="261">
           <description>Get a document attribute, magic method</description>
           <long-description>&lt;p&gt;This function is mapped to get() internally.&lt;/p&gt;</long-description>
-          <tag line="244" name="param" description="- name of attribute" type="string" variable="$key">
+          <tag line="261" name="param" description="- name of attribute" type="string" variable="$key">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="244" name="return" description="- value of attribute, NULL if attribute is not set" type="mixed">
+          <tag line="261" name="return" description="- value of attribute, NULL if attribute is not set" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
         </docblock>
-        <argument line="252">
+        <argument line="269">
           <name>$key</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="266" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="283" package="ArangoDbPhpClient">
         <name>getAll</name>
         <full_name>getAll</full_name>
-        <docblock line="256">
+        <docblock line="273">
           <description>Get all document attributes</description>
           <long-description></long-description>
-          <tag line="256" name="param" description="- optional, array of options for the getAll function, or the boolean value for $includeInternals&#10;&lt;p&gt;Options are :&#10;&lt;li&gt;'includeInternals' - true to include the internal attributes. Defaults to false&lt;/li&gt;&#10;&lt;li&gt;'ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false&lt;/li&gt;&#10;&lt;/p&gt;" type="mixed" variable="$options">
+          <tag line="273" name="param" description="- optional, array of options for the getAll function, or the boolean value for $includeInternals&#10;&lt;p&gt;Options are :&#10;&lt;li&gt;'includeInternals' - true to include the internal attributes. Defaults to false&lt;/li&gt;&#10;&lt;li&gt;'ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false&lt;/li&gt;&#10;&lt;/p&gt;" type="mixed" variable="$options">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="256" name="return" description="- array of all document attributes/values" type="array">
+          <tag line="273" name="return" description="- array of all document attributes/values" type="array">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
-        <argument line="266">
+        <argument line="283">
           <name>$options</name>
           <default>array()</default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="302" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="323" package="ArangoDbPhpClient">
         <name>setHiddenAttributes</name>
         <full_name>setHiddenAttributes</full_name>
-        <docblock line="296">
+        <docblock line="317">
           <description>Set the hidden attributes</description>
           <long-description></long-description>
-          <tag line="296" name="param" description="- array of attributes" type="array" variable="$attributes">
+          <tag line="317" name="param" description="- array of attributes" type="array" variable="$attributes">
             <type by_reference="false">array</type>
           </tag>
-          <tag line="296" name="return" description="" type="void">
+          <tag line="317" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="302">
+        <argument line="323">
           <name>$attributes</name>
           <default></default>
           <type>array</type>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="311" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="332" package="ArangoDbPhpClient">
         <name>getHiddenAttributes</name>
         <full_name>getHiddenAttributes</full_name>
-        <docblock line="306">
+        <docblock line="327">
           <description>Get the hidden attributes</description>
           <long-description></long-description>
-          <tag line="306" name="return" description="$attributes - array of attributes" type="array">
+          <tag line="327" name="return" description="$attributes - array of attributes" type="array">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="321" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="342" package="ArangoDbPhpClient">
         <name>setChanged</name>
         <full_name>setChanged</full_name>
-        <docblock line="315">
+        <docblock line="336">
           <description>Set the changed flag</description>
           <long-description></long-description>
-          <tag line="315" name="param" description="- change flag" type="bool" variable="$value">
+          <tag line="336" name="param" description="- change flag" type="bool" variable="$value">
             <type by_reference="false">bool</type>
           </tag>
-          <tag line="315" name="return" description="" type="void">
+          <tag line="336" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="321">
+        <argument line="342">
           <name>$value</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="330" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="351" package="ArangoDbPhpClient">
         <name>getChanged</name>
         <full_name>getChanged</full_name>
-        <docblock line="325">
+        <docblock line="346">
           <description>Get the changed flag</description>
           <long-description></long-description>
-          <tag line="325" name="return" description="- true if document was changed, false otherwise" type="bool">
+          <tag line="346" name="return" description="- true if document was changed, false otherwise" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="343" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="364" package="ArangoDbPhpClient">
         <name>setInternalId</name>
         <full_name>setInternalId</full_name>
-        <docblock line="334">
+        <docblock line="355">
           <description>Set the internal document id</description>
           <long-description>&lt;p&gt;This will throw if the id of an existing document gets updated to some other id&lt;/p&gt;</long-description>
-          <tag line="334" name="throws" description="" type="\triagens\ArangoDb\ClientException">
+          <tag line="355" name="throws" description="" type="\triagens\ArangoDb\ClientException">
             <type by_reference="false">\triagens\ArangoDb\ClientException</type>
           </tag>
-          <tag line="334" name="param" description="- internal document id" type="string" variable="$id">
+          <tag line="355" name="param" description="- internal document id" type="string" variable="$id">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="334" name="return" description="" type="void">
+          <tag line="355" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="343">
+        <argument line="364">
           <name>$id</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="363" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="385" package="ArangoDbPhpClient">
+        <name>setInternalKey</name>
+        <full_name>setInternalKey</full_name>
+        <docblock line="376">
+          <description>Set the internal document key</description>
+          <long-description>&lt;p&gt;This will throw if the key of an existing document gets updated to some other key&lt;/p&gt;</long-description>
+          <tag line="376" name="throws" description="" type="\triagens\ArangoDb\ClientException">
+            <type by_reference="false">\triagens\ArangoDb\ClientException</type>
+          </tag>
+          <tag line="376" name="param" description="- internal document key" type="string" variable="$key">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="376" name="return" description="" type="void">
+            <type by_reference="false">void</type>
+          </tag>
+        </docblock>
+        <argument line="385">
+          <name>$key</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="405" package="ArangoDbPhpClient">
         <name>getInternalId</name>
         <full_name>getInternalId</full_name>
-        <docblock line="355">
+        <docblock line="397">
           <description>Get the internal document id (if already known)</description>
           <long-description>&lt;p&gt;Document ids are generated on the server only. Document ids consist of collection id and
 document id, in the format collectionid/documentid&lt;/p&gt;</long-description>
-          <tag line="355" name="return" description="- internal document id, might be NULL if document does not yet have an id" type="string">
+          <tag line="397" name="return" description="- internal document id, might be NULL if document does not yet have an id" type="string">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="375" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="414" package="ArangoDbPhpClient">
+        <name>getInternalKey</name>
+        <full_name>getInternalKey</full_name>
+        <docblock line="409">
+          <description>Get the internal document key (if already known)</description>
+          <long-description></long-description>
+          <tag line="409" name="return" description="- internal document key, might be NULL if document does not yet have a key" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="426" package="ArangoDbPhpClient">
         <name>getHandle</name>
         <full_name>getHandle</full_name>
-        <docblock line="367">
+        <docblock line="418">
           <description>Convenience function to get the document handle (if already known) - is an alias to getInternalId()</description>
           <long-description>&lt;p&gt;Document handles are generated on the server only. Document handles consist of collection id and
 document id, in the format collectionid/documentid&lt;/p&gt;</long-description>
-          <tag line="367" name="return" description="- internal document id, might be NULL if document does not yet have an id" type="string">
+          <tag line="418" name="return" description="- internal document id, might be NULL if document does not yet have an id" type="string">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="387" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="438" package="ArangoDbPhpClient">
         <name>getId</name>
         <full_name>getId</full_name>
-        <docblock line="379">
+        <docblock line="430">
           <description>Get the document id (if already known)</description>
           <long-description>&lt;p&gt;Document ids are generated on the server only. Document ids are numeric but might be
 bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string should be used&lt;/p&gt;</long-description>
-          <tag line="379" name="return" description="- document id, might be NULL if document does not yet have an id" type="mixed">
+          <tag line="430" name="return" description="- document id, might be NULL if document does not yet have an id" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="401" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="450" package="ArangoDbPhpClient">
+        <name>getKey</name>
+        <full_name>getKey</full_name>
+        <docblock line="444">
+          <description>Get the document key (if already known).</description>
+          <long-description>&lt;p&gt;Alias function for getInternalKey()&lt;/p&gt;</long-description>
+          <tag line="444" name="return" description="- document key, might be NULL if document does not yet have a key" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="463" package="ArangoDbPhpClient">
         <name>getCollectionId</name>
         <full_name>getCollectionId</full_name>
-        <docblock line="393">
+        <docblock line="455">
           <description>Get the collection id (if already known)</description>
           <long-description>&lt;p&gt;Collection ids are generated on the server only. Collection ids are numeric but might be
 bigger than PHP_INT_MAX. To reliably store a collection id elsewhere, a PHP string should be used&lt;/p&gt;</long-description>
-          <tag line="393" name="return" description="- collection id, might be NULL if document does not yet have an id" type="mixed">
+          <tag line="455" name="return" description="- collection id, might be NULL if document does not yet have an id" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="418" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="480" package="ArangoDbPhpClient">
         <name>setRevision</name>
         <full_name>setRevision</full_name>
-        <docblock line="407">
+        <docblock line="469">
           <description>Set the document revision</description>
           <long-description>&lt;p&gt;Revision ids are generated on the server only.&lt;/p&gt;
 
 &lt;p&gt;Document ids are numeric but might be bigger than PHP_INT_MAX.
 To reliably store a document id elsewhere, a PHP string should be used&lt;/p&gt;</long-description>
-          <tag line="407" name="param" description="- revision id" type="mixed" variable="$rev">
+          <tag line="469" name="param" description="- revision id" type="mixed" variable="$rev">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="407" name="return" description="" type="void">
+          <tag line="469" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="418">
+        <argument line="480">
           <name>$rev</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="427" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="489" package="ArangoDbPhpClient">
         <name>getRevision</name>
         <full_name>getRevision</full_name>
-        <docblock line="422">
+        <docblock line="484">
           <description>Get the document revision (if already known)</description>
           <long-description></long-description>
-          <tag line="422" name="return" description="- revision id, might be NULL if document does not yet have an id" type="mixed">
+          <tag line="484" name="return" description="- revision id, might be NULL if document does not yet have an id" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
         </docblock>
@@ -6759,7 +7010,7 @@ Arango PHP client.&lt;/p&gt;</long-description>
       </method>
     </class>
   </file>
-  <file path="Urls.php" hash="aedffb68ae7719dbc99cac94a5ea61da" package="ArangoDbPhpClient">
+  <file path="Urls.php" hash="94cf6a435fe0967027960b158ced8dd7" package="ArangoDbPhpClient">
     <docblock line="3">
       <description>ArangoDB PHP client: Base URLs</description>
       <long-description></long-description>
@@ -6849,37 +7100,55 @@ Arango PHP client.&lt;/p&gt;</long-description>
         </docblock>
       </constant>
       <constant namespace="triagens\ArangoDb" line="62" package="ArangoDbPhpClient">
+        <name>URL_REMOVE_BY_EXAMPLE</name>
+        <full_name>URL_REMOVE_BY_EXAMPLE</full_name>
+        <value>'/_api/simple/remove-by-example'</value>
+        <docblock line="59">
+          <description>base URL part for remove-by-example</description>
+          <long-description></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="triagens\ArangoDb" line="67" package="ArangoDbPhpClient">
+        <name>URL_IMPORT</name>
+        <full_name>URL_IMPORT</full_name>
+        <value>'/_api/import'</value>
+        <docblock line="64">
+          <description>base URL part for remove-by-example</description>
+          <long-description></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="triagens\ArangoDb" line="72" package="ArangoDbPhpClient">
         <name>URL_RANGE</name>
         <full_name>URL_RANGE</full_name>
         <value>'/_api/simple/range'</value>
-        <docblock line="59">
+        <docblock line="69">
           <description>base URL part for select-range</description>
           <long-description></long-description>
         </docblock>
       </constant>
-      <constant namespace="triagens\ArangoDb" line="66" package="ArangoDbPhpClient">
+      <constant namespace="triagens\ArangoDb" line="76" package="ArangoDbPhpClient">
         <name>URL_NEAR</name>
         <full_name>URL_NEAR</full_name>
         <value>'/_api/simple/near'</value>
-        <docblock line="63">
+        <docblock line="73">
           <description>base URL part for select-range</description>
           <long-description></long-description>
         </docblock>
       </constant>
-      <constant namespace="triagens\ArangoDb" line="70" package="ArangoDbPhpClient">
+      <constant namespace="triagens\ArangoDb" line="80" package="ArangoDbPhpClient">
         <name>URL_WITHIN</name>
         <full_name>URL_WITHIN</full_name>
         <value>'/_api/simple/within'</value>
-        <docblock line="67">
+        <docblock line="77">
           <description>base URL part for select-range</description>
           <long-description></long-description>
         </docblock>
       </constant>
-      <constant namespace="triagens\ArangoDb" line="74" package="ArangoDbPhpClient">
+      <constant namespace="triagens\ArangoDb" line="84" package="ArangoDbPhpClient">
         <name>URL_BATCH</name>
         <full_name>URL_BATCH</full_name>
         <value>'/_api/batch'</value>
-        <docblock line="71">
+        <docblock line="81">
           <description>base URL part for batch processing</description>
           <long-description></long-description>
         </docblock>
