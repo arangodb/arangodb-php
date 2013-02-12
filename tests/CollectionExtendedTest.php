@@ -45,6 +45,70 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(true === $response, 'Delete should return true!');
     }
 
+
+    /**
+     * test for creation, getProperties, and delete of a volatile (in-memory-only) collection
+     */
+    public function testCreateGetAndDeleteVolatileCollection()
+    {
+        $collection = $this->collection;
+        $collectionHandler = $this->collectionHandler;
+
+        $resultingAttribute = $collection->getIsVolatile();
+        $this->assertTrue(NULL === $resultingAttribute, 'Default waitForSync in API should be NULL!');
+
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        $collection->setName($name);
+        $collection->setIsVolatile(true);
+
+
+        $response = $collectionHandler->add($collection);
+
+        $this->assertTrue(is_numeric($response), 'Adding collection did not return an id!');
+
+        $resultingCollection = $collectionHandler->get($name);
+
+        $properties=$collectionHandler->getProperties($name);
+        $this->assertTrue($properties->getIsVolatile() === true, '"isVolatile" should be true!');
+
+
+        $response = $collectionHandler->delete($collection);
+        $this->assertTrue(true === $response, 'Delete should return true!');
+    }
+
+
+    /**
+     * test for creation, getProperties, and delete of a volatile (in-memory-only) collection
+     */
+    public function testCreateGetAndDeleteSystemCollection()
+    {
+        $collection = $this->collection;
+        $collectionHandler = $this->collectionHandler;
+
+        $resultingAttribute = $collection->getIsSystem();
+        $this->assertTrue(NULL === $resultingAttribute, 'Default isSystem in API should be NULL!');
+
+        $name = '_ArangoDB_PHP_TestSuite_TestCollection_01';
+        $collection->setName($name);
+        $collection->setIsSystem(true);
+
+
+        $response = $collectionHandler->add($collection);
+
+        $this->assertTrue(is_numeric($response), 'Adding collection did not return an id!');
+
+        $resultingCollection = $collectionHandler->get($name);
+
+        //todo: Cannot run this test, as the properties function does not return isSystem at this time.. revisit later
+//        $properties=$collectionHandler->getProperties($name);
+//        $this->assertTrue($properties->getIsSystem() === true, '"isSystem" should be true!');
+
+
+        $response = $collectionHandler->delete($collection);
+        $this->assertTrue(true === $response, 'Delete should return true!');
+    }
+
+
     /**
      * test for creation, rename, and delete of a collection 
      */
@@ -72,6 +136,7 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         $response = $collectionHandler->delete($resultingCollectionRenamed);
         $this->assertTrue(true === $response, 'Delete should return true!');
     }
+
 
     /**
      * test for creation, rename, and delete of a collection with wrong encoding
@@ -171,6 +236,7 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         $response = $collectionHandler->delete($collection);
         $this->assertTrue(true === $response, 'Delete should return true!');
     }
+
 
     /**
      * test for creation, get, and delete of a collection given its settings through createFromArray() and waitForSync set to true
@@ -814,6 +880,11 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
         }
        try {
            $response = $this->collectionHandler->drop('importCollection_01_arango_unittests');
+        } catch (\Exception $e) {
+            // don't bother us, if it's already deleted.
+        }
+       try {
+           $response = $this->collectionHandler->drop('_ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }

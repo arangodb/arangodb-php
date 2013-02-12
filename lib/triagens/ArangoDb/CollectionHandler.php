@@ -288,8 +288,22 @@ class CollectionHandler extends Handler {
         $collection->setJournalSize($this->getConnection()->getOption(ConnectionOptions::OPTION_JOURNAL_SIZE));
     }
 
+    if ($collection->getIsSystem() === null) {
+        $collection->setIsSystem($this->getConnection()->getOption(ConnectionOptions::OPTION_IS_SYSTEM));
+    }
+
+    if ($collection->getIsVolatile() === null) {
+        $collection->setIsVolatile($this->getConnection()->getOption(ConnectionOptions::OPTION_IS_VOLATILE));
+    }
+
     $type = $collection->getType() ? $collection->getType() : Collection::getDefaultType();
-    $params = array(Collection::ENTRY_NAME => $collection->getName(), Collection::ENTRY_TYPE => $type, Collection::ENTRY_WAIT_SYNC => $collection->getWaitForSync(), Collection::ENTRY_JOURNAL_SIZE => $collection->getJournalSize());
+    $params = array(Collection::ENTRY_NAME => $collection->getName(),
+                    Collection::ENTRY_TYPE => $type,
+                    Collection::ENTRY_WAIT_SYNC => $collection->getWaitForSync(),
+                    Collection::ENTRY_JOURNAL_SIZE => $collection->getJournalSize(),
+                    Collection::ENTRY_IS_SYSTEM => $collection->getIsSystem(),
+                    Collection::ENTRY_IS_VOLATILE => $collection->getIsVolatile()
+    );
     $response = $this->getConnection()->post(Urls::URL_COLLECTION, $this->getConnection()->json_encode_wrapper($params));
 
     $location = $response->getLocationHeader();
