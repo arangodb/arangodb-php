@@ -35,6 +35,11 @@ class CollectionHandler extends Handler {
   const OPTION_EXAMPLE    = 'example';
 
   /**
+   * example parameter
+   */
+  const OPTION_CREATE_COLLECTION    = 'createCollection';
+
+  /**
    * attribute parameter
    */
   const OPTION_ATTRIBUTE    = 'attribute';
@@ -134,6 +139,7 @@ class CollectionHandler extends Handler {
    */
   const OPTION_RENAME    = 'rename';
 
+
   /**
    * Get information about a collection
    * 
@@ -151,7 +157,8 @@ class CollectionHandler extends Handler {
 
     return Collection::createFromArray($data);
   }
-  
+
+
   /**
    * Get properties of a collection
    *
@@ -170,6 +177,7 @@ class CollectionHandler extends Handler {
     return Collection::createFromArray($data);
   }
 
+
   /**
    * Get the number of documents in a collection
    * 
@@ -183,7 +191,6 @@ class CollectionHandler extends Handler {
    */
   public function getCount($collectionId) {
     return $this->count($collectionId);
-
   }
   
   
@@ -205,7 +212,8 @@ class CollectionHandler extends Handler {
 
     return (int) $count;
   }
-  
+
+
   /**
    * Get figures for a collection
    * 
@@ -220,7 +228,8 @@ class CollectionHandler extends Handler {
   public function getFigures($collectionId) {
     return $this->figures($collectionId);
   }
-  
+
+
   /**
    * Get figures for a collection
    * 
@@ -240,6 +249,7 @@ class CollectionHandler extends Handler {
     return $figures;
   }
 
+
   /**
    * Adds a new collection on the server
    * 
@@ -257,11 +267,12 @@ class CollectionHandler extends Handler {
     return $this->create($collection);
   }
 
+
   /**
    * Creates a new collection on the server
    * 
    * This will add the collection on the server and return its id
-   * 
+   * The id is mainly returned for backwards compatibility, but you should use the collection name for any reference to the collection.   *
    * This will throw if the collection cannot be created
    *
    * @throws Exception
@@ -277,8 +288,22 @@ class CollectionHandler extends Handler {
         $collection->setJournalSize($this->getConnection()->getOption(ConnectionOptions::OPTION_JOURNAL_SIZE));
     }
 
+    if ($collection->getIsSystem() === null) {
+        $collection->setIsSystem($this->getConnection()->getOption(ConnectionOptions::OPTION_IS_SYSTEM));
+    }
+
+    if ($collection->getIsVolatile() === null) {
+        $collection->setIsVolatile($this->getConnection()->getOption(ConnectionOptions::OPTION_IS_VOLATILE));
+    }
+
     $type = $collection->getType() ? $collection->getType() : Collection::getDefaultType();
-    $params = array(Collection::ENTRY_NAME => $collection->getName(), Collection::ENTRY_TYPE => $type, Collection::ENTRY_WAIT_SYNC => $collection->getWaitForSync(), Collection::ENTRY_JOURNAL_SIZE => $collection->getJournalSize());
+    $params = array(Collection::ENTRY_NAME => $collection->getName(),
+                    Collection::ENTRY_TYPE => $type,
+                    Collection::ENTRY_WAIT_SYNC => $collection->getWaitForSync(),
+                    Collection::ENTRY_JOURNAL_SIZE => $collection->getJournalSize(),
+                    Collection::ENTRY_IS_SYSTEM => $collection->getIsSystem(),
+                    Collection::ENTRY_IS_VOLATILE => $collection->getIsVolatile()
+    );
     $response = $this->getConnection()->post(Urls::URL_COLLECTION, $this->getConnection()->json_encode_wrapper($params));
 
 //    $location = $response->getLocationHeader();
@@ -291,7 +316,8 @@ class CollectionHandler extends Handler {
 
     return $id;
   }
-  
+
+
   /**
    * Creates an index on a collection on the server
    * 
@@ -328,6 +354,42 @@ class CollectionHandler extends Handler {
     return $result;
   }
 
+
+    /**
+     * Get indexes of a collection
+     *
+     * This will throw if the collection cannot be fetched from the server
+     *
+     * @throws Exception
+     * @param mixed $collectionId - collection id as a string or number
+     * @return array $data - the indexes result-set from the server
+     */
+    public function getIndexes($collectionId) {
+        $urlParams = array(self::OPTION_COLLECTION => $collectionId);
+        $url = UrlHelper::appendParamsUrl(Urls::URL_INDEX, $urlParams);
+        $response = $this->getConnection()->get($url);
+
+        $data = $response->getJson();
+
+        return $data;
+    }
+
+
+    /**
+     * Drop an index
+     *
+     * @throws Exception
+     * @param mixed $indexHandle - index handle (collection name / index id)
+     * @return bool - always true, will throw if there is an error
+     */
+    public function dropIndex($indexHandle) {
+        $handle=explode("/",$indexHandle);
+        $result = $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_INDEX, $handle[0], $handle[1]));
+
+        return true;
+    }
+
+
   /**
    * Delete a collection
    * 
@@ -340,7 +402,8 @@ class CollectionHandler extends Handler {
   public function delete($collection) {
     return $this->drop($collection);
   }
-  
+
+
   /**
    * Drop a collection
    *
@@ -425,7 +488,7 @@ class CollectionHandler extends Handler {
   }
 
 
-   /**
+  /**
    * Truncate a collection
    *
    * This will remove all documents from the collection but will leave the metadata and indexes intact.
@@ -446,7 +509,8 @@ class CollectionHandler extends Handler {
     return true;
   }
 
-      /**
+
+  /**
    * Get document(s) by specifying an example
    * 
    * This will throw if the list cannot be fetched from the server
@@ -456,13 +520,13 @@ class CollectionHandler extends Handler {
    * @param mixed $collectionId - collection id as string or number
    * @param mixed $document - the example document as a Document object or an array
    * @param bool|array $options - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
-   * <p>Options are : 
+   * <p>Options are :<br>
    * <li>'sanitize' - true to remove _id and _rev attributes from result documents. Defaults to false.</li>
    * <li>'hiddenAttributes' - set an array of hidden attributes for created documents.
    * <p>
-   *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. 
-   *                                The difference is, that if you're returning a resultset of documents, the getall() is already called 
-   *                                and the hidden attributes would not be applied to the attributes.
+   *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+   *                                The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+   *                                and the hidden attributes would not be applied to the attributes.<br>
    * </p>
    * </li>
    * </p>
@@ -493,7 +557,48 @@ class CollectionHandler extends Handler {
     
     return new Cursor($this->getConnection(), $response->getJson(), $options );
   }  
-  
+
+
+  /**
+   * Remove document(s) by specifying an example
+   *
+   * This will throw on any error
+   *
+   * @throws Exception
+   * @param mixed $collectionId - collection id as string or number
+   * @param mixed $document - the example document as a Document object or an array
+   * @param bool|array $options - optional - an array of options.
+   * <p>Options are :<br>
+   * <li>
+   * 'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk.<br>
+   * If this is not specified, then the collection's default sync behavior will be applied.
+   * </li>
+   * </p>
+   *
+   * @return int - number of documents that were deleted
+   */
+  public function removeByExample($collectionId, $document, $options = array()) {
+    if (is_array($document)) {
+      $document = Document::createFromArray($document, $options);
+    }
+
+    if (!($document instanceof Document)) {
+      throw new ClientException('Invalid example document specification');
+    }
+
+    $data = array(self::OPTION_COLLECTION => $collectionId, self::OPTION_EXAMPLE => $document->getAll(array('ignoreHiddenAttributes'=>true)));
+
+    $response = $this->getConnection()->put(Urls::URL_REMOVE_BY_EXAMPLE, $this->getConnection()->json_encode_wrapper($data));
+
+    $responseArray=$response->getJson();
+
+    if ($responseArray['error']===true) {
+      throw new ClientException('Invalid example document specification');
+    }
+
+    return $responseArray['deleted'] ;
+  }
+
 
   /**
    * Get document(s) by specifying range
@@ -507,13 +612,13 @@ class CollectionHandler extends Handler {
    * @param mixed $left - The lower bound.
    * @param mixed $right - The upper bound.
    * @param array $options - optional array of options.
-   * <p>Options are : 
+   * <p>Options are :<br>
    * <li>'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
    * <li>'hiddenAttributes' - Set an array of hidden attributes for created documents.
    * <p>
-   *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. 
-   *                                The difference is, that if you're returning a resultset of documents, the getall() is already called 
-   *                                and the hidden attributes would not be applied to the attributes.
+   *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
+   *                                The difference is, that if you're returning a resultset of documents, the getall() is already called<br>
+   *                                and the hidden attributes would not be applied to the attributes.<br>
    * </p>
    *  
    * <li>'closed' - If true, use interval including left and right, otherwise exclude right, but include left. 
@@ -558,13 +663,13 @@ class CollectionHandler extends Handler {
    * @param double $latitude - The latitude of the coordinate.
    * @param double $longitude - The longitude of the coordinate.
    * @param array $options - optional array of options.
-   * <p>Options are : 
+   * <p>Options are :<br>
    * <li>'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
    * <li>'hiddenAttributes' - Set an array of hidden attributes for created documents.
    * <p>
-   *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. 
-   *                                The difference is, that if you're returning a resultset of documents, the getall() is already called 
-   *                                and the hidden attributes would not be applied to the attributes.
+   *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+   *                                The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+   *                                and the hidden attributes would not be applied to the attributes.<br>
    * </p>
    *  
    * <li>'distance' - If given, the attribute key used to store the distance. (optional)
@@ -605,13 +710,13 @@ class CollectionHandler extends Handler {
    * @param double $longitude - The longitude of the coordinate.
    * @param int $radius - The maximal radius (in meters).
    * @param array $options - optional array of options.
-   * <p>Options are : 
+   * <p>Options are :<br>
    * <li>'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
    * <li>'hiddenAttributes' - Set an array of hidden attributes for created documents.
    * <p>
-   *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. 
-   *                                The difference is, that if you're returning a resultset of documents, the getall() is already called 
-   *                                and the hidden attributes would not be applied to the attributes.
+   *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
+   *                                The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+   *                                and the hidden attributes would not be applied to the attributes.<br>
    * </p>
    *  
    * <li>'distance' - If given, the attribute key used to store the distance. (optional)
@@ -621,7 +726,7 @@ class CollectionHandler extends Handler {
    * </p>
    * 
    * @return array - documents matching the example [0...n]
-    */
+   */
   public function within($collectionId, $latitude, $longitude, $radius, $options = array()) {
     $distance = null;
     $skip = null;
@@ -678,6 +783,8 @@ class CollectionHandler extends Handler {
       Cursor::ENTRY_SANITIZE => $sanitize,
     );
   }
+
+
     /**
      * Checks if the collectionId given, is valid. Returns true if it is, or false if it is not.
      *
@@ -712,6 +819,7 @@ class CollectionHandler extends Handler {
         }
     }
 
+
     /**
      * Gets the collectionId from the given collectionObject or string/integer
      *
@@ -733,6 +841,98 @@ class CollectionHandler extends Handler {
         }
     }
 
+
+
+    /**
+     * Import documents from a file
+     *
+     * This will throw on all errors except insertion errors
+     *
+     * @throws Exception
+     * @param mixed $collectionId - collection id as string or number
+     * @param mixed $importFileName - The filename that holds the import data.
+     * @param array $options - optional - an array of options.
+     * <p>Options are :<br>
+     * 'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
+     *           if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.<br>
+     *           if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.<br>
+     * <br>
+     * More info on how the import functionality works: <a href ="https://github.com/triAGENS/ArangoDB/wiki/HttpImport">https://github.com/triAGENS/ArangoDB/wiki/HttpImport</a>
+     * <br>
+     * </li>
+     * <li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
+     * </p>
+     * @return int - number of documents that were deleted
+     */
+    public function importFromFile($collectionId, $importFileName, $options = array('createCollection'=>false, 'type'=>null)) {
+
+        $contents = file_get_contents($importFileName);
+        if ($contents===false) {
+            throw new ClientException('Input file "'.$importFileName.'" could not be found.');
+        }
+
+       $result = $this->import($collectionId, $contents, $options);
+        return $result ;
+    }
+
+
+    /**
+     * Import documents into a collection
+     *
+     * This will throw on all errors except insertion errors
+     *
+     * @throws Exception
+     * @param mixed $collectionId - collection id as string or number
+     * @param mixed $importData - The data to import. This can be a string holding the data according to the type of import, or an array of documents
+     * @param array $options - optional - an array of options.
+     * <p>Options are :<br>
+     * <li>
+     * 'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
+     *           if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.<br>
+     *           if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.<br>
+     * <br>
+     * More info on how the import functionality works: <a href ="https://github.com/triAGENS/ArangoDB/wiki/HttpImport">https://github.com/triAGENS/ArangoDB/wiki/HttpImport</a>
+     * <br>
+     * </li>
+     * <li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
+     * </p>
+     * @return int - number of documents that were deleted
+     */
+    public function import($collectionId, $importData, $options = array('createCollection'=>false, 'type'=>null)) {
+        $tmpContent='';
+        if (is_array($importData)){
+            foreach ($importData as $document) {
+                $tmpContent .= $document->toJson()."\r\n";
+            }
+            $importData = $tmpContent;
+            unset($tmpContent);
+            $options['type'] = 'documents';
+        }
+
+        $params[self::OPTION_COLLECTION] =  $collectionId;
+        if (array_key_exists('createCollection', $options)){
+            $params[self::OPTION_CREATE_COLLECTION ] = $options['createCollection'] == true ? true : false;
+        }
+        if (array_key_exists('type', $options)){
+            switch ($options['type']){
+                case "documents":
+                    $params[self::OPTION_TYPE] = 'documents';
+                    break;
+                case "array":
+                    $params[self::OPTION_TYPE] = 'array';
+                    break;
+            }
+        }
+
+        $url = UrlHelper::appendParamsUrl(Urls::URL_IMPORT, $params);
+
+        $response = $this->getConnection()->post($url, $importData);
+
+        $responseArray=$response->getJson();
+
+        return $responseArray ;
+
+    }
 
 
 }

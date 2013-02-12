@@ -370,7 +370,7 @@ class Document {
       throw new ClientException('Invalid format for document id');
     }
 
-    $this->_id = $id;
+    $this->_id =  (string) $id;
   }
 
   /**
@@ -391,7 +391,7 @@ class Document {
       throw new ClientException('Invalid format for document key');
     }
 
-    $this->_key = $key;
+    $this->_key =  (string) $key;
   }
 
   /**
@@ -478,7 +478,7 @@ class Document {
    * @return void
    */
   public function setRevision($rev) {
-    $this->_rev = $rev;
+    $this->_rev =  (string) $rev;
   }
   
   /**
