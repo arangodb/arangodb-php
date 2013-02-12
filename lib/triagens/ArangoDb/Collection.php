@@ -46,6 +46,18 @@ class Collection {
    */
   private $_journalSize   = NULL;
 
+ /**
+   * The collection isSystem value (might be NULL for new collections)
+   * @var int - isSystem value
+   */
+  private $_isSystem   = NULL;
+
+ /**
+   * The collection isVolatile value (might be NULL for new collections)
+   * @var int - isVolatile value
+   */
+  private $_isVolatile   = NULL;
+
   /**
    * Collection id index
    */
@@ -70,6 +82,16 @@ class Collection {
    * Collection 'journalSize' index
    */
   const ENTRY_JOURNAL_SIZE   = 'journalSize';
+
+  /**
+   * Collection 'isSystem' index
+   */
+  const ENTRY_IS_SYSTEM   = 'isSystem';
+
+  /**
+   * Collection 'isVolatile' sindex
+   */
+  const ENTRY_IS_VOLATILE   = 'isVolatile';
 
   /**
    * properties option
@@ -132,6 +154,8 @@ class Collection {
     $this->_name        = NULL;
     $this->_waitForSync = NULL;
     $this->_journalSize = NULL;
+    $this->_isSystem = NULL;
+    $this->_isVolatile = NULL;
   }
   
   /**
@@ -174,6 +198,8 @@ class Collection {
       self::ENTRY_NAME      => $this->_name,
       self::ENTRY_WAIT_SYNC => $this->_waitForSync,
       self::ENTRY_JOURNAL_SIZE => $this->_journalSize,
+      self::ENTRY_IS_SYSTEM => $this->_isSystem,
+      self::ENTRY_IS_VOLATILE => $this->_isVolatile,
       self::ENTRY_TYPE      => $this->_type,
     );
   }
@@ -216,6 +242,16 @@ class Collection {
       return;
     }
 
+    if ($key === self::ENTRY_IS_SYSTEM) {
+      $this->setIsSystem($value);
+      return;
+    }
+
+    if ($key === self::ENTRY_IS_VOLATILE) {
+      $this->setIsVolatile($value);
+      return;
+    }
+
     if ($key === self::ENTRY_TYPE) {
       $this->setType($value);
       return;
@@ -238,7 +274,7 @@ class Collection {
       throw new ClientException('Should not update the id of an existing collection');
     }
 
-    return $this->_id = $id;
+    return $this->_id =  (string) $id;
   }
   
   /**
@@ -272,7 +308,7 @@ class Collection {
       throw new ClientException('Should not update the name of an existing collection');
     }
 
-    $this->_name = $name;
+    $this->_name =  (string) $name;
   }
   
   /**
@@ -340,7 +376,7 @@ class Collection {
   /**
    * Set the journalSize value
    *
-   * @param bool $value - waitForSync value
+   * @param bool $value - journalSize value
    * @return void
    */
   public function setJournalSize($value) {
@@ -355,6 +391,46 @@ class Collection {
    */
   public function getJournalSize() {
     return $this->_journalSize;
+  }
+
+  /**
+   * Set the isSystem value
+   *
+   * @param bool $value - isSystem value
+   * @return void
+   */
+  public function setIsSystem($value) {
+    assert(is_null($value) || is_bool($value));
+    $this->_isSystem = $value;
+  }
+
+  /**
+   * Get the isSystem value (if already known)
+   *
+   * @return bool - isSystem value
+   */
+  public function getIsSystem() {
+    return $this->_isSystem;
+  }
+
+  /**
+   * Set the isVolatile value
+   *
+   * @param bool $value - isVolatile value
+   * @return void
+   */
+  public function setIsVolatile($value) {
+    assert(is_null($value) || is_bool($value));
+    $this->_isVolatile = $value;
+  }
+
+  /**
+   * Get the isVolatile value (if already known)
+   *
+   * @return bool - isVolatile value
+   */
+  public function getIsVolatile() {
+    return $this->_isVolatile;
   }
 
 }

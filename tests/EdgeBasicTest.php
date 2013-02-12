@@ -24,8 +24,8 @@ class EdgeBasicTest extends \PHPUnit_Framework_TestCase
         $this->collectionHandler->add($this->edgeCollection);
         
         $this->collectionHandler->add($this->collection);
-        
     }
+
 
     /**
      * Test if Edge and EdgeHandler instances can be initialized
@@ -40,6 +40,7 @@ class EdgeBasicTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('triagens\ArangoDb\Edge', $document);
         unset ($document);
     }
+
 
     /**
      * Try to create and delete an edge
@@ -71,15 +72,15 @@ class EdgeBasicTest extends \PHPUnit_Framework_TestCase
         $edgeDocument->set('label','knows');
         $edgeDocumentId = $edgeDocumentHandler->saveEdge($edgeCollection->getName(), $documentHandle1, $documentHandle2, $edgeDocument);
         
-        $resultingDocument = $documentHandler->get($edgeCollection->getId(), $edgeDocumentId);
+        $resultingDocument = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
         
-        $resultingEdge = $documentHandler->get($edgeCollection->getId(), $edgeDocumentId);
+        $resultingEdge = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
         
         $resultingAttribute = $resultingEdge->label;
         $this->assertTrue($resultingAttribute === 'knows', 'Attribute set on the Edge is different from the one retrieved!');
 
         
-        $edgesQuery1Result=$edgeDocumentHandler->edges($edgeCollection->getId(),$documentHandle1,'out');
+        $edgesQuery1Result=$edgeDocumentHandler->edges($edgeCollection->getName(),$documentHandle1,'out');
         $this->assertArrayHasKey('documents',$edgesQuery1Result, "edges didn't return an array with a documents attribute!");     
         
         $statement = new \triagens\ArangoDb\Statement($connection, array(
@@ -112,7 +113,7 @@ class EdgeBasicTest extends \PHPUnit_Framework_TestCase
     } 
     
     
-     /**
+    /**
      * Try to create and delete an edge with wrong encoding
      * We expect an exception here:
      * 
@@ -185,6 +186,7 @@ class EdgeBasicTest extends \PHPUnit_Framework_TestCase
         $response = $edgeDocumentHandler->delete($resultingEdge);
         
     }
+
 
     public function tearDown()
     {

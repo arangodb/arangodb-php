@@ -2,13 +2,20 @@
 v1.2.0 (xxxx-xx-xx)
 -------------------
 
-* Implemented support for ArangoDB 1.2. Users of ArangoDB 1.1 should continue to use v1.1.x of the PHP Client.
-  The 1.1 branch of the PHP client will receive bug-fixes if necessary, but development will focus on the v1.2 branch.
+* Implemented support for system and volatile collections
+
+* Implemented import functionality
+
+* Implemented remove document(s) by example
+
+* Extended Tests to include FULLTEXT index creation and deletion.
+
+* Implemented getIndexes() and dropIndex() methods in the CollectionHandler.
 
 * Implemented document creation using predefined key.
 
-
-
+* Implemented support for ArangoDB 1.2. Users of ArangoDB 1.1 should continue to use v1.1.x of the PHP Client.
+  The 1.1 branch of the PHP client will receive bug-fixes if necessary, but development will focus on the v1.2 branch.
 
 
 v1.1.0 (2013-01-28)

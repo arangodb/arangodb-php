@@ -65,12 +65,16 @@
 <li class="method public "><a href="#method_getAll" title="getAll :: Get all collection attributes"><span class="description">Get all collection attributes</span><pre>getAll()</pre></a></li>
 <li class="method public "><a href="#method_getDefaultType" title="getDefaultType :: Get the default collection type"><span class="description">Get the default collection type</span><pre>getDefaultType()</pre></a></li>
 <li class="method public "><a href="#method_getId" title="getId :: Get the collection id (if already known)"><span class="description">Get the collection id (if already known)</span><pre>getId()</pre></a></li>
+<li class="method public "><a href="#method_getIsSystem" title="getIsSystem :: Get the isSystem value (if already known)"><span class="description">Get the isSystem value (if already known)</span><pre>getIsSystem()</pre></a></li>
+<li class="method public "><a href="#method_getIsVolatile" title="getIsVolatile :: Get the isVolatile value (if already known)"><span class="description">Get the isVolatile value (if already known)</span><pre>getIsVolatile()</pre></a></li>
 <li class="method public "><a href="#method_getJournalSize" title="getJournalSize :: Get the journalSize value (if already known)"><span class="description">Get the journalSize value (if already known)</span><pre>getJournalSize()</pre></a></li>
 <li class="method public "><a href="#method_getName" title="getName :: Get the collection name (if already known)"><span class="description">Get the collection name (if already known)</span><pre>getName()</pre></a></li>
 <li class="method public "><a href="#method_getType" title="getType :: Get the collection type (if already known)"><span class="description">Get the collection type (if already known)</span><pre>getType()</pre></a></li>
 <li class="method public "><a href="#method_getWaitForSync" title="getWaitForSync :: Get the waitForSync value (if already known)"><span class="description">Get the waitForSync value (if already known)</span><pre>getWaitForSync()</pre></a></li>
 <li class="method public "><a href="#method_set" title="set :: Set a collection attribute"><span class="description">Set a collection attribute</span><pre>set()</pre></a></li>
 <li class="method public "><a href="#method_setId" title="setId :: Set the collection id"><span class="description">Set the collection id</span><pre>setId()</pre></a></li>
+<li class="method public "><a href="#method_setIsSystem" title="setIsSystem :: Set the isSystem value"><span class="description">Set the isSystem value</span><pre>setIsSystem()</pre></a></li>
+<li class="method public "><a href="#method_setIsVolatile" title="setIsVolatile :: Set the isVolatile value"><span class="description">Set the isVolatile value</span><pre>setIsVolatile()</pre></a></li>
 <li class="method public "><a href="#method_setJournalSize" title="setJournalSize :: Set the journalSize value"><span class="description">Set the journalSize value</span><pre>setJournalSize()</pre></a></li>
 <li class="method public "><a href="#method_setName" title="setName :: Set the collection name"><span class="description">Set the collection name</span><pre>setName()</pre></a></li>
 <li class="method public "><a href="#method_setType" title="setType :: Set the collection type."><span class="description">Set the collection type.</span><pre>setType()</pre></a></li>
@@ -86,6 +90,8 @@
 <li class="nav-header private">» Private
                     <ul>
 <li class="property private "><a href="#property__id" title="$_id :: The collection id (might be NULL for new collections)"><span class="description"></span><pre>$_id</pre></a></li>
+<li class="property private "><a href="#property__isSystem" title="$_isSystem :: The collection isSystem value (might be NULL for new collections)"><span class="description"></span><pre>$_isSystem</pre></a></li>
+<li class="property private "><a href="#property__isVolatile" title="$_isVolatile :: The collection isVolatile value (might be NULL for new collections)"><span class="description"></span><pre>$_isVolatile</pre></a></li>
 <li class="property private "><a href="#property__journalSize" title="$_journalSize :: The collection journalSize value (might be NULL for new collections)"><span class="description"></span><pre>$_journalSize</pre></a></li>
 <li class="property private "><a href="#property__name" title="$_name :: The collection name (might be NULL for new collections)"><span class="description"></span><pre>$_name</pre></a></li>
 <li class="property private "><a href="#property__type" title="$_type :: The collection type (might be NULL for new collections)"><span class="description"></span><pre>$_type</pre></a></li>
@@ -96,6 +102,8 @@
 <i class="icon-custom icon-constant"></i> Constants
                     <ul>
 <li class="constant  "><a href="#constant_ENTRY_ID" title="ENTRY_ID :: Collection id index"><span class="description">Collection id index</span><pre>ENTRY_ID</pre></a></li>
+<li class="constant  "><a href="#constant_ENTRY_IS_SYSTEM" title="ENTRY_IS_SYSTEM :: Collection 'isSystem' index"><span class="description">Collection 'isSystem' index</span><pre>ENTRY_IS_SYSTEM</pre></a></li>
+<li class="constant  "><a href="#constant_ENTRY_IS_VOLATILE" title="ENTRY_IS_VOLATILE :: Collection 'isVolatile' sindex"><span class="description">Collection 'isVolatile' sindex</span><pre>ENTRY_IS_VOLATILE</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_JOURNAL_SIZE" title="ENTRY_JOURNAL_SIZE :: Collection 'journalSize' index"><span class="description">Collection 'journalSize' index</span><pre>ENTRY_JOURNAL_SIZE</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_NAME" title="ENTRY_NAME :: Collection name index"><span class="description">Collection name index</span><pre>ENTRY_NAME</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_TYPE" title="ENTRY_TYPE :: Collection type index"><span class="description">Collection type index</span><pre>ENTRY_TYPE</pre></a></li>
@@ -211,6 +219,28 @@ To reliably store a collection id elsewhere, a PHP string should be used</p></di
 <code>mixed</code>- collection id, might be NULL if collection does not yet have an id</div>
 </div></div>
 </div>
+<a id="method_getIsSystem"></a><div class="element clickable method public method_getIsSystem" data-toggle="collapse" data-target=".method_getIsSystem .collapse">
+<h2>Get the isSystem value (if already known)</h2>
+<pre>getIsSystem() : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>bool</code>- isSystem value</div>
+</div></div>
+</div>
+<a id="method_getIsVolatile"></a><div class="element clickable method public method_getIsVolatile" data-toggle="collapse" data-target=".method_getIsVolatile .collapse">
+<h2>Get the isVolatile value (if already known)</h2>
+<pre>getIsVolatile() : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>bool</code>- isVolatile value</div>
+</div></div>
+</div>
 <a id="method_getJournalSize"></a><div class="element clickable method public method_getJournalSize" data-toggle="collapse" data-target=".method_getJournalSize .collapse">
 <h2>Get the journalSize value (if already known)</h2>
 <pre>getJournalSize() : bool</pre>
@@ -304,6 +334,36 @@ exception if the value is invalid.</p></div>
 </tr></table>
 </div></div>
 </div>
+<a id="method_setIsSystem"></a><div class="element clickable method public method_setIsSystem" data-toggle="collapse" data-target=".method_setIsSystem .collapse">
+<h2>Set the isSystem value</h2>
+<pre>setIsSystem(bool $value) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>bool</code><ul>
+<li>isSystem value</li>
+</ul>
+</div>
+</div></div>
+</div>
+<a id="method_setIsVolatile"></a><div class="element clickable method public method_setIsVolatile" data-toggle="collapse" data-target=".method_setIsVolatile .collapse">
+<h2>Set the isVolatile value</h2>
+<pre>setIsVolatile(bool $value) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>bool</code><ul>
+<li>isVolatile value</li>
+</ul>
+</div>
+</div></div>
+</div>
 <a id="method_setJournalSize"></a><div class="element clickable method public method_setJournalSize" data-toggle="collapse" data-target=".method_setJournalSize .collapse">
 <h2>Set the journalSize value</h2>
 <pre>setJournalSize(bool $value) : void</pre>
@@ -314,7 +374,7 @@ exception if the value is invalid.</p></div>
 <div class="subelement argument">
 <h4>$value</h4>
 <code>bool</code><ul>
-<li>waitForSync value</li>
+<li>journalSize value</li>
 </ul>
 </div>
 </div></div>
@@ -405,6 +465,18 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="property__isSystem"> </a><div class="element clickable property private property__isSystem" data-toggle="collapse" data-target=".property__isSystem .collapse">
+<h2></h2>
+<pre>$_isSystem : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property__isVolatile"> </a><div class="element clickable property private property__isVolatile" data-toggle="collapse" data-target=".property__isVolatile .collapse">
+<h2></h2>
+<pre>$_isVolatile : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="property__journalSize"> </a><div class="element clickable property private property__journalSize" data-toggle="collapse" data-target=".property__journalSize .collapse">
 <h2></h2>
 <pre>$_journalSize : int</pre>
@@ -434,6 +506,18 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 <a id="constant_ENTRY_ID"> </a><div class="element clickable constant  constant_ENTRY_ID" data-toggle="collapse" data-target=".constant_ENTRY_ID .collapse">
 <h2>Collection id index</h2>
 <pre>ENTRY_ID </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_ENTRY_IS_SYSTEM"> </a><div class="element clickable constant  constant_ENTRY_IS_SYSTEM" data-toggle="collapse" data-target=".constant_ENTRY_IS_SYSTEM .collapse">
+<h2>Collection 'isSystem' index</h2>
+<pre>ENTRY_IS_SYSTEM </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_ENTRY_IS_VOLATILE"> </a><div class="element clickable constant  constant_ENTRY_IS_VOLATILE" data-toggle="collapse" data-target=".constant_ENTRY_IS_VOLATILE .collapse">
+<h2>Collection 'isVolatile' sindex</h2>
+<pre>ENTRY_IS_VOLATILE </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
@@ -486,7 +570,7 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-01-03T23:05:18+02:00.<br></footer></div>
+            generated on 2013-02-12T03:44:13+02:00.<br></footer></div>
 </div>
 </body>
 </html>

@@ -299,10 +299,6 @@ class Batch {
 
     if ($type == $regs['direct'] && $method == 'GET'){
       $type = 'get'.$type;
-      #if  (substr($request,strlen('GET /_api/'.$regs['direct']),1)=='?'){
-        #$type.='ids';
-      #}
- 
     }
 
     $result  = 'HTTP/1.1 202 Accepted' . HttpHelper::EOL;
