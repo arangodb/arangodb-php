@@ -306,10 +306,10 @@ class CollectionHandler extends Handler {
     );
     $response = $this->getConnection()->post(Urls::URL_COLLECTION, $this->getConnection()->json_encode_wrapper($params));
 
-    $location = $response->getLocationHeader();
-    if (!$location) {
-      throw new ClientException('Did not find location header in server response');
-    }
+//    $location = $response->getLocationHeader();
+//    if (!$location) {
+//      throw new ClientException('Did not find location header in server response');
+//    }
     $jsonResponse=$response->getJson();
     $id = $jsonResponse['id'];
     $collection->setId($id);
