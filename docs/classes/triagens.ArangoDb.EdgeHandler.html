@@ -350,7 +350,7 @@ appropriate HTTP requests to the server.</p></div>
 </div>
 <a id="method_getByExample"></a><div class="element clickable method public method_getByExample" data-toggle="collapse" data-target=".method_getByExample .collapse">
 <h2>Get document(s) by specifying an example</h2>
-<pre>getByExample(mixed $collectionId, mixed $document, bool $sanitize) : array</pre>
+<pre>getByExample(mixed $collectionId, mixed $document, bool $sanitize) : \triagens\ArangoDb\cursor</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw if the list cannot be fetched from the server</p></div>
@@ -384,7 +384,7 @@ appropriate HTTP requests to the server.</p></div>
 </tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
-<code>array</code>- documents matching the example [0...n]</div>
+<code>\triagens\ArangoDb\cursor</code>- Returns a cursor containing the result</div>
 </div></div>
 </div>
 <a id="method_getById"></a><div class="element clickable method public method_getById" data-toggle="collapse" data-target=".method_getById .collapse">
@@ -990,7 +990,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-02-12T03:44:13+02:00.<br></footer></div>
+            generated on 2013-02-14T00:13:27+02:00.<br></footer></div>
 </div>
 </body>
 </html>

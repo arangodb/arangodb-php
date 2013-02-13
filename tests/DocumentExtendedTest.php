@@ -99,6 +99,29 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
 
 
     /**
+     * test for creation, get by example, and delete of a document given its settings through createFromArray()
+     */
+    public function testCreateDocumentWithCreateFromArrayGetFirstExampleAndDeleteDocument()
+    {
+        $documentHandler = $this->documentHandler;
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+
+        $resultingDocument = $this->collectionHandler->firstExample($this->collection->getId(), $document);
+        $this->assertInstanceOf('triagens\ArangoDb\Document', $resultingDocument);
+
+        $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue'));
+        $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue'));
+
+        $response = $documentHandler->delete($document);
+        $this->assertTrue(true === $response, 'Delete should return true!');
+    }
+
+
+    /**
      * test for updating a document using update()
      */
     public function testUpdateDocument()
