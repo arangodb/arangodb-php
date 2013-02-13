@@ -467,7 +467,7 @@ class CollectionHandler extends Handler {
    * </li>
    * </p>
    * 
-   * @return array - documents matching the example [0...n]
+   * @return cursor - Returns a cursor containing the result
    */
   public function byExample($collectionId, $document, $options = array()) {
     // This preserves compatibility for the old sanitize parameter.

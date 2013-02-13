@@ -1,4 +1,12 @@
-v1.1.0 (xxxx-xx-xx)
+v1.1.1 (xxxx-xx-xx)
+-------------------
+
+* Fixed return value documentation of DocumentHandler::getByExample() and CollectionHandler::byExample() method
+
+
+
+
+v1.1.0 (2013-01-28)
 -------------------
 
 * Some refactoring in CollectionHandler.php

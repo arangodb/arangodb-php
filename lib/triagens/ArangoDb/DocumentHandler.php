@@ -108,7 +108,7 @@ class DocumentHandler extends Handler {
    * @param mixed $collectionId - collection id as string or number
    * @param mixed $document - the example document as a Document object or an array
    * @param bool $sanitize - remove _id and _rev attributes from result documents
-   * @return array - documents matching the example [0...n]
+   * @return cursor - Returns a cursor containing the result
    * 
    * @deprecated to be removed in version 2.0 - This function is being replaced by CollectionHandler::byExample() 
    */
