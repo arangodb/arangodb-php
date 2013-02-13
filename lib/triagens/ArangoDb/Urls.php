@@ -57,15 +57,20 @@ abstract class URLs {
   const URL_EXAMPLE            = '/_api/simple/by-example'; 
 
   /**
+   * base URL part for first-example
+   */
+  const URL_FIRST_EXAMPLE            = '/_api/simple/first-example';
+
+  /**
    * base URL part for select-range
    */
   const URL_RANGE            = '/_api/simple/range'; 
   /**
-   * base URL part for select-range
+   * base URL part for select-near
    */
   const URL_NEAR            = '/_api/simple/near'; 
   /**
-   * base URL part for select-range
+   * base URL part for select-within
    */
   const URL_WITHIN            = '/_api/simple/within'; 
   /**
