@@ -1,6 +1,8 @@
 v1.1.1 (xxxx-xx-xx)
 -------------------
 
+* Implemented CollectionHandler::firstExample() method
+
 * Fixed return value documentation of DocumentHandler::getByExample() and CollectionHandler::byExample() method
 
 

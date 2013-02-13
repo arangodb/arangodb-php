@@ -492,10 +492,68 @@ class CollectionHandler extends Handler {
     $response = $this->getConnection()->put(Urls::URL_EXAMPLE, $this->getConnection()->json_encode_wrapper($data));
     
     return new Cursor($this->getConnection(), $response->getJson(), $options );
-  }  
-  
+  }
 
-  /**
+
+    /**
+     * Get the first document matching a given example.
+     *
+     * This will throw if the document cannot be fetched from the server
+     *
+     *
+     * @throws Exception
+     *
+     * @param mixed      $collectionId - collection id as string or number
+     * @param mixed      $document     - the example document as a Document object or an array
+     * @param bool|array $options      - optional, an array of options.
+     * <p>Options are :<br>
+     * <li>'sanitize' - true to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     * <li>'hiddenAttributes' - set an array of hidden attributes for created documents.
+     * <p>
+     *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+     *                                 The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+     *                                 and the hidden attributes would not be applied to the attributes.<br>
+     * </p>
+     * </li>
+     * </p>
+     *
+     * @return Document - the document fetched from the server
+     */
+
+
+    public function firstExample($collectionId, $document, $options = array())
+    {
+        // This preserves compatibility for the old sanitize parameter.
+        $sanitize = false;
+        if (!is_array($options)) {
+            $sanitize = $options;
+            $options  = array();
+        }
+        else {
+            $sanitize = array_key_exists('sanitize', $options) ? $options['sanitize'] : $sanitize;
+        }
+        $options = array_merge($options, $this->getCursorOptions($sanitize));
+        if (is_array($document)) {
+            $document = Document::createFromArray($document, $options);
+        }
+
+        if (!($document instanceof Document)) {
+            throw new ClientException('Invalid example document specification');
+        }
+
+        $data = array(
+            self::OPTION_COLLECTION => $collectionId,
+            self::OPTION_EXAMPLE    => $document->getAll(array('ignoreHiddenAttributes' => true))
+        );
+
+        $response = $this->getConnection()->put(Urls::URL_FIRST_EXAMPLE, $this->getConnection()->json_encode_wrapper($data));
+        $data = $response->getJson();
+
+        return Document::createFromArray($data['document'], $options);
+    }
+
+
+    /**
    * Get document(s) by specifying range
    * 
    * This will throw if the list cannot be fetched from the server
