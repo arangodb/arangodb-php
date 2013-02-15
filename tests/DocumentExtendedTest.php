@@ -518,7 +518,7 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
 
         // Set some new values on the attributes and include the revision in the _rev attribute
         // this is only to update the doc and get a new revision for thesting the delete method below
-        // This should result in a successfull update
+        // This should result in a successful update
         $document->set('someAttribute','someValue2');
         $document->set('someOtherAttribute','someOtherValue2');
         $document->set('_rev',$resultingDocument2->getRevision());
