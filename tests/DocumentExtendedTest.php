@@ -99,6 +99,29 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
 
 
     /**
+     * test for creation, get by example, and delete of a document given its settings through createFromArray()
+     */
+    public function testCreateDocumentWithCreateFromArrayGetFirstExampleAndDeleteDocument()
+    {
+        $documentHandler = $this->documentHandler;
+
+        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+
+        $resultingDocument = $this->collectionHandler->firstExample($this->collection->getId(), $document);
+        $this->assertInstanceOf('triagens\ArangoDb\Document', $resultingDocument);
+
+        $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue'));
+        $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue'));
+
+        $response = $documentHandler->delete($document);
+        $this->assertTrue(true === $response, 'Delete should return true!');
+    }
+
+
+    /**
      * test for updating a document using update()
      */
     public function testUpdateDocument()
@@ -495,7 +518,7 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
 
         // Set some new values on the attributes and include the revision in the _rev attribute
         // this is only to update the doc and get a new revision for thesting the delete method below
-        // This should result in a successfull update
+        // This should result in a successful update
         $document->set('someAttribute','someValue2');
         $document->set('someOtherAttribute','someOtherValue2');
         $document->set('_rev',$resultingDocument2->getRevision());

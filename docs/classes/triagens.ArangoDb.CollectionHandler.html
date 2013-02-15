@@ -67,6 +67,7 @@
 <li class="method public "><a href="#method_drop" title="drop :: Drop a collection"><span class="description">Drop a collection</span><pre>drop()</pre></a></li>
 <li class="method public "><a href="#method_dropIndex" title="dropIndex :: Drop an index"><span class="description">Drop an index</span><pre>dropIndex()</pre></a></li>
 <li class="method public "><a href="#method_figures" title="figures :: Get figures for a collection"><span class="description">Get figures for a collection</span><pre>figures()</pre></a></li>
+<li class="method public "><a href="#method_firstExample" title="firstExample :: Get the first document matching a given example."><span class="description">Get the first document matching a given example.</span><pre>firstExample()</pre></a></li>
 <li class="method public "><a href="#method_get" title="get :: Get information about a collection"><span class="description">Get information about a collection</span><pre>get()</pre></a></li>
 <li class="method public "><a href="#method_getAllIds" title="getAllIds :: Get the list of all documents' ids from a collection"><span class="description">Get the list of all documents' ids from a collection</span><pre>getAllIds()</pre></a></li>
 <li class="method public "><a href="#method_getCollectionId" title="getCollectionId :: Gets the collectionId from the given collectionObject or string/integer"><span class="description">Gets the collectionId from the given collectionObject or string/integer</span><pre>getCollectionId()</pre></a></li>
@@ -208,7 +209,7 @@ appropriate HTTP requests to the server.</p></div>
 </div>
 <a id="method_byExample"></a><div class="element clickable method public method_byExample" data-toggle="collapse" data-target=".method_byExample .collapse">
 <h2>Get document(s) by specifying an example</h2>
-<pre>byExample(mixed $collectionId, mixed $document, bool | array $options) : array</pre>
+<pre>byExample(mixed $collectionId, mixed $document, bool | array $options) : \triagens\ArangoDb\cursor</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw if the list cannot be fetched from the server</p></div>
@@ -235,9 +236,9 @@ appropriate HTTP requests to the server.</p></div>
 <li>'sanitize' - true to remove _id and _rev attributes from result documents. Defaults to false.</li>
 <li>'hiddenAttributes' - set an array of hidden attributes for created documents.
 <p>
-                               This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-                               The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
-                               and the hidden attributes would not be applied to the attributes.<br>
+                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+                                The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+                                and the hidden attributes would not be applied to the attributes.<br>
 </p>
 </li>
 </p>
@@ -249,7 +250,7 @@ appropriate HTTP requests to the server.</p></div>
 </tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
-<code>array</code>- documents matching the example [0...n]</div>
+<code>\triagens\ArangoDb\cursor</code>- Returns a cursor containing the result</div>
 </div></div>
 </div>
 <a id="method_count"></a><div class="element clickable method public method_count" data-toggle="collapse" data-target=".method_count .collapse">
@@ -394,6 +395,52 @@ This will throw if the collection cannot be created</p></div>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>array</code>- the figures for the collection</div>
+</div></div>
+</div>
+<a id="method_firstExample"></a><div class="element clickable method public method_firstExample" data-toggle="collapse" data-target=".method_firstExample .collapse">
+<h2>Get the first document matching a given example.</h2>
+<pre>firstExample(mixed $collectionId, mixed $document, bool | array $options) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will throw if the document cannot be fetched from the server</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>collection id as string or number</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$document</h4>
+<code>mixed</code><ul>
+<li>the example document as a Document object or an array</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>bool</code><code>array</code><ul>
+<li>optional, an array of options.</li>
+</ul>
+
+<p>Options are :<br>
+<li>'sanitize' - true to remove _id and _rev attributes from result documents. Defaults to false.</li>
+<li>'hiddenAttributes' - set an array of hidden attributes for created documents.
+<p>
+                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+                                The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+                                and the hidden attributes would not be applied to the attributes.<br>
+</p>
+</li>
+</p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>- the document fetched from the server</div>
 </div></div>
 </div>
 <a id="method_get"></a><div class="element clickable method public method_get" data-toggle="collapse" data-target=".method_get .collapse">
@@ -600,10 +647,10 @@ This will throw if the collection cannot be created</p></div>
 <p>Options are :<br>
 <li>
 'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
-          if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.<br>
-          if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.<br>
+                           if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.<br>
+                           if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.<br>
 <br>
-More info on how the import functionality works: <a href ="https://github.com/triAGENS/ArangoDB/wiki/HttpImport">https://github.com/triAGENS/ArangoDB/wiki/HttpImport</a>
+                           More info on how the import functionality works: <a href ="https://github.com/triAGENS/ArangoDB/wiki/HttpImport">https://github.com/triAGENS/ArangoDB/wiki/HttpImport</a>
 <br>
 </li>
 <li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
@@ -646,10 +693,10 @@ More info on how the import functionality works: <a href ="https://github.com/tr
 
 <p>Options are :<br>
 'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
-          if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.<br>
-          if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.<br>
+                             if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.<br>
+                             if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.<br>
 <br>
-More info on how the import functionality works: <a href ="https://github.com/triAGENS/ArangoDB/wiki/HttpImport">https://github.com/triAGENS/ArangoDB/wiki/HttpImport</a>
+                             More info on how the import functionality works: <a href ="https://github.com/triAGENS/ArangoDB/wiki/HttpImport">https://github.com/triAGENS/ArangoDB/wiki/HttpImport</a>
 <br>
 </li>
 <li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
@@ -887,7 +934,7 @@ More info on how the import functionality works: <a href ="https://github.com/tr
 <p>Options are :<br>
 <li>
 'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk.<br>
-If this is not specified, then the collection's default sync behavior will be applied.
+                                If this is not specified, then the collection's default sync behavior will be applied.
 </li>
 </p>
 </div>
@@ -1243,7 +1290,7 @@ If this is not specified, then the collection's default sync behavior will be ap
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-02-11T02:07:38+02:00.<br></footer></div>
+            generated on 2013-02-14T00:13:27+02:00.<br></footer></div>
 </div>
 </body>
 </html>
