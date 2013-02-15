@@ -107,7 +107,7 @@ class EdgeBasicTest extends \PHPUnit_Framework_TestCase
         $response = $documentHandler->delete($document1);
         $response = $documentHandler->delete($document2);
         
-        // On ArangoDB 1.0 deleting a vertice doesn't delete the associated edge. Caution!
+        // On ArangoDB 1.0 deleting a vertex doesn't delete the associated edge. Caution!
         $response = $edgeDocumentHandler->delete($resultingEdge);
         
     } 
@@ -182,7 +182,7 @@ class EdgeBasicTest extends \PHPUnit_Framework_TestCase
         $response = $documentHandler->delete($document1);
         $response = $documentHandler->delete($document2);
         
-        // On ArangoDB 1.0 deleting a vertice doesn't delete the associated edge. Caution!
+        // On ArangoDB 1.0 deleting a vertex doesn't delete the associated edge. Caution!
         $response = $edgeDocumentHandler->delete($resultingEdge);
         
     }
