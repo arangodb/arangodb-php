@@ -99,10 +99,8 @@ class CollectionExtendedTest extends \PHPUnit_Framework_TestCase
 
         $resultingCollection = $collectionHandler->get($name);
 
-        //todo: Cannot run this test, as the properties function does not return isSystem at this time.. revisit later
-//        $properties=$collectionHandler->getProperties($name);
-//        $this->assertTrue($properties->getIsSystem() === true, '"isSystem" should be true!');
-
+        $properties=$collectionHandler->getProperties($name);
+        $this->assertTrue($properties->getIsSystem() === true, '"isSystem" should be true!');
 
         $response = $collectionHandler->delete($collection);
         $this->assertTrue(true === $response, 'Delete should return true!');
