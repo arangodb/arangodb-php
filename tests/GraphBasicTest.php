@@ -20,17 +20,7 @@ class GraphBasicTest extends
 {
     public function setUp()
     {
-        $this->connection        = getConnection();
-        $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
-        $this->edgeCollection    = new \triagens\ArangoDb\Collection();
-        $this->edgeCollection->setName('ArangoDBPHPTestSuiteTestEdgeCollection01');
-        $this->edgeCollection->set('type', 3);
-        $this->collection = new \triagens\ArangoDb\Collection();
-        $this->collection->setName('ArangoDBPHPTestSuiteTestCollection01');
-
-        $this->collectionHandler->add($this->edgeCollection);
-
-        $this->collectionHandler->add($this->collection);
+        $this->connection = getConnection();
     }
 
     /**
@@ -56,22 +46,8 @@ class GraphBasicTest extends
 
     public function tearDown()
     {
-        try {
-            $response = $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestEdgeCollection01');
-        } catch (\Exception $e) {
-            // don't bother us, if it's already deleted.
-        }
-        try {
-            $response = $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestCollection01');
-        } catch (\Exception $e) {
-            // don't bother us, if it's already deleted.
-        }
-
-
-        unset($this->documentHandler);
-        unset($this->document);
-        unset($this->collectionHandler);
-        unset($this->collection);
+        unset($this->graph);
+        unset($this->graphHandler);
         unset($this->connection);
     }
 }

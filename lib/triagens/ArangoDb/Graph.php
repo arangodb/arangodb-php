@@ -20,11 +20,11 @@ class Graph extends
 {
 
     /**
-     * Set the 'from' vertex document-handler
+     * Set the vertices-collection of the graph
      *
-     * @param mixed $from - from vertex
+     * @param mixed $verticesCollection - the name of the vertices-collection
      *
-     * @return Edge - edge object
+     * @return Graph - graph object
      */
     public function setVerticesCollection($verticesCollection)
     {
@@ -44,11 +44,11 @@ class Graph extends
     }
 
     /**
-     * Set the 'from' vertex document-handler
+     * Set the edges-collection of the graph
      *
-     * @param mixed $from - from vertex
+     * @param mixed $edgesCollection - the name of the edges-collection
      *
-     * @return Edge - edge object
+     * @return Graph - graph object
      */
     public function setEdgesCollection($edgesCollection)
     {
