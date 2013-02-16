@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
 <meta charset="utf-8">
-<title>ArangoDB PHP client API » \triagens\ArangoDb\Edge</title>
+<title>ArangoDB PHP client API » \triagens\ArangoDb\Graph</title>
 <meta name="author" content="Mike van Riel">
 <meta name="description" content="">
 <link href="../css/template.css" rel="stylesheet" media="all">
@@ -58,7 +58,7 @@
 <li class="nav-header">
 <i class="icon-custom icon-method"></i> Methods
                     <ul>
-<li class="method public "><a href="#method___clone" title="__clone :: Clone a document"><span class="description">Clone a document</span><pre>__clone()</pre></a></li>
+<li class="method public inherited"><a href="#method___clone" title="__clone :: Clone a document"><span class="description">Clone a document</span><pre>__clone()</pre></a></li>
 <li class="method public inherited"><a href="#method___construct" title="__construct :: Constructs an empty document"><span class="description">Constructs an empty document</span><pre>__construct()</pre></a></li>
 <li class="method public inherited"><a href="#method___get" title="__get :: Get a document attribute, magic method"><span class="description">Get a document attribute, magic method</span><pre>__get()</pre></a></li>
 <li class="method public inherited"><a href="#method___set" title="__set :: Set a document attribute, magic method"><span class="description">Set a document attribute, magic method</span><pre>__set()</pre></a></li>
@@ -69,7 +69,7 @@
 <li class="method public inherited"><a href="#method_getAll" title="getAll :: Get all document attributes"><span class="description">Get all document attributes</span><pre>getAll()</pre></a></li>
 <li class="method public inherited"><a href="#method_getChanged" title="getChanged :: Get the changed flag"><span class="description">Get the changed flag</span><pre>getChanged()</pre></a></li>
 <li class="method public inherited"><a href="#method_getCollectionId" title="getCollectionId :: Get the collection id (if already known)"><span class="description">Get the collection id (if already known)</span><pre>getCollectionId()</pre></a></li>
-<li class="method public "><a href="#method_getFrom" title="getFrom :: Get the 'from' vertex document-handler (if already known)"><span class="description">Get the 'from' vertex document-handler (if already known)</span><pre>getFrom()</pre></a></li>
+<li class="method public "><a href="#method_getEdgesCollection" title="getEdgesCollection :: Get the Edges Collection of the graph"><span class="description">Get the Edges Collection of the graph</span><pre>getEdgesCollection()</pre></a></li>
 <li class="method public inherited"><a href="#method_getHandle" title="getHandle :: Convenience function to get the document handle (if already known) - is an alias to getInternalId()"><span class="description">Convenience function to get the document handle (if already known) - is an alias to getInternalId()</span><pre>getHandle()</pre></a></li>
 <li class="method public inherited"><a href="#method_getHiddenAttributes" title="getHiddenAttributes :: Get the hidden attributes"><span class="description">Get the hidden attributes</span><pre>getHiddenAttributes()</pre></a></li>
 <li class="method public inherited"><a href="#method_getId" title="getId :: Get the document id (if already known)"><span class="description">Get the document id (if already known)</span><pre>getId()</pre></a></li>
@@ -77,15 +77,15 @@
 <li class="method public inherited"><a href="#method_getInternalKey" title="getInternalKey :: Get the internal document key (if already known)"><span class="description">Get the internal document key (if already known)</span><pre>getInternalKey()</pre></a></li>
 <li class="method public inherited"><a href="#method_getKey" title="getKey :: Get the document key (if already known)."><span class="description">Get the document key (if already known).</span><pre>getKey()</pre></a></li>
 <li class="method public inherited"><a href="#method_getRevision" title="getRevision :: Get the document revision (if already known)"><span class="description">Get the document revision (if already known)</span><pre>getRevision()</pre></a></li>
-<li class="method public "><a href="#method_getTo" title="getTo :: Get the 'to' vertex document-handler (if already known)"><span class="description">Get the 'to' vertex document-handler (if already known)</span><pre>getTo()</pre></a></li>
-<li class="method public "><a href="#method_set" title="set :: Set a document attribute"><span class="description">Set a document attribute</span><pre>set()</pre></a></li>
+<li class="method public "><a href="#method_getVerticesCollection" title="getVerticesCollection :: Get the Vertices Collection of the graph"><span class="description">Get the Vertices Collection of the graph</span><pre>getVerticesCollection()</pre></a></li>
+<li class="method public inherited"><a href="#method_set" title="set :: Set a document attribute"><span class="description">Set a document attribute</span><pre>set()</pre></a></li>
 <li class="method public inherited"><a href="#method_setChanged" title="setChanged :: Set the changed flag"><span class="description">Set the changed flag</span><pre>setChanged()</pre></a></li>
-<li class="method public "><a href="#method_setFrom" title="setFrom :: Set the 'from' vertex document-handler"><span class="description">Set the 'from' vertex document-handler</span><pre>setFrom()</pre></a></li>
+<li class="method public "><a href="#method_setEdgesCollection" title="setEdgesCollection :: Set the edges-collection of the graph"><span class="description">Set the edges-collection of the graph</span><pre>setEdgesCollection()</pre></a></li>
 <li class="method public inherited"><a href="#method_setHiddenAttributes" title="setHiddenAttributes :: Set the hidden attributes"><span class="description">Set the hidden attributes</span><pre>setHiddenAttributes()</pre></a></li>
 <li class="method public inherited"><a href="#method_setInternalId" title="setInternalId :: Set the internal document id"><span class="description">Set the internal document id</span><pre>setInternalId()</pre></a></li>
 <li class="method public inherited"><a href="#method_setInternalKey" title="setInternalKey :: Set the internal document key"><span class="description">Set the internal document key</span><pre>setInternalKey()</pre></a></li>
 <li class="method public inherited"><a href="#method_setRevision" title="setRevision :: Set the document revision"><span class="description">Set the document revision</span><pre>setRevision()</pre></a></li>
-<li class="method public "><a href="#method_setTo" title="setTo :: Set the 'to' vertex document-handler"><span class="description">Set the 'to' vertex document-handler</span><pre>setTo()</pre></a></li>
+<li class="method public "><a href="#method_setVerticesCollection" title="setVerticesCollection :: Set the vertices-collection of the graph"><span class="description">Set the vertices-collection of the graph</span><pre>setVerticesCollection()</pre></a></li>
 <li class="method public inherited"><a href="#method_toJson" title="toJson :: Returns the document as JSON-encoded string"><span class="description">Returns the document as JSON-encoded string</span><pre>toJson()</pre></a></li>
 <li class="method public inherited"><a href="#method_toSerialized" title="toSerialized :: Returns the document as a serialized string"><span class="description">Returns the document as a serialized string</span><pre>toSerialized()</pre></a></li>
 </ul>
@@ -97,24 +97,20 @@
 <li class="nav-header protected">» Protected
                     <ul>
 <li class="property protected inherited"><a href="#property__changed" title="$_changed :: Flag to indicate whether document was changed locally"><span class="description"></span><pre>$_changed</pre></a></li>
-<li class="property protected "><a href="#property__from" title="$_from :: The edge's from (might be NULL for new documents)"><span class="description"></span><pre>$_from</pre></a></li>
 <li class="property protected inherited"><a href="#property__hidden" title="$_hidden :: Flag to indicate whether document was changed locally"><span class="description"></span><pre>$_hidden</pre></a></li>
 <li class="property protected inherited"><a href="#property__id" title="$_id :: The document id (might be NULL for new documents)"><span class="description"></span><pre>$_id</pre></a></li>
 <li class="property protected inherited"><a href="#property__key" title="$_key :: The document key (might be NULL for new documents)"><span class="description"></span><pre>$_key</pre></a></li>
 <li class="property protected inherited"><a href="#property__rev" title="$_rev :: The document revision (might be NULL for new documents)"><span class="description"></span><pre>$_rev</pre></a></li>
-<li class="property protected "><a href="#property__to" title="$_to :: The edge's to (might be NULL for new documents)"><span class="description"></span><pre>$_to</pre></a></li>
 <li class="property protected inherited"><a href="#property__values" title="$_values :: The document attributes (names/values)"><span class="description"></span><pre>$_values</pre></a></li>
 </ul>
 </li>
 <li class="nav-header">
 <i class="icon-custom icon-constant"></i> Constants
                     <ul>
-<li class="constant  "><a href="#constant_ENTRY_FROM" title="ENTRY_FROM :: Document _from index"><span class="description">Document _from index</span><pre>ENTRY_FROM</pre></a></li>
 <li class="constant  inherited"><a href="#constant_ENTRY_HIDDEN" title="ENTRY_HIDDEN :: hidden atttribute index"><span class="description">hidden atttribute index</span><pre>ENTRY_HIDDEN</pre></a></li>
 <li class="constant  inherited"><a href="#constant_ENTRY_ID" title="ENTRY_ID :: Document id index"><span class="description">Document id index</span><pre>ENTRY_ID</pre></a></li>
 <li class="constant  inherited"><a href="#constant_ENTRY_KEY" title="ENTRY_KEY :: Document key index"><span class="description">Document key index</span><pre>ENTRY_KEY</pre></a></li>
 <li class="constant  inherited"><a href="#constant_ENTRY_REV" title="ENTRY_REV :: Revision id index"><span class="description">Revision id index</span><pre>ENTRY_REV</pre></a></li>
-<li class="constant  "><a href="#constant_ENTRY_TO" title="ENTRY_TO :: Revision _to index"><span class="description">Revision _to index</span><pre>ENTRY_TO</pre></a></li>
 <li class="constant  inherited"><a href="#constant_OPTION_KEEPNULL" title="OPTION_KEEPNULL :: keepNull option index"><span class="description">keepNull option index</span><pre>OPTION_KEEPNULL</pre></a></li>
 <li class="constant  inherited"><a href="#constant_OPTION_POLICY" title="OPTION_POLICY :: policy option index"><span class="description">policy option index</span><pre>OPTION_POLICY</pre></a></li>
 <li class="constant  inherited"><a href="#constant_OPTION_WAIT_FOR_SYNC" title="OPTION_WAIT_FOR_SYNC :: waitForSync option index"><span class="description">waitForSync option index</span><pre>OPTION_WAIT_FOR_SYNC</pre></a></li>
@@ -123,7 +119,7 @@
 </ul>
 </div>
 <div class="span8">
-<a id="\triagens\ArangoDb\Edge"></a><ul class="breadcrumb">
+<a id="\triagens\ArangoDb\Graph"></a><ul class="breadcrumb">
 <li>
 <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
 </li>
@@ -132,24 +128,36 @@
 <span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
 </li>
 <li class="active">
-<span class="divider">\</span><a href="../classes/triagens.ArangoDb.Edge.html">Edge</a>
+<span class="divider">\</span><a href="../classes/triagens.ArangoDb.Graph.html">Graph</a>
 </li>
 </ul>
 <div class="element class">
-<p class="short_description">Value object representing a single collection-based document</p>
+<p class="short_description">Value object representing a graph</p>
 <div class="details">
 <div class="long_description"></div>
-<table class="table table-bordered"><tr>
+<table class="table table-bordered">
+<tr>
 <th>package</th>
 <td><a href="../packages/ArangoDbPhpClient.html">ArangoDbPhpClient</a></td>
-</tr></table>
+</tr>
+<tr>
+<th>since</th>
+<td>1.2</td>
+</tr>
+</table>
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
 <a id="method___clone"></a><div class="element clickable method public method___clone" data-toggle="collapse" data-target=".method___clone .collapse">
 <h2>Clone a document</h2>
 <pre>__clone() : void</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"><p>Returns the clone</p></div></div></div>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Returns the clone</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::__clone()</td>
+</tr></table>
+</div></div>
 </div>
 <a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
 <h2>Constructs an empty document</h2>
@@ -377,15 +385,19 @@ bigger than PHP_INT_MAX. To reliably store a collection id elsewhere, a PHP stri
 <code>mixed</code>- collection id, might be NULL if document does not yet have an id</div>
 </div></div>
 </div>
-<a id="method_getFrom"></a><div class="element clickable method public method_getFrom" data-toggle="collapse" data-target=".method_getFrom .collapse">
-<h2>Get the 'from' vertex document-handler (if already known)</h2>
-<pre>getFrom() : mixed</pre>
+<a id="method_getEdgesCollection"></a><div class="element clickable method public method_getEdgesCollection" data-toggle="collapse" data-target=".method_getEdgesCollection .collapse">
+<h2>Get the Edges Collection of the graph</h2>
+<pre>getEdgesCollection() : string</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>since</th>
+<td>1.2</td>
+</tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
-<code>mixed</code>- document-handler</div>
+<code>string</code>- name of the edges collection</div>
 </div></div>
 </div>
 <a id="method_getHandle"></a><div class="element clickable method public method_getHandle" data-toggle="collapse" data-target=".method_getHandle .collapse">
@@ -496,26 +508,33 @@ document id, in the format collectionid/documentid</p></div>
 <code>mixed</code>- revision id, might be NULL if document does not yet have an id</div>
 </div></div>
 </div>
-<a id="method_getTo"></a><div class="element clickable method public method_getTo" data-toggle="collapse" data-target=".method_getTo .collapse">
-<h2>Get the 'to' vertex document-handler (if already known)</h2>
-<pre>getTo() : mixed</pre>
+<a id="method_getVerticesCollection"></a><div class="element clickable method public method_getVerticesCollection" data-toggle="collapse" data-target=".method_getVerticesCollection .collapse">
+<h2>Get the Vertices Collection of the graph</h2>
+<pre>getVerticesCollection() : string</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>since</th>
+<td>1.2</td>
+</tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
-<code>mixed</code>- document-handler</div>
+<code>string</code>- name of the vertices collection</div>
 </div></div>
 </div>
 <a id="method_set"></a><div class="element clickable method public method_set" data-toggle="collapse" data-target=".method_set .collapse">
 <h2>Set a document attribute</h2>
 <pre>set(string $key, mixed $value) : void</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>The key (attribute name) must be a string.</p>
-
-<p>This will validate the value of the attribute and might throw an
+<div class="long_description"><p>The key (attribute name) must be a string.
+This will validate the value of the attribute and might throw an
 exception if the value is invalid.</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::set()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$key</h4>
@@ -555,22 +574,26 @@ exception if the value is invalid.</p></div>
 </div>
 </div></div>
 </div>
-<a id="method_setFrom"></a><div class="element clickable method public method_setFrom" data-toggle="collapse" data-target=".method_setFrom .collapse">
-<h2>Set the 'from' vertex document-handler</h2>
-<pre>setFrom(mixed $from) : <a href="../classes/triagens.ArangoDb.Edge.html">\triagens\ArangoDb\Edge</a></pre>
+<a id="method_setEdgesCollection"></a><div class="element clickable method public method_setEdgesCollection" data-toggle="collapse" data-target=".method_setEdgesCollection .collapse">
+<h2>Set the edges-collection of the graph</h2>
+<pre>setEdgesCollection(mixed $edgesCollection) : <a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>since</th>
+<td>1.2</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$from</h4>
+<h4>$edgesCollection</h4>
 <code>mixed</code><ul>
-<li>from vertex</li>
+<li>the name of the edges-collection</li>
 </ul>
 </div>
 <h3>Returns</h3>
 <div class="subelement response">
-<code><a href="../classes/triagens.ArangoDb.Edge.html">\triagens\ArangoDb\Edge</a></code>- edge object</div>
+<code><a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a></code>- graph object</div>
 </div></div>
 </div>
 <a id="method_setHiddenAttributes"></a><div class="element clickable method public method_setHiddenAttributes" data-toggle="collapse" data-target=".method_setHiddenAttributes .collapse">
@@ -662,22 +685,26 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 </div>
 </div></div>
 </div>
-<a id="method_setTo"></a><div class="element clickable method public method_setTo" data-toggle="collapse" data-target=".method_setTo .collapse">
-<h2>Set the 'to' vertex document-handler</h2>
-<pre>setTo(mixed $to) : <a href="../classes/triagens.ArangoDb.Edge.html">\triagens\ArangoDb\Edge</a></pre>
+<a id="method_setVerticesCollection"></a><div class="element clickable method public method_setVerticesCollection" data-toggle="collapse" data-target=".method_setVerticesCollection .collapse">
+<h2>Set the vertices-collection of the graph</h2>
+<pre>setVerticesCollection(mixed $verticesCollection) : <a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>since</th>
+<td>1.2</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$to</h4>
+<h4>$verticesCollection</h4>
 <code>mixed</code><ul>
-<li>to vertex</li>
+<li>the name of the vertices-collection</li>
 </ul>
 </div>
 <h3>Returns</h3>
 <div class="subelement response">
-<code><a href="../classes/triagens.ArangoDb.Edge.html">\triagens\ArangoDb\Edge</a></code>- edge object</div>
+<code><a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a></code>- graph object</div>
 </div></div>
 </div>
 <a id="method_toJson"></a><div class="element clickable method public method_toJson" data-toggle="collapse" data-target=".method_toJson .collapse">
@@ -748,12 +775,6 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 </tr></table>
 </div></div>
 </div>
-<a id="property__from"> </a><div class="element clickable property protected property__from" data-toggle="collapse" data-target=".property__from .collapse">
-<h2></h2>
-<pre>$_from : mixed</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
 <a id="property__hidden"> </a><div class="element clickable property protected property__hidden" data-toggle="collapse" data-target=".property__hidden .collapse">
 <h2></h2>
 <pre>$_hidden : bool</pre>
@@ -802,12 +823,6 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 </tr></table>
 </div></div>
 </div>
-<a id="property__to"> </a><div class="element clickable property protected property__to" data-toggle="collapse" data-target=".property__to .collapse">
-<h2></h2>
-<pre>$_to : mixed</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
 <a id="property__values"> </a><div class="element clickable property protected property__values" data-toggle="collapse" data-target=".property__values .collapse">
 <h2></h2>
 <pre>$_values : array</pre>
@@ -822,12 +837,6 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 </div>
 <h3>
 <i class="icon-custom icon-constant"></i> Constants</h3>
-<a id="constant_ENTRY_FROM"> </a><div class="element clickable constant  constant_ENTRY_FROM" data-toggle="collapse" data-target=".constant_ENTRY_FROM .collapse">
-<h2>Document _from index</h2>
-<pre>ENTRY_FROM </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
 <a id="constant_ENTRY_HIDDEN"> </a><div class="element clickable constant  constant_ENTRY_HIDDEN" data-toggle="collapse" data-target=".constant_ENTRY_HIDDEN .collapse">
 <h2>hidden atttribute index</h2>
 <pre>ENTRY_HIDDEN </pre>
@@ -875,12 +884,6 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 <td>\triagens\ArangoDb\Document::ENTRY_REV</td>
 </tr></table>
 </div></div>
-</div>
-<a id="constant_ENTRY_TO"> </a><div class="element clickable constant  constant_ENTRY_TO" data-toggle="collapse" data-target=".constant_ENTRY_TO .collapse">
-<h2>Revision _to index</h2>
-<pre>ENTRY_TO </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="constant_OPTION_KEEPNULL"> </a><div class="element clickable constant  constant_OPTION_KEEPNULL" data-toggle="collapse" data-target=".constant_OPTION_KEEPNULL .collapse">
 <h2>keepNull option index</h2>

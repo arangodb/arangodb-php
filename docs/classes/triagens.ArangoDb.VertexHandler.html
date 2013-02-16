@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
 <meta charset="utf-8">
-<title>ArangoDB PHP client API » \triagens\ArangoDb\DocumentHandler</title>
+<title>ArangoDB PHP client API » \triagens\ArangoDb\VertexHandler</title>
 <meta name="author" content="Mike van Riel">
 <meta name="description" content="">
 <link href="../css/template.css" rel="stylesheet" media="all">
@@ -59,20 +59,20 @@
 <i class="icon-custom icon-method"></i> Methods
                     <ul>
 <li class="method public inherited"><a href="#method___construct" title="__construct :: Construct a new handler"><span class="description">Construct a new handler</span><pre>__construct()</pre></a></li>
-<li class="method public "><a href="#method_add" title="add :: Add a document to a collection"><span class="description">Add a document to a collection</span><pre>add()</pre></a></li>
-<li class="method public "><a href="#method_delete" title="delete :: Delete a document from a collection, identified by the document itself"><span class="description">Delete a document from a collection, identified by the document itself</span><pre>delete()</pre></a></li>
-<li class="method public "><a href="#method_deleteById" title="deleteById :: Delete a document from a collection, identified by the collection id and document id"><span class="description">Delete a document from a collection, identified by the collection id and document id</span><pre>deleteById()</pre></a></li>
-<li class="method public "><a href="#method_get" title="get :: Get a single document from a collection"><span class="description">Get a single document from a collection</span><pre>get()</pre></a></li>
-<li class="method public "><a href="#method_getAllIds" title="getAllIds :: Get the list of all documents' ids from a collection"><span class="description">Get the list of all documents' ids from a collection</span><pre>getAllIds()</pre></a></li>
-<li class="method public "><a href="#method_getByExample" title="getByExample :: Get document(s) by specifying an example"><span class="description">Get document(s) by specifying an example</span><pre>getByExample()</pre></a></li>
-<li class="method public "><a href="#method_getById" title="getById :: Get a single document from a collection"><span class="description">Get a single document from a collection</span><pre>getById()</pre></a></li>
-<li class="method public "><a href="#method_remove" title="remove :: Remove a document from a collection, identified by the document itself"><span class="description">Remove a document from a collection, identified by the document itself</span><pre>remove()</pre></a></li>
-<li class="method public "><a href="#method_removeById" title="removeById :: Remove a document from a collection, identified by the collection id and document id"><span class="description">Remove a document from a collection, identified by the collection id and document id</span><pre>removeById()</pre></a></li>
-<li class="method public "><a href="#method_replace" title="replace :: Replace an existing document in a collection, identified by the document itself"><span class="description">Replace an existing document in a collection, identified by the document itself</span><pre>replace()</pre></a></li>
-<li class="method public "><a href="#method_replaceById" title="replaceById :: Replace an existing document in a collection, identified by collection id and document id"><span class="description">Replace an existing document in a collection, identified by collection id and document id</span><pre>replaceById()</pre></a></li>
-<li class="method public "><a href="#method_save" title="save :: save a document to a collection"><span class="description">save a document to a collection</span><pre>save()</pre></a></li>
-<li class="method public "><a href="#method_update" title="update :: Update an existing document in a collection, identified by the including _id and optionally _rev in the patch document."><span class="description">Update an existing document in a collection, identified by the including _id and optionally _rev in the patch document.</span><pre>update()</pre></a></li>
-<li class="method public "><a href="#method_updateById" title="updateById :: Update an existing document in a collection, identified by collection id and document id
+<li class="method public inherited"><a href="#method_add" title="add :: Add a document to a collection"><span class="description">Add a document to a collection</span><pre>add()</pre></a></li>
+<li class="method public inherited"><a href="#method_delete" title="delete :: Delete a document from a collection, identified by the document itself"><span class="description">Delete a document from a collection, identified by the document itself</span><pre>delete()</pre></a></li>
+<li class="method public inherited"><a href="#method_deleteById" title="deleteById :: Delete a document from a collection, identified by the collection id and document id"><span class="description">Delete a document from a collection, identified by the collection id and document id</span><pre>deleteById()</pre></a></li>
+<li class="method public inherited"><a href="#method_get" title="get :: Get a single document from a collection"><span class="description">Get a single document from a collection</span><pre>get()</pre></a></li>
+<li class="method public inherited"><a href="#method_getAllIds" title="getAllIds :: Get the list of all documents' ids from a collection"><span class="description">Get the list of all documents' ids from a collection</span><pre>getAllIds()</pre></a></li>
+<li class="method public inherited"><a href="#method_getByExample" title="getByExample :: Get document(s) by specifying an example"><span class="description">Get document(s) by specifying an example</span><pre>getByExample()</pre></a></li>
+<li class="method public inherited"><a href="#method_getById" title="getById :: Get a single document from a collection"><span class="description">Get a single document from a collection</span><pre>getById()</pre></a></li>
+<li class="method public inherited"><a href="#method_remove" title="remove :: Remove a document from a collection, identified by the document itself"><span class="description">Remove a document from a collection, identified by the document itself</span><pre>remove()</pre></a></li>
+<li class="method public inherited"><a href="#method_removeById" title="removeById :: Remove a document from a collection, identified by the collection id and document id"><span class="description">Remove a document from a collection, identified by the collection id and document id</span><pre>removeById()</pre></a></li>
+<li class="method public inherited"><a href="#method_replace" title="replace :: Replace an existing document in a collection, identified by the document itself"><span class="description">Replace an existing document in a collection, identified by the document itself</span><pre>replace()</pre></a></li>
+<li class="method public inherited"><a href="#method_replaceById" title="replaceById :: Replace an existing document in a collection, identified by collection id and document id"><span class="description">Replace an existing document in a collection, identified by collection id and document id</span><pre>replaceById()</pre></a></li>
+<li class="method public inherited"><a href="#method_save" title="save :: save a document to a collection"><span class="description">save a document to a collection</span><pre>save()</pre></a></li>
+<li class="method public inherited"><a href="#method_update" title="update :: Update an existing document in a collection, identified by the including _id and optionally _rev in the patch document."><span class="description">Update an existing document in a collection, identified by the including _id and optionally _rev in the patch document.</span><pre>update()</pre></a></li>
+<li class="method public inherited"><a href="#method_updateById" title="updateById :: Update an existing document in a collection, identified by collection id and document id
 Attention - The behavior of this method has changed since version 1.1"><span class="description">Update an existing document in a collection, identified by collection id and document id
 Attention - The behavior of this method has changed since version 1.1</span><pre>updateById()</pre></a></li>
 </ul>
@@ -80,15 +80,15 @@ Attention - The behavior of this method has changed since version 1.1</span><pre
 <li class="nav-header protected">» Protected
                     <ul>
 <li class="method protected inherited"><a href="#method_getConnection" title="getConnection :: Return the connection object"><span class="description">Return the connection object</span><pre>getConnection()</pre></a></li>
-<li class="method protected "><a href="#method_includeOptionsInParams" title="includeOptionsInParams :: Helper function that runs through the options given and includes them into the parameters array given."><span class="description">Helper function that runs through the options given and includes them into the parameters array given.</span><pre>includeOptionsInParams()</pre></a></li>
-<li class="method protected "><a href="#method_validateAndIncludePolicyInParams" title="validateAndIncludePolicyInParams :: Helper function that validates and includes the policy setting into the parameters array given."><span class="description">Helper function that validates and includes the policy setting into the parameters array given.</span><pre>validateAndIncludePolicyInParams()</pre></a></li>
+<li class="method protected inherited"><a href="#method_includeOptionsInParams" title="includeOptionsInParams :: Helper function that runs through the options given and includes them into the parameters array given."><span class="description">Helper function that runs through the options given and includes them into the parameters array given.</span><pre>includeOptionsInParams()</pre></a></li>
+<li class="method protected inherited"><a href="#method_validateAndIncludePolicyInParams" title="validateAndIncludePolicyInParams :: Helper function that validates and includes the policy setting into the parameters array given."><span class="description">Helper function that validates and includes the policy setting into the parameters array given.</span><pre>validateAndIncludePolicyInParams()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header private">» Private
                     <ul>
-<li class="method private "><a href="#method_getCollectionId" title="getCollectionId :: Helper function to get a collection id from a document"><span class="description">Helper function to get a collection id from a document</span><pre>getCollectionId()</pre></a></li>
-<li class="method private "><a href="#method_getDocumentId" title="getDocumentId :: Helper function to get a document id from a document or a document id value"><span class="description">Helper function to get a document id from a document or a document id value</span><pre>getDocumentId()</pre></a></li>
-<li class="method private "><a href="#method_getRevision" title="getRevision :: Helper function to get a document id from a document or a document id value"><span class="description">Helper function to get a document id from a document or a document id value</span><pre>getRevision()</pre></a></li>
+<li class="method private inherited"><a href="#method_getCollectionId" title="getCollectionId :: Helper function to get a collection id from a document"><span class="description">Helper function to get a collection id from a document</span><pre>getCollectionId()</pre></a></li>
+<li class="method private inherited"><a href="#method_getDocumentId" title="getDocumentId :: Helper function to get a document id from a document or a document id value"><span class="description">Helper function to get a document id from a document or a document id value</span><pre>getDocumentId()</pre></a></li>
+<li class="method private inherited"><a href="#method_getRevision" title="getRevision :: Helper function to get a document id from a document or a document id value"><span class="description">Helper function to get a document id from a document or a document id value</span><pre>getRevision()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header">
@@ -101,15 +101,15 @@ Attention - The behavior of this method has changed since version 1.1</span><pre
 <li class="nav-header">
 <i class="icon-custom icon-constant"></i> Constants
                     <ul>
-<li class="constant  "><a href="#constant_ENTRY_DOCUMENTS" title="ENTRY_DOCUMENTS :: documents array index"><span class="description">documents array index</span><pre>ENTRY_DOCUMENTS</pre></a></li>
-<li class="constant  "><a href="#constant_OPTION_COLLECTION" title="OPTION_COLLECTION :: collection parameter"><span class="description">collection parameter</span><pre>OPTION_COLLECTION</pre></a></li>
-<li class="constant  "><a href="#constant_OPTION_EXAMPLE" title="OPTION_EXAMPLE :: example parameter"><span class="description">example parameter</span><pre>OPTION_EXAMPLE</pre></a></li>
+<li class="constant  inherited"><a href="#constant_ENTRY_DOCUMENTS" title="ENTRY_DOCUMENTS :: documents array index"><span class="description">documents array index</span><pre>ENTRY_DOCUMENTS</pre></a></li>
+<li class="constant  inherited"><a href="#constant_OPTION_COLLECTION" title="OPTION_COLLECTION :: collection parameter"><span class="description">collection parameter</span><pre>OPTION_COLLECTION</pre></a></li>
+<li class="constant  inherited"><a href="#constant_OPTION_EXAMPLE" title="OPTION_EXAMPLE :: example parameter"><span class="description">example parameter</span><pre>OPTION_EXAMPLE</pre></a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="span8">
-<a id="\triagens\ArangoDb\DocumentHandler"></a><ul class="breadcrumb">
+<a id="\triagens\ArangoDb\VertexHandler"></a><ul class="breadcrumb">
 <li>
 <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
 </li>
@@ -118,19 +118,25 @@ Attention - The behavior of this method has changed since version 1.1</span><pre
 <span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
 </li>
 <li class="active">
-<span class="divider">\</span><a href="../classes/triagens.ArangoDb.DocumentHandler.html">DocumentHandler</a>
+<span class="divider">\</span><a href="../classes/triagens.ArangoDb.VertexHandler.html">VertexHandler</a>
 </li>
 </ul>
 <div class="element class">
-<p class="short_description">A document handler that fetches documents from the server and
+<p class="short_description">A vertex-document handler that fetches vertices from the server and
 persists them on the server.</p>
 <div class="details">
 <div class="long_description"><p>It does so by issuing the
 appropriate HTTP requests to the server.</p></div>
-<table class="table table-bordered"><tr>
+<table class="table table-bordered">
+<tr>
 <th>package</th>
 <td><a href="../packages/ArangoDbPhpClient.html">ArangoDbPhpClient</a></td>
-</tr></table>
+</tr>
+<tr>
+<th>since</th>
+<td>1.2</td>
+</tr>
+</table>
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
 <a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
@@ -139,10 +145,16 @@ appropriate HTTP requests to the server.</p></div>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
-<table class="table table-bordered"><tr>
+<table class="table table-bordered">
+<tr>
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\Handler::__construct()</td>
-</tr></table>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::__construct()</td>
+</tr>
+</table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$connection</h4>
@@ -155,14 +167,14 @@ appropriate HTTP requests to the server.</p></div>
 <a id="method_add"></a><div class="element clickable method public method_add" data-toggle="collapse" data-target=".method_add .collapse">
 <h2>Add a document to a collection</h2>
 <pre>add(mixed $collectionId, \triagens\ArangoDb\Document $document, bool $create) : mixed</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will add the document to the collection and return the document's id</p>
 
 <p>This will throw if the document cannot be created</p></div>
 <table class="table table-bordered"><tr>
-<th>deprecated</th>
-<td>to be removed in version 2.0 - This function is being replaced by save()</td>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::add()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -196,12 +208,12 @@ appropriate HTTP requests to the server.</p></div>
 <a id="method_delete"></a><div class="element clickable method public method_delete" data-toggle="collapse" data-target=".method_delete .collapse">
 <h2>Delete a document from a collection, identified by the document itself</h2>
 <pre>delete(\triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
-<th>deprecated</th>
-<td>to be removed in version 2.0 - This function is being replaced by remove()</td>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::delete()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -234,12 +246,12 @@ appropriate HTTP requests to the server.</p></div>
 <a id="method_deleteById"></a><div class="element clickable method public method_deleteById" data-toggle="collapse" data-target=".method_deleteById .collapse">
 <h2>Delete a document from a collection, identified by the collection id and document id</h2>
 <pre>deleteById(mixed $collectionId, mixed $documentId, mixed $revision, mixed $options) : bool</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
-<th>deprecated</th>
-<td>to be removed in version 2.0 - This function is being replaced by removeById()</td>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::deleteById()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -284,9 +296,13 @@ appropriate HTTP requests to the server.</p></div>
 <a id="method_get"></a><div class="element clickable method public method_get" data-toggle="collapse" data-target=".method_get .collapse">
 <h2>Get a single document from a collection</h2>
 <pre>get(mixed $collectionId, mixed $documentId, array $options) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>Alias method for getById()</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::get()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -324,12 +340,12 @@ appropriate HTTP requests to the server.</p></div>
 <a id="method_getAllIds"></a><div class="element clickable method public method_getAllIds" data-toggle="collapse" data-target=".method_getAllIds .collapse">
 <h2>Get the list of all documents' ids from a collection</h2>
 <pre>getAllIds(mixed $collectionId) : array</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw if the list cannot be fetched from the server</p></div>
 <table class="table table-bordered"><tr>
-<th>deprecated</th>
-<td>to be removed in version 2.0 - This function is being replaced by  CollectionHandler::getAllIds()</td>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::getAllIds()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -351,12 +367,12 @@ appropriate HTTP requests to the server.</p></div>
 <a id="method_getByExample"></a><div class="element clickable method public method_getByExample" data-toggle="collapse" data-target=".method_getByExample .collapse">
 <h2>Get document(s) by specifying an example</h2>
 <pre>getByExample(mixed $collectionId, mixed $document, bool $sanitize) : \triagens\ArangoDb\cursor</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw if the list cannot be fetched from the server</p></div>
 <table class="table table-bordered"><tr>
-<th>deprecated</th>
-<td>to be removed in version 2.0 - This function is being replaced by CollectionHandler::byExample()</td>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::getByExample()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -390,9 +406,13 @@ appropriate HTTP requests to the server.</p></div>
 <a id="method_getById"></a><div class="element clickable method public method_getById" data-toggle="collapse" data-target=".method_getById .collapse">
 <h2>Get a single document from a collection</h2>
 <pre>getById(mixed $collectionId, mixed $documentId, array $options) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw if the document cannot be fetched from the server</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::getById()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -430,9 +450,13 @@ appropriate HTTP requests to the server.</p></div>
 <a id="method_remove"></a><div class="element clickable method public method_remove" data-toggle="collapse" data-target=".method_remove .collapse">
 <h2>Remove a document from a collection, identified by the document itself</h2>
 <pre>remove(\triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::remove()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$document</h4>
@@ -464,9 +488,13 @@ appropriate HTTP requests to the server.</p></div>
 <a id="method_removeById"></a><div class="element clickable method public method_removeById" data-toggle="collapse" data-target=".method_removeById .collapse">
 <h2>Remove a document from a collection, identified by the collection id and document id</h2>
 <pre>removeById(mixed $collectionId, mixed $documentId, mixed $revision, mixed $options) : bool</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::removeById()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -510,7 +538,7 @@ appropriate HTTP requests to the server.</p></div>
 <a id="method_replace"></a><div class="element clickable method public method_replace" data-toggle="collapse" data-target=".method_replace .collapse">
 <h2>Replace an existing document in a collection, identified by the document itself</h2>
 <pre>replace(\triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will update the document on the server</p>
 
@@ -519,6 +547,10 @@ appropriate HTTP requests to the server.</p></div>
 <p>If policy is set to error (locally or globally through the connectionoptions)
 and the passed document has a _rev value set, the database will check
 that the revision of the to-be-replaced document is the same as the one given.</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::replace()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$document</h4>
@@ -550,7 +582,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <a id="method_replaceById"></a><div class="element clickable method public method_replaceById" data-toggle="collapse" data-target=".method_replaceById .collapse">
 <h2>Replace an existing document in a collection, identified by collection id and document id</h2>
 <pre>replaceById(mixed $collectionId, mixed $documentId, \triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will update the document on the server</p>
 
@@ -559,6 +591,10 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <p>If policy is set to error (locally or globally through the connectionoptions)
 and the passed document has a _rev value set, the database will check
 that the revision of the to-be-replaced document is the same as the one given.</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::replaceById()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -602,15 +638,21 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <a id="method_save"></a><div class="element clickable method public method_save" data-toggle="collapse" data-target=".method_save .collapse">
 <h2>save a document to a collection</h2>
 <pre>save(mixed $collectionId, \triagens\ArangoDb\Document $document, bool $create) : mixed</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will add the document to the collection and return the document's id</p>
 
 <p>This will throw if the document cannot be saved</p></div>
-<table class="table table-bordered"><tr>
+<table class="table table-bordered">
+<tr>
 <th>since</th>
 <td>1.0</td>
-</tr></table>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::save()</td>
+</tr>
+</table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -643,7 +685,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <a id="method_update"></a><div class="element clickable method public method_update" data-toggle="collapse" data-target=".method_update .collapse">
 <h2>Update an existing document in a collection, identified by the including _id and optionally _rev in the patch document.</h2>
 <pre>update(\triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>Attention - The behavior of this method has changed since version 1.1</p>
 
@@ -654,6 +696,10 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <p>If policy is set to error (locally or globally through the connectionoptions)
 and the passed document has a _rev value set, the database will check
 that the revision of the to-be-replaced document is the same as the one given.</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::update()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$document</h4>
@@ -687,7 +733,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <h2>Update an existing document in a collection, identified by collection id and document id
 Attention - The behavior of this method has changed since version 1.1</h2>
 <pre>updateById(mixed $collectionId, mixed $documentId, \triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will update the document on the server</p>
 
@@ -696,6 +742,10 @@ Attention - The behavior of this method has changed since version 1.1</h2>
 <p>If policy is set to error (locally or globally through the connectionoptions)
 and the passed document has a _rev value set, the database will check
 that the revision of the to-be-replaced document is the same as the one given.</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::updateById()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -743,10 +793,16 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
-<table class="table table-bordered"><tr>
+<table class="table table-bordered">
+<tr>
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\Handler::getConnection()</td>
-</tr></table>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::getConnection()</td>
+</tr>
+</table>
 <h3>Returns</h3>
 <div class="subelement response">
 <code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>- the connection object</div>
@@ -755,9 +811,13 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <a id="method_includeOptionsInParams"></a><div class="element clickable method protected method_includeOptionsInParams" data-toggle="collapse" data-target=".method_includeOptionsInParams .collapse">
 <h2>Helper function that runs through the options given and includes them into the parameters array given.</h2>
 <pre>includeOptionsInParams(array $options, array $params, array $includeArray) : array</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>Only options that are set in $includeArray will be included.</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::includeOptionsInParams()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$options</h4>
@@ -785,9 +845,13 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <a id="method_validateAndIncludePolicyInParams"></a><div class="element clickable method protected method_validateAndIncludePolicyInParams" data-toggle="collapse" data-target=".method_validateAndIncludePolicyInParams .collapse">
 <h2>Helper function that validates and includes the policy setting into the parameters array given.</h2>
 <pre>validateAndIncludePolicyInParams(array $options, array $params, mixed $policyOption) : array</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::validateAndIncludePolicyInParams()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$options</h4>
@@ -815,9 +879,13 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <a id="method_getCollectionId"></a><div class="element clickable method private method_getCollectionId" data-toggle="collapse" data-target=".method_getCollectionId .collapse">
 <h2>Helper function to get a collection id from a document</h2>
 <pre>getCollectionId(\triagens\ArangoDb\Document $document) : mixed</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::getCollectionId()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$document</h4>
@@ -838,9 +906,13 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <a id="method_getDocumentId"></a><div class="element clickable method private method_getDocumentId" data-toggle="collapse" data-target=".method_getDocumentId .collapse">
 <h2>Helper function to get a document id from a document or a document id value</h2>
 <pre>getDocumentId(mixed $document) : mixed</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::getDocumentId()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$document</h4>
@@ -861,9 +933,13 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <a id="method_getRevision"></a><div class="element clickable method private method_getRevision" data-toggle="collapse" data-target=".method_getRevision .collapse">
 <h2>Helper function to get a document id from a document or a document id value</h2>
 <pre>getRevision(mixed $document) : mixed</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::getRevision()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$document</h4>
@@ -898,6 +974,10 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\Handler::$$_connection</td>
 </tr>
+<tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::$$_connection</td>
+</tr>
 </table>
 </div></div>
 </div>
@@ -906,20 +986,38 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <a id="constant_ENTRY_DOCUMENTS"> </a><div class="element clickable constant  constant_ENTRY_DOCUMENTS" data-toggle="collapse" data-target=".constant_ENTRY_DOCUMENTS .collapse">
 <h2>documents array index</h2>
 <pre>ENTRY_DOCUMENTS </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::ENTRY_DOCUMENTS</td>
+</tr></table>
+</div></div>
 </div>
 <a id="constant_OPTION_COLLECTION"> </a><div class="element clickable constant  constant_OPTION_COLLECTION" data-toggle="collapse" data-target=".constant_OPTION_COLLECTION .collapse">
 <h2>collection parameter</h2>
 <pre>OPTION_COLLECTION </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::OPTION_COLLECTION</td>
+</tr></table>
+</div></div>
 </div>
 <a id="constant_OPTION_EXAMPLE"> </a><div class="element clickable constant  constant_OPTION_EXAMPLE" data-toggle="collapse" data-target=".constant_OPTION_EXAMPLE .collapse">
 <h2>example parameter</h2>
 <pre>OPTION_EXAMPLE </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::OPTION_EXAMPLE</td>
+</tr></table>
+</div></div>
 </div>
 </div>
 </div>

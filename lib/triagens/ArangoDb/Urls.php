@@ -27,6 +27,21 @@ abstract class URLs {
   const URL_EDGE               = '/_api/edge';
   
   /**
+   * URL base part for all document-related REST calls
+   */
+  const URL_GRAPH               = '/_api/graph';
+
+  /**
+   * URL base part for all document-related REST calls
+   */
+  const URLPART_VERTEX               = 'vertex';
+
+  /**
+   * URL base part for all document-related REST calls
+   */
+  const URLPART_EDGE               = 'edge';
+
+  /**
    * URL base part for all collection-related REST calls
    */
   const URL_COLLECTION         = '/_api/collection';
