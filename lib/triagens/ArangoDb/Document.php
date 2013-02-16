@@ -72,6 +72,21 @@ class Document {
    */
   const ENTRY_HIDDEN   = '_hidden';
 
+ /**
+   * waitForSync option index
+   */
+  const OPTION_WAIT_FOR_SYNC   = 'waitForSync';
+
+ /**
+   * policy option index
+   */
+  const OPTION_POLICY   = 'waitForSync';
+
+ /**
+   * keepNull option index
+   */
+  const OPTION_KEEPNULL   = 'keepNull';
+
   /**
    * Constructs an empty document
    *
@@ -365,6 +380,7 @@ class Document {
     if ($this->_id !== NULL && $this->_id != $id) {
       throw new ClientException('Should not update the id of an existing document');
     }
+
 
     if (!preg_match('/^\w+\/\w+$/', $id)) {
       throw new ClientException('Invalid format for document id');
