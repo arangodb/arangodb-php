@@ -135,7 +135,7 @@ class DocumentHandler extends Handler {
    *
    */
    
-  public function add($collectionId, Document $document, $create = NULL) {
+  public function add($collectionId, Document $document, $create = null) {
     return $this->save($collectionId, $document, $create);
   }
 
@@ -154,8 +154,8 @@ class DocumentHandler extends Handler {
    * @return mixed - id of document created
    * @since 1.0
    */
-  public function save($collectionId, Document $document, $create = NULL) {
-    if ($create === NULL) {
+  public function save($collectionId, Document $document, $create = null) {
+    if ($create === null) {
       $create = $this->getConnection()->getOption(ConnectionOptions::OPTION_CREATE);
     }
     $data = $document->getAll();
@@ -267,35 +267,23 @@ class DocumentHandler extends Handler {
    */
   public function updateById($collectionId, $documentId, Document $document, $options = array()) {
    // This preserves compatibility for the old policy parameter.
-    $policy = null;
-    $keepNull = true;
+      $params   = array();
+      $params = $this->validateAndIncludePolicyInParams($options, $params, ConnectionOptions::OPTION_UPDATE_POLICY);
+      $params = $this->includeOptionsInParams($options, $params, array(
+                                                                      'waitForSync' => $this->getConnection()->getOption(ConnectionOptions::OPTION_WAIT_SYNC),
+                                                                      'keepNull'    => true,
+                                                                 ));
 
-    if (!is_array($options)){
-      $policy = $options;
-    }else{
-      $policy = array_key_exists('policy',$options) ? $options['policy'] : $policy;
-      $keepNull = array_key_exists('keepNull',$options) ? $options['keepNull'] : $keepNull;
-    }
-    
-    
     $revision = $document->getRevision();
     if (!is_null($revision)) {
       $params[ConnectionOptions::OPTION_REVISION]=$revision;
     } 
 
-    if ($policy === NULL) {
-      $policy = $this->getConnection()->getOption(ConnectionOptions::OPTION_UPDATE_POLICY);
-    }
-    $params[ConnectionOptions::OPTION_UPDATE_POLICY]=$policy;
-    $params[ConnectionOptions::OPTION_UPDATE_KEEPNULL]=$keepNull;
-
-    UpdatePolicy::validate($policy);
-
     $url = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
     $url = UrlHelper::appendParamsUrl($url, $params);
     $result = $this->getConnection()->patch($url, $this->getConnection()->json_encode_wrapper($document->getAll()));
    
-    return true;  
+    return true;
     
   }
   
@@ -323,28 +311,17 @@ class DocumentHandler extends Handler {
    * @return bool - always true, will throw if there is an error
    */
   public function replaceById($collectionId, $documentId, Document $document, $options = array()) {
-    // This preserves compatibility for the old policy parameter.
-    $policy = null;
-    $keepNull = true;
-
-    if (!is_array($options)){
-      $policy = $options;
-    }else{
-      $policy = array_key_exists('policy',$options) ? $options['policy'] : $policy;
-    }
-
+      // This preserves compatibility for the old policy parameter.
+      $params   = array();
+      $params = $this->validateAndIncludePolicyInParams($options, $params, ConnectionOptions::OPTION_REPLACE_POLICY);
+      $params = $this->includeOptionsInParams($options, $params, array(
+                                                                      'waitForSync' => ConnectionOptions::OPTION_WAIT_SYNC
+                                                                 ));
 
     $revision = $document->getRevision();
     if (!is_null($revision)) {
       $params[ConnectionOptions::OPTION_REVISION]=$revision;
     }
-
-    if ($policy === NULL) {
-      $policy = $this->getConnection()->getOption(ConnectionOptions::OPTION_REPLACE_POLICY);
-    }
-    $params[ConnectionOptions::OPTION_REPLACE_POLICY]=$policy;
-
-    UpdatePolicy::validate($policy);
 
     $data = $document->getAll();
     $url = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
@@ -413,7 +390,7 @@ class DocumentHandler extends Handler {
    * 
    * @deprecated to be removed in version 2.0 - This function is being replaced by removeById()
    */
-  public function deleteById($collectionId, $documentId, $revision = NULL, $options = array()) {
+  public function deleteById($collectionId, $documentId, $revision = null, $options = array()) {
     $result = $this->removeById($collectionId, $documentId, $revision, $options);
 
     return true;
@@ -430,40 +407,82 @@ class DocumentHandler extends Handler {
    * @param mixed $options - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
    * <p>Options are :
    * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-   * <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+   * <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
    * </p>
    * @return bool - always true, will throw if there is an error
    */
-  public function removeById($collectionId, $documentId, $revision = NULL, $options = array()) {
+  public function removeById($collectionId, $documentId, $revision = null, $options = array()) {
     // This preserves compatibility for the old policy parameter.
-    $policy = null;
-    $keepNull = true;
-
-    if (!is_array($options)){
-      $policy = $options;
-    }else{
-      $policy = array_key_exists('policy',$options) ? $options['policy'] : $policy;
-    }
+    $params   = array();
+    $params = $this->validateAndIncludePolicyInParams($options, $params, ConnectionOptions::OPTION_DELETE_POLICY);
+    $params = $this->includeOptionsInParams($options, $params, array(
+                                                                    'waitForSync' => ConnectionOptions::OPTION_WAIT_SYNC
+                                                                    ));
 
     if (!is_null($revision)) {
       $params[ConnectionOptions::OPTION_REVISION]=$revision;
     }
 
-    if ($policy === NULL) {
-      $policy = $this->getConnection()->getOption(ConnectionOptions::OPTION_DELETE_POLICY);
-    }
-    $params[ConnectionOptions::OPTION_DELETE_POLICY]=$policy;
-
-    UpdatePolicy::validate($policy);
-    
     $url = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
     $url = UrlHelper::appendParamsUrl($url, $params);
     $result = $this->getConnection()->delete($url);
     return true;
   }
 
+    /**
+     * Validates and includes the policy setting in the parameters array given.
+     * @param $options -
+     * @param $params
+     *
+     * @return array $params - array of parameters for use in a url
+     */
+    public function validateAndIncludePolicyInParams($options, $params, $policyOption)
+    {
+        $policy   = null;
 
-  /**
+        if (!is_array($options)) {
+            $policy = $options;
+        } else {
+            $policy = array_key_exists('policy', $options) ? $options['policy'] : $policy;
+        }
+
+        if ($policy === null) {
+            $policy = $this->getConnection()->getOption($policyOption);
+        }
+
+        UpdatePolicy::validate($policy);
+
+        $params[$policyOption] = $policy;
+
+        return $params;
+    }
+
+   /**
+     * Validates and includes the policy setting in the parameters array given.
+     * @param $options -
+     * @param $params
+     *
+     * @return array $params - array of parameters for use in a url
+     */
+    public function includeOptionsInParams($options, $params, $includeArray=array())
+    {
+        #$value = null;
+        if (is_array($options)) {
+            foreach ($options as $key => $value) {
+                if (array_key_exists($key, $includeArray)  ) {
+                    $params[$key] = $value;
+                    if ($value === NULL) {
+                        $params[$key]= $includeArray[$key];
+                   }
+                }
+
+            }
+        }
+        return $params;
+    }
+
+
+    /**
    * Helper function to get a document id from a document or a document id value
    *
    * @throws ClientException
