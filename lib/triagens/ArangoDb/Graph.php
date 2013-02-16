@@ -6,6 +6,8 @@
  * @package   ArangoDbPhpClient
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
+ *
+ * @since     1.2
  */
 
 namespace triagens\ArangoDb;
@@ -13,7 +15,9 @@ namespace triagens\ArangoDb;
 /**
  * Value object representing a graph
  *
- * @package ArangoDbPhpClient
+ * @package   ArangoDbPhpClient
+ *
+ * @since     1.2
  */
 class Graph extends
     Document
@@ -25,6 +29,7 @@ class Graph extends
      * @param mixed $verticesCollection - the name of the vertices-collection
      *
      * @return Graph - graph object
+     * @since     1.2
      */
     public function setVerticesCollection($verticesCollection)
     {
@@ -37,6 +42,7 @@ class Graph extends
      * Get the Vertices Collection of the graph
      *
      * @return string - name of the vertices collection
+     * @since     1.2
      */
     public function getVerticesCollection()
     {
@@ -49,6 +55,7 @@ class Graph extends
      * @param mixed $edgesCollection - the name of the edges-collection
      *
      * @return Graph - graph object
+     * @since     1.2
      */
     public function setEdgesCollection($edgesCollection)
     {
@@ -61,6 +68,7 @@ class Graph extends
      * Get the Edges Collection of the graph
      *
      * @return string - name of the edges collection
+     * @since     1.2
      */
     public function getEdgesCollection()
     {
