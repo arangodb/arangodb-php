@@ -40,7 +40,7 @@ class GraphBasicTest extends
         $properties = $this->graphHandler->properties('Graph1');
         $this->assertTrue($properties['_key'] == 'Graph1', 'Did not return Graph1!');
 
-        $result = $this->graphHandler->deleteGraph('Graph1');
+        $result = $this->graphHandler->dropGraph('Graph1');
         $this->assertTrue($result, 'Did not return true!');
     }
 

@@ -63,9 +63,9 @@ class GraphExtendedTest extends
             'someEdgeKey1' => 'someEdgeValue1a'
         );
 
-        $vertex1  = Document::createFromArray($vertex1Array);
-        $vertex2  = Document::createFromArray($vertex2Array);
-        $vertex1a = Document::createFromArray($vertex1aArray);
+        $vertex1  = Vertex::createFromArray($vertex1Array);
+        $vertex2  = Vertex::createFromArray($vertex2Array);
+        $vertex1a = Vertex::createFromArray($vertex1aArray);
         $edge1    = Edge::createFromArray($edge1Array);
         $edge1a   = Edge::createFromArray($edge1aArray);
 
@@ -145,9 +145,9 @@ class GraphExtendedTest extends
         );
 
 
-        $vertex1  = Document::createFromArray($vertex1Array);
-        $vertex2  = Document::createFromArray($vertex2Array);
-        $vertex1a = Document::createFromArray($vertex1aArray);
+        $vertex1  = Vertex::createFromArray($vertex1Array);
+        $vertex2  = Vertex::createFromArray($vertex2Array);
+        $vertex1a = Vertex::createFromArray($vertex1aArray);
 
         $result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
         $result2 = $this->graphHandler->saveVertex($this->graphName, $vertex2);
@@ -240,9 +240,9 @@ class GraphExtendedTest extends
             'someEdgeKey1' => 'someEdgeValue1a'
         );
 
-        $vertex1  = Document::createFromArray($vertex1Array);
-        $vertex2  = Document::createFromArray($vertex2Array);
-        $vertex1a = Document::createFromArray($vertex1aArray);
+        $vertex1  = Vertex::createFromArray($vertex1Array);
+        $vertex2  = Vertex::createFromArray($vertex2Array);
+        $vertex1a = Vertex::createFromArray($vertex1aArray);
         $edge1    = Edge::createFromArray($edge1Array);
         $edge1a   = Edge::createFromArray($edge1aArray);
 
@@ -323,7 +323,7 @@ class GraphExtendedTest extends
     {
         try {
 
-            $result = $this->graphHandler->deleteGraph('Graph1');
+            $result = $this->graphHandler->dropGraph('Graph1');
             $this->assertTrue($result, 'Did not return true!');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
