@@ -429,7 +429,7 @@ class DocumentHandler extends Handler {
     return true;
   }
 
-//todo: (@frankmayer) refactor a bit more if it makes sense...
+//todo: (@frankmayer) check if refactoring a bit more if it makes sense...
     /**
      * Helper function that validates and includes the policy setting into the parameters array given.
      * @param array $options - The options array that may hold the policy to include in the parameters. If it's not an array, then the value is the policy value.
@@ -438,7 +438,7 @@ class DocumentHandler extends Handler {
      *
      * @return array $params - array of parameters for use in a url
      */
-    public function validateAndIncludePolicyInParams($options, $params, $policyOption)
+    protected function validateAndIncludePolicyInParams($options, $params, $policyOption)
     {
         $policy   = null;
 
@@ -470,7 +470,7 @@ class DocumentHandler extends Handler {
      *
      * @return array $params - array of parameters for use in a url
      */
-    public function includeOptionsInParams($options, $params, $includeArray=array())
+    protected function includeOptionsInParams($options, $params, $includeArray=array())
     {
         #$value = null;
         if (is_array($options)) {
