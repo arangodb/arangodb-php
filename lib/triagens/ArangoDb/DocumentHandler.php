@@ -201,10 +201,11 @@ class DocumentHandler extends Handler {
    * <p>Options are : 
    * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
    * <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+   * <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
    * </p>
    * @return bool - always true, will throw if there is an error
    */
-  public function update(Document $document, $options = NULL) {
+  public function update(Document $document, $options = array()) {
     $collectionId = $this->getCollectionId($document);
     $documentId   = $this->getDocumentId($document);
 
@@ -225,14 +226,18 @@ class DocumentHandler extends Handler {
    *
    * @throws Exception
    * @param Document $document - document to be updated
-   * @param mixed $policy - update policy to be used in case of conflict
+   * @param mixed $options - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+   * <p>Options are :
+   * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+   * <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+   * </p>
    * @return bool - always true, will throw if there is an error
    */
-  public function replace(Document $document, $policy = NULL) {
+  public function replace(Document $document, $options = array()) {
     $collectionId = $this->getCollectionId($document);
     $documentId   = $this->getDocumentId($document);
 
-    return $this->replaceById($collectionId, $documentId, $document, $policy);
+    return $this->replaceById($collectionId, $documentId, $document, $options);
   }
 
 
@@ -256,10 +261,11 @@ class DocumentHandler extends Handler {
    * <p>Options are : 
    * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
    * <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+   * <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
    * </p>
    * @return bool - always true, will throw if there is an error
    */
-  public function updateById($collectionId, $documentId, Document $document, $options = NULL) {
+  public function updateById($collectionId, $documentId, Document $document, $options = array()) {
    // This preserves compatibility for the old policy parameter.
     $policy = null;
     $keepNull = true;
@@ -309,14 +315,29 @@ class DocumentHandler extends Handler {
    * @param mixed $collectionId - collection id as string or number
    * @param mixed $documentId - document id as string or number
    * @param Document $document - document to be updated
-   * @param mixed $policy - update policy to be used in case of conflict
+   * @param mixed $options - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+   * <p>Options are :
+   * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+   * <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+   * </p>
    * @return bool - always true, will throw if there is an error
    */
-  public function replaceById($collectionId, $documentId, Document $document, $policy = NULL) {
+  public function replaceById($collectionId, $documentId, Document $document, $options = array()) {
+    // This preserves compatibility for the old policy parameter.
+    $policy = null;
+    $keepNull = true;
+
+    if (!is_array($options)){
+      $policy = $options;
+    }else{
+      $policy = array_key_exists('policy',$options) ? $options['policy'] : $policy;
+    }
+
+
     $revision = $document->getRevision();
-   if (!is_null($revision)) {
-       $params[ConnectionOptions::OPTION_REVISION]=$revision;
-    } 
+    if (!is_null($revision)) {
+      $params[ConnectionOptions::OPTION_REVISION]=$revision;
+    }
 
     if ($policy === NULL) {
       $policy = $this->getConnection()->getOption(ConnectionOptions::OPTION_REPLACE_POLICY);
@@ -339,14 +360,18 @@ class DocumentHandler extends Handler {
    *
    * @throws Exception
    * @param Document $document - document to be updated
-   * @param mixed $policy - policy to be used in case of conflict
+   * @param mixed $options - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+   * <p>Options are :
+   * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+   * <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+   * </p>
    * @return bool - always true, will throw if there is an error
    * 
    * @deprecated to be removed in version 2.0 - This function is being replaced by remove()
    * 
    */
-  public function delete(Document $document, $policy = NULL) {
-    return $this->remove($document, $policy);
+  public function delete(Document $document, $options = array()) {
+    return $this->remove($document, $options);
   }                                
 
 
@@ -355,16 +380,20 @@ class DocumentHandler extends Handler {
    *
    * @throws Exception
    * @param Document $document - document to be removed
-   * @param mixed $policy - policy to be used in case of conflict
+   * @param mixed $options - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+   * <p>Options are :
+   * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+   * <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+   * </p>
    * @return bool - always true, will throw if there is an error
    */
-  public function remove(Document $document, $policy = NULL) {
+  public function remove(Document $document, $options = array()) {
     $collectionId = $this->getCollectionId($document);
     $documentId   = $this->getDocumentId($document);
 
     $revision = $this->getRevision($document);
 
-    return $this->deleteById($collectionId, $documentId, $revision, $policy);
+    return $this->deleteById($collectionId, $documentId, $revision, $options);
   }                                
 
 
@@ -375,13 +404,17 @@ class DocumentHandler extends Handler {
    * @param mixed $collectionId - collection id as string or number
    * @param mixed $documentId - document id as string or number
    * @param  mixed $revision - optional revision of the document to be deleted
-   * @param mixed $policy - policy to be used in case of conflict
+   * @param mixed $options - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+   * <p>Options are :
+   * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+   * <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+   * </p>
    * @return bool - always true, will throw if there is an error
    * 
    * @deprecated to be removed in version 2.0 - This function is being replaced by removeById()
    */
-  public function deleteById($collectionId, $documentId, $revision = NULL, $policy = NULL) {
-    $result = $this->removeById($collectionId, $documentId, $revision, $policy);
+  public function deleteById($collectionId, $documentId, $revision = NULL, $options = array()) {
+    $result = $this->removeById($collectionId, $documentId, $revision, $options);
 
     return true;
   }
@@ -394,19 +427,33 @@ class DocumentHandler extends Handler {
    * @param mixed $collectionId - collection id as string or number
    * @param mixed $documentId - document id as string or number
    * @param  mixed $revision - optional revision of the document to be deleted
-   * @param mixed $policy - policy to be used in case of conflict
+   * @param mixed $options - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+   * <p>Options are :
+   * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+   * <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+   * </p>
    * @return bool - always true, will throw if there is an error
    */
-  public function removeById($collectionId, $documentId, $revision = NULL, $policy = NULL) {
-   if (!is_null($revision)) {
-       $params[ConnectionOptions::OPTION_REVISION]=$revision;
-    } 
+  public function removeById($collectionId, $documentId, $revision = NULL, $options = array()) {
+    // This preserves compatibility for the old policy parameter.
+    $policy = null;
+    $keepNull = true;
+
+    if (!is_array($options)){
+      $policy = $options;
+    }else{
+      $policy = array_key_exists('policy',$options) ? $options['policy'] : $policy;
+    }
+
+    if (!is_null($revision)) {
+      $params[ConnectionOptions::OPTION_REVISION]=$revision;
+    }
 
     if ($policy === NULL) {
       $policy = $this->getConnection()->getOption(ConnectionOptions::OPTION_DELETE_POLICY);
     }
     $params[ConnectionOptions::OPTION_DELETE_POLICY]=$policy;
-    
+
     UpdatePolicy::validate($policy);
     
     $url = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
