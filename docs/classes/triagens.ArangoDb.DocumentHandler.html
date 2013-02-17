@@ -80,8 +80,8 @@ Attention - The behavior of this method has changed since version 1.1</span><pre
 <li class="nav-header protected">» Protected
                     <ul>
 <li class="method protected inherited"><a href="#method_getConnection" title="getConnection :: Return the connection object"><span class="description">Return the connection object</span><pre>getConnection()</pre></a></li>
-<li class="method protected "><a href="#method_includeOptionsInParams" title="includeOptionsInParams :: Helper function that runs through the options given and includes them into the parameters array given."><span class="description">Helper function that runs through the options given and includes them into the parameters array given.</span><pre>includeOptionsInParams()</pre></a></li>
-<li class="method protected "><a href="#method_validateAndIncludePolicyInParams" title="validateAndIncludePolicyInParams :: Helper function that validates and includes the policy setting into the parameters array given."><span class="description">Helper function that validates and includes the policy setting into the parameters array given.</span><pre>validateAndIncludePolicyInParams()</pre></a></li>
+<li class="method protected inherited"><a href="#method_includeOptionsInParams" title="includeOptionsInParams :: Helper function that runs through the options given and includes them into the parameters array given."><span class="description">Helper function that runs through the options given and includes them into the parameters array given.</span><pre>includeOptionsInParams()</pre></a></li>
+<li class="method protected inherited"><a href="#method_validateAndIncludePolicyInParams" title="validateAndIncludePolicyInParams :: Helper function that validates and includes the policy setting into the parameters array given."><span class="description">Helper function that validates and includes the policy setting into the parameters array given.</span><pre>validateAndIncludePolicyInParams()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header private">» Private
@@ -755,9 +755,13 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <a id="method_includeOptionsInParams"></a><div class="element clickable method protected method_includeOptionsInParams" data-toggle="collapse" data-target=".method_includeOptionsInParams .collapse">
 <h2>Helper function that runs through the options given and includes them into the parameters array given.</h2>
 <pre>includeOptionsInParams(array $options, array $params, array $includeArray) : array</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>Only options that are set in $includeArray will be included.</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Handler::includeOptionsInParams()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$options</h4>
@@ -785,9 +789,13 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <a id="method_validateAndIncludePolicyInParams"></a><div class="element clickable method protected method_validateAndIncludePolicyInParams" data-toggle="collapse" data-target=".method_validateAndIncludePolicyInParams .collapse">
 <h2>Helper function that validates and includes the policy setting into the parameters array given.</h2>
 <pre>validateAndIncludePolicyInParams(array $options, array $params, mixed $policyOption) : array</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Handler::validateAndIncludePolicyInParams()</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$options</h4>
@@ -928,7 +936,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-02-16T20:00:53+02:00.<br></footer></div>
+            generated on 2013-02-18T00:17:16+02:00.<br></footer></div>
 </div>
 </body>
 </html>

@@ -81,13 +81,6 @@
 <li class="method protected inherited"><a href="#method_validateAndIncludePolicyInParams" title="validateAndIncludePolicyInParams :: Helper function that validates and includes the policy setting into the parameters array given."><span class="description">Helper function that validates and includes the policy setting into the parameters array given.</span><pre>validateAndIncludePolicyInParams()</pre></a></li>
 </ul>
 </li>
-<li class="nav-header private">» Private
-                    <ul>
-<li class="method private inherited"><a href="#method_getCollectionId" title="getCollectionId :: Helper function to get a collection id from a document"><span class="description">Helper function to get a collection id from a document</span><pre>getCollectionId()</pre></a></li>
-<li class="method private inherited"><a href="#method_getDocumentId" title="getDocumentId :: Helper function to get a document id from a document or a document id value"><span class="description">Helper function to get a document id from a document or a document id value</span><pre>getDocumentId()</pre></a></li>
-<li class="method private inherited"><a href="#method_getRevision" title="getRevision :: Helper function to get a document id from a document or a document id value"><span class="description">Helper function to get a document id from a document or a document id value</span><pre>getRevision()</pre></a></li>
-</ul>
-</li>
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties
                     <ul></ul>
@@ -98,13 +91,10 @@
 <li class="nav-header">
 <i class="icon-custom icon-constant"></i> Constants
                     <ul>
-<li class="constant  inherited"><a href="#constant_ENTRY_DOCUMENTS" title="ENTRY_DOCUMENTS :: documents array index"><span class="description">documents array index</span><pre>ENTRY_DOCUMENTS</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_GRAPH" title="ENTRY_GRAPH :: documents array index"><span class="description">documents array index</span><pre>ENTRY_GRAPH</pre></a></li>
 <li class="constant  "><a href="#constant_KEY_FROM" title="KEY_FROM :: example parameter"><span class="description">example parameter</span><pre>KEY_FROM</pre></a></li>
 <li class="constant  "><a href="#constant_KEY_TO" title="KEY_TO :: example parameter"><span class="description">example parameter</span><pre>KEY_TO</pre></a></li>
-<li class="constant  inherited"><a href="#constant_OPTION_COLLECTION" title="OPTION_COLLECTION :: collection parameter"><span class="description">collection parameter</span><pre>OPTION_COLLECTION</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_EDGES" title="OPTION_EDGES :: direction parameter"><span class="description">direction parameter</span><pre>OPTION_EDGES</pre></a></li>
-<li class="constant  inherited"><a href="#constant_OPTION_EXAMPLE" title="OPTION_EXAMPLE :: example parameter"><span class="description">example parameter</span><pre>OPTION_EXAMPLE</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_KEY" title="OPTION_KEY :: direction parameter"><span class="description">direction parameter</span><pre>OPTION_KEY</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_VERTICES" title="OPTION_VERTICES :: vertex parameter"><span class="description">vertex parameter</span><pre>OPTION_VERTICES</pre></a></li>
 </ul>
@@ -265,16 +255,10 @@ that the revision of the to-be-replaced vertex is the same as the one given.</p>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
-<table class="table table-bordered">
-<tr>
+<table class="table table-bordered"><tr>
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\Handler::__construct()</td>
-</tr>
-<tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\DocumentHandler::__construct()</td>
-</tr>
-</table>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$connection</h4>
@@ -300,7 +284,11 @@ that the revision of the to-be-replaced vertex is the same as the one given.</p>
 </tr>
 <tr>
 <th>example</th>
-<td>ArangoDb/examples/graph.php How to use this function</td>
+<td>"ArangoDb/examples/graph.php" How to use this function</td>
+</tr>
+<tr>
+<th>example</th>
+<td>"ArangoDb/examples/graph.php" How to use this function</td>
 </tr>
 </table>
 <h3>Parameters</h3>
@@ -321,6 +309,7 @@ that the revision of the to-be-replaced vertex is the same as the one given.</p>
 </div>
 <div class="span4">
 <h3>Examples</h3>
+<pre class="prettyprint linenums"></pre>
 <pre class="prettyprint linenums"></pre>
 </div>
 </div>
@@ -781,16 +770,10 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
-<table class="table table-bordered">
-<tr>
+<table class="table table-bordered"><tr>
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\Handler::getConnection()</td>
-</tr>
-<tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\DocumentHandler::getConnection()</td>
-</tr>
-</table>
+</tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
 <code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>- the connection object</div>
@@ -804,7 +787,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <div class="long_description"><p>Only options that are set in $includeArray will be included.</p></div>
 <table class="table table-bordered"><tr>
 <th>inherited_from</th>
-<td>\triagens\ArangoDb\DocumentHandler::includeOptionsInParams()</td>
+<td>\triagens\ArangoDb\Handler::includeOptionsInParams()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -838,7 +821,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
 <th>inherited_from</th>
-<td>\triagens\ArangoDb\DocumentHandler::validateAndIncludePolicyInParams()</td>
+<td>\triagens\ArangoDb\Handler::validateAndIncludePolicyInParams()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -864,87 +847,6 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <code>array</code>$params - array of parameters for use in a url</div>
 </div></div>
 </div>
-<a id="method_getCollectionId"></a><div class="element clickable method private method_getCollectionId" data-toggle="collapse" data-target=".method_getCollectionId .collapse">
-<h2>Helper function to get a collection id from a document</h2>
-<pre>getCollectionId(\triagens\ArangoDb\Document $document) : mixed</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\DocumentHandler::getCollectionId()</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$document</h4>
-<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
-<li>document id</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>- collection id, will throw if there is an error</div>
-</div></div>
-</div>
-<a id="method_getDocumentId"></a><div class="element clickable method private method_getDocumentId" data-toggle="collapse" data-target=".method_getDocumentId .collapse">
-<h2>Helper function to get a document id from a document or a document id value</h2>
-<pre>getDocumentId(mixed $document) : mixed</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\DocumentHandler::getDocumentId()</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$document</h4>
-<code>mixed</code><ul>
-<li>document id OR document to be updated</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>- document id, will throw if there is an error</div>
-</div></div>
-</div>
-<a id="method_getRevision"></a><div class="element clickable method private method_getRevision" data-toggle="collapse" data-target=".method_getRevision .collapse">
-<h2>Helper function to get a document id from a document or a document id value</h2>
-<pre>getRevision(mixed $document) : mixed</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\DocumentHandler::getRevision()</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$document</h4>
-<code>mixed</code><ul>
-<li>document id OR document to be updated</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>- document id, will throw if there is an error</div>
-</div></div>
-</div>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
 <a id="property__connection"> </a><div class="element clickable property private property__connection" data-toggle="collapse" data-target=".property__connection .collapse">
@@ -962,27 +864,11 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\Handler::$$_connection</td>
 </tr>
-<tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\DocumentHandler::$$_connection</td>
-</tr>
 </table>
 </div></div>
 </div>
 <h3>
 <i class="icon-custom icon-constant"></i> Constants</h3>
-<a id="constant_ENTRY_DOCUMENTS"> </a><div class="element clickable constant  constant_ENTRY_DOCUMENTS" data-toggle="collapse" data-target=".constant_ENTRY_DOCUMENTS .collapse">
-<h2>documents array index</h2>
-<pre>ENTRY_DOCUMENTS </pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\DocumentHandler::ENTRY_DOCUMENTS</td>
-</tr></table>
-</div></div>
-</div>
 <a id="constant_ENTRY_GRAPH"> </a><div class="element clickable constant  constant_ENTRY_GRAPH" data-toggle="collapse" data-target=".constant_ENTRY_GRAPH .collapse">
 <h2>documents array index</h2>
 <pre>ENTRY_GRAPH </pre>
@@ -1001,35 +887,11 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a id="constant_OPTION_COLLECTION"> </a><div class="element clickable constant  constant_OPTION_COLLECTION" data-toggle="collapse" data-target=".constant_OPTION_COLLECTION .collapse">
-<h2>collection parameter</h2>
-<pre>OPTION_COLLECTION </pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\DocumentHandler::OPTION_COLLECTION</td>
-</tr></table>
-</div></div>
-</div>
 <a id="constant_OPTION_EDGES"> </a><div class="element clickable constant  constant_OPTION_EDGES" data-toggle="collapse" data-target=".constant_OPTION_EDGES .collapse">
 <h2>direction parameter</h2>
 <pre>OPTION_EDGES </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="constant_OPTION_EXAMPLE"> </a><div class="element clickable constant  constant_OPTION_EXAMPLE" data-toggle="collapse" data-target=".constant_OPTION_EXAMPLE .collapse">
-<h2>example parameter</h2>
-<pre>OPTION_EXAMPLE </pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\DocumentHandler::OPTION_EXAMPLE</td>
-</tr></table>
-</div></div>
 </div>
 <a id="constant_OPTION_KEY"> </a><div class="element clickable constant  constant_OPTION_KEY" data-toggle="collapse" data-target=".constant_OPTION_KEY .collapse">
 <h2>direction parameter</h2>
@@ -1050,7 +912,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-02-16T20:00:53+02:00.<br></footer></div>
+            generated on 2013-02-18T00:17:16+02:00.<br></footer></div>
 </div>
 </body>
 </html>
