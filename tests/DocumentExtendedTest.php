@@ -1,40 +1,41 @@
 <?php
 /**
  * ArangoDB PHP client testsuite
- * File: documentextendedtest.php
+ * File: DocumentExtendedTest.php
  *
  * @package ArangoDbPhpClient
- * @author Frank Mayer
+ * @author  Frank Mayer
  */
 
 namespace triagens\ArangoDb;
 
-class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
+class DocumentExtendedTest extends
+    \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->connection = getConnection();
+        $this->connection        = getConnection();
         $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
-        $this->collection = new \triagens\ArangoDb\Collection();
+        $this->collection        = new \triagens\ArangoDb\Collection();
         $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
         $this->collectionHandler->add($this->collection);
         $this->documentHandler = new DocumentHandler($this->connection);
     }
 
-    
-     /**
+
+    /**
      * test for creation of document with non utf encoding. This tests for failure of such an action.
      * We expect an exception here:
-     * 
+     *
      * @expectedException triagens\ArangoDb\ClientException
-     */     
+     */
     public function testCreateDocumentWithWrongEncoding()
     {
         $documentHandler = $this->documentHandler;
-        $isoKey=iconv("UTF-8","ISO-8859-1//TRANSLIT","someWrongEncododedAttribute");
-        $isoValue=iconv("UTF-8","ISO-8859-1//TRANSLIT","someWrongEncodedValueü");
-        
-        $document = Document::createFromArray(array( $isoKey=> $isoValue, 'someOtherAttribute' => 'someOtherValue'));
+        $isoKey          = iconv("UTF-8", "ISO-8859-1//TRANSLIT", "someWrongEncododedAttribute");
+        $isoValue        = iconv("UTF-8", "ISO-8859-1//TRANSLIT", "someWrongEncodedValueü");
+
+        $document   = Document::createFromArray(array($isoKey => $isoValue, 'someOtherAttribute' => 'someOtherValue'));
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
@@ -48,8 +49,8 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $response = $documentHandler->delete($document);
         $this->assertTrue(true === $response, 'Delete should return true!');
     }
-    
-    
+
+
     /**
      * test for creation, get, and delete of a document given its settings through createFromArray()
      */
@@ -57,7 +58,9 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
     {
         $documentHandler = $this->documentHandler;
 
-        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $document   = Document::createFromArray(
+            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+        );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
@@ -80,7 +83,9 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
     {
         $documentHandler = $this->documentHandler;
 
-        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $document   = Document::createFromArray(
+            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+        );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
@@ -88,8 +93,8 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $cursor = $documentHandler->getByExample($this->collection->getId(), $document);
 
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-        $resultingDocument=$cursor->current();
-        
+        $resultingDocument = $cursor->current();
+
         $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue'));
         $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue'));
 
@@ -105,7 +110,9 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
     {
         $documentHandler = $this->documentHandler;
 
-        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $document   = Document::createFromArray(
+            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+        );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
@@ -128,24 +135,32 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
     {
         $documentHandler = $this->documentHandler;
 
-        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
-        $documentId = $documentHandler->add($this->collection->getId(), $document);
+        $document          = Document::createFromArray(
+            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId        = $documentHandler->add($this->collection->getId(), $document);
         $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
 
-        $patchDocument =  new \triagens\ArangoDb\Document();
-        $patchDocument->set('_id',$document->getHandle());
-        $patchDocument->set('_rev',$document->getRevision());
+        $patchDocument = new \triagens\ArangoDb\Document();
+        $patchDocument->set('_id', $document->getHandle());
+        $patchDocument->set('_rev', $document->getRevision());
         $patchDocument->set('someOtherAttribute', 'someOtherValue2');
         $result = $documentHandler->update($patchDocument);
 
         $this->assertTrue($result);
-        
+
         $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
-        
-        $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue'), 'Should be :someValue, is: '.$resultingDocument->someAttribute);
-        $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'), 'Should be :someOtherValue2, is: '.$resultingDocument->someOtherAttribute);
+
+        $this->assertTrue(
+            true === ($resultingDocument->someAttribute == 'someValue'),
+            'Should be :someValue, is: ' . $resultingDocument->someAttribute
+        );
+        $this->assertTrue(
+            true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
+            'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
+        );
         $response = $documentHandler->delete($resultingDocument);
         $this->assertTrue(true === $response, 'Delete should return true!');
     }
@@ -154,35 +169,43 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
     /**
      * test for updating a document using update() with wrong encoding
      * We expect an exception here:
-     * 
+     *
      * @expectedException triagens\ArangoDb\ClientException
      */
     public function testUpdateDocumentWithWrongEncoding()
     {
         $documentHandler = $this->documentHandler;
 
-        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
-        $documentId = $documentHandler->add($this->collection->getId(), $document);
+        $document          = Document::createFromArray(
+            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId        = $documentHandler->add($this->collection->getId(), $document);
         $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
 
-        $patchDocument =  new \triagens\ArangoDb\Document();
-        $patchDocument->set('_id',$document->getHandle());
-        $patchDocument->set('_rev',$document->getRevision());
-        
+        $patchDocument = new \triagens\ArangoDb\Document();
+        $patchDocument->set('_id', $document->getHandle());
+        $patchDocument->set('_rev', $document->getRevision());
+
         // inject wrong encoding       
-        $isoValue=iconv("UTF-8","ISO-8859-1//TRANSLIT","someWrongEncodedValueü");
-        
+        $isoValue = iconv("UTF-8", "ISO-8859-1//TRANSLIT", "someWrongEncodedValueü");
+
         $patchDocument->set('someOtherAttribute', $isoValue);
         $result = $documentHandler->update($patchDocument);
 
         $this->assertTrue($result);
-        
+
         $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
-        
-        $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue'), 'Should be :someValue, is: '.$resultingDocument->someAttribute);
-        $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'), 'Should be :someOtherValue2, is: '.$resultingDocument->someOtherAttribute);
+
+        $this->assertTrue(
+            true === ($resultingDocument->someAttribute == 'someValue'),
+            'Should be :someValue, is: ' . $resultingDocument->someAttribute
+        );
+        $this->assertTrue(
+            true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
+            'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
+        );
         $response = $documentHandler->delete($resultingDocument);
         $this->assertTrue(true === $response, 'Delete should return true!');
     }
@@ -195,30 +218,38 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
     {
         $documentHandler = $this->documentHandler;
 
-        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
-        $documentId = $documentHandler->add($this->collection->getId(), $document);
+        $document          = Document::createFromArray(
+            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId        = $documentHandler->add($this->collection->getId(), $document);
         $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
 
-        $patchDocument =  new \triagens\ArangoDb\Document();
-        $patchDocument->set('_id',$document->getHandle());
-        $patchDocument->set('_rev',$document->getRevision());
+        $patchDocument = new \triagens\ArangoDb\Document();
+        $patchDocument->set('_id', $document->getHandle());
+        $patchDocument->set('_rev', $document->getRevision());
         $patchDocument->set('someAttribute', null);
         $patchDocument->set('someOtherAttribute', 'someOtherValue2');
-        $result = $documentHandler->update($patchDocument,array("keepNull"=>false));
+        $result = $documentHandler->update($patchDocument, array("keepNull" => false));
 
         $this->assertTrue($result);
-        
+
         $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
-        
-        $this->assertTrue(true === ($resultingDocument->someAttribute == null), 'Should be : null, is: '.$resultingDocument->someAttribute);
-        $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'), 'Should be :someOtherValue2, is: '.$resultingDocument->someOtherAttribute);
+
+        $this->assertTrue(
+            true === ($resultingDocument->someAttribute == null),
+            'Should be : null, is: ' . $resultingDocument->someAttribute
+        );
+        $this->assertTrue(
+            true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
+            'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
+        );
         $response = $documentHandler->delete($resultingDocument);
         $this->assertTrue(true === $response, 'Delete should return true!');
     }
-    
-    
+
+
     /**
      * test for replacing a document using replace()
      */
@@ -226,58 +257,74 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
     {
         $documentHandler = $this->documentHandler;
 
-        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $document   = Document::createFromArray(
+            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+        );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
 
-        $document->set('someAttribute','someValue2');
-        $document->set('someOtherAttribute','someOtherValue2');
+        $document->set('someAttribute', 'someValue2');
+        $document->set('someOtherAttribute', 'someOtherValue2');
         $result = $documentHandler->replace($document);
 
         $this->assertTrue($result);
         $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
 
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
-        
-        $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue2'), 'Should be :someValue2, is: '.$resultingDocument->someAttribute);
-        $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'), 'Should be :someOtherValue2, is: '.$resultingDocument->someOtherAttribute);
+
+        $this->assertTrue(
+            true === ($resultingDocument->someAttribute == 'someValue2'),
+            'Should be :someValue2, is: ' . $resultingDocument->someAttribute
+        );
+        $this->assertTrue(
+            true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
+            'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
+        );
 
         $response = $documentHandler->delete($resultingDocument);
         $this->assertTrue(true === $response, 'Delete should return true!');
     }
-    
-    
-   /**
+
+
+    /**
      * test for replacing a document using replace() with wrong encoding
      * We expect an exception here:
-     * 
+     *
      * @expectedException triagens\ArangoDb\ClientException
      */
     public function testReplaceDocumentWithWrongEncoding()
     {
         $documentHandler = $this->documentHandler;
 
-        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $document   = Document::createFromArray(
+            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+        );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
 
         // inject wrong encoding       
-        $isoKey=iconv("UTF-8","ISO-8859-1//TRANSLIT","someWrongEncododedAttribute");
-        $isoValue=iconv("UTF-8","ISO-8859-1//TRANSLIT","someWrongEncodedValueü");
-        
+        $isoKey   = iconv("UTF-8", "ISO-8859-1//TRANSLIT", "someWrongEncododedAttribute");
+        $isoValue = iconv("UTF-8", "ISO-8859-1//TRANSLIT", "someWrongEncodedValueü");
+
         $document->set($isoKey, $isoValue);
-        $document->set('someOtherAttribute','someOtherValue2');
+        $document->set('someOtherAttribute', 'someOtherValue2');
         $result = $documentHandler->replace($document);
 
         $this->assertTrue($result);
         $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
 
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
-        
-        $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue2'), 'Should be :someValue2, is: '.$resultingDocument->someAttribute);
-        $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'), 'Should be :someOtherValue2, is: '.$resultingDocument->someOtherAttribute);
+
+        $this->assertTrue(
+            true === ($resultingDocument->someAttribute == 'someValue2'),
+            'Should be :someValue2, is: ' . $resultingDocument->someAttribute
+        );
+        $this->assertTrue(
+            true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
+            'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
+        );
 
         $response = $documentHandler->delete($resultingDocument);
         $this->assertTrue(true === $response, 'Delete should return true!');
@@ -291,20 +338,22 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
     {
         $documentHandler = $this->documentHandler;
 
-        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $document   = Document::createFromArray(
+            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+        );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
 
-        $document->set('someAttribute','someValue2');
-        $document->set('someOtherAttribute','someOtherValue2');
+        $document->set('someAttribute', 'someValue2');
+        $document->set('someOtherAttribute', 'someOtherValue2');
         $result = $documentHandler->replace($document);
 
         $this->assertTrue($result);
         $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
 
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
-        
+
         $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue2'));
         $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'));
 
@@ -320,18 +369,20 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
     {
         $documentHandler = $this->documentHandler;
 
-        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $document   = Document::createFromArray(
+            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+        );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
 
-        $revision=$document->getRevision();
-          try{
-             $documentHandler->deleteById($this->collection->getId(), $documentId, $revision-1000, 'error');
-          }catch(\triagens\ArangoDb\ServerException $e){
+        $revision = $document->getRevision();
+        try {
+            $documentHandler->deleteById($this->collection->getId(), $documentId, $revision - 1000, 'error');
+        } catch (\triagens\ArangoDb\ServerException $e) {
             $this->assertTrue(true);
-          }
-        
+        }
+
         $response = $documentHandler->deleteById($this->collection->getId(), $documentId, $revision, 'error');
         $this->assertTrue(true === $response, 'deleteById() should return true! (because correct revision given)');
     }
@@ -344,18 +395,22 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
     {
         $documentHandler = $this->documentHandler;
 
-        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $document   = Document::createFromArray(
+            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+        );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
 
-        $revision=$document->getRevision();
+        $revision = $document->getRevision();
 
-        $response=$documentHandler->deleteById($this->collection->getId(), $documentId, $revision-1000, 'last');
-        $this->assertTrue(true === $response, 'deleteById() should return true! (because policy  is "last write wins")');
+        $response = $documentHandler->deleteById($this->collection->getId(), $documentId, $revision - 1000, 'last');
+        $this->assertTrue(
+            true === $response, 'deleteById() should return true! (because policy  is "last write wins")'
+        );
     }
-    
-    
+
+
     /**
      * test for creation, update, get, and delete having update and delete doing revision checks.
      */
@@ -363,7 +418,9 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
     {
         $documentHandler = $this->documentHandler;
 
-        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $document   = Document::createFromArray(
+            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+        );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
@@ -372,29 +429,29 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
 
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
-        
+
         // Set some new values on the attributes and include the revision in the _rev attribute
         // This should result in a successfull update
-        $document->set('someAttribute','someValue2');
-        $document->set('someOtherAttribute','someOtherValue2');
-        $document->set('_rev',$resultingDocument->getRevision());
+        $document->set('someAttribute', 'someValue2');
+        $document->set('someOtherAttribute', 'someOtherValue2');
+        $document->set('_rev', $resultingDocument->getRevision());
 
         $result = $documentHandler->update($document, 'error');
 
         $this->assertTrue($result);
         $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
-        
+
         $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue2'));
         $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'));
 
         // Set some new values on the attributes and include a fake revision in the _rev attribute
         // This should result in a failure to update
-        $patchDocument =  new \triagens\ArangoDb\Document();
-        $patchDocument->set('someOtherAttribute','someOtherValue3');
-        $patchDocument->set('_rev',$resultingDocument->getRevision()-1000);
+        $patchDocument = new \triagens\ArangoDb\Document();
+        $patchDocument->set('someOtherAttribute', 'someOtherValue3');
+        $patchDocument->set('_rev', $resultingDocument->getRevision() - 1000);
 
         try {
-                 $result = $documentHandler->update($document, 'error');
+            $result = $documentHandler->update($document, 'error');
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -402,46 +459,49 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Exception', $e);
         $this->assertTrue($e->getMessage() == 'HTTP/1.1 412 Precondition Failed');
         $resultingDocument1 = $documentHandler->get($this->collection->getId(), $documentId);
-        
-        $this->assertTrue(true === ($resultingDocument1->someAttribute == 'someValue2'), "This value should not have changed using UPDATE() - this is the behavior of REPLACE()");
+
+        $this->assertTrue(
+            true === ($resultingDocument1->someAttribute == 'someValue2'),
+            "This value should not have changed using UPDATE() - this is the behavior of REPLACE()"
+        );
         $this->assertTrue(true === ($resultingDocument1->someOtherAttribute == 'someOtherValue2'));
         unset ($e);
-        
+
         $document = Document::createFromArray(array('someOtherAttribute' => 'someOtherValue3'));
-        $document->setInternalId($this->collection->getId().'/'.$documentId);
+        $document->setInternalId($this->collection->getId() . '/' . $documentId);
         // Set some new values on the attributes and  _rev attribute to NULL
         // This should result in a successfull update
         try {
-                 $result = $documentHandler->update($document, 'error');
+            $result = $documentHandler->update($document, 'error');
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
         $resultingDocument2 = $documentHandler->get($this->collection->getId(), $documentId);
-        
+
         $this->assertTrue(true === ($resultingDocument2->someOtherAttribute == 'someOtherValue3'));
 
         // Set some new values on the attributes and include the revision in the _rev attribute
         // this is only to update the doc and get a new revision for thesting the delete method below
         // This should result in a successfull update
-        $document->set('someAttribute','someValue');
-        $document->set('someOtherAttribute','someOtherValue2');
-        $document->set('_rev',$resultingDocument2->getRevision());
+        $document->set('someAttribute', 'someValue');
+        $document->set('someOtherAttribute', 'someOtherValue2');
+        $document->set('_rev', $resultingDocument2->getRevision());
 
         $result = $documentHandler->update($document, 'error');
 
         $this->assertTrue($result);
         $resultingDocument3 = $documentHandler->get($this->collection->getId(), $documentId);
-        
+
         $this->assertTrue(true === ($resultingDocument3->someAttribute == 'someValue'));
         $this->assertTrue(true === ($resultingDocument3->someOtherAttribute == 'someOtherValue2'));
 
-        $e=null;
+        $e = null;
         try {
-                  $response = $documentHandler->delete($resultingDocument, "error");
+            $response = $documentHandler->delete($resultingDocument, "error");
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        
+
         $this->assertInstanceOf('Exception', $e, "Delete should have raised an exception here");
         $this->assertTrue($e->getMessage() == 'HTTP/1.1 412 Precondition Failed');
         unset ($e);
@@ -449,7 +509,7 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $response = $documentHandler->delete($resultingDocument3, "error");
         $this->assertTrue(true === $response, 'Delete should return true!');
     }
-    
+
 
     /**
      * test for creation, update, get, and delete having update and delete doing revision checks.
@@ -458,7 +518,9 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
     {
         $documentHandler = $this->documentHandler;
 
-        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue'));
+        $document   = Document::createFromArray(
+            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+        );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
@@ -467,29 +529,29 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
 
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
-        
+
         // Set some new values on the attributes and include the revision in the _rev attribute
         // This should result in a successfull update
-        $document->set('someAttribute','someValue2');
-        $document->set('someOtherAttribute','someOtherValue2');
-        $document->set('_rev',$resultingDocument->getRevision());
+        $document->set('someAttribute', 'someValue2');
+        $document->set('someOtherAttribute', 'someOtherValue2');
+        $document->set('_rev', $resultingDocument->getRevision());
 
         $result = $documentHandler->update($document, 'error');
 
         $this->assertTrue($result);
         $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
-        
+
         $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue2'));
         $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'));
-        
+
         // Set some new values on the attributes and include a fake revision in the _rev attribute
         // This should result in a failure to update
-        $document->set('someAttribute','someValue3');
-        $document->set('someOtherAttribute','someOtherValue3');
-        $document->set('_rev',$resultingDocument->getRevision()-1000);
+        $document->set('someAttribute', 'someValue3');
+        $document->set('someOtherAttribute', 'someOtherValue3');
+        $document->set('_rev', $resultingDocument->getRevision() - 1000);
 
         try {
-                 $result = $documentHandler->update($document, 'error');
+            $result = $documentHandler->update($document, 'error');
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -497,47 +559,49 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Exception', $e);
         $this->assertTrue($e->getMessage() == 'HTTP/1.1 412 Precondition Failed');
         $resultingDocument1 = $documentHandler->get($this->collection->getId(), $documentId);
-        
+
         $this->assertTrue(true === ($resultingDocument1->someAttribute == 'someValue2'));
         $this->assertTrue(true === ($resultingDocument1->someOtherAttribute == 'someOtherValue2'));
         unset ($e);
-        
-        $document = Document::createFromArray(array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue3'));
-        $document->setInternalId($this->collection->getId().'/'.$documentId);
+
+        $document = Document::createFromArray(
+            array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue3')
+        );
+        $document->setInternalId($this->collection->getId() . '/' . $documentId);
         // Set some new values on the attributes and  _rev attribute to NULL
         // This should result in a successfull update
         try {
-                 $result = $documentHandler->update($document, 'error');
+            $result = $documentHandler->update($document, 'error');
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
         $resultingDocument2 = $documentHandler->get($this->collection->getId(), $documentId);
-        
+
         $this->assertTrue(true === ($resultingDocument2->someAttribute == 'someValue3'));
         $this->assertTrue(true === ($resultingDocument2->someOtherAttribute == 'someOtherValue3'));
 
         // Set some new values on the attributes and include the revision in the _rev attribute
         // this is only to update the doc and get a new revision for thesting the delete method below
         // This should result in a successful update
-        $document->set('someAttribute','someValue2');
-        $document->set('someOtherAttribute','someOtherValue2');
-        $document->set('_rev',$resultingDocument2->getRevision());
+        $document->set('someAttribute', 'someValue2');
+        $document->set('someOtherAttribute', 'someOtherValue2');
+        $document->set('_rev', $resultingDocument2->getRevision());
 
         $result = $documentHandler->update($document, 'error');
 
         $this->assertTrue($result);
         $resultingDocument3 = $documentHandler->get($this->collection->getId(), $documentId);
-        
+
         $this->assertTrue(true === ($resultingDocument3->someAttribute == 'someValue2'));
         $this->assertTrue(true === ($resultingDocument3->someOtherAttribute == 'someOtherValue2'));
 
-        $e=null;
+        $e = null;
         try {
-                  $response = $documentHandler->delete($resultingDocument, "error");
+            $response = $documentHandler->delete($resultingDocument, "error");
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        
+
         $this->assertInstanceOf('Exception', $e, "Delete should have raised an exception here");
         $this->assertTrue($e->getMessage() == 'HTTP/1.1 412 Precondition Failed');
         unset ($e);
@@ -549,29 +613,110 @@ class DocumentExtendedTest extends \PHPUnit_Framework_TestCase
 
     /**
      * test to set some attributes and get all attributes of the document through getAll()
-     * Also testing to optionally get internal attributes _id and _rev 
+     * Also testing to optionally get internal attributes _id and _rev
      */
     public function testGetAll()
     {
         $documentHandler = $this->documentHandler;
 
-        $document = Document::createFromArray(array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue', 'someThirdAttribute' => 'someThirdValue'));
+        $document = Document::createFromArray(
+            array(
+                 'someAttribute'      => 'someValue', 'someOtherAttribute' => 'someOtherValue',
+                 'someThirdAttribute' => 'someThirdValue'
+            )
+        );
         $documentHandler->add($this->collection->getId(), $document);
-        
+
         // set hidden fields
         $document->setHiddenAttributes(array('someThirdAttribute'));
-        
+
         $result = $document->getAll();
 
         $this->assertTrue(true === ($result['someAttribute'] == 'someValue'));
         $this->assertTrue(true === ($result['someOtherAttribute'] == 'someOtherValue'));
-        
+
         // Check if the hidden field is actually hidden...
         $this->assertArrayNotHasKey('someThirdAttribute', $result);
 
         $result = $document->getAll(true);
         $this->assertArrayHasKey('_id', $result);
         $this->assertArrayHasKey('_rev', $result);
+    }
+
+
+    /**
+     * Test for correct exception codes if nonexistant objects are tried to be gotten, replaced, updated or removed
+     */
+    public function testGetReplaceUpdateAndRemoveOnNonExistantObjects()
+    {
+        // Setup objects
+        $documentHandler = $this->documentHandler;
+        $document        = Document::createFromArray(
+            array(
+                 'someAttribute'      => 'someValue', 'someOtherAttribute' => 'someOtherValue',
+                 'someThirdAttribute' => 'someThirdValue'
+            )
+        );
+
+
+        // Try to get a non-existent document out of a nonexistent collection
+        // This should cause an exception with a code of 404
+        try {
+            unset ($e);
+            $result1 = $documentHandler->get('nonExistantCollection', 'nonexistantId');
+        } catch (\Exception $e) {
+            // don't bother us... just give us the $e
+        }
+        $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
+
+
+        // Try to get a non-existent document out of an existent collection
+        // This should cause an exception with a code of 404
+        try {
+            unset ($e);
+            $result1 = $documentHandler->get($this->collection->getId(), 'nonexistantId');
+        } catch (\Exception $e) {
+            // don't bother us... just give us the $e
+        }
+        $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
+
+
+        // Try to update a non-existent document
+        // This should cause an exception with a code of 404
+        try {
+            unset ($e);
+            $result1 = $documentHandler->updateById($this->collection->getId(), 'nonexistantId', $document);
+        } catch (\Exception $e) {
+            // don't bother us... just give us the $e
+        }
+        $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
+
+
+        // Try to replace a non-existent document
+        // This should cause an exception with a code of 404
+        try {
+            unset ($e);
+            $result1 = $documentHandler->replaceById($this->collection->getId(), 'nonexistantId', $document);
+        } catch (\Exception $e) {
+            // don't bother us... just give us the $e
+        }
+        $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
+
+
+        // Try to remove a non-existent document
+        // This should cause an exception with a code of 404
+        try {
+            unset ($e);
+            $result1 = $documentHandler->removeById($this->collection->getId(), 'nonexistantId');
+        } catch (\Exception $e) {
+            // don't bother us... just give us the $e
+        }
+        $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
     }
 
 
