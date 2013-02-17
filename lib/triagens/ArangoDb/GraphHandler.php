@@ -22,7 +22,7 @@ namespace triagens\ArangoDb;
  * @since   1.2
  */
 class GraphHandler extends
-    DocumentHandler
+    Handler
 {
 
     /**
@@ -70,7 +70,8 @@ class GraphHandler extends
      * @return array - an array of the created graph object's attributes.
      * @since   1.2
      *
-     * @example ArangoDb/examples/graph.php How to use this function
+     * @example "ArangoDb/examples/graph.php" How to use this function
+     * @example "ArangoDb/examples/graph.php" How to use this function
      */
     public function createGraph(Graph $graph)
     {
@@ -391,12 +392,6 @@ class GraphHandler extends
         $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_EDGE);
         $response = $this->getConnection()->post($url, $this->getConnection()->json_encode_wrapper($data));
 
-        //        $location = $response->getLocationHeader();
-        //        if (!$location) {
-        //            throw new ClientException('Did not find location header in server response');
-        //        }
-
-
         $jsonArray = $response->getJson();
         $edge      = $jsonArray['edge'];
         $id        = $edge['_id'];
@@ -609,236 +604,5 @@ class GraphHandler extends
         $result = $this->getConnection()->delete($url);
 
         return true;
-    }
-
-
-    /**
-     * Just throw an exception if add() is called on a graph.
-     *
-     * @internal
-     * @throws ClientException
-     *
-     * @param mixed    $collectionId - collection id as string or number
-     * @param Document $document     - the document to be added
-     * @param bool     $create       - create the collection if it does not yet exist
-     *
-     * @since 1.2
-     */
-    public function add($collectionId, Document $document, $create = null)
-    {
-        throw new ClientException("Graphs don't have a save() method. Please use saveVertex() or saveEdge()");
-    }
-
-
-    /**
-     * Just throw an exception if save() is called on a graph.
-     *
-     * @internal
-     * @throws ClientException
-     *
-     * @param mixed    $collectionId - collection id as string or number
-     * @param Document $document     - the document to be added
-     * @param bool     $create       - create the collection if it does not yet exist
-     *
-     * @since 1.2
-     */
-    public function save($collectionId, Document $document, $create = null)
-    {
-        throw new ClientException("Graphs don't have a save() method. Please use saveVertex() or saveEdge()");
-    }
-
-
-    /**
-     * Just throw an exception if get() is called on a graph.
-     *
-     * @internal
-     * @throws ClientException
-     *
-     * @param mixed $collectionId - collection id as a string or number
-     * @param mixed $documentId   - document identifier
-     * @param array $options      - optional, array of options
-     */
-    public function get($collectionId, $documentId, array $options = array())
-    {
-        throw new ClientException("Graphs don't support this method. Please use getVertex() or getEdge()");
-    }
-
-
-    /**
-     * Just throw an exception if getById() is called on a graph.
-     *
-     * @internal
-     * @throws ClientException
-     *
-     * @param mixed $collectionId - collection id as a string or number
-     * @param mixed $documentId   - document identifier
-     * @param array $options      - optional, array of options
-     */
-    public function getById($collectionId, $documentId, array $options = array())
-    {
-        throw new ClientException("Graphs don't support this method. Please use getVertex()");
-    }
-
-
-    /**
-     * Just throw an exception if getAllIds() is called on a graph.
-     *
-     * @internal
-     * @throws ClientException
-     *
-     * @param mixed $collectionId - collection id as string or number
-     */
-    public function getAllIds($collectionId)
-    {
-        throw new ClientException("Graphs don't support this method.");
-    }
-
-
-    /**
-     * Just throw an exception if getByExample() is called on a graph.
-     *
-     * @internal
-     * @throws ClientException
-     *
-     * @param mixed $collectionId - collection id as string or number
-     * @param mixed $document     - the example document as a Document object or an array
-     * @param bool  $sanitize     - remove _id and _rev attributes from result documents
-     */
-    public function getByExample($collectionId, $document, $sanitize = false)
-    {
-        throw new ClientException("Graphs don't support this method.");
-    }
-
-
-    /**
-     * Just throw an exception if update() is called on a graph.
-     *
-     * @internal
-     * @throws ClientException
-     *
-     * @param Document $document - The patch document that will update the document in question
-     * @param mixed    $options  - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     */
-    public function update(Document $document, $options = array())
-    {
-        throw new ClientException("Graphs don't support this method.");
-    }
-
-
-    /**
-     * Just throw an exception if replace() is called on a graph.
-     *
-     * @internal
-     * @throws ClientException
-     *
-     * @param Document $document - document to be updated
-     * @param mixed    $options  - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     */
-    public function replace(Document $document, $options = array())
-    {
-        throw new ClientException("Graphs don't support this method.");
-    }
-
-
-    /**
-     * Just throw an exception if updateById() is called on a graph.
-     *
-     * @internal
-     * @throws ClientException
-     *
-     * @param mixed    $collectionId - collection id as string or number
-     * @param mixed    $documentId   - document id as string or number
-     * @param Document $document     - patch document which contains the attributes and values to be updated
-     * @param mixed    $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     */
-    public function updateById($collectionId, $documentId, Document $document, $options = array())
-    {
-        throw new ClientException("Graphs don't support this method.");
-    }
-
-
-    /**
-     *
-     * Just throw an exception if replaceById() is called on a graph.
-     *
-     * @internal
-     * @throws ClientException
-     *
-     * @param mixed    $collectionId - collection id as string or number
-     * @param mixed    $documentId   - document id as string or number
-     * @param Document $document     - document to be updated
-     * @param mixed    $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     */
-    public function replaceById($collectionId, $documentId, Document $document, $options = array())
-    {
-        throw new ClientException("Graphs don't support this method.");
-    }
-
-
-    /**
-     *
-     * Just throw an exception if delete() is called on a graph.
-     *
-     * @internal
-     * @throws ClientException
-     *
-     * @param Document $document - document to be updated
-     * @param mixed    $options  - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     */
-    public function delete(Document $document, $options = array())
-    {
-        throw new ClientException("Graphs don't support this method.");
-    }
-
-
-    /**
-     *
-     * Just throw an exception if remove() is called on a graph.
-     *
-     * @internal
-     * @throws ClientException
-     *
-     * @param Document $document - document to be removed
-     * @param mixed    $options  - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     */
-    public function remove(Document $document, $options = array())
-    {
-        throw new ClientException("Graphs don't support this method.");
-    }
-
-
-    /**
-     *
-     * Just throw an exception if deleteById() is called on a graph.
-     *
-     * @internal
-     * @throws ClientException
-     *
-     * @param mixed  $collectionId - collection id as string or number
-     * @param mixed  $documentId   - document id as string or number
-     * @param  mixed $revision     - optional revision of the document to be deleted
-     * @param mixed  $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     */
-    public function deleteById($collectionId, $documentId, $revision = null, $options = array())
-    {
-        throw new ClientException("Graphs don't support this method.");
-    }
-
-
-    /**
-     *
-     * Just throw an exception if removeById() is called on a graph.
-     *
-     * @internal
-     * @throws ClientException
-     *
-     * @param mixed  $collectionId - collection id as string or number
-     * @param mixed  $documentId   - document id as string or number
-     * @param  mixed $revision     - optional revision of the document to be deleted
-     * @param mixed  $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     */
-    public function removeById($collectionId, $documentId, $revision = null, $options = array())
-    {
-        throw new ClientException("Graphs don't support this method.");
     }
 }
