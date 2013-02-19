@@ -20,6 +20,14 @@ Requirements:
 The PHP driver currently is on version 1.1, which is also ArangoDB's current stable version.
 Please note that if you use other versions of ArangoDB, you should use a matching PHP driver version.
 
+
+# Project's social links
+
+[Follow us on Twitter @arangodbphp to receive updates on the php driver](https://twitter.com/arangodbphp)
+
+
+
+
 # Using ArangoDB with PHP
 
 To use ArangoDB as a data store in your PHP project, use the [ArangoDB PHP client](https://github.com/triAGENS/ArangoDB-PHP)
