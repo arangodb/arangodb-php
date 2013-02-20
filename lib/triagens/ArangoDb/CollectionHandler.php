@@ -949,21 +949,6 @@ class CollectionHandler extends
 
 
     /**
-     * Return an array of cursor options
-     *
-     * @param bool $sanitize - sanitize flag
-     *
-     * @return array - array of options
-     */
-    private function getCursorOptions($sanitize)
-    {
-        return array(
-            Cursor::ENTRY_SANITIZE => $sanitize,
-        );
-    }
-
-
-    /**
      * Checks if the collectionId given, is valid. Returns true if it is, or false if it is not.
      *
      * @param $collectionId

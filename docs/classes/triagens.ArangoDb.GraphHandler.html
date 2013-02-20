@@ -63,7 +63,9 @@
 <li class="method public inherited"><a href="#method___construct" title="__construct :: Construct a new handler"><span class="description">Construct a new handler</span><pre>__construct()</pre></a></li>
 <li class="method public "><a href="#method_createGraph" title="createGraph :: Create a graph"><span class="description">Create a graph</span><pre>createGraph()</pre></a></li>
 <li class="method public "><a href="#method_dropGraph" title="dropGraph :: Drop a graph and remove all its vertices and edges, also drops vertex and edge collections"><span class="description">Drop a graph and remove all its vertices and edges, also drops vertex and edge collections</span><pre>dropGraph()</pre></a></li>
+<li class="method public "><a href="#method_getConnectedEdges" title="getConnectedEdges :: Get connected edges of a given vertex"><span class="description">Get connected edges of a given vertex</span><pre>getConnectedEdges()</pre></a></li>
 <li class="method public "><a href="#method_getEdge" title="getEdge :: Get a single edge from a graph"><span class="description">Get a single edge from a graph</span><pre>getEdge()</pre></a></li>
+<li class="method public "><a href="#method_getNeighborVertices" title="getNeighborVertices :: Get neighboring vertices of a given vertex"><span class="description">Get neighboring vertices of a given vertex</span><pre>getNeighborVertices()</pre></a></li>
 <li class="method public "><a href="#method_getVertex" title="getVertex :: Get a single vertex from a graph"><span class="description">Get a single vertex from a graph</span><pre>getVertex()</pre></a></li>
 <li class="method public "><a href="#method_properties" title="properties :: Get a graph's properties"><span class="description">Get a graph's properties</span><pre>properties()</pre></a></li>
 <li class="method public "><a href="#method_removeEdge" title="removeEdge :: Remove a edge from a graph, identified by the graph name and edge id"><span class="description">Remove a edge from a graph, identified by the graph name and edge id</span><pre>removeEdge()</pre></a></li>
@@ -77,6 +79,7 @@
 <li class="nav-header protected">» Protected
                     <ul>
 <li class="method protected inherited"><a href="#method_getConnection" title="getConnection :: Return the connection object"><span class="description">Return the connection object</span><pre>getConnection()</pre></a></li>
+<li class="method protected inherited"><a href="#method_getCursorOptions" title="getCursorOptions :: Return an array of cursor options"><span class="description">Return an array of cursor options</span><pre>getCursorOptions()</pre></a></li>
 <li class="method protected inherited"><a href="#method_includeOptionsInParams" title="includeOptionsInParams :: Helper function that runs through the options given and includes them into the parameters array given."><span class="description">Helper function that runs through the options given and includes them into the parameters array given.</span><pre>includeOptionsInParams()</pre></a></li>
 <li class="method protected inherited"><a href="#method_validateAndIncludePolicyInParams" title="validateAndIncludePolicyInParams :: Helper function that validates and includes the policy setting into the parameters array given."><span class="description">Helper function that validates and includes the policy setting into the parameters array given.</span><pre>validateAndIncludePolicyInParams()</pre></a></li>
 </ul>
@@ -341,6 +344,66 @@ that the revision of the to-be-replaced vertex is the same as the one given.</p>
 <code>bool</code>- always true, will throw if there is an error</div>
 </div></div>
 </div>
+<a id="method_getConnectedEdges"></a><div class="element clickable method public method_getConnectedEdges" data-toggle="collapse" data-target=".method_getConnectedEdges .collapse">
+<h2>Get connected edges of a given vertex</h2>
+<pre>getConnectedEdges(mixed $graphName, mixed $vertexId, bool | array $options) : \triagens\ArangoDb\cursor</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will throw if the list cannot be fetched from the server</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$graphName</h4>
+<code>mixed</code><ul>
+<li>the name of the graph</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$vertexId</h4>
+<code>mixed</code><ul>
+<li>the vertex id</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>bool</code><code>array</code><ul>
+<li>optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.</li>
+</ul>
+
+<p>Options are :<br>
+<li>'batchSize' - the batch size of the returned cursor</li>
+<li>'limit' - limit the result size by a give number</li>
+<li>'count' - return the total number of results  Defaults to false.</li>
+<li>'filter' - a optional filter</li>
+<p>Filter options are :<br>
+<li>'direction' - Filter for inbound (value "in") or outbound (value "out") neighbors. Default value is "any".</li>
+<li>'labels' - filter by an array of edge labels (empty array means no restriction).</li>
+<li>'properties' - filter neighbors by an array of edge properties</li>
+<p>Properties options are :<br>
+<li>'key' - Filter the result vertices by a key value pair.</li>
+<li>'value' -  The value of the key.</li>
+<li>'compare' - A comparison operator. (==, >, <, >=, <= )</li>
+</p>
+</p>
+<li>'sanitize' - true to remove _id and _rev attributes from result documents. Defaults to false.</li>
+<li>'hiddenAttributes' - set an array of hidden attributes for created documents.
+<p>
+                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+                                The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+                                and the hidden attributes would not be applied to the attributes.<br>
+</p>
+</li>
+</p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>\triagens\ArangoDb\cursor</code>- Returns a cursor containing the result</div>
+</div></div>
+</div>
 <a id="method_getEdge"></a><div class="element clickable method public method_getEdge" data-toggle="collapse" data-target=".method_getEdge .collapse">
 <h2>Get a single edge from a graph</h2>
 <pre>getEdge(mixed $graphName, mixed $edgeId, array $options) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
@@ -383,6 +446,66 @@ that the revision of the to-be-replaced vertex is the same as the one given.</p>
 <h3>Returns</h3>
 <div class="subelement response">
 <code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>- the edge document fetched from the server</div>
+</div></div>
+</div>
+<a id="method_getNeighborVertices"></a><div class="element clickable method public method_getNeighborVertices" data-toggle="collapse" data-target=".method_getNeighborVertices .collapse">
+<h2>Get neighboring vertices of a given vertex</h2>
+<pre>getNeighborVertices(mixed $graphName, mixed $vertexId, bool | array $options) : \triagens\ArangoDb\cursor</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will throw if the list cannot be fetched from the server</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$graphName</h4>
+<code>mixed</code><ul>
+<li>the name of the graph</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$vertexId</h4>
+<code>mixed</code><ul>
+<li>the vertex id</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>bool</code><code>array</code><ul>
+<li>optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.</li>
+</ul>
+
+<p>Options are :<br>
+<li>'batchSize' - the batch size of the returned cursor</li>
+<li>'limit' - limit the result size by a give number</li>
+<li>'count' - return the total number of results  Defaults to false.</li>
+<li>'filter' - a optional filter</li>
+<p>Filter options are :<br>
+<li>'direction' - Filter for inbound (value "in") or outbound (value "out") neighbors. Default value is "any".</li>
+<li>'labels' - filter by an array of edge labels (empty array means no restriction).</li>
+<li>'properties' - filter neighbors by an array of edge properties</li>
+<p>Properties options are :<br>
+<li>'key' - Filter the result vertices by a key value pair.</li>
+<li>'value' -  The value of the key.</li>
+<li>'compare' - A comparison operator. (==, >, <, >=, <= )</li>
+</p>
+</p>
+<li>'sanitize' - true to remove _id and _rev attributes from result documents. Defaults to false.</li>
+<li>'hiddenAttributes' - set an array of hidden attributes for created documents.
+<p>
+                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+                                The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+                                and the hidden attributes would not be applied to the attributes.<br>
+</p>
+</li>
+</p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>\triagens\ArangoDb\cursor</code>- Returns a cursor containing the result</div>
 </div></div>
 </div>
 <a id="method_getVertex"></a><div class="element clickable method public method_getVertex" data-toggle="collapse" data-target=".method_getVertex .collapse">
@@ -779,6 +902,28 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>- the connection object</div>
 </div></div>
 </div>
+<a id="method_getCursorOptions"></a><div class="element clickable method protected method_getCursorOptions" data-toggle="collapse" data-target=".method_getCursorOptions .collapse">
+<h2>Return an array of cursor options</h2>
+<pre>getCursorOptions(bool $sanitize) : array</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Handler::getCursorOptions()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$sanitize</h4>
+<code>bool</code><ul>
+<li>sanitize flag</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- array of options</div>
+</div></div>
+</div>
 <a id="method_includeOptionsInParams"></a><div class="element clickable method protected method_includeOptionsInParams" data-toggle="collapse" data-target=".method_includeOptionsInParams .collapse">
 <h2>Helper function that runs through the options given and includes them into the parameters array given.</h2>
 <pre>includeOptionsInParams(array $options, array $params, array $includeArray) : array</pre>
@@ -912,7 +1057,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-02-18T00:17:16+02:00.<br></footer></div>
+            generated on 2013-02-20T03:52:36+02:00.<br></footer></div>
 </div>
 </body>
 </html>

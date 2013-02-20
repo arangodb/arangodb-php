@@ -43,11 +43,11 @@ class DocumentExtendedTest extends
         $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
 
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
-        $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue'));
-        $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue'));
+        $this->assertTrue($resultingDocument->someAttribute == 'someValue');
+        $this->assertTrue($resultingDocument->someOtherAttribute == 'someOtherValue');
 
         $response = $documentHandler->delete($document);
-        $this->assertTrue(true === $response, 'Delete should return true!');
+        $this->assertTrue($response, 'Delete should return true!');
     }
 
 
@@ -68,11 +68,11 @@ class DocumentExtendedTest extends
         $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
 
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
-        $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue'));
-        $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue'));
+        $this->assertTrue($resultingDocument->someAttribute == 'someValue');
+        $this->assertTrue($resultingDocument->someOtherAttribute == 'someOtherValue');
 
         $response = $documentHandler->delete($document);
-        $this->assertTrue(true === $response, 'Delete should return true!');
+        $this->assertTrue($response, 'Delete should return true!');
     }
 
 
@@ -95,11 +95,11 @@ class DocumentExtendedTest extends
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
         $resultingDocument = $cursor->current();
 
-        $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue'));
-        $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue'));
+        $this->assertTrue($resultingDocument->someAttribute == 'someValue');
+        $this->assertTrue($resultingDocument->someOtherAttribute == 'someOtherValue');
 
         $response = $documentHandler->delete($document);
-        $this->assertTrue(true === $response, 'Delete should return true!');
+        $this->assertTrue($response, 'Delete should return true!');
     }
 
 
@@ -120,11 +120,11 @@ class DocumentExtendedTest extends
         $resultingDocument = $this->collectionHandler->firstExample($this->collection->getId(), $document);
         $this->assertInstanceOf('triagens\ArangoDb\Document', $resultingDocument);
 
-        $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue'));
-        $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue'));
+        $this->assertTrue($resultingDocument->someAttribute == 'someValue');
+        $this->assertTrue($resultingDocument->someOtherAttribute == 'someOtherValue');
 
         $response = $documentHandler->delete($document);
-        $this->assertTrue(true === $response, 'Delete should return true!');
+        $this->assertTrue($response, 'Delete should return true!');
     }
 
 
@@ -154,15 +154,15 @@ class DocumentExtendedTest extends
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
         $this->assertTrue(
-            true === ($resultingDocument->someAttribute == 'someValue'),
+            ($resultingDocument->someAttribute == 'someValue'),
             'Should be :someValue, is: ' . $resultingDocument->someAttribute
         );
         $this->assertTrue(
-            true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
+            ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
             'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
         );
         $response = $documentHandler->delete($resultingDocument);
-        $this->assertTrue(true === $response, 'Delete should return true!');
+        $this->assertTrue($response, 'Delete should return true!');
     }
 
 
@@ -199,15 +199,15 @@ class DocumentExtendedTest extends
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
         $this->assertTrue(
-            true === ($resultingDocument->someAttribute == 'someValue'),
+            ($resultingDocument->someAttribute == 'someValue'),
             'Should be :someValue, is: ' . $resultingDocument->someAttribute
         );
         $this->assertTrue(
-            true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
+            ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
             'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
         );
         $response = $documentHandler->delete($resultingDocument);
-        $this->assertTrue(true === $response, 'Delete should return true!');
+        $this->assertTrue($response, 'Delete should return true!');
     }
 
 
@@ -238,15 +238,15 @@ class DocumentExtendedTest extends
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
         $this->assertTrue(
-            true === ($resultingDocument->someAttribute == null),
+            ($resultingDocument->someAttribute == null),
             'Should be : null, is: ' . $resultingDocument->someAttribute
         );
         $this->assertTrue(
-            true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
+            ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
             'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
         );
         $response = $documentHandler->delete($resultingDocument);
-        $this->assertTrue(true === $response, 'Delete should return true!');
+        $this->assertTrue($response, 'Delete should return true!');
     }
 
 
@@ -274,16 +274,16 @@ class DocumentExtendedTest extends
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
         $this->assertTrue(
-            true === ($resultingDocument->someAttribute == 'someValue2'),
+            ($resultingDocument->someAttribute == 'someValue2'),
             'Should be :someValue2, is: ' . $resultingDocument->someAttribute
         );
         $this->assertTrue(
-            true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
+            ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
             'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
         );
 
         $response = $documentHandler->delete($resultingDocument);
-        $this->assertTrue(true === $response, 'Delete should return true!');
+        $this->assertTrue($response, 'Delete should return true!');
     }
 
 
@@ -318,16 +318,16 @@ class DocumentExtendedTest extends
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
         $this->assertTrue(
-            true === ($resultingDocument->someAttribute == 'someValue2'),
+            ($resultingDocument->someAttribute == 'someValue2'),
             'Should be :someValue2, is: ' . $resultingDocument->someAttribute
         );
         $this->assertTrue(
-            true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
+            ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
             'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
         );
 
         $response = $documentHandler->delete($resultingDocument);
-        $this->assertTrue(true === $response, 'Delete should return true!');
+        $this->assertTrue($response, 'Delete should return true!');
     }
 
 
@@ -354,11 +354,11 @@ class DocumentExtendedTest extends
 
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
-        $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue2'));
-        $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'));
+        $this->assertTrue($resultingDocument->someAttribute == 'someValue2');
+        $this->assertTrue($resultingDocument->someOtherAttribute == 'someOtherValue2');
 
         $response = $documentHandler->deleteById($this->collection->getId(), $documentId);
-        $this->assertTrue(true === $response, 'Delete should return true!');
+        $this->assertTrue($response, 'Delete should return true!');
     }
 
 
@@ -384,7 +384,7 @@ class DocumentExtendedTest extends
         }
 
         $response = $documentHandler->deleteById($this->collection->getId(), $documentId, $revision, 'error');
-        $this->assertTrue(true === $response, 'deleteById() should return true! (because correct revision given)');
+        $this->assertTrue($response, 'deleteById() should return true! (because correct revision given)');
     }
 
 
@@ -406,7 +406,7 @@ class DocumentExtendedTest extends
 
         $response = $documentHandler->deleteById($this->collection->getId(), $documentId, $revision - 1000, 'last');
         $this->assertTrue(
-            true === $response, 'deleteById() should return true! (because policy  is "last write wins")'
+            $response, 'deleteById() should return true! (because policy  is "last write wins")'
         );
     }
 
@@ -441,8 +441,8 @@ class DocumentExtendedTest extends
         $this->assertTrue($result);
         $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
 
-        $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue2'));
-        $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'));
+        $this->assertTrue($resultingDocument->someAttribute == 'someValue2');
+        $this->assertTrue($resultingDocument->someOtherAttribute == 'someOtherValue2');
 
         // Set some new values on the attributes and include a fake revision in the _rev attribute
         // This should result in a failure to update
@@ -461,10 +461,10 @@ class DocumentExtendedTest extends
         $resultingDocument1 = $documentHandler->get($this->collection->getId(), $documentId);
 
         $this->assertTrue(
-            true === ($resultingDocument1->someAttribute == 'someValue2'),
+            ($resultingDocument1->someAttribute == 'someValue2'),
             "This value should not have changed using UPDATE() - this is the behavior of REPLACE()"
         );
-        $this->assertTrue(true === ($resultingDocument1->someOtherAttribute == 'someOtherValue2'));
+        $this->assertTrue($resultingDocument1->someOtherAttribute == 'someOtherValue2');
         unset ($e);
 
         $document = Document::createFromArray(array('someOtherAttribute' => 'someOtherValue3'));
@@ -478,7 +478,7 @@ class DocumentExtendedTest extends
         }
         $resultingDocument2 = $documentHandler->get($this->collection->getId(), $documentId);
 
-        $this->assertTrue(true === ($resultingDocument2->someOtherAttribute == 'someOtherValue3'));
+        $this->assertTrue($resultingDocument2->someOtherAttribute == 'someOtherValue3');
 
         // Set some new values on the attributes and include the revision in the _rev attribute
         // this is only to update the doc and get a new revision for thesting the delete method below
@@ -492,8 +492,8 @@ class DocumentExtendedTest extends
         $this->assertTrue($result);
         $resultingDocument3 = $documentHandler->get($this->collection->getId(), $documentId);
 
-        $this->assertTrue(true === ($resultingDocument3->someAttribute == 'someValue'));
-        $this->assertTrue(true === ($resultingDocument3->someOtherAttribute == 'someOtherValue2'));
+        $this->assertTrue($resultingDocument3->someAttribute == 'someValue');
+        $this->assertTrue($resultingDocument3->someOtherAttribute == 'someOtherValue2');
 
         $e = null;
         try {
@@ -507,7 +507,7 @@ class DocumentExtendedTest extends
         unset ($e);
 
         $response = $documentHandler->delete($resultingDocument3, "error");
-        $this->assertTrue(true === $response, 'Delete should return true!');
+        $this->assertTrue($response, 'Delete should return true!');
     }
 
 
@@ -541,8 +541,8 @@ class DocumentExtendedTest extends
         $this->assertTrue($result);
         $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
 
-        $this->assertTrue(true === ($resultingDocument->someAttribute == 'someValue2'));
-        $this->assertTrue(true === ($resultingDocument->someOtherAttribute == 'someOtherValue2'));
+        $this->assertTrue($resultingDocument->someAttribute == 'someValue2');
+        $this->assertTrue($resultingDocument->someOtherAttribute == 'someOtherValue2');
 
         // Set some new values on the attributes and include a fake revision in the _rev attribute
         // This should result in a failure to update
@@ -560,8 +560,8 @@ class DocumentExtendedTest extends
         $this->assertTrue($e->getMessage() == 'HTTP/1.1 412 Precondition Failed');
         $resultingDocument1 = $documentHandler->get($this->collection->getId(), $documentId);
 
-        $this->assertTrue(true === ($resultingDocument1->someAttribute == 'someValue2'));
-        $this->assertTrue(true === ($resultingDocument1->someOtherAttribute == 'someOtherValue2'));
+        $this->assertTrue($resultingDocument1->someAttribute == 'someValue2');
+        $this->assertTrue($resultingDocument1->someOtherAttribute == 'someOtherValue2');
         unset ($e);
 
         $document = Document::createFromArray(
@@ -577,8 +577,8 @@ class DocumentExtendedTest extends
         }
         $resultingDocument2 = $documentHandler->get($this->collection->getId(), $documentId);
 
-        $this->assertTrue(true === ($resultingDocument2->someAttribute == 'someValue3'));
-        $this->assertTrue(true === ($resultingDocument2->someOtherAttribute == 'someOtherValue3'));
+        $this->assertTrue($resultingDocument2->someAttribute == 'someValue3');
+        $this->assertTrue($resultingDocument2->someOtherAttribute == 'someOtherValue3');
 
         // Set some new values on the attributes and include the revision in the _rev attribute
         // this is only to update the doc and get a new revision for thesting the delete method below
@@ -592,8 +592,8 @@ class DocumentExtendedTest extends
         $this->assertTrue($result);
         $resultingDocument3 = $documentHandler->get($this->collection->getId(), $documentId);
 
-        $this->assertTrue(true === ($resultingDocument3->someAttribute == 'someValue2'));
-        $this->assertTrue(true === ($resultingDocument3->someOtherAttribute == 'someOtherValue2'));
+        $this->assertTrue($resultingDocument3->someAttribute == 'someValue2');
+        $this->assertTrue($resultingDocument3->someOtherAttribute == 'someOtherValue2');
 
         $e = null;
         try {
@@ -607,7 +607,7 @@ class DocumentExtendedTest extends
         unset ($e);
 
         $response = $documentHandler->delete($resultingDocument3, "error");
-        $this->assertTrue(true === $response, 'Delete should return true!');
+        $this->assertTrue($response, 'Delete should return true!');
     }
 
 
@@ -632,8 +632,8 @@ class DocumentExtendedTest extends
 
         $result = $document->getAll();
 
-        $this->assertTrue(true === ($result['someAttribute'] == 'someValue'));
-        $this->assertTrue(true === ($result['someOtherAttribute'] == 'someOtherValue'));
+        $this->assertTrue($result['someAttribute'] == 'someValue');
+        $this->assertTrue($result['someOtherAttribute'] == 'someOtherValue');
 
         // Check if the hidden field is actually hidden...
         $this->assertArrayNotHasKey('someThirdAttribute', $result);

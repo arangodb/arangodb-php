@@ -42,6 +42,21 @@ abstract class Handler {
     return $this->_connection;
   }
 
+    /**
+     * Return an array of cursor options
+     *
+     * @param bool $sanitize - sanitize flag
+     *
+     * @return array - array of options
+     */
+    protected function getCursorOptions($sanitize)
+    {
+        return array(
+            Cursor::ENTRY_SANITIZE => $sanitize,
+        );
+    }
+
+
 
 
     //todo: (@frankmayer) check if refactoring a bit more if it makes sense...
