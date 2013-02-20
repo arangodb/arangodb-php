@@ -23,10 +23,16 @@ class GraphExtendedTest extends
 
         $this->vertex1Name  = 'vertex1';
         $this->vertex2Name  = 'vertex2';
+        $this->vertex3Name  = 'vertex3';
+        $this->vertex4Name  = 'vertex4';
         $this->vertex1aName = 'vertex1';
         $this->edge1Name    = 'edge1';
+        $this->edge2Name    = 'edge2';
+        $this->edge3Name    = 'edge3';
         $this->edge1aName   = 'edge1';
         $this->edgeLabel1   = 'edgeLabel1';
+        $this->edgeLabel2   = 'edgeLabel2';
+        $this->edgeLabel3   = 'edgeLabel3';
 
 
         $this->vertex1Array  = array(
@@ -37,12 +43,28 @@ class GraphExtendedTest extends
             '_key'     => $this->vertex2Name,
             'someKey2' => 'someValue2'
         );
+        $this->vertex3Array  = array(
+            '_key'     => $this->vertex3Name,
+            'someKey3' => 'someValue3'
+        );
+        $this->vertex4Array  = array(
+            '_key'     => $this->vertex4Name,
+            'someKey4' => 'someValue4'
+        );
         $this->vertex1aArray = array(
             'someKey1' => 'someValue1a'
         );
         $this->edge1Array    = array(
             '_key'         => $this->edge1Name,
             'someEdgeKey1' => 'someEdgeValue1'
+        );
+        $this->edge2Array    = array(
+            '_key'         => $this->edge2Name,
+            'someEdgeKey2' => 'someEdgeValue2'
+        );
+        $this->edge3Array    = array(
+            '_key'         => $this->edge3Name,
+            'someEdgeKey3' => 'someEdgeValue3'
         );
         $this->edge1aArray   = array(
             '_key'         => $this->edge1Name,
@@ -63,6 +85,42 @@ class GraphExtendedTest extends
         $this->graphHandler = new \triagens\ArangoDb\GraphHandler($this->connection);
         $this->graphHandler->createGraph($this->graph);
     }
+
+
+    // Helper method to setup a graph
+    public function createGraph()
+    {
+        $vertex1 = Vertex::createFromArray($this->vertex1Array);
+        $vertex2 = Vertex::createFromArray($this->vertex2Array);
+        $vertex3 = Vertex::createFromArray($this->vertex3Array);
+        $vertex4 = Vertex::createFromArray($this->vertex4Array);
+        $edge1   = Edge::createFromArray($this->edge1Array);
+        $edge2   = Edge::createFromArray($this->edge2Array);
+        $edge3   = Edge::createFromArray($this->edge3Array);
+
+
+        $result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
+        $result2 = $this->graphHandler->saveVertex($this->graphName, $vertex2);
+        $result3 = $this->graphHandler->saveVertex($this->graphName, $vertex3);
+        $result4 = $this->graphHandler->saveVertex($this->graphName, $vertex4);
+        $result1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
+        $result2 = $this->graphHandler->getVertex($this->graphName, $this->vertex2Name);
+        $result3 = $this->graphHandler->getVertex($this->graphName, $this->vertex3Name);
+        $result4 = $this->graphHandler->getVertex($this->graphName, $this->vertex4Name);
+        $result1 = $this->graphHandler->saveEdge(
+            $this->graphName, $this->vertex1Name, $this->vertex2Name, $this->edgeLabel1, $edge1
+        );
+        $result2 = $this->graphHandler->saveEdge(
+            $this->graphName, $this->vertex2Name, $this->vertex3Name, $this->edgeLabel2, $edge2
+        );
+        $result3 = $this->graphHandler->saveEdge(
+            $this->graphName, $this->vertex3Name, $this->vertex4Name, $this->edgeLabel3, $edge3
+        );
+        $result1 = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
+        $result2 = $this->graphHandler->getEdge($this->graphName, $this->edge2Name);
+        $result3 = $this->graphHandler->getEdge($this->graphName, $this->edge3Name);
+    }
+
 
     /**
      * Test if 2 Vertices can be saved and an edge can be saved connecting them
@@ -344,7 +402,6 @@ class GraphExtendedTest extends
         $this->assertTrue($e->getCode() == 400, 'Should be 404, instead got: ' . $e->getCode());
 
 
-
         //todo: (frankmayer) revisit after Arango has been fixed in order to return 404 instead of 400
         // Try to get the edge using GraphHandler
         // This should return true
@@ -396,7 +453,6 @@ class GraphExtendedTest extends
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
         $this->assertTrue($e->getCode() == 400, 'Should be 404, instead got: ' . $e->getCode());
-
     }
 
 
@@ -493,7 +549,7 @@ class GraphExtendedTest extends
     /**
      * Test if 2 Vertices can be saved and an Edge between them can be saved, replaced, updated, and finally removed
      */
-    public function testSaveVerticesAndReplaceUpdateAndRemoveEdge()
+    public function testSaveVerticesAndSaveReplaceUpdateAndRemoveEdge()
     {
         $vertex1 = Vertex::createFromArray($this->vertex1Array);
         $vertex2 = Vertex::createFromArray($this->vertex2Array);
@@ -521,10 +577,6 @@ class GraphExtendedTest extends
             $this->graphName, $this->vertex1Name, $this->vertex2Name, $this->edgeLabel1, $edge1
         );
         $this->assertTrue($result1 == 'edge1', 'Did not return edge1!');
-
-
-        $result1 = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
-        $this->assertTrue($result1->getKey() == 'edge1', 'Did not return edge1!');
 
 
         $result1 = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
@@ -691,10 +743,287 @@ class GraphExtendedTest extends
     }
 
 
+    /**
+     * Test for creation of a graph and query vertex neighbors
+     */
+    public function testCreateGraphAndQueryVertexNeighbors()
+    {
+        $this->createGraph();
+
+        // Test without options
+        $cursor = $this->graphHandler->getNeighborVertices($this->graphName, $this->vertex2Name);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+
+        foreach ($cursor as $key => $value) {
+            $resultingDocument[$key] = $value;
+        }
+        $this->assertTrue(
+            $resultingDocument[0]->someKey1 == 'someValue1',
+            'Should return "someValue1", returned: ' . $resultingDocument->someKey1
+        );
+        $this->assertTrue(
+            $resultingDocument[1]->someKey3 == 'someValue3',
+            'Should return "someValue3", returned: ' . $resultingDocument->someKey3
+        );
+        $this->assertTrue(count($resultingDocument) == 2, 'Should be 2, was: ' . count($resultingDocument));
+
+
+        // Test options->batchSize
+        unset($resultingDocument);
+        $options = array('batchSize' => 1);
+        $cursor  = $this->graphHandler->getNeighborVertices($this->graphName, $this->vertex2Name, $options);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+
+        foreach ($cursor as $key => $value) {
+            $resultingDocument[$key] = $value;
+        }
+        $this->assertTrue(
+            $resultingDocument[0]->someKey1 == 'someValue1',
+            'Should return "someValue1", returned: ' . $resultingDocument->someKey1
+        );
+        $this->assertTrue(
+            $resultingDocument[1]->someKey3 == 'someValue3',
+            'Should return "someValue3", returned: ' . $resultingDocument->someKey3
+        );
+        $this->assertTrue(count($resultingDocument) == 2, 'Should be 2, was: ' . count($resultingDocument));
+
+
+        // Test options->limit
+        unset($resultingDocument);
+        $options = array('limit' => 1);
+        $cursor  = $this->graphHandler->getNeighborVertices($this->graphName, $this->vertex2Name, $options);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+
+        foreach ($cursor as $key => $value) {
+            $resultingDocument[$key] = $value;
+        }
+        $this->assertTrue(
+            $resultingDocument[0]->someKey1 == 'someValue1',
+            'Should return "someValue1", returned: ' . $resultingDocument->someKey1
+        );
+        $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
+
+
+        // Test options->count
+        unset($resultingDocument);
+        $options = array('count' => true);
+        $cursor  = $this->graphHandler->getNeighborVertices($this->graphName, $this->vertex2Name, $options);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+
+        foreach ($cursor as $key => $value) {
+            $resultingDocument[$key] = $value;
+        }
+        $this->assertTrue(
+            $resultingDocument[0]->someKey1 == 'someValue1',
+            'Should return "someValue1", returned: ' . $resultingDocument->someKey1
+        );
+        $this->assertTrue(
+            $resultingDocument[1]->someKey3 == 'someValue3',
+            'Should return "someValue3", returned: ' . $resultingDocument->someKey3
+        );
+        $this->assertTrue(count($resultingDocument) == 2, 'Should be 2, was: ' . count($resultingDocument));
+
+        $metaData = $cursor->getMetadata();
+        $this->assertTrue($metaData['count'] == 2, 'Should be 2, was: ' . count($resultingDocument));
+
+
+        // Test options->filter
+        unset($resultingDocument);
+        $filter  = array('labels' => array($this->edgeLabel2));
+        $options = array('filter' => $filter);
+
+        $cursor = $this->graphHandler->getNeighborVertices($this->graphName, $this->vertex2Name, $options);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+
+        foreach ($cursor as $key => $value) {
+            $resultingDocument[$key] = $value;
+        }
+        $this->assertTrue(
+            $resultingDocument[0]->someKey3 == 'someValue3',
+            'Should return "someValue3", returned: ' . $resultingDocument->someKey3
+        );
+        $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
+
+
+        // Test options->direction
+        unset($resultingDocument);
+        $filter  = array('direction' => 'out');
+        $options = array('filter' => $filter);
+
+        $cursor = $this->graphHandler->getNeighborVertices($this->graphName, $this->vertex2Name, $options);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+
+        foreach ($cursor as $key => $value) {
+            $resultingDocument[$key] = $value;
+        }
+        $this->assertTrue(
+            $resultingDocument[0]->someKey3 == 'someValue3',
+            'Should return "someValue3", returned: ' . $resultingDocument->someKey3
+        );
+        $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
+
+
+        // Test options->properties
+        unset($resultingDocument);
+        $properties = array('key' => 'someEdgeKey2', 'value' => 'someEdgeValue2', 'compare' => '==');
+        $filter     = array('properties' => $properties);
+        $options    = array('filter' => $filter);
+
+        $cursor = $this->graphHandler->getNeighborVertices($this->graphName, $this->vertex2Name, $options);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+
+        foreach ($cursor as $key => $value) {
+            $resultingDocument[$key] = $value;
+        }
+        $this->assertTrue(
+            $resultingDocument[0]->someKey3 == 'someValue3',
+            'Should return "someValue3", returned: ' . $resultingDocument->someKey3
+        );
+        $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
+    }
+
+
+    /**
+     * Test for creation of a graph and query vertex neighbors
+     */
+    public function testCreateGraphAndQueryConnectedEdges()
+    {
+        $this->createGraph();
+
+        $cursor = $this->graphHandler->getConnectedEdges($this->graphName, $this->vertex2Name);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+
+        foreach ($cursor as $key => $value) {
+            $resultingDocument[$key] = $value;
+        }
+        $this->assertTrue(
+            $resultingDocument[0]->someEdgeKey1 == 'someEdgeValue1',
+            'Should return "someEdgeValue1", returned: ' . $resultingDocument->someEdgeKey1
+        );
+        $this->assertTrue(
+            $resultingDocument[1]->someEdgeKey2 == 'someEdgeValue2',
+            'Should return "someEdgeValue2", returned: ' . $resultingDocument->someEdgeKey1
+        );
+        $this->assertTrue(count($resultingDocument) == 2, 'Should be 2, was: ' . count($resultingDocument));
+
+
+        // Test options->batchSize
+        unset($resultingDocument);
+        $options = array('batchSize' => 1);
+        $cursor  = $this->graphHandler->getConnectedEdges($this->graphName, $this->vertex2Name, $options);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+
+        foreach ($cursor as $key => $value) {
+            $resultingDocument[$key] = $value;
+        }
+        $this->assertTrue(
+            $resultingDocument[0]->someEdgeKey1 == 'someEdgeValue1',
+            'Should return "someEdgeValue1", returned: ' . $resultingDocument->someEdgeKey1
+        );
+        $this->assertTrue(
+            $resultingDocument[1]->someEdgeKey2 == 'someEdgeValue2',
+            'Should return "someEdgeValue2", returned: ' . $resultingDocument->someEdgeKey1
+        );
+        $this->assertTrue(count($resultingDocument) == 2, 'Should be 2, was: ' . count($resultingDocument));
+
+
+        // Test options->limit
+        unset($resultingDocument);
+        $options = array('limit' => 1);
+        $cursor  = $this->graphHandler->getConnectedEdges($this->graphName, $this->vertex2Name, $options);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+
+        foreach ($cursor as $key => $value) {
+            $resultingDocument[$key] = $value;
+        }
+        $this->assertTrue(
+            $resultingDocument[0]->someEdgeKey1 == 'someEdgeValue1',
+            'Should return "someEdgeValue1", returned: ' . $resultingDocument->someEdgeKey1
+        );
+        $this->assertTrue(count($resultingDocument) == 1, 'Should be 2, was: ' . count($resultingDocument));
+
+
+        // Test options->count
+        unset($resultingDocument);
+        $options = array('count' => true);
+        $cursor  = $this->graphHandler->getConnectedEdges($this->graphName, $this->vertex2Name, $options);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+
+        foreach ($cursor as $key => $value) {
+            $resultingDocument[$key] = $value;
+        }
+        $this->assertTrue(
+            $resultingDocument[0]->someEdgeKey1 == 'someEdgeValue1',
+            'Should return "someEdgeValue1", returned: ' . $resultingDocument->someEdgeKey1
+        );
+        $this->assertTrue(count($resultingDocument) == 2, 'Should be 2, was: ' . count($resultingDocument));
+
+        $metaData = $cursor->getMetadata();
+        $this->assertTrue($metaData['count'] == 2, 'Should be 2, was: ' . count($resultingDocument));
+
+
+        // Test options->filter
+        unset($resultingDocument);
+        $filter  = array('labels' => array($this->edgeLabel2));
+        $options = array('filter' => $filter);
+
+        $cursor = $this->graphHandler->getConnectedEdges($this->graphName, $this->vertex2Name, $options);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+
+        foreach ($cursor as $key => $value) {
+            $resultingDocument[$key] = $value;
+        }
+
+        $this->assertTrue(
+            $resultingDocument[0]->someEdgeKey2 == 'someEdgeValue2',
+            'Should return "someEdgeValue2", returned: ' . $resultingDocument->someEdgeKey2
+        );
+        $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
+
+
+        // Test options->direction
+        unset($resultingDocument);
+        $filter  = array('direction' => 'out');
+        $options = array('filter' => $filter);
+
+        $cursor = $this->graphHandler->getConnectedEdges($this->graphName, $this->vertex2Name, $options);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+
+        foreach ($cursor as $key => $value) {
+            $resultingDocument[$key] = $value;
+        }
+
+        $this->assertTrue(
+            $resultingDocument[0]->someEdgeKey2 == 'someEdgeValue2',
+            'Should return "someEdgeValue2", returned: ' . $resultingDocument->someEdgeKey2
+        );
+        $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
+
+
+        // Test options->properties
+        unset($resultingDocument);
+        $properties = array('key' => 'someEdgeKey2', 'value' => 'someEdgeValue2', 'compare' => '==');
+        $filter     = array('properties' => $properties);
+        $options    = array('filter' => $filter);
+
+        $cursor = $this->graphHandler->getConnectedEdges($this->graphName, $this->vertex2Name, $options);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+
+        foreach ($cursor as $key => $value) {
+            $resultingDocument[$key] = $value;
+        }
+        $this->assertTrue(
+            $resultingDocument[0]->someEdgeKey2 == 'someEdgeValue2',
+            'Should return "someEdgeValue2", returned: ' . $resultingDocument->someEdgeKey1
+        );
+        $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
+    }
+
+
     public function tearDown()
     {
         try {
-            $result = $this->graphHandler->dropGraph('Graph1');
+            $result = $this->graphHandler->dropGraph($this->graphName);
             $this->assertTrue($result, 'Did not return true!');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
