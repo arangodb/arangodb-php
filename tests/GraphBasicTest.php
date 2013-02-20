@@ -23,6 +23,7 @@ class GraphBasicTest extends
         $this->connection = getConnection();
     }
 
+
     /**
      * Test if Edge and EdgeHandler instances can be initialized
      */
@@ -43,6 +44,7 @@ class GraphBasicTest extends
         $result = $this->graphHandler->dropGraph('Graph1');
         $this->assertTrue($result, 'Did not return true!');
     }
+
 
     public function tearDown()
     {

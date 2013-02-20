@@ -4,113 +4,121 @@
  * File: statementtest.php
  *
  * @package ArangoDbPhpClient
- * @author Frank Mayer
+ * @author  Frank Mayer
  */
 
 namespace triagens\ArangoDb;
 
-class StatementTest extends \PHPUnit_Framework_TestCase
+class StatementTest extends
+    \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->connection = getConnection();
+        $this->connection        = getConnection();
         $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
-        $this->collection = new \triagens\ArangoDb\Collection();
+        $this->collection        = new \triagens\ArangoDb\Collection();
         $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
         $this->collectionHandler->add($this->collection);
     }
+
 
     /**
      * This is just a test to really test connectivity with the server before moving on to further tests.
      */
     public function testExecuteStatement()
     {
-        $connection = $this->connection;
-        $collection = $this->collection;
+        $connection        = $this->connection;
+        $collection        = $this->collection;
         $collectionHandler = $this->collectionHandler;
-        $document = new \triagens\ArangoDb\Document();
-        $documentHandler = new \triagens\ArangoDb\DocumentHandler($connection);
+        $document          = new \triagens\ArangoDb\Document();
+        $documentHandler   = new \triagens\ArangoDb\DocumentHandler($connection);
 
         $document->someAttribute = 'someValue';
 
         $documentId = $documentHandler->add($collection->getId(), $document);
 
         $statement = new \triagens\ArangoDb\Statement($connection, array(
-            "query" => '',
-            "count" => true,
-            "batchSize" => 1000,
-            "sanitize" => true,
-        ));
+                                                                        "query"     => '',
+                                                                        "count"     => true,
+                                                                        "batchSize" => 1000,
+                                                                        "sanitize"  => true,
+                                                                   ));
         $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a');
         $cursor = $statement->execute();
 
         $result = $cursor->current();
 
-        $this->assertTrue($result->someAttribute === 'someValue', 'Expected value someValue, found :'.$result->someAttribute);
+        $this->assertTrue(
+            $result->someAttribute === 'someValue', 'Expected value someValue, found :' . $result->someAttribute
+        );
     }
 
-    
+
     /**
      * This is just a test to really test connectivity with the server before moving on to further tests.
      * We expect an exception here:
-     * 
+     *
      * @expectedException triagens\ArangoDb\ClientException
-    */
+     */
     public function testExecuteStatementWithWrongEncoding()
     {
-        $connection = $this->connection;
-        $collection = $this->collection;
+        $connection        = $this->connection;
+        $collection        = $this->collection;
         $collectionHandler = $this->collectionHandler;
-        $document = new \triagens\ArangoDb\Document();
-        $documentHandler = new \triagens\ArangoDb\DocumentHandler($connection);
+        $document          = new \triagens\ArangoDb\Document();
+        $documentHandler   = new \triagens\ArangoDb\DocumentHandler($connection);
 
         $document->someAttribute = 'someValue';
 
         $documentId = $documentHandler->add($collection->getId(), $document);
 
         $statement = new \triagens\ArangoDb\Statement($connection, array(
-            "query" => '',
-            "count" => true,
-            "batchSize" => 1000,
-            "sanitize" => true,
-        ));
+                                                                        "query"     => '',
+                                                                        "count"     => true,
+                                                                        "batchSize" => 1000,
+                                                                        "sanitize"  => true,
+                                                                   ));
         // inject wrong encoding       
-        $isoValue=iconv("UTF-8","ISO-8859-1//TRANSLIT","'FOR ü IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN ü");
-        
+        $isoValue = iconv(
+            "UTF-8", "ISO-8859-1//TRANSLIT", "'FOR ü IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN ü"
+        );
+
         $statement->setQuery($isoValue);
         $cursor = $statement->execute();
 
         $result = $cursor->current();
 
-        $this->assertTrue($result->someAttribute === 'someValue', 'Expected value someValue, found :'.$result->someAttribute);
+        $this->assertTrue(
+            $result->someAttribute === 'someValue', 'Expected value someValue, found :' . $result->someAttribute
+        );
     }
 
-    
+
     /**
      * Test if the explain function works
      */
     public function testExplainStatement()
     {
-        $connection = $this->connection;
-        $collection = $this->collection;
+        $connection        = $this->connection;
+        $collection        = $this->collection;
         $collectionHandler = $this->collectionHandler;
-        $document = new \triagens\ArangoDb\Document();
-        $documentHandler = new \triagens\ArangoDb\DocumentHandler($connection);
+        $document          = new \triagens\ArangoDb\Document();
+        $documentHandler   = new \triagens\ArangoDb\DocumentHandler($connection);
 
         $document->someAttribute = 'someValue';
 
         $documentId = $documentHandler->add($collection->getId(), $document);
 
         $statement = new \triagens\ArangoDb\Statement($connection, array(
-            "query" => '',
-            "count" => true,
-            "batchSize" => 1000,
-            "sanitize" => true,
-        ));
+                                                                        "query"     => '',
+                                                                        "count"     => true,
+                                                                        "batchSize" => 1000,
+                                                                        "sanitize"  => true,
+                                                                   ));
         $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a');
         $result = $statement->explain();
 
-        $this->assertArrayHasKey('plan', $result, "result-array does not contain plan !");    
+        $this->assertArrayHasKey('plan', $result, "result-array does not contain plan !");
     }
 
 
@@ -119,28 +127,28 @@ class StatementTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateStatement()
     {
-        $connection = $this->connection;
-        $collection = $this->collection;
+        $connection        = $this->connection;
+        $collection        = $this->collection;
         $collectionHandler = $this->collectionHandler;
-        $document = new \triagens\ArangoDb\Document();
-        $documentHandler = new \triagens\ArangoDb\DocumentHandler($connection);
+        $document          = new \triagens\ArangoDb\Document();
+        $documentHandler   = new \triagens\ArangoDb\DocumentHandler($connection);
 
         $document->someAttribute = 'someValue';
 
         $documentId = $documentHandler->add($collection->getId(), $document);
 
         $statement = new \triagens\ArangoDb\Statement($connection, array(
-            "query" => '',
-            "count" => true,
-            "batchSize" => 1000,
-            "sanitize" => true,
-        ));
+                                                                        "query"     => '',
+                                                                        "count"     => true,
+                                                                        "batchSize" => 1000,
+                                                                        "sanitize"  => true,
+                                                                   ));
         $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a');
         $result = $statement->validate();
-        $this->assertArrayHasKey('bindVars', $result, "result-array does not contain plan !");    
+        $this->assertArrayHasKey('bindVars', $result, "result-array does not contain plan !");
     }
 
-    
+
     public function tearDown()
     {
         try {
