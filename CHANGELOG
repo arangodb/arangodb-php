@@ -2,21 +2,21 @@
 v1.2.beta1 (2013-02-20)
 -----------------------
 
-* Cleaned up and Extended Test-Suite
+* Cleaned up and Extended Test-Suite.
 
-* Implemented getMetaData() on Cursor
+* Implemented getMetaData() on Cursor.
 
-* Implemented complete Graph REST-API support. See Graph and GraphHandler in the docs
+* Implemented complete Graph REST-API support. See Graph and GraphHandler in the docs.
 
-* Implemented CollectionHandler::firstExample() method
+* Implemented CollectionHandler::firstExample() method.
 
-* Fixed return value documentation of DocumentHandler::getByExample() and CollectionHandler::byExample() method
+* Fixed return value documentation of DocumentHandler::getByExample() and CollectionHandler::byExample() method.
 
-* Implemented support for system and volatile collections
+* Implemented support for system and volatile collections.
 
-* Implemented import functionality
+* Implemented import functionality.
 
-* Implemented remove document(s) by example
+* Implemented remove document(s) by example.
 
 * Extended Tests to include FULLTEXT index creation and deletion.
 
@@ -31,7 +31,7 @@ v1.2.beta1 (2013-02-20)
 v1.1.0 (2013-01-28)
 -------------------
 
-* Some refactoring in CollectionHandler.php
+* Some refactoring in CollectionHandler.php.
 
 * Implemented loading and unloading collections through collectionHandler->load(collection) and collectionHandler->unload(collection), written tests.
 
@@ -39,13 +39,13 @@ v1.1.0 (2013-01-28)
 
 * Implemented setting and getting journalSize, included in defaultvalues and written tests.
 
-* issue #30: Fixed Bug: Character encoding and json_encode leads to data loss
+* issue #30: Fixed Bug: Character encoding and json_encode leads to data loss.
 
-* issue #15: Feature: Implement Batch support for using with ArangoDB 1.1 
+* issue #15: Feature: Implement Batch support for using with ArangoDB 1.1.
 
-* issue #28: Feature: implement missing simple-query-related functionality => range(), near(), within()
+* issue #28: Feature: implement missing simple-query-related functionality => range(), near(), within().
 
-* issue #22: Feature: Implement update() and updateById() methods on documents for 1.1 API
+* issue #22: Feature: Implement update() and updateById() methods on documents for 1.1 API.
 
 
 
@@ -53,7 +53,7 @@ v1.1.0 (2013-01-28)
 v1.0.1 (2012-12-05)
 -------------------
 
-* issue #29: Feature: Implement Explain function for AQL queries
+* issue #29: Feature: Implement Explain function for AQL queries.
 
  New Statement methods:
 
@@ -72,7 +72,7 @@ v1.0.1 (2012-12-05)
 
  - CollectionHandler->within($collectionId, $latitude, $longitude, $radius, $options);
 
- Also added missing index creation method
+ Also added missing index creation method.
  
  - CollectionHandler->index($type, $fields, $unique) ;
 
@@ -83,37 +83,37 @@ v1.0.0 (2012-11-29)
 -------------------
 
 * issue #23: Fixed: DocumentHandler::deleteById() and removeById() : Parameter $revision should be optional.
-  Fixed bug, written missing tests and corrected documentation
+  Fixed bug, written missing tests and corrected documentation.
 
 * issue #21: Added hiding of fields for documents. Written tests and documentation.
-  Implemented new feautre, written tests and documentation
+  Implemented new feautre, written tests and documentation.
 
   Hiding of fields for documents:
 
       This applies to getAll(), __toString(), toJson() and toSerialized().
       getAll() now can be passed an array of options instead of the boolean 'includeInternals'.
-      DocumentHandler::get() and getById() can also be given those options
+      DocumentHandler::get() and getById() can also be given those options.
 
-      CollectionHandler::byExample() can also be given those options
+      CollectionHandler::byExample() can also be given those options.
 
       All the above functions except the __toString can be given an array of options
       currently these options are:
 
-      'includeInternals' - true to include the internal attributes. Defaults to false
+      'includeInternals' - true to include the internal attributes. Defaults to false.
 
-      'ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false
+      'ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false.
 
 
 * issue #18: Implemented revision check with policy = "error" 
   for update/replace and delete/remove methods.
 
-* issue #17: Implemented basic edges support
+* issue #17: Implemented basic edges support.
 
 * issue #14: Refactored function names to better match the server api.
   This results in sevaral methods being deprecated:
 
 DocumentHandler:
-  update(), updateById() => These are replaced by replace() and replaceById(). They will have their behavior changed in api version 1.1 in favor for the update method that has been added in ArangoDb 1.1
+  update(), updateById() => These are replaced by replace() and replaceById(). They will have their behavior changed in api version 1.1 in favor for the update method that has been added in ArangoDb 1.1.
 
   delete(), deleteById() => These are replaced by remove() and removeById(). They will be removed in api version 2.0.
 

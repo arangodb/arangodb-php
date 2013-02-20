@@ -4,20 +4,31 @@
 
 **Version: 1.2.beta1**
 
+
 [Follow us on Twitter @arangodbphp to receive updates on the php driver](https://twitter.com/arangodbphp)
 <br>
 <br>
 ##### Table of Contents
 
-[Description](#description)<br>
-[Installing the PHP client](#installing)<br>
-[How to use the PHP client](#howto_use)<br>
-[Requirements](#requirements)<br>
-[More information](#more_info)<br>
+- [Description](#description)
+- [Installing the PHP client](#installing)
+ - [Using packagist/composer](#using_packagist)
+ - [Cloning the git repository](#cloning_git)
+- [How to use the PHP client](#howto_use)
+ - [Setting up the connection options](#setting_up_connection_options)
+ - [Creating a collection](#creating_collection)
+ - [Creating a document](#creating_document)
+ - [Adding exception handling](#adding_exception_handling)
+ - [Retrieving a document](#retrieving_document)
+ - [Updating a document](#updating_document)
+ - [Deleting a document](#deleting_document)
+ - [Dropping a collection](#dropping_collection)
+ - [Putting it all together](#alltogether)
+- [Requirements](#requirements)
+- [More information](#more_info)
 
 
-
-This client supports ArangoDB version 1.2.beta2
+This version supports ArangoDB version 1.2.beta2
 
 Please note that if you use other versions of ArangoDB, you must use a matching PHP driver version.
 
@@ -53,6 +64,7 @@ There are two alternative ways to get the ArangoDB PHP client:
  * Using packagist/composer
  * Cloning the git repository
 
+<a name="using_packagist"/a>
 ## Alternative 1: Using packagist/composer
 
 When using [packagist](http://packagist.org/), the procedure is as follows:
@@ -128,6 +140,7 @@ You need to include the generated autoloader file in your project when using the
 
     require 'vendor/.composer/autoload.php';
 
+<a name="cloning_git"/a>
 ## Alternative 2: Cloning the git repository
 
 When preferring this alternative, you need to have a git client installed. To clone the ArangoDB PHP client repository from github, execute the following command in your project directory:
@@ -148,6 +161,7 @@ The ArangoDB PHP client's autoloader will only care about its own class files an
 <a name="howto_use"/a>
 # How to use the PHP client
 
+<a name="setting_up_connection_options"/a>
 ## Setting up the connection options
 
 In order to use ArangoDB, you need to specify the connection options. We do so by creating a PHP array $connectionOptions. Put this code into a file named test.php in your current directory:
@@ -212,6 +226,7 @@ When updating a document that was previously/concurrently updated by another use
 * fail with a conflict error: if you prefer that, set OPTION_UPDATE_POLICY to conflict
 
 
+<a name="creating_collection"/a>
 ## Creating a collection
 *This is just to show how a collection is created.*
 <br>
@@ -232,6 +247,7 @@ The below code will first set up the collection locally in a variable name $user
     var_dump($id);
 
 
+<a name="creating_document"/a>
 ## Creating a document
 
 After we created the collection, we can start with creating an initial document. We will create a user document in a collection named "users". This collection does not need to exist yet. The first document we'll insert in this collection will create the collection on the fly. This is because we have set OPTION_CREATE to true in $connectionOptions.
@@ -263,6 +279,7 @@ Document properties can be set by using the set() method, or by directly manipul
 
 As you can see, sending a document to the server is achieved by calling the add() method on the client library's DocumentHandler class. It needs the collection name ("users" in this case") plus the document object to be added. add() will return the document id as created by the server. The id is a numeric value that might or might not fit in a PHP integer.
 
+<a name="adding_exception_handling"/a>
 ## Adding exception handling
 
 
@@ -297,6 +314,7 @@ The above code will work but it does not check for any errors. To make it work i
     }
 
 
+<a name="retrieving_document"/a>
 ## Retrieving a document
 
 
@@ -350,6 +368,7 @@ Whenever the document id is yet unknown, but you want to fetch a document from t
 This will return all documents from the specified collection (here: "users") with the properties provided in the example (here: that have an attribute "name" with a value of "John"). The result is a cursor which can be iterated sequentially or completely. We have chosen to get the complete result set above by calling the cursor's getAll() method.
 Note that getByExample() might return multiple documents if the example is ambigious.
 
+<a name="updating_document"/a>
 ## Updating a document
 
 
@@ -379,6 +398,7 @@ The document that is updated using update() must have been fetched from the serv
     var_dump($result);
 
 
+<a name="deleting_document"/a>
 ## Deleting a document
 
 
@@ -399,6 +419,7 @@ Note that the document must have been fetched from the server before. If you hav
     var_dump($result);
 
 
+<a name="dropping_collection"/a>
 ## Dropping a collection
 
 
@@ -410,6 +431,7 @@ To delete an existing collection on the server, use the drop() method of the Col
     var_dump($result);
 
 
+<a name="alltogether"/a>
 ## Putting it all together
 
 Here's the full code that combines all the pieces outlined above:
