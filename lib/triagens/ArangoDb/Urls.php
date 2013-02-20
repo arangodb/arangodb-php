@@ -39,7 +39,17 @@ abstract class URLs {
   /**
    * URL base part for all document-related REST calls
    */
+  const URLPART_VERTICES               = 'vertices';
+
+  /**
+   * URL base part for all document-related REST calls
+   */
   const URLPART_EDGE               = 'edge';
+
+  /**
+   * URL base part for all document-related REST calls
+   */
+  const URLPART_EDGES              = 'edges';
 
   /**
    * URL base part for all collection-related REST calls
