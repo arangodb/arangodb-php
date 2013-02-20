@@ -1,6 +1,12 @@
 
 v1.2.0 (xxxx-xx-xx)
 -------------------
+* Cleaned up and Extended Test-Suite
+
+* Implemented getMetaData() on Cursor
+
+* Implemented complete Graph REST-API support. See Graph and GraphHandler in the docs
+
 * Implemented CollectionHandler::firstExample() method
 
 * Fixed return value documentation of DocumentHandler::getByExample() and CollectionHandler::byExample() method
