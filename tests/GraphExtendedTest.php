@@ -759,11 +759,11 @@ class GraphExtendedTest extends
         }
         $this->assertTrue(
             $resultingDocument[0]->someKey1 == 'someValue1',
-            'Should return "someValue1", returned: ' . $resultingDocument->someKey1
+            'Should return "someValue1", returned: ' . $resultingDocument[0]->someKey1
         );
         $this->assertTrue(
             $resultingDocument[1]->someKey3 == 'someValue3',
-            'Should return "someValue3", returned: ' . $resultingDocument->someKey3
+            'Should return "someValue3", returned: ' . $resultingDocument[1]->someKey3
         );
         $this->assertTrue(count($resultingDocument) == 2, 'Should be 2, was: ' . count($resultingDocument));
 
@@ -779,11 +779,11 @@ class GraphExtendedTest extends
         }
         $this->assertTrue(
             $resultingDocument[0]->someKey1 == 'someValue1',
-            'Should return "someValue1", returned: ' . $resultingDocument->someKey1
+            'Should return "someValue1", returned: ' . $resultingDocument[0]->someKey1
         );
         $this->assertTrue(
             $resultingDocument[1]->someKey3 == 'someValue3',
-            'Should return "someValue3", returned: ' . $resultingDocument->someKey3
+            'Should return "someValue3", returned: ' . $resultingDocument[1]->someKey3
         );
         $this->assertTrue(count($resultingDocument) == 2, 'Should be 2, was: ' . count($resultingDocument));
 
@@ -799,7 +799,7 @@ class GraphExtendedTest extends
         }
         $this->assertTrue(
             $resultingDocument[0]->someKey1 == 'someValue1',
-            'Should return "someValue1", returned: ' . $resultingDocument->someKey1
+            'Should return "someValue1", returned: ' . $resultingDocument[0]->someKey1
         );
         $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
 
@@ -815,11 +815,11 @@ class GraphExtendedTest extends
         }
         $this->assertTrue(
             $resultingDocument[0]->someKey1 == 'someValue1',
-            'Should return "someValue1", returned: ' . $resultingDocument->someKey1
+            'Should return "someValue1", returned: ' . $resultingDocument[0]->someKey1
         );
         $this->assertTrue(
             $resultingDocument[1]->someKey3 == 'someValue3',
-            'Should return "someValue3", returned: ' . $resultingDocument->someKey3
+            'Should return "someValue3", returned: ' . $resultingDocument[1]->someKey3
         );
         $this->assertTrue(count($resultingDocument) == 2, 'Should be 2, was: ' . count($resultingDocument));
 
@@ -840,7 +840,7 @@ class GraphExtendedTest extends
         }
         $this->assertTrue(
             $resultingDocument[0]->someKey3 == 'someValue3',
-            'Should return "someValue3", returned: ' . $resultingDocument->someKey3
+            'Should return "someValue3", returned: ' . $resultingDocument[0]->someKey3
         );
         $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
 
@@ -858,7 +858,7 @@ class GraphExtendedTest extends
         }
         $this->assertTrue(
             $resultingDocument[0]->someKey3 == 'someValue3',
-            'Should return "someValue3", returned: ' . $resultingDocument->someKey3
+            'Should return "someValue3", returned: ' . $resultingDocument[0]->someKey3
         );
         $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
 
@@ -877,7 +877,7 @@ class GraphExtendedTest extends
         }
         $this->assertTrue(
             $resultingDocument[0]->someKey3 == 'someValue3',
-            'Should return "someValue3", returned: ' . $resultingDocument->someKey3
+            'Should return "someValue3", returned: ' . $resultingDocument[0]->someKey3
         );
         $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
     }
@@ -898,11 +898,11 @@ class GraphExtendedTest extends
         }
         $this->assertTrue(
             $resultingDocument[0]->someEdgeKey1 == 'someEdgeValue1',
-            'Should return "someEdgeValue1", returned: ' . $resultingDocument->someEdgeKey1
+            'Should return "someEdgeValue1", returned: ' . $resultingDocument[0]->someEdgeKey1
         );
         $this->assertTrue(
             $resultingDocument[1]->someEdgeKey2 == 'someEdgeValue2',
-            'Should return "someEdgeValue2", returned: ' . $resultingDocument->someEdgeKey1
+            'Should return "someEdgeValue2", returned: ' . $resultingDocument[1]->someEdgeKey1
         );
         $this->assertTrue(count($resultingDocument) == 2, 'Should be 2, was: ' . count($resultingDocument));
 
@@ -918,11 +918,11 @@ class GraphExtendedTest extends
         }
         $this->assertTrue(
             $resultingDocument[0]->someEdgeKey1 == 'someEdgeValue1',
-            'Should return "someEdgeValue1", returned: ' . $resultingDocument->someEdgeKey1
+            'Should return "someEdgeValue1", returned: ' . $resultingDocument[0]->someEdgeKey1
         );
         $this->assertTrue(
             $resultingDocument[1]->someEdgeKey2 == 'someEdgeValue2',
-            'Should return "someEdgeValue2", returned: ' . $resultingDocument->someEdgeKey1
+            'Should return "someEdgeValue2", returned: ' . $resultingDocument[1]->someEdgeKey1
         );
         $this->assertTrue(count($resultingDocument) == 2, 'Should be 2, was: ' . count($resultingDocument));
 
@@ -938,7 +938,7 @@ class GraphExtendedTest extends
         }
         $this->assertTrue(
             $resultingDocument[0]->someEdgeKey1 == 'someEdgeValue1',
-            'Should return "someEdgeValue1", returned: ' . $resultingDocument->someEdgeKey1
+            'Should return "someEdgeValue1", returned: ' . $resultingDocument[0]->someEdgeKey1
         );
         $this->assertTrue(count($resultingDocument) == 1, 'Should be 2, was: ' . count($resultingDocument));
 
@@ -954,7 +954,7 @@ class GraphExtendedTest extends
         }
         $this->assertTrue(
             $resultingDocument[0]->someEdgeKey1 == 'someEdgeValue1',
-            'Should return "someEdgeValue1", returned: ' . $resultingDocument->someEdgeKey1
+            'Should return "someEdgeValue1", returned: ' . $resultingDocument[0]->someEdgeKey1
         );
         $this->assertTrue(count($resultingDocument) == 2, 'Should be 2, was: ' . count($resultingDocument));
 
@@ -976,7 +976,7 @@ class GraphExtendedTest extends
 
         $this->assertTrue(
             $resultingDocument[0]->someEdgeKey2 == 'someEdgeValue2',
-            'Should return "someEdgeValue2", returned: ' . $resultingDocument->someEdgeKey2
+            'Should return "someEdgeValue2", returned: ' . $resultingDocument[0]->someEdgeKey2
         );
         $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
 
@@ -995,7 +995,7 @@ class GraphExtendedTest extends
 
         $this->assertTrue(
             $resultingDocument[0]->someEdgeKey2 == 'someEdgeValue2',
-            'Should return "someEdgeValue2", returned: ' . $resultingDocument->someEdgeKey2
+            'Should return "someEdgeValue2", returned: ' . $resultingDocument[0]->someEdgeKey2
         );
         $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
 
@@ -1014,7 +1014,7 @@ class GraphExtendedTest extends
         }
         $this->assertTrue(
             $resultingDocument[0]->someEdgeKey2 == 'someEdgeValue2',
-            'Should return "someEdgeValue2", returned: ' . $resultingDocument->someEdgeKey1
+            'Should return "someEdgeValue2", returned: ' . $resultingDocument[0]->someEdgeKey1
         );
         $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
     }

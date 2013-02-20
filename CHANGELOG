@@ -1,6 +1,7 @@
 
-v1.2.0 (xxxx-xx-xx)
--------------------
+v1.2.beta1 (2013-02-20)
+-----------------------
+
 * Cleaned up and Extended Test-Suite
 
 * Implemented getMetaData() on Cursor
