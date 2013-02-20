@@ -5,18 +5,20 @@
  * File: collectionbasictest.php
  *
  * @package ArangoDbPhpClient
- * @author Frank Mayer
+ * @author  Frank Mayer
  */
 
 namespace triagens\ArangoDb;
 
-class CollectionBasicTest extends \PHPUnit_Framework_TestCase
+class CollectionBasicTest extends
+    \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
         $this->connection = getConnection();
     }
-    
+
+
     /**
      * Test default collection type
      */
@@ -24,6 +26,7 @@ class CollectionBasicTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(Collection::TYPE_DOCUMENT, Collection::getDefaultType());
     }
+
 
     /**
      * Test if Collection and CollectionHandler instances can be initialized
@@ -36,7 +39,8 @@ class CollectionBasicTest extends \PHPUnit_Framework_TestCase
         $collectionHandler = new \triagens\ArangoDb\CollectionHandler($connection);
         $this->assertInstanceOf('triagens\ArangoDb\Collection', $collection);
     }
-    
+
+
     /**
      * Test setting and getting collection types
      */
@@ -47,7 +51,8 @@ class CollectionBasicTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(Collection::TYPE_DOCUMENT, $collection->getType());
     }
-    
+
+
     /**
      * Test setting and getting collection types
      */
@@ -59,13 +64,14 @@ class CollectionBasicTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Collection::TYPE_EDGE, $collection->getType());
     }
 
+
     /**
      * Try to create and delete a collection
      */
     public function testCreateAndDeleteCollectionPre1_2()
     {
-        $connection = $this->connection;
-        $collection = new \triagens\ArangoDb\Collection();
+        $connection        = $this->connection;
+        $collection        = new \triagens\ArangoDb\Collection();
         $collectionHandler = new \triagens\ArangoDb\CollectionHandler($connection);
 
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
@@ -77,20 +83,23 @@ class CollectionBasicTest extends \PHPUnit_Framework_TestCase
         $resultingCollection = $collectionHandler->get($response);
 
         $resultingAttribute = $resultingCollection->getName();
-        $this->assertTrue($name === $resultingAttribute, 'The created collection name and resulting collection name do not match!');
+        $this->assertTrue(
+            $name === $resultingAttribute, 'The created collection name and resulting collection name do not match!'
+        );
 
         $this->assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
 
         $response = $collectionHandler->delete($collection);
     }
 
-   /**
+
+    /**
      * Try to create and delete a collection
      */
     public function testCreateAndDeleteCollection()
     {
-        $connection = $this->connection;
-        $collection = new \triagens\ArangoDb\Collection();
+        $connection        = $this->connection;
+        $collection        = new \triagens\ArangoDb\Collection();
         $collectionHandler = new \triagens\ArangoDb\CollectionHandler($connection);
 
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
@@ -100,12 +109,15 @@ class CollectionBasicTest extends \PHPUnit_Framework_TestCase
         $resultingCollection = $collectionHandler->get($name);
 
         $resultingAttribute = $resultingCollection->getName();
-        $this->assertTrue($name === $resultingAttribute, 'The created collection name and resulting collection name do not match!');
+        $this->assertTrue(
+            $name === $resultingAttribute, 'The created collection name and resulting collection name do not match!'
+        );
 
         $this->assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
 
         $response = $collectionHandler->delete($collection);
     }
+
 
     public function tearDown()
     {

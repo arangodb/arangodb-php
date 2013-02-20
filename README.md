@@ -1,6 +1,31 @@
-# PHP client for ArangoDB
+# ArangoDB-PHP - A PHP client for ArangoDB
 
 [![Build Status](https://secure.travis-ci.org/triAGENS/ArangoDB-PHP.png)](http://travis-ci.org/triAGENS/ArangoDB-PHP)
+
+**Version: 1.2.beta1**
+
+[Follow us on Twitter @arangodbphp to receive updates on the php driver](https://twitter.com/arangodbphp)
+<br>
+<br>
+##### Table of Contents
+
+[Description](#description)<br>
+[Installing the PHP client](#installing)<br>
+[How to use the PHP client](#howto_use)<br>
+[Requirements](#requirements)<br>
+[More information](#more_info)<br>
+
+
+
+This client supports ArangoDB version 1.2.beta2
+
+Please note that if you use other versions of ArangoDB, you must use a matching PHP driver version.
+
+**[Important versioning information on ArangoDB-PHP](https://github.com/triAGENS/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP)**
+
+<br>
+<a name="description"/a>
+# Description
 
 This PHP client allows REST-based access to documents on the server.
 The ArangoDocumentHandler class should be used for these purposes.
@@ -12,24 +37,14 @@ There is an example for this kind of statements in the file examples/select.php.
 To use the PHP client, you must include the file autoloader.php from the main directory.
 The autoloader will care about loading additionally required classes on the fly. The autoloader can be nested with other autoloaders.
 
-
-Requirements:
-* ArangoDB database server
-* PHP version 5.3 or higher
-
-The PHP driver currently is on version 1.1, which is also ArangoDB's current stable version.
-Please note that if you use other versions of ArangoDB, you should use a matching PHP driver version.
-
-# Using ArangoDB with PHP
-
-To use ArangoDB as a data store in your PHP project, use the [ArangoDB PHP client](https://github.com/triAGENS/ArangoDB-PHP)
- client.
-
 The ArangoDB PHP client is an API that allows you to send and retrieve documents from ArangoDB from out of your PHP application. The client library itself is written in PHP and has no further dependencies but just plain PHP 5.3 (or higher).
 
 The client library provides document and collection classes you can use to work with documents and collections in an OO fashion. When exchanging document data with the server, the library internally will use the [HTTP REST interface of ArangoDB](https://github.com/triAGENS/ArangoDB/wiki/OTWP). The library user does not have to care about this fact as all the details of the REST interface are abstracted by the client library.
 
-## Getting started
+<br>
+
+<a name="installing"/a>
+## Installing the PHP client
 
 To get started you need PHP 5.3 or higher plus an ArangoDB server running on any host that you can access.
 
@@ -128,6 +143,11 @@ To invoke this autoloader, add the following line to your PHP files that will us
 
 The ArangoDB PHP client's autoloader will only care about its own class files and will not handle any other files. That means it is fully nestable with other autoloaders.
 
+<br>
+
+<a name="howto_use"/a>
+# How to use the PHP client
+
 ## Setting up the connection options
 
 In order to use ArangoDB, you need to specify the connection options. We do so by creating a PHP array $connectionOptions. Put this code into a file named test.php in your current directory:
@@ -192,9 +212,29 @@ When updating a document that was previously/concurrently updated by another use
 * fail with a conflict error: if you prefer that, set OPTION_UPDATE_POLICY to conflict
 
 
+## Creating a collection
+*This is just to show how a collection is created.*
+<br>
+*For these examples it is not needed to create a collection prior to inserting a document, as we set ArangoConnectionOptions::OPTION_CREATE to true.*
+
+So, after we get the settings, we can start with creating a collection. We will create a collection named "users".
+
+The below code will first set up the collection locally in a variable name $user, and then push it to the server and return the collection id created by the server:
+
+    $collectionHandler = new CollectionHandler($connection);
+
+    // create a new document
+    $userCollection = new ArangoCollection();
+    $userCollection->setName('user');
+    $id = $collectionHandler->add($userCollection);
+
+    // print the collection id created by the server
+    var_dump($id);
+
+
 ## Creating a document
 
-After we got the settings, we can start with creating an initial document. We will create a user document in a collection named "users". This collection does not need to exist yet. The first document we'll insert in this collection will create the collection on the fly. This is because we have set OPTION_CREATE to true in $connectionOptions.
+After we created the collection, we can start with creating an initial document. We will create a user document in a collection named "users". This collection does not need to exist yet. The first document we'll insert in this collection will create the collection on the fly. This is because we have set OPTION_CREATE to true in $connectionOptions.
 
 The below code will first set up the document locally in a variable name $user, and then push it to the server and return the document id created by the server:
 
@@ -359,6 +399,17 @@ Note that the document must have been fetched from the server before. If you hav
     var_dump($result);
 
 
+## Dropping a collection
+
+
+To delete an existing collection on the server, use the drop() method of the CollectionHandler class. drop() just needs the name of the collection name to be dropped:
+
+
+    // delete a collection on the server, using it's name,
+    $result = $handler->drop('users');
+    var_dump($result);
+
+
 ## Putting it all together
 
 Here's the full code that combines all the pieces outlined above:
@@ -401,6 +452,19 @@ Here's the full code that combines all the pieces outlined above:
 
     try {
         $connection = new ArangoConnection($connectionOptions);
+
+
+        $collectionHandler = new CollectionHandler($connection);
+
+	    // create a new document
+	    $userCollection = new ArangoCollection();
+		$userCollection->setName('user');
+		$id = $collectionHandler->add($userCollection);
+
+	    // print the collection id created by the server
+	    var_dump($id);
+
+
         $handler = new ArangoDocumentHandler($connection);
 
         // create a new document
@@ -420,6 +484,7 @@ Here's the full code that combines all the pieces outlined above:
         var_dump($id);
         var_dump($user->getId());
 
+
         // get the document back from the server
         $userFromServer = $handler->get('users', $id);
         var_dump($userFromServer);
@@ -427,6 +492,7 @@ Here's the full code that combines all the pieces outlined above:
         // get a document list back from the server, using a document example
         $cursor = $handler->getByExample('users', array('name'=>'John'));
         var_dump($cursor->getAll());
+
 
         // update a document
         $userFromServer->likes = array('fishing', 'swimming');
@@ -440,8 +506,14 @@ Here's the full code that combines all the pieces outlined above:
         $userFromServer = $handler->get('users', $id);
         var_dump($userFromServer);
 
+
         // delete a document on the server
         $result = $handler->delete($userFromServer);
+        var_dump($result);
+
+
+        // delete a collection on the server, using it's name,
+        $result = $handler->drop('users');
         var_dump($result);
     }
     catch (ArangoConnectException $e) {
@@ -454,11 +526,24 @@ Here's the full code that combines all the pieces outlined above:
         print 'Server error: ' . $e->getServerCode() . ':' . $e->getServerMessage() . ' ' . $e->getMessage() . PHP_EOL;
     }
 
+<br>
 
-## Getting more information
 
-More example code, containing some code to create, delete and rename collections, is provided in the example subdirectory that is provided with the library.
+<a name="requirements"/a>
+# Requirements
 
-There is also a PHPDoc documentation for the complete library in the library's docs subdirectory. Point your browser at this directory to get a click-through version of the documentation.
+* ArangoDB database server version 1.2
+* PHP version 5.3 or higher (Travis-tested with 5.4 and 5.5)
 
-Furthermore, check the ArangoDB PHP client on github.com regularly for new releases and updates: [https://github.com/triAGENS/ArangoDB-PHP](https://github.com/triAGENS/ArangoDB-PHP)
+
+
+<a name="more_info"/a>
+# More information
+
+* More example code, containing some code to create, delete and rename collections, is provided in the example subdirectory that is provided with the library.
+
+* PHPDoc documentation for the complete library is in the library's docs subdirectory. Point your browser at this directory to get a click-through version of the documentation.
+
+* [Follow us on Twitter @arangodbphp to receive updates on the php driver](https://twitter.com/arangodbphp)
+
+* Check the ArangoDB PHP client on github.com regularly for new releases and updates: [https://github.com/triAGENS/ArangoDB-PHP](https://github.com/triAGENS/ArangoDB-PHP)

@@ -93,12 +93,10 @@
 <li class="nav-header protected">» Protected
                     <ul>
 <li class="method protected inherited"><a href="#method_getConnection" title="getConnection :: Return the connection object"><span class="description">Return the connection object</span><pre>getConnection()</pre></a></li>
+<li class="method protected inherited"><a href="#method_getCursorOptions" title="getCursorOptions :: Return an array of cursor options"><span class="description">Return an array of cursor options</span><pre>getCursorOptions()</pre></a></li>
 <li class="method protected inherited"><a href="#method_includeOptionsInParams" title="includeOptionsInParams :: Helper function that runs through the options given and includes them into the parameters array given."><span class="description">Helper function that runs through the options given and includes them into the parameters array given.</span><pre>includeOptionsInParams()</pre></a></li>
 <li class="method protected inherited"><a href="#method_validateAndIncludePolicyInParams" title="validateAndIncludePolicyInParams :: Helper function that validates and includes the policy setting into the parameters array given."><span class="description">Helper function that validates and includes the policy setting into the parameters array given.</span><pre>validateAndIncludePolicyInParams()</pre></a></li>
 </ul>
-</li>
-<li class="nav-header private">» Private
-                    <ul><li class="method private "><a href="#method_getCursorOptions" title="getCursorOptions :: Return an array of cursor options"><span class="description">Return an array of cursor options</span><pre>getCursorOptions()</pre></a></li></ul>
 </li>
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties
@@ -1103,6 +1101,28 @@ This will throw if the collection cannot be created</p></div>
 <code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>- the connection object</div>
 </div></div>
 </div>
+<a id="method_getCursorOptions"></a><div class="element clickable method protected method_getCursorOptions" data-toggle="collapse" data-target=".method_getCursorOptions .collapse">
+<h2>Return an array of cursor options</h2>
+<pre>getCursorOptions(bool $sanitize) : array</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Handler::getCursorOptions()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$sanitize</h4>
+<code>bool</code><ul>
+<li>sanitize flag</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- array of options</div>
+</div></div>
+</div>
 <a id="method_includeOptionsInParams"></a><div class="element clickable method protected method_includeOptionsInParams" data-toggle="collapse" data-target=".method_includeOptionsInParams .collapse">
 <h2>Helper function that runs through the options given and includes them into the parameters array given.</h2>
 <pre>includeOptionsInParams(array $options, array $params, array $includeArray) : array</pre>
@@ -1169,24 +1189,6 @@ This will throw if the collection cannot be created</p></div>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>array</code>$params - array of parameters for use in a url</div>
-</div></div>
-</div>
-<a id="method_getCursorOptions"></a><div class="element clickable method private method_getCursorOptions" data-toggle="collapse" data-target=".method_getCursorOptions .collapse">
-<h2>Return an array of cursor options</h2>
-<pre>getCursorOptions(bool $sanitize) : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$sanitize</h4>
-<code>bool</code><ul>
-<li>sanitize flag</li>
-</ul>
-</div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>array</code>- array of options</div>
 </div></div>
 </div>
 <h3>
@@ -1362,7 +1364,7 @@ This will throw if the collection cannot be created</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-02-18T00:17:16+02:00.<br></footer></div>
+            generated on 2013-02-20T03:52:36+02:00.<br></footer></div>
 </div>
 </body>
 </html>
