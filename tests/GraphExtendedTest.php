@@ -108,13 +108,25 @@ class GraphExtendedTest extends
         $result3 = $this->graphHandler->getVertex($this->graphName, $this->vertex3Name);
         $result4 = $this->graphHandler->getVertex($this->graphName, $this->vertex4Name);
         $result1 = $this->graphHandler->saveEdge(
-            $this->graphName, $this->vertex1Name, $this->vertex2Name, $this->edgeLabel1, $edge1
+            $this->graphName,
+            $this->vertex1Name,
+            $this->vertex2Name,
+            $this->edgeLabel1,
+            $edge1
         );
         $result2 = $this->graphHandler->saveEdge(
-            $this->graphName, $this->vertex2Name, $this->vertex3Name, $this->edgeLabel2, $edge2
+            $this->graphName,
+            $this->vertex2Name,
+            $this->vertex3Name,
+            $this->edgeLabel2,
+            $edge2
         );
         $result3 = $this->graphHandler->saveEdge(
-            $this->graphName, $this->vertex3Name, $this->vertex4Name, $this->edgeLabel3, $edge3
+            $this->graphName,
+            $this->vertex3Name,
+            $this->vertex4Name,
+            $this->edgeLabel3,
+            $edge3
         );
         $result1 = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
         $result2 = $this->graphHandler->getEdge($this->graphName, $this->edge2Name);
@@ -152,7 +164,11 @@ class GraphExtendedTest extends
 
         // Save edge
         $resultE = $this->graphHandler->saveEdge(
-            $this->graphName, $this->vertex1Name, $this->vertex2Name, $this->edgeLabel1, $edge1
+            $this->graphName,
+            $this->vertex1Name,
+            $this->vertex2Name,
+            $this->edgeLabel1,
+            $edge1
         );
         $this->assertTrue($resultE == 'edge1', 'Did not return edge1!');
 
@@ -252,7 +268,11 @@ class GraphExtendedTest extends
 
         // Save edge
         $result1 = $this->graphHandler->saveEdge(
-            $this->graphName, $this->vertex1Name, $this->vertex2Name, $this->edgeLabel1, $edge1
+            $this->graphName,
+            $this->vertex1Name,
+            $this->vertex2Name,
+            $this->edgeLabel1,
+            $edge1
         );
         $this->assertTrue($result1 == 'edge1', 'Did not return edge1!');
 
@@ -574,7 +594,11 @@ class GraphExtendedTest extends
 
 
         $result1 = $this->graphHandler->saveEdge(
-            $this->graphName, $this->vertex1Name, $this->vertex2Name, $this->edgeLabel1, $edge1
+            $this->graphName,
+            $this->vertex1Name,
+            $this->vertex2Name,
+            $this->edgeLabel1,
+            $edge1
         );
         $this->assertTrue($result1 == 'edge1', 'Did not return edge1!');
 
@@ -670,8 +694,10 @@ class GraphExtendedTest extends
         // Save edge using EdgeHandler
         $edgeHandler = new EdgeHandler($this->connection);
         $result1     = $edgeHandler->saveEdge(
-            $this->edgeCollectionName, $this->vertexCollectionName . '/' . $this->vertex1Name,
-            $this->vertexCollectionName . '/' . $this->vertex2Name, $edge1
+            $this->edgeCollectionName,
+            $this->vertexCollectionName . '/' . $this->vertex1Name,
+            $this->vertexCollectionName . '/' . $this->vertex2Name,
+            $edge1
         );
         $this->assertTrue($result1 == 'edge1', 'Did not return edge1!');
 

@@ -49,7 +49,8 @@ class StatementTest extends
         $result = $cursor->current();
 
         $this->assertTrue(
-            $result->someAttribute === 'someValue', 'Expected value someValue, found :' . $result->someAttribute
+            $result->someAttribute === 'someValue',
+            'Expected value someValue, found :' . $result->someAttribute
         );
     }
 
@@ -80,7 +81,9 @@ class StatementTest extends
                                                                    ));
         // inject wrong encoding       
         $isoValue = iconv(
-            "UTF-8", "ISO-8859-1//TRANSLIT", "'FOR ü IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN ü"
+            "UTF-8",
+            "ISO-8859-1//TRANSLIT",
+            "'FOR ü IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN ü"
         );
 
         $statement->setQuery($isoValue);
@@ -89,7 +92,8 @@ class StatementTest extends
         $result = $cursor->current();
 
         $this->assertTrue(
-            $result->someAttribute === 'someValue', 'Expected value someValue, found :' . $result->someAttribute
+            $result->someAttribute === 'someValue',
+            'Expected value someValue, found :' . $result->someAttribute
         );
     }
 

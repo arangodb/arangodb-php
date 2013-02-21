@@ -84,7 +84,8 @@ class CollectionBasicTest extends
 
         $resultingAttribute = $resultingCollection->getName();
         $this->assertTrue(
-            $name === $resultingAttribute, 'The created collection name and resulting collection name do not match!'
+            $name === $resultingAttribute,
+            'The created collection name and resulting collection name do not match!'
         );
 
         $this->assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
@@ -110,7 +111,8 @@ class CollectionBasicTest extends
 
         $resultingAttribute = $resultingCollection->getName();
         $this->assertTrue(
-            $name === $resultingAttribute, 'The created collection name and resulting collection name do not match!'
+            $name === $resultingAttribute,
+            'The created collection name and resulting collection name do not match!'
         );
 
         $this->assertEquals(Collection::getDefaultType(), $resultingCollection->getType());

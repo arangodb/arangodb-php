@@ -106,6 +106,98 @@ class DocumentExtendedTest extends
     /**
      * test for creation, get by example, and delete of a document given its settings through createFromArray()
      */
+    public function testCreateDocumentWithCreateFromArrayGetbyExampleWithOptionsAndDeleteDocument()
+    {
+        $documentHandler = $this->documentHandler;
+
+        $document   = Document::createFromArray(
+            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId = $documentHandler->add($this->collection->getId(), $document, array('waitForSync' => true));
+
+        $document2   = Document::createFromArray(
+            array('someAttribute' => 'someValue', 'someOtherAttribute2' => 'someOtherValue2')
+        );
+        $documentId2 = $documentHandler->add($this->collection->getId(), $document2, array('waitForSync' => true));
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId2), 'Did not return an id!');
+
+        $exampleDocument = Document::createFromArray(
+            array('someAttribute' => 'someValue')
+        );
+
+        $cursor = $documentHandler->getByExample(
+            $this->collection->getId(),
+            $exampleDocument,
+            array('batchSize' => 1, 'skip' => 0, 'limit' => 2)
+        );
+
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+        unset($resultingDocument);
+        foreach ($cursor as $key => $value) {
+            $resultingDocument[$key] = $value;
+        }
+
+        $this->assertTrue(
+            ($resultingDocument[0]->someAttribute == 'someValue'),
+            'Document returned did not contain expected data.'
+        );
+
+        $this->assertTrue(
+            ($resultingDocument[1]->someAttribute == 'someValue'),
+            'Document returned did not contain expected data.'
+        );
+
+        $this->assertTrue(count($resultingDocument) == 2, 'Should be 2, was: ' . count($resultingDocument));
+
+
+        $cursor = $documentHandler->getByExample(
+            $this->collection->getId(),
+            $exampleDocument,
+            array('batchSize' => 1, 'skip' => 1)
+        );
+
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+        unset($resultingDocument);
+        foreach ($cursor as $key => $value) {
+            $resultingDocument[$key] = $value;
+        }
+
+        $this->assertTrue(
+            ($resultingDocument[0]->someAttribute == 'someValue'),
+            'Document returned did not contain expected data.'
+        );
+
+        $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
+
+
+        $cursor = $documentHandler->getByExample(
+            $this->collection->getId(),
+            $exampleDocument,
+            array('batchSize' => 1, 'limit' => 1)
+        );
+
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+        unset($resultingDocument);
+        foreach ($cursor as $key => $value) {
+            $resultingDocument[$key] = $value;
+        }
+        $this->assertTrue(
+            ($resultingDocument[0]->someAttribute == 'someValue'),
+            'Document returned did not contain expected data.'
+        );
+        $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
+
+
+        $response = $documentHandler->delete($document);
+        $this->assertTrue($response, 'Delete should return true!');
+    }
+
+
+    /**
+     * test for creation, get by example, and delete of a document given its settings through createFromArray()
+     */
     public function testCreateDocumentWithCreateFromArrayGetFirstExampleAndDeleteDocument()
     {
         $documentHandler = $this->documentHandler;
@@ -406,7 +498,8 @@ class DocumentExtendedTest extends
 
         $response = $documentHandler->deleteById($this->collection->getId(), $documentId, $revision - 1000, 'last');
         $this->assertTrue(
-            $response, 'deleteById() should return true! (because policy  is "last write wins")'
+            $response,
+            'deleteById() should return true! (because policy  is "last write wins")'
         );
     }
 
@@ -621,7 +714,8 @@ class DocumentExtendedTest extends
 
         $document = Document::createFromArray(
             array(
-                 'someAttribute'      => 'someValue', 'someOtherAttribute' => 'someOtherValue',
+                 'someAttribute'      => 'someValue',
+                 'someOtherAttribute' => 'someOtherValue',
                  'someThirdAttribute' => 'someThirdValue'
             )
         );
@@ -653,7 +747,8 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
         $document        = Document::createFromArray(
             array(
-                 'someAttribute'      => 'someValue', 'someOtherAttribute' => 'someOtherValue',
+                 'someAttribute'      => 'someValue',
+                 'someOtherAttribute' => 'someOtherValue',
                  'someThirdAttribute' => 'someThirdValue'
             )
         );

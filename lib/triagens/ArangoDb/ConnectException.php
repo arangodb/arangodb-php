@@ -2,9 +2,9 @@
 
 /**
  * ArangoDB PHP client: connect exception
- * 
- * @package ArangoDbPhpClient
- * @author Jan Steemann
+ *
+ * @package   ArangoDbPhpClient
+ * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
 
@@ -16,13 +16,16 @@ namespace triagens\ArangoDb;
  *
  * @package ArangoDbPhpClient
  */
-class ConnectException extends Exception {
-  /**
-   * Return a string representation of the exception
-   *
-   * @return string - string representation
-   */
-  public function __toString() {
-    return __CLASS__ . ': ' . $this->getMessage();
-  }
+class ConnectException extends
+    Exception
+{
+    /**
+     * Return a string representation of the exception
+     *
+     * @return string - string representation
+     */
+    public function __toString()
+    {
+        return __CLASS__ . ': ' . $this->getMessage();
+    }
 }
