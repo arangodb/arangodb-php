@@ -126,14 +126,16 @@ class CollectionExtendedTest extends
         $resultingCollection = $collectionHandler->get($name);
 
         $response = $collectionHandler->rename(
-            $resultingCollection, 'ArangoDB_PHP_TestSuite_TestCollection_01_renamed'
+            $resultingCollection,
+            'ArangoDB_PHP_TestSuite_TestCollection_01_renamed'
         );
 
         $resultingCollectionRenamed = $collectionHandler->get('ArangoDB_PHP_TestSuite_TestCollection_01_renamed');
         $newName                    = $resultingCollectionRenamed->getName();
 
         $this->assertTrue(
-            $newName == 'ArangoDB_PHP_TestSuite_TestCollection_01_renamed', 'Collection was not renamed!'
+            $newName == 'ArangoDB_PHP_TestSuite_TestCollection_01_renamed',
+            'Collection was not renamed!'
         );
         $response = $collectionHandler->delete($resultingCollectionRenamed);
         $this->assertTrue($response, 'Delete should return true!');
@@ -198,10 +200,14 @@ class CollectionExtendedTest extends
         // here we check the collectionHandler->getProperties function
         $properties = $collectionHandler->getProperties($collection->getName());
         $this->assertObjectHasAttribute(
-            '_waitForSync', $properties, 'waiForSync field should exist, empty or with an id'
+            '_waitForSync',
+            $properties,
+            'waiForSync field should exist, empty or with an id'
         );
         $this->assertObjectHasAttribute(
-            '_journalSize', $properties, 'journalSize field should exist, empty or with an id'
+            '_journalSize',
+            $properties,
+            'journalSize field should exist, empty or with an id'
         );
 
         // here we check the collectionHandler->unload() function
@@ -240,7 +246,8 @@ class CollectionExtendedTest extends
         $loadResult = $loadResult->getJson();
         $this->assertArrayHasKey('status', $loadResult, 'status field should exist');
         $this->assertTrue(
-            $loadResult['status'] == 3, 'Collection status should be 3(loaded). Found: ' . $unloadResult['status'] . '!'
+            $loadResult['status'] == 3,
+            'Collection status should be 3(loaded). Found: ' . $unloadResult['status'] . '!'
         );
 
 
@@ -305,8 +312,49 @@ class CollectionExtendedTest extends
         $this->assertTrue(is_numeric($documentId2), 'Did not return an id!');
         $this->assertTrue(is_numeric($documentId3), 'Did not return an id!');
 
-        $documentExample = Document::createFromArray(array('someOtherAttribute' => 'someOtherValue'));
-        $result          = $collectionHandler->removeByExample($collection->getId(), $documentExample);
+        $exampleDocument = Document::createFromArray(array('someOtherAttribute' => 'someOtherValue'));
+        $result          = $collectionHandler->removeByExample($collection->getId(), $exampleDocument);
+        $this->assertTrue($result === 2);
+    }
+
+
+    /**
+     * test for creation of documents, and removal by example
+     */
+    public function testCreateDocumentsWithCreateFromArrayAndRemoveByExampleWithLimit()
+    {
+        $documentHandler   = $this->documentHandler;
+        $collectionHandler = $this->collectionHandler;
+
+        $collection  = Collection::createFromArray(
+            array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true)
+        );
+        $response    = $collectionHandler->add($collection);
+        $document    = Document::createFromArray(
+            array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId  = $documentHandler->add($collection->getId(), $document);
+        $document2   = Document::createFromArray(
+            array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+        );
+        $documentId2 = $documentHandler->add($collection->getId(), $document2);
+        $document3   = Document::createFromArray(
+            array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId3 = $documentHandler->add($collection->getId(), $document3);
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId2), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId3), 'Did not return an id!');
+
+        $exampleDocument = Document::createFromArray(array('someOtherAttribute' => 'someOtherValue'));
+        $result          = $collectionHandler->removeByExample(
+            $collection->getId(),
+            $exampleDocument,
+            array('limit' => 1)
+        );
+        // todo: (frankmayer) this result should be 1, but ArangoDB 1.2.beta2 has bug where it doesn't take the limit option into account
+        // with beta 3 change this to 1
         $this->assertTrue($result === 2);
     }
 
@@ -318,7 +366,8 @@ class CollectionExtendedTest extends
     {
         $collectionHandler = $this->collectionHandler;
         $result            = $collectionHandler->importFromFile(
-            'importCollection_01_arango_unittests', __DIR__ . '/files_for_tests/import_file_header_values.txt',
+            'importCollection_01_arango_unittests',
+            __DIR__ . '/files_for_tests/import_file_header_values.txt',
             $options = array('createCollection' => true)
         );
 
@@ -361,7 +410,8 @@ class CollectionExtendedTest extends
     {
         $collectionHandler = $this->collectionHandler;
         $result            = $collectionHandler->importFromFile(
-            'importCollection_01_arango_unittests', __DIR__ . '/files_for_tests/import_file_line_by_line.txt',
+            'importCollection_01_arango_unittests',
+            __DIR__ . '/files_for_tests/import_file_line_by_line.txt',
             $options = array('createCollection' => true, 'type' => 'documents')
         );
         $this->assertTrue($result['error'] === false && $result['created'] == 2);
@@ -403,7 +453,8 @@ class CollectionExtendedTest extends
     {
         $collectionHandler = $this->collectionHandler;
         $result            = $collectionHandler->importFromFile(
-            'importCollection_01_arango_unittests', __DIR__ . '/files_for_tests/import_file_resultset.txt',
+            'importCollection_01_arango_unittests',
+            __DIR__ . '/files_for_tests/import_file_resultset.txt',
             $options = array('createCollection' => true, 'type' => 'array')
         );
         $this->assertTrue($result['error'] === false && $result['created'] == 2);
@@ -454,7 +505,9 @@ class CollectionExtendedTest extends
 
         $data   = array($document1, $document2);
         $result = $collectionHandler->import(
-            'importCollection_01_arango_unittests', $data, $options = array('createCollection' => true)
+            'importCollection_01_arango_unittests',
+            $data,
+            $options = array('createCollection' => true)
         );
 
         $this->assertTrue($result['error'] === false && $result['created'] == 2);
@@ -501,7 +554,9 @@ class CollectionExtendedTest extends
                [ "Jane", "Doe", 31, "female", "test2" ]';
 
         $result = $collectionHandler->import(
-            'importCollection_01_arango_unittests', $data, $options = array('createCollection' => true)
+            'importCollection_01_arango_unittests',
+            $data,
+            $options = array('createCollection' => true)
         );
 
         $this->assertTrue($result['error'] === false && $result['created'] == 2);
@@ -547,7 +602,8 @@ class CollectionExtendedTest extends
                { "firstName" : "Jane", "lastName" : "Doe", "age" : 31, "gender" : "female", "_key" : "test2"}';
 
         $result = $collectionHandler->import(
-            'importCollection_01_arango_unittests', $data,
+            'importCollection_01_arango_unittests',
+            $data,
             $options = array('createCollection' => true, 'type' => 'documents')
         );
 
@@ -594,7 +650,8 @@ class CollectionExtendedTest extends
 { "firstName" : "Jane", "lastName" : "Doe", "age" : 31, "gender" : "female", "_key" : "test2"}]';
 
         $result = $collectionHandler->import(
-            'importCollection_01_arango_unittests', $data,
+            'importCollection_01_arango_unittests',
+            $data,
             $options = array('createCollection' => true, 'type' => 'array')
         );
 
@@ -755,10 +812,14 @@ class CollectionExtendedTest extends
         $indexRes       = $collectionHandler->index($collection->getId(), 'skiplist', array('index'));
         $nestedIndexRes = $collectionHandler->index($collection->getId(), 'skiplist', array('nested.index'));
         $this->assertArrayHasKey(
-            'isNewlyCreated', $indexRes, "index creation result should have the isNewlyCreated key !"
+            'isNewlyCreated',
+            $indexRes,
+            "index creation result should have the isNewlyCreated key !"
         );
         $this->assertArrayHasKey(
-            'isNewlyCreated', $nestedIndexRes, "index creation result should have the isNewlyCreated key !"
+            'isNewlyCreated',
+            $nestedIndexRes,
+            "index creation result should have the isNewlyCreated key !"
         );
 
 
@@ -766,23 +827,26 @@ class CollectionExtendedTest extends
 
         $document1   = Document::createFromArray(
             array(
-                 'index'  => 2, 'someOtherAttribute' => 'someValue2',
-                 'nested' => array('index' => 3, 'someNestedAttribute3' => 'someNestedValue3')
+                 'index'              => 2,
+                 'someOtherAttribute' => 'someValue2',
+                 'nested'             => array('index' => 3, 'someNestedAttribute3' => 'someNestedValue3')
             )
         );
         $documentId1 = $documentHandler->add($collection->getId(), $document1);
         $document2   = Document::createFromArray(
             array(
-                 'index'  => 1, 'someOtherAttribute' => 'someValue1',
-                 'nested' => array('index' => 2, 'someNestedAttribute3' => 'someNestedValue2')
+                 'index'              => 1,
+                 'someOtherAttribute' => 'someValue1',
+                 'nested'             => array('index' => 2, 'someNestedAttribute3' => 'someNestedValue2')
             )
         );
         $documentId2 = $documentHandler->add($collection->getId(), $document2);
 
         $document3   = Document::createFromArray(
             array(
-                 'index'  => 3, 'someOtherAttribute' => 'someValue3',
-                 'nested' => array('index' => 1, 'someNestedAttribute3' => 'someNestedValue1')
+                 'index'              => 3,
+                 'someOtherAttribute' => 'someValue3',
+                 'nested'             => array('index' => 1, 'someNestedAttribute3' => 'someNestedValue1')
             )
         );
         $documentId3 = $documentHandler->add($collection->getId(), $document3);
@@ -802,7 +866,11 @@ class CollectionExtendedTest extends
 
 
         $rangeResult = $collectionHandler->range(
-            $collection->getId(), 'index', 2, 3, array('closed' => true, 'limit' => 1)
+            $collection->getId(),
+            'index',
+            2,
+            3,
+            array('closed' => true, 'limit' => 1)
         );
         $resultArray = $rangeResult->getAll();
         $this->asserttrue($resultArray[0]->index == 2, "This value should be 2 !");
@@ -810,7 +878,11 @@ class CollectionExtendedTest extends
 
 
         $rangeResult = $collectionHandler->range(
-            $collection->getId(), 'index', 2, 3, array('closed' => true, 'skip' => 1)
+            $collection->getId(),
+            'index',
+            2,
+            3,
+            array('closed' => true, 'skip' => 1)
         );
         $resultArray = $rangeResult->getAll();
         $this->asserttrue($resultArray[0]->index == 3, "This value should be 3 !");
@@ -831,7 +903,11 @@ class CollectionExtendedTest extends
 
 
         $rangeResult = $collectionHandler->range(
-            $collection->getId(), 'nested.index', 2, 3, array('closed' => true, 'limit' => 1)
+            $collection->getId(),
+            'nested.index',
+            2,
+            3,
+            array('closed' => true, 'limit' => 1)
         );
         $resultArray = $rangeResult->getAll();
         $this->asserttrue($resultArray[0]->nested['index'] == 2, "This value should be 2 !");
@@ -839,7 +915,11 @@ class CollectionExtendedTest extends
 
 
         $rangeResult = $collectionHandler->range(
-            $collection->getId(), 'nested.index', 2, 3, array('closed' => true, 'skip' => 1)
+            $collection->getId(),
+            'nested.index',
+            2,
+            3,
+            array('closed' => true, 'skip' => 1)
         );
         $resultArray = $rangeResult->getAll();
         $this->asserttrue($resultArray[0]->nested['index'] == 3, "This value should be 3 !");
@@ -865,7 +945,9 @@ class CollectionExtendedTest extends
 
         $indexRes = $collectionHandler->index($collection->getId(), 'geo', array('loc'));
         $this->assertArrayHasKey(
-            'isNewlyCreated', $indexRes, "index creation result should have the isNewlyCreated key !"
+            'isNewlyCreated',
+            $indexRes,
+            "index creation result should have the isNewlyCreated key !"
         );
 
 
@@ -907,7 +989,8 @@ class CollectionExtendedTest extends
             "This value should be 30 30!, is :" . $resultArray[0]->loc[0] . ' ' . $resultArray[0]->loc[1]
         );
         $this->asserttrue(
-            $resultArray[0]->distance == 0, "This value should be 0 ! It is :" . $resultArray[0]->distance
+            $resultArray[0]->distance == 0,
+            "This value should be 0 ! It is :" . $resultArray[0]->distance
         );
 
 
@@ -968,7 +1051,9 @@ class CollectionExtendedTest extends
 
         $indexRes = $collectionHandler->index($collection->getId(), 'geo', array('loc'));
         $this->assertArrayHasKey(
-            'isNewlyCreated', $indexRes, "index creation result should have the isNewlyCreated key !"
+            'isNewlyCreated',
+            $indexRes,
+            "index creation result should have the isNewlyCreated key !"
         );
 
 
@@ -992,7 +1077,11 @@ class CollectionExtendedTest extends
 
 
         $rangeResult = $collectionHandler->within(
-            $collection->getId(), 0, 0, 200 * 1000, array('distance' => 'distance')
+            $collection->getId(),
+            0,
+            0,
+            200 * 1000,
+            array('distance' => 'distance')
         );
         $resultArray = $rangeResult->getAll();
         $this->asserttrue(
@@ -1005,7 +1094,8 @@ class CollectionExtendedTest extends
         );
         $this->assertArrayNotHasKey(2, $resultArray, "Should not have a third key !");
         $this->asserttrue(
-            $resultArray[0]->distance == 0, "This value should be 0 ! It is :" . $resultArray[0]->distance
+            $resultArray[0]->distance == 0,
+            "This value should be 0 ! It is :" . $resultArray[0]->distance
         );
 
 
@@ -1066,7 +1156,9 @@ class CollectionExtendedTest extends
 
         $indexRes = $collectionHandler->index($collection->getName(), 'fulltext', array('name'));
         $this->assertArrayHasKey(
-            'isNewlyCreated', $indexRes, "index creation result should have the isNewlyCreated key !"
+            'isNewlyCreated',
+            $indexRes,
+            "index creation result should have the isNewlyCreated key !"
         );
 
         // Check if the index is returned in the indexes of the collection
