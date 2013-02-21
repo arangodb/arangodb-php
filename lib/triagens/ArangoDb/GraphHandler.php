@@ -81,7 +81,7 @@ class GraphHandler extends
             self::OPTION_EDGES    => $graph->getEdgesCollection()
         );
         $url      = UrlHelper::appendParamsUrl(Urls::URL_GRAPH, $params);
-        $response = $this->getConnection()->post($url, $this->getConnection()->json_encode_wrapper($params));
+        $response = $this->getConnection()->post($url, $this->json_encode_wrapper($params));
         $json     = $response->getJson();
 
         $graph->setInternalId($json['graph'][Graph::ENTRY_ID]);
@@ -103,7 +103,6 @@ class GraphHandler extends
      */
     public function dropGraph($graph)
     {
-
         $url = UrlHelper::buildUrl(Urls::URL_GRAPH, $graph);
         $this->getConnection()->delete($url);
 
@@ -152,7 +151,7 @@ class GraphHandler extends
         $data = $document->getAll();
         $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_VERTEX);
 
-        $response = $this->getConnection()->post($url, $this->getConnection()->json_encode_wrapper($data));
+        $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
 
         $jsonArray = $response->getJson();
         $vertex    = $jsonArray['vertex'];
@@ -181,8 +180,10 @@ class GraphHandler extends
      * @param mixed  $vertexId   - the vertex identifier
      * @param array  $options    - optional, an array of options
      * <p>Options are :
-     * <li>'includeInternals' - true to include the internal attributes. Defaults to false</li>
-     * <li>'ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+     * <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
+     * <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
+     * <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+     * <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
      * </p>
      *
      * @return Document - the vertex document fetched from the server
@@ -230,13 +231,17 @@ class GraphHandler extends
     {
         // This preserves compatibility for the old policy parameter.
         $params = array();
-        $params = $this->validateAndIncludePolicyInParams($options, $params, ConnectionOptions::OPTION_REPLACE_POLICY);
+        $params = $this->validateAndIncludeOldSingleParameterInParams(
+            $options,
+            $params,
+            ConnectionOptions::OPTION_REPLACE_POLICY
+        );
         $params = $this->includeOptionsInParams(
-            $options, $params, array(
-                                    'waitForSync' => $this->getConnection()->getOption(
-                                        ConnectionOptions::OPTION_WAIT_SYNC
-                                    )
-                               )
+            $options,
+            $params,
+            array(
+                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC)
+            )
         );
 
         $revision = $document->getRevision();
@@ -247,7 +252,7 @@ class GraphHandler extends
         $data = $document->getAll();
         $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_VERTEX, $vertexId);
 
-        $response = $this->getConnection()->PUT($url, $this->getConnection()->json_encode_wrapper($data));
+        $response = $this->getConnection()->PUT($url, $this->json_encode_wrapper($data));
 
         $jsonArray = $response->getJson();
         $vertex    = $jsonArray['vertex'];
@@ -294,14 +299,18 @@ class GraphHandler extends
     {
         // This preserves compatibility for the old policy parameter.
         $params = array();
-        $params = $this->validateAndIncludePolicyInParams($options, $params, ConnectionOptions::OPTION_UPDATE_POLICY);
+        $params = $this->validateAndIncludeOldSingleParameterInParams(
+            $options,
+            $params,
+            ConnectionOptions::OPTION_UPDATE_POLICY
+        );
         $params = $this->includeOptionsInParams(
-            $options, $params, array(
-                                    'waitForSync' => $this->getConnection()->getOption(
-                                        ConnectionOptions::OPTION_WAIT_SYNC
-                                    ),
-                                    'keepNull'    => true,
-                               )
+            $options,
+            $params,
+            array(
+                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
+                 'keepNull'    => true,
+            )
         );
 
         $revision = $document->getRevision();
@@ -311,7 +320,7 @@ class GraphHandler extends
 
         $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_VERTEX, $vertexId);
         $url    = UrlHelper::appendParamsUrl($url, $params);
-        $result = $this->getConnection()->patch($url, $this->getConnection()->json_encode_wrapper($document->getAll()));
+        $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAll()));
 
         return true;
     }
@@ -338,14 +347,18 @@ class GraphHandler extends
     {
         // This preserves compatibility for the old policy parameter.
         $params = array();
-        $params = $this->validateAndIncludePolicyInParams($options, $params, ConnectionOptions::OPTION_DELETE_POLICY);
+        $params = $this->validateAndIncludeOldSingleParameterInParams(
+            $options,
+            $params,
+            ConnectionOptions::OPTION_DELETE_POLICY
+        );
         $params = $this->includeOptionsInParams(
-            $options, $params, array(
-                                    'waitForSync' => $this->getConnection()->getOption(
-                                        ConnectionOptions::OPTION_WAIT_SYNC
-                                    ),
-                                    'keepNull'    => true,
-                               )
+            $options,
+            $params,
+            array(
+                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
+                 'keepNull'    => true,
+            )
         );
 
         if (!is_null($revision)) {
@@ -390,7 +403,7 @@ class GraphHandler extends
         $data[self::KEY_TO]   = $to;
 
         $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_EDGE);
-        $response = $this->getConnection()->post($url, $this->getConnection()->json_encode_wrapper($data));
+        $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
 
         $jsonArray = $response->getJson();
         $edge      = $jsonArray['edge'];
@@ -419,8 +432,10 @@ class GraphHandler extends
      * @param mixed $edgeId     - edge identifier
      * @param array $options    - optional, array of options
      * <p>Options are :
-     * <li>'includeInternals' - true to include the internal attributes. Defaults to false</li>
-     * <li>'ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+     * <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
+     * <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
+     * <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+     * <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
      * </p>
      *
      * @return Document - the edge document fetched from the server
@@ -469,13 +484,17 @@ class GraphHandler extends
     {
         // This preserves compatibility for the old policy parameter.
         $params = array();
-        $params = $this->validateAndIncludePolicyInParams($options, $params, ConnectionOptions::OPTION_REPLACE_POLICY);
+        $params = $this->validateAndIncludeOldSingleParameterInParams(
+            $options,
+            $params,
+            ConnectionOptions::OPTION_REPLACE_POLICY
+        );
         $params = $this->includeOptionsInParams(
-            $options, $params, array(
-                                    'waitForSync' => $this->getConnection()->getOption(
-                                        ConnectionOptions::OPTION_WAIT_SYNC
-                                    )
-                               )
+            $options,
+            $params,
+            array(
+                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC)
+            )
         );
 
         $revision = $document->getRevision();
@@ -489,7 +508,7 @@ class GraphHandler extends
         }
         $url = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_EDGE, $edgeId);
 
-        $response = $this->getConnection()->PUT($url, $this->getConnection()->json_encode_wrapper($data));
+        $response = $this->getConnection()->PUT($url, $this->json_encode_wrapper($data));
 
         $jsonArray = $response->getJson();
         $edge      = $jsonArray['edge'];
@@ -537,14 +556,18 @@ class GraphHandler extends
     {
         // This preserves compatibility for the old policy parameter.
         $params = array();
-        $params = $this->validateAndIncludePolicyInParams($options, $params, ConnectionOptions::OPTION_UPDATE_POLICY);
+        $params = $this->validateAndIncludeOldSingleParameterInParams(
+            $options,
+            $params,
+            ConnectionOptions::OPTION_UPDATE_POLICY
+        );
         $params = $this->includeOptionsInParams(
-            $options, $params, array(
-                                    'waitForSync' => $this->getConnection()->getOption(
-                                        ConnectionOptions::OPTION_WAIT_SYNC
-                                    ),
-                                    'keepNull'    => true,
-                               )
+            $options,
+            $params,
+            array(
+                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
+                 'keepNull'    => true,
+            )
         );
         $policy = null;
 
@@ -559,7 +582,7 @@ class GraphHandler extends
 
         $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_EDGE, $edgeId);
         $url    = UrlHelper::appendParamsUrl($url, $params);
-        $result = $this->getConnection()->patch($url, $this->getConnection()->json_encode_wrapper($document->getAll()));
+        $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAll()));
 
         return true;
     }
@@ -586,14 +609,18 @@ class GraphHandler extends
     {
         // This preserves compatibility for the old policy parameter.
         $params = array();
-        $params = $this->validateAndIncludePolicyInParams($options, $params, ConnectionOptions::OPTION_DELETE_POLICY);
+        $params = $this->validateAndIncludeOldSingleParameterInParams(
+            $options,
+            $params,
+            ConnectionOptions::OPTION_DELETE_POLICY
+        );
         $params = $this->includeOptionsInParams(
-            $options, $params, array(
-                                    'waitForSync' => $this->getConnection()->getOption(
-                                        ConnectionOptions::OPTION_WAIT_SYNC
-                                    ),
-                                    'keepNull'    => true,
-                               )
+            $options,
+            $params,
+            array(
+                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
+                 'keepNull'    => true,
+            )
         );
         if (!is_null($revision)) {
             $params[ConnectionOptions::OPTION_REVISION] = $revision;
@@ -615,7 +642,7 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $graphName - the name of the graph
+     * @param mixed      $graphName    - the name of the graph
      * @param mixed      $vertexId     - the vertex id
      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
      * <p>Options are :<br>
@@ -633,8 +660,10 @@ class GraphHandler extends
      * <li>'compare' - A comparison operator. (==, >, <, >=, <= )</li>
      * </p>
      * </p>
-     * <li>'sanitize' - true to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     * <li>'hiddenAttributes' - set an array of hidden attributes for created documents.
+     * <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     * <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+     * <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+     * <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
      * <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
      *                                 The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
@@ -649,8 +678,8 @@ class GraphHandler extends
     {
         $data = array_merge($options, $this->getCursorOptions($options));
 
-        $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_VERTICES, $vertexId);
-        $response = $this->getConnection()->post($url, $this->getConnection()->json_encode_wrapper($data));
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_VERTICES, $vertexId);
+        $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
 
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
@@ -664,7 +693,7 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $graphName - the name of the graph
+     * @param mixed      $graphName    - the name of the graph
      * @param mixed      $vertexId     - the vertex id
      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
      * <p>Options are :<br>
@@ -682,8 +711,10 @@ class GraphHandler extends
      * <li>'compare' - A comparison operator. (==, >, <, >=, <= )</li>
      * </p>
      * </p>
-     * <li>'sanitize' - true to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     * <li>'hiddenAttributes' - set an array of hidden attributes for created documents.
+     * <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     * <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+     * <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+     * <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
      * <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
      *                                 The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
@@ -698,10 +729,9 @@ class GraphHandler extends
     {
         $data = array_merge($options, $this->getCursorOptions($options));
 
-        $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_EDGES, $vertexId);
-        $response = $this->getConnection()->post($url, $this->getConnection()->json_encode_wrapper($data));
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_EDGES, $vertexId);
+        $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
 
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
-
 }
