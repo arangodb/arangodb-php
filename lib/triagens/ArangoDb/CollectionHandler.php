@@ -357,7 +357,7 @@ class CollectionHandler extends
      * @param mixed   $collectionId - The id of the collection where the index is to be created
      * @param string  $type         - index type: hash, skiplist or geo
      * @param array   $attributes   - an array of attributes that can be defined like array('a') or array('a', 'b.c')
-     * @param boolean $unique       - true/false to create a unique index
+     * @param bool    $unique       - true/false to create a unique index
      *
      * @return mixed - id of collection created
      */
@@ -1044,10 +1044,12 @@ class CollectionHandler extends
      * @param array $options        - optional - an array of options.
      * <p>Options are :<br>
      * 'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
-     *                              if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.<br>
-     *                              if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.<br>
+     * <p>
+     * <li>                       if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.</li>
+     * <li>                       if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.</li>
      * <br>
      *                              More info on how the import functionality works: <a href ="https://github.com/triAGENS/ArangoDB/wiki/HttpImport">https://github.com/triAGENS/ArangoDB/wiki/HttpImport</a>
+     * </p>
      * <br>
      * </li>
      * <li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
@@ -1085,11 +1087,14 @@ class CollectionHandler extends
      * <p>Options are :<br>
      * <li>
      * 'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
-     *                            if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.<br>
-     *                            if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.<br>
+     * <p>
+     * <li>                       if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.</li>
+     * <li>                       if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.</li>
      * <br>
      *                            More info on how the import functionality works: <a href ="https://github.com/triAGENS/ArangoDB/wiki/HttpImport">https://github.com/triAGENS/ArangoDB/wiki/HttpImport</a>
+     * </p>
      * <br>
+     *
      * </li>
      * <li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
      * </p>

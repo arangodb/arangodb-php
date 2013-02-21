@@ -168,8 +168,7 @@ class DocumentHandler extends
      * @param bool|array $options      - optional, prior to v1.2.0 this was a boolean value for create. Since v1.0.0 it's an array of options.
      * <p>Options are :<br>
      * <li>'create' - create the collection if it does not yet exist.</li>
-     * <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk.<br>
-     *                                 If this is not specified, then the collection's default sync behavior will be applied.</li>
+     * <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
      * </p>
      *
      * @return mixed - id of document created
@@ -195,12 +194,10 @@ class DocumentHandler extends
      *
      * @param mixed      $collectionId - collection id as string or number
      * @param Document   $document     - the document to be added
-     * @param bool       $create       - create the collection if it does not yet exist
      * @param bool|array $options      - optional, prior to v1.2.0 this was a boolean value for create. Since v1.0.0 it's an array of options.
      * <p>Options are :<br>
      * <li>'create' - create the collection if it does not yet exist.</li>
-     * <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk.<br>
-     *                                 If this is not specified, then the collection's default sync behavior will be applied.</li>
+     * <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
      * </p>
      *
      * @return mixed - id of document created
