@@ -92,7 +92,7 @@ class Cursor implements
     /**
      * sanitize option entry
      */
-    const ENTRY_SANITIZE = 'sanitize';
+    const ENTRY_SANITIZE = '_sanitize';
 
     /**
      * Initialise the cursor with the first results and some metadata

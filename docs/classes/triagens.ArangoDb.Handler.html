@@ -62,9 +62,14 @@
 <li class="nav-header protected">» Protected
                     <ul>
 <li class="method protected "><a href="#method_getConnection" title="getConnection :: Return the connection object"><span class="description">Return the connection object</span><pre>getConnection()</pre></a></li>
+<li class="method protected "><a href="#method_getConnectionOption" title="getConnectionOption :: Return a connection option
+This is a convenience function that calls json_encode_wrapper on the connection"><span class="description">Return a connection option
+This is a convenience function that calls json_encode_wrapper on the connection</span><pre>getConnectionOption()</pre></a></li>
 <li class="method protected "><a href="#method_getCursorOptions" title="getCursorOptions :: Return an array of cursor options"><span class="description">Return an array of cursor options</span><pre>getCursorOptions()</pre></a></li>
+<li class="method protected "><a href="#method_includeOptionsInBody" title="includeOptionsInBody :: Helper function that runs through the options given and includes them into the parameters array given."><span class="description">Helper function that runs through the options given and includes them into the parameters array given.</span><pre>includeOptionsInBody()</pre></a></li>
 <li class="method protected "><a href="#method_includeOptionsInParams" title="includeOptionsInParams :: Helper function that runs through the options given and includes them into the parameters array given."><span class="description">Helper function that runs through the options given and includes them into the parameters array given.</span><pre>includeOptionsInParams()</pre></a></li>
-<li class="method protected "><a href="#method_validateAndIncludePolicyInParams" title="validateAndIncludePolicyInParams :: Helper function that validates and includes the policy setting into the parameters array given."><span class="description">Helper function that validates and includes the policy setting into the parameters array given.</span><pre>validateAndIncludePolicyInParams()</pre></a></li>
+<li class="method protected "><a href="#method_json_encode_wrapper" title="json_encode_wrapper :: Return a json encoded string for the array passed."><span class="description">Return a json encoded string for the array passed.</span><pre>json_encode_wrapper()</pre></a></li>
+<li class="method protected "><a href="#method_validateAndIncludeOldSingleParameterInParams" title="validateAndIncludeOldSingleParameterInParams :: Helper function that validates and includes an old single method parameter setting into the parameters array given."><span class="description">Helper function that validates and includes an old single method parameter setting into the parameters array given.</span><pre>validateAndIncludeOldSingleParameterInParams()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header">
@@ -125,17 +130,35 @@
 <code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>- the connection object</div>
 </div></div>
 </div>
-<a id="method_getCursorOptions"></a><div class="element clickable method protected method_getCursorOptions" data-toggle="collapse" data-target=".method_getCursorOptions .collapse">
-<h2>Return an array of cursor options</h2>
-<pre>getCursorOptions(bool $sanitize) : array</pre>
+<a id="method_getConnectionOption"></a><div class="element clickable method protected method_getConnectionOption" data-toggle="collapse" data-target=".method_getConnectionOption .collapse">
+<h2>Return a connection option
+This is a convenience function that calls json_encode_wrapper on the connection</h2>
+<pre>getConnectionOption($optionName) : mixed</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$sanitize</h4>
+<h4>$optionName</h4><ul>
+<li>The option to return a value for</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>- the option's value</div>
+</div></div>
+</div>
+<a id="method_getCursorOptions"></a><div class="element clickable method protected method_getCursorOptions" data-toggle="collapse" data-target=".method_getCursorOptions .collapse">
+<h2>Return an array of cursor options</h2>
+<pre>getCursorOptions(bool $options) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$options</h4>
 <code>bool</code><ul>
-<li>sanitize flag</li>
+<li>$options might be a boolean sanitize value, or an array of options, with or without a '_sanitize' key.</li>
 </ul>
 </div>
 <h3>Returns</h3>
@@ -143,12 +166,44 @@
 <code>array</code>- array of options</div>
 </div></div>
 </div>
+<a id="method_includeOptionsInBody"></a><div class="element clickable method protected method_includeOptionsInBody" data-toggle="collapse" data-target=".method_includeOptionsInBody .collapse">
+<h2>Helper function that runs through the options given and includes them into the parameters array given.</h2>
+<pre>includeOptionsInBody(array $options, array $body, array $includeArray) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Only options that are set in $includeArray will be included.
+This is only for options that are to be sent to the ArangoDB server in a json body(like 'limit', 'skip', etc...) .</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><ul>
+<li>The options array that holds the options to include in the parameters</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$body</h4>
+<code>array</code><ul>
+<li>The array into which the options will be included.</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$includeArray</h4>
+<code>array</code><ul>
+<li>The array that defines which options are allowed to be included, and what their default value is. for example: 'waitForSync'=>true</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>$params - array of parameters for use in a url</div>
+</div></div>
+</div>
 <a id="method_includeOptionsInParams"></a><div class="element clickable method protected method_includeOptionsInParams" data-toggle="collapse" data-target=".method_includeOptionsInParams .collapse">
 <h2>Helper function that runs through the options given and includes them into the parameters array given.</h2>
 <pre>includeOptionsInParams(array $options, array $params, array $includeArray) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>Only options that are set in $includeArray will be included.</p></div>
+<div class="long_description"><p>Only options that are set in $includeArray will be included.
+This is only for options that are to be sent to the ArangoDB server in form of url parameters (like 'waitForSync', 'keepNull', etc...) .</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$options</h4>
@@ -173,12 +228,32 @@
 <code>array</code>$params - array of parameters for use in a url</div>
 </div></div>
 </div>
-<a id="method_validateAndIncludePolicyInParams"></a><div class="element clickable method protected method_validateAndIncludePolicyInParams" data-toggle="collapse" data-target=".method_validateAndIncludePolicyInParams .collapse">
-<h2>Helper function that validates and includes the policy setting into the parameters array given.</h2>
-<pre>validateAndIncludePolicyInParams(array $options, array $params, mixed $policyOption) : array</pre>
+<a id="method_json_encode_wrapper"></a><div class="element clickable method protected method_json_encode_wrapper" data-toggle="collapse" data-target=".method_json_encode_wrapper .collapse">
+<h2>Return a json encoded string for the array passed.</h2>
+<pre>json_encode_wrapper(array $body) : string</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This is a convenience function that calls json_encode_wrapper on the connection</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$body</h4>
+<code>array</code><ul>
+<li>The body to encode into json</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>- json string of the body that was passed</div>
+</div></div>
+</div>
+<a id="method_validateAndIncludeOldSingleParameterInParams"></a><div class="element clickable method protected method_validateAndIncludeOldSingleParameterInParams" data-toggle="collapse" data-target=".method_validateAndIncludeOldSingleParameterInParams .collapse">
+<h2>Helper function that validates and includes an old single method parameter setting into the parameters array given.</h2>
+<pre>validateAndIncludeOldSingleParameterInParams(array $options, array $params, mixed $parameter) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This is only for keeping backwards-compatibility where methods had for example a parameter which was called 'policy' and
+which was later changed to being an array of options, so more than one options can be passed easily.
+This is only for options that are to be sent to the ArangoDB server.</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$options</h4>
@@ -193,9 +268,9 @@
 </ul>
 </div>
 <div class="subelement argument">
-<h4>$policyOption</h4>
+<h4>$parameter</h4>
 <code>mixed</code><ul>
-<li>the policyOption key to use.</li>
+<li>the old single parameter key to use.</li>
 </ul>
 </div>
 <h3>Returns</h3>
@@ -224,7 +299,7 @@
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-02-20T03:52:36+02:00.<br></footer></div>
+            generated on 2013-02-21T04:20:48+02:00.<br></footer></div>
 </div>
 </body>
 </html>

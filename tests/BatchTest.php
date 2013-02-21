@@ -181,7 +181,8 @@ class BatchTest extends
 
         $resultingAttribute = $resultingCollection->getName();
         $this->assertTrue(
-            $name === $resultingAttribute, 'The created collection name and resulting collection name do not match!'
+            $name === $resultingAttribute,
+            'The created collection name and resulting collection name do not match!'
         );
 
         $this->assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
@@ -237,7 +238,10 @@ class BatchTest extends
         $edgeDocumentHandler = new \triagens\ArangoDb\EdgeHandler($connection);
         $edgeDocument->set('label', 'knows');
         $edgeDocumentId = $edgeDocumentHandler->saveEdge(
-            $edgeCollection->getName(), $document1->getHandle(), $document2->getHandle(), $edgeDocument
+            $edgeCollection->getName(),
+            $document1->getHandle(),
+            $document2->getHandle(),
+            $edgeDocument
         );
 
         $result = $batch->process();

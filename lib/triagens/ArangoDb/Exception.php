@@ -2,9 +2,9 @@
 
 /**
  * ArangoDB PHP client: exception base class
- * 
- * @package ArangoDbPhpClient
- * @author Jan Steemann
+ *
+ * @package   ArangoDbPhpClient
+ * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
 
@@ -15,5 +15,7 @@ namespace triagens\ArangoDb;
  *
  * @package ArangoDbPhpClient
  */
-class Exception extends \Exception {
+class Exception extends
+    \Exception
+{
 }

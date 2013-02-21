@@ -307,19 +307,19 @@ class CollectionHandler extends
     public function create(Collection $collection)
     {
         if ($collection->getWaitForSync() === null) {
-            $collection->setWaitForSync($this->getConnection()->getOption(ConnectionOptions::OPTION_WAIT_SYNC));
+            $collection->setWaitForSync($this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC));
         }
 
         if ($collection->getJournalSize() === null) {
-            $collection->setJournalSize($this->getConnection()->getOption(ConnectionOptions::OPTION_JOURNAL_SIZE));
+            $collection->setJournalSize($this->getConnectionOption(ConnectionOptions::OPTION_JOURNAL_SIZE));
         }
 
         if ($collection->getIsSystem() === null) {
-            $collection->setIsSystem($this->getConnection()->getOption(ConnectionOptions::OPTION_IS_SYSTEM));
+            $collection->setIsSystem($this->getConnectionOption(ConnectionOptions::OPTION_IS_SYSTEM));
         }
 
         if ($collection->getIsVolatile() === null) {
-            $collection->setIsVolatile($this->getConnection()->getOption(ConnectionOptions::OPTION_IS_VOLATILE));
+            $collection->setIsVolatile($this->getConnectionOption(ConnectionOptions::OPTION_IS_VOLATILE));
         }
 
         $type     = $collection->getType() ? $collection->getType() : Collection::getDefaultType();
@@ -331,7 +331,7 @@ class CollectionHandler extends
             Collection::ENTRY_IS_SYSTEM    => $collection->getIsSystem(),
             Collection::ENTRY_IS_VOLATILE  => $collection->getIsVolatile()
         );
-        $response = $this->getConnection()->post(Urls::URL_COLLECTION, $this->getConnection()->json_encode_wrapper($params));
+        $response = $this->getConnection()->post(Urls::URL_COLLECTION, $this->json_encode_wrapper($params));
 
         //    $location = $response->getLocationHeader();
         //    if (!$location) {
@@ -357,7 +357,7 @@ class CollectionHandler extends
      * @param mixed   $collectionId - The id of the collection where the index is to be created
      * @param string  $type         - index type: hash, skiplist or geo
      * @param array   $attributes   - an array of attributes that can be defined like array('a') or array('a', 'b.c')
-     * @param boolean $unique       - true/false to create a unique index
+     * @param bool    $unique       - true/false to create a unique index
      *
      * @return mixed - id of collection created
      */
@@ -371,7 +371,7 @@ class CollectionHandler extends
             self::OPTION_UNIQUE => $unique
         );
         $url        = UrlHelper::appendParamsUrl(Urls::URL_INDEX, $urlParams);
-        $response   = $this->getConnection()->post($url, $this->getConnection()->json_encode_wrapper($bodyParams));
+        $response   = $this->getConnection()->post($url, $this->json_encode_wrapper($bodyParams));
 
         $httpCode = $response->getHttpCode();
         switch ($httpCode) {
@@ -489,7 +489,10 @@ class CollectionHandler extends
         }
 
         $params = array(Collection::ENTRY_NAME => $name);
-        $result = $this->getConnection()->put(UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_RENAME), $this->getConnection()->json_encode_wrapper($params));
+        $result = $this->getConnection()->put(
+            UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_RENAME),
+            $this->json_encode_wrapper($params)
+        );
 
         return true;
     }
@@ -513,7 +516,10 @@ class CollectionHandler extends
             throw new ClientException('Cannot alter a collection without a collection id');
         }
 
-        $result = $this->getConnection()->put(UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_LOAD), '');
+        $result = $this->getConnection()->put(
+            UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_LOAD),
+            ''
+        );
 
         return $result;
     }
@@ -538,7 +544,10 @@ class CollectionHandler extends
             throw new ClientException('Cannot alter a collection without a collection id');
         }
 
-        $result = $this->getConnection()->put(UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_UNLOAD), '');
+        $result = $this->getConnection()->put(
+            UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_UNLOAD),
+            ''
+        );
 
         return $result;
     }
@@ -563,7 +572,10 @@ class CollectionHandler extends
             throw new ClientException('Cannot alter a collection without a collection id');
         }
 
-        $result = $this->getConnection()->put(UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_TRUNCATE), '');
+        $result = $this->getConnection()->put(
+            UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_TRUNCATE),
+            ''
+        );
 
         return true;
     }
@@ -581,14 +593,19 @@ class CollectionHandler extends
      * @param mixed      $document     - the example document as a Document object or an array
      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
      * <p>Options are :<br>
-     * <li>'sanitize' - true to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     * <li>'hiddenAttributes' - set an array of hidden attributes for created documents.
+     * <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     * <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+     * <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+     * <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
      * <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
      *                                 The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
      *                                 and the hidden attributes would not be applied to the attributes.<br>
      * </p>
      * </li>
+     * <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
+     * <li>'skip' -  Optional, The number of documents to skip in the query.</li>
+     * <li>'limit' -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
      * </p>
      *
      * @return cursor - Returns a cursor containing the result
@@ -596,15 +613,14 @@ class CollectionHandler extends
     public function byExample($collectionId, $document, $options = array())
     {
         // This preserves compatibility for the old sanitize parameter.
-        $sanitize = false;
         if (!is_array($options)) {
             $sanitize = $options;
             $options  = array();
+            $options  = array_merge($options, $this->getCursorOptions($sanitize));
+        } else {
+            $options = array_merge($options, $this->getCursorOptions($options));
         }
-        else {
-            $sanitize = array_key_exists('sanitize', $options) ? $options['sanitize'] : $sanitize;
-        }
-        $options = array_merge($options, $this->getCursorOptions($sanitize));
+
         if (is_array($document)) {
             $document = Document::createFromArray($document, $options);
         }
@@ -613,12 +629,22 @@ class CollectionHandler extends
             throw new ClientException('Invalid example document specification');
         }
 
-        $data = array(
+        $body = array(
             self::OPTION_COLLECTION => $collectionId,
-            self::OPTION_EXAMPLE    => $document->getAll(array('ignoreHiddenAttributes' => true))
+            self::OPTION_EXAMPLE    => $document->getAll(array('_ignoreHiddenAttributes' => true))
         );
 
-        $response = $this->getConnection()->put(Urls::URL_EXAMPLE, $this->getConnection()->json_encode_wrapper($data));
+        $body = $this->includeOptionsInBody(
+            $options,
+            $body,
+            array(
+                 ConnectionOptions::OPTION_BATCHSIZE => $this->getConnectionOption(ConnectionOptions::OPTION_BATCHSIZE),
+                 self::OPTION_LIMIT                  => null,
+                 self::OPTION_SKIP                   => null,
+            )
+        );
+
+        $response = $this->getConnection()->put(Urls::URL_EXAMPLE, $this->json_encode_wrapper($body));
 
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
@@ -636,8 +662,10 @@ class CollectionHandler extends
      * @param mixed      $document     - the example document as a Document object or an array
      * @param bool|array $options      - optional, an array of options.
      * <p>Options are :<br>
-     * <li>'sanitize' - true to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     * <li>'hiddenAttributes' - set an array of hidden attributes for created documents.
+     * <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     * <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+     * <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+     * <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
      * <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
      *                                 The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
@@ -651,15 +679,14 @@ class CollectionHandler extends
     public function firstExample($collectionId, $document, $options = array())
     {
         // This preserves compatibility for the old sanitize parameter.
-        $sanitize = false;
         if (!is_array($options)) {
             $sanitize = $options;
             $options  = array();
+            $options  = array_merge($options, $this->getCursorOptions($sanitize));
+        } else {
+            $options = array_merge($options, $this->getCursorOptions($options));
         }
-        else {
-            $sanitize = array_key_exists('sanitize', $options) ? $options['sanitize'] : $sanitize;
-        }
-        $options = array_merge($options, $this->getCursorOptions($sanitize));
+
         if (is_array($document)) {
             $document = Document::createFromArray($document, $options);
         }
@@ -670,11 +697,11 @@ class CollectionHandler extends
 
         $data = array(
             self::OPTION_COLLECTION => $collectionId,
-            self::OPTION_EXAMPLE    => $document->getAll(array('ignoreHiddenAttributes' => true))
+            self::OPTION_EXAMPLE    => $document->getAll(array('_ignoreHiddenAttributes' => true))
         );
 
-        $response = $this->getConnection()->put(Urls::URL_FIRST_EXAMPLE, $this->getConnection()->json_encode_wrapper($data));
-        $data = $response->getJson();
+        $response = $this->getConnection()->put(Urls::URL_FIRST_EXAMPLE, $this->json_encode_wrapper($data));
+        $data     = $response->getJson();
 
         return Document::createFromArray($data['document'], $options);
     }
@@ -696,8 +723,11 @@ class CollectionHandler extends
      *                                 If this is not specified, then the collection's default sync behavior will be applied.
      * </li>
      * </p>
+     * <li>'limit' -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
      *
      * @return int - number of documents that were deleted
+     *
+     * @since 1.2
      */
     public function removeByExample($collectionId, $document, $options = array())
     {
@@ -709,12 +739,21 @@ class CollectionHandler extends
             throw new ClientException('Invalid example document specification');
         }
 
-        $data = array(
+        $body = array(
             self::OPTION_COLLECTION => $collectionId,
-            self::OPTION_EXAMPLE    => $document->getAll(array('ignoreHiddenAttributes' => true))
+            self::OPTION_EXAMPLE    => $document->getAll(array('_ignoreHiddenAttributes' => true))
         );
 
-        $response = $this->getConnection()->put(Urls::URL_REMOVE_BY_EXAMPLE, $this->getConnection()->json_encode_wrapper($data));
+        $body = $this->includeOptionsInBody(
+            $options,
+            $body,
+            array(
+                 ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
+                 self::OPTION_LIMIT                  => null,
+            )
+        );
+
+        $response = $this->getConnection()->put(Urls::URL_REMOVE_BY_EXAMPLE, $this->json_encode_wrapper($body));
 
         $responseArray = $response->getJson();
 
@@ -740,8 +779,10 @@ class CollectionHandler extends
      * @param mixed  $right           - The upper bound.
      * @param array  $options         - optional array of options.
      * <p>Options are :<br>
-     * <li>'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     * <li>'hiddenAttributes' - Set an array of hidden attributes for created documents.
+     * <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     * <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+     * <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+     * <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
      * <p>
      *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
      *                                The difference is, that if you're returning a resultset of documents, the getall() is already called<br>
@@ -749,8 +790,9 @@ class CollectionHandler extends
      * </p>
      *
      * <li>'closed' - If true, use interval including left and right, otherwise exclude right, but include left.
-     * <li>'skip' - The documents to skip in the query.
-     * <li>'limit' - The maximal amount of documents to return.
+     * <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
+     * <li>'skip' -  Optional, The number of documents to skip in the query.</li>
+     * <li>'limit' -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
      * </li>
      * </p>
      *
@@ -758,37 +800,30 @@ class CollectionHandler extends
      */
     public function range($collectionId, $attribute, $left, $right, $options = array())
     {
-        $closed   = null;
-        $skip     = null;
-        $limit    = null;
-        $sanitize = false;
-        $options  = array_merge($options, $this->getCursorOptions($sanitize));
-        extract($options, EXTR_IF_EXISTS);
+        $options = array_merge($options, $this->getCursorOptions($options));
 
         if ($attribute === '') {
             throw new ClientException('Invalid attribute specification');
         }
 
-        $data = array(
+        $body = array(
             self::OPTION_COLLECTION => $collectionId,
             self::OPTION_ATTRIBUTE  => $attribute,
             self::OPTION_LEFT       => $left,
             self::OPTION_RIGHT      => $right
         );
-        if ($closed) {
-            $data[self::OPTION_CLOSED] = $closed;
-        }
-        ;
-        if ($skip) {
-            $data[self::OPTION_SKIP] = $skip;
-        }
-        ;
-        if ($limit) {
-            $data[self::OPTION_LIMIT] = $limit;
-        }
-        ;
 
-        $response = $this->getConnection()->put(Urls::URL_RANGE, $this->getConnection()->json_encode_wrapper($data));
+        $body = $this->includeOptionsInBody(
+            $options,
+            $body,
+            array(
+                 self::OPTION_CLOSED => null,
+                 self::OPTION_LIMIT  => null,
+                 self::OPTION_SKIP   => null,
+            )
+        );
+
+        $response = $this->getConnection()->put(Urls::URL_RANGE, $this->json_encode_wrapper($body));
 
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
@@ -807,8 +842,10 @@ class CollectionHandler extends
      * @param double $longitude       - The longitude of the coordinate.
      * @param array  $options         - optional array of options.
      * <p>Options are :<br>
-     * <li>'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     * <li>'hiddenAttributes' - Set an array of hidden attributes for created documents.
+     * <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     * <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+     * <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+     * <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
      * <p>
      *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
      *                                The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
@@ -816,8 +853,9 @@ class CollectionHandler extends
      * </p>
      *
      * <li>'distance' - If given, the attribute key used to store the distance. (optional)
-     * <li>'skip' - The documents to skip in the query.
-     * <li>'limit' - The maximal amount of documents to return.
+     * <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
+     * <li>'skip' -  Optional, The number of documents to skip in the query.</li>
+     * <li>'limit' -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
      * </li>
      * </p>
      *
@@ -825,31 +863,25 @@ class CollectionHandler extends
      */
     public function near($collectionId, $latitude, $longitude, $options = array())
     {
-        $distance = null;
-        $skip     = null;
-        $limit    = null;
-        $sanitize = false;
-        $options  = array_merge($options, $this->getCursorOptions($sanitize));
-        extract($options, EXTR_IF_EXISTS);
+        $options = array_merge($options, $this->getCursorOptions($options));
 
-        $data = array(
+        $body = array(
             self::OPTION_COLLECTION => $collectionId,
             self::OPTION_LATITUDE   => $latitude,
             self::OPTION_LONGITUDE  => $longitude
         );
-        if ($skip) {
-            $data[self::OPTION_SKIP] = $skip;
-        }
-        ;
-        if ($limit) {
-            $data[self::OPTION_LIMIT] = $limit;
-        }
-        ;
-        if ($distance) {
-            $data[self::OPTION_DISTANCE] = $distance;
-        }
-        ;
-        $response = $this->getConnection()->put(Urls::URL_NEAR, $this->getConnection()->json_encode_wrapper($data));
+
+        $body = $this->includeOptionsInBody(
+            $options,
+            $body,
+            array(
+                 self::OPTION_DISTANCE => null,
+                 self::OPTION_LIMIT    => null,
+                 self::OPTION_SKIP     => null,
+            )
+        );
+
+        $response = $this->getConnection()->put(Urls::URL_NEAR, $this->json_encode_wrapper($body));
 
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
@@ -869,8 +901,10 @@ class CollectionHandler extends
      * @param int    $radius          - The maximal radius (in meters).
      * @param array  $options         - optional array of options.
      * <p>Options are :<br>
-     * <li>'sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     * <li>'hiddenAttributes' - Set an array of hidden attributes for created documents.
+     * <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     * <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+     * <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+     * <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
      * <p>
      *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
      *                                The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
@@ -878,8 +912,9 @@ class CollectionHandler extends
      * </p>
      *
      * <li>'distance' - If given, the attribute key used to store the distance. (optional)
-     * <li>'skip' - The documents to skip in the query.
-     * <li>'limit' - The maximal amount of documents to return.
+     * <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
+     * <li>'skip' -  Optional, The number of documents to skip in the query.</li>
+     * <li>'limit' -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
      * </li>
      * </p>
      *
@@ -887,32 +922,26 @@ class CollectionHandler extends
      */
     public function within($collectionId, $latitude, $longitude, $radius, $options = array())
     {
-        $distance = null;
-        $skip     = null;
-        $limit    = null;
-        $sanitize = false;
-        $options  = array_merge($options, $this->getCursorOptions($sanitize));
-        extract($options, EXTR_IF_EXISTS);
+        $options = array_merge($options, $this->getCursorOptions($options));
 
-        $data = array(
+        $body = array(
             self::OPTION_COLLECTION => $collectionId,
             self::OPTION_LATITUDE   => $latitude,
             self::OPTION_LONGITUDE  => $longitude,
             self::OPTION_RADIUS     => $radius
         );
-        if ($skip) {
-            $data[self::OPTION_SKIP] = $skip;
-        }
-        ;
-        if ($limit) {
-            $data[self::OPTION_LIMIT] = $limit;
-        }
-        ;
-        if ($distance) {
-            $data[self::OPTION_DISTANCE] = $distance;
-        }
-        ;
-        $response = $this->getConnection()->put(Urls::URL_WITHIN, $this->getConnection()->json_encode_wrapper($data));
+
+        $body = $this->includeOptionsInBody(
+            $options,
+            $body,
+            array(
+                 self::OPTION_DISTANCE => null,
+                 self::OPTION_LIMIT    => null,
+                 self::OPTION_SKIP     => null,
+            )
+        );
+
+        $response = $this->getConnection()->put(Urls::URL_WITHIN, $this->json_encode_wrapper($body));
 
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
@@ -974,8 +1003,7 @@ class CollectionHandler extends
             $collectionId = $collection->getId();
 
             return $collectionId;
-        }
-        else {
+        } else {
             $collectionId = $collection;
 
             return $collectionId;
@@ -996,8 +1024,7 @@ class CollectionHandler extends
             $collectionId = $collection->getName();
 
             return $collectionId;
-        }
-        else {
+        } else {
             $collectionId = $collection;
 
             return $collectionId;
@@ -1017,10 +1044,12 @@ class CollectionHandler extends
      * @param array $options        - optional - an array of options.
      * <p>Options are :<br>
      * 'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
-     *                              if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.<br>
-     *                              if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.<br>
+     * <p>
+     * <li>                       if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.</li>
+     * <li>                       if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.</li>
      * <br>
      *                              More info on how the import functionality works: <a href ="https://github.com/triAGENS/ArangoDB/wiki/HttpImport">https://github.com/triAGENS/ArangoDB/wiki/HttpImport</a>
+     * </p>
      * <br>
      * </li>
      * <li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
@@ -1029,10 +1058,9 @@ class CollectionHandler extends
      * @return int - number of documents that were deleted
      */
     public function importFromFile(
-        $collectionId, $importFileName, $options = array(
-        'createCollection' => false,
-        'type'             => null
-    )
+        $collectionId,
+        $importFileName,
+        $options = array('createCollection' => false, 'type' => null)
     ) {
 
         $contents = file_get_contents($importFileName);
@@ -1059,11 +1087,14 @@ class CollectionHandler extends
      * <p>Options are :<br>
      * <li>
      * 'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
-     *                            if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.<br>
-     *                            if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.<br>
+     * <p>
+     * <li>                       if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.</li>
+     * <li>                       if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.</li>
      * <br>
      *                            More info on how the import functionality works: <a href ="https://github.com/triAGENS/ArangoDB/wiki/HttpImport">https://github.com/triAGENS/ArangoDB/wiki/HttpImport</a>
+     * </p>
      * <br>
+     *
      * </li>
      * <li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
      * </p>
@@ -1071,10 +1102,12 @@ class CollectionHandler extends
      * @return int - number of documents that were deleted
      */
     public function import(
-        $collectionId, $importData, $options = array(
-        'createCollection' => false,
-        'type'             => null
-    )
+        $collectionId,
+        $importData,
+        $options = array(
+            'createCollection' => false,
+            'type'             => null
+        )
     ) {
         $tmpContent = '';
         if (is_array($importData)) {

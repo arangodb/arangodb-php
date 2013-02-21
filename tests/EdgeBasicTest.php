@@ -72,7 +72,10 @@ class EdgeBasicTest extends
 
         $edgeDocument->set('label', 'knows');
         $edgeDocumentId = $edgeDocumentHandler->saveEdge(
-            $edgeCollection->getName(), $documentHandle1, $documentHandle2, $edgeDocument
+            $edgeCollection->getName(),
+            $documentHandle1,
+            $documentHandle2,
+            $edgeDocument
         );
 
         $resultingDocument = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
@@ -81,13 +84,16 @@ class EdgeBasicTest extends
 
         $resultingAttribute = $resultingEdge->label;
         $this->assertTrue(
-            $resultingAttribute === 'knows', 'Attribute set on the Edge is different from the one retrieved!'
+            $resultingAttribute === 'knows',
+            'Attribute set on the Edge is different from the one retrieved!'
         );
 
 
         $edgesQuery1Result = $edgeDocumentHandler->edges($edgeCollection->getName(), $documentHandle1, 'out');
         $this->assertArrayHasKey(
-            'documents', $edgesQuery1Result, "edges didn't return an array with a documents attribute!"
+            'documents',
+            $edgesQuery1Result,
+            "edges didn't return an array with a documents attribute!"
         );
 
         $statement = new \triagens\ArangoDb\Statement($connection, array(
@@ -103,7 +109,9 @@ class EdgeBasicTest extends
 
         $result = $cursor->current();
         $this->assertInstanceOf(
-            'triagens\ArangoDb\Document', $result, "IN PATHS statement did not return a document object!"
+            'triagens\ArangoDb\Document',
+            $result,
+            "IN PATHS statement did not return a document object!"
         );
         $resultingDocument->set('label', 'knows not');
 
@@ -159,7 +167,10 @@ class EdgeBasicTest extends
         $edgeDocument->set('label', $isoValue);
 
         $edgeDocumentId = $edgeDocumentHandler->saveEdge(
-            $edgeCollection->getId(), $documentHandle1, $documentHandle2, $edgeDocument
+            $edgeCollection->getId(),
+            $documentHandle1,
+            $documentHandle2,
+            $edgeDocument
         );
 
         $resultingDocument = $documentHandler->get($edgeCollection->getId(), $edgeDocumentId);
@@ -168,13 +179,16 @@ class EdgeBasicTest extends
 
         $resultingAttribute = $resultingEdge->label;
         $this->assertTrue(
-            $resultingAttribute === 'knows', 'Attribute set on the Edge is different from the one retrieved!'
+            $resultingAttribute === 'knows',
+            'Attribute set on the Edge is different from the one retrieved!'
         );
 
 
         $edgesQuery1Result = $edgeDocumentHandler->edges($edgeCollection->getId(), $documentHandle1, 'out');
         $this->assertArrayHasKey(
-            'documents', $edgesQuery1Result, "edges didn't return an array with a documents attribute!"
+            'documents',
+            $edgesQuery1Result,
+            "edges didn't return an array with a documents attribute!"
         );
 
         $statement = new \triagens\ArangoDb\Statement($connection, array(
@@ -190,7 +204,9 @@ class EdgeBasicTest extends
 
         $result = $cursor->current();
         $this->assertInstanceOf(
-            'triagens\ArangoDb\Document', $result, "IN PATHS statement did not return a document object!"
+            'triagens\ArangoDb\Document',
+            $result,
+            "IN PATHS statement did not return a document object!"
         );
         $resultingDocument->set('label', 'knows not');
 
