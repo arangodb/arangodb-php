@@ -2,9 +2,9 @@
 
 /**
  * ArangoDB PHP client: update policies
- * 
- * @package ArangoDbPhpClient
- * @author Jan Steemann
+ *
+ * @package   ArangoDbPhpClient
+ * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
 
@@ -15,29 +15,33 @@ namespace triagens\ArangoDb;
  *
  * @package ArangoDbPhpClient
  */
-class UpdatePolicy {
-  /**
-   * last update will win in case of conflicting versions
-   */
-  const LAST  = 'last';
-  
-  /**
-   * an error will be returned in case of conflicting versions
-   */
-  const ERROR = 'error';
+class UpdatePolicy
+{
+    /**
+     * last update will win in case of conflicting versions
+     */
+    const LAST = 'last';
 
-  /**
-   * Check if the supplied policy value is valid
-   *
-   * @throws ClientException
-   * @param string $value - update policy value
-   * @return void
-   */
-  public static function validate($value) {
-    assert(is_string($value));
+    /**
+     * an error will be returned in case of conflicting versions
+     */
+    const ERROR = 'error';
 
-    if (!in_array($value, array(self::LAST, self::ERROR))) {
-      throw new ClientException('Invalid update policy');
+    /**
+     * Check if the supplied policy value is valid
+     *
+     * @throws ClientException
+     *
+     * @param string $value - update policy value
+     *
+     * @return void
+     */
+    public static function validate($value)
+    {
+        assert(is_string($value));
+
+        if (!in_array($value, array(self::LAST, self::ERROR))) {
+            throw new ClientException('Invalid update policy');
+        }
     }
-  }
 }
