@@ -1,4 +1,21 @@
 
+v1.2.beta2 (xxxx-xx-xx)
+-----------------------
+
+* Reformatted code to conform with PSR-1 and partly with PSR-2.
+
+* Fixed: Options not implemented in CollectionHandler->RemoveByExample().
+
+* Refactoring work done around generation of url parameters and body options from $options passed to methods.
+
+* Changed client options on methods to be underscored. The non underscored options still work, but they are deprecated.
+  Affected options are: sanitize, hiddenAttributes, includeInternals and ignoreHiddenAttributes.
+  The new ones are: _sanitize, _hiddenAttributes, _includeInternals and _ignoreHiddenAttributes.
+
+* Various documentation fixes.
+
+
+
 v1.2.beta1 (2013-02-20)
 -----------------------
 
