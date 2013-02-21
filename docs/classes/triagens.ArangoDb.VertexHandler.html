@@ -80,9 +80,14 @@ Attention - The behavior of this method has changed since version 1.1</span><pre
 <li class="nav-header protected">» Protected
                     <ul>
 <li class="method protected inherited"><a href="#method_getConnection" title="getConnection :: Return the connection object"><span class="description">Return the connection object</span><pre>getConnection()</pre></a></li>
+<li class="method protected inherited"><a href="#method_getConnectionOption" title="getConnectionOption :: Return a connection option
+This is a convenience function that calls json_encode_wrapper on the connection"><span class="description">Return a connection option
+This is a convenience function that calls json_encode_wrapper on the connection</span><pre>getConnectionOption()</pre></a></li>
 <li class="method protected inherited"><a href="#method_getCursorOptions" title="getCursorOptions :: Return an array of cursor options"><span class="description">Return an array of cursor options</span><pre>getCursorOptions()</pre></a></li>
+<li class="method protected inherited"><a href="#method_includeOptionsInBody" title="includeOptionsInBody :: Helper function that runs through the options given and includes them into the parameters array given."><span class="description">Helper function that runs through the options given and includes them into the parameters array given.</span><pre>includeOptionsInBody()</pre></a></li>
 <li class="method protected inherited"><a href="#method_includeOptionsInParams" title="includeOptionsInParams :: Helper function that runs through the options given and includes them into the parameters array given."><span class="description">Helper function that runs through the options given and includes them into the parameters array given.</span><pre>includeOptionsInParams()</pre></a></li>
-<li class="method protected inherited"><a href="#method_validateAndIncludePolicyInParams" title="validateAndIncludePolicyInParams :: Helper function that validates and includes the policy setting into the parameters array given."><span class="description">Helper function that validates and includes the policy setting into the parameters array given.</span><pre>validateAndIncludePolicyInParams()</pre></a></li>
+<li class="method protected inherited"><a href="#method_json_encode_wrapper" title="json_encode_wrapper :: Return a json encoded string for the array passed."><span class="description">Return a json encoded string for the array passed.</span><pre>json_encode_wrapper()</pre></a></li>
+<li class="method protected inherited"><a href="#method_validateAndIncludeOldSingleParameterInParams" title="validateAndIncludeOldSingleParameterInParams :: Helper function that validates and includes an old single method parameter setting into the parameters array given."><span class="description">Helper function that validates and includes an old single method parameter setting into the parameters array given.</span><pre>validateAndIncludeOldSingleParameterInParams()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header private">» Private
@@ -167,7 +172,7 @@ appropriate HTTP requests to the server.</p></div>
 </div>
 <a id="method_add"></a><div class="element clickable method public method_add" data-toggle="collapse" data-target=".method_add .collapse">
 <h2>Add a document to a collection</h2>
-<pre>add(mixed $collectionId, \triagens\ArangoDb\Document $document, bool $create) : mixed</pre>
+<pre>add(mixed $collectionId, \triagens\ArangoDb\Document $document, bool | array $options) : mixed</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will add the document to the collection and return the document's id</p>
@@ -191,10 +196,15 @@ appropriate HTTP requests to the server.</p></div>
 </ul>
 </div>
 <div class="subelement argument">
-<h4>$create</h4>
-<code>bool</code><ul>
-<li>create the collection if it does not yet exist</li>
+<h4>$options</h4>
+<code>bool</code><code>array</code><ul>
+<li>optional, prior to v1.2.0 this was a boolean value for create. Since v1.0.0 it's an array of options.</li>
 </ul>
+
+<p>Options are :<br>
+<li>'create' - create the collection if it does not yet exist.</li>
+<li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
+</p>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -324,8 +334,10 @@ appropriate HTTP requests to the server.</p></div>
 </ul>
 
 <p>Options are :
-<li>'includeInternals' - true to include the internal attributes. Defaults to false</li>
-<li>'ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+<li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
+<li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
+<li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+<li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
 </p>
 </div>
 <h3>Exceptions</h3>
@@ -367,7 +379,7 @@ appropriate HTTP requests to the server.</p></div>
 </div>
 <a id="method_getByExample"></a><div class="element clickable method public method_getByExample" data-toggle="collapse" data-target=".method_getByExample .collapse">
 <h2>Get document(s) by specifying an example</h2>
-<pre>getByExample(mixed $collectionId, mixed $document, bool $sanitize) : \triagens\ArangoDb\cursor</pre>
+<pre>getByExample(mixed $collectionId, mixed $document, bool | array $options) : \triagens\ArangoDb\cursor</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw if the list cannot be fetched from the server</p></div>
@@ -389,10 +401,26 @@ appropriate HTTP requests to the server.</p></div>
 </ul>
 </div>
 <div class="subelement argument">
-<h4>$sanitize</h4>
-<code>bool</code><ul>
-<li>remove _id and _rev attributes from result documents</li>
+<h4>$options</h4>
+<code>bool</code><code>array</code><ul>
+<li>optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.</li>
 </ul>
+
+<p>Options are :<br>
+<li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+<li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+<li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+<li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
+<p>
+                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+                                The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+                                and the hidden attributes would not be applied to the attributes.<br>
+</p>
+</li>
+<li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
+<li>'skip' -  Optional, The number of documents to skip in the query.</li>
+<li>'limit' -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
+</p>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -434,8 +462,10 @@ appropriate HTTP requests to the server.</p></div>
 </ul>
 
 <p>Options are :
-<li>'includeInternals' - true to include the internal attributes. Defaults to false</li>
-<li>'ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+<li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
+<li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
+<li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+<li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
 </p>
 </div>
 <h3>Exceptions</h3>
@@ -638,7 +668,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
 </div>
 <a id="method_save"></a><div class="element clickable method public method_save" data-toggle="collapse" data-target=".method_save .collapse">
 <h2>save a document to a collection</h2>
-<pre>save(mixed $collectionId, \triagens\ArangoDb\Document $document, bool $create) : mixed</pre>
+<pre>save(mixed $collectionId, \triagens\ArangoDb\Document $document, bool | array $options) : mixed</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will add the document to the collection and return the document's id</p>
@@ -668,10 +698,15 @@ that the revision of the to-be-replaced document is the same as the one given.</
 </ul>
 </div>
 <div class="subelement argument">
-<h4>$create</h4>
-<code>bool</code><ul>
-<li>create the collection if it does not yet exist</li>
+<h4>$options</h4>
+<code>bool</code><code>array</code><ul>
+<li>optional, prior to v1.2.0 this was a boolean value for create. Since v1.0.0 it's an array of options.</li>
 </ul>
+
+<p>Options are :<br>
+<li>'create' - create the collection if it does not yet exist.</li>
+<li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
+</p>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -809,9 +844,37 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>- the connection object</div>
 </div></div>
 </div>
+<a id="method_getConnectionOption"></a><div class="element clickable method protected method_getConnectionOption" data-toggle="collapse" data-target=".method_getConnectionOption .collapse">
+<h2>Return a connection option
+This is a convenience function that calls json_encode_wrapper on the connection</h2>
+<pre>getConnectionOption($optionName) : mixed</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Handler::getConnectionOption()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::getConnectionOption()</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$optionName</h4><ul>
+<li>The option to return a value for</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>- the option's value</div>
+</div></div>
+</div>
 <a id="method_getCursorOptions"></a><div class="element clickable method protected method_getCursorOptions" data-toggle="collapse" data-target=".method_getCursorOptions .collapse">
 <h2>Return an array of cursor options</h2>
-<pre>getCursorOptions(bool $sanitize) : array</pre>
+<pre>getCursorOptions(bool $options) : array</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -827,9 +890,9 @@ that the revision of the to-be-replaced document is the same as the one given.</
 </table>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$sanitize</h4>
+<h4>$options</h4>
 <code>bool</code><ul>
-<li>sanitize flag</li>
+<li>$options might be a boolean sanitize value, or an array of options, with or without a '_sanitize' key.</li>
 </ul>
 </div>
 <h3>Returns</h3>
@@ -837,12 +900,54 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <code>array</code>- array of options</div>
 </div></div>
 </div>
+<a id="method_includeOptionsInBody"></a><div class="element clickable method protected method_includeOptionsInBody" data-toggle="collapse" data-target=".method_includeOptionsInBody .collapse">
+<h2>Helper function that runs through the options given and includes them into the parameters array given.</h2>
+<pre>includeOptionsInBody(array $options, array $body, array $includeArray) : array</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Only options that are set in $includeArray will be included.
+This is only for options that are to be sent to the ArangoDB server in a json body(like 'limit', 'skip', etc...) .</p></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Handler::includeOptionsInBody()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::includeOptionsInBody()</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><ul>
+<li>The options array that holds the options to include in the parameters</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$body</h4>
+<code>array</code><ul>
+<li>The array into which the options will be included.</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$includeArray</h4>
+<code>array</code><ul>
+<li>The array that defines which options are allowed to be included, and what their default value is. for example: 'waitForSync'=>true</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>$params - array of parameters for use in a url</div>
+</div></div>
+</div>
 <a id="method_includeOptionsInParams"></a><div class="element clickable method protected method_includeOptionsInParams" data-toggle="collapse" data-target=".method_includeOptionsInParams .collapse">
 <h2>Helper function that runs through the options given and includes them into the parameters array given.</h2>
 <pre>includeOptionsInParams(array $options, array $params, array $includeArray) : array</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>Only options that are set in $includeArray will be included.</p></div>
+<div class="long_description"><p>Only options that are set in $includeArray will be included.
+This is only for options that are to be sent to the ArangoDB server in form of url parameters (like 'waitForSync', 'keepNull', etc...) .</p></div>
 <table class="table table-bordered">
 <tr>
 <th>inherited_from</th>
@@ -877,20 +982,50 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <code>array</code>$params - array of parameters for use in a url</div>
 </div></div>
 </div>
-<a id="method_validateAndIncludePolicyInParams"></a><div class="element clickable method protected method_validateAndIncludePolicyInParams" data-toggle="collapse" data-target=".method_validateAndIncludePolicyInParams .collapse">
-<h2>Helper function that validates and includes the policy setting into the parameters array given.</h2>
-<pre>validateAndIncludePolicyInParams(array $options, array $params, mixed $policyOption) : array</pre>
+<a id="method_json_encode_wrapper"></a><div class="element clickable method protected method_json_encode_wrapper" data-toggle="collapse" data-target=".method_json_encode_wrapper .collapse">
+<h2>Return a json encoded string for the array passed.</h2>
+<pre>json_encode_wrapper(array $body) : string</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This is a convenience function that calls json_encode_wrapper on the connection</p></div>
 <table class="table table-bordered">
 <tr>
 <th>inherited_from</th>
-<td>\triagens\ArangoDb\Handler::validateAndIncludePolicyInParams()</td>
+<td>\triagens\ArangoDb\Handler::json_encode_wrapper()</td>
 </tr>
 <tr>
 <th>inherited_from</th>
-<td>\triagens\ArangoDb\DocumentHandler::validateAndIncludePolicyInParams()</td>
+<td>\triagens\ArangoDb\DocumentHandler::json_encode_wrapper()</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$body</h4>
+<code>array</code><ul>
+<li>The body to encode into json</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>- json string of the body that was passed</div>
+</div></div>
+</div>
+<a id="method_validateAndIncludeOldSingleParameterInParams"></a><div class="element clickable method protected method_validateAndIncludeOldSingleParameterInParams" data-toggle="collapse" data-target=".method_validateAndIncludeOldSingleParameterInParams .collapse">
+<h2>Helper function that validates and includes an old single method parameter setting into the parameters array given.</h2>
+<pre>validateAndIncludeOldSingleParameterInParams(array $options, array $params, mixed $parameter) : array</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This is only for keeping backwards-compatibility where methods had for example a parameter which was called 'policy' and
+which was later changed to being an array of options, so more than one options can be passed easily.
+This is only for options that are to be sent to the ArangoDB server.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Handler::validateAndIncludeOldSingleParameterInParams()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::validateAndIncludeOldSingleParameterInParams()</td>
 </tr>
 </table>
 <h3>Parameters</h3>
@@ -907,9 +1042,9 @@ that the revision of the to-be-replaced document is the same as the one given.</
 </ul>
 </div>
 <div class="subelement argument">
-<h4>$policyOption</h4>
+<h4>$parameter</h4>
 <code>mixed</code><ul>
-<li>the policyOption key to use.</li>
+<li>the old single parameter key to use.</li>
 </ul>
 </div>
 <h3>Returns</h3>
@@ -1067,7 +1202,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-02-20T03:52:36+02:00.<br></footer></div>
+            generated on 2013-02-21T04:20:48+02:00.<br></footer></div>
 </div>
 </body>
 </html>
