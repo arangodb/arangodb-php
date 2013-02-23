@@ -305,12 +305,28 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param Collection $collection - collection object to be created on the server
+     * @param mixed      $collection   - collection object to be created on the server or a string with the name
+     * @param bool|array $options      - optional, prior to v1.2.0 this was a boolean value for create. Since v1.0.0 it's an array of options.
+     * <p>Options are :<br>
+     * <li>'type' - 2 -> normal collection, 3 -> edge-collection</li>
+     * <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
+     * <li>'journalSize' -  journalSize value.</li>
+     * <li>'isSystem'    -  false->user collection(default), true->system collection .</li>
+     * <li>'isVolatile'  -  false->persistent collection(default), true->volatile (in-memory) collection .</li>
+     * </p>
      *
      * @return mixed - id of collection created
      */
-    public function create(Collection $collection)
+    public function create($collection, $options = array())
     {
+        if (is_string($collection)) {
+            $name       = $collection;
+            $collection = new Collection();
+            $collection->setName($name);
+            foreach ($options as $key => $value) {
+                $collection->{set . ucfirst($key)}($value);
+            }
+        }
         if ($collection->getWaitForSync() === null) {
             $collection->setWaitForSync($this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC));
         }
@@ -598,10 +614,10 @@ class CollectionHandler extends
      * @param mixed      $document     - the example document as a Document object or an array
      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
      * <p>Options are :<br>
-     * <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     * <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+     * <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     * <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
      * <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     * <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
+     * <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
      * <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
      *                                 The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
@@ -609,8 +625,8 @@ class CollectionHandler extends
      * </p>
      * </li>
      * <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
-     * <li>'skip' -  Optional, The number of documents to skip in the query.</li>
-     * <li>'limit' -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
+     * <li>'skip'      - Optional, The number of documents to skip in the query.</li>
+     * <li>'limit'     - Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
      * </p>
      *
      * @return cursor - Returns a cursor containing the result
@@ -667,10 +683,10 @@ class CollectionHandler extends
      * @param mixed      $document     - the example document as a Document object or an array
      * @param bool|array $options      - optional, an array of options.
      * <p>Options are :<br>
-     * <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     * <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+     * <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     * <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
      * <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     * <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
+     * <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
      * <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
      *                                 The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
@@ -726,9 +742,9 @@ class CollectionHandler extends
      * @param mixed    $newValue     - patch document or array which contains the attributes and values to be updated
      * @param mixed    $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
      * <p>Options are :
-     * <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+     * <li>'keepNull'    - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
      * <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     * <li>'limit' - can be used set a limit on how many documents to update at most. If limit is specified but is less than the number of documents in the collection, it is undefined which of the documents will be updated.</li>
+     * <li>'limit'       - can be used set a limit on how many documents to update at most. If limit is specified but is less than the number of documents in the collection, it is undefined which of the documents will be updated.</li>
      * </p>
      *
      * @return bool - always true, will throw if there is an error
@@ -789,9 +805,9 @@ class CollectionHandler extends
      * @param mixed    $newValue     - patch document or array which contains the attributes and values to be replaced
      * @param mixed    $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
      * <p>Options are :
-     * <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+     * <li>'keepNull'    - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
      * <li>'waitForSync' - can be used to force synchronisation of the document replace operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     * <li>'limit' - can be used set a limit on how many documents to replace at most. If limit is specified but is less than the number of documents in the collection, it is undefined which of the documents will be replaced.</li>
+     * <li>'limit'       - can be used set a limit on how many documents to replace at most. If limit is specified but is less than the number of documents in the collection, it is undefined which of the documents will be replaced.</li>
      * </p>
      *
      * @return bool - always true, will throw if there is an error
@@ -910,20 +926,20 @@ class CollectionHandler extends
      * @param mixed  $right           - The upper bound.
      * @param array  $options         - optional array of options.
      * <p>Options are :<br>
-     * <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     * <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+     * <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     * <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
      * <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     * <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
+     * <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
      * <p>
      *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
      *                                The difference is, that if you're returning a resultset of documents, the getall() is already called<br>
      *                                and the hidden attributes would not be applied to the attributes.<br>
      * </p>
      *
-     * <li>'closed' - If true, use interval including left and right, otherwise exclude right, but include left.
+     * <li>'closed'    - If true, use interval including left and right, otherwise exclude right, but include left.
      * <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
-     * <li>'skip' -  Optional, The number of documents to skip in the query.</li>
-     * <li>'limit' -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
+     * <li>'skip'      -  Optional, The number of documents to skip in the query.</li>
+     * <li>'limit'     -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
      * </li>
      * </p>
      *
@@ -973,20 +989,20 @@ class CollectionHandler extends
      * @param double $longitude       - The longitude of the coordinate.
      * @param array  $options         - optional array of options.
      * <p>Options are :<br>
-     * <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     * <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+     * <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     * <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
      * <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     * <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
+     * <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
      * <p>
      *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
      *                                The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
      *                                and the hidden attributes would not be applied to the attributes.<br>
      * </p>
      *
-     * <li>'distance' - If given, the attribute key used to store the distance. (optional)
+     * <li>'distance'  - If given, the attribute key used to store the distance. (optional)
      * <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
-     * <li>'skip' -  Optional, The number of documents to skip in the query.</li>
-     * <li>'limit' -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
+     * <li>'skip'      -  Optional, The number of documents to skip in the query.</li>
+     * <li>'limit'     -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
      * </li>
      * </p>
      *
@@ -1032,20 +1048,20 @@ class CollectionHandler extends
      * @param int    $radius          - The maximal radius (in meters).
      * @param array  $options         - optional array of options.
      * <p>Options are :<br>
-     * <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     * <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+     * <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     * <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
      * <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     * <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
+     * <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
      * <p>
      *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
      *                                The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
      *                                and the hidden attributes would not be applied to the attributes.<br>
      * </p>
      *
-     * <li>'distance' - If given, the attribute key used to store the distance. (optional)
+     * <li>'distance'  - If given, the attribute key used to store the distance. (optional)
      * <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
-     * <li>'skip' -  Optional, The number of documents to skip in the query.</li>
-     * <li>'limit' -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
+     * <li>'skip'      -  Optional, The number of documents to skip in the query.</li>
+     * <li>'limit'     -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
      * </li>
      * </p>
      *

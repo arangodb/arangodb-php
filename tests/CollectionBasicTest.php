@@ -121,6 +121,114 @@ class CollectionBasicTest extends
     }
 
 
+    /**
+     * Try to create and delete an edge collection
+     */
+    public function testCreateAndDeleteEdgeCollection()
+    {
+        $connection        = $this->connection;
+        $collection        = new \triagens\ArangoDb\Collection();
+        $collectionHandler = new \triagens\ArangoDb\CollectionHandler($connection);
+
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        $collection->setName($name);
+        $collection->setType(3);
+        $response = $collectionHandler->add($collection);
+
+        $resultingCollection = $collectionHandler->get($name);
+
+        $resultingAttribute = $resultingCollection->getName();
+        $this->assertTrue(
+            $name === $resultingAttribute,
+            'The created collection name and resulting collection name do not match!'
+        );
+
+        $this->assertEquals(Collection::TYPE_EDGE, $resultingCollection->getType());
+
+        $response = $collectionHandler->delete($collection);
+    }
+
+
+    /**
+     * Try to create and delete an edge collection not using an edge object
+     */
+    public function testCreateAndDeleteEdgeCollectionWithoutCreatingObject()
+    {
+        $connection        = $this->connection;
+        $collectionHandler = new \triagens\ArangoDb\CollectionHandler($connection);
+
+        $name     = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        $options  = array('type' => 3);
+        $response = $collectionHandler->create($name, $options);
+
+        $resultingCollection = $collectionHandler->get($name);
+
+        $resultingAttribute = $resultingCollection->getName();
+        $this->assertTrue(
+            $name === $resultingAttribute,
+            'The created collection name and resulting collection name do not match!'
+        );
+
+        $this->assertEquals(Collection::TYPE_EDGE, $resultingCollection->getType());
+
+        $response = $collectionHandler->delete($name);
+    }
+
+
+    /**
+     * Try to create and delete an edge collection not using an edge object
+     */
+    public function testCreateAndDeleteVolatileCollectionWithoutCreatingObject()
+    {
+        $connection        = $this->connection;
+        $collectionHandler = new \triagens\ArangoDb\CollectionHandler($connection);
+
+        $name                = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        $options             = array('isVolatile' => true);
+        $response            = $collectionHandler->create($name, $options);
+        $resultingCollection = $collectionHandler->get($name);
+
+        $resultingAttribute = $resultingCollection->getName();
+        $this->assertTrue(
+            $name === $resultingAttribute,
+            'The created collection name and resulting collection name do not match!'
+        );
+        $resultingCollectionProperties = $collectionHandler->getProperties($name);
+        $this->assertTrue($resultingCollectionProperties->getIsVolatile());
+
+        $response = $collectionHandler->delete($name);
+    }
+
+
+    /**
+     * Try to create and delete an edge collection not using an edge object
+     */
+    public function testCreateAndDeleteSystemCollectionWithoutCreatingObject()
+    {
+        $connection        = $this->connection;
+        $collectionHandler = new \triagens\ArangoDb\CollectionHandler($connection);
+
+        $name     = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        $options  = array('isSystem' => true, 'waitForSync'=>true);
+        $response = $collectionHandler->create($name, $options);
+
+        $resultingCollection = $collectionHandler->get($name);
+
+        $resultingAttribute = $resultingCollection->getName();
+        $this->assertTrue(
+            $name === $resultingAttribute,
+            'The created collection name and resulting collection name do not match!'
+        );
+        $resultingCollectionProperties = $collectionHandler->getProperties($name);
+        $this->assertTrue($resultingCollectionProperties->getIsSystem());
+        $this->assertTrue($resultingCollectionProperties->getWaitForSync());
+
+
+        $response = $collectionHandler->delete($name);
+    }
+
+
+
     public function tearDown()
     {
 

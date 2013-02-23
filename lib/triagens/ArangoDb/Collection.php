@@ -439,7 +439,7 @@ class Collection
     /**
      * Set the isSystem value
      *
-     * @param bool $value - isSystem value
+     * @param bool $value - isSystem: false->user collection, true->system collection
      *
      * @return void
      */
