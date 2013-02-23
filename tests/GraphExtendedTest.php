@@ -193,7 +193,6 @@ class GraphExtendedTest extends
         $this->assertTrue($result1, 'Did not return true!');
 
 
-        //todo: (frankmayer) revisit after Arango has been fixed in order to return 404 instead of 400
         // Remove one vertex using GraphHandler | Testing
         // This should cause an exception with a code of 404
         try {
@@ -203,10 +202,9 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 400, 'Should be 404, instead got: ' . $e->getCode());
+        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
-        //todo: (frankmayer) revisit after Arango has been fixed in order to return 404 instead of 400
         // Try to get vertex using GraphHandler
         // This should cause an exception with a code of 404
         try {
@@ -216,7 +214,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 400, 'Should be 404, instead got: ' . $e->getCode());
+        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Remove the other vertex using GraphHandler
@@ -224,7 +222,6 @@ class GraphExtendedTest extends
         $this->assertTrue($result2, 'Did not return true!');
 
 
-        //todo: (frankmayer) revisit after Arango has been fixed in order to return 404 instead of 400
         // Try to get vertex using GraphHandler
         // This should cause an exception with a code of 404
         try {
@@ -234,7 +231,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 400, 'Should be 404, instead got: ' . $e->getCode());
+        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
     }
 
 
@@ -288,7 +285,6 @@ class GraphExtendedTest extends
 
 
         // Remove the same vertex using GraphHandler
-        //todo: (frankmayer) revisit after Arango has been fixed in order to return 404 instead of 400
         // This should cause an exception with a code of 404
         try {
             unset ($e);
@@ -297,10 +293,9 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 400, 'Should be 404, instead got: ' . $e->getCode());
+        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
-        //todo: (frankmayer) revisit after Arango has been fixed in order to return 404 instead of 400
         // Try to get vertex using GraphHandler
         // This should cause an exception with a code of 404
         try {
@@ -310,10 +305,9 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 400, 'Should be 404, instead got: ' . $e->getCode());
+        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
-        //todo: (frankmayer) revisit after Arango has been fixed in order to return 404 instead of 400
         // Try to get the edge using GraphHandler
         // This should return true
         try {
@@ -324,10 +318,9 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 400, 'Should be 404, instead got: ' . $e->getCode());
+        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
-        //todo: (frankmayer) revisit after Arango has been fixed in order to return 404 instead of 400
         // Try to remove the edge using GraphHandler
         // This should cause an exception with a code of 404
         try {
@@ -337,7 +330,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 400, 'Should be 404, instead got: ' . $e->getCode());
+        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Remove the other vertex using GraphHandler
@@ -345,7 +338,6 @@ class GraphExtendedTest extends
         $this->assertTrue($result2, 'Did not return true!');
 
 
-        //todo: (frankmayer) revisit after Arango has been fixed in order to return 404 instead of 400
         // Try to get vertex using GraphHandler
         // This should cause an exception with a code of 404
         try {
@@ -355,7 +347,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 400, 'Should be 404, instead got: ' . $e->getCode());
+        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
     }
 
 
@@ -369,7 +361,6 @@ class GraphExtendedTest extends
         $edge1   = Edge::createFromArray($this->edge1Array);
 
 
-        //todo: (frankmayer) revisit after Arango has been fixed in order to return 404 instead of 400
         // Try to get vertex using GraphHandler
         // This should cause an exception with a code of 404
         try {
@@ -379,10 +370,9 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 400, 'Should be 404, instead got: ' . $e->getCode());
+        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
-        //todo: (frankmayer) revisit after Arango has been fixed in order to return 404 instead of 400
         // Try to update vertex using GraphHandler
         // This should cause an exception with a code of 404
         try {
@@ -393,10 +383,9 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 400, 'Should be 404, instead got: ' . $e->getCode());
+        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
-        //todo: (frankmayer) revisit after Arango has been fixed in order to return 404 instead of 400
         // Try to replace vertex using GraphHandler
         // This should cause an exception with a code of 404
         try {
@@ -406,10 +395,9 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 400, 'Should be 404, instead got: ' . $e->getCode());
+        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
-        //todo: (frankmayer) revisit after Arango has been fixed in order to return 404 instead of 400
         // Remove a vertex using GraphHandler
         // This should cause an exception with a code of 404
         try {
@@ -419,10 +407,9 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 400, 'Should be 404, instead got: ' . $e->getCode());
+        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
-        //todo: (frankmayer) revisit after Arango has been fixed in order to return 404 instead of 400
         // Try to get the edge using GraphHandler
         // This should return true
         try {
@@ -433,10 +420,9 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 400, 'Should be 404, instead got: ' . $e->getCode());
+        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
-        //todo: (frankmayer) revisit after Arango has been fixed in order to return 404 instead of 400
         // Try to update edge using GraphHandler
         // This should cause an exception with a code of 404
         try {
@@ -446,10 +432,9 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 400, 'Should be 404, instead got: ' . $e->getCode());
+        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
-        //todo: (frankmayer) revisit after Arango has been fixed in order to return 404 instead of 400
         // Try to replace edge using GraphHandler
         // This should cause an exception with a code of 404
         try {
@@ -459,10 +444,9 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 400, 'Should be 404, instead got: ' . $e->getCode());
+        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
-        //todo: (frankmayer) revisit after Arango has been fixed in order to return 404 instead of 400
         // Try to remove the edge using GraphHandler
         // This should cause an exception with a code of 404
         try {
@@ -472,7 +456,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 400, 'Should be 404, instead got: ' . $e->getCode());
+        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
     }
 
 
@@ -732,7 +716,6 @@ class GraphExtendedTest extends
         }
 
 
-        //todo: (frankmayer) revisit after Arango has been fixed in order to return 404 instead of 400
         // Try to remove the edge using EdgeHandler
         // This should not cause an exception with a code of 404, because the we removed the vertex through the VertexHandler, not the GraphHandler
         try {
