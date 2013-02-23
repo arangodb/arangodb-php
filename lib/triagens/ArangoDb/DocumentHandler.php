@@ -256,7 +256,7 @@ class DocumentHandler extends
      *
      * If policy is set to error (locally or globally through the connectionoptions)
      * and the passed document has a _rev value set, the database will check
-     * that the revision of the to-be-replaced document is the same as the one given.
+     * that the revision of the document to-be-replaced is the same as the one given.
      *
      * @throws Exception
      *
@@ -289,7 +289,7 @@ class DocumentHandler extends
      *
      * If policy is set to error (locally or globally through the connectionoptions)
      * and the passed document has a _rev value set, the database will check
-     * that the revision of the to-be-replaced document is the same as the one given.
+     * that the revision of the document to-be-updated is the same as the one given.
      *
      * @throws Exception
      *
@@ -336,7 +336,7 @@ class DocumentHandler extends
     }
 
 
-    /**
+     /**
      * Replace an existing document in a collection, identified by the document itself
      *
      * This will update the document on the server
