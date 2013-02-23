@@ -39,6 +39,11 @@ class CollectionHandler extends
     /**
      * example parameter
      */
+    const OPTION_NEW_VALUE = 'newValue';
+
+    /**
+     * example parameter
+     */
     const OPTION_CREATE_COLLECTION = 'createCollection';
 
     /**
@@ -675,10 +680,10 @@ class CollectionHandler extends
      * </p>
      *
      * @return Document - the document fetched from the server
+     * @since 1.2
      */
     public function firstExample($collectionId, $document, $options = array())
     {
-        // This preserves compatibility for the old sanitize parameter.
         if (!is_array($options)) {
             $sanitize = $options;
             $options  = array();
@@ -704,6 +709,132 @@ class CollectionHandler extends
         $data     = $response->getJson();
 
         return Document::createFromArray($data['document'], $options);
+    }
+
+
+    /**
+     * Update document(s) matching a given example
+     *
+     * This will update the document(s) on the server
+     *
+     * This will throw if the document cannot be updated
+     *
+     * @throws Exception
+     *
+     * @param mixed    $collectionId - collection id as string or number
+     * @param mixed    $example      - the example document as a Document object or an array
+     * @param mixed    $newValue     - patch document or array which contains the attributes and values to be updated
+     * @param mixed    $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     * <p>Options are :
+     * <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+     * <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     * <li>'limit' - can be used set a limit on how many documents to update at most. If limit is specified but is less than the number of documents in the collection, it is undefined which of the documents will be updated.</li>
+     * </p>
+     *
+     * @return bool - always true, will throw if there is an error
+     * @since 1.2
+     */
+    public function updateByExample($collectionId, $example, $newValue, $options = array())
+    {
+        if (is_array($example)) {
+            $example = Document::createFromArray($example);
+        }
+
+        if (is_array($newValue)) {
+            $newValue = Document::createFromArray($newValue);
+        }
+
+        $body = array(
+            self::OPTION_COLLECTION => $collectionId,
+            self::OPTION_EXAMPLE    => $example->getAll(array('_ignoreHiddenAttributes' => true)),
+            self::OPTION_NEW_VALUE  => $newValue->getAll(array('_ignoreHiddenAttributes' => true))
+        );
+
+        $body = $this->includeOptionsInBody(
+            $options,
+            $body,
+            array(
+                 ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
+                 'keepNull'                          => true,
+                 self::OPTION_LIMIT                  => null,
+            )
+        );
+
+        #$url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId);
+        #$result = $this->getConnection()->patch($url, $this->json_encode_wrapper($body));
+
+        $response = $this->getConnection()->put(Urls::URL_UPDATE_BY_EXAMPLE, $this->json_encode_wrapper($body));
+
+        $responseArray = $response->getJson();
+
+        if ($responseArray['error'] === true) {
+            throw new ClientException('Invalid example document specification');
+        }
+
+        return $responseArray['updated'];
+    }
+
+
+    /**
+     * Replace document(s) matching a given example
+     *
+     * This will replace the document(s) on the server
+     *
+     * This will throw if the document cannot be replaced
+     *
+     * @throws Exception
+     *
+     * @param mixed    $collectionId - collection id as string or number
+     * @param mixed    $example      - the example document as a Document object or an array
+     * @param mixed    $newValue     - patch document or array which contains the attributes and values to be replaced
+     * @param mixed    $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     * <p>Options are :
+     * <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+     * <li>'waitForSync' - can be used to force synchronisation of the document replace operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     * <li>'limit' - can be used set a limit on how many documents to replace at most. If limit is specified but is less than the number of documents in the collection, it is undefined which of the documents will be replaced.</li>
+     * </p>
+     *
+     * @return bool - always true, will throw if there is an error
+     * @since 1.2
+     */
+    public function replaceByExample($collectionId, $example, $newValue, $options = array())
+    {
+        if (is_array($example)) {
+            $example = Document::createFromArray($example);
+        }
+
+        if (is_array($newValue)) {
+            $newValue = Document::createFromArray($newValue);
+        }
+
+        $body = array(
+            self::OPTION_COLLECTION => $collectionId,
+            self::OPTION_EXAMPLE    => $example->getAll(array('_ignoreHiddenAttributes' => true)),
+            self::OPTION_NEW_VALUE  => $newValue->getAll(array('_ignoreHiddenAttributes' => true))
+        );
+
+        $body = $this->includeOptionsInBody(
+            $options,
+            $body,
+            array(
+                 ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
+                 'keepNull'                          => true,
+                 self::OPTION_LIMIT                  => null,
+            )
+        );
+
+        #$url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId);
+        #$result = $this->getConnection()->patch($url, $this->json_encode_wrapper($body));
+
+        $response = $this->getConnection()->put(Urls::URL_REPLACE_BY_EXAMPLE, $this->json_encode_wrapper($body));
+
+        $responseArray = $response->getJson();
+
+        if ($responseArray['error'] === true) {
+            throw new ClientException('Invalid example document specification');
+        }
+
+        return $responseArray['replaced'];
     }
 
 

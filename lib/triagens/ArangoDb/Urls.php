@@ -93,6 +93,16 @@ abstract class URLs
     const URL_REMOVE_BY_EXAMPLE = '/_api/simple/remove-by-example';
 
     /**
+     * base URL part for update-by-example
+     */
+    const URL_UPDATE_BY_EXAMPLE = '/_api/simple/update-by-example';
+
+    /**
+     * base URL part for replace-by-example
+     */
+    const URL_REPLACE_BY_EXAMPLE = '/_api/simple/replace-by-example';
+
+    /**
      * base URL part for remove-by-example
      */
     const URL_IMPORT = '/_api/import';

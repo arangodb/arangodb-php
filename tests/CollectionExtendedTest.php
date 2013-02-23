@@ -283,13 +283,49 @@ class CollectionExtendedTest extends
     }
 
 
+    //    /**
+    //     * test for creation of documents, and removal by example
+    //     */
+    //    public function testCreateDocumentsWithCreateFromArrayAndRemoveByExample()
+    //    {
+    //        $documentHandler   = $this->documentHandler;
+    //        $collectionHandler = $this->collectionHandler;
+    //
+    //        $collection  = Collection::createFromArray(
+    //            array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true)
+    //        );
+    //        $response    = $collectionHandler->add($collection);
+    //        $document    = Document::createFromArray(
+    //            array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
+    //        );
+    //        $documentId  = $documentHandler->add($collection->getId(), $document);
+    //        $document2   = Document::createFromArray(
+    //            array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+    //        );
+    //        $documentId2 = $documentHandler->add($collection->getId(), $document2);
+    //        $document3   = Document::createFromArray(
+    //            array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue')
+    //        );
+    //        $documentId3 = $documentHandler->add($collection->getId(), $document3);
+    //
+    //        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+    //        $this->assertTrue(is_numeric($documentId2), 'Did not return an id!');
+    //        $this->assertTrue(is_numeric($documentId3), 'Did not return an id!');
+    //
+    //        $exampleDocument = Document::createFromArray(array('someOtherAttribute' => 'someOtherValue'));
+    //        $result          = $collectionHandler->removeByExample($collection->getId(), $exampleDocument);
+    //        $this->assertTrue($result === 2);
+    //    }
+
+
     /**
-     * test for creation of documents, and removal by example
+     * test for creation of documents, and update and replace by example and finally removal by example
      */
-    public function testCreateDocumentsWithCreateFromArrayAndRemoveByExample()
+    public function testCreateDocumentsWithCreateFromArrayUpdateReplaceAndRemoveByExample()
     {
-        $documentHandler   = $this->documentHandler;
-        $collectionHandler = $this->collectionHandler;
+        $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
+        $documentHandler         = $this->documentHandler;
+        $collectionHandler       = $this->collectionHandler;
 
         $collection  = Collection::createFromArray(
             array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true)
@@ -313,7 +349,278 @@ class CollectionExtendedTest extends
         $this->assertTrue(is_numeric($documentId3), 'Did not return an id!');
 
         $exampleDocument = Document::createFromArray(array('someOtherAttribute' => 'someOtherValue'));
+        $updateDocument  = Document::createFromArray(array('someNewAttribute' => 'someNewValue'));
+
+        $result = $collectionHandler->updateByExample($collection->getId(), $exampleDocument, $updateDocument);
+        $this->assertTrue($result === 2);
+
+        $exampleDocument = Document::createFromArray(array('someAttribute' => 'someValue2'));
+        $replaceDocument = Document::createFromArray(
+            array('someAttribute' => 'someValue2replaced', 'someOtherAttribute' => 'someOtherValue2replaced')
+        );
+        $result          = $collectionHandler->replaceByExample(
+            $collection->getId(),
+            $exampleDocument,
+            $replaceDocument
+        );
+        $this->assertTrue($result === 1);
+
+        $exampleDocument = Document::createFromArray(array('someOtherAttribute' => 'someOtherValue'));
         $result          = $collectionHandler->removeByExample($collection->getId(), $exampleDocument);
+        $this->assertTrue($result === 2);
+    }
+
+
+    /**
+     * test for creation of documents, and update and replace by example and finally removal by example
+     */
+    public function testCreateDocumentsFromArrayUpdateReplaceAndRemoveByExample()
+    {
+        $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
+        $documentHandler         = $this->documentHandler;
+        $collectionHandler       = $this->collectionHandler;
+
+
+        $collection = Collection::createFromArray(
+            array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true)
+        );
+        $response   = $collectionHandler->add($collection);
+        $document   = Document::createFromArray(
+            array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
+        );
+
+        $documentId = $documentHandler->add($collection->getId(), $document);
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+
+
+        $document2  =
+            Document::createFromArray(
+                array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+            );
+
+        $documentId2 = $documentHandler->add($collection->getId(), $document2);
+        $this->assertTrue(is_numeric($documentId2), 'Did not return an id!');
+
+
+        $document3   =
+            Document::createFromArray(array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue'));
+
+        $documentId3 = $documentHandler->add($collection->getId(), $document3);
+        $this->assertTrue(is_numeric($documentId3), 'Did not return an id!');
+
+
+        $exampleDocument = array('someOtherAttribute' => 'someOtherValue');
+        $updateDocument  = array('someNewAttribute' => 'someNewValue');
+
+        $result = $collectionHandler->updateByExample($collection->getId(), $exampleDocument, $updateDocument);
+        $this->assertTrue($result === 2);
+
+
+        $exampleDocument = array('someAttribute' => 'someValue2');
+        $replaceDocument =
+            array('someAttribute' => 'someValue2replaced', 'someOtherAttribute' => 'someOtherValue2replaced');
+
+        $result = $collectionHandler->replaceByExample(
+            $collection->getId(),
+            $exampleDocument,
+            $replaceDocument
+        );
+        $this->assertTrue($result === 1);
+
+
+        $exampleDocument = array('someOtherAttribute' => 'someOtherValue');
+        $result          = $collectionHandler->removeByExample($collection->getId(), $exampleDocument);
+        $this->assertTrue($result === 2);
+    }
+
+
+    /**
+     * test for creation of documents, and update and replace by example and finally removal by example
+     */
+    public function testCreateDocumentsWithCreateFromArrayUpdateReplaceAndRemoveByExampleWithLimits()
+    {
+        $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
+        $documentHandler         = $this->documentHandler;
+        $collectionHandler       = $this->collectionHandler;
+
+        $collection  = Collection::createFromArray(
+            array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true)
+        );
+        $response    = $collectionHandler->add($collection);
+        $document    = Document::createFromArray(
+            array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId  = $documentHandler->add($collection->getId(), $document);
+        $document2   = Document::createFromArray(
+            array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+        );
+        $documentId2 = $documentHandler->add($collection->getId(), $document2);
+        $document3   = Document::createFromArray(
+            array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId3 = $documentHandler->add($collection->getId(), $document3);
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId2), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId3), 'Did not return an id!');
+
+        $exampleDocument = Document::createFromArray(array('someOtherAttribute' => 'someOtherValue'));
+        $updateDocument  = Document::createFromArray(array('someNewAttribute' => 'someNewValue'));
+
+        $result = $collectionHandler->updateByExample(
+            $collection->getId(),
+            $exampleDocument,
+            $updateDocument,
+            array('limit' => 1)
+        );
+        $this->assertTrue($result === 1);
+
+        $exampleDocument = Document::createFromArray(array('someAttribute' => 'someValue2'));
+        $replaceDocument = Document::createFromArray(
+            array(
+                 'someAttribute'      => 'someValue2replaced',
+                 'someOtherAttribute' => 'someOtherValue2replaced'
+            )
+        );
+        $result          = $collectionHandler->replaceByExample(
+            $collection->getId(),
+            $exampleDocument,
+            $replaceDocument,
+            array('limit' => 2)
+        );
+        $this->assertTrue($result === 1);
+
+        $exampleDocument = Document::createFromArray(array('someOtherAttribute' => 'someOtherValue'));
+        $result          = $collectionHandler->removeByExample(
+            $collection->getId(),
+            $exampleDocument,
+            array('limit' => 1)
+        );
+        $this->assertTrue($result === 1);
+    }
+
+
+    /**
+     * test for creation of documents, and update and replace by example and finally removal by example
+     */
+    public function testCreateDocumentsWithCreateFromArrayUpdateReplaceAndRemoveByExampleWithWaitForSync()
+    {
+        $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
+        $documentHandler         = $this->documentHandler;
+        $collectionHandler       = $this->collectionHandler;
+
+        $collection  = Collection::createFromArray(
+            array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true)
+        );
+        $response    = $collectionHandler->add($collection);
+        $document    = Document::createFromArray(
+            array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId  = $documentHandler->add($collection->getId(), $document);
+        $document2   = Document::createFromArray(
+            array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+        );
+        $documentId2 = $documentHandler->add($collection->getId(), $document2);
+        $document3   = Document::createFromArray(
+            array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId3 = $documentHandler->add($collection->getId(), $document3);
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId2), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId3), 'Did not return an id!');
+
+        $exampleDocument = Document::createFromArray(array('someOtherAttribute' => 'someOtherValue'));
+        $updateDocument  = Document::createFromArray(array('someNewAttribute' => 'someNewValue'));
+
+        $result = $collectionHandler->updateByExample(
+            $collection->getId(),
+            $exampleDocument,
+            $updateDocument,
+            array('waitForSync' => true)
+        );
+        $this->assertTrue($result === 2);
+
+        $exampleDocument = Document::createFromArray(array('someAttribute' => 'someValue2'));
+        $replaceDocument = Document::createFromArray(
+            array(
+                 'someAttribute'      => 'someValue2replaced',
+                 'someOtherAttribute' => 'someOtherValue2replaced'
+            )
+        );
+        $result          = $collectionHandler->replaceByExample(
+            $collection->getId(),
+            $exampleDocument,
+            $replaceDocument,
+            array('waitForSync' => true)
+        );
+        $this->assertTrue($result === 1);
+
+        $exampleDocument = Document::createFromArray(array('someOtherAttribute' => 'someOtherValue'));
+        $result          = $collectionHandler->removeByExample(
+            $collection->getId(),
+            $exampleDocument,
+            array('waitForSync' => true)
+        );
+        $this->assertTrue($result === 2);
+    }
+
+
+    /**
+     * test for creation of documents, and update and replace by example and finally removal by example
+     */
+    public function testCreateDocumentsWithCreateFromArrayUpdateReplaceAndRemoveByExampleWithKeepNull()
+    {
+        $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
+        $documentHandler         = $this->documentHandler;
+        $collectionHandler       = $this->collectionHandler;
+
+        $collection  = Collection::createFromArray(
+            array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true)
+        );
+        $response    = $collectionHandler->add($collection);
+        $document    = Document::createFromArray(
+            array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId  = $documentHandler->add($collection->getId(), $document);
+        $document2   = Document::createFromArray(
+            array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+        );
+        $documentId2 = $documentHandler->add($collection->getId(), $document2);
+        $document3   = Document::createFromArray(
+            array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId3 = $documentHandler->add($collection->getId(), $document3);
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId2), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId3), 'Did not return an id!');
+
+
+        $exampleDocument = Document::createFromArray(array('someAttribute' => 'someValue2'));
+        $updateDocument  = Document::createFromArray(
+            array('someNewAttribute' => 'someNewValue', 'someOtherAttribute' => null)
+        );
+
+        $result = $collectionHandler->updateByExample(
+            $collection->getId(),
+            $exampleDocument,
+            $updateDocument,
+            array('keepNull' => false)
+        );
+        $this->assertTrue($result === 1);
+
+
+        $exampleDocument   = Document::createFromArray(array('someNewAttribute' => 'someNewValue'));
+        $resultingDocument = $collectionHandler->byExample($collection->getId(), $exampleDocument);
+
+
+        $exampleDocument = Document::createFromArray(array('someOtherAttribute' => 'someOtherValue'));
+        $result          = $collectionHandler->removeByExample(
+            $collection->getId(),
+            $exampleDocument,
+            array('waitForSync' => true)
+        );
         $this->assertTrue($result === 2);
     }
 
@@ -353,9 +660,7 @@ class CollectionExtendedTest extends
             $exampleDocument,
             array('limit' => 1)
         );
-        // todo: (frankmayer) this result should be 1, but ArangoDB 1.2.beta2 has bug where it doesn't take the limit option into account
-        // with beta 3 change this to 1
-        $this->assertTrue($result === 2);
+        $this->assertTrue($result === 1);
     }
 
 
