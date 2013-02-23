@@ -282,7 +282,7 @@ class CollectionExtendedTest extends
         $this->assertTrue($response, 'Delete should return true!');
     }
 
-//todo: (frankmayer) check if this test is still needed..
+    //todo: (frankmayer) check if this test is still needed..
     //    /**
     //     * test for creation of documents, and removal by example
     //     */
