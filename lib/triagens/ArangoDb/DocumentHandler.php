@@ -193,7 +193,7 @@ class DocumentHandler extends
      * @throws Exception
      *
      * @param mixed      $collectionId - collection id as string or number
-     * @param Document   $document     - the document to be added
+     * @param mixed      $document     - the document to be added as a document or an array
      * @param bool|array $options      - optional, prior to v1.2.0 this was a boolean value for create. Since v1.0.0 it's an array of options.
      * <p>Options are :<br>
      * <li>'create' - create the collection if it does not yet exist.</li>
@@ -203,7 +203,7 @@ class DocumentHandler extends
      * @return mixed - id of document created
      * @since 1.0
      */
-    public function save($collectionId, Document $document, $options = array())
+    public function save($collectionId, $document, $options = array())
     {
         // This preserves compatibility for the old create parameter.
         $params = array(self::OPTION_COLLECTION => $collectionId);
@@ -221,6 +221,9 @@ class DocumentHandler extends
             )
         );
 
+        if (is_array($document)) {
+            $document = Document::createFromArray($document);
+        }
         $data = $document->getAll();
 
         $url = UrlHelper::appendParamsUrl(Urls::URL_DOCUMENT, $params);
@@ -336,7 +339,7 @@ class DocumentHandler extends
     }
 
 
-     /**
+    /**
      * Replace an existing document in a collection, identified by the document itself
      *
      * This will update the document on the server

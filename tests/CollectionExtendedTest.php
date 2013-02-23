@@ -282,7 +282,7 @@ class CollectionExtendedTest extends
         $this->assertTrue($response, 'Delete should return true!');
     }
 
-
+//todo: (frankmayer) check if this test is still needed..
     //    /**
     //     * test for creation of documents, and removal by example
     //     */
@@ -385,27 +385,22 @@ class CollectionExtendedTest extends
             array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true)
         );
         $response   = $collectionHandler->add($collection);
-        $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
-        );
+        $document   = array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue');
 
-        $documentId = $documentHandler->add($collection->getId(), $document);
+        $documentId = $documentHandler->save($collection->getId(), $document);
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
 
 
-        $document2  =
-            Document::createFromArray(
-                array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
-            );
+        $document2 = array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2');
 
-        $documentId2 = $documentHandler->add($collection->getId(), $document2);
+
+        $documentId2 = $documentHandler->save($collection->getId(), $document2);
         $this->assertTrue(is_numeric($documentId2), 'Did not return an id!');
 
 
-        $document3   =
-            Document::createFromArray(array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue'));
+        $document3 = array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue');
 
-        $documentId3 = $documentHandler->add($collection->getId(), $document3);
+        $documentId3 = $documentHandler->save($collection->getId(), $document3);
         $this->assertTrue(is_numeric($documentId3), 'Did not return an id!');
 
 

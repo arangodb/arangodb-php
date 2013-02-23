@@ -82,12 +82,72 @@ class DocumentBasicTest extends
         $resultingDocument = $documentHandler->get($collection->getName(), $documentId);
 
         $resultingAttribute = $resultingDocument->someAttribute;
+        $resultingKey       = $resultingDocument->getKey();
+        $this->assertTrue(
+            $resultingAttribute === 'someValue',
+            'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
+        );
+        $this->assertTrue(
+            $resultingKey === 'frank01',
+            'Resulting Attribute should be "someValue". It\'s :' . $resultingKey
+        );
+
+
+        $response = $documentHandler->delete($document);
+    }
+
+
+    /**
+     * Try to create and delete a document
+     */
+    public function testCreateAndDeleteDocumentWithArray()
+    {
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+        $documentHandler = new \triagens\ArangoDb\DocumentHandler($connection);
+
+        $documentArray = array('someAttribute' => 'someValue');
+
+        $documentId = $documentHandler->save($collection->getId(), $documentArray);
+
+        $resultingDocument = $documentHandler->get($collection->getId(), $documentId);
+
+        $resultingAttribute = $resultingDocument->someAttribute;
         $this->assertTrue(
             $resultingAttribute === 'someValue',
             'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
         );
 
-        $response = $documentHandler->delete($document);
+        $response = $documentHandler->deleteById($collection->getName(), $documentId);
+    }
+
+
+    /**
+     * Try to create and delete a document using a defined key
+     */
+    public function testCreateAndDeleteDocumentUsingDefinedKeyWithArrayAndSaveOnly()
+    {
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+        $documentHandler = new \triagens\ArangoDb\DocumentHandler($connection);
+
+        $documentArray = array('someAttribute' => 'someValue', '_key' => 'frank01');
+        $documentId    = $documentHandler->save($collection->getName(), $documentArray);
+
+        $resultingDocument  = $documentHandler->get($collection->getName(), $documentId);
+        $resultingAttribute = $resultingDocument->someAttribute;
+        $resultingKey       = $resultingDocument->getKey();
+        $this->assertTrue(
+            $resultingAttribute === 'someValue',
+            'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
+        );
+        $this->assertTrue(
+            $resultingKey === 'frank01',
+            'Resulting Attribute should be "someValue". It\'s :' . $resultingKey
+        );
+
+
+        $response = $documentHandler->deleteById($collection->getName(), $documentId);
     }
 
 
