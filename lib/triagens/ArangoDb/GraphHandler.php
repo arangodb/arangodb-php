@@ -141,13 +141,16 @@ class GraphHandler extends
      * @throws Exception
      *
      * @param mixed    $graphName - the name of the graph
-     * @param Document $document  - the vertex to be added
+     * @param          $document  - the vertex to be added
      *
      * @return mixed - id of vertex created
      * @since 1.2
      */
-    public function saveVertex($graphName, Document $document)
+    public function saveVertex($graphName, $document)
     {
+        if (is_array($document)) {
+            $document = Vertex::createFromArray($document);
+        }
         $data = $document->getAll();
         $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_VERTEX);
 
@@ -386,13 +389,16 @@ class GraphHandler extends
      * @param mixed    $from         - the 'from' vertex
      * @param mixed    $to           - the 'to' vertex
      * @param mixed    $label        - (optional) a label for the edge
-     * @param Edge     $document     - the edge-document to be added
+     * @param mixed    $document     - the edge-document to be added
      *
      * @return mixed - id of edge created
      * @since 1.2
      */
-    public function saveEdge($graphName, $from, $to, $label = null, Edge $document)
+    public function saveEdge($graphName, $from, $to, $label = null, $document)
     {
+        if (is_array($document)) {
+            $document = Edge::createFromArray($document);
+        }
         if (!is_null($label)) {
             $document->set('$label', $label);
         }

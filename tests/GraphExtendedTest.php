@@ -20,7 +20,6 @@ class GraphExtendedTest extends
 {
     public function setUp()
     {
-
         $this->vertex1Name  = 'vertex1';
         $this->vertex2Name  = 'vertex2';
         $this->vertex3Name  = 'vertex3';
@@ -93,10 +92,12 @@ class GraphExtendedTest extends
         $vertex1 = Vertex::createFromArray($this->vertex1Array);
         $vertex2 = Vertex::createFromArray($this->vertex2Array);
         $vertex3 = Vertex::createFromArray($this->vertex3Array);
-        $vertex4 = Vertex::createFromArray($this->vertex4Array);
+        // This one is just an array to test if a vertex can be created with an array instead of a vertex object
+        $vertex4 = $this->vertex4Array;
         $edge1   = Edge::createFromArray($this->edge1Array);
         $edge2   = Edge::createFromArray($this->edge2Array);
-        $edge3   = Edge::createFromArray($this->edge3Array);
+        // This one is just an array to test if an edge can be created with an array instead of an edge object
+        $edge3 = $this->edge3Array;
 
 
         $result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
