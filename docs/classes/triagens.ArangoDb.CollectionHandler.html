@@ -85,8 +85,10 @@
 <li class="method public "><a href="#method_range" title="range :: Get document(s) by specifying range"><span class="description">Get document(s) by specifying range</span><pre>range()</pre></a></li>
 <li class="method public "><a href="#method_removeByExample" title="removeByExample :: Remove document(s) by specifying an example"><span class="description">Remove document(s) by specifying an example</span><pre>removeByExample()</pre></a></li>
 <li class="method public "><a href="#method_rename" title="rename :: Rename a collection"><span class="description">Rename a collection</span><pre>rename()</pre></a></li>
+<li class="method public "><a href="#method_replaceByExample" title="replaceByExample :: Replace document(s) matching a given example"><span class="description">Replace document(s) matching a given example</span><pre>replaceByExample()</pre></a></li>
 <li class="method public "><a href="#method_truncate" title="truncate :: Truncate a collection"><span class="description">Truncate a collection</span><pre>truncate()</pre></a></li>
 <li class="method public "><a href="#method_unload" title="unload :: Unload a collection from the server's memory"><span class="description">Unload a collection from the server's memory</span><pre>unload()</pre></a></li>
+<li class="method public "><a href="#method_updateByExample" title="updateByExample :: Update document(s) matching a given example"><span class="description">Update document(s) matching a given example</span><pre>updateByExample()</pre></a></li>
 <li class="method public "><a href="#method_within" title="within :: Get document(s) by specifying within"><span class="description">Get document(s) by specifying within</span><pre>within()</pre></a></li>
 </ul>
 </li>
@@ -128,6 +130,7 @@ This is a convenience function that calls json_encode_wrapper on the connection<
 <li class="constant  "><a href="#constant_OPTION_LIMIT" title="OPTION_LIMIT :: limit parameter"><span class="description">limit parameter</span><pre>OPTION_LIMIT</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_LOAD" title="OPTION_LOAD :: load option"><span class="description">load option</span><pre>OPTION_LOAD</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_LONGITUDE" title="OPTION_LONGITUDE :: longitude parameter"><span class="description">longitude parameter</span><pre>OPTION_LONGITUDE</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_NEW_VALUE" title="OPTION_NEW_VALUE :: example parameter"><span class="description">example parameter</span><pre>OPTION_NEW_VALUE</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_PROPERTIES" title="OPTION_PROPERTIES :: properties option"><span class="description">properties option</span><pre>OPTION_PROPERTIES</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_RADIUS" title="OPTION_RADIUS :: radius parameter"><span class="description">radius parameter</span><pre>OPTION_RADIUS</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_RENAME" title="OPTION_RENAME :: rename option"><span class="description">rename option</span><pre>OPTION_RENAME</pre></a></li>
@@ -240,10 +243,10 @@ appropriate HTTP requests to the server.</p></div>
 </ul>
 
 <p>Options are :<br>
-<li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-<li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+<li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+<li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-<li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
+<li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
 <p>
                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
                                 The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
@@ -251,8 +254,8 @@ appropriate HTTP requests to the server.</p></div>
 </p>
 </li>
 <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
-<li>'skip' -  Optional, The number of documents to skip in the query.</li>
-<li>'limit' -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
+<li>'skip'      - Optional, The number of documents to skip in the query.</li>
+<li>'limit'     - Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
 </p>
 </div>
 <h3>Exceptions</h3>
@@ -290,7 +293,7 @@ appropriate HTTP requests to the server.</p></div>
 </div>
 <a id="method_create"></a><div class="element clickable method public method_create" data-toggle="collapse" data-target=".method_create .collapse">
 <h2>Creates a new collection on the server</h2>
-<pre>create(\triagens\ArangoDb\Collection $collection) : mixed</pre>
+<pre>create(mixed $collection, array $options) : mixed</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will add the collection on the server and return its id
@@ -299,9 +302,23 @@ This will throw if the collection cannot be created</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collection</h4>
-<code><a href="../classes/triagens.ArangoDb.Collection.html">\triagens\ArangoDb\Collection</a></code><ul>
-<li>collection object to be created on the server</li>
+<code>mixed</code><ul>
+<li>collection object to be created on the server or a string with the name</li>
 </ul>
+</div>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><ul>
+<li>an array of options.</li>
+</ul>
+
+<p>Options are :<br>
+<li>'type' - 2 -> normal collection, 3 -> edge-collection</li>
+<li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
+<li>'journalSize' -  journalSize value.</li>
+<li>'isSystem'    -  false->user collection(default), true->system collection .</li>
+<li>'isVolatile'  -  false->persistent collection(default), true->volatile (in-memory) collection .</li>
+</p>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -415,6 +432,10 @@ This will throw if the collection cannot be created</p></div>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw if the document cannot be fetched from the server</p></div>
+<table class="table table-bordered"><tr>
+<th>since</th>
+<td>1.2</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -435,10 +456,10 @@ This will throw if the collection cannot be created</p></div>
 </ul>
 
 <p>Options are :<br>
-<li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-<li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+<li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+<li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-<li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
+<li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
 <p>
                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
                                 The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
@@ -840,19 +861,19 @@ This will throw if the collection cannot be created</p></div>
 </ul>
 
 <p>Options are :<br>
-<li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-<li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+<li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+<li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-<li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
+<li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
 <p>
                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
                                The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
                                and the hidden attributes would not be applied to the attributes.<br>
 </p>
-<li>'distance' - If given, the attribute key used to store the distance. (optional)
+<li>'distance'  - If given, the attribute key used to store the distance. (optional)
 <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
-<li>'skip' -  Optional, The number of documents to skip in the query.</li>
-<li>'limit' -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
+<li>'skip'      -  Optional, The number of documents to skip in the query.</li>
+<li>'limit'     -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
 </li>
 </p>
 </div>
@@ -904,19 +925,19 @@ This will throw if the collection cannot be created</p></div>
 </ul>
 
 <p>Options are :<br>
-<li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-<li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+<li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+<li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-<li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
+<li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
 <p>
                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
                                The difference is, that if you're returning a resultset of documents, the getall() is already called<br>
                                and the hidden attributes would not be applied to the attributes.<br>
 </p>
-<li>'closed' - If true, use interval including left and right, otherwise exclude right, but include left.
+<li>'closed'    - If true, use interval including left and right, otherwise exclude right, but include left.
 <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
-<li>'skip' -  Optional, The number of documents to skip in the query.</li>
-<li>'limit' -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
+<li>'skip'      -  Optional, The number of documents to skip in the query.</li>
+<li>'limit'     -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
 </li>
 </p>
 </div>
@@ -1007,6 +1028,59 @@ This will throw if the collection cannot be created</p></div>
 <code>bool</code>- always true, will throw if there is an error</div>
 </div></div>
 </div>
+<a id="method_replaceByExample"></a><div class="element clickable method public method_replaceByExample" data-toggle="collapse" data-target=".method_replaceByExample .collapse">
+<h2>Replace document(s) matching a given example</h2>
+<pre>replaceByExample(mixed $collectionId, mixed $example, mixed $newValue, mixed $options) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will replace the document(s) on the server</p>
+
+<p>This will throw if the document cannot be replaced</p></div>
+<table class="table table-bordered"><tr>
+<th>since</th>
+<td>1.2</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>collection id as string or number</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$example</h4>
+<code>mixed</code><ul>
+<li>the example document as a Document object or an array</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$newValue</h4>
+<code>mixed</code><ul>
+<li>patch document or array which contains the attributes and values to be replaced</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>mixed</code><ul>
+<li>optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)</li>
+</ul>
+
+<p>Options are :
+<li>'keepNull'    - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+<li>'waitForSync' - can be used to force synchronisation of the document replace operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+<li>'limit'       - can be used set a limit on how many documents to replace at most. If limit is specified but is less than the number of documents in the collection, it is undefined which of the documents will be replaced.</li>
+</p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>bool</code>- always true, will throw if there is an error</div>
+</div></div>
+</div>
 <a id="method_truncate"></a><div class="element clickable method public method_truncate" data-toggle="collapse" data-target=".method_truncate .collapse">
 <h2>Truncate a collection</h2>
 <pre>truncate(mixed $collection) : bool</pre>
@@ -1042,6 +1116,59 @@ This will throw if the collection cannot be created</p></div>
 <code>mixed</code><ul>
 <li>collection id as string or number or collection object</li>
 </ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>bool</code>- always true, will throw if there is an error</div>
+</div></div>
+</div>
+<a id="method_updateByExample"></a><div class="element clickable method public method_updateByExample" data-toggle="collapse" data-target=".method_updateByExample .collapse">
+<h2>Update document(s) matching a given example</h2>
+<pre>updateByExample(mixed $collectionId, mixed $example, mixed $newValue, mixed $options) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will update the document(s) on the server</p>
+
+<p>This will throw if the document cannot be updated</p></div>
+<table class="table table-bordered"><tr>
+<th>since</th>
+<td>1.2</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>collection id as string or number</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$example</h4>
+<code>mixed</code><ul>
+<li>the example document as a Document object or an array</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$newValue</h4>
+<code>mixed</code><ul>
+<li>patch document or array which contains the attributes and values to be updated</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>mixed</code><ul>
+<li>optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)</li>
+</ul>
+
+<p>Options are :
+<li>'keepNull'    - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+<li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+<li>'limit'       - can be used set a limit on how many documents to update at most. If limit is specified but is less than the number of documents in the collection, it is undefined which of the documents will be updated.</li>
+</p>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -1091,19 +1218,19 @@ This will throw if the collection cannot be created</p></div>
 </ul>
 
 <p>Options are :<br>
-<li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-<li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+<li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+<li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-<li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
+<li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
 <p>
                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
                                The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
                                and the hidden attributes would not be applied to the attributes.<br>
 </p>
-<li>'distance' - If given, the attribute key used to store the distance. (optional)
+<li>'distance'  - If given, the attribute key used to store the distance. (optional)
 <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
-<li>'skip' -  Optional, The number of documents to skip in the query.</li>
-<li>'limit' -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
+<li>'skip'      -  Optional, The number of documents to skip in the query.</li>
+<li>'limit'     -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
 </li>
 </p>
 </div>
@@ -1416,6 +1543,12 @@ This is only for options that are to be sent to the ArangoDB server.</p></div>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="constant_OPTION_NEW_VALUE"> </a><div class="element clickable constant  constant_OPTION_NEW_VALUE" data-toggle="collapse" data-target=".constant_OPTION_NEW_VALUE .collapse">
+<h2>example parameter</h2>
+<pre>OPTION_NEW_VALUE </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="constant_OPTION_PROPERTIES"> </a><div class="element clickable constant  constant_OPTION_PROPERTIES" data-toggle="collapse" data-target=".constant_OPTION_PROPERTIES .collapse">
 <h2>properties option</h2>
 <pre>OPTION_PROPERTIES </pre>
@@ -1477,7 +1610,7 @@ This is only for options that are to be sent to the ArangoDB server.</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-02-21T04:20:48+02:00.<br></footer></div>
+            generated on 2013-02-23T20:31:59+02:00.<br></footer></div>
 </div>
 </body>
 </html>

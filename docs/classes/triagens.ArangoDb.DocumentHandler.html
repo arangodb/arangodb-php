@@ -632,7 +632,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
 </div>
 <a id="method_save"></a><div class="element clickable method public method_save" data-toggle="collapse" data-target=".method_save .collapse">
 <h2>save a document to a collection</h2>
-<pre>save(mixed $collectionId, \triagens\ArangoDb\Document $document, bool | array $options) : mixed</pre>
+<pre>save(mixed $collectionId, mixed $document, bool | array $options) : mixed</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will add the document to the collection and return the document's id</p>
@@ -651,8 +651,8 @@ that the revision of the to-be-replaced document is the same as the one given.</
 </div>
 <div class="subelement argument">
 <h4>$document</h4>
-<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
-<li>the document to be added</li>
+<code>mixed</code><ul>
+<li>the document to be added, can be passed as a document or an array</li>
 </ul>
 </div>
 <div class="subelement argument">
@@ -689,7 +689,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
 
 <p>If policy is set to error (locally or globally through the connectionoptions)
 and the passed document has a _rev value set, the database will check
-that the revision of the to-be-replaced document is the same as the one given.</p></div>
+that the revision of the document to-be-replaced is the same as the one given.</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$document</h4>
@@ -731,7 +731,7 @@ Attention - The behavior of this method has changed since version 1.1</h2>
 
 <p>If policy is set to error (locally or globally through the connectionoptions)
 and the passed document has a _rev value set, the database will check
-that the revision of the to-be-replaced document is the same as the one given.</p></div>
+that the revision of the document to-be-updated is the same as the one given.</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collectionId</h4>
@@ -1076,7 +1076,7 @@ This is only for options that are to be sent to the ArangoDB server.</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-02-21T04:20:48+02:00.<br></footer></div>
+            generated on 2013-02-23T20:31:59+02:00.<br></footer></div>
 </div>
 </body>
 </html>

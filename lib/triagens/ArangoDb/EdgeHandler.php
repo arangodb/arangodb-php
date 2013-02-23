@@ -101,7 +101,7 @@ class EdgeHandler extends
      * @param mixed      $collectionId - collection id as string or number
      * @param mixed      $from         - from vertex
      * @param mixed      $to           - to vertex
-     * @param            $document     - the document to be added
+     * @param mixed      $document     - the edge-document to be added, can be passed as an object or an array
      * @param bool|array $options      - optional, prior to v1.2.0 this was a boolean value for create. Since v1.0.0 it's an array of options.
      * <p>Options are :<br>
      * <li>'create' - create the collection if it does not yet exist.</li>

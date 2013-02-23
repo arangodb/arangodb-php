@@ -141,7 +141,7 @@ class GraphHandler extends
      * @throws Exception
      *
      * @param mixed    $graphName - the name of the graph
-     * @param          $document  - the vertex to be added
+     * @param mixed    $document  - the vertex to be added, can be passed as a vertex object or an array
      *
      * @return mixed - id of vertex created
      * @since 1.2
@@ -389,7 +389,7 @@ class GraphHandler extends
      * @param mixed    $from         - the 'from' vertex
      * @param mixed    $to           - the 'to' vertex
      * @param mixed    $label        - (optional) a label for the edge
-     * @param mixed    $document     - the edge-document to be added
+     * @param mixed    $document     - the edge-document to be added, can be passed as an edge object or an array
      *
      * @return mixed - id of edge created
      * @since 1.2

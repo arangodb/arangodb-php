@@ -305,8 +305,8 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $collection   - collection object to be created on the server or a string with the name
-     * @param bool|array $options      - optional, prior to v1.2.0 this was a boolean value for create. Since v1.0.0 it's an array of options.
+     * @param mixed      $collection - collection object to be created on the server or a string with the name
+     * @param array      $options    - an array of options.
      * <p>Options are :<br>
      * <li>'type' - 2 -> normal collection, 3 -> edge-collection</li>
      * <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>

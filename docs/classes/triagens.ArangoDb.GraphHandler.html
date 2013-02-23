@@ -694,7 +694,7 @@ that the revision of the to-be-replaced vertex is the same as the one given.</p>
 </div>
 <a id="method_saveEdge"></a><div class="element clickable method public method_saveEdge" data-toggle="collapse" data-target=".method_saveEdge .collapse">
 <h2>save an edge to a graph</h2>
-<pre>saveEdge(mixed $graphName, mixed $from, mixed $to, mixed $label, \triagens\ArangoDb\Edge $document) : mixed</pre>
+<pre>saveEdge(mixed $graphName, mixed $from, mixed $to, mixed $label, mixed $document) : mixed</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will save the edge to the graph and return the edges-document's id</p>
@@ -731,8 +731,8 @@ that the revision of the to-be-replaced vertex is the same as the one given.</p>
 </div>
 <div class="subelement argument">
 <h4>$document</h4>
-<code><a href="../classes/triagens.ArangoDb.Edge.html">\triagens\ArangoDb\Edge</a></code><ul>
-<li>the edge-document to be added</li>
+<code>mixed</code><ul>
+<li>the edge-document to be added, can be passed as an edge object or an array</li>
 </ul>
 </div>
 <h3>Exceptions</h3>
@@ -747,7 +747,7 @@ that the revision of the to-be-replaced vertex is the same as the one given.</p>
 </div>
 <a id="method_saveVertex"></a><div class="element clickable method public method_saveVertex" data-toggle="collapse" data-target=".method_saveVertex .collapse">
 <h2>save a vertex to a graph</h2>
-<pre>saveVertex(mixed $graphName, \triagens\ArangoDb\Document $document) : mixed</pre>
+<pre>saveVertex(mixed $graphName, mixed $document) : mixed</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will add the vertex-document to the graph and return the vertex id</p>
@@ -766,8 +766,8 @@ that the revision of the to-be-replaced vertex is the same as the one given.</p>
 </div>
 <div class="subelement argument">
 <h4>$document</h4>
-<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
-<li>the vertex to be added</li>
+<code>mixed</code><ul>
+<li>the vertex to be added, can be passed as a vertex object or an array</li>
 </ul>
 </div>
 <h3>Exceptions</h3>
@@ -1152,7 +1152,7 @@ This is only for options that are to be sent to the ArangoDB server.</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-02-21T04:20:48+02:00.<br></footer></div>
+            generated on 2013-02-23T20:32:00+02:00.<br></footer></div>
 </div>
 </body>
 </html>

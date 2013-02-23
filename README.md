@@ -2,7 +2,7 @@
 
 [![Build Status](https://secure.travis-ci.org/triAGENS/ArangoDB-PHP.png)](http://travis-ci.org/triAGENS/ArangoDB-PHP)
 
-**Version: 1.2.beta1**
+**Version: 1.2.0-BETA2**
 
 
 [Follow us on Twitter @arangodbphp to receive updates on the php driver](https://twitter.com/arangodbphp)
@@ -28,7 +28,7 @@
 - [More information](#more_info)
 
 
-This version supports ArangoDB version 1.2.beta2
+This version supports ArangoDB version 1.2.beta3
 
 Please note that if you use other versions of ArangoDB, you must use a matching PHP driver version.
 

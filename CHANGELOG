@@ -1,6 +1,20 @@
 
-v1.2.beta2 (xxxx-xx-xx)
+v1.2.0-BETA2 (2013-02-23)
 -----------------------
+
+* Bumped travis ArangoDB version to 1.2.beta3
+
+* Modified CollectionHandler.php to also accept a name and options instead of only a collection object (see https://github.com/triAGENS/ArangoDB-PHP/issues/44). Options can also be set when using an object. Also did some code-style fixing.
+
+* Modified GraphHandler->saveVertex() and GraphHandler->saveEdge() so that an array can be passed instead of an object.
+
+* Modified EdgeHandler->save() so that an array can be passed instead of an edge object.
+
+* Modified DocumentHandler->save() so that an array can be passed instead of a document object.
+
+* Implemented CollectionHandler->updateByExample() & CollectionHandler->replaceByExample(), (see https://github.com/triAGENS/ArangoDB-PHP/issues/40)
+
+* Corrected HTTP response codes assertions in some cases, after ArangoDB is now correctly returning 404 in those cases
 
 * Reformatted code to conform with PSR-1 and partly with PSR-2.
 
@@ -16,7 +30,7 @@ v1.2.beta2 (xxxx-xx-xx)
 
 
 
-v1.2.beta1 (2013-02-20)
+v1.2.0-BETA1 (2013-02-20)
 -----------------------
 
 * Cleaned up and Extended Test-Suite.
