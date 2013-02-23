@@ -324,7 +324,7 @@ class CollectionHandler extends
             $collection = new Collection();
             $collection->setName($name);
             foreach ($options as $key => $value) {
-                $collection->{set . ucfirst($key)}($value);
+                $collection->{'set' . ucfirst($key)}($value);
             }
         }
         if ($collection->getWaitForSync() === null) {

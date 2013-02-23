@@ -83,7 +83,7 @@ class EdgeHandler extends
      * @param Document $document     - the document to be added
      * @param bool     $create       - create the collection if it does not yet exist
      */
-    public function save($collectionId, Document $document, $create = null)
+    public function save($collectionId, $document, $create = null)
     {
         throw new ClientException("Edges don't have a save() method. Please use saveEdge()");
     }
