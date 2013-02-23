@@ -17,14 +17,14 @@ class EdgeExtendedTest extends
         $this->connection        = getConnection();
         $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
         $this->collection        = new \triagens\ArangoDb\Collection();
-        $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
+        $this->collection->setName('ArangoDB_PHP_TestSuite_TestEdgeCollection_01');
         $this->collectionHandler->add($this->collection);
         $this->edgeHandler = new EdgeHandler($this->connection);
     }
 
 
-    /**
-     * Test for correct exception codes if nonexistant objects are tried to be gotten, replaced, updated or removed
+   /**
+     * Test for correct exception codes if non-existent objects are tried to be gotten, replaced, updated or removed
      */
     public function testGetReplaceUpdateAndRemoveOnNonExistantObjects()
     {
@@ -103,7 +103,13 @@ class EdgeExtendedTest extends
     public function tearDown()
     {
         try {
-            $response = $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $response = $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestEdgeCollection_01');
+        } catch (\Exception $e) {
+            // don't bother us, if it's already deleted.
+        }
+
+        try {
+            $response = $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestEdgeCollection_02');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
