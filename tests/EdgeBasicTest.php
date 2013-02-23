@@ -78,6 +78,13 @@ class EdgeBasicTest extends
             $edgeDocument
         );
 
+        $edgeDocumentId2 = $edgeDocumentHandler->saveEdge(
+            $edgeCollection->getName(),
+            $documentHandle1,
+            $documentHandle2,
+            array('label'=>'knows (but created using an array instead of an edge object)')
+        );
+
         $resultingDocument = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
 
         $resultingEdge = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);

@@ -101,7 +101,7 @@ class EdgeHandler extends
      * @param mixed      $collectionId - collection id as string or number
      * @param mixed      $from         - from vertex
      * @param mixed      $to           - to vertex
-     * @param Document   $document     - the document to be added
+     * @param  $document     - the document to be added
      * @param bool|array $options      - optional, prior to v1.2.0 this was a boolean value for create. Since v1.0.0 it's an array of options.
      * <p>Options are :<br>
      * <li>'create' - create the collection if it does not yet exist.</li>
@@ -112,8 +112,11 @@ class EdgeHandler extends
      * @return mixed - id of document created
      * @since 1.0
      */
-    public function saveEdge($collectionId, $from, $to, Document $document, $options = array())
+    public function saveEdge($collectionId, $from, $to, $document, $options = array())
     {
+        if (is_array($document)) {
+            $document = Edge::createFromArray($document);
+        }
         $document->setFrom($from);
         $document->setTo($to);
         $params = array(
