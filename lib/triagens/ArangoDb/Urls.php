@@ -111,16 +111,58 @@ abstract class URLs
      * base URL part for select-range
      */
     const URL_RANGE = '/_api/simple/range';
+
     /**
      * base URL part for select-range
      */
     const URL_NEAR = '/_api/simple/near';
+
     /**
      * base URL part for select-range
      */
     const URL_WITHIN = '/_api/simple/within';
+
     /**
      * base URL part for batch processing
      */
     const URL_BATCH = '/_api/batch';
+
+    /**
+     * base URL part for admin version
+     */
+    const URL_ADMIN_VERSION = '/_admin/version';
+    /**
+     * base URL part for admin time
+     */
+    const URL_ADMIN_TIME = '/_admin/time';
+    /**
+     * base URL part for admin log
+     */
+    const URL_ADMIN_LOG = '/_admin/log';
+
+    /**
+     * base URL part for admin status
+     */
+    const URL_ADMIN_STATUS = '/_admin/status';
+
+    /**
+     * base URL part for admin routing reload
+     */
+    const URL_ADMIN_ROUTING_RELOAD = '/_admin/routing/reload';
+
+    /**
+     * base URL part for admin modules flush
+     */
+    const URL_ADMIN_MODULES_FLUSH = '/_admin/modules/flush';
+
+    /**
+     * base URL part for admin connection statistics
+     */
+    const URL_ADMIN_CONNECTION_STATISTICS = '/_admin/connection-statistics';
+
+    /**
+     * base URL part for admin request statistics
+     */
+    const URL_ADMIN_REQUEST_STATISTICS = '/_admin/request-statistics';
+
 }

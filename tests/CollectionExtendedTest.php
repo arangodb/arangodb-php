@@ -607,8 +607,11 @@ class CollectionExtendedTest extends
 
 
         $exampleDocument   = Document::createFromArray(array('someNewAttribute' => 'someNewValue'));
-        $resultingDocument = $collectionHandler->byExample($collection->getId(), $exampleDocument);
-
+        $cursor = $collectionHandler->byExample($collection->getId(), $exampleDocument);
+        $this->assertTrue(
+            $cursor->getCount() == 1,
+            'should return 1.'
+        );
 
         $exampleDocument = Document::createFromArray(array('someOtherAttribute' => 'someOtherValue'));
         $result          = $collectionHandler->removeByExample(
@@ -774,6 +777,11 @@ class CollectionExtendedTest extends
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }
+
+        $this->assertTrue(
+            $cursor->getCount() == 2,
+            'should return 2.'
+        );
 
         $this->assertTrue(
             ($resultingDocument[0]->getKey() == 'test1' && $resultingDocument[0]->firstName == 'Joe'),
