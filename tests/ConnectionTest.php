@@ -39,7 +39,11 @@ class ConnectionTest extends
     public function testGetApiVersion()
     {
         $connection = getConnection();
+
         $response   = $connection->getVersion();
+        $this->assertTrue($response !== "", 'Version String is empty!');
+
+        $response   = $connection->getClientVersion();
         $this->assertTrue($response !== "", 'Version String is empty!');
     }
 }

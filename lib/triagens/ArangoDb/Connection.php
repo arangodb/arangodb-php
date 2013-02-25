@@ -84,6 +84,7 @@ class Connection
 
     private $_batchRequest = false;
 
+
     /**
      * Set up the connection object, validate the options provided
      *
@@ -372,17 +373,28 @@ class Connection
     }
 
     /**
-     * Get the client api version
+     * Get the client version (alias for getClientVersion)
      *
      * @return string
      */
     public static function getVersion()
     {
-        return self::$_apiVersion;
+        return self::getClientVersion();
     }
 
 
     /**
+     * Get the client version
+     *
+     * @return string
+     */
+    public static function getClientVersion()
+    {
+        return self::$_apiVersion;
+    }
+
+
+     /**
      * Stop capturing commands
      *
      * @param array $options - Options
