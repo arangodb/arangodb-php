@@ -24,8 +24,8 @@ class AdminTest extends
      */
     public function testGetServerVersion()
     {
-        $response = $this->adminHandler->getServerVersion();
-        $this->assertTrue(is_string($response), 'Version must be a string!');
+        $result = $this->adminHandler->getServerVersion();
+        $this->assertTrue(is_string($result), 'Version must be a string!');
     }
 
 
@@ -34,8 +34,8 @@ class AdminTest extends
      */
     public function testGetServerTime()
     {
-        $response = $this->adminHandler->getServerTime();
-        $this->assertTrue(is_double($response), 'Time must be a double!');
+        $result = $this->adminHandler->getServerTime();
+        $this->assertTrue(is_double($result), 'Time must be a double!');
     }
 
 
@@ -45,67 +45,67 @@ class AdminTest extends
      */
     public function testGetServerLog()
     {
-        $response = $this->adminHandler->getServerLog();
-        $this->assertTrue(is_array($response), 'Should be an array');
-        $this->assertArrayHasKey('lid', $response);
-        $this->assertArrayHasKey('level', $response);
-        $this->assertArrayHasKey('timestamp', $response);
-        $this->assertArrayHasKey('text', $response);
-        $this->assertArrayHasKey('totalAmount', $response);
+        $result = $this->adminHandler->getServerLog();
+        $this->assertTrue(is_array($result), 'Should be an array');
+        $this->assertArrayHasKey('lid', $result);
+        $this->assertArrayHasKey('level', $result);
+        $this->assertArrayHasKey('timestamp', $result);
+        $this->assertArrayHasKey('text', $result);
+        $this->assertArrayHasKey('totalAmount', $result);
 
-        $options  = array('upto' => 3);
-        $response = $this->adminHandler->getServerLog($options);
-        $this->assertTrue(is_array($response), 'Should be an array');
-        $this->assertArrayHasKey('lid', $response);
-        $this->assertArrayHasKey('level', $response);
-        $this->assertArrayHasKey('timestamp', $response);
-        $this->assertArrayHasKey('text', $response);
-        $this->assertArrayHasKey('totalAmount', $response);
+        $options = array('upto' => 3);
+        $result  = $this->adminHandler->getServerLog($options);
+        $this->assertTrue(is_array($result), 'Should be an array');
+        $this->assertArrayHasKey('lid', $result);
+        $this->assertArrayHasKey('level', $result);
+        $this->assertArrayHasKey('timestamp', $result);
+        $this->assertArrayHasKey('text', $result);
+        $this->assertArrayHasKey('totalAmount', $result);
 
-        $options  = array('level' => 1);
-        $response = $this->adminHandler->getServerLog($options);
-        $this->assertTrue(is_array($response), 'Should be an array');
-        $this->assertArrayHasKey('lid', $response);
-        $this->assertArrayHasKey('level', $response);
-        $this->assertArrayHasKey('timestamp', $response);
-        $this->assertArrayHasKey('text', $response);
-        $this->assertArrayHasKey('totalAmount', $response);
+        $options = array('level' => 1);
+        $result  = $this->adminHandler->getServerLog($options);
+        $this->assertTrue(is_array($result), 'Should be an array');
+        $this->assertArrayHasKey('lid', $result);
+        $this->assertArrayHasKey('level', $result);
+        $this->assertArrayHasKey('timestamp', $result);
+        $this->assertArrayHasKey('text', $result);
+        $this->assertArrayHasKey('totalAmount', $result);
 
-        $options  = array('search' => 'ArangoDB');
-        $response = $this->adminHandler->getServerLog($options);
-        $this->assertTrue(is_array($response), 'Should be an array');
-        $this->assertArrayHasKey('lid', $response);
-        $this->assertArrayHasKey('level', $response);
-        $this->assertArrayHasKey('timestamp', $response);
-        $this->assertArrayHasKey('text', $response);
-        $this->assertArrayHasKey('totalAmount', $response);
+        $options = array('search' => 'ArangoDB');
+        $result  = $this->adminHandler->getServerLog($options);
+        $this->assertTrue(is_array($result), 'Should be an array');
+        $this->assertArrayHasKey('lid', $result);
+        $this->assertArrayHasKey('level', $result);
+        $this->assertArrayHasKey('timestamp', $result);
+        $this->assertArrayHasKey('text', $result);
+        $this->assertArrayHasKey('totalAmount', $result);
 
-        $options  = array('sort' => 'desc');
-        $response = $this->adminHandler->getServerLog($options);
-        $this->assertTrue(is_array($response), 'Should be an array');
-        $this->assertArrayHasKey('lid', $response);
-        $this->assertArrayHasKey('level', $response);
-        $this->assertArrayHasKey('timestamp', $response);
-        $this->assertArrayHasKey('text', $response);
-        $this->assertArrayHasKey('totalAmount', $response);
+        $options = array('sort' => 'desc');
+        $result  = $this->adminHandler->getServerLog($options);
+        $this->assertTrue(is_array($result), 'Should be an array');
+        $this->assertArrayHasKey('lid', $result);
+        $this->assertArrayHasKey('level', $result);
+        $this->assertArrayHasKey('timestamp', $result);
+        $this->assertArrayHasKey('text', $result);
+        $this->assertArrayHasKey('totalAmount', $result);
 
-        $options  = array('start' => 1);
-        $response = $this->adminHandler->getServerLog($options);
-        $this->assertTrue(is_array($response), 'Should be an array');
-        $this->assertArrayHasKey('lid', $response);
-        $this->assertArrayHasKey('level', $response);
-        $this->assertArrayHasKey('timestamp', $response);
-        $this->assertArrayHasKey('text', $response);
-        $this->assertArrayHasKey('totalAmount', $response);
+        $options = array('start' => 1);
+        $result  = $this->adminHandler->getServerLog($options);
+        $this->assertTrue(is_array($result), 'Should be an array');
+        $this->assertArrayHasKey('lid', $result);
+        $this->assertArrayHasKey('level', $result);
+        $this->assertArrayHasKey('timestamp', $result);
+        $this->assertArrayHasKey('text', $result);
+        $this->assertArrayHasKey('totalAmount', $result);
 
-        $options  = array('size' => 10, 'offset' => 10);
-        $response = $this->adminHandler->getServerLog($options);
-        $this->assertTrue(is_array($response), 'Should be an array');
-        $this->assertArrayHasKey('lid', $response);
-        $this->assertArrayHasKey('level', $response);
-        $this->assertArrayHasKey('timestamp', $response);
-        $this->assertArrayHasKey('text', $response);
-        $this->assertArrayHasKey('totalAmount', $response);
+        $options = array('size' => 10, 'offset' => 10);
+        $result  = $this->adminHandler->getServerLog($options);
+        $this->assertTrue(is_array($result), 'Should be an array');
+        $this->assertArrayHasKey('lid', $result);
+        $this->assertArrayHasKey('level', $result);
+        $this->assertArrayHasKey('timestamp', $result);
+        $this->assertArrayHasKey('text', $result);
+        $this->assertArrayHasKey('totalAmount', $result);
     }
 
 
@@ -114,10 +114,10 @@ class AdminTest extends
      */
     public function testGetServerStatus()
     {
-        $response = $this->adminHandler->getServerStatus();
-        $this->assertTrue(is_array($response), 'Should be an array');
-        $this->assertArrayHasKey('system', $response);
-        $system = $response['system'];
+        $result = $this->adminHandler->getServerStatus();
+        $this->assertTrue(is_array($result), 'Should be an array');
+        $this->assertArrayHasKey('system', $result);
+        $system = $result['system'];
         $this->assertArrayHasKey('minorPageFaults', $system);
         $this->assertArrayHasKey('majorPageFaults', $system);
         $this->assertArrayHasKey('userTime', $system);
@@ -133,8 +133,8 @@ class AdminTest extends
      */
     public function testServerModuleCache()
     {
-        $response = $this->adminHandler->flushServerModuleCache();
-        $this->assertFalse($response['error'], 'Should be false!');
+        $result = $this->adminHandler->flushServerModuleCache();
+        $this->assertTrue($result, 'Should be true!');
     }
 
 
@@ -143,8 +143,8 @@ class AdminTest extends
      */
     public function testReloadServerRouting()
     {
-        $response = $this->adminHandler->reloadServerRouting();
-        $this->assertFalse($response['error'], 'Should be false!');
+        $result = $this->adminHandler->reloadServerRouting();
+        $this->assertTrue($result, 'Should be true!');
     }
 
 
@@ -153,47 +153,47 @@ class AdminTest extends
      */
     public function testGetServerConnectionStatistics()
     {
-        $response = $this->adminHandler->getServerConnectionStatistics();
-        $this->assertTrue(is_array($response), 'Should be an array');
-        $this->assertArrayHasKey('resolution', $response);
-        $this->assertArrayHasKey('start', $response);
-        $this->assertArrayHasKey('length', $response);
-        $this->assertArrayHasKey('totalLength', $response);
-        $this->assertArrayHasKey('httpConnections', $response);
-        $this->assertArrayHasKey('httpDuration', $response);
+        $result = $this->adminHandler->getServerConnectionStatistics();
+        $this->assertTrue(is_array($result), 'Should be an array');
+        $this->assertArrayHasKey('resolution', $result);
+        $this->assertArrayHasKey('start', $result);
+        $this->assertArrayHasKey('length', $result);
+        $this->assertArrayHasKey('totalLength', $result);
+        $this->assertArrayHasKey('httpConnections', $result);
+        $this->assertArrayHasKey('httpDuration', $result);
 
 
-        $options  = array('granularity' => 'hours');
-        $response = $this->adminHandler->getServerConnectionStatistics($options);
-        $this->assertTrue(is_array($response), 'Should be an array');
-        $this->assertArrayHasKey('resolution', $response);
-        $this->assertArrayHasKey('start', $response);
-        $this->assertArrayHasKey('length', $response);
-        $this->assertArrayHasKey('totalLength', $response);
-        $this->assertArrayHasKey('httpConnections', $response);
-        $this->assertArrayHasKey('httpDuration', $response);
+        $options = array('granularity' => 'hours');
+        $result  = $this->adminHandler->getServerConnectionStatistics($options);
+        $this->assertTrue(is_array($result), 'Should be an array');
+        $this->assertArrayHasKey('resolution', $result);
+        $this->assertArrayHasKey('start', $result);
+        $this->assertArrayHasKey('length', $result);
+        $this->assertArrayHasKey('totalLength', $result);
+        $this->assertArrayHasKey('httpConnections', $result);
+        $this->assertArrayHasKey('httpDuration', $result);
 
 
-        $options  = array('figures' => 'httpConnections');
-        $response = $this->adminHandler->getServerConnectionStatistics($options);
-        $this->assertTrue(is_array($response), 'Should be an array');
-        $this->assertArrayHasKey('resolution', $response);
-        $this->assertArrayHasKey('start', $response);
-        $this->assertArrayHasKey('length', $response);
-        $this->assertArrayHasKey('totalLength', $response);
-        $this->assertArrayHasKey('httpConnections', $response);
-        $this->assertArrayHasKey('httpDuration', $response);
+        $options = array('figures' => 'httpConnections');
+        $result  = $this->adminHandler->getServerConnectionStatistics($options);
+        $this->assertTrue(is_array($result), 'Should be an array');
+        $this->assertArrayHasKey('resolution', $result);
+        $this->assertArrayHasKey('start', $result);
+        $this->assertArrayHasKey('length', $result);
+        $this->assertArrayHasKey('totalLength', $result);
+        $this->assertArrayHasKey('httpConnections', $result);
+        $this->assertArrayHasKey('httpDuration', $result);
 
 
-        $options  = array('length' => 'all');
-        $response = $this->adminHandler->getServerConnectionStatistics($options);
-        $this->assertTrue(is_array($response), 'Should be an array');
-        $this->assertArrayHasKey('resolution', $response);
-        $this->assertArrayHasKey('start', $response);
-        $this->assertArrayHasKey('length', $response);
-        $this->assertArrayHasKey('totalLength', $response);
-        $this->assertArrayHasKey('httpConnections', $response);
-        $this->assertArrayHasKey('httpDuration', $response);
+        $options = array('length' => 'all');
+        $result  = $this->adminHandler->getServerConnectionStatistics($options);
+        $this->assertTrue(is_array($result), 'Should be an array');
+        $this->assertArrayHasKey('resolution', $result);
+        $this->assertArrayHasKey('start', $result);
+        $this->assertArrayHasKey('length', $result);
+        $this->assertArrayHasKey('totalLength', $result);
+        $this->assertArrayHasKey('httpConnections', $result);
+        $this->assertArrayHasKey('httpDuration', $result);
     }
 
 
@@ -202,52 +202,52 @@ class AdminTest extends
      */
     public function testGetServerRequestStatistics()
     {
-        $response = $this->adminHandler->getServerRequestStatistics();
-        $this->assertTrue(is_array($response), 'Should be an array');
-        $this->assertArrayHasKey('resolution', $response);
-        $this->assertArrayHasKey('start', $response);
-        $this->assertArrayHasKey('length', $response);
-        $this->assertArrayHasKey('totalLength', $response);
-        $this->assertArrayHasKey('totalTime', $response);
-        $this->assertArrayHasKey('bytesSent', $response);
-        $this->assertArrayHasKey('bytesReceived', $response);
+        $result = $this->adminHandler->getServerRequestStatistics();
+        $this->assertTrue(is_array($result), 'Should be an array');
+        $this->assertArrayHasKey('resolution', $result);
+        $this->assertArrayHasKey('start', $result);
+        $this->assertArrayHasKey('length', $result);
+        $this->assertArrayHasKey('totalLength', $result);
+        $this->assertArrayHasKey('totalTime', $result);
+        $this->assertArrayHasKey('bytesSent', $result);
+        $this->assertArrayHasKey('bytesReceived', $result);
 
 
-        $options  = array('granularity' => 'hours');
-        $response = $this->adminHandler->getServerRequestStatistics($options);
-        $this->assertTrue(is_array($response), 'Should be an array');
-        $this->assertArrayHasKey('resolution', $response);
-        $this->assertArrayHasKey('start', $response);
-        $this->assertArrayHasKey('length', $response);
-        $this->assertArrayHasKey('totalLength', $response);
-        $this->assertArrayHasKey('totalTime', $response);
-        $this->assertArrayHasKey('bytesSent', $response);
-        $this->assertArrayHasKey('bytesReceived', $response);
+        $options = array('granularity' => 'hours');
+        $result  = $this->adminHandler->getServerRequestStatistics($options);
+        $this->assertTrue(is_array($result), 'Should be an array');
+        $this->assertArrayHasKey('resolution', $result);
+        $this->assertArrayHasKey('start', $result);
+        $this->assertArrayHasKey('length', $result);
+        $this->assertArrayHasKey('totalLength', $result);
+        $this->assertArrayHasKey('totalTime', $result);
+        $this->assertArrayHasKey('bytesSent', $result);
+        $this->assertArrayHasKey('bytesReceived', $result);
 
 
-        $options  = array('figures' => 'totalTime,queueTime,requestTime');
-        $response = $this->adminHandler->getServerRequestStatistics($options);
+        $options = array('figures' => 'totalTime,queueTime,requestTime');
+        $result  = $this->adminHandler->getServerRequestStatistics($options);
 
-        $this->assertTrue(is_array($response), 'Should be an array');
-        $this->assertArrayHasKey('resolution', $response);
-        $this->assertArrayHasKey('start', $response);
-        $this->assertArrayHasKey('length', $response);
-        $this->assertArrayHasKey('totalLength', $response);
-        $this->assertArrayHasKey('totalTime', $response);
-        $this->assertArrayHasKey('queueTime', $response);
+        $this->assertTrue(is_array($result), 'Should be an array');
+        $this->assertArrayHasKey('resolution', $result);
+        $this->assertArrayHasKey('start', $result);
+        $this->assertArrayHasKey('length', $result);
+        $this->assertArrayHasKey('totalLength', $result);
+        $this->assertArrayHasKey('totalTime', $result);
+        $this->assertArrayHasKey('queueTime', $result);
 
 
-        $options  = array('length' => 10);
-        $response = $this->adminHandler->getServerRequestStatistics($options);
-        #var_dump($response);
-        $this->assertTrue(is_array($response), 'Should be an array');
-        $this->assertArrayHasKey('resolution', $response);
-        $this->assertArrayHasKey('start', $response);
-        $this->assertArrayHasKey('length', $response);
-        $this->assertArrayHasKey('totalLength', $response);
-        $this->assertArrayHasKey('totalTime', $response);
-        $this->assertArrayHasKey('bytesSent', $response);
-        $this->assertArrayHasKey('bytesReceived', $response);
+        $options = array('length' => 10);
+        $result  = $this->adminHandler->getServerRequestStatistics($options);
+        #var_dump($result);
+        $this->assertTrue(is_array($result), 'Should be an array');
+        $this->assertArrayHasKey('resolution', $result);
+        $this->assertArrayHasKey('start', $result);
+        $this->assertArrayHasKey('length', $result);
+        $this->assertArrayHasKey('totalLength', $result);
+        $this->assertArrayHasKey('totalTime', $result);
+        $this->assertArrayHasKey('bytesSent', $result);
+        $this->assertArrayHasKey('bytesReceived', $result);
     }
 
 
