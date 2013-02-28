@@ -116,7 +116,7 @@ class BatchTest extends
         $response  = $batch->getPartResponse(0);
 
         // bad request, because collection already exists
-        $this->assertEquals(400, $response->getHttpCode());
+        $this->assertEquals(409, $response->getHttpCode());
     }
 
     public function testCreateDocumentBatch()
