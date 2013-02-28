@@ -1,4 +1,11 @@
 
+v1.2.0-BETA3 (xxxx-xx-xx)
+-----------------------
+
+* Fixed issue #46 "Cannot run AQL queries that produce non-document results"
+
+
+
 v1.2.0-BETA2 (2013-02-23)
 -----------------------
 
