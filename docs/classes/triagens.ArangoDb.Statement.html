@@ -129,7 +129,27 @@ server.</p>
 <div class="details">
 <div class="long_description"><p>Optional bind parameters can be used when issuing the
 statement to separate the statement from the values.
-Executing a statement will result in a cursor being created.</p></div>
+Executing a statement will result in a cursor being created.</p>
+
+<p>There is an important distinction between two different types of statements:<br />
+- statements that produce a list of documents as their result AND<br />
+- statements that do not produce documents</p>
+
+<p>For example, a statement such as "FOR e IN example RETURN e" will produce
+a list of documents as its result. The result can be treated as a list of
+documents, and the document can be updated and sent back to the server by
+the client.</p>
+
+<p>However, the query "RETURN 1 + 1" will not produce a list of documents as
+its result, but a list with a single scalar value (the number 2).
+"2" is not a valid document so creating a document from it will fail.</p>
+
+<p>To turn the results of this query into a document, the following needs to
+be done:<br />
+- modify the query to "RETURN { value: 1 + 1 }". The result will then be a
+  a list of documents with a "value" attribute<br />
+- use the "_flat" option for the statement to indicate that you don't want
+  to treat the statement result as a list of documents, but as a flat list</p></div>
 <table class="table table-bordered"><tr>
 <th>package</th>
 <td><a href="../packages/ArangoDbPhpClient.html">ArangoDbPhpClient</a></td>
@@ -141,7 +161,17 @@ Executing a statement will result in a cursor being created.</p></div>
 <pre>__construct(\triagens\ArangoDb\Connection $connection, array $data) : void</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>The $data property can be used to specify the query text and further
+options for the query.</p>
+
+<p>An important consideration when creating a statement is whether the
+statement will produce a list of documents as its result or any other
+non-document value. When a statement is created, by default it is
+assumed that the statement will produce documents. If this is not the
+case, executing a statement that returns non-documents will fail.</p>
+
+<p>To explicitly mark the statement as returning non-documents, the '_flat'
+option should be specified in $data.</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$connection</h4>
@@ -488,7 +518,7 @@ provides the additional results.</p>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2013-02-28T12:09:31+01:00.<br></footer></div>
+            generated on 2013-02-28T14:37:16+01:00.<br></footer></div>
 </div>
 </body>
 </html>

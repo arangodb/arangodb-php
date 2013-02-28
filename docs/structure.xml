@@ -5296,7 +5296,7 @@ the following endpoint types are currently supported (more to be added later):
       </method>
     </class>
   </file>
-  <file path="Statement.php" hash="8cb737ab9991e5f00f32aeb9cae76c99" package="ArangoDbPhpClient">
+  <file path="Statement.php" hash="d2a0ea263e6c404543eefa1baf5c2038" package="ArangoDbPhpClient">
     <docblock line="3">
       <description><![CDATA[ArangoDB PHP client: statement]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -5304,7 +5304,7 @@ the following endpoint types are currently supported (more to be added later):
       <tag line="3" name="author" description="Jan Steemann"/>
       <tag line="3" name="copyright" description="Copyright 2012, triagens GmbH, Cologne, Germany"/>
     </docblock>
-    <class final="false" abstract="false" namespace="triagens\ArangoDb" line="22" package="ArangoDbPhpClient">
+    <class final="false" abstract="false" namespace="triagens\ArangoDb" line="42" package="ArangoDbPhpClient">
       <extends/>
       <name>Statement</name>
       <full_name>\triagens\ArangoDb\Statement</full_name>
@@ -5314,243 +5314,273 @@ A statement is an AQL query that can be issued to the
 server.]]></description>
         <long-description><![CDATA[<p>Optional bind parameters can be used when issuing the
 statement to separate the statement from the values.
-Executing a statement will result in a cursor being created.</p>]]></long-description>
+Executing a statement will result in a cursor being created.</p>
+
+<p>There is an important distinction between two different types of statements:<br />
+- statements that produce a list of documents as their result AND<br />
+- statements that do not produce documents</p>
+
+<p>For example, a statement such as "FOR e IN example RETURN e" will produce
+a list of documents as its result. The result can be treated as a list of
+documents, and the document can be updated and sent back to the server by
+the client.</p>
+
+<p>However, the query "RETURN 1 + 1" will not produce a list of documents as
+its result, but a list with a single scalar value (the number 2).
+"2" is not a valid document so creating a document from it will fail.</p>
+
+<p>To turn the results of this query into a document, the following needs to
+be done:<br />
+- modify the query to "RETURN { value: 1 + 1 }". The result will then be a
+  a list of documents with a "value" attribute<br />
+- use the "_flat" option for the statement to indicate that you don't want
+  to treat the statement result as a list of documents, but as a flat list</p>]]></long-description>
         <tag line="13" name="package" description="ArangoDbPhpClient"/>
       </docblock>
-      <constant namespace="triagens\ArangoDb" line="76" package="ArangoDbPhpClient">
+      <constant namespace="triagens\ArangoDb" line="96" package="ArangoDbPhpClient">
         <name>ENTRY_QUERY</name>
         <full_name>ENTRY_QUERY</full_name>
         <value><![CDATA['query']]></value>
-        <docblock line="73">
+        <docblock line="93">
           <description><![CDATA[Query string index]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </constant>
-      <constant namespace="triagens\ArangoDb" line="81" package="ArangoDbPhpClient">
+      <constant namespace="triagens\ArangoDb" line="101" package="ArangoDbPhpClient">
         <name>ENTRY_COUNT</name>
         <full_name>ENTRY_COUNT</full_name>
         <value><![CDATA['count']]></value>
-        <docblock line="78">
+        <docblock line="98">
           <description><![CDATA[Count option index]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </constant>
-      <constant namespace="triagens\ArangoDb" line="86" package="ArangoDbPhpClient">
+      <constant namespace="triagens\ArangoDb" line="106" package="ArangoDbPhpClient">
         <name>ENTRY_BATCHSIZE</name>
         <full_name>ENTRY_BATCHSIZE</full_name>
         <value><![CDATA['batchSize']]></value>
-        <docblock line="83">
+        <docblock line="103">
           <description><![CDATA[Batch size index]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </constant>
-      <constant namespace="triagens\ArangoDb" line="91" package="ArangoDbPhpClient">
+      <constant namespace="triagens\ArangoDb" line="111" package="ArangoDbPhpClient">
         <name>ENTRY_BINDVARS</name>
         <full_name>ENTRY_BINDVARS</full_name>
         <value><![CDATA['bindVars']]></value>
-        <docblock line="88">
+        <docblock line="108">
           <description><![CDATA[Bind variables index]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </constant>
-      <property final="false" static="false" visibility="private" line="29" namespace="triagens\ArangoDb" package="Default">
+      <property final="false" static="false" visibility="private" line="49" namespace="triagens\ArangoDb" package="Default">
         <name>$_connection</name>
         <default><![CDATA[null]]></default>
-        <docblock line="24">
+        <docblock line="44">
           <description><![CDATA[The connection object]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="24" name="var" description="" type="\triagens\ArangoDb\Connection">
+          <tag line="44" name="var" description="" type="\triagens\ArangoDb\Connection">
             <type by_reference="false">\triagens\ArangoDb\Connection</type>
           </tag>
         </docblock>
       </property>
-      <property final="false" static="false" visibility="private" line="36" namespace="triagens\ArangoDb" package="Default">
+      <property final="false" static="false" visibility="private" line="56" namespace="triagens\ArangoDb" package="Default">
         <name>$_bindVars</name>
         <default><![CDATA[]]></default>
-        <docblock line="31">
+        <docblock line="51">
           <description><![CDATA[The bind variables and values used for the statement]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="31" name="var" description="" type="\triagens\ArangoDb\BindVars">
+          <tag line="51" name="var" description="" type="\triagens\ArangoDb\BindVars">
             <type by_reference="false">\triagens\ArangoDb\BindVars</type>
           </tag>
         </docblock>
       </property>
-      <property final="false" static="false" visibility="private" line="43" namespace="triagens\ArangoDb" package="Default">
+      <property final="false" static="false" visibility="private" line="63" namespace="triagens\ArangoDb" package="Default">
         <name>$_batchSize</name>
         <default><![CDATA[null]]></default>
-        <docblock line="38">
+        <docblock line="58">
           <description><![CDATA[The current batch size (number of result documents retrieved per roundtrip)]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="38" name="var" description="" type="mixed">
+          <tag line="58" name="var" description="" type="mixed">
             <type by_reference="false">mixed</type>
           </tag>
         </docblock>
       </property>
-      <property final="false" static="false" visibility="private" line="50" namespace="triagens\ArangoDb" package="Default">
+      <property final="false" static="false" visibility="private" line="70" namespace="triagens\ArangoDb" package="Default">
         <name>$_doCount</name>
         <default><![CDATA[false]]></default>
-        <docblock line="45">
+        <docblock line="65">
           <description><![CDATA[The count flag (should server return total number of results)]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="45" name="var" description="" type="bool">
+          <tag line="65" name="var" description="" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
       </property>
-      <property final="false" static="false" visibility="private" line="57" namespace="triagens\ArangoDb" package="Default">
+      <property final="false" static="false" visibility="private" line="77" namespace="triagens\ArangoDb" package="Default">
         <name>$_query</name>
         <default><![CDATA[null]]></default>
-        <docblock line="52">
+        <docblock line="72">
           <description><![CDATA[The query string]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="52" name="var" description="" type="string">
+          <tag line="72" name="var" description="" type="string">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
       </property>
-      <property final="false" static="false" visibility="private" line="64" namespace="triagens\ArangoDb" package="Default">
+      <property final="false" static="false" visibility="private" line="84" namespace="triagens\ArangoDb" package="Default">
         <name>$_flat</name>
         <default><![CDATA[false]]></default>
-        <docblock line="59">
+        <docblock line="79">
           <description><![CDATA["flat" flag (if set, the query results will be treated as a simple array, not documents)]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="59" name="var" description="" type="bool">
+          <tag line="79" name="var" description="" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
       </property>
-      <property final="false" static="false" visibility="private" line="71" namespace="triagens\ArangoDb" package="Default">
+      <property final="false" static="false" visibility="private" line="91" namespace="triagens\ArangoDb" package="Default">
         <name>$_sanitize</name>
         <default><![CDATA[false]]></default>
-        <docblock line="66">
+        <docblock line="86">
           <description><![CDATA[Sanitation flag (if set, the _id and _rev attributes will be removed from the results)]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="66" name="var" description="" type="bool">
+          <tag line="86" name="var" description="" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
       </property>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="103" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="135" package="ArangoDbPhpClient">
         <name>__construct</name>
         <full_name>__construct</full_name>
-        <docblock line="93">
+        <docblock line="113">
           <description><![CDATA[Initialise the statement]]></description>
-          <long-description><![CDATA[]]></long-description>
-          <tag line="93" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <long-description><![CDATA[<p>The $data property can be used to specify the query text and further
+options for the query.</p>
+
+<p>An important consideration when creating a statement is whether the
+statement will produce a list of documents as its result or any other
+non-document value. When a statement is created, by default it is
+assumed that the statement will produce documents. If this is not the
+case, executing a statement that returns non-documents will fail.</p>
+
+<p>To explicitly mark the statement as returning non-documents, the '_flat'
+option should be specified in $data.</p>]]></long-description>
+          <tag line="113" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="93" name="param" description="- the connection to be used" type="\triagens\ArangoDb\Connection" variable="$connection">
+          <tag line="113" name="param" description="- the connection to be used" type="\triagens\ArangoDb\Connection" variable="$connection">
             <type by_reference="false">\triagens\ArangoDb\Connection</type>
           </tag>
-          <tag line="93" name="param" description="- statement initialization data" type="array" variable="$data">
+          <tag line="113" name="param" description="- statement initialization data" type="array" variable="$data">
             <type by_reference="false">array</type>
           </tag>
-          <tag line="93" name="return" description="" type="void">
+          <tag line="113" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="103">
+        <argument line="135">
           <name>$connection</name>
           <default><![CDATA[]]></default>
           <type>\triagens\ArangoDb\Connection</type>
         </argument>
-        <argument line="103">
+        <argument line="135">
           <name>$data</name>
           <default><![CDATA[]]></default>
           <type>array</type>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="protected" namespace="triagens\ArangoDb" line="136" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="triagens\ArangoDb" line="168" package="ArangoDbPhpClient">
         <name>getConnection</name>
         <full_name>getConnection</full_name>
-        <docblock line="131">
+        <docblock line="163">
           <description><![CDATA[Return the connection object]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="131" name="return" description="- the connection object" type="\triagens\ArangoDb\Connection">
+          <tag line="163" name="return" description="- the connection object" type="\triagens\ArangoDb\Connection">
             <type by_reference="false">\triagens\ArangoDb\Connection</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="150" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="182" package="ArangoDbPhpClient">
         <name>execute</name>
         <full_name>execute</full_name>
-        <docblock line="141">
+        <docblock line="173">
           <description><![CDATA[Execute the statement]]></description>
           <long-description><![CDATA[<p>This will post the query to the server and return the results as
 a Cursor. The cursor can then be used to iterate the results.</p>]]></long-description>
-          <tag line="141" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="173" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="141" name="return" description="" type="\triagens\ArangoDb\Cursor">
+          <tag line="173" name="return" description="" type="\triagens\ArangoDb\Cursor">
             <type by_reference="false">\triagens\ArangoDb\Cursor</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="167" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="199" package="ArangoDbPhpClient">
         <name>explain</name>
         <full_name>explain</full_name>
-        <docblock line="159">
+        <docblock line="191">
           <description><![CDATA[Explain the statement's execution plan]]></description>
           <long-description><![CDATA[<p>This will post the query to the server and return the execution plan as an array.</p>]]></long-description>
-          <tag line="159" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="191" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="159" name="return" description="" type="Array">
+          <tag line="191" name="return" description="" type="Array">
             <type by_reference="false">Array</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="184" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="216" package="ArangoDbPhpClient">
         <name>validate</name>
         <full_name>validate</full_name>
-        <docblock line="176">
+        <docblock line="208">
           <description><![CDATA[Validates the statement]]></description>
           <long-description><![CDATA[<p>This will post the query to the server for validation and return the validation result as an array.</p>]]></long-description>
-          <tag line="176" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="208" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="176" name="return" description="" type="Array">
+          <tag line="208" name="return" description="" type="Array">
             <type by_reference="false">Array</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="204" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="236" package="ArangoDbPhpClient">
         <name>__invoke</name>
         <full_name>__invoke</full_name>
-        <docblock line="193">
+        <docblock line="225">
           <description><![CDATA[Invoke the statement]]></description>
           <long-description><![CDATA[<p>This will simply call execute(). Arguments are ignored.</p>]]></long-description>
-          <tag line="193" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="225" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="193" name="param" description="- arguments for invocation, will be ignored" type="mixed" variable="$args">
+          <tag line="225" name="param" description="- arguments for invocation, will be ignored" type="mixed" variable="$args">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="193" name="return" description="- the result cursor" type="\triagens\ArangoDb\Cursor">
+          <tag line="225" name="return" description="- the result cursor" type="\triagens\ArangoDb\Cursor">
             <type by_reference="false">\triagens\ArangoDb\Cursor</type>
           </tag>
         </docblock>
-        <argument line="204">
+        <argument line="236">
           <name>$args</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="214" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="246" package="ArangoDbPhpClient">
         <name>__toString</name>
         <full_name>__toString</full_name>
-        <docblock line="209">
+        <docblock line="241">
           <description><![CDATA[Return a string representation of the statement]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="209" name="return" description="- the current query string" type="string">
+          <tag line="241" name="return" description="- the current query string" type="string">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="237" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="269" package="ArangoDbPhpClient">
         <name>bind</name>
         <full_name>bind</full_name>
-        <docblock line="219">
+        <docblock line="251">
           <description><![CDATA[Bind a parameter to the statement]]></description>
           <long-description><![CDATA[<p>This method can either be called with a string $key and a
 separate value in $value, or with an array of all bind
@@ -5559,108 +5589,108 @@ bind parameters in $key, with $value being NULL.</p>
 <p>Allowed value types for bind parameters are string, int,
 double, bool and array. Arrays must not contain any other
 than these types.</p>]]></long-description>
-          <tag line="219" name="throws" description="" type="\triagens\ArangoDb\Exception">
+          <tag line="251" name="throws" description="" type="\triagens\ArangoDb\Exception">
             <type by_reference="false">\triagens\ArangoDb\Exception</type>
           </tag>
-          <tag line="219" name="param" description="- name of bind variable OR an array of all bind variables" type="mixed" variable="$key">
+          <tag line="251" name="param" description="- name of bind variable OR an array of all bind variables" type="mixed" variable="$key">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="219" name="param" description="- value for bind variable" type="mixed" variable="$value">
+          <tag line="251" name="param" description="- value for bind variable" type="mixed" variable="$value">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="219" name="return" description="" type="void">
+          <tag line="251" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="237">
+        <argument line="269">
           <name>$key</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="237">
+        <argument line="269">
           <name>$value</name>
           <default><![CDATA[null]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="247" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="279" package="ArangoDbPhpClient">
         <name>getBindVars</name>
         <full_name>getBindVars</full_name>
-        <docblock line="242">
+        <docblock line="274">
           <description><![CDATA[Get all bind parameters as an array]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="242" name="return" description="- array of bind variables/values" type="array">
+          <tag line="274" name="return" description="- array of bind variables/values" type="array">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="261" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="293" package="ArangoDbPhpClient">
         <name>setQuery</name>
         <full_name>setQuery</full_name>
-        <docblock line="252">
+        <docblock line="284">
           <description><![CDATA[Set the query string]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="252" name="throws" description="" type="\triagens\ArangoDb\ClientException">
+          <tag line="284" name="throws" description="" type="\triagens\ArangoDb\ClientException">
             <type by_reference="false">\triagens\ArangoDb\ClientException</type>
           </tag>
-          <tag line="252" name="param" description="- query string" type="string" variable="$query">
+          <tag line="284" name="param" description="- query string" type="string" variable="$query">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="252" name="return" description="" type="void">
+          <tag line="284" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="261">
+        <argument line="293">
           <name>$query</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="275" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="307" package="ArangoDbPhpClient">
         <name>getQuery</name>
         <full_name>getQuery</full_name>
-        <docblock line="270">
+        <docblock line="302">
           <description><![CDATA[Get the query string]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="270" name="return" description="- current query string value" type="string">
+          <tag line="302" name="return" description="- current query string value" type="string">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="287" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="319" package="ArangoDbPhpClient">
         <name>setCount</name>
         <full_name>setCount</full_name>
-        <docblock line="280">
+        <docblock line="312">
           <description><![CDATA[Set the count option for the statement]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="280" name="param" description="- value for count option" type="bool" variable="$value">
+          <tag line="312" name="param" description="- value for count option" type="bool" variable="$value">
             <type by_reference="false">bool</type>
           </tag>
-          <tag line="280" name="return" description="" type="void">
+          <tag line="312" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="287">
+        <argument line="319">
           <name>$value</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="297" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="329" package="ArangoDbPhpClient">
         <name>getCount</name>
         <full_name>getCount</full_name>
-        <docblock line="292">
+        <docblock line="324">
           <description><![CDATA[Get the count option value of the statement]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="292" name="return" description="- current value of count option" type="bool">
+          <tag line="324" name="return" description="- current value of count option" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="318" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="350" package="ArangoDbPhpClient">
         <name>setBatchSize</name>
         <full_name>setBatchSize</full_name>
-        <docblock line="302">
+        <docblock line="334">
           <description><![CDATA[Set the batch size for the statement]]></description>
           <long-description><![CDATA[<p>The batch size is the number of results to be transferred
 in one server roundtrip. If a query produces more results
@@ -5668,51 +5698,51 @@ than the batch size, it creates a server-side cursor that
 provides the additional results.</p>
 
 <p>The server-side cursor can be accessed by the client with subsequent HTTP requests.</p>]]></long-description>
-          <tag line="302" name="throws" description="" type="\triagens\ArangoDb\ClientException">
+          <tag line="334" name="throws" description="" type="\triagens\ArangoDb\ClientException">
             <type by_reference="false">\triagens\ArangoDb\ClientException</type>
           </tag>
-          <tag line="302" name="param" description="- batch size value" type="int" variable="$value">
+          <tag line="334" name="param" description="- batch size value" type="int" variable="$value">
             <type by_reference="false">int</type>
           </tag>
-          <tag line="302" name="return" description="" type="void">
+          <tag line="334" name="return" description="" type="void">
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="318">
+        <argument line="350">
           <name>$value</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="332" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="triagens\ArangoDb" line="364" package="ArangoDbPhpClient">
         <name>getBatchSize</name>
         <full_name>getBatchSize</full_name>
-        <docblock line="327">
+        <docblock line="359">
           <description><![CDATA[Get the batch size for the statement]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="327" name="return" description="- current batch size value" type="int">
+          <tag line="359" name="return" description="- current batch size value" type="int">
             <type by_reference="false">int</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="342" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="374" package="ArangoDbPhpClient">
         <name>buildData</name>
         <full_name>buildData</full_name>
-        <docblock line="337">
+        <docblock line="369">
           <description><![CDATA[Build an array of data to be posted to the server when issuing the statement]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="337" name="return" description="- array of data to be sent to server" type="array">
+          <tag line="369" name="return" description="- array of data to be sent to server" type="array">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="365" package="ArangoDbPhpClient">
+      <method final="false" abstract="false" static="false" visibility="private" namespace="triagens\ArangoDb" line="397" package="ArangoDbPhpClient">
         <name>getCursorOptions</name>
         <full_name>getCursorOptions</full_name>
-        <docblock line="360">
+        <docblock line="392">
           <description><![CDATA[Return an array of cursor options]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="360" name="return" description="- array of options" type="array">
+          <tag line="392" name="return" description="- array of options" type="array">
             <type by_reference="false">array</type>
           </tag>
         </docblock>

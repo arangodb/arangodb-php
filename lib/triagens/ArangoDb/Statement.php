@@ -17,6 +17,26 @@ namespace triagens\ArangoDb;
  * statement to separate the statement from the values.
  * Executing a statement will result in a cursor being created.
  *
+ * There is an important distinction between two different types of statements:<br />
+ * - statements that produce a list of documents as their result AND<br />
+ * - statements that do not produce documents
+ * 
+ * For example, a statement such as "FOR e IN example RETURN e" will produce
+ * a list of documents as its result. The result can be treated as a list of
+ * documents, and the document can be updated and sent back to the server by
+ * the client.
+ *
+ * However, the query "RETURN 1 + 1" will not produce a list of documents as
+ * its result, but a list with a single scalar value (the number 2).
+ * "2" is not a valid document so creating a document from it will fail.
+ *
+ * To turn the results of this query into a document, the following needs to
+ * be done:<br />
+ * - modify the query to "RETURN { value: 1 + 1 }". The result will then be a
+ *   a list of documents with a "value" attribute<br />
+ * - use the "_flat" option for the statement to indicate that you don't want
+ *   to treat the statement result as a list of documents, but as a flat list
+ *
  * @package ArangoDbPhpClient
  */
 class Statement
@@ -92,6 +112,18 @@ class Statement
 
     /**
      * Initialise the statement
+     *
+     * The $data property can be used to specify the query text and further
+     * options for the query.
+     * 
+     * An important consideration when creating a statement is whether the 
+     * statement will produce a list of documents as its result or any other
+     * non-document value. When a statement is created, by default it is 
+     * assumed that the statement will produce documents. If this is not the
+     * case, executing a statement that returns non-documents will fail.
+     * 
+     * To explicitly mark the statement as returning non-documents, the '_flat'
+     * option should be specified in $data.
      *
      * @throws Exception
      *
