@@ -409,7 +409,7 @@ div.element div.subelement  > code
 div.element div.subelement  > p
 {
     margin-left: 20px;
-    margin-right: 50px;
+    margin-right: 40px;
 }
 
 div.element div.subelement h4
@@ -421,7 +421,6 @@ div.element div.subelement h4
 div.element div.subelement.response
 {
     padding-bottom: 15px;
-    margin-right: 50px;
 }
 
 div.labels

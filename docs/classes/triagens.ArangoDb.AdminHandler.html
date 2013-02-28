@@ -1,0 +1,573 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>ArangoDB PHP client API » \triagens\ArangoDb\AdminHandler</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">ArangoDB PHP client API</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
+<li><a>Packages</a></li>
+<li><a href="../packages/ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">0</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">9</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public inherited"><a href="#method___construct" title="__construct :: Construct a new handler"><span class="description">Construct a new handler</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#method_flushServerModuleCache" title="flushServerModuleCache :: Flush the server's modules cache
+The call triggers a flush of the modules cache on the server."><span class="description">Flush the server's modules cache
+The call triggers a flush of the modules cache on the server.</span><pre>flushServerModuleCache()</pre></a></li>
+<li class="method public "><a href="#method_getServerConnectionStatistics" title="getServerConnectionStatistics :: Get the server connection statistics
+The call returns statistics about the current and past requests."><span class="description">Get the server connection statistics
+The call returns statistics about the current and past requests.</span><pre>getServerConnectionStatistics()</pre></a></li>
+<li class="method public "><a href="#method_getServerLog" title="getServerLog :: Get the server log"><span class="description">Get the server log</span><pre>getServerLog()</pre></a></li>
+<li class="method public "><a href="#method_getServerRequestStatistics" title="getServerRequestStatistics :: Get the server request statistics
+The call returns statistics about the current and past requests."><span class="description">Get the server request statistics
+The call returns statistics about the current and past requests.</span><pre>getServerRequestStatistics()</pre></a></li>
+<li class="method public "><a href="#method_getServerStatus" title="getServerStatus :: Get the server status"><span class="description">Get the server status</span><pre>getServerStatus()</pre></a></li>
+<li class="method public "><a href="#method_getServerTime" title="getServerTime :: Get the server time"><span class="description">Get the server time</span><pre>getServerTime()</pre></a></li>
+<li class="method public "><a href="#method_getServerVersion" title="getServerVersion :: Get the server version"><span class="description">Get the server version</span><pre>getServerVersion()</pre></a></li>
+<li class="method public "><a href="#method_reloadServerRouting" title="reloadServerRouting :: Reload the server's routing information
+The call triggers a reload of the routing information from the _routing collection"><span class="description">Reload the server's routing information
+The call triggers a reload of the routing information from the _routing collection</span><pre>reloadServerRouting()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="method protected inherited"><a href="#method_getConnection" title="getConnection :: Return the connection object"><span class="description">Return the connection object</span><pre>getConnection()</pre></a></li>
+<li class="method protected inherited"><a href="#method_getConnectionOption" title="getConnectionOption :: Return a connection option
+This is a convenience function that calls json_encode_wrapper on the connection"><span class="description">Return a connection option
+This is a convenience function that calls json_encode_wrapper on the connection</span><pre>getConnectionOption()</pre></a></li>
+<li class="method protected inherited"><a href="#method_getCursorOptions" title="getCursorOptions :: Return an array of cursor options"><span class="description">Return an array of cursor options</span><pre>getCursorOptions()</pre></a></li>
+<li class="method protected inherited"><a href="#method_includeOptionsInBody" title="includeOptionsInBody :: Helper function that runs through the options given and includes them into the parameters array given."><span class="description">Helper function that runs through the options given and includes them into the parameters array given.</span><pre>includeOptionsInBody()</pre></a></li>
+<li class="method protected inherited"><a href="#method_includeOptionsInParams" title="includeOptionsInParams :: Helper function that runs through the options given and includes them into the parameters array given."><span class="description">Helper function that runs through the options given and includes them into the parameters array given.</span><pre>includeOptionsInParams()</pre></a></li>
+<li class="method protected inherited"><a href="#method_json_encode_wrapper" title="json_encode_wrapper :: Return a json encoded string for the array passed."><span class="description">Return a json encoded string for the array passed.</span><pre>json_encode_wrapper()</pre></a></li>
+<li class="method protected inherited"><a href="#method_validateAndIncludeOldSingleParameterInParams" title="validateAndIncludeOldSingleParameterInParams :: Helper function that validates and includes an old single method parameter setting into the parameters array given."><span class="description">Helper function that validates and includes an old single method parameter setting into the parameters array given.</span><pre>validateAndIncludeOldSingleParameterInParams()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header private">» Private
+                    <ul><li class="property private inherited"><a href="#property__connection" title="$_connection :: Connection object"><span class="description">Connection object</span><pre>$_connection</pre></a></li></ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\triagens\ArangoDb\AdminHandler"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/triagens.html">triagens</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/triagens.ArangoDb.AdminHandler.html">AdminHandler</a>
+</li>
+</ul>
+<div class="element class">
+<p class="short_description">An admin handler that utilizes the ArangoDB's Admin API.</p>
+<div class="details">
+<div class="long_description"><p>It does so by issuing the
+appropriate HTTP requests to the server.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>package</th>
+<td><a href="../packages/ArangoDbPhpClient.html">ArangoDbPhpClient</a></td>
+</tr>
+<tr>
+<th>since</th>
+<td>1.2</td>
+</tr>
+</table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
+<h2>Construct a new handler</h2>
+<pre>__construct(\triagens\ArangoDb\Connection $connection) : void</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Handler::__construct()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$connection</h4>
+<code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code><ul>
+<li>connection to be used</li>
+</ul>
+</div>
+</div></div>
+</div>
+<a id="method_flushServerModuleCache"></a><div class="element clickable method public method_flushServerModuleCache" data-toggle="collapse" data-target=".method_flushServerModuleCache .collapse">
+<h2>Flush the server's modules cache
+The call triggers a flush of the modules cache on the server.</h2>
+<pre>flushServerModuleCache() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>See Modules Cache for details about this cache.</p>
+
+<p>This will throw if the modules cache cannot be flushed</p></div>
+<table class="table table-bordered"><tr>
+<th>since</th>
+<td>1.2</td>
+</tr></table>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
+</div></div>
+</div>
+<a id="method_getServerConnectionStatistics"></a><div class="element clickable method public method_getServerConnectionStatistics" data-toggle="collapse" data-target=".method_getServerConnectionStatistics .collapse">
+<h2>Get the server connection statistics
+The call returns statistics about the current and past requests.</h2>
+<pre>getServerConnectionStatistics(array $options) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>The following parameter control which information is returned:</p>
+
+<p>This will throw if the statistics cannot be retrieved</p></div>
+<table class="table table-bordered"><tr>
+<th>since</th>
+<td>1.2</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><ul>
+<li>an array of options that define the resultset: </li>
+</ul>
+
+<p><</p>
+
+<p>p>Options are :<br> <li>'granularity' - use minutes for a granularity of minutes, hours for hours, and days for days. The default is minutes.</li> <li>'figures' - a list of figures, comma-separated. Possible figures are httpConnections. You can use all to get all figures. The default is httpConnections.</li> <li>'length' - If you want a time series, the maximal length of the series as integer. You can use all to get all available information. You can use current to get the latest interval.</li></p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
+</div></div>
+</div>
+<a id="method_getServerLog"></a><div class="element clickable method public method_getServerLog" data-toggle="collapse" data-target=".method_getServerLog .collapse">
+<h2>Get the server log</h2>
+<pre>getServerLog(array $options) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will throw if the log cannot be retrieved</p></div>
+<table class="table table-bordered"><tr>
+<th>since</th>
+<td>1.2</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><ul>
+<li>an array of options that define the resultset: </li>
+</ul>
+
+<p>Options are :<br> <li>'upto' - returns all log entries upto a log-level. Note that log-level must be one of:</li> <p> <li>fatal / 0</li> <li>error / 1</li> <li>warning / 2</li> <li>info / 3</li> <li>debug / 4</li> </p> <li>'level' - limits the log entries to the ones defined in level. Note that `level` and `upto` are mutably exclusive.</li> <li>'offset' - skip the first offset entries.</li> <li>'size' - limit the number of returned log-entries to size.</li> <li>'start' - Returns all log entries such that their log-entry identifier is greater or equal to lid.</li> <li>'sort' - Sort the log-entries either ascending if direction is asc, or descending if it is desc according to their lid. Note that the lid imposes a chronological order.</li> <li>'search' - Only return the log-entries containing the text string...</li> </p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- an array holding the various attributes of a log: lid, level, timestamp, text and the total amount of log entries before pagination.</div>
+</div></div>
+</div>
+<a id="method_getServerRequestStatistics"></a><div class="element clickable method public method_getServerRequestStatistics" data-toggle="collapse" data-target=".method_getServerRequestStatistics .collapse">
+<h2>Get the server request statistics
+The call returns statistics about the current and past requests.</h2>
+<pre>getServerRequestStatistics(array $options) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>The following parameter control which information is returned:</p>
+
+<p>This will throw if the statistics cannot be retrieved</p></div>
+<table class="table table-bordered"><tr>
+<th>since</th>
+<td>1.2</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><ul>
+<li>an array of options that define the resultset: </li>
+</ul>
+
+<p><</p>
+
+<p>p>Options are :<br> <li>'granularity' - use minutes for a granularity of minutes, hours for hours, and days for days. The default is minutes.</li> <li>'figures' - a list of figures, comma-separated. Possible figures are httpConnections. You can use all to get all figures. The default is httpConnections.</li> <li>'length' - If you want a time series, the maximal length of the series as integer. You can use all to get all available information. You can use current to get the latest interval.</li></p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
+</div></div>
+</div>
+<a id="method_getServerStatus"></a><div class="element clickable method public method_getServerStatus" data-toggle="collapse" data-target=".method_getServerStatus .collapse">
+<h2>Get the server status</h2>
+<pre>getServerStatus() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will throw if the status cannot be retrieved</p></div>
+<table class="table table-bordered"><tr>
+<th>since</th>
+<td>1.2</td>
+</tr></table>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- The call returns an array with the attributes described here: http://www.arangodb.org/manuals/1.2.beta3/HttpSystem.html#HttpSystemStatus
+['system']['userTime']
+['system']['systemTime']
+['system']['numberOfThreads']
+['system']['residentSize']
+['system']['virtualSize']
+['system']['minorPageFaults']
+['system']['majorPageFaults']</div>
+</div></div>
+</div>
+<a id="method_getServerTime"></a><div class="element clickable method public method_getServerTime" data-toggle="collapse" data-target=".method_getServerTime .collapse">
+<h2>Get the server time</h2>
+<pre>getServerTime() : double</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will throw if the time cannot be retrieved</p></div>
+<table class="table table-bordered"><tr>
+<th>since</th>
+<td>1.2</td>
+</tr></table>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>double</code>- a double holding the timestamp</div>
+</div></div>
+</div>
+<a id="method_getServerVersion"></a><div class="element clickable method public method_getServerVersion" data-toggle="collapse" data-target=".method_getServerVersion .collapse">
+<h2>Get the server version</h2>
+<pre>getServerVersion() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will throw if the version cannot be retrieved</p></div>
+<table class="table table-bordered"><tr>
+<th>since</th>
+<td>1.2</td>
+</tr></table>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>- a string holding the ArangoDB version</div>
+</div></div>
+</div>
+<a id="method_reloadServerRouting"></a><div class="element clickable method public method_reloadServerRouting" data-toggle="collapse" data-target=".method_reloadServerRouting .collapse">
+<h2>Reload the server's routing information
+The call triggers a reload of the routing information from the _routing collection</h2>
+<pre>reloadServerRouting() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will throw if the routing cannot be reloaded</p></div>
+<table class="table table-bordered"><tr>
+<th>since</th>
+<td>1.2</td>
+</tr></table>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
+</div></div>
+</div>
+<a id="method_getConnection"></a><div class="element clickable method protected method_getConnection" data-toggle="collapse" data-target=".method_getConnection .collapse">
+<h2>Return the connection object</h2>
+<pre>getConnection() : <a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Handler::getConnection()</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>- the connection object</div>
+</div></div>
+</div>
+<a id="method_getConnectionOption"></a><div class="element clickable method protected method_getConnectionOption" data-toggle="collapse" data-target=".method_getConnectionOption .collapse">
+<h2>Return a connection option
+This is a convenience function that calls json_encode_wrapper on the connection</h2>
+<pre>getConnectionOption(\triagens\ArangoDb\$optionName $optionName) : mixed</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Handler::getConnectionOption()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$optionName</h4>
+<code>\triagens\ArangoDb\$optionName</code><ul>
+<li>The option to return a value for</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>- the option's value</div>
+</div></div>
+</div>
+<a id="method_getCursorOptions"></a><div class="element clickable method protected method_getCursorOptions" data-toggle="collapse" data-target=".method_getCursorOptions .collapse">
+<h2>Return an array of cursor options</h2>
+<pre>getCursorOptions(bool $options) : array</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Handler::getCursorOptions()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>bool</code><ul>
+<li>$options might be a boolean sanitize value, or an array of options, with or without a '_sanitize' key.</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- array of options</div>
+</div></div>
+</div>
+<a id="method_includeOptionsInBody"></a><div class="element clickable method protected method_includeOptionsInBody" data-toggle="collapse" data-target=".method_includeOptionsInBody .collapse">
+<h2>Helper function that runs through the options given and includes them into the parameters array given.</h2>
+<pre>includeOptionsInBody(array $options, array $body, array $includeArray) : array</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Only options that are set in $includeArray will be included.
+This is only for options that are to be sent to the ArangoDB server in a json body(like 'limit', 'skip', etc...) .</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Handler::includeOptionsInBody()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><ul>
+<li>The options array that holds the options to include in the parameters</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$body</h4>
+<code>array</code><ul>
+<li>The array into which the options will be included.</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$includeArray</h4>
+<code>array</code><ul>
+<li>The array that defines which options are allowed to be included, and what their default value is. for example: 'waitForSync'=>true</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>$params - array of parameters for use in a url</div>
+</div></div>
+</div>
+<a id="method_includeOptionsInParams"></a><div class="element clickable method protected method_includeOptionsInParams" data-toggle="collapse" data-target=".method_includeOptionsInParams .collapse">
+<h2>Helper function that runs through the options given and includes them into the parameters array given.</h2>
+<pre>includeOptionsInParams(array $options, array $params, array $includeArray) : array</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Only options that are set in $includeArray will be included.
+This is only for options that are to be sent to the ArangoDB server in form of url parameters (like 'waitForSync', 'keepNull', etc...) .</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Handler::includeOptionsInParams()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><ul>
+<li>The options array that holds the options to include in the parameters</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$params</h4>
+<code>array</code><ul>
+<li>The parameters into which the options will be included.</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$includeArray</h4>
+<code>array</code><ul>
+<li>The array that defines which options are allowed to be included, and what their default value is. for example: 'waitForSync'=>true</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>$params - array of parameters for use in a url</div>
+</div></div>
+</div>
+<a id="method_json_encode_wrapper"></a><div class="element clickable method protected method_json_encode_wrapper" data-toggle="collapse" data-target=".method_json_encode_wrapper .collapse">
+<h2>Return a json encoded string for the array passed.</h2>
+<pre>json_encode_wrapper(array $body) : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This is a convenience function that calls json_encode_wrapper on the connection</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Handler::json_encode_wrapper()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$body</h4>
+<code>array</code><ul>
+<li>The body to encode into json</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>- json string of the body that was passed</div>
+</div></div>
+</div>
+<a id="method_validateAndIncludeOldSingleParameterInParams"></a><div class="element clickable method protected method_validateAndIncludeOldSingleParameterInParams" data-toggle="collapse" data-target=".method_validateAndIncludeOldSingleParameterInParams .collapse">
+<h2>Helper function that validates and includes an old single method parameter setting into the parameters array given.</h2>
+<pre>validateAndIncludeOldSingleParameterInParams(array $options, array $params, mixed $parameter) : array</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This is only for keeping backwards-compatibility where methods had for example a parameter which was called 'policy' and
+which was later changed to being an array of options, so more than one options can be passed easily.
+This is only for options that are to be sent to the ArangoDB server.</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Handler::validateAndIncludeOldSingleParameterInParams()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><ul>
+<li>The options array that may hold the policy to include in the parameters. If it's not an array, then the value is the policy value.</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$params</h4>
+<code>array</code><ul>
+<li>The parameters into which the options will be included.</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$parameter</h4>
+<code>mixed</code><ul>
+<li>the old single parameter key to use.</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>$params - array of parameters for use in a url</div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property__connection"> </a><div class="element clickable property private property__connection" data-toggle="collapse" data-target=".property__connection .collapse">
+<h2>Connection object</h2>
+<pre>$_connection </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>param</th>
+<td><p>Connection</p></td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Handler::$$_connection</td>
+</tr>
+</table>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
+            generated on 2013-02-28T12:09:31+01:00.<br></footer></div>
+</div>
+</body>
+</html>

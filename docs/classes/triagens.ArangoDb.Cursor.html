@@ -72,7 +72,9 @@
 </li>
 <li class="nav-header private">» Private
                     <ul>
+<li class="method private "><a href="#method_add" title="add :: Create an array of results from the input array"><span class="description">Create an array of results from the input array</span><pre>add()</pre></a></li>
 <li class="method private "><a href="#method_addDocumentsFromArray" title="addDocumentsFromArray :: Create an array of documents from the input array"><span class="description">Create an array of documents from the input array</span><pre>addDocumentsFromArray()</pre></a></li>
+<li class="method private "><a href="#method_addFlatFromArray" title="addFlatFromArray :: Create an array of results from the input array"><span class="description">Create an array of results from the input array</span><pre>addFlatFromArray()</pre></a></li>
 <li class="method private "><a href="#method_fetchOutstanding" title="fetchOutstanding :: Fetch outstanding results from the server"><span class="description">Fetch outstanding results from the server</span><pre>fetchOutstanding()</pre></a></li>
 <li class="method private "><a href="#method_sanitize" title="sanitize :: Sanitize the result set rows"><span class="description">Sanitize the result set rows</span><pre>sanitize()</pre></a></li>
 <li class="method private "><a href="#method_updateLength" title="updateLength :: Set the length of the (fetched) result set"><span class="description">Set the length of the (fetched) result set</span><pre>updateLength()</pre></a></li>
@@ -84,18 +86,19 @@
 </li>
 <li class="nav-header private">» Private
                     <ul>
-<li class="property private "><a href="#property__connection" title="$_connection :: The connection object"><span class="description"></span><pre>$_connection</pre></a></li>
-<li class="property private "><a href="#property__hasMore" title='$_hasMore :: "has more" indicator - if true, the server has more results'><span class="description"></span><pre>$_hasMore</pre></a></li>
-<li class="property private "><a href="#property__id" title="$_id :: cursor id - might be NULL if cursor does not have an id"><span class="description"></span><pre>$_id</pre></a></li>
-<li class="property private "><a href="#property__length" title="$_length :: total length of result set (in number of documents)"><span class="description"></span><pre>$_length</pre></a></li>
-<li class="property private "><a href="#property__options" title="$_options :: Cursor options"><span class="description"></span><pre>$_options</pre></a></li>
-<li class="property private "><a href="#property__position" title="$_position :: current position in result set iteration (zero-based)"><span class="description"></span><pre>$_position</pre></a></li>
-<li class="property private "><a href="#property__result" title="$_result :: The result set"><span class="description"></span><pre>$_result</pre></a></li>
+<li class="property private "><a href="#property__connection" title="$_connection :: The connection object"><span class="description">The connection object</span><pre>$_connection</pre></a></li>
+<li class="property private "><a href="#property__hasMore" title='$_hasMore :: "has more" indicator - if true, the server has more results'><span class="description">"has more" indicator - if true, the server has more results</span><pre>$_hasMore</pre></a></li>
+<li class="property private "><a href="#property__id" title="$_id :: cursor id - might be NULL if cursor does not have an id"><span class="description">cursor id - might be NULL if cursor does not have an id</span><pre>$_id</pre></a></li>
+<li class="property private "><a href="#property__length" title="$_length :: total length of result set (in number of documents)"><span class="description">total length of result set (in number of documents)</span><pre>$_length</pre></a></li>
+<li class="property private "><a href="#property__options" title="$_options :: Cursor options"><span class="description">Cursor options</span><pre>$_options</pre></a></li>
+<li class="property private "><a href="#property__position" title="$_position :: current position in result set iteration (zero-based)"><span class="description">current position in result set iteration (zero-based)</span><pre>$_position</pre></a></li>
+<li class="property private "><a href="#property__result" title="$_result :: The result set"><span class="description">The result set</span><pre>$_result</pre></a></li>
 </ul>
 </li>
 <li class="nav-header">
 <i class="icon-custom icon-constant"></i> Constants
                     <ul>
+<li class="constant  "><a href="#constant_ENTRY_FLAT" title='ENTRY_FLAT :: "flat" option entry (will treat the results as a simple array, not documents)'><span class="description">"flat" option entry (will treat the results as a simple array, not documents)</span><pre>ENTRY_FLAT</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_HASMORE" title='ENTRY_HASMORE :: result entry for "hasMore" flag'><span class="description">result entry for "hasMore" flag</span><pre>ENTRY_HASMORE</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_ID" title="ENTRY_ID :: result entry for cursor id"><span class="description">result entry for cursor id</span><pre>ENTRY_ID</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_RESULT" title="ENTRY_RESULT :: result entry for result documents"><span class="description">result entry for result documents</span><pre>ENTRY_RESULT</pre></a></li>
@@ -270,9 +273,24 @@ results from the server</p></div>
 <code>bool</code>- true if the cursor can be advanced further, false if cursor is at end</div>
 </div></div>
 </div>
+<a id="method_add"></a><div class="element clickable method private method_add" data-toggle="collapse" data-target=".method_add .collapse">
+<h2>Create an array of results from the input array</h2>
+<pre>add(array $data) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$data</h4>
+<code>array</code><ul>
+<li>incoming result</li>
+</ul>
+</div>
+</div></div>
+</div>
 <a id="method_addDocumentsFromArray"></a><div class="element clickable method private method_addDocumentsFromArray" data-toggle="collapse" data-target=".method_addDocumentsFromArray .collapse">
 <h2>Create an array of documents from the input array</h2>
-<pre>addDocumentsFromArray(array $data, array $options) : void</pre>
+<pre>addDocumentsFromArray(array $data) : void</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -283,10 +301,19 @@ results from the server</p></div>
 <li>array of incoming "document" arrays</li>
 </ul>
 </div>
+</div></div>
+</div>
+<a id="method_addFlatFromArray"></a><div class="element clickable method private method_addFlatFromArray" data-toggle="collapse" data-target=".method_addFlatFromArray .collapse">
+<h2>Create an array of results from the input array</h2>
+<pre>addFlatFromArray(array $data) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$options</h4>
+<h4>$data</h4>
 <code>array</code><ul>
-<li>array of document options</li>
+<li>array of incoming results</li>
 </ul>
 </div>
 </div></div>
@@ -332,49 +359,55 @@ results from the server</p></div>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
 <a id="property__connection"> </a><div class="element clickable property private property__connection" data-toggle="collapse" data-target=".property__connection .collapse">
-<h2></h2>
+<h2>The connection object</h2>
 <pre>$_connection : <a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="property__hasMore"> </a><div class="element clickable property private property__hasMore" data-toggle="collapse" data-target=".property__hasMore .collapse">
-<h2></h2>
+<h2>"has more" indicator - if true, the server has more results</h2>
 <pre>$_hasMore : bool</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="property__id"> </a><div class="element clickable property private property__id" data-toggle="collapse" data-target=".property__id .collapse">
-<h2></h2>
+<h2>cursor id - might be NULL if cursor does not have an id</h2>
 <pre>$_id : mixed</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="property__length"> </a><div class="element clickable property private property__length" data-toggle="collapse" data-target=".property__length .collapse">
-<h2></h2>
+<h2>total length of result set (in number of documents)</h2>
 <pre>$_length : int</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="property__options"> </a><div class="element clickable property private property__options" data-toggle="collapse" data-target=".property__options .collapse">
-<h2></h2>
+<h2>Cursor options</h2>
 <pre>$_options : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="property__position"> </a><div class="element clickable property private property__position" data-toggle="collapse" data-target=".property__position .collapse">
-<h2></h2>
+<h2>current position in result set iteration (zero-based)</h2>
 <pre>$_position : int</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="property__result"> </a><div class="element clickable property private property__result" data-toggle="collapse" data-target=".property__result .collapse">
-<h2></h2>
+<h2>The result set</h2>
 <pre>$_result : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <h3>
 <i class="icon-custom icon-constant"></i> Constants</h3>
+<a id="constant_ENTRY_FLAT"> </a><div class="element clickable constant  constant_ENTRY_FLAT" data-toggle="collapse" data-target=".constant_ENTRY_FLAT .collapse">
+<h2>"flat" option entry (will treat the results as a simple array, not documents)</h2>
+<pre>ENTRY_FLAT </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="constant_ENTRY_HASMORE"> </a><div class="element clickable constant  constant_ENTRY_HASMORE" data-toggle="collapse" data-target=".constant_ENTRY_HASMORE .collapse">
 <h2>result entry for "hasMore" flag</h2>
 <pre>ENTRY_HASMORE </pre>
@@ -405,8 +438,8 @@ results from the server</p></div>
 </div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
-            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-02-23T20:32:00+02:00.<br></footer></div>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
+            generated on 2013-02-28T12:09:31+01:00.<br></footer></div>
 </div>
 </body>
 </html>

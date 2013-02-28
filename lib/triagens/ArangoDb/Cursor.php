@@ -288,7 +288,6 @@ class Cursor implements
      * Create an array of documents from the input array
      *
      * @param array $data    - array of incoming "document" arrays
-     * @param array $options - array of document options
      *
      * @return void
      */

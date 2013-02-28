@@ -96,14 +96,14 @@
 </li>
 <li class="nav-header protected">» Protected
                     <ul>
-<li class="property protected inherited"><a href="#property__changed" title="$_changed :: Flag to indicate whether document was changed locally"><span class="description"></span><pre>$_changed</pre></a></li>
-<li class="property protected "><a href="#property__from" title="$_from :: The edge's from (might be NULL for new documents)"><span class="description"></span><pre>$_from</pre></a></li>
-<li class="property protected inherited"><a href="#property__hidden" title="$_hidden :: Flag to indicate whether document was changed locally"><span class="description"></span><pre>$_hidden</pre></a></li>
-<li class="property protected inherited"><a href="#property__id" title="$_id :: The document id (might be NULL for new documents)"><span class="description"></span><pre>$_id</pre></a></li>
-<li class="property protected inherited"><a href="#property__key" title="$_key :: The document key (might be NULL for new documents)"><span class="description"></span><pre>$_key</pre></a></li>
-<li class="property protected inherited"><a href="#property__rev" title="$_rev :: The document revision (might be NULL for new documents)"><span class="description"></span><pre>$_rev</pre></a></li>
-<li class="property protected "><a href="#property__to" title="$_to :: The edge's to (might be NULL for new documents)"><span class="description"></span><pre>$_to</pre></a></li>
-<li class="property protected inherited"><a href="#property__values" title="$_values :: The document attributes (names/values)"><span class="description"></span><pre>$_values</pre></a></li>
+<li class="property protected inherited"><a href="#property__changed" title="$_changed :: Flag to indicate whether document was changed locally"><span class="description">Flag to indicate whether document was changed locally</span><pre>$_changed</pre></a></li>
+<li class="property protected "><a href="#property__from" title="$_from :: The edge's from (might be NULL for new documents)"><span class="description">The edge's from (might be NULL for new documents)</span><pre>$_from</pre></a></li>
+<li class="property protected inherited"><a href="#property__hidden" title="$_hidden :: Flag to indicate whether document was changed locally"><span class="description">Flag to indicate whether document was changed locally</span><pre>$_hidden</pre></a></li>
+<li class="property protected inherited"><a href="#property__id" title="$_id :: The document id (might be NULL for new documents)"><span class="description">The document id (might be NULL for new documents)</span><pre>$_id</pre></a></li>
+<li class="property protected inherited"><a href="#property__key" title="$_key :: The document key (might be NULL for new documents)"><span class="description">The document key (might be NULL for new documents)</span><pre>$_key</pre></a></li>
+<li class="property protected inherited"><a href="#property__rev" title="$_rev :: The document revision (might be NULL for new documents)"><span class="description">The document revision (might be NULL for new documents)</span><pre>$_rev</pre></a></li>
+<li class="property protected "><a href="#property__to" title="$_to :: The edge's to (might be NULL for new documents)"><span class="description">The edge's to (might be NULL for new documents)</span><pre>$_to</pre></a></li>
+<li class="property protected inherited"><a href="#property__values" title="$_values :: The document attributes (names/values)"><span class="description">The document attributes (names/values)</span><pre>$_values</pre></a></li>
 </ul>
 </li>
 <li class="nav-header">
@@ -333,13 +333,10 @@ This function is mapped to set() internally.</p></div>
 <div class="subelement argument">
 <h4>$options</h4>
 <code>mixed</code><ul>
-<li>optional, array of options for the getAll function, or the boolean value for $includeInternals</li>
+<li>optional, array of options for the getAll function, or the boolean value for $includeInternals </li>
 </ul>
 
-<p>Options are :
-<li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
-<li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
-</p>
+<p>Options are : <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li> <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li> </p>
 </div>
 <h3>Returns</h3>
 <div class="subelement response">
@@ -694,13 +691,10 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 <div class="subelement argument">
 <h4>$options</h4>
 <code>array</code><ul>
-<li>optional, array of options that will be passed to the getAll function</li>
+<li>optional, array of options that will be passed to the getAll function </li>
 </ul>
 
-<p>Options are :
-<li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
-<li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
-</p>
+<p>Options are : <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li> <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li> </p>
 </div>
 <h3>Returns</h3>
 <div class="subelement response">
@@ -721,13 +715,10 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 <div class="subelement argument">
 <h4>$options</h4>
 <code>array</code><ul>
-<li>optional, array of options that will be passed to the getAll function</li>
+<li>optional, array of options that will be passed to the getAll function </li>
 </ul>
 
-<p>Options are :
-<li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
-<li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
-</p>
+<p>Options are : <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li> <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li> </p>
 </div>
 <h3>Returns</h3>
 <div class="subelement response">
@@ -737,7 +728,7 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
 <a id="property__changed"> </a><div class="element clickable property protected property__changed" data-toggle="collapse" data-target=".property__changed .collapse">
-<h2></h2>
+<h2>Flag to indicate whether document was changed locally</h2>
 <pre>$_changed : bool</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
@@ -749,13 +740,13 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 </div></div>
 </div>
 <a id="property__from"> </a><div class="element clickable property protected property__from" data-toggle="collapse" data-target=".property__from .collapse">
-<h2></h2>
+<h2>The edge's from (might be NULL for new documents)</h2>
 <pre>$_from : mixed</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="property__hidden"> </a><div class="element clickable property protected property__hidden" data-toggle="collapse" data-target=".property__hidden .collapse">
-<h2></h2>
+<h2>Flag to indicate whether document was changed locally</h2>
 <pre>$_hidden : bool</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
@@ -767,7 +758,7 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 </div></div>
 </div>
 <a id="property__id"> </a><div class="element clickable property protected property__id" data-toggle="collapse" data-target=".property__id .collapse">
-<h2></h2>
+<h2>The document id (might be NULL for new documents)</h2>
 <pre>$_id : string</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
@@ -779,7 +770,7 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 </div></div>
 </div>
 <a id="property__key"> </a><div class="element clickable property protected property__key" data-toggle="collapse" data-target=".property__key .collapse">
-<h2></h2>
+<h2>The document key (might be NULL for new documents)</h2>
 <pre>$_key : string</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
@@ -791,7 +782,7 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 </div></div>
 </div>
 <a id="property__rev"> </a><div class="element clickable property protected property__rev" data-toggle="collapse" data-target=".property__rev .collapse">
-<h2></h2>
+<h2>The document revision (might be NULL for new documents)</h2>
 <pre>$_rev : mixed</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
@@ -803,13 +794,13 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 </div></div>
 </div>
 <a id="property__to"> </a><div class="element clickable property protected property__to" data-toggle="collapse" data-target=".property__to .collapse">
-<h2></h2>
+<h2>The edge's to (might be NULL for new documents)</h2>
 <pre>$_to : mixed</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="property__values"> </a><div class="element clickable property protected property__values" data-toggle="collapse" data-target=".property__values .collapse">
-<h2></h2>
+<h2>The document attributes (names/values)</h2>
 <pre>$_values : array</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
@@ -924,8 +915,8 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 </div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
-            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-02-23T20:32:00+02:00.<br></footer></div>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
+            generated on 2013-02-28T12:09:31+01:00.<br></footer></div>
 </div>
 </body>
 </html>
