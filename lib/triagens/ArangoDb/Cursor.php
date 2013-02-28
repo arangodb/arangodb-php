@@ -93,6 +93,11 @@ class Cursor implements
      * sanitize option entry
      */
     const ENTRY_SANITIZE = '_sanitize';
+    
+    /**
+     * "flat" option entry (will treat the results as a simple array, not documents)
+     */
+    const ENTRY_FLAT = '_flat';
 
     /**
      * Initialise the cursor with the first results and some metadata
@@ -118,7 +123,7 @@ class Cursor implements
 
         $this->_options = $options;
         $this->_result  = array();
-        $this->addDocumentsFromArray((array) $data[self::ENTRY_RESULT], $options);
+        $this->add((array) $data[self::ENTRY_RESULT]);
         $this->updateLength();
 
         $this->rewind();
@@ -249,6 +254,35 @@ class Cursor implements
 
         return ($this->_position <= $this->_length - 1);
     }
+  
+    /**
+     * Create an array of results from the input array
+     * 
+     * @param array $data - incoming result
+     * @return void 
+     */
+    private function add(array $data)
+    {
+        if (isset($this->_options[self::ENTRY_FLAT]) && $this->_options[self::ENTRY_FLAT]) {
+            $this->addFlatFromArray($data);
+        }
+        else {
+            $this->addDocumentsFromArray($data);
+        }
+    }
+  
+    /**
+     * Create an array of results from the input array
+     * 
+     * @param array $data - array of incoming results
+     * @return void 
+     */
+    private function addFlatFromArray(array $data)
+    {
+        foreach ($this->sanitize($data) as $row) {
+            $this->_result[] = $row;
+        }
+    }
 
     /**
      * Create an array of documents from the input array
@@ -258,10 +292,10 @@ class Cursor implements
      *
      * @return void
      */
-    private function addDocumentsFromArray(array $data, $options = array())
+    private function addDocumentsFromArray(array $data)
     {
         foreach ($this->sanitize($data) as $row) {
-            $this->_result[] = Document::createFromArray($row, $options);
+            $this->_result[] = Document::createFromArray($row, $this->_options);
         }
     }
 
@@ -300,7 +334,7 @@ class Cursor implements
         $data     = $response->getJson();
 
         $this->_hasMore = (bool) $data[self::ENTRY_HASMORE];
-        $this->addDocumentsFromArray($data[self::ENTRY_RESULT], $this->_options);
+        $this->add($data[self::ENTRY_RESULT]);
 
         if (!$this->_hasMore) {
             // we have fetch the complete result set and can unset the id now

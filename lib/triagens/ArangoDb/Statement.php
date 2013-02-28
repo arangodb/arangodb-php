@@ -55,6 +55,13 @@ class Statement
      * @var string
      */
     private $_query = null;
+    
+    /**
+     * "flat" flag (if set, the query results will be treated as a simple array, not documents)
+     *
+     * @var bool
+     */
+    private $_flat = false;
 
     /**
      * Sanitation flag (if set, the _id and _rev attributes will be removed from the results)
@@ -114,6 +121,10 @@ class Statement
 
         if (isset($data[Cursor::ENTRY_SANITIZE])) {
             $this->_sanitize = (bool) $data[Cursor::ENTRY_SANITIZE];
+        }
+        
+        if (isset($data[Cursor::ENTRY_FLAT])) {
+            $this->_flat = (bool) $data[Cursor::ENTRY_FLAT];
         }
     }
 
@@ -355,6 +366,7 @@ class Statement
     {
         return array(
             Cursor::ENTRY_SANITIZE => (bool) $this->_sanitize,
+            Cursor::ENTRY_FLAT     => (bool) $this->_flat
         );
     }
 }

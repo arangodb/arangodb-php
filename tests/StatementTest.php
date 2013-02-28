@@ -16,6 +16,14 @@ class StatementTest extends
     {
         $this->connection        = getConnection();
         $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
+
+        // clean up first
+        try {
+            $response = $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+        } catch (\Exception $e) {
+            // don't bother us, if it's already deleted.
+        }
+        
         $this->collection        = new \triagens\ArangoDb\Collection();
         $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
         $this->collectionHandler->add($this->collection);
@@ -41,7 +49,7 @@ class StatementTest extends
                                                                         "query"     => '',
                                                                         "count"     => true,
                                                                         "batchSize" => 1000,
-                                                                        "sanitize"  => true,
+                                                                        "_sanitize" => true,
                                                                    ));
         $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a');
         $cursor = $statement->execute();
@@ -77,7 +85,7 @@ class StatementTest extends
                                                                         "query"     => '',
                                                                         "count"     => true,
                                                                         "batchSize" => 1000,
-                                                                        "sanitize"  => true,
+                                                                        "_sanitize" => true,
                                                                    ));
         // inject wrong encoding       
         $isoValue = iconv(
@@ -117,7 +125,7 @@ class StatementTest extends
                                                                         "query"     => '',
                                                                         "count"     => true,
                                                                         "batchSize" => 1000,
-                                                                        "sanitize"  => true,
+                                                                        "_sanitize" => true,
                                                                    ));
         $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a');
         $result = $statement->explain();
@@ -145,11 +153,31 @@ class StatementTest extends
                                                                         "query"     => '',
                                                                         "count"     => true,
                                                                         "batchSize" => 1000,
-                                                                        "sanitize"  => true,
+                                                                        "_sanitize" => true,
                                                                    ));
         $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a');
         $result = $statement->validate();
         $this->assertArrayHasKey('bindVars', $result, "result-array does not contain plan !");
+    }
+    
+    /**
+     * Execute a statement that does not produce documents
+     */
+    public function testExecuteStatementFlat()
+    {
+        $connection        = $this->connection;
+
+        $statement = new \triagens\ArangoDb\Statement($connection, array(
+                                                                        "query"     => 'RETURN UNIQUE([ 1, 1, 2 ])',
+                                                                        "count"     => true,
+                                                                        "_sanitize" => true,
+                                                                        "_flat"     => true
+                                                                   ));
+        $cursor = $statement->execute();
+        $this->assertEquals(
+          array(array(1, 2)), 
+          $cursor->getAll()
+        );
     }
 
 
