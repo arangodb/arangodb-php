@@ -10,8 +10,8 @@ if [ ! -d "$DIR/$NAME" ]; then
   # download ArangoDB
   echo "wget http://www.arangodb.org/travisCI/$NAME.tar.gz"
   wget http://www.arangodb.org/travisCI/$NAME.tar.gz
-  echo "tar zxf $NAME.tar.gz"
-  tar zxf $NAME.tar.gz
+  echo "tar zxvf $NAME.tar.gz"
+  tar zxvf $NAME.tar.gz
 fi
 
 ARCH=$(arch)
@@ -21,9 +21,9 @@ PID_FILE="/tmp/arangodb.$PID.pid"
 ARANGODB_DIR="$DIR/$NAME"
 
 ARANGOD="${ARANGODB_DIR}/bin/arangod"
-#if [ "$ARCH" == "x86_64" ]; then
-#@  ARANGOD="${ARANGOD}"
-#@fi
+if [ "$ARCH" == "x86_64" ]; then
+  ARANGOD="${ARANGOD}_x86_64"
+fi
 
 # (re-)create database directory
 rm -rf ${TMP_DIR}
