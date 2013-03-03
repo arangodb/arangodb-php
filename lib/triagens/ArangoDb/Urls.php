@@ -165,4 +165,9 @@ abstract class URLs
      */
     const URL_ADMIN_REQUEST_STATISTICS = '/_admin/request-statistics';
 
+    /**
+     * base URL part for user management
+     */
+    const URL_USER = '/_api/user';
+
 }
