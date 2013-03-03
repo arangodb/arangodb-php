@@ -1,6 +1,6 @@
 # PHP client for ArangoDB
 
-[![Build Status](https://secure.travis-ci.org/triAGENS/ArangoDB-PHP.png)](http://travis-ci.org/triAGENS/ArangoDB-PHP)
+[![Build Status](https://travis-ci.org/triAGENS/ArangoDB-PHP.png?branch=1.1)](https://travis-ci.org/triAGENS/ArangoDB-PHP)
 
 This PHP client allows REST-based access to documents on the server.
 The ArangoDocumentHandler class should be used for these purposes.
