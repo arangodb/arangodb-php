@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
 <meta charset="utf-8">
-<title>ArangoDB PHP client API » \triagens\ArangoDb\AdminHandler</title>
+<title>ArangoDB PHP client API » \triagens\ArangoDb\UserHandler</title>
 <meta name="author" content="Mike van Riel">
 <meta name="description" content="">
 <link href="../css/template.css" rel="stylesheet" media="all">
@@ -59,22 +59,11 @@
 <i class="icon-custom icon-method"></i> Methods
                     <ul>
 <li class="method public inherited"><a href="#method___construct" title="__construct :: Construct a new handler"><span class="description">Construct a new handler</span><pre>__construct()</pre></a></li>
-<li class="method public "><a href="#method_flushServerModuleCache" title="flushServerModuleCache :: Flush the server's modules cache
-The call triggers a flush of the modules cache on the server."><span class="description">Flush the server's modules cache
-The call triggers a flush of the modules cache on the server.</span><pre>flushServerModuleCache()</pre></a></li>
-<li class="method public "><a href="#method_getServerConnectionStatistics" title="getServerConnectionStatistics :: Get the server connection statistics
-The call returns statistics about the current and past requests."><span class="description">Get the server connection statistics
-The call returns statistics about the current and past requests.</span><pre>getServerConnectionStatistics()</pre></a></li>
-<li class="method public "><a href="#method_getServerLog" title="getServerLog :: Get the server log"><span class="description">Get the server log</span><pre>getServerLog()</pre></a></li>
-<li class="method public "><a href="#method_getServerRequestStatistics" title="getServerRequestStatistics :: Get the server request statistics
-The call returns statistics about the current and past requests."><span class="description">Get the server request statistics
-The call returns statistics about the current and past requests.</span><pre>getServerRequestStatistics()</pre></a></li>
-<li class="method public "><a href="#method_getServerStatus" title="getServerStatus :: Get the server status"><span class="description">Get the server status</span><pre>getServerStatus()</pre></a></li>
-<li class="method public "><a href="#method_getServerTime" title="getServerTime :: Get the server time"><span class="description">Get the server time</span><pre>getServerTime()</pre></a></li>
-<li class="method public "><a href="#method_getServerVersion" title="getServerVersion :: Get the server version"><span class="description">Get the server version</span><pre>getServerVersion()</pre></a></li>
-<li class="method public "><a href="#method_reloadServerRouting" title="reloadServerRouting :: Reload the server's routing information
-The call triggers a reload of the routing information from the _routing collection"><span class="description">Reload the server's routing information
-The call triggers a reload of the routing information from the _routing collection</span><pre>reloadServerRouting()</pre></a></li>
+<li class="method public "><a href="#method_addUser" title="addUser :: save an user to the user-collection"><span class="description">save an user to the user-collection</span><pre>addUser()</pre></a></li>
+<li class="method public "><a href="#method_get" title="get :: Get a single user-document, identified by the username"><span class="description">Get a single user-document, identified by the username</span><pre>get()</pre></a></li>
+<li class="method public "><a href="#method_removeUser" title="removeUser :: Remove a user, identified by the username"><span class="description">Remove a user, identified by the username</span><pre>removeUser()</pre></a></li>
+<li class="method public "><a href="#method_replaceUser" title="replaceUser :: Replace an existing User, identified by its username"><span class="description">Replace an existing User, identified by its username</span><pre>replaceUser()</pre></a></li>
+<li class="method public "><a href="#method_updateUser" title="updateUser :: Update an existing user, identified by the username"><span class="description">Update an existing user, identified by the username</span><pre>updateUser()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header protected">» Protected
@@ -100,7 +89,7 @@ This is a convenience function that calls json_encode_wrapper on the connection<
 </ul>
 </div>
 <div class="span8">
-<a id="\triagens\ArangoDb\AdminHandler"></a><ul class="breadcrumb">
+<a id="\triagens\ArangoDb\UserHandler"></a><ul class="breadcrumb">
 <li>
 <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
 </li>
@@ -109,11 +98,12 @@ This is a convenience function that calls json_encode_wrapper on the connection<
 <span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
 </li>
 <li class="active">
-<span class="divider">\</span><a href="../classes/triagens.ArangoDb.AdminHandler.html">AdminHandler</a>
+<span class="divider">\</span><a href="../classes/triagens.ArangoDb.UserHandler.html">UserHandler</a>
 </li>
 </ul>
 <div class="element class">
-<p class="short_description">An admin handler that utilizes the ArangoDB's Admin API.</p>
+<p class="short_description">A user-document handler that fetches vertices from the server and
+persists them on the server.</p>
 <div class="details">
 <div class="long_description"><p>It does so by issuing the
 appropriate HTTP requests to the server.</p></div>
@@ -148,96 +138,50 @@ appropriate HTTP requests to the server.</p></div>
 </div>
 </div></div>
 </div>
-<a id="method_flushServerModuleCache"></a><div class="element clickable method public method_flushServerModuleCache" data-toggle="collapse" data-target=".method_flushServerModuleCache .collapse">
-<h2>Flush the server's modules cache
-The call triggers a flush of the modules cache on the server.</h2>
-<pre>flushServerModuleCache() : array</pre>
+<a id="method_addUser"></a><div class="element clickable method public method_addUser" data-toggle="collapse" data-target=".method_addUser .collapse">
+<h2>save an user to the user-collection</h2>
+<pre>addUser(mixed $username, mixed $passwd, mixed $active, array $extra, bool | array $options) : boolean</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>See Modules Cache for details about this cache.</p>
+<div class="long_description"><p>This will save the user to the user-collection</p>
 
-<p>This will throw if the modules cache cannot be flushed</p></div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response"><code>array</code></div>
-</div></div>
-</div>
-<a id="method_getServerConnectionStatistics"></a><div class="element clickable method public method_getServerConnectionStatistics" data-toggle="collapse" data-target=".method_getServerConnectionStatistics .collapse">
-<h2>Get the server connection statistics
-The call returns statistics about the current and past requests.</h2>
-<pre>getServerConnectionStatistics(array $options) : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>The following parameter control which information is returned:</p>
-
-<p>This will throw if the statistics cannot be retrieved</p></div>
+<p>This will throw if the user cannot be saved</p></div>
 <table class="table table-bordered"><tr>
 <th>since</th>
 <td>1.2</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$options</h4>
-<code>array</code><ul>
-<li>an array of options that define the resultset:</li>
+<h4>$username</h4>
+<code>mixed</code><ul>
+<li>The name of the user as a string. This is mandatory.</li>
 </ul>
-
-<p><</p>
-
-<p>p>Options are :<br>
-<li>'granularity' - use minutes for a granularity of minutes, hours for hours, and days for days. The default is minutes.</li>
-<li>'figures' - a list of figures, comma-separated. Possible figures are httpConnections. You can use all to get all figures. The default is httpConnections.</li>
-<li>'length' - If you want a time series, the maximal length of the series as integer. You can use all to get all available information. You can use current to get the latest interval.</li></p>
 </div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response"><code>array</code></div>
-</div></div>
+<div class="subelement argument">
+<h4>$passwd</h4>
+<code>mixed</code><ul>
+<li>The user password as a string. If no password is specified, the empty string will be used.</li>
+</ul>
 </div>
-<a id="method_getServerLog"></a><div class="element clickable method public method_getServerLog" data-toggle="collapse" data-target=".method_getServerLog .collapse">
-<h2>Get the server log</h2>
-<pre>getServerLog(array $options) : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This will throw if the log cannot be retrieved</p></div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$active</h4>
+<code>mixed</code><ul>
+<li>an optional flag that specifies whether the user is active. If not specified, this will default to true.</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$extra</h4>
+<code>array</code><ul>
+<li>an optional array with arbitrary extra data about the user.</li>
+</ul>
+</div>
 <div class="subelement argument">
 <h4>$options</h4>
-<code>array</code><ul>
-<li>an array of options that define the resultset:</li>
+<code>bool</code><code>array</code><ul>
+<li>an array of options</li>
 </ul>
 
 <p>Options are :<br>
-<li>'upto' - returns all log entries upto a log-level. Note that log-level must be one of:</li>
-<p>
-<li>fatal / 0</li>
-<li>error / 1</li>
-<li>warning / 2</li>
-<li>info / 3</li>
-<li>debug / 4</li>
-</p>
-<li>'level'  -  limits the log entries to the ones defined in level. Note that `level` and `upto` are mutably exclusive.</li>
-<li>'offset' -  skip the first offset entries.</li>
-<li>'size'   -  limit the number of returned log-entries to size.</li>
-<li>'start'  -  Returns all log entries such that their log-entry identifier is greater or equal to lid.</li>
-<li>'sort'   -  Sort the log-entries either ascending if direction is asc, or descending if it is desc according to their lid. Note that the lid imposes a chronological order.</li>
-<li>'search' -  Only return the log-entries containing the text string...</li>
 </p>
 </div>
 <h3>Exceptions</h3>
@@ -247,55 +191,149 @@ The call returns statistics about the current and past requests.</h2>
 </tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
-<code>array</code>- an array holding the various attributes of a log: lid, level, timestamp, text and the total amount of log entries before pagination.</div>
+<code>boolean</code>- true, if user could be saved</div>
 </div></div>
 </div>
-<a id="method_getServerRequestStatistics"></a><div class="element clickable method public method_getServerRequestStatistics" data-toggle="collapse" data-target=".method_getServerRequestStatistics .collapse">
-<h2>Get the server request statistics
-The call returns statistics about the current and past requests.</h2>
-<pre>getServerRequestStatistics(array $options) : array</pre>
+<a id="method_get"></a><div class="element clickable method public method_get" data-toggle="collapse" data-target=".method_get .collapse">
+<h2>Get a single user-document, identified by the username</h2>
+<pre>get(mixed $username) : <a href="../classes/triagens.ArangoDb.User.html">\triagens\ArangoDb\User</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>The following parameter control which information is returned:</p>
-
-<p>This will throw if the statistics cannot be retrieved</p></div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
+<div class="long_description"><p>This will throw if the document cannot be fetched from the server</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$options</h4>
+<h4>$username</h4>
+<code>mixed</code><ul>
+<li>username as a string</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/triagens.ArangoDb.User.html">\triagens\ArangoDb\User</a></code>- the user-document fetched from the server</div>
+</div></div>
+</div>
+<a id="method_removeUser"></a><div class="element clickable method public method_removeUser" data-toggle="collapse" data-target=".method_removeUser .collapse">
+<h2>Remove a user, identified by the username</h2>
+<pre>removeUser(mixed $username) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$username</h4>
+<code>mixed</code><ul>
+<li>username as a string, of the user that is to be deleted</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>bool</code>- always true, will throw if there is an error</div>
+</div></div>
+</div>
+<a id="method_replaceUser"></a><div class="element clickable method public method_replaceUser" data-toggle="collapse" data-target=".method_replaceUser .collapse">
+<h2>Replace an existing User, identified by its username</h2>
+<pre>replaceUser(mixed $username, mixed $passwd, mixed $active, array $extra, bool | array $options) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will replace the user-document on the server</p>
+
+<p>This will throw if the document cannot be Replaced</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$username</h4>
+<code>mixed</code><ul>
+<li>The name of the user as a string, who's userdata is going to be replaced. This is mandatory.</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$passwd</h4>
+<code>mixed</code><ul>
+<li>The user password as a string. If no password is specified, the empty string will be used.</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$active</h4>
+<code>mixed</code><ul>
+<li>an optional flag that specifies whether the user is active. If not specified, this will default to true.</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$extra</h4>
 <code>array</code><ul>
-<li>an array of options that define the resultset:</li>
+<li>an optional array with arbitrary extra data about the user.</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>bool</code><code>array</code><ul>
+<li>an array of options</li>
 </ul>
 
-<p><</p>
+<p>Options are :
+</p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>bool</code>- always true, will throw if there is an error</div>
+</div></div>
+</div>
+<a id="method_updateUser"></a><div class="element clickable method public method_updateUser" data-toggle="collapse" data-target=".method_updateUser .collapse">
+<h2>Update an existing user, identified by the username</h2>
+<pre>updateUser(mixed $username, mixed $passwd, mixed $active, array $extra, bool | array $options) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will update the user-document on the server</p>
 
-<p>p>Options are :<br>
-<li>'granularity' - use minutes for a granularity of minutes, hours for hours, and days for days. The default is minutes.</li>
-<li>'figures' - a list of figures, comma-separated. Possible figures are httpConnections. You can use all to get all figures. The default is httpConnections.</li>
-<li>'length' - If you want a time series, the maximal length of the series as integer. You can use all to get all available information. You can use current to get the latest interval.</li></p>
+<p>This will throw if the document cannot be updated</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$username</h4>
+<code>mixed</code><ul>
+<li>The name of the user as a string, who's userdata is going to be updated. This is mandatory.</li>
+</ul>
 </div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response"><code>array</code></div>
-</div></div>
+<div class="subelement argument">
+<h4>$passwd</h4>
+<code>mixed</code><ul>
+<li>The user password as a string. If no password is specified, the empty string will be used.</li>
+</ul>
 </div>
-<a id="method_getServerStatus"></a><div class="element clickable method public method_getServerStatus" data-toggle="collapse" data-target=".method_getServerStatus .collapse">
-<h2>Get the server status</h2>
-<pre>getServerStatus() : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This will throw if the status cannot be retrieved</p></div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
+<div class="subelement argument">
+<h4>$active</h4>
+<code>mixed</code><ul>
+<li>an optional flag that specifies whether the user is active. If not specified, this will default to true.</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$extra</h4>
+<code>array</code><ul>
+<li>an optional array with arbitrary extra data about the user.</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>bool</code><code>array</code><ul>
+<li>an array of options</li>
+</ul>
+
+<p>Options are :
+</p>
+</div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
 <th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
@@ -303,74 +341,7 @@ The call returns statistics about the current and past requests.</h2>
 </tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
-<code>array</code>- The call returns an array with the attributes described here: http://www.arangodb.org/manuals/1.2.beta3/HttpSystem.html#HttpSystemStatus
-['system']['userTime']
-['system']['systemTime']
-['system']['numberOfThreads']
-['system']['residentSize']
-['system']['virtualSize']
-['system']['minorPageFaults']
-['system']['majorPageFaults']</div>
-</div></div>
-</div>
-<a id="method_getServerTime"></a><div class="element clickable method public method_getServerTime" data-toggle="collapse" data-target=".method_getServerTime .collapse">
-<h2>Get the server time</h2>
-<pre>getServerTime() : double</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This will throw if the time cannot be retrieved</p></div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>double</code>- a double holding the timestamp</div>
-</div></div>
-</div>
-<a id="method_getServerVersion"></a><div class="element clickable method public method_getServerVersion" data-toggle="collapse" data-target=".method_getServerVersion .collapse">
-<h2>Get the server version</h2>
-<pre>getServerVersion() : string</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This will throw if the version cannot be retrieved</p></div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>string</code>- a string holding the ArangoDB version</div>
-</div></div>
-</div>
-<a id="method_reloadServerRouting"></a><div class="element clickable method public method_reloadServerRouting" data-toggle="collapse" data-target=".method_reloadServerRouting .collapse">
-<h2>Reload the server's routing information
-The call triggers a reload of the routing information from the _routing collection</h2>
-<pre>reloadServerRouting() : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This will throw if the routing cannot be reloaded</p></div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response"><code>array</code></div>
+<code>bool</code>- always true, will throw if there is an error</div>
 </div></div>
 </div>
 <a id="method_getConnection"></a><div class="element clickable method protected method_getConnection" data-toggle="collapse" data-target=".method_getConnection .collapse">
