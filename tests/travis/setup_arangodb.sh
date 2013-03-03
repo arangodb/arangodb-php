@@ -21,9 +21,9 @@ PID_FILE="/tmp/arangodb.$PID.pid"
 ARANGODB_DIR="$DIR/$NAME"
 
 ARANGOD="${ARANGODB_DIR}/bin/arangod"
-if [ "$ARCH" == "x86_64" ]; then
-  ARANGOD="${ARANGOD}_x86_64"
-fi
+#if [ "$ARCH" == "x86_64" ]; then
+#@  ARANGOD="${ARANGOD}"
+#@fi
 
 # (re-)create database directory
 rm -rf ${TMP_DIR}
