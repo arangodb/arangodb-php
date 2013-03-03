@@ -1,8 +1,7 @@
 ![ArangoDB-PHP Logo](http://www.arangodb.org/wp-content/uploads/2013/03/logo_arangodbphp_trans.png)
 
 # ArangoDB-PHP - A PHP client for ArangoDB
-
-[![Build Status](https://secure.travis-ci.org/triAGENS/ArangoDB-PHP.png)](http://travis-ci.org/triAGENS/ArangoDB-PHP)
+[![Build Status](https://travis-ci.org/triAGENS/ArangoDB-PHP.png?branch=1.2)](https://travis-ci.org/triAGENS/ArangoDB-PHP)
 
 **Version: 1.2.0**
 
