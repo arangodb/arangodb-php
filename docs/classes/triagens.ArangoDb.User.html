@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
 <meta charset="utf-8">
-<title>ArangoDB PHP client API » \triagens\ArangoDb\Graph</title>
+<title>ArangoDB PHP client API » \triagens\ArangoDb\User</title>
 <meta name="author" content="Mike van Riel">
 <meta name="description" content="">
 <link href="../css/template.css" rel="stylesheet" media="all">
@@ -69,7 +69,6 @@
 <li class="method public inherited"><a href="#method_getAll" title="getAll :: Get all document attributes"><span class="description">Get all document attributes</span><pre>getAll()</pre></a></li>
 <li class="method public inherited"><a href="#method_getChanged" title="getChanged :: Get the changed flag"><span class="description">Get the changed flag</span><pre>getChanged()</pre></a></li>
 <li class="method public inherited"><a href="#method_getCollectionId" title="getCollectionId :: Get the collection id (if already known)"><span class="description">Get the collection id (if already known)</span><pre>getCollectionId()</pre></a></li>
-<li class="method public "><a href="#method_getEdgesCollection" title="getEdgesCollection :: Get the Edges Collection of the graph"><span class="description">Get the Edges Collection of the graph</span><pre>getEdgesCollection()</pre></a></li>
 <li class="method public inherited"><a href="#method_getHandle" title="getHandle :: Convenience function to get the document handle (if already known) - is an alias to getInternalId()"><span class="description">Convenience function to get the document handle (if already known) - is an alias to getInternalId()</span><pre>getHandle()</pre></a></li>
 <li class="method public inherited"><a href="#method_getHiddenAttributes" title="getHiddenAttributes :: Get the hidden attributes"><span class="description">Get the hidden attributes</span><pre>getHiddenAttributes()</pre></a></li>
 <li class="method public inherited"><a href="#method_getId" title="getId :: Get the document id (if already known)"><span class="description">Get the document id (if already known)</span><pre>getId()</pre></a></li>
@@ -77,15 +76,12 @@
 <li class="method public inherited"><a href="#method_getInternalKey" title="getInternalKey :: Get the internal document key (if already known)"><span class="description">Get the internal document key (if already known)</span><pre>getInternalKey()</pre></a></li>
 <li class="method public inherited"><a href="#method_getKey" title="getKey :: Get the document key (if already known)."><span class="description">Get the document key (if already known).</span><pre>getKey()</pre></a></li>
 <li class="method public inherited"><a href="#method_getRevision" title="getRevision :: Get the document revision (if already known)"><span class="description">Get the document revision (if already known)</span><pre>getRevision()</pre></a></li>
-<li class="method public "><a href="#method_getVerticesCollection" title="getVerticesCollection :: Get the Vertices Collection of the graph"><span class="description">Get the Vertices Collection of the graph</span><pre>getVerticesCollection()</pre></a></li>
 <li class="method public inherited"><a href="#method_set" title="set :: Set a document attribute"><span class="description">Set a document attribute</span><pre>set()</pre></a></li>
 <li class="method public inherited"><a href="#method_setChanged" title="setChanged :: Set the changed flag"><span class="description">Set the changed flag</span><pre>setChanged()</pre></a></li>
-<li class="method public "><a href="#method_setEdgesCollection" title="setEdgesCollection :: Set the edges-collection of the graph"><span class="description">Set the edges-collection of the graph</span><pre>setEdgesCollection()</pre></a></li>
 <li class="method public inherited"><a href="#method_setHiddenAttributes" title="setHiddenAttributes :: Set the hidden attributes"><span class="description">Set the hidden attributes</span><pre>setHiddenAttributes()</pre></a></li>
 <li class="method public inherited"><a href="#method_setInternalId" title="setInternalId :: Set the internal document id"><span class="description">Set the internal document id</span><pre>setInternalId()</pre></a></li>
 <li class="method public inherited"><a href="#method_setInternalKey" title="setInternalKey :: Set the internal document key"><span class="description">Set the internal document key</span><pre>setInternalKey()</pre></a></li>
 <li class="method public inherited"><a href="#method_setRevision" title="setRevision :: Set the document revision"><span class="description">Set the document revision</span><pre>setRevision()</pre></a></li>
-<li class="method public "><a href="#method_setVerticesCollection" title="setVerticesCollection :: Set the vertices-collection of the graph"><span class="description">Set the vertices-collection of the graph</span><pre>setVerticesCollection()</pre></a></li>
 <li class="method public inherited"><a href="#method_toJson" title="toJson :: Returns the document as JSON-encoded string"><span class="description">Returns the document as JSON-encoded string</span><pre>toJson()</pre></a></li>
 <li class="method public inherited"><a href="#method_toSerialized" title="toSerialized :: Returns the document as a serialized string"><span class="description">Returns the document as a serialized string</span><pre>toSerialized()</pre></a></li>
 </ul>
@@ -119,7 +115,7 @@
 </ul>
 </div>
 <div class="span8">
-<a id="\triagens\ArangoDb\Graph"></a><ul class="breadcrumb">
+<a id="\triagens\ArangoDb\User"></a><ul class="breadcrumb">
 <li>
 <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
 </li>
@@ -128,11 +124,11 @@
 <span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
 </li>
 <li class="active">
-<span class="divider">\</span><a href="../classes/triagens.ArangoDb.Graph.html">Graph</a>
+<span class="divider">\</span><a href="../classes/triagens.ArangoDb.User.html">User</a>
 </li>
 </ul>
 <div class="element class">
-<p class="short_description">Value object representing a graph</p>
+<p class="short_description">Value object representing a single User document</p>
 <div class="details">
 <div class="long_description"></div>
 <table class="table table-bordered">
@@ -385,21 +381,6 @@ bigger than PHP_INT_MAX. To reliably store a collection id elsewhere, a PHP stri
 <code>mixed</code>- collection id, might be NULL if document does not yet have an id</div>
 </div></div>
 </div>
-<a id="method_getEdgesCollection"></a><div class="element clickable method public method_getEdgesCollection" data-toggle="collapse" data-target=".method_getEdgesCollection .collapse">
-<h2>Get the Edges Collection of the graph</h2>
-<pre>getEdgesCollection() : string</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>string</code>- name of the edges collection</div>
-</div></div>
-</div>
 <a id="method_getHandle"></a><div class="element clickable method public method_getHandle" data-toggle="collapse" data-target=".method_getHandle .collapse">
 <h2>Convenience function to get the document handle (if already known) - is an alias to getInternalId()</h2>
 <pre>getHandle() : string</pre>
@@ -508,21 +489,6 @@ document id, in the format collectionid/documentid</p></div>
 <code>mixed</code>- revision id, might be NULL if document does not yet have an id</div>
 </div></div>
 </div>
-<a id="method_getVerticesCollection"></a><div class="element clickable method public method_getVerticesCollection" data-toggle="collapse" data-target=".method_getVerticesCollection .collapse">
-<h2>Get the Vertices Collection of the graph</h2>
-<pre>getVerticesCollection() : string</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>string</code>- name of the vertices collection</div>
-</div></div>
-</div>
 <a id="method_set"></a><div class="element clickable method public method_set" data-toggle="collapse" data-target=".method_set .collapse">
 <h2>Set a document attribute</h2>
 <pre>set(string $key, mixed $value) : void</pre>
@@ -572,28 +538,6 @@ exception if the value is invalid.</p></div>
 <li>change flag</li>
 </ul>
 </div>
-</div></div>
-</div>
-<a id="method_setEdgesCollection"></a><div class="element clickable method public method_setEdgesCollection" data-toggle="collapse" data-target=".method_setEdgesCollection .collapse">
-<h2>Set the edges-collection of the graph</h2>
-<pre>setEdgesCollection(mixed $edgesCollection) : <a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$edgesCollection</h4>
-<code>mixed</code><ul>
-<li>the name of the edges-collection</li>
-</ul>
-</div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code><a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a></code>- graph object</div>
 </div></div>
 </div>
 <a id="method_setHiddenAttributes"></a><div class="element clickable method public method_setHiddenAttributes" data-toggle="collapse" data-target=".method_setHiddenAttributes .collapse">
@@ -683,28 +627,6 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 <li>revision id</li>
 </ul>
 </div>
-</div></div>
-</div>
-<a id="method_setVerticesCollection"></a><div class="element clickable method public method_setVerticesCollection" data-toggle="collapse" data-target=".method_setVerticesCollection .collapse">
-<h2>Set the vertices-collection of the graph</h2>
-<pre>setVerticesCollection(mixed $verticesCollection) : <a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$verticesCollection</h4>
-<code>mixed</code><ul>
-<li>the name of the vertices-collection</li>
-</ul>
-</div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code><a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a></code>- graph object</div>
 </div></div>
 </div>
 <a id="method_toJson"></a><div class="element clickable method public method_toJson" data-toggle="collapse" data-target=".method_toJson .collapse">
