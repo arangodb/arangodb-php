@@ -106,6 +106,37 @@ class CollectionExtendedTest extends
         $this->assertTrue($response, 'Delete should return true!');
     }
 
+    /**
+     * test for getting all collection exclude system collections
+     */
+    public function testGetAllNonSystemCollections()
+    {
+        $collectionHandler = $this->collectionHandler;
+
+        $collections = array(
+            "ArangoDB_PHP_TestSuite_TestCollection_01",
+            "ArangoDB_PHP_TestSuite_TestCollection_02");
+
+        foreach ($collections as $col) {
+            $collection = new \triagens\ArangoDb\Collection();
+            $collection->setName($col);
+            $collectionHandler->add($collection);
+        }
+
+        $collectionList = $collectionHandler->getAllCollections($options = array("excludeSystem" => true));
+
+        foreach ($collections as $col) {
+            $this->assertArrayHasKey($col, $collectionList,"Collection name should be in collectionList");
+        }
+
+        $this->assertArrayNotHasKey("_structures", $collectionList,
+            "System collection _structure should not be returned");
+
+        foreach ($collections as $col) {
+            $collectionHandler->delete($col);
+        }
+    }
+
 
     /**
      * test for creation, rename, and delete of a collection

@@ -146,6 +146,11 @@ class CollectionHandler extends
      */
     const OPTION_RENAME = 'rename';
 
+    /**
+     * exclude system collections
+     */
+    const OPTION_EXCLUDE_SYSTEM = 'excludeSystem';
+
 
     /**
      * Get information about a collection
@@ -1134,6 +1139,33 @@ class CollectionHandler extends
     public function isValidCollectionId($collectionId)
     {
         return !$collectionId || !(is_string($collectionId) || is_double($collectionId) || is_int($collectionId));
+    }
+
+    /**
+     * Get list of all available collections per default with the collection names as index.
+     * Returns empty array if none are available.
+     * @param array $options            - optional - an array of options.
+     * <p>Options are :<br>
+     * <li>'excludeSystem' -   With a value of true, all system collections will be excluded from the response.</li>
+     * <li>'keys' -  With a value of "collections", the index of the resulting array is numerical,
+     *               With a value of "names", the index of the resulting array are the collection names.</li>
+     * </p>
+     * @return array
+     */
+    public function getAllCollections($options = array())
+    {
+        $options = array_merge(array("excludeSystem" => false, 'keys' => "names"),$options);
+        $params = array();
+        if ($options["excludeSystem"] === true) {
+            $params[self::OPTION_EXCLUDE_SYSTEM] = true;
+        }
+        $url = UrlHelper::appendParamsUrl(Urls::URL_COLLECTION, $params);
+        $response = $this->getConnection()->get(UrlHelper::buildUrl($url));
+        $response = $response->getJson();
+        if (isset($options["keys"]) && isset($response[$options["keys"]])) {
+            return $response[$options["keys"]];
+        }
+        return $response;
     }
 
 

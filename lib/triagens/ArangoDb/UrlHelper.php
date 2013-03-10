@@ -59,8 +59,6 @@ abstract class URLHelper
         $argv = func_get_args();
         $argc = count($argv);
 
-        assert($argc > 1);
-
         $url = $baseUrl;
         for ($i = 1; $i < $argc; ++$i) {
             $url .= '/' . urlencode($argv[$i]);
