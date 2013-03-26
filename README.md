@@ -157,6 +157,14 @@ To invoke this autoloader, add the following line to your PHP files that will us
 
 The ArangoDB PHP client's autoloader will only care about its own class files and will not handle any other files. That means it is fully nestable with other autoloaders.
 
+<a name="invoke_autoloader_directly"/a>
+## Alternative 3: Invoking the autoloader directly
+
+If you do not wish to include autoload.php to load and setup the autoloader, you can invoke the autoloader directly:
+
+    require 'ArangoDB-PHP/lib/triagens/ArangoDb/autoloader.php';
+    \triagens\ArangoDb\Autoloader::init();
+
 <br>
 
 <a name="howto_use"/a>
