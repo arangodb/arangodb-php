@@ -21,7 +21,7 @@ $connectionOptions = array(
   ConnectionOptions::OPTION_PORT            => 8529,                    // port to connect to (deprecated, should use endpoint instead)
   ConnectionOptions::OPTION_HOST            => "localhost",             // host to connect to (deprecated, should use endpoint instead)
   */
-  ConnectionOptions::OPTION_TIMEOUT         => 5,                       // timeout in seconds
+  ConnectionOptions::OPTION_TIMEOUT         => 30,                      // timeout in seconds
   ConnectionOptions::OPTION_TRACE           => $traceFunc,              // tracer function, can be used for debugging
   ConnectionOptions::OPTION_CREATE          => false,                   // do not create unknown collections automatically
   ConnectionOptions::OPTION_UPDATE_POLICY   => UpdatePolicy::LAST,      // last update wins
