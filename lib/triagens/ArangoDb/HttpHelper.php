@@ -164,7 +164,10 @@ class HttpHelper
      */
     public static function transfer($socket, $request)
     {
-        assert(is_resource($socket));
+        if (! is_resource($socket)) {
+          throw new ClientException('Invalid socket used');
+        }
+        
         assert(is_string($request));
 
         @fwrite($socket, $request);

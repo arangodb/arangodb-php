@@ -353,6 +353,9 @@ class Connection
         if ($handle) {
             // send data and get response back
             $result = HttpHelper::transfer($handle, $request);
+
+            $status = socket_get_status($handle);
+
             if (!$this->_useKeepAlive) {
                 // must close the connection
                 fclose($handle);
@@ -363,6 +366,10 @@ class Connection
             if ($traceFunc) {
                 // call tracer func
                 $traceFunc('receive', $result);
+            }
+            
+            if ($status['timed_out']) {
+              throw new ClientException('Got a timeout when waiting on the server\'s response');
             }
 
             return new HttpResponse($result);
