@@ -25,7 +25,7 @@ abstract class DefaultValues
     /**
      * Default timeout value (used if no timeout value specified)
      */
-    const DEFAULT_TIMEOUT = 5;
+    const DEFAULT_TIMEOUT = 30;
 
     /**
      * Default value for waitForSync (fsync all data to disk on document updates/insertions/deletions)
