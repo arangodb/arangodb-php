@@ -22,6 +22,25 @@ namespace triagens\ArangoDb;
 class Graph extends
     Document
 {
+	
+	/**
+	 * Constructs an empty graph
+	 *
+	 * @param array $options - optional, initial $options for document
+	 *
+	 * @return void
+	 */
+	public function __construct($name = null, array $options = array())
+	{
+
+		// prevent backwards compatibility break where the first parameter is the $options array
+		if(!is_array($name) && $name != null){
+			$this->set('_key', $name);
+		}
+
+		// pass the $options to the parent constructor to do the actual work
+		parent::__construct($options);
+	}
 
     /**
      * Set the vertices-collection of the graph
