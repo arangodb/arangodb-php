@@ -90,6 +90,36 @@ class GraphHandler extends
         return $graph->getAll();
     }
 
+    /**
+     * Get a graph
+     *
+     * This will get a graph.
+     *
+     * This will throw if the graph cannot be retrieved.
+     *
+     * @throws Exception
+     *
+     * @param String - $graph - The name of the graph
+     *
+     * @return Graph - A graph object representing the graph
+     * @since   1.2
+     *
+     * @example "ArangoDb/examples/graph.php" How to use this function
+     * @example "ArangoDb/examples/graph.php" How to use this function
+     */
+    public function getGraph($graph, array $options = array())
+    {
+    	$url = UrlHelper::buildUrl(Urls::URL_GRAPH, $graph);
+    	$response = $this->getConnection()->get($url);
+    	$data = $response->getJson();	
+
+    	if($data['error']){
+    		return false;
+    	}
+
+    	return Graph::createFromArray($data['graph'], $options);
+    }
+
 
     /**
      * Drop a graph and remove all its vertices and edges, also drops vertex and edge collections

@@ -22,7 +22,30 @@ namespace triagens\ArangoDb;
 class Graph extends
     Document
 {
+	/**
+	 * The collection used for vertices
+	 *
+	 * @var string - name of the vertices collection
+	 */
+	protected $_verticesCollection = null;
 	
+	/**
+	 * The collection used for edges
+	 *
+	 * @var string - name of the edges collection
+	 */
+	protected $_edgesCollection = null;
+	
+	/**
+	 * Graph vertices
+	 */
+	const ENTRY_VERTICES = 'vertices';
+	
+	/**
+	 * Graph edges
+	 */
+	const ENTRY_EDGES = 'edges';
+
 	/**
 	 * Constructs an empty graph
 	 *
@@ -92,5 +115,47 @@ class Graph extends
     public function getEdgesCollection()
     {
         return $this->_edgesCollection;
+    }
+    
+    /**
+     * Set a graph attribute
+     *
+     * The key (attribute name) must be a string.
+     * This will validate the value of the attribute and might throw an
+     * exception if the value is invalid.
+     *
+     * @throws ClientException
+     *
+     * @param string $key   - attribute name
+     * @param mixed  $value - value for attribute
+     *
+     * @return void
+     */
+    public function set($key, $value){
+    	
+    	if(in_array($key, array(self::ENTRY_VERTICES, self::ENTRY_EDGES))){
+    		
+    		if (!is_string($key)) {
+    			throw new ClientException('Invalid document attribute key');
+    		}
+    		
+    		// validate the value passed
+    		ValueValidator::validate($value);
+    		
+    		if ($key === self::ENTRY_VERTICES) {
+    			$this->setVerticesCollection($value);
+    		
+    			return;
+    		}
+    		
+    		if ($key === self::ENTRY_EDGES) {
+    			$this->setEdgesCollection($value);
+    		
+    			return;
+    		}
+    		
+    	}else{
+    		parent::set($key, $value);
+    	}
     }
 }
