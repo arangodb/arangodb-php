@@ -50,20 +50,19 @@ class GraphBasicTest extends
      */
     public function testCreateAndDeleteGraphByName()
     {
-    	$this->graph = new \triagens\ArangoDb\Graph('Graph2');
-    	$this->graph->setVerticesCollection('ArangoDBPHPTestSuiteTestCollection02');
-    	$this->graph->setEdgesCollection('ArangoDBPHPTestSuiteTestEdgeCollection02');
-    	$this->graphHandler = new \triagens\ArangoDb\GraphHandler($this->connection);
+        $this->graph = new \triagens\ArangoDb\Graph('Graph2');
+        $this->graph->setVerticesCollection('ArangoDBPHPTestSuiteTestCollection02');
+        $this->graph->setEdgesCollection('ArangoDBPHPTestSuiteTestEdgeCollection02');
+        $this->graphHandler = new \triagens\ArangoDb\GraphHandler($this->connection);
 
-		$result = $this->graphHandler->createGraph($this->graph);
-		$this->assertTrue($result['_key'] == 'Graph2', 'Did not return Graph2!');
+        $result = $this->graphHandler->createGraph($this->graph);
+        $this->assertTrue($result['_key'] == 'Graph2', 'Did not return Graph2!');
 		 
-		$properties = $this->graphHandler->properties('Graph1');
-		$this->assertTrue($properties['_key'] == 'Graph2', 'Did not return Graph2!');
+        $properties = $this->graphHandler->properties('Graph1');
+        $this->assertTrue($properties['_key'] == 'Graph2', 'Did not return Graph2!');
 		 
-		$result = $this->graphHandler->dropGraph('Graph2');
-		$this->assertTrue($result, 'Did not return true!');
-
+        $result = $this->graphHandler->dropGraph('Graph2');
+        $this->assertTrue($result, 'Did not return true!');
     }
 
 
