@@ -131,7 +131,8 @@ class Graph extends
      *
      * @return void
      */
-    public function set($key, $value){
+    public function set($key, $value)
+    {
     	
     	if(in_array($key, array(self::ENTRY_VERTICES, self::ENTRY_EDGES))){
     		
