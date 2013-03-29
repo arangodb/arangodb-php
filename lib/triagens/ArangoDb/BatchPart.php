@@ -287,8 +287,8 @@ class BatchPart
                 }
                 break;
             case 'cursor':
-            	$options = $this->getCursorOptions();
-            	$options['isNew'] = false;
+                $options = $this->getCursorOptions();
+                $options['isNew'] = false;
                 $response = new Cursor($this->_batch->getConnection(), $response->getJson(), $options);
                 break;
             default:
