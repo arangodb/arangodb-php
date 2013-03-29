@@ -186,10 +186,10 @@ class DocumentHandler extends
     /**
      * Store a document to a collection
      *
-     * This is an alias/shortcut to add(), update() and replace(). Instead of having to determine which of the 3 functions to use,
+     * This is an alias/shortcut to save() and replace(). Instead of having to determine which of the 3 functions to use,
      * simply pass the document to store() and it will figure out which one to call.
      *
-     * This will throw if the document cannot be saved, updated or replaced.
+     * This will throw if the document cannot be saved or replaced.
      *
      * @throws Exception
      *
