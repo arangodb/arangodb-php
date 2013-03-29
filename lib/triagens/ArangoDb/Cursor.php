@@ -121,6 +121,7 @@ class Cursor implements
         assert(isset($data[self::ENTRY_HASMORE]));
         $this->_hasMore = (bool) $data[self::ENTRY_HASMORE];
 
+        $options['isNew'] = false;
         $this->_options = $options;
         $this->_result  = array();
         $this->add((array) $data[self::ENTRY_RESULT]);

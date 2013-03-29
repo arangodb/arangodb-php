@@ -672,6 +672,7 @@ class CollectionHandler extends
 
         $response = $this->getConnection()->put(Urls::URL_EXAMPLE, $this->json_encode_wrapper($body));
 
+        $options['isNew'] = false;
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
 
@@ -729,6 +730,7 @@ class CollectionHandler extends
         $response = $this->getConnection()->put(Urls::URL_FIRST_EXAMPLE, $this->json_encode_wrapper($data));
         $data     = $response->getJson();
 
+        $options['isNew'] = false;
         return Document::createFromArray($data['document'], $options);
     }
 

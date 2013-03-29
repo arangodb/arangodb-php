@@ -117,6 +117,7 @@ class GraphHandler extends
     		return false;
     	}
 
+    	$options['_isNew'] = false;
     	return Graph::createFromArray($data['graph'], $options);
     }
 
@@ -198,6 +199,7 @@ class GraphHandler extends
             throw new ClientException('Got an invalid response from the server');
         }
 
+        $document->setIsNew(false);
         return $document->getId();
     }
 
@@ -230,6 +232,7 @@ class GraphHandler extends
         $jsonArray = $response->getJson();
         $vertex    = $jsonArray['vertex'];
 
+        $options['_isNew'] = false;
         return Vertex::createFromArray($vertex, $options);
     }
 
@@ -453,6 +456,7 @@ class GraphHandler extends
             throw new ClientException('Got an invalid response from the server');
         }
 
+        $document->setIsNew(false);
         return $document->getId();
     }
 
@@ -485,6 +489,7 @@ class GraphHandler extends
         $jsonArray = $response->getJson();
         $edge      = $jsonArray['edge'];
 
+        $options['_isNew'] = false;
         return Edge::createFromArray($edge, $options);
     }
 

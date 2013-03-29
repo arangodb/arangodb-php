@@ -245,7 +245,9 @@ class BatchPart
                 $json     = $response->getJson();
                 $id       = $json[Document::ENTRY_ID];
                 $response = $json;
-                $response = Document::createFromArray($json, $this->getCursorOptions());
+                $options = $this->getCursorOptions();
+                $options['isNew'] = false;
+                $response = Document::createFromArray($json, $options);
                 break;
             case 'document':
                 $json = $response->getJson();
@@ -258,7 +260,9 @@ class BatchPart
                 $json     = $response->getJson();
                 $id       = $json[Edge::ENTRY_ID];
                 $response = $json;
-                $response = Edge::createFromArray($json, $this->getCursorOptions());
+                $options = $this->getCursorOptions();
+                $options['isNew'] = false;
+                $response = Edge::createFromArray($json, $options);
                 break;
             case 'edge':
                 $json = $response->getJson();
@@ -271,7 +275,9 @@ class BatchPart
                 $json     = $response->getJson();
                 $id       = $json[Collection::ENTRY_ID];
                 $response = $json;
-                $response = Collection::createFromArray($json, $this->getCursorOptions());
+                $options = $this->getCursorOptions();
+                $options['isNew'] = false;
+                $response = Collection::createFromArray($json, $options);
                 break;
             case 'collection':
                 $json = $response->getJson();
@@ -281,7 +287,9 @@ class BatchPart
                 }
                 break;
             case 'cursor':
-                $response = new Cursor($this->_batch->getConnection(), $response->getJson(), $this->getCursorOptions());
+                $options = $this->getCursorOptions();
+                $options['isNew'] = false;
+                $response = new Cursor($this->_batch->getConnection(), $response->getJson(), $options);
                 break;
             default:
                 throw new ClientException('Could not determine response data type.');

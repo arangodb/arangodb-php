@@ -89,6 +89,7 @@ class DocumentHandler extends
 
         $data = $response->getJson();
 
+        $options['_isNew'] = false;
         return Document::createFromArray($data, $options);
     }
 
@@ -181,6 +182,49 @@ class DocumentHandler extends
     {
         return $this->save($collectionId, $document, $options);
     }
+    
+    /**
+     * Store a document to a collection
+     *
+     * This is an alias/shortcut to save() and replace(). Instead of having to determine which of the 3 functions to use,
+     * simply pass the document to store() and it will figure out which one to call.
+     *
+     * This will throw if the document cannot be saved or replaced.
+     *
+     * @throws Exception
+     *
+     * @param mixed      $collectionId - collection id as string or number
+     * @param mixed      $document     - the document to be added, can be passed as a document or an array
+     * @param bool|array $options      - optional, prior to v1.2.0 this was a boolean value for create. Since v1.0.0 it's an array of options.
+     * <p>Options are :<br>
+     * <li>'create' - create the collection if it does not yet exist.</li>
+     * <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
+     * </p>
+     *
+     * @return mixed - id of document created
+     * @since 1.0
+     */
+    public function store(Document $document, $collectionId = null, $options = array()){
+    	
+    	if($document->getIsNew()){
+    		
+    		if($collectionId == null){
+    			throw new ClientException('A collection id is required to store a new document.');
+    		}
+    		
+    		$result = $this->save($collectionId, $document, $options);
+    		$document->setIsNew(false);
+    		
+    		return $result;
+    	}else{
+    		
+    		if($collectionId){
+    			throw new ClientException('An existing document cannot be stored into a new collection');
+    		}
+    		
+    		return $this->replace($document, $options);
+    	}
+    }
 
 
     /**
@@ -244,7 +288,9 @@ class DocumentHandler extends
         if ($id != $document->getId()) {
             throw new ClientException('Got an invalid response from the server');
         }
-
+        
+        $document->setIsNew(false);
+        
         return $document->getId();
     }
 
