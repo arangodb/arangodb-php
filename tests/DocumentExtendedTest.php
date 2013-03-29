@@ -824,7 +824,7 @@ class DocumentExtendedTest extends
     	$document->set('data', 'this is some test data');
     	
     	//Check that the document is new
-    	$this->assertTrue($document->getIsNew(), 'Document is not marked as new when it is not.');
+    	$this->assertTrue($document->getIsNew(), 'Document is not marked as new when it is a new document.');
     	
     	$documentHandler = $this->documentHandler;
 
