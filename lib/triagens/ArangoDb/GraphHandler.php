@@ -358,7 +358,8 @@ class GraphHandler extends
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAll()));
         $json = $result->getJson();
-        $document->setRevision($json[Vertex::ENTRY_REV]);
+        $vertex = $json['vertex'];
+        $document->setRevision($vertex[Vertex::ENTRY_REV]);
         return true;
     }
 
@@ -626,7 +627,8 @@ class GraphHandler extends
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAll()));
         $json = $result->getJson();
-        $document->setRevision($json[Edge::ENTRY_REV]);
+        $edge = $json['edge'];
+        $document->setRevision($edge[Edge::ENTRY_REV]);
         return true;
     }
 
