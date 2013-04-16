@@ -465,8 +465,8 @@ class DocumentHandler extends
         $url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->put($url, $this->json_encode_wrapper($data));
-		$json = $result->getJson();
-		$document->setRevision($json[Document::ENTRY_REV]);
+        $json = $result->getJson();
+        $document->setRevision($json[Document::ENTRY_REV]);
         return true;
     }
 
