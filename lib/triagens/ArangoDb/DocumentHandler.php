@@ -380,7 +380,8 @@ class DocumentHandler extends
         $url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAll()));
-
+        $json = $result->getJson();
+        $document->setRevision($json[Document::ENTRY_REV]);
         return true;
     }
 
@@ -464,7 +465,8 @@ class DocumentHandler extends
         $url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->put($url, $this->json_encode_wrapper($data));
-
+		$json = $result->getJson();
+		$document->setRevision($json[Document::ENTRY_REV]);
         return true;
     }
 
