@@ -383,8 +383,8 @@ class CollectionHandler extends
      * @param mixed   $collectionId - The id of the collection where the index is to be created
      * @param string  $type         - index type: hash, skiplist or geo
      * @param array   $attributes   - an array of attributes that can be defined like array('a') or array('a', 'b.c')
-     * @param array   $indexOptions - an associative array of options for the index like array('geoJson' => true) 
      * @param bool    $unique       - true/false to create a unique index
+     * @param array   $indexOptions - an associative array of options for the index like array('geoJson' => true) 
      *
      * @return mixed - id of collection created
      */
