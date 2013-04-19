@@ -312,11 +312,11 @@ class Cursor implements
         if (isset($this->_options[self::ENTRY_SANITIZE]) and $this->_options[self::ENTRY_SANITIZE]) {
             foreach ($rows as $key => $value) {
 
-                if(is_array($rows) && isset($rows[$key][Document::ENTRY_ID])){
+                if(is_array($value) && isset($value[Document::ENTRY_ID])){
                     unset($rows[$key][Document::ENTRY_ID]);
                 }
 
-                if(is_array($rows) && isset($rows[$key][Document::ENTRY_REV])){
+                if(is_array($value) && isset($value[Document::ENTRY_REV])){
                     unset($rows[$key][Document::ENTRY_REV]);
                 }
             }
