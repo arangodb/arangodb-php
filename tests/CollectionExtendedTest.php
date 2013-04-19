@@ -1483,7 +1483,7 @@ class CollectionExtendedTest extends
 
 
     /**
-     * test for creation of a geo indexed collection and querying by within, with distance, skip and limit options
+     * test for creation of a fulltext indexed collection and querying by within, with distance, skip and limit options
      */
     public function testCreateFulltextIndexedCollectionAddDocumentsAndQuery()
     {
@@ -1514,6 +1514,42 @@ class CollectionExtendedTest extends
         // Clean up...
         $response = $collectionHandler->delete($collection);
         $this->assertTrue($response, 'Delete should return true!');
+    }
+    
+    public function testCreateFulltextIndexedCollectionWithOptions()
+    {
+    	// set up collections and index
+    	$collectionHandler = $this->collectionHandler;
+    
+    	$collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
+    	$response   = $collectionHandler->add($collection);
+    
+    	$indexRes = $collectionHandler->index($collection->getName(), 'fulltext', array('name'), false, array('minLength' => 10));
+    	
+    	$this->assertArrayHasKey(
+    			'isNewlyCreated',
+    			$indexRes,
+    			"index creation result should have the isNewlyCreated key !"
+    	);
+    	
+    	$this->assertArrayHasKey('minLength', $indexRes, 'index creation result should have a minLength key!');
+    	
+    	$this->assertEquals(10, $indexRes['minLength'], 'index created does not have the same minLength as the one sent!');
+    
+    	// Check if the index is returned in the indexes of the collection
+    	$indexes = $collectionHandler->getIndexes($collection->getName());
+    	$this->assertTrue($indexes['indexes'][1]['fields'][0] === 'name', 'The index should be on field "name"!');
+    
+    	// Drop the index
+    	$collectionHandler->dropIndex($indexes['indexes'][1]['id']);
+    	$indexes = $collectionHandler->getIndexes($collection->getName());
+    
+    	// Check if the index is not in the indexes of the collection anymore
+    	$this->assertArrayNotHasKey(1, $indexes['indexes'], 'There should not be an index on field "name"!');
+    
+    	// Clean up...
+    	$response = $collectionHandler->delete($collection);
+    	$this->assertTrue($response, 'Delete should return true!');
     }
 
 
