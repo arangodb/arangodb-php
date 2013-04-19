@@ -93,7 +93,7 @@ class Cursor implements
      * sanitize option entry
      */
     const ENTRY_SANITIZE = '_sanitize';
-    
+
     /**
      * "flat" option entry (will treat the results as a simple array, not documents)
      */
@@ -255,34 +255,34 @@ class Cursor implements
 
         return ($this->_position <= $this->_length - 1);
     }
-  
+
     /**
      * Create an array of results from the input array
-     * 
+     *
      * @param array $data - incoming result
-     * @return void 
+     * @return void
      */
     private function add(array $data)
     {
-        if (isset($this->_options[self::ENTRY_FLAT]) && $this->_options[self::ENTRY_FLAT]) {
-            $this->addFlatFromArray($data);
-        }
-        else {
-            $this->addDocumentsFromArray($data);
+        foreach ($this->sanitize($data) as $row){
+
+            if ((isset($this->_options[self::ENTRY_FLAT]) && $this->_options[self::ENTRY_FLAT]) || !is_array($row)) {
+                $this->addFlatFromArray($row);
+            } else {
+                $this->addDocumentsFromArray($row);
+            }
         }
     }
-  
+
     /**
      * Create an array of results from the input array
-     * 
+     *
      * @param array $data - array of incoming results
-     * @return void 
+     * @return void
      */
-    private function addFlatFromArray(array $data)
+    private function addFlatFromArray($data)
     {
-        foreach ($this->sanitize($data) as $row) {
-            $this->_result[] = $row;
-        }
+            $this->_result[] = $data;
     }
 
     /**
@@ -294,9 +294,7 @@ class Cursor implements
      */
     private function addDocumentsFromArray(array $data)
     {
-        foreach ($this->sanitize($data) as $row) {
-            $this->_result[] = Document::createFromArray($row, $this->_options);
-        }
+        $this->_result[] = Document::createFromArray($data, $this->_options);
     }
 
     /**
@@ -313,8 +311,14 @@ class Cursor implements
     {
         if (isset($this->_options[self::ENTRY_SANITIZE]) and $this->_options[self::ENTRY_SANITIZE]) {
             foreach ($rows as $key => $value) {
-                unset($rows[$key][Document::ENTRY_ID]);
-                unset($rows[$key][Document::ENTRY_REV]);
+
+                if(isset($rows[$key][Document::ENTRY_ID])){
+                    unset($rows[$key][Document::ENTRY_ID]);
+                }
+
+                if(isset($rows[$key][Document::ENTRY_REV])){
+                    unset($rows[$key][Document::ENTRY_REV]);
+                }
             }
         }
 
