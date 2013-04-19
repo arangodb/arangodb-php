@@ -23,7 +23,7 @@ class StatementTest extends
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
-        
+
         $this->collection        = new \triagens\ArangoDb\Collection();
         $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
         $this->collectionHandler->add($this->collection);
@@ -87,7 +87,7 @@ class StatementTest extends
                                                                         "batchSize" => 1000,
                                                                         "_sanitize" => true,
                                                                    ));
-        // inject wrong encoding       
+        // inject wrong encoding
         $isoValue = iconv(
             "UTF-8",
             "ISO-8859-1//TRANSLIT",
@@ -159,7 +159,7 @@ class StatementTest extends
         $result = $statement->validate();
         $this->assertArrayHasKey('bindVars', $result, "result-array does not contain plan !");
     }
-    
+
     /**
      * Execute a statement that does not produce documents
      */
@@ -175,11 +175,35 @@ class StatementTest extends
                                                                    ));
         $cursor = $statement->execute();
         $this->assertEquals(
-          array(array(1, 2)), 
+          array(array(1, 2)),
           $cursor->getAll()
         );
     }
 
+    public function testStatementThatReturnsScalarResponses()
+    {
+        $connection        = $this->connection;
+        $collection        = $this->collection;
+        $collectionHandler = $this->collectionHandler;
+        $document          = new \triagens\ArangoDb\Document();
+        $documentHandler   = new \triagens\ArangoDb\DocumentHandler($connection);
+
+        $document->name = 'john';
+
+        $documentId = $documentHandler->add($collection->getId(), $document);
+
+        $statement = new \triagens\ArangoDb\Statement($connection, array(
+                "query"     => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a.name',
+                "count"     => true,
+                "_sanitize" => true
+        ));
+
+        $cursor = $statement->execute();
+
+        foreach ($cursor->getAll() as $row){
+            $this->assertNotInstanceOf('\triagens\ArangoDb\Document', $row, "A document object was in the result set!");
+        }
+    }
 
     public function tearDown()
     {
