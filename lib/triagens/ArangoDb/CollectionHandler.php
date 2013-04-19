@@ -384,10 +384,11 @@ class CollectionHandler extends
      * @param string  $type         - index type: hash, skiplist or geo
      * @param array   $attributes   - an array of attributes that can be defined like array('a') or array('a', 'b.c')
      * @param bool    $unique       - true/false to create a unique index
+     * @param array   $indexOptions - an associative array of options for the index like array('geoJson' => true) 
      *
      * @return mixed - id of collection created
      */
-    public function index($collectionId, $type = "", $attributes = array(), $unique = false)
+    public function index($collectionId, $type = "", $attributes = array(), $unique = false, $indexOptions = array())
     {
 
         $urlParams  = array(self::OPTION_COLLECTION => $collectionId);
@@ -396,6 +397,9 @@ class CollectionHandler extends
             self::OPTION_FIELDS => $attributes,
             self::OPTION_UNIQUE => $unique
         );
+        
+        $bodyParams = array_merge($bodyParams, $indexOptions);
+        
         $url        = UrlHelper::appendParamsUrl(Urls::URL_INDEX, $urlParams);
         $response   = $this->getConnection()->post($url, $this->json_encode_wrapper($bodyParams));
 
