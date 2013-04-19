@@ -527,7 +527,7 @@ class DocumentExtendedTest extends
         // This should result in a successfull update
         $document->set('someAttribute', 'someValue2');
         $document->set('someOtherAttribute', 'someOtherValue2');
-        $document->set('_rev', $resultingDocument->getRevision());
+        $document->setRevision($resultingDocument->getRevision());
 
         $result = $documentHandler->update($document, 'error');
 
@@ -539,9 +539,8 @@ class DocumentExtendedTest extends
 
         // Set some new values on the attributes and include a fake revision in the _rev attribute
         // This should result in a failure to update
-        $patchDocument = new \triagens\ArangoDb\Document();
-        $patchDocument->set('someOtherAttribute', 'someOtherValue3');
-        $patchDocument->set('_rev', $resultingDocument->getRevision() - 1000);
+        $document->set('someOtherAttribute', 'someOtherValue3');
+        $document->setRevision($resultingDocument->getRevision() - 1000);
 
         try {
             $result = $documentHandler->update($document, 'error');
