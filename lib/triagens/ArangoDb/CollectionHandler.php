@@ -355,7 +355,8 @@ class CollectionHandler extends
             Collection::ENTRY_WAIT_SYNC    => $collection->getWaitForSync(),
             Collection::ENTRY_JOURNAL_SIZE => $collection->getJournalSize(),
             Collection::ENTRY_IS_SYSTEM    => $collection->getIsSystem(),
-            Collection::ENTRY_IS_VOLATILE  => $collection->getIsVolatile()
+            Collection::ENTRY_IS_VOLATILE  => $collection->getIsVolatile(),
+            Collection::ENTRY_KEY_OPTIONS  => $collection->getKeyOptions(),
         );
         $response = $this->getConnection()->post(Urls::URL_COLLECTION, $this->json_encode_wrapper($params));
 

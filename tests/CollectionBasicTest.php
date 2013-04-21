@@ -93,6 +93,31 @@ class CollectionBasicTest extends
         $response = $collectionHandler->delete($collection);
     }
 
+    /**
+     * Try to create a collection with keyOptions and then retrieve it to confirm.
+     */
+    public function testCreateCollectionWithKeyOptionsAndVerifyProperties()
+    {
+        $connection        = $this->connection;
+        $collection        = new \triagens\ArangoDb\Collection();
+        $collectionHandler = new \triagens\ArangoDb\CollectionHandler($connection);
+
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        $collection->setName($name);
+        $collection->setKeyOptions(array("type" => "autoincrement", "allowUserKeys" => false, "increment" => 5, "offset" => 10));
+        $response = $collectionHandler->add($collection);
+
+        $resultingCollection = $collectionHandler->getProperties($response);
+        $properties = $resultingCollection->getAll();
+
+        $this->assertEquals($properties[Collection::ENTRY_STATUS], 3, 'Status does not match.');
+        $this->assertEquals($properties[Collection::ENTRY_KEY_OPTIONS]['type'], 'autoincrement', 'Key options type does not match');
+        $this->assertEquals($properties[Collection::ENTRY_KEY_OPTIONS]['allowUserKeys'], false, 'Key options allowUserKeys does not match');
+        $this->assertEquals($properties[Collection::ENTRY_KEY_OPTIONS]['increment'], 5, 'Key options increment does not match');
+        $this->assertEquals($properties[Collection::ENTRY_KEY_OPTIONS]['offset'], 10, 'Key options offset does not match');
+        $response = $collectionHandler->delete($collection);
+    }
+
 
     /**
      * Try to create and delete a collection
