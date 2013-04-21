@@ -367,7 +367,7 @@ class Connection
                 // call tracer func
                 $traceFunc('receive', $result);
             }
-            
+
             if ($status['timed_out']) {
               throw new ClientException('Got a timeout when waiting on the server\'s response');
             }

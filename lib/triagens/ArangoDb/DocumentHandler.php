@@ -182,7 +182,7 @@ class DocumentHandler extends
     {
         return $this->save($collectionId, $document, $options);
     }
-    
+
     /**
      * Store a document to a collection
      *
@@ -204,26 +204,26 @@ class DocumentHandler extends
      * @return mixed - id of document created
      * @since 1.0
      */
-    public function store(Document $document, $collectionId = null, $options = array()){
-    	
-    	if($document->getIsNew()){
-    		
-    		if($collectionId == null){
-    			throw new ClientException('A collection id is required to store a new document.');
-    		}
-    		
-    		$result = $this->save($collectionId, $document, $options);
-    		$document->setIsNew(false);
-    		
-    		return $result;
-    	}else{
-    		
-    		if($collectionId){
-    			throw new ClientException('An existing document cannot be stored into a new collection');
-    		}
-    		
-    		return $this->replace($document, $options);
-    	}
+    public function store(Document $document, $collectionId = null, $options = array())
+    {
+        if($document->getIsNew()){
+
+            if($collectionId == null){
+                throw new ClientException('A collection id is required to store a new document.');
+            }
+
+            $result = $this->save($collectionId, $document, $options);
+            $document->setIsNew(false);
+
+            return $result;
+        }else{
+
+            if($collectionId){
+                throw new ClientException('An existing document cannot be stored into a new collection');
+            }
+
+            return $this->replace($document, $options);
+        }
     }
 
 
@@ -288,9 +288,9 @@ class DocumentHandler extends
         if ($id != $document->getId()) {
             throw new ClientException('Got an invalid response from the server');
         }
-        
+
         $document->setIsNew(false);
-        
+
         return $document->getId();
     }
 

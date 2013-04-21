@@ -15,8 +15,8 @@ require dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '
 /* set up a trace function that will be called for each communication with the server */
 
 
-function getConnectionOptions(){
-
+function getConnectionOptions()
+{
     $traceFunc = function($type, $data) {
         print "TRACE FOR ". $type . PHP_EOL;
     };
@@ -39,7 +39,7 @@ function getConnectionOptions(){
 }
 
 
-function getConnection(){
+function getConnection()
+{
     return new Connection(getConnectionOptions());
 }
-
