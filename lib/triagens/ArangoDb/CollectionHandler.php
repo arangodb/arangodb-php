@@ -384,7 +384,7 @@ class CollectionHandler extends
      * @param string  $type         - index type: hash, skiplist or geo
      * @param array   $attributes   - an array of attributes that can be defined like array('a') or array('a', 'b.c')
      * @param bool    $unique       - true/false to create a unique index
-     * @param array   $indexOptions - an associative array of options for the index like array('geoJson' => true) 
+     * @param array   $indexOptions - an associative array of options for the index like array('geoJson' => true)
      *
      * @return mixed - id of collection created
      */
@@ -397,9 +397,9 @@ class CollectionHandler extends
             self::OPTION_FIELDS => $attributes,
             self::OPTION_UNIQUE => $unique
         );
-        
+
         $bodyParams = array_merge($bodyParams, $indexOptions);
-        
+
         $url        = UrlHelper::appendParamsUrl(Urls::URL_INDEX, $urlParams);
         $response   = $this->getConnection()->post($url, $this->json_encode_wrapper($bodyParams));
 
@@ -736,6 +736,32 @@ class CollectionHandler extends
 
         $options['isNew'] = false;
         return Document::createFromArray($data['document'], $options);
+    }
+
+    /**
+     * Get a random document from the collection.
+     *
+     * This will throw if the document cannot be fetched from the server
+     *
+     *
+     * @throws Exception
+     *
+     * @param mixed      $collectionId - collection id as string or number
+     *
+     * @return Document - the document fetched from the server
+     * @since 1.2
+     */
+    public function any($collectionId)
+    {
+
+        $data = array(
+                self::OPTION_COLLECTION => $collectionId,
+        );
+
+        $response = $this->getConnection()->put(Urls::URL_ANY, $this->json_encode_wrapper($data));
+        $data     = $response->getJson();
+
+        return Document::createFromArray($data['document']);
     }
 
 

@@ -15,7 +15,7 @@ namespace triagens\ArangoDb;
  *
  * @package ArangoDbPhpClient
  */
-abstract class URLs
+abstract class Urls
 {
     /**
      * URL base part for all document-related REST calls
@@ -86,6 +86,11 @@ abstract class URLs
      * base URL part for first-example
      */
     const URL_FIRST_EXAMPLE = '/_api/simple/first-example';
+
+    /**
+     * base URL part for any
+     */
+    const URL_ANY = '/_api/simple/any';
 
     /**
      * base URL part for remove-by-example
