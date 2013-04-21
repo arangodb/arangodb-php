@@ -160,7 +160,7 @@ class BatchTest extends
         $batch = new Batch($this->connection);
         $this->assertInstanceOf('\triagens\ArangoDb\Batch', $batch);
 
-        // Create collection        
+        // Create collection
         $connection        = $this->connection;
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);

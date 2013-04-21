@@ -15,7 +15,7 @@ namespace triagens\ArangoDb;
  *
  * @package ArangoDbPhpClient
  */
-abstract class URLHelper
+abstract class UrlHelper
 {
     /**
      * Get the document id from a location header

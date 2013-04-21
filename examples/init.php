@@ -26,4 +26,3 @@ $connectionOptions = array(
   ConnectionOptions::OPTION_CREATE          => false,                   // do not create unknown collections automatically
   ConnectionOptions::OPTION_UPDATE_POLICY   => UpdatePolicy::LAST,      // last update wins
 );
-

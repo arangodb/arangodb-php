@@ -20,7 +20,7 @@ namespace triagens\ArangoDb;
  * There is an important distinction between two different types of statements:<br />
  * - statements that produce a list of documents as their result AND<br />
  * - statements that do not produce documents
- * 
+ *
  * For example, a statement such as "FOR e IN example RETURN e" will produce
  * a list of documents as its result. The result can be treated as a list of
  * documents, and the document can be updated and sent back to the server by
@@ -75,7 +75,7 @@ class Statement
      * @var string
      */
     private $_query = null;
-    
+
     /**
      * "flat" flag (if set, the query results will be treated as a simple array, not documents)
      *
@@ -115,13 +115,13 @@ class Statement
      *
      * The $data property can be used to specify the query text and further
      * options for the query.
-     * 
-     * An important consideration when creating a statement is whether the 
+     *
+     * An important consideration when creating a statement is whether the
      * statement will produce a list of documents as its result or any other
-     * non-document value. When a statement is created, by default it is 
+     * non-document value. When a statement is created, by default it is
      * assumed that the statement will produce documents. If this is not the
      * case, executing a statement that returns non-documents will fail.
-     * 
+     *
      * To explicitly mark the statement as returning non-documents, the '_flat'
      * option should be specified in $data.
      *
@@ -154,7 +154,7 @@ class Statement
         if (isset($data[Cursor::ENTRY_SANITIZE])) {
             $this->_sanitize = (bool) $data[Cursor::ENTRY_SANITIZE];
         }
-        
+
         if (isset($data[Cursor::ENTRY_FLAT])) {
             $this->_flat = (bool) $data[Cursor::ENTRY_FLAT];
         }
