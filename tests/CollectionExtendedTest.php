@@ -1556,7 +1556,7 @@ class CollectionExtendedTest extends
     /**
      * Test getting a random document from the collection
      */
-    public function testAnyDocumentFromCollection()
+    public function testAnyDocumentInCollection()
     {
         // set up collections and documents
         $collectionHandler = $this->collectionHandler;
@@ -1589,6 +1589,30 @@ class CollectionExtendedTest extends
         $this->assertContains($document->get('message'), array('message1', 'message2', 'message3'), 'A document that was not part of the collection was retrieved!');
 
         $response = $collectionHandler->delete($collection->getName());
+    }
+
+    /**
+     * Test getting a random document from a collection that does not exist
+     */
+    public function testAnyDocumentInNonExistentCollection()
+    {
+        $collectionHandler = $this->collectionHandler;
+
+        //To be safe, we need to make sure the collection definitely doesn't exist,
+        //so, if it exists, delete it.
+        try {
+            $collectionHandler->drop('collection_that_does-not_exist');
+        } catch (Exception $e) {
+            //Ignore the exception.
+        }
+
+        try {
+            //Let's try to get a random document
+            $document = $collectionHandler->any('collection_that_does_not_exist');
+        } catch (ServerException $e) {
+            $this->assertInstanceOf('\triagens\ArangoDb\ServerException', $e, "Exception thrown was not a ServerException!");
+            $this->assertEquals(404, $e->getCode(), "Error code was not a 404!");
+        }
     }
 
     public function tearDown()
