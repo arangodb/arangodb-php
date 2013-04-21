@@ -44,7 +44,7 @@ class GraphBasicTest extends
         $result = $this->graphHandler->dropGraph('Graph1');
         $this->assertTrue($result, 'Did not return true!');
     }
-    
+
     /**
      * Test if Edge and EdgeHandler instances can be initialized when we directly set the graph name in the constructor
      */
@@ -57,31 +57,31 @@ class GraphBasicTest extends
 
         $result = $this->graphHandler->createGraph($this->graph);
         $this->assertTrue($result['_key'] == 'Graph2', 'Did not return Graph2!');
-		 
+
         $properties = $this->graphHandler->properties('Graph2');
         $this->assertTrue($properties['_key'] == 'Graph2', 'Did not return Graph2!');
-		 
+
         $result = $this->graphHandler->dropGraph('Graph2');
         $this->assertTrue($result, 'Did not return true!');
     }
-    
+
     /**
      * Test if we can create a graph and then retrieve it from the server
      */
     public function testCreateRetrieveAndDeleteGraph()
     {
-    	$this->graph = new \triagens\ArangoDb\Graph('Graph3');
-    	$this->graph->setVerticesCollection('ArangoDBPHPTestSuiteTestCollection03');
-    	$this->graph->setEdgesCollection('ArangoDBPHPTestSuiteTestEdgeCollection03');
-    	$this->graphHandler = new \triagens\ArangoDb\GraphHandler($this->connection);
-    
-    	$this->graphHandler->createGraph($this->graph);
-    	
-    	$graph = $this->graphHandler->getGraph('Graph3');
-    	$this->assertTrue($graph->getKey() == 'Graph3', 'Did not return Graph3!');
+        $this->graph = new \triagens\ArangoDb\Graph('Graph3');
+        $this->graph->setVerticesCollection('ArangoDBPHPTestSuiteTestCollection03');
+        $this->graph->setEdgesCollection('ArangoDBPHPTestSuiteTestEdgeCollection03');
+        $this->graphHandler = new \triagens\ArangoDb\GraphHandler($this->connection);
 
-    	$result = $this->graphHandler->dropGraph('Graph3');
-    	$this->assertTrue($result, 'Did not return true!');
+        $this->graphHandler->createGraph($this->graph);
+
+        $graph = $this->graphHandler->getGraph('Graph3');
+        $this->assertTrue($graph->getKey() == 'Graph3', 'Did not return Graph3!');
+
+        $result = $this->graphHandler->dropGraph('Graph3');
+        $this->assertTrue($result, 'Did not return true!');
     }
 
 

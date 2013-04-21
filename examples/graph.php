@@ -54,10 +54,8 @@ try {
     $result1 = $graphHandler->removeEdge('Graph', 'edge1');
 } catch (ConnectException $e) {
     print $e . PHP_EOL;
-}
-catch (ServerException $e) {
+} catch (ServerException $e) {
     print $e . PHP_EOL;
-}
-catch (ClientException $e) {
+} catch (ClientException $e) {
     print $e . PHP_EOL;
 }

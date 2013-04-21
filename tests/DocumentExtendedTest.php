@@ -279,7 +279,7 @@ class DocumentExtendedTest extends
         $patchDocument->set('_id', $document->getHandle());
         $patchDocument->set('_rev', $document->getRevision());
 
-        // inject wrong encoding       
+        // inject wrong encoding
         $isoValue = iconv("UTF-8", "ISO-8859-1//TRANSLIT", "someWrongEncodedValueü");
 
         $patchDocument->set('someOtherAttribute', $isoValue);
@@ -396,7 +396,7 @@ class DocumentExtendedTest extends
 
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
 
-        // inject wrong encoding       
+        // inject wrong encoding
         $isoKey   = iconv("UTF-8", "ISO-8859-1//TRANSLIT", "someWrongEncododedAttribute");
         $isoValue = iconv("UTF-8", "ISO-8859-1//TRANSLIT", "someWrongEncodedValueü");
 
@@ -818,47 +818,47 @@ class DocumentExtendedTest extends
      */
     public function testStoreNewDocumentThenReplace()
     {
-    	//Setup
-    	$document = new Document();
-    	$document->set('data', 'this is some test data');
-    	
-    	//Check that the document is new
-    	$this->assertTrue($document->getIsNew(), 'Document is not marked as new when it is a new document.');
-    	
-    	$documentHandler = $this->documentHandler;
+        //Setup
+        $document = new Document();
+        $document->set('data', 'this is some test data');
 
-    	//Store the document
-    	$id = $documentHandler->store($document, $this->collection->getId());
-    	
-    	$rev = $document->getRevision();
-    	
-    	$this->assertTrue($id == $document->getId(), 'Returned ID does not match the one in the document');
-    	$this->assertTrue($document->get('data') == 'this is some test data', 'Data has been modified for some reason.');
+        //Check that the document is new
+        $this->assertTrue($document->getIsNew(), 'Document is not marked as new when it is a new document.');
 
-    	//Check that the document is not new
-    	$this->assertTrue(!$document->getIsNew(), 'Document is marked as new when it is not.');
-    	
-    	//Update the document and save again
-    	$document->set('data', 'this is some different data');
-    	$document->set('favorite_sport', 'hockey');
-    	$documentHandler->store($document);
-    	
-    	//Check that the id remains the same
-    	$this->assertTrue($document->getId() == $id, 'ID of updated document does not match the initial ID.');
+        $documentHandler = $this->documentHandler;
 
-    	//Retrieve a copy of the document from the server
-    	$document = $documentHandler->get($this->collection->getId(), $id);
-    	
-    	//Assert that it is not new
-    	$this->assertTrue(!$document->getIsNew(), 'Document is marked as new when it is not.');
-    	
-    	//Assert the id is the same
-    	$this->assertTrue($document->getId() == $id, 'ID of retrieved document does not match expected ID');
-    	
-    	//Assert new data has been saved
-    	$this->assertTrue($document->get('favorite_sport') == 'hockey', 'Retrieved data does not match.');
-    	
-    	$this->assertTrue($document->getRevision() != $rev, 'Revision matches when it is not suppose to.');
+        //Store the document
+        $id = $documentHandler->store($document, $this->collection->getId());
+
+        $rev = $document->getRevision();
+
+        $this->assertTrue($id == $document->getId(), 'Returned ID does not match the one in the document');
+        $this->assertTrue($document->get('data') == 'this is some test data', 'Data has been modified for some reason.');
+
+        //Check that the document is not new
+        $this->assertTrue(!$document->getIsNew(), 'Document is marked as new when it is not.');
+
+        //Update the document and save again
+        $document->set('data', 'this is some different data');
+        $document->set('favorite_sport', 'hockey');
+        $documentHandler->store($document);
+
+        //Check that the id remains the same
+        $this->assertTrue($document->getId() == $id, 'ID of updated document does not match the initial ID.');
+
+        //Retrieve a copy of the document from the server
+        $document = $documentHandler->get($this->collection->getId(), $id);
+
+        //Assert that it is not new
+        $this->assertTrue(!$document->getIsNew(), 'Document is marked as new when it is not.');
+
+        //Assert the id is the same
+        $this->assertTrue($document->getId() == $id, 'ID of retrieved document does not match expected ID');
+
+        //Assert new data has been saved
+        $this->assertTrue($document->get('favorite_sport') == 'hockey', 'Retrieved data does not match.');
+
+        $this->assertTrue($document->getRevision() != $rev, 'Revision matches when it is not suppose to.');
     }
 
     public function tearDown()

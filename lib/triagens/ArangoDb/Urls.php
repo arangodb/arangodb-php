@@ -15,7 +15,7 @@ namespace triagens\ArangoDb;
  *
  * @package ArangoDbPhpClient
  */
-abstract class URLs
+abstract class Urls
 {
     /**
      * URL base part for all document-related REST calls

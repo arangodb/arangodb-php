@@ -109,16 +109,16 @@ class GraphHandler extends
      */
     public function getGraph($graph, array $options = array())
     {
-    	$url = UrlHelper::buildUrl(Urls::URL_GRAPH, $graph);
-    	$response = $this->getConnection()->get($url);
-    	$data = $response->getJson();	
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, $graph);
+        $response = $this->getConnection()->get($url);
+        $data = $response->getJson();
 
-    	if($data['error']){
-    		return false;
-    	}
+        if($data['error']){
+            return false;
+        }
 
-    	$options['_isNew'] = false;
-    	return Graph::createFromArray($data['graph'], $options);
+        $options['_isNew'] = false;
+        return Graph::createFromArray($data['graph'], $options);
     }
 
 
