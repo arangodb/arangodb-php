@@ -68,16 +68,10 @@ class HttpResponse
      */
     public function __construct($responseString)
     {
-        assert(is_string($responseString));
+        $parsed = HttpHelper::parseHttpMessage($responseString);
 
-        $barrier = HttpHelper::EOL . HttpHelper::EOL;
-        $border  = strpos($responseString, $barrier);
-        if ($border === false) {
-            throw new ClientException('Got an invalid response from the server');
-        }
-
-        $this->_header = substr($responseString, 0, $border);
-        $this->_body   = substr($responseString, $border + strlen($barrier));
+        $this->_header = $parsed['header'];
+        $this->_body = $parsed['body'];
 
         $this->setupHeaders();
     }
@@ -178,6 +172,7 @@ class HttpResponse
      */
     private function setupHeaders()
     {
+        //Get the http status code from the first line
         foreach (explode(HttpHelper::EOL, $this->_header) as $lineNumber => $line) {
             $line = trim($line);
 
@@ -187,11 +182,12 @@ class HttpResponse
                 if (preg_match("/^HTTP\/\d+\.\d+\s+(\d+)/", $line, $matches)) {
                     $this->_httpCode = (int) $matches[1];
                 }
-            } else {
-                // other lines contain key:value-like headers
-                list($key, $value) = explode(':', $line, 2);
-                $this->_headers[strtolower(trim($key))] = trim($value);
+
+                break;
             }
         }
+
+        //Process the rest of the headers
+        $this->_headers = HttpHelper::parseHeaders($this->_header);
     }
 }
