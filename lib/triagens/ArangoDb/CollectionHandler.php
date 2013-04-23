@@ -112,6 +112,56 @@ class CollectionHandler extends
     const OPTION_TYPE = 'type';
 
     /**
+     * cap constraint option
+     */
+    const OPTION_CAP_CONSTRAINT = 'cap';
+
+    /**
+     * size option
+     */
+    const OPTION_SIZE = 'size';
+
+    /**
+     * geo index option
+     */
+    const OPTION_GEO_INDEX = 'geo';
+
+    /**
+     * ignoreNull option
+     */
+    const OPTION_IGNORE_NULL = 'ignoreNull';
+
+    /**
+     * constraint option
+     */
+    const OPTION_CONSTRAINT = 'constraint';
+
+    /**
+     * geoJson option
+     */
+    const OPTION_GEOJSON = 'geoJson';
+
+    /**
+     * hash index option
+     */
+    const OPTION_HASH_INDEX = 'hash';
+
+    /**
+     * fulltext index option
+     */
+    const OPTION_FULLTEXT_INDEX = 'fulltext';
+
+    /**
+     * minLength option
+     */
+    const OPTION_MIN_LENGTH = 'minLength';
+
+    /**
+     * skiplist index option
+     */
+    const OPTION_SKIPLIST_INDEX = 'skiplist';
+
+    /**
      * count option
      */
     const OPTION_COUNT = 'count';
@@ -373,6 +423,118 @@ class CollectionHandler extends
 
 
     /**
+     * Create a cap constraint
+     *
+     * @param string $collectionId - the collection id
+     * @param int $size - the size of the cap constraint
+     * @link http://www.arangodb.org/manuals/current/IndexCapHttp.html
+     *
+     * @return mixed - id of collection created
+     */
+    public function createCapConstraint($collectionId, $size)
+    {
+        $indexOptions = array();
+
+        $indexOptions[self::OPTION_SIZE] = $size;
+
+        return $this->index($collectionId, self::OPTION_CAP_CONSTRAINT, array(), null, $indexOptions);
+    }
+
+    /**
+     * Create a geo index
+     *
+     * @param string $collectionId - the collection id
+     * @param array $fields - an array of fields
+     * @param boolean $geoJson - whether to use geoJson or not
+     * @param boolean $constraint - whether this is a constraint or not
+     * @param boolean $ignoreNull - whether to ignore null
+     * @link http://www.arangodb.org/manuals/current/IndexGeoHttp.html
+     *
+     * @return mixed - id of collection created
+     */
+    public function createGeoIndex($collectionId, array $fields, $geoJson = null, $constraint = null, $ignoreNull = null)
+    {
+        $indexOptions = array();
+
+        if($geoJson){
+            $indexOptions[self::OPTION_GEOJSON] = (bool)$geoJson;
+        }
+
+        if($constraint){
+            $indexOptions[self::OPTION_CONSTRAINT] = (bool)$constraint;
+        }
+
+        if($ignoreNull){
+            $indexOptions[self::OPTION_IGNORE_NULL] = $ignoreNull;
+        }
+
+        return $this->index($collectionId, self::OPTION_GEO_INDEX, $fields, null, $indexOptions);
+    }
+
+    /**
+     * Create a hash index
+     *
+     * @param string $collectionId - the collection id
+     * @param array $fields - an array of fields
+     * @param boolean $unique - whether the values in the index should be unique or not
+     * @link http://www.arangodb.org/manuals/current/IndexHashHttp.html
+     *
+     * @return mixed - id of collection created
+     */
+    public function createHashIndex($collectionId, array $fields, $unique = null)
+    {
+        $indexOptions = array();
+
+        if($unique){
+            $indexOptions[self::OPTION_UNIQUE] = (bool)$unique;
+        }
+
+        return $this->index($collectionId, self::OPTION_HASH_INDEX, $fields, null, $indexOptions);
+    }
+
+    /**
+     * Create a fulltext index
+     *
+     * @param string $collectionId - the collection id
+     * @param array $fields - an array of fields
+     * @param int $minLength - the minimum length of words to index
+     * @link http://www.arangodb.org/manuals/current/IndexFulltextHttp.html
+     *
+     * @return mixed - id of collection created
+     */
+    public function createFulltextIndex($collectionId, array $fields, $minLength = null)
+    {
+        $indexOptions = array();
+
+        if($minLength){
+            $indexOptions[self::OPTION_MIN_LENGTH] = $minLength;
+        }
+
+        return $this->index($collectionId, self::OPTION_FULLTEXT_INDEX, $fields, null, $indexOptions);
+    }
+
+    /**
+     * Create a skip-list index
+     *
+     * @param string $collectionId - the collection id
+     * @param array $fields - an array of fields
+     * @param bool $unique - whether the index is unique or not
+     * @link http://www.arangodb.org/manuals/current/IndexSkiplistHttp.html
+     *
+     * @return mixed - id of collection created
+     */
+    public function createSkipListIndex($collectionId, array $fields, $unique = null)
+    {
+        $indexOptions = array();
+
+        if($unique){
+            $indexOptions[self::OPTION_UNIQUE] = (bool)$unique;
+        }
+
+        return $this->index($collectionId, self::OPTION_SKIPLIST_INDEX, $fields, null, $indexOptions);
+    }
+
+    /**
      * Creates an index on a collection on the server
      *
      * This will create an index on the collection on the server and return its id
@@ -396,8 +558,11 @@ class CollectionHandler extends
         $bodyParams = array(
             self::OPTION_TYPE   => $type,
             self::OPTION_FIELDS => $attributes,
-            self::OPTION_UNIQUE => $unique
         );
+
+        if($unique !== null){
+            $bodyParams[self::OPTION_UNIQUE] = (bool)$unique;
+        }
 
         $bodyParams = array_merge($bodyParams, $indexOptions);
 
