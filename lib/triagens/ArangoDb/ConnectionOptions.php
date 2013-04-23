@@ -61,6 +61,11 @@ class ConnectionOptions implements
     const OPTION_TRACE = 'trace';
 
     /**
+     * Enhanced trace
+     */
+    const OPTION_ENHANCED_TRACE = 'enhancedTrace';
+
+    /**
      * "Create collections if they don't exist" index constant
      */
     const OPTION_CREATE = 'createCollection';
@@ -291,6 +296,7 @@ class ConnectionOptions implements
             self::OPTION_IS_VOLATILE        => DefaultValues::DEFAULT_IS_VOLATILE,
             self::OPTION_CONNECTION         => DefaultValues::DEFAULT_CONNECTION,
             self::OPTION_TRACE              => null,
+            self::OPTION_ENHANCED_TRACE     => false,
             self::OPTION_AUTH_USER          => null,
             self::OPTION_AUTH_PASSWD        => null,
             self::OPTION_AUTH_TYPE          => null,

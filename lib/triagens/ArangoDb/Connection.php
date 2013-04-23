@@ -335,8 +335,14 @@ class Connection
 
         $traceFunc = $this->_options[ConnectionOptions::OPTION_TRACE];
         if ($traceFunc) {
+
             // call tracer func
-            $traceFunc('send', $request);
+            if($this->_options[ConnectionOptions::OPTION_ENHANCED_TRACE]){
+                $parsed = HttpHelper::parseHttpMessage($request);
+                $traceFunc(new TraceRequest(HttpHelper::parseHeaders($parsed['header']), $method, $url, $data));
+            }else{
+                $traceFunc('send', $request);
+            }
         }
 
         // set socket timeout for this scope
@@ -363,16 +369,22 @@ class Connection
 
             $scope->leave();
 
+            if ($status['timed_out']) {
+                throw new ClientException('Got a timeout when waiting on the server\'s response');
+            }
+
+            $response = new HttpResponse($result);
+
             if ($traceFunc) {
                 // call tracer func
-                $traceFunc('receive', $result);
+                if($this->_options[ConnectionOptions::OPTION_ENHANCED_TRACE]){
+                     $traceFunc(new TraceResponse($response->getHeaders(), $response->getHttpCode(), $response->getBody()));
+                }else{
+                    $traceFunc('receive', $result);
+                }
             }
 
-            if ($status['timed_out']) {
-              throw new ClientException('Got a timeout when waiting on the server\'s response');
-            }
-
-            return new HttpResponse($result);
+            return $response;
         }
 
         $scope->leave();
