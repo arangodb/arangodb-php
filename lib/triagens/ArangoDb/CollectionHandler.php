@@ -429,7 +429,7 @@ class CollectionHandler extends
      * @param int $size - the size of the cap constraint
      * @link http://www.arangodb.org/manuals/current/IndexCapHttp.html
      *
-     * @return mixed - id of collection created
+     * @return array - server response of the created index
      */
     public function createCapConstraint($collectionId, $size)
     {
@@ -450,7 +450,7 @@ class CollectionHandler extends
      * @param boolean $ignoreNull - whether to ignore null
      * @link http://www.arangodb.org/manuals/current/IndexGeoHttp.html
      *
-     * @return mixed - id of collection created
+     * @return array - server response of the created index
      */
     public function createGeoIndex($collectionId, array $fields, $geoJson = null, $constraint = null, $ignoreNull = null)
     {
@@ -479,7 +479,7 @@ class CollectionHandler extends
      * @param boolean $unique - whether the values in the index should be unique or not
      * @link http://www.arangodb.org/manuals/current/IndexHashHttp.html
      *
-     * @return mixed - id of collection created
+     * @return array - server response of the created index
      */
     public function createHashIndex($collectionId, array $fields, $unique = null)
     {
@@ -500,7 +500,7 @@ class CollectionHandler extends
      * @param int $minLength - the minimum length of words to index
      * @link http://www.arangodb.org/manuals/current/IndexFulltextHttp.html
      *
-     * @return mixed - id of collection created
+     * @return array - server response of the created index
      */
     public function createFulltextIndex($collectionId, array $fields, $minLength = null)
     {
@@ -521,7 +521,7 @@ class CollectionHandler extends
      * @param bool $unique - whether the index is unique or not
      * @link http://www.arangodb.org/manuals/current/IndexSkiplistHttp.html
      *
-     * @return mixed - id of collection created
+     * @return array - server response of the created index
      */
     public function createSkipListIndex($collectionId, array $fields, $unique = null)
     {
@@ -549,7 +549,7 @@ class CollectionHandler extends
      * @param bool    $unique       - true/false to create a unique index
      * @param array   $indexOptions - an associative array of options for the index like array('geoJson' => true)
      *
-     * @return mixed - id of collection created
+     * @return array - server response of the created index
      */
     public function index($collectionId, $type = "", $attributes = array(), $unique = false, $indexOptions = array())
     {
