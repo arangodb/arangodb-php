@@ -585,6 +585,21 @@ class CollectionHandler extends
         return $result;
     }
 
+    /**
+     * Get the information about an index in a collection
+     * @param string $collection - the id of the collection
+     * @param string $indexId - the id of the index
+     * @return array
+     */
+    public function getIndex($collection, $indexId)
+    {
+        $url      = UrlHelper::buildUrl(Urls::URL_INDEX, $collection, $indexId);
+        $response = $this->getConnection()->get($url);
+
+        $data = $response->getJson();
+
+        return $data;
+    }
 
     /**
      * Get indexes of a collection

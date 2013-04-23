@@ -386,6 +386,24 @@ class CollectionBasicTest extends
         $this->assertEquals(true, $indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to true!');
     }
 
+    /**
+     * Test creating an index and getting it to verify.
+     */
+    public function testGetIndex()
+    {
+        $result = $this->collectionHandler->createFulltextIndex('ArangoDB_PHP_TestSuite_IndexTestCollection', array('testGetIndexField'), 100);
+
+        //Parse for the index's key
+        $key = str_replace('ArangoDB_PHP_TestSuite_IndexTestCollection/', "", $result['id']);
+
+        $indexInfo = $this->collectionHandler->getIndex('ArangoDB_PHP_TestSuite_IndexTestCollection', $key);
+
+        $this->assertEquals(CollectionHandler::OPTION_FULLTEXT_INDEX, $indexInfo[CollectionHandler::OPTION_TYPE], "Index type does not match!");
+        $this->assertCount(1, $indexInfo['fields'], "There should only be 1 indexed field!");
+        $this->assertEquals("testGetIndexField", $indexInfo['fields'][0], "Index field does not match!");
+        $this->assertEquals(100, $indexInfo[CollectionHandler::OPTION_MIN_LENGTH], 'Minlength does not match!');
+    }
+
     public function tearDown()
     {
 
