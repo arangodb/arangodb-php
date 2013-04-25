@@ -9,11 +9,9 @@
 
 namespace triagens\ArangoDb;
 
-
 require dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 /* set up a trace function that will be called for each communication with the server */
-
 
 function getConnectionOptions()
 {
@@ -37,7 +35,6 @@ function getConnectionOptions()
         ConnectionOptions::OPTION_UPDATE_POLICY   => UpdatePolicy::LAST,      // last update wins
     );
 }
-
 
 function getConnection()
 {

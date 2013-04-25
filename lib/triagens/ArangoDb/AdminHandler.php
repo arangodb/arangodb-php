@@ -147,7 +147,6 @@ class AdminHandler extends
         return true;
     }
 
-
     /**
      * Reload the server's routing information
      * The call triggers a reload of the routing information from the _routing collection

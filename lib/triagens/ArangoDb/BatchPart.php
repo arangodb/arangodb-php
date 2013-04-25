@@ -18,10 +18,8 @@ namespace triagens\ArangoDb;
  *
  */
 
-
 class BatchPart
 {
-
 
     /**
      * An array of BatchPartCursor options
@@ -30,14 +28,12 @@ class BatchPart
      */
     private $_cursorOptions = array();
 
-
     /**
      * An array of BatchPartCursor options
      *
      * @var array $_batchParts
      */
     private $_id = null;
-
 
     /**
      * An array of BatchPartCursor options
@@ -46,14 +42,12 @@ class BatchPart
      */
     private $_type = null;
 
-
     /**
      * An array of BatchPartCursor options
      *
      * @var array $_batchParts
      */
     private $_request = array();
-
 
     /**
      * An array of BatchPartCursor options
@@ -62,14 +56,12 @@ class BatchPart
      */
     private $_response = array();
 
-
     /**
      * The batch that this instance is part of
      *
      * @var array $_batch
      */
     private $_batch = null;
-
 
     /**
      * Constructor
@@ -101,7 +93,6 @@ class BatchPart
         return $this;
     }
 
-
     /**
      * Sets the id for the current batch part.
      *
@@ -115,7 +106,6 @@ class BatchPart
 
         return $this;
     }
-
 
     /**
      * Sets the id for the current batch part.
@@ -131,7 +121,6 @@ class BatchPart
         return $this;
     }
 
-
     /**
      * Gets the id for the current batch part.
      *
@@ -141,7 +130,6 @@ class BatchPart
     {
         return $this->_id;
     }
-
 
     /**
      * Sets the type for the current batch part.
@@ -157,7 +145,6 @@ class BatchPart
         return $this;
     }
 
-
     /**
      * Gets the type for the current batch part.
      *
@@ -167,7 +154,6 @@ class BatchPart
     {
         return $this->_type;
     }
-
 
     /**
      * Sets the request for the current batch part.
@@ -183,7 +169,6 @@ class BatchPart
         return $this;
     }
 
-
     /**
      * Gets the request for the current batch part.
      *
@@ -193,7 +178,6 @@ class BatchPart
     {
         return $this->_request;
     }
-
 
     /**
      * Sets the response for the current batch part.
@@ -209,7 +193,6 @@ class BatchPart
         return $this;
     }
 
-
     /**
      * Gets the response for he current batch part.
      *
@@ -220,7 +203,6 @@ class BatchPart
         return $this->_response;
     }
 
-
     /**
      * Gets the HttpCode for he current batch part.
      *
@@ -230,7 +212,6 @@ class BatchPart
     {
         return $this->getResponse()->getHttpCode();
     }
-
 
     /**
      * Get the batch part identified by the array key (0...n) or its id (if it was set with nextBatchPartId($id) )
@@ -298,7 +279,6 @@ class BatchPart
 
         return $response;
     }
-
 
     /**
      * Return an array of cursor options

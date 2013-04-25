@@ -462,7 +462,7 @@ class Document
      */
     public function setIsNew($isNew)
     {
-        $this->_isNew = (bool)$isNew;
+        $this->_isNew = (bool) $isNew;
     }
 
     /**
@@ -491,7 +491,6 @@ class Document
         if ($this->_id !== null && $this->_id != $id) {
             throw new ClientException('Should not update the id of an existing document');
         }
-
 
         if (!preg_match('/^\w+\/\w+$/', $id)) {
             throw new ClientException('Invalid format for document id');
@@ -583,7 +582,6 @@ class Document
      */
     public function getKey()
     {
-
         return $this->getInternalKey();
     }
 

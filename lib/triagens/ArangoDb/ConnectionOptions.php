@@ -260,7 +260,7 @@ class ConnectionOptions implements
      * Get the endpoint object for the connection
      *
      * @throws ClientException
-     * @return Endpoint - endpoint object
+     * @return Endpoint        - endpoint object
      */
     public function getEndpoint()
     {
@@ -331,7 +331,7 @@ class ConnectionOptions implements
      * Validate the options
      *
      * @throws ClientException
-     * @return void - will throw if an invalid option value is found
+     * @return void            - will throw if an invalid option value is found
      */
     private function validate()
     {

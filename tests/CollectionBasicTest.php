@@ -20,7 +20,6 @@ class CollectionBasicTest extends
         $this->collectionHandler->create('ArangoDB_PHP_TestSuite_IndexTestCollection');
     }
 
-
     /**
      * Test default collection type
      */
@@ -28,7 +27,6 @@ class CollectionBasicTest extends
     {
         $this->assertEquals(Collection::TYPE_DOCUMENT, Collection::getDefaultType());
     }
-
 
     /**
      * Test if Collection and CollectionHandler instances can be initialized
@@ -42,7 +40,6 @@ class CollectionBasicTest extends
         $this->assertInstanceOf('triagens\ArangoDb\Collection', $collection);
     }
 
-
     /**
      * Test setting and getting collection types
      */
@@ -54,7 +51,6 @@ class CollectionBasicTest extends
         $this->assertEquals(Collection::TYPE_DOCUMENT, $collection->getType());
     }
 
-
     /**
      * Test setting and getting collection types
      */
@@ -65,7 +61,6 @@ class CollectionBasicTest extends
 
         $this->assertEquals(Collection::TYPE_EDGE, $collection->getType());
     }
-
 
     /**
      * Try to create and delete a collection
@@ -120,7 +115,6 @@ class CollectionBasicTest extends
         $response = $collectionHandler->delete($collection);
     }
 
-
     /**
      * Try to create and delete a collection
      */
@@ -146,7 +140,6 @@ class CollectionBasicTest extends
 
         $response = $collectionHandler->delete($collection);
     }
-
 
     /**
      * Try to create and delete an edge collection
@@ -175,7 +168,6 @@ class CollectionBasicTest extends
         $response = $collectionHandler->delete($collection);
     }
 
-
     /**
      * Try to create and delete an edge collection not using an edge object
      */
@@ -201,7 +193,6 @@ class CollectionBasicTest extends
         $response = $collectionHandler->delete($name);
     }
 
-
     /**
      * Try to create and delete an edge collection not using an edge object
      */
@@ -226,7 +217,6 @@ class CollectionBasicTest extends
         $response = $collectionHandler->delete($name);
     }
 
-
     /**
      * Try to create and delete an edge collection not using an edge object
      */
@@ -249,7 +239,6 @@ class CollectionBasicTest extends
         $resultingCollectionProperties = $collectionHandler->getProperties($name);
         $this->assertTrue($resultingCollectionProperties->getIsSystem());
         $this->assertTrue($resultingCollectionProperties->getWaitForSync());
-
 
         $response = $collectionHandler->delete($name);
     }

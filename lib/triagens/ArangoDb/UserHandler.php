@@ -31,11 +31,11 @@ class UserHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $username     - The name of the user as a string. This is mandatory.
-     * @param mixed      $passwd       - The user password as a string. If no password is specified, the empty string will be used.
-     * @param mixed      $active       - an optional flag that specifies whether the user is active. If not specified, this will default to true.
-     * @param array      $extra        - an optional array with arbitrary extra data about the user.
-     * @param bool|array $options      - an array of options
+     * @param mixed      $username - The name of the user as a string. This is mandatory.
+     * @param mixed      $passwd   - The user password as a string. If no password is specified, the empty string will be used.
+     * @param mixed      $active   - an optional flag that specifies whether the user is active. If not specified, this will default to true.
+     * @param array      $extra    - an optional array with arbitrary extra data about the user.
+     * @param bool|array $options  - an array of options
      * <p>Options are :<br>
      * </p>
      *
@@ -56,7 +56,6 @@ class UserHandler extends
         return true;
     }
 
-
     /**
      * Replace an existing User, identified by its username
      *
@@ -66,11 +65,11 @@ class UserHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $username     - The name of the user as a string, who's userdata is going to be replaced. This is mandatory.
-     * @param mixed      $passwd       - The user password as a string. If no password is specified, the empty string will be used.
-     * @param mixed      $active       - an optional flag that specifies whether the user is active. If not specified, this will default to true.
-     * @param array      $extra        - an optional array with arbitrary extra data about the user.
-     * @param bool|array $options      - an array of options
+     * @param mixed      $username - The name of the user as a string, who's userdata is going to be replaced. This is mandatory.
+     * @param mixed      $passwd   - The user password as a string. If no password is specified, the empty string will be used.
+     * @param mixed      $active   - an optional flag that specifies whether the user is active. If not specified, this will default to true.
+     * @param array      $extra    - an optional array with arbitrary extra data about the user.
+     * @param bool|array $options  - an array of options
      * <p>Options are :
      * </p>
      *
@@ -100,11 +99,11 @@ class UserHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $username     - The name of the user as a string, who's userdata is going to be updated. This is mandatory.
-     * @param mixed      $passwd       - The user password as a string. If no password is specified, the empty string will be used.
-     * @param mixed      $active       - an optional flag that specifies whether the user is active. If not specified, this will default to true.
-     * @param array      $extra        - an optional array with arbitrary extra data about the user.
-     * @param bool|array $options      - an array of options
+     * @param mixed      $username - The name of the user as a string, who's userdata is going to be updated. This is mandatory.
+     * @param mixed      $passwd   - The user password as a string. If no password is specified, the empty string will be used.
+     * @param mixed      $active   - an optional flag that specifies whether the user is active. If not specified, this will default to true.
+     * @param array      $extra    - an optional array with arbitrary extra data about the user.
+     * @param bool|array $options  - an array of options
      * <p>Options are :
      * </p>
      *
@@ -125,7 +124,6 @@ class UserHandler extends
         return true;
     }
 
-
     /**
      * Get a single user-document, identified by the username
      *
@@ -145,16 +143,16 @@ class UserHandler extends
         $data = $response->getJson();
 
         $options = array('_isNew' => false);
+
         return User::createFromArray($data, $options);
     }
-
 
     /**
      * Remove a user, identified by the username
      *
      * @throws Exception
      *
-     * @param mixed  $username - username as a string, of the user that is to be deleted
+     * @param mixed $username - username as a string, of the user that is to be deleted
      *
      * @return bool - always true, will throw if there is an error
      */

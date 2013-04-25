@@ -22,7 +22,6 @@ class EdgeExtendedTest extends
         $this->edgeHandler = new EdgeHandler($this->connection);
     }
 
-
    /**
      * Test for correct exception codes if non-existent objects are tried to be gotten, replaced, updated or removed
      */
@@ -37,7 +36,6 @@ class EdgeExtendedTest extends
                  'someThirdAttribute' => 'someThirdValue'
             )
         );
-
 
         // Try to get a non-existent edge out of a nonexistent collection
         // This should cause an exception with a code of 404
@@ -62,7 +60,6 @@ class EdgeExtendedTest extends
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
         $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
 
-
         // Try to update a non-existent edge
         // This should cause an exception with a code of 404
         try {
@@ -85,7 +82,6 @@ class EdgeExtendedTest extends
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
         $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
-
 
         // Try to remove a non-existent edge
         // This should cause an exception with a code of 404

@@ -56,13 +56,11 @@ class Connection
      */
     private $_batches = array();
 
-
     /**
      * $_activeBatch object
      *
      * @var array
      */
-
 
     private $_activeBatch = null;
 
@@ -72,7 +70,6 @@ class Connection
      * @var array
      */
 
-
     private $_captureBatch = false;
 
     /**
@@ -81,9 +78,7 @@ class Connection
      * @var array
      */
 
-
     private $_batchRequest = false;
-
 
     /**
      * Set up the connection object, validate the options provided
@@ -211,7 +206,6 @@ class Connection
         return $this->parseResponse($response);
     }
 
-
     /**
      * Get a connection handle
      *
@@ -332,15 +326,14 @@ class Connection
             $this->_options->offsetSet(ConnectionOptions::OPTION_BATCH, false);
         }
 
-
         $traceFunc = $this->_options[ConnectionOptions::OPTION_TRACE];
         if ($traceFunc) {
 
             // call tracer func
-            if($this->_options[ConnectionOptions::OPTION_ENHANCED_TRACE]){
+            if ($this->_options[ConnectionOptions::OPTION_ENHANCED_TRACE]) {
                 $parsed = HttpHelper::parseHttpMessage($request);
                 $traceFunc(new TraceRequest(HttpHelper::parseHeaders($parsed['header']), $method, $url, $data));
-            }else{
+            } else {
                 $traceFunc('send', $request);
             }
         }
@@ -377,9 +370,9 @@ class Connection
 
             if ($traceFunc) {
                 // call tracer func
-                if($this->_options[ConnectionOptions::OPTION_ENHANCED_TRACE]){
+                if ($this->_options[ConnectionOptions::OPTION_ENHANCED_TRACE]) {
                      $traceFunc(new TraceResponse($response->getHeaders(), $response->getHttpCode(), $response->getBody()));
-                }else{
+                } else {
                     $traceFunc('receive', $result);
                 }
             }
@@ -401,7 +394,6 @@ class Connection
         return self::getClientVersion();
     }
 
-
     /**
      * Get the client version
      *
@@ -411,7 +403,6 @@ class Connection
     {
         return self::$_apiVersion;
     }
-
 
      /**
      * Stop capturing commands
@@ -426,7 +417,6 @@ class Connection
 
         return $this->getActiveBatch();
     }
-
 
     /**
      * returns the active batch
@@ -452,7 +442,6 @@ class Connection
         return $this->_activeBatch;
     }
 
-
     /**
      * Sets the batch capture state (true, if capturing)
      *
@@ -466,7 +455,6 @@ class Connection
 
         return $this->_captureBatch;
     }
-
 
     /**
      * Sets connection into Batchrequest mode. This is needed for some oprtations to act differently when in this mode
@@ -483,7 +471,6 @@ class Connection
         return $this->_batchRequest;
     }
 
-
     /**
      * returns the active batch
      *
@@ -493,11 +480,10 @@ class Connection
         return $this->_batches;
     }
 
-
     /**
      * This is a helper function to executeRequest that captures requests if we're in batch mode
      *
-     * @param mixed  $method  - The method of the request (GET, POST...)
+     * @param mixed $method - The method of the request (GET, POST...)
      *
      * @param string $request - The request to process
      *
@@ -518,9 +504,9 @@ class Connection
         }
 
         # do batch processing
+
         return $batchPart;
     }
-
 
     /**
      * This function checks that the encoding of a string is utf.
@@ -552,7 +538,6 @@ class Connection
             return false;
         }
     }
-
 
     /**
      * This function checks that the encoding of the keys and
@@ -589,7 +574,6 @@ class Connection
             }
         }
     }
-
 
     /**
      * This is a json_encode() wrapper that also checks if the data is utf-8 conform.

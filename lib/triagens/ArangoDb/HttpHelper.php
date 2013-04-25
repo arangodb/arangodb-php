@@ -67,7 +67,6 @@ class HttpHelper
      */
     const MIME_BOUNDARY = 'XXXsubpartXXX';
 
-
     /**
      * Validate an HTTP request method name
      *
@@ -238,7 +237,7 @@ class HttpHelper
 
     /**
      * Splits a http message into its header and body.
-     * @param string $httpMessage The http message string.
+     * @param  string          $httpMessage The http message string.
      * @throws ClientException
      * @return array
      */
@@ -263,7 +262,7 @@ class HttpHelper
 
     /**
      * Process a string of HTTP headers into an array of header => values.
-     * @param string $headers - the headers string
+     * @param  string $headers - the headers string
      * @return array
      */
     public static function parseHeaders($headers)

@@ -34,7 +34,6 @@ class CollectionExtendedTest extends
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
         $collection->setName($name);
 
-
         $response = $collectionHandler->add($collection);
 
         $this->assertTrue(is_numeric($response), 'Adding collection did not return an id!');
@@ -44,7 +43,6 @@ class CollectionExtendedTest extends
         $response = $collectionHandler->delete($collection);
         $this->assertTrue($response, 'Delete should return true!');
     }
-
 
     /**
      * test for creation, getProperties, and delete of a volatile (in-memory-only) collection
@@ -61,7 +59,6 @@ class CollectionExtendedTest extends
         $collection->setName($name);
         $collection->setIsVolatile(true);
 
-
         $response = $collectionHandler->add($collection);
 
         $this->assertTrue(is_numeric($response), 'Adding collection did not return an id!');
@@ -71,11 +68,9 @@ class CollectionExtendedTest extends
         $properties = $collectionHandler->getProperties($name);
         $this->assertTrue($properties->getIsVolatile(), '"isVolatile" should be true!');
 
-
         $response = $collectionHandler->delete($collection);
         $this->assertTrue($response, 'Delete should return true!');
     }
-
 
     /**
      * test for creation, getProperties, and delete of a volatile (in-memory-only) collection
@@ -91,7 +86,6 @@ class CollectionExtendedTest extends
         $name = '_ArangoDB_PHP_TestSuite_TestCollection_01';
         $collection->setName($name);
         $collection->setIsSystem(true);
-
 
         $response = $collectionHandler->add($collection);
 
@@ -137,7 +131,6 @@ class CollectionExtendedTest extends
         }
     }
 
-
     /**
      * test for creation, rename, and delete of a collection
      */
@@ -145,7 +138,6 @@ class CollectionExtendedTest extends
     {
         $collection        = $this->collection;
         $collectionHandler = $this->collectionHandler;
-
 
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
         $collection->setName($name);
@@ -172,7 +164,6 @@ class CollectionExtendedTest extends
         $this->assertTrue($response, 'Delete should return true!');
     }
 
-
     /**
      * test for creation, rename, and delete of a collection with wrong encoding
      *
@@ -185,7 +176,6 @@ class CollectionExtendedTest extends
     {
         $collection        = $this->collection;
         $collectionHandler = $this->collectionHandler;
-
 
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
         $collection->setName($name);
@@ -201,11 +191,9 @@ class CollectionExtendedTest extends
 
         $response = $collectionHandler->rename($resultingCollection, $isoValue);
 
-
         $response = $collectionHandler->delete($resultingCollection);
         $this->assertTrue($response, 'Delete should return true!');
     }
-
 
     /**
      * test for creation, get, and delete of a collection with waitForSync set to true
@@ -218,7 +206,6 @@ class CollectionExtendedTest extends
         $collection->setJournalSize(1024 * 1024 * 2);
         $resultingWaitForSyncAttribute = $collection->getWaitForSync();
         $resultingJournalSizeAttribute = $collection->getJournalSize();
-
 
         $this->assertTrue($resultingWaitForSyncAttribute, 'WaitForSync should be true!');
         $this->assertTrue($resultingJournalSizeAttribute == 1024 * 1024 * 2, 'JournalSize should be 2MB!');
@@ -1613,6 +1600,29 @@ class CollectionExtendedTest extends
             $this->assertInstanceOf('\triagens\ArangoDb\ServerException', $e, "Exception thrown was not a ServerException!");
             $this->assertEquals(404, $e->getCode(), "Error code was not a 404!");
         }
+    }
+
+    /**
+     * Test getting a random document from an empty collection
+     */
+    public function testAnyDocumentInAnEmptyCollection()
+    {
+
+        $collectionHandler = $this->collectionHandler;
+
+        try {
+            $collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_Any_Empty');
+        } catch (Exception $e) {
+            //Ignore
+        }
+
+        $collectionHandler->create('ArangoDB_PHP_TestSuite_TestCollection_Any_Empty');
+
+        $any = $collectionHandler->any('ArangoDB_PHP_TestSuite_TestCollection_Any_Empty');
+
+        $this->assertNull($any, "any() on an empty collection should return null.");
+
+        $collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_Any_Empty');
     }
 
     public function tearDown()

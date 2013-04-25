@@ -43,7 +43,6 @@ class Edge extends
      */
     const ENTRY_TO = '_to';
 
-
     /**
      * Clone a document
      *
@@ -57,7 +56,6 @@ class Edge extends
         $this->_rev = null;
         // do not change the _changed flag here
     }
-
 
     /**
      * Set a document attribute
@@ -113,7 +111,6 @@ class Edge extends
             return;
         }
 
-
         if (!$this->_changed) {
             if (!isset($this->_values[$key]) || $this->_values[$key] !== $value) {
                 // set changed flag
@@ -124,7 +121,6 @@ class Edge extends
         // and store the value
         $this->_values[$key] = $value;
     }
-
 
     /**
      * Get the 'from' vertex document-handler (if already known)
