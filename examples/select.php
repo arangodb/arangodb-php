@@ -12,7 +12,6 @@ $statements = array(
   "for u in users filter u.id == @id && u.name != @name return u" => array("id" => 1, "name" => "fox"),
 );
 
-
 try {
   $connection = new Connection($connectionOptions);
 

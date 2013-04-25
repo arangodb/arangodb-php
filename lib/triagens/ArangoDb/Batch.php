@@ -19,10 +19,8 @@ namespace triagens\ArangoDb;
  *
  */
 
-
 class Batch
 {
-
 
     /**
      * Flag that signals if this batch was processed or not. Processed => true ,or not processed => false
@@ -31,14 +29,12 @@ class Batch
      */
     private $_processed = false;
 
-
     /**
      * The array of BatchPart objects
      *
      * @var array $_batchParts
      */
     private $_batchParts = array();
-
 
     /**
      * The array of BatchPart objects
@@ -47,14 +43,12 @@ class Batch
      */
     private $_nextBatchPartId = null;
 
-
     /**
      * An array of BatchPartCursor options
      *
      * @var array $_batchParts
      */
     private $_batchPartCursorOptions = array();
-
 
     /**
      * The connection object
@@ -63,7 +57,6 @@ class Batch
      */
     private $_connection = null;
 
-
     /**
      * The $_alphaKeys object for the batchpart creation
      *
@@ -71,14 +64,12 @@ class Batch
      */
     private $_alphaKeys = 0;
 
-
     /**
      * The sanitize default value
      *
      * @var object $_sanitize
      */
     private $_sanitize = false;
-
 
     /**
      * Constructor for Batch instance. Batch instance by default starts capturing request after initiated.
@@ -115,7 +106,6 @@ class Batch
         return $this;
     }
 
-
     /**
      * Sets the connection for he current batch. (mostly internal function)
      *
@@ -129,7 +119,6 @@ class Batch
 
         return $this;
     }
-
 
     /**
      * Start capuring requests. To stop capturing, use stopCapture()
@@ -147,7 +136,6 @@ class Batch
 
         return $this;
     }
-
 
     /**
      * Stop capturing requests. If the batch has not been processed yet, more requests can be appended by calling startCapture() again.
@@ -243,7 +231,6 @@ class Batch
         return $this;
     }
 
-
     /**
      * Gets active batch in given connection.
      *
@@ -255,7 +242,6 @@ class Batch
 
         return $this;
     }
-
 
     /**
      * Returns true, if given connection is in batch mode.
@@ -269,7 +255,6 @@ class Batch
         return $this;
     }
 
-
     /**
      * Sets connection into Batch-Request mode. This is necessary to distinguish between normal and the batch request.
      *
@@ -282,7 +267,6 @@ class Batch
 
         return $this;
     }
-
 
     /**
      * Sets the id of the next batchpart. The id can later be used to retrieve the batchpart.
@@ -298,7 +282,6 @@ class Batch
         return $this;
     }
 
-
     /**
      * Set client side cursor options (for example: sanitize) for the next batch part.
      *
@@ -312,7 +295,6 @@ class Batch
 
         return $this;
     }
-
 
     /**
      * Append the request to the batchpart
@@ -358,7 +340,6 @@ class Batch
         return $response;
     }
 
-
     /**
      * Split batch request and use ContentId as array key
      *
@@ -384,7 +365,6 @@ class Batch
 
         return $array;
     }
-
 
     /**
      * Processes this batch. This sends the captured requests to the server as one batch.
@@ -438,7 +418,6 @@ class Batch
         return $this;
     }
 
-
     /**
      * Get the total count of the batch parts
      *
@@ -450,7 +429,6 @@ class Batch
 
         return $count;
     }
-
 
     /**
      * Get the batch part identified by the array key (0...n) or its id (if it was set with nextBatchPartId($id) )
@@ -484,7 +462,6 @@ class Batch
 
         return $batchPart;
     }
-
 
     /**
      * Get the batch part identified by the array key (0...n) or its id (if it was set with nextBatchPartId($id) )

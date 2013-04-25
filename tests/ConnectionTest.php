@@ -34,7 +34,6 @@ class ConnectionTest extends
         $this->assertInstanceOf('triagens\ArangoDb\Connection', $connection);
     }
 
-
     /**
      * This is just a test to really test connectivity with the server before moving on to further tests.
      */
@@ -44,7 +43,6 @@ class ConnectionTest extends
         $response   = $connection->get('/_admin/status');
         $this->assertTrue($response->getHttpCode() == 200, 'Did not return http code 200');
     }
-
 
     /**
      * Test if we can get the api version
@@ -67,7 +65,7 @@ class ConnectionTest extends
     {
         //Setup
         $self = $this; //Hack for PHP 5.3 compatibility
-        $basicTracer = function($type, $data) use($self){
+        $basicTracer = function($type, $data) use ($self) {
             $self->assertContains($type, array('send', 'receive'), 'Basic tracer\'s type should only be \'send\' or \'receive\'');
             $self->assertInternalType('string', $data, 'Basic tracer data is not a string!.');
         };
@@ -96,14 +94,14 @@ class ConnectionTest extends
         //Setup
         $self = $this; //Hack for PHP 5.3 compatibility
 
-        $enhancedTracer = function($data) use($self){
+        $enhancedTracer = function($data) use ($self) {
             $self->assertTrue($data instanceof TraceRequest || $data instanceof TraceResponse, '$data must be instance of TraceRequest or TraceResponse.');
 
             $self->assertInternalType('array', $data->getHeaders(), 'Headers should be an array!');
             $self->assertNotEmpty($data->getHeaders(), 'Headers should not be an empty array!');
             $self->assertInternalType('string', $data->getBody(), 'Body must be a string!');
 
-            if($data instanceof TraceRequest){
+            if ($data instanceof TraceRequest) {
                 $self->assertContains($data->getMethod(),
                                       array(HttpHelper::METHOD_DELETE, HttpHelper::METHOD_GET, HttpHelper::METHOD_HEAD, HttpHelper::METHOD_PATCH, HttpHelper::METHOD_POST, HttpHelper::METHOD_PUT),
                                       'Invalid http method!'
@@ -111,7 +109,7 @@ class ConnectionTest extends
 
                 $self->assertInternalType('string', $data->getRequestUrl(), 'Request url must be a string!');
                 $self->assertEquals('request', $data->getType());
-            }else{
+            } else {
                 $self->assertInternalType('integer', $data->getHttpCode(), 'Http code must be an integer!');
                 $self->assertInternalType('string', $data->getHttpCodeDefinition(), 'Http code definition must be a string!');
                 $self->assertEquals('response', $data->getType());

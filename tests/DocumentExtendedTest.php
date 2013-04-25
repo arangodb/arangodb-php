@@ -22,7 +22,6 @@ class DocumentExtendedTest extends
         $this->documentHandler = new DocumentHandler($this->connection);
     }
 
-
     /**
      * test for creation of document with non utf encoding. This tests for failure of such an action.
      * We expect an exception here:
@@ -50,7 +49,6 @@ class DocumentExtendedTest extends
         $this->assertTrue($response, 'Delete should return true!');
     }
 
-
     /**
      * test for creation, get, and delete of a document given its settings through createFromArray()
      */
@@ -74,7 +72,6 @@ class DocumentExtendedTest extends
         $response = $documentHandler->delete($document);
         $this->assertTrue($response, 'Delete should return true!');
     }
-
 
     /**
      * test for creation, get by example, and delete of a document given its settings through createFromArray()
@@ -101,7 +98,6 @@ class DocumentExtendedTest extends
         $response = $documentHandler->delete($document);
         $this->assertTrue($response, 'Delete should return true!');
     }
-
 
     /**
      * test for creation, get by example, and delete of a document given its settings through createFromArray()
@@ -151,7 +147,6 @@ class DocumentExtendedTest extends
 
         $this->assertTrue(count($resultingDocument) == 2, 'Should be 2, was: ' . count($resultingDocument));
 
-
         $cursor = $documentHandler->getByExample(
             $this->collection->getId(),
             $exampleDocument,
@@ -171,7 +166,6 @@ class DocumentExtendedTest extends
 
         $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
 
-
         $cursor = $documentHandler->getByExample(
             $this->collection->getId(),
             $exampleDocument,
@@ -189,11 +183,9 @@ class DocumentExtendedTest extends
         );
         $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
 
-
         $response = $documentHandler->delete($document);
         $this->assertTrue($response, 'Delete should return true!');
     }
-
 
     /**
      * test for creation, get by example, and delete of a document given its settings through createFromArray()
@@ -218,7 +210,6 @@ class DocumentExtendedTest extends
         $response = $documentHandler->delete($document);
         $this->assertTrue($response, 'Delete should return true!');
     }
-
 
     /**
      * test for updating a document using update()
@@ -256,7 +247,6 @@ class DocumentExtendedTest extends
         $response = $documentHandler->delete($resultingDocument);
         $this->assertTrue($response, 'Delete should return true!');
     }
-
 
     /**
      * test for updating a document using update() with wrong encoding
@@ -302,7 +292,6 @@ class DocumentExtendedTest extends
         $this->assertTrue($response, 'Delete should return true!');
     }
 
-
     /**
      * test for updating a document using update()
      */
@@ -341,7 +330,6 @@ class DocumentExtendedTest extends
         $this->assertTrue($response, 'Delete should return true!');
     }
 
-
     /**
      * test for replacing a document using replace()
      */
@@ -377,7 +365,6 @@ class DocumentExtendedTest extends
         $response = $documentHandler->delete($resultingDocument);
         $this->assertTrue($response, 'Delete should return true!');
     }
-
 
     /**
      * test for replacing a document using replace() with wrong encoding
@@ -422,7 +409,6 @@ class DocumentExtendedTest extends
         $this->assertTrue($response, 'Delete should return true!');
     }
 
-
     /**
      * test for deletion of a document with deleteById() not giving the revision
      */
@@ -453,7 +439,6 @@ class DocumentExtendedTest extends
         $this->assertTrue($response, 'Delete should return true!');
     }
 
-
     /**
      * test for deletion of a document with deleteById() given the revision
      */
@@ -479,7 +464,6 @@ class DocumentExtendedTest extends
         $this->assertTrue($response, 'deleteById() should return true! (because correct revision given)');
     }
 
-
     /**
      * test for deletion of a document with deleteById() given the revision
      */
@@ -503,7 +487,6 @@ class DocumentExtendedTest extends
         );
     }
 
-
     /**
      * test for creation, update, get, and delete having update and delete doing revision checks.
      */
@@ -521,7 +504,6 @@ class DocumentExtendedTest extends
         $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
 
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
-
 
         // Set some new values on the attributes and include the revision in the _rev attribute
         // This should result in a successfull update
@@ -702,7 +684,6 @@ class DocumentExtendedTest extends
         $this->assertTrue($response, 'Delete should return true!');
     }
 
-
     /**
      * test to set some attributes and get all attributes of the document through getAll()
      * Also testing to optionally get internal attributes _id and _rev
@@ -736,7 +717,6 @@ class DocumentExtendedTest extends
         $this->assertArrayHasKey('_rev', $result);
     }
 
-
     /**
      * Test for correct exception codes if nonexistant objects are tried to be gotten, replaced, updated or removed
      */
@@ -751,7 +731,6 @@ class DocumentExtendedTest extends
                  'someThirdAttribute' => 'someThirdValue'
             )
         );
-
 
         // Try to get a non-existent document out of a nonexistent collection
         // This should cause an exception with a code of 404
@@ -776,7 +755,6 @@ class DocumentExtendedTest extends
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
         $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
 
-
         // Try to update a non-existent document
         // This should cause an exception with a code of 404
         try {
@@ -799,7 +777,6 @@ class DocumentExtendedTest extends
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
         $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
-
 
         // Try to remove a non-existent document
         // This should cause an exception with a code of 404

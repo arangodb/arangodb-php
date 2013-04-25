@@ -4,7 +4,6 @@ namespace triagens\ArangoDb;
 // get connection options from a helper file
 require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'init.php';
 
-
 try {
     // Setup connection, graph and graph handler
     $connection   = new Connection($connectionOptions);

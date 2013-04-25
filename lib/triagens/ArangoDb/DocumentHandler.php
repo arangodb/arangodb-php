@@ -11,7 +11,6 @@
 
 namespace triagens\ArangoDb;
 
-
 /**
  * A document handler that fetches documents from the server and
  * persists them on the server. It does so by issuing the
@@ -37,7 +36,6 @@ class DocumentHandler extends
      */
     const OPTION_EXAMPLE = 'example';
 
-
     /**
      * Get a single document from a collection
      *
@@ -61,7 +59,6 @@ class DocumentHandler extends
     {
         return $this->getById($collectionId, $documentId, $options);
     }
-
 
     /**
      * Get a single document from a collection
@@ -90,9 +87,9 @@ class DocumentHandler extends
         $data = $response->getJson();
 
         $options['_isNew'] = false;
+
         return Document::createFromArray($data, $options);
     }
-
 
     /**
      * Get the list of all documents' ids from a collection
@@ -206,9 +203,9 @@ class DocumentHandler extends
      */
     public function store(Document $document, $collectionId = null, $options = array())
     {
-        if($document->getIsNew()){
+        if ($document->getIsNew()) {
 
-            if($collectionId == null){
+            if ($collectionId == null) {
                 throw new ClientException('A collection id is required to store a new document.');
             }
 
@@ -216,16 +213,15 @@ class DocumentHandler extends
             $document->setIsNew(false);
 
             return $result;
-        }else{
+        } else {
 
-            if($collectionId){
+            if ($collectionId) {
                 throw new ClientException('An existing document cannot be stored into a new collection');
             }
 
             return $this->replace($document, $options);
         }
     }
-
 
     /**
      * save a document to a collection
@@ -382,6 +378,7 @@ class DocumentHandler extends
         $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAll()));
         $json = $result->getJson();
         $document->setRevision($json[Document::ENTRY_REV]);
+
         return true;
     }
 
@@ -467,6 +464,7 @@ class DocumentHandler extends
         $result = $this->getConnection()->put($url, $this->json_encode_wrapper($data));
         $json = $result->getJson();
         $document->setRevision($json[Document::ENTRY_REV]);
+
         return true;
     }
 
@@ -524,10 +522,10 @@ class DocumentHandler extends
      *
      * @throws Exception
      *
-     * @param mixed  $collectionId - collection id as string or number
-     * @param mixed  $documentId   - document id as string or number
-     * @param  mixed $revision     - optional revision of the document to be deleted
-     * @param mixed  $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     * @param mixed $collectionId - collection id as string or number
+     * @param mixed $documentId   - document id as string or number
+     * @param mixed $revision     - optional revision of the document to be deleted
+     * @param mixed $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
      * <p>Options are :
      * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
      * <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
@@ -550,10 +548,10 @@ class DocumentHandler extends
      *
      * @throws Exception
      *
-     * @param mixed  $collectionId - collection id as string or number
-     * @param mixed  $documentId   - document id as string or number
-     * @param  mixed $revision     - optional revision of the document to be deleted
-     * @param mixed  $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     * @param mixed $collectionId - collection id as string or number
+     * @param mixed $documentId   - document id as string or number
+     * @param mixed $revision     - optional revision of the document to be deleted
+     * @param mixed $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
      * <p>Options are :
      * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
      * <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>

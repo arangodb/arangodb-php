@@ -204,7 +204,6 @@ class Statement
         return $response->getJson();
     }
 
-
     /**
      * Validates the statement
      *
@@ -220,7 +219,6 @@ class Statement
 
         return $response->getJson();
     }
-
 
     /**
      * Invoke the statement

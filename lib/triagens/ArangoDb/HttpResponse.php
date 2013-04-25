@@ -150,7 +150,7 @@ class HttpResponse
      * Return the data from the JSON-encoded body
      *
      * @throws ClientException
-     * @return array - array of values from the JSON-encoded response body
+     * @return array           - array of values from the JSON-encoded response body
      */
     public function getJson()
     {

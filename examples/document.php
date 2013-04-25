@@ -4,7 +4,6 @@ namespace triagens\ArangoDb;
 
 require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'init.php';
 
-
 try {
   $connection = new Connection($connectionOptions);
   $handler = new DocumentHandler($connection);

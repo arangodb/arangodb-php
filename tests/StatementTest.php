@@ -29,7 +29,6 @@ class StatementTest extends
         $this->collectionHandler->add($this->collection);
     }
 
-
     /**
      * This is just a test to really test connectivity with the server before moving on to further tests.
      */
@@ -61,7 +60,6 @@ class StatementTest extends
             'Expected value someValue, found :' . $result->someAttribute
         );
     }
-
 
     /**
      * This is just a test to really test connectivity with the server before moving on to further tests.
@@ -105,7 +103,6 @@ class StatementTest extends
         );
     }
 
-
     /**
      * Test if the explain function works
      */
@@ -132,7 +129,6 @@ class StatementTest extends
 
         $this->assertArrayHasKey('plan', $result, "result-array does not contain plan !");
     }
-
 
     /**
      * Test if the validate function works
@@ -200,7 +196,7 @@ class StatementTest extends
 
         $cursor = $statement->execute();
 
-        foreach ($cursor->getAll() as $row){
+        foreach ($cursor->getAll() as $row) {
             $this->assertNotInstanceOf('\triagens\ArangoDb\Document', $row, "A document object was in the result set!");
         }
     }

@@ -56,7 +56,6 @@ class EdgeHandler extends
      */
     const OPTION_DIRECTION = 'direction';
 
-
     /**
      * Just throw an exception if add() is called on edges.
      *
@@ -72,7 +71,6 @@ class EdgeHandler extends
         throw new ClientException("Edges don't have an add() method. Please use saveEdge()");
     }
 
-
     /**
      * Just throw an exception if save() is called on edges.
      *
@@ -87,7 +85,6 @@ class EdgeHandler extends
     {
         throw new ClientException("Edges don't have a save() method. Please use saveEdge()");
     }
-
 
     /**
      * save an edge to an edge-collection
@@ -159,6 +156,7 @@ class EdgeHandler extends
         }
 
         $document->setIsNew(false);
+
         return $document->getId();
     }
 

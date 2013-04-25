@@ -201,7 +201,6 @@ class CollectionHandler extends
      */
     const OPTION_EXCLUDE_SYSTEM = 'excludeSystem';
 
-
     /**
      * Get information about a collection
      *
@@ -222,7 +221,6 @@ class CollectionHandler extends
 
         return Collection::createFromArray($data);
     }
-
 
     /**
      * Get properties of a collection
@@ -245,7 +243,6 @@ class CollectionHandler extends
         return Collection::createFromArray($data);
     }
 
-
     /**
      * Get the number of documents in a collection
      *
@@ -263,7 +260,6 @@ class CollectionHandler extends
     {
         return $this->count($collectionId);
     }
-
 
     /**
      * Get the number of documents in a collection
@@ -287,7 +283,6 @@ class CollectionHandler extends
         return (int) $count;
     }
 
-
     /**
      * Get figures for a collection
      *
@@ -305,7 +300,6 @@ class CollectionHandler extends
     {
         return $this->figures($collectionId);
     }
-
 
     /**
      * Get figures for a collection
@@ -329,7 +323,6 @@ class CollectionHandler extends
         return $figures;
     }
 
-
     /**
      * Adds a new collection on the server
      *
@@ -350,7 +343,6 @@ class CollectionHandler extends
         return $this->create($collection);
     }
 
-
     /**
      * Creates a new collection on the server
      *
@@ -360,8 +352,8 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $collection - collection object to be created on the server or a string with the name
-     * @param array      $options    - an array of options.
+     * @param mixed $collection - collection object to be created on the server or a string with the name
+     * @param array $options    - an array of options.
      * <p>Options are :<br>
      * <li>'type' - 2 -> normal collection, 3 -> edge-collection</li>
      * <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
@@ -426,7 +418,7 @@ class CollectionHandler extends
      * Create a cap constraint
      *
      * @param string $collectionId - the collection id
-     * @param int $size - the size of the cap constraint
+     * @param int    $size         - the size of the cap constraint
      * @link http://www.arangodb.org/manuals/current/IndexCapHttp.html
      *
      * @return array - server response of the created index
@@ -443,11 +435,11 @@ class CollectionHandler extends
     /**
      * Create a geo index
      *
-     * @param string $collectionId - the collection id
-     * @param array $fields - an array of fields
-     * @param boolean $geoJson - whether to use geoJson or not
-     * @param boolean $constraint - whether this is a constraint or not
-     * @param boolean $ignoreNull - whether to ignore null
+     * @param string  $collectionId - the collection id
+     * @param array   $fields       - an array of fields
+     * @param boolean $geoJson      - whether to use geoJson or not
+     * @param boolean $constraint   - whether this is a constraint or not
+     * @param boolean $ignoreNull   - whether to ignore null
      * @link http://www.arangodb.org/manuals/current/IndexGeoHttp.html
      *
      * @return array - server response of the created index
@@ -456,15 +448,15 @@ class CollectionHandler extends
     {
         $indexOptions = array();
 
-        if($geoJson){
-            $indexOptions[self::OPTION_GEOJSON] = (bool)$geoJson;
+        if ($geoJson) {
+            $indexOptions[self::OPTION_GEOJSON] = (bool) $geoJson;
         }
 
-        if($constraint){
-            $indexOptions[self::OPTION_CONSTRAINT] = (bool)$constraint;
+        if ($constraint) {
+            $indexOptions[self::OPTION_CONSTRAINT] = (bool) $constraint;
         }
 
-        if($ignoreNull){
+        if ($ignoreNull) {
             $indexOptions[self::OPTION_IGNORE_NULL] = $ignoreNull;
         }
 
@@ -474,9 +466,9 @@ class CollectionHandler extends
     /**
      * Create a hash index
      *
-     * @param string $collectionId - the collection id
-     * @param array $fields - an array of fields
-     * @param boolean $unique - whether the values in the index should be unique or not
+     * @param string  $collectionId - the collection id
+     * @param array   $fields       - an array of fields
+     * @param boolean $unique       - whether the values in the index should be unique or not
      * @link http://www.arangodb.org/manuals/current/IndexHashHttp.html
      *
      * @return array - server response of the created index
@@ -485,8 +477,8 @@ class CollectionHandler extends
     {
         $indexOptions = array();
 
-        if($unique){
-            $indexOptions[self::OPTION_UNIQUE] = (bool)$unique;
+        if ($unique) {
+            $indexOptions[self::OPTION_UNIQUE] = (bool) $unique;
         }
 
         return $this->index($collectionId, self::OPTION_HASH_INDEX, $fields, null, $indexOptions);
@@ -496,8 +488,8 @@ class CollectionHandler extends
      * Create a fulltext index
      *
      * @param string $collectionId - the collection id
-     * @param array $fields - an array of fields
-     * @param int $minLength - the minimum length of words to index
+     * @param array  $fields       - an array of fields
+     * @param int    $minLength    - the minimum length of words to index
      * @link http://www.arangodb.org/manuals/current/IndexFulltextHttp.html
      *
      * @return array - server response of the created index
@@ -506,7 +498,7 @@ class CollectionHandler extends
     {
         $indexOptions = array();
 
-        if($minLength){
+        if ($minLength) {
             $indexOptions[self::OPTION_MIN_LENGTH] = $minLength;
         }
 
@@ -517,8 +509,8 @@ class CollectionHandler extends
      * Create a skip-list index
      *
      * @param string $collectionId - the collection id
-     * @param array $fields - an array of fields
-     * @param bool $unique - whether the index is unique or not
+     * @param array  $fields       - an array of fields
+     * @param bool   $unique       - whether the index is unique or not
      * @link http://www.arangodb.org/manuals/current/IndexSkiplistHttp.html
      *
      * @return array - server response of the created index
@@ -527,8 +519,8 @@ class CollectionHandler extends
     {
         $indexOptions = array();
 
-        if($unique){
-            $indexOptions[self::OPTION_UNIQUE] = (bool)$unique;
+        if ($unique) {
+            $indexOptions[self::OPTION_UNIQUE] = (bool) $unique;
         }
 
         return $this->index($collectionId, self::OPTION_SKIPLIST_INDEX, $fields, null, $indexOptions);
@@ -543,11 +535,11 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed   $collectionId - The id of the collection where the index is to be created
-     * @param string  $type         - index type: hash, skiplist or geo
-     * @param array   $attributes   - an array of attributes that can be defined like array('a') or array('a', 'b.c')
-     * @param bool    $unique       - true/false to create a unique index
-     * @param array   $indexOptions - an associative array of options for the index like array('geoJson' => true)
+     * @param mixed  $collectionId - The id of the collection where the index is to be created
+     * @param string $type         - index type: hash, skiplist or geo
+     * @param array  $attributes   - an array of attributes that can be defined like array('a') or array('a', 'b.c')
+     * @param bool   $unique       - true/false to create a unique index
+     * @param array  $indexOptions - an associative array of options for the index like array('geoJson' => true)
      *
      * @return array - server response of the created index
      */
@@ -560,8 +552,8 @@ class CollectionHandler extends
             self::OPTION_FIELDS => $attributes,
         );
 
-        if($unique !== null){
-            $bodyParams[self::OPTION_UNIQUE] = (bool)$unique;
+        if ($unique !== null) {
+            $bodyParams[self::OPTION_UNIQUE] = (bool) $unique;
         }
 
         $bodyParams = array_merge($bodyParams, $indexOptions);
@@ -587,8 +579,8 @@ class CollectionHandler extends
 
     /**
      * Get the information about an index in a collection
-     * @param string $collection - the id of the collection
-     * @param string $indexId - the id of the index
+     * @param  string $collection - the id of the collection
+     * @param  string $indexId    - the id of the index
      * @return array
      */
     public function getIndex($collection, $indexId)
@@ -858,6 +850,7 @@ class CollectionHandler extends
         $response = $this->getConnection()->put(Urls::URL_EXAMPLE, $this->json_encode_wrapper($body));
 
         $options['isNew'] = false;
+
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
 
@@ -916,6 +909,7 @@ class CollectionHandler extends
         $data     = $response->getJson();
 
         $options['isNew'] = false;
+
         return Document::createFromArray($data['document'], $options);
     }
 
@@ -927,7 +921,7 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $collectionId - collection id as string or number
+     * @param mixed $collectionId - collection id as string or number
      *
      * @return Document - the document fetched from the server
      * @since 1.2
@@ -942,9 +936,12 @@ class CollectionHandler extends
         $response = $this->getConnection()->put(Urls::URL_ANY, $this->json_encode_wrapper($data));
         $data     = $response->getJson();
 
-        return Document::createFromArray($data['document']);
+        if ($data['document']) {
+            return Document::createFromArray($data['document']);
+        } else {
+            return null;
+        }
     }
-
 
     /**
      * Update document(s) matching a given example
@@ -955,10 +952,10 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed    $collectionId - collection id as string or number
-     * @param mixed    $example      - the example document as a Document object or an array
-     * @param mixed    $newValue     - patch document or array which contains the attributes and values to be updated
-     * @param mixed    $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     * @param mixed $collectionId - collection id as string or number
+     * @param mixed $example      - the example document as a Document object or an array
+     * @param mixed $newValue     - patch document or array which contains the attributes and values to be updated
+     * @param mixed $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
      * <p>Options are :
      * <li>'keepNull'    - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
      * <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
@@ -1008,7 +1005,6 @@ class CollectionHandler extends
         return $responseArray['updated'];
     }
 
-
     /**
      * Replace document(s) matching a given example
      *
@@ -1018,10 +1014,10 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed    $collectionId - collection id as string or number
-     * @param mixed    $example      - the example document as a Document object or an array
-     * @param mixed    $newValue     - patch document or array which contains the attributes and values to be replaced
-     * @param mixed    $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     * @param mixed $collectionId - collection id as string or number
+     * @param mixed $example      - the example document as a Document object or an array
+     * @param mixed $newValue     - patch document or array which contains the attributes and values to be replaced
+     * @param mixed $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
      * <p>Options are :
      * <li>'keepNull'    - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
      * <li>'waitForSync' - can be used to force synchronisation of the document replace operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
@@ -1070,7 +1066,6 @@ class CollectionHandler extends
 
         return $responseArray['replaced'];
     }
-
 
     /**
      * Remove document(s) by specifying an example
@@ -1138,11 +1133,11 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed  $collectionId    - collection id as string or number
-     * @param string $attribute       - the attribute path , like 'a', 'a.b', etc...
-     * @param mixed  $left            - The lower bound.
-     * @param mixed  $right           - The upper bound.
-     * @param array  $options         - optional array of options.
+     * @param mixed  $collectionId - collection id as string or number
+     * @param string $attribute    - the attribute path , like 'a', 'a.b', etc...
+     * @param mixed  $left         - The lower bound.
+     * @param mixed  $right        - The upper bound.
+     * @param array  $options      - optional array of options.
      * <p>Options are :<br>
      * <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
      * <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
@@ -1193,7 +1188,6 @@ class CollectionHandler extends
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
 
-
     /**
      * Get document(s) by specifying near
      *
@@ -1202,10 +1196,10 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed  $collectionId    - collection id as string or number
-     * @param double $latitude        - The latitude of the coordinate.
-     * @param double $longitude       - The longitude of the coordinate.
-     * @param array  $options         - optional array of options.
+     * @param mixed  $collectionId - collection id as string or number
+     * @param double $latitude     - The latitude of the coordinate.
+     * @param double $longitude    - The longitude of the coordinate.
+     * @param array  $options      - optional array of options.
      * <p>Options are :<br>
      * <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
      * <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
@@ -1260,11 +1254,11 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed  $collectionId    - collection id as string or number
-     * @param double $latitude        - The latitude of the coordinate.
-     * @param double $longitude       - The longitude of the coordinate.
-     * @param int    $radius          - The maximal radius (in meters).
-     * @param array  $options         - optional array of options.
+     * @param mixed  $collectionId - collection id as string or number
+     * @param double $latitude     - The latitude of the coordinate.
+     * @param double $longitude    - The longitude of the coordinate.
+     * @param int    $radius       - The maximal radius (in meters).
+     * @param array  $options      - optional array of options.
      * <p>Options are :<br>
      * <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
      * <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
@@ -1311,7 +1305,6 @@ class CollectionHandler extends
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
 
-
     /**
      * Get the list of all documents' ids from a collection
      *
@@ -1357,7 +1350,7 @@ class CollectionHandler extends
     /**
      * Get list of all available collections per default with the collection names as index.
      * Returns empty array if none are available.
-     * @param array $options            - optional - an array of options.
+     * @param array $options - optional - an array of options.
      * <p>Options are :<br>
      * <li>'excludeSystem' -   With a value of true, all system collections will be excluded from the response.</li>
      * <li>'keys' -  With a value of "collections", the index of the resulting array is numerical,
@@ -1378,6 +1371,7 @@ class CollectionHandler extends
         if (isset($options["keys"]) && isset($response[$options["keys"]])) {
             return $response[$options["keys"]];
         }
+
         return $response;
     }
 

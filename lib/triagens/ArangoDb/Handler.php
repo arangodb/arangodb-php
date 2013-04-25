@@ -24,7 +24,6 @@ abstract class Handler
      */
     private $_connection;
 
-
     /**
      * Construct a new handler
      *
@@ -37,7 +36,6 @@ abstract class Handler
         $this->_connection = $connection;
     }
 
-
     /**
      * Return the connection object
      *
@@ -47,7 +45,6 @@ abstract class Handler
     {
         return $this->_connection;
     }
-
 
     /**
      * Return a connection option
@@ -115,9 +112,9 @@ abstract class Handler
      * which was later changed to being an array of options, so more than one options can be passed easily.
      * This is only for options that are to be sent to the ArangoDB server.
      *
-     * @param array $options      - The options array that may hold the policy to include in the parameters. If it's not an array, then the value is the policy value.
-     * @param array $params       - The parameters into which the options will be included.
-     * @param mixed $parameter    - the old single parameter key to use.
+     * @param array $options   - The options array that may hold the policy to include in the parameters. If it's not an array, then the value is the policy value.
+     * @param array $params    - The parameters into which the options will be included.
+     * @param mixed $parameter - the old single parameter key to use.
      *
      * @return array $params - array of parameters for use in a url
      */
@@ -148,7 +145,6 @@ abstract class Handler
         return $params;
     }
 
-
     //todo: (@frankmayer) check if refactoring a bit more if it makes sense...
     /**
      * Helper function that runs through the options given and includes them into the parameters array given.
@@ -177,7 +173,6 @@ abstract class Handler
 
         return $params;
     }
-
 
     //todo: (@frankmayer) check if refactoring a bit more if it makes sense...
     /**

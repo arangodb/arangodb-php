@@ -27,7 +27,6 @@ class EdgeBasicTest extends
         $this->collectionHandler->add($this->collection);
     }
 
-
     /**
      * Test if Edge and EdgeHandler instances can be initialized
      */
@@ -41,7 +40,6 @@ class EdgeBasicTest extends
         $this->assertInstanceOf('triagens\ArangoDb\Edge', $document);
         unset ($document);
     }
-
 
     /**
      * Try to create and delete an edge
@@ -63,12 +61,10 @@ class EdgeBasicTest extends
         $document1->someAttribute = 'someValue1';
         $document2->someAttribute = 'someValue2';
 
-
         $documentId1     = $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
         $documentId2     = $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
-
 
         $edgeDocument->set('label', 'knows');
         $edgeDocumentId = $edgeDocumentHandler->saveEdge(
@@ -94,7 +90,6 @@ class EdgeBasicTest extends
             $resultingAttribute === 'knows',
             'Attribute set on the Edge is different from the one retrieved!'
         );
-
 
         $edgesQuery1Result = $edgeDocumentHandler->edges($edgeCollection->getName(), $documentHandle1, 'out');
         $this->assertArrayHasKey(
@@ -124,14 +119,12 @@ class EdgeBasicTest extends
 
         $resultingDocument2 = $documentHandler->update($resultingDocument);
 
-
         $resultingEdge      = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
         $resultingAttribute = $resultingEdge->label;
         $this->assertTrue(
             $resultingAttribute === 'knows not',
             'Attribute "knows not" set on the Edge is different from the one retrieved (' . $resultingAttribute . ')!'
         );
-
 
         $response = $documentHandler->delete($document1);
         $response = $documentHandler->delete($document2);
@@ -235,7 +228,6 @@ class EdgeBasicTest extends
         $response = $edgeDocumentHandler->delete($resultingEdge);
     }
 
-
     public function tearDown()
     {
         try {
@@ -248,7 +240,6 @@ class EdgeBasicTest extends
         } catch (\Exception $e) {
             #don't bother us, if it's already deleted.
         }
-
 
         unset($this->documentHandler);
         unset($this->document);

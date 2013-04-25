@@ -86,9 +86,9 @@ class TraceResponse
 
     /**
      * Set up the response trace
-     * @param array $headers - the array of http headers
-     * @param int $httpCode - the http code
-     * @param string $body - the string of http body
+     * @param array  $headers  - the array of http headers
+     * @param int    $httpCode - the http code
+     * @param string $body     - the string of http body
      */
     public function __construct($headers, $httpCode, $body)
     {
@@ -117,13 +117,13 @@ class TraceResponse
 
     /**
      * Get the http code definition
-     * @param int $code - the http code
+     * @param  int             $code - the http code
      * @throws ClientException
      * @return string
      */
     public function getHttpCodeDefinition()
     {
-        if(!isset($this->_httpCodeDefinitions[$this->getHttpCode()])){
+        if (!isset($this->_httpCodeDefinitions[$this->getHttpCode()])) {
             throw new ClientException("Invalid http code provided.");
         }
 

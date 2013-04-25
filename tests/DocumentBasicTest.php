@@ -21,7 +21,6 @@ class DocumentBasicTest extends
         $this->collectionHandler->add($this->collection);
     }
 
-
     /**
      * Test if Document and DocumentHandler instances can be initialized
      */
@@ -35,7 +34,6 @@ class DocumentBasicTest extends
         $this->assertInstanceOf('triagens\ArangoDb\Document', $document);
         unset ($document);
     }
-
 
     /**
      * Try to create and delete a document
@@ -62,7 +60,6 @@ class DocumentBasicTest extends
 
         $response = $documentHandler->delete($document);
     }
-
 
     /**
      * Try to create and delete a document using a defined key
@@ -92,10 +89,8 @@ class DocumentBasicTest extends
             'Resulting Attribute should be "someValue". It\'s :' . $resultingKey
         );
 
-
         $response = $documentHandler->delete($document);
     }
-
 
     /**
      * Try to create and delete a document
@@ -121,7 +116,6 @@ class DocumentBasicTest extends
         $response = $documentHandler->deleteById($collection->getName(), $documentId);
     }
 
-
     /**
      * Try to create and delete a document using a defined key
      */
@@ -146,10 +140,8 @@ class DocumentBasicTest extends
             'Resulting Attribute should be "someValue". It\'s :' . $resultingKey
         );
 
-
         $response = $documentHandler->deleteById($collection->getName(), $documentId);
     }
-
 
     public function tearDown()
     {

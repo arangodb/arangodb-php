@@ -73,7 +73,6 @@ class Cursor implements
      */
     private $_length;
 
-
     /**
      * result entry for cursor id
      */
@@ -137,7 +136,7 @@ class Cursor implements
      * the deletion.
      *
      * @throws Exception
-     * @return bool - true if the server acknowledged the deletion request, false otherwise
+     * @return bool      - true if the server acknowledged the deletion request, false otherwise
      */
     public function delete()
     {
@@ -160,7 +159,7 @@ class Cursor implements
      * results from the server
      *
      * @throws Exception
-     * @return int - total number of results
+     * @return int       - total number of results
      */
     public function getCount()
     {
@@ -178,7 +177,7 @@ class Cursor implements
      * results from the server
      *
      * @throws Exception
-     * @return array - an array of all results
+     * @return array     - an array of all results
      */
     public function getAll()
     {
@@ -236,7 +235,7 @@ class Cursor implements
      * results from the server
      *
      * @throws Exception
-     * @return bool - true if the cursor can be advanced further, false if cursor is at end
+     * @return bool      - true if the cursor can be advanced further, false if cursor is at end
      */
     public function valid()
     {
@@ -259,12 +258,12 @@ class Cursor implements
     /**
      * Create an array of results from the input array
      *
-     * @param array $data - incoming result
+     * @param  array $data - incoming result
      * @return void
      */
     private function add(array $data)
     {
-        foreach ($this->sanitize($data) as $row){
+        foreach ($this->sanitize($data) as $row) {
 
             if ((isset($this->_options[self::ENTRY_FLAT]) && $this->_options[self::ENTRY_FLAT]) || !is_array($row)) {
                 $this->addFlatFromArray($row);
@@ -277,7 +276,7 @@ class Cursor implements
     /**
      * Create an array of results from the input array
      *
-     * @param array $data - array of incoming results
+     * @param  array $data - array of incoming results
      * @return void
      */
     private function addFlatFromArray($data)
@@ -288,7 +287,7 @@ class Cursor implements
     /**
      * Create an array of documents from the input array
      *
-     * @param array $data    - array of incoming "document" arrays
+     * @param array $data - array of incoming "document" arrays
      *
      * @return void
      */
@@ -312,11 +311,11 @@ class Cursor implements
         if (isset($this->_options[self::ENTRY_SANITIZE]) and $this->_options[self::ENTRY_SANITIZE]) {
             foreach ($rows as $key => $value) {
 
-                if(is_array($value) && isset($value[Document::ENTRY_ID])){
+                if (is_array($value) && isset($value[Document::ENTRY_ID])) {
                     unset($rows[$key][Document::ENTRY_ID]);
                 }
 
-                if(is_array($value) && isset($value[Document::ENTRY_REV])){
+                if (is_array($value) && isset($value[Document::ENTRY_REV])) {
                     unset($rows[$key][Document::ENTRY_REV]);
                 }
             }
@@ -357,7 +356,6 @@ class Cursor implements
     {
         $this->_length = count($this->_result);
     }
-
 
     /**
      * Get MetaData of the current cursor

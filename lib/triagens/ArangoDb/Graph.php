@@ -57,7 +57,7 @@ class Graph extends
     {
 
         // prevent backwards compatibility break where the first parameter is the $options array
-        if(!is_array($name) && $name != null){
+        if (!is_array($name) && $name != null) {
             $this->set('_key', $name);
         }
 
@@ -134,7 +134,7 @@ class Graph extends
     public function set($key, $value)
     {
 
-        if(in_array($key, array(self::ENTRY_VERTICES, self::ENTRY_EDGES))){
+        if (in_array($key, array(self::ENTRY_VERTICES, self::ENTRY_EDGES))) {
 
             if (!is_string($key)) {
                 throw new ClientException('Invalid document attribute key');
@@ -155,7 +155,7 @@ class Graph extends
                 return;
             }
 
-        }else{
+        } else {
             parent::set($key, $value);
         }
     }

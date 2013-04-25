@@ -18,7 +18,6 @@ class AdminTest extends
         $this->adminHandler = new \triagens\ArangoDb\AdminHandler($this->connection);
     }
 
-
     /**
      * Test if we can get the server version
      */
@@ -28,7 +27,6 @@ class AdminTest extends
         $this->assertTrue(is_string($result), 'Version must be a string!');
     }
 
-
     /**
      * Test if we can get the server version
      */
@@ -37,7 +35,6 @@ class AdminTest extends
         $result = $this->adminHandler->getServerTime();
         $this->assertTrue(is_double($result), 'Time must be a double!');
     }
-
 
     /**
      * Test if we can get the server log
@@ -108,7 +105,6 @@ class AdminTest extends
         $this->assertArrayHasKey('totalAmount', $result);
     }
 
-
     /**
      * Test if we can get the server connection-statistics
      */
@@ -127,7 +123,6 @@ class AdminTest extends
         $this->assertArrayHasKey('virtualSize', $system);
     }
 
-
     /**
      * Test if we can get the server version
      */
@@ -137,7 +132,6 @@ class AdminTest extends
         $this->assertTrue($result, 'Should be true!');
     }
 
-
     /**
      * Test if we can get the server version
      */
@@ -146,7 +140,6 @@ class AdminTest extends
         $result = $this->adminHandler->reloadServerRouting();
         $this->assertTrue($result, 'Should be true!');
     }
-
 
     /**
      * Test if we can get the server connection-statistics
@@ -162,7 +155,6 @@ class AdminTest extends
         $this->assertArrayHasKey('httpConnections', $result);
         $this->assertArrayHasKey('httpDuration', $result);
 
-
         $options = array('granularity' => 'hours');
         $result  = $this->adminHandler->getServerConnectionStatistics($options);
         $this->assertTrue(is_array($result), 'Should be an array');
@@ -172,7 +164,6 @@ class AdminTest extends
         $this->assertArrayHasKey('totalLength', $result);
         $this->assertArrayHasKey('httpConnections', $result);
         $this->assertArrayHasKey('httpDuration', $result);
-
 
         $options = array('figures' => 'httpConnections');
         $result  = $this->adminHandler->getServerConnectionStatistics($options);
@@ -184,7 +175,6 @@ class AdminTest extends
         $this->assertArrayHasKey('httpConnections', $result);
         $this->assertArrayHasKey('httpDuration', $result);
 
-
         $options = array('length' => 'all');
         $result  = $this->adminHandler->getServerConnectionStatistics($options);
         $this->assertTrue(is_array($result), 'Should be an array');
@@ -195,7 +185,6 @@ class AdminTest extends
         $this->assertArrayHasKey('httpConnections', $result);
         $this->assertArrayHasKey('httpDuration', $result);
     }
-
 
     /**
      * Test if we can get the server request-statistics
@@ -212,7 +201,6 @@ class AdminTest extends
         $this->assertArrayHasKey('bytesSent', $result);
         $this->assertArrayHasKey('bytesReceived', $result);
 
-
         $options = array('granularity' => 'hours');
         $result  = $this->adminHandler->getServerRequestStatistics($options);
         $this->assertTrue(is_array($result), 'Should be an array');
@@ -224,7 +212,6 @@ class AdminTest extends
         $this->assertArrayHasKey('bytesSent', $result);
         $this->assertArrayHasKey('bytesReceived', $result);
 
-
         $options = array('figures' => 'totalTime,queueTime,requestTime');
         $result  = $this->adminHandler->getServerRequestStatistics($options);
 
@@ -235,7 +222,6 @@ class AdminTest extends
         $this->assertArrayHasKey('totalLength', $result);
         $this->assertArrayHasKey('totalTime', $result);
         $this->assertArrayHasKey('queueTime', $result);
-
 
         $options = array('length' => 10);
         $result  = $this->adminHandler->getServerRequestStatistics($options);
@@ -249,7 +235,6 @@ class AdminTest extends
         $this->assertArrayHasKey('bytesSent', $result);
         $this->assertArrayHasKey('bytesReceived', $result);
     }
-
 
     public function tearDown()
     {
