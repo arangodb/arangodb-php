@@ -1615,6 +1615,29 @@ class CollectionExtendedTest extends
         }
     }
 
+    /**
+     * Test getting a random document from an empty collection
+     */
+    public function testAnyDocumentInAnEmptyCollection()
+    {
+
+        $collectionHandler = $this->collectionHandler;
+
+        try {
+            $collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_Any_Empty');
+        } catch (Exception $e) {
+            //Ignore
+        }
+
+        $collectionHandler->create('ArangoDB_PHP_TestSuite_TestCollection_Any_Empty');
+
+        $any = $collectionHandler->any('ArangoDB_PHP_TestSuite_TestCollection_Any_Empty');
+
+        $this->assertNull($any, "any() on an empty collection should return null.");
+
+        $collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_Any_Empty');
+    }
+
     public function tearDown()
     {
         try {

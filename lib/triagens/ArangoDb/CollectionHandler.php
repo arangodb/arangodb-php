@@ -942,7 +942,11 @@ class CollectionHandler extends
         $response = $this->getConnection()->put(Urls::URL_ANY, $this->json_encode_wrapper($data));
         $data     = $response->getJson();
 
-        return Document::createFromArray($data['document']);
+        if ($data['document']) {
+            return Document::createFromArray($data['document']);
+        } else {
+            return null;
+        }
     }
 
 
