@@ -24,12 +24,16 @@ namespace triagens\ArangoDb;
 class GraphHandler extends
     Handler
 {
-
     /**
      * documents array index
      */
     const ENTRY_GRAPH = 'graph';
 
+    /**
+     * conditional update of edges or vertices
+     */
+    const OPTION_REVISION = 'revision';
+    
     /**
      * vertex parameter
      */
@@ -254,7 +258,8 @@ class GraphHandler extends
      * @param mixed     $vertexId     - the vertex id as string or number
      * @param Document  $document     - the vertex-document to be updated
      * @param mixed     $options      - optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     * <p>Options are :
+     * <p>Options are :]
+     * <li>'revision' - revision for conditional updates ('somerevisionid' [use the passed in revision id], false or true [use document's revision])</li>
      * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
      * <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
      * </p>
@@ -265,6 +270,8 @@ class GraphHandler extends
      */
     public function ReplaceVertex($graphName, $vertexId, Document $document, $options = array())
     {
+    	$options = array_merge(array(self::OPTION_REVISION => false), $options);
+    	
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
@@ -279,15 +286,24 @@ class GraphHandler extends
                  'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC)
             )
         );
-
-        $revision = $document->getRevision();
-        if (!is_null($revision)) {
-            $params[ConnectionOptions::OPTION_REVISION] = $revision;
+        
+        //Include the revison for conditional updates if required
+        if($options[self::OPTION_REVISION] === true){
+        	
+        	$revision = $document->getRevision();
+        	
+        	if (!is_null($revision)) {
+        		$params[ConnectionOptions::OPTION_REVISION] = $revision;
+        	}
+        	
+        }elseif($options[self::OPTION_REVISION]){
+        	$params[ConnectionOptions::OPTION_REVISION] = $options[self::OPTION_REVISION];
         }
-
+        
         $data = $document->getAll();
         $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_VERTEX, $vertexId);
-
+        $url    = UrlHelper::appendParamsUrl($url, $params);
+        
         $response = $this->getConnection()->PUT($url, $this->json_encode_wrapper($data));
 
         $jsonArray = $response->getJson();
@@ -333,6 +349,8 @@ class GraphHandler extends
      */
     public function updateVertex($graphName, $vertexId, Document $document, $options = array())
     {
+    	$options = array_merge(array(self::OPTION_REVISION => false), $options);
+    	
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
@@ -349,9 +367,17 @@ class GraphHandler extends
             )
         );
 
-        $revision = $document->getRevision();
-        if (!is_null($revision)) {
-            $params[ConnectionOptions::OPTION_REVISION] = $revision;
+    	//Include the revison for conditional updates if required
+        if($options[self::OPTION_REVISION] === true){
+        	
+        	$revision = $document->getRevision();
+        	
+        	if (!is_null($revision)) {
+        		$params[ConnectionOptions::OPTION_REVISION] = $revision;
+        	}
+        	
+        }elseif($options[self::OPTION_REVISION]){
+        	$params[ConnectionOptions::OPTION_REVISION] = $options[self::OPTION_REVISION];
         }
 
         $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_VERTEX, $vertexId);
@@ -525,6 +551,8 @@ class GraphHandler extends
      */
     public function ReplaceEdge($graphName, $edgeId, $label, Edge $document, $options = array())
     {
+    	$options = array_merge(array(self::OPTION_REVISION => false), $options);
+    	
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
@@ -540,17 +568,27 @@ class GraphHandler extends
             )
         );
 
-        $revision = $document->getRevision();
-        if (!is_null($revision)) {
-            $params[ConnectionOptions::OPTION_REVISION] = $revision;
+    	//Include the revison for conditional updates if required
+        if($options[self::OPTION_REVISION] === true){
+        	
+        	$revision = $document->getRevision();
+        	
+        	if (!is_null($revision)) {
+        		$params[ConnectionOptions::OPTION_REVISION] = $revision;
+        	}
+        	
+        }elseif($options[self::OPTION_REVISION]){
+        	$params[ConnectionOptions::OPTION_REVISION] = $options[self::OPTION_REVISION];
         }
 
         $data = $document->getAll();
         if (!is_null($label)) {
             $document->set('$label', $label);
         }
+        
         $url = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_EDGE, $edgeId);
-
+        $url    = UrlHelper::appendParamsUrl($url, $params);
+        
         $response = $this->getConnection()->PUT($url, $this->json_encode_wrapper($data));
 
         $jsonArray = $response->getJson();
@@ -597,6 +635,8 @@ class GraphHandler extends
      */
     public function updateEdge($graphName, $edgeId, $label, Edge $document, $options = array())
     {
+    	$options = array_merge(array(self::OPTION_REVISION => false), $options);
+    	
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
@@ -614,9 +654,17 @@ class GraphHandler extends
         );
         $policy = null;
 
-        $revision = $document->getRevision();
-        if (!is_null($revision)) {
-            $params[ConnectionOptions::OPTION_REVISION] = $revision;
+   		//Include the revison for conditional updates if required
+        if($options[self::OPTION_REVISION] === true){
+        	
+        	$revision = $document->getRevision();
+        	
+        	if (!is_null($revision)) {
+        		$params[ConnectionOptions::OPTION_REVISION] = $revision;
+        	}
+        	
+        }elseif($options[self::OPTION_REVISION]){
+        	$params[ConnectionOptions::OPTION_REVISION] = $options[self::OPTION_REVISION];
         }
 
         if (!is_null($label)) {
