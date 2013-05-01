@@ -2,8 +2,8 @@
 
 # ArangoDB-PHP - A PHP client for ArangoDB
 
-[![Build Status](https://travis-ci.org/triAGENS/ArangoDB-PHP.png?branch=master)](https://travis-ci.org/triAGENS/ArangoDB-PHP)
-**Version: 1.2.0**
+[![Build Status](https://travis-ci.org/triAGENS/ArangoDB-PHP.png?branch=devel)](https://travis-ci.org/triAGENS/ArangoDB-PHP)
+**Version: 1.2.1**
 
 
 [Follow us on Twitter @arangodbphp to receive updates on the php driver](https://twitter.com/arangodbphp)
@@ -28,10 +28,9 @@
 - [Requirements](#requirements)
 - [More information](#more_info)
 
+<br>
 
-This version supports ArangoDB version 1.2.0
-
-Please note that if you use other versions of ArangoDB, you must use a matching PHP driver version.
+Please take a look [here](https://github.com/triAGENS/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix) for the **ArangoDB-PHP Client** / **ArangoDB Server** interoperability matrix.
 
 **[Important versioning information on ArangoDB-PHP](https://github.com/triAGENS/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP)**
 
@@ -156,6 +155,14 @@ To invoke this autoloader, add the following line to your PHP files that will us
 
 
 The ArangoDB PHP client's autoloader will only care about its own class files and will not handle any other files. That means it is fully nestable with other autoloaders.
+
+<a name="invoke_autoloader_directly"/a>
+## Alternative 3: Invoking the autoloader directly
+
+If you do not wish to include autoload.php to load and setup the autoloader, you can invoke the autoloader directly:
+
+    require 'ArangoDB-PHP/lib/triagens/ArangoDb/autoloader.php';
+    \triagens\ArangoDb\Autoloader::init();
 
 <br>
 
@@ -555,7 +562,8 @@ Here's the full code that combines all the pieces outlined above:
 <a name="requirements"/a>
 # Requirements
 
-* ArangoDB database server version 1.2
+* ArangoDB database server version 1.2 (detailed info [here](https://github.com/triAGENS/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix))
+
 * PHP version 5.3 or higher (Travis-tested with 5.4 and 5.5)
 
 

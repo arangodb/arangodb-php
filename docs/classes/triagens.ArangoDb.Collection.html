@@ -23,6 +23,7 @@
 <li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
 <li><a>Packages</a></li>
 <li><a href="../packages/ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
+<li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
 </ul>
 </li>
 <li class="dropdown" id="charts-menu">
@@ -68,7 +69,9 @@
 <li class="method public "><a href="#method_getIsSystem" title="getIsSystem :: Get the isSystem value (if already known)"><span class="description">Get the isSystem value (if already known)</span><pre>getIsSystem()</pre></a></li>
 <li class="method public "><a href="#method_getIsVolatile" title="getIsVolatile :: Get the isVolatile value (if already known)"><span class="description">Get the isVolatile value (if already known)</span><pre>getIsVolatile()</pre></a></li>
 <li class="method public "><a href="#method_getJournalSize" title="getJournalSize :: Get the journalSize value (if already known)"><span class="description">Get the journalSize value (if already known)</span><pre>getJournalSize()</pre></a></li>
+<li class="method public "><a href="#method_getKeyOptions" title="getKeyOptions :: Get the collection key options (if already known)"><span class="description">Get the collection key options (if already known)</span><pre>getKeyOptions()</pre></a></li>
 <li class="method public "><a href="#method_getName" title="getName :: Get the collection name (if already known)"><span class="description">Get the collection name (if already known)</span><pre>getName()</pre></a></li>
+<li class="method public "><a href="#method_getStatus" title="getStatus :: Get the collection status (if already known)"><span class="description">Get the collection status (if already known)</span><pre>getStatus()</pre></a></li>
 <li class="method public "><a href="#method_getType" title="getType :: Get the collection type (if already known)"><span class="description">Get the collection type (if already known)</span><pre>getType()</pre></a></li>
 <li class="method public "><a href="#method_getWaitForSync" title="getWaitForSync :: Get the waitForSync value (if already known)"><span class="description">Get the waitForSync value (if already known)</span><pre>getWaitForSync()</pre></a></li>
 <li class="method public "><a href="#method_set" title="set :: Set a collection attribute"><span class="description">Set a collection attribute</span><pre>set()</pre></a></li>
@@ -76,7 +79,9 @@
 <li class="method public "><a href="#method_setIsSystem" title="setIsSystem :: Set the isSystem value"><span class="description">Set the isSystem value</span><pre>setIsSystem()</pre></a></li>
 <li class="method public "><a href="#method_setIsVolatile" title="setIsVolatile :: Set the isVolatile value"><span class="description">Set the isVolatile value</span><pre>setIsVolatile()</pre></a></li>
 <li class="method public "><a href="#method_setJournalSize" title="setJournalSize :: Set the journalSize value"><span class="description">Set the journalSize value</span><pre>setJournalSize()</pre></a></li>
+<li class="method public "><a href="#method_setKeyOptions" title="setKeyOptions :: Set the collection key options."><span class="description">Set the collection key options.</span><pre>setKeyOptions()</pre></a></li>
 <li class="method public "><a href="#method_setName" title="setName :: Set the collection name"><span class="description">Set the collection name</span><pre>setName()</pre></a></li>
+<li class="method public "><a href="#method_setStatus" title="setStatus :: Set the collection status."><span class="description">Set the collection status.</span><pre>setStatus()</pre></a></li>
 <li class="method public "><a href="#method_setType" title="setType :: Set the collection type."><span class="description">Set the collection type.</span><pre>setType()</pre></a></li>
 <li class="method public "><a href="#method_setWaitForSync" title="setWaitForSync :: Set the waitForSync value"><span class="description">Set the waitForSync value</span><pre>setWaitForSync()</pre></a></li>
 <li class="method public "><a href="#method_toJson" title="toJson :: Returns the collection as JSON-encoded string"><span class="description">Returns the collection as JSON-encoded string</span><pre>toJson()</pre></a></li>
@@ -93,7 +98,9 @@
 <li class="property private "><a href="#property__isSystem" title="$_isSystem :: The collection isSystem value (might be NULL for new collections)"><span class="description"></span><pre>$_isSystem</pre></a></li>
 <li class="property private "><a href="#property__isVolatile" title="$_isVolatile :: The collection isVolatile value (might be NULL for new collections)"><span class="description"></span><pre>$_isVolatile</pre></a></li>
 <li class="property private "><a href="#property__journalSize" title="$_journalSize :: The collection journalSize value (might be NULL for new collections)"><span class="description"></span><pre>$_journalSize</pre></a></li>
+<li class="property private "><a href="#property__keyOptions" title="$_keyOptions :: The collection keyOptions value"><span class="description"></span><pre>$_keyOptions</pre></a></li>
 <li class="property private "><a href="#property__name" title="$_name :: The collection name (might be NULL for new collections)"><span class="description"></span><pre>$_name</pre></a></li>
+<li class="property private "><a href="#property__status" title="$_status :: The collection status value"><span class="description"></span><pre>$_status</pre></a></li>
 <li class="property private "><a href="#property__type" title="$_type :: The collection type (might be NULL for new collections)"><span class="description"></span><pre>$_type</pre></a></li>
 <li class="property private "><a href="#property__waitForSync" title="$_waitForSync :: The collection waitForSync value (might be NULL for new collections)"><span class="description"></span><pre>$_waitForSync</pre></a></li>
 </ul>
@@ -105,10 +112,17 @@
 <li class="constant  "><a href="#constant_ENTRY_IS_SYSTEM" title="ENTRY_IS_SYSTEM :: Collection 'isSystem' index"><span class="description">Collection 'isSystem' index</span><pre>ENTRY_IS_SYSTEM</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_IS_VOLATILE" title="ENTRY_IS_VOLATILE :: Collection 'isVolatile' sindex"><span class="description">Collection 'isVolatile' sindex</span><pre>ENTRY_IS_VOLATILE</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_JOURNAL_SIZE" title="ENTRY_JOURNAL_SIZE :: Collection 'journalSize' index"><span class="description">Collection 'journalSize' index</span><pre>ENTRY_JOURNAL_SIZE</pre></a></li>
+<li class="constant  "><a href="#constant_ENTRY_KEY_OPTIONS" title="ENTRY_KEY_OPTIONS :: Collection 'keyOptions' index"><span class="description">Collection 'keyOptions' index</span><pre>ENTRY_KEY_OPTIONS</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_NAME" title="ENTRY_NAME :: Collection name index"><span class="description">Collection name index</span><pre>ENTRY_NAME</pre></a></li>
+<li class="constant  "><a href="#constant_ENTRY_STATUS" title="ENTRY_STATUS :: Collection 'status' index"><span class="description">Collection 'status' index</span><pre>ENTRY_STATUS</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_TYPE" title="ENTRY_TYPE :: Collection type index"><span class="description">Collection type index</span><pre>ENTRY_TYPE</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_WAIT_SYNC" title="ENTRY_WAIT_SYNC :: Collection 'waitForSync' index"><span class="description">Collection 'waitForSync' index</span><pre>ENTRY_WAIT_SYNC</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_PROPERTIES" title="OPTION_PROPERTIES :: properties option"><span class="description">properties option</span><pre>OPTION_PROPERTIES</pre></a></li>
+<li class="constant  "><a href="#constant_STATUS_BEING_UNLOADED" title="STATUS_BEING_UNLOADED :: Collectiong being unloaded"><span class="description">Collectiong being unloaded</span><pre>STATUS_BEING_UNLOADED</pre></a></li>
+<li class="constant  "><a href="#constant_STATUS_DELETED" title="STATUS_DELETED :: Deleted collection"><span class="description">Deleted collection</span><pre>STATUS_DELETED</pre></a></li>
+<li class="constant  "><a href="#constant_STATUS_LOADED" title="STATUS_LOADED :: Loaded collection"><span class="description">Loaded collection</span><pre>STATUS_LOADED</pre></a></li>
+<li class="constant  "><a href="#constant_STATUS_NEW_BORN" title="STATUS_NEW_BORN :: New born collection"><span class="description">New born collection</span><pre>STATUS_NEW_BORN</pre></a></li>
+<li class="constant  "><a href="#constant_STATUS_UNLOADED" title="STATUS_UNLOADED :: Unloaded collection"><span class="description">Unloaded collection</span><pre>STATUS_UNLOADED</pre></a></li>
 <li class="constant  "><a href="#constant_TYPE_DOCUMENT" title="TYPE_DOCUMENT :: document collection type"><span class="description">document collection type</span><pre>TYPE_DOCUMENT</pre></a></li>
 <li class="constant  "><a href="#constant_TYPE_EDGE" title="TYPE_EDGE :: edge collection type"><span class="description">edge collection type</span><pre>TYPE_EDGE</pre></a></li>
 </ul>
@@ -252,6 +266,17 @@ To reliably store a collection id elsewhere, a PHP string should be used</p></di
 <code>bool</code>- journalSize value</div>
 </div></div>
 </div>
+<a id="method_getKeyOptions"></a><div class="element clickable method public method_getKeyOptions" data-toggle="collapse" data-target=".method_getKeyOptions .collapse">
+<h2>Get the collection key options (if already known)</h2>
+<pre>getKeyOptions() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- keyOptions</div>
+</div></div>
+</div>
 <a id="method_getName"></a><div class="element clickable method public method_getName" data-toggle="collapse" data-target=".method_getName .collapse">
 <h2>Get the collection name (if already known)</h2>
 <pre>getName() : string</pre>
@@ -261,6 +286,17 @@ To reliably store a collection id elsewhere, a PHP string should be used</p></di
 <h3>Returns</h3>
 <div class="subelement response">
 <code>string</code>- name</div>
+</div></div>
+</div>
+<a id="method_getStatus"></a><div class="element clickable method public method_getStatus" data-toggle="collapse" data-target=".method_getStatus .collapse">
+<h2>Get the collection status (if already known)</h2>
+<pre>getStatus() : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>int</code>- status</div>
 </div></div>
 </div>
 <a id="method_getType"></a><div class="element clickable method public method_getType" data-toggle="collapse" data-target=".method_getType .collapse">
@@ -379,6 +415,26 @@ exception if the value is invalid.</p></div>
 </div>
 </div></div>
 </div>
+<a id="method_setKeyOptions"></a><div class="element clickable method public method_setKeyOptions" data-toggle="collapse" data-target=".method_setKeyOptions .collapse">
+<h2>Set the collection key options.</h2>
+<pre>setKeyOptions(array $keyOptions) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$keyOptions</h4>
+<code>array</code><ul>
+<li>An associative array containing optional keys: type, allowUserKeys, increment, offset.</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
 <a id="method_setName"></a><div class="element clickable method public method_setName" data-toggle="collapse" data-target=".method_setName .collapse">
 <h2>Set the collection name</h2>
 <pre>setName(string $name) : void</pre>
@@ -390,6 +446,26 @@ exception if the value is invalid.</p></div>
 <h4>$name</h4>
 <code>string</code><ul>
 <li>name</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_setStatus"></a><div class="element clickable method public method_setStatus" data-toggle="collapse" data-target=".method_setStatus .collapse">
+<h2>Set the collection status.</h2>
+<pre>setStatus(int $status) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This is useful before a collection is create()'ed in order to set a status.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$status</h4>
+<code>int</code><ul>
+<li>statuses = 1 -> new born, status = 2 -> unloaded, status = 3 -> loaded, status = 4 -> being unloaded, status = 5 -> deleted</li>
 </ul>
 </div>
 <h3>Exceptions</h3>
@@ -483,9 +559,21 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="property__keyOptions"> </a><div class="element clickable property private property__keyOptions" data-toggle="collapse" data-target=".property__keyOptions .collapse">
+<h2></h2>
+<pre>$_keyOptions : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="property__name"> </a><div class="element clickable property private property__name" data-toggle="collapse" data-target=".property__name .collapse">
 <h2></h2>
 <pre>$_name : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property__status"> </a><div class="element clickable property private property__status" data-toggle="collapse" data-target=".property__status .collapse">
+<h2></h2>
+<pre>$_status : int</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
@@ -527,9 +615,21 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="constant_ENTRY_KEY_OPTIONS"> </a><div class="element clickable constant  constant_ENTRY_KEY_OPTIONS" data-toggle="collapse" data-target=".constant_ENTRY_KEY_OPTIONS .collapse">
+<h2>Collection 'keyOptions' index</h2>
+<pre>ENTRY_KEY_OPTIONS </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="constant_ENTRY_NAME"> </a><div class="element clickable constant  constant_ENTRY_NAME" data-toggle="collapse" data-target=".constant_ENTRY_NAME .collapse">
 <h2>Collection name index</h2>
 <pre>ENTRY_NAME </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_ENTRY_STATUS"> </a><div class="element clickable constant  constant_ENTRY_STATUS" data-toggle="collapse" data-target=".constant_ENTRY_STATUS .collapse">
+<h2>Collection 'status' index</h2>
+<pre>ENTRY_STATUS </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
@@ -548,6 +648,36 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 <a id="constant_OPTION_PROPERTIES"> </a><div class="element clickable constant  constant_OPTION_PROPERTIES" data-toggle="collapse" data-target=".constant_OPTION_PROPERTIES .collapse">
 <h2>properties option</h2>
 <pre>OPTION_PROPERTIES </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_STATUS_BEING_UNLOADED"> </a><div class="element clickable constant  constant_STATUS_BEING_UNLOADED" data-toggle="collapse" data-target=".constant_STATUS_BEING_UNLOADED .collapse">
+<h2>Collectiong being unloaded</h2>
+<pre>STATUS_BEING_UNLOADED </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_STATUS_DELETED"> </a><div class="element clickable constant  constant_STATUS_DELETED" data-toggle="collapse" data-target=".constant_STATUS_DELETED .collapse">
+<h2>Deleted collection</h2>
+<pre>STATUS_DELETED </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_STATUS_LOADED"> </a><div class="element clickable constant  constant_STATUS_LOADED" data-toggle="collapse" data-target=".constant_STATUS_LOADED .collapse">
+<h2>Loaded collection</h2>
+<pre>STATUS_LOADED </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_STATUS_NEW_BORN"> </a><div class="element clickable constant  constant_STATUS_NEW_BORN" data-toggle="collapse" data-target=".constant_STATUS_NEW_BORN .collapse">
+<h2>New born collection</h2>
+<pre>STATUS_NEW_BORN </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_STATUS_UNLOADED"> </a><div class="element clickable constant  constant_STATUS_UNLOADED" data-toggle="collapse" data-target=".constant_STATUS_UNLOADED .collapse">
+<h2>Unloaded collection</h2>
+<pre>STATUS_UNLOADED </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
@@ -570,7 +700,7 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-03-03T00:22:32+02:00.<br></footer></div>
+            generated on 2013-05-01T19:06:48+03:00.<br></footer></div>
 </div>
 </body>
 </html>

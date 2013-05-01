@@ -335,8 +335,14 @@ class Connection
 
         $traceFunc = $this->_options[ConnectionOptions::OPTION_TRACE];
         if ($traceFunc) {
+
             // call tracer func
-            $traceFunc('send', $request);
+            if($this->_options[ConnectionOptions::OPTION_ENHANCED_TRACE]){
+                $parsed = HttpHelper::parseHttpMessage($request);
+                $traceFunc(new TraceRequest(HttpHelper::parseHeaders($parsed['header']), $method, $url, $data));
+            }else{
+                $traceFunc('send', $request);
+            }
         }
 
         // set socket timeout for this scope
@@ -353,6 +359,9 @@ class Connection
         if ($handle) {
             // send data and get response back
             $result = HttpHelper::transfer($handle, $request);
+
+            $status = socket_get_status($handle);
+
             if (!$this->_useKeepAlive) {
                 // must close the connection
                 fclose($handle);
@@ -360,12 +369,26 @@ class Connection
 
             $scope->leave();
 
-            if ($traceFunc) {
-                // call tracer func
-                $traceFunc('receive', $result);
+            if ($status['timed_out']) {
+                throw new ClientException('Got a timeout when waiting on the server\'s response');
             }
 
-            return new HttpResponse($result);
+            $response = new HttpResponse($result);
+
+            if ($traceFunc) {
+                // call tracer func
+                if($this->_options[ConnectionOptions::OPTION_ENHANCED_TRACE]){
+                     $traceFunc(new TraceResponse($response->getHeaders(), $response->getHttpCode(), $response->getBody()));
+                }else{
+                    $traceFunc('receive', $result);
+                }
+            }
+            
+            if ($status['timed_out']) {
+              throw new ClientException('Got a timeout when waiting on the server\'s response');
+            }
+
+            return $response;
         }
 
         $scope->leave();
@@ -587,7 +610,12 @@ class Connection
         if ($this->_options[ConnectionOptions::OPTION_CHECK_UTF8_CONFORM] === true) {
             self::check_encoding($data);
         }
-        $response = json_encode($data, $options);
+        
+        if(empty($data)){
+        	$response = json_encode($data, $options | JSON_FORCE_OBJECT);
+        }else{
+        	$response = json_encode($data, $options);
+        }
 
         return $response;
     }

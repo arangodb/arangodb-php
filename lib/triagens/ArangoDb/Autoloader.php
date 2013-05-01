@@ -42,6 +42,8 @@ class Autoloader
         self::checkEnvironment();
 
         self::$libDir = dirname(__FILE__) . DIRECTORY_SEPARATOR;
+
+        spl_autoload_register(__NAMESPACE__ . '\Autoloader::load');
     }
 
     /**

@@ -112,6 +112,56 @@ class CollectionHandler extends
     const OPTION_TYPE = 'type';
 
     /**
+     * cap constraint option
+     */
+    const OPTION_CAP_CONSTRAINT = 'cap';
+
+    /**
+     * size option
+     */
+    const OPTION_SIZE = 'size';
+
+    /**
+     * geo index option
+     */
+    const OPTION_GEO_INDEX = 'geo';
+
+    /**
+     * ignoreNull option
+     */
+    const OPTION_IGNORE_NULL = 'ignoreNull';
+
+    /**
+     * constraint option
+     */
+    const OPTION_CONSTRAINT = 'constraint';
+
+    /**
+     * geoJson option
+     */
+    const OPTION_GEOJSON = 'geoJson';
+
+    /**
+     * hash index option
+     */
+    const OPTION_HASH_INDEX = 'hash';
+
+    /**
+     * fulltext index option
+     */
+    const OPTION_FULLTEXT_INDEX = 'fulltext';
+
+    /**
+     * minLength option
+     */
+    const OPTION_MIN_LENGTH = 'minLength';
+
+    /**
+     * skiplist index option
+     */
+    const OPTION_SKIPLIST_INDEX = 'skiplist';
+
+    /**
      * count option
      */
     const OPTION_COUNT = 'count';
@@ -145,6 +195,11 @@ class CollectionHandler extends
      * rename option
      */
     const OPTION_RENAME = 'rename';
+
+    /**
+     * exclude system collections
+     */
+    const OPTION_EXCLUDE_SYSTEM = 'excludeSystem';
 
 
     /**
@@ -350,7 +405,8 @@ class CollectionHandler extends
             Collection::ENTRY_WAIT_SYNC    => $collection->getWaitForSync(),
             Collection::ENTRY_JOURNAL_SIZE => $collection->getJournalSize(),
             Collection::ENTRY_IS_SYSTEM    => $collection->getIsSystem(),
-            Collection::ENTRY_IS_VOLATILE  => $collection->getIsVolatile()
+            Collection::ENTRY_IS_VOLATILE  => $collection->getIsVolatile(),
+            Collection::ENTRY_KEY_OPTIONS  => $collection->getKeyOptions(),
         );
         $response = $this->getConnection()->post(Urls::URL_COLLECTION, $this->json_encode_wrapper($params));
 
@@ -367,6 +423,118 @@ class CollectionHandler extends
 
 
     /**
+     * Create a cap constraint
+     *
+     * @param string $collectionId - the collection id
+     * @param int $size - the size of the cap constraint
+     * @link http://www.arangodb.org/manuals/current/IndexCapHttp.html
+     *
+     * @return array - server response of the created index
+     */
+    public function createCapConstraint($collectionId, $size)
+    {
+        $indexOptions = array();
+
+        $indexOptions[self::OPTION_SIZE] = $size;
+
+        return $this->index($collectionId, self::OPTION_CAP_CONSTRAINT, array(), null, $indexOptions);
+    }
+
+    /**
+     * Create a geo index
+     *
+     * @param string $collectionId - the collection id
+     * @param array $fields - an array of fields
+     * @param boolean $geoJson - whether to use geoJson or not
+     * @param boolean $constraint - whether this is a constraint or not
+     * @param boolean $ignoreNull - whether to ignore null
+     * @link http://www.arangodb.org/manuals/current/IndexGeoHttp.html
+     *
+     * @return array - server response of the created index
+     */
+    public function createGeoIndex($collectionId, array $fields, $geoJson = null, $constraint = null, $ignoreNull = null)
+    {
+        $indexOptions = array();
+
+        if($geoJson){
+            $indexOptions[self::OPTION_GEOJSON] = (bool)$geoJson;
+        }
+
+        if($constraint){
+            $indexOptions[self::OPTION_CONSTRAINT] = (bool)$constraint;
+        }
+
+        if($ignoreNull){
+            $indexOptions[self::OPTION_IGNORE_NULL] = $ignoreNull;
+        }
+
+        return $this->index($collectionId, self::OPTION_GEO_INDEX, $fields, null, $indexOptions);
+    }
+
+    /**
+     * Create a hash index
+     *
+     * @param string $collectionId - the collection id
+     * @param array $fields - an array of fields
+     * @param boolean $unique - whether the values in the index should be unique or not
+     * @link http://www.arangodb.org/manuals/current/IndexHashHttp.html
+     *
+     * @return array - server response of the created index
+     */
+    public function createHashIndex($collectionId, array $fields, $unique = null)
+    {
+        $indexOptions = array();
+
+        if($unique){
+            $indexOptions[self::OPTION_UNIQUE] = (bool)$unique;
+        }
+
+        return $this->index($collectionId, self::OPTION_HASH_INDEX, $fields, null, $indexOptions);
+    }
+
+    /**
+     * Create a fulltext index
+     *
+     * @param string $collectionId - the collection id
+     * @param array $fields - an array of fields
+     * @param int $minLength - the minimum length of words to index
+     * @link http://www.arangodb.org/manuals/current/IndexFulltextHttp.html
+     *
+     * @return array - server response of the created index
+     */
+    public function createFulltextIndex($collectionId, array $fields, $minLength = null)
+    {
+        $indexOptions = array();
+
+        if($minLength){
+            $indexOptions[self::OPTION_MIN_LENGTH] = $minLength;
+        }
+
+        return $this->index($collectionId, self::OPTION_FULLTEXT_INDEX, $fields, null, $indexOptions);
+    }
+
+    /**
+     * Create a skip-list index
+     *
+     * @param string $collectionId - the collection id
+     * @param array $fields - an array of fields
+     * @param bool $unique - whether the index is unique or not
+     * @link http://www.arangodb.org/manuals/current/IndexSkiplistHttp.html
+     *
+     * @return array - server response of the created index
+     */
+    public function createSkipListIndex($collectionId, array $fields, $unique = null)
+    {
+        $indexOptions = array();
+
+        if($unique){
+            $indexOptions[self::OPTION_UNIQUE] = (bool)$unique;
+        }
+
+        return $this->index($collectionId, self::OPTION_SKIPLIST_INDEX, $fields, null, $indexOptions);
+    }
+
+    /**
      * Creates an index on a collection on the server
      *
      * This will create an index on the collection on the server and return its id
@@ -379,18 +547,25 @@ class CollectionHandler extends
      * @param string  $type         - index type: hash, skiplist or geo
      * @param array   $attributes   - an array of attributes that can be defined like array('a') or array('a', 'b.c')
      * @param bool    $unique       - true/false to create a unique index
+     * @param array   $indexOptions - an associative array of options for the index like array('geoJson' => true)
      *
-     * @return mixed - id of collection created
+     * @return array - server response of the created index
      */
-    public function index($collectionId, $type = "", $attributes = array(), $unique = false)
+    public function index($collectionId, $type = "", $attributes = array(), $unique = false, $indexOptions = array())
     {
 
         $urlParams  = array(self::OPTION_COLLECTION => $collectionId);
         $bodyParams = array(
             self::OPTION_TYPE   => $type,
             self::OPTION_FIELDS => $attributes,
-            self::OPTION_UNIQUE => $unique
         );
+
+        if($unique !== null){
+            $bodyParams[self::OPTION_UNIQUE] = (bool)$unique;
+        }
+
+        $bodyParams = array_merge($bodyParams, $indexOptions);
+
         $url        = UrlHelper::appendParamsUrl(Urls::URL_INDEX, $urlParams);
         $response   = $this->getConnection()->post($url, $this->json_encode_wrapper($bodyParams));
 
@@ -410,6 +585,21 @@ class CollectionHandler extends
         return $result;
     }
 
+    /**
+     * Get the information about an index in a collection
+     * @param string $collection - the id of the collection
+     * @param string $indexId - the id of the index
+     * @return array
+     */
+    public function getIndex($collection, $indexId)
+    {
+        $url      = UrlHelper::buildUrl(Urls::URL_INDEX, $collection, $indexId);
+        $response = $this->getConnection()->get($url);
+
+        $data = $response->getJson();
+
+        return $data;
+    }
 
     /**
      * Get indexes of a collection
@@ -667,6 +857,7 @@ class CollectionHandler extends
 
         $response = $this->getConnection()->put(Urls::URL_EXAMPLE, $this->json_encode_wrapper($body));
 
+        $options['isNew'] = false;
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
 
@@ -724,7 +915,38 @@ class CollectionHandler extends
         $response = $this->getConnection()->put(Urls::URL_FIRST_EXAMPLE, $this->json_encode_wrapper($data));
         $data     = $response->getJson();
 
+        $options['isNew'] = false;
         return Document::createFromArray($data['document'], $options);
+    }
+
+    /**
+     * Get a random document from the collection.
+     *
+     * This will throw if the document cannot be fetched from the server
+     *
+     *
+     * @throws Exception
+     *
+     * @param mixed      $collectionId - collection id as string or number
+     *
+     * @return Document - the document fetched from the server
+     * @since 1.2
+     */
+    public function any($collectionId)
+    {
+
+        $data = array(
+                self::OPTION_COLLECTION => $collectionId,
+        );
+
+        $response = $this->getConnection()->put(Urls::URL_ANY, $this->json_encode_wrapper($data));
+        $data     = $response->getJson();
+
+        if ($data['document']) {
+            return Document::createFromArray($data['document']);
+        } else {
+            return null;
+        }
     }
 
 
@@ -1134,6 +1356,33 @@ class CollectionHandler extends
     public function isValidCollectionId($collectionId)
     {
         return !$collectionId || !(is_string($collectionId) || is_double($collectionId) || is_int($collectionId));
+    }
+
+    /**
+     * Get list of all available collections per default with the collection names as index.
+     * Returns empty array if none are available.
+     * @param array $options            - optional - an array of options.
+     * <p>Options are :<br>
+     * <li>'excludeSystem' -   With a value of true, all system collections will be excluded from the response.</li>
+     * <li>'keys' -  With a value of "collections", the index of the resulting array is numerical,
+     *               With a value of "names", the index of the resulting array are the collection names.</li>
+     * </p>
+     * @return array
+     */
+    public function getAllCollections($options = array())
+    {
+        $options = array_merge(array("excludeSystem" => false, 'keys' => "names"),$options);
+        $params = array();
+        if ($options["excludeSystem"] === true) {
+            $params[self::OPTION_EXCLUDE_SYSTEM] = true;
+        }
+        $url = UrlHelper::appendParamsUrl(Urls::URL_COLLECTION, $params);
+        $response = $this->getConnection()->get(UrlHelper::buildUrl($url));
+        $response = $response->getJson();
+        if (isset($options["keys"]) && isset($response[$options["keys"]])) {
+            return $response[$options["keys"]];
+        }
+        return $response;
     }
 
 

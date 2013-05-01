@@ -89,6 +89,8 @@ class DocumentHandler extends
 
         $data = $response->getJson();
 
+        $options['_isNew'] = false;
+
         return Document::createFromArray($data, $options);
     }
 
@@ -182,6 +184,49 @@ class DocumentHandler extends
         return $this->save($collectionId, $document, $options);
     }
 
+    /**
+     * Store a document to a collection
+     *
+     * This is an alias/shortcut to save() and replace(). Instead of having to determine which of the 3 functions to use,
+     * simply pass the document to store() and it will figure out which one to call.
+     *
+     * This will throw if the document cannot be saved or replaced.
+     *
+     * @throws Exception
+     *
+     * @param Document   $document       - the document to be added, can be passed as a document or an array
+     * @param mixed      $collectionId   - collection id as string or number
+     * @param bool|array $options        - optional, prior to v1.2.0 this was a boolean value for create. Since v1.2.0 it's an array of options.
+     * <p>Options are :<br>
+     * <li>'create' - create the collection if it does not yet exist.</li>
+     * <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
+     * </p>
+     *
+     * @return mixed - id of document created
+     * @since 1.0
+     */
+    public function store(Document $document, $collectionId = null, $options = array())
+    {
+        if ($document->getIsNew()) {
+
+            if ($collectionId == null) {
+                throw new ClientException('A collection id is required to store a new document.');
+            }
+
+            $result = $this->save($collectionId, $document, $options);
+            $document->setIsNew(false);
+
+            return $result;
+        } else {
+
+            if ($collectionId) {
+                throw new ClientException('An existing document cannot be stored into a new collection');
+            }
+
+            return $this->replace($document, $options);
+        }
+    }
+
 
     /**
      * save a document to a collection
@@ -244,6 +289,8 @@ class DocumentHandler extends
         if ($id != $document->getId()) {
             throw new ClientException('Got an invalid response from the server');
         }
+
+        $document->setIsNew(false);
 
         return $document->getId();
     }
@@ -334,6 +381,8 @@ class DocumentHandler extends
         $url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAll()));
+        $json   = $result->getJson();
+        $document->setRevision($json[Document::ENTRY_REV]);
 
         return true;
     }
@@ -418,6 +467,8 @@ class DocumentHandler extends
         $url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->put($url, $this->json_encode_wrapper($data));
+        $json   = $result->getJson();
+        $document->setRevision($json[Document::ENTRY_REV]);
 
         return true;
     }

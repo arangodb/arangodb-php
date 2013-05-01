@@ -18,10 +18,10 @@ try {
 
   foreach ($statements as $query => $bindVars) {
     $statement = new Statement($connection, array(
-      "query" => $query, 
-      "count" => true, 
-      "batchSize" => 1000, 
-      "bindVars" => $bindVars, 
+      "query" => $query,
+      "count" => true,
+      "batchSize" => 1000,
+      "bindVars" => $bindVars,
       "sanitize" => true,
     ));
 
@@ -30,13 +30,10 @@ try {
     $cursor = $statement->execute();
     var_dump($cursor->getAll());
   }
-}
-catch (ConnectException $e) {
+} catch (ConnectException $e) {
   print $e . PHP_EOL;
-}
-catch (ServerException $e) {
+} catch (ServerException $e) {
   print $e . PHP_EOL;
-}
-catch (ClientException $e) {
+} catch (ClientException $e) {
   print $e . PHP_EOL;
 }
