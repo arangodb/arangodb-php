@@ -28,10 +28,9 @@
 - [Requirements](#requirements)
 - [More information](#more_info)
 
+<br>
 
-This version supports ArangoDB versions 1.2.2 / 1.2.3
-
-Please note that if you use other versions of ArangoDB, you must use a matching PHP driver version.
+Please take a look [here](https://github.com/triAGENS/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix) for the **ArangoDB-PHP Client** / **ArangoDB Server** interoperability matrix.
 
 **[Important versioning information on ArangoDB-PHP](https://github.com/triAGENS/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP)**
 
@@ -563,7 +562,8 @@ Here's the full code that combines all the pieces outlined above:
 <a name="requirements"/a>
 # Requirements
 
-* ArangoDB database server version 1.2
+* ArangoDB database server version 1.2 (detailed info [here](https://github.com/triAGENS/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix))
+
 * PHP version 5.3 or higher (Travis-tested with 5.4 and 5.5)
 
 
