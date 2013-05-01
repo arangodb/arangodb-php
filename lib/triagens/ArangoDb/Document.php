@@ -53,6 +53,13 @@ class Document
     protected $_changed;
 
     /**
+     * Flag to indicate whether document is a new document (never been saved to the server)
+     *
+     * @var bool
+     */
+    protected $_isNew = true;
+
+    /**
      * Flag to indicate whether document was changed locally
      *
      * @var bool
@@ -73,6 +80,11 @@ class Document
      * Revision id index
      */
     const ENTRY_REV = '_rev';
+
+    /**
+     * isNew id index
+     */
+    const ENTRY_ISNEW = '_isNew';
 
     /**
      * hidden atttribute index
@@ -110,6 +122,10 @@ class Document
         }
         if (array_key_exists('_hiddenAttributes', $options)) {
             $this->setHiddenAttributes($options['_hiddenAttributes']);
+        }
+
+        if (array_key_exists('_isNew', $options)) {
+            $this->setIsNew($options['_isNew']);
         }
     }
 
@@ -258,6 +274,12 @@ class Document
 
         if ($key === self::ENTRY_REV) {
             $this->setRevision($value);
+
+            return;
+        }
+
+        if ($key === self::ENTRY_ISNEW) {
+            $this->setIsNew($value);
 
             return;
         }
@@ -429,6 +451,28 @@ class Document
     public function getChanged()
     {
         return $this->_changed;
+    }
+
+    /**
+     * Set the isNew flag
+     *
+     * @param bool $isNew - flags if new or existing doc
+     *
+     * @return void
+     */
+    public function setIsNew($isNew)
+    {
+        $this->_isNew = (bool)$isNew;
+    }
+
+    /**
+     * Get the isNew flag
+     *
+     * @return bool $isNew - flags if new or existing doc
+     */
+    public function getIsNew()
+    {
+        return $this->_isNew;
     }
 
     /**

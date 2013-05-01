@@ -67,6 +67,20 @@ class Collection
     private $_isVolatile = null;
 
     /**
+     * The collection status value
+     *
+     * @var int - status value
+     */
+    private $_status = null;
+
+    /**
+     * The collection keyOptions value
+     *
+     * @var array - keyOptions value
+     */
+    private $_keyOptions = null;
+
+    /**
      * Collection id index
      */
     const ENTRY_ID = 'id';
@@ -92,6 +106,16 @@ class Collection
     const ENTRY_JOURNAL_SIZE = 'journalSize';
 
     /**
+     * Collection 'status' index
+     */
+    const ENTRY_STATUS = 'status';
+
+    /**
+     * Collection 'keyOptions' index
+     */
+    const ENTRY_KEY_OPTIONS = 'keyOptions';
+
+    /**
      * Collection 'isSystem' index
      */
     const ENTRY_IS_SYSTEM = 'isSystem';
@@ -115,6 +139,31 @@ class Collection
      * edge collection type
      */
     const TYPE_EDGE = 3;
+
+    /**
+     * New born collection
+     */
+    const STATUS_NEW_BORN = 1;
+
+    /**
+     * Unloaded collection
+     */
+    const STATUS_UNLOADED = 2;
+
+    /**
+     * Loaded collection
+     */
+    const STATUS_LOADED = 3;
+
+    /**
+     * Collectiong being unloaded
+     */
+    const STATUS_BEING_UNLOADED = 4;
+
+    /**
+     * Deleted collection
+     */
+    const STATUS_DELETED = 5;
 
     /**
      * Constructs an empty collection
@@ -219,6 +268,8 @@ class Collection
             self::ENTRY_IS_SYSTEM    => $this->_isSystem,
             self::ENTRY_IS_VOLATILE  => $this->_isVolatile,
             self::ENTRY_TYPE         => $this->_type,
+            self::ENTRY_STATUS       => $this->_status,
+            self::ENTRY_KEY_OPTIONS  => $this->_keyOptions
         );
     }
 
@@ -284,6 +335,18 @@ class Collection
 
             return;
         }
+
+        if ($key === self::ENTRY_STATUS) {
+            $this->setStatus($value);
+
+            return;
+        }
+
+        if ($key === self::ENTRY_KEY_OPTIONS) {
+            $this->setKeyOptions($value);
+
+            return;
+        }
         // unknown attribute, will be ignored
     }
 
@@ -321,7 +384,6 @@ class Collection
     {
         return $this->_id;
     }
-
 
     /**
      * Set the collection name
@@ -388,6 +450,78 @@ class Collection
     public function getType()
     {
         return $this->_type;
+    }
+
+    /**
+     * Set the collection status.
+     *
+     * This is useful before a collection is create()'ed in order to set a status.
+     *
+     * @throws ClientException
+     *
+     * @param int $status - statuses = 1 -> new born, status = 2 -> unloaded, status = 3 -> loaded, status = 4 -> being unloaded, status = 5 -> deleted
+     *
+     * @return void
+     */
+    public function setStatus($status)
+    {
+        assert(is_int($status));
+
+        if ($this->_status !== null && $this->_status != $status) {
+            throw new ClientException('Should not update the status of an existing collection');
+        }
+
+        if (!in_array(
+            $status,
+            array(
+                 self::STATUS_NEW_BORN,
+                 self::STATUS_UNLOADED,
+                 self::STATUS_LOADED,
+                 self::STATUS_BEING_UNLOADED,
+                 self::STATUS_DELETED
+            )
+        )
+        ) {
+            throw new ClientException('Invalid status used for collection');
+        }
+
+        $this->_status = $status;
+    }
+
+    /**
+     * Get the collection status (if already known)
+     *
+     * @return int - status
+     */
+    public function getStatus()
+    {
+        return $this->_status;
+    }
+
+    /**
+     * Set the collection key options.
+     *
+     * @throws ClientException
+     *
+     * @param array $keyOptions - An associative array containing optional keys: type, allowUserKeys, increment, offset.
+     *
+     * @return void
+     */
+    public function setKeyOptions($keyOptions)
+    {
+        assert(is_array($keyOptions));
+
+        $this->_keyOptions = $keyOptions;
+    }
+
+    /**
+     * Get the collection key options (if already known)
+     *
+     * @return array - keyOptions
+     */
+    public function getKeyOptions()
+    {
+        return $this->_keyOptions;
     }
 
     /**

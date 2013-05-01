@@ -42,7 +42,7 @@ try {
   unset($userFromServer->name);
   $result = $handler->update($userFromServer);
   var_dump($result);
-  
+
   // get the updated document back
   $result = $handler->get("users", $id);
   var_dump($result);
@@ -51,13 +51,10 @@ try {
   $result = $handler->deleteById("users", $id);
   var_dump($result);
 
-}
-catch (ConnectException $e) {
+} catch (ConnectException $e) {
   print $e . PHP_EOL;
-}
-catch (ServerException $e) {
+} catch (ServerException $e) {
   print $e . PHP_EOL;
-}
-catch (ClientException $e) {
+} catch (ClientException $e) {
   print $e . PHP_EOL;
 }

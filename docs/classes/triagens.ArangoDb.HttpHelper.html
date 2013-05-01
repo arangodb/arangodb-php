@@ -23,6 +23,7 @@
 <li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
 <li><a>Packages</a></li>
 <li><a href="../packages/ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
+<li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
 </ul>
 </li>
 <li class="dropdown" id="charts-menu">
@@ -60,6 +61,8 @@
                     <ul>
 <li class="method public "><a href="#method_buildRequest" title="buildRequest :: Create a request string (header and body)"><span class="description">Create a request string (header and body)</span><pre>buildRequest()</pre></a></li>
 <li class="method public "><a href="#method_createConnection" title="createConnection :: Create a one-time HTTP connection by opening a socket to the server"><span class="description">Create a one-time HTTP connection by opening a socket to the server</span><pre>createConnection()</pre></a></li>
+<li class="method public "><a href="#method_parseHeaders" title="parseHeaders :: Process a string of HTTP headers into an array of header =&gt; values."><span class="description">Process a string of HTTP headers into an array of header =&gt; values.</span><pre>parseHeaders()</pre></a></li>
+<li class="method public "><a href="#method_parseHttpMessage" title="parseHttpMessage :: Splits a http message into its header and body."><span class="description">Splits a http message into its header and body.</span><pre>parseHttpMessage()</pre></a></li>
 <li class="method public "><a href="#method_transfer" title="transfer :: Execute an HTTP request on an opened socket"><span class="description">Execute an HTTP request on an opened socket</span><pre>transfer()</pre></a></li>
 <li class="method public "><a href="#method_validateMethod" title="validateMethod :: Validate an HTTP request method name"><span class="description">Validate an HTTP request method name</span><pre>validateMethod()</pre></a></li>
 </ul>
@@ -161,6 +164,42 @@
 <h3>Returns</h3>
 <div class="subelement response">
 <code>resource</code>- socket with server connection, will throw when no connection can be established</div>
+</div></div>
+</div>
+<a id="method_parseHeaders"></a><div class="element clickable method public method_parseHeaders" data-toggle="collapse" data-target=".method_parseHeaders .collapse">
+<h2>Process a string of HTTP headers into an array of header =&gt; values.</h2>
+<pre>parseHeaders(string $headers) : array</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$headers</h4>
+<code>string</code><ul>
+<li>the headers string</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
+</div></div>
+</div>
+<a id="method_parseHttpMessage"></a><div class="element clickable method public method_parseHttpMessage" data-toggle="collapse" data-target=".method_parseHttpMessage .collapse">
+<h2>Splits a http message into its header and body.</h2>
+<pre>parseHttpMessage(string $httpMessage) : array</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$httpMessage</h4>
+<code>string</code><p>The http message string.</p></div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
 </div></div>
 </div>
 <a id="method_transfer"></a><div class="element clickable method public method_transfer" data-toggle="collapse" data-target=".method_transfer .collapse">
@@ -279,7 +318,7 @@
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-03-03T00:22:32+02:00.<br></footer></div>
+            generated on 2013-05-01T19:06:48+03:00.<br></footer></div>
 </div>
 </body>
 </html>

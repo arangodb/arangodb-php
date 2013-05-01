@@ -1,3 +1,57 @@
+v1.2.1 (2013-05-01)
+-----------------------
+
+# Contributors to this version:
+# Francis Chuang (Github: @F21)
+# Dorthe Luebbert (Github: @luebbert42)
+# Jan Steemann (Github: @jsteemann)
+# Frank Mayer (Github: @frankmayer)
+
+
+* Implemented create functions for each index type. #87
+
+* Upgrade to 1.2.2 for travis.
+
+* Added support for an enhanced tracer. #86
+
+* Added keyOption and status support to collections.
+
+* Added support for the simple any query to retrieve a random document from a collection.
+
+* Added support for index options on index creation.
+
+* Added support for instantiating graphs by passing in a graph name to the constructor. Additionally added getGraph() support to the graph handler.
+
+* New method getAllCollections added
+
+* Moved spl_autoload_register to init() of the autoloader.
+
+* Updated DocumentHandler to include a convenience function store() that aliases add()/save() and replace().
+
+* Updating and replacing documents, edges and vertices will now also update the revision of the document object.
+
+* Increased timeout for issue #55
+
+* Timeout exception for issue #55
+
+* Fixed bad encoding of empty arrays.
+
+* Fixed any() for empty collections.
+
+* Fixed formatting to psr2 standards.
+
+* Fixed fatal errors when AQL statement returns a non-array that cannot be turned into a document.
+
+* More PSR-2 Formatting
+
+* Updated README to include example of invoking the autoloader directly
+
+* Fixed some doc-block errors
+
+
+
+
+
 
 v1.2.0 (2013-03-03)
 -----------------------

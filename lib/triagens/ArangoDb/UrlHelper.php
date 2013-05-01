@@ -15,7 +15,7 @@ namespace triagens\ArangoDb;
  *
  * @package ArangoDbPhpClient
  */
-abstract class URLHelper
+abstract class UrlHelper
 {
     /**
      * Get the document id from a location header
@@ -58,8 +58,6 @@ abstract class URLHelper
     {
         $argv = func_get_args();
         $argc = count($argv);
-
-        assert($argc > 1);
 
         $url = $baseUrl;
         for ($i = 1; $i < $argc; ++$i) {

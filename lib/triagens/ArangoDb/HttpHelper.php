@@ -167,7 +167,7 @@ class HttpHelper
         if (! is_resource($socket)) {
           throw new ClientException('Invalid socket used');
         }
-        
+
         assert(is_string($request));
 
         @fwrite($socket, $request);
@@ -234,5 +234,55 @@ class HttpHelper
         }
 
         return $fp;
+    }
+
+    /**
+     * Splits a http message into its header and body.
+     * @param string $httpMessage The http message string.
+     * @throws ClientException
+     * @return array
+     */
+    public static function parseHttpMessage($httpMessage)
+    {
+        assert(is_string($httpMessage));
+
+        $barrier = HttpHelper::EOL . HttpHelper::EOL;
+        $border  = strpos($httpMessage, $barrier);
+
+        if ($border === false) {
+            throw new ClientException('Got an invalid response from the server');
+        }
+
+        $result = array();
+
+        $result['header'] = substr($httpMessage, 0, $border);
+        $result['body']  = substr($httpMessage, $border + strlen($barrier));
+
+        return $result;
+    }
+
+    /**
+     * Process a string of HTTP headers into an array of header => values.
+     * @param string $headers - the headers string
+     * @return array
+     */
+    public static function parseHeaders($headers)
+    {
+        $processed = array();
+
+        foreach (explode(HttpHelper::EOL, $headers) as $lineNumber => $line) {
+            $line = trim($line);
+
+            if ($lineNumber == 0) {
+                // first line of result is special, so discard it.
+                continue;
+            } else {
+                // other lines contain key:value-like headers
+                list($key, $value) = explode(':', $line, 2);
+                $processed[strtolower(trim($key))] = trim($value);
+            }
+        }
+
+        return $processed;
     }
 }

@@ -16,6 +16,8 @@ class CollectionBasicTest extends
     public function setUp()
     {
         $this->connection = getConnection();
+        $this->collectionHandler = new CollectionHandler($this->connection);
+        $this->collectionHandler->create('ArangoDB_PHP_TestSuite_IndexTestCollection');
     }
 
 
@@ -90,6 +92,31 @@ class CollectionBasicTest extends
 
         $this->assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
 
+        $response = $collectionHandler->delete($collection);
+    }
+
+    /**
+     * Try to create a collection with keyOptions and then retrieve it to confirm.
+     */
+    public function testCreateCollectionWithKeyOptionsAndVerifyProperties()
+    {
+        $connection        = $this->connection;
+        $collection        = new \triagens\ArangoDb\Collection();
+        $collectionHandler = new \triagens\ArangoDb\CollectionHandler($connection);
+
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        $collection->setName($name);
+        $collection->setKeyOptions(array("type" => "autoincrement", "allowUserKeys" => false, "increment" => 5, "offset" => 10));
+        $response = $collectionHandler->add($collection);
+
+        $resultingCollection = $collectionHandler->getProperties($response);
+        $properties = $resultingCollection->getAll();
+
+        $this->assertEquals($properties[Collection::ENTRY_STATUS], 3, 'Status does not match.');
+        $this->assertEquals($properties[Collection::ENTRY_KEY_OPTIONS]['type'], 'autoincrement', 'Key options type does not match');
+        $this->assertEquals($properties[Collection::ENTRY_KEY_OPTIONS]['allowUserKeys'], false, 'Key options allowUserKeys does not match');
+        $this->assertEquals($properties[Collection::ENTRY_KEY_OPTIONS]['increment'], 5, 'Key options increment does not match');
+        $this->assertEquals($properties[Collection::ENTRY_KEY_OPTIONS]['offset'], 10, 'Key options offset does not match');
         $response = $collectionHandler->delete($collection);
     }
 
@@ -227,11 +254,165 @@ class CollectionBasicTest extends
         $response = $collectionHandler->delete($name);
     }
 
+    /**
+     * Create a cap constraint and verify it by getting information about the constraint from the server
+     */
+    public function testCreateCapConstraint()
+    {
+        $result = $this->collectionHandler->createCapConstraint('ArangoDB_PHP_TestSuite_IndexTestCollection', 50);
 
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
+
+        $indicesByIdentifiers = $indices['identifiers'];
+
+        $this->assertArrayHasKey($result['id'], $indicesByIdentifiers, 'Cap constraint was not created!');
+
+        $indexInfo = $indicesByIdentifiers[$result['id']];
+
+        $this->assertEquals(CollectionHandler::OPTION_CAP_CONSTRAINT, $indexInfo[CollectionHandler::OPTION_TYPE], "Index type is not 'cap'!");
+
+        $this->assertEquals(50, $indexInfo[CollectionHandler::OPTION_SIZE], 'Size of the cap contrain does not match!');
+    }
+
+    /**
+     * Create a geo index with 1 field and verify it by getting information about the index from the server
+     */
+    public function testCreateGeo1Index()
+    {
+        $result = $this->collectionHandler->createGeoIndex('ArangoDB_PHP_TestSuite_IndexTestCollection', array('combinedGeo'), true, true, true);
+
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
+
+        $indicesByIdentifiers = $indices['identifiers'];
+
+        $this->assertArrayHasKey($result['id'], $indicesByIdentifiers, 'Geo index was not created!');
+
+        $indexInfo = $indicesByIdentifiers[$result['id']];
+
+        $this->assertEquals("geo1", $indexInfo[CollectionHandler::OPTION_TYPE], "Index type is not 'geo1'!");
+        $this->assertCount(1, $indexInfo['fields'], "There should only be 1 indexed field");
+        $this->assertEquals("combinedGeo", $indexInfo['fields'][0], "The indexed field is not 'combinedGeo'");
+        $this->assertEquals(true, $indexInfo[CollectionHandler::OPTION_GEOJSON], 'geoJson was not set to true!');
+        $this->assertEquals(true, $indexInfo[CollectionHandler::OPTION_CONSTRAINT], 'constraint was not set to true!');
+        $this->assertEquals(true, $indexInfo[CollectionHandler::OPTION_IGNORE_NULL], 'ignoreNull was not set to true!');
+    }
+
+    /**
+     * Create a geo index with 2 fields and verify it by getting information about the index from the server
+     */
+    public function testCreateGeo2Index()
+    {
+        $result = $this->collectionHandler->createGeoIndex('ArangoDB_PHP_TestSuite_IndexTestCollection', array('lat', 'long'), false, false, false);
+
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
+
+        $indicesByIdentifiers = $indices['identifiers'];
+
+        $this->assertArrayHasKey($result['id'], $indicesByIdentifiers, 'Geo index was not created!');
+
+        $indexInfo = $indicesByIdentifiers[$result['id']];
+
+        $this->assertEquals("geo2", $indexInfo[CollectionHandler::OPTION_TYPE], "Index type is not 'geo2'!");
+        $this->assertCount(2, $indexInfo['fields'], "There should only be 2 indexed fields");
+        $this->assertEquals("lat", $indexInfo['fields'][0], "The first indexed field is not 'lat'");
+        $this->assertEquals("long", $indexInfo['fields'][1], "The second indexed field is not 'long'");
+        $this->assertArrayNotHasKey(CollectionHandler::OPTION_GEOJSON, $indexInfo, 'geoJson was set!');
+        $this->assertEquals(false, $indexInfo[CollectionHandler::OPTION_CONSTRAINT], 'constraint was not set to false!');
+        $this->assertArrayNotHasKey(CollectionHandler::OPTION_IGNORE_NULL, $indexInfo, 'ignoreNull was set!');
+    }
+
+    /**
+     * Create a hash index and verify it by getting information about the index from the server
+     */
+    public function testCreateHashIndex()
+    {
+        $result = $this->collectionHandler->createHashIndex('ArangoDB_PHP_TestSuite_IndexTestCollection', array('hashfield1', 'hashfield2'), true);
+
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
+
+        $indicesByIdentifiers = $indices['identifiers'];
+
+        $this->assertArrayHasKey($result['id'], $indicesByIdentifiers, 'Hash index was not created!');
+
+        $indexInfo = $indicesByIdentifiers[$result['id']];
+
+        $this->assertEquals(CollectionHandler::OPTION_HASH_INDEX, $indexInfo[CollectionHandler::OPTION_TYPE], "Index type is not 'hash'!");
+        $this->assertCount(2, $indexInfo['fields'], "There should only be 2 indexed fields");
+        $this->assertEquals("hashfield1", $indexInfo['fields'][0], "The first indexed field is not 'hashfield1'");
+        $this->assertEquals("hashfield2", $indexInfo['fields'][1], "The second indexed field is not 'hashfield2'");
+        $this->assertEquals(true, $indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to true!');
+    }
+
+    /**
+     * Create a fulltext index and verify it by getting information about the index from the server
+     */
+    public function testCreateFulltextIndex()
+    {
+        $result = $this->collectionHandler->createFulltextIndex('ArangoDB_PHP_TestSuite_IndexTestCollection', array('fulltextfield'), 5);
+
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
+
+        $indicesByIdentifiers = $indices['identifiers'];
+
+        $this->assertArrayHasKey($result['id'], $indicesByIdentifiers, 'fulltext index was not created!');
+
+        $indexInfo = $indicesByIdentifiers[$result['id']];
+
+        $this->assertEquals(CollectionHandler::OPTION_FULLTEXT_INDEX, $indexInfo[CollectionHandler::OPTION_TYPE], "Index type is not 'fulltext'!");
+        $this->assertCount(1, $indexInfo['fields'], "There should only be 1 indexed field");
+        $this->assertEquals("fulltextfield", $indexInfo['fields'][0], "The indexed field is not 'fulltextfield'");
+        $this->assertEquals(5, $indexInfo[CollectionHandler::OPTION_MIN_LENGTH], 'minLength was not set to 5!');
+    }
+
+    /**
+     * Create a skiplist index and verify it by getting information about the index from the server
+     */
+    public function testCreateSkipListIndex()
+    {
+        $result = $this->collectionHandler->createSkipListIndex('ArangoDB_PHP_TestSuite_IndexTestCollection', array('skiplistfield1', 'skiplistfield2'), true);
+
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
+
+        $indicesByIdentifiers = $indices['identifiers'];
+
+        $this->assertArrayHasKey($result['id'], $indicesByIdentifiers, 'skip-list index was not created!');
+
+        $indexInfo = $indicesByIdentifiers[$result['id']];
+
+        $this->assertEquals(CollectionHandler::OPTION_SKIPLIST_INDEX, $indexInfo[CollectionHandler::OPTION_TYPE], "Index type is not 'skip-list'!");
+        $this->assertCount(2, $indexInfo['fields'], "There should only be 2 indexed field");
+        $this->assertEquals("skiplistfield1", $indexInfo['fields'][0], "The indexed field is not 'skiplistfield1'");
+        $this->assertEquals("skiplistfield2", $indexInfo['fields'][1], "The indexed field is not 'skiplistfield2'");
+        $this->assertEquals(true, $indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to true!');
+    }
+
+    /**
+     * Test creating an index and getting it to verify.
+     */
+    public function testGetIndex()
+    {
+        $result = $this->collectionHandler->createFulltextIndex('ArangoDB_PHP_TestSuite_IndexTestCollection', array('testGetIndexField'), 100);
+
+        //Parse for the index's key
+        $key = str_replace('ArangoDB_PHP_TestSuite_IndexTestCollection/', "", $result['id']);
+
+        $indexInfo = $this->collectionHandler->getIndex('ArangoDB_PHP_TestSuite_IndexTestCollection', $key);
+
+        $this->assertEquals(CollectionHandler::OPTION_FULLTEXT_INDEX, $indexInfo[CollectionHandler::OPTION_TYPE], "Index type does not match!");
+        $this->assertCount(1, $indexInfo['fields'], "There should only be 1 indexed field!");
+        $this->assertEquals("testGetIndexField", $indexInfo['fields'][0], "Index field does not match!");
+        $this->assertEquals(100, $indexInfo[CollectionHandler::OPTION_MIN_LENGTH], 'Minlength does not match!');
+    }
 
     public function tearDown()
     {
 
+        try {
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_IndexTestCollection');
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+        unset($this->collectionHandler);
         unset($this->connection);
     }
 }

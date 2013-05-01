@@ -106,6 +106,37 @@ class CollectionExtendedTest extends
         $this->assertTrue($response, 'Delete should return true!');
     }
 
+    /**
+     * test for getting all collection exclude system collections
+     */
+    public function testGetAllNonSystemCollections()
+    {
+        $collectionHandler = $this->collectionHandler;
+
+        $collections = array(
+            "ArangoDB_PHP_TestSuite_TestCollection_01",
+            "ArangoDB_PHP_TestSuite_TestCollection_02");
+
+        foreach ($collections as $col) {
+            $collection = new \triagens\ArangoDb\Collection();
+            $collection->setName($col);
+            $collectionHandler->add($collection);
+        }
+
+        $collectionList = $collectionHandler->getAllCollections($options = array("excludeSystem" => true));
+
+        foreach ($collections as $col) {
+            $this->assertArrayHasKey($col, $collectionList,"Collection name should be in collectionList");
+        }
+
+        $this->assertArrayNotHasKey("_structures", $collectionList,
+            "System collection _structure should not be returned");
+
+        foreach ($collections as $col) {
+            $collectionHandler->delete($col);
+        }
+    }
+
 
     /**
      * test for creation, rename, and delete of a collection
@@ -165,7 +196,7 @@ class CollectionExtendedTest extends
 
         $resultingCollection = $collectionHandler->get($name);
 
-        // inject wrong encoding       
+        // inject wrong encoding
         $isoValue = iconv("UTF-8", "ISO-8859-1//TRANSLIT", "ArangoDB_PHP_TestSuite_TestCollection_01_renamedü");
 
         $response = $collectionHandler->rename($resultingCollection, $isoValue);
@@ -1111,7 +1142,7 @@ class CollectionExtendedTest extends
 
     public function testCreateSkipListIndexedCollectionAddDocumentsAndQueryRange()
     {
-        // set up collections, indexes and test-documents     
+        // set up collections, indexes and test-documents
         $collectionHandler = $this->collectionHandler;
 
         $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
@@ -1245,7 +1276,7 @@ class CollectionExtendedTest extends
      */
     public function testCreateGeoIndexedCollectionAddDocumentsAndQueryNear()
     {
-        // set up collections, indexes and test-documents     
+        // set up collections, indexes and test-documents
         $collectionHandler = $this->collectionHandler;
 
         $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
@@ -1351,7 +1382,7 @@ class CollectionExtendedTest extends
      */
     public function testCreateGeoIndexedCollectionAddDocumentsAndQueryWithin()
     {
-        // set up collections, indexes and test-documents     
+        // set up collections, indexes and test-documents
         $collectionHandler = $this->collectionHandler;
 
         $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
@@ -1452,7 +1483,7 @@ class CollectionExtendedTest extends
 
 
     /**
-     * test for creation of a geo indexed collection and querying by within, with distance, skip and limit options
+     * test for creation of a fulltext indexed collection and querying by within, with distance, skip and limit options
      */
     public function testCreateFulltextIndexedCollectionAddDocumentsAndQuery()
     {
@@ -1485,6 +1516,127 @@ class CollectionExtendedTest extends
         $this->assertTrue($response, 'Delete should return true!');
     }
 
+    public function testCreateFulltextIndexedCollectionWithOptions()
+    {
+        // set up collections and index
+        $collectionHandler = $this->collectionHandler;
+
+        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
+        $response   = $collectionHandler->add($collection);
+
+        $indexRes = $collectionHandler->index($collection->getName(), 'fulltext', array('name'), false, array('minLength' => 10));
+
+        $this->assertArrayHasKey(
+                'isNewlyCreated',
+                $indexRes,
+                "index creation result should have the isNewlyCreated key !"
+        );
+
+        $this->assertArrayHasKey('minLength', $indexRes, 'index creation result should have a minLength key!');
+
+        $this->assertEquals(10, $indexRes['minLength'], 'index created does not have the same minLength as the one sent!');
+
+        // Check if the index is returned in the indexes of the collection
+        $indexes = $collectionHandler->getIndexes($collection->getName());
+        $this->assertTrue($indexes['indexes'][1]['fields'][0] === 'name', 'The index should be on field "name"!');
+
+        // Drop the index
+        $collectionHandler->dropIndex($indexes['indexes'][1]['id']);
+        $indexes = $collectionHandler->getIndexes($collection->getName());
+
+        // Check if the index is not in the indexes of the collection anymore
+        $this->assertArrayNotHasKey(1, $indexes['indexes'], 'There should not be an index on field "name"!');
+
+        // Clean up...
+        $response = $collectionHandler->delete($collection);
+        $this->assertTrue($response, 'Delete should return true!');
+    }
+
+
+    /**
+     * Test getting a random document from the collection
+     */
+    public function testAnyDocumentInCollection()
+    {
+        // set up collections and documents
+        $collectionHandler = $this->collectionHandler;
+        $documentHandler   = $this->documentHandler;
+
+        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_Any'));
+        $response   = $collectionHandler->add($collection);
+
+        $document1 = new Document();
+        $document1->set('message', 'message1');
+
+        $documentId = $documentHandler->save($collection->getId(), $document1);
+
+        $document2 = new Document();
+        $document2->set('message', 'message2');
+
+        $documentId = $documentHandler->save($collection->getId(), $document2);
+
+        $document3 = new Document();
+        $document3->set('message', 'message3');
+
+        $documentId = $documentHandler->save($collection->getId(), $document3);
+
+        //Now, let's try to query any document
+        $document = $collectionHandler->any($collection->getName());
+        $this->assertContains($document->get('message'), array('message1', 'message2', 'message3'), 'A document that was not part of the collection was retrieved!');
+
+        //Let's try another random document
+        $document = $collectionHandler->any($collection->getName());
+        $this->assertContains($document->get('message'), array('message1', 'message2', 'message3'), 'A document that was not part of the collection was retrieved!');
+
+        $response = $collectionHandler->delete($collection->getName());
+    }
+
+    /**
+     * Test getting a random document from a collection that does not exist
+     */
+    public function testAnyDocumentInNonExistentCollection()
+    {
+        $collectionHandler = $this->collectionHandler;
+
+        //To be safe, we need to make sure the collection definitely doesn't exist,
+        //so, if it exists, delete it.
+        try {
+            $collectionHandler->drop('collection_that_does-not_exist');
+        } catch (Exception $e) {
+            //Ignore the exception.
+        }
+
+        try {
+            //Let's try to get a random document
+            $document = $collectionHandler->any('collection_that_does_not_exist');
+        } catch (ServerException $e) {
+            $this->assertInstanceOf('\triagens\ArangoDb\ServerException', $e, "Exception thrown was not a ServerException!");
+            $this->assertEquals(404, $e->getCode(), "Error code was not a 404!");
+        }
+    }
+
+    /**
+     * Test getting a random document from an empty collection
+     */
+    public function testAnyDocumentInAnEmptyCollection()
+    {
+
+        $collectionHandler = $this->collectionHandler;
+
+        try {
+            $collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_Any_Empty');
+        } catch (Exception $e) {
+            //Ignore
+        }
+
+        $collectionHandler->create('ArangoDB_PHP_TestSuite_TestCollection_Any_Empty');
+
+        $any = $collectionHandler->any('ArangoDB_PHP_TestSuite_TestCollection_Any_Empty');
+
+        $this->assertNull($any, "any() on an empty collection should return null.");
+
+        $collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_Any_Empty');
+    }
 
     public function tearDown()
     {
@@ -1503,6 +1655,13 @@ class CollectionExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
+
+        try {
+            $response = $this->collectionHandler->drop('_ArangoDB_PHP_TestSuite_TestCollection_Any');
+        } catch (\Exception $e) {
+            // don't bother us, if it's already deleted.
+        }
+
         unset($this->collectionHandler);
         unset($this->collection);
         unset($this->connection);

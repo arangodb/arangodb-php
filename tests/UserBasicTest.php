@@ -109,7 +109,8 @@ class UserBasicTest extends
 
 
     // test functions on non-existant user
-    public function testFunctionsOnNonExistantUser(){
+    public function testFunctionsOnNonExistantUser()
+    {
         $connection        = $this->connection;
         $this->userHandler = new \triagens\ArangoDb\UserHandler($this->connection);
 

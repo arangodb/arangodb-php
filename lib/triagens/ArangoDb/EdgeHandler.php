@@ -158,6 +158,7 @@ class EdgeHandler extends
             throw new ClientException('Got an invalid response from the server');
         }
 
+        $document->setIsNew(false);
         return $document->getId();
     }
 

@@ -144,7 +144,8 @@ class UserHandler extends
 
         $data = $response->getJson();
 
-        return User::createFromArray($data);
+        $options = array('_isNew' => false);
+        return User::createFromArray($data, $options);
     }
 
 
