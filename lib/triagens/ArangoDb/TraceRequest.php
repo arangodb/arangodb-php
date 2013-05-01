@@ -10,55 +10,68 @@
 
 namespace triagens\ArangoDb;
 
+/**
+ * Class TraceRequest
+ *
+ * @author    Francis Chuang
+ * @package   triagens\ArangoDb
+ */
 class TraceRequest
 {
     /**
      * Stores each header as an array (key => value) element
+     *
      * @var array
      */
     private $_headers = array();
 
     /**
      * Stores the http method
+     *
      * @var string
      */
     private $_method;
 
     /**
      * Stores the request url
+     *
      * @var string
      */
     private $_requestUrl;
 
     /**
      * Store the string of the body
+     *
      * @var string
      */
     private $_body;
 
     /**
      * The http message type
+     *
      * @var string
      */
     private $_type = "request";
 
     /**
      * Set up the request trace
-     * @param array $headers - the array of http headers
-     * @param string $method - the request method
+     *
+     * @param array  $headers    - the array of http headers
+     * @param string $method     - the request method
      * @param string $requestUrl - the request url
-     * @param string $body - the string of http body
+     * @param string $body       - the string of http body
      */
     public function __construct($headers, $method, $requestUrl, $body)
     {
-        $this->_headers = $headers;
-        $this->_method = $method;
+        $this->_headers    = $headers;
+        $this->_method     = $method;
         $this->_requestUrl = $requestUrl;
-        $this->_body = $body;
+        $this->_body       = $body;
     }
 
     /**
      * Get an array of the request headers
+     *
      * @return array
      */
     public function getHeaders()
@@ -68,6 +81,7 @@ class TraceRequest
 
     /**
      * Get the request method
+     *
      * @return string
      */
     public function getMethod()
@@ -77,6 +91,7 @@ class TraceRequest
 
     /**
      * Get the request url
+     *
      * @return string
      */
     public function getRequestUrl()
@@ -86,6 +101,7 @@ class TraceRequest
 
     /**
      * Get the body of the request
+     *
      * @return string
      */
     public function getBody()
@@ -95,6 +111,7 @@ class TraceRequest
 
     /**
      * Get the http message type
+     *
      * @return string
      */
     public function getType()
