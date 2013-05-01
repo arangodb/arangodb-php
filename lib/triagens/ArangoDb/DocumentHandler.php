@@ -90,6 +90,7 @@ class DocumentHandler extends
         $data = $response->getJson();
 
         $options['_isNew'] = false;
+
         return Document::createFromArray($data, $options);
     }
 
@@ -193,9 +194,9 @@ class DocumentHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $collectionId - collection id as string or number
-     * @param mixed      $document     - the document to be added, can be passed as a document or an array
-     * @param bool|array $options      - optional, prior to v1.2.0 this was a boolean value for create. Since v1.0.0 it's an array of options.
+     * @param Document   $document       - the document to be added, can be passed as a document or an array
+     * @param mixed      $collectionId   - collection id as string or number
+     * @param bool|array $options        - optional, prior to v1.2.0 this was a boolean value for create. Since v1.2.0 it's an array of options.
      * <p>Options are :<br>
      * <li>'create' - create the collection if it does not yet exist.</li>
      * <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
@@ -206,9 +207,9 @@ class DocumentHandler extends
      */
     public function store(Document $document, $collectionId = null, $options = array())
     {
-        if($document->getIsNew()){
+        if ($document->getIsNew()) {
 
-            if($collectionId == null){
+            if ($collectionId == null) {
                 throw new ClientException('A collection id is required to store a new document.');
             }
 
@@ -216,9 +217,9 @@ class DocumentHandler extends
             $document->setIsNew(false);
 
             return $result;
-        }else{
+        } else {
 
-            if($collectionId){
+            if ($collectionId) {
                 throw new ClientException('An existing document cannot be stored into a new collection');
             }
 
@@ -380,8 +381,9 @@ class DocumentHandler extends
         $url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAll()));
-        $json = $result->getJson();
+        $json   = $result->getJson();
         $document->setRevision($json[Document::ENTRY_REV]);
+
         return true;
     }
 
@@ -465,8 +467,9 @@ class DocumentHandler extends
         $url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->put($url, $this->json_encode_wrapper($data));
-        $json = $result->getJson();
+        $json   = $result->getJson();
         $document->setRevision($json[Document::ENTRY_REV]);
+
         return true;
     }
 

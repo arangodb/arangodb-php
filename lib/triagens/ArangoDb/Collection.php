@@ -459,7 +459,7 @@ class Collection
      *
      * @throws ClientException
      *
-     * @param int $keyOptions - status = 1 -> new born, status = 2 -> unloaded, status = 3 -> loaded, status = 4 -> being unloaded, status = 5 -> deleted
+     * @param int $status - statuses = 1 -> new born, status = 2 -> unloaded, status = 3 -> loaded, status = 4 -> being unloaded, status = 5 -> deleted
      *
      * @return void
      */
@@ -471,7 +471,17 @@ class Collection
             throw new ClientException('Should not update the status of an existing collection');
         }
 
-        if (!in_array($status, array(self::STATUS_NEW_BORN, self::STATUS_UNLOADED, self::STATUS_LOADED, self::STATUS_BEING_UNLOADED, self::STATUS_DELETED))) {
+        if (!in_array(
+            $status,
+            array(
+                 self::STATUS_NEW_BORN,
+                 self::STATUS_UNLOADED,
+                 self::STATUS_LOADED,
+                 self::STATUS_BEING_UNLOADED,
+                 self::STATUS_DELETED
+            )
+        )
+        ) {
             throw new ClientException('Invalid status used for collection');
         }
 

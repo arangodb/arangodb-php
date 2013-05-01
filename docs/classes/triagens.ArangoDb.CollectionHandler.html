@@ -23,6 +23,7 @@
 <li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
 <li><a>Packages</a></li>
 <li><a href="../packages/ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
+<li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
 </ul>
 </li>
 <li class="dropdown" id="charts-menu">
@@ -60,20 +61,28 @@
                     <ul>
 <li class="method public inherited"><a href="#method___construct" title="__construct :: Construct a new handler"><span class="description">Construct a new handler</span><pre>__construct()</pre></a></li>
 <li class="method public "><a href="#method_add" title="add :: Adds a new collection on the server"><span class="description">Adds a new collection on the server</span><pre>add()</pre></a></li>
+<li class="method public "><a href="#method_any" title="any :: Get a random document from the collection."><span class="description">Get a random document from the collection.</span><pre>any()</pre></a></li>
 <li class="method public "><a href="#method_byExample" title="byExample :: Get document(s) by specifying an example"><span class="description">Get document(s) by specifying an example</span><pre>byExample()</pre></a></li>
 <li class="method public "><a href="#method_count" title="count :: Get the number of documents in a collection"><span class="description">Get the number of documents in a collection</span><pre>count()</pre></a></li>
 <li class="method public "><a href="#method_create" title="create :: Creates a new collection on the server"><span class="description">Creates a new collection on the server</span><pre>create()</pre></a></li>
+<li class="method public "><a href="#method_createCapConstraint" title="createCapConstraint :: Create a cap constraint"><span class="description">Create a cap constraint</span><pre>createCapConstraint()</pre></a></li>
+<li class="method public "><a href="#method_createFulltextIndex" title="createFulltextIndex :: Create a fulltext index"><span class="description">Create a fulltext index</span><pre>createFulltextIndex()</pre></a></li>
+<li class="method public "><a href="#method_createGeoIndex" title="createGeoIndex :: Create a geo index"><span class="description">Create a geo index</span><pre>createGeoIndex()</pre></a></li>
+<li class="method public "><a href="#method_createHashIndex" title="createHashIndex :: Create a hash index"><span class="description">Create a hash index</span><pre>createHashIndex()</pre></a></li>
+<li class="method public "><a href="#method_createSkipListIndex" title="createSkipListIndex :: Create a skip-list index"><span class="description">Create a skip-list index</span><pre>createSkipListIndex()</pre></a></li>
 <li class="method public "><a href="#method_delete" title="delete :: Delete a collection"><span class="description">Delete a collection</span><pre>delete()</pre></a></li>
 <li class="method public "><a href="#method_drop" title="drop :: Drop a collection"><span class="description">Drop a collection</span><pre>drop()</pre></a></li>
 <li class="method public "><a href="#method_dropIndex" title="dropIndex :: Drop an index"><span class="description">Drop an index</span><pre>dropIndex()</pre></a></li>
 <li class="method public "><a href="#method_figures" title="figures :: Get figures for a collection"><span class="description">Get figures for a collection</span><pre>figures()</pre></a></li>
 <li class="method public "><a href="#method_firstExample" title="firstExample :: Get the first document matching a given example."><span class="description">Get the first document matching a given example.</span><pre>firstExample()</pre></a></li>
 <li class="method public "><a href="#method_get" title="get :: Get information about a collection"><span class="description">Get information about a collection</span><pre>get()</pre></a></li>
+<li class="method public "><a href="#method_getAllCollections" title="getAllCollections :: Get list of all available collections per default with the collection names as index."><span class="description">Get list of all available collections per default with the collection names as index.</span><pre>getAllCollections()</pre></a></li>
 <li class="method public "><a href="#method_getAllIds" title="getAllIds :: Get the list of all documents' ids from a collection"><span class="description">Get the list of all documents' ids from a collection</span><pre>getAllIds()</pre></a></li>
 <li class="method public "><a href="#method_getCollectionId" title="getCollectionId :: Gets the collectionId from the given collectionObject or string/integer"><span class="description">Gets the collectionId from the given collectionObject or string/integer</span><pre>getCollectionId()</pre></a></li>
 <li class="method public "><a href="#method_getCollectionName" title="getCollectionName :: Gets the collectionId from the given collectionObject or string/integer"><span class="description">Gets the collectionId from the given collectionObject or string/integer</span><pre>getCollectionName()</pre></a></li>
 <li class="method public "><a href="#method_getCount" title="getCount :: Get the number of documents in a collection"><span class="description">Get the number of documents in a collection</span><pre>getCount()</pre></a></li>
 <li class="method public "><a href="#method_getFigures" title="getFigures :: Get figures for a collection"><span class="description">Get figures for a collection</span><pre>getFigures()</pre></a></li>
+<li class="method public "><a href="#method_getIndex" title="getIndex :: Get the information about an index in a collection"><span class="description">Get the information about an index in a collection</span><pre>getIndex()</pre></a></li>
 <li class="method public "><a href="#method_getIndexes" title="getIndexes :: Get indexes of a collection"><span class="description">Get indexes of a collection</span><pre>getIndexes()</pre></a></li>
 <li class="method public "><a href="#method_getProperties" title="getProperties :: Get properties of a collection"><span class="description">Get properties of a collection</span><pre>getProperties()</pre></a></li>
 <li class="method public "><a href="#method_import" title="import :: Import documents into a collection"><span class="description">Import documents into a collection</span><pre>import()</pre></a></li>
@@ -117,25 +126,36 @@ This is a convenience function that calls json_encode_wrapper on the connection<
                     <ul>
 <li class="constant  "><a href="#constant_ENTRY_DOCUMENTS" title="ENTRY_DOCUMENTS :: documents array index"><span class="description">documents array index</span><pre>ENTRY_DOCUMENTS</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_ATTRIBUTE" title="OPTION_ATTRIBUTE :: attribute parameter"><span class="description">attribute parameter</span><pre>OPTION_ATTRIBUTE</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_CAP_CONSTRAINT" title="OPTION_CAP_CONSTRAINT :: cap constraint option"><span class="description">cap constraint option</span><pre>OPTION_CAP_CONSTRAINT</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_CLOSED" title="OPTION_CLOSED :: closed parameter"><span class="description">closed parameter</span><pre>OPTION_CLOSED</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_COLLECTION" title="OPTION_COLLECTION :: collection parameter"><span class="description">collection parameter</span><pre>OPTION_COLLECTION</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_CONSTRAINT" title="OPTION_CONSTRAINT :: constraint option"><span class="description">constraint option</span><pre>OPTION_CONSTRAINT</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_COUNT" title="OPTION_COUNT :: count option"><span class="description">count option</span><pre>OPTION_COUNT</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_CREATE_COLLECTION" title="OPTION_CREATE_COLLECTION :: example parameter"><span class="description">example parameter</span><pre>OPTION_CREATE_COLLECTION</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_DISTANCE" title="OPTION_DISTANCE :: distance parameter"><span class="description">distance parameter</span><pre>OPTION_DISTANCE</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_EXAMPLE" title="OPTION_EXAMPLE :: example parameter"><span class="description">example parameter</span><pre>OPTION_EXAMPLE</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_EXCLUDE_SYSTEM" title="OPTION_EXCLUDE_SYSTEM :: exclude system collections"><span class="description">exclude system collections</span><pre>OPTION_EXCLUDE_SYSTEM</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_FIELDS" title="OPTION_FIELDS :: count fields"><span class="description">count fields</span><pre>OPTION_FIELDS</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_FIGURES" title="OPTION_FIGURES :: figures option"><span class="description">figures option</span><pre>OPTION_FIGURES</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_FULLTEXT_INDEX" title="OPTION_FULLTEXT_INDEX :: fulltext index option"><span class="description">fulltext index option</span><pre>OPTION_FULLTEXT_INDEX</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_GEOJSON" title="OPTION_GEOJSON :: geoJson option"><span class="description">geoJson option</span><pre>OPTION_GEOJSON</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_GEO_INDEX" title="OPTION_GEO_INDEX :: geo index option"><span class="description">geo index option</span><pre>OPTION_GEO_INDEX</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_HASH_INDEX" title="OPTION_HASH_INDEX :: hash index option"><span class="description">hash index option</span><pre>OPTION_HASH_INDEX</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_IGNORE_NULL" title="OPTION_IGNORE_NULL :: ignoreNull option"><span class="description">ignoreNull option</span><pre>OPTION_IGNORE_NULL</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_LATITUDE" title="OPTION_LATITUDE :: latidude parameter"><span class="description">latidude parameter</span><pre>OPTION_LATITUDE</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_LEFT" title="OPTION_LEFT :: left parameter"><span class="description">left parameter</span><pre>OPTION_LEFT</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_LIMIT" title="OPTION_LIMIT :: limit parameter"><span class="description">limit parameter</span><pre>OPTION_LIMIT</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_LOAD" title="OPTION_LOAD :: load option"><span class="description">load option</span><pre>OPTION_LOAD</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_LONGITUDE" title="OPTION_LONGITUDE :: longitude parameter"><span class="description">longitude parameter</span><pre>OPTION_LONGITUDE</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_MIN_LENGTH" title="OPTION_MIN_LENGTH :: minLength option"><span class="description">minLength option</span><pre>OPTION_MIN_LENGTH</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_NEW_VALUE" title="OPTION_NEW_VALUE :: example parameter"><span class="description">example parameter</span><pre>OPTION_NEW_VALUE</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_PROPERTIES" title="OPTION_PROPERTIES :: properties option"><span class="description">properties option</span><pre>OPTION_PROPERTIES</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_RADIUS" title="OPTION_RADIUS :: radius parameter"><span class="description">radius parameter</span><pre>OPTION_RADIUS</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_RENAME" title="OPTION_RENAME :: rename option"><span class="description">rename option</span><pre>OPTION_RENAME</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_RIGHT" title="OPTION_RIGHT :: right parameter"><span class="description">right parameter</span><pre>OPTION_RIGHT</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_SIZE" title="OPTION_SIZE :: size option"><span class="description">size option</span><pre>OPTION_SIZE</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_SKIP" title="OPTION_SKIP :: skip parameter"><span class="description">skip parameter</span><pre>OPTION_SKIP</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_SKIPLIST_INDEX" title="OPTION_SKIPLIST_INDEX :: skiplist index option"><span class="description">skiplist index option</span><pre>OPTION_SKIPLIST_INDEX</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_TRUNCATE" title="OPTION_TRUNCATE :: truncate option"><span class="description">truncate option</span><pre>OPTION_TRUNCATE</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_TYPE" title="OPTION_TYPE :: count unique"><span class="description">count unique</span><pre>OPTION_TYPE</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_UNIQUE" title="OPTION_UNIQUE :: count unique"><span class="description">count unique</span><pre>OPTION_UNIQUE</pre></a></li>
@@ -215,6 +235,33 @@ appropriate HTTP requests to the server.</p></div>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>mixed</code>- id of collection created</div>
+</div></div>
+</div>
+<a id="method_any"></a><div class="element clickable method public method_any" data-toggle="collapse" data-target=".method_any .collapse">
+<h2>Get a random document from the collection.</h2>
+<pre>any(mixed $collectionId) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will throw if the document cannot be fetched from the server</p></div>
+<table class="table table-bordered"><tr>
+<th>since</th>
+<td>1.2</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>collection id as string or number</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>- the document fetched from the server</div>
 </div></div>
 </div>
 <a id="method_byExample"></a><div class="element clickable method public method_byExample" data-toggle="collapse" data-target=".method_byExample .collapse">
@@ -328,6 +375,182 @@ This will throw if the collection cannot be created</p></div>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>mixed</code>- id of collection created</div>
+</div></div>
+</div>
+<a id="method_createCapConstraint"></a><div class="element clickable method public method_createCapConstraint" data-toggle="collapse" data-target=".method_createCapConstraint .collapse">
+<h2>Create a cap constraint</h2>
+<pre>createCapConstraint(string $collectionId, int $size) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>link</th>
+<td><a href="http://www.arangodb.org/manuals/current/IndexCapHttp.html">http://www.arangodb.org/manuals/current/IndexCapHttp.html</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>string</code><ul>
+<li>the collection id</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$size</h4>
+<code>int</code><ul>
+<li>the size of the cap constraint</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- server response of the created index</div>
+</div></div>
+</div>
+<a id="method_createFulltextIndex"></a><div class="element clickable method public method_createFulltextIndex" data-toggle="collapse" data-target=".method_createFulltextIndex .collapse">
+<h2>Create a fulltext index</h2>
+<pre>createFulltextIndex(string $collectionId, array $fields, int $minLength) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>link</th>
+<td><a href="http://www.arangodb.org/manuals/current/IndexFulltextHttp.html">http://www.arangodb.org/manuals/current/IndexFulltextHttp.html</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>string</code><ul>
+<li>the collection id</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$fields</h4>
+<code>array</code><ul>
+<li>an array of fields</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$minLength</h4>
+<code>int</code><ul>
+<li>the minimum length of words to index</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- server response of the created index</div>
+</div></div>
+</div>
+<a id="method_createGeoIndex"></a><div class="element clickable method public method_createGeoIndex" data-toggle="collapse" data-target=".method_createGeoIndex .collapse">
+<h2>Create a geo index</h2>
+<pre>createGeoIndex(string $collectionId, array $fields, boolean $geoJson, boolean $constraint, boolean $ignoreNull) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>link</th>
+<td><a href="http://www.arangodb.org/manuals/current/IndexGeoHttp.html">http://www.arangodb.org/manuals/current/IndexGeoHttp.html</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>string</code><ul>
+<li>the collection id</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$fields</h4>
+<code>array</code><ul>
+<li>an array of fields</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$geoJson</h4>
+<code>boolean</code><ul>
+<li>whether to use geoJson or not</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$constraint</h4>
+<code>boolean</code><ul>
+<li>whether this is a constraint or not</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$ignoreNull</h4>
+<code>boolean</code><ul>
+<li>whether to ignore null</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- server response of the created index</div>
+</div></div>
+</div>
+<a id="method_createHashIndex"></a><div class="element clickable method public method_createHashIndex" data-toggle="collapse" data-target=".method_createHashIndex .collapse">
+<h2>Create a hash index</h2>
+<pre>createHashIndex(string $collectionId, array $fields, boolean $unique) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>link</th>
+<td><a href="http://www.arangodb.org/manuals/current/IndexHashHttp.html">http://www.arangodb.org/manuals/current/IndexHashHttp.html</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>string</code><ul>
+<li>the collection id</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$fields</h4>
+<code>array</code><ul>
+<li>an array of fields</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$unique</h4>
+<code>boolean</code><ul>
+<li>whether the values in the index should be unique or not</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- server response of the created index</div>
+</div></div>
+</div>
+<a id="method_createSkipListIndex"></a><div class="element clickable method public method_createSkipListIndex" data-toggle="collapse" data-target=".method_createSkipListIndex .collapse">
+<h2>Create a skip-list index</h2>
+<pre>createSkipListIndex(string $collectionId, array $fields, bool $unique) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>link</th>
+<td><a href="http://www.arangodb.org/manuals/current/IndexSkiplistHttp.html">http://www.arangodb.org/manuals/current/IndexSkiplistHttp.html</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>string</code><ul>
+<li>the collection id</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$fields</h4>
+<code>array</code><ul>
+<li>an array of fields</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$unique</h4>
+<code>bool</code><ul>
+<li>whether the index is unique or not</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- server response of the created index</div>
 </div></div>
 </div>
 <a id="method_delete"></a><div class="element clickable method public method_delete" data-toggle="collapse" data-target=".method_delete .collapse">
@@ -501,6 +724,29 @@ This will throw if the collection cannot be created</p></div>
 <code><a href="../classes/triagens.ArangoDb.Collection.html">\triagens\ArangoDb\Collection</a></code>- the collection fetched from the server</div>
 </div></div>
 </div>
+<a id="method_getAllCollections"></a><div class="element clickable method public method_getAllCollections" data-toggle="collapse" data-target=".method_getAllCollections .collapse">
+<h2>Get list of all available collections per default with the collection names as index.</h2>
+<pre>getAllCollections(array $options) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Returns empty array if none are available.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><ul>
+<li>optional - an array of options.</li>
+</ul>
+
+<p>Options are :<br>
+<li>'excludeSystem' -   With a value of true, all system collections will be excluded from the response.</li>
+<li>'keys' -  With a value of "collections", the index of the resulting array is numerical,
+              With a value of "names", the index of the resulting array are the collection names.</li>
+</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
+</div></div>
+</div>
 <a id="method_getAllIds"></a><div class="element clickable method public method_getAllIds" data-toggle="collapse" data-target=".method_getAllIds .collapse">
 <h2>Get the list of all documents' ids from a collection</h2>
 <pre>getAllIds(mixed $collectionId) : array</pre>
@@ -606,6 +852,29 @@ This will throw if the collection cannot be created</p></div>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>array</code>- the figures for the collection</div>
+</div></div>
+</div>
+<a id="method_getIndex"></a><div class="element clickable method public method_getIndex" data-toggle="collapse" data-target=".method_getIndex .collapse">
+<h2>Get the information about an index in a collection</h2>
+<pre>getIndex(string $collection, string $indexId) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collection</h4>
+<code>string</code><ul>
+<li>the id of the collection</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$indexId</h4>
+<code>string</code><ul>
+<li>the id of the index</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
 </div></div>
 </div>
 <a id="method_getIndexes"></a><div class="element clickable method public method_getIndexes" data-toggle="collapse" data-target=".method_getIndexes .collapse">
@@ -753,7 +1022,7 @@ This will throw if the collection cannot be created</p></div>
 </div>
 <a id="method_index"></a><div class="element clickable method public method_index" data-toggle="collapse" data-target=".method_index .collapse">
 <h2>Creates an index on a collection on the server</h2>
-<pre>index(mixed $collectionId, string $type, array $attributes, bool $unique) : mixed</pre>
+<pre>index(mixed $collectionId, string $type, array $attributes, bool $unique, array $indexOptions) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will create an index on the collection on the server and return its id</p>
@@ -784,6 +1053,12 @@ This will throw if the collection cannot be created</p></div>
 <li>true/false to create a unique index</li>
 </ul>
 </div>
+<div class="subelement argument">
+<h4>$indexOptions</h4>
+<code>array</code><ul>
+<li>an associative array of options for the index like array('geoJson' => true)</li>
+</ul>
+</div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
 <th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
@@ -791,7 +1066,7 @@ This will throw if the collection cannot be created</p></div>
 </tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
-<code>mixed</code>- id of collection created</div>
+<code>array</code>- server response of the created index</div>
 </div></div>
 </div>
 <a id="method_isValidCollectionId"></a><div class="element clickable method public method_isValidCollectionId" data-toggle="collapse" data-target=".method_isValidCollectionId .collapse">
@@ -1465,6 +1740,12 @@ This is only for options that are to be sent to the ArangoDB server.</p></div>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="constant_OPTION_CAP_CONSTRAINT"> </a><div class="element clickable constant  constant_OPTION_CAP_CONSTRAINT" data-toggle="collapse" data-target=".constant_OPTION_CAP_CONSTRAINT .collapse">
+<h2>cap constraint option</h2>
+<pre>OPTION_CAP_CONSTRAINT </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="constant_OPTION_CLOSED"> </a><div class="element clickable constant  constant_OPTION_CLOSED" data-toggle="collapse" data-target=".constant_OPTION_CLOSED .collapse">
 <h2>closed parameter</h2>
 <pre>OPTION_CLOSED </pre>
@@ -1474,6 +1755,12 @@ This is only for options that are to be sent to the ArangoDB server.</p></div>
 <a id="constant_OPTION_COLLECTION"> </a><div class="element clickable constant  constant_OPTION_COLLECTION" data-toggle="collapse" data-target=".constant_OPTION_COLLECTION .collapse">
 <h2>collection parameter</h2>
 <pre>OPTION_COLLECTION </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_CONSTRAINT"> </a><div class="element clickable constant  constant_OPTION_CONSTRAINT" data-toggle="collapse" data-target=".constant_OPTION_CONSTRAINT .collapse">
+<h2>constraint option</h2>
+<pre>OPTION_CONSTRAINT </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
@@ -1501,6 +1788,12 @@ This is only for options that are to be sent to the ArangoDB server.</p></div>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="constant_OPTION_EXCLUDE_SYSTEM"> </a><div class="element clickable constant  constant_OPTION_EXCLUDE_SYSTEM" data-toggle="collapse" data-target=".constant_OPTION_EXCLUDE_SYSTEM .collapse">
+<h2>exclude system collections</h2>
+<pre>OPTION_EXCLUDE_SYSTEM </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="constant_OPTION_FIELDS"> </a><div class="element clickable constant  constant_OPTION_FIELDS" data-toggle="collapse" data-target=".constant_OPTION_FIELDS .collapse">
 <h2>count fields</h2>
 <pre>OPTION_FIELDS </pre>
@@ -1510,6 +1803,36 @@ This is only for options that are to be sent to the ArangoDB server.</p></div>
 <a id="constant_OPTION_FIGURES"> </a><div class="element clickable constant  constant_OPTION_FIGURES" data-toggle="collapse" data-target=".constant_OPTION_FIGURES .collapse">
 <h2>figures option</h2>
 <pre>OPTION_FIGURES </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_FULLTEXT_INDEX"> </a><div class="element clickable constant  constant_OPTION_FULLTEXT_INDEX" data-toggle="collapse" data-target=".constant_OPTION_FULLTEXT_INDEX .collapse">
+<h2>fulltext index option</h2>
+<pre>OPTION_FULLTEXT_INDEX </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_GEOJSON"> </a><div class="element clickable constant  constant_OPTION_GEOJSON" data-toggle="collapse" data-target=".constant_OPTION_GEOJSON .collapse">
+<h2>geoJson option</h2>
+<pre>OPTION_GEOJSON </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_GEO_INDEX"> </a><div class="element clickable constant  constant_OPTION_GEO_INDEX" data-toggle="collapse" data-target=".constant_OPTION_GEO_INDEX .collapse">
+<h2>geo index option</h2>
+<pre>OPTION_GEO_INDEX </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_HASH_INDEX"> </a><div class="element clickable constant  constant_OPTION_HASH_INDEX" data-toggle="collapse" data-target=".constant_OPTION_HASH_INDEX .collapse">
+<h2>hash index option</h2>
+<pre>OPTION_HASH_INDEX </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_IGNORE_NULL"> </a><div class="element clickable constant  constant_OPTION_IGNORE_NULL" data-toggle="collapse" data-target=".constant_OPTION_IGNORE_NULL .collapse">
+<h2>ignoreNull option</h2>
+<pre>OPTION_IGNORE_NULL </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
@@ -1543,6 +1866,12 @@ This is only for options that are to be sent to the ArangoDB server.</p></div>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="constant_OPTION_MIN_LENGTH"> </a><div class="element clickable constant  constant_OPTION_MIN_LENGTH" data-toggle="collapse" data-target=".constant_OPTION_MIN_LENGTH .collapse">
+<h2>minLength option</h2>
+<pre>OPTION_MIN_LENGTH </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="constant_OPTION_NEW_VALUE"> </a><div class="element clickable constant  constant_OPTION_NEW_VALUE" data-toggle="collapse" data-target=".constant_OPTION_NEW_VALUE .collapse">
 <h2>example parameter</h2>
 <pre>OPTION_NEW_VALUE </pre>
@@ -1573,9 +1902,21 @@ This is only for options that are to be sent to the ArangoDB server.</p></div>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="constant_OPTION_SIZE"> </a><div class="element clickable constant  constant_OPTION_SIZE" data-toggle="collapse" data-target=".constant_OPTION_SIZE .collapse">
+<h2>size option</h2>
+<pre>OPTION_SIZE </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="constant_OPTION_SKIP"> </a><div class="element clickable constant  constant_OPTION_SKIP" data-toggle="collapse" data-target=".constant_OPTION_SKIP .collapse">
 <h2>skip parameter</h2>
 <pre>OPTION_SKIP </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_SKIPLIST_INDEX"> </a><div class="element clickable constant  constant_OPTION_SKIPLIST_INDEX" data-toggle="collapse" data-target=".constant_OPTION_SKIPLIST_INDEX .collapse">
+<h2>skiplist index option</h2>
+<pre>OPTION_SKIPLIST_INDEX </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
@@ -1610,7 +1951,7 @@ This is only for options that are to be sent to the ArangoDB server.</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-03-03T00:22:32+02:00.<br></footer></div>
+            generated on 2013-05-01T19:06:48+03:00.<br></footer></div>
 </div>
 </body>
 </html>
