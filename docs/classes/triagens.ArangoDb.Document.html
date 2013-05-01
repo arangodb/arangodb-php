@@ -23,6 +23,7 @@
 <li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
 <li><a>Packages</a></li>
 <li><a href="../packages/ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
+<li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
 </ul>
 </li>
 <li class="dropdown" id="charts-menu">
@@ -74,6 +75,7 @@
 <li class="method public "><a href="#method_getId" title="getId :: Get the document id (if already known)"><span class="description">Get the document id (if already known)</span><pre>getId()</pre></a></li>
 <li class="method public "><a href="#method_getInternalId" title="getInternalId :: Get the internal document id (if already known)"><span class="description">Get the internal document id (if already known)</span><pre>getInternalId()</pre></a></li>
 <li class="method public "><a href="#method_getInternalKey" title="getInternalKey :: Get the internal document key (if already known)"><span class="description">Get the internal document key (if already known)</span><pre>getInternalKey()</pre></a></li>
+<li class="method public "><a href="#method_getIsNew" title="getIsNew :: Get the isNew flag"><span class="description">Get the isNew flag</span><pre>getIsNew()</pre></a></li>
 <li class="method public "><a href="#method_getKey" title="getKey :: Get the document key (if already known)."><span class="description">Get the document key (if already known).</span><pre>getKey()</pre></a></li>
 <li class="method public "><a href="#method_getRevision" title="getRevision :: Get the document revision (if already known)"><span class="description">Get the document revision (if already known)</span><pre>getRevision()</pre></a></li>
 <li class="method public "><a href="#method_set" title="set :: Set a document attribute"><span class="description">Set a document attribute</span><pre>set()</pre></a></li>
@@ -81,6 +83,7 @@
 <li class="method public "><a href="#method_setHiddenAttributes" title="setHiddenAttributes :: Set the hidden attributes"><span class="description">Set the hidden attributes</span><pre>setHiddenAttributes()</pre></a></li>
 <li class="method public "><a href="#method_setInternalId" title="setInternalId :: Set the internal document id"><span class="description">Set the internal document id</span><pre>setInternalId()</pre></a></li>
 <li class="method public "><a href="#method_setInternalKey" title="setInternalKey :: Set the internal document key"><span class="description">Set the internal document key</span><pre>setInternalKey()</pre></a></li>
+<li class="method public "><a href="#method_setIsNew" title="setIsNew :: Set the isNew flag"><span class="description">Set the isNew flag</span><pre>setIsNew()</pre></a></li>
 <li class="method public "><a href="#method_setRevision" title="setRevision :: Set the document revision"><span class="description">Set the document revision</span><pre>setRevision()</pre></a></li>
 <li class="method public "><a href="#method_toJson" title="toJson :: Returns the document as JSON-encoded string"><span class="description">Returns the document as JSON-encoded string</span><pre>toJson()</pre></a></li>
 <li class="method public "><a href="#method_toSerialized" title="toSerialized :: Returns the document as a serialized string"><span class="description">Returns the document as a serialized string</span><pre>toSerialized()</pre></a></li>
@@ -95,6 +98,7 @@
 <li class="property protected "><a href="#property__changed" title="$_changed :: Flag to indicate whether document was changed locally"><span class="description"></span><pre>$_changed</pre></a></li>
 <li class="property protected "><a href="#property__hidden" title="$_hidden :: Flag to indicate whether document was changed locally"><span class="description"></span><pre>$_hidden</pre></a></li>
 <li class="property protected "><a href="#property__id" title="$_id :: The document id (might be NULL for new documents)"><span class="description"></span><pre>$_id</pre></a></li>
+<li class="property protected "><a href="#property__isNew" title="$_isNew :: Flag to indicate whether document is a new document (never been saved to the server)"><span class="description"></span><pre>$_isNew</pre></a></li>
 <li class="property protected "><a href="#property__key" title="$_key :: The document key (might be NULL for new documents)"><span class="description"></span><pre>$_key</pre></a></li>
 <li class="property protected "><a href="#property__rev" title="$_rev :: The document revision (might be NULL for new documents)"><span class="description"></span><pre>$_rev</pre></a></li>
 <li class="property protected "><a href="#property__values" title="$_values :: The document attributes (names/values)"><span class="description"></span><pre>$_values</pre></a></li>
@@ -105,6 +109,7 @@
                     <ul>
 <li class="constant  "><a href="#constant_ENTRY_HIDDEN" title="ENTRY_HIDDEN :: hidden atttribute index"><span class="description">hidden atttribute index</span><pre>ENTRY_HIDDEN</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_ID" title="ENTRY_ID :: Document id index"><span class="description">Document id index</span><pre>ENTRY_ID</pre></a></li>
+<li class="constant  "><a href="#constant_ENTRY_ISNEW" title="ENTRY_ISNEW :: isNew id index"><span class="description">isNew id index</span><pre>ENTRY_ISNEW</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_KEY" title="ENTRY_KEY :: Document key index"><span class="description">Document key index</span><pre>ENTRY_KEY</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_REV" title="ENTRY_REV :: Revision id index"><span class="description">Revision id index</span><pre>ENTRY_REV</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_KEEPNULL" title="OPTION_KEEPNULL :: keepNull option index"><span class="description">keepNull option index</span><pre>OPTION_KEEPNULL</pre></a></li>
@@ -385,6 +390,17 @@ document id, in the format collectionid/documentid</p></div>
 <code>string</code>- internal document key, might be NULL if document does not yet have a key</div>
 </div></div>
 </div>
+<a id="method_getIsNew"></a><div class="element clickable method public method_getIsNew" data-toggle="collapse" data-target=".method_getIsNew .collapse">
+<h2>Get the isNew flag</h2>
+<pre>getIsNew() : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>bool</code>$isNew - flags if new or existing doc</div>
+</div></div>
+</div>
 <a id="method_getKey"></a><div class="element clickable method public method_getKey" data-toggle="collapse" data-target=".method_getKey .collapse">
 <h2>Get the document key (if already known).</h2>
 <pre>getKey() : mixed</pre>
@@ -505,6 +521,21 @@ exception if the value is invalid.</p></div>
 </tr></table>
 </div></div>
 </div>
+<a id="method_setIsNew"></a><div class="element clickable method public method_setIsNew" data-toggle="collapse" data-target=".method_setIsNew .collapse">
+<h2>Set the isNew flag</h2>
+<pre>setIsNew(bool $isNew) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$isNew</h4>
+<code>bool</code><ul>
+<li>flags if new or existing doc</li>
+</ul>
+</div>
+</div></div>
+</div>
 <a id="method_setRevision"></a><div class="element clickable method public method_setRevision" data-toggle="collapse" data-target=".method_setRevision .collapse">
 <h2>Set the document revision</h2>
 <pre>setRevision(mixed $rev) : void</pre>
@@ -589,6 +620,12 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="property__isNew"> </a><div class="element clickable property protected property__isNew" data-toggle="collapse" data-target=".property__isNew .collapse">
+<h2></h2>
+<pre>$_isNew : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="property__key"> </a><div class="element clickable property protected property__key" data-toggle="collapse" data-target=".property__key .collapse">
 <h2></h2>
 <pre>$_key : string</pre>
@@ -618,6 +655,12 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 <a id="constant_ENTRY_ID"> </a><div class="element clickable constant  constant_ENTRY_ID" data-toggle="collapse" data-target=".constant_ENTRY_ID .collapse">
 <h2>Document id index</h2>
 <pre>ENTRY_ID </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_ENTRY_ISNEW"> </a><div class="element clickable constant  constant_ENTRY_ISNEW" data-toggle="collapse" data-target=".constant_ENTRY_ISNEW .collapse">
+<h2>isNew id index</h2>
+<pre>ENTRY_ISNEW </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
@@ -658,7 +701,7 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-03-03T00:22:32+02:00.<br></footer></div>
+            generated on 2013-05-01T19:06:48+03:00.<br></footer></div>
 </div>
 </body>
 </html>

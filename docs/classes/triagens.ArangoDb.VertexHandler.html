@@ -23,6 +23,7 @@
 <li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
 <li><a>Packages</a></li>
 <li><a href="../packages/ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
+<li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
 </ul>
 </li>
 <li class="dropdown" id="charts-menu">
@@ -71,6 +72,7 @@
 <li class="method public inherited"><a href="#method_replace" title="replace :: Replace an existing document in a collection, identified by the document itself"><span class="description">Replace an existing document in a collection, identified by the document itself</span><pre>replace()</pre></a></li>
 <li class="method public inherited"><a href="#method_replaceById" title="replaceById :: Replace an existing document in a collection, identified by collection id and document id"><span class="description">Replace an existing document in a collection, identified by collection id and document id</span><pre>replaceById()</pre></a></li>
 <li class="method public inherited"><a href="#method_save" title="save :: save a document to a collection"><span class="description">save a document to a collection</span><pre>save()</pre></a></li>
+<li class="method public inherited"><a href="#method_store" title="store :: Store a document to a collection"><span class="description">Store a document to a collection</span><pre>store()</pre></a></li>
 <li class="method public inherited"><a href="#method_update" title="update :: Update an existing document in a collection, identified by the including _id and optionally _rev in the patch document."><span class="description">Update an existing document in a collection, identified by the including _id and optionally _rev in the patch document.</span><pre>update()</pre></a></li>
 <li class="method public inherited"><a href="#method_updateById" title="updateById :: Update an existing document in a collection, identified by collection id and document id
 Attention - The behavior of this method has changed since version 1.1"><span class="description">Update an existing document in a collection, identified by collection id and document id
@@ -718,6 +720,59 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <code>mixed</code>- id of document created</div>
 </div></div>
 </div>
+<a id="method_store"></a><div class="element clickable method public method_store" data-toggle="collapse" data-target=".method_store .collapse">
+<h2>Store a document to a collection</h2>
+<pre>store(\triagens\ArangoDb\Document $document, mixed $collectionId, bool | array $options) : mixed</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This is an alias/shortcut to save() and replace(). Instead of having to determine which of the 3 functions to use,
+simply pass the document to store() and it will figure out which one to call.</p>
+
+<p>This will throw if the document cannot be saved or replaced.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>since</th>
+<td>1.0</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\DocumentHandler::store()</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$document</h4>
+<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
+<li>the document to be added, can be passed as a document or an array</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$collectionId</h4>
+<code>mixed</code><ul>
+<li>collection id as string or number</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>bool</code><code>array</code><ul>
+<li>optional, prior to v1.2.0 this was a boolean value for create. Since v1.2.0 it's an array of options.</li>
+</ul>
+
+<p>Options are :<br>
+<li>'create' - create the collection if it does not yet exist.</li>
+<li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
+</p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>- id of document created</div>
+</div></div>
+</div>
 <a id="method_update"></a><div class="element clickable method public method_update" data-toggle="collapse" data-target=".method_update .collapse">
 <h2>Update an existing document in a collection, identified by the including _id and optionally _rev in the patch document.</h2>
 <pre>update(\triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
@@ -1202,7 +1257,7 @@ This is only for options that are to be sent to the ArangoDB server.</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-03-03T00:22:32+02:00.<br></footer></div>
+            generated on 2013-05-01T19:06:48+03:00.<br></footer></div>
 </div>
 </body>
 </html>

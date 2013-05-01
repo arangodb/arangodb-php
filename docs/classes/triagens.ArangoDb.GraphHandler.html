@@ -23,6 +23,7 @@
 <li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
 <li><a>Packages</a></li>
 <li><a href="../packages/ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
+<li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
 </ul>
 </li>
 <li class="dropdown" id="charts-menu">
@@ -65,6 +66,7 @@
 <li class="method public "><a href="#method_dropGraph" title="dropGraph :: Drop a graph and remove all its vertices and edges, also drops vertex and edge collections"><span class="description">Drop a graph and remove all its vertices and edges, also drops vertex and edge collections</span><pre>dropGraph()</pre></a></li>
 <li class="method public "><a href="#method_getConnectedEdges" title="getConnectedEdges :: Get connected edges of a given vertex"><span class="description">Get connected edges of a given vertex</span><pre>getConnectedEdges()</pre></a></li>
 <li class="method public "><a href="#method_getEdge" title="getEdge :: Get a single edge from a graph"><span class="description">Get a single edge from a graph</span><pre>getEdge()</pre></a></li>
+<li class="method public "><a href="#method_getGraph" title="getGraph :: Get a graph"><span class="description">Get a graph</span><pre>getGraph()</pre></a></li>
 <li class="method public "><a href="#method_getNeighborVertices" title="getNeighborVertices :: Get neighboring vertices of a given vertex"><span class="description">Get neighboring vertices of a given vertex</span><pre>getNeighborVertices()</pre></a></li>
 <li class="method public "><a href="#method_getVertex" title="getVertex :: Get a single vertex from a graph"><span class="description">Get a single vertex from a graph</span><pre>getVertex()</pre></a></li>
 <li class="method public "><a href="#method_properties" title="properties :: Get a graph's properties"><span class="description">Get a graph's properties</span><pre>properties()</pre></a></li>
@@ -456,6 +458,53 @@ that the revision of the to-be-replaced vertex is the same as the one given.</p>
 <div class="subelement response">
 <code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>- the edge document fetched from the server</div>
 </div></div>
+</div>
+<a id="method_getGraph"></a><div class="element clickable method public method_getGraph" data-toggle="collapse" data-target=".method_getGraph .collapse">
+<h2>Get a graph</h2>
+<pre>getGraph(string $graph, array $options) : <a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a></pre>
+<div class="labels"></div>
+<div class="row collapse">
+<div class="span4">
+<div class="long_description"><p>This will get a graph.</p>
+
+<p>This will throw if the graph cannot be retrieved.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>since</th>
+<td>1.2</td>
+</tr>
+<tr>
+<th>example</th>
+<td>"ArangoDb/examples/graph.php" How to use this function</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$graph</h4>
+<code>string</code><ul>
+<li>The name of the graph</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><ul>
+<li>can be used to provide additional options</li>
+</ul>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a></code>- A graph object representing the graph</div>
+</div>
+<div class="span4">
+<h3>Examples</h3>
+<pre class="prettyprint linenums"></pre>
+</div>
+</div>
 </div>
 <a id="method_getNeighborVertices"></a><div class="element clickable method public method_getNeighborVertices" data-toggle="collapse" data-target=".method_getNeighborVertices .collapse">
 <h2>Get neighboring vertices of a given vertex</h2>
@@ -1152,7 +1201,7 @@ This is only for options that are to be sent to the ArangoDB server.</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-03-03T00:22:32+02:00.<br></footer></div>
+            generated on 2013-05-01T19:06:48+03:00.<br></footer></div>
 </div>
 </body>
 </html>
