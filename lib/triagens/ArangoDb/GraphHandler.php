@@ -99,25 +99,26 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param String - $graph - The name of the graph
+     * @param string $graph        - The name of the graph
+     * @param array  $options      - can be used to provide additional options
      *
      * @return Graph - A graph object representing the graph
      * @since   1.2
      *
      * @example "ArangoDb/examples/graph.php" How to use this function
-     * @example "ArangoDb/examples/graph.php" How to use this function
      */
     public function getGraph($graph, array $options = array())
     {
-        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, $graph);
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, $graph);
         $response = $this->getConnection()->get($url);
-        $data = $response->getJson();
+        $data     = $response->getJson();
 
-        if($data['error']){
+        if ($data['error']) {
             return false;
         }
 
         $options['_isNew'] = false;
+
         return Graph::createFromArray($data['graph'], $options);
     }
 
@@ -171,8 +172,8 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed    $graphName - the name of the graph
-     * @param mixed    $document  - the vertex to be added, can be passed as a vertex object or an array
+     * @param mixed $graphName - the name of the graph
+     * @param mixed $document  - the vertex to be added, can be passed as a vertex object or an array
      *
      * @return mixed - id of vertex created
      * @since 1.2
@@ -200,6 +201,7 @@ class GraphHandler extends
         }
 
         $document->setIsNew(false);
+
         return $document->getId();
     }
 
@@ -233,6 +235,7 @@ class GraphHandler extends
         $vertex    = $jsonArray['vertex'];
 
         $options['_isNew'] = false;
+
         return Vertex::createFromArray($vertex, $options);
     }
 
@@ -250,10 +253,10 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param string    $graphName    - the graph name as string
-     * @param mixed     $vertexId     - the vertex id as string or number
-     * @param Document  $document     - the vertex-document to be updated
-     * @param mixed     $options      - optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     * @param string   $graphName    - the graph name as string
+     * @param mixed    $vertexId     - the vertex id as string or number
+     * @param Document $document     - the vertex-document to be updated
+     * @param mixed    $options      - optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
      * <p>Options are :
      * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
      * <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
@@ -357,9 +360,10 @@ class GraphHandler extends
         $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_VERTEX, $vertexId);
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAll()));
-        $json = $result->getJson();
+        $json   = $result->getJson();
         $vertex = $json['vertex'];
         $document->setRevision($vertex[Vertex::ENTRY_REV]);
+
         return true;
     }
 
@@ -420,11 +424,11 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed    $graphName    - the graph name as string
-     * @param mixed    $from         - the 'from' vertex
-     * @param mixed    $to           - the 'to' vertex
-     * @param mixed    $label        - (optional) a label for the edge
-     * @param mixed    $document     - the edge-document to be added, can be passed as an edge object or an array
+     * @param mixed $graphName    - the graph name as string
+     * @param mixed $from         - the 'from' vertex
+     * @param mixed $to           - the 'to' vertex
+     * @param mixed $label        - (optional) a label for the edge
+     * @param mixed $document     - the edge-document to be added, can be passed as an edge object or an array
      *
      * @return mixed - id of edge created
      * @since 1.2
@@ -459,6 +463,7 @@ class GraphHandler extends
         }
 
         $document->setIsNew(false);
+
         return $document->getId();
     }
 
@@ -492,6 +497,7 @@ class GraphHandler extends
         $edge      = $jsonArray['edge'];
 
         $options['_isNew'] = false;
+
         return Edge::createFromArray($edge, $options);
     }
 
@@ -509,11 +515,11 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed    $graphName     - graph name as string or number
-     * @param mixed    $edgeId        - edge id as string or number
-     * @param mixed    $label         - (optional) label for the edge
-     * @param Edge     $document      - edge document to be updated
-     * @param mixed    $options       - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     * @param mixed $graphName     - graph name as string or number
+     * @param mixed $edgeId        - edge id as string or number
+     * @param mixed $label         - (optional) label for the edge
+     * @param Edge  $document      - edge document to be updated
+     * @param mixed $options       - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
      * <p>Options are :
      * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
      * <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
@@ -581,11 +587,11 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param string   $graphName     - graph name as string
-     * @param mixed    $edgeId        - edge id as string or number
-     * @param mixed    $label         - (optional) label for the edge
-     * @param Edge     $document      - patch edge-document which contains the attributes and values to be updated
-     * @param mixed    $options       - optional, array of options (see below)
+     * @param string $graphName     - graph name as string
+     * @param mixed  $edgeId        - edge id as string or number
+     * @param mixed  $label         - (optional) label for the edge
+     * @param Edge   $document      - patch edge-document which contains the attributes and values to be updated
+     * @param mixed  $options       - optional, array of options (see below)
      * <p>Options are :
      * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
      * <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
@@ -626,9 +632,10 @@ class GraphHandler extends
         $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_EDGE, $edgeId);
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAll()));
-        $json = $result->getJson();
-        $edge = $json['edge'];
+        $json   = $result->getJson();
+        $edge   = $json['edge'];
         $document->setRevision($edge[Edge::ENTRY_REV]);
+
         return true;
     }
 

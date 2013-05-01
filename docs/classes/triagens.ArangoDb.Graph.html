@@ -23,6 +23,7 @@
 <li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
 <li><a>Packages</a></li>
 <li><a href="../packages/ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
+<li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
 </ul>
 </li>
 <li class="dropdown" id="charts-menu">
@@ -59,7 +60,7 @@
 <i class="icon-custom icon-method"></i> Methods
                     <ul>
 <li class="method public inherited"><a href="#method___clone" title="__clone :: Clone a document"><span class="description">Clone a document</span><pre>__clone()</pre></a></li>
-<li class="method public inherited"><a href="#method___construct" title="__construct :: Constructs an empty document"><span class="description">Constructs an empty document</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#method___construct" title="__construct :: Constructs an empty graph"><span class="description">Constructs an empty graph</span><pre>__construct()</pre></a></li>
 <li class="method public inherited"><a href="#method___get" title="__get :: Get a document attribute, magic method"><span class="description">Get a document attribute, magic method</span><pre>__get()</pre></a></li>
 <li class="method public inherited"><a href="#method___set" title="__set :: Set a document attribute, magic method"><span class="description">Set a document attribute, magic method</span><pre>__set()</pre></a></li>
 <li class="method public inherited"><a href="#method___toString" title="__toString :: Get a string representation of the document."><span class="description">Get a string representation of the document.</span><pre>__toString()</pre></a></li>
@@ -75,15 +76,17 @@
 <li class="method public inherited"><a href="#method_getId" title="getId :: Get the document id (if already known)"><span class="description">Get the document id (if already known)</span><pre>getId()</pre></a></li>
 <li class="method public inherited"><a href="#method_getInternalId" title="getInternalId :: Get the internal document id (if already known)"><span class="description">Get the internal document id (if already known)</span><pre>getInternalId()</pre></a></li>
 <li class="method public inherited"><a href="#method_getInternalKey" title="getInternalKey :: Get the internal document key (if already known)"><span class="description">Get the internal document key (if already known)</span><pre>getInternalKey()</pre></a></li>
+<li class="method public inherited"><a href="#method_getIsNew" title="getIsNew :: Get the isNew flag"><span class="description">Get the isNew flag</span><pre>getIsNew()</pre></a></li>
 <li class="method public inherited"><a href="#method_getKey" title="getKey :: Get the document key (if already known)."><span class="description">Get the document key (if already known).</span><pre>getKey()</pre></a></li>
 <li class="method public inherited"><a href="#method_getRevision" title="getRevision :: Get the document revision (if already known)"><span class="description">Get the document revision (if already known)</span><pre>getRevision()</pre></a></li>
 <li class="method public "><a href="#method_getVerticesCollection" title="getVerticesCollection :: Get the Vertices Collection of the graph"><span class="description">Get the Vertices Collection of the graph</span><pre>getVerticesCollection()</pre></a></li>
-<li class="method public inherited"><a href="#method_set" title="set :: Set a document attribute"><span class="description">Set a document attribute</span><pre>set()</pre></a></li>
+<li class="method public "><a href="#method_set" title="set :: Set a graph attribute"><span class="description">Set a graph attribute</span><pre>set()</pre></a></li>
 <li class="method public inherited"><a href="#method_setChanged" title="setChanged :: Set the changed flag"><span class="description">Set the changed flag</span><pre>setChanged()</pre></a></li>
 <li class="method public "><a href="#method_setEdgesCollection" title="setEdgesCollection :: Set the edges-collection of the graph"><span class="description">Set the edges-collection of the graph</span><pre>setEdgesCollection()</pre></a></li>
 <li class="method public inherited"><a href="#method_setHiddenAttributes" title="setHiddenAttributes :: Set the hidden attributes"><span class="description">Set the hidden attributes</span><pre>setHiddenAttributes()</pre></a></li>
 <li class="method public inherited"><a href="#method_setInternalId" title="setInternalId :: Set the internal document id"><span class="description">Set the internal document id</span><pre>setInternalId()</pre></a></li>
 <li class="method public inherited"><a href="#method_setInternalKey" title="setInternalKey :: Set the internal document key"><span class="description">Set the internal document key</span><pre>setInternalKey()</pre></a></li>
+<li class="method public inherited"><a href="#method_setIsNew" title="setIsNew :: Set the isNew flag"><span class="description">Set the isNew flag</span><pre>setIsNew()</pre></a></li>
 <li class="method public inherited"><a href="#method_setRevision" title="setRevision :: Set the document revision"><span class="description">Set the document revision</span><pre>setRevision()</pre></a></li>
 <li class="method public "><a href="#method_setVerticesCollection" title="setVerticesCollection :: Set the vertices-collection of the graph"><span class="description">Set the vertices-collection of the graph</span><pre>setVerticesCollection()</pre></a></li>
 <li class="method public inherited"><a href="#method_toJson" title="toJson :: Returns the document as JSON-encoded string"><span class="description">Returns the document as JSON-encoded string</span><pre>toJson()</pre></a></li>
@@ -97,20 +100,26 @@
 <li class="nav-header protected">» Protected
                     <ul>
 <li class="property protected inherited"><a href="#property__changed" title="$_changed :: Flag to indicate whether document was changed locally"><span class="description"></span><pre>$_changed</pre></a></li>
+<li class="property protected "><a href="#property__edgesCollection" title="$_edgesCollection :: The collection used for edges"><span class="description"></span><pre>$_edgesCollection</pre></a></li>
 <li class="property protected inherited"><a href="#property__hidden" title="$_hidden :: Flag to indicate whether document was changed locally"><span class="description"></span><pre>$_hidden</pre></a></li>
 <li class="property protected inherited"><a href="#property__id" title="$_id :: The document id (might be NULL for new documents)"><span class="description"></span><pre>$_id</pre></a></li>
+<li class="property protected inherited"><a href="#property__isNew" title="$_isNew :: Flag to indicate whether document is a new document (never been saved to the server)"><span class="description"></span><pre>$_isNew</pre></a></li>
 <li class="property protected inherited"><a href="#property__key" title="$_key :: The document key (might be NULL for new documents)"><span class="description"></span><pre>$_key</pre></a></li>
 <li class="property protected inherited"><a href="#property__rev" title="$_rev :: The document revision (might be NULL for new documents)"><span class="description"></span><pre>$_rev</pre></a></li>
 <li class="property protected inherited"><a href="#property__values" title="$_values :: The document attributes (names/values)"><span class="description"></span><pre>$_values</pre></a></li>
+<li class="property protected "><a href="#property__verticesCollection" title="$_verticesCollection :: The collection used for vertices"><span class="description"></span><pre>$_verticesCollection</pre></a></li>
 </ul>
 </li>
 <li class="nav-header">
 <i class="icon-custom icon-constant"></i> Constants
                     <ul>
+<li class="constant  "><a href="#constant_ENTRY_EDGES" title="ENTRY_EDGES :: Graph edges"><span class="description">Graph edges</span><pre>ENTRY_EDGES</pre></a></li>
 <li class="constant  inherited"><a href="#constant_ENTRY_HIDDEN" title="ENTRY_HIDDEN :: hidden atttribute index"><span class="description">hidden atttribute index</span><pre>ENTRY_HIDDEN</pre></a></li>
 <li class="constant  inherited"><a href="#constant_ENTRY_ID" title="ENTRY_ID :: Document id index"><span class="description">Document id index</span><pre>ENTRY_ID</pre></a></li>
+<li class="constant  inherited"><a href="#constant_ENTRY_ISNEW" title="ENTRY_ISNEW :: isNew id index"><span class="description">isNew id index</span><pre>ENTRY_ISNEW</pre></a></li>
 <li class="constant  inherited"><a href="#constant_ENTRY_KEY" title="ENTRY_KEY :: Document key index"><span class="description">Document key index</span><pre>ENTRY_KEY</pre></a></li>
 <li class="constant  inherited"><a href="#constant_ENTRY_REV" title="ENTRY_REV :: Revision id index"><span class="description">Revision id index</span><pre>ENTRY_REV</pre></a></li>
+<li class="constant  "><a href="#constant_ENTRY_VERTICES" title="ENTRY_VERTICES :: Graph vertices"><span class="description">Graph vertices</span><pre>ENTRY_VERTICES</pre></a></li>
 <li class="constant  inherited"><a href="#constant_OPTION_KEEPNULL" title="OPTION_KEEPNULL :: keepNull option index"><span class="description">keepNull option index</span><pre>OPTION_KEEPNULL</pre></a></li>
 <li class="constant  inherited"><a href="#constant_OPTION_POLICY" title="OPTION_POLICY :: policy option index"><span class="description">policy option index</span><pre>OPTION_POLICY</pre></a></li>
 <li class="constant  inherited"><a href="#constant_OPTION_WAIT_FOR_SYNC" title="OPTION_WAIT_FOR_SYNC :: waitForSync option index"><span class="description">waitForSync option index</span><pre>OPTION_WAIT_FOR_SYNC</pre></a></li>
@@ -160,20 +169,22 @@
 </div></div>
 </div>
 <a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
-<h2>Constructs an empty document</h2>
-<pre>__construct(array $options) : void</pre>
-<div class="labels"><span class="label">Inherited</span></div>
+<h2>Constructs an empty graph</h2>
+<pre>__construct(array $name, array $options) : void</pre>
+<div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::__construct()</td>
-</tr></table>
 <h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>array</code><ul>
+<li>optional, initial name for graph</li>
+</ul>
+</div>
 <div class="subelement argument">
 <h4>$options</h4>
 <code>array</code><ul>
-<li>optional, initial $options for document</li>
+<li>optional, initial $options for graph</li>
 </ul>
 </div>
 </div></div>
@@ -478,6 +489,21 @@ document id, in the format collectionid/documentid</p></div>
 <code>string</code>- internal document key, might be NULL if document does not yet have a key</div>
 </div></div>
 </div>
+<a id="method_getIsNew"></a><div class="element clickable method public method_getIsNew" data-toggle="collapse" data-target=".method_getIsNew .collapse">
+<h2>Get the isNew flag</h2>
+<pre>getIsNew() : bool</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::getIsNew()</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>bool</code>$isNew - flags if new or existing doc</div>
+</div></div>
+</div>
 <a id="method_getKey"></a><div class="element clickable method public method_getKey" data-toggle="collapse" data-target=".method_getKey .collapse">
 <h2>Get the document key (if already known).</h2>
 <pre>getKey() : mixed</pre>
@@ -524,17 +550,13 @@ document id, in the format collectionid/documentid</p></div>
 </div></div>
 </div>
 <a id="method_set"></a><div class="element clickable method public method_set" data-toggle="collapse" data-target=".method_set .collapse">
-<h2>Set a document attribute</h2>
+<h2>Set a graph attribute</h2>
 <pre>set(string $key, mixed $value) : void</pre>
-<div class="labels"><span class="label">Inherited</span></div>
+<div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>The key (attribute name) must be a string.
 This will validate the value of the attribute and might throw an
 exception if the value is invalid.</p></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::set()</td>
-</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$key</h4>
@@ -663,6 +685,25 @@ exception if the value is invalid.</p></div>
 </tr></table>
 </div></div>
 </div>
+<a id="method_setIsNew"></a><div class="element clickable method public method_setIsNew" data-toggle="collapse" data-target=".method_setIsNew .collapse">
+<h2>Set the isNew flag</h2>
+<pre>setIsNew(bool $isNew) : void</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::setIsNew()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$isNew</h4>
+<code>bool</code><ul>
+<li>flags if new or existing doc</li>
+</ul>
+</div>
+</div></div>
+</div>
 <a id="method_setRevision"></a><div class="element clickable method public method_setRevision" data-toggle="collapse" data-target=".method_setRevision .collapse">
 <h2>Set the document revision</h2>
 <pre>setRevision(mixed $rev) : void</pre>
@@ -775,6 +816,12 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 </tr></table>
 </div></div>
 </div>
+<a id="property__edgesCollection"> </a><div class="element clickable property protected property__edgesCollection" data-toggle="collapse" data-target=".property__edgesCollection .collapse">
+<h2></h2>
+<pre>$_edgesCollection : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="property__hidden"> </a><div class="element clickable property protected property__hidden" data-toggle="collapse" data-target=".property__hidden .collapse">
 <h2></h2>
 <pre>$_hidden : bool</pre>
@@ -796,6 +843,18 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 <table class="table table-bordered"><tr>
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\Document::$$_id</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property__isNew"> </a><div class="element clickable property protected property__isNew" data-toggle="collapse" data-target=".property__isNew .collapse">
+<h2></h2>
+<pre>$_isNew : bool</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::$$_isNew</td>
 </tr></table>
 </div></div>
 </div>
@@ -835,8 +894,20 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 </tr></table>
 </div></div>
 </div>
+<a id="property__verticesCollection"> </a><div class="element clickable property protected property__verticesCollection" data-toggle="collapse" data-target=".property__verticesCollection .collapse">
+<h2></h2>
+<pre>$_verticesCollection : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <h3>
 <i class="icon-custom icon-constant"></i> Constants</h3>
+<a id="constant_ENTRY_EDGES"> </a><div class="element clickable constant  constant_ENTRY_EDGES" data-toggle="collapse" data-target=".constant_ENTRY_EDGES .collapse">
+<h2>Graph edges</h2>
+<pre>ENTRY_EDGES </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="constant_ENTRY_HIDDEN"> </a><div class="element clickable constant  constant_ENTRY_HIDDEN" data-toggle="collapse" data-target=".constant_ENTRY_HIDDEN .collapse">
 <h2>hidden atttribute index</h2>
 <pre>ENTRY_HIDDEN </pre>
@@ -858,6 +929,18 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 <table class="table table-bordered"><tr>
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\Document::ENTRY_ID</td>
+</tr></table>
+</div></div>
+</div>
+<a id="constant_ENTRY_ISNEW"> </a><div class="element clickable constant  constant_ENTRY_ISNEW" data-toggle="collapse" data-target=".constant_ENTRY_ISNEW .collapse">
+<h2>isNew id index</h2>
+<pre>ENTRY_ISNEW </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\triagens\ArangoDb\Document::ENTRY_ISNEW</td>
 </tr></table>
 </div></div>
 </div>
@@ -884,6 +967,12 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 <td>\triagens\ArangoDb\Document::ENTRY_REV</td>
 </tr></table>
 </div></div>
+</div>
+<a id="constant_ENTRY_VERTICES"> </a><div class="element clickable constant  constant_ENTRY_VERTICES" data-toggle="collapse" data-target=".constant_ENTRY_VERTICES .collapse">
+<h2>Graph vertices</h2>
+<pre>ENTRY_VERTICES </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="constant_OPTION_KEEPNULL"> </a><div class="element clickable constant  constant_OPTION_KEEPNULL" data-toggle="collapse" data-target=".constant_OPTION_KEEPNULL .collapse">
 <h2>keepNull option index</h2>
@@ -928,7 +1017,7 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-03-03T00:22:32+02:00.<br></footer></div>
+            generated on 2013-05-01T19:06:48+03:00.<br></footer></div>
 </div>
 </body>
 </html>

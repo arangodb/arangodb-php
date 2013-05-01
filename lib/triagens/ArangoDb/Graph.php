@@ -49,7 +49,8 @@ class Graph extends
     /**
      * Constructs an empty graph
      *
-     * @param array $options - optional, initial $options for document
+     * @param array $name    - optional, initial name for graph
+     * @param array $options - optional, initial $options for graph
      *
      * @return void
      */
@@ -57,7 +58,7 @@ class Graph extends
     {
 
         // prevent backwards compatibility break where the first parameter is the $options array
-        if(!is_array($name) && $name != null){
+        if (!is_array($name) && $name != null) {
             $this->set('_key', $name);
         }
 
@@ -134,7 +135,7 @@ class Graph extends
     public function set($key, $value)
     {
 
-        if(in_array($key, array(self::ENTRY_VERTICES, self::ENTRY_EDGES))){
+        if (in_array($key, array(self::ENTRY_VERTICES, self::ENTRY_EDGES))) {
 
             if (!is_string($key)) {
                 throw new ClientException('Invalid document attribute key');
@@ -154,8 +155,7 @@ class Graph extends
 
                 return;
             }
-
-        }else{
+        } else {
             parent::set($key, $value);
         }
     }
