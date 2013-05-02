@@ -3,7 +3,7 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
-VERSION=1.2.2
+VERSION=1.3.devel
 NAME=ArangoDB-$VERSION
 
 if [ ! -d "$DIR/$NAME" ]; then
@@ -35,8 +35,10 @@ ${ARANGOD} \
     --configuration none  \
     --server.endpoint tcp://127.0.0.1:8529 \
     --javascript.startup-directory ${ARANGODB_DIR}/js \
-    --javascript.modules-path ${ARANGODB_DIR}/js/server/modules:${ARANGODB_DIR}/js/common/modules \
-    --javascript.action-directory ${ARANGODB_DIR}/js/actions/system  \
+    --server.admin-directory ${ARANGODB_DIR}/html/admin \
+    --javascript.modules-path ${ARANGODB_DIR}/js/server/modules:${ARANGODB_DIR}/js/common/modules:${ARANGODB_DIR}/js/node \
+    --javascript.package-path ${ARANGODB_DIR}/js/npm:${ARANGODB_DIR}/js/common/test-data/modules \
+    --javascript.action-directory ${ARANGODB_DIR}/js/actions  \
     --database.maximal-journal-size 1048576  \
     --server.disable-admin-interface true \
     --server.disable-authentication true \
