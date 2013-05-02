@@ -24,6 +24,11 @@ class AdminHandler extends
     Handler
 {
     /**
+     * details for server version
+     */
+    const OPTION_DETAILS = "details";
+
+    /**
      * Get the server version
      *
      * This will throw if the version cannot be retrieved
@@ -33,12 +38,22 @@ class AdminHandler extends
      * @return string - a string holding the ArangoDB version
      * @since 1.2
      */
-    public function getServerVersion()
+    public function getServerVersion($details = false)
     {
-        $response = $this->getConnection()->get(Urls::URL_ADMIN_VERSION);
+        $url = Urls::URL_ADMIN_VERSION;
+
+        if($details){
+             $url = UrlHelper::appendParamsUrl($url, array('details' => true));
+        }
+
+        $response = $this->getConnection()->get($url);
         $data     = $response->getJson();
 
-        return $data['version'];
+        if($details){
+            return $data;
+        }else{
+            return $data['version'];
+        }
     }
 
 
