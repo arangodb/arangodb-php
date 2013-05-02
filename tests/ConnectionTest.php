@@ -38,7 +38,7 @@ class ConnectionTest extends
     /**
      * This is just a test to really test connectivity with the server before moving on to further tests.
      */
-    public function testGetStatus()
+    public function disabledTestGetStatus()
     {
         $connection = getConnection();
         $response   = $connection->get('/_admin/status');
