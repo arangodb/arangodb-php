@@ -120,7 +120,7 @@ class AdminTest extends
     /**
      * Test if we can get the server connection-statistics
      */
-    public function testGetServerStatus()
+    public function disabledTestGetServerStatus()
     {
         $result = $this->adminHandler->getServerStatus();
         $this->assertTrue(is_array($result), 'Should be an array');
@@ -159,7 +159,7 @@ class AdminTest extends
     /**
      * Test if we can get the server connection-statistics
      */
-    public function testGetServerConnectionStatistics()
+    public function disabledTestGetServerConnectionStatistics()
     {
         $result = $this->adminHandler->getServerConnectionStatistics();
         $this->assertTrue(is_array($result), 'Should be an array');
@@ -208,7 +208,7 @@ class AdminTest extends
     /**
      * Test if we can get the server request-statistics
      */
-    public function testGetServerRequestStatistics()
+    public function disabledTestGetServerRequestStatistics()
     {
         $result = $this->adminHandler->getServerRequestStatistics();
         $this->assertTrue(is_array($result), 'Should be an array');
