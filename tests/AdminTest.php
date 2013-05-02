@@ -28,6 +28,14 @@ class AdminTest extends
         $this->assertTrue(is_string($result), 'Version must be a string!');
     }
 
+    /**
+     * Test if we can get the server version with details
+     */
+    public function testGetServerVersionWithDetails()
+    {
+        $result = $this->adminHandler->getServerVersion(true);
+        $this->assertInternalType('array', $result, "The server version details must be an array!");
+    }
 
     /**
      * Test if we can get the server version
