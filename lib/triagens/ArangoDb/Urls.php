@@ -133,6 +133,11 @@ abstract class Urls
     const URL_BATCH = '/_api/batch';
 
     /**
+     * base URL part for batch processing
+     */
+    const URL_TRANSACTION = '/_api/transaction';
+
+    /**
      * base URL part for admin version
      */
     const URL_ADMIN_VERSION = '/_admin/version';
@@ -174,5 +179,4 @@ abstract class Urls
      * base URL part for user management
      */
     const URL_USER = '/_api/user';
-
 }
