@@ -166,14 +166,14 @@ abstract class Urls
     const URL_ADMIN_MODULES_FLUSH = '/_admin/modules/flush';
 
     /**
-     * base URL part for admin connection statistics
+     * base URL part for admin statistics
      */
-    const URL_ADMIN_CONNECTION_STATISTICS = '/_admin/connection-statistics';
+    const URL_ADMIN_STATISTICS = '/_admin/statistics';
 
     /**
-     * base URL part for admin request statistics
+     * base URL part for admin statistics-description
      */
-    const URL_ADMIN_REQUEST_STATISTICS = '/_admin/request-statistics';
+    const URL_ADMIN_STATISTICS_DESCRIPTION = '/_admin/statistics-description';
 
     /**
      * base URL part for user management

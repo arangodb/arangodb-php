@@ -8,6 +8,8 @@ v1.3.devel (xxxx-xx-xx)
 
 * Implemented support for ArangoDB's transactions
 
+* Re-implemented statistics according to new implementation in ArangoDB 1.3
+
 * Fixed precondition failed errors
 
 * Minor fixes in tests
