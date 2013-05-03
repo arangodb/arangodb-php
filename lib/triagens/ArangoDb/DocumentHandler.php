@@ -91,6 +91,18 @@ class DocumentHandler extends
 
         $options['_isNew'] = false;
 
+        return $this->createFromArrayWithContext($data, $options);
+    }
+
+
+    /**
+     * @param $data
+     * @param $options
+     *
+     * @return Document
+     */
+    public function createFromArrayWithContext($data, $options)
+    {
         return Document::createFromArray($data, $options);
     }
 

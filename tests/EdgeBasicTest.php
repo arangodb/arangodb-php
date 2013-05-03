@@ -87,7 +87,8 @@ class EdgeBasicTest extends
 
         $resultingDocument = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
 
-        $resultingEdge = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
+        $resultingEdge = $edgeDocumentHandler->get($edgeCollection->getName(), $edgeDocumentId);
+        $this->assertInstanceOf('triagens\ArangoDb\Edge', $resultingEdge);
 
         $resultingAttribute = $resultingEdge->label;
         $this->assertTrue(
@@ -136,7 +137,7 @@ class EdgeBasicTest extends
         $response = $documentHandler->delete($document1);
         $response = $documentHandler->delete($document2);
 
-        // On ArangoDB 1.0 deleting a vertex doesn't delete the associated edge. Caution!
+        // In ArangoDB deleting a vertex doesn't delete the associated edge, unless we're using the graph module. Caution!
         $response = $edgeDocumentHandler->delete($resultingEdge);
     }
 
@@ -180,9 +181,9 @@ class EdgeBasicTest extends
             $edgeDocument
         );
 
-        $resultingDocument = $documentHandler->get($edgeCollection->getId(), $edgeDocumentId);
+        //        $resultingDocument = $documentHandler->get($edgeCollection->getId(), $edgeDocumentId);
 
-        $resultingEdge = $documentHandler->get($edgeCollection->getId(), $edgeDocumentId);
+        $resultingEdge = $edgeDocumentHandler->get($edgeCollection->getId(), $edgeDocumentId);
 
         $resultingAttribute = $resultingEdge->label;
         $this->assertTrue(
@@ -215,12 +216,12 @@ class EdgeBasicTest extends
             $result,
             "IN PATHS statement did not return a document object!"
         );
-        $resultingDocument->set('label', 'knows not');
+        $resultingEdge->set('label', 'knows not');
 
-        $resultingDocument2 = $documentHandler->update($resultingDocument);
+        $resultingDocument2 = $documentHandler->update($resultingEdge);
 
 
-        $resultingEdge      = $documentHandler->get($edgeCollection->getId(), $edgeDocumentId);
+        $resultingEdge      = $edgeDocumentHandler->get($edgeCollection->getId(), $edgeDocumentId);
         $resultingAttribute = $resultingEdge->label;
         $this->assertTrue(
             $resultingAttribute === 'knows not',

@@ -23,7 +23,7 @@ class EdgeExtendedTest extends
     }
 
 
-   /**
+    /**
      * Test for correct exception codes if non-existent objects are tried to be gotten, replaced, updated or removed
      */
     public function testGetReplaceUpdateAndRemoveOnNonExistantObjects()

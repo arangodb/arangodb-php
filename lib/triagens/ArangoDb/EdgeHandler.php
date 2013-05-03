@@ -56,6 +56,17 @@ class EdgeHandler extends
      */
     const OPTION_DIRECTION = 'direction';
 
+    /**
+     * @param $data
+     * @param $options
+     *
+     * @return Document
+     */
+    public function createFromArrayWithContext($data, $options)
+    {
+        return Edge::createFromArray($data, $options);
+    }
+
 
     /**
      * Just throw an exception if add() is called on edges.
@@ -159,6 +170,7 @@ class EdgeHandler extends
         }
 
         $document->setIsNew(false);
+
         return $document->getId();
     }
 
