@@ -1,14 +1,16 @@
 v1.3.devel (xxxx-xx-xx)
 -----------------------
 
-# Contributors to this version (in alphabetical order ;) ):
-# Francis Chuang (Github: @F21)
+# Contributors to this version:
 # Frank Mayer (Github: @frankmayer)
+# Francis Chuang (Github: @F21)
 
 
 * Implemented support for ArangoDB's transactions
 
 * Fixed precondition failed errors
+
+* Minor fixes in tests
 
 
 
