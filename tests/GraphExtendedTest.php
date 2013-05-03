@@ -550,6 +550,76 @@ class GraphExtendedTest extends
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
     }
 
+    /**
+     * Test if a Vertex can be saved, replaced, updated, and finally removed with conditions
+     */
+    public function testSaveVertexConditionalReplaceUpdateAndRemove()
+    {
+    	// Setup Objects
+    	$vertex1  = Vertex::createFromArray($this->vertex1Array);
+    	$vertex2  = Vertex::createFromArray($this->vertex2Array);
+    	$vertex1a = Vertex::createFromArray($this->vertex1aArray);
+    
+    
+    	// Save vertices
+    	$result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
+    	$this->assertTrue($result1 == 'vertex1', 'Did not return vertex1!');
+    
+    	$result2 = $this->graphHandler->saveVertex($this->graphName, $vertex2);
+    	$this->assertTrue($result2 == 'vertex2', 'Did not return vertex2!');
+    
+    
+    	// Get vertices
+    	$result1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
+    	$this->assertTrue($result1->getKey() == 'vertex1', 'Did not return vertex1!');
+    
+    	$result2 = $this->graphHandler->getVertex($this->graphName, $this->vertex2Name);
+    	$this->assertTrue($result2->getKey() == 'vertex2', 'Did not return vertex2!');
+    
+    
+    	// Replace vertex
+    	$result1a = $this->graphHandler->replaceVertex($this->graphName, $this->vertex1Name, $vertex1a, array('revision' => $result1->getRevision()));
+    	$this->assertTrue($result1a, 'Did not return true!');
+    
+    
+    	// Get vertex
+    	$result1a = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
+    	$this->assertTrue($result1a->someKey1 == 'someValue1a', 'Did not return someValue1a!');
+    
+    
+    	// Replace vertex
+    	$result1 = $this->graphHandler->replaceVertex($this->graphName, $this->vertex1Name, $vertex1);
+    	$this->assertTrue($result1, 'Did not return true!');
+    
+    
+    	// Get vertex
+    	$result1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
+    	$this->assertTrue($result1->someKey1 == 'someValue1', 'Did not return someValue1!');
+    
+    
+    	$result1a = $this->graphHandler->updateVertex($this->graphName, $this->vertex1Name, $vertex1a);
+    	$this->assertTrue($result1a, 'Did not return true!');
+    
+    
+    	$result1a = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
+    	$this->assertTrue($result1a->someKey1 == 'someValue1a', 'Did not return someValue1a!');
+    
+    
+    	try {
+    		$result1 = $this->graphHandler->updateVertex($this->graphName, $this->vertex1Name, $vertex1, array('revision' => true));
+    		$this->assertTrue($result1, 'Did not return true!');
+    	} catch (Exception $e) {
+    		//just give us the $e
+    	}
+    	$this->assertInstanceOf('triagens\ArangoDb\ServerException', $e, "An exception should be thrown by the mis-matching revision!");
+    
+    	$result1a = $this->graphHandler->removeVertex($this->graphName, $this->vertex1Name);
+    	$this->assertTrue($result1a, 'Did not return true!');
+    
+    
+    	$result2 = $this->graphHandler->removeVertex($this->graphName, $this->vertex2Name);
+    	$this->assertTrue($result2, 'Did not return true!');
+    }
 
     /**
      * Test if 2 Vertices can be saved and an Edge between them can be saved, replaced, updated, and finally removed
@@ -642,6 +712,69 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+    }
+    
+    /**
+     * Test if 2 Vertices can be saved and an Edge between them can be saved, replaced, updated, and finally removed conditionally
+     */
+    public function testSaveVerticesAndConditionalSaveReplaceUpdateAndRemoveEdge()
+    {
+    	$vertex1 = Vertex::createFromArray($this->vertex1Array);
+    	$vertex2 = Vertex::createFromArray($this->vertex2Array);
+    	$edge1   = Edge::createFromArray($this->edge1Array);
+    	$edge1a  = Edge::createFromArray($this->edge1aArray);
+    
+    
+    	$result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
+    	$this->assertTrue($result1 == 'vertex1', 'Did not return vertex1!');
+    
+    
+    	$result2 = $this->graphHandler->saveVertex($this->graphName, $vertex2);
+    	$this->assertTrue($result2 == 'vertex2', 'Did not return vertex2!');
+    
+    
+    	$result1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
+    	$this->assertTrue($result1->getKey() == 'vertex1', 'Did not return vertex1!');
+    
+    
+    	$result2 = $this->graphHandler->getVertex($this->graphName, $this->vertex2Name);
+    	$this->assertTrue($result2->getKey() == 'vertex2', 'Did not return vertex2!');
+    
+    
+    	$result1 = $this->graphHandler->saveEdge(
+    			$this->graphName,
+    			$this->vertex1Name,
+    			$this->vertex2Name,
+    			$this->edgeLabel1,
+    			$edge1
+    	);
+    	$this->assertTrue($result1 == 'edge1', 'Did not return edge1!');
+    
+    
+    	$result1 = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
+    	$this->assertTrue($result1->getKey() == 'edge1', 'Did not return edge1!');
+    
+    
+    	$result1a = $this->graphHandler->replaceEdge($this->graphName, $this->edge1Name, $this->edgeLabel1, $edge1a, array('revision' => $result1->getRevision()));
+    	$this->assertTrue($result1a, 'Did not return true!');
+    
+    
+    	$result1a = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
+    	$this->assertTrue($result1a->someEdgeKey1 == 'someEdgeValue1a', 'Did not return someEdgeValue1a!');
+
+    	try {
+    		$result1a = $this->graphHandler->updateEdge($this->graphName, $this->edge1Name, $this->edgeLabel1, $edge1, array('revision' => true));
+    	} catch (Exception $e) {
+    		//Just give the $e
+    	}
+    	
+    	$this->assertInstanceOf('triagens\ArangoDb\ServerException', $e, "An exception should be thrown by the mis-matching revision!");
+    
+    	$result1a = $this->graphHandler->removeVertex($this->graphName, $this->vertex1Name);
+    	$this->assertTrue($result1a, 'Did not return true!');
+
+    	$result2 = $this->graphHandler->removeVertex($this->graphName, $this->vertex2Name);
+    	$this->assertTrue($result2, 'Did not return true!');
     }
 
 
