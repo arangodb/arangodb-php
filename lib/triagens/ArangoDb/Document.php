@@ -142,7 +142,6 @@ class Document
     public static function createFromArray(array $values, array $options = array())
     {
         $document = new static($options);
-
         foreach ($values as $key => $value) {
             $document->set($key, $value);
         }
@@ -462,7 +461,7 @@ class Document
      */
     public function setIsNew($isNew)
     {
-        $this->_isNew = (bool)$isNew;
+        $this->_isNew = (bool) $isNew;
     }
 
     /**

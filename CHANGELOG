@@ -1,3 +1,20 @@
+v1.3.devel (xxxx-xx-xx)
+-----------------------
+
+# Contributors to this version:
+# Frank Mayer (Github: @frankmayer)
+# Francis Chuang (Github: @F21)
+
+
+* Implemented support for ArangoDB's transactions
+
+* Fixed precondition failed errors
+
+* Minor fixes in tests
+
+
+
+
 v1.2.1 (2013-05-01)
 -----------------------
 
@@ -51,13 +68,12 @@ v1.2.1 (2013-05-01)
 
 
 
-
-
 v1.2.0 (2013-03-03)
 -----------------------
 * Implemented ArangoDB User-Management
 
 * Fixed issue #46 "Cannot run AQL queries that produce non-document results"
+
 
 
 
@@ -92,6 +108,7 @@ v1.2.0-BETA2 (2013-02-23)
 
 
 
+
 v1.2.0-BETA1 (2013-02-20)
 -----------------------
 
@@ -119,6 +136,8 @@ v1.2.0-BETA1 (2013-02-20)
 
 * Implemented support for ArangoDB 1.2. Users of ArangoDB 1.1 should continue to use v1.1.x of the PHP Client.
   The 1.1 branch of the PHP client will receive bug-fixes if necessary, but development will focus on the v1.2 branch.
+
+
 
 
 v1.1.0 (2013-01-28)
@@ -152,9 +171,7 @@ v1.0.1 (2012-12-05)
 
   - $statement->explain();
   - $statement->validate();
-  
 
-  
 * issue #28: Feature: Implement missing simple-query-related functionality 
 
  Added Commands:

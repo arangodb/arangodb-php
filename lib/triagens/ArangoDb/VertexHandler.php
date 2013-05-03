@@ -23,5 +23,14 @@ namespace triagens\ArangoDb;
 class VertexHandler extends
     DocumentHandler
 {
-
+    /**
+     * @param $data
+     * @param $options
+     *
+     * @return Document
+     */
+    public function createFromArrayWithContext($data, $options)
+    {
+        return Vertex::createFromArray($data, $options);
+    }
 }

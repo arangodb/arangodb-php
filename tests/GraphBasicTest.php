@@ -87,6 +87,19 @@ class GraphBasicTest extends
 
     public function tearDown()
     {
+        $this->graphHandler = new \triagens\ArangoDb\GraphHandler($this->connection);
+        try {
+            $this->graphHandler->dropGraph('Graph1');
+        } catch (Exception $e) {
+        }
+        try {
+            $this->graphHandler->dropGraph('Graph2');
+        } catch (Exception $e) {
+        }
+        try {
+            $this->graphHandler->dropGraph('Graph3');
+        } catch (Exception $e) {
+        }
         unset($this->graph);
         unset($this->graphHandler);
         unset($this->connection);
