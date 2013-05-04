@@ -40,6 +40,15 @@ namespace triagens\ArangoDb;
  * $this->setWriteCollections($array or $string if single collection)
  * $this->setReadCollections($array or $string if single collection)
  *
+ *
+ * @property array  $collection      - The collections array that includes both read and write collection definitions
+ * @property mixed  $readCollection  - The read-collections array or string (if only one)
+ * @property mixed  $writeCollection - The write-collections array or string (if only one)
+ * @property string $action          - The action to pass to the server
+ * @property bool   $waitForSync     - WaitForSync on the transaction
+ * @property int    $lockTimeout     - LockTimeout on the transaction
+ *
+ *
  * @package ArangoDbPhpClient
  */
 class Transaction
