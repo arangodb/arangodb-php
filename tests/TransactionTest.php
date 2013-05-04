@@ -149,6 +149,57 @@ class TransactionTest extends
 
 
     /**
+     * Test if we can create and execute a transaction by using magic getters/setters and single collection-definitions as strings
+     */
+    public function testCreateAndExecuteTransactionWithMagicGettersSettersAndSingleCollectionDefinitionsAsStrings()
+    {
+        $writeCollections = $this->collection1->getName();
+        $readCollections  = $this->collection2->getName();
+        $action           = '
+  function () {
+    var db = require("internal").db;
+    db.' . $this->collection1->getName() . '.save({ test : "hello" });
+  }';
+        $waitForSync      = true;
+        $lockTimeout      = 10;
+
+        // check if setters work fine
+        $transaction                   = new \triagens\ArangoDb\Transaction($this->connection);
+        $transaction->writeCollections = $writeCollections;
+        $transaction->readCollections  = $readCollections;
+        $transaction->action           = $action;
+        $transaction->waitForSync      = true;
+        $transaction->lockTimeout      = 10;
+
+        // check if getters work fine
+
+        $this->assertTrue(
+            $transaction->writeCollections == $writeCollections,
+            'Did not return writeCollections, instead returned: ' . print_r($transaction->writeCollections, 1)
+        );
+        $this->assertTrue(
+            $transaction->readCollections == $readCollections,
+            'Did not return readCollections, instead returned: ' . print_r($transaction->readCollections, 1)
+        );
+        $this->assertTrue(
+            $transaction->action == $action,
+            'Did not return action, instead returned: ' . $transaction->action
+        );
+        $this->assertTrue(
+            $transaction->waitForSync == $waitForSync,
+            'Did not return waitForSync, instead returned: ' . $transaction->waitForSync
+        );
+        $this->assertTrue(
+            $transaction->lockTimeout == $lockTimeout,
+            'Did not return lockTimeout, instead returned: ' . $transaction->lockTimeout
+        );
+
+        $result = $transaction->execute();
+        $this->assertTrue($result, 'Did not return true, instead returned: ' . $result);
+    }
+
+
+    /**
      * Test if we can create and execute a transaction by using getters/setters
      */
     public function testCreateAndExecuteTransactionWithGettersSetters()
