@@ -57,6 +57,8 @@ class EdgeHandler extends
     const OPTION_DIRECTION = 'direction';
 
     /**
+     * Intermediate function to call the createFromArray function from the right context
+     *
      * @param $data
      * @param $options
      *

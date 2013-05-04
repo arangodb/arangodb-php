@@ -176,6 +176,11 @@ abstract class Urls
     const URL_ADMIN_STATISTICS_DESCRIPTION = '/_admin/statistics-description';
 
     /**
+     * base URL part for AQL user functions statistics
+     */
+    const URL_AQL_USER_FUNCTION = '/_api/aqlfunction';
+
+    /**
      * base URL part for user management
      */
     const URL_USER = '/_api/user';
