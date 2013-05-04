@@ -1165,7 +1165,7 @@ class CollectionHandler extends
      * </li>
      * </p>
      *
-     * @return array - documents matching the example [0...n]
+     * @return Cursor - documents matching the example [0...n]
      */
     public function range($collectionId, $attribute, $left, $right, $options = array())
     {
@@ -1228,7 +1228,7 @@ class CollectionHandler extends
      * </li>
      * </p>
      *
-     * @return array - documents matching the example [0...n]
+     * @return Cursor - documents matching the example [0...n]
      */
     public function near($collectionId, $latitude, $longitude, $options = array())
     {
@@ -1287,7 +1287,7 @@ class CollectionHandler extends
      * </li>
      * </p>
      *
-     * @return array - documents matching the example [0...n]
+     * @return Cursor - documents matching the example [0...n]
      */
     public function within($collectionId, $latitude, $longitude, $radius, $options = array())
     {
