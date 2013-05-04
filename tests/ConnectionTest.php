@@ -1,7 +1,7 @@
 <?php
 /**
  * ArangoDB PHP client testsuite
- * File: connectiontest.php
+ * File: ConnectionTest.php
  *
  * @package ArangoDbPhpClient
  * @author  Frank Mayer

@@ -29,6 +29,7 @@ class BatchTest extends
         $this->collectionHandler->add($this->edgeCollection);
     }
 
+
     public function testEmptyBatch()
     {
         $batch = new Batch($this->connection);
@@ -49,6 +50,7 @@ class BatchTest extends
         } catch (ClientException $e) {
         }
     }
+
 
     public function testPartIds()
     {
@@ -83,6 +85,7 @@ class BatchTest extends
         } catch (ClientException $e) {
         }
     }
+
 
     public function testProcessProcess()
     {
@@ -119,6 +122,7 @@ class BatchTest extends
         $this->assertEquals(409, $response->getHttpCode());
     }
 
+
     public function testCreateDocumentBatch()
     {
 
@@ -151,6 +155,7 @@ class BatchTest extends
         // try getting it from batch
         $testDocument2PartResponse = $batch->getProcessedPartResponse(1);
     }
+
 
     public function testCreateMixedBatchWithPartIds()
     {
@@ -314,6 +319,7 @@ class BatchTest extends
 
         $results = $batch->process();
     }
+
 
     public function tearDown()
     {

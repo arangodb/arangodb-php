@@ -1,7 +1,7 @@
 <?php
 /**
  * ArangoDB PHP client testsuite
- * File: collectionextendedtest.php
+ * File: CollectionExtendedTest.php
  *
  * @package ArangoDbPhpClient
  * @author  Frank Mayer
@@ -9,9 +9,22 @@
 
 namespace triagens\ArangoDb;
 
+/**
+ * Class CollectionExtendedTest
+ *
+ * @property Connection        $connection
+ * @property Collection        $collection
+ * @property CollectionHandler $collectionHandler
+ * @property DocumentHandler   $documentHandler
+ *
+ * @package triagens\ArangoDb
+ */
 class CollectionExtendedTest extends
     \PHPUnit_Framework_TestCase
 {
+    /**
+     * Test set-up
+     */
     public function setUp()
     {
         $this->connection        = getConnection();
@@ -19,6 +32,7 @@ class CollectionExtendedTest extends
         $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
         $this->documentHandler   = new \triagens\ArangoDb\DocumentHandler($this->connection);
     }
+
 
     /**
      * test for creation, get, and delete of a collection with waitForSync default value (no setting)
@@ -106,6 +120,7 @@ class CollectionExtendedTest extends
         $this->assertTrue($response, 'Delete should return true!');
     }
 
+
     /**
      * test for getting all collection exclude system collections
      */
@@ -115,7 +130,8 @@ class CollectionExtendedTest extends
 
         $collections = array(
             "ArangoDB_PHP_TestSuite_TestCollection_01",
-            "ArangoDB_PHP_TestSuite_TestCollection_02");
+            "ArangoDB_PHP_TestSuite_TestCollection_02"
+        );
 
         foreach ($collections as $col) {
             $collection = new \triagens\ArangoDb\Collection();
@@ -126,11 +142,14 @@ class CollectionExtendedTest extends
         $collectionList = $collectionHandler->getAllCollections($options = array("excludeSystem" => true));
 
         foreach ($collections as $col) {
-            $this->assertArrayHasKey($col, $collectionList,"Collection name should be in collectionList");
+            $this->assertArrayHasKey($col, $collectionList, "Collection name should be in collectionList");
         }
 
-        $this->assertArrayNotHasKey("_structures", $collectionList,
-            "System collection _structure should not be returned");
+        $this->assertArrayNotHasKey(
+            "_structures",
+            $collectionList,
+            "System collection _structure should not be returned"
+        );
 
         foreach ($collections as $col) {
             $collectionHandler->delete($col);
@@ -226,7 +245,7 @@ class CollectionExtendedTest extends
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
         $collection->setName($name);
 
-        $response = $collectionHandler->add($collection);
+        $collectionHandler->add($collection);
 
         // here we check the collectionHandler->getProperties function
         $properties = $collectionHandler->getProperties($collection->getName());
@@ -245,15 +264,15 @@ class CollectionExtendedTest extends
         // First fill it a bit to make sure it's loaded...
         $documentHandler = $this->documentHandler;
 
-        $document   = Document::createFromArray(
+        $document = Document::createFromArray(
             array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
         );
-        $documentId = $documentHandler->add($collection->getName(), $document);
+        $documentHandler->add($collection->getName(), $document);
 
-        $document   = Document::createFromArray(
+        $document = Document::createFromArray(
             array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
         );
-        $documentId = $documentHandler->add($collection->getName(), $document);
+        $documentHandler->add($collection->getName(), $document);
 
         $arrayOfDocuments = $collectionHandler->getAllIds($collection->getName());
 
@@ -313,40 +332,40 @@ class CollectionExtendedTest extends
         $this->assertTrue($response, 'Delete should return true!');
     }
 
-    //todo: (frankmayer) check if this test is still needed..
-    //    /**
-    //     * test for creation of documents, and removal by example
-    //     */
-    //    public function testCreateDocumentsWithCreateFromArrayAndRemoveByExample()
-    //    {
-    //        $documentHandler   = $this->documentHandler;
-    //        $collectionHandler = $this->collectionHandler;
-    //
-    //        $collection  = Collection::createFromArray(
-    //            array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true)
-    //        );
-    //        $response    = $collectionHandler->add($collection);
-    //        $document    = Document::createFromArray(
-    //            array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
-    //        );
-    //        $documentId  = $documentHandler->add($collection->getId(), $document);
-    //        $document2   = Document::createFromArray(
-    //            array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
-    //        );
-    //        $documentId2 = $documentHandler->add($collection->getId(), $document2);
-    //        $document3   = Document::createFromArray(
-    //            array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue')
-    //        );
-    //        $documentId3 = $documentHandler->add($collection->getId(), $document3);
-    //
-    //        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
-    //        $this->assertTrue(is_numeric($documentId2), 'Did not return an id!');
-    //        $this->assertTrue(is_numeric($documentId3), 'Did not return an id!');
-    //
-    //        $exampleDocument = Document::createFromArray(array('someOtherAttribute' => 'someOtherValue'));
-    //        $result          = $collectionHandler->removeByExample($collection->getId(), $exampleDocument);
-    //        $this->assertTrue($result === 2);
-    //    }
+
+    /**
+     * test for creation of documents, and removal by example
+     */
+    public function testCreateDocumentsWithCreateFromArrayAndRemoveByExample()
+    {
+        $documentHandler   = $this->documentHandler;
+        $collectionHandler = $this->collectionHandler;
+
+        $collection  = Collection::createFromArray(
+            array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true)
+        );
+        $response    = $collectionHandler->add($collection);
+        $document    = Document::createFromArray(
+            array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId  = $documentHandler->add($collection->getId(), $document);
+        $document2   = Document::createFromArray(
+            array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+        );
+        $documentId2 = $documentHandler->add($collection->getId(), $document2);
+        $document3   = Document::createFromArray(
+            array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId3 = $documentHandler->add($collection->getId(), $document3);
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId2), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId3), 'Did not return an id!');
+
+        $exampleDocument = Document::createFromArray(array('someOtherAttribute' => 'someOtherValue'));
+        $result          = $collectionHandler->removeByExample($collection->getId(), $exampleDocument);
+        $this->assertTrue($result === 2);
+    }
 
 
     /**
@@ -637,8 +656,8 @@ class CollectionExtendedTest extends
         $this->assertTrue($result === 1);
 
 
-        $exampleDocument   = Document::createFromArray(array('someNewAttribute' => 'someNewValue'));
-        $cursor = $collectionHandler->byExample($collection->getId(), $exampleDocument);
+        $exampleDocument = Document::createFromArray(array('someNewAttribute' => 'someNewValue'));
+        $cursor          = $collectionHandler->byExample($collection->getId(), $exampleDocument);
         $this->assertTrue(
             $cursor->getCount() == 1,
             'should return 1.'
@@ -1059,6 +1078,7 @@ class CollectionExtendedTest extends
         $this->assertTrue($response, 'Delete should return true!');
     }
 
+
     /**
      * test for creating, filling with documents and truncating the collection.
      */
@@ -1116,6 +1136,7 @@ class CollectionExtendedTest extends
         $response = $collectionHandler->delete($collection);
         $this->assertTrue($response, 'Delete should return true!');
     }
+
 
     /**
      * test to set some attributes and get all attributes of the collection through getAll()
@@ -1516,6 +1537,10 @@ class CollectionExtendedTest extends
         $this->assertTrue($response, 'Delete should return true!');
     }
 
+
+    /**
+     * Test if we can create a full text index with options, on a collection
+     */
     public function testCreateFulltextIndexedCollectionWithOptions()
     {
         // set up collections and index
@@ -1524,17 +1549,27 @@ class CollectionExtendedTest extends
         $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
         $response   = $collectionHandler->add($collection);
 
-        $indexRes = $collectionHandler->index($collection->getName(), 'fulltext', array('name'), false, array('minLength' => 10));
+        $indexRes = $collectionHandler->index(
+            $collection->getName(),
+            'fulltext',
+            array('name'),
+            false,
+            array('minLength' => 10)
+        );
 
         $this->assertArrayHasKey(
-                'isNewlyCreated',
-                $indexRes,
-                "index creation result should have the isNewlyCreated key !"
+            'isNewlyCreated',
+            $indexRes,
+            "index creation result should have the isNewlyCreated key !"
         );
 
         $this->assertArrayHasKey('minLength', $indexRes, 'index creation result should have a minLength key!');
 
-        $this->assertEquals(10, $indexRes['minLength'], 'index created does not have the same minLength as the one sent!');
+        $this->assertEquals(
+            10,
+            $indexRes['minLength'],
+            'index created does not have the same minLength as the one sent!'
+        );
 
         // Check if the index is returned in the indexes of the collection
         $indexes = $collectionHandler->getIndexes($collection->getName());
@@ -1582,14 +1617,23 @@ class CollectionExtendedTest extends
 
         //Now, let's try to query any document
         $document = $collectionHandler->any($collection->getName());
-        $this->assertContains($document->get('message'), array('message1', 'message2', 'message3'), 'A document that was not part of the collection was retrieved!');
+        $this->assertContains(
+            $document->get('message'),
+            array('message1', 'message2', 'message3'),
+            'A document that was not part of the collection was retrieved!'
+        );
 
         //Let's try another random document
         $document = $collectionHandler->any($collection->getName());
-        $this->assertContains($document->get('message'), array('message1', 'message2', 'message3'), 'A document that was not part of the collection was retrieved!');
+        $this->assertContains(
+            $document->get('message'),
+            array('message1', 'message2', 'message3'),
+            'A document that was not part of the collection was retrieved!'
+        );
 
         $response = $collectionHandler->delete($collection->getName());
     }
+
 
     /**
      * Test getting a random document from a collection that does not exist
@@ -1610,10 +1654,15 @@ class CollectionExtendedTest extends
             //Let's try to get a random document
             $document = $collectionHandler->any('collection_that_does_not_exist');
         } catch (ServerException $e) {
-            $this->assertInstanceOf('\triagens\ArangoDb\ServerException', $e, "Exception thrown was not a ServerException!");
+            $this->assertInstanceOf(
+                '\triagens\ArangoDb\ServerException',
+                $e,
+                "Exception thrown was not a ServerException!"
+            );
             $this->assertEquals(404, $e->getCode(), "Error code was not a 404!");
         }
     }
+
 
     /**
      * Test getting a random document from an empty collection
@@ -1638,6 +1687,10 @@ class CollectionExtendedTest extends
         $collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_Any_Empty');
     }
 
+
+    /**
+     * Test tear-down
+     */
     public function tearDown()
     {
         try {
