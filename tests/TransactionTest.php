@@ -57,14 +57,39 @@ class TransactionTest extends
     var db = require("internal").db;
     db.' . $this->collection1->getName() . '.save({ test : "hello" });
   }';
+        $waitForSync      = true;
+        $lockTimeout      = 10;
 
         $array       = array(
             'collections' => array('read' => $readCollections, 'write' => $writeCollections),
             'action'      => $action,
-            'waitForSync' => true,
-            'lockTimeout' => 5
+            'waitForSync' => $waitForSync,
+            'lockTimeout' => $lockTimeout
         );
         $transaction = new \triagens\ArangoDb\Transaction($this->connection, $array);
+
+        // check if object was initialized correctly with the array
+
+        $this->assertTrue(
+            $transaction->getWriteCollections() == $writeCollections,
+            'Did not return writeCollections, instead returned: ' . print_r($transaction->getWriteCollections(), 1)
+        );
+        $this->assertTrue(
+            $transaction->getReadCollections() == $readCollections,
+            'Did not return readCollections, instead returned: ' . print_r($transaction->getReadCollections(), 1)
+        );
+        $this->assertTrue(
+            $transaction->getAction() == $action,
+            'Did not return action, instead returned: ' . $transaction->getAction()
+        );
+        $this->assertTrue(
+            $transaction->getWaitForSync() == $waitForSync,
+            'Did not return waitForSync, instead returned: ' . $transaction->getWaitForSync()
+        );
+        $this->assertTrue(
+            $transaction->getLockTimeout() == $lockTimeout,
+            'Did not return lockTimeout, instead returned: ' . $transaction->getLockTimeout()
+        );
 
 
         $result = $transaction->execute();
@@ -84,13 +109,39 @@ class TransactionTest extends
     var db = require("internal").db;
     db.' . $this->collection1->getName() . '.save({ test : "hello" });
   }';
+        $waitForSync      = true;
+        $lockTimeout      = 10;
 
+        // check if setters work fine
         $transaction                   = new \triagens\ArangoDb\Transaction($this->connection);
         $transaction->writeCollections = $writeCollections;
         $transaction->readCollections  = $readCollections;
         $transaction->action           = $action;
         $transaction->waitForSync      = true;
         $transaction->lockTimeout      = 10;
+
+        // check if getters work fine
+
+        $this->assertTrue(
+            $transaction->writeCollections == $writeCollections,
+            'Did not return writeCollections, instead returned: ' . print_r($transaction->writeCollections, 1)
+        );
+        $this->assertTrue(
+            $transaction->readCollections == $readCollections,
+            'Did not return readCollections, instead returned: ' . print_r($transaction->readCollections, 1)
+        );
+        $this->assertTrue(
+            $transaction->action == $action,
+            'Did not return action, instead returned: ' . $transaction->action
+        );
+        $this->assertTrue(
+            $transaction->waitForSync == $waitForSync,
+            'Did not return waitForSync, instead returned: ' . $transaction->waitForSync
+        );
+        $this->assertTrue(
+            $transaction->lockTimeout == $lockTimeout,
+            'Did not return lockTimeout, instead returned: ' . $transaction->lockTimeout
+        );
 
         $result = $transaction->execute();
         $this->assertTrue($result, 'Did not return true, instead returned: ' . $result);
@@ -109,13 +160,42 @@ class TransactionTest extends
     var db = require("internal").db;
     db.' . $this->collection1->getName() . '.save({ test : "hello" });
   }';
+        $waitForSync      = true;
+        $lockTimeout      = 10;
+
 
         $transaction = new \triagens\ArangoDb\Transaction($this->connection);
+
+        // check if setters work fine
         $transaction->setWriteCollections($writeCollections);
         $transaction->setReadCollections($readCollections);
         $transaction->setAction($action);
-        $transaction->setWaitForSync(true);
-        $transaction->setLockTimeout(10);
+        $transaction->setWaitForSync($waitForSync);
+        $transaction->setLockTimeout($lockTimeout);
+
+        // check if getters work fine
+
+        $this->assertTrue(
+            $transaction->getWriteCollections() == $writeCollections,
+            'Did not return writeCollections, instead returned: ' . print_r($transaction->getWriteCollections(), 1)
+        );
+        $this->assertTrue(
+            $transaction->getReadCollections() == $readCollections,
+            'Did not return readCollections, instead returned: ' . print_r($transaction->getReadCollections(), 1)
+        );
+        $this->assertTrue(
+            $transaction->getAction() == $action,
+            'Did not return action, instead returned: ' . $transaction->getAction()
+        );
+        $this->assertTrue(
+            $transaction->getWaitForSync() == $waitForSync,
+            'Did not return waitForSync, instead returned: ' . $transaction->getWaitForSync()
+        );
+        $this->assertTrue(
+            $transaction->getLockTimeout() == $lockTimeout,
+            'Did not return lockTimeout, instead returned: ' . $transaction->getLockTimeout()
+        );
+
 
         $result = $transaction->execute();
         $this->assertTrue($result, 'Did not return true, instead returned: ' . $result);
