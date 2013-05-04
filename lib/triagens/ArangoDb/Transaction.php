@@ -323,6 +323,12 @@ class Transaction
             case self::ENTRY_COLLECTIONS :
                 $this->setCollections($value);
                 break;
+            case 'writeCollections' :
+                $this->setWriteCollections($value);
+                break;
+            case 'readCollections' :
+                $this->setReadCollections($value);
+                break;
             case self::ENTRY_ACTION :
                 $this->setAction($value);
                 break;
@@ -350,6 +356,15 @@ class Transaction
      */
     public function get($key)
     {
+        switch ($key) {
+            case 'writeCollections' :
+                return $this->getWriteCollections();
+                break;
+            case 'readCollections' :
+                return $this->getReadCollections();
+                break;
+        }
+
         if (isset($this->attributes[$key])) {
             return $this->attributes[$key];
         }

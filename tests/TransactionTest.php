@@ -1,7 +1,7 @@
 <?php
 /**
  * ArangoDB PHP client testsuite
- * File: GraphBasicTest.php
+ * File: TransactionTest.php
  *
  * @package ArangoDbPhpClient
  * @author  Frank Mayer
@@ -10,8 +10,8 @@
 namespace triagens\ArangoDb;
 
 /**
- * Class GraphBasicTest
- * Basic Tests for the Graph API implementation
+ * Class TransactionTest
+ * Basic Tests for the Transaction API implementation
  *
  * @property Connection        $connection
  * @property CollectionHandler $collectionHandler
@@ -46,7 +46,7 @@ class TransactionTest extends
 
 
     /**
-     * Test if Edge and EdgeHandler instances can be initialized
+     * Test if we can create and execute a transaction by using array initialization at construction time
      */
     public function testCreateAndExecuteTransactionWithArrayInitialization()
     {
@@ -57,14 +57,39 @@ class TransactionTest extends
     var db = require("internal").db;
     db.' . $this->collection1->getName() . '.save({ test : "hello" });
   }';
+        $waitForSync      = true;
+        $lockTimeout      = 10;
 
         $array       = array(
             'collections' => array('read' => $readCollections, 'write' => $writeCollections),
             'action'      => $action,
-            'waitForSync' => true,
-            'lockTimeout' => 5
+            'waitForSync' => $waitForSync,
+            'lockTimeout' => $lockTimeout
         );
         $transaction = new \triagens\ArangoDb\Transaction($this->connection, $array);
+
+        // check if object was initialized correctly with the array
+
+        $this->assertTrue(
+            $transaction->getWriteCollections() == $writeCollections,
+            'Did not return writeCollections, instead returned: ' . print_r($transaction->getWriteCollections(), 1)
+        );
+        $this->assertTrue(
+            $transaction->getReadCollections() == $readCollections,
+            'Did not return readCollections, instead returned: ' . print_r($transaction->getReadCollections(), 1)
+        );
+        $this->assertTrue(
+            $transaction->getAction() == $action,
+            'Did not return action, instead returned: ' . $transaction->getAction()
+        );
+        $this->assertTrue(
+            $transaction->getWaitForSync() == $waitForSync,
+            'Did not return waitForSync, instead returned: ' . $transaction->getWaitForSync()
+        );
+        $this->assertTrue(
+            $transaction->getLockTimeout() == $lockTimeout,
+            'Did not return lockTimeout, instead returned: ' . $transaction->getLockTimeout()
+        );
 
 
         $result = $transaction->execute();
@@ -73,9 +98,9 @@ class TransactionTest extends
 
 
     /**
-     * Test if Edge and EdgeHandler instances can be initialized
+     * Test if we can create and execute a transaction by using magic getters/setters
      */
-    public function testCreateAndExecuteTransactionWithoutArrayInitialization()
+    public function testCreateAndExecuteTransactionWithMagicGettersSetters()
     {
         $writeCollections = array($this->collection1->getName());
         $readCollections  = array($this->collection2->getName());
@@ -84,13 +109,39 @@ class TransactionTest extends
     var db = require("internal").db;
     db.' . $this->collection1->getName() . '.save({ test : "hello" });
   }';
+        $waitForSync      = true;
+        $lockTimeout      = 10;
 
-        $transaction = new \triagens\ArangoDb\Transaction($this->connection);
-        $transaction->setWriteCollections($writeCollections);
-        $transaction->setReadCollections($readCollections);
-        $transaction->setAction($action);
-        $transaction->setWaitForSync(true);
-        $transaction->setLockTimeout(10);
+        // check if setters work fine
+        $transaction                   = new \triagens\ArangoDb\Transaction($this->connection);
+        $transaction->writeCollections = $writeCollections;
+        $transaction->readCollections  = $readCollections;
+        $transaction->action           = $action;
+        $transaction->waitForSync      = true;
+        $transaction->lockTimeout      = 10;
+
+        // check if getters work fine
+
+        $this->assertTrue(
+            $transaction->writeCollections == $writeCollections,
+            'Did not return writeCollections, instead returned: ' . print_r($transaction->writeCollections, 1)
+        );
+        $this->assertTrue(
+            $transaction->readCollections == $readCollections,
+            'Did not return readCollections, instead returned: ' . print_r($transaction->readCollections, 1)
+        );
+        $this->assertTrue(
+            $transaction->action == $action,
+            'Did not return action, instead returned: ' . $transaction->action
+        );
+        $this->assertTrue(
+            $transaction->waitForSync == $waitForSync,
+            'Did not return waitForSync, instead returned: ' . $transaction->waitForSync
+        );
+        $this->assertTrue(
+            $transaction->lockTimeout == $lockTimeout,
+            'Did not return lockTimeout, instead returned: ' . $transaction->lockTimeout
+        );
 
         $result = $transaction->execute();
         $this->assertTrue($result, 'Did not return true, instead returned: ' . $result);
@@ -98,9 +149,63 @@ class TransactionTest extends
 
 
     /**
-     * Test if Edge and EdgeHandler instances can be initialized
+     * Test if we can create and execute a transaction by using getters/setters
      */
-    public function testCreateAndExecuteTransactionWithoutArrayInitializationWithReturnvalue()
+    public function testCreateAndExecuteTransactionWithGettersSetters()
+    {
+        $writeCollections = array($this->collection1->getName());
+        $readCollections  = array($this->collection2->getName());
+        $action           = '
+  function () {
+    var db = require("internal").db;
+    db.' . $this->collection1->getName() . '.save({ test : "hello" });
+  }';
+        $waitForSync      = true;
+        $lockTimeout      = 10;
+
+
+        $transaction = new \triagens\ArangoDb\Transaction($this->connection);
+
+        // check if setters work fine
+        $transaction->setWriteCollections($writeCollections);
+        $transaction->setReadCollections($readCollections);
+        $transaction->setAction($action);
+        $transaction->setWaitForSync($waitForSync);
+        $transaction->setLockTimeout($lockTimeout);
+
+        // check if getters work fine
+
+        $this->assertTrue(
+            $transaction->getWriteCollections() == $writeCollections,
+            'Did not return writeCollections, instead returned: ' . print_r($transaction->getWriteCollections(), 1)
+        );
+        $this->assertTrue(
+            $transaction->getReadCollections() == $readCollections,
+            'Did not return readCollections, instead returned: ' . print_r($transaction->getReadCollections(), 1)
+        );
+        $this->assertTrue(
+            $transaction->getAction() == $action,
+            'Did not return action, instead returned: ' . $transaction->getAction()
+        );
+        $this->assertTrue(
+            $transaction->getWaitForSync() == $waitForSync,
+            'Did not return waitForSync, instead returned: ' . $transaction->getWaitForSync()
+        );
+        $this->assertTrue(
+            $transaction->getLockTimeout() == $lockTimeout,
+            'Did not return lockTimeout, instead returned: ' . $transaction->getLockTimeout()
+        );
+
+
+        $result = $transaction->execute();
+        $this->assertTrue($result, 'Did not return true, instead returned: ' . $result);
+    }
+
+
+    /**
+     * Test if we get the return-value from the code back.
+     */
+    public function testCreateAndExecuteTransactionWithReturnvalue()
     {
         $writeCollections = array($this->collection1->getName());
         $readCollections  = array($this->collection2->getName());
@@ -121,8 +226,9 @@ class TransactionTest extends
         $this->assertTrue($result == 'hello!!!', 'Did not return hello!!!, instead returned: ' . $result);
     }
 
+
     /**
-     * Test if Edge and EdgeHandler instances can be initialized
+     * Test if we get an error back, if we throw an exception inside the transaction code
      *
      * @expectedException triagens\ArangoDb\ServerException
      */
@@ -158,12 +264,13 @@ class TransactionTest extends
         );
     }
 
+
     /**
-     * Test if Edge and EdgeHandler instances can be initialized
+     * Test if we get an error back, if we violate a unique constraint
      *
      * @expectedException triagens\ArangoDb\ServerException
      */
-    public function testCreateAndExecuteTransactionWithTransactionErrorOnSave()
+    public function testCreateAndExecuteTransactionWithTransactionErrorUniqueConstraintOnSave()
     {
         $writeCollections = array($this->collection1->getName());
         $readCollections  = array($this->collection2->getName());
@@ -197,6 +304,7 @@ class TransactionTest extends
             ) . ' and "' . $details['errorMessage'] . '"'
         );
     }
+
 
     public function tearDown()
     {
