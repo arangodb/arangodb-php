@@ -1,7 +1,7 @@
 <?php
 /**
  * ArangoDB PHP client testsuite
- * File: statementtest.php
+ * File: StatementTest.php
  *
  * @package ArangoDbPhpClient
  * @author  Frank Mayer
@@ -24,7 +24,7 @@ class StatementTest extends
             // don't bother us, if it's already deleted.
         }
 
-        $this->collection        = new \triagens\ArangoDb\Collection();
+        $this->collection = new \triagens\ArangoDb\Collection();
         $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
         $this->collectionHandler->add($this->collection);
     }
@@ -165,7 +165,7 @@ class StatementTest extends
      */
     public function testExecuteStatementFlat()
     {
-        $connection        = $this->connection;
+        $connection = $this->connection;
 
         $statement = new \triagens\ArangoDb\Statement($connection, array(
                                                                         "query"     => 'RETURN UNIQUE([ 1, 1, 2 ])',
@@ -173,10 +173,10 @@ class StatementTest extends
                                                                         "_sanitize" => true,
                                                                         "_flat"     => true
                                                                    ));
-        $cursor = $statement->execute();
+        $cursor    = $statement->execute();
         $this->assertEquals(
-          array(array(1, 2)),
-          $cursor->getAll()
+            array(array(1, 2)),
+            $cursor->getAll()
         );
     }
 
@@ -193,14 +193,14 @@ class StatementTest extends
         $documentId = $documentHandler->add($collection->getId(), $document);
 
         $statement = new \triagens\ArangoDb\Statement($connection, array(
-                "query"     => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a.name',
-                "count"     => true,
-                "_sanitize" => true
-        ));
+                                                                        "query"     => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a.name',
+                                                                        "count"     => true,
+                                                                        "_sanitize" => true
+                                                                   ));
 
         $cursor = $statement->execute();
 
-        foreach ($cursor->getAll() as $row){
+        foreach ($cursor->getAll() as $row) {
             $this->assertNotInstanceOf('\triagens\ArangoDb\Document', $row, "A document object was in the result set!");
         }
     }

@@ -1,7 +1,7 @@
 <?php
 /**
  * ArangoDB PHP client testsuite
- * File: GraphBasicTest.php
+ * File: TransactionTest.php
  *
  * @package ArangoDbPhpClient
  * @author  Frank Mayer
@@ -10,8 +10,8 @@
 namespace triagens\ArangoDb;
 
 /**
- * Class GraphBasicTest
- * Basic Tests for the Graph API implementation
+ * Class TransactionTest
+ * Basic Tests for the Transaction API implementation
  *
  * @property Connection        $connection
  * @property CollectionHandler $collectionHandler
@@ -46,7 +46,7 @@ class TransactionTest extends
 
 
     /**
-     * Test if Edge and EdgeHandler instances can be initialized
+     * Test if we can create and execute a transaction by using array initialization at construction time
      */
     public function testCreateAndExecuteTransactionWithArrayInitialization()
     {
@@ -73,9 +73,34 @@ class TransactionTest extends
 
 
     /**
-     * Test if Edge and EdgeHandler instances can be initialized
+     * Test if we can create and execute a transaction by using magic getters/setters
      */
-    public function testCreateAndExecuteTransactionWithoutArrayInitialization()
+    public function testCreateAndExecuteTransactionWithMagicGettersSetters()
+    {
+        $writeCollections = array($this->collection1->getName());
+        $readCollections  = array($this->collection2->getName());
+        $action           = '
+  function () {
+    var db = require("internal").db;
+    db.' . $this->collection1->getName() . '.save({ test : "hello" });
+  }';
+
+        $transaction                   = new \triagens\ArangoDb\Transaction($this->connection);
+        $transaction->writeCollections = $writeCollections;
+        $transaction->readCollections  = $readCollections;
+        $transaction->action           = $action;
+        $transaction->waitForSync      = true;
+        $transaction->lockTimeout      = 10;
+
+        $result = $transaction->execute();
+        $this->assertTrue($result, 'Did not return true, instead returned: ' . $result);
+    }
+
+
+    /**
+     * Test if we can create and execute a transaction by using getters/setters
+     */
+    public function testCreateAndExecuteTransactionWithGettersSetters()
     {
         $writeCollections = array($this->collection1->getName());
         $readCollections  = array($this->collection2->getName());
@@ -98,9 +123,9 @@ class TransactionTest extends
 
 
     /**
-     * Test if Edge and EdgeHandler instances can be initialized
+     * Test if we get the return-value from the code back.
      */
-    public function testCreateAndExecuteTransactionWithoutArrayInitializationWithReturnvalue()
+    public function testCreateAndExecuteTransactionWithReturnvalue()
     {
         $writeCollections = array($this->collection1->getName());
         $readCollections  = array($this->collection2->getName());
@@ -121,8 +146,9 @@ class TransactionTest extends
         $this->assertTrue($result == 'hello!!!', 'Did not return hello!!!, instead returned: ' . $result);
     }
 
+
     /**
-     * Test if Edge and EdgeHandler instances can be initialized
+     * Test if we get an error back, if we throw an exception inside the transaction code
      *
      * @expectedException triagens\ArangoDb\ServerException
      */
@@ -158,12 +184,13 @@ class TransactionTest extends
         );
     }
 
+
     /**
-     * Test if Edge and EdgeHandler instances can be initialized
+     * Test if we get an error back, if we violate a unique constraint
      *
      * @expectedException triagens\ArangoDb\ServerException
      */
-    public function testCreateAndExecuteTransactionWithTransactionErrorOnSave()
+    public function testCreateAndExecuteTransactionWithTransactionErrorUniqueConstraintOnSave()
     {
         $writeCollections = array($this->collection1->getName());
         $readCollections  = array($this->collection2->getName());
@@ -197,6 +224,7 @@ class TransactionTest extends
             ) . ' and "' . $details['errorMessage'] . '"'
         );
     }
+
 
     public function tearDown()
     {
