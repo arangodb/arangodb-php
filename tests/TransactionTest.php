@@ -11,6 +11,7 @@ namespace triagens\ArangoDb;
 
 /**
  * Class TransactionTest
+ *
  * Basic Tests for the Transaction API implementation
  *
  * @property Connection        $connection

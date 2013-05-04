@@ -96,12 +96,14 @@ class DocumentHandler extends
 
 
     /**
+     * Intermediate function to call the createFromArray function from the right context
+     *
      * @param $data
      * @param $options
      *
      * @return Document
      */
-    public function createFromArrayWithContext($data, $options)
+    protected function createFromArrayWithContext($data, $options)
     {
         return Document::createFromArray($data, $options);
     }

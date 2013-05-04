@@ -33,6 +33,8 @@ class AdminHandler extends
      *
      * This will throw if the version cannot be retrieved
      *
+     * @param bool $details - True to get a more detailed response
+     *
      * @throws Exception
      *
      * @return string - a string holding the ArangoDB version
