@@ -104,6 +104,7 @@ class GraphHandler extends
      * @throws Exception
      *
      * @param String - $graph - The name of the graph
+     * @param array  - $options - Options to pass to the method
      *
      * @return Graph - A graph object representing the graph
      * @since   1.2

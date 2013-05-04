@@ -171,6 +171,11 @@ class Transaction
 
 
     /**
+     * Set the collections array.
+     *
+     * The array should have 2 sub-arrays, namely 'read' and 'write' which should hold the respective collections
+     * for the transaction
+     *
      * @param array $value
      */
     public function setCollections(array $value)
@@ -185,7 +190,11 @@ class Transaction
 
 
     /**
-     * @return mixed $value
+     * Get collections array
+     *
+     * This holds the read and write collections of the transaction
+     *
+     * @return array $value
      */
     public function getCollections()
     {
@@ -194,6 +203,8 @@ class Transaction
 
 
     /**
+     * set action value
+     *
      * @param string $value
      */
     public function setAction($value)
@@ -203,6 +214,8 @@ class Transaction
 
 
     /**
+     * get action value
+     *
      * @return string action
      */
     public function getAction()
@@ -212,6 +225,8 @@ class Transaction
 
 
     /**
+     * set waitForSync value
+     *
      * @param bool $value
      */
     public function setWaitForSync($value)
@@ -221,6 +236,8 @@ class Transaction
 
 
     /**
+     * get waitForSync value
+     *
      * @return bool waitForSync
      */
     public function getWaitForSync()
@@ -230,6 +247,8 @@ class Transaction
 
 
     /**
+     * Set lockTimeout value
+     *
      * @param int $value
      */
     public function setLockTimeout($value)
@@ -239,6 +258,8 @@ class Transaction
 
 
     /**
+     * Get lockTimeout value
+     *
      * @return int lockTimeout
      */
     public function getLockTimeout()
@@ -248,6 +269,8 @@ class Transaction
 
 
     /**
+     * Set params value
+     *
      * @param array $value
      */
     public function setParams(array $value)
@@ -257,6 +280,8 @@ class Transaction
 
 
     /**
+     * Get params value
+     *
      * @return array params
      */
     public function getParams()
@@ -266,6 +291,9 @@ class Transaction
 
 
     /**
+     * Convenience function to directly set write-collections without having to access
+     * them from the collections attribute.
+     *
      * @param array $value
      */
     public function setWriteCollections($value)
@@ -276,6 +304,9 @@ class Transaction
 
 
     /**
+     * Convenience function to directly get write-collections without having to access
+     * them from the collections attribute.
+     *
      * @return array params
      */
     public function getWriteCollections()
@@ -285,6 +316,9 @@ class Transaction
 
 
     /**
+     * Convenience function to directly set read-collections without having to access
+     * them from the collections attribute.
+     *
      * @param array $value
      */
     public function setReadCollections($value)
@@ -295,6 +329,9 @@ class Transaction
 
 
     /**
+     * Convenience function to directly get read-collections without having to access
+     * them from the collections attribute.
+     *
      * @return array params
      */
     public function getReadCollections()
@@ -303,6 +340,14 @@ class Transaction
     }
 
 
+    /**
+     * Sets an attribute
+     *
+     * @param $key
+     * @param $value
+     *
+     * @throws ClientException
+     */
     public function set($key, $value)
     {
         if (!is_string($key)) {
@@ -314,7 +359,7 @@ class Transaction
 
 
     /**
-     * Set a document attribute, magic method
+     * Set an attribute, magic method
      *
      * This is a magic method that allows the object to be used without
      * declaring all document attributes first.
@@ -356,8 +401,9 @@ class Transaction
         }
     }
 
+
     /**
-     * Get a document attribute
+     * Get an attribute
      *
      * @param string $key - name of attribute
      *
@@ -381,8 +427,9 @@ class Transaction
         return null;
     }
 
+
     /**
-     * Get a document attribute, magic method
+     * Get an attribute, magic method
      *
      * This function is mapped to get() internally.
      *
@@ -406,7 +453,10 @@ class Transaction
         return $this->_action;
     }
 
+
     /**
+     * Build the object's attributes from a given array
+     *
      * @param $options
      */
     public function buildTransactionAttributesFromArray($options)

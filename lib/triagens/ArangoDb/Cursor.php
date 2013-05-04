@@ -270,8 +270,6 @@ class Cursor implements
      *
      * @param array $data - incoming result
      *
-     * @param array $options
-     *
      * @return void
      */
     private function add(array $data)
