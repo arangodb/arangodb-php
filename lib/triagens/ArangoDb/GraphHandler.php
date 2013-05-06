@@ -723,9 +723,9 @@ class GraphHandler extends
             $params[ConnectionOptions::OPTION_REVISION] = $revision;
         }
 
-        $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_EDGE, $edgeId);
-        $url    = UrlHelper::appendParamsUrl($url, $params);
-        $result = $this->getConnection()->delete($url);
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_EDGE, $edgeId);
+        $url = UrlHelper::appendParamsUrl($url, $params);
+        $this->getConnection()->delete($url);
 
         return true;
     }

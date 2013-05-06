@@ -145,7 +145,7 @@ class DocumentExtendedTest extends
         );
 
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-        unset($resultingDocument);
+        $resultingDocument = null;
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }
@@ -170,7 +170,7 @@ class DocumentExtendedTest extends
         );
 
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-        unset($resultingDocument);
+        $resultingDocument = null;
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }
@@ -190,7 +190,7 @@ class DocumentExtendedTest extends
         );
 
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-        unset($resultingDocument);
+        $resultingDocument = null;
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }
@@ -573,7 +573,7 @@ class DocumentExtendedTest extends
         // Set some new values on the attributes and  _rev attribute to NULL
         // This should result in a successful update
         try {
-            $result = $documentHandler->update($document, 'error');
+            $documentHandler->update($document, 'error');
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -779,8 +779,8 @@ class DocumentExtendedTest extends
         // Try to get a non-existent document out of an existent collection
         // This should cause an exception with a code of 404
         try {
-            $e       = null;
-            $result1 = $documentHandler->get($this->collection->getId(), 'nonexistentId');
+            $e = null;
+            $documentHandler->get($this->collection->getId(), 'nonexistentId');
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }

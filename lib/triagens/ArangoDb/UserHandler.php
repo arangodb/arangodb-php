@@ -31,11 +31,11 @@ class UserHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $username     - The name of the user as a string. This is mandatory.
-     * @param mixed      $passwd       - The user password as a string. If no password is specified, the empty string will be used.
-     * @param mixed      $active       - an optional flag that specifies whether the user is active. If not specified, this will default to true.
-     * @param array      $extra        - an optional array with arbitrary extra data about the user.
-     * @param bool|array $options      - an array of options
+     * @param mixed $username     - The name of the user as a string. This is mandatory.
+     * @param mixed $passwd       - The user password as a string. If no password is specified, the empty string will be used.
+     * @param mixed $active       - an optional flag that specifies whether the user is active. If not specified, this will default to true.
+     * @param array $extra        - an optional array with arbitrary extra data about the user.
+     * @param array $options      - an array of options
      * <p>Options are :<br>
      * </p>
      *
@@ -44,7 +44,7 @@ class UserHandler extends
      */
     public function addUser($username, $passwd = null, $active = null, $extra = null, $options = array())
     {
-        $userDocument           = new \triagens\ArangoDb\User();
+        $userDocument           = new User();
         $userDocument->username = $username;
         $userDocument->passwd   = $passwd;
         $userDocument->active   = $active;
@@ -66,11 +66,11 @@ class UserHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $username     - The name of the user as a string, who's user-data is going to be replaced. This is mandatory.
-     * @param mixed      $passwd       - The user password as a string. If no password is specified, the empty string will be used.
-     * @param mixed      $active       - an optional flag that specifies whether the user is active. If not specified, this will default to true.
-     * @param array      $extra        - an optional array with arbitrary extra data about the user.
-     * @param bool|array $options      - an array of options
+     * @param mixed $username     - The name of the user as a string, who's user-data is going to be replaced. This is mandatory.
+     * @param mixed $passwd       - The user password as a string. If no password is specified, the empty string will be used.
+     * @param mixed $active       - an optional flag that specifies whether the user is active. If not specified, this will default to true.
+     * @param array $extra        - an optional array with arbitrary extra data about the user.
+     * @param array $options      - an array of options
      * <p>Options are :
      * </p>
      *
@@ -78,7 +78,7 @@ class UserHandler extends
      */
     public function replaceUser($username, $passwd = null, $active = null, $extra = null, $options = array())
     {
-        $userDocument         = new \triagens\ArangoDb\User();
+        $userDocument         = new User();
         $userDocument->passwd = $passwd;
         $userDocument->active = $active;
         $userDocument->extra  = $extra;
@@ -99,11 +99,11 @@ class UserHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $username     - The name of the user as a string, who's user-data is going to be updated. This is mandatory.
-     * @param mixed      $passwd       - The user password as a string. If no password is specified, the empty string will be used.
-     * @param mixed      $active       - an optional flag that specifies whether the user is active. If not specified, this will default to true.
-     * @param array      $extra        - an optional array with arbitrary extra data about the user.
-     * @param bool|array $options      - an array of options
+     * @param mixed $username     - The name of the user as a string, who's user-data is going to be updated. This is mandatory.
+     * @param mixed $passwd       - The user password as a string. If no password is specified, the empty string will be used.
+     * @param mixed $active       - an optional flag that specifies whether the user is active. If not specified, this will default to true.
+     * @param array $extra        - an optional array with arbitrary extra data about the user.
+     * @param array $options      - an array of options
      * <p>Options are :
      * </p>
      *
@@ -111,7 +111,7 @@ class UserHandler extends
      */
     public function updateUser($username, $passwd = null, $active = null, $extra = null, $options = array())
     {
-        $userDocument         = new \triagens\ArangoDb\User();
+        $userDocument         = new User();
         $userDocument->active = $active;
         if (!is_null($passwd)) {
             $userDocument->passwd = $passwd;

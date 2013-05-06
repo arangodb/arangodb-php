@@ -302,8 +302,8 @@ class TransactionTest extends
 
         $e = null;
         try {
-            $result = $transaction->execute();
-        } catch (\triagens\ArangoDb\ServerException $e) {
+            $transaction->execute();
+        } catch (ServerException $e) {
         }
         $details = $e->getDetails();
 
@@ -337,7 +337,7 @@ class TransactionTest extends
         $e = null;
         try {
             $transaction->execute();
-        } catch (\triagens\ArangoDb\ServerException $e) {
+        } catch (ServerException $e) {
         }
         $details                = $e->getDetails();
         $expectedCutDownMessage = "cannot save document: unique constraint violated:";

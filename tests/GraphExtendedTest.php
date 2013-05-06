@@ -742,7 +742,7 @@ class GraphExtendedTest extends
 
         $e = null;
         try {
-            $result1a = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
+            $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }

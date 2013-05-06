@@ -18,7 +18,7 @@ namespace triagens\ArangoDb;
  * @package ArangoDbPhpClient
  */
 class CollectionHandler extends
-    \triagens\ArangoDb\Handler
+    Handler
 {
 
     /**

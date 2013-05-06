@@ -158,8 +158,7 @@ class AdminHandler extends
      */
     public function flushServerModuleCache()
     {
-        $response = $this->getConnection()->POST(Urls::URL_ADMIN_MODULES_FLUSH, '');
-        $data     = $response->getJson();
+        $this->getConnection()->POST(Urls::URL_ADMIN_MODULES_FLUSH, '');
 
         return true;
     }
@@ -178,8 +177,7 @@ class AdminHandler extends
      */
     public function reloadServerRouting()
     {
-        $response = $this->getConnection()->POST(Urls::URL_ADMIN_ROUTING_RELOAD, '');
-        $data     = $response->getJson();
+        $this->getConnection()->POST(Urls::URL_ADMIN_ROUTING_RELOAD, '');
 
         return true;
     }
