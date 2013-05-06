@@ -606,11 +606,11 @@ class Connection
         if ($this->_options[ConnectionOptions::OPTION_CHECK_UTF8_CONFORM] === true) {
             self::check_encoding($data);
         }
-        
+
         if(empty($data)){
-        	$response = json_encode($data, $options | JSON_FORCE_OBJECT);
+            $response = json_encode($data, $options | JSON_FORCE_OBJECT);
         }else{
-        	$response = json_encode($data, $options);
+            $response = json_encode($data, $options);
         }
 
         return $response;
