@@ -69,7 +69,7 @@ class HttpResponse
         $parsed = HttpHelper::parseHttpMessage($responseString);
 
         $this->_header = $parsed['header'];
-        $this->_body = $parsed['body'];
+        $this->_body   = $parsed['body'];
 
         $this->setupHeaders();
     }

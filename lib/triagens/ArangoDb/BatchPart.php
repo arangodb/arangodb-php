@@ -243,12 +243,12 @@ class BatchPart
         $response = $this->getResponse();
         switch ($this->_type) {
             case 'getdocument':
-                $json     = $response->getJson();
-                $id       = $json[Document::ENTRY_ID];
-                $response = $json;
-                $options = $this->getCursorOptions();
+                $json             = $response->getJson();
+                $id               = $json[Document::ENTRY_ID];
+                $response         = $json;
+                $options          = $this->getCursorOptions();
                 $options['isNew'] = false;
-                $response = Document::createFromArray($json, $options);
+                $response         = Document::createFromArray($json, $options);
                 break;
             case 'document':
                 $json = $response->getJson();
@@ -258,12 +258,12 @@ class BatchPart
                 }
                 break;
             case 'getedge':
-                $json     = $response->getJson();
-                $id       = $json[Edge::ENTRY_ID];
-                $response = $json;
-                $options = $this->getCursorOptions();
+                $json             = $response->getJson();
+                $id               = $json[Edge::ENTRY_ID];
+                $response         = $json;
+                $options          = $this->getCursorOptions();
                 $options['isNew'] = false;
-                $response = Edge::createFromArray($json, $options);
+                $response         = Edge::createFromArray($json, $options);
                 break;
             case 'edge':
                 $json = $response->getJson();
@@ -273,12 +273,12 @@ class BatchPart
                 }
                 break;
             case 'getcollection':
-                $json     = $response->getJson();
-                $id       = $json[Collection::ENTRY_ID];
-                $response = $json;
-                $options = $this->getCursorOptions();
+                $json             = $response->getJson();
+                $id               = $json[Collection::ENTRY_ID];
+                $response         = $json;
+                $options          = $this->getCursorOptions();
                 $options['isNew'] = false;
-                $response = Collection::createFromArray($json, $options);
+                $response         = Collection::createFromArray($json, $options);
                 break;
             case 'collection':
                 $json = $response->getJson();
@@ -288,9 +288,9 @@ class BatchPart
                 }
                 break;
             case 'cursor':
-                $options = $this->getCursorOptions();
+                $options          = $this->getCursorOptions();
                 $options['isNew'] = false;
-                $response = new Cursor($this->_batch->getConnection(), $response->getJson(), $options);
+                $response         = new Cursor($this->_batch->getConnection(), $response->getJson(), $options);
                 break;
             default:
                 throw new ClientException('Could not determine response data type.');

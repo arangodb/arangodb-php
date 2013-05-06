@@ -19,7 +19,8 @@ namespace triagens\ArangoDb;
  * @property DocumentHandler   $documentHandler
  *
  * @package triagens\ArangoDb
- */class ConnectionTest extends
+ */
+class ConnectionTest extends
     \PHPUnit_Framework_TestCase
 {
 

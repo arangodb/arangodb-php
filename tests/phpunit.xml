@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<phpunit  bootstrap="bootstrap.php" colors="true" verbose="true" backupGlobals="false">
-  <testsuites>
-    <testsuite name="ArangoDB-PHP">
-        <directory>.</directory>
-    </testsuite>
-  </testsuites>
+<phpunit bootstrap="bootstrap.php" colors="true" verbose="true" backupGlobals="false">
+    <testsuites>
+        <testsuite name="ArangoDB-PHP">
+            <directory>.</directory>
+        </testsuite>
+    </testsuites>
 </phpunit>

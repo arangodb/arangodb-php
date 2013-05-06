@@ -66,7 +66,7 @@ class EdgeExtendedTest extends
         // Try to get a non-existent edge out of an existent collection
         // This should cause an exception with a code of 404
         try {
-            $e       = null;
+            $e = null;
             $edgeHandler->get($this->collection->getId(), 'nonexistentId');
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
@@ -78,7 +78,7 @@ class EdgeExtendedTest extends
         // Try to update a non-existent edge
         // This should cause an exception with a code of 404
         try {
-            $e       = null;
+            $e = null;
             $edgeHandler->updateById($this->collection->getId(), 'nonexistentId', $edge);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
@@ -90,7 +90,7 @@ class EdgeExtendedTest extends
         // Try to replace a non-existent edge
         // This should cause an exception with a code of 404
         try {
-            $e       = null;
+            $e = null;
             $edgeHandler->replaceById($this->collection->getId(), 'nonexistentId', $edge);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
@@ -102,7 +102,7 @@ class EdgeExtendedTest extends
         // Try to remove a non-existent edge
         // This should cause an exception with a code of 404
         try {
-            $e       = null;
+            $e = null;
             $edgeHandler->removeById($this->collection->getId(), 'nonexistentId');
         } catch (\Exception $e) {
             // don't bother us... just give us the $e

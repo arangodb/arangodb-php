@@ -141,7 +141,7 @@ class CollectionBasicTest extends
             10,
             'Key options offset does not match'
         );
-         $collectionHandler->delete($collection);
+        $collectionHandler->delete($collection);
     }
 
 
@@ -208,8 +208,8 @@ class CollectionBasicTest extends
         $connection        = $this->connection;
         $collectionHandler = new CollectionHandler($connection);
 
-        $name     = 'ArangoDB_PHP_TestSuite_TestCollection_02';
-        $options  = array('type' => 3);
+        $name    = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        $options = array('type' => 3);
         $collectionHandler->create($name, $options);
 
         $resultingCollection = $collectionHandler->get($name);
@@ -234,8 +234,8 @@ class CollectionBasicTest extends
         $connection        = $this->connection;
         $collectionHandler = new CollectionHandler($connection);
 
-        $name                = 'ArangoDB_PHP_TestSuite_TestCollection_02';
-        $options             = array('isVolatile' => true);
+        $name    = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        $options = array('isVolatile' => true);
         $collectionHandler->create($name, $options);
         $resultingCollection = $collectionHandler->get($name);
 
@@ -259,8 +259,8 @@ class CollectionBasicTest extends
         $connection        = $this->connection;
         $collectionHandler = new CollectionHandler($connection);
 
-        $name     = 'ArangoDB_PHP_TestSuite_TestCollection_02';
-        $options  = array('isSystem' => true, 'waitForSync' => true);
+        $name    = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        $options = array('isSystem' => true, 'waitForSync' => true);
         $collectionHandler->create($name, $options);
 
         $resultingCollection = $collectionHandler->get($name);
@@ -300,7 +300,11 @@ class CollectionBasicTest extends
             "Index type is not 'cap'!"
         );
 
-        $this->assertEquals(50, $indexInfo[CollectionHandler::OPTION_SIZE], 'Size of the cap constrain does not match!');
+        $this->assertEquals(
+            50,
+            $indexInfo[CollectionHandler::OPTION_SIZE],
+            'Size of the cap constrain does not match!'
+        );
     }
 
 

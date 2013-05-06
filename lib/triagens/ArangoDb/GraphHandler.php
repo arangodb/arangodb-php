@@ -432,8 +432,8 @@ class GraphHandler extends
             $params[ConnectionOptions::OPTION_REVISION] = $revision;
         }
 
-        $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_VERTEX, $vertexId);
-        $url    = UrlHelper::appendParamsUrl($url, $params);
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_VERTEX, $vertexId);
+        $url = UrlHelper::appendParamsUrl($url, $params);
         $this->getConnection()->delete($url);
 
         return true;

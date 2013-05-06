@@ -113,11 +113,17 @@ class UserHandler extends
     {
         $userDocument         = new \triagens\ArangoDb\User();
         $userDocument->active = $active;
-        if (!is_null($passwd)) $userDocument->passwd  = $passwd;
-        if (!is_null($active)) $userDocument->active  = $active;
-        if (!is_null($extra)) $userDocument->extra  = $extra;
+        if (!is_null($passwd)) {
+            $userDocument->passwd = $passwd;
+        }
+        if (!is_null($active)) {
+            $userDocument->active = $active;
+        }
+        if (!is_null($extra)) {
+            $userDocument->extra = $extra;
+        }
 
-        $url    = UrlHelper::buildUrl(Urls::URL_USER, $username);
+        $url = UrlHelper::buildUrl(Urls::URL_USER, $username);
         $this->getConnection()->patch($url, $this->json_encode_wrapper($userDocument->getAll()));
 
         return true;
@@ -143,6 +149,7 @@ class UserHandler extends
         $data = $response->getJson();
 
         $options = array('_isNew' => false);
+
         return User::createFromArray($data, $options);
     }
 
@@ -152,7 +159,7 @@ class UserHandler extends
      *
      * @throws Exception
      *
-     * @param mixed  $username - username as a string, of the user that is to be deleted
+     * @param mixed $username - username as a string, of the user that is to be deleted
      *
      * @return bool - always true, will throw if there is an error
      */
@@ -161,8 +168,8 @@ class UserHandler extends
         // This preserves compatibility for the old policy parameter.
         $params = array();
 
-        $url    = UrlHelper::buildUrl(Urls::URL_USER, $username);
-        $url    = UrlHelper::appendParamsUrl($url, $params);
+        $url = UrlHelper::buildUrl(Urls::URL_USER, $username);
+        $url = UrlHelper::appendParamsUrl($url, $params);
         $this->getConnection()->delete($url);
 
         return true;

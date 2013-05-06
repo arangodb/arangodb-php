@@ -597,8 +597,8 @@ class DocumentHandler extends
             $params[ConnectionOptions::OPTION_REVISION] = $revision;
         }
 
-        $url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
-        $url    = UrlHelper::appendParamsUrl($url, $params);
+        $url = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
+        $url = UrlHelper::appendParamsUrl($url, $params);
         $this->getConnection()->delete($url);
 
         return true;
