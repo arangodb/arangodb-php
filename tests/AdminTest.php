@@ -9,13 +9,17 @@
 
 namespace triagens\ArangoDb;
 
+/**
+ * @property Connection connection
+ * @property AdminHandler adminHandler
+ */
 class AdminTest extends
     \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
         $this->connection   = getConnection();
-        $this->adminHandler = new \triagens\ArangoDb\AdminHandler($this->connection);
+        $this->adminHandler = new AdminHandler($this->connection);
     }
 
 

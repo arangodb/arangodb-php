@@ -28,9 +28,9 @@ class CollectionExtendedTest extends
     public function setUp()
     {
         $this->connection        = getConnection();
-        $this->collection        = new \triagens\ArangoDb\Collection();
-        $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
-        $this->documentHandler   = new \triagens\ArangoDb\DocumentHandler($this->connection);
+        $this->collection        = new Collection();
+        $this->collectionHandler = new CollectionHandler($this->connection);
+        $this->documentHandler   = new DocumentHandler($this->connection);
     }
 
 
@@ -53,7 +53,7 @@ class CollectionExtendedTest extends
 
         $this->assertTrue(is_numeric($response), 'Adding collection did not return an id!');
 
-        $resultingCollection = $collectionHandler->get($name);
+        $collectionHandler->get($name);
 
         $response = $collectionHandler->delete($collection);
         $this->assertTrue($response, 'Delete should return true!');
@@ -80,7 +80,7 @@ class CollectionExtendedTest extends
 
         $this->assertTrue(is_numeric($response), 'Adding collection did not return an id!');
 
-        $resultingCollection = $collectionHandler->get($name);
+        $collectionHandler->get($name);
 
         $properties = $collectionHandler->getProperties($name);
         $this->assertTrue($properties->getIsVolatile(), '"isVolatile" should be true!');
@@ -111,7 +111,7 @@ class CollectionExtendedTest extends
 
         $this->assertTrue(is_numeric($response), 'Adding collection did not return an id!');
 
-        $resultingCollection = $collectionHandler->get($name);
+        $collectionHandler->get($name);
 
         $properties = $collectionHandler->getProperties($name);
         $this->assertTrue($properties->getIsSystem(), '"isSystem" should be true!');
@@ -134,7 +134,7 @@ class CollectionExtendedTest extends
         );
 
         foreach ($collections as $col) {
-            $collection = new \triagens\ArangoDb\Collection();
+            $collection = new Collection();
             $collection->setName($col);
             $collectionHandler->add($collection);
         }
@@ -175,7 +175,7 @@ class CollectionExtendedTest extends
 
         $resultingCollection = $collectionHandler->get($name);
 
-        $response = $collectionHandler->rename(
+        $collectionHandler->rename(
             $resultingCollection,
             'ArangoDB_PHP_TestSuite_TestCollection_01_renamed'
         );
@@ -197,7 +197,7 @@ class CollectionExtendedTest extends
      *
      * We expect an exception here:
      *
-     * @expectedException triagens\ArangoDb\ClientException
+     * @expectedException \triagens\ArangoDb\ClientException
      *
      */
     public function testCreateRenameAndDeleteCollectionWithWrongEncoding()
@@ -218,7 +218,7 @@ class CollectionExtendedTest extends
         // inject wrong encoding
         $isoValue = iconv("UTF-8", "ISO-8859-1//TRANSLIT", "ArangoDB_PHP_TestSuite_TestCollection_01_renamedü");
 
-        $response = $collectionHandler->rename($resultingCollection, $isoValue);
+        $collectionHandler->rename($resultingCollection, $isoValue);
 
 
         $response = $collectionHandler->delete($resultingCollection);
@@ -323,7 +323,7 @@ class CollectionExtendedTest extends
         );
         $response   = $collectionHandler->add($collection);
 
-        $resultingCollection = $collectionHandler->get($response);
+        $collectionHandler->get($response);
 
         $resultingAttribute = $collection->getWaitForSync();
         $this->assertTrue($resultingAttribute, 'Server waitForSync should return true!');
@@ -341,10 +341,10 @@ class CollectionExtendedTest extends
         $documentHandler   = $this->documentHandler;
         $collectionHandler = $this->collectionHandler;
 
-        $collection  = Collection::createFromArray(
+        $collection = Collection::createFromArray(
             array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true)
         );
-        $response    = $collectionHandler->add($collection);
+        $collectionHandler->add($collection);
         $document    = Document::createFromArray(
             array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
         );
@@ -373,14 +373,14 @@ class CollectionExtendedTest extends
      */
     public function testCreateDocumentsWithCreateFromArrayUpdateReplaceAndRemoveByExample()
     {
-        $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
+        $this->collectionHandler = new CollectionHandler($this->connection);
         $documentHandler         = $this->documentHandler;
         $collectionHandler       = $this->collectionHandler;
 
-        $collection  = Collection::createFromArray(
+        $collection = Collection::createFromArray(
             array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true)
         );
-        $response    = $collectionHandler->add($collection);
+        $collectionHandler->add($collection);
         $document    = Document::createFromArray(
             array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
         );
@@ -426,7 +426,7 @@ class CollectionExtendedTest extends
      */
     public function testCreateDocumentsFromArrayUpdateReplaceAndRemoveByExample()
     {
-        $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
+        $this->collectionHandler = new CollectionHandler($this->connection);
         $documentHandler         = $this->documentHandler;
         $collectionHandler       = $this->collectionHandler;
 
@@ -434,8 +434,8 @@ class CollectionExtendedTest extends
         $collection = Collection::createFromArray(
             array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true)
         );
-        $response   = $collectionHandler->add($collection);
-        $document   = array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue');
+        $collectionHandler->add($collection);
+        $document = array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue');
 
         $documentId = $documentHandler->save($collection->getId(), $document);
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
@@ -484,14 +484,14 @@ class CollectionExtendedTest extends
      */
     public function testCreateDocumentsWithCreateFromArrayUpdateReplaceAndRemoveByExampleWithLimits()
     {
-        $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
+        $this->collectionHandler = new CollectionHandler($this->connection);
         $documentHandler         = $this->documentHandler;
         $collectionHandler       = $this->collectionHandler;
 
-        $collection  = Collection::createFromArray(
+        $collection = Collection::createFromArray(
             array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true)
         );
-        $response    = $collectionHandler->add($collection);
+        $collectionHandler->add($collection);
         $document    = Document::createFromArray(
             array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
         );
@@ -550,14 +550,14 @@ class CollectionExtendedTest extends
      */
     public function testCreateDocumentsWithCreateFromArrayUpdateReplaceAndRemoveByExampleWithWaitForSync()
     {
-        $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
+        $this->collectionHandler = new CollectionHandler($this->connection);
         $documentHandler         = $this->documentHandler;
         $collectionHandler       = $this->collectionHandler;
 
-        $collection  = Collection::createFromArray(
+        $collection = Collection::createFromArray(
             array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true)
         );
-        $response    = $collectionHandler->add($collection);
+        $collectionHandler->add($collection);
         $document    = Document::createFromArray(
             array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
         );
@@ -616,14 +616,14 @@ class CollectionExtendedTest extends
      */
     public function testCreateDocumentsWithCreateFromArrayUpdateReplaceAndRemoveByExampleWithKeepNull()
     {
-        $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
+        $this->collectionHandler = new CollectionHandler($this->connection);
         $documentHandler         = $this->documentHandler;
         $collectionHandler       = $this->collectionHandler;
 
-        $collection  = Collection::createFromArray(
+        $collection = Collection::createFromArray(
             array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true)
         );
-        $response    = $collectionHandler->add($collection);
+        $collectionHandler->add($collection);
         $document    = Document::createFromArray(
             array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
         );
@@ -681,10 +681,10 @@ class CollectionExtendedTest extends
         $documentHandler   = $this->documentHandler;
         $collectionHandler = $this->collectionHandler;
 
-        $collection  = Collection::createFromArray(
+        $collection = Collection::createFromArray(
             array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true)
         );
-        $response    = $collectionHandler->add($collection);
+        $collectionHandler->add($collection);
         $document    = Document::createFromArray(
             array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
         );
@@ -726,17 +726,19 @@ class CollectionExtendedTest extends
 
         $this->assertTrue($result['error'] === false && $result['created'] == 2);
 
-        $statement = new \triagens\ArangoDb\Statement($this->connection, array(
-                                                                              "query"     => '',
-                                                                              "count"     => true,
-                                                                              "batchSize" => 1,
-                                                                              "sanitize"  => true,
-                                                                         ));
+        $statement = new Statement($this->connection, array(
+                                                           "query"     => '',
+                                                           "count"     => true,
+                                                           "batchSize" => 1,
+                                                           "sanitize"  => true,
+                                                      ));
         $query     = 'FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
 
         $statement->setQuery($query);
 
         $cursor = $statement->execute();
+
+        $resultingDocument = null;
 
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
@@ -769,17 +771,19 @@ class CollectionExtendedTest extends
         );
         $this->assertTrue($result['error'] === false && $result['created'] == 2);
 
-        $statement = new \triagens\ArangoDb\Statement($this->connection, array(
-                                                                              "query"     => '',
-                                                                              "count"     => true,
-                                                                              "batchSize" => 2,
-                                                                              "sanitize"  => true,
-                                                                         ));
+        $statement = new Statement($this->connection, array(
+                                                           "query"     => '',
+                                                           "count"     => true,
+                                                           "batchSize" => 2,
+                                                           "sanitize"  => true,
+                                                      ));
         $query     = 'FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
 
         $statement->setQuery($query);
 
         $cursor = $statement->execute();
+
+        $resultingDocument = null;
 
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
@@ -812,17 +816,19 @@ class CollectionExtendedTest extends
         );
         $this->assertTrue($result['error'] === false && $result['created'] == 2);
 
-        $statement = new \triagens\ArangoDb\Statement($this->connection, array(
-                                                                              "query"     => '',
-                                                                              "count"     => true,
-                                                                              "batchSize" => 3,
-                                                                              "sanitize"  => true,
-                                                                         ));
+        $statement = new Statement($this->connection, array(
+                                                           "query"     => '',
+                                                           "count"     => true,
+                                                           "batchSize" => 3,
+                                                           "sanitize"  => true,
+                                                      ));
         $query     = 'FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
 
         $statement->setQuery($query);
 
         $cursor = $statement->execute();
+
+        $resultingDocument = null;
 
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
@@ -870,17 +876,19 @@ class CollectionExtendedTest extends
 
         $this->assertTrue($result['error'] === false && $result['created'] == 2);
 
-        $statement = new \triagens\ArangoDb\Statement($this->connection, array(
-                                                                              "query"     => '',
-                                                                              "count"     => true,
-                                                                              "batchSize" => 4,
-                                                                              "sanitize"  => true,
-                                                                         ));
+        $statement = new Statement($this->connection, array(
+                                                           "query"     => '',
+                                                           "count"     => true,
+                                                           "batchSize" => 4,
+                                                           "sanitize"  => true,
+                                                      ));
         $query     = 'FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
 
         $statement->setQuery($query);
 
         $cursor = $statement->execute();
+
+        $resultingDocument = null;
 
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
@@ -919,17 +927,19 @@ class CollectionExtendedTest extends
 
         $this->assertTrue($result['error'] === false && $result['created'] == 2);
 
-        $statement = new \triagens\ArangoDb\Statement($this->connection, array(
-                                                                              "query"     => '',
-                                                                              "count"     => true,
-                                                                              "batchSize" => 5,
-                                                                              "sanitize"  => true,
-                                                                         ));
+        $statement = new Statement($this->connection, array(
+                                                           "query"     => '',
+                                                           "count"     => true,
+                                                           "batchSize" => 5,
+                                                           "sanitize"  => true,
+                                                      ));
         $query     = 'FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
 
         $statement->setQuery($query);
 
         $cursor = $statement->execute();
+
+        $resultingDocument = null;
 
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
@@ -967,17 +977,19 @@ class CollectionExtendedTest extends
 
         $this->assertTrue($result['error'] === false && $result['created'] == 2);
 
-        $statement = new \triagens\ArangoDb\Statement($this->connection, array(
-                                                                              "query"     => '',
-                                                                              "count"     => true,
-                                                                              "batchSize" => 100,
-                                                                              "sanitize"  => true,
-                                                                         ));
+        $statement = new Statement($this->connection, array(
+                                                           "query"     => '',
+                                                           "count"     => true,
+                                                           "batchSize" => 100,
+                                                           "sanitize"  => true,
+                                                      ));
         $query     = 'FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
 
         $statement->setQuery($query);
 
         $cursor = $statement->execute();
+
+        $resultingDocument = null;
 
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
@@ -1015,17 +1027,19 @@ class CollectionExtendedTest extends
 
         $this->assertTrue($result['error'] === false && $result['created'] == 2);
 
-        $statement = new \triagens\ArangoDb\Statement($this->connection, array(
-                                                                              "query"     => '',
-                                                                              "count"     => true,
-                                                                              "batchSize" => 1000,
-                                                                              "sanitize"  => true,
-                                                                         ));
+        $statement = new Statement($this->connection, array(
+                                                           "query"     => '',
+                                                           "count"     => true,
+                                                           "batchSize" => 1000,
+                                                           "sanitize"  => true,
+                                                      ));
         $query     = 'FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
 
         $statement->setQuery($query);
 
         $cursor = $statement->execute();
+
+        $resultingDocument = null;
 
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
@@ -1053,19 +1067,19 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
         $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
-        $response   = $collectionHandler->add($collection);
+        $collectionHandler->add($collection);
 
         $documentHandler = $this->documentHandler;
 
-        $document   = Document::createFromArray(
+        $document = Document::createFromArray(
             array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
         );
-        $documentId = $documentHandler->add($collection->getId(), $document);
+        $documentHandler->add($collection->getId(), $document);
 
-        $document   = Document::createFromArray(
+        $document = Document::createFromArray(
             array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
         );
-        $documentId = $documentHandler->add($collection->getId(), $document);
+        $documentHandler->add($collection->getId(), $document);
 
         $arrayOfDocuments = $collectionHandler->getAllIds($collection->getId());
 
@@ -1087,19 +1101,19 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
         $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
-        $response   = $collectionHandler->add($collection);
+        $collectionHandler->add($collection);
 
         $documentHandler = $this->documentHandler;
 
-        $document   = Document::createFromArray(
+        $document = Document::createFromArray(
             array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
         );
-        $documentId = $documentHandler->add($collection->getId(), $document);
+        $documentHandler->add($collection->getId(), $document);
 
-        $document   = Document::createFromArray(
+        $document = Document::createFromArray(
             array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
         );
-        $documentId = $documentHandler->add($collection->getId(), $document);
+        $documentHandler->add($collection->getId(), $document);
 
         $arrayOfDocuments = $collectionHandler->getAllIds($collection->getId());
 
@@ -1112,15 +1126,15 @@ class CollectionExtendedTest extends
         $collectionHandler->truncate($collection);
 
 
-        $document   = Document::createFromArray(
+        $document = Document::createFromArray(
             array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
         );
-        $documentId = $documentHandler->add($collection->getId(), $document);
+        $documentHandler->add($collection->getId(), $document);
 
-        $document   = Document::createFromArray(
+        $document = Document::createFromArray(
             array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
         );
-        $documentId = $documentHandler->add($collection->getId(), $document);
+        $documentHandler->add($collection->getId(), $document);
 
         $arrayOfDocuments = $collectionHandler->getAllIds($collection->getId());
 
@@ -1167,7 +1181,7 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
         $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
-        $response   = $collectionHandler->add($collection);
+        $collectionHandler->add($collection);
 
         $indexRes       = $collectionHandler->index($collection->getId(), 'skiplist', array('index'));
         $nestedIndexRes = $collectionHandler->index($collection->getId(), 'skiplist', array('nested.index'));
@@ -1185,31 +1199,31 @@ class CollectionExtendedTest extends
 
         $documentHandler = $this->documentHandler;
 
-        $document1   = Document::createFromArray(
+        $document1 = Document::createFromArray(
             array(
                  'index'              => 2,
                  'someOtherAttribute' => 'someValue2',
                  'nested'             => array('index' => 3, 'someNestedAttribute3' => 'someNestedValue3')
             )
         );
-        $documentId1 = $documentHandler->add($collection->getId(), $document1);
-        $document2   = Document::createFromArray(
+        $documentHandler->add($collection->getId(), $document1);
+        $document2 = Document::createFromArray(
             array(
                  'index'              => 1,
                  'someOtherAttribute' => 'someValue1',
                  'nested'             => array('index' => 2, 'someNestedAttribute3' => 'someNestedValue2')
             )
         );
-        $documentId2 = $documentHandler->add($collection->getId(), $document2);
+        $documentHandler->add($collection->getId(), $document2);
 
-        $document3   = Document::createFromArray(
+        $document3 = Document::createFromArray(
             array(
                  'index'              => 3,
                  'someOtherAttribute' => 'someValue3',
                  'nested'             => array('index' => 1, 'someNestedAttribute3' => 'someNestedValue1')
             )
         );
-        $documentId3 = $documentHandler->add($collection->getId(), $document3);
+        $documentHandler->add($collection->getId(), $document3);
 
 
         // first level attribute range test
@@ -1301,7 +1315,7 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
         $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
-        $response   = $collectionHandler->add($collection);
+        $collectionHandler->add($collection);
 
         $indexRes = $collectionHandler->index($collection->getId(), 'geo', array('loc'));
         $this->assertArrayHasKey(
@@ -1313,13 +1327,13 @@ class CollectionExtendedTest extends
 
         $documentHandler = $this->documentHandler;
 
-        $document1   = Document::createFromArray(array('loc' => array(0, 0), 'someOtherAttribute' => '0 0'));
-        $documentId1 = $documentHandler->add($collection->getId(), $document1);
-        $document2   = Document::createFromArray(array('loc' => array(1, 1), 'someOtherAttribute' => '1 1'));
-        $documentId2 = $documentHandler->add($collection->getId(), $document2);
+        $document1 = Document::createFromArray(array('loc' => array(0, 0), 'someOtherAttribute' => '0 0'));
+        $documentHandler->add($collection->getId(), $document1);
+        $document2 = Document::createFromArray(array('loc' => array(1, 1), 'someOtherAttribute' => '1 1'));
+        $documentHandler->add($collection->getId(), $document2);
         $document3   = Document::createFromArray(array('loc' => array(+30, -30), 'someOtherAttribute' => '30 -30'));
         $documentId3 = $documentHandler->add($collection->getId(), $document3);
-        $response    = $documentHandler->getById($collection->getId(), $documentId3);
+        $documentHandler->getById($collection->getId(), $documentId3);
 
 
         $rangeResult = $collectionHandler->near($collection->getId(), 0, 0);
@@ -1407,7 +1421,7 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
         $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
-        $response   = $collectionHandler->add($collection);
+        $collectionHandler->add($collection);
 
         $indexRes = $collectionHandler->index($collection->getId(), 'geo', array('loc'));
         $this->assertArrayHasKey(
@@ -1419,13 +1433,13 @@ class CollectionExtendedTest extends
 
         $documentHandler = $this->documentHandler;
 
-        $document1   = Document::createFromArray(array('loc' => array(0, 0), 'someOtherAttribute' => '0 0'));
-        $documentId1 = $documentHandler->add($collection->getId(), $document1);
-        $document2   = Document::createFromArray(array('loc' => array(1, 1), 'someOtherAttribute' => '1 1'));
-        $documentId2 = $documentHandler->add($collection->getId(), $document2);
+        $document1 = Document::createFromArray(array('loc' => array(0, 0), 'someOtherAttribute' => '0 0'));
+        $documentHandler->add($collection->getId(), $document1);
+        $document2 = Document::createFromArray(array('loc' => array(1, 1), 'someOtherAttribute' => '1 1'));
+        $documentHandler->add($collection->getId(), $document2);
         $document3   = Document::createFromArray(array('loc' => array(+30, -30), 'someOtherAttribute' => '30 -30'));
         $documentId3 = $documentHandler->add($collection->getId(), $document3);
-        $response    = $documentHandler->getById($collection->getId(), $documentId3);
+        $documentHandler->getById($collection->getId(), $documentId3);
 
 
         $rangeResult = $collectionHandler->within($collection->getId(), 0, 0, 0);
@@ -1512,7 +1526,7 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
         $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
-        $response   = $collectionHandler->add($collection);
+        $collectionHandler->add($collection);
 
         $indexRes = $collectionHandler->index($collection->getName(), 'fulltext', array('name'));
         $this->assertArrayHasKey(
@@ -1547,7 +1561,7 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
         $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
-        $response   = $collectionHandler->add($collection);
+        $collectionHandler->add($collection);
 
         $indexRes = $collectionHandler->index(
             $collection->getName(),
@@ -1598,22 +1612,22 @@ class CollectionExtendedTest extends
         $documentHandler   = $this->documentHandler;
 
         $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_Any'));
-        $response   = $collectionHandler->add($collection);
+        $collectionHandler->add($collection);
 
         $document1 = new Document();
         $document1->set('message', 'message1');
 
-        $documentId = $documentHandler->save($collection->getId(), $document1);
+        $documentHandler->save($collection->getId(), $document1);
 
         $document2 = new Document();
         $document2->set('message', 'message2');
 
-        $documentId = $documentHandler->save($collection->getId(), $document2);
+        $documentHandler->save($collection->getId(), $document2);
 
         $document3 = new Document();
         $document3->set('message', 'message3');
 
-        $documentId = $documentHandler->save($collection->getId(), $document3);
+        $documentHandler->save($collection->getId(), $document3);
 
         //Now, let's try to query any document
         $document = $collectionHandler->any($collection->getName());
@@ -1631,7 +1645,7 @@ class CollectionExtendedTest extends
             'A document that was not part of the collection was retrieved!'
         );
 
-        $response = $collectionHandler->delete($collection->getName());
+        $collectionHandler->delete($collection->getName());
     }
 
 
@@ -1652,7 +1666,7 @@ class CollectionExtendedTest extends
 
         try {
             //Let's try to get a random document
-            $document = $collectionHandler->any('collection_that_does_not_exist');
+            $collectionHandler->any('collection_that_does_not_exist');
         } catch (ServerException $e) {
             $this->assertInstanceOf(
                 '\triagens\ArangoDb\ServerException',
@@ -1694,23 +1708,23 @@ class CollectionExtendedTest extends
     public function tearDown()
     {
         try {
-            $response = $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
         try {
-            $response = $this->collectionHandler->drop('importCollection_01_arango_unittests');
+            $this->collectionHandler->drop('importCollection_01_arango_unittests');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
         try {
-            $response = $this->collectionHandler->drop('_ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->drop('_ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
 
         try {
-            $response = $this->collectionHandler->drop('_ArangoDB_PHP_TestSuite_TestCollection_Any');
+            $this->collectionHandler->drop('_ArangoDB_PHP_TestSuite_TestCollection_Any');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }

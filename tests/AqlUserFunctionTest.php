@@ -13,22 +13,22 @@ namespace triagens\ArangoDb;
  * Class AqlUserFunctionTest
  * Basic Tests for the Graph API implementation
  *
- * @property Connection        $connection
+ * @property Connection                    $connection
+ *
+ * @property CollectionHandler             collectionHandler
+ *
  * @package triagens\ArangoDb
  */
 class AqlUserFunctionTest extends
     \PHPUnit_Framework_TestCase
 {
-    /**
-     * Unittest setup
-     */
     public function setUp()
     {
         $this->connection = getConnection();
 
         // clean up first
         try {
-            $response = $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
@@ -210,12 +210,11 @@ class AqlUserFunctionTest extends
             'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
 
-
+        $e = null;
         try {
-            $result = $userFunction->unregister();
+            $userFunction->unregister();
         } catch (Exception $e) {
         }
-        $details = $e->getDetails();
 
         $this->assertTrue(
             $e->getCode() == 404,
@@ -224,9 +223,6 @@ class AqlUserFunctionTest extends
     }
 
 
-    /**
-     * Unittest teardown
-     */
     public function tearDown()
     {
 

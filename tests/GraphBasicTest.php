@@ -13,6 +13,14 @@ namespace triagens\ArangoDb;
  * Class GraphBasicTest
  * Basic Tests for the Graph API implementation
  *
+ * @property Connection        $connection
+ * @property Graph             $graph
+ * @property Collection        $edgeCollection
+ * @property CollectionHandler $collectionHandler
+ * @property GraphHandler      $graphHandler
+ * @property DocumentHandler   $documentHandler
+ * @property EdgeHandler       $edgeHandler
+ *
  * @package triagens\ArangoDb
  */
 class GraphBasicTest extends
@@ -29,11 +37,11 @@ class GraphBasicTest extends
      */
     public function testCreateAndDeleteGraph()
     {
-        $this->graph = new \triagens\ArangoDb\Graph();
+        $this->graph = new Graph();
         $this->graph->set('_key', 'Graph1');
         $this->graph->setVerticesCollection('ArangoDBPHPTestSuiteTestCollection01');
         $this->graph->setEdgesCollection('ArangoDBPHPTestSuiteTestEdgeCollection01');
-        $this->graphHandler = new \triagens\ArangoDb\GraphHandler($this->connection);
+        $this->graphHandler = new GraphHandler($this->connection);
 
         $result = $this->graphHandler->createGraph($this->graph);
         $this->assertTrue($result['_key'] == 'Graph1', 'Did not return Graph1!');
@@ -50,10 +58,10 @@ class GraphBasicTest extends
      */
     public function testCreateAndDeleteGraphByName()
     {
-        $this->graph = new \triagens\ArangoDb\Graph('Graph2');
+        $this->graph = new Graph('Graph2');
         $this->graph->setVerticesCollection('ArangoDBPHPTestSuiteTestCollection02');
         $this->graph->setEdgesCollection('ArangoDBPHPTestSuiteTestEdgeCollection02');
-        $this->graphHandler = new \triagens\ArangoDb\GraphHandler($this->connection);
+        $this->graphHandler = new GraphHandler($this->connection);
 
         $result = $this->graphHandler->createGraph($this->graph);
         $this->assertTrue($result['_key'] == 'Graph2', 'Did not return Graph2!');
@@ -70,10 +78,10 @@ class GraphBasicTest extends
      */
     public function testCreateRetrieveAndDeleteGraph()
     {
-        $this->graph = new \triagens\ArangoDb\Graph('Graph3');
+        $this->graph = new Graph('Graph3');
         $this->graph->setVerticesCollection('ArangoDBPHPTestSuiteTestCollection03');
         $this->graph->setEdgesCollection('ArangoDBPHPTestSuiteTestEdgeCollection03');
-        $this->graphHandler = new \triagens\ArangoDb\GraphHandler($this->connection);
+        $this->graphHandler = new GraphHandler($this->connection);
 
         $this->graphHandler->createGraph($this->graph);
 
@@ -87,7 +95,7 @@ class GraphBasicTest extends
 
     public function tearDown()
     {
-        $this->graphHandler = new \triagens\ArangoDb\GraphHandler($this->connection);
+        $this->graphHandler = new GraphHandler($this->connection);
         try {
             $this->graphHandler->dropGraph('Graph1');
         } catch (Exception $e) {
