@@ -149,7 +149,7 @@ class DocumentHandler extends
      * <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
      * <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-     *                                 The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+     *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
      *                                 and the hidden attributes would not be applied to the attributes.<br>
      * </p>
      * </li>
@@ -318,7 +318,7 @@ class DocumentHandler extends
      *
      * This will throw if the document cannot be updated
      *
-     * If policy is set to error (locally or globally through the connectionoptions)
+     * If policy is set to error (locally or globally through the ConnectionOptions)
      * and the passed document has a _rev value set, the database will check
      * that the revision of the document to-be-replaced is the same as the one given.
      *
@@ -351,7 +351,7 @@ class DocumentHandler extends
      *
      * This will throw if the document cannot be updated
      *
-     * If policy is set to error (locally or globally through the connectionoptions)
+     * If policy is set to error (locally or globally through the ConnectionOptions)
      * and the passed document has a _rev value set, the database will check
      * that the revision of the document to-be-updated is the same as the one given.
      *
@@ -409,7 +409,7 @@ class DocumentHandler extends
      *
      * This will throw if the document cannot be updated
      *
-     * If policy is set to error (locally or globally through the connectionoptions)
+     * If policy is set to error (locally or globally through the ConnectionOptions)
      * and the passed document has a _rev value set, the database will check
      * that the revision of the to-be-replaced document is the same as the one given.
      *
@@ -440,7 +440,7 @@ class DocumentHandler extends
      *
      * This will throw if the document cannot be Replaced
      *
-     * If policy is set to error (locally or globally through the connectionoptions)
+     * If policy is set to error (locally or globally through the ConnectionOptions)
      * and the passed document has a _rev value set, the database will check
      * that the revision of the to-be-replaced document is the same as the one given.
      *
@@ -556,7 +556,7 @@ class DocumentHandler extends
      */
     public function deleteById($collectionId, $documentId, $revision = null, $options = array())
     {
-        $result = $this->removeById($collectionId, $documentId, $revision, $options);
+        $this->removeById($collectionId, $documentId, $revision, $options);
 
         return true;
     }
@@ -565,7 +565,7 @@ class DocumentHandler extends
     /**
      * Remove a document from a collection, identified by the collection id and document id
      *
-     * @throws Exception
+     * @throws |Exception
      *
      * @param mixed  $collectionId - collection id as string or number
      * @param mixed  $documentId   - document id as string or number
@@ -599,7 +599,7 @@ class DocumentHandler extends
 
         $url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
         $url    = UrlHelper::appendParamsUrl($url, $params);
-        $result = $this->getConnection()->delete($url);
+        $this->getConnection()->delete($url);
 
         return true;
     }

@@ -52,7 +52,7 @@ class Graph extends
      * @param array $name    - optional, initial name for graph
      * @param array $options - optional, initial $options for graph
      *
-     * @return void
+     * @return Graph
      */
     public function __construct($name = null, array $options = array())
     {

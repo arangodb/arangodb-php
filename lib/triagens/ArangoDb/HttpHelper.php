@@ -160,6 +160,7 @@ class HttpHelper
      * @param resource $socket  - connection socket (must be open)
      * @param string   $request - complete HTTP request as a string
      *
+     * @throws ClientException
      * @return string - HTTP response string as provided by the server
      */
     public static function transfer($socket, $request)

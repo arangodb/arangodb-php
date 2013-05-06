@@ -46,7 +46,7 @@ abstract class UrlHelper
     }
 
     /**
-     * Construct a URL from a base URL and additional parts, seperated with '/' each
+     * Construct a URL from a base URL and additional parts, separated with '/' each
      *
      * This function accepts variable arguments.
      *

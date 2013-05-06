@@ -62,7 +62,7 @@ class EdgeHandler extends
      * @param $data
      * @param $options
      *
-     * @return Document
+     * @return Edge
      */
     public function createFromArrayWithContext($data, $options)
     {

@@ -37,6 +37,7 @@ namespace triagens\ArangoDb;
  *
  * @property string $name - The name of the user function
  * @property string $code - The code of the user function
+ * @property mixed  _action
  *
  * @package triagens\ArangoDb
  */
@@ -55,6 +56,13 @@ class AqlUserFunction
      * @var array
      */
     protected $attributes = array();
+
+    /**
+     * The transaction's action.
+     *
+     * @var string
+     */
+    protected $_action = '';
 
     /**
      * Collections index

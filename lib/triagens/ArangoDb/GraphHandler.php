@@ -252,7 +252,7 @@ class GraphHandler extends
      *
      * This will throw if the vertex cannot be Replaced
      *
-     * If policy is set to error (locally or globally through the connectionoptions)
+     * If policy is set to error (locally or globally through the ConnectionOptions)
      * and the passed document has a _rev value set, the database will check
      * that the revision of the to-be-replaced vertex is the same as the one given.
      *
@@ -263,7 +263,7 @@ class GraphHandler extends
      * @param Document $document     - the vertex-document to be updated
      * @param mixed    $options      - optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
      * <p>Options are :]
-     * <li>'revision' - revision for conditional updates ('somerevisionid' [use the passed in revision id], false or true [use document's revision])</li>
+     * <li>'revision' - revision for conditional updates ('some-revision-id' [use the passed in revision id], false or true [use document's revision])</li>
      * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
      * <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
      * </p>
@@ -291,7 +291,7 @@ class GraphHandler extends
             )
         );
 
-        //Include the revison for conditional updates if required
+        //Include the revision for conditional updates if required
         if ($options[self::OPTION_REVISION] === true) {
 
             $revision = $document->getRevision();
@@ -331,7 +331,7 @@ class GraphHandler extends
      *
      * This will throw if the vertex cannot be updated
      *
-     * If policy is set to error (locally or globally through the connectionoptions)
+     * If policy is set to error (locally or globally through the ConnectionOptions)
      * and the passed vertex-document has a _rev value set, the database will check
      * that the revision of the to-be-replaced document is the same as the one given.
      *
@@ -370,7 +370,7 @@ class GraphHandler extends
             )
         );
 
-        //Include the revison for conditional updates if required
+        //Include the revision for conditional updates if required
         if ($options[self::OPTION_REVISION] === true) {
 
             $revision = $document->getRevision();
@@ -434,7 +434,7 @@ class GraphHandler extends
 
         $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_VERTEX, $vertexId);
         $url    = UrlHelper::appendParamsUrl($url, $params);
-        $result = $this->getConnection()->delete($url);
+        $this->getConnection()->delete($url);
 
         return true;
     }
@@ -534,7 +534,7 @@ class GraphHandler extends
      *
      * This will throw if the edge cannot be Replaced
      *
-     * If policy is set to error (locally or globally through the connectionoptions)
+     * If policy is set to error (locally or globally through the ConnectionOptions)
      * and the passed document has a _rev value set, the database will check
      * that the revision of the to-be-replaced edge is the same as the one given.
      *
@@ -542,7 +542,7 @@ class GraphHandler extends
      *
      * @param mixed $graphName     - graph name as string or number
      * @param mixed $edgeId        - edge id as string or number
-     * @param mixed $label         - (optional) label for the edge
+     * @param mixed $label         - label for the edge or ''
      * @param Edge  $document      - edge document to be updated
      * @param mixed $options       - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
      * <p>Options are :
@@ -573,7 +573,7 @@ class GraphHandler extends
             )
         );
 
-        //Include the revison for conditional updates if required
+        //Include the revision for conditional updates if required
         if ($options[self::OPTION_REVISION] === true) {
 
             $revision = $document->getRevision();
@@ -617,7 +617,7 @@ class GraphHandler extends
      *
      * This will throw if the edge cannot be updated
      *
-     * If policy is set to error (locally or globally through the connectionoptions)
+     * If policy is set to error (locally or globally through the ConnectionOptions)
      * and the passed edge-document has a _rev value set, the database will check
      * that the revision of the to-be-replaced document is the same as the one given.
      *
@@ -625,7 +625,7 @@ class GraphHandler extends
      *
      * @param string $graphName     - graph name as string
      * @param mixed  $edgeId        - edge id as string or number
-     * @param mixed  $label         - (optional) label for the edge
+     * @param mixed  $label         - label for the edge or ''
      * @param Edge   $document      - patch edge-document which contains the attributes and values to be updated
      * @param mixed  $options       - optional, array of options (see below)
      * <p>Options are :
@@ -658,7 +658,7 @@ class GraphHandler extends
         );
         $policy = null;
 
-        //Include the revison for conditional updates if required
+        //Include the revision for conditional updates if required
         if ($options[self::OPTION_REVISION] === true) {
 
             $revision = $document->getRevision();
@@ -763,7 +763,7 @@ class GraphHandler extends
      * <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
      * <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-     *                                 The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+     *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
      *                                 and the hidden attributes would not be applied to the attributes.<br>
      * </p>
      * </li>
@@ -815,7 +815,7 @@ class GraphHandler extends
      * <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
      * <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-     *                                 The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+     *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
      *                                 and the hidden attributes would not be applied to the attributes.<br>
      * </p>
      * </li>

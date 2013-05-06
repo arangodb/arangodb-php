@@ -85,10 +85,10 @@ class AdminHandler extends
      *
      * @throws Exception
      *
-     * @param array $options - an array of options that define the resultset:
+     * @param array $options - an array of options that define the result-set:
      *
      * <p>Options are :<br>
-     * <li>'upto' - returns all log entries upto a log-level. Note that log-level must be one of:</li>
+     * <li>'upto' - returns all log entries up to a log-level. Note that log-level must be one of:</li>
      * <p>
      * <li>fatal / 0</li>
      * <li>error / 1</li>

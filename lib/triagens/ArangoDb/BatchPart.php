@@ -66,7 +66,7 @@ class BatchPart
     /**
      * The batch that this instance is part of
      *
-     * @var array $_batch
+     * @var Batch $_batch
      */
     private $_batch = null;
 
@@ -77,13 +77,13 @@ class BatchPart
      * @internal
      *
      * @param Batch $batch    the batch object, that this part belongs to
-     * @param mixed $id       The id of the batch part. TMust be unizue and wil be passed to the server in the content-id header
+     * @param mixed $id       The id of the batch part. TMust be unique and wil be passed to the server in the content-id header
      * @param mixed $type     The type of the request. This is to distinguish the different request type in order to return correct results.
      * @param mixed $request  The request string
      * @param mixed $response The response string
-     * @param mixed $options  optional, optiona like sanitize, that can be passed to the request/response handler.
+     * @param mixed $options  optional, options like sanitize, that can be passed to the request/response handler.
      *
-     * @return Batch
+     * @return BatchPart
      */
 
     public function __construct($batch, $id, $type, $request, $response, $options)
@@ -213,7 +213,7 @@ class BatchPart
     /**
      * Gets the response for he current batch part.
      *
-     * @return Batch
+     * @return HttpResponse
      */
     public function getResponse()
     {
@@ -235,6 +235,7 @@ class BatchPart
     /**
      * Get the batch part identified by the array key (0...n) or its id (if it was set with nextBatchPartId($id) )
      *
+     * @throws ClientException
      * @return mixed $partId
      */
     public function getProcessedResponse()
