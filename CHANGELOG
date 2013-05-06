@@ -222,7 +222,7 @@ v1.0.0 (2012-11-29)
 * issue #17: Implemented basic edges support.
 
 * issue #14: Refactored function names to better match the server api.
-  This results in sevaral methods being deprecated:
+  This results in several methods being deprecated:
 
 DocumentHandler:
   update(), updateById() => These are replaced by replace() and replaceById(). They will have their behavior changed in api version 1.1 in favor for the update method that has been added in ArangoDb 1.1.
