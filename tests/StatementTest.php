@@ -9,22 +9,32 @@
 
 namespace triagens\ArangoDb;
 
+/**
+ * Class StatementTest
+ *
+ * @property Connection        $connection
+ * @property Collection        $collection
+ * @property CollectionHandler $collectionHandler
+ * @property DocumentHandler   $documentHandler
+ *
+ * @package triagens\ArangoDb
+ */
 class StatementTest extends
     \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
         $this->connection        = getConnection();
-        $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
+        $this->collectionHandler = new CollectionHandler($this->connection);
 
         // clean up first
         try {
-            $response = $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
 
-        $this->collection = new \triagens\ArangoDb\Collection();
+        $this->collection = new Collection();
         $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
         $this->collectionHandler->add($this->collection);
     }
@@ -35,22 +45,21 @@ class StatementTest extends
      */
     public function testExecuteStatement()
     {
-        $connection        = $this->connection;
-        $collection        = $this->collection;
-        $collectionHandler = $this->collectionHandler;
-        $document          = new \triagens\ArangoDb\Document();
-        $documentHandler   = new \triagens\ArangoDb\DocumentHandler($connection);
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+        $document        = new Document();
+        $documentHandler = new DocumentHandler($connection);
 
         $document->someAttribute = 'someValue';
 
-        $documentId = $documentHandler->add($collection->getId(), $document);
+        $documentHandler->add($collection->getId(), $document);
 
-        $statement = new \triagens\ArangoDb\Statement($connection, array(
-                                                                        "query"     => '',
-                                                                        "count"     => true,
-                                                                        "batchSize" => 1000,
-                                                                        "_sanitize" => true,
-                                                                   ));
+        $statement = new Statement($connection, array(
+                                                     "query"     => '',
+                                                     "count"     => true,
+                                                     "batchSize" => 1000,
+                                                     "_sanitize" => true,
+                                                ));
         $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a');
         $cursor = $statement->execute();
 
@@ -67,26 +76,25 @@ class StatementTest extends
      * This is just a test to really test connectivity with the server before moving on to further tests.
      * We expect an exception here:
      *
-     * @expectedException triagens\ArangoDb\ClientException
+     * @expectedException \triagens\ArangoDb\ClientException
      */
     public function testExecuteStatementWithWrongEncoding()
     {
-        $connection        = $this->connection;
-        $collection        = $this->collection;
-        $collectionHandler = $this->collectionHandler;
-        $document          = new \triagens\ArangoDb\Document();
-        $documentHandler   = new \triagens\ArangoDb\DocumentHandler($connection);
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+        $document        = new Document();
+        $documentHandler = new DocumentHandler($connection);
 
         $document->someAttribute = 'someValue';
 
-        $documentId = $documentHandler->add($collection->getId(), $document);
+        $documentHandler->add($collection->getId(), $document);
 
-        $statement = new \triagens\ArangoDb\Statement($connection, array(
-                                                                        "query"     => '',
-                                                                        "count"     => true,
-                                                                        "batchSize" => 1000,
-                                                                        "_sanitize" => true,
-                                                                   ));
+        $statement = new Statement($connection, array(
+                                                     "query"     => '',
+                                                     "count"     => true,
+                                                     "batchSize" => 1000,
+                                                     "_sanitize" => true,
+                                                ));
         // inject wrong encoding
         $isoValue = iconv(
             "UTF-8",
@@ -111,22 +119,21 @@ class StatementTest extends
      */
     public function testExplainStatement()
     {
-        $connection        = $this->connection;
-        $collection        = $this->collection;
-        $collectionHandler = $this->collectionHandler;
-        $document          = new \triagens\ArangoDb\Document();
-        $documentHandler   = new \triagens\ArangoDb\DocumentHandler($connection);
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+        $document        = new Document();
+        $documentHandler = new DocumentHandler($connection);
 
         $document->someAttribute = 'someValue';
 
-        $documentId = $documentHandler->add($collection->getId(), $document);
+        $documentHandler->add($collection->getId(), $document);
 
-        $statement = new \triagens\ArangoDb\Statement($connection, array(
-                                                                        "query"     => '',
-                                                                        "count"     => true,
-                                                                        "batchSize" => 1000,
-                                                                        "_sanitize" => true,
-                                                                   ));
+        $statement = new Statement($connection, array(
+                                                     "query"     => '',
+                                                     "count"     => true,
+                                                     "batchSize" => 1000,
+                                                     "_sanitize" => true,
+                                                ));
         $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a');
         $result = $statement->explain();
 
@@ -139,22 +146,21 @@ class StatementTest extends
      */
     public function testValidateStatement()
     {
-        $connection        = $this->connection;
-        $collection        = $this->collection;
-        $collectionHandler = $this->collectionHandler;
-        $document          = new \triagens\ArangoDb\Document();
-        $documentHandler   = new \triagens\ArangoDb\DocumentHandler($connection);
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+        $document        = new Document();
+        $documentHandler = new DocumentHandler($connection);
 
         $document->someAttribute = 'someValue';
 
-        $documentId = $documentHandler->add($collection->getId(), $document);
+        $documentHandler->add($collection->getId(), $document);
 
-        $statement = new \triagens\ArangoDb\Statement($connection, array(
-                                                                        "query"     => '',
-                                                                        "count"     => true,
-                                                                        "batchSize" => 1000,
-                                                                        "_sanitize" => true,
-                                                                   ));
+        $statement = new Statement($connection, array(
+                                                     "query"     => '',
+                                                     "count"     => true,
+                                                     "batchSize" => 1000,
+                                                     "_sanitize" => true,
+                                                ));
         $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a');
         $result = $statement->validate();
         $this->assertArrayHasKey('bindVars', $result, "result-array does not contain plan !");
@@ -167,12 +173,12 @@ class StatementTest extends
     {
         $connection = $this->connection;
 
-        $statement = new \triagens\ArangoDb\Statement($connection, array(
-                                                                        "query"     => 'RETURN UNIQUE([ 1, 1, 2 ])',
-                                                                        "count"     => true,
-                                                                        "_sanitize" => true,
-                                                                        "_flat"     => true
-                                                                   ));
+        $statement = new Statement($connection, array(
+                                                     "query"     => 'RETURN UNIQUE([ 1, 1, 2 ])',
+                                                     "count"     => true,
+                                                     "_sanitize" => true,
+                                                     "_flat"     => true
+                                                ));
         $cursor    = $statement->execute();
         $this->assertEquals(
             array(array(1, 2)),
@@ -182,21 +188,20 @@ class StatementTest extends
 
     public function testStatementThatReturnsScalarResponses()
     {
-        $connection        = $this->connection;
-        $collection        = $this->collection;
-        $collectionHandler = $this->collectionHandler;
-        $document          = new \triagens\ArangoDb\Document();
-        $documentHandler   = new \triagens\ArangoDb\DocumentHandler($connection);
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+        $document        = new Document();
+        $documentHandler = new DocumentHandler($connection);
 
         $document->name = 'john';
 
-        $documentId = $documentHandler->add($collection->getId(), $document);
+        $documentHandler->add($collection->getId(), $document);
 
-        $statement = new \triagens\ArangoDb\Statement($connection, array(
-                                                                        "query"     => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a.name',
-                                                                        "count"     => true,
-                                                                        "_sanitize" => true
-                                                                   ));
+        $statement = new Statement($connection, array(
+                                                     "query"     => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a.name',
+                                                     "count"     => true,
+                                                     "_sanitize" => true
+                                                ));
 
         $cursor = $statement->execute();
 
@@ -208,7 +213,7 @@ class StatementTest extends
     public function tearDown()
     {
         try {
-            $response = $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }

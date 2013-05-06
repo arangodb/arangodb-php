@@ -81,7 +81,7 @@ class ConnectionOptions implements
     const OPTION_UPDATE_POLICY = 'policy';
 
     /**
-     * Update keepnull constant
+     * Update keepNull constant
      */
     const OPTION_UPDATE_KEEPNULL = 'keepNull';
 
@@ -345,7 +345,7 @@ class ConnectionOptions implements
 
         // can use either endpoint or host/port
         if (isset($this->_values[self::OPTION_HOST]) && isset($this->_values[self::OPTION_ENDPOINT])) {
-            throw new ClientException('must not specify both host and enpoint');
+            throw new ClientException('must not specify both host and endpoint');
         } else {
             if (isset($this->_values[self::OPTION_HOST]) && !isset($this->_values[self::OPTION_ENDPOINT])) {
                 // upgrade host/port to an endpoint

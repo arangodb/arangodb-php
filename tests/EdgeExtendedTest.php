@@ -9,14 +9,26 @@
 
 namespace triagens\ArangoDb;
 
+/**
+ * Class EdgeExtendedTest
+ *
+ * @property Connection        $connection
+ * @property Collection        $collection
+ * @property Collection        $edgeCollection
+ * @property CollectionHandler $collectionHandler
+ * @property DocumentHandler   $documentHandler
+ * @property EdgeHandler       $edgeHandler
+ *
+ * @package triagens\ArangoDb
+ */
 class EdgeExtendedTest extends
     \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
         $this->connection        = getConnection();
-        $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
-        $this->collection        = new \triagens\ArangoDb\Collection();
+        $this->collectionHandler = new CollectionHandler($this->connection);
+        $this->collection        = new Collection();
         $this->collection->setName('ArangoDB_PHP_TestSuite_TestEdgeCollection_01');
         $this->collectionHandler->add($this->collection);
         $this->edgeHandler = new EdgeHandler($this->connection);
@@ -26,7 +38,7 @@ class EdgeExtendedTest extends
     /**
      * Test for correct exception codes if non-existent objects are tried to be gotten, replaced, updated or removed
      */
-    public function testGetReplaceUpdateAndRemoveOnNonExistantObjects()
+    public function testGetReplaceUpdateAndRemoveOnNonExistentObjects()
     {
         // Setup objects
         $edgeHandler = $this->edgeHandler;
@@ -42,8 +54,8 @@ class EdgeExtendedTest extends
         // Try to get a non-existent edge out of a nonexistent collection
         // This should cause an exception with a code of 404
         try {
-            unset ($e);
-            $result1 = $edgeHandler->get('nonExistantCollection', 'nonexistantId');
+            $e = null;
+            $edgeHandler->get('nonExistentCollection', 'nonexistentId');
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -54,8 +66,8 @@ class EdgeExtendedTest extends
         // Try to get a non-existent edge out of an existent collection
         // This should cause an exception with a code of 404
         try {
-            unset ($e);
-            $result1 = $edgeHandler->get($this->collection->getId(), 'nonexistantId');
+            $e = null;
+            $edgeHandler->get($this->collection->getId(), 'nonexistentId');
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -66,8 +78,8 @@ class EdgeExtendedTest extends
         // Try to update a non-existent edge
         // This should cause an exception with a code of 404
         try {
-            unset ($e);
-            $result1 = $edgeHandler->updateById($this->collection->getId(), 'nonexistantId', $edge);
+            $e = null;
+            $edgeHandler->updateById($this->collection->getId(), 'nonexistentId', $edge);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -78,8 +90,8 @@ class EdgeExtendedTest extends
         // Try to replace a non-existent edge
         // This should cause an exception with a code of 404
         try {
-            unset ($e);
-            $result1 = $edgeHandler->replaceById($this->collection->getId(), 'nonexistantId', $edge);
+            $e = null;
+            $edgeHandler->replaceById($this->collection->getId(), 'nonexistentId', $edge);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -90,8 +102,8 @@ class EdgeExtendedTest extends
         // Try to remove a non-existent edge
         // This should cause an exception with a code of 404
         try {
-            unset ($e);
-            $result1 = $edgeHandler->removeById($this->collection->getId(), 'nonexistantId');
+            $e = null;
+            $edgeHandler->removeById($this->collection->getId(), 'nonexistentId');
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -103,13 +115,13 @@ class EdgeExtendedTest extends
     public function tearDown()
     {
         try {
-            $response = $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestEdgeCollection_01');
+            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestEdgeCollection_01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
 
         try {
-            $response = $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestEdgeCollection_02');
+            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestEdgeCollection_02');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }

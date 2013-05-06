@@ -26,21 +26,21 @@ class TransactionTest extends
     public function setUp()
     {
         $this->connection        = getConnection();
-        $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
+        $this->collectionHandler = new CollectionHandler($this->connection);
 
         // clean up first
         try {
-            $response = $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
 
 
-        $this->collection1 = new \triagens\ArangoDb\Collection();
+        $this->collection1 = new Collection();
         $this->collection1->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
         $this->collectionHandler->add($this->collection1);
 
-        $this->collection2 = new \triagens\ArangoDb\Collection();
+        $this->collection2 = new Collection();
         $this->collection2->setName('ArangoDB_PHP_TestSuite_TestCollection_02');
         $this->collectionHandler->add($this->collection2);
     }
@@ -67,7 +67,7 @@ class TransactionTest extends
             'waitForSync' => $waitForSync,
             'lockTimeout' => $lockTimeout
         );
-        $transaction = new \triagens\ArangoDb\Transaction($this->connection, $array);
+        $transaction = new Transaction($this->connection, $array);
 
         // check if object was initialized correctly with the array
 
@@ -114,7 +114,7 @@ class TransactionTest extends
         $lockTimeout      = 10;
 
         // check if setters work fine
-        $transaction                   = new \triagens\ArangoDb\Transaction($this->connection);
+        $transaction                   = new Transaction($this->connection);
         $transaction->writeCollections = $writeCollections;
         $transaction->readCollections  = $readCollections;
         $transaction->action           = $action;
@@ -165,7 +165,7 @@ class TransactionTest extends
         $lockTimeout      = 10;
 
         // check if setters work fine
-        $transaction                   = new \triagens\ArangoDb\Transaction($this->connection);
+        $transaction                   = new Transaction($this->connection);
         $transaction->writeCollections = $writeCollections;
         $transaction->readCollections  = $readCollections;
         $transaction->action           = $action;
@@ -216,7 +216,7 @@ class TransactionTest extends
         $lockTimeout      = 10;
 
 
-        $transaction = new \triagens\ArangoDb\Transaction($this->connection);
+        $transaction = new Transaction($this->connection);
 
         // check if setters work fine
         $transaction->setWriteCollections($writeCollections);
@@ -257,7 +257,7 @@ class TransactionTest extends
     /**
      * Test if we get the return-value from the code back.
      */
-    public function testCreateAndExecuteTransactionWithReturnvalue()
+    public function testCreateAndExecuteTransactionWithReturnValue()
     {
         $writeCollections = array($this->collection1->getName());
         $readCollections  = array($this->collection2->getName());
@@ -269,7 +269,7 @@ class TransactionTest extends
     return "hello!!!";
   }';
 
-        $transaction = new \triagens\ArangoDb\Transaction($this->connection);
+        $transaction = new Transaction($this->connection);
         $transaction->setWriteCollections($writeCollections);
         $transaction->setReadCollections($readCollections);
         $transaction->setAction($action);
@@ -281,8 +281,6 @@ class TransactionTest extends
 
     /**
      * Test if we get an error back, if we throw an exception inside the transaction code
-     *
-     * @expectedException triagens\ArangoDb\ServerException
      */
     public function testCreateAndExecuteTransactionWithTransactionException()
     {
@@ -297,7 +295,7 @@ class TransactionTest extends
     throw "doh!";
   }';
 
-        $transaction = new \triagens\ArangoDb\Transaction($this->connection);
+        $transaction = new Transaction($this->connection);
         $transaction->setWriteCollections($writeCollections);
         $transaction->setReadCollections($readCollections);
         $transaction->setAction($action);
@@ -305,7 +303,7 @@ class TransactionTest extends
         $e = null;
         try {
             $result = $transaction->execute();
-        } catch (triagens\ArangoDb\ServerException $e) {
+        } catch (\triagens\ArangoDb\ServerException $e) {
         }
         $details = $e->getDetails();
 
@@ -319,8 +317,6 @@ class TransactionTest extends
 
     /**
      * Test if we get an error back, if we violate a unique constraint
-     *
-     * @expectedException triagens\ArangoDb\ServerException
      */
     public function testCreateAndExecuteTransactionWithTransactionErrorUniqueConstraintOnSave()
     {
@@ -333,15 +329,15 @@ class TransactionTest extends
     db.' . $this->collection1->getName() . '.save({ _key : "hello" });
   }';
 
-        $transaction = new \triagens\ArangoDb\Transaction($this->connection);
+        $transaction = new Transaction($this->connection);
         $transaction->setWriteCollections($writeCollections);
         $transaction->setReadCollections($readCollections);
         $transaction->setAction($action);
 
         $e = null;
         try {
-            $result = $transaction->execute();
-        } catch (triagens\ArangoDb\ServerException $e) {
+            $transaction->execute();
+        } catch (\triagens\ArangoDb\ServerException $e) {
         }
         $details                = $e->getDetails();
         $expectedCutDownMessage = "cannot save document: unique constraint violated:";
@@ -361,12 +357,12 @@ class TransactionTest extends
     public function tearDown()
     {
         try {
-            $response = $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
         try {
-            $response = $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_02');
+            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_02');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }

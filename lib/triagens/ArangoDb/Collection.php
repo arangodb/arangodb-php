@@ -121,7 +121,7 @@ class Collection
     const ENTRY_IS_SYSTEM = 'isSystem';
 
     /**
-     * Collection 'isVolatile' sindex
+     * Collection 'isVolatile' index
      */
     const ENTRY_IS_VOLATILE = 'isVolatile';
 
@@ -156,7 +156,7 @@ class Collection
     const STATUS_LOADED = 3;
 
     /**
-     * Collectiong being unloaded
+     * Collection being unloaded
      */
     const STATUS_BEING_UNLOADED = 4;
 
@@ -168,7 +168,7 @@ class Collection
     /**
      * Constructs an empty collection
      *
-     * @return void
+     * @return Collection
      */
     public function __construct()
     {
@@ -359,7 +359,7 @@ class Collection
      *
      * @param mixed $id - collection id
      *
-     * @return void
+     * @return bool
      */
     public function setId($id)
     {

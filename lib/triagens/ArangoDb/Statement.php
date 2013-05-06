@@ -56,7 +56,7 @@ class Statement
     private $_bindVars;
 
     /**
-     * The current batch size (number of result documents retrieved per roundtrip)
+     * The current batch size (number of result documents retrieved per round-trip)
      *
      * @var mixed
      */
@@ -129,8 +129,6 @@ class Statement
      *
      * @param Connection $connection - the connection to be used
      * @param array      $data       - statement initialization data
-     *
-     * @return void
      */
     public function __construct(Connection $connection, array $data)
     {
@@ -335,7 +333,7 @@ class Statement
      * Set the batch size for the statement
      *
      * The batch size is the number of results to be transferred
-     * in one server roundtrip. If a query produces more results
+     * in one server round-trip. If a query produces more results
      * than the batch size, it creates a server-side cursor that
      * provides the additional results.
      *

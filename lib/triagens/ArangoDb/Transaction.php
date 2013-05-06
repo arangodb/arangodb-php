@@ -48,7 +48,6 @@ namespace triagens\ArangoDb;
  * @property bool   $waitForSync     - WaitForSync on the transaction
  * @property int    $lockTimeout     - LockTimeout on the transaction
  *
- *
  * @package ArangoDbPhpClient
  */
 class Transaction
