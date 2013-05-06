@@ -20,11 +20,11 @@ class ValueValidator
     /**
      * Validate the value of a variable
      *
-     * Allowed value types are string, integer, double and booleans. Arrays are also allowed if they contain only one of the former types.
+     * Allowed value types are string, integer, double and boolean. Arrays are also allowed if they contain only one of the former types.
      *
      * @throws ClientException
      *
-     * @param mixed value - value to validate
+     * @param mixed $value - value to validate
      *
      * @return void - will throw if an invalid value type is passed
      */

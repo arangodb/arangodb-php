@@ -106,7 +106,7 @@ class Cursor implements
      * @param array      $data       - initial result data as returned by the server
      * @param array      $options    - cursor options
      *
-     * @return void
+     * @return Cursor
      */
     public function __construct(Connection $connection, array $data, array $options)
     {

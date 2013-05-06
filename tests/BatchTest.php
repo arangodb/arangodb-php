@@ -9,6 +9,13 @@
 
 namespace triagens\ArangoDb;
 
+/**
+ * @property Connection             connection
+ * @property Collection             collection
+ * @property CollectionHandler      collectionHandler
+ * @property DocumentHandler        documentHandler
+ * @property Collection             edgeCollection
+ */
 class BatchTest extends
     \PHPUnit_Framework_TestCase
 {
@@ -17,13 +24,13 @@ class BatchTest extends
         $this->connection = getConnection();
 
         $this->documentHandler   = new DocumentHandler($this->connection);
-        $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
+        $this->collectionHandler = new CollectionHandler($this->connection);
 
-        $this->collection = new \triagens\ArangoDb\Collection();
+        $this->collection = new Collection();
         $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
         $this->collectionHandler->add($this->collection);
 
-        $this->edgeCollection = new \triagens\ArangoDb\Collection();
+        $this->edgeCollection = new Collection();
         $this->edgeCollection->setName('ArangoDBPHPTestSuiteTestEdgeCollection01');
         $this->edgeCollection->set('type', 3);
         $this->collectionHandler->add($this->edgeCollection);
@@ -45,7 +52,7 @@ class BatchTest extends
 
         try {
             // should fail on client, too
-            $responses = $batch->process();
+            $batch->process();
             $this->fail('we should have got an exception');
         } catch (ClientException $e) {
         }
@@ -59,8 +66,8 @@ class BatchTest extends
 
         for ($i = 0; $i < 10; ++$i) {
             $batch->nextBatchPartId('doc' . $i);
-            $document   = Document::createFromArray(array('test1' => $i, 'test2' => ($i + 1)));
-            $documentId = $this->documentHandler->add($this->collection->getId(), $document);
+            $document = Document::createFromArray(array('test1' => $i, 'test2' => ($i + 1)));
+            $this->documentHandler->add($this->collection->getId(), $document);
         }
 
         $this->assertEquals(10, $batch->countParts());
@@ -101,22 +108,22 @@ class BatchTest extends
         $collection = new Collection();
         $name       = 'ArangoDB_PHP_TestSuite_TestCollection_02';
         $collection->setName($name);
-        $response = $this->collectionHandler->add($collection);
+        $this->collectionHandler->add($collection);
 
         $part = $batch->getPart(0);
         $this->assertInstanceOf('\triagens\ArangoDb\BatchPart', $part);
         $this->assertEquals(202, $part->getHttpCode());
 
         // call process once (this does not clear the batch)
-        $responses = $batch->process();
+        $batch->process();
         $this->assertEquals(200, $part->getHttpCode());
 
         $response = $batch->getPartResponse(0);
         $this->assertEquals(200, $response->getHttpCode());
 
         // this will process the same batch again
-        $responses = $batch->process();
-        $response  = $batch->getPartResponse(0);
+        $batch->process();
+        $response = $batch->getPartResponse(0);
 
         // should return 409 conflict, because collection already exists
         $this->assertEquals(409, $response->getHttpCode());
@@ -148,12 +155,12 @@ class BatchTest extends
 
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
 
-        $responses = $batch->process();
+        $batch->process();
 
-        $testDocument1PartResponse = $batch->getPart(0)->getProcessedResponse();
+        $batch->getPart(0)->getProcessedResponse();
 
         // try getting it from batch
-        $testDocument2PartResponse = $batch->getProcessedPartResponse(1);
+        $batch->getProcessedPartResponse(1);
     }
 
 
@@ -173,16 +180,16 @@ class BatchTest extends
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_02';
         $collection->setName($name);
 
-        $batch->nextBatchPartId('testcollection1');
+        $batch->nextBatchPartId('testCollection1');
         $response = $collectionHandler->add($collection);
 
         $this->assertTrue(is_numeric($response), 'Did not return a fake numeric id!');
-        $result = $batch->process();
+        $batch->process();
 
-        $resultingCollectionId = $batch->getProcessedPartResponse('testcollection1');
-        $testcollection1Part   = $batch->getPart('testcollection1');
-        $this->assertTrue($testcollection1Part->getHttpCode() == 200, 'Did not return an HttpCode 200!');
-        $resultingCollection = $collectionHandler->get($batch->getProcessedPartResponse('testcollection1'));
+        $resultingCollectionId = $batch->getProcessedPartResponse('testCollection1');
+        $testCollection1Part   = $batch->getPart('testCollection1');
+        $this->assertTrue($testCollection1Part->getHttpCode() == 200, 'Did not return an HttpCode 200!');
+        $resultingCollection = $collectionHandler->get($batch->getProcessedPartResponse('testCollection1'));
 
         $resultingAttribute = $resultingCollection->getName();
         $this->assertTrue(
@@ -216,7 +223,7 @@ class BatchTest extends
         $this->assertTrue(is_numeric($documentId), 'Did not return a fake numeric id!');
 
 
-        $result = $batch->process();
+        $batch->process();
 
         // try getting processed response through batchpart
         $testDocument1PartResponse = $batch->getPart('doc1')->getProcessedResponse();
@@ -232,24 +239,24 @@ class BatchTest extends
         $documentHandler->getById($resultingCollectionId, $docId1[1]);
         $documentHandler->getById($resultingCollectionId, $docId2[1]);
 
-        $result = $batch->process();
+        $batch->process();
 
         $document1 = $batch->getProcessedPartResponse(0);
         $document2 = $batch->getProcessedPartResponse(1);
 
         $batch = new Batch($this->connection);
         // test edge creation
-        $edgeDocument        = new \triagens\ArangoDb\Edge();
-        $edgeDocumentHandler = new \triagens\ArangoDb\EdgeHandler($connection);
+        $edgeDocument        = new Edge();
+        $edgeDocumentHandler = new EdgeHandler($connection);
         $edgeDocument->set('label', 'knows');
-        $edgeDocumentId = $edgeDocumentHandler->saveEdge(
+        $edgeDocumentHandler->saveEdge(
             $edgeCollection->getName(),
             $document1->getHandle(),
             $document2->getHandle(),
             $edgeDocument
         );
 
-        $result = $batch->process();
+        $batch->process();
 
         $edge = $batch->getProcessedPartResponse(0);
 
@@ -267,7 +274,7 @@ class BatchTest extends
         $documentHandler = new DocumentHandler($connection);
 
         $document->someAttribute = 'someValue';
-        $documentId              = $documentHandler->add($resultingCollection->getId(), $document);
+        $documentHandler->add($resultingCollection->getId(), $document);
 
         // set the next batchpart id
         $batch->nextBatchPartId('myBatchPart');
@@ -288,7 +295,7 @@ class BatchTest extends
                                                 ));
 
         $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_02` RETURN a');
-        $cursor = $statement->execute();
+        $statement->execute();
 
         $documentHandler->removeById($resultingCollectionId, $docId1[1]);
         $documentHandler->removeById($resultingCollectionId, $docId2[1]);
@@ -297,7 +304,7 @@ class BatchTest extends
         $batch->nextBatchPartId('docsAfterRemoval');
         $collectionHandler->getAllIds($resultingCollectionId);
 
-        $result = $batch->process();
+        $batch->process();
 
         $stmtCursor = $batch->getProcessedPartResponse('myBatchPart');
 
@@ -315,26 +322,26 @@ class BatchTest extends
         // Get previously created collection and delete it, from inside a batch
         $batch = new Batch($this->connection);
 
-        $response = $collectionHandler->delete($resultingCollectionId);
+        $collectionHandler->delete($resultingCollectionId);
 
-        $results = $batch->process();
+        $batch->process();
     }
 
 
     public function tearDown()
     {
         try {
-            $response = $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
         try {
-            $response = $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_02');
+            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_02');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
         try {
-            $response = $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestEdgeCollection01');
+            $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestEdgeCollection01');
         } catch (\Exception $e) {
             #don't bother us, if it's already deleted.
         }

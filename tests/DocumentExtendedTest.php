@@ -9,14 +9,25 @@
 
 namespace triagens\ArangoDb;
 
+/**
+ * Class DocumentExtendedTest
+ *
+ * @property Connection        $connection
+ * @property Collection        $collection
+ * @property Collection        $edgeCollection
+ * @property CollectionHandler $collectionHandler
+ * @property DocumentHandler   $documentHandler
+ *
+ * @package triagens\ArangoDb
+ */
 class DocumentExtendedTest extends
     \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
         $this->connection        = getConnection();
-        $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
-        $this->collection        = new \triagens\ArangoDb\Collection();
+        $this->collectionHandler = new CollectionHandler($this->connection);
+        $this->collection        = new Collection();
         $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
         $this->collectionHandler->add($this->collection);
         $this->documentHandler = new DocumentHandler($this->connection);
@@ -27,7 +38,7 @@ class DocumentExtendedTest extends
      * test for creation of document with non utf encoding. This tests for failure of such an action.
      * We expect an exception here:
      *
-     * @expectedException triagens\ArangoDb\ClientException
+     * @expectedException \triagens\ArangoDb\ClientException
      */
     public function testCreateDocumentWithWrongEncoding()
     {
@@ -79,7 +90,7 @@ class DocumentExtendedTest extends
     /**
      * test for creation, get by example, and delete of a document given its settings through createFromArray()
      */
-    public function testCreateDocumentWithCreateFromArrayGetbyExampleAndDeleteDocument()
+    public function testCreateDocumentWithCreateFromArrayGetByExampleAndDeleteDocument()
     {
         $documentHandler = $this->documentHandler;
 
@@ -106,7 +117,7 @@ class DocumentExtendedTest extends
     /**
      * test for creation, get by example, and delete of a document given its settings through createFromArray()
      */
-    public function testCreateDocumentWithCreateFromArrayGetbyExampleWithOptionsAndDeleteDocument()
+    public function testCreateDocumentWithCreateFromArrayGetByExampleWithOptionsAndDeleteDocument()
     {
         $documentHandler = $this->documentHandler;
 
@@ -227,14 +238,13 @@ class DocumentExtendedTest extends
     {
         $documentHandler = $this->documentHandler;
 
-        $document          = Document::createFromArray(
+        $document   = Document::createFromArray(
             array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
         );
-        $documentId        = $documentHandler->add($this->collection->getId(), $document);
-        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
 
-        $patchDocument = new \triagens\ArangoDb\Document();
+        $patchDocument = new Document();
         $patchDocument->set('_id', $document->getHandle());
         $patchDocument->set('_rev', $document->getRevision());
         $patchDocument->set('someOtherAttribute', 'someOtherValue2');
@@ -262,7 +272,7 @@ class DocumentExtendedTest extends
      * test for updating a document using update() with wrong encoding
      * We expect an exception here:
      *
-     * @expectedException triagens\ArangoDb\ClientException
+     * @expectedException \triagens\ArangoDb\ClientException
      */
     public function testUpdateDocumentWithWrongEncoding()
     {
@@ -275,7 +285,7 @@ class DocumentExtendedTest extends
         $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
 
-        $patchDocument = new \triagens\ArangoDb\Document();
+        $patchDocument = new Document();
         $patchDocument->set('_id', $document->getHandle());
         $patchDocument->set('_rev', $document->getRevision());
 
@@ -306,18 +316,17 @@ class DocumentExtendedTest extends
     /**
      * test for updating a document using update()
      */
-    public function testUpdateDocumentDontKeepNull()
+    public function testUpdateDocumentDoNotKeepNull()
     {
         $documentHandler = $this->documentHandler;
 
-        $document          = Document::createFromArray(
+        $document   = Document::createFromArray(
             array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
         );
-        $documentId        = $documentHandler->add($this->collection->getId(), $document);
-        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
 
-        $patchDocument = new \triagens\ArangoDb\Document();
+        $patchDocument = new Document();
         $patchDocument->set('_id', $document->getHandle());
         $patchDocument->set('_rev', $document->getRevision());
         $patchDocument->set('someAttribute', null);
@@ -383,7 +392,7 @@ class DocumentExtendedTest extends
      * test for replacing a document using replace() with wrong encoding
      * We expect an exception here:
      *
-     * @expectedException triagens\ArangoDb\ClientException
+     * @expectedException \triagens\ArangoDb\ClientException
      */
     public function testReplaceDocumentWithWrongEncoding()
     {
@@ -471,7 +480,7 @@ class DocumentExtendedTest extends
         $revision = $document->getRevision();
         try {
             $documentHandler->deleteById($this->collection->getId(), $documentId, $revision - 1000, 'error');
-        } catch (\triagens\ArangoDb\ServerException $e) {
+        } catch (ServerException $e) {
             $this->assertTrue(true);
         }
 
@@ -524,7 +533,7 @@ class DocumentExtendedTest extends
 
 
         // Set some new values on the attributes and include the revision in the _rev attribute
-        // This should result in a successfull update
+        // This should result in a successful update
         $document->set('someAttribute', 'someValue2');
         $document->set('someOtherAttribute', 'someOtherValue2');
         $document->setRevision($resultingDocument->getRevision());
@@ -541,9 +550,9 @@ class DocumentExtendedTest extends
         // This should result in a failure to update
         $document->set('someOtherAttribute', 'someOtherValue3');
         $document->setRevision($resultingDocument->getRevision() - 1000);
-
+        $e = null;
         try {
-            $result = $documentHandler->update($document, 'error');
+            $documentHandler->update($document, 'error');
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -562,7 +571,7 @@ class DocumentExtendedTest extends
         $document = Document::createFromArray(array('someOtherAttribute' => 'someOtherValue3'));
         $document->setInternalId($this->collection->getId() . '/' . $documentId);
         // Set some new values on the attributes and  _rev attribute to NULL
-        // This should result in a successfull update
+        // This should result in a successful update
         try {
             $result = $documentHandler->update($document, 'error');
         } catch (\Exception $e) {
@@ -574,7 +583,7 @@ class DocumentExtendedTest extends
 
         // Set some new values on the attributes and include the revision in the _rev attribute
         // this is only to update the doc and get a new revision for thesting the delete method below
-        // This should result in a successfull update
+        // This should result in a successful update
         $document->set('someAttribute', 'someValue');
         $document->set('someOtherAttribute', 'someOtherValue2');
         $document->set('_rev', $resultingDocument2->getRevision());
@@ -589,7 +598,7 @@ class DocumentExtendedTest extends
 
         $e = null;
         try {
-            $response = $documentHandler->delete($resultingDocument, "error");
+            $documentHandler->delete($resultingDocument, "error");
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -623,7 +632,7 @@ class DocumentExtendedTest extends
 
 
         // Set some new values on the attributes and include the revision in the _rev attribute
-        // This should result in a successfull update
+        // This should result in a successful update
         $document->set('someAttribute', 'someValue2');
         $document->set('someOtherAttribute', 'someOtherValue2');
         $document->set('_rev', $resultingDocument->getRevision());
@@ -642,8 +651,10 @@ class DocumentExtendedTest extends
         $document->set('someOtherAttribute', 'someOtherValue3');
         $document->set('_rev', $resultingDocument->getRevision() - 1000);
 
+        $e = null;
+
         try {
-            $result = $documentHandler->update($document, 'error');
+            $documentHandler->update($document, 'error');
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -661,9 +672,9 @@ class DocumentExtendedTest extends
         );
         $document->setInternalId($this->collection->getId() . '/' . $documentId);
         // Set some new values on the attributes and  _rev attribute to NULL
-        // This should result in a successfull update
+        // This should result in a successful update
         try {
-            $result = $documentHandler->update($document, 'error');
+            $documentHandler->update($document, 'error');
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -673,7 +684,7 @@ class DocumentExtendedTest extends
         $this->assertTrue($resultingDocument2->someOtherAttribute == 'someOtherValue3');
 
         // Set some new values on the attributes and include the revision in the _rev attribute
-        // this is only to update the doc and get a new revision for thesting the delete method below
+        // this is only to update the doc and get a new revision for testing the delete method below
         // This should result in a successful update
         $document->set('someAttribute', 'someValue2');
         $document->set('someOtherAttribute', 'someOtherValue2');
@@ -689,7 +700,7 @@ class DocumentExtendedTest extends
 
         $e = null;
         try {
-            $response = $documentHandler->delete($resultingDocument, "error");
+            $documentHandler->delete($resultingDocument, "error");
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -738,9 +749,9 @@ class DocumentExtendedTest extends
 
 
     /**
-     * Test for correct exception codes if nonexistant objects are tried to be gotten, replaced, updated or removed
+     * Test for correct exception codes if nonexistent objects are tried to be gotten, replaced, updated or removed
      */
-    public function testGetReplaceUpdateAndRemoveOnNonExistantObjects()
+    public function testGetReplaceUpdateAndRemoveOnNonExistentObjects()
     {
         // Setup objects
         $documentHandler = $this->documentHandler;
@@ -756,8 +767,8 @@ class DocumentExtendedTest extends
         // Try to get a non-existent document out of a nonexistent collection
         // This should cause an exception with a code of 404
         try {
-            unset ($e);
-            $result1 = $documentHandler->get('nonExistantCollection', 'nonexistantId');
+            $e = null;
+            $documentHandler->get('nonExistentCollection', 'nonexistentId');
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -768,8 +779,8 @@ class DocumentExtendedTest extends
         // Try to get a non-existent document out of an existent collection
         // This should cause an exception with a code of 404
         try {
-            unset ($e);
-            $result1 = $documentHandler->get($this->collection->getId(), 'nonexistantId');
+            $e       = null;
+            $result1 = $documentHandler->get($this->collection->getId(), 'nonexistentId');
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -780,8 +791,8 @@ class DocumentExtendedTest extends
         // Try to update a non-existent document
         // This should cause an exception with a code of 404
         try {
-            unset ($e);
-            $result1 = $documentHandler->updateById($this->collection->getId(), 'nonexistantId', $document);
+            $e = null;
+            $documentHandler->updateById($this->collection->getId(), 'nonexistentId', $document);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -792,8 +803,8 @@ class DocumentExtendedTest extends
         // Try to replace a non-existent document
         // This should cause an exception with a code of 404
         try {
-            unset ($e);
-            $result1 = $documentHandler->replaceById($this->collection->getId(), 'nonexistantId', $document);
+            $e = null;
+            $documentHandler->replaceById($this->collection->getId(), 'nonexistentId', $document);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -804,8 +815,8 @@ class DocumentExtendedTest extends
         // Try to remove a non-existent document
         // This should cause an exception with a code of 404
         try {
-            unset ($e);
-            $result1 = $documentHandler->removeById($this->collection->getId(), 'nonexistantId');
+            $e = null;
+            $documentHandler->removeById($this->collection->getId(), 'nonexistentId');
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -814,7 +825,7 @@ class DocumentExtendedTest extends
     }
 
     /**
-     * Test for correct exception codes if nonexistant objects are tried to be gotten, replaced, updated or removed
+     * Test for correct exception codes if nonexistent objects are tried to be gotten, replaced, updated or removed
      */
     public function testStoreNewDocumentThenReplace()
     {
@@ -833,7 +844,10 @@ class DocumentExtendedTest extends
         $rev = $document->getRevision();
 
         $this->assertTrue($id == $document->getId(), 'Returned ID does not match the one in the document');
-        $this->assertTrue($document->get('data') == 'this is some test data', 'Data has been modified for some reason.');
+        $this->assertTrue(
+            $document->get('data') == 'this is some test data',
+            'Data has been modified for some reason.'
+        );
 
         //Check that the document is not new
         $this->assertTrue(!$document->getIsNew(), 'Document is marked as new when it is not.');
@@ -864,7 +878,7 @@ class DocumentExtendedTest extends
     public function tearDown()
     {
         try {
-            $response = $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }

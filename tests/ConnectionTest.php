@@ -9,14 +9,25 @@
 
 namespace triagens\ArangoDb;
 
+/**
+ * Class ConnectionTest
+ *
+ * @property Connection        $connection
+ * @property Collection        $collection
+ * @property Collection        $edgeCollection
+ * @property CollectionHandler $collectionHandler
+ * @property DocumentHandler   $documentHandler
+ *
+ * @package triagens\ArangoDb
+ */
 class ConnectionTest extends
     \PHPUnit_Framework_TestCase
 {
 
     public function setUp()
     {
-        $this->connection   = getConnection();
-        $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
+        $this->connection        = getConnection();
+        $this->collectionHandler = new CollectionHandler($this->connection);
 
         try {
             $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestTracer');
@@ -53,10 +64,10 @@ class ConnectionTest extends
     {
         $connection = getConnection();
 
-        $response   = $connection->getVersion();
+        $response = $connection->getVersion();
         $this->assertTrue($response !== "", 'Version String is empty!');
 
-        $response   = $connection->getClientVersion();
+        $response = $connection->getClientVersion();
         $this->assertTrue($response !== "", 'Version String is empty!');
     }
 
@@ -66,16 +77,20 @@ class ConnectionTest extends
     public function testBasicTracer()
     {
         //Setup
-        $self = $this; //Hack for PHP 5.3 compatibility
-        $basicTracer = function($type, $data) use($self){
-            $self->assertContains($type, array('send', 'receive'), 'Basic tracer\'s type should only be \'send\' or \'receive\'');
+        $self        = $this; //Hack for PHP 5.3 compatibility
+        $basicTracer = function ($type, $data) use ($self) {
+            $self->assertContains(
+                $type,
+                array('send', 'receive'),
+                'Basic tracer\'s type should only be \'send\' or \'receive\''
+            );
             $self->assertInternalType('string', $data, 'Basic tracer data is not a string!.');
         };
 
-        $options = getConnectionOptions();
+        $options                                  = getConnectionOptions();
         $options[ConnectionOptions::OPTION_TRACE] = $basicTracer;
 
-        $connection = new Connection($options);
+        $connection        = new Connection($options);
         $collectionHandler = new CollectionHandler($connection);
 
         //Try creating a collection
@@ -96,33 +111,48 @@ class ConnectionTest extends
         //Setup
         $self = $this; //Hack for PHP 5.3 compatibility
 
-        $enhancedTracer = function($data) use($self){
-            $self->assertTrue($data instanceof TraceRequest || $data instanceof TraceResponse, '$data must be instance of TraceRequest or TraceResponse.');
+        $enhancedTracer = function ($data) use ($self) {
+            $self->assertTrue(
+                $data instanceof TraceRequest || $data instanceof TraceResponse,
+                '$data must be instance of TraceRequest or TraceResponse.'
+            );
 
             $self->assertInternalType('array', $data->getHeaders(), 'Headers should be an array!');
             $self->assertNotEmpty($data->getHeaders(), 'Headers should not be an empty array!');
             $self->assertInternalType('string', $data->getBody(), 'Body must be a string!');
 
-            if($data instanceof TraceRequest){
-                $self->assertContains($data->getMethod(),
-                                      array(HttpHelper::METHOD_DELETE, HttpHelper::METHOD_GET, HttpHelper::METHOD_HEAD, HttpHelper::METHOD_PATCH, HttpHelper::METHOD_POST, HttpHelper::METHOD_PUT),
-                                      'Invalid http method!'
+            if ($data instanceof TraceRequest) {
+                $self->assertContains(
+                    $data->getMethod(),
+                    array(
+                         HttpHelper::METHOD_DELETE,
+                         HttpHelper::METHOD_GET,
+                         HttpHelper::METHOD_HEAD,
+                         HttpHelper::METHOD_PATCH,
+                         HttpHelper::METHOD_POST,
+                         HttpHelper::METHOD_PUT
+                    ),
+                    'Invalid http method!'
                 );
 
                 $self->assertInternalType('string', $data->getRequestUrl(), 'Request url must be a string!');
                 $self->assertEquals('request', $data->getType());
-            }else{
+            } else {
                 $self->assertInternalType('integer', $data->getHttpCode(), 'Http code must be an integer!');
-                $self->assertInternalType('string', $data->getHttpCodeDefinition(), 'Http code definition must be a string!');
+                $self->assertInternalType(
+                    'string',
+                    $data->getHttpCodeDefinition(),
+                    'Http code definition must be a string!'
+                );
                 $self->assertEquals('response', $data->getType());
             }
         };
 
-        $options = getConnectionOptions();
-        $options[ConnectionOptions::OPTION_TRACE] = $enhancedTracer;
+        $options                                           = getConnectionOptions();
+        $options[ConnectionOptions::OPTION_TRACE]          = $enhancedTracer;
         $options[ConnectionOptions::OPTION_ENHANCED_TRACE] = true;
 
-        $connection = new Connection($options);
+        $connection        = new Connection($options);
         $collectionHandler = new CollectionHandler($connection);
 
         //Try creating a collection

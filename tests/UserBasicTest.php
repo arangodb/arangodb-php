@@ -11,6 +11,14 @@ namespace triagens\ArangoDb;
 
 use Installer\Exception;
 
+/**
+ * Class UserBasicTest
+ *
+ * @property Connection              $connection
+ * @property UserHandler             userHandler
+ *
+ * @package triagens\ArangoDb
+ */
 class UserBasicTest extends
     \PHPUnit_Framework_TestCase
 {
@@ -25,23 +33,22 @@ class UserBasicTest extends
      */
     public function testAddReplaceUpdateGetAndDeleteUserWithNullValues()
     {
-        $connection        = $this->connection;
-        $this->userHandler = new \triagens\ArangoDb\UserHandler($this->connection);
+        $this->userHandler = new UserHandler($this->connection);
 
 
         $result = $this->userHandler->addUser('testUser1', null, null, null);
         $this->assertTrue($result);
 
 
-        $response = $this->userHandler->replaceUser('testUser1', null, null, null);
+        $this->userHandler->replaceUser('testUser1', null, null, null);
         $this->assertTrue($result);
 
 
-        $response = $this->userHandler->updateUser('testUser1', null, null, null);
+        $this->userHandler->updateUser('testUser1', null, null, null);
         $this->assertTrue($result);
 
 
-        $response = $this->userHandler->removeUser('testUser1');
+        $this->userHandler->removeUser('testUser1');
         $this->assertTrue($result);
 
         unset ($document);
@@ -49,22 +56,21 @@ class UserBasicTest extends
 
 
     /**
-     * Test if user can be added, modifed and finally removed
+     * Test if user can be added, modified and finally removed
      */
     public function testAddReplaceUpdateGetAndDeleteUserWithNonNullValues()
     {
-        $connection        = $this->connection;
-        $this->userHandler = new \triagens\ArangoDb\UserHandler($this->connection);
+        $this->userHandler = new UserHandler($this->connection);
 
         $result = $this->userHandler->addUser('testUser1', 'testPass1', true, array('level' => 1));
         $this->assertTrue($result);
 
-        $e=null;
+        $e = null;
         try {
             $this->userHandler->addUser('testUser1', 'testPass1', true, array('level' => 1));
         } catch (\Exception $e) {
             // Just give us the $e
-            $this->assertTrue($e->getCode()==400);
+            $this->assertTrue($e->getCode() == 400);
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
 
@@ -75,19 +81,18 @@ class UserBasicTest extends
         $this->assertTrue($extra['level'] == 1, 'Should return 1');
 
 
-        $response = $this->userHandler->replaceUser('testUser1', 'testPass2', false, array('level' => 2));
+        $this->userHandler->replaceUser('testUser1', 'testPass2', false, array('level' => 2));
         $this->assertTrue($result);
 
 
-        $response       = $this->userHandler->get('testUser1');
-        $extra          = $response->extra;
-        $secondPassword = $response->passwd;
+        $response = $this->userHandler->get('testUser1');
+        $extra    = $response->extra;
         $this->assertFalse($response->active, 'Should be false');
 
         $this->assertTrue($extra['level'] == 2, 'Should return 2');
 
 
-        $response = $this->userHandler->updateUser('testUser1', null, null, array('level' => 3));
+        $this->userHandler->updateUser('testUser1', null, null, array('level' => 3));
         $this->assertTrue($result);
 
 
@@ -100,60 +105,56 @@ class UserBasicTest extends
         $this->assertFalse($response->active, 'Should be false');
 
 
-        $response = $this->userHandler->removeUser('testUser1');
+        $this->userHandler->removeUser('testUser1');
         $this->assertTrue($result);
 
         unset ($document);
     }
 
 
-
-    // test functions on non-existant user
-    public function testFunctionsOnNonExistantUser()
+    // test functions on non-existent user
+    public function testFunctionsOnNonExistentUser()
     {
-        $connection        = $this->connection;
-        $this->userHandler = new \triagens\ArangoDb\UserHandler($this->connection);
+        $this->userHandler = new UserHandler($this->connection);
 
-        $e=null;
+        $e = null;
         try {
             $this->userHandler->removeUser('testUser1');
         } catch (\Exception $e) {
             // Just give us the $e
-            $this->assertTrue($e->getCode()==404, 'Should get 404, instead got: '.($e->getCode()));
+            $this->assertTrue($e->getCode() == 404, 'Should get 404, instead got: ' . ($e->getCode()));
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
 
 
-        $e=null;
+        $e = null;
         try {
             $this->userHandler->updateUser('testUser1', null, null, array('level' => 3));
         } catch (\Exception $e) {
             // Just give us the $e
-            $this->assertTrue($e->getCode()==404, 'Should get 404, instead got: '.($e->getCode()));
+            $this->assertTrue($e->getCode() == 404, 'Should get 404, instead got: ' . ($e->getCode()));
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
 
 
-        $e=null;
+        $e = null;
         try {
             $this->userHandler->replaceUser('testUser1', 'testPass2', false, array('level' => 2));
         } catch (\Exception $e) {
             // Just give us the $e
-            $this->assertTrue($e->getCode()==404, 'Should get 404, instead got: '.($e->getCode()));
+            $this->assertTrue($e->getCode() == 404, 'Should get 404, instead got: ' . ($e->getCode()));
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
 
 
-        $e=null;
+        $e = null;
         try {
             $this->userHandler->get('testUser1');
         } catch (\Exception $e) {
             // Just give us the $e
-            $this->assertTrue($e->getCode()==404, 'Should get 404, instead got: '.($e->getCode()));
+            $this->assertTrue($e->getCode() == 404, 'Should get 404, instead got: ' . ($e->getCode()));
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
-
-
     }
 
     public function tearDown()

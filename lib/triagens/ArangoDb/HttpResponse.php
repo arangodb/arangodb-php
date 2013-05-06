@@ -39,7 +39,7 @@ class HttpResponse
     private $_headers = array();
 
     /**
-     * The result statusline (first line of HTTP response header)
+     * The result status-line (first line of HTTP response header)
      *
      * @var string
      */
@@ -63,15 +63,13 @@ class HttpResponse
      * @throws ClientException
      *
      * @param string $responseString - the complete HTTP response as supplied by the server
-     *
-     * @return void
      */
     public function __construct($responseString)
     {
         $parsed = HttpHelper::parseHttpMessage($responseString);
 
         $this->_header = $parsed['header'];
-        $this->_body = $parsed['body'];
+        $this->_body   = $parsed['body'];
 
         $this->setupHeaders();
     }

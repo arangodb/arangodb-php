@@ -67,7 +67,7 @@ class Scope
      * @param callable $initFunc - function to be called when scope is entered
      * @param callable $exitFunc - function to be called when scope if left
      *
-     * @return void
+     * @return Scope
      */
     public function __construct($initFunc, $exitFunc)
     {
