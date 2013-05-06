@@ -244,8 +244,6 @@ class BatchPart
         switch ($this->_type) {
             case 'getdocument':
                 $json             = $response->getJson();
-                $id               = $json[Document::ENTRY_ID];
-                $response         = $json;
                 $options          = $this->getCursorOptions();
                 $options['isNew'] = false;
                 $response         = Document::createFromArray($json, $options);
@@ -259,8 +257,6 @@ class BatchPart
                 break;
             case 'getedge':
                 $json             = $response->getJson();
-                $id               = $json[Edge::ENTRY_ID];
-                $response         = $json;
                 $options          = $this->getCursorOptions();
                 $options['isNew'] = false;
                 $response         = Edge::createFromArray($json, $options);
@@ -274,8 +270,6 @@ class BatchPart
                 break;
             case 'getcollection':
                 $json             = $response->getJson();
-                $id               = $json[Collection::ENTRY_ID];
-                $response         = $json;
                 $options          = $this->getCursorOptions();
                 $options['isNew'] = false;
                 $response         = Collection::createFromArray($json, $options);
