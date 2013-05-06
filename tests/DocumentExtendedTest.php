@@ -282,7 +282,7 @@ class DocumentExtendedTest extends
             array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
         );
         $documentId        = $documentHandler->add($this->collection->getId(), $document);
-        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+        $documentHandler->get($this->collection->getId(), $documentId);
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
 
         $patchDocument = new Document();
@@ -582,7 +582,7 @@ class DocumentExtendedTest extends
         $this->assertTrue($resultingDocument2->someOtherAttribute == 'someOtherValue3');
 
         // Set some new values on the attributes and include the revision in the _rev attribute
-        // this is only to update the doc and get a new revision for thesting the delete method below
+        // this is only to update the doc and get a new revision for testing the delete method below
         // This should result in a successful update
         $document->set('someAttribute', 'someValue');
         $document->set('someOtherAttribute', 'someOtherValue2');
