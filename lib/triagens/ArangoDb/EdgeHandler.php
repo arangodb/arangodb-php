@@ -79,6 +79,8 @@ class EdgeHandler extends
      * @param mixed    $collectionId - collection id as string or number
      * @param Document $document     - the document to be added
      * @param bool     $create       - create the collection if it does not yet exist
+     *
+     * @return mixed|void
      */
     public function add($collectionId, Document $document, $create = null)
     {
@@ -95,6 +97,8 @@ class EdgeHandler extends
      * @param mixed    $collectionId - collection id as string or number
      * @param Document $document     - the document to be added
      * @param bool     $create       - create the collection if it does not yet exist
+     *
+     * @return mixed|void
      */
     public function save($collectionId, $document, $create = null)
     {

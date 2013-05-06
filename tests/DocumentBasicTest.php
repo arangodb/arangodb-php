@@ -27,8 +27,8 @@ class DocumentBasicTest extends
     public function setUp()
     {
         $this->connection        = getConnection();
-        $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
-        $this->collection        = new \triagens\ArangoDb\Collection();
+        $this->collectionHandler = new CollectionHandler($this->connection);
+        $this->collection        = new Collection();
         $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
         $this->collectionHandler->add($this->collection);
     }
@@ -39,9 +39,8 @@ class DocumentBasicTest extends
      */
     public function testInitializeDocument()
     {
-        $connection              = $this->connection;
-        $this->collection        = new \triagens\ArangoDb\Collection();
-        $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
+        $this->collection        = new Collection();
+        $this->collectionHandler = new CollectionHandler($this->connection);
         $document                = new Document();
         $this->assertInstanceOf('triagens\ArangoDb\Document', $document);
         $this->assertInstanceOf('triagens\ArangoDb\Document', $document);

@@ -173,11 +173,10 @@ class ConnectionOptions implements
     /**
      * Set defaults, use options provided by client and validate them
      *
-     * @throws ClientException
      *
      * @param array $options - initial options
      *
-     * @return void
+     * @return \triagens\ArangoDb\ConnectionOptions
      */
     public function __construct(array $options)
     {
