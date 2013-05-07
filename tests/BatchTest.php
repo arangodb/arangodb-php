@@ -166,7 +166,6 @@ class BatchTest extends
 
     public function testCreateMixedBatchWithPartIds()
     {
-
         $edgeCollection = $this->edgeCollection;
 
         $batch = new Batch($this->connection);
@@ -212,16 +211,13 @@ class BatchTest extends
 
         $this->assertTrue(is_numeric($documentId), 'Did not return a fake numeric id!');
 
-        for ($i = 0; $i <= 10; $i++) {
-
-
+        for ($i = 0; $i <= 10; ++$i) {
             $document   = Document::createFromArray(
                 array('someAttribute' => 'someValue' . $i, 'someOtherAttribute' => 'someOtherValue2' . $i)
             );
             $documentId = $documentHandler->add($resultingCollectionId, $document);
         }
         $this->assertTrue(is_numeric($documentId), 'Did not return a fake numeric id!');
-
 
         $batch->process();
 
