@@ -58,11 +58,12 @@ class AqlUserFunctionTest extends
             'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
         $list = $userFunction->getRegisteredUserFunctions();
+
         $this->assertCount(1, $list, 'List returned did not return expected 1 attribute');
-        //        $this->assertTrue(
-        //            $list[0]['name'] == $name && $list[0]['code'] == $code,
-        //            'did not return expected Function. Instead returned: ' . $list[0]['name'] . ' and ' . $list[0]['code']
-        //        );
+        $this->assertTrue(
+            $list[0]['name'] == $name && $list[0]['code'] == $code,
+            'did not return expected Function. Instead returned: ' . $list[0]['name'] . ' and ' . $list[0]['code']
+        );
 
         $result = $userFunction->unregister();
 
@@ -105,10 +106,10 @@ class AqlUserFunctionTest extends
         );
         $list = $userFunction->getRegisteredUserFunctions();
         $this->assertCount(1, $list, 'List returned did not return expected 1 attribute');
-        //        $this->assertTrue(
-        //            $list[0]['name'] == $name && $list[0]['code'] == $code,
-        //            'did not return expected Function. Instead returned: ' . $list[0]['name'] . ' and ' . $list[0]['code']
-        //        );
+        $this->assertTrue(
+            $list[0]['name'] == $name && $list[0]['code'] == $code,
+            'did not return expected Function. Instead returned: ' . $list[0]['name'] . ' and ' . $list[0]['code']
+        );
 
         $result = $userFunction->unregister();
 
@@ -152,10 +153,10 @@ class AqlUserFunctionTest extends
         );
         $list = $userFunction->getRegisteredUserFunctions();
         $this->assertCount(1, $list, 'List returned did not return expected 1 attribute');
-        //        $this->assertTrue(
-        //            $list[0]['name'] == $name && $list[0]['code'] == $code,
-        //            'did not return expected Function. Instead returned: ' . $list[0]['name'] . ' and ' . $list[0]['code']
-        //        );
+        $this->assertTrue(
+            $list[0]['name'] == $name && $list[0]['code'] == $code,
+            'did not return expected Function. Instead returned: ' . $list[0]['name'] . ' and ' . $list[0]['code']
+        );
 
         $result = $userFunction->unregister();
 
@@ -198,10 +199,10 @@ class AqlUserFunctionTest extends
 
         $list = $userFunction->getRegisteredUserFunctions();
         $this->assertCount(1, $list, 'List returned did not return expected 1 attribute');
-        //        $this->assertTrue(
-        //            $list[0]['name'] == $name && $list[0]['code'] == $code,
-        //            'did not return expected Function. Instead returned: ' . $list[0]['name'] . ' and ' . $list[0]['code']
-        //        );
+        $this->assertTrue(
+            $list[0]['name'] == $name && $list[0]['code'] == $code,
+            'did not return expected Function. Instead returned: ' . $list[0]['name'] . ' and ' . $list[0]['code']
+        );
 
         $result = $userFunction->unregister();
 
