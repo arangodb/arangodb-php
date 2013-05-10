@@ -151,11 +151,6 @@ abstract class Urls
     const URL_ADMIN_LOG = '/_admin/log';
 
     /**
-     * base URL part for admin status
-     */
-    const URL_ADMIN_STATUS = '/_admin/status';
-
-    /**
      * base URL part for admin routing reload
      */
     const URL_ADMIN_ROUTING_RELOAD = '/_admin/routing/reload';
