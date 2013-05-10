@@ -118,34 +118,6 @@ class AdminHandler extends
 
 
     /**
-     * Get the server status
-     *
-     * This will throw if the status cannot be retrieved
-     *
-     * @throws Exception
-     *
-     * @return array - The call returns an array with the attributes described here: http://www.arangodb.org/manuals/1.2.beta3/HttpSystem.html#HttpSystemStatus
-     *
-     * ['system']['userTime']
-     * ['system']['systemTime']
-     * ['system']['numberOfThreads']
-     * ['system']['residentSize']
-     * ['system']['virtualSize']
-     * ['system']['minorPageFaults']
-     * ['system']['majorPageFaults']
-     *
-     * @since 1.2
-     */
-    public function getServerStatus()
-    {
-        $response = $this->getConnection()->get(Urls::URL_ADMIN_STATUS);
-        $data     = $response->getJson();
-
-        return $data;
-    }
-
-
-    /**
      * Flush the server's modules cache
      * The call triggers a flush of the modules cache on the server. See Modules Cache for details about this cache.
      *

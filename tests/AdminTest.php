@@ -18,7 +18,7 @@ class AdminTest extends
 {
     public function setUp()
     {
-        $this->connection   = getConnection();
+        $this->connection = getConnection();
         $this->adminHandler = new AdminHandler($this->connection);
     }
 
@@ -39,6 +39,23 @@ class AdminTest extends
     {
         $result = $this->adminHandler->getServerVersion(true);
         $this->assertInternalType('array', $result, "The server version details must be an array!");
+        $this->assertInternalType(
+            'array',
+            $result['details'],
+            "The server version details must have a `details` array!"
+        );
+
+        // intentionally dumping the result, so that we have a bit more info about the Arango build we're testing in the log.
+        var_dump($result);
+
+        $details = $result['details'];
+        $this->assertArrayHasKey('build-date', $details);
+        $this->assertArrayHasKey('configure', $details);
+        $this->assertArrayHasKey('icu-version', $details);
+        $this->assertArrayHasKey('libev-version', $details);
+        $this->assertArrayHasKey('openssl-version', $details);
+        $this->assertArrayHasKey('server-version', $details);
+        $this->assertArrayHasKey('v8-version', $details);
     }
 
     /**
@@ -122,25 +139,6 @@ class AdminTest extends
 
 
     /**
-     * Test if we can get the server connection-statistics
-     */
-    public function disabledTestGetServerStatus()
-    {
-        $result = $this->adminHandler->getServerStatus();
-        $this->assertTrue(is_array($result), 'Should be an array');
-        $this->assertArrayHasKey('system', $result);
-        $system = $result['system'];
-        $this->assertArrayHasKey('minorPageFaults', $system);
-        $this->assertArrayHasKey('majorPageFaults', $system);
-        $this->assertArrayHasKey('userTime', $system);
-        $this->assertArrayHasKey('systemTime', $system);
-        $this->assertArrayHasKey('numberThreads', $system);
-        $this->assertArrayHasKey('residentSize', $system);
-        $this->assertArrayHasKey('virtualSize', $system);
-    }
-
-
-    /**
      * Test if we can get the server version
      */
     public function testServerModuleCache()
@@ -168,6 +166,14 @@ class AdminTest extends
         $result = $this->adminHandler->getServerStatistics();
         $this->assertTrue(is_array($result), 'Should be an array');
         $this->assertArrayHasKey('system', $result);
+        $system = $result['system'];
+        $this->assertArrayHasKey('minorPageFaults', $system);
+        $this->assertArrayHasKey('majorPageFaults', $system);
+        $this->assertArrayHasKey('userTime', $system);
+        $this->assertArrayHasKey('systemTime', $system);
+        $this->assertArrayHasKey('numberOfThreads', $system);
+        $this->assertArrayHasKey('residentSize', $system);
+        $this->assertArrayHasKey('virtualSize', $system);
         $this->assertArrayHasKey('client', $result);
         $this->assertArrayHasKey('error', $result);
         $this->assertArrayHasKey('code', $result);

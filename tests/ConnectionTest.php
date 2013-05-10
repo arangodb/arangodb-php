@@ -49,10 +49,10 @@ class ConnectionTest extends
     /**
      * This is just a test to really test connectivity with the server before moving on to further tests.
      */
-    public function disabledTestGetStatus()
+    public function testGetStatus()
     {
         $connection = getConnection();
-        $response   = $connection->get('/_admin/status');
+        $response   = $connection->get('/_admin/statistics');
         $this->assertTrue($response->getHttpCode() == 200, 'Did not return http code 200');
     }
 
