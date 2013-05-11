@@ -8,6 +8,17 @@ v1.3.devel (xxxx-xx-xx)
   
 =======================
 
+* [Breaking change] Removed getServerStatus() in favor of getServerStatistics() This breaks intentionally,
+	because of the different data and data structure returned by the server in version 1.3
+
+* Cleaning spree :)
+  * Fixed a lot of typos
+  * Fixed some minor bugs
+  * Fixed some tests
+  * PSR-2 reformatting
+  * Made some things more IDE Friendly (in regards to code-completion) and fixed some errors in the PHPDocs
+
+* Initial AQL user functions implementation (see https://github.com/triAGENS/ArangoDB-PHP/pull/116)
 
 * Implemented support for ArangoDB's transactions (see https://github.com/triAGENS/ArangoDB-PHP/issues/71)
 
