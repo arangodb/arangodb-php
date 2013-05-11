@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: statement
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -37,7 +37,7 @@ namespace triagens\ArangoDb;
  * - use the "_flat" option for the statement to indicate that you don't want
  *   to treat the statement result as a list of documents, but as a flat list
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 class Statement
 {

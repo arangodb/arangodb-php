@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: graph handler
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @author    Frank Mayer
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
@@ -18,7 +18,7 @@ namespace triagens\ArangoDb;
  * It does so by issuing the
  * appropriate HTTP requests to the server.
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  * @since   1.2
  */
 class GraphHandler extends

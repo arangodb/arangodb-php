@@ -3,7 +3,7 @@
  * ArangoDB PHP client testsuite
  * File: bootstrap.php
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  * @author Frank Mayer
  */
 

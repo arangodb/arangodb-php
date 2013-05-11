@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: autoloader
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -15,7 +15,7 @@ namespace triagens\ArangoDb;
  * The autoloader can be nested with other autoloaders. It will only
  * process classes from its own namespace and ignore all others.
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 class Autoloader
 {

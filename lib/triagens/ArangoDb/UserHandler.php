@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: user document handler
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Frank Mayer
  * @since     1.2
  */
@@ -15,7 +15,7 @@ namespace triagens\ArangoDb;
  * persists them on the server. It does so by issuing the
  * appropriate HTTP requests to the server.
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @since     1.2
  */
 class UserHandler extends

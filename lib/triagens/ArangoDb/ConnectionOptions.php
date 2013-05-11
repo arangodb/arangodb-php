@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: connection options
  *
- * @package   ArangoDbPhpClient
+ * @package triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -16,7 +16,7 @@ namespace triagens\ArangoDb;
  * options and will perform a simple validation of them.
  * It provides array access to its members.
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 class ConnectionOptions implements
     \ArrayAccess

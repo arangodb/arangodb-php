@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: connect exception
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -14,7 +14,7 @@ namespace triagens\ArangoDb;
  * This exception type will be thrown by the client when there is an error
  * during connecting to the server
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 class ConnectException extends
     Exception
