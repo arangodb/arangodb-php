@@ -42,4 +42,4 @@ This will help us reproducing and finding bugs.
 * [ArangoDB on Twitter](https://twitter.com/arangodb)
 * [ArangoDB-PHP on Twitter](https://twitter.com/arangodbphp)
 * [General GitHub documentation](https://help.github.com/)
-* [GitHub pull request documentation](https://help.github.com/send-pull-requests
+* [GitHub pull request documentation](https://help.github.com/send-pull-requests)
