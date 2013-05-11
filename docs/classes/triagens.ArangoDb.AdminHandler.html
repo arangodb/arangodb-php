@@ -22,7 +22,6 @@
 <li><a>Namespaces</a></li>
 <li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
 <li><a>Packages</a></li>
-<li><a href="../packages/ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
 <li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
 </ul>
 </li>
@@ -68,7 +67,6 @@ The call triggers a flush of the modules cache on the server.</span><pre>flushSe
 Returns the statistics information."><span class="description">Get the server statistics
 Returns the statistics information.</span><pre>getServerStatistics()</pre></a></li>
 <li class="method public "><a href="#method_getServerStatisticsDescription" title="getServerStatisticsDescription :: Returns a description of the statistics returned by getServerStatistics()."><span class="description">Returns a description of the statistics returned by getServerStatistics().</span><pre>getServerStatisticsDescription()</pre></a></li>
-<li class="method public "><a href="#method_getServerStatus" title="getServerStatus :: Get the server status"><span class="description">Get the server status</span><pre>getServerStatus()</pre></a></li>
 <li class="method public "><a href="#method_getServerTime" title="getServerTime :: Get the server time"><span class="description">Get the server time</span><pre>getServerTime()</pre></a></li>
 <li class="method public "><a href="#method_getServerVersion" title="getServerVersion :: Get the server version"><span class="description">Get the server version</span><pre>getServerVersion()</pre></a></li>
 <li class="method public "><a href="#method_reloadServerRouting" title="reloadServerRouting :: Reload the server's routing information
@@ -123,7 +121,7 @@ appropriate HTTP requests to the server.</p></div>
 <table class="table table-bordered">
 <tr>
 <th>package</th>
-<td><a href="../packages/ArangoDbPhpClient.html">ArangoDbPhpClient</a></td>
+<td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
 </tr>
 <tr>
 <th>since</th>
@@ -134,7 +132,7 @@ appropriate HTTP requests to the server.</p></div>
 <i class="icon-custom icon-method"></i> Methods</h3>
 <a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
 <h2>Construct a new handler</h2>
-<pre>__construct(\triagens\ArangoDb\Connection $connection) : void</pre>
+<pre>__construct(\triagens\ArangoDb\Connection $connection) : <a href="../classes/triagens.ArangoDb.Handler.html">\triagens\ArangoDb\Handler</a></pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -149,6 +147,8 @@ appropriate HTTP requests to the server.</p></div>
 <li>connection to be used</li>
 </ul>
 </div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Handler.html">\triagens\ArangoDb\Handler</a></code></div>
 </div></div>
 </div>
 <a id="method_flushServerModuleCache"></a><div class="element clickable method public method_flushServerModuleCache" data-toggle="collapse" data-target=".method_flushServerModuleCache .collapse">
@@ -187,11 +187,11 @@ The call triggers a flush of the modules cache on the server.</h2>
 <div class="subelement argument">
 <h4>$options</h4>
 <code>array</code><ul>
-<li>an array of options that define the resultset:</li>
+<li>an array of options that define the result-set:</li>
 </ul>
 
 <p>Options are :<br>
-<li>'upto' - returns all log entries upto a log-level. Note that log-level must be one of:</li>
+<li>'upto' - returns all log entries up to a log-level. Note that log-level must be one of:</li>
 <p>
 <li>fatal / 0</li>
 <li>error / 1</li>
@@ -296,33 +296,6 @@ For more information on the statistics returned, please lookup the statistics in
 </tr></table>
 <h3>Returns</h3>
 <div class="subelement response"><code>array</code></div>
-</div></div>
-</div>
-<a id="method_getServerStatus"></a><div class="element clickable method public method_getServerStatus" data-toggle="collapse" data-target=".method_getServerStatus .collapse">
-<h2>Get the server status</h2>
-<pre>getServerStatus() : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This will throw if the status cannot be retrieved</p></div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>array</code>- The call returns an array with the attributes described here: http://www.arangodb.org/manuals/1.2.beta3/HttpSystem.html#HttpSystemStatus
-['system']['userTime']
-['system']['systemTime']
-['system']['numberOfThreads']
-['system']['residentSize']
-['system']['virtualSize']
-['system']['minorPageFaults']
-['system']['majorPageFaults']</div>
 </div></div>
 </div>
 <a id="method_getServerTime"></a><div class="element clickable method public method_getServerTime" data-toggle="collapse" data-target=".method_getServerTime .collapse">
@@ -431,7 +404,7 @@ This is a convenience function that calls json_encode_wrapper on the connection<
 </div>
 <a id="method_getCursorOptions"></a><div class="element clickable method protected method_getCursorOptions" data-toggle="collapse" data-target=".method_getCursorOptions .collapse">
 <h2>Return an array of cursor options</h2>
-<pre>getCursorOptions(bool $options) : array</pre>
+<pre>getCursorOptions(mixed $options) : array</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -442,7 +415,7 @@ This is a convenience function that calls json_encode_wrapper on the connection<
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$options</h4>
-<code>bool</code><ul>
+<code>mixed</code><ul>
 <li>$options might be a boolean sanitize value, or an array of options, with or without a '_sanitize' key.</li>
 </ul>
 </div>
@@ -614,7 +587,7 @@ This is only for options that are to be sent to the ArangoDB server.</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-05-04T16:18:33+03:00.<br></footer></div>
+            generated on 2013-05-11T17:21:44+03:00.<br></footer></div>
 </div>
 </body>
 </html>
