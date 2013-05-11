@@ -1,3 +1,4 @@
+
 v1.3.devel (xxxx-xx-xx)
 -----------------------
 
@@ -5,18 +6,20 @@ v1.3.devel (xxxx-xx-xx)
   * Frank Mayer (Github: @frankmayer)
   * Francis Chuang (Github: @F21)
   
------------------------
+=======================
 
 
-* Implemented support for ArangoDB's transactions
+* Implemented support for ArangoDB's transactions (see https://github.com/triAGENS/ArangoDB-PHP/issues/71)
 
-* Re-implemented statistics according to new implementation in ArangoDB 1.3
+* Re-implemented statistics according to new implementation in ArangoDB 1.3 (see https://github.com/triAGENS/ArangoDB-PHP/issues/113)
 
-* Fixed precondition failed errors
+* Fixed precondition failed errors (see https://github.com/triAGENS/ArangoDB-PHP/issues/95)
 
 * Minor fixes in tests
 
 -----------------------
+
+
 
 
 
@@ -30,7 +33,8 @@ v1.2.1 (2013-05-01)
   * Jan Steemann (Github: @jsteemann)
   * Frank Mayer (Github: @frankmayer)
 
------------------------
+=======================
+
 * Implemented create functions for each index type. #87
 
 * Upgrade to 1.2.2 for travis.
@@ -75,11 +79,14 @@ v1.2.1 (2013-05-01)
 
 
 
+
 v1.2.0 (2013-03-03)
 -----------------------
+
 * Implemented ArangoDB User-Management
 
 * Fixed issue #46 "Cannot run AQL queries that produce non-document results"
+
 
 
 
@@ -116,6 +123,7 @@ v1.2.0-BETA2 (2013-02-23)
 
 
 
+
 v1.2.0-BETA1 (2013-02-20)
 -----------------------
 
@@ -147,6 +155,7 @@ v1.2.0-BETA1 (2013-02-20)
 
 
 
+
 v1.1.0 (2013-01-28)
 -------------------
 
@@ -165,6 +174,7 @@ v1.1.0 (2013-01-28)
 * issue #28: Feature: implement missing simple-query-related functionality => range(), near(), within().
 
 * issue #22: Feature: Implement update() and updateById() methods on documents for 1.1 API.
+
 
 
 
@@ -192,6 +202,7 @@ v1.0.1 (2012-12-05)
  Also added missing index creation method.
  
  - CollectionHandler->index($type, $fields, $unique) ;
+
 
  
  
