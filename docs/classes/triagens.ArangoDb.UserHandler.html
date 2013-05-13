@@ -22,7 +22,6 @@
 <li><a>Namespaces</a></li>
 <li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
 <li><a>Packages</a></li>
-<li><a href="../packages/ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
 <li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
 </ul>
 </li>
@@ -111,7 +110,7 @@ appropriate HTTP requests to the server.</p></div>
 <table class="table table-bordered">
 <tr>
 <th>package</th>
-<td><a href="../packages/ArangoDbPhpClient.html">ArangoDbPhpClient</a></td>
+<td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
 </tr>
 <tr>
 <th>since</th>
@@ -122,7 +121,7 @@ appropriate HTTP requests to the server.</p></div>
 <i class="icon-custom icon-method"></i> Methods</h3>
 <a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
 <h2>Construct a new handler</h2>
-<pre>__construct(\triagens\ArangoDb\Connection $connection) : void</pre>
+<pre>__construct(\triagens\ArangoDb\Connection $connection) : <a href="../classes/triagens.ArangoDb.Handler.html">\triagens\ArangoDb\Handler</a></pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -137,11 +136,13 @@ appropriate HTTP requests to the server.</p></div>
 <li>connection to be used</li>
 </ul>
 </div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Handler.html">\triagens\ArangoDb\Handler</a></code></div>
 </div></div>
 </div>
 <a id="method_addUser"></a><div class="element clickable method public method_addUser" data-toggle="collapse" data-target=".method_addUser .collapse">
 <h2>save an user to the user-collection</h2>
-<pre>addUser(mixed $username, mixed $passwd, mixed $active, array $extra, bool | array $options) : boolean</pre>
+<pre>addUser(mixed $username, mixed $passwd, mixed $active, array $extra, array $options) : boolean</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will save the user to the user-collection</p>
@@ -178,7 +179,7 @@ appropriate HTTP requests to the server.</p></div>
 </div>
 <div class="subelement argument">
 <h4>$options</h4>
-<code>bool</code><code>array</code><ul>
+<code>array</code><ul>
 <li>an array of options</li>
 </ul>
 
@@ -243,7 +244,7 @@ appropriate HTTP requests to the server.</p></div>
 </div>
 <a id="method_replaceUser"></a><div class="element clickable method public method_replaceUser" data-toggle="collapse" data-target=".method_replaceUser .collapse">
 <h2>Replace an existing User, identified by its username</h2>
-<pre>replaceUser(mixed $username, mixed $passwd, mixed $active, array $extra, bool | array $options) : bool</pre>
+<pre>replaceUser(mixed $username, mixed $passwd, mixed $active, array $extra, array $options) : bool</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will replace the user-document on the server</p>
@@ -253,7 +254,7 @@ appropriate HTTP requests to the server.</p></div>
 <div class="subelement argument">
 <h4>$username</h4>
 <code>mixed</code><ul>
-<li>The name of the user as a string, who's userdata is going to be replaced. This is mandatory.</li>
+<li>The name of the user as a string, who's user-data is going to be replaced. This is mandatory.</li>
 </ul>
 </div>
 <div class="subelement argument">
@@ -276,7 +277,7 @@ appropriate HTTP requests to the server.</p></div>
 </div>
 <div class="subelement argument">
 <h4>$options</h4>
-<code>bool</code><code>array</code><ul>
+<code>array</code><ul>
 <li>an array of options</li>
 </ul>
 
@@ -295,7 +296,7 @@ appropriate HTTP requests to the server.</p></div>
 </div>
 <a id="method_updateUser"></a><div class="element clickable method public method_updateUser" data-toggle="collapse" data-target=".method_updateUser .collapse">
 <h2>Update an existing user, identified by the username</h2>
-<pre>updateUser(mixed $username, mixed $passwd, mixed $active, array $extra, bool | array $options) : bool</pre>
+<pre>updateUser(mixed $username, mixed $passwd, mixed $active, array $extra, array $options) : bool</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will update the user-document on the server</p>
@@ -305,7 +306,7 @@ appropriate HTTP requests to the server.</p></div>
 <div class="subelement argument">
 <h4>$username</h4>
 <code>mixed</code><ul>
-<li>The name of the user as a string, who's userdata is going to be updated. This is mandatory.</li>
+<li>The name of the user as a string, who's user-data is going to be updated. This is mandatory.</li>
 </ul>
 </div>
 <div class="subelement argument">
@@ -328,7 +329,7 @@ appropriate HTTP requests to the server.</p></div>
 </div>
 <div class="subelement argument">
 <h4>$options</h4>
-<code>bool</code><code>array</code><ul>
+<code>array</code><ul>
 <li>an array of options</li>
 </ul>
 
@@ -384,7 +385,7 @@ This is a convenience function that calls json_encode_wrapper on the connection<
 </div>
 <a id="method_getCursorOptions"></a><div class="element clickable method protected method_getCursorOptions" data-toggle="collapse" data-target=".method_getCursorOptions .collapse">
 <h2>Return an array of cursor options</h2>
-<pre>getCursorOptions(bool $options) : array</pre>
+<pre>getCursorOptions(mixed $options) : array</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -395,7 +396,7 @@ This is a convenience function that calls json_encode_wrapper on the connection<
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$options</h4>
-<code>bool</code><ul>
+<code>mixed</code><ul>
 <li>$options might be a boolean sanitize value, or an array of options, with or without a '_sanitize' key.</li>
 </ul>
 </div>
@@ -559,7 +560,7 @@ This is only for options that are to be sent to the ArangoDB server.</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-05-04T16:18:33+03:00.<br></footer></div>
+            generated on 2013-05-11T17:21:43+03:00.<br></footer></div>
 </div>
 </body>
 </html>

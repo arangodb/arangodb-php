@@ -4,7 +4,7 @@
  * ArangoDB PHP client testsuite
  * File: CollectionBasicTest.php
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  * @author  Frank Mayer
  */
 

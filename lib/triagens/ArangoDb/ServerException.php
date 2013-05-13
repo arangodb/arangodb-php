@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: server exception
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -19,7 +19,7 @@ namespace triagens\ArangoDb;
  * about the error, these details can be queried using the
  * getDetails() function.
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 class ServerException extends
     Exception

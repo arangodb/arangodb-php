@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: endpoint
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -21,7 +21,7 @@ namespace triagens\ArangoDb;
  *
  * Note: SSL support is added in ArangoDB server 1.1
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 class Endpoint
 {

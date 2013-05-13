@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: bind variables
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -14,7 +14,7 @@ namespace triagens\ArangoDb;
  * A simple container for bind variables
  * This container also handles validation of the bind values.
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 class BindVars
 {

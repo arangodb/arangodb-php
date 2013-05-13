@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: value validator
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -13,7 +13,7 @@ namespace triagens\ArangoDb;
 /**
  * A simple validator for values to be stored in the database
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 class ValueValidator
 {

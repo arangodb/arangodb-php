@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: batch
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  * @author  Frank Mayer
  * @since   1.1
  *
@@ -14,7 +14,7 @@ namespace triagens\ArangoDb;
 /**
  * Provides batching functionality
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  * @example ArangoDb/examples/batch.php
  *
  */
