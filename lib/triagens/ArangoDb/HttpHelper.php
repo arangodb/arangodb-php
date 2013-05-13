@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: http helper methods
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -13,7 +13,7 @@ namespace triagens\ArangoDb;
 /**
  * Helper methods for HTTP request/response handling
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 class HttpHelper
 {
@@ -160,12 +160,13 @@ class HttpHelper
      * @param resource $socket  - connection socket (must be open)
      * @param string   $request - complete HTTP request as a string
      *
+     * @throws ClientException
      * @return string - HTTP response string as provided by the server
      */
     public static function transfer($socket, $request)
     {
-        if (! is_resource($socket)) {
-          throw new ClientException('Invalid socket used');
+        if (!is_resource($socket)) {
+            throw new ClientException('Invalid socket used');
         }
 
         assert(is_string($request));
@@ -238,7 +239,9 @@ class HttpHelper
 
     /**
      * Splits a http message into its header and body.
+     *
      * @param string $httpMessage The http message string.
+     *
      * @throws ClientException
      * @return array
      */
@@ -256,14 +259,16 @@ class HttpHelper
         $result = array();
 
         $result['header'] = substr($httpMessage, 0, $border);
-        $result['body']  = substr($httpMessage, $border + strlen($barrier));
+        $result['body']   = substr($httpMessage, $border + strlen($barrier));
 
         return $result;
     }
 
     /**
      * Process a string of HTTP headers into an array of header => values.
+     *
      * @param string $headers - the headers string
+     *
      * @return array
      */
     public static function parseHeaders($headers)

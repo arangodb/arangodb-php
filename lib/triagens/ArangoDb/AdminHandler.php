@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: admin document handler
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @author    Frank Mayer
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
@@ -16,7 +16,7 @@ namespace triagens\ArangoDb;
  * An admin handler that utilizes the ArangoDB's Admin API. It does so by issuing the
  * appropriate HTTP requests to the server.
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @since     1.2
  */
 
@@ -24,21 +24,38 @@ class AdminHandler extends
     Handler
 {
     /**
+     * details for server version
+     */
+    const OPTION_DETAILS = "details";
+
+    /**
      * Get the server version
      *
      * This will throw if the version cannot be retrieved
+     *
+     * @param bool $details - True to get a more detailed response
      *
      * @throws Exception
      *
      * @return string - a string holding the ArangoDB version
      * @since 1.2
      */
-    public function getServerVersion()
+    public function getServerVersion($details = false)
     {
-        $response = $this->getConnection()->get(Urls::URL_ADMIN_VERSION);
+        $url = Urls::URL_ADMIN_VERSION;
+
+        if ($details) {
+            $url = UrlHelper::appendParamsUrl($url, array('details' => true));
+        }
+
+        $response = $this->getConnection()->get($url);
         $data     = $response->getJson();
 
-        return $data['version'];
+        if ($details) {
+            return $data;
+        } else {
+            return $data['version'];
+        }
     }
 
 
@@ -68,10 +85,10 @@ class AdminHandler extends
      *
      * @throws Exception
      *
-     * @param array $options - an array of options that define the resultset:
+     * @param array $options - an array of options that define the result-set:
      *
      * <p>Options are :<br>
-     * <li>'upto' - returns all log entries upto a log-level. Note that log-level must be one of:</li>
+     * <li>'upto' - returns all log entries up to a log-level. Note that log-level must be one of:</li>
      * <p>
      * <li>fatal / 0</li>
      * <li>error / 1</li>
@@ -101,34 +118,6 @@ class AdminHandler extends
 
 
     /**
-     * Get the server status
-     *
-     * This will throw if the status cannot be retrieved
-     *
-     * @throws Exception
-     *
-     * @return array - The call returns an array with the attributes described here: http://www.arangodb.org/manuals/1.2.beta3/HttpSystem.html#HttpSystemStatus
-     *
-     * ['system']['userTime']
-     * ['system']['systemTime']
-     * ['system']['numberOfThreads']
-     * ['system']['residentSize']
-     * ['system']['virtualSize']
-     * ['system']['minorPageFaults']
-     * ['system']['majorPageFaults']
-     *
-     * @since 1.2
-     */
-    public function getServerStatus()
-    {
-        $response = $this->getConnection()->get(Urls::URL_ADMIN_STATUS);
-        $data     = $response->getJson();
-
-        return $data;
-    }
-
-
-    /**
      * Flush the server's modules cache
      * The call triggers a flush of the modules cache on the server. See Modules Cache for details about this cache.
      *
@@ -141,8 +130,7 @@ class AdminHandler extends
      */
     public function flushServerModuleCache()
     {
-        $response = $this->getConnection()->POST(Urls::URL_ADMIN_MODULES_FLUSH, '');
-        $data     = $response->getJson();
+        $this->getConnection()->POST(Urls::URL_ADMIN_MODULES_FLUSH, '');
 
         return true;
     }
@@ -161,34 +149,37 @@ class AdminHandler extends
      */
     public function reloadServerRouting()
     {
-        $response = $this->getConnection()->POST(Urls::URL_ADMIN_ROUTING_RELOAD, '');
-        $data     = $response->getJson();
+        $this->getConnection()->POST(Urls::URL_ADMIN_ROUTING_RELOAD, '');
 
         return true;
     }
 
 
     /**
-     * Get the server connection statistics
-     * The call returns statistics about the current and past requests. The following parameter control which information is returned:
+     * Get the server statistics
+     * Returns the statistics information. The returned objects contains the statistics figures, grouped together
+     * according to the description returned by _admin/statistics-description.
+     * For instance, to access a figure userTime from the group system, you first select the sub-object
+     * describing the group stored in system and in that sub-object the value for userTime is stored in the
+     * attribute of the same name.In case of a distribution, the returned object contains the total count in count
+     * and the distribution list in counts.
+     * For more information on the statistics returned, please lookup the statistics interface description at
+     *
+     * @link  http://www.arangodb.org/manuals/1.3.devel/HttpSystem.html#HttpSystemAdminStatistics
      *
      * This will throw if the statistics cannot be retrieved
      *
      * @throws Exception
      *
-     * @param array $options - an array of options that define the resultset:
-     *
-     * <p>Options are :<br>
-     * <li>'granularity' - use minutes for a granularity of minutes, hours for hours, and days for days. The default is minutes.</li>
-     * <li>'figures' - a list of figures, comma-separated. Possible figures are httpConnections. You can use all to get all figures. The default is httpConnections.</li>
-     * <li>'length' - If you want a time series, the maximal length of the series as integer. You can use all to get all available information. You can use current to get the latest interval.</li>
-     *
      * @return array
-     * @since 1.2
+     *
+     * @see   getServerStatisticsDescription()
+     *
+     * @since 1.3
      */
-    public function getServerConnectionStatistics($options = array())
+    public function getServerStatistics()
     {
-        $url      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_CONNECTION_STATISTICS, $options);
+        $url      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_STATISTICS, array());
         $response = $this->getConnection()->get($url);
         $data     = $response->getJson();
 
@@ -197,14 +188,18 @@ class AdminHandler extends
 
 
     /**
-     * Get the server request statistics
-     * The call returns statistics about the current and past requests. The following parameter control which information is returned:
+     * Returns a description of the statistics returned by getServerStatistics().
+     * The returned objects contains a list of statistics groups in the attribute groups
+     * and a list of statistics figures in the attribute figures.
+     * For more information on the statistics returned, please lookup the statistics interface description at
      *
-     * This will throw if the statistics cannot be retrieved
+     * @link  http://www.arangodb.org/manuals/1.3.devel/HttpSystem.html#HttpSystemAdminStatistics
+     *
+     * This will throw if the statistics-description cannot be retrieved
      *
      * @throws Exception
      *
-     * @param array $options - an array of options that define the resultset:
+     * @param array $options - an array of options that define the result-set:
      *
      * <p>Options are :<br>
      * <li>'granularity' - use minutes for a granularity of minutes, hours for hours, and days for days. The default is minutes.</li>
@@ -212,11 +207,14 @@ class AdminHandler extends
      * <li>'length' - If you want a time series, the maximal length of the series as integer. You can use all to get all available information. You can use current to get the latest interval.</li>
      *
      * @return array
-     * @since 1.2
+     *
+     * @see   getServerStatistics()
+     *
+     * @since 1.3
      */
-    public function getServerRequestStatistics($options = array())
+    public function getServerStatisticsDescription($options = array())
     {
-        $url      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_REQUEST_STATISTICS, $options);
+        $url      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_STATISTICS_DESCRIPTION, $options);
         $response = $this->getConnection()->get($url);
         $data     = $response->getJson();
 

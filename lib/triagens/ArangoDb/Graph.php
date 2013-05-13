@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: single document
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  *
@@ -15,7 +15,7 @@ namespace triagens\ArangoDb;
 /**
  * Value object representing a graph
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  *
  * @since     1.2
  */
@@ -52,7 +52,7 @@ class Graph extends
      * @param array $name    - optional, initial name for graph
      * @param array $options - optional, initial $options for graph
      *
-     * @return void
+     * @return Graph
      */
     public function __construct($name = null, array $options = array())
     {

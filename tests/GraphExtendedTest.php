@@ -3,7 +3,7 @@
  * ArangoDB PHP client testsuite
  * File: GraphExtendedTest.php
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  * @author  Frank Mayer
  */
 
@@ -12,6 +12,38 @@ namespace triagens\ArangoDb;
 /**
  * Class GraphExtendedTest
  * Basic Tests for the Graph API implementation
+ *
+ * @property Connection        $connection
+ * @property Graph             $graph
+ * @property Collection        $edgeCollection
+ * @property CollectionHandler $collectionHandler
+ * @property GraphHandler      $graphHandler
+ * @property DocumentHandler   $documentHandler
+ * @property EdgeHandler       $edgeHandler
+ * @property string            vertex1Name
+ * @property string            vertex2Name
+ * @property string            vertex3Name
+ * @property string            vertex4Name
+ * @property string            vertex1aName
+ * @property string            edge1Name
+ * @property string            edge2Name
+ * @property string            edge3Name
+ * @property string            edge1aName
+ * @property string            edgeLabel1
+ * @property string            edgeLabel2
+ * @property string            edgeLabel3
+ * @property mixed             vertex1Array
+ * @property mixed             vertex2Array
+ * @property mixed             vertex3Array
+ * @property mixed             vertex4Array
+ * @property mixed             vertex1aArray
+ * @property mixed             edge1Array
+ * @property mixed             edge2Array
+ * @property mixed             edge3Array
+ * @property mixed             edge1aArray
+ * @property string            graphName
+ * @property string            vertexCollectionName
+ * @property string            edgeCollectionName
  *
  * @package triagens\ArangoDb
  */
@@ -73,7 +105,7 @@ class GraphExtendedTest extends
 
         $this->graphName  = 'Graph1';
         $this->connection = getConnection();
-        $this->graph      = new \triagens\ArangoDb\Graph();
+        $this->graph      = new Graph();
         $this->graph->set('_key', $this->graphName);
 
 
@@ -81,7 +113,7 @@ class GraphExtendedTest extends
         $this->edgeCollectionName   = 'ArangoDBPHPTestSuiteTestEdgeCollection01';
         $this->graph->setVerticesCollection($this->vertexCollectionName);
         $this->graph->setEdgesCollection($this->edgeCollectionName);
-        $this->graphHandler = new \triagens\ArangoDb\GraphHandler($this->connection);
+        $this->graphHandler = new GraphHandler($this->connection);
         $this->graphHandler->createGraph($this->graph);
     }
 
@@ -100,38 +132,38 @@ class GraphExtendedTest extends
         $edge3 = $this->edge3Array;
 
 
-        $result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
-        $result2 = $this->graphHandler->saveVertex($this->graphName, $vertex2);
-        $result3 = $this->graphHandler->saveVertex($this->graphName, $vertex3);
-        $result4 = $this->graphHandler->saveVertex($this->graphName, $vertex4);
-        $result1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
-        $result2 = $this->graphHandler->getVertex($this->graphName, $this->vertex2Name);
-        $result3 = $this->graphHandler->getVertex($this->graphName, $this->vertex3Name);
-        $result4 = $this->graphHandler->getVertex($this->graphName, $this->vertex4Name);
-        $result1 = $this->graphHandler->saveEdge(
+        $this->graphHandler->saveVertex($this->graphName, $vertex1);
+        $this->graphHandler->saveVertex($this->graphName, $vertex2);
+        $this->graphHandler->saveVertex($this->graphName, $vertex3);
+        $this->graphHandler->saveVertex($this->graphName, $vertex4);
+        $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
+        $this->graphHandler->getVertex($this->graphName, $this->vertex2Name);
+        $this->graphHandler->getVertex($this->graphName, $this->vertex3Name);
+        $this->graphHandler->getVertex($this->graphName, $this->vertex4Name);
+        $this->graphHandler->saveEdge(
             $this->graphName,
             $this->vertex1Name,
             $this->vertex2Name,
             $this->edgeLabel1,
             $edge1
         );
-        $result2 = $this->graphHandler->saveEdge(
+        $this->graphHandler->saveEdge(
             $this->graphName,
             $this->vertex2Name,
             $this->vertex3Name,
             $this->edgeLabel2,
             $edge2
         );
-        $result3 = $this->graphHandler->saveEdge(
+        $this->graphHandler->saveEdge(
             $this->graphName,
             $this->vertex3Name,
             $this->vertex4Name,
             $this->edgeLabel3,
             $edge3
         );
-        $result1 = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
-        $result2 = $this->graphHandler->getEdge($this->graphName, $this->edge2Name);
-        $result3 = $this->graphHandler->getEdge($this->graphName, $this->edge3Name);
+        $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
+        $this->graphHandler->getEdge($this->graphName, $this->edge2Name);
+        $this->graphHandler->getEdge($this->graphName, $this->edge3Name);
     }
 
 
@@ -197,8 +229,8 @@ class GraphExtendedTest extends
         // Remove one vertex using GraphHandler | Testing
         // This should cause an exception with a code of 404
         try {
-            unset ($e);
-            $result1 = $this->graphHandler->removeVertex($this->graphName, $this->vertex1Name);
+            $e = null;
+            $this->graphHandler->removeVertex($this->graphName, $this->vertex1Name);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -209,8 +241,8 @@ class GraphExtendedTest extends
         // Try to get vertex using GraphHandler
         // This should cause an exception with a code of 404
         try {
-            unset ($e);
-            $result1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
+            $e = null;
+            $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -226,8 +258,8 @@ class GraphExtendedTest extends
         // Try to get vertex using GraphHandler
         // This should cause an exception with a code of 404
         try {
-            unset ($e);
-            $result2 = $this->graphHandler->getVertex($this->graphName, $this->vertex2Name);
+            $e = null;
+            $this->graphHandler->getVertex($this->graphName, $this->vertex2Name);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -288,8 +320,8 @@ class GraphExtendedTest extends
         // Remove the same vertex using GraphHandler
         // This should cause an exception with a code of 404
         try {
-            unset ($e);
-            $result1 = $this->graphHandler->removeVertex($this->graphName, $this->vertex1Name);
+            $e = null;
+            $this->graphHandler->removeVertex($this->graphName, $this->vertex1Name);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -300,8 +332,8 @@ class GraphExtendedTest extends
         // Try to get vertex using GraphHandler
         // This should cause an exception with a code of 404
         try {
-            unset ($e);
-            $result1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
+            $e = null;
+            $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -312,7 +344,7 @@ class GraphExtendedTest extends
         // Try to get the edge using GraphHandler
         // This should return true
         try {
-            unset ($e);
+            $e       = null;
             $resultE = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
             $this->assertTrue($resultE, 'Did not return true!');
         } catch (\Exception $e) {
@@ -325,8 +357,8 @@ class GraphExtendedTest extends
         // Try to remove the edge using GraphHandler
         // This should cause an exception with a code of 404
         try {
-            unset ($e);
-            $result1 = $this->graphHandler->removeEdge($this->graphName, $this->edge1Name);
+            $e = null;
+            $this->graphHandler->removeEdge($this->graphName, $this->edge1Name);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -342,8 +374,8 @@ class GraphExtendedTest extends
         // Try to get vertex using GraphHandler
         // This should cause an exception with a code of 404
         try {
-            unset ($e);
-            $result2 = $this->graphHandler->getVertex($this->graphName, $this->vertex2Name);
+            $e = null;
+            $this->graphHandler->getVertex($this->graphName, $this->vertex2Name);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -353,9 +385,9 @@ class GraphExtendedTest extends
 
 
     /**
-     * Test for correct exception codes if nonexistant objects are tried to be gotten, replaced, updated or removed
+     * Test for correct exception codes if nonexistent objects are tried to be gotten, replaced, updated or removed
      */
-    public function testGetReplaceUpdateAndRemoveOnNonExistantObjects()
+    public function testGetReplaceUpdateAndRemoveOnNonExistentObjects()
     {
         // Setup objects
         $vertex1 = Vertex::createFromArray($this->vertex1Array);
@@ -365,8 +397,8 @@ class GraphExtendedTest extends
         // Try to get vertex using GraphHandler
         // This should cause an exception with a code of 404
         try {
-            unset ($e);
-            $result1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
+            $e = null;
+            $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -377,9 +409,8 @@ class GraphExtendedTest extends
         // Try to update vertex using GraphHandler
         // This should cause an exception with a code of 404
         try {
-            unset ($e);
-
-            $result2 = $this->graphHandler->updateVertex($this->graphName, $this->vertex1Name, $vertex1);
+            $e = null;
+            $this->graphHandler->updateVertex($this->graphName, $this->vertex1Name, $vertex1);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -390,8 +421,8 @@ class GraphExtendedTest extends
         // Try to replace vertex using GraphHandler
         // This should cause an exception with a code of 404
         try {
-            unset ($e);
-            $result2 = $this->graphHandler->replaceVertex($this->graphName, $this->vertex1Name, $vertex1);
+            $e = null;
+            $this->graphHandler->replaceVertex($this->graphName, $this->vertex1Name, $vertex1);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -402,8 +433,8 @@ class GraphExtendedTest extends
         // Remove a vertex using GraphHandler
         // This should cause an exception with a code of 404
         try {
-            unset ($e);
-            $result1 = $this->graphHandler->removeVertex($this->graphName, $this->vertex1Name);
+            $e = null;
+            $this->graphHandler->removeVertex($this->graphName, $this->vertex1Name);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -414,7 +445,7 @@ class GraphExtendedTest extends
         // Try to get the edge using GraphHandler
         // This should return true
         try {
-            unset ($e);
+            $e       = null;
             $resultE = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
             $this->assertTrue($resultE, 'Did not return true!');
         } catch (\Exception $e) {
@@ -427,8 +458,8 @@ class GraphExtendedTest extends
         // Try to update edge using GraphHandler
         // This should cause an exception with a code of 404
         try {
-            unset ($e);
-            $result2 = $this->graphHandler->updateEdge($this->graphName, $this->vertex1Name, 'label', $edge1);
+            $e = null;
+            $this->graphHandler->updateEdge($this->graphName, $this->edge1Name, 'label', $edge1);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -439,8 +470,8 @@ class GraphExtendedTest extends
         // Try to replace edge using GraphHandler
         // This should cause an exception with a code of 404
         try {
-            unset ($e);
-            $result2 = $this->graphHandler->replaceEdge($this->graphName, $this->vertex1Name, 'label', $edge1);
+            $e = null;
+            $this->graphHandler->replaceEdge($this->graphName, $this->edge1Name, 'label', $edge1);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -451,8 +482,8 @@ class GraphExtendedTest extends
         // Try to remove the edge using GraphHandler
         // This should cause an exception with a code of 404
         try {
-            unset ($e);
-            $result1 = $this->graphHandler->removeEdge($this->graphName, $this->edge1Name);
+            $e = null;
+            $this->graphHandler->removeEdge($this->graphName, $this->edge1Name);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -529,8 +560,8 @@ class GraphExtendedTest extends
 
 
         try {
-            unset ($e);
-            $result1a = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
+            $e = null;
+            $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -542,14 +573,99 @@ class GraphExtendedTest extends
 
 
         try {
-            unset ($e);
-            $result2 = $this->graphHandler->getVertex($this->graphName, $this->vertex2Name);
+            $e = null;
+            $this->graphHandler->getVertex($this->graphName, $this->vertex2Name);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
     }
 
+    /**
+     * Test if a Vertex can be saved, replaced, updated, and finally removed with conditions
+     */
+    public function testSaveVertexConditionalReplaceUpdateAndRemove()
+    {
+        // Setup Objects
+        $vertex1  = Vertex::createFromArray($this->vertex1Array);
+        $vertex2  = Vertex::createFromArray($this->vertex2Array);
+        $vertex1a = Vertex::createFromArray($this->vertex1aArray);
+
+
+        // Save vertices
+        $result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
+        $this->assertTrue($result1 == 'vertex1', 'Did not return vertex1!');
+
+        $result2 = $this->graphHandler->saveVertex($this->graphName, $vertex2);
+        $this->assertTrue($result2 == 'vertex2', 'Did not return vertex2!');
+
+
+        // Get vertices
+        $result1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
+        $this->assertTrue($result1->getKey() == 'vertex1', 'Did not return vertex1!');
+
+        $result2 = $this->graphHandler->getVertex($this->graphName, $this->vertex2Name);
+        $this->assertTrue($result2->getKey() == 'vertex2', 'Did not return vertex2!');
+
+
+        // Replace vertex
+        $result1a = $this->graphHandler->replaceVertex(
+            $this->graphName,
+            $this->vertex1Name,
+            $vertex1a,
+            array('revision' => $result1->getRevision())
+        );
+        $this->assertTrue($result1a, 'Did not return true!');
+
+
+        // Get vertex
+        $result1a = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
+        $this->assertTrue($result1a->someKey1 == 'someValue1a', 'Did not return someValue1a!');
+
+
+        // Replace vertex
+        $result1 = $this->graphHandler->replaceVertex($this->graphName, $this->vertex1Name, $vertex1);
+        $this->assertTrue($result1, 'Did not return true!');
+
+
+        // Get vertex
+        $result1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
+        $this->assertTrue($result1->someKey1 == 'someValue1', 'Did not return someValue1!');
+
+
+        $result1a = $this->graphHandler->updateVertex($this->graphName, $this->vertex1Name, $vertex1a);
+        $this->assertTrue($result1a, 'Did not return true!');
+
+
+        $result1a = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
+        $this->assertTrue($result1a->someKey1 == 'someValue1a', 'Did not return someValue1a!');
+
+        $e = null;
+
+        try {
+            $result1 = $this->graphHandler->updateVertex(
+                $this->graphName,
+                $this->vertex1Name,
+                $vertex1,
+                array('revision' => true)
+            );
+            $this->assertTrue($result1, 'Did not return true!');
+        } catch (Exception $e) {
+            //just give us the $e
+        }
+        $this->assertInstanceOf(
+            'triagens\ArangoDb\ServerException',
+            $e,
+            "An exception should be thrown by the mis-matching revision!"
+        );
+
+        $result1a = $this->graphHandler->removeVertex($this->graphName, $this->vertex1Name);
+        $this->assertTrue($result1a, 'Did not return true!');
+
+
+        $result2 = $this->graphHandler->removeVertex($this->graphName, $this->vertex2Name);
+        $this->assertTrue($result2, 'Did not return true!');
+    }
 
     /**
      * Test if 2 Vertices can be saved and an Edge between them can be saved, replaced, updated, and finally removed
@@ -611,9 +727,9 @@ class GraphExtendedTest extends
         $result1a = $this->graphHandler->removeEdge($this->graphName, $this->edge1Name);
         $this->assertTrue($result1a, 'Did not return true!');
 
-
+        $e = null;
         try {
-            $result1a = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
+            $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -624,8 +740,9 @@ class GraphExtendedTest extends
         $this->assertTrue($result1a, 'Did not return true!');
 
 
+        $e = null;
         try {
-            $result1a = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
+            $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -636,12 +753,93 @@ class GraphExtendedTest extends
         $this->assertTrue($result2, 'Did not return true!');
 
 
+        $e = null;
         try {
-            $result2 = $this->graphHandler->getVertex($this->graphName, $this->vertex2Name);
+            $this->graphHandler->getVertex($this->graphName, $this->vertex2Name);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+    }
+
+    /**
+     * Test if 2 Vertices can be saved and an Edge between them can be saved, replaced, updated, and finally removed conditionally
+     */
+    public function testSaveVerticesAndConditionalSaveReplaceUpdateAndRemoveEdge()
+    {
+        $vertex1 = Vertex::createFromArray($this->vertex1Array);
+        $vertex2 = Vertex::createFromArray($this->vertex2Array);
+        $edge1   = Edge::createFromArray($this->edge1Array);
+        $edge1a  = Edge::createFromArray($this->edge1aArray);
+
+
+        $result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
+        $this->assertTrue($result1 == 'vertex1', 'Did not return vertex1!');
+
+
+        $result2 = $this->graphHandler->saveVertex($this->graphName, $vertex2);
+        $this->assertTrue($result2 == 'vertex2', 'Did not return vertex2!');
+
+
+        $result1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
+        $this->assertTrue($result1->getKey() == 'vertex1', 'Did not return vertex1!');
+
+
+        $result2 = $this->graphHandler->getVertex($this->graphName, $this->vertex2Name);
+        $this->assertTrue($result2->getKey() == 'vertex2', 'Did not return vertex2!');
+
+
+        $result1 = $this->graphHandler->saveEdge(
+            $this->graphName,
+            $this->vertex1Name,
+            $this->vertex2Name,
+            $this->edgeLabel1,
+            $edge1
+        );
+        $this->assertTrue($result1 == 'edge1', 'Did not return edge1!');
+
+
+        $result1 = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
+        $this->assertTrue($result1->getKey() == 'edge1', 'Did not return edge1!');
+
+
+        $result1a = $this->graphHandler->replaceEdge(
+            $this->graphName,
+            $this->edge1Name,
+            $this->edgeLabel1,
+            $edge1a,
+            array('revision' => $result1->getRevision())
+        );
+        $this->assertTrue($result1a, 'Did not return true!');
+
+
+        $result1a = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
+        $this->assertTrue($result1a->someEdgeKey1 == 'someEdgeValue1a', 'Did not return someEdgeValue1a!');
+
+        $e = null;
+        try {
+            $this->graphHandler->updateEdge(
+                $this->graphName,
+                $this->edge1Name,
+                $this->edgeLabel1,
+                $edge1,
+                array('revision' => true)
+            );
+        } catch (Exception $e) {
+            //Just give the $e
+        }
+
+        $this->assertInstanceOf(
+            'triagens\ArangoDb\ServerException',
+            $e,
+            "An exception should be thrown by the mis-matching revision!"
+        );
+
+        $result1a = $this->graphHandler->removeVertex($this->graphName, $this->vertex1Name);
+        $this->assertTrue($result1a, 'Did not return true!');
+
+        $result2 = $this->graphHandler->removeVertex($this->graphName, $this->vertex2Name);
+        $this->assertTrue($result2, 'Did not return true!');
     }
 
 
@@ -699,8 +897,9 @@ class GraphExtendedTest extends
 
         // Try to get vertex using VertexHandler
         // This should cause an exception with a code of 404
+        $e = null;
         try {
-            $result1a = $vertexHandler->getById($this->vertexCollectionName, $this->vertex1Name);
+            $vertexHandler->getById($this->vertexCollectionName, $this->vertex1Name);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -709,8 +908,9 @@ class GraphExtendedTest extends
 
         // Try to get the edge using EdgeHandler
         // This should cause an exception with a code of 404, because connecting edges should be removed when a vertex is removed
+        $e = null;
         try {
-            $result1a = $edgeHandler->getById($this->edgeCollectionName, $this->edge1Name);
+            $edgeHandler->getById($this->edgeCollectionName, $this->edge1Name);
         } catch (\Exception $e) {
             $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
             $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
@@ -729,8 +929,9 @@ class GraphExtendedTest extends
 
         // Try to remove the edge using VertexHandler again
         // This should not cause an exception with code 404 because we just had removed this edge
+        $e = null;
         try {
-            $result = $edgeHandler->removeById($this->edgeCollectionName, $this->edge1Name);
+            $edgeHandler->removeById($this->edgeCollectionName, $this->edge1Name);
         } catch (\Exception $e) {
             $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
             $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
@@ -744,8 +945,9 @@ class GraphExtendedTest extends
 
         // Try to get vertex using VertexHandler
         // This should cause an exception with a code of 404
+        $e = null;
         try {
-            $result2 = $vertexHandler->getById($this->vertexCollectionName, $this->vertex2Name);
+            $vertexHandler->getById($this->vertexCollectionName, $this->vertex2Name);
         } catch (\Exception $e) {
             $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
             $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
@@ -763,7 +965,7 @@ class GraphExtendedTest extends
         // Test without options
         $cursor = $this->graphHandler->getNeighborVertices($this->graphName, $this->vertex2Name);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-
+        $resultingDocument = null;
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }
@@ -784,6 +986,7 @@ class GraphExtendedTest extends
         $cursor  = $this->graphHandler->getNeighborVertices($this->graphName, $this->vertex2Name, $options);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
 
+        $resultingDocument = null;
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }
@@ -803,7 +1006,7 @@ class GraphExtendedTest extends
         $options = array('limit' => 1);
         $cursor  = $this->graphHandler->getNeighborVertices($this->graphName, $this->vertex2Name, $options);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-
+        $resultingDocument = null;
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }
@@ -819,7 +1022,7 @@ class GraphExtendedTest extends
         $options = array('count' => true);
         $cursor  = $this->graphHandler->getNeighborVertices($this->graphName, $this->vertex2Name, $options);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-
+        $resultingDocument = null;
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }
@@ -827,10 +1030,14 @@ class GraphExtendedTest extends
             $resultingDocument[0]->someKey1 == 'someValue1',
             'Should return "someValue1", returned: ' . $resultingDocument[0]->someKey1
         );
+        $this->assertInstanceOf('triagens\ArangoDb\Vertex', $resultingDocument[0]);
+
         $this->assertTrue(
             $resultingDocument[1]->someKey3 == 'someValue3',
             'Should return "someValue3", returned: ' . $resultingDocument[1]->someKey3
         );
+        $this->assertInstanceOf('triagens\ArangoDb\Vertex', $resultingDocument[1]);
+
         $this->assertTrue(count($resultingDocument) == 2, 'Should be 2, was: ' . count($resultingDocument));
 
         $metaData = $cursor->getMetadata();
@@ -844,7 +1051,7 @@ class GraphExtendedTest extends
 
         $cursor = $this->graphHandler->getNeighborVertices($this->graphName, $this->vertex2Name, $options);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-
+        $resultingDocument = null;
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }
@@ -862,7 +1069,7 @@ class GraphExtendedTest extends
 
         $cursor = $this->graphHandler->getNeighborVertices($this->graphName, $this->vertex2Name, $options);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-
+        $resultingDocument = null;
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }
@@ -881,7 +1088,7 @@ class GraphExtendedTest extends
 
         $cursor = $this->graphHandler->getNeighborVertices($this->graphName, $this->vertex2Name, $options);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-
+        $resultingDocument = null;
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }
@@ -902,7 +1109,7 @@ class GraphExtendedTest extends
 
         $cursor = $this->graphHandler->getConnectedEdges($this->graphName, $this->vertex2Name);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-
+        $resultingDocument = null;
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }
@@ -910,10 +1117,13 @@ class GraphExtendedTest extends
             $resultingDocument[0]->someEdgeKey1 == 'someEdgeValue1',
             'Should return "someEdgeValue1", returned: ' . $resultingDocument[0]->someEdgeKey1
         );
+        $this->assertInstanceOf('triagens\ArangoDb\Edge', $resultingDocument[0]);
         $this->assertTrue(
             $resultingDocument[1]->someEdgeKey2 == 'someEdgeValue2',
             'Should return "someEdgeValue2", returned: ' . $resultingDocument[1]->someEdgeKey1
         );
+        $this->assertInstanceOf('triagens\ArangoDb\Edge', $resultingDocument[1]);
+
         $this->assertTrue(count($resultingDocument) == 2, 'Should be 2, was: ' . count($resultingDocument));
 
 
@@ -922,7 +1132,7 @@ class GraphExtendedTest extends
         $options = array('batchSize' => 1);
         $cursor  = $this->graphHandler->getConnectedEdges($this->graphName, $this->vertex2Name, $options);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-
+        $resultingDocument = null;
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }
@@ -942,7 +1152,7 @@ class GraphExtendedTest extends
         $options = array('limit' => 1);
         $cursor  = $this->graphHandler->getConnectedEdges($this->graphName, $this->vertex2Name, $options);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-
+        $resultingDocument = null;
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }
@@ -958,7 +1168,7 @@ class GraphExtendedTest extends
         $options = array('count' => true);
         $cursor  = $this->graphHandler->getConnectedEdges($this->graphName, $this->vertex2Name, $options);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-
+        $resultingDocument = null;
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }
@@ -979,7 +1189,7 @@ class GraphExtendedTest extends
 
         $cursor = $this->graphHandler->getConnectedEdges($this->graphName, $this->vertex2Name, $options);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-
+        $resultingDocument = null;
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }
@@ -998,7 +1208,7 @@ class GraphExtendedTest extends
 
         $cursor = $this->graphHandler->getConnectedEdges($this->graphName, $this->vertex2Name, $options);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-
+        $resultingDocument = null;
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }
@@ -1018,7 +1228,7 @@ class GraphExtendedTest extends
 
         $cursor = $this->graphHandler->getConnectedEdges($this->graphName, $this->vertex2Name, $options);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-
+        $resultingDocument = null;
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }

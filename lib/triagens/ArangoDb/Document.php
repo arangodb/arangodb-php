@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: single document
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -13,7 +13,7 @@ namespace triagens\ArangoDb;
 /**
  * Value object representing a single collection-based document
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 class Document
 {
@@ -87,7 +87,7 @@ class Document
     const ENTRY_ISNEW = '_isNew';
 
     /**
-     * hidden atttribute index
+     * hidden attribute index
      */
     const ENTRY_HIDDEN = '_hidden';
 
@@ -111,7 +111,7 @@ class Document
      *
      * @param array $options - optional, initial $options for document
      *
-     * @return void
+     * @return Document
      */
     public function __construct(array $options = array())
     {
@@ -142,7 +142,6 @@ class Document
     public static function createFromArray(array $values, array $options = array())
     {
         $document = new static($options);
-
         foreach ($values as $key => $value) {
             $document->set($key, $value);
         }
@@ -436,7 +435,7 @@ class Document
      *
      * @param bool $value - change flag
      *
-     * @return void
+     * @return bool
      */
     public function setChanged($value)
     {
@@ -462,7 +461,7 @@ class Document
      */
     public function setIsNew($isNew)
     {
-        $this->_isNew = (bool)$isNew;
+        $this->_isNew = (bool) $isNew;
     }
 
     /**
@@ -528,7 +527,7 @@ class Document
      * Get the internal document id (if already known)
      *
      * Document ids are generated on the server only. Document ids consist of collection id and
-     * document id, in the format collectionid/documentid
+     * document id, in the format collectionId/documentId
      *
      * @return string - internal document id, might be NULL if document does not yet have an id
      */
@@ -551,7 +550,7 @@ class Document
      * Convenience function to get the document handle (if already known) - is an alias to getInternalId()
      *
      * Document handles are generated on the server only. Document handles consist of collection id and
-     * document id, in the format collectionid/documentid
+     * document id, in the format collectionId/documentId
      *
      * @return string - internal document id, might be NULL if document does not yet have an id
      */

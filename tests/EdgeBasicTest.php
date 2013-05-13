@@ -1,25 +1,37 @@
 <?php
 /**
  * ArangoDB PHP client testsuite
- * File: documentbasictest.php
+ * File: EdgeBasicTest.php
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  * @author  Frank Mayer
  */
 
 namespace triagens\ArangoDb;
 
+
+/**
+ * Class EdgeBasicTest
+ *
+ * @property Connection        $connection
+ * @property Collection        $collection
+ * @property Collection        $edgeCollection
+ * @property CollectionHandler $collectionHandler
+ * @property DocumentHandler   $documentHandler
+ *
+ * @package triagens\ArangoDb
+ */
 class EdgeBasicTest extends
     \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
         $this->connection        = getConnection();
-        $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
-        $this->edgeCollection    = new \triagens\ArangoDb\Collection();
+        $this->collectionHandler = new CollectionHandler($this->connection);
+        $this->edgeCollection    = new Collection();
         $this->edgeCollection->setName('ArangoDBPHPTestSuiteTestEdgeCollection01');
         $this->edgeCollection->set('type', 3);
-        $this->collection = new \triagens\ArangoDb\Collection();
+        $this->collection = new Collection();
         $this->collection->setName('ArangoDBPHPTestSuiteTestCollection01');
 
         $this->collectionHandler->add($this->edgeCollection);
@@ -33,10 +45,9 @@ class EdgeBasicTest extends
      */
     public function testInitializeEdge()
     {
-        $connection              = $this->connection;
-        $this->collection        = new \triagens\ArangoDb\Collection();
-        $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
-        $document                = new \triagens\ArangoDb\Edge();
+        $this->collection        = new Collection();
+        $this->collectionHandler = new CollectionHandler($this->connection);
+        $document                = new Edge();
         $this->assertInstanceOf('triagens\ArangoDb\Edge', $document);
         $this->assertInstanceOf('triagens\ArangoDb\Edge', $document);
         unset ($document);
@@ -48,24 +59,22 @@ class EdgeBasicTest extends
      */
     public function testCreateAndDeleteEdge()
     {
-        $connection        = $this->connection;
-        $collection        = $this->collection;
-        $edgeCollection    = $this->edgeCollection;
-        $collectionHandler = $this->collectionHandler;
+        $connection     = $this->connection;
+        $edgeCollection = $this->edgeCollection;
 
-        $document1       = new \triagens\ArangoDb\Document();
-        $document2       = new \triagens\ArangoDb\Document();
-        $documentHandler = new \triagens\ArangoDb\DocumentHandler($connection);
+        $document1       = new Document();
+        $document2       = new Document();
+        $documentHandler = new DocumentHandler($connection);
 
-        $edgeDocument        = new \triagens\ArangoDb\Edge();
-        $edgeDocumentHandler = new \triagens\ArangoDb\EdgeHandler($connection);
+        $edgeDocument        = new Edge();
+        $edgeDocumentHandler = new EdgeHandler($connection);
 
         $document1->someAttribute = 'someValue1';
         $document2->someAttribute = 'someValue2';
 
 
-        $documentId1     = $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentId2     = $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
+        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -78,7 +87,7 @@ class EdgeBasicTest extends
             $edgeDocument
         );
 
-        $edgeDocumentId2 = $edgeDocumentHandler->saveEdge(
+        $edgeDocumentHandler->saveEdge(
             $edgeCollection->getName(),
             $documentHandle1,
             $documentHandle2,
@@ -87,7 +96,8 @@ class EdgeBasicTest extends
 
         $resultingDocument = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
 
-        $resultingEdge = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
+        $resultingEdge = $edgeDocumentHandler->get($edgeCollection->getName(), $edgeDocumentId);
+        $this->assertInstanceOf('triagens\ArangoDb\Edge', $resultingEdge);
 
         $resultingAttribute = $resultingEdge->label;
         $this->assertTrue(
@@ -103,12 +113,12 @@ class EdgeBasicTest extends
             "edges didn't return an array with a documents attribute!"
         );
 
-        $statement = new \triagens\ArangoDb\Statement($connection, array(
-                                                                        "query"     => '',
-                                                                        "count"     => true,
-                                                                        "batchSize" => 1000,
-                                                                        "sanitize"  => true,
-                                                                   ));
+        $statement = new Statement($connection, array(
+                                                     "query"     => '',
+                                                     "count"     => true,
+                                                     "batchSize" => 1000,
+                                                     "sanitize"  => true,
+                                                ));
         $statement->setQuery(
             'FOR p IN PATHS(ArangoDBPHPTestSuiteTestCollection01, ArangoDBPHPTestSuiteTestEdgeCollection01, "outbound")  RETURN p'
         );
@@ -122,7 +132,7 @@ class EdgeBasicTest extends
         );
         $resultingDocument->set('label', 'knows not');
 
-        $resultingDocument2 = $documentHandler->update($resultingDocument);
+        $documentHandler->update($resultingDocument);
 
 
         $resultingEdge      = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
@@ -133,11 +143,11 @@ class EdgeBasicTest extends
         );
 
 
-        $response = $documentHandler->delete($document1);
-        $response = $documentHandler->delete($document2);
+        $documentHandler->delete($document1);
+        $documentHandler->delete($document2);
 
-        // On ArangoDB 1.0 deleting a vertex doesn't delete the associated edge. Caution!
-        $response = $edgeDocumentHandler->delete($resultingEdge);
+        // In ArangoDB deleting a vertex doesn't delete the associated edge, unless we're using the graph module. Caution!
+        $edgeDocumentHandler->delete($resultingEdge);
     }
 
 
@@ -145,28 +155,28 @@ class EdgeBasicTest extends
      * Try to create and delete an edge with wrong encoding
      * We expect an exception here:
      *
-     * @expectedException triagens\ArangoDb\ClientException
+     * @expectedException \triagens\ArangoDb\ClientException
      */
     public function testCreateAndDeleteEdgeWithWrongEncoding()
     {
-        $connection        = $this->connection;
-        $collection        = $this->collection;
-        $edgeCollection    = $this->edgeCollection;
-        $collectionHandler = $this->collectionHandler;
+        $connection = $this->connection;
+        $this->collection;
+        $edgeCollection = $this->edgeCollection;
+        $this->collectionHandler;
 
-        $document1       = new \triagens\ArangoDb\Document();
-        $document2       = new \triagens\ArangoDb\Document();
-        $documentHandler = new \triagens\ArangoDb\DocumentHandler($connection);
+        $document1       = new Document();
+        $document2       = new Document();
+        $documentHandler = new DocumentHandler($connection);
 
-        $edgeDocument        = new \triagens\ArangoDb\Edge();
-        $edgeDocumentHandler = new \triagens\ArangoDb\EdgeHandler($connection);
+        $edgeDocument        = new Edge();
+        $edgeDocumentHandler = new EdgeHandler($connection);
 
         $document1->someAttribute = 'someValue1';
         $document2->someAttribute = 'someValue2';
 
 
-        $documentId1     = $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentId2     = $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
+        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -180,9 +190,9 @@ class EdgeBasicTest extends
             $edgeDocument
         );
 
-        $resultingDocument = $documentHandler->get($edgeCollection->getId(), $edgeDocumentId);
+        //        $resultingDocument = $documentHandler->get($edgeCollection->getId(), $edgeDocumentId);
 
-        $resultingEdge = $documentHandler->get($edgeCollection->getId(), $edgeDocumentId);
+        $resultingEdge = $edgeDocumentHandler->get($edgeCollection->getId(), $edgeDocumentId);
 
         $resultingAttribute = $resultingEdge->label;
         $this->assertTrue(
@@ -198,12 +208,12 @@ class EdgeBasicTest extends
             "edges didn't return an array with a documents attribute!"
         );
 
-        $statement = new \triagens\ArangoDb\Statement($connection, array(
-                                                                        "query"     => '',
-                                                                        "count"     => true,
-                                                                        "batchSize" => 1000,
-                                                                        "sanitize"  => true,
-                                                                   ));
+        $statement = new Statement($connection, array(
+                                                     "query"     => '',
+                                                     "count"     => true,
+                                                     "batchSize" => 1000,
+                                                     "sanitize"  => true,
+                                                ));
         $statement->setQuery(
             'FOR p IN PATHS(ArangoDBPHPTestSuiteTestCollection01, ArangoDBPHPTestSuiteTestEdgeCollection01, "outbound")  RETURN p'
         );
@@ -215,12 +225,12 @@ class EdgeBasicTest extends
             $result,
             "IN PATHS statement did not return a document object!"
         );
-        $resultingDocument->set('label', 'knows not');
+        $resultingEdge->set('label', 'knows not');
 
-        $resultingDocument2 = $documentHandler->update($resultingDocument);
+        $documentHandler->update($resultingEdge);
 
 
-        $resultingEdge      = $documentHandler->get($edgeCollection->getId(), $edgeDocumentId);
+        $resultingEdge      = $edgeDocumentHandler->get($edgeCollection->getId(), $edgeDocumentId);
         $resultingAttribute = $resultingEdge->label;
         $this->assertTrue(
             $resultingAttribute === 'knows not',
@@ -228,23 +238,23 @@ class EdgeBasicTest extends
         );
 
 
-        $response = $documentHandler->delete($document1);
-        $response = $documentHandler->delete($document2);
+        $documentHandler->delete($document1);
+        $documentHandler->delete($document2);
 
         // On ArangoDB 1.0 deleting a vertex doesn't delete the associated edge. Caution!
-        $response = $edgeDocumentHandler->delete($resultingEdge);
+        $edgeDocumentHandler->delete($resultingEdge);
     }
 
 
     public function tearDown()
     {
         try {
-            $response = $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestEdgeCollection01');
+            $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestEdgeCollection01');
         } catch (\Exception $e) {
             #don't bother us, if it's already deleted.
         }
         try {
-            $response = $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestCollection01');
+            $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestCollection01');
         } catch (\Exception $e) {
             #don't bother us, if it's already deleted.
         }

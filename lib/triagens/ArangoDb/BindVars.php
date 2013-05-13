@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: bind variables
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -14,7 +14,7 @@ namespace triagens\ArangoDb;
  * A simple container for bind variables
  * This container also handles validation of the bind values.
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 class BindVars
 {
@@ -48,7 +48,7 @@ class BindVars
     /**
      * Get the value of a bind variable with a specific name
      *
-     * @param string name - name of bind variable
+     * @param string $name - name of bind variable
      *
      * @return mixed - value of bind variable
      */
@@ -72,8 +72,8 @@ class BindVars
      *
      * @throws ClientException
      *
-     * @param mixed  name - name of bind variable OR an array with all bind variables
-     * @param string value - value for bind variable
+     * @param mixed  $name  - name of bind variable OR an array with all bind variables
+     * @param string $value - value for bind variable
      *
      * @return void
      */
@@ -86,8 +86,7 @@ class BindVars
             $this->_values = $name;
         } else {
             if (is_int($name) || is_string($name)) {
-                $key                  = (string) $name;
-                $this->_values[$name] = $value;
+                $this->_values[(string) $name] = $value;
                 ValueValidator::validate($value);
             } else {
                 throw new ClientException('Bind variable name should be string, int or array');

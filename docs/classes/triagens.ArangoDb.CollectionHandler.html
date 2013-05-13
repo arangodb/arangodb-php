@@ -22,7 +22,6 @@
 <li><a>Namespaces</a></li>
 <li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
 <li><a>Packages</a></li>
-<li><a href="../packages/ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
 <li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
 </ul>
 </li>
@@ -142,7 +141,7 @@ This is a convenience function that calls json_encode_wrapper on the connection<
 <li class="constant  "><a href="#constant_OPTION_GEO_INDEX" title="OPTION_GEO_INDEX :: geo index option"><span class="description">geo index option</span><pre>OPTION_GEO_INDEX</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_HASH_INDEX" title="OPTION_HASH_INDEX :: hash index option"><span class="description">hash index option</span><pre>OPTION_HASH_INDEX</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_IGNORE_NULL" title="OPTION_IGNORE_NULL :: ignoreNull option"><span class="description">ignoreNull option</span><pre>OPTION_IGNORE_NULL</pre></a></li>
-<li class="constant  "><a href="#constant_OPTION_LATITUDE" title="OPTION_LATITUDE :: latidude parameter"><span class="description">latidude parameter</span><pre>OPTION_LATITUDE</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_LATITUDE" title="OPTION_LATITUDE :: latitude parameter"><span class="description">latitude parameter</span><pre>OPTION_LATITUDE</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_LEFT" title="OPTION_LEFT :: left parameter"><span class="description">left parameter</span><pre>OPTION_LEFT</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_LIMIT" title="OPTION_LIMIT :: limit parameter"><span class="description">limit parameter</span><pre>OPTION_LIMIT</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_LOAD" title="OPTION_LOAD :: load option"><span class="description">load option</span><pre>OPTION_LOAD</pre></a></li>
@@ -185,13 +184,13 @@ creates collections on the server.</p>
 appropriate HTTP requests to the server.</p></div>
 <table class="table table-bordered"><tr>
 <th>package</th>
-<td><a href="../packages/ArangoDbPhpClient.html">ArangoDbPhpClient</a></td>
+<td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
 </tr></table>
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
 <a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
 <h2>Construct a new handler</h2>
-<pre>__construct(\triagens\ArangoDb\Connection $connection) : void</pre>
+<pre>__construct(\triagens\ArangoDb\Connection $connection) : <a href="../classes/triagens.ArangoDb.Handler.html">\triagens\ArangoDb\Handler</a></pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -206,6 +205,8 @@ appropriate HTTP requests to the server.</p></div>
 <li>connection to be used</li>
 </ul>
 </div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Handler.html">\triagens\ArangoDb\Handler</a></code></div>
 </div></div>
 </div>
 <a id="method_add"></a><div class="element clickable method public method_add" data-toggle="collapse" data-target=".method_add .collapse">
@@ -296,7 +297,7 @@ appropriate HTTP requests to the server.</p></div>
 <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
 <p>
                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-                                The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+                                The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
                                 and the hidden attributes would not be applied to the attributes.<br>
 </p>
 </li>
@@ -685,7 +686,7 @@ This will throw if the collection cannot be created</p></div>
 <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
 <p>
                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-                                The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+                                The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
                                 and the hidden attributes would not be applied to the attributes.<br>
 </p>
 </li>
@@ -740,7 +741,7 @@ This will throw if the collection cannot be created</p></div>
 <p>Options are :<br>
 <li>'excludeSystem' -   With a value of true, all system collections will be excluded from the response.</li>
 <li>'keys' -  With a value of "collections", the index of the resulting array is numerical,
-              With a value of "names", the index of the resulting array are the collection names.</li>
+                                 With a value of "names", the index of the resulting array are the collection names.</li>
 </p>
 </div>
 <h3>Returns</h3>
@@ -1083,7 +1084,7 @@ This will throw if the collection cannot be created</p></div>
 </div>
 <a id="method_load"></a><div class="element clickable method public method_load" data-toggle="collapse" data-target=".method_load .collapse">
 <h2>Load a collection into the server's memory</h2>
-<pre>load(mixed $collection) : bool</pre>
+<pre>load(mixed $collection) : <a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will load the given collection into the server's memory.</p></div>
@@ -1101,12 +1102,12 @@ This will throw if the collection cannot be created</p></div>
 </tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
-<code>bool</code>- always true, will throw if there is an error</div>
+<code><a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></code>- HTTP response object</div>
 </div></div>
 </div>
 <a id="method_near"></a><div class="element clickable method public method_near" data-toggle="collapse" data-target=".method_near .collapse">
 <h2>Get document(s) by specifying near</h2>
-<pre>near(mixed $collectionId, double $latitude, double $longitude, array $options) : array</pre>
+<pre>near(mixed $collectionId, double $latitude, double $longitude, array $options) : <a href="../classes/triagens.ArangoDb.Cursor.html">\triagens\ArangoDb\Cursor</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw if the list cannot be fetched from the server</p></div>
@@ -1142,7 +1143,7 @@ This will throw if the collection cannot be created</p></div>
 <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
 <p>
                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-                               The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+                               The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
                                and the hidden attributes would not be applied to the attributes.<br>
 </p>
 <li>'distance'  - If given, the attribute key used to store the distance. (optional)
@@ -1159,12 +1160,12 @@ This will throw if the collection cannot be created</p></div>
 </tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
-<code>array</code>- documents matching the example [0...n]</div>
+<code><a href="../classes/triagens.ArangoDb.Cursor.html">\triagens\ArangoDb\Cursor</a></code>- documents matching the example [0...n]</div>
 </div></div>
 </div>
 <a id="method_range"></a><div class="element clickable method public method_range" data-toggle="collapse" data-target=".method_range .collapse">
 <h2>Get document(s) by specifying range</h2>
-<pre>range(mixed $collectionId, string $attribute, mixed $left, mixed $right, array $options) : array</pre>
+<pre>range(mixed $collectionId, string $attribute, mixed $left, mixed $right, array $options) : <a href="../classes/triagens.ArangoDb.Cursor.html">\triagens\ArangoDb\Cursor</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw if the list cannot be fetched from the server</p></div>
@@ -1206,7 +1207,7 @@ This will throw if the collection cannot be created</p></div>
 <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
 <p>
                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
-                               The difference is, that if you're returning a resultset of documents, the getall() is already called<br>
+                               The difference is, that if you're returning a resultset of documents, the getAll() is already called<br>
                                and the hidden attributes would not be applied to the attributes.<br>
 </p>
 <li>'closed'    - If true, use interval including left and right, otherwise exclude right, but include left.
@@ -1223,7 +1224,7 @@ This will throw if the collection cannot be created</p></div>
 </tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
-<code>array</code>- documents matching the example [0...n]</div>
+<code><a href="../classes/triagens.ArangoDb.Cursor.html">\triagens\ArangoDb\Cursor</a></code>- documents matching the example [0...n]</div>
 </div></div>
 </div>
 <a id="method_removeByExample"></a><div class="element clickable method public method_removeByExample" data-toggle="collapse" data-target=".method_removeByExample .collapse">
@@ -1381,7 +1382,7 @@ This will throw if the collection cannot be created</p></div>
 </div>
 <a id="method_unload"></a><div class="element clickable method public method_unload" data-toggle="collapse" data-target=".method_unload .collapse">
 <h2>Unload a collection from the server's memory</h2>
-<pre>unload(mixed $collection) : bool</pre>
+<pre>unload(mixed $collection) : <a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will unload the given collection from the server's memory.</p></div>
@@ -1399,7 +1400,7 @@ This will throw if the collection cannot be created</p></div>
 </tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
-<code>bool</code>- always true, will throw if there is an error</div>
+<code><a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></code>- HTTP response object</div>
 </div></div>
 </div>
 <a id="method_updateByExample"></a><div class="element clickable method public method_updateByExample" data-toggle="collapse" data-target=".method_updateByExample .collapse">
@@ -1457,7 +1458,7 @@ This will throw if the collection cannot be created</p></div>
 </div>
 <a id="method_within"></a><div class="element clickable method public method_within" data-toggle="collapse" data-target=".method_within .collapse">
 <h2>Get document(s) by specifying within</h2>
-<pre>within(mixed $collectionId, double $latitude, double $longitude, int $radius, array $options) : array</pre>
+<pre>within(mixed $collectionId, double $latitude, double $longitude, int $radius, array $options) : <a href="../classes/triagens.ArangoDb.Cursor.html">\triagens\ArangoDb\Cursor</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw if the list cannot be fetched from the server</p></div>
@@ -1499,7 +1500,7 @@ This will throw if the collection cannot be created</p></div>
 <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
 <p>
                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
-                               The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+                               The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
                                and the hidden attributes would not be applied to the attributes.<br>
 </p>
 <li>'distance'  - If given, the attribute key used to store the distance. (optional)
@@ -1516,7 +1517,7 @@ This will throw if the collection cannot be created</p></div>
 </tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
-<code>array</code>- documents matching the example [0...n]</div>
+<code><a href="../classes/triagens.ArangoDb.Cursor.html">\triagens\ArangoDb\Cursor</a></code>- documents matching the example [0...n]</div>
 </div></div>
 </div>
 <a id="method_getConnection"></a><div class="element clickable method protected method_getConnection" data-toggle="collapse" data-target=".method_getConnection .collapse">
@@ -1558,7 +1559,7 @@ This is a convenience function that calls json_encode_wrapper on the connection<
 </div>
 <a id="method_getCursorOptions"></a><div class="element clickable method protected method_getCursorOptions" data-toggle="collapse" data-target=".method_getCursorOptions .collapse">
 <h2>Return an array of cursor options</h2>
-<pre>getCursorOptions(bool $options) : array</pre>
+<pre>getCursorOptions(mixed $options) : array</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -1569,7 +1570,7 @@ This is a convenience function that calls json_encode_wrapper on the connection<
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$options</h4>
-<code>bool</code><ul>
+<code>mixed</code><ul>
 <li>$options might be a boolean sanitize value, or an array of options, with or without a '_sanitize' key.</li>
 </ul>
 </div>
@@ -1837,7 +1838,7 @@ This is only for options that are to be sent to the ArangoDB server.</p></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="constant_OPTION_LATITUDE"> </a><div class="element clickable constant  constant_OPTION_LATITUDE" data-toggle="collapse" data-target=".constant_OPTION_LATITUDE .collapse">
-<h2>latidude parameter</h2>
+<h2>latitude parameter</h2>
 <pre>OPTION_LATITUDE </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
@@ -1951,7 +1952,7 @@ This is only for options that are to be sent to the ArangoDB server.</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-05-01T19:06:48+03:00.<br></footer></div>
+            generated on 2013-05-11T17:21:43+03:00.<br></footer></div>
 </div>
 </body>
 </html>

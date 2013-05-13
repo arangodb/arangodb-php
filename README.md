@@ -2,8 +2,8 @@
 
 # ArangoDB-PHP - A PHP client for ArangoDB
 
-[![Build Status](https://travis-ci.org/triAGENS/ArangoDB-PHP.png?branch=master)](https://travis-ci.org/triAGENS/ArangoDB-PHP)
-**Version: 1.2.1**
+[![Build Status](https://travis-ci.org/triAGENS/ArangoDB-PHP.png?branch=1.3)](https://travis-ci.org/triAGENS/ArangoDB-PHP)
+**Version: 1.3.0**
 
 
 [Follow us on Twitter @arangodbphp to receive updates on the php driver](https://twitter.com/arangodbphp)
@@ -12,6 +12,7 @@
 ##### Table of Contents
 
 - [Description](#description)
+- [Requirements](#requirements)
 - [Installing the PHP client](#installing)
  - [Using packagist/composer](#using_packagist)
  - [Cloning the git repository](#cloning_git)
@@ -25,7 +26,7 @@
  - [Deleting a document](#deleting_document)
  - [Dropping a collection](#dropping_collection)
  - [Putting it all together](#alltogether)
-- [Requirements](#requirements)
+
 - [More information](#more_info)
 
 <br>
@@ -53,6 +54,19 @@ The ArangoDB PHP client is an API that allows you to send and retrieve documents
 The client library provides document and collection classes you can use to work with documents and collections in an OO fashion. When exchanging document data with the server, the library internally will use the [HTTP REST interface of ArangoDB](https://github.com/triAGENS/ArangoDB/wiki/OTWP). The library user does not have to care about this fact as all the details of the REST interface are abstracted by the client library.
 
 <br>
+
+
+
+<a name="requirements"/a>
+# Requirements
+
+* ArangoDB database server version 1.3 (detailed info [here](https://github.com/triAGENS/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix))
+
+* PHP version 5.3 or higher (Travis-tested with 5.4 and 5.5)
+
+<br>
+
+
 
 <a name="installing"/a>
 ## Installing the PHP client
@@ -557,14 +571,6 @@ Here's the full code that combines all the pieces outlined above:
     }
 
 <br>
-
-
-<a name="requirements"/a>
-# Requirements
-
-* ArangoDB database server version 1.2 (detailed info [here](https://github.com/triAGENS/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix))
-
-* PHP version 5.3 or higher (Travis-tested with 5.4 and 5.5)
 
 
 

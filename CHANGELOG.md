@@ -1,12 +1,52 @@
+
+v1.3.0 (2013-05-13)
+-----------------------
+
+* Contributors to this version:
+  * Frank Mayer (Github: @frankmayer)
+  * Francis Chuang (Github: @F21)
+  
+=======================
+
+* Changed PhpDocs @package content to triagens\ArangoDb, closes issue (see https://github.com/triAGENS/ArangoDB-PHP/issues/123)
+
+* [Breaking change] Removed getServerStatus() in favor of getServerStatistics() This breaks intentionally,
+	because of the different data and data structure returned by the server in version 1.3
+
+* Cleaning spree :)
+  * Fixed a lot of typos
+  * Fixed some minor bugs
+  * Fixed some tests
+  * PSR-2 reformatting
+  * Made some things more IDE Friendly (in regards to code-completion) and fixed some errors in the PHPDocs
+
+* Initial AQL user functions implementation (see https://github.com/triAGENS/ArangoDB-PHP/pull/116)
+
+* Implemented support for ArangoDB's transactions (see https://github.com/triAGENS/ArangoDB-PHP/issues/71)
+
+* Re-implemented statistics according to new implementation in ArangoDB 1.3 (see https://github.com/triAGENS/ArangoDB-PHP/issues/113)
+
+* Fixed precondition failed errors (see https://github.com/triAGENS/ArangoDB-PHP/issues/95)
+
+* Minor fixes in tests
+
+-----------------------
+
+
+
+
+
 v1.2.1 (2013-05-01)
 -----------------------
 
-# Contributors to this version:
-# Francis Chuang (Github: @F21)
-# Dorthe Luebbert (Github: @luebbert42)
-# Jan Steemann (Github: @jsteemann)
-# Frank Mayer (Github: @frankmayer)
+* Contributors to this version:
 
+  * Francis Chuang (Github: @F21)
+  * Dorthe Luebbert (Github: @luebbert42)
+  * Jan Steemann (Github: @jsteemann)
+  * Frank Mayer (Github: @frankmayer)
+
+=======================
 
 * Implemented create functions for each index type. #87
 
@@ -26,7 +66,7 @@ v1.2.1 (2013-05-01)
 
 * Moved spl_autoload_register to init() of the autoloader.
 
-* Updated DocumentHandler to include a convenience function store() that aliases add()/save() and replace().
+* Updated DocumentHandler to include a convenience function store() that aliases add()/save() and replace(). #32
 
 * Updating and replacing documents, edges and vertices will now also update the revision of the document object.
 
@@ -48,16 +88,19 @@ v1.2.1 (2013-05-01)
 
 * Fixed some doc-block errors
 
-
+-----------------------
 
 
 
 
 v1.2.0 (2013-03-03)
 -----------------------
+
 * Implemented ArangoDB User-Management
 
 * Fixed issue #46 "Cannot run AQL queries that produce non-document results"
+
+
 
 
 
@@ -92,6 +135,8 @@ v1.2.0-BETA2 (2013-02-23)
 
 
 
+
+
 v1.2.0-BETA1 (2013-02-20)
 -----------------------
 
@@ -121,6 +166,9 @@ v1.2.0-BETA1 (2013-02-20)
   The 1.1 branch of the PHP client will receive bug-fixes if necessary, but development will focus on the v1.2 branch.
 
 
+
+
+
 v1.1.0 (2013-01-28)
 -------------------
 
@@ -143,6 +191,7 @@ v1.1.0 (2013-01-28)
 
 
 
+
 v1.0.1 (2012-12-05)
 -------------------
 
@@ -152,9 +201,7 @@ v1.0.1 (2012-12-05)
 
   - $statement->explain();
   - $statement->validate();
-  
 
-  
 * issue #28: Feature: Implement missing simple-query-related functionality 
 
  Added Commands:
@@ -168,6 +215,7 @@ v1.0.1 (2012-12-05)
  Also added missing index creation method.
  
  - CollectionHandler->index($type, $fields, $unique) ;
+
 
  
  
@@ -203,7 +251,7 @@ v1.0.0 (2012-11-29)
 * issue #17: Implemented basic edges support.
 
 * issue #14: Refactored function names to better match the server api.
-  This results in sevaral methods being deprecated:
+  This results in several methods being deprecated:
 
 DocumentHandler:
   update(), updateById() => These are replaced by replace() and replaceById(). They will have their behavior changed in api version 1.1 in favor for the update method that has been added in ArangoDb 1.1.

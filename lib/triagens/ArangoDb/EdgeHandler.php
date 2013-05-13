@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: document handler
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @author    Frank Mayer
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
@@ -16,7 +16,7 @@ namespace triagens\ArangoDb;
  * persists them on the server. It does so by issuing the
  * appropriate HTTP requests to the server.
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 class EdgeHandler extends
     DocumentHandler
@@ -56,6 +56,19 @@ class EdgeHandler extends
      */
     const OPTION_DIRECTION = 'direction';
 
+    /**
+     * Intermediate function to call the createFromArray function from the right context
+     *
+     * @param $data
+     * @param $options
+     *
+     * @return Edge
+     */
+    public function createFromArrayWithContext($data, $options)
+    {
+        return Edge::createFromArray($data, $options);
+    }
+
 
     /**
      * Just throw an exception if add() is called on edges.
@@ -66,6 +79,8 @@ class EdgeHandler extends
      * @param mixed    $collectionId - collection id as string or number
      * @param Document $document     - the document to be added
      * @param bool     $create       - create the collection if it does not yet exist
+     *
+     * @return mixed|void
      */
     public function add($collectionId, Document $document, $create = null)
     {
@@ -82,6 +97,8 @@ class EdgeHandler extends
      * @param mixed    $collectionId - collection id as string or number
      * @param Document $document     - the document to be added
      * @param bool     $create       - create the collection if it does not yet exist
+     *
+     * @return mixed|void
      */
     public function save($collectionId, $document, $create = null)
     {
@@ -159,6 +176,7 @@ class EdgeHandler extends
         }
 
         $document->setIsNew(false);
+
         return $document->getId();
     }
 

@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: result set cursor
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -19,7 +19,7 @@ namespace triagens\ArangoDb;
  * cursor might issue additional HTTP requests to fetch the
  * remaining results from the server.
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 class Cursor implements
     \Iterator
@@ -106,7 +106,7 @@ class Cursor implements
      * @param array      $data       - initial result data as returned by the server
      * @param array      $options    - cursor options
      *
-     * @return void
+     * @return Cursor
      */
     public function __construct(Connection $connection, array $data, array $options)
     {
@@ -122,13 +122,14 @@ class Cursor implements
         $this->_hasMore = (bool) $data[self::ENTRY_HASMORE];
 
         $options['isNew'] = false;
-        $this->_options = $options;
-        $this->_result  = array();
+        $this->_options   = $options;
+        $this->_result    = array();
         $this->add((array) $data[self::ENTRY_RESULT]);
         $this->updateLength();
 
         $this->rewind();
     }
+
 
     /**
      * Explicitly delete the cursor
@@ -153,6 +154,7 @@ class Cursor implements
         return false;
     }
 
+
     /**
      * Get the total number of results in the cursor
      *
@@ -170,6 +172,7 @@ class Cursor implements
 
         return $this->_length;
     }
+
 
     /**
      * Get all results as an array
@@ -189,6 +192,7 @@ class Cursor implements
         return $this->_result;
     }
 
+
     /**
      * Rewind the cursor, necessary for Iterator
      *
@@ -198,6 +202,7 @@ class Cursor implements
     {
         $this->_position = 0;
     }
+
 
     /**
      * Return the current result row, necessary for Iterator
@@ -209,6 +214,7 @@ class Cursor implements
         return $this->_result[$this->_position];
     }
 
+
     /**
      * Return the index of the current result row, necessary for Iterator
      *
@@ -219,6 +225,7 @@ class Cursor implements
         return $this->_position;
     }
 
+
     /**
      * Advance the cursor, necessary for Iterator
      *
@@ -228,6 +235,7 @@ class Cursor implements
     {
         ++$this->_position;
     }
+
 
     /**
      * Check if cursor can be advanced further, necessary for Iterator
@@ -256,34 +264,57 @@ class Cursor implements
         return ($this->_position <= $this->_length - 1);
     }
 
+
     /**
      * Create an array of results from the input array
      *
      * @param array $data - incoming result
+     *
      * @return void
      */
     private function add(array $data)
     {
-        foreach ($this->sanitize($data) as $row){
+        foreach ($this->sanitize($data) as $row) {
 
             if ((isset($this->_options[self::ENTRY_FLAT]) && $this->_options[self::ENTRY_FLAT]) || !is_array($row)) {
                 $this->addFlatFromArray($row);
             } else {
-                $this->addDocumentsFromArray($row);
+                if (!isset($this->_options['objectType'])) {
+                    $this->addDocumentsFromArray($row);
+                } else {
+
+                    switch ($this->_options['objectType']) {
+                        case 'edge' :
+                            $this->addEdgesFromArray($row);
+
+                            break;
+                        case 'vertex' :
+                            $this->addVerticesFromArray($row);
+
+                            break;
+                        default :
+                            $this->addDocumentsFromArray($row);
+
+                            break;
+                    }
+                }
             }
         }
     }
+
 
     /**
      * Create an array of results from the input array
      *
      * @param array $data - array of incoming results
+     *
      * @return void
      */
     private function addFlatFromArray($data)
     {
-            $this->_result[] = $data;
+        $this->_result[] = $data;
     }
+
 
     /**
      * Create an array of documents from the input array
@@ -296,6 +327,33 @@ class Cursor implements
     {
         $this->_result[] = Document::createFromArray($data, $this->_options);
     }
+
+
+    /**
+     * Create an array of Edges from the input array
+     *
+     * @param array $data    - array of incoming "edge" arrays
+     *
+     * @return void
+     */
+    private function addEdgesFromArray(array $data)
+    {
+        $this->_result[] = Edge::createFromArray($data, $this->_options);
+    }
+
+
+    /**
+     * Create an array of Vertex from the input array
+     *
+     * @param array $data    - array of incoming "vertex" arrays
+     *
+     * @return void
+     */
+    private function addVerticesFromArray(array $data)
+    {
+        $this->_result[] = Vertex::createFromArray($data, $this->_options);
+    }
+
 
     /**
      * Sanitize the result set rows
@@ -312,11 +370,11 @@ class Cursor implements
         if (isset($this->_options[self::ENTRY_SANITIZE]) and $this->_options[self::ENTRY_SANITIZE]) {
             foreach ($rows as $key => $value) {
 
-                if(is_array($value) && isset($value[Document::ENTRY_ID])){
+                if (is_array($value) && isset($value[Document::ENTRY_ID])) {
                     unset($rows[$key][Document::ENTRY_ID]);
                 }
 
-                if(is_array($value) && isset($value[Document::ENTRY_REV])){
+                if (is_array($value) && isset($value[Document::ENTRY_REV])) {
                     unset($rows[$key][Document::ENTRY_REV]);
                 }
             }
@@ -324,6 +382,7 @@ class Cursor implements
 
         return $rows;
     }
+
 
     /**
      * Fetch outstanding results from the server
@@ -347,6 +406,7 @@ class Cursor implements
 
         $this->updateLength();
     }
+
 
     /**
      * Set the length of the (fetched) result set

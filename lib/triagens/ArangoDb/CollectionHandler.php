@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: collection handler
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -15,7 +15,7 @@ namespace triagens\ArangoDb;
  * creates collections on the server. It does so by issuing the
  * appropriate HTTP requests to the server.
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 class CollectionHandler extends
     Handler
@@ -67,7 +67,7 @@ class CollectionHandler extends
     const OPTION_CLOSED = 'closed';
 
     /**
-     * latidude parameter
+     * latitude parameter
      */
     const OPTION_LATITUDE = 'latitude';
 
@@ -360,8 +360,8 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $collection - collection object to be created on the server or a string with the name
-     * @param array      $options    - an array of options.
+     * @param mixed $collection - collection object to be created on the server or a string with the name
+     * @param array $options    - an array of options.
      * <p>Options are :<br>
      * <li>'type' - 2 -> normal collection, 3 -> edge-collection</li>
      * <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
@@ -426,7 +426,8 @@ class CollectionHandler extends
      * Create a cap constraint
      *
      * @param string $collectionId - the collection id
-     * @param int $size - the size of the cap constraint
+     * @param int    $size         - the size of the cap constraint
+     *
      * @link http://www.arangodb.org/manuals/current/IndexCapHttp.html
      *
      * @return array - server response of the created index
@@ -443,28 +444,34 @@ class CollectionHandler extends
     /**
      * Create a geo index
      *
-     * @param string $collectionId - the collection id
-     * @param array $fields - an array of fields
-     * @param boolean $geoJson - whether to use geoJson or not
-     * @param boolean $constraint - whether this is a constraint or not
-     * @param boolean $ignoreNull - whether to ignore null
+     * @param string  $collectionId - the collection id
+     * @param array   $fields       - an array of fields
+     * @param boolean $geoJson      - whether to use geoJson or not
+     * @param boolean $constraint   - whether this is a constraint or not
+     * @param boolean $ignoreNull   - whether to ignore null
+     *
      * @link http://www.arangodb.org/manuals/current/IndexGeoHttp.html
      *
      * @return array - server response of the created index
      */
-    public function createGeoIndex($collectionId, array $fields, $geoJson = null, $constraint = null, $ignoreNull = null)
-    {
+    public function createGeoIndex(
+        $collectionId,
+        array $fields,
+        $geoJson = null,
+        $constraint = null,
+        $ignoreNull = null
+    ) {
         $indexOptions = array();
 
-        if($geoJson){
-            $indexOptions[self::OPTION_GEOJSON] = (bool)$geoJson;
+        if ($geoJson) {
+            $indexOptions[self::OPTION_GEOJSON] = (bool) $geoJson;
         }
 
-        if($constraint){
-            $indexOptions[self::OPTION_CONSTRAINT] = (bool)$constraint;
+        if ($constraint) {
+            $indexOptions[self::OPTION_CONSTRAINT] = (bool) $constraint;
         }
 
-        if($ignoreNull){
+        if ($ignoreNull) {
             $indexOptions[self::OPTION_IGNORE_NULL] = $ignoreNull;
         }
 
@@ -474,9 +481,10 @@ class CollectionHandler extends
     /**
      * Create a hash index
      *
-     * @param string $collectionId - the collection id
-     * @param array $fields - an array of fields
-     * @param boolean $unique - whether the values in the index should be unique or not
+     * @param string  $collectionId - the collection id
+     * @param array   $fields       - an array of fields
+     * @param boolean $unique       - whether the values in the index should be unique or not
+     *
      * @link http://www.arangodb.org/manuals/current/IndexHashHttp.html
      *
      * @return array - server response of the created index
@@ -485,8 +493,8 @@ class CollectionHandler extends
     {
         $indexOptions = array();
 
-        if($unique){
-            $indexOptions[self::OPTION_UNIQUE] = (bool)$unique;
+        if ($unique) {
+            $indexOptions[self::OPTION_UNIQUE] = (bool) $unique;
         }
 
         return $this->index($collectionId, self::OPTION_HASH_INDEX, $fields, null, $indexOptions);
@@ -496,8 +504,9 @@ class CollectionHandler extends
      * Create a fulltext index
      *
      * @param string $collectionId - the collection id
-     * @param array $fields - an array of fields
-     * @param int $minLength - the minimum length of words to index
+     * @param array  $fields       - an array of fields
+     * @param int    $minLength    - the minimum length of words to index
+     *
      * @link http://www.arangodb.org/manuals/current/IndexFulltextHttp.html
      *
      * @return array - server response of the created index
@@ -506,7 +515,7 @@ class CollectionHandler extends
     {
         $indexOptions = array();
 
-        if($minLength){
+        if ($minLength) {
             $indexOptions[self::OPTION_MIN_LENGTH] = $minLength;
         }
 
@@ -517,8 +526,9 @@ class CollectionHandler extends
      * Create a skip-list index
      *
      * @param string $collectionId - the collection id
-     * @param array $fields - an array of fields
-     * @param bool $unique - whether the index is unique or not
+     * @param array  $fields       - an array of fields
+     * @param bool   $unique       - whether the index is unique or not
+     *
      * @link http://www.arangodb.org/manuals/current/IndexSkiplistHttp.html
      *
      * @return array - server response of the created index
@@ -527,8 +537,8 @@ class CollectionHandler extends
     {
         $indexOptions = array();
 
-        if($unique){
-            $indexOptions[self::OPTION_UNIQUE] = (bool)$unique;
+        if ($unique) {
+            $indexOptions[self::OPTION_UNIQUE] = (bool) $unique;
         }
 
         return $this->index($collectionId, self::OPTION_SKIPLIST_INDEX, $fields, null, $indexOptions);
@@ -543,11 +553,11 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed   $collectionId - The id of the collection where the index is to be created
-     * @param string  $type         - index type: hash, skiplist or geo
-     * @param array   $attributes   - an array of attributes that can be defined like array('a') or array('a', 'b.c')
-     * @param bool    $unique       - true/false to create a unique index
-     * @param array   $indexOptions - an associative array of options for the index like array('geoJson' => true)
+     * @param mixed  $collectionId - The id of the collection where the index is to be created
+     * @param string $type         - index type: hash, skiplist or geo
+     * @param array  $attributes   - an array of attributes that can be defined like array('a') or array('a', 'b.c')
+     * @param bool   $unique       - true/false to create a unique index
+     * @param array  $indexOptions - an associative array of options for the index like array('geoJson' => true)
      *
      * @return array - server response of the created index
      */
@@ -560,14 +570,14 @@ class CollectionHandler extends
             self::OPTION_FIELDS => $attributes,
         );
 
-        if($unique !== null){
-            $bodyParams[self::OPTION_UNIQUE] = (bool)$unique;
+        if ($unique !== null) {
+            $bodyParams[self::OPTION_UNIQUE] = (bool) $unique;
         }
 
         $bodyParams = array_merge($bodyParams, $indexOptions);
 
-        $url        = UrlHelper::appendParamsUrl(Urls::URL_INDEX, $urlParams);
-        $response   = $this->getConnection()->post($url, $this->json_encode_wrapper($bodyParams));
+        $url      = UrlHelper::appendParamsUrl(Urls::URL_INDEX, $urlParams);
+        $response = $this->getConnection()->post($url, $this->json_encode_wrapper($bodyParams));
 
         $httpCode = $response->getHttpCode();
         switch ($httpCode) {
@@ -587,8 +597,10 @@ class CollectionHandler extends
 
     /**
      * Get the information about an index in a collection
+     *
      * @param string $collection - the id of the collection
-     * @param string $indexId - the id of the index
+     * @param string $indexId    - the id of the index
+     *
      * @return array
      */
     public function getIndex($collection, $indexId)
@@ -636,7 +648,7 @@ class CollectionHandler extends
     public function dropIndex($indexHandle)
     {
         $handle = explode("/", $indexHandle);
-        $result = $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_INDEX, $handle[0], $handle[1]));
+        $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_INDEX, $handle[0], $handle[1]));
 
         return true;
     }
@@ -676,7 +688,7 @@ class CollectionHandler extends
             throw new ClientException('Cannot alter a collection without a collection id');
         }
 
-        $result = $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionName));
+        $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionName));
 
         return true;
     }
@@ -700,7 +712,7 @@ class CollectionHandler extends
         }
 
         $params = array(Collection::ENTRY_NAME => $name);
-        $result = $this->getConnection()->put(
+        $this->getConnection()->put(
             UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_RENAME),
             $this->json_encode_wrapper($params)
         );
@@ -717,7 +729,7 @@ class CollectionHandler extends
      *
      * @param mixed $collection - collection id as string or number or collection object
      *
-     * @return bool - always true, will throw if there is an error
+     * @return HttpResponse - HTTP response object
      */
     public function load($collection)
     {
@@ -745,7 +757,7 @@ class CollectionHandler extends
      *
      * @param mixed $collection - collection id as string or number or collection object
      *
-     * @return bool - always true, will throw if there is an error
+     * @return HttpResponse - HTTP response object
      */
     public function unload($collection)
     {
@@ -783,7 +795,7 @@ class CollectionHandler extends
             throw new ClientException('Cannot alter a collection without a collection id');
         }
 
-        $result = $this->getConnection()->put(
+        $this->getConnection()->put(
             UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_TRUNCATE),
             ''
         );
@@ -810,7 +822,7 @@ class CollectionHandler extends
      * <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
      * <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-     *                                 The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+     *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
      *                                 and the hidden attributes would not be applied to the attributes.<br>
      * </p>
      * </li>
@@ -858,6 +870,7 @@ class CollectionHandler extends
         $response = $this->getConnection()->put(Urls::URL_EXAMPLE, $this->json_encode_wrapper($body));
 
         $options['isNew'] = false;
+
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
 
@@ -880,7 +893,7 @@ class CollectionHandler extends
      * <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
      * <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-     *                                 The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+     *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
      *                                 and the hidden attributes would not be applied to the attributes.<br>
      * </p>
      * </li>
@@ -916,6 +929,7 @@ class CollectionHandler extends
         $data     = $response->getJson();
 
         $options['isNew'] = false;
+
         return Document::createFromArray($data['document'], $options);
     }
 
@@ -927,7 +941,7 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $collectionId - collection id as string or number
+     * @param mixed $collectionId - collection id as string or number
      *
      * @return Document - the document fetched from the server
      * @since 1.2
@@ -936,7 +950,7 @@ class CollectionHandler extends
     {
 
         $data = array(
-                self::OPTION_COLLECTION => $collectionId,
+            self::OPTION_COLLECTION => $collectionId,
         );
 
         $response = $this->getConnection()->put(Urls::URL_ANY, $this->json_encode_wrapper($data));
@@ -959,10 +973,10 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed    $collectionId - collection id as string or number
-     * @param mixed    $example      - the example document as a Document object or an array
-     * @param mixed    $newValue     - patch document or array which contains the attributes and values to be updated
-     * @param mixed    $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     * @param mixed $collectionId - collection id as string or number
+     * @param mixed $example      - the example document as a Document object or an array
+     * @param mixed $newValue     - patch document or array which contains the attributes and values to be updated
+     * @param mixed $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
      * <p>Options are :
      * <li>'keepNull'    - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
      * <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
@@ -1022,10 +1036,10 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed    $collectionId - collection id as string or number
-     * @param mixed    $example      - the example document as a Document object or an array
-     * @param mixed    $newValue     - patch document or array which contains the attributes and values to be replaced
-     * @param mixed    $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     * @param mixed $collectionId - collection id as string or number
+     * @param mixed $example      - the example document as a Document object or an array
+     * @param mixed $newValue     - patch document or array which contains the attributes and values to be replaced
+     * @param mixed $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
      * <p>Options are :
      * <li>'keepNull'    - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
      * <li>'waitForSync' - can be used to force synchronisation of the document replace operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
@@ -1154,7 +1168,7 @@ class CollectionHandler extends
      * <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
      * <p>
      *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
-     *                                The difference is, that if you're returning a resultset of documents, the getall() is already called<br>
+     *                                The difference is, that if you're returning a resultset of documents, the getAll() is already called<br>
      *                                and the hidden attributes would not be applied to the attributes.<br>
      * </p>
      *
@@ -1165,7 +1179,7 @@ class CollectionHandler extends
      * </li>
      * </p>
      *
-     * @return array - documents matching the example [0...n]
+     * @return Cursor - documents matching the example [0...n]
      */
     public function range($collectionId, $attribute, $left, $right, $options = array())
     {
@@ -1217,7 +1231,7 @@ class CollectionHandler extends
      * <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
      * <p>
      *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-     *                                The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+     *                                The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
      *                                and the hidden attributes would not be applied to the attributes.<br>
      * </p>
      *
@@ -1228,7 +1242,7 @@ class CollectionHandler extends
      * </li>
      * </p>
      *
-     * @return array - documents matching the example [0...n]
+     * @return Cursor - documents matching the example [0...n]
      */
     public function near($collectionId, $latitude, $longitude, $options = array())
     {
@@ -1276,7 +1290,7 @@ class CollectionHandler extends
      * <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
      * <p>
      *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
-     *                                The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+     *                                The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
      *                                and the hidden attributes would not be applied to the attributes.<br>
      * </p>
      *
@@ -1287,7 +1301,7 @@ class CollectionHandler extends
      * </li>
      * </p>
      *
-     * @return array - documents matching the example [0...n]
+     * @return Cursor - documents matching the example [0...n]
      */
     public function within($collectionId, $latitude, $longitude, $radius, $options = array())
     {
@@ -1361,27 +1375,30 @@ class CollectionHandler extends
     /**
      * Get list of all available collections per default with the collection names as index.
      * Returns empty array if none are available.
+     *
      * @param array $options            - optional - an array of options.
      * <p>Options are :<br>
      * <li>'excludeSystem' -   With a value of true, all system collections will be excluded from the response.</li>
      * <li>'keys' -  With a value of "collections", the index of the resulting array is numerical,
-     *               With a value of "names", the index of the resulting array are the collection names.</li>
+     *                                  With a value of "names", the index of the resulting array are the collection names.</li>
      * </p>
+     *
      * @return array
      */
     public function getAllCollections($options = array())
     {
-        $options = array_merge(array("excludeSystem" => false, 'keys' => "names"),$options);
-        $params = array();
+        $options = array_merge(array("excludeSystem" => false, 'keys' => "names"), $options);
+        $params  = array();
         if ($options["excludeSystem"] === true) {
             $params[self::OPTION_EXCLUDE_SYSTEM] = true;
         }
-        $url = UrlHelper::appendParamsUrl(Urls::URL_COLLECTION, $params);
+        $url      = UrlHelper::appendParamsUrl(Urls::URL_COLLECTION, $params);
         $response = $this->getConnection()->get(UrlHelper::buildUrl($url));
         $response = $response->getJson();
         if (isset($options["keys"]) && isset($response[$options["keys"]])) {
             return $response[$options["keys"]];
         }
+
         return $response;
     }
 
@@ -1508,6 +1525,7 @@ class CollectionHandler extends
         $tmpContent = '';
         if (is_array($importData)) {
             foreach ($importData as $document) {
+                /** @var $document Document */
                 $tmpContent .= $document->toJson() . "\r\n";
             }
             $importData = $tmpContent;

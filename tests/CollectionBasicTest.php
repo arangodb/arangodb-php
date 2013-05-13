@@ -2,20 +2,26 @@
 
 /**
  * ArangoDB PHP client testsuite
- * File: collectionbasictest.php
+ * File: CollectionBasicTest.php
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  * @author  Frank Mayer
  */
 
 namespace triagens\ArangoDb;
 
+/**
+ * @property Connection             connection
+ * @property Collection             collection
+ * @property CollectionHandler      collectionHandler
+ * @property DocumentHandler        documentHandler
+ */
 class CollectionBasicTest extends
     \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->connection = getConnection();
+        $this->connection        = getConnection();
         $this->collectionHandler = new CollectionHandler($this->connection);
         $this->collectionHandler->create('ArangoDB_PHP_TestSuite_IndexTestCollection');
     }
@@ -36,9 +42,9 @@ class CollectionBasicTest extends
     public function testInitializeCollection()
     {
         $connection = $this->connection;
-        $collection = new \triagens\ArangoDb\Collection();
+        $collection = new Collection();
         $this->assertInstanceOf('triagens\ArangoDb\Collection', $collection);
-        $collectionHandler = new \triagens\ArangoDb\CollectionHandler($connection);
+        new CollectionHandler($connection);
         $this->assertInstanceOf('triagens\ArangoDb\Collection', $collection);
     }
 
@@ -48,7 +54,7 @@ class CollectionBasicTest extends
      */
     public function testInitializeCollectionWithDocumentType()
     {
-        $collection = new \triagens\ArangoDb\Collection();
+        $collection = new Collection();
         $collection->setType(Collection::TYPE_DOCUMENT);
 
         $this->assertEquals(Collection::TYPE_DOCUMENT, $collection->getType());
@@ -60,7 +66,7 @@ class CollectionBasicTest extends
      */
     public function testInitializeCollectionWithEdgeType()
     {
-        $collection = new \triagens\ArangoDb\Collection();
+        $collection = new Collection();
         $collection->setType(Collection::TYPE_EDGE);
 
         $this->assertEquals(Collection::TYPE_EDGE, $collection->getType());
@@ -73,8 +79,8 @@ class CollectionBasicTest extends
     public function testCreateAndDeleteCollectionPre1_2()
     {
         $connection        = $this->connection;
-        $collection        = new \triagens\ArangoDb\Collection();
-        $collectionHandler = new \triagens\ArangoDb\CollectionHandler($connection);
+        $collection        = new Collection();
+        $collectionHandler = new CollectionHandler($connection);
 
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
         $collection->setName($name);
@@ -92,7 +98,7 @@ class CollectionBasicTest extends
 
         $this->assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
 
-        $response = $collectionHandler->delete($collection);
+        $collectionHandler->delete($collection);
     }
 
     /**
@@ -101,23 +107,41 @@ class CollectionBasicTest extends
     public function testCreateCollectionWithKeyOptionsAndVerifyProperties()
     {
         $connection        = $this->connection;
-        $collection        = new \triagens\ArangoDb\Collection();
-        $collectionHandler = new \triagens\ArangoDb\CollectionHandler($connection);
+        $collection        = new Collection();
+        $collectionHandler = new CollectionHandler($connection);
 
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
         $collection->setName($name);
-        $collection->setKeyOptions(array("type" => "autoincrement", "allowUserKeys" => false, "increment" => 5, "offset" => 10));
+        $collection->setKeyOptions(
+            array("type" => "autoincrement", "allowUserKeys" => false, "increment" => 5, "offset" => 10)
+        );
         $response = $collectionHandler->add($collection);
 
         $resultingCollection = $collectionHandler->getProperties($response);
-        $properties = $resultingCollection->getAll();
+        $properties          = $resultingCollection->getAll();
 
         $this->assertEquals($properties[Collection::ENTRY_STATUS], 3, 'Status does not match.');
-        $this->assertEquals($properties[Collection::ENTRY_KEY_OPTIONS]['type'], 'autoincrement', 'Key options type does not match');
-        $this->assertEquals($properties[Collection::ENTRY_KEY_OPTIONS]['allowUserKeys'], false, 'Key options allowUserKeys does not match');
-        $this->assertEquals($properties[Collection::ENTRY_KEY_OPTIONS]['increment'], 5, 'Key options increment does not match');
-        $this->assertEquals($properties[Collection::ENTRY_KEY_OPTIONS]['offset'], 10, 'Key options offset does not match');
-        $response = $collectionHandler->delete($collection);
+        $this->assertEquals(
+            $properties[Collection::ENTRY_KEY_OPTIONS]['type'],
+            'autoincrement',
+            'Key options type does not match'
+        );
+        $this->assertEquals(
+            $properties[Collection::ENTRY_KEY_OPTIONS]['allowUserKeys'],
+            false,
+            'Key options allowUserKeys does not match'
+        );
+        $this->assertEquals(
+            $properties[Collection::ENTRY_KEY_OPTIONS]['increment'],
+            5,
+            'Key options increment does not match'
+        );
+        $this->assertEquals(
+            $properties[Collection::ENTRY_KEY_OPTIONS]['offset'],
+            10,
+            'Key options offset does not match'
+        );
+        $collectionHandler->delete($collection);
     }
 
 
@@ -127,12 +151,12 @@ class CollectionBasicTest extends
     public function testCreateAndDeleteCollection()
     {
         $connection        = $this->connection;
-        $collection        = new \triagens\ArangoDb\Collection();
-        $collectionHandler = new \triagens\ArangoDb\CollectionHandler($connection);
+        $collection        = new Collection();
+        $collectionHandler = new CollectionHandler($connection);
 
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
         $collection->setName($name);
-        $response = $collectionHandler->add($collection);
+        $collectionHandler->add($collection);
 
         $resultingCollection = $collectionHandler->get($name);
 
@@ -144,7 +168,7 @@ class CollectionBasicTest extends
 
         $this->assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
 
-        $response = $collectionHandler->delete($collection);
+        $collectionHandler->delete($collection);
     }
 
 
@@ -154,13 +178,13 @@ class CollectionBasicTest extends
     public function testCreateAndDeleteEdgeCollection()
     {
         $connection        = $this->connection;
-        $collection        = new \triagens\ArangoDb\Collection();
-        $collectionHandler = new \triagens\ArangoDb\CollectionHandler($connection);
+        $collection        = new Collection();
+        $collectionHandler = new CollectionHandler($connection);
 
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_02';
         $collection->setName($name);
         $collection->setType(3);
-        $response = $collectionHandler->add($collection);
+        $collectionHandler->add($collection);
 
         $resultingCollection = $collectionHandler->get($name);
 
@@ -172,7 +196,7 @@ class CollectionBasicTest extends
 
         $this->assertEquals(Collection::TYPE_EDGE, $resultingCollection->getType());
 
-        $response = $collectionHandler->delete($collection);
+        $collectionHandler->delete($collection);
     }
 
 
@@ -182,11 +206,11 @@ class CollectionBasicTest extends
     public function testCreateAndDeleteEdgeCollectionWithoutCreatingObject()
     {
         $connection        = $this->connection;
-        $collectionHandler = new \triagens\ArangoDb\CollectionHandler($connection);
+        $collectionHandler = new CollectionHandler($connection);
 
-        $name     = 'ArangoDB_PHP_TestSuite_TestCollection_02';
-        $options  = array('type' => 3);
-        $response = $collectionHandler->create($name, $options);
+        $name    = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        $options = array('type' => 3);
+        $collectionHandler->create($name, $options);
 
         $resultingCollection = $collectionHandler->get($name);
 
@@ -198,7 +222,7 @@ class CollectionBasicTest extends
 
         $this->assertEquals(Collection::TYPE_EDGE, $resultingCollection->getType());
 
-        $response = $collectionHandler->delete($name);
+        $collectionHandler->delete($name);
     }
 
 
@@ -208,11 +232,11 @@ class CollectionBasicTest extends
     public function testCreateAndDeleteVolatileCollectionWithoutCreatingObject()
     {
         $connection        = $this->connection;
-        $collectionHandler = new \triagens\ArangoDb\CollectionHandler($connection);
+        $collectionHandler = new CollectionHandler($connection);
 
-        $name                = 'ArangoDB_PHP_TestSuite_TestCollection_02';
-        $options             = array('isVolatile' => true);
-        $response            = $collectionHandler->create($name, $options);
+        $name    = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        $options = array('isVolatile' => true);
+        $collectionHandler->create($name, $options);
         $resultingCollection = $collectionHandler->get($name);
 
         $resultingAttribute = $resultingCollection->getName();
@@ -223,7 +247,7 @@ class CollectionBasicTest extends
         $resultingCollectionProperties = $collectionHandler->getProperties($name);
         $this->assertTrue($resultingCollectionProperties->getIsVolatile());
 
-        $response = $collectionHandler->delete($name);
+        $collectionHandler->delete($name);
     }
 
 
@@ -233,11 +257,11 @@ class CollectionBasicTest extends
     public function testCreateAndDeleteSystemCollectionWithoutCreatingObject()
     {
         $connection        = $this->connection;
-        $collectionHandler = new \triagens\ArangoDb\CollectionHandler($connection);
+        $collectionHandler = new CollectionHandler($connection);
 
-        $name     = 'ArangoDB_PHP_TestSuite_TestCollection_02';
-        $options  = array('isSystem' => true, 'waitForSync'=>true);
-        $response = $collectionHandler->create($name, $options);
+        $name    = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        $options = array('isSystem' => true, 'waitForSync' => true);
+        $collectionHandler->create($name, $options);
 
         $resultingCollection = $collectionHandler->get($name);
 
@@ -251,8 +275,9 @@ class CollectionBasicTest extends
         $this->assertTrue($resultingCollectionProperties->getWaitForSync());
 
 
-        $response = $collectionHandler->delete($name);
+        $collectionHandler->delete($name);
     }
+
 
     /**
      * Create a cap constraint and verify it by getting information about the constraint from the server
@@ -269,17 +294,32 @@ class CollectionBasicTest extends
 
         $indexInfo = $indicesByIdentifiers[$result['id']];
 
-        $this->assertEquals(CollectionHandler::OPTION_CAP_CONSTRAINT, $indexInfo[CollectionHandler::OPTION_TYPE], "Index type is not 'cap'!");
+        $this->assertEquals(
+            CollectionHandler::OPTION_CAP_CONSTRAINT,
+            $indexInfo[CollectionHandler::OPTION_TYPE],
+            "Index type is not 'cap'!"
+        );
 
-        $this->assertEquals(50, $indexInfo[CollectionHandler::OPTION_SIZE], 'Size of the cap contrain does not match!');
+        $this->assertEquals(
+            50,
+            $indexInfo[CollectionHandler::OPTION_SIZE],
+            'Size of the cap constrain does not match!'
+        );
     }
+
 
     /**
      * Create a geo index with 1 field and verify it by getting information about the index from the server
      */
     public function testCreateGeo1Index()
     {
-        $result = $this->collectionHandler->createGeoIndex('ArangoDB_PHP_TestSuite_IndexTestCollection', array('combinedGeo'), true, true, true);
+        $result = $this->collectionHandler->createGeoIndex(
+            'ArangoDB_PHP_TestSuite_IndexTestCollection',
+            array('combinedGeo'),
+            true,
+            true,
+            true
+        );
 
         $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
 
@@ -297,12 +337,19 @@ class CollectionBasicTest extends
         $this->assertEquals(true, $indexInfo[CollectionHandler::OPTION_IGNORE_NULL], 'ignoreNull was not set to true!');
     }
 
+
     /**
      * Create a geo index with 2 fields and verify it by getting information about the index from the server
      */
     public function testCreateGeo2Index()
     {
-        $result = $this->collectionHandler->createGeoIndex('ArangoDB_PHP_TestSuite_IndexTestCollection', array('lat', 'long'), false, false, false);
+        $result = $this->collectionHandler->createGeoIndex(
+            'ArangoDB_PHP_TestSuite_IndexTestCollection',
+            array('lat', 'long'),
+            false,
+            false,
+            false
+        );
 
         $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
 
@@ -317,16 +364,25 @@ class CollectionBasicTest extends
         $this->assertEquals("lat", $indexInfo['fields'][0], "The first indexed field is not 'lat'");
         $this->assertEquals("long", $indexInfo['fields'][1], "The second indexed field is not 'long'");
         $this->assertArrayNotHasKey(CollectionHandler::OPTION_GEOJSON, $indexInfo, 'geoJson was set!');
-        $this->assertEquals(false, $indexInfo[CollectionHandler::OPTION_CONSTRAINT], 'constraint was not set to false!');
+        $this->assertEquals(
+            false,
+            $indexInfo[CollectionHandler::OPTION_CONSTRAINT],
+            'constraint was not set to false!'
+        );
         $this->assertArrayNotHasKey(CollectionHandler::OPTION_IGNORE_NULL, $indexInfo, 'ignoreNull was set!');
     }
+
 
     /**
      * Create a hash index and verify it by getting information about the index from the server
      */
     public function testCreateHashIndex()
     {
-        $result = $this->collectionHandler->createHashIndex('ArangoDB_PHP_TestSuite_IndexTestCollection', array('hashfield1', 'hashfield2'), true);
+        $result = $this->collectionHandler->createHashIndex(
+            'ArangoDB_PHP_TestSuite_IndexTestCollection',
+            array('hashfield1', 'hashfield2'),
+            true
+        );
 
         $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
 
@@ -336,19 +392,28 @@ class CollectionBasicTest extends
 
         $indexInfo = $indicesByIdentifiers[$result['id']];
 
-        $this->assertEquals(CollectionHandler::OPTION_HASH_INDEX, $indexInfo[CollectionHandler::OPTION_TYPE], "Index type is not 'hash'!");
+        $this->assertEquals(
+            CollectionHandler::OPTION_HASH_INDEX,
+            $indexInfo[CollectionHandler::OPTION_TYPE],
+            "Index type is not 'hash'!"
+        );
         $this->assertCount(2, $indexInfo['fields'], "There should only be 2 indexed fields");
         $this->assertEquals("hashfield1", $indexInfo['fields'][0], "The first indexed field is not 'hashfield1'");
         $this->assertEquals("hashfield2", $indexInfo['fields'][1], "The second indexed field is not 'hashfield2'");
         $this->assertEquals(true, $indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to true!');
     }
 
+
     /**
      * Create a fulltext index and verify it by getting information about the index from the server
      */
     public function testCreateFulltextIndex()
     {
-        $result = $this->collectionHandler->createFulltextIndex('ArangoDB_PHP_TestSuite_IndexTestCollection', array('fulltextfield'), 5);
+        $result = $this->collectionHandler->createFulltextIndex(
+            'ArangoDB_PHP_TestSuite_IndexTestCollection',
+            array('fulltextfield'),
+            5
+        );
 
         $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
 
@@ -358,18 +423,27 @@ class CollectionBasicTest extends
 
         $indexInfo = $indicesByIdentifiers[$result['id']];
 
-        $this->assertEquals(CollectionHandler::OPTION_FULLTEXT_INDEX, $indexInfo[CollectionHandler::OPTION_TYPE], "Index type is not 'fulltext'!");
+        $this->assertEquals(
+            CollectionHandler::OPTION_FULLTEXT_INDEX,
+            $indexInfo[CollectionHandler::OPTION_TYPE],
+            "Index type is not 'fulltext'!"
+        );
         $this->assertCount(1, $indexInfo['fields'], "There should only be 1 indexed field");
         $this->assertEquals("fulltextfield", $indexInfo['fields'][0], "The indexed field is not 'fulltextfield'");
         $this->assertEquals(5, $indexInfo[CollectionHandler::OPTION_MIN_LENGTH], 'minLength was not set to 5!');
     }
+
 
     /**
      * Create a skiplist index and verify it by getting information about the index from the server
      */
     public function testCreateSkipListIndex()
     {
-        $result = $this->collectionHandler->createSkipListIndex('ArangoDB_PHP_TestSuite_IndexTestCollection', array('skiplistfield1', 'skiplistfield2'), true);
+        $result = $this->collectionHandler->createSkipListIndex(
+            'ArangoDB_PHP_TestSuite_IndexTestCollection',
+            array('skiplistfield1', 'skiplistfield2'),
+            true
+        );
 
         $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
 
@@ -379,30 +453,44 @@ class CollectionBasicTest extends
 
         $indexInfo = $indicesByIdentifiers[$result['id']];
 
-        $this->assertEquals(CollectionHandler::OPTION_SKIPLIST_INDEX, $indexInfo[CollectionHandler::OPTION_TYPE], "Index type is not 'skip-list'!");
+        $this->assertEquals(
+            CollectionHandler::OPTION_SKIPLIST_INDEX,
+            $indexInfo[CollectionHandler::OPTION_TYPE],
+            "Index type is not 'skip-list'!"
+        );
         $this->assertCount(2, $indexInfo['fields'], "There should only be 2 indexed field");
         $this->assertEquals("skiplistfield1", $indexInfo['fields'][0], "The indexed field is not 'skiplistfield1'");
         $this->assertEquals("skiplistfield2", $indexInfo['fields'][1], "The indexed field is not 'skiplistfield2'");
         $this->assertEquals(true, $indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to true!');
     }
 
+
     /**
      * Test creating an index and getting it to verify.
      */
     public function testGetIndex()
     {
-        $result = $this->collectionHandler->createFulltextIndex('ArangoDB_PHP_TestSuite_IndexTestCollection', array('testGetIndexField'), 100);
+        $result = $this->collectionHandler->createFulltextIndex(
+            'ArangoDB_PHP_TestSuite_IndexTestCollection',
+            array('testGetIndexField'),
+            100
+        );
 
         //Parse for the index's key
         $key = str_replace('ArangoDB_PHP_TestSuite_IndexTestCollection/', "", $result['id']);
 
         $indexInfo = $this->collectionHandler->getIndex('ArangoDB_PHP_TestSuite_IndexTestCollection', $key);
 
-        $this->assertEquals(CollectionHandler::OPTION_FULLTEXT_INDEX, $indexInfo[CollectionHandler::OPTION_TYPE], "Index type does not match!");
+        $this->assertEquals(
+            CollectionHandler::OPTION_FULLTEXT_INDEX,
+            $indexInfo[CollectionHandler::OPTION_TYPE],
+            "Index type does not match!"
+        );
         $this->assertCount(1, $indexInfo['fields'], "There should only be 1 indexed field!");
         $this->assertEquals("testGetIndexField", $indexInfo['fields'][0], "Index field does not match!");
-        $this->assertEquals(100, $indexInfo[CollectionHandler::OPTION_MIN_LENGTH], 'Minlength does not match!');
+        $this->assertEquals(100, $indexInfo[CollectionHandler::OPTION_MIN_LENGTH], 'Min length does not match!');
     }
+
 
     public function tearDown()
     {

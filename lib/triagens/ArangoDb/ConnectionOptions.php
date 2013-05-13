@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: connection options
  *
- * @package   ArangoDbPhpClient
+ * @package triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -16,7 +16,7 @@ namespace triagens\ArangoDb;
  * options and will perform a simple validation of them.
  * It provides array access to its members.
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 class ConnectionOptions implements
     \ArrayAccess
@@ -81,7 +81,7 @@ class ConnectionOptions implements
     const OPTION_UPDATE_POLICY = 'policy';
 
     /**
-     * Update keepnull constant
+     * Update keepNull constant
      */
     const OPTION_UPDATE_KEEPNULL = 'keepNull';
 
@@ -173,11 +173,10 @@ class ConnectionOptions implements
     /**
      * Set defaults, use options provided by client and validate them
      *
-     * @throws ClientException
      *
      * @param array $options - initial options
      *
-     * @return void
+     * @return \triagens\ArangoDb\ConnectionOptions
      */
     public function __construct(array $options)
     {
@@ -345,7 +344,7 @@ class ConnectionOptions implements
 
         // can use either endpoint or host/port
         if (isset($this->_values[self::OPTION_HOST]) && isset($this->_values[self::OPTION_ENDPOINT])) {
-            throw new ClientException('must not specify both host and enpoint');
+            throw new ClientException('must not specify both host and endpoint');
         } else {
             if (isset($this->_values[self::OPTION_HOST]) && !isset($this->_values[self::OPTION_ENDPOINT])) {
                 // upgrade host/port to an endpoint

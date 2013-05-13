@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: base handler
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -13,7 +13,7 @@ namespace triagens\ArangoDb;
 /**
  * A base class for REST-based handlers
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 abstract class Handler
 {
@@ -30,7 +30,7 @@ abstract class Handler
      *
      * @param Connection $connection - connection to be used
      *
-     * @return void
+     * @return Handler
      */
     public function __construct(Connection $connection)
     {
@@ -66,28 +66,28 @@ abstract class Handler
     /**
      * Return an array of cursor options
      *
-     * @param bool $options - $options might be a boolean sanitize value, or an array of options, with or without a '_sanitize' key.
+     * @param mixed $options - $options might be a boolean sanitize value, or an array of options, with or without a '_sanitize' key.
      *
      * @return array - array of options
      */
     protected function getCursorOptions($options)
     {
-        // keeping the non-underscored version for backwards-compatibility
-        if (is_array($options) && array_key_exists('sanitize', $options)) {
-            $sanitize = $options['sanitize'];
-        } elseif (is_bool($options)) {
+        $sanitize = false;
+
+        if (is_bool($options)) {
             $sanitize = $options;
-        } else {
-            $sanitize = false;
+        }
+        if (is_array($options)) {
+            if (array_key_exists('_sanitize', $options)) {
+                $sanitize = $options['_sanitize'];
+            } else {
+                // keeping the non-underscored version for backwards-compatibility
+                if (array_key_exists('sanitize', $options)) {
+                    $sanitize = $options['sanitize'];
+                }
+            }
         }
 
-        if (is_array($options) && array_key_exists('_sanitize', $options)) {
-            $sanitize = $options['_sanitize'];
-        } elseif (is_bool($options)) {
-            $sanitize = $options;
-        } else {
-            $sanitize = false;
-        }
 
         return array(
             Cursor::ENTRY_SANITIZE => $sanitize,

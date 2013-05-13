@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: Base URLs
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -13,7 +13,7 @@ namespace triagens\ArangoDb;
 /**
  * Some basic URLs
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 abstract class Urls
 {
@@ -133,6 +133,11 @@ abstract class Urls
     const URL_BATCH = '/_api/batch';
 
     /**
+     * base URL part for batch processing
+     */
+    const URL_TRANSACTION = '/_api/transaction';
+
+    /**
      * base URL part for admin version
      */
     const URL_ADMIN_VERSION = '/_admin/version';
@@ -146,11 +151,6 @@ abstract class Urls
     const URL_ADMIN_LOG = '/_admin/log';
 
     /**
-     * base URL part for admin status
-     */
-    const URL_ADMIN_STATUS = '/_admin/status';
-
-    /**
      * base URL part for admin routing reload
      */
     const URL_ADMIN_ROUTING_RELOAD = '/_admin/routing/reload';
@@ -161,18 +161,22 @@ abstract class Urls
     const URL_ADMIN_MODULES_FLUSH = '/_admin/modules/flush';
 
     /**
-     * base URL part for admin connection statistics
+     * base URL part for admin statistics
      */
-    const URL_ADMIN_CONNECTION_STATISTICS = '/_admin/connection-statistics';
+    const URL_ADMIN_STATISTICS = '/_admin/statistics';
 
     /**
-     * base URL part for admin request statistics
+     * base URL part for admin statistics-description
      */
-    const URL_ADMIN_REQUEST_STATISTICS = '/_admin/request-statistics';
+    const URL_ADMIN_STATISTICS_DESCRIPTION = '/_admin/statistics-description';
+
+    /**
+     * base URL part for AQL user functions statistics
+     */
+    const URL_AQL_USER_FUNCTION = '/_api/aqlfunction';
 
     /**
      * base URL part for user management
      */
     const URL_USER = '/_api/user';
-
 }

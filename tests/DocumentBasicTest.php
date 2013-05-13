@@ -1,22 +1,34 @@
 <?php
 /**
  * ArangoDB PHP client testsuite
- * File: documentbasictest.php
+ * File: DocumentBasicTest.php
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  * @author  Frank Mayer
  */
 
 namespace triagens\ArangoDb;
 
+
+/**
+ * Class DocumentBasicTest
+ *
+ * @property Connection        $connection
+ * @property Collection        $collection
+ * @property Collection        $edgeCollection
+ * @property CollectionHandler $collectionHandler
+ * @property DocumentHandler   $documentHandler
+ *
+ * @package triagens\ArangoDb
+ */
 class DocumentBasicTest extends
     \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
         $this->connection        = getConnection();
-        $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
-        $this->collection        = new \triagens\ArangoDb\Collection();
+        $this->collectionHandler = new CollectionHandler($this->connection);
+        $this->collection        = new Collection();
         $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
         $this->collectionHandler->add($this->collection);
     }
@@ -27,10 +39,9 @@ class DocumentBasicTest extends
      */
     public function testInitializeDocument()
     {
-        $connection              = $this->connection;
-        $this->collection        = new \triagens\ArangoDb\Collection();
-        $this->collectionHandler = new \triagens\ArangoDb\CollectionHandler($this->connection);
-        $document                = new \triagens\ArangoDb\Document();
+        $this->collection        = new Collection();
+        $this->collectionHandler = new CollectionHandler($this->connection);
+        $document                = new Document();
         $this->assertInstanceOf('triagens\ArangoDb\Document', $document);
         $this->assertInstanceOf('triagens\ArangoDb\Document', $document);
         unset ($document);
@@ -42,11 +53,10 @@ class DocumentBasicTest extends
      */
     public function testCreateAndDeleteDocument()
     {
-        $connection        = $this->connection;
-        $collection        = $this->collection;
-        $collectionHandler = $this->collectionHandler;
-        $document          = new \triagens\ArangoDb\Document();
-        $documentHandler   = new \triagens\ArangoDb\DocumentHandler($connection);
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+        $document        = new Document();
+        $documentHandler = new DocumentHandler($connection);
 
         $document->someAttribute = 'someValue';
 
@@ -60,7 +70,7 @@ class DocumentBasicTest extends
             'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
         );
 
-        $response = $documentHandler->delete($document);
+        $documentHandler->delete($document);
     }
 
 
@@ -69,11 +79,10 @@ class DocumentBasicTest extends
      */
     public function testCreateAndDeleteDocumentUsingDefinedKey()
     {
-        $connection        = $this->connection;
-        $collection        = $this->collection;
-        $collectionHandler = $this->collectionHandler;
-        $document          = new \triagens\ArangoDb\Document();
-        $documentHandler   = new \triagens\ArangoDb\DocumentHandler($connection);
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+        $document        = new Document();
+        $documentHandler = new DocumentHandler($connection);
 
         $document->someAttribute = 'someValue';
         $document->set('_key', 'frank01');
@@ -93,7 +102,7 @@ class DocumentBasicTest extends
         );
 
 
-        $response = $documentHandler->delete($document);
+        $documentHandler->delete($document);
     }
 
 
@@ -104,7 +113,7 @@ class DocumentBasicTest extends
     {
         $connection      = $this->connection;
         $collection      = $this->collection;
-        $documentHandler = new \triagens\ArangoDb\DocumentHandler($connection);
+        $documentHandler = new DocumentHandler($connection);
 
         $documentArray = array('someAttribute' => 'someValue');
 
@@ -118,7 +127,7 @@ class DocumentBasicTest extends
             'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
         );
 
-        $response = $documentHandler->deleteById($collection->getName(), $documentId);
+        $documentHandler->deleteById($collection->getName(), $documentId);
     }
 
 
@@ -129,7 +138,7 @@ class DocumentBasicTest extends
     {
         $connection      = $this->connection;
         $collection      = $this->collection;
-        $documentHandler = new \triagens\ArangoDb\DocumentHandler($connection);
+        $documentHandler = new DocumentHandler($connection);
 
         $documentArray = array('someAttribute' => 'someValue', '_key' => 'frank01');
         $documentId    = $documentHandler->save($collection->getName(), $documentArray);
@@ -147,14 +156,14 @@ class DocumentBasicTest extends
         );
 
 
-        $response = $documentHandler->deleteById($collection->getName(), $documentId);
+        $documentHandler->deleteById($collection->getName(), $documentId);
     }
 
 
     public function tearDown()
     {
         try {
-            $response = $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }

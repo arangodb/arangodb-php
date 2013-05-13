@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: batch
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  * @author  Frank Mayer
  * @since   1.1
  *
@@ -14,14 +14,20 @@ namespace triagens\ArangoDb;
 /**
  * Provides batching functionality
  *
- * @package ArangoDbPhpClient
- * @example ArangoDb/examples/batch.php aaaa
+ * @package triagens\ArangoDb
+ * @example ArangoDb/examples/batch.php
  *
  */
 
 
 class Batch
 {
+    /**
+     * Batch Response Object
+     *
+     * @var HttpResponse $_batchResponse
+     */
+    public $_batchResponse;
 
 
     /**
@@ -59,18 +65,9 @@ class Batch
     /**
      * The connection object
      *
-     * @var object $_connection
+     * @var Connection $_connection
      */
     private $_connection = null;
-
-
-    /**
-     * The $_alphaKeys object for the batchpart creation
-     *
-     * @var object $_alphaKeys
-     */
-    private $_alphaKeys = 0;
-
 
     /**
      * The sanitize default value
@@ -85,7 +82,7 @@ class Batch
      * To disable this, pass startCapture=>false inside the options array parameter
      *
      * @param Connection $connection that this batch class will monitor for requests in order to batch them. Connection parameter is mandatory.
-     * @param            $options    An array of options for Batch construction. See below for options:
+     * @param array      $options    An array of options for Batch construction. See below for options:
      *
      * <p>Options are :
      * <li>'_sanitize' - True to remove _id and _rev attributes from result documents returned from this batch. Defaults to false.</li>
@@ -132,7 +129,7 @@ class Batch
 
 
     /**
-     * Start capuring requests. To stop capturing, use stopCapture()
+     * Start capturing requests. To stop capturing, use stopCapture()
      *
      * see triagens\ArangoDb\Batch::stopCapture()
      *
@@ -154,11 +151,10 @@ class Batch
      *
      * see Batch::startCapture()
      *
-     * @param array $options
-     *
+     * @throws ClientException
      * @return Batch
      */
-    public function stopCapture($options = array())
+    public function stopCapture()
     {
         // check if this batch is the active one... and capturing. Ignore, if we're not capturing...
         if ($this->isActive()) {
@@ -192,20 +188,16 @@ class Batch
      */
     public function isCapturing()
     {
-        $result = $this->getCapture($this->_connection);
-
-        return $result;
+        return $this->getConnectionCaptureMode($this->_connection);
     }
 
 
     /**
-     * Activates the batch. This sets the batch active in its assiated connection and also starts capturing.
-     *
-     * @param array $options
+     * Activates the batch. This sets the batch active in its associated connection and also starts capturing.
      *
      * @return object $this
      */
-    public function activate($options = array())
+    public function activate()
     {
         $this->setActive($this);
         $this->setCapture(true);
@@ -215,22 +207,20 @@ class Batch
 
 
     /**
-     * Sets the batch active in its assiated connection.
-     *
-     * @param object $object
+     * Sets the batch active in its associated connection.
      *
      * @return object $this
      */
-    public function setActive($object)
+    public function setActive()
     {
-        $this->_connection->setActiveBatch($object);
+        $this->_connection->setActiveBatch($this);
 
         return $this;
     }
 
 
     /**
-     * Sets the batch's assciated connection into capture mode.
+     * Sets the batch's associated connection into capture mode.
      *
      * @param boolean $state
      *
@@ -248,6 +238,8 @@ class Batch
      * Gets active batch in given connection.
      *
      * @param Connection $connection
+     *
+     * @return $this
      */
     public function getActive($connection)
     {
@@ -258,22 +250,24 @@ class Batch
 
 
     /**
-     * Returns true, if given connection is in batch mode.
+     * Returns true, if given connection is in batch-capture mode.
      *
      * @param Connection $connection
+     *
+     * @return bool
      */
-    public function getCapture($connection)
+    public function getConnectionCaptureMode($connection)
     {
-        $connection->getCaptureBatch();
-
-        return $this;
+        return $connection->isInBatchCaptureMode();
     }
 
 
     /**
      * Sets connection into Batch-Request mode. This is necessary to distinguish between normal and the batch request.
      *
-     * @param Connection $state
+     * @param boolean $state
+     *
+     * @return $this
      */
     private function setBatchRequest($state)
     {
@@ -285,7 +279,7 @@ class Batch
 
 
     /**
-     * Sets the id of the next batchpart. The id can later be used to retrieve the batchpart.
+     * Sets the id of the next batch-part. The id can later be used to retrieve the batch-part.
      *
      * @param mixed $batchPartId
      *
@@ -315,7 +309,7 @@ class Batch
 
 
     /**
-     * Append the request to the batchpart
+     * Append the request to the batch-part
      *
      * @param mixed $method  - The method of the request (GET, POST...)
      * @param mixed $request - The request that will get appended to the batch
@@ -324,11 +318,7 @@ class Batch
      */
     public function append($method, $request)
     {
-        if (preg_match('%/_api/simple/(?P<simple>\w*)|/_api/(?P<direct>\w*)%ix', $request, $regs)) {
-            $result = $regs[0];
-        } else {
-            $result = "";
-        }
+        preg_match('%/_api/simple/(?P<simple>\w*)|/_api/(?P<direct>\w*)%ix', $request, $regs);
 
         $type = $regs['direct'] != '' ? $regs['direct'] : $regs['simple'];
 
@@ -345,13 +335,12 @@ class Batch
         $result .= '{"error":false,"_id":"0/0","id":"0","_rev":0,"hasMore":1, "result":[{}], "documents":[{}]}' . HttpHelper::EOL . HttpHelper::EOL;
 
         $response  = new HttpResponse($result);
-        $id        = is_null($this->_nextBatchPartId) ? '' : $this->_nextBatchPartId;
-        $batchpart = new BatchPart($this, $this->_nextBatchPartId, $type, $request, $response, array("cursorOptions" => $this->_batchPartCursorOptions));
+        $batchPart = new BatchPart($this, $this->_nextBatchPartId, $type, $request, $response, array("cursorOptions" => $this->_batchPartCursorOptions));
         if (is_null($this->_nextBatchPartId)) {
             $nextNumeric                     = count($this->_batchParts);
-            $this->_batchParts[$nextNumeric] = $batchpart;
+            $this->_batchParts[$nextNumeric] = $batchPart;
         } else {
-            $this->_batchParts[$this->_nextBatchPartId] = $batchpart;
+            $this->_batchParts[$this->_nextBatchPartId] = $batchPart;
             $this->_nextBatchPartId                     = null;
         }
 
@@ -365,7 +354,7 @@ class Batch
      * @param mixed $pattern
      * @param mixed $string
      *
-     * @return array $array - Array of batchparts
+     * @return array $array - Array of batch-parts
      */
     public function splitWithContentIdKey($pattern, $string)
     {
@@ -389,6 +378,7 @@ class Batch
     /**
      * Processes this batch. This sends the captured requests to the server as one batch.
      *
+     * @throws ClientException
      * @return bool - true if processing of the batch was  or the HttpResponse object in case of a failure. A successful process just means that tha parts were processed. Each part has it's own response though and should be checked on its own.
      */
     public function process()
@@ -402,17 +392,18 @@ class Batch
             throw new ClientException('Can\'t process empty batch.');
         }
 
-        foreach ($batchParts as $partKey => $partValue) {
+        /** @var $partValue BatchPart */
+        foreach ($batchParts as $partValue) {
             $data .= '--' . HttpHelper::MIME_BOUNDARY . HttpHelper::EOL;
             $data .= 'Content-Type: application/x-arango-batchpart' . HttpHelper::EOL;
 
             if (!is_null($partValue->getId())) {
-                $data .= 'Content-Id: ' . $partValue->getId() . HttpHelper::EOL . HttpHelper::EOL;
+                $data .= 'Content-Id: ' . (string) $partValue->getId() . HttpHelper::EOL . HttpHelper::EOL;
             } else {
                 $data .= HttpHelper::EOL;
             }
 
-            $data .= $partValue->getRequest() . HttpHelper::EOL;
+            $data .= (string) $partValue->getRequest() . HttpHelper::EOL;
         }
         $data .= '--' . HttpHelper::MIME_BOUNDARY . '--' . HttpHelper::EOL . HttpHelper::EOL;
 
@@ -429,7 +420,6 @@ class Batch
         foreach ($batchParts as $partKey => $partValue) {
             $response                     = new HttpResponse($partValue);
             $body                         = $response->getBody();
-            $id                           = $response->getHeader('Content-Id');
             $response                     = new HttpResponse($body);
             $batchPartResponses[$partKey] = $response;
             $this->getPart($partKey)->setResponse($batchPartResponses[$partKey]);
@@ -455,8 +445,9 @@ class Batch
     /**
      * Get the batch part identified by the array key (0...n) or its id (if it was set with nextBatchPartId($id) )
      *
-     * @param $partId the batch part id. Either it's numeric key or a given name.
+     * @param mixed $partId the batch part id. Either it's numeric key or a given name.
      *
+     * @throws ClientException
      * @return mixed $batchPart
      */
     public function getPart($partId)
@@ -474,7 +465,7 @@ class Batch
     /**
      * Get the batch part identified by the array key (0...n) or its id (if it was set with nextBatchPartId($id) )
      *
-     * @param $partId the batch part id. Either it's numeric key or a given name.
+     * @param mixed $partId the batch part id. Either it's numeric key or a given name.
      *
      * @return mixed $partId
      */
@@ -489,7 +480,7 @@ class Batch
     /**
      * Get the batch part identified by the array key (0...n) or its id (if it was set with nextBatchPartId($id) )
      *
-     * @param $partId the batch part id. Either it's numeric key or a given name.
+     * @param mixed $partId the batch part id. Either it's numeric key or a given name.
      *
      * @return mixed $partId
      */
@@ -502,7 +493,7 @@ class Batch
 
 
     /**
-     * Returns the array of batchparts
+     * Returns the array of batch-parts
      *
      * @return array $_batchParts
      */

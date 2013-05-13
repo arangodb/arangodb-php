@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: single document
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -13,7 +13,7 @@ namespace triagens\ArangoDb;
 /**
  * Value object representing a single collection-based document
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 class Edge extends
     Document

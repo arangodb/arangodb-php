@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: connection
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -17,7 +17,7 @@ namespace triagens\ArangoDb;
  * Instead, connections are established on the fly for each request
  * and are destroyed afterwards.
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 class Connection
 {
@@ -56,34 +56,26 @@ class Connection
      */
     private $_batches = array();
 
-
     /**
      * $_activeBatch object
      *
      * @var array
      */
-
-
     private $_activeBatch = null;
 
     /**
      * $_captureBatch boolean
      *
-     * @var array
+     * @var boolean
      */
-
-
     private $_captureBatch = false;
 
     /**
-     * $_captureBatch boolean
+     * $_batchRequest boolean
      *
-     * @var array
+     * @var boolean
      */
-
-
     private $_batchRequest = false;
-
 
     /**
      * Set up the connection object, validate the options provided
@@ -92,7 +84,7 @@ class Connection
      *
      * @param array $options - initial connection options
      *
-     * @return void
+     * @return Connection
      */
     public function __construct(array $options)
     {
@@ -117,7 +109,7 @@ class Connection
      *
      * @throws ClientException
      *
-     * @param string name - name of option
+     * @param string $name - name of option
      *
      * @return mixed
      */
@@ -217,6 +209,7 @@ class Connection
      *
      * If keep-alive connections are used, the handle will be stored and re-used
      *
+     * @throws ClientException
      * @return resource - connection handle
      */
     private function getHandle()
@@ -266,7 +259,6 @@ class Connection
 
         if ($httpCode < 200 || $httpCode >= 400) {
             // failure on server
-            $details = array();
 
             $body = $response->getBody();
             if ($body != '') {
@@ -337,10 +329,10 @@ class Connection
         if ($traceFunc) {
 
             // call tracer func
-            if($this->_options[ConnectionOptions::OPTION_ENHANCED_TRACE]){
+            if ($this->_options[ConnectionOptions::OPTION_ENHANCED_TRACE]) {
                 $parsed = HttpHelper::parseHttpMessage($request);
                 $traceFunc(new TraceRequest(HttpHelper::parseHeaders($parsed['header']), $method, $url, $data));
-            }else{
+            } else {
                 $traceFunc('send', $request);
             }
         }
@@ -377,9 +369,11 @@ class Connection
 
             if ($traceFunc) {
                 // call tracer func
-                if($this->_options[ConnectionOptions::OPTION_ENHANCED_TRACE]){
-                     $traceFunc(new TraceResponse($response->getHeaders(), $response->getHttpCode(), $response->getBody()));
-                }else{
+                if ($this->_options[ConnectionOptions::OPTION_ENHANCED_TRACE]) {
+                    $traceFunc(
+                        new TraceResponse($response->getHeaders(), $response->getHttpCode(), $response->getBody())
+                    );
+                } else {
                     $traceFunc('receive', $result);
                 }
             }
@@ -417,14 +411,12 @@ class Connection
     }
 
 
-     /**
+    /**
      * Stop capturing commands
-     *
-     * @param array $options - Options
      *
      * @return Batch - Returns the active batch object
      */
-    public function stopCaptureBatch($options = array())
+    public function stopCaptureBatch()
     {
         $this->_captureBatch = false;
 
@@ -435,6 +427,7 @@ class Connection
     /**
      * returns the active batch
      *
+     * @return Batch active batch
      */
     public function getActiveBatch()
     {
@@ -446,8 +439,7 @@ class Connection
      *
      * @param Batch $batch - Sets the given batch as active
      *
-     * @return the active batch
-     *
+     * @return Batch active batch
      */
     public function setActiveBatch($batch)
     {
@@ -461,30 +453,35 @@ class Connection
      * Sets the batch capture state (true, if capturing)
      *
      * @param boolean $state true to turn on capture batch mode, false to turn it off
-     *
-     * @return $state
      */
     public function setCaptureBatch($state)
     {
         $this->_captureBatch = $state;
-
-        return $this->_captureBatch;
     }
 
 
     /**
-     * Sets connection into Batchrequest mode. This is needed for some oprtations to act differently when in this mode
+     * Sets connection into Batch-request mode. This is needed for some operations to act differently when in this mode.
      *
-     * @param boolean $state sets the connection state to batch request, meaning it is crrently doing a batch request.
-     *
-     * returns the active batch
-     *
+     * @param boolean $state sets the connection state to batch request, meaning it is currently doing a batch request.
      */
     public function setBatchRequest($state)
     {
         $this->_batchRequest = $state;
+    }
 
-        return $this->_batchRequest;
+
+    /**
+     * Returns true if this connection is in Batch-Capture mode
+     *
+     * @return bool
+     *
+     * returns the active batch
+     */
+    public function isInBatchCaptureMode()
+    {
+
+        return $this->_captureBatch;
     }
 
 
@@ -509,13 +506,14 @@ class Connection
      * since we need to return some object that is expected by the caller.
      * if we're not in batch mode it doesn't return anything, and
      *
-     * @return the Batchpart or null if not in batch capturing mode
+     * @return mixed Batchpart or null if not in batch capturing mode
      */
     private function doBatch($method, $request)
     {
         $batchPart = null;
         if ($this->_captureBatch === true) {
 
+            /** @var $batch Batch */
             $batch = $this->getActiveBatch();
 
             $batchPart = $batch->append($method, $request);
@@ -565,6 +563,7 @@ class Connection
      *
      * @param array $data the data to check
      *
+     * @throws ClientException
      */
     public static function check_encoding($data)
     {
@@ -598,7 +597,7 @@ class Connection
     /**
      * This is a json_encode() wrapper that also checks if the data is utf-8 conform.
      * internally it calls the check_encoding() method. If that method does not throw
-     * an Exception, this method will happilly return the json_encoded data.
+     * an Exception, this method will happily return the json_encoded data.
      *
      * @param mixed $data    the data to encode
      * @param mixed $options the options for the json_encode() call
@@ -610,11 +609,11 @@ class Connection
         if ($this->_options[ConnectionOptions::OPTION_CHECK_UTF8_CONFORM] === true) {
             self::check_encoding($data);
         }
-        
-        if(empty($data)){
-        	$response = json_encode($data, $options | JSON_FORCE_OBJECT);
-        }else{
-        	$response = json_encode($data, $options);
+
+        if (empty($data)) {
+            $response = json_encode($data, $options | JSON_FORCE_OBJECT);
+        } else {
+            $response = json_encode($data, $options);
         }
 
         return $response;

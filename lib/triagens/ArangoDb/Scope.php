@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: scope
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -14,7 +14,7 @@ namespace triagens\ArangoDb;
  * Executes a function on scope entry and executes another function
  * (cleanup) when the scope is exited
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 class Scope
 {
@@ -67,7 +67,7 @@ class Scope
      * @param callable $initFunc - function to be called when scope is entered
      * @param callable $exitFunc - function to be called when scope if left
      *
-     * @return void
+     * @return Scope
      */
     public function __construct($initFunc, $exitFunc)
     {

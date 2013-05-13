@@ -22,7 +22,6 @@
 <li><a>Namespaces</a></li>
 <li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
 <li><a>Packages</a></li>
-<li><a href="../packages/ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
 <li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
 </ul>
 </li>
@@ -113,7 +112,7 @@
 <li class="constant  "><a href="#constant_OPTION_SKIP" title="OPTION_SKIP :: Skip index constant"><span class="description">Skip index constant</span><pre>OPTION_SKIP</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_TIMEOUT" title="OPTION_TIMEOUT :: Timeout value index constant"><span class="description">Timeout value index constant</span><pre>OPTION_TIMEOUT</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_TRACE" title="OPTION_TRACE :: Trace function index constant"><span class="description">Trace function index constant</span><pre>OPTION_TRACE</pre></a></li>
-<li class="constant  "><a href="#constant_OPTION_UPDATE_KEEPNULL" title="OPTION_UPDATE_KEEPNULL :: Update keepnull constant"><span class="description">Update keepnull constant</span><pre>OPTION_UPDATE_KEEPNULL</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_UPDATE_KEEPNULL" title="OPTION_UPDATE_KEEPNULL :: Update keepNull constant"><span class="description">Update keepNull constant</span><pre>OPTION_UPDATE_KEEPNULL</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_UPDATE_POLICY" title="OPTION_UPDATE_POLICY :: Update policy index constant"><span class="description">Update policy index constant</span><pre>OPTION_UPDATE_POLICY</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_WAIT_SYNC" title="OPTION_WAIT_SYNC :: Wait for sync index constant"><span class="description">Wait for sync index constant</span><pre>OPTION_WAIT_SYNC</pre></a></li>
 </ul>
@@ -141,13 +140,13 @@ options and will perform a simple validation of them.
 It provides array access to its members.</p></div>
 <table class="table table-bordered"><tr>
 <th>package</th>
-<td><a href="../packages/ArangoDbPhpClient.html">ArangoDbPhpClient</a></td>
+<td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
 </tr></table>
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
 <a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
 <h2>Set defaults, use options provided by client and validate them</h2>
-<pre>__construct(array $options) : void</pre>
+<pre>__construct(array $options) : <a href="../classes/triagens.ArangoDb.ConnectionOptions.html">\triagens\ArangoDb\ConnectionOptions</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -158,11 +157,8 @@ It provides array access to its members.</p></div>
 <li>initial options</li>
 </ul>
 </div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
-<td></td>
-</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.ConnectionOptions.html">\triagens\ArangoDb\ConnectionOptions</a></code></div>
 </div></div>
 </div>
 <a id="method_getAll"></a><div class="element clickable method public method_getAll" data-toggle="collapse" data-target=".method_getAll .collapse">
@@ -484,7 +480,7 @@ It provides array access to its members.</p></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="constant_OPTION_UPDATE_KEEPNULL"> </a><div class="element clickable constant  constant_OPTION_UPDATE_KEEPNULL" data-toggle="collapse" data-target=".constant_OPTION_UPDATE_KEEPNULL .collapse">
-<h2>Update keepnull constant</h2>
+<h2>Update keepNull constant</h2>
 <pre>OPTION_UPDATE_KEEPNULL </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
@@ -508,7 +504,7 @@ It provides array access to its members.</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-05-01T19:06:48+03:00.<br></footer></div>
+            generated on 2013-05-11T17:21:43+03:00.<br></footer></div>
 </div>
 </body>
 </html>

@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: graph handler
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @author    Frank Mayer
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
@@ -18,17 +18,21 @@ namespace triagens\ArangoDb;
  * It does so by issuing the
  * appropriate HTTP requests to the server.
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  * @since   1.2
  */
 class GraphHandler extends
     Handler
 {
-
     /**
      * documents array index
      */
     const ENTRY_GRAPH = 'graph';
+
+    /**
+     * conditional update of edges or vertices
+     */
+    const OPTION_REVISION = 'revision';
 
     /**
      * vertex parameter
@@ -99,12 +103,13 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param string $graph        - The name of the graph
-     * @param array  $options      - can be used to provide additional options
+     * @param String - $graph - The name of the graph
+     * @param array  - $options - Options to pass to the method
      *
      * @return Graph - A graph object representing the graph
      * @since   1.2
      *
+     * @example "ArangoDb/examples/graph.php" How to use this function
      * @example "ArangoDb/examples/graph.php" How to use this function
      */
     public function getGraph($graph, array $options = array())
@@ -247,7 +252,7 @@ class GraphHandler extends
      *
      * This will throw if the vertex cannot be Replaced
      *
-     * If policy is set to error (locally or globally through the connectionoptions)
+     * If policy is set to error (locally or globally through the ConnectionOptions)
      * and the passed document has a _rev value set, the database will check
      * that the revision of the to-be-replaced vertex is the same as the one given.
      *
@@ -257,7 +262,8 @@ class GraphHandler extends
      * @param mixed    $vertexId     - the vertex id as string or number
      * @param Document $document     - the vertex-document to be updated
      * @param mixed    $options      - optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     * <p>Options are :
+     * <p>Options are :]
+     * <li>'revision' - revision for conditional updates ('some-revision-id' [use the passed in revision id], false or true [use document's revision])</li>
      * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
      * <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
      * </p>
@@ -268,6 +274,8 @@ class GraphHandler extends
      */
     public function ReplaceVertex($graphName, $vertexId, Document $document, $options = array())
     {
+        $options = array_merge(array(self::OPTION_REVISION => false), $options);
+
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
@@ -283,13 +291,21 @@ class GraphHandler extends
             )
         );
 
-        $revision = $document->getRevision();
-        if (!is_null($revision)) {
-            $params[ConnectionOptions::OPTION_REVISION] = $revision;
+        //Include the revision for conditional updates if required
+        if ($options[self::OPTION_REVISION] === true) {
+
+            $revision = $document->getRevision();
+
+            if (!is_null($revision)) {
+                $params[ConnectionOptions::OPTION_REVISION] = $revision;
+            }
+        } elseif ($options[self::OPTION_REVISION]) {
+            $params[ConnectionOptions::OPTION_REVISION] = $options[self::OPTION_REVISION];
         }
 
         $data = $document->getAll();
         $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_VERTEX, $vertexId);
+        $url  = UrlHelper::appendParamsUrl($url, $params);
 
         $response = $this->getConnection()->PUT($url, $this->json_encode_wrapper($data));
 
@@ -315,7 +331,7 @@ class GraphHandler extends
      *
      * This will throw if the vertex cannot be updated
      *
-     * If policy is set to error (locally or globally through the connectionoptions)
+     * If policy is set to error (locally or globally through the ConnectionOptions)
      * and the passed vertex-document has a _rev value set, the database will check
      * that the revision of the to-be-replaced document is the same as the one given.
      *
@@ -336,6 +352,8 @@ class GraphHandler extends
      */
     public function updateVertex($graphName, $vertexId, Document $document, $options = array())
     {
+        $options = array_merge(array(self::OPTION_REVISION => false), $options);
+
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
@@ -352,9 +370,16 @@ class GraphHandler extends
             )
         );
 
-        $revision = $document->getRevision();
-        if (!is_null($revision)) {
-            $params[ConnectionOptions::OPTION_REVISION] = $revision;
+        //Include the revision for conditional updates if required
+        if ($options[self::OPTION_REVISION] === true) {
+
+            $revision = $document->getRevision();
+
+            if (!is_null($revision)) {
+                $params[ConnectionOptions::OPTION_REVISION] = $revision;
+            }
+        } elseif ($options[self::OPTION_REVISION]) {
+            $params[ConnectionOptions::OPTION_REVISION] = $options[self::OPTION_REVISION];
         }
 
         $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_VERTEX, $vertexId);
@@ -407,9 +432,9 @@ class GraphHandler extends
             $params[ConnectionOptions::OPTION_REVISION] = $revision;
         }
 
-        $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_VERTEX, $vertexId);
-        $url    = UrlHelper::appendParamsUrl($url, $params);
-        $result = $this->getConnection()->delete($url);
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_VERTEX, $vertexId);
+        $url = UrlHelper::appendParamsUrl($url, $params);
+        $this->getConnection()->delete($url);
 
         return true;
     }
@@ -509,7 +534,7 @@ class GraphHandler extends
      *
      * This will throw if the edge cannot be Replaced
      *
-     * If policy is set to error (locally or globally through the connectionoptions)
+     * If policy is set to error (locally or globally through the ConnectionOptions)
      * and the passed document has a _rev value set, the database will check
      * that the revision of the to-be-replaced edge is the same as the one given.
      *
@@ -517,7 +542,7 @@ class GraphHandler extends
      *
      * @param mixed $graphName     - graph name as string or number
      * @param mixed $edgeId        - edge id as string or number
-     * @param mixed $label         - (optional) label for the edge
+     * @param mixed $label         - label for the edge or ''
      * @param Edge  $document      - edge document to be updated
      * @param mixed $options       - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
      * <p>Options are :
@@ -531,6 +556,8 @@ class GraphHandler extends
      */
     public function ReplaceEdge($graphName, $edgeId, $label, Edge $document, $options = array())
     {
+        $options = array_merge(array(self::OPTION_REVISION => false), $options);
+
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
@@ -546,16 +573,25 @@ class GraphHandler extends
             )
         );
 
-        $revision = $document->getRevision();
-        if (!is_null($revision)) {
-            $params[ConnectionOptions::OPTION_REVISION] = $revision;
+        //Include the revision for conditional updates if required
+        if ($options[self::OPTION_REVISION] === true) {
+
+            $revision = $document->getRevision();
+
+            if (!is_null($revision)) {
+                $params[ConnectionOptions::OPTION_REVISION] = $revision;
+            }
+        } elseif ($options[self::OPTION_REVISION]) {
+            $params[ConnectionOptions::OPTION_REVISION] = $options[self::OPTION_REVISION];
         }
 
         $data = $document->getAll();
         if (!is_null($label)) {
             $document->set('$label', $label);
         }
+
         $url = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_EDGE, $edgeId);
+        $url = UrlHelper::appendParamsUrl($url, $params);
 
         $response = $this->getConnection()->PUT($url, $this->json_encode_wrapper($data));
 
@@ -581,7 +617,7 @@ class GraphHandler extends
      *
      * This will throw if the edge cannot be updated
      *
-     * If policy is set to error (locally or globally through the connectionoptions)
+     * If policy is set to error (locally or globally through the ConnectionOptions)
      * and the passed edge-document has a _rev value set, the database will check
      * that the revision of the to-be-replaced document is the same as the one given.
      *
@@ -589,7 +625,7 @@ class GraphHandler extends
      *
      * @param string $graphName     - graph name as string
      * @param mixed  $edgeId        - edge id as string or number
-     * @param mixed  $label         - (optional) label for the edge
+     * @param mixed  $label         - label for the edge or ''
      * @param Edge   $document      - patch edge-document which contains the attributes and values to be updated
      * @param mixed  $options       - optional, array of options (see below)
      * <p>Options are :
@@ -603,6 +639,8 @@ class GraphHandler extends
      */
     public function updateEdge($graphName, $edgeId, $label, Edge $document, $options = array())
     {
+        $options = array_merge(array(self::OPTION_REVISION => false), $options);
+
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
@@ -620,9 +658,16 @@ class GraphHandler extends
         );
         $policy = null;
 
-        $revision = $document->getRevision();
-        if (!is_null($revision)) {
-            $params[ConnectionOptions::OPTION_REVISION] = $revision;
+        //Include the revision for conditional updates if required
+        if ($options[self::OPTION_REVISION] === true) {
+
+            $revision = $document->getRevision();
+
+            if (!is_null($revision)) {
+                $params[ConnectionOptions::OPTION_REVISION] = $revision;
+            }
+        } elseif ($options[self::OPTION_REVISION]) {
+            $params[ConnectionOptions::OPTION_REVISION] = $options[self::OPTION_REVISION];
         }
 
         if (!is_null($label)) {
@@ -678,9 +723,9 @@ class GraphHandler extends
             $params[ConnectionOptions::OPTION_REVISION] = $revision;
         }
 
-        $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_EDGE, $edgeId);
-        $url    = UrlHelper::appendParamsUrl($url, $params);
-        $result = $this->getConnection()->delete($url);
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_EDGE, $edgeId);
+        $url = UrlHelper::appendParamsUrl($url, $params);
+        $this->getConnection()->delete($url);
 
         return true;
     }
@@ -718,7 +763,7 @@ class GraphHandler extends
      * <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
      * <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-     *                                 The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+     *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
      *                                 and the hidden attributes would not be applied to the attributes.<br>
      * </p>
      * </li>
@@ -728,7 +773,8 @@ class GraphHandler extends
      */
     public function getNeighborVertices($graphName, $vertexId, $options = array())
     {
-        $data = array_merge($options, $this->getCursorOptions($options));
+        $options['objectType'] = 'vertex';
+        $data                  = array_merge($options, $this->getCursorOptions($options));
 
         $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_VERTICES, $vertexId);
         $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
@@ -769,7 +815,7 @@ class GraphHandler extends
      * <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
      * <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-     *                                 The difference is, that if you're returning a resultset of documents, the getall() is already called <br>
+     *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
      *                                 and the hidden attributes would not be applied to the attributes.<br>
      * </p>
      * </li>
@@ -779,7 +825,8 @@ class GraphHandler extends
      */
     public function getConnectedEdges($graphName, $vertexId, $options = array())
     {
-        $data = array_merge($options, $this->getCursorOptions($options));
+        $options['objectType'] = 'edge';
+        $data                  = array_merge($options, $this->getCursorOptions($options));
 
         $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_EDGES, $vertexId);
         $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
