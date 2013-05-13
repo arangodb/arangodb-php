@@ -22,7 +22,6 @@
 <li><a>Namespaces</a></li>
 <li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
 <li><a>Packages</a></li>
-<li><a href="../packages/ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
 <li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
 </ul>
 </li>
@@ -63,9 +62,62 @@
 </li>
 <li class="nav-header">
 <i class="icon-custom icon-class"></i> Classes</li>
+<li><a href="#ValueValidator" title="A simple validator for values to be stored in the database">ValueValidator</a></li>
+<li><a href="#Batch" title="Provides batching functionality">Batch</a></li>
 <li><a href="#AqlUserFunction" title="Class AqlUserFunction">AqlUserFunction</a></li>
+<li><a href="#Vertex" title="Value object representing a single vertex document">Vertex</a></li>
+<li><a href="#Exception" title="Exception base class used to throw Arango specific exceptions">Exception</a></li>
+<li><a href="#BindVars" title="A simple container for bind variables
+This container also handles validation of the bind values.">BindVars</a></li>
+<li><a href="#Scope" title="Executes a function on scope entry and executes another function
+(cleanup) when the scope is exited">Scope</a></li>
+<li><a href="#ConnectionOptions" title="Simple container class for connection options.">ConnectionOptions</a></li>
+<li><a href="#Statement" title='Container for a read-only ("select") statement
+A statement is an AQL query that can be issued to the
+server.'>Statement</a></li>
+<li><a href="#DocumentHandler" title="A document handler that fetches documents from the server and
+persists them on the server.">DocumentHandler</a></li>
+<li><a href="#UserHandler" title="A user-document handler that fetches vertices from the server and
+persists them on the server.">UserHandler</a></li>
+<li><a href="#Connection" title="Provides access to the ArangoDB server
+As all access is done using HTTP, we do not need to establish a
+persistent connection and keep its state.">Connection</a></li>
 <li><a href="#TraceRequest" title="Class TraceRequest">TraceRequest</a></li>
+<li><a href="#DefaultValues" title="Contains default values used by the client">DefaultValues</a></li>
+<li><a href="#ConnectException" title="This exception type will be thrown by the client when there is an error
+during connecting to the server">ConnectException</a></li>
+<li><a href="#ClientException" title="This exception type will be thrown by the client when there is an error
+on the client side, i.e.">ClientException</a></li>
+<li><a href="#ServerException" title="This exception type will be thrown by the client when the server returns an
+error in response to a client request.">ServerException</a></li>
+<li><a href="#Graph" title="Value object representing a graph">Graph</a></li>
+<li><a href="#HttpResponse" title="Container class for HTTP responses">HttpResponse</a></li>
+<li><a href="#BatchPart" title="Provides batch part functionality">BatchPart</a></li>
+<li><a href="#UpdatePolicy" title="Document update policies">UpdatePolicy</a></li>
+<li><a href="#CollectionHandler" title="A collection handler that fetches collection data from the server and
+creates collections on the server.">CollectionHandler</a></li>
+<li><a href="#Endpoint" title="Endpoint specification">Endpoint</a></li>
+<li><a href="#Collection" title="Value object representing a collection">Collection</a></li>
+<li><a href="#HttpHelper" title="Helper methods for HTTP request/response handling">HttpHelper</a></li>
+<li><a href="#VertexHandler" title="A vertex-document handler that fetches vertices from the server and
+persists them on the server.">VertexHandler</a></li>
+<li><a href="#Transaction" title="Transaction object
+A transaction is an object that is used to prepare and send a transaction
+to the server.">Transaction</a></li>
+<li><a href="#Document" title="Value object representing a single collection-based document">Document</a></li>
+<li><a href="#UrlHelper" title="Some helper methods to construct and process URLs">UrlHelper</a></li>
+<li><a href="#Handler" title="A base class for REST-based handlers">Handler</a></li>
+<li><a href="#Edge" title="Value object representing a single collection-based document">Edge</a></li>
+<li><a href="#EdgeHandler" title="An edge-document handler that fetches edges from the server and
+persists them on the server.">EdgeHandler</a></li>
+<li><a href="#Autoloader" title="Handles automatic loading of missing class files
+The autoloader can be nested with other autoloaders.">Autoloader</a></li>
 <li><a href="#TraceResponse" title="Class TraceResponse">TraceResponse</a></li>
+<li><a href="#User" title="Value object representing a single User document">User</a></li>
+<li><a href="#Urls" title="Some basic URLs">Urls</a></li>
+<li><a href="#AdminHandler" title="An admin handler that utilizes the ArangoDB's Admin API.">AdminHandler</a></li>
+<li><a href="#Cursor" title="Provides access to the results of a read-only statement">Cursor</a></li>
+<li><a href="#GraphHandler" title="A graph handler that manages graphs.">GraphHandler</a></li>
 </ul>
 </div>
 <div class="span8 package-contents">
@@ -78,12 +130,214 @@
 <div class="package-indent">
 <h3>
 <i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="AdminHandler" class="element ajax clickable class">
+<h1>AdminHandler<a href="../classes/triagens.ArangoDb.AdminHandler.html">¶</a>
+</h1>
+<p class="short_description">An admin handler that utilizes the ArangoDB's Admin API.</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.AdminHandler.html" class="more">« More »</a>
+</div>
 <div id="AqlUserFunction" class="element ajax clickable class">
 <h1>AqlUserFunction<a href="../classes/triagens.ArangoDb.AqlUserFunction.html">¶</a>
 </h1>
 <p class="short_description">Class AqlUserFunction</p>
 <div class="details collapse"></div>
 <a href="../classes/triagens.ArangoDb.AqlUserFunction.html" class="more">« More »</a>
+</div>
+<div id="Autoloader" class="element ajax clickable class">
+<h1>Autoloader<a href="../classes/triagens.ArangoDb.Autoloader.html">¶</a>
+</h1>
+<p class="short_description">Handles automatic loading of missing class files
+The autoloader can be nested with other autoloaders.</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.Autoloader.html" class="more">« More »</a>
+</div>
+<div id="Batch" class="element ajax clickable class">
+<h1>Batch<a href="../classes/triagens.ArangoDb.Batch.html">¶</a>
+</h1>
+<p class="short_description">Provides batching functionality</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.Batch.html" class="more">« More »</a>
+</div>
+<div id="BatchPart" class="element ajax clickable class">
+<h1>BatchPart<a href="../classes/triagens.ArangoDb.BatchPart.html">¶</a>
+</h1>
+<p class="short_description">Provides batch part functionality</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.BatchPart.html" class="more">« More »</a>
+</div>
+<div id="BindVars" class="element ajax clickable class">
+<h1>BindVars<a href="../classes/triagens.ArangoDb.BindVars.html">¶</a>
+</h1>
+<p class="short_description">A simple container for bind variables
+This container also handles validation of the bind values.</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.BindVars.html" class="more">« More »</a>
+</div>
+<div id="ClientException" class="element ajax clickable class">
+<h1>ClientException<a href="../classes/triagens.ArangoDb.ClientException.html">¶</a>
+</h1>
+<p class="short_description">This exception type will be thrown by the client when there is an error
+on the client side, i.e.</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.ClientException.html" class="more">« More »</a>
+</div>
+<div id="Collection" class="element ajax clickable class">
+<h1>Collection<a href="../classes/triagens.ArangoDb.Collection.html">¶</a>
+</h1>
+<p class="short_description">Value object representing a collection</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.Collection.html" class="more">« More »</a>
+</div>
+<div id="CollectionHandler" class="element ajax clickable class">
+<h1>CollectionHandler<a href="../classes/triagens.ArangoDb.CollectionHandler.html">¶</a>
+</h1>
+<p class="short_description">A collection handler that fetches collection data from the server and
+creates collections on the server.</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.CollectionHandler.html" class="more">« More »</a>
+</div>
+<div id="ConnectException" class="element ajax clickable class">
+<h1>ConnectException<a href="../classes/triagens.ArangoDb.ConnectException.html">¶</a>
+</h1>
+<p class="short_description">This exception type will be thrown by the client when there is an error
+during connecting to the server</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.ConnectException.html" class="more">« More »</a>
+</div>
+<div id="Connection" class="element ajax clickable class">
+<h1>Connection<a href="../classes/triagens.ArangoDb.Connection.html">¶</a>
+</h1>
+<p class="short_description">Provides access to the ArangoDB server
+As all access is done using HTTP, we do not need to establish a
+persistent connection and keep its state.</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.Connection.html" class="more">« More »</a>
+</div>
+<div id="ConnectionOptions" class="element ajax clickable class">
+<h1>ConnectionOptions<a href="../classes/triagens.ArangoDb.ConnectionOptions.html">¶</a>
+</h1>
+<p class="short_description">Simple container class for connection options.</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.ConnectionOptions.html" class="more">« More »</a>
+</div>
+<div id="Cursor" class="element ajax clickable class">
+<h1>Cursor<a href="../classes/triagens.ArangoDb.Cursor.html">¶</a>
+</h1>
+<p class="short_description">Provides access to the results of a read-only statement</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.Cursor.html" class="more">« More »</a>
+</div>
+<div id="DefaultValues" class="element ajax clickable class">
+<h1>DefaultValues<a href="../classes/triagens.ArangoDb.DefaultValues.html">¶</a>
+</h1>
+<p class="short_description">Contains default values used by the client</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.DefaultValues.html" class="more">« More »</a>
+</div>
+<div id="Document" class="element ajax clickable class">
+<h1>Document<a href="../classes/triagens.ArangoDb.Document.html">¶</a>
+</h1>
+<p class="short_description">Value object representing a single collection-based document</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.Document.html" class="more">« More »</a>
+</div>
+<div id="DocumentHandler" class="element ajax clickable class">
+<h1>DocumentHandler<a href="../classes/triagens.ArangoDb.DocumentHandler.html">¶</a>
+</h1>
+<p class="short_description">A document handler that fetches documents from the server and
+persists them on the server.</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.DocumentHandler.html" class="more">« More »</a>
+</div>
+<div id="Edge" class="element ajax clickable class">
+<h1>Edge<a href="../classes/triagens.ArangoDb.Edge.html">¶</a>
+</h1>
+<p class="short_description">Value object representing a single collection-based document</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.Edge.html" class="more">« More »</a>
+</div>
+<div id="EdgeHandler" class="element ajax clickable class">
+<h1>EdgeHandler<a href="../classes/triagens.ArangoDb.EdgeHandler.html">¶</a>
+</h1>
+<p class="short_description">An edge-document handler that fetches edges from the server and
+persists them on the server.</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.EdgeHandler.html" class="more">« More »</a>
+</div>
+<div id="Endpoint" class="element ajax clickable class">
+<h1>Endpoint<a href="../classes/triagens.ArangoDb.Endpoint.html">¶</a>
+</h1>
+<p class="short_description">Endpoint specification</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.Endpoint.html" class="more">« More »</a>
+</div>
+<div id="Exception" class="element ajax clickable class">
+<h1>Exception<a href="../classes/triagens.ArangoDb.Exception.html">¶</a>
+</h1>
+<p class="short_description">Exception base class used to throw Arango specific exceptions</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.Exception.html" class="more">« More »</a>
+</div>
+<div id="Graph" class="element ajax clickable class">
+<h1>Graph<a href="../classes/triagens.ArangoDb.Graph.html">¶</a>
+</h1>
+<p class="short_description">Value object representing a graph</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.Graph.html" class="more">« More »</a>
+</div>
+<div id="GraphHandler" class="element ajax clickable class">
+<h1>GraphHandler<a href="../classes/triagens.ArangoDb.GraphHandler.html">¶</a>
+</h1>
+<p class="short_description">A graph handler that manages graphs.</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.GraphHandler.html" class="more">« More »</a>
+</div>
+<div id="Handler" class="element ajax clickable class">
+<h1>Handler<a href="../classes/triagens.ArangoDb.Handler.html">¶</a>
+</h1>
+<p class="short_description">A base class for REST-based handlers</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.Handler.html" class="more">« More »</a>
+</div>
+<div id="HttpHelper" class="element ajax clickable class">
+<h1>HttpHelper<a href="../classes/triagens.ArangoDb.HttpHelper.html">¶</a>
+</h1>
+<p class="short_description">Helper methods for HTTP request/response handling</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.HttpHelper.html" class="more">« More »</a>
+</div>
+<div id="HttpResponse" class="element ajax clickable class">
+<h1>HttpResponse<a href="../classes/triagens.ArangoDb.HttpResponse.html">¶</a>
+</h1>
+<p class="short_description">Container class for HTTP responses</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.HttpResponse.html" class="more">« More »</a>
+</div>
+<div id="Scope" class="element ajax clickable class">
+<h1>Scope<a href="../classes/triagens.ArangoDb.Scope.html">¶</a>
+</h1>
+<p class="short_description">Executes a function on scope entry and executes another function
+(cleanup) when the scope is exited</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.Scope.html" class="more">« More »</a>
+</div>
+<div id="ServerException" class="element ajax clickable class">
+<h1>ServerException<a href="../classes/triagens.ArangoDb.ServerException.html">¶</a>
+</h1>
+<p class="short_description">This exception type will be thrown by the client when the server returns an
+error in response to a client request.</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.ServerException.html" class="more">« More »</a>
+</div>
+<div id="Statement" class="element ajax clickable class">
+<h1>Statement<a href="../classes/triagens.ArangoDb.Statement.html">¶</a>
+</h1>
+<p class="short_description">Container for a read-only ("select") statement
+A statement is an AQL query that can be issued to the
+server.</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.Statement.html" class="more">« More »</a>
 </div>
 <div id="TraceRequest" class="element ajax clickable class">
 <h1>TraceRequest<a href="../classes/triagens.ArangoDb.TraceRequest.html">¶</a>
@@ -99,13 +353,80 @@
 <div class="details collapse"></div>
 <a href="../classes/triagens.ArangoDb.TraceResponse.html" class="more">« More »</a>
 </div>
+<div id="Transaction" class="element ajax clickable class">
+<h1>Transaction<a href="../classes/triagens.ArangoDb.Transaction.html">¶</a>
+</h1>
+<p class="short_description">Transaction object
+A transaction is an object that is used to prepare and send a transaction
+to the server.</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.Transaction.html" class="more">« More »</a>
+</div>
+<div id="UpdatePolicy" class="element ajax clickable class">
+<h1>UpdatePolicy<a href="../classes/triagens.ArangoDb.UpdatePolicy.html">¶</a>
+</h1>
+<p class="short_description">Document update policies</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.UpdatePolicy.html" class="more">« More »</a>
+</div>
+<div id="UrlHelper" class="element ajax clickable class">
+<h1>UrlHelper<a href="../classes/triagens.ArangoDb.UrlHelper.html">¶</a>
+</h1>
+<p class="short_description">Some helper methods to construct and process URLs</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.UrlHelper.html" class="more">« More »</a>
+</div>
+<div id="Urls" class="element ajax clickable class">
+<h1>Urls<a href="../classes/triagens.ArangoDb.Urls.html">¶</a>
+</h1>
+<p class="short_description">Some basic URLs</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.Urls.html" class="more">« More »</a>
+</div>
+<div id="User" class="element ajax clickable class">
+<h1>User<a href="../classes/triagens.ArangoDb.User.html">¶</a>
+</h1>
+<p class="short_description">Value object representing a single User document</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.User.html" class="more">« More »</a>
+</div>
+<div id="UserHandler" class="element ajax clickable class">
+<h1>UserHandler<a href="../classes/triagens.ArangoDb.UserHandler.html">¶</a>
+</h1>
+<p class="short_description">A user-document handler that fetches vertices from the server and
+persists them on the server.</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.UserHandler.html" class="more">« More »</a>
+</div>
+<div id="ValueValidator" class="element ajax clickable class">
+<h1>ValueValidator<a href="../classes/triagens.ArangoDb.ValueValidator.html">¶</a>
+</h1>
+<p class="short_description">A simple validator for values to be stored in the database</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.ValueValidator.html" class="more">« More »</a>
+</div>
+<div id="Vertex" class="element ajax clickable class">
+<h1>Vertex<a href="../classes/triagens.ArangoDb.Vertex.html">¶</a>
+</h1>
+<p class="short_description">Value object representing a single vertex document</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.Vertex.html" class="more">« More »</a>
+</div>
+<div id="VertexHandler" class="element ajax clickable class">
+<h1>VertexHandler<a href="../classes/triagens.ArangoDb.VertexHandler.html">¶</a>
+</h1>
+<p class="short_description">A vertex-document handler that fetches vertices from the server and
+persists them on the server.</p>
+<div class="details collapse"></div>
+<a href="../classes/triagens.ArangoDb.VertexHandler.html" class="more">« More »</a>
+</div>
 </div>
 </div>
 </div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-05-04T16:18:33+03:00.<br></footer></div>
+            generated on 2013-05-11T17:21:43+03:00.<br></footer></div>
 </div>
 </body>
 </html>

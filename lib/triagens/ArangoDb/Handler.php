@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: base handler
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -13,7 +13,7 @@ namespace triagens\ArangoDb;
 /**
  * A base class for REST-based handlers
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 abstract class Handler
 {

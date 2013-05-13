@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: URL helper methods
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -13,7 +13,7 @@ namespace triagens\ArangoDb;
 /**
  * Some helper methods to construct and process URLs
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 abstract class UrlHelper
 {

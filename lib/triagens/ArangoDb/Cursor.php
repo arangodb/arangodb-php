@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: result set cursor
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -19,7 +19,7 @@ namespace triagens\ArangoDb;
  * cursor might issue additional HTTP requests to fetch the
  * remaining results from the server.
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 class Cursor implements
     \Iterator

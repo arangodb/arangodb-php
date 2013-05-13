@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: admin document handler
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @author    Frank Mayer
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
@@ -16,7 +16,7 @@ namespace triagens\ArangoDb;
  * An admin handler that utilizes the ArangoDB's Admin API. It does so by issuing the
  * appropriate HTTP requests to the server.
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @since     1.2
  */
 

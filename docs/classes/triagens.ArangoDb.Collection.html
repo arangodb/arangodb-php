@@ -22,7 +22,6 @@
 <li><a>Namespaces</a></li>
 <li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
 <li><a>Packages</a></li>
-<li><a href="../packages/ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
 <li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
 </ul>
 </li>
@@ -110,7 +109,7 @@
                     <ul>
 <li class="constant  "><a href="#constant_ENTRY_ID" title="ENTRY_ID :: Collection id index"><span class="description">Collection id index</span><pre>ENTRY_ID</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_IS_SYSTEM" title="ENTRY_IS_SYSTEM :: Collection 'isSystem' index"><span class="description">Collection 'isSystem' index</span><pre>ENTRY_IS_SYSTEM</pre></a></li>
-<li class="constant  "><a href="#constant_ENTRY_IS_VOLATILE" title="ENTRY_IS_VOLATILE :: Collection 'isVolatile' sindex"><span class="description">Collection 'isVolatile' sindex</span><pre>ENTRY_IS_VOLATILE</pre></a></li>
+<li class="constant  "><a href="#constant_ENTRY_IS_VOLATILE" title="ENTRY_IS_VOLATILE :: Collection 'isVolatile' index"><span class="description">Collection 'isVolatile' index</span><pre>ENTRY_IS_VOLATILE</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_JOURNAL_SIZE" title="ENTRY_JOURNAL_SIZE :: Collection 'journalSize' index"><span class="description">Collection 'journalSize' index</span><pre>ENTRY_JOURNAL_SIZE</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_KEY_OPTIONS" title="ENTRY_KEY_OPTIONS :: Collection 'keyOptions' index"><span class="description">Collection 'keyOptions' index</span><pre>ENTRY_KEY_OPTIONS</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_NAME" title="ENTRY_NAME :: Collection name index"><span class="description">Collection name index</span><pre>ENTRY_NAME</pre></a></li>
@@ -118,7 +117,7 @@
 <li class="constant  "><a href="#constant_ENTRY_TYPE" title="ENTRY_TYPE :: Collection type index"><span class="description">Collection type index</span><pre>ENTRY_TYPE</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_WAIT_SYNC" title="ENTRY_WAIT_SYNC :: Collection 'waitForSync' index"><span class="description">Collection 'waitForSync' index</span><pre>ENTRY_WAIT_SYNC</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_PROPERTIES" title="OPTION_PROPERTIES :: properties option"><span class="description">properties option</span><pre>OPTION_PROPERTIES</pre></a></li>
-<li class="constant  "><a href="#constant_STATUS_BEING_UNLOADED" title="STATUS_BEING_UNLOADED :: Collectiong being unloaded"><span class="description">Collectiong being unloaded</span><pre>STATUS_BEING_UNLOADED</pre></a></li>
+<li class="constant  "><a href="#constant_STATUS_BEING_UNLOADED" title="STATUS_BEING_UNLOADED :: Collection being unloaded"><span class="description">Collection being unloaded</span><pre>STATUS_BEING_UNLOADED</pre></a></li>
 <li class="constant  "><a href="#constant_STATUS_DELETED" title="STATUS_DELETED :: Deleted collection"><span class="description">Deleted collection</span><pre>STATUS_DELETED</pre></a></li>
 <li class="constant  "><a href="#constant_STATUS_LOADED" title="STATUS_LOADED :: Loaded collection"><span class="description">Loaded collection</span><pre>STATUS_LOADED</pre></a></li>
 <li class="constant  "><a href="#constant_STATUS_NEW_BORN" title="STATUS_NEW_BORN :: New born collection"><span class="description">New born collection</span><pre>STATUS_NEW_BORN</pre></a></li>
@@ -148,7 +147,7 @@
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
 <th>package</th>
-<td><a href="../packages/ArangoDbPhpClient.html">ArangoDbPhpClient</a></td>
+<td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
 </tr></table>
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
@@ -160,9 +159,13 @@
 </div>
 <a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
 <h2>Constructs an empty collection</h2>
-<pre>__construct() : void</pre>
+<pre>__construct() : <a href="../classes/triagens.ArangoDb.Collection.html">\triagens\ArangoDb\Collection</a></pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Collection.html">\triagens\ArangoDb\Collection</a></code></div>
+</div></div>
 </div>
 <a id="method___toString"></a><div class="element clickable method public method___toString" data-toggle="collapse" data-target=".method___toString .collapse">
 <h2>Get a string representation of the collection</h2>
@@ -352,7 +355,7 @@ exception if the value is invalid.</p></div>
 </div>
 <a id="method_setId"></a><div class="element clickable method public method_setId" data-toggle="collapse" data-target=".method_setId .collapse">
 <h2>Set the collection id</h2>
-<pre>setId(mixed $id) : void</pre>
+<pre>setId(mixed $id) : bool</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw if the id of an existing collection gets updated to some other id</p></div>
@@ -368,6 +371,8 @@ exception if the value is invalid.</p></div>
 <th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
 <td></td>
 </tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
 </div></div>
 </div>
 <a id="method_setIsSystem"></a><div class="element clickable method public method_setIsSystem" data-toggle="collapse" data-target=".method_setIsSystem .collapse">
@@ -604,7 +609,7 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="constant_ENTRY_IS_VOLATILE"> </a><div class="element clickable constant  constant_ENTRY_IS_VOLATILE" data-toggle="collapse" data-target=".constant_ENTRY_IS_VOLATILE .collapse">
-<h2>Collection 'isVolatile' sindex</h2>
+<h2>Collection 'isVolatile' index</h2>
 <pre>ENTRY_IS_VOLATILE </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
@@ -652,7 +657,7 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="constant_STATUS_BEING_UNLOADED"> </a><div class="element clickable constant  constant_STATUS_BEING_UNLOADED" data-toggle="collapse" data-target=".constant_STATUS_BEING_UNLOADED .collapse">
-<h2>Collectiong being unloaded</h2>
+<h2>Collection being unloaded</h2>
 <pre>STATUS_BEING_UNLOADED </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
@@ -700,7 +705,7 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-05-04T16:18:33+03:00.<br></footer></div>
+            generated on 2013-05-11T17:21:43+03:00.<br></footer></div>
 </div>
 </body>
 </html>

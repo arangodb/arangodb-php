@@ -22,7 +22,6 @@
 <li><a>Namespaces</a></li>
 <li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
 <li><a>Packages</a></li>
-<li><a href="../packages/ArangoDbPhpClient.html"><i class="icon-folder-open"></i> ArangoDbPhpClient</a></li>
 <li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
 </ul>
 </li>
@@ -107,7 +106,7 @@
 <li class="nav-header">
 <i class="icon-custom icon-constant"></i> Constants
                     <ul>
-<li class="constant  inherited"><a href="#constant_ENTRY_HIDDEN" title="ENTRY_HIDDEN :: hidden atttribute index"><span class="description">hidden atttribute index</span><pre>ENTRY_HIDDEN</pre></a></li>
+<li class="constant  inherited"><a href="#constant_ENTRY_HIDDEN" title="ENTRY_HIDDEN :: hidden attribute index"><span class="description">hidden attribute index</span><pre>ENTRY_HIDDEN</pre></a></li>
 <li class="constant  inherited"><a href="#constant_ENTRY_ID" title="ENTRY_ID :: Document id index"><span class="description">Document id index</span><pre>ENTRY_ID</pre></a></li>
 <li class="constant  inherited"><a href="#constant_ENTRY_ISNEW" title="ENTRY_ISNEW :: isNew id index"><span class="description">isNew id index</span><pre>ENTRY_ISNEW</pre></a></li>
 <li class="constant  inherited"><a href="#constant_ENTRY_KEY" title="ENTRY_KEY :: Document key index"><span class="description">Document key index</span><pre>ENTRY_KEY</pre></a></li>
@@ -139,7 +138,7 @@
 <table class="table table-bordered">
 <tr>
 <th>package</th>
-<td><a href="../packages/ArangoDbPhpClient.html">ArangoDbPhpClient</a></td>
+<td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
 </tr>
 <tr>
 <th>since</th>
@@ -162,7 +161,7 @@
 </div>
 <a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
 <h2>Constructs an empty document</h2>
-<pre>__construct(array $options) : void</pre>
+<pre>__construct(array $options) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -177,6 +176,8 @@
 <li>optional, initial $options for document</li>
 </ul>
 </div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code></div>
 </div></div>
 </div>
 <a id="method___get"></a><div class="element clickable method public method___get" data-toggle="collapse" data-target=".method___get .collapse">
@@ -392,7 +393,7 @@ bigger than PHP_INT_MAX. To reliably store a collection id elsewhere, a PHP stri
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>Document handles are generated on the server only. Document handles consist of collection id and
-document id, in the format collectionid/documentid</p></div>
+document id, in the format collectionId/documentId</p></div>
 <table class="table table-bordered"><tr>
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\Document::getHandle()</td>
@@ -439,7 +440,7 @@ bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>Document ids are generated on the server only. Document ids consist of collection id and
-document id, in the format collectionid/documentid</p></div>
+document id, in the format collectionId/documentId</p></div>
 <table class="table table-bordered"><tr>
 <th>inherited_from</th>
 <td>\triagens\ArangoDb\Document::getInternalId()</td>
@@ -543,7 +544,7 @@ exception if the value is invalid.</p></div>
 </div>
 <a id="method_setChanged"></a><div class="element clickable method public method_setChanged" data-toggle="collapse" data-target=".method_setChanged .collapse">
 <h2>Set the changed flag</h2>
-<pre>setChanged(bool $value) : void</pre>
+<pre>setChanged(bool $value) : bool</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -558,6 +559,8 @@ exception if the value is invalid.</p></div>
 <li>change flag</li>
 </ul>
 </div>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
 </div></div>
 </div>
 <a id="method_setHiddenAttributes"></a><div class="element clickable method public method_setHiddenAttributes" data-toggle="collapse" data-target=".method_setHiddenAttributes .collapse">
@@ -811,7 +814,7 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 <h3>
 <i class="icon-custom icon-constant"></i> Constants</h3>
 <a id="constant_ENTRY_HIDDEN"> </a><div class="element clickable constant  constant_ENTRY_HIDDEN" data-toggle="collapse" data-target=".constant_ENTRY_HIDDEN .collapse">
-<h2>hidden atttribute index</h2>
+<h2>hidden attribute index</h2>
 <pre>ENTRY_HIDDEN </pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
@@ -913,7 +916,7 @@ To reliably store a document id elsewhere, a PHP string should be used</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-05-04T16:18:33+03:00.<br></footer></div>
+            generated on 2013-05-11T17:21:44+03:00.<br></footer></div>
 </div>
 </body>
 </html>

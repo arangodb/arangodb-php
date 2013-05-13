@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: connection
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -17,7 +17,7 @@ namespace triagens\ArangoDb;
  * Instead, connections are established on the fly for each request
  * and are destroyed afterwards.
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 class Connection
 {

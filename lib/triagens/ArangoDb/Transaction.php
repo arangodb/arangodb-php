@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: transaction
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Frank Mayer
  * @copyright Copyright 2013, triagens GmbH, Cologne, Germany
  */
@@ -48,7 +48,7 @@ namespace triagens\ArangoDb;
  * @property bool   $waitForSync     - WaitForSync on the transaction
  * @property int    $lockTimeout     - LockTimeout on the transaction
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 class Transaction
 {

@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: collection handler
  *
- * @package   ArangoDbPhpClient
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -15,7 +15,7 @@ namespace triagens\ArangoDb;
  * creates collections on the server. It does so by issuing the
  * appropriate HTTP requests to the server.
  *
- * @package ArangoDbPhpClient
+ * @package triagens\ArangoDb
  */
 class CollectionHandler extends
     Handler
