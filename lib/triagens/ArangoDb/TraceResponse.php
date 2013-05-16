@@ -47,6 +47,12 @@ class TraceResponse
     private $_type = "response";
 
     /**
+     * The time taken to send and receive a response in seconds
+     * @var float
+     */
+    private $_timeTaken;
+
+    /**
      * Used to look up the definition for an http code
      *
      * @var array
@@ -102,11 +108,12 @@ class TraceResponse
      * @param int    $httpCode - the http code
      * @param string $body     - the string of http body
      */
-    public function __construct($headers, $httpCode, $body)
+    public function __construct($headers, $httpCode, $body, $timeTaken)
     {
         $this->_headers  = $headers;
         $this->_httpCode = $httpCode;
         $this->_body     = $body;
+        $this->_timeTaken = $timeTaken;
     }
 
     /**
@@ -162,5 +169,13 @@ class TraceResponse
     public function getType()
     {
         return $this->_type;
+    }
+
+    /**
+     * Get the time taken for this request
+     */
+    public function getTimeTaken()
+    {
+        return $this->_timeTaken;
     }
 }
