@@ -145,6 +145,7 @@ class ConnectionTest extends
                     'Http code definition must be a string!'
                 );
                 $self->assertEquals('response', $data->getType());
+                $self->assertInternalType('float', $data->getTimeTaken());
             }
         };
 
