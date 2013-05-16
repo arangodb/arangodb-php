@@ -350,8 +350,9 @@ class Connection
         $handle = $this->getHandle();
         if ($handle) {
             // send data and get response back
+            $startTime = microtime(true);
             $result = HttpHelper::transfer($handle, $request);
-
+            $timeTaken = microtime(true) - $startTime;
             $status = socket_get_status($handle);
 
             if (!$this->_useKeepAlive) {
@@ -371,7 +372,7 @@ class Connection
                 // call tracer func
                 if ($this->_options[ConnectionOptions::OPTION_ENHANCED_TRACE]) {
                     $traceFunc(
-                        new TraceResponse($response->getHeaders(), $response->getHttpCode(), $response->getBody())
+                        new TraceResponse($response->getHeaders(), $response->getHttpCode(), $response->getBody(), $timeTaken)
                     );
                 } else {
                     $traceFunc('receive', $result);
