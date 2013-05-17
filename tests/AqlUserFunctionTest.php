@@ -98,7 +98,7 @@ class AqlUserFunctionTest extends
     			'did not return expected Function. Instead returned: ' . $list[0]['name'] . ' and ' . $list[0]['code']
     	);
     
-    	$result = $userFunction->unregister();
+    	$result = $userFunction->unregister($name);
     
     	$this->assertTrue(
     			$result['error'] == false,
