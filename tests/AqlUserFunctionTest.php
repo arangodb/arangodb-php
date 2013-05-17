@@ -73,6 +73,38 @@ class AqlUserFunctionTest extends
         );
     }
 
+    /**
+     * Test if AqlUserFunctions can be registered, listed and unregistered using the register() shortcut method
+     */
+    public function testRegisterListAndUnregisterAqlUserFunctionUsingShortcut()
+    {
+    
+    	$name = 'myFunctions:myFunction';
+    	$code = 'function (celsius) { return celsius * 1.8 + 32; }';
+    
+    	$userFunction = new AqlUserFunction($this->connection);
+    
+    	$result = $userFunction->register($name, $code);
+    
+    	$this->assertTrue(
+    			$result['error'] == false,
+    			'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+    	);
+    	$list = $userFunction->getRegisteredUserFunctions();
+    
+    	$this->assertCount(1, $list, 'List returned did not return expected 1 attribute');
+    	$this->assertTrue(
+    			$list[0]['name'] == $name && $list[0]['code'] == $code,
+    			'did not return expected Function. Instead returned: ' . $list[0]['name'] . ' and ' . $list[0]['code']
+    	);
+    
+    	$result = $userFunction->unregister();
+    
+    	$this->assertTrue(
+    			$result['error'] == false,
+    			'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+    	);
+    }
 
     /**
      * Test if AqlUserFunctions can be registered, listed and unregistered with getters and setters

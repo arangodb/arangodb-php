@@ -120,10 +120,11 @@ class AqlUserFunction
         $attributes = $this->attributes;
 
 
-        if (is_null($name)) {
+        if ($name) {
             $attributes['name'] = $this->getName();
         }
-        if (is_null($code)) {
+
+        if ($code) {
             $attributes['code'] = $this->getCode();
         }
 
