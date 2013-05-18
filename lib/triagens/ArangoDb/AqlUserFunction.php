@@ -120,11 +120,12 @@ class AqlUserFunction
         $attributes = $this->attributes;
 
 
-        if (is_null($name)) {
-            $attributes['name'] = $this->getName();
+        if ($name) {
+            $attributes['name'] = $name;
         }
-        if (is_null($code)) {
-            $attributes['code'] = $this->getCode();
+
+        if ($code) {
+            $attributes['code'] = $code;
         }
 
         $response      = $this->_connection->post(
