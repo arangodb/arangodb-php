@@ -78,32 +78,32 @@ class AqlUserFunctionTest extends
      */
     public function testRegisterListAndUnregisterAqlUserFunctionUsingShortcut()
     {
-    
-    	$name = 'myFunctions:myFunction';
-    	$code = 'function (celsius) { return celsius * 1.8 + 32; }';
-    
-    	$userFunction = new AqlUserFunction($this->connection);
-    
-    	$result = $userFunction->register($name, $code);
-    
-    	$this->assertTrue(
-    			$result['error'] == false,
-    			'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
-    	);
-    	$list = $userFunction->getRegisteredUserFunctions();
-    
-    	$this->assertCount(1, $list, 'List returned did not return expected 1 attribute');
-    	$this->assertTrue(
-    			$list[0]['name'] == $name && $list[0]['code'] == $code,
-    			'did not return expected Function. Instead returned: ' . $list[0]['name'] . ' and ' . $list[0]['code']
-    	);
-    
-    	$result = $userFunction->unregister($name);
-    
-    	$this->assertTrue(
-    			$result['error'] == false,
-    			'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
-    	);
+
+        $name = 'myFunctions:myFunction';
+        $code = 'function (celsius) { return celsius * 1.8 + 32; }';
+
+        $userFunction = new AqlUserFunction($this->connection);
+
+        $result = $userFunction->register($name, $code);
+
+        $this->assertTrue(
+                $result['error'] == false,
+                'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+        );
+        $list = $userFunction->getRegisteredUserFunctions();
+
+        $this->assertCount(1, $list, 'List returned did not return expected 1 attribute');
+        $this->assertTrue(
+                $list[0]['name'] == $name && $list[0]['code'] == $code,
+                'did not return expected Function. Instead returned: ' . $list[0]['name'] . ' and ' . $list[0]['code']
+        );
+
+        $result = $userFunction->unregister($name);
+
+        $this->assertTrue(
+                $result['error'] == false,
+                'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+        );
     }
 
     /**
@@ -255,6 +255,40 @@ class AqlUserFunctionTest extends
         );
     }
 
+    /**
+     * Test the namespace filter when getting the registered AQL functions.
+     */
+    public function testGetAQLFunctionsWithNamespaceFilter()
+    {
+
+        $name1 = 'myFunctions:myFunction';
+        $name2 = 'myFunctions1:myFunction';
+        $code = 'function (celsius) { return celsius * 1.8 + 32; }';
+
+        //Setup
+        $userFunction = new AqlUserFunction($this->connection);
+
+        $userFunction->name = $name1;
+        $userFunction->code = $code;
+
+        $result = $userFunction->register();
+
+        $userFunction = new AqlUserFunction($this->connection);
+
+        $userFunction->name = $name2;
+        $userFunction->code = $code;
+
+        $result = $userFunction->register();
+
+        $functions = $userFunction->getRegisteredUserFunctions('myFunctions');
+        $this->assertCount(1, $functions, "myFunctions namespace should only contain 1 function.");
+
+        $functions = $userFunction->getRegisteredUserFunctions('myFunctions1');
+        $this->assertCount(1, $functions, "myFunctions namespace should only contain 1 function.");
+
+        $userFunction->unregister($name1);
+        $userFunction->unregister($name2);
+    }
 
     public function tearDown()
     {
