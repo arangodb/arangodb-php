@@ -120,10 +120,11 @@ class AqlUserFunction
         $attributes = $this->attributes;
 
 
-        if (is_null($name)) {
+        if ($name) {
             $attributes['name'] = $this->getName();
         }
-        if (is_null($code)) {
+
+        if ($code) {
             $attributes['code'] = $this->getCode();
         }
 
@@ -178,7 +179,7 @@ class AqlUserFunction
     public function getRegisteredUserFunctions($namespace = null)
     {
         $url = UrlHelper::buildUrl(Urls::URL_AQL_USER_FUNCTION);
-        if (is_null($namespace)) {
+        if (!is_null($namespace)) {
             $url = UrlHelper::appendParamsUrl($url, array('namespace' => $namespace));
         }
         $response = $this->_connection->get($url);
