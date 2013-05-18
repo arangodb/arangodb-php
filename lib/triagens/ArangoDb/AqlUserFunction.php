@@ -179,7 +179,7 @@ class AqlUserFunction
     public function getRegisteredUserFunctions($namespace = null)
     {
         $url = UrlHelper::buildUrl(Urls::URL_AQL_USER_FUNCTION);
-        if (is_null($namespace)) {
+        if (!is_null($namespace)) {
             $url = UrlHelper::appendParamsUrl($url, array('namespace' => $namespace));
         }
         $response = $this->_connection->get($url);
