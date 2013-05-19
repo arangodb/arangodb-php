@@ -145,18 +145,24 @@ class AqlUserFunction
      *
      * If $name is passed, it will override the object's property with the passed one
      *
-     * @param null $name
+     * @param string $name
+     * @param boolean $namespace
      *
      * @throws Exception throw exception if the request fails
      *
      * @return mixed true if successful without a return value or the return value if one was set in the action
      */
-    public function unregister($name = null)
+    public function unregister($name = null, $namespace = false)
     {
         if (is_null($name)) {
             $name = $this->getName();
         }
+
         $url = UrlHelper::buildUrl(Urls::URL_AQL_USER_FUNCTION, $name);
+
+        if($namespace){
+            $url = UrlHelper::appendParamsUrl($url, array('group' => true));
+        }
 
         $response      = $this->_connection->delete($url);
         $responseArray = $response->getJson();
