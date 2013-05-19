@@ -290,6 +290,40 @@ class AqlUserFunctionTest extends
         $userFunction->unregister($name2);
     }
 
+    /**
+     * Unregister all AQL functions on a namespace.
+     */
+    public function testUnregisterAQLFunctionsOnNamespace()
+    {
+
+        $name1 = 'myFunctions:myFunction1';
+        $name2 = 'myFunctions:myFunction2';
+        $code = 'function (celsius) { return celsius * 1.8 + 32; }';
+
+        //Setup
+        $userFunction = new AqlUserFunction($this->connection);
+
+        $userFunction->name = $name1;
+        $userFunction->code = $code;
+
+        $result = $userFunction->register();
+
+        $userFunction = new AqlUserFunction($this->connection);
+
+        $userFunction->name = $name2;
+        $userFunction->code = $code;
+
+        $result = $userFunction->register();
+
+        $functions = $userFunction->getRegisteredUserFunctions('myFunctions');
+        $this->assertCount(2, $functions, "myFunctions namespace should only contain 2 functions.");
+
+        $userFunction->unregister('myFunctions', true);
+
+        $functions = $userFunction->getRegisteredUserFunctions('myFunctions');
+        $this->assertEmpty($functions, "myFunctions namespace should only contain no functions.");
+    }
+
     public function tearDown()
     {
 
