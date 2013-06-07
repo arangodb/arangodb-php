@@ -51,17 +51,16 @@ abstract class UrlHelper
      * This function accepts variable arguments.
      *
      * @param string $baseUrl - base URL
+     * @param array $parts - URL parts to append
      *
      * @return string - assembled URL
      */
-    public static function buildUrl($baseUrl)
+    public static function buildUrl($baseUrl, array $parts)
     {
-        $argv = func_get_args();
-        $argc = count($argv);
-
         $url = $baseUrl;
-        for ($i = 1; $i < $argc; ++$i) {
-            $url .= '/' . urlencode($argv[$i]);
+
+        foreach ($parts as $part) {
+            $url .= '/' . urlencode($part);
         }
 
         return $url;

@@ -219,7 +219,7 @@ class Connection
             $handle = $this->_handle;
 
             // check if connection is still valid
-            if (!feof($handle)) {
+            if (! feof($handle)) {
                 // connection still valid
                 return $handle;
             }
@@ -279,14 +279,13 @@ class Connection
 
         return $response;
     }
-
+        
     /**
      * Execute an HTTP request and return the results
      *
      * This function will throw if no connection to the server can be established or if
      * there is a problem during data exchange with the server.
      *
-     * The function might temporarily alter the value of the php.ini value 'default_socket_timeout' but
      * will restore it.
      *
      * @throws Exception
@@ -311,9 +310,12 @@ class Connection
             } else {
                 $request = HttpHelper::buildRequest($this->_options, $method, $url, $data);
             }
-            $batchPart = $this->doBatch($method, $request);
-            if (!is_null($batchPart)) {
-                return $batchPart;
+
+            if ($this->_captureBatch === true) {
+                $batchPart = $this->doBatch($method, $request);
+                if (! is_null($batchPart)) {
+                    return $batchPart;
+                }
             }
         } else {
             $this->_batchRequest = false;
@@ -327,45 +329,45 @@ class Connection
 
         $traceFunc = $this->_options[ConnectionOptions::OPTION_TRACE];
         if ($traceFunc) {
-
             // call tracer func
             if ($this->_options[ConnectionOptions::OPTION_ENHANCED_TRACE]) {
-                $parsed = HttpHelper::parseHttpMessage($request);
-                $traceFunc(new TraceRequest(HttpHelper::parseHeaders($parsed['header']), $method, $url, $data));
+                list($header) = HttpHelper::parseHttpMessage($request);
+                $traceFunc(new TraceRequest(HttpHelper::parseHeaders($header), $method, $url, $data));
             } else {
                 $traceFunc('send', $request);
             }
         }
 
-        // set socket timeout for this scope
-        $getFunc = function () {
-            return ini_get('default_socket_timeout');
-        };
-        $setFunc = function ($value) {
-            ini_set('default_socket_timeout', $value);
-        };
-        $scope   = new Scope($getFunc, $setFunc);
-        $setFunc($this->_options[ConnectionOptions::OPTION_TIMEOUT]);
+
         // open the socket. note: this might throw if the connection cannot be established
         $handle = $this->getHandle();
+
         if ($handle) {
             // send data and get response back
-            $startTime = microtime(true);
-            $result = HttpHelper::transfer($handle, $request);
-            $timeTaken = microtime(true) - $startTime;
-            $status = socket_get_status($handle);
 
-            if (!$this->_useKeepAlive) {
+            if ($traceFunc) {
+                // only issue syscall if we need it
+                $startTime = microtime(true);
+            }
+
+            $result = HttpHelper::transfer($handle, $request);
+
+            if ($traceFunc) {
+                // only issue syscall if we need it
+                $timeTaken = microtime(true) - $startTime;
+            }
+
+            if (! $this->_useKeepAlive) {
                 // must close the connection
                 fclose($handle);
             }
 
-            $scope->leave();
-
+/*
+            $status = socket_get_status($handle);
             if ($status['timed_out']) {
                 throw new ClientException('Got a timeout when waiting on the server\'s response');
             }
-
+*/
             $response = new HttpResponse($result);
 
             if ($traceFunc) {
@@ -382,7 +384,6 @@ class Connection
             return $response;
         }
 
-        $scope->leave();
         throw new ClientException('Whoops, this should never happen');
     }
 

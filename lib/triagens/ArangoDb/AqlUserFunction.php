@@ -158,7 +158,7 @@ class AqlUserFunction
             $name = $this->getName();
         }
 
-        $url = UrlHelper::buildUrl(Urls::URL_AQL_USER_FUNCTION, $name);
+        $url = UrlHelper::buildUrl(Urls::URL_AQL_USER_FUNCTION, array($name));
 
         if($namespace){
             $url = UrlHelper::appendParamsUrl($url, array('group' => true));
@@ -184,7 +184,7 @@ class AqlUserFunction
      */
     public function getRegisteredUserFunctions($namespace = null)
     {
-        $url = UrlHelper::buildUrl(Urls::URL_AQL_USER_FUNCTION);
+        $url = UrlHelper::buildUrl(Urls::URL_AQL_USER_FUNCTION, array());
         if (!is_null($namespace)) {
             $url = UrlHelper::appendParamsUrl($url, array('namespace' => $namespace));
         }

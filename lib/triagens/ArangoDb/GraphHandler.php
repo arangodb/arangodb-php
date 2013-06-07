@@ -110,11 +110,10 @@ class GraphHandler extends
      * @since   1.2
      *
      * @example "ArangoDb/examples/graph.php" How to use this function
-     * @example "ArangoDb/examples/graph.php" How to use this function
      */
     public function getGraph($graph, array $options = array())
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, $graph);
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph));
         $response = $this->getConnection()->get($url);
         $data     = $response->getJson();
 
@@ -140,7 +139,7 @@ class GraphHandler extends
      */
     public function dropGraph($graph)
     {
-        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, $graph);
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph));
         $this->getConnection()->delete($url);
 
         return true;
@@ -159,8 +158,7 @@ class GraphHandler extends
      */
     public function properties($graph)
     {
-
-        $url         = UrlHelper::buildUrl(Urls::URL_GRAPH, $graph);
+        $url         = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph));
         $result      = $this->getConnection()->get($url);
         $resultArray = $result->getJson();
 
@@ -189,7 +187,7 @@ class GraphHandler extends
             $document = Vertex::createFromArray($document);
         }
         $data = $document->getAll();
-        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_VERTEX);
+        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_VERTEX));
 
         $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
 
@@ -233,7 +231,7 @@ class GraphHandler extends
      */
     public function getVertex($graphName, $vertexId, array $options = array())
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_VERTEX, $vertexId);
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_VERTEX, $vertexId));
         $response = $this->getConnection()->get($url);
 
         $jsonArray = $response->getJson();
@@ -304,7 +302,7 @@ class GraphHandler extends
         }
 
         $data = $document->getAll();
-        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_VERTEX, $vertexId);
+        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_VERTEX, $vertexId));
         $url  = UrlHelper::appendParamsUrl($url, $params);
 
         $response = $this->getConnection()->PUT($url, $this->json_encode_wrapper($data));
@@ -382,7 +380,7 @@ class GraphHandler extends
             $params[ConnectionOptions::OPTION_REVISION] = $options[self::OPTION_REVISION];
         }
 
-        $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_VERTEX, $vertexId);
+        $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_VERTEX, $vertexId));
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAll()));
         $json   = $result->getJson();
@@ -432,7 +430,7 @@ class GraphHandler extends
             $params[ConnectionOptions::OPTION_REVISION] = $revision;
         }
 
-        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_VERTEX, $vertexId);
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_VERTEX, $vertexId));
         $url = UrlHelper::appendParamsUrl($url, $params);
         $this->getConnection()->delete($url);
 
@@ -472,7 +470,7 @@ class GraphHandler extends
         $data[self::KEY_FROM] = $from;
         $data[self::KEY_TO]   = $to;
 
-        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_EDGE);
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_EDGE));
         $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
 
         $jsonArray = $response->getJson();
@@ -515,7 +513,7 @@ class GraphHandler extends
      */
     public function getEdge($graphName, $edgeId, array $options = array())
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_EDGE, $edgeId);
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_EDGE, $edgeId));
         $response = $this->getConnection()->get($url);
 
         $jsonArray = $response->getJson();
@@ -590,7 +588,7 @@ class GraphHandler extends
             $document->set('$label', $label);
         }
 
-        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_EDGE, $edgeId);
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_EDGE, $edgeId));
         $url = UrlHelper::appendParamsUrl($url, $params);
 
         $response = $this->getConnection()->PUT($url, $this->json_encode_wrapper($data));
@@ -674,7 +672,7 @@ class GraphHandler extends
             $document->set('$label', $label);
         }
 
-        $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_EDGE, $edgeId);
+        $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_EDGE, $edgeId));
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAll()));
         $json   = $result->getJson();
@@ -723,7 +721,7 @@ class GraphHandler extends
             $params[ConnectionOptions::OPTION_REVISION] = $revision;
         }
 
-        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_EDGE, $edgeId);
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_EDGE, $edgeId));
         $url = UrlHelper::appendParamsUrl($url, $params);
         $this->getConnection()->delete($url);
 
@@ -776,7 +774,7 @@ class GraphHandler extends
         $options['objectType'] = 'vertex';
         $data                  = array_merge($options, $this->getCursorOptions($options));
 
-        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_VERTICES, $vertexId);
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_VERTICES, $vertexId));
         $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
 
         return new Cursor($this->getConnection(), $response->getJson(), $options);
@@ -828,7 +826,7 @@ class GraphHandler extends
         $options['objectType'] = 'edge';
         $data                  = array_merge($options, $this->getCursorOptions($options));
 
-        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, $graphName, Urls::URLPART_EDGES, $vertexId);
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_EDGES, $vertexId));
         $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
 
         return new Cursor($this->getConnection(), $response->getJson(), $options);

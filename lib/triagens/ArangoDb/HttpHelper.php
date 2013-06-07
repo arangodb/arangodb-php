@@ -179,18 +179,29 @@ class HttpHelper
         $totalRead      = 0;
 
         $result = '';
-        while (!feof($socket)) {
+        $first  = true;
+
+        while ($first || ! feof($socket)) {
             $read = @fread($socket, self::CHUNK_SIZE);
             if ($read === false || $read === '') {
                 break;
             }
             $totalRead += strlen($read);
 
-            $result .= $read;
+            if ($first) {
+                $result = $read;
+                $first = false;
+            }
+            else {
+                $result .= $read;
+            }
 
             if ($contentLength === null) {
-                if (preg_match("/[cC]ontent-[lL]ength: (\d+)/", $result, $matches)) {
-                    $contentLength = (int) $matches[1];
+                // check if content-length header is present
+                $pos = stripos($result, "content-length: ");
+
+                if ($pos !== false) {
+                    $contentLength = (int) substr($result, $pos + 15, 10);
                 }
             }
 
@@ -230,9 +241,11 @@ class HttpHelper
             $message,
             $options[ConnectionOptions::OPTION_TIMEOUT]
         );
-        if (!$fp) {
+        if (! $fp) {
             throw new ConnectException($message, $number);
         }
+            
+        stream_set_timeout($fp, $options[ConnectionOptions::OPTION_TIMEOUT]);
 
         return $fp;
     }
@@ -250,18 +263,13 @@ class HttpHelper
         assert(is_string($httpMessage));
 
         $barrier = HttpHelper::EOL . HttpHelper::EOL;
-        $border  = strpos($httpMessage, $barrier);
+        $parts   = explode($barrier, $httpMessage, 2);
 
-        if ($border === false) {
+        if (! isset($parts[1]) or $parts[1] === NULL) {
             throw new ClientException('Got an invalid response from the server');
         }
 
-        $result = array();
-
-        $result['header'] = substr($httpMessage, 0, $border);
-        $result['body']   = substr($httpMessage, $border + strlen($barrier));
-
-        return $result;
+        return $parts;
     }
 
     /**
@@ -273,21 +281,26 @@ class HttpHelper
      */
     public static function parseHeaders($headers)
     {
+        $httpCode  = NULL;
+        $result    = NULL;
         $processed = array();
 
         foreach (explode(HttpHelper::EOL, $headers) as $lineNumber => $line) {
             $line = trim($line);
 
             if ($lineNumber == 0) {
-                // first line of result is special, so discard it.
-                continue;
+                // first line of result is special
+                $result = $line;
+                if (preg_match("/^HTTP\/\d+\.\d+\s+(\d+)/", $line, $matches)) {
+                  $httpCode = (int) $matches[1];
+                }
             } else {
                 // other lines contain key:value-like headers
                 list($key, $value) = explode(':', $line, 2);
-                $processed[strtolower(trim($key))] = trim($value);
+                $processed[strtolower(rtrim($key))] = ltrim($value);
             }
         }
 
-        return $processed;
+        return array($httpCode, $result, $processed);
     }
 }

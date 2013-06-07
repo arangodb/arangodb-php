@@ -83,7 +83,7 @@ class UserHandler extends
         $userDocument->active = $active;
         $userDocument->extra  = $extra;
         $data                 = $userDocument->getAll();
-        $url                  = UrlHelper::buildUrl(Urls::URL_USER, $username);
+        $url                  = UrlHelper::buildUrl(Urls::URL_USER, array($username));
         $this->getConnection()->put($url, $this->json_encode_wrapper($data));
 
         return true;
@@ -123,7 +123,7 @@ class UserHandler extends
             $userDocument->extra = $extra;
         }
 
-        $url = UrlHelper::buildUrl(Urls::URL_USER, $username);
+        $url = UrlHelper::buildUrl(Urls::URL_USER, array($username));
         $this->getConnection()->patch($url, $this->json_encode_wrapper($userDocument->getAll()));
 
         return true;
@@ -143,7 +143,7 @@ class UserHandler extends
      */
     public function get($username)
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_USER, $username);
+        $url      = UrlHelper::buildUrl(Urls::URL_USER, array($username));
         $response = $this->getConnection()->get($url);
 
         $data = $response->getJson();
@@ -168,7 +168,7 @@ class UserHandler extends
         // This preserves compatibility for the old policy parameter.
         $params = array();
 
-        $url = UrlHelper::buildUrl(Urls::URL_USER, $username);
+        $url = UrlHelper::buildUrl(Urls::URL_USER, array($username));
         $url = UrlHelper::appendParamsUrl($url, $params);
         $this->getConnection()->delete($url);
 

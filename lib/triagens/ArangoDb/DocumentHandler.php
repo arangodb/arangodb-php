@@ -84,7 +84,7 @@ class DocumentHandler extends
      */
     public function getById($collectionId, $documentId, array $options = array())
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
+        $url      = UrlHelper::buildUrl(Urls::URL_DOCUMENT, array($collectionId, $documentId));
         $response = $this->getConnection()->get($url);
 
         $data = $response->getJson();
@@ -392,7 +392,7 @@ class DocumentHandler extends
             $params[ConnectionOptions::OPTION_REVISION] = $revision;
         }
 
-        $url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
+        $url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, array($collectionId, $documentId));
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAll()));
         $json   = $result->getJson();
@@ -478,7 +478,7 @@ class DocumentHandler extends
         }
 
         $data   = $document->getAll();
-        $url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
+        $url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, array($collectionId, $documentId));
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->put($url, $this->json_encode_wrapper($data));
         $json   = $result->getJson();
@@ -597,7 +597,7 @@ class DocumentHandler extends
             $params[ConnectionOptions::OPTION_REVISION] = $revision;
         }
 
-        $url = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId, $documentId);
+        $url = UrlHelper::buildUrl(Urls::URL_DOCUMENT, array($collectionId, $documentId));
         $url = UrlHelper::appendParamsUrl($url, $params);
         $this->getConnection()->delete($url);
 

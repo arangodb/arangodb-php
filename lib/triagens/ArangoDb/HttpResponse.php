@@ -66,12 +66,9 @@ class HttpResponse
      */
     public function __construct($responseString)
     {
-        $parsed = HttpHelper::parseHttpMessage($responseString);
-
-        $this->_header = $parsed['header'];
-        $this->_body   = $parsed['body'];
-
-        $this->setupHeaders();
+         list($this->_header, $this->_body)                      = HttpHelper::parseHttpMessage($responseString);
+         list($this->_httpCode, $this->_result, $this->_headers) = HttpHelper::parseHeaders($this->_header);
+        
     }
 
     /**
@@ -163,29 +160,4 @@ class HttpResponse
         return $json;
     }
 
-    /**
-     * Set up an array of HTTP headers
-     *
-     * @return void
-     */
-    private function setupHeaders()
-    {
-        //Get the http status code from the first line
-        foreach (explode(HttpHelper::EOL, $this->_header) as $lineNumber => $line) {
-            $line = trim($line);
-
-            if ($lineNumber == 0) {
-                // first line of result is special
-                $this->_result = $line;
-                if (preg_match("/^HTTP\/\d+\.\d+\s+(\d+)/", $line, $matches)) {
-                    $this->_httpCode = (int) $matches[1];
-                }
-
-                break;
-            }
-        }
-
-        //Process the rest of the headers
-        $this->_headers = HttpHelper::parseHeaders($this->_header);
-    }
 }
