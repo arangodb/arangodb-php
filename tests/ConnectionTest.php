@@ -139,8 +139,8 @@ class ConnectionTest extends
                 $self->assertEquals('request', $data->getType());
                 
                 foreach ($data->getHeaders() as $header => $value) {
-                	$this->assertInternalType('string', $value, "The header value should be a string");
-                	$this->assertInternalType('string', $header, "The header should be a string");
+                	$self->assertInternalType('string', $value, "The header value should be a string");
+                	$self->assertInternalType('string', $header, "The header should be a string");
                 }
                 
             } else {
