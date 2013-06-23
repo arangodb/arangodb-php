@@ -332,7 +332,7 @@ class Connection
             // call tracer func
             if ($this->_options[ConnectionOptions::OPTION_ENHANCED_TRACE]) {
                 list($header) = HttpHelper::parseHttpMessage($request);
-                $traceFunc(new TraceRequest(HttpHelper::parseHeaders($header), $method, $url, $data));
+                $traceFunc(new TraceRequest(HttpHelper::parseHeaders($header)[2], $method, $url, $data));
             } else {
                 $traceFunc('send', $request);
             }
