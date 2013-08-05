@@ -1211,6 +1211,52 @@ class CollectionHandler extends
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
 
+    /**
+	 * Returns all documents of a collection
+	 *
+	 * @param mixed  $collectionId    - collection id as string or number
+	 * @param array  $options         - optional array of options.
+	 * <p>Options are :<br>
+	 * <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+	 * <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
+	 * <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+	 * <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
+	 * <p>
+	 *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
+	 *                                The difference is, that if you're returning a resultset of documents, the getAll() is already called<br>
+	 *                                and the hidden attributes would not be applied to the attributes.<br>
+	 * </p>
+	 *
+	 * <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
+	 * <li>'skip'      -  Optional, The number of documents to skip in the query.</li>
+	 * <li>'limit'     -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
+	 * </li>
+	 * </p>
+	 *
+	 * @return Cursor - documents
+	 */
+	public function all($collectionId, $options = array())
+	{
+		$options = array_merge($options, $this->getCursorOptions($options));
+
+		$body = array(
+			self::OPTION_COLLECTION => $collectionId,
+		);
+
+		$body = $this->includeOptionsInBody(
+            $options,
+			$body,
+            array(
+                 self::OPTION_LIMIT  => null,
+                 self::OPTION_SKIP   => null,
+            )
+        );
+
+		$response = $this->getConnection()->put(Urls::URL_ALL, $this->json_encode_wrapper($body));
+
+		return new Cursor($this->getConnection(), $response->getJson(), $options);
+	}
+
 
     /**
      * Get document(s) by specifying near
