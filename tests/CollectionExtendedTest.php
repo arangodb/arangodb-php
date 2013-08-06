@@ -1094,6 +1094,116 @@ class CollectionExtendedTest extends
 
 
     /**
+     * test for creation, all, and delete of a collection
+     */
+    public function testCreateAndAllAndDeleteCollection()
+    {
+        $collectionHandler = $this->collectionHandler;
+
+        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
+        $collectionHandler->add($collection);
+
+        $documentHandler = $this->documentHandler;
+
+        $document = Document::createFromArray(
+            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentHandler->add($collection->getId(), $document);
+
+        $document = Document::createFromArray(
+            array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+        );
+        $documentHandler->add($collection->getId(), $document);
+        
+        $cursor = $collectionHandler->all($collection->getId());
+
+        $resultingDocument = null;
+
+        foreach ($cursor as $key => $value) {
+            $resultingDocument[$key] = $value;
+        }
+
+        $this->assertTrue(count($resultingDocument) == 2, 'Should be 2, was: ' . count($resultingDocument));
+
+        $response = $collectionHandler->delete($collection);
+        $this->assertTrue($response, 'Delete should return true!');
+    }
+
+    
+    /**
+     * test for creation, all with limit, and delete of a collection
+     */
+    public function testCreateAndAllWithLimitAndDeleteCollection()
+    {
+        $collectionHandler = $this->collectionHandler;
+
+        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
+        $collectionHandler->add($collection);
+
+        $documentHandler = $this->documentHandler;
+
+        $document = Document::createFromArray(
+            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentHandler->add($collection->getId(), $document);
+
+        $document = Document::createFromArray(
+            array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+        );
+        $documentHandler->add($collection->getId(), $document);
+        
+        $cursor = $collectionHandler->all($collection->getId(), array( 'limit' => 1 ));
+
+        $resultingDocument = null;
+
+        foreach ($cursor as $key => $value) {
+            $resultingDocument[$key] = $value;
+        }
+
+        // 2 Documents limited to 1, the result should be 1
+        $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
+
+        $response = $collectionHandler->delete($collection);
+        $this->assertTrue($response, 'Delete should return true!');
+    }
+
+    
+    /**
+     * test for creation, all with skip, and delete of a collection
+     */
+    public function testCreateAndAllWithSkipAndDeleteCollection()
+    {
+        $collectionHandler = $this->collectionHandler;
+
+        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
+        $collectionHandler->add($collection);
+
+        $documentHandler = $this->documentHandler;
+
+        for ($i = 0; $i < 3; $i++) {
+            $document = Document::createFromArray(
+                array('someAttribute' => 'someValue ' . $i, 'someOtherAttribute' => 'someValue ' . $i)
+            );
+            $documentHandler->add($collection->getId(), $document);
+        }
+
+        $cursor = $collectionHandler->all($collection->getId(), array( 'skip' => 1 ));
+
+        $resultingDocument = null;
+
+        foreach ($cursor as $key => $value) {
+            $resultingDocument[$key] = $value;
+        }
+
+        // With 3 Documents and skipping 1, the result should be 2
+        $this->assertTrue(count($resultingDocument) == 2, 'Should be 2, was: ' . count($resultingDocument));
+
+        $response = $collectionHandler->delete($collection);
+        $this->assertTrue($response, 'Delete should return true!');
+    }
+    
+
+    /**
      * test for creating, filling with documents and truncating the collection.
      */
     public function testCreateFillAndTruncateCollection()
