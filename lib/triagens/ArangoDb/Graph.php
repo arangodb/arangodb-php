@@ -15,6 +15,8 @@ namespace triagens\ArangoDb;
 /**
  * Value object representing a graph
  *
+ * <br>
+ *
  * @package   triagens\ArangoDb
  *
  * @since     1.2

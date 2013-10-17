@@ -13,6 +13,8 @@ namespace triagens\ArangoDb;
 /**
  * Some basic URLs
  *
+ * <br />
+ *
  * @package triagens\ArangoDb
  */
 abstract class Urls

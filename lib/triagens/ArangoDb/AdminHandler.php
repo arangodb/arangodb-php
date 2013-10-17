@@ -13,8 +13,10 @@
 namespace triagens\ArangoDb;
 
 /**
- * An admin handler that utilizes the ArangoDB's Admin API. It does so by issuing the
- * appropriate HTTP requests to the server.
+ * Provides access to ArangoDB's administration interface
+ *
+ * The admin handler utilizes ArangoDB's Admin API.<br>
+ * <br>
  *
  * @package   triagens\ArangoDb
  * @since     1.2

@@ -13,6 +13,8 @@ namespace triagens\ArangoDb;
 /**
  * Some helper methods to construct and process URLs
  *
+ * <br />
+ *
  * @package triagens\ArangoDb
  */
 abstract class UrlHelper

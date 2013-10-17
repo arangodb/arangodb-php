@@ -12,10 +12,12 @@ namespace triagens\ArangoDb;
 
 /**
  * Provides access to the ArangoDB server
+ *
  * As all access is done using HTTP, we do not need to establish a
- * persistent connection and keep its state.
+ * persistent connection and keep its state.<br>
  * Instead, connections are established on the fly for each request
- * and are destroyed afterwards.
+ * and are destroyed afterwards.<br>
+ * <br>
  *
  * @package triagens\ArangoDb
  */

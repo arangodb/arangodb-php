@@ -11,9 +11,11 @@
 namespace triagens\ArangoDb;
 
 /**
- * A collection handler that fetches collection data from the server and
- * creates collections on the server. It does so by issuing the
- * appropriate HTTP requests to the server.
+ * Provides management of collections
+ *
+ * The collection handler fetches collection data from the server and
+ * creates collections on the server.<br>
+ * <br>
  *
  * @package triagens\ArangoDb
  */

@@ -11,8 +11,11 @@
 namespace triagens\ArangoDb;
 
 /**
+ * Connect-Exception
+ *
  * This exception type will be thrown by the client when there is an error
- * during connecting to the server
+ * during connecting to the server.<br>
+ * <br>
  *
  * @package triagens\ArangoDb
  */

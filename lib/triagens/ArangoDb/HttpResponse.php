@@ -13,6 +13,8 @@ namespace triagens\ArangoDb;
 /**
  * Container class for HTTP responses
  *
+ * <br>
+ *
  * @package triagens\ArangoDb
  */
 class HttpResponse

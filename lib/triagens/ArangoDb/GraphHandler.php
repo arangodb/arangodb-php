@@ -14,9 +14,9 @@
 namespace triagens\ArangoDb;
 
 /**
- * A graph handler that manages graphs.
- * It does so by issuing the
- * appropriate HTTP requests to the server.
+ * A handler that manages graphs.
+ *
+ * <br>
  *
  * @package triagens\ArangoDb
  * @since   1.2
@@ -103,8 +103,8 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param String - $graph - The name of the graph
-     * @param array  - $options - Options to pass to the method
+     * @param String $graph - The name of the graph
+     * @param array  $options - Options to pass to the method
      *
      * @return Graph - A graph object representing the graph
      * @since   1.2

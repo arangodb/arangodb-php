@@ -11,8 +11,11 @@
 namespace triagens\ArangoDb;
 
 /**
+ * Client-Exception
+ *
  * This exception type will be thrown by the client when there is an error
- * on the client side, i.e. something the server is not involved in.
+ * on the client side, i.e. something the server is not involved in.<br>
+ * <br>
  *
  * @package triagens\ArangoDb
  */

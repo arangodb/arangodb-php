@@ -13,6 +13,8 @@ namespace triagens\ArangoDb;
 /**
  * Value object representing a collection
  *
+ * <br>
+ *
  * @package triagens\ArangoDb
  */
 class Collection

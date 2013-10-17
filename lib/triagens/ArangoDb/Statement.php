@@ -12,30 +12,37 @@ namespace triagens\ArangoDb;
 
 /**
  * Container for a read-only ("select") statement
+ *
  * A statement is an AQL query that can be issued to the
  * server. Optional bind parameters can be used when issuing the
  * statement to separate the statement from the values.
  * Executing a statement will result in a cursor being created.
  *
- * There is an important distinction between two different types of statements:<br />
- * - statements that produce a list of documents as their result AND<br />
- * - statements that do not produce documents
+ * There is an important distinction between two different types of statements:
+ * <ul>
+ * <li> statements that produce a list of documents as their result AND<br />
+ * <li> statements that do not produce documents
+ * </ul>
  *
  * For example, a statement such as "FOR e IN example RETURN e" will produce
  * a list of documents as its result. The result can be treated as a list of
  * documents, and the document can be updated and sent back to the server by
- * the client.
- *
+ * the client.<br />
+ * <br />
  * However, the query "RETURN 1 + 1" will not produce a list of documents as
  * its result, but a list with a single scalar value (the number 2).
- * "2" is not a valid document so creating a document from it will fail.
- *
+ * "2" is not a valid document so creating a document from it will fail.<br />
+ * <br />
  * To turn the results of this query into a document, the following needs to
- * be done:<br />
- * - modify the query to "RETURN { value: 1 + 1 }". The result will then be a
+ * be done:
+ * <ul>
+ * <li> modify the query to "RETURN { value: 1 + 1 }". The result will then be a
  *   a list of documents with a "value" attribute<br />
- * - use the "_flat" option for the statement to indicate that you don't want
+ * <li> use the "_flat" option for the statement to indicate that you don't want
  *   to treat the statement result as a list of documents, but as a flat list
+ * </ul>
+ *
+ * <br />
  *
  * @package triagens\ArangoDb
  */

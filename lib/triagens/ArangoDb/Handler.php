@@ -13,6 +13,8 @@ namespace triagens\ArangoDb;
 /**
  * A base class for REST-based handlers
  *
+ * <br>
+ *
  * @package triagens\ArangoDb
  */
 abstract class Handler

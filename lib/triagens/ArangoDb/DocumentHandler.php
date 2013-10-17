@@ -13,9 +13,13 @@ namespace triagens\ArangoDb;
 
 
 /**
+ * A handler that manages documents
+ *
  * A document handler that fetches documents from the server and
  * persists them on the server. It does so by issuing the
- * appropriate HTTP requests to the server.
+ * appropriate HTTP requests to the server.<br>
+ *
+ * <br>
  *
  * @package triagens\ArangoDb
  */

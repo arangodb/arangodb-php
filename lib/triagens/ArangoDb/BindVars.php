@@ -12,7 +12,9 @@ namespace triagens\ArangoDb;
 
 /**
  * A simple container for bind variables
- * This container also handles validation of the bind values.
+ *
+ * This container also handles validation of the bind values.<br>
+ * <br>
  *
  * @package triagens\ArangoDb
  */

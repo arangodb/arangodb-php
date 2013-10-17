@@ -13,6 +13,8 @@ namespace triagens\ArangoDb;
 /**
  * Helper methods for HTTP request/response handling
  *
+ * <br>
+ *
  * @package triagens\ArangoDb
  */
 class HttpHelper

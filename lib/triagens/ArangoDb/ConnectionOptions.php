@@ -12,9 +12,11 @@ namespace triagens\ArangoDb;
 
 /**
  * Simple container class for connection options.
+ *
  * This class also provides the default values for the connection
- * options and will perform a simple validation of them.
- * It provides array access to its members.
+ * options and will perform a simple validation of them.<br>
+ * It provides array access to its members.<br>
+ * <br>
  *
  * @package triagens\ArangoDb
  */

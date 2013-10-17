@@ -13,6 +13,8 @@ namespace triagens\ArangoDb;
 /**
  * Value object representing a single collection-based document
  *
+ * <br>
+ *
  * @package triagens\ArangoDb
  */
 class Document
@@ -215,7 +217,7 @@ class Document
     /**
      * Returns the attributes with the hidden ones removed
      *
-     * @param array - attributes array
+     * @param array $attributes - attributes array
      *
      * @return array - attributes array
      */

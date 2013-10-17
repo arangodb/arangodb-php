@@ -13,6 +13,8 @@ namespace triagens\ArangoDb;
 /**
  * Contains default values used by the client
  *
+ * <br>
+ *
  * @package triagens\ArangoDb
  */
 abstract class DefaultValues

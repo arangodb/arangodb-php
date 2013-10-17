@@ -13,6 +13,8 @@ namespace triagens\ArangoDb;
 /**
  * Value object representing a single User document
  *
+ * <br />
+ *
  * @package   triagens\ArangoDb
  * @since     1.2
  */
