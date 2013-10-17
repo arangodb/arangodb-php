@@ -215,7 +215,7 @@ class CollectionHandler extends
      */
     public function get($collectionId)
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId);
+        $url      = UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId));
         $response = $this->getConnection()->get($url);
 
         $data = $response->getJson();
@@ -237,7 +237,7 @@ class CollectionHandler extends
      */
     public function getProperties($collectionId)
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_PROPERTIES);
+        $url      = UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_PROPERTIES));
         $response = $this->getConnection()->get($url);
 
         $data = $response->getJson();
@@ -278,7 +278,7 @@ class CollectionHandler extends
      */
     public function count($collectionId)
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_COUNT);
+        $url      = UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_COUNT));
         $response = $this->getConnection()->get($url);
 
         $data  = $response->getJson();
@@ -320,7 +320,7 @@ class CollectionHandler extends
      */
     public function figures($collectionId)
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_FIGURES);
+        $url      = UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_FIGURES));
         $response = $this->getConnection()->get($url);
 
         $data    = $response->getJson();
@@ -605,7 +605,7 @@ class CollectionHandler extends
      */
     public function getIndex($collection, $indexId)
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_INDEX, $collection, $indexId);
+        $url      = UrlHelper::buildUrl(Urls::URL_INDEX, array($collection, $indexId));
         $response = $this->getConnection()->get($url);
 
         $data = $response->getJson();
@@ -648,7 +648,7 @@ class CollectionHandler extends
     public function dropIndex($indexHandle)
     {
         $handle = explode("/", $indexHandle);
-        $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_INDEX, $handle[0], $handle[1]));
+        $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_INDEX, array($handle[0], $handle[1])));
 
         return true;
     }
@@ -688,7 +688,7 @@ class CollectionHandler extends
             throw new ClientException('Cannot alter a collection without a collection id');
         }
 
-        $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionName));
+        $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionName)));
 
         return true;
     }
@@ -713,7 +713,7 @@ class CollectionHandler extends
 
         $params = array(Collection::ENTRY_NAME => $name);
         $this->getConnection()->put(
-            UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_RENAME),
+            UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_RENAME)),
             $this->json_encode_wrapper($params)
         );
 
@@ -740,7 +740,7 @@ class CollectionHandler extends
         }
 
         $result = $this->getConnection()->put(
-            UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_LOAD),
+            UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_LOAD)),
             ''
         );
 
@@ -768,7 +768,7 @@ class CollectionHandler extends
         }
 
         $result = $this->getConnection()->put(
-            UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_UNLOAD),
+            UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_UNLOAD)),
             ''
         );
 
@@ -796,7 +796,7 @@ class CollectionHandler extends
         }
 
         $this->getConnection()->put(
-            UrlHelper::buildUrl(Urls::URL_COLLECTION, $collectionId, self::OPTION_TRUNCATE),
+            UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_TRUNCATE)),
             ''
         );
 
@@ -1012,7 +1012,7 @@ class CollectionHandler extends
             )
         );
 
-        #$url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId);
+        #$url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, array($collectionId));
         #$result = $this->getConnection()->patch($url, $this->json_encode_wrapper($body));
 
         $response = $this->getConnection()->put(Urls::URL_UPDATE_BY_EXAMPLE, $this->json_encode_wrapper($body));
@@ -1075,7 +1075,7 @@ class CollectionHandler extends
             )
         );
 
-        #$url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, $collectionId);
+        #$url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, array($collectionId));
         #$result = $this->getConnection()->patch($url, $this->json_encode_wrapper($body));
 
         $response = $this->getConnection()->put(Urls::URL_REPLACE_BY_EXAMPLE, $this->json_encode_wrapper($body));
@@ -1210,6 +1210,52 @@ class CollectionHandler extends
 
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
+
+    /**
+	 * Returns all documents of a collection
+	 *
+	 * @param mixed  $collectionId    - collection id as string or number
+	 * @param array  $options         - optional array of options.
+	 * <p>Options are :<br>
+	 * <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+	 * <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
+	 * <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+	 * <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
+	 * <p>
+	 *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
+	 *                                The difference is, that if you're returning a resultset of documents, the getAll() is already called<br>
+	 *                                and the hidden attributes would not be applied to the attributes.<br>
+	 * </p>
+	 *
+	 * <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
+	 * <li>'skip'      -  Optional, The number of documents to skip in the query.</li>
+	 * <li>'limit'     -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
+	 * </li>
+	 * </p>
+	 *
+	 * @return Cursor - documents
+	 */
+	public function all($collectionId, $options = array())
+	{
+		$options = array_merge($options, $this->getCursorOptions($options));
+
+		$body = array(
+			self::OPTION_COLLECTION => $collectionId,
+		);
+
+		$body = $this->includeOptionsInBody(
+            $options,
+			$body,
+            array(
+                 self::OPTION_LIMIT  => null,
+                 self::OPTION_SKIP   => null,
+            )
+        );
+
+		$response = $this->getConnection()->put(Urls::URL_ALL, $this->json_encode_wrapper($body));
+
+		return new Cursor($this->getConnection(), $response->getJson(), $options);
+	}
 
 
     /**
@@ -1393,7 +1439,7 @@ class CollectionHandler extends
             $params[self::OPTION_EXCLUDE_SYSTEM] = true;
         }
         $url      = UrlHelper::appendParamsUrl(Urls::URL_COLLECTION, $params);
-        $response = $this->getConnection()->get(UrlHelper::buildUrl($url));
+        $response = $this->getConnection()->get(UrlHelper::buildUrl($url, array()));
         $response = $response->getJson();
         if (isset($options["keys"]) && isset($response[$options["keys"]])) {
             return $response[$options["keys"]];

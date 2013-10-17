@@ -340,7 +340,7 @@ class TransactionTest extends
         } catch (ServerException $e) {
         }
         $details                = $e->getDetails();
-        $expectedCutDownMessage = "cannot save document: unique constraint violated:";
+        $expectedCutDownMessage = "cannot save document: unique constraint violated";
         $len                    = strlen($expectedCutDownMessage);
         $this->assertTrue(
             $e->getCode() == 400 && substr(

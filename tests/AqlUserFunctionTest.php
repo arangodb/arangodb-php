@@ -73,6 +73,38 @@ class AqlUserFunctionTest extends
         );
     }
 
+    /**
+     * Test if AqlUserFunctions can be registered, listed and unregistered using the register() shortcut method
+     */
+    public function testRegisterListAndUnregisterAqlUserFunctionUsingShortcut()
+    {
+
+        $name = 'myFunctions:myFunction';
+        $code = 'function (celsius) { return celsius * 1.8 + 32; }';
+
+        $userFunction = new AqlUserFunction($this->connection);
+
+        $result = $userFunction->register($name, $code);
+
+        $this->assertTrue(
+                $result['error'] == false,
+                'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+        );
+        $list = $userFunction->getRegisteredUserFunctions();
+
+        $this->assertCount(1, $list, 'List returned did not return expected 1 attribute');
+        $this->assertTrue(
+                $list[0]['name'] == $name && $list[0]['code'] == $code,
+                'did not return expected Function. Instead returned: ' . $list[0]['name'] . ' and ' . $list[0]['code']
+        );
+
+        $result = $userFunction->unregister($name);
+
+        $this->assertTrue(
+                $result['error'] == false,
+                'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+        );
+    }
 
     /**
      * Test if AqlUserFunctions can be registered, listed and unregistered with getters and setters
@@ -223,6 +255,74 @@ class AqlUserFunctionTest extends
         );
     }
 
+    /**
+     * Test the namespace filter when getting the registered AQL functions.
+     */
+    public function testGetAQLFunctionsWithNamespaceFilter()
+    {
+
+        $name1 = 'myFunctions:myFunction';
+        $name2 = 'myFunctions1:myFunction';
+        $code = 'function (celsius) { return celsius * 1.8 + 32; }';
+
+        //Setup
+        $userFunction = new AqlUserFunction($this->connection);
+
+        $userFunction->name = $name1;
+        $userFunction->code = $code;
+
+        $result = $userFunction->register();
+
+        $userFunction = new AqlUserFunction($this->connection);
+
+        $userFunction->name = $name2;
+        $userFunction->code = $code;
+
+        $result = $userFunction->register();
+
+        $functions = $userFunction->getRegisteredUserFunctions('myFunctions');
+        $this->assertCount(1, $functions, "myFunctions namespace should only contain 1 function.");
+
+        $functions = $userFunction->getRegisteredUserFunctions('myFunctions1');
+        $this->assertCount(1, $functions, "myFunctions namespace should only contain 1 function.");
+
+        $userFunction->unregister($name1);
+        $userFunction->unregister($name2);
+    }
+
+    /**
+     * Unregister all AQL functions on a namespace.
+     */
+    public function testUnregisterAQLFunctionsOnNamespace()
+    {
+
+        $name1 = 'myFunctions:myFunction1';
+        $name2 = 'myFunctions:myFunction2';
+        $code = 'function (celsius) { return celsius * 1.8 + 32; }';
+
+        //Setup
+        $userFunction = new AqlUserFunction($this->connection);
+
+        $userFunction->name = $name1;
+        $userFunction->code = $code;
+
+        $result = $userFunction->register();
+
+        $userFunction = new AqlUserFunction($this->connection);
+
+        $userFunction->name = $name2;
+        $userFunction->code = $code;
+
+        $result = $userFunction->register();
+
+        $functions = $userFunction->getRegisteredUserFunctions('myFunctions');
+        $this->assertCount(2, $functions, "myFunctions namespace should only contain 2 functions.");
+
+        $userFunction->unregister('myFunctions', true);
+
+        $functions = $userFunction->getRegisteredUserFunctions('myFunctions');
+        $this->assertEmpty($functions, "myFunctions namespace should only contain no functions.");
+    }
 
     public function tearDown()
     {

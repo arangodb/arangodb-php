@@ -120,11 +120,12 @@ class AqlUserFunction
         $attributes = $this->attributes;
 
 
-        if (is_null($name)) {
-            $attributes['name'] = $this->getName();
+        if ($name) {
+            $attributes['name'] = $name;
         }
-        if (is_null($code)) {
-            $attributes['code'] = $this->getCode();
+
+        if ($code) {
+            $attributes['code'] = $code;
         }
 
         $response      = $this->_connection->post(
@@ -144,18 +145,24 @@ class AqlUserFunction
      *
      * If $name is passed, it will override the object's property with the passed one
      *
-     * @param null $name
+     * @param string $name
+     * @param boolean $namespace
      *
      * @throws Exception throw exception if the request fails
      *
      * @return mixed true if successful without a return value or the return value if one was set in the action
      */
-    public function unregister($name = null)
+    public function unregister($name = null, $namespace = false)
     {
         if (is_null($name)) {
             $name = $this->getName();
         }
-        $url = UrlHelper::buildUrl(Urls::URL_AQL_USER_FUNCTION, $name);
+
+        $url = UrlHelper::buildUrl(Urls::URL_AQL_USER_FUNCTION, array($name));
+
+        if($namespace){
+            $url = UrlHelper::appendParamsUrl($url, array('group' => true));
+        }
 
         $response      = $this->_connection->delete($url);
         $responseArray = $response->getJson();
@@ -177,8 +184,8 @@ class AqlUserFunction
      */
     public function getRegisteredUserFunctions($namespace = null)
     {
-        $url = UrlHelper::buildUrl(Urls::URL_AQL_USER_FUNCTION);
-        if (is_null($namespace)) {
+        $url = UrlHelper::buildUrl(Urls::URL_AQL_USER_FUNCTION, array());
+        if (!is_null($namespace)) {
             $url = UrlHelper::appendParamsUrl($url, array('namespace' => $namespace));
         }
         $response = $this->_connection->get($url);

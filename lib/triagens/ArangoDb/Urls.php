@@ -118,6 +118,11 @@ abstract class Urls
     const URL_RANGE = '/_api/simple/range';
 
     /**
+     * base URL part for select-all
+     */
+    const URL_ALL = '/_api/simple/all';
+    
+    /**
      * base URL part for select-range
      */
     const URL_NEAR = '/_api/simple/near';
