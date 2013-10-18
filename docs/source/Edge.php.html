@@ -1,0 +1,221 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+
+/**
+ * ArangoDB PHP client: single document
+ *
+ * @package   triagens\ArangoDb
+ * @author    Jan Steemann
+ * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
+ */
+
+namespace triagens\ArangoDb;
+
+/**
+ * Value object representing a single collection-based document
+ *
+ * @package triagens\ArangoDb
+ */
+class Edge extends
+    Document
+{
+    /**
+     * The edge's from (might be NULL for new documents)
+     *
+     * @var mixed
+     */
+    protected $_from = null;
+
+    /**
+     * The edge's to (might be NULL for new documents)
+     *
+     * @var mixed
+     */
+    protected $_to = null;
+
+    /**
+     * Document _from index
+     */
+
+    const ENTRY_FROM = '_from';
+
+    /**
+     * Revision _to index
+     */
+    const ENTRY_TO = '_to';
+
+
+    /**
+     * Clone a document
+     *
+     * Returns the clone
+     *
+     * @return void
+     */
+    public function __clone()
+    {
+        $this-&gt;_id  = null;
+        $this-&gt;_rev = null;
+        // do not change the _changed flag here
+    }
+
+
+    /**
+     * Set a document attribute
+     *
+     * The key (attribute name) must be a string.
+     *
+     * This will validate the value of the attribute and might throw an
+     * exception if the value is invalid.
+     *
+     * @throws ClientException
+     *
+     * @param string $key   - attribute name
+     * @param mixed  $value - value for attribute
+     *
+     * @return void
+     */
+    public function set($key, $value)
+    {
+        if (!is_string($key)) {
+            throw new ClientException('Invalid document attribute key');
+        }
+
+        // validate the value passed
+        ValueValidator::validate($value);
+
+        if ($key === self::ENTRY_ID) {
+            $this-&gt;setInternalId($value);
+
+            return;
+        }
+
+        if ($key === self::ENTRY_KEY) {
+            $this-&gt;setInternalKey($value);
+
+            return;
+        }
+
+        if ($key === self::ENTRY_REV) {
+            $this-&gt;setRevision($value);
+
+            return;
+        }
+
+        if ($key === self::ENTRY_FROM) {
+            $this-&gt;setFrom($value);
+
+            return;
+        }
+
+        if ($key === self::ENTRY_TO) {
+            $this-&gt;setTo($value);
+
+            return;
+        }
+
+
+        if (!$this-&gt;_changed) {
+            if (!isset($this-&gt;_values[$key]) || $this-&gt;_values[$key] !== $value) {
+                // set changed flag
+                $this-&gt;_changed = true;
+            }
+        }
+
+        // and store the value
+        $this-&gt;_values[$key] = $value;
+    }
+
+
+    /**
+     * Get the 'from' vertex document-handler (if already known)
+     *
+     * @return mixed - document-handler
+     */
+    public function getFrom()
+    {
+        return $this-&gt;_from;
+    }
+
+    /**
+     * Get the 'to' vertex document-handler (if already known)
+     *
+     * @return mixed - document-handler
+     */
+    public function getTo()
+    {
+        return $this-&gt;_to;
+    }
+
+    /**
+     * Set the 'from' vertex document-handler
+     *
+     * @param mixed $from - from vertex
+     *
+     * @return Edge - edge object
+     */
+    public function setFrom($from)
+    {
+        $this-&gt;_from = $from;
+
+        return $this;
+    }
+
+    /**
+     * Set the 'to' vertex document-handler
+     *
+     * @param mixed $to - to vertex
+     *
+     * @return Edge - edge object
+     */
+    public function setTo($to)
+    {
+        $this-&gt;_to = $to;
+
+        return $this;
+    }
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all()
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

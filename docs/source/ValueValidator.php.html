@@ -1,0 +1,95 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+
+/**
+ * ArangoDB PHP client: value validator
+ *
+ * @package   triagens\ArangoDb
+ * @author    Jan Steemann
+ * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
+ */
+
+namespace triagens\ArangoDb;
+
+/**
+ * A simple validator for values to be stored in the database
+ *
+ * @package triagens\ArangoDb
+ */
+class ValueValidator
+{
+    /**
+     * Validate the value of a variable
+     *
+     * Allowed value types are string, integer, double and boolean. Arrays are also allowed if they contain only one of the former types.
+     *
+     * @throws ClientException
+     *
+     * @param mixed $value - value to validate
+     *
+     * @return void - will throw if an invalid value type is passed
+     */
+    public static function validate($value)
+    {
+        if (is_string($value) || is_int($value) || is_double($value) || is_bool($value) || is_null($value)) {
+            // type is allowed
+            return;
+        }
+
+        if (is_array($value)) {
+            // must check all elements contained
+            foreach ($value as $subValue) {
+                self::validate($subValue);
+            }
+
+            return;
+        }
+
+        // type is invalid
+        throw new ClientException('Invalid bind parameter value');
+    }
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all()
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

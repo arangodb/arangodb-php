@@ -58,10 +58,10 @@
 <li class="nav-header">
 <i class="icon-custom icon-method"></i> Methods
                     <ul>
-<li class="method public "><a href="#method_get" title="get :: Get the value of a bind variable with a specific name"><span class="description">Get the value of a bind variable with a specific name</span><pre>get()</pre></a></li>
-<li class="method public "><a href="#method_getAll" title="getAll :: Get all registered bind variables"><span class="description">Get all registered bind variables</span><pre>getAll()</pre></a></li>
-<li class="method public "><a href="#method_getCount" title="getCount :: Get the number of bind variables registered"><span class="description">Get the number of bind variables registered</span><pre>getCount()</pre></a></li>
-<li class="method public "><a href="#method_set" title="set :: Set the value of a single bind variable or set all bind variables at once"><span class="description">Set the value of a single bind variable or set all bind variables at once</span><pre>set()</pre></a></li>
+<li class="method public "><a href="#method_get" title="get() :: Get the value of a bind variable with a specific name"><span class="description">Get the value of a bind variable with a specific name</span><pre>get()</pre></a></li>
+<li class="method public "><a href="#method_getAll" title="getAll() :: Get all registered bind variables"><span class="description">Get all registered bind variables</span><pre>getAll()</pre></a></li>
+<li class="method public "><a href="#method_getCount" title="getCount() :: Get the number of bind variables registered"><span class="description">Get the number of bind variables registered</span><pre>getCount()</pre></a></li>
+<li class="method public "><a href="#method_set" title="set() :: Set the value of a single bind variable or set all bind variables at once"><span class="description">Set the value of a single bind variable or set all bind variables at once</span><pre>set()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header">
@@ -69,7 +69,7 @@
                     <ul></ul>
 </li>
 <li class="nav-header private">» Private
-                    <ul><li class="property private "><a href="#property__values" title="$_values :: Current bind values"><span class="description"></span><pre>$_values</pre></a></li></ul>
+                    <ul><li class="property private "><a href="#property__values" title="$_values() :: Current bind values"><span class="description"></span><pre>$_values</pre></a></li></ul>
 </li>
 </ul>
 </div>
@@ -87,14 +87,20 @@
 </li>
 </ul>
 <div class="element class">
-<p class="short_description">A simple container for bind variables
-This container also handles validation of the bind values.</p>
+<p class="short_description">A simple container for bind variables</p>
 <div class="details">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
+<div class="long_description">This container also handles validation of the bind values.<br>
+<br></div>
+<table class="table table-bordered">
+<tr>
 <th>package</th>
 <td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
-</tr></table>
+</tr>
+<tr>
+<th>since</th>
+<td>0.2</td>
+</tr>
+</table>
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
 <a id="method_get"></a><div class="element clickable method public method_get" data-toggle="collapse" data-target=".method_get .collapse">
@@ -142,11 +148,11 @@ This container also handles validation of the bind values.</p>
 <pre>set(mixed $name, string $value) : void</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This will also validate the bind values.</p>
+<div class="long_description">This will also validate the bind values.
 
-<p>Allowed value types for bind parameters are string, int,
+Allowed value types for bind parameters are string, int,
 double, bool and array. Arrays must not contain any other
-than these types.</p></div>
+than these types.</div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$name</h4>
@@ -170,7 +176,7 @@ than these types.</p></div>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
 <a id="property__values"> </a><div class="element clickable property private property__values" data-toggle="collapse" data-target=".property__values .collapse">
-<h2></h2>
+<h2>Current bind values</h2>
 <pre>$_values : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
@@ -181,8 +187,9 @@ than these types.</p></div>
 </div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
-            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-05-11T17:21:43+03:00.<br></footer></div>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.1.0
+</a> and<br>
+            generated on 2013-10-18T04:07:23+03:00.<br></footer></div>
 </div>
 </body>
 </html>

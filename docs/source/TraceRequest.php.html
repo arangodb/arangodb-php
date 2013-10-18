@@ -1,0 +1,166 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * ArangoDB PHP client: connection
+ *
+ * @package   triagens\ArangoDb
+ * @author    Jan Steemann
+ * @author    Francis Chuang
+ * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
+ */
+
+namespace triagens\ArangoDb;
+
+/**
+ * Class TraceRequest
+ *
+ * @author    Francis Chuang
+ * @package   triagens\ArangoDb
+ */
+class TraceRequest
+{
+    /**
+     * Stores each header as an array (key =&gt; value) element
+     *
+     * @var array
+     */
+    private $_headers = array();
+
+    /**
+     * Stores the http method
+     *
+     * @var string
+     */
+    private $_method;
+
+    /**
+     * Stores the request url
+     *
+     * @var string
+     */
+    private $_requestUrl;
+
+    /**
+     * Store the string of the body
+     *
+     * @var string
+     */
+    private $_body;
+
+    /**
+     * The http message type
+     *
+     * @var string
+     */
+    private $_type = &quot;request&quot;;
+
+    /**
+     * Set up the request trace
+     *
+     * @param array  $headers    - the array of http headers
+     * @param string $method     - the request method
+     * @param string $requestUrl - the request url
+     * @param string $body       - the string of http body
+     */
+    public function __construct($headers, $method, $requestUrl, $body)
+    {
+        $this-&gt;_headers    = $headers;
+        $this-&gt;_method     = $method;
+        $this-&gt;_requestUrl = $requestUrl;
+        $this-&gt;_body       = $body;
+    }
+
+    /**
+     * Get an array of the request headers
+     *
+     * @return array
+     */
+    public function getHeaders()
+    {
+        return $this-&gt;_headers;
+    }
+
+    /**
+     * Get the request method
+     *
+     * @return string
+     */
+    public function getMethod()
+    {
+        return $this-&gt;_method;
+    }
+
+    /**
+     * Get the request url
+     *
+     * @return string
+     */
+    public function getRequestUrl()
+    {
+        return $this-&gt;_requestUrl;
+    }
+
+    /**
+     * Get the body of the request
+     *
+     * @return string
+     */
+    public function getBody()
+    {
+        return $this-&gt;_body;
+    }
+
+    /**
+     * Get the http message type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this-&gt;_type;
+    }
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all()
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

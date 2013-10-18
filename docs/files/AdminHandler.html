@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>ArangoDB PHP client API</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta><link rel="stylesheet" href="../css/template.css" type="text/css"></link><script type="text/javascript" src="../js/jquery-1.4.2.min.js"></script><script type="text/javascript" src="../js/jquery.tools.min.js"></script><script type="text/javascript" src="../js/jquery-ui-1.8.2.custom.min.js"></script><script type="text/javascript" src="../js/template.js"></script></head><body><div id="content"><h1 class="file">AdminHandler.php<a href="../source/AdminHandler.php.html"><img src="../images/icons/view_source.png" alt="View Source" border="0"></img></a></h1><div id="file-nav-box"><div id="file-nav-options">
+              Show:
+              <img src="../images/icons/visibility_public.png" alt="Public" id="show-public"></img><img src="../images/icons/visibility_protected.png" alt="Protected" id="show-protected"></img><img src="../images/icons/visibility_private.png" alt="Private" id="show-private"></img><span class="attribute" id="show-inherited">inherited</span></div><div id="file-nav-container"><ul id="file-nav"><li><a href="#classes"><img src="../images/icons/class.png" alt="Class" height="14"></img>
+                          Classes
+                      </a><ul><li><a href="#\triagens\ArangoDb\AdminHandler">\triagens\ArangoDb\AdminHandler</a></li></ul></li></ul><div style="clear: left;"></div></div><div id="file-nav-tab">
+              Table of Contents
+          </div></div><a name="top" class="anchor"></a><div id="file-description"><div class="short-description">ArangoDB PHP client: admin document handler</div><div class="long-description"></div></div><dl class="file-info"><dt>Author</dt><dd>Jan Steemann
+         
+    </dd><dt>Author</dt><dd>Frank Mayer
+         
+    </dd><dt>Copyright</dt><dd>Copyright 2012, triagens GmbH, Cologne, Germany
+         
+    </dd><dt>Package</dt><dd>triagens\ArangoDb
+         
+    </dd><dt>Since</dt><dd>1.2
+         
+    </dd></dl><a name="classes" class="anchor"></a><a id="\triagens\ArangoDb\AdminHandler" class="anchor"></a><h2 class="class">\triagens\ArangoDb\AdminHandler<div class="to-top"><a href="#top">jump to top</a></div></h2><div class="class"><small class="package"><b>Package: </b>triagens\ArangoDb</small><div class="short-description">An admin handler that utilizes the ArangoDB's Admin API. It does so by issuing the
+appropriate HTTP requests to the server.</div><div class="long-description"></div><dl class="class-info"><dt>Parent(s)</dt><dd><a href="../files/Handler.html#\triagens\ArangoDb\Handler">\triagens\ArangoDb\Handler</a></dd><dt>Since</dt><dd>1.2
+         
+    </dd></dl><h3>Constants</h3><div><a id="\triagens\ArangoDb\AdminHandler::OPTION_DETAILS" class="anchor"></a><div class="constant publicC"><a href="#" class="gripper"><img src="../images/icons/arrow_right.png" alt="&gt;"></img><img src="../images/icons/arrow_down.png" alt="V" style="display: none;"></img></a><code class="title"><img src="../images/icons/constant.png" alt="Constant"></img> 
+                <span class="highlight">OPTION_DETAILS</span>
+                = "details"</code><div class="description"><div class="short-description">details for server version</div></div><div class="code-tabs"><div class="long-description"></div></div><div class="clear"></div></div></div><h3>Methods</h3><div><a id="\triagens\ArangoDb\AdminHandler::flushServerModuleCache()" class="anchor"></a><div class="method public"><a href="#" class="gripper"><img src="../images/icons/arrow_right.png"></img><img src="../images/icons/arrow_down.png" style="display: none;"></img></a><code class="title"><img src="../images/icons/method.png" alt="method" title="method"></img><img src="../images/icons/visibility_public.png" style="margin-right: 5px" alt="public"></img><span class="highlight">flushServerModuleCache</span><span class="nb-faded-text">()</span> : array</code><div class="description"><p class="short_description">Flush the server's modules cache
+The call triggers a flush of the modules cache on the server. See Modules Cache for details about this cache.</p></div><div class="code-tabs"><div class="long-description">This will throw if the modules cache cannot be flushed</div><strong>Returns</strong><table class="argument-info"><thead><tr><th>Type</th><th>Description</th></tr></thead><tr><td>array</td><td></td></tr></table><strong>Throws</strong><table class="argument-info"><thead><tr><th>Exception</th><th>Description</th></tr></thead><tr><td><a href="../files/Exception.html">\triagens\ArangoDb\Exception</a></td><td><em></em></td></tr></table><strong>Details</strong><dl class="function-info"><dt>Since</dt><dd>1.2
+         
+    </dd></dl></div><div class="clear"></div></div><a id="\triagens\ArangoDb\AdminHandler::getServerLog()" class="anchor"></a><div class="method public"><a href="#" class="gripper"><img src="../images/icons/arrow_right.png"></img><img src="../images/icons/arrow_down.png" style="display: none;"></img></a><code class="title"><img src="../images/icons/method.png" alt="method" title="method"></img><img src="../images/icons/visibility_public.png" style="margin-right: 5px" alt="public"></img><span class="highlight">getServerLog</span><span class="nb-faded-text">(array $options = array())</span> : array</code><div class="description"><p class="short_description">Get the server log</p></div><div class="code-tabs"><div class="long-description">This will throw if the log cannot be retrieved</div><strong>Parameters</strong><table class="argument-info"><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tr><th>$options</th><td>array</td><td><em><ul>
+<li>an array of options that define the result-set:</li>
+</ul>
+
+<p>Options are :<br>
+<li>'upto' - returns all log entries up to a log-level. Note that log-level must be one of:</li>
+<p>
+<li>fatal / 0</li>
+<li>error / 1</li>
+<li>warning / 2</li>
+<li>info / 3</li>
+<li>debug / 4</li>
+</p>
+<li>'level'  -  limits the log entries to the ones defined in level. Note that `level` and `upto` are mutably exclusive.</li>
+<li>'offset' -  skip the first offset entries.</li>
+<li>'size'   -  limit the number of returned log-entries to size.</li>
+<li>'start'  -  Returns all log entries such that their log-entry identifier is greater or equal to lid.</li>
+<li>'sort'   -  Sort the log-entries either ascending if direction is asc, or descending if it is desc according to their lid. Note that the lid imposes a chronological order.</li>
+<li>'search' -  Only return the log-entries containing the text string...</li>
+</p>
+</em></td></tr></table><strong>Returns</strong><table class="argument-info"><thead><tr><th>Type</th><th>Description</th></tr></thead><tr><td>array</td><td>- an array holding the various attributes of a log: lid, level, timestamp, text and the total amount of log entries before pagination.</td></tr></table><strong>Throws</strong><table class="argument-info"><thead><tr><th>Exception</th><th>Description</th></tr></thead><tr><td><a href="../files/Exception.html">\triagens\ArangoDb\Exception</a></td><td><em></em></td></tr></table><strong>Details</strong><dl class="function-info"><dt>Since</dt><dd>1.2
+         
+    </dd></dl></div><div class="clear"></div></div><a id="\triagens\ArangoDb\AdminHandler::getServerStatistics()" class="anchor"></a><div class="method public"><a href="#" class="gripper"><img src="../images/icons/arrow_right.png"></img><img src="../images/icons/arrow_down.png" style="display: none;"></img></a><code class="title"><img src="../images/icons/method.png" alt="method" title="method"></img><img src="../images/icons/visibility_public.png" style="margin-right: 5px" alt="public"></img><span class="highlight">getServerStatistics</span><span class="nb-faded-text">()</span> : array</code><div class="description"><p class="short_description">Get the server statistics
+Returns the statistics information. The returned objects contains the statistics figures, grouped together
+according to the description returned by _admin/statistics-description.</p></div><div class="code-tabs"><div class="long-description">For instance, to access a figure userTime from the group system, you first select the sub-object
+describing the group stored in system and in that sub-object the value for userTime is stored in the
+attribute of the same name.In case of a distribution, the returned object contains the total count in count
+and the distribution list in counts.
+For more information on the statistics returned, please lookup the statistics interface description at</div><strong>Returns</strong><table class="argument-info"><thead><tr><th>Type</th><th>Description</th></tr></thead><tr><td>array</td><td></td></tr></table><strong>Throws</strong><table class="argument-info"><thead><tr><th>Exception</th><th>Description</th></tr></thead><tr><td><a href="../files/Exception.html">\triagens\ArangoDb\Exception</a></td><td><em></em></td></tr></table><strong>Details</strong><dl class="function-info"><dt>Link</dt><dd><a href="http://www.arangodb.org/manuals/1.3.devel/HttpSystem.html#HttpSystemAdminStatistics">This will throw if the statistics cannot be retrieved</a>
+         
+    </dd><dt>See</dt><dd><a href="../files/
+                         \triagens\ArangoDb\getServerStatisticsDescription()"></a>
+         
+    </dd><dt>Since</dt><dd>1.3
+         
+    </dd></dl></div><div class="clear"></div></div><a id="\triagens\ArangoDb\AdminHandler::getServerStatisticsDescription()" class="anchor"></a><div class="method public"><a href="#" class="gripper"><img src="../images/icons/arrow_right.png"></img><img src="../images/icons/arrow_down.png" style="display: none;"></img></a><code class="title"><img src="../images/icons/method.png" alt="method" title="method"></img><img src="../images/icons/visibility_public.png" style="margin-right: 5px" alt="public"></img><span class="highlight">getServerStatisticsDescription</span><span class="nb-faded-text">(array $options = array())</span> : array</code><div class="description"><p class="short_description">Returns a description of the statistics returned by getServerStatistics().</p></div><div class="code-tabs"><div class="long-description">The returned objects contains a list of statistics groups in the attribute groups
+and a list of statistics figures in the attribute figures.
+For more information on the statistics returned, please lookup the statistics interface description at</div><strong>Parameters</strong><table class="argument-info"><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tr><th>$options</th><td>array</td><td><em><ul>
+<li>an array of options that define the result-set:</li>
+</ul>
+
+<p><</p>
+
+<p>p>Options are :<br>
+<li>'granularity' - use minutes for a granularity of minutes, hours for hours, and days for days. The default is minutes.</li>
+<li>'figures' - a list of figures, comma-separated. Possible figures are httpConnections. You can use all to get all figures. The default is httpConnections.</li>
+<li>'length' - If you want a time series, the maximal length of the series as integer. You can use all to get all available information. You can use current to get the latest interval.</li></p>
+</em></td></tr></table><strong>Returns</strong><table class="argument-info"><thead><tr><th>Type</th><th>Description</th></tr></thead><tr><td>array</td><td></td></tr></table><strong>Throws</strong><table class="argument-info"><thead><tr><th>Exception</th><th>Description</th></tr></thead><tr><td><a href="../files/Exception.html">\triagens\ArangoDb\Exception</a></td><td><em></em></td></tr></table><strong>Details</strong><dl class="function-info"><dt>Link</dt><dd><a href="http://www.arangodb.org/manuals/1.3.devel/HttpSystem.html#HttpSystemAdminStatistics">This will throw if the statistics-description cannot be retrieved</a>
+         
+    </dd><dt>See</dt><dd><a href="../files/
+                         \triagens\ArangoDb\getServerStatistics()"></a>
+         
+    </dd><dt>Since</dt><dd>1.3
+         
+    </dd></dl></div><div class="clear"></div></div><a id="\triagens\ArangoDb\AdminHandler::getServerTime()" class="anchor"></a><div class="method public"><a href="#" class="gripper"><img src="../images/icons/arrow_right.png"></img><img src="../images/icons/arrow_down.png" style="display: none;"></img></a><code class="title"><img src="../images/icons/method.png" alt="method" title="method"></img><img src="../images/icons/visibility_public.png" style="margin-right: 5px" alt="public"></img><span class="highlight">getServerTime</span><span class="nb-faded-text">()</span> : double</code><div class="description"><p class="short_description">Get the server time</p></div><div class="code-tabs"><div class="long-description">This will throw if the time cannot be retrieved</div><strong>Returns</strong><table class="argument-info"><thead><tr><th>Type</th><th>Description</th></tr></thead><tr><td>double</td><td>- a double holding the timestamp</td></tr></table><strong>Throws</strong><table class="argument-info"><thead><tr><th>Exception</th><th>Description</th></tr></thead><tr><td><a href="../files/Exception.html">\triagens\ArangoDb\Exception</a></td><td><em></em></td></tr></table><strong>Details</strong><dl class="function-info"><dt>Since</dt><dd>1.2
+         
+    </dd></dl></div><div class="clear"></div></div><a id="\triagens\ArangoDb\AdminHandler::getServerVersion()" class="anchor"></a><div class="method public"><a href="#" class="gripper"><img src="../images/icons/arrow_right.png"></img><img src="../images/icons/arrow_down.png" style="display: none;"></img></a><code class="title"><img src="../images/icons/method.png" alt="method" title="method"></img><img src="../images/icons/visibility_public.png" style="margin-right: 5px" alt="public"></img><span class="highlight">getServerVersion</span><span class="nb-faded-text">(bool $details = false)</span> : string</code><div class="description"><p class="short_description">Get the server version</p></div><div class="code-tabs"><div class="long-description">This will throw if the version cannot be retrieved</div><strong>Parameters</strong><table class="argument-info"><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tr><th>$details</th><td>bool</td><td><em><ul>
+<li>True to get a more detailed response</li>
+</ul>
+</em></td></tr></table><strong>Returns</strong><table class="argument-info"><thead><tr><th>Type</th><th>Description</th></tr></thead><tr><td>string</td><td>- a string holding the ArangoDB version</td></tr></table><strong>Throws</strong><table class="argument-info"><thead><tr><th>Exception</th><th>Description</th></tr></thead><tr><td><a href="../files/Exception.html">\triagens\ArangoDb\Exception</a></td><td><em></em></td></tr></table><strong>Details</strong><dl class="function-info"><dt>Since</dt><dd>1.2
+         
+    </dd></dl></div><div class="clear"></div></div><a id="\triagens\ArangoDb\AdminHandler::reloadServerRouting()" class="anchor"></a><div class="method public"><a href="#" class="gripper"><img src="../images/icons/arrow_right.png"></img><img src="../images/icons/arrow_down.png" style="display: none;"></img></a><code class="title"><img src="../images/icons/method.png" alt="method" title="method"></img><img src="../images/icons/visibility_public.png" style="margin-right: 5px" alt="public"></img><span class="highlight">reloadServerRouting</span><span class="nb-faded-text">()</span> : array</code><div class="description"><p class="short_description">Reload the server's routing information
+The call triggers a reload of the routing information from the _routing collection</p></div><div class="code-tabs"><div class="long-description">This will throw if the routing cannot be reloaded</div><strong>Returns</strong><table class="argument-info"><thead><tr><th>Type</th><th>Description</th></tr></thead><tr><td>array</td><td></td></tr></table><strong>Throws</strong><table class="argument-info"><thead><tr><th>Exception</th><th>Description</th></tr></thead><tr><td><a href="../files/Exception.html">\triagens\ArangoDb\Exception</a></td><td><em></em></td></tr></table><strong>Details</strong><dl class="function-info"><dt>Since</dt><dd>1.2
+         
+    </dd></dl></div><div class="clear"></div></div></div></div></div><small class="footer">
+            Documentation was generated by
+            <a href="http://phpdoc.org">phpDocumentor
+                2.1.0
+</a>.
+        </small></body></html>

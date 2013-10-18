@@ -58,18 +58,15 @@
 <li class="nav-header">
 <i class="icon-custom icon-method"></i> Methods
                     <ul>
-<li class="method public "><a href="#method___construct" title="__construct :: Set up the response"><span class="description">Set up the response</span><pre>__construct()</pre></a></li>
-<li class="method public "><a href="#method_getBody" title="getBody :: Return the body of the response"><span class="description">Return the body of the response</span><pre>getBody()</pre></a></li>
-<li class="method public "><a href="#method_getHeader" title="getHeader :: Return an individual HTTP headers of the response"><span class="description">Return an individual HTTP headers of the response</span><pre>getHeader()</pre></a></li>
-<li class="method public "><a href="#method_getHeaders" title="getHeaders :: Return the HTTP headers of the response"><span class="description">Return the HTTP headers of the response</span><pre>getHeaders()</pre></a></li>
-<li class="method public "><a href="#method_getHttpCode" title="getHttpCode :: Return the HTTP status code of the response"><span class="description">Return the HTTP status code of the response</span><pre>getHttpCode()</pre></a></li>
-<li class="method public "><a href="#method_getJson" title="getJson :: Return the data from the JSON-encoded body"><span class="description">Return the data from the JSON-encoded body</span><pre>getJson()</pre></a></li>
-<li class="method public "><a href="#method_getLocationHeader" title="getLocationHeader :: Return the location HTTP header of the response"><span class="description">Return the location HTTP header of the response</span><pre>getLocationHeader()</pre></a></li>
-<li class="method public "><a href="#method_getResult" title="getResult :: Return the result line (first header line) of the response"><span class="description">Return the result line (first header line) of the response</span><pre>getResult()</pre></a></li>
+<li class="method public "><a href="#method___construct" title="__construct() :: Set up the response"><span class="description">Set up the response</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#method_getBody" title="getBody() :: Return the body of the response"><span class="description">Return the body of the response</span><pre>getBody()</pre></a></li>
+<li class="method public "><a href="#method_getHeader" title="getHeader() :: Return an individual HTTP headers of the response"><span class="description">Return an individual HTTP headers of the response</span><pre>getHeader()</pre></a></li>
+<li class="method public "><a href="#method_getHeaders" title="getHeaders() :: Return the HTTP headers of the response"><span class="description">Return the HTTP headers of the response</span><pre>getHeaders()</pre></a></li>
+<li class="method public "><a href="#method_getHttpCode" title="getHttpCode() :: Return the HTTP status code of the response"><span class="description">Return the HTTP status code of the response</span><pre>getHttpCode()</pre></a></li>
+<li class="method public "><a href="#method_getJson" title="getJson() :: Return the data from the JSON-encoded body"><span class="description">Return the data from the JSON-encoded body</span><pre>getJson()</pre></a></li>
+<li class="method public "><a href="#method_getLocationHeader" title="getLocationHeader() :: Return the location HTTP header of the response"><span class="description">Return the location HTTP header of the response</span><pre>getLocationHeader()</pre></a></li>
+<li class="method public "><a href="#method_getResult" title="getResult() :: Return the result line (first header line) of the response"><span class="description">Return the result line (first header line) of the response</span><pre>getResult()</pre></a></li>
 </ul>
-</li>
-<li class="nav-header private">» Private
-                    <ul><li class="method private "><a href="#method_setupHeaders" title="setupHeaders :: Set up an array of HTTP headers"><span class="description">Set up an array of HTTP headers</span><pre>setupHeaders()</pre></a></li></ul>
 </li>
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties
@@ -77,16 +74,16 @@
 </li>
 <li class="nav-header private">» Private
                     <ul>
-<li class="property private "><a href="#property__body" title="$_body :: The body retrieved"><span class="description"></span><pre>$_body</pre></a></li>
-<li class="property private "><a href="#property__header" title="$_header :: The header retrieved"><span class="description"></span><pre>$_header</pre></a></li>
-<li class="property private "><a href="#property__headers" title="$_headers :: All headers retrieved as an assoc array"><span class="description"></span><pre>$_headers</pre></a></li>
-<li class="property private "><a href="#property__httpCode" title="$_httpCode :: The HTTP status code of the response"><span class="description"></span><pre>$_httpCode</pre></a></li>
-<li class="property private "><a href="#property__result" title="$_result :: The result status-line (first line of HTTP response header)"><span class="description"></span><pre>$_result</pre></a></li>
+<li class="property private "><a href="#property__body" title="$_body() :: The body retrieved"><span class="description"></span><pre>$_body</pre></a></li>
+<li class="property private "><a href="#property__header" title="$_header() :: The header retrieved"><span class="description"></span><pre>$_header</pre></a></li>
+<li class="property private "><a href="#property__headers" title="$_headers() :: All headers retrieved as an assoc array"><span class="description"></span><pre>$_headers</pre></a></li>
+<li class="property private "><a href="#property__httpCode" title="$_httpCode() :: The HTTP status code of the response"><span class="description"></span><pre>$_httpCode</pre></a></li>
+<li class="property private "><a href="#property__result" title="$_result() :: The result status-line (first line of HTTP response header)"><span class="description"></span><pre>$_result</pre></a></li>
 </ul>
 </li>
 <li class="nav-header">
 <i class="icon-custom icon-constant"></i> Constants
-                    <ul><li class="constant  "><a href="#constant_HEADER_LOCATION" title="HEADER_LOCATION :: HTTP location header"><span class="description">HTTP location header</span><pre>HEADER_LOCATION</pre></a></li></ul>
+                    <ul><li class="constant  "><a href="#constant_HEADER_LOCATION" title="HEADER_LOCATION() :: HTTP location header"><span class="description">HTTP location header</span><pre>HEADER_LOCATION</pre></a></li></ul>
 </li>
 </ul>
 </div>
@@ -106,11 +103,17 @@
 <div class="element class">
 <p class="short_description">Container class for HTTP responses</p>
 <div class="details">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
+<div class="long_description"><br></div>
+<table class="table table-bordered">
+<tr>
 <th>package</th>
 <td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
-</tr></table>
+</tr>
+<tr>
+<th>since</th>
+<td>0.2</td>
+</tr>
+</table>
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
 <a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
@@ -222,40 +225,34 @@
 <code>string</code>- the result line (first line of header)</div>
 </div></div>
 </div>
-<a id="method_setupHeaders"></a><div class="element clickable method private method_setupHeaders" data-toggle="collapse" data-target=".method_setupHeaders .collapse">
-<h2>Set up an array of HTTP headers</h2>
-<pre>setupHeaders() : void</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
 <a id="property__body"> </a><div class="element clickable property private property__body" data-toggle="collapse" data-target=".property__body .collapse">
-<h2></h2>
+<h2>The body retrieved</h2>
 <pre>$_body : string</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="property__header"> </a><div class="element clickable property private property__header" data-toggle="collapse" data-target=".property__header .collapse">
-<h2></h2>
+<h2>The header retrieved</h2>
 <pre>$_header : string</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="property__headers"> </a><div class="element clickable property private property__headers" data-toggle="collapse" data-target=".property__headers .collapse">
-<h2></h2>
+<h2>All headers retrieved as an assoc array</h2>
 <pre>$_headers : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="property__httpCode"> </a><div class="element clickable property private property__httpCode" data-toggle="collapse" data-target=".property__httpCode .collapse">
-<h2></h2>
+<h2>The HTTP status code of the response</h2>
 <pre>$_httpCode : int</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="property__result"> </a><div class="element clickable property private property__result" data-toggle="collapse" data-target=".property__result .collapse">
-<h2></h2>
+<h2>The result status-line (first line of HTTP response header)</h2>
 <pre>$_result : string</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
@@ -274,8 +271,9 @@
 </div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
-            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-05-11T17:21:43+03:00.<br></footer></div>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.1.0
+</a> and<br>
+            generated on 2013-10-18T04:07:23+03:00.<br></footer></div>
 </div>
 </body>
 </html>
