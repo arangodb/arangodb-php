@@ -16,11 +16,9 @@ namespace triagens\ArangoDb;
  *
  * <br>
  *
- * @package triagens\ArangoDb
- * @example ArangoDb/examples/batch.php
+ * @package   triagens\ArangoDb
+ * @since     1.1
  */
-
-
 class Batch
 {
     /**

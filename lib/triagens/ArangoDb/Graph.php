@@ -18,7 +18,6 @@ namespace triagens\ArangoDb;
  * <br>
  *
  * @package   triagens\ArangoDb
- *
  * @since     1.2
  */
 class Graph extends

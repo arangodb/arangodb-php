@@ -17,7 +17,8 @@ namespace triagens\ArangoDb;
  * on the client side, i.e. something the server is not involved in.<br>
  * <br>
  *
- * @package triagens\ArangoDb
+ * @package   triagens\ArangoDb
+ * @since     0.2
  */
 class ClientException extends
     Exception

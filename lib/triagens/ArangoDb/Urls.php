@@ -16,6 +16,7 @@ namespace triagens\ArangoDb;
  * <br />
  *
  * @package triagens\ArangoDb
+ * @since   0.2
  */
 abstract class Urls
 {
@@ -123,7 +124,7 @@ abstract class Urls
      * base URL part for select-all
      */
     const URL_ALL = '/_api/simple/all';
-    
+
     /**
      * base URL part for select-range
      */

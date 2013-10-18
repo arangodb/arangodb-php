@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: default values
  *
- * @package triagens\ArangoDb
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -15,7 +15,8 @@ namespace triagens\ArangoDb;
  *
  * <br>
  *
- * @package triagens\ArangoDb
+ * @package   triagens\ArangoDb
+ * @since     0.2
  */
 abstract class DefaultValues
 {

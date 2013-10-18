@@ -16,7 +16,8 @@ namespace triagens\ArangoDb;
  *
  * <br>
  *
- * @package triagens\ArangoDb
+ * @package   triagens\ArangoDb
+ * @since     1.1
  */
 
 

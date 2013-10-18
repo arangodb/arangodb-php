@@ -16,6 +16,7 @@ namespace triagens\ArangoDb;
  * <br>
  *
  * @package triagens\ArangoDb
+ * @since   0.2
  */
 abstract class Handler
 {
@@ -117,9 +118,9 @@ abstract class Handler
      * which was later changed to being an array of options, so more than one options can be passed easily.
      * This is only for options that are to be sent to the ArangoDB server.
      *
-     * @param array $options      - The options array that may hold the policy to include in the parameters. If it's not an array, then the value is the policy value.
-     * @param array $params       - The parameters into which the options will be included.
-     * @param mixed $parameter    - the old single parameter key to use.
+     * @param array $options   - The options array that may hold the policy to include in the parameters. If it's not an array, then the value is the policy value.
+     * @param array $params    - The parameters into which the options will be included.
+     * @param mixed $parameter - the old single parameter key to use.
      *
      * @return array $params - array of parameters for use in a url
      */

@@ -45,6 +45,7 @@ namespace triagens\ArangoDb;
  * <br />
  *
  * @package triagens\ArangoDb
+ * @since   0.2
  */
 class Statement
 {

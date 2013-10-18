@@ -11,11 +11,12 @@
 namespace triagens\ArangoDb;
 
 /**
- * Value object representing a single collection-based document
+ * Value object representing a single collection-based edge document
  *
  * <br>
  *
- * @package triagens\ArangoDb
+ * @package   triagens\ArangoDb
+ * @since     1.0
  */
 class Edge extends
     Document

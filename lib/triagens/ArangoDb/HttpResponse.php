@@ -16,6 +16,7 @@ namespace triagens\ArangoDb;
  * <br>
  *
  * @package triagens\ArangoDb
+ * @since   0.2
  */
 class HttpResponse
 {
@@ -68,9 +69,8 @@ class HttpResponse
      */
     public function __construct($responseString)
     {
-         list($this->_header, $this->_body)                      = HttpHelper::parseHttpMessage($responseString);
-         list($this->_httpCode, $this->_result, $this->_headers) = HttpHelper::parseHeaders($this->_header);
-        
+        list($this->_header, $this->_body) = HttpHelper::parseHttpMessage($responseString);
+        list($this->_httpCode, $this->_result, $this->_headers) = HttpHelper::parseHeaders($this->_header);
     }
 
     /**
@@ -161,5 +161,4 @@ class HttpResponse
 
         return $json;
     }
-
 }

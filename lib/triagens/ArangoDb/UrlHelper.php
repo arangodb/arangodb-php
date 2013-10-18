@@ -16,6 +16,7 @@ namespace triagens\ArangoDb;
  * <br />
  *
  * @package triagens\ArangoDb
+ * @since   0.2
  */
 abstract class UrlHelper
 {
@@ -53,7 +54,7 @@ abstract class UrlHelper
      * This function accepts variable arguments.
      *
      * @param string $baseUrl - base URL
-     * @param array $parts - URL parts to append
+     * @param array  $parts   - URL parts to append
      *
      * @return string - assembled URL
      */

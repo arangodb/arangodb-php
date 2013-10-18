@@ -20,7 +20,8 @@ namespace triagens\ArangoDb;
  *
  * <br>
  *
- * @package triagens\ArangoDb
+ * @package   triagens\ArangoDb
+ * @since     1.0
  */
 class EdgeHandler extends
     DocumentHandler
@@ -124,11 +125,11 @@ class EdgeHandler extends
      * @param mixed      $to           - to vertex
      * @param mixed      $document     - the edge-document to be added, can be passed as an object or an array
      * @param bool|array $options      - optional, prior to v1.2.0 this was a boolean value for create. Since v1.0.0 it's an array of options.
-     * <p>Options are :<br>
-     * <li>'create' - create the collection if it does not yet exist.</li>
-     * <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk.<br>
+     *                                 <p>Options are :<br>
+     *                                 <li>'create' - create the collection if it does not yet exist.</li>
+     *                                 <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk.<br>
      *                                 If this is not specified, then the collection's default sync behavior will be applied.</li>
-     * </p>
+     *                                 </p>
      *
      * @return mixed - id of document created
      * @since 1.0
@@ -146,17 +147,19 @@ class EdgeHandler extends
             self::OPTION_TO         => $document->getTo()
         );
         $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            $params,
-            ConnectionOptions::OPTION_CREATE
+                       $options,
+                       $params,
+                       ConnectionOptions::OPTION_CREATE
         );
 
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            array(
-                 ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
-            )
+                       $options,
+                       $params,
+                       array(
+                            ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(
+                                                                        ConnectionOptions::OPTION_WAIT_SYNC
+                                ),
+                       )
         );
 
         $data = $document->getAll();

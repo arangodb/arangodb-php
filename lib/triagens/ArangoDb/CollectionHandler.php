@@ -17,7 +17,8 @@ namespace triagens\ArangoDb;
  * creates collections on the server.<br>
  * <br>
  *
- * @package triagens\ArangoDb
+ * @package   triagens\ArangoDb
+ * @since     0.2
  */
 class CollectionHandler extends
     Handler
@@ -364,13 +365,13 @@ class CollectionHandler extends
      *
      * @param mixed $collection - collection object to be created on the server or a string with the name
      * @param array $options    - an array of options.
-     * <p>Options are :<br>
-     * <li>'type' - 2 -> normal collection, 3 -> edge-collection</li>
-     * <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
-     * <li>'journalSize' -  journalSize value.</li>
-     * <li>'isSystem'    -  false->user collection(default), true->system collection .</li>
-     * <li>'isVolatile'  -  false->persistent collection(default), true->volatile (in-memory) collection .</li>
-     * </p>
+     *                          <p>Options are :<br>
+     *                          <li>'type' - 2 -> normal collection, 3 -> edge-collection</li>
+     *                          <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
+     *                          <li>'journalSize' -  journalSize value.</li>
+     *                          <li>'isSystem'    -  false->user collection(default), true->system collection .</li>
+     *                          <li>'isVolatile'  -  false->persistent collection(default), true->volatile (in-memory) collection .</li>
+     *                          </p>
      *
      * @return mixed - id of collection created
      */
@@ -715,8 +716,8 @@ class CollectionHandler extends
 
         $params = array(Collection::ENTRY_NAME => $name);
         $this->getConnection()->put(
-            UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_RENAME)),
-            $this->json_encode_wrapper($params)
+             UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_RENAME)),
+             $this->json_encode_wrapper($params)
         );
 
         return true;
@@ -742,8 +743,8 @@ class CollectionHandler extends
         }
 
         $result = $this->getConnection()->put(
-            UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_LOAD)),
-            ''
+                       UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_LOAD)),
+                       ''
         );
 
         return $result;
@@ -770,8 +771,8 @@ class CollectionHandler extends
         }
 
         $result = $this->getConnection()->put(
-            UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_UNLOAD)),
-            ''
+                       UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_UNLOAD)),
+                       ''
         );
 
         return $result;
@@ -798,8 +799,8 @@ class CollectionHandler extends
         }
 
         $this->getConnection()->put(
-            UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_TRUNCATE)),
-            ''
+             UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_TRUNCATE)),
+             ''
         );
 
         return true;
@@ -817,21 +818,21 @@ class CollectionHandler extends
      * @param mixed      $collectionId - collection id as string or number
      * @param mixed      $document     - the example document as a Document object or an array
      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
-     * <p>Options are :<br>
-     * <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     * <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
-     * <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     * <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
-     * <p>
+     *                                 <p>Options are :<br>
+     *                                 <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     *                                 <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
+     *                                 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+     *                                 <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
+     *                                 <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
      *                                 and the hidden attributes would not be applied to the attributes.<br>
-     * </p>
-     * </li>
-     * <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
-     * <li>'skip'      - Optional, The number of documents to skip in the query.</li>
-     * <li>'limit'     - Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
-     * </p>
+     *                                 </p>
+     *                                 </li>
+     *                                 <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
+     *                                 <li>'skip'      - Optional, The number of documents to skip in the query.</li>
+     *                                 <li>'limit'     - Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
+     *                                 </p>
      *
      * @return cursor - Returns a cursor containing the result
      */
@@ -860,13 +861,15 @@ class CollectionHandler extends
         );
 
         $body = $this->includeOptionsInBody(
-            $options,
-            $body,
-            array(
-                 ConnectionOptions::OPTION_BATCHSIZE => $this->getConnectionOption(ConnectionOptions::OPTION_BATCHSIZE),
-                 self::OPTION_LIMIT                  => null,
-                 self::OPTION_SKIP                   => null,
-            )
+                     $options,
+                     $body,
+                     array(
+                          ConnectionOptions::OPTION_BATCHSIZE => $this->getConnectionOption(
+                                                                      ConnectionOptions::OPTION_BATCHSIZE
+                              ),
+                          self::OPTION_LIMIT                  => null,
+                          self::OPTION_SKIP                   => null,
+                     )
         );
 
         $response = $this->getConnection()->put(Urls::URL_EXAMPLE, $this->json_encode_wrapper($body));
@@ -888,18 +891,18 @@ class CollectionHandler extends
      * @param mixed      $collectionId - collection id as string or number
      * @param mixed      $document     - the example document as a Document object or an array
      * @param bool|array $options      - optional, an array of options.
-     * <p>Options are :<br>
-     * <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     * <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
-     * <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     * <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
-     * <p>
+     *                                 <p>Options are :<br>
+     *                                 <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     *                                 <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
+     *                                 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+     *                                 <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
+     *                                 <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
      *                                 and the hidden attributes would not be applied to the attributes.<br>
-     * </p>
-     * </li>
-     * </p>
+     *                                 </p>
+     *                                 </li>
+     *                                 </p>
      *
      * @return Document - the document fetched from the server
      * @since 1.2
@@ -979,11 +982,11 @@ class CollectionHandler extends
      * @param mixed $example      - the example document as a Document object or an array
      * @param mixed $newValue     - patch document or array which contains the attributes and values to be updated
      * @param mixed $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     * <p>Options are :
-     * <li>'keepNull'    - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
-     * <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     * <li>'limit'       - can be used set a limit on how many documents to update at most. If limit is specified but is less than the number of documents in the collection, it is undefined which of the documents will be updated.</li>
-     * </p>
+     *                            <p>Options are :
+     *                            <li>'keepNull'    - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+     *                            <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                            <li>'limit'       - can be used set a limit on how many documents to update at most. If limit is specified but is less than the number of documents in the collection, it is undefined which of the documents will be updated.</li>
+     *                            </p>
      *
      * @return bool - always true, will throw if there is an error
      * @since 1.2
@@ -1005,13 +1008,15 @@ class CollectionHandler extends
         );
 
         $body = $this->includeOptionsInBody(
-            $options,
-            $body,
-            array(
-                 ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
-                 'keepNull'                          => true,
-                 self::OPTION_LIMIT                  => null,
-            )
+                     $options,
+                     $body,
+                     array(
+                          ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(
+                                                                      ConnectionOptions::OPTION_WAIT_SYNC
+                              ),
+                          'keepNull'                          => true,
+                          self::OPTION_LIMIT                  => null,
+                     )
         );
 
         #$url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, array($collectionId));
@@ -1042,11 +1047,11 @@ class CollectionHandler extends
      * @param mixed $example      - the example document as a Document object or an array
      * @param mixed $newValue     - patch document or array which contains the attributes and values to be replaced
      * @param mixed $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     * <p>Options are :
-     * <li>'keepNull'    - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
-     * <li>'waitForSync' - can be used to force synchronisation of the document replace operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     * <li>'limit'       - can be used set a limit on how many documents to replace at most. If limit is specified but is less than the number of documents in the collection, it is undefined which of the documents will be replaced.</li>
-     * </p>
+     *                            <p>Options are :
+     *                            <li>'keepNull'    - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+     *                            <li>'waitForSync' - can be used to force synchronisation of the document replace operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                            <li>'limit'       - can be used set a limit on how many documents to replace at most. If limit is specified but is less than the number of documents in the collection, it is undefined which of the documents will be replaced.</li>
+     *                            </p>
      *
      * @return bool - always true, will throw if there is an error
      * @since 1.2
@@ -1068,13 +1073,15 @@ class CollectionHandler extends
         );
 
         $body = $this->includeOptionsInBody(
-            $options,
-            $body,
-            array(
-                 ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
-                 'keepNull'                          => true,
-                 self::OPTION_LIMIT                  => null,
-            )
+                     $options,
+                     $body,
+                     array(
+                          ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(
+                                                                      ConnectionOptions::OPTION_WAIT_SYNC
+                              ),
+                          'keepNull'                          => true,
+                          self::OPTION_LIMIT                  => null,
+                     )
         );
 
         #$url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, array($collectionId));
@@ -1102,13 +1109,13 @@ class CollectionHandler extends
      * @param mixed      $collectionId - collection id as string or number
      * @param mixed      $document     - the example document as a Document object or an array
      * @param bool|array $options      - optional - an array of options.
-     * <p>Options are :<br>
-     * <li>
-     * 'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk.<br>
+     *                                 <p>Options are :<br>
+     *                                 <li>
+     *                                 'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk.<br>
      *                                 If this is not specified, then the collection's default sync behavior will be applied.
-     * </li>
-     * </p>
-     * <li>'limit' -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
+     *                                 </li>
+     *                                 </p>
+     *                                 <li>'limit' -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
      *
      * @return int - number of documents that were deleted
      *
@@ -1130,12 +1137,14 @@ class CollectionHandler extends
         );
 
         $body = $this->includeOptionsInBody(
-            $options,
-            $body,
-            array(
-                 ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
-                 self::OPTION_LIMIT                  => null,
-            )
+                     $options,
+                     $body,
+                     array(
+                          ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(
+                                                                      ConnectionOptions::OPTION_WAIT_SYNC
+                              ),
+                          self::OPTION_LIMIT                  => null,
+                     )
         );
 
         $response = $this->getConnection()->put(Urls::URL_REMOVE_BY_EXAMPLE, $this->json_encode_wrapper($body));
@@ -1163,16 +1172,16 @@ class CollectionHandler extends
      * @param mixed  $left            - The lower bound.
      * @param mixed  $right           - The upper bound.
      * @param array  $options         - optional array of options.
-     * <p>Options are :<br>
-     * <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     * <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
-     * <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     * <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
-     * <p>
+     *                                <p>Options are :<br>
+     *                                <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     *                                <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
+     *                                <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+     *                                <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
+     *                                <p>
      *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
      *                                The difference is, that if you're returning a resultset of documents, the getAll() is already called<br>
      *                                and the hidden attributes would not be applied to the attributes.<br>
-     * </p>
+     *                                </p>
      *
      * <li>'closed'    - If true, use interval including left and right, otherwise exclude right, but include left.
      * <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
@@ -1199,13 +1208,13 @@ class CollectionHandler extends
         );
 
         $body = $this->includeOptionsInBody(
-            $options,
-            $body,
-            array(
-                 self::OPTION_CLOSED => null,
-                 self::OPTION_LIMIT  => null,
-                 self::OPTION_SKIP   => null,
-            )
+                     $options,
+                     $body,
+                     array(
+                          self::OPTION_CLOSED => null,
+                          self::OPTION_LIMIT  => null,
+                          self::OPTION_SKIP   => null,
+                     )
         );
 
         $response = $this->getConnection()->put(Urls::URL_RANGE, $this->json_encode_wrapper($body));
@@ -1214,50 +1223,50 @@ class CollectionHandler extends
     }
 
     /**
-	 * Returns all documents of a collection
-	 *
-	 * @param mixed  $collectionId    - collection id as string or number
-	 * @param array  $options         - optional array of options.
-	 * <p>Options are :<br>
-	 * <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-	 * <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
-	 * <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-	 * <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
-	 * <p>
-	 *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
-	 *                                The difference is, that if you're returning a resultset of documents, the getAll() is already called<br>
-	 *                                and the hidden attributes would not be applied to the attributes.<br>
-	 * </p>
-	 *
-	 * <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
-	 * <li>'skip'      -  Optional, The number of documents to skip in the query.</li>
-	 * <li>'limit'     -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
-	 * </li>
-	 * </p>
-	 *
-	 * @return Cursor - documents
-	 */
-	public function all($collectionId, $options = array())
-	{
-		$options = array_merge($options, $this->getCursorOptions($options));
+     * Returns all documents of a collection
+     *
+     * @param mixed $collectionId     - collection id as string or number
+     * @param array $options          - optional array of options.
+     *                                <p>Options are :<br>
+     *                                <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     *                                <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
+     *                                <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+     *                                <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
+     *                                <p>
+     *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
+     *                                The difference is, that if you're returning a resultset of documents, the getAll() is already called<br>
+     *                                and the hidden attributes would not be applied to the attributes.<br>
+     *                                </p>
+     *
+     * <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
+     * <li>'skip'      -  Optional, The number of documents to skip in the query.</li>
+     * <li>'limit'     -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
+     * </li>
+     * </p>
+     *
+     * @return Cursor - documents
+     */
+    public function all($collectionId, $options = array())
+    {
+        $options = array_merge($options, $this->getCursorOptions($options));
 
-		$body = array(
-			self::OPTION_COLLECTION => $collectionId,
-		);
-
-		$body = $this->includeOptionsInBody(
-            $options,
-			$body,
-            array(
-                 self::OPTION_LIMIT  => null,
-                 self::OPTION_SKIP   => null,
-            )
+        $body = array(
+            self::OPTION_COLLECTION => $collectionId,
         );
 
-		$response = $this->getConnection()->put(Urls::URL_ALL, $this->json_encode_wrapper($body));
+        $body = $this->includeOptionsInBody(
+                     $options,
+                     $body,
+                     array(
+                          self::OPTION_LIMIT => null,
+                          self::OPTION_SKIP  => null,
+                     )
+        );
 
-		return new Cursor($this->getConnection(), $response->getJson(), $options);
-	}
+        $response = $this->getConnection()->put(Urls::URL_ALL, $this->json_encode_wrapper($body));
+
+        return new Cursor($this->getConnection(), $response->getJson(), $options);
+    }
 
 
     /**
@@ -1272,16 +1281,16 @@ class CollectionHandler extends
      * @param double $latitude        - The latitude of the coordinate.
      * @param double $longitude       - The longitude of the coordinate.
      * @param array  $options         - optional array of options.
-     * <p>Options are :<br>
-     * <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     * <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
-     * <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     * <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
-     * <p>
+     *                                <p>Options are :<br>
+     *                                <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     *                                <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
+     *                                <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+     *                                <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
+     *                                <p>
      *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
      *                                The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
      *                                and the hidden attributes would not be applied to the attributes.<br>
-     * </p>
+     *                                </p>
      *
      * <li>'distance'  - If given, the attribute key used to store the distance. (optional)
      * <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
@@ -1303,13 +1312,13 @@ class CollectionHandler extends
         );
 
         $body = $this->includeOptionsInBody(
-            $options,
-            $body,
-            array(
-                 self::OPTION_DISTANCE => null,
-                 self::OPTION_LIMIT    => null,
-                 self::OPTION_SKIP     => null,
-            )
+                     $options,
+                     $body,
+                     array(
+                          self::OPTION_DISTANCE => null,
+                          self::OPTION_LIMIT    => null,
+                          self::OPTION_SKIP     => null,
+                     )
         );
 
         $response = $this->getConnection()->put(Urls::URL_NEAR, $this->json_encode_wrapper($body));
@@ -1331,16 +1340,16 @@ class CollectionHandler extends
      * @param double $longitude       - The longitude of the coordinate.
      * @param int    $radius          - The maximal radius (in meters).
      * @param array  $options         - optional array of options.
-     * <p>Options are :<br>
-     * <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     * <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
-     * <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     * <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
-     * <p>
+     *                                <p>Options are :<br>
+     *                                <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     *                                <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
+     *                                <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+     *                                <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
+     *                                <p>
      *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
      *                                The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
      *                                and the hidden attributes would not be applied to the attributes.<br>
-     * </p>
+     *                                </p>
      *
      * <li>'distance'  - If given, the attribute key used to store the distance. (optional)
      * <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
@@ -1363,13 +1372,13 @@ class CollectionHandler extends
         );
 
         $body = $this->includeOptionsInBody(
-            $options,
-            $body,
-            array(
-                 self::OPTION_DISTANCE => null,
-                 self::OPTION_LIMIT    => null,
-                 self::OPTION_SKIP     => null,
-            )
+                     $options,
+                     $body,
+                     array(
+                          self::OPTION_DISTANCE => null,
+                          self::OPTION_LIMIT    => null,
+                          self::OPTION_SKIP     => null,
+                     )
         );
 
         $response = $this->getConnection()->put(Urls::URL_WITHIN, $this->json_encode_wrapper($body));
@@ -1425,11 +1434,11 @@ class CollectionHandler extends
      * Returns empty array if none are available.
      *
      * @param array $options            - optional - an array of options.
-     * <p>Options are :<br>
-     * <li>'excludeSystem' -   With a value of true, all system collections will be excluded from the response.</li>
-     * <li>'keys' -  With a value of "collections", the index of the resulting array is numerical,
+     *                                  <p>Options are :<br>
+     *                                  <li>'excludeSystem' -   With a value of true, all system collections will be excluded from the response.</li>
+     *                                  <li>'keys' -  With a value of "collections", the index of the resulting array is numerical,
      *                                  With a value of "names", the index of the resulting array are the collection names.</li>
-     * </p>
+     *                                  </p>
      *
      * @return array
      */
@@ -1503,18 +1512,18 @@ class CollectionHandler extends
      * @param mixed $collectionId   - collection id as string or number
      * @param mixed $importFileName - The filename that holds the import data.
      * @param array $options        - optional - an array of options.
-     * <p>Options are :<br>
-     * 'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
-     * <p>
-     * <li>                       if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.</li>
-     * <li>                       if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.</li>
-     * <br>
+     *                              <p>Options are :<br>
+     *                              'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
+     *                              <p>
+     *                              <li>                       if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.</li>
+     *                              <li>                       if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.</li>
+     *                              <br>
      *                              More info on how the import functionality works: <a href ="https://github.com/triAGENS/ArangoDB/wiki/HttpImport">https://github.com/triAGENS/ArangoDB/wiki/HttpImport</a>
-     * </p>
-     * <br>
-     * </li>
-     * <li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
-     * </p>
+     *                              </p>
+     *                              <br>
+     *                              </li>
+     *                              <li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
+     *                              </p>
      *
      * @return int - number of documents that were deleted
      */
@@ -1545,16 +1554,16 @@ class CollectionHandler extends
      * @param mixed $collectionId - collection id as string or number
      * @param mixed $importData   - The data to import. This can be a string holding the data according to the type of import, or an array of documents
      * @param array $options      - optional - an array of options.
-     * <p>Options are :<br>
-     * <li>
-     * 'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
-     * <p>
-     * <li>                       if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.</li>
-     * <li>                       if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.</li>
-     * <br>
+     *                            <p>Options are :<br>
+     *                            <li>
+     *                            'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
+     *                            <p>
+     *                            <li>                       if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.</li>
+     *                            <li>                       if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.</li>
+     *                            <br>
      *                            More info on how the import functionality works: <a href ="https://github.com/triAGENS/ArangoDB/wiki/HttpImport">https://github.com/triAGENS/ArangoDB/wiki/HttpImport</a>
-     * </p>
-     * <br>
+     *                            </p>
+     *                            <br>
      *
      * </li>
      * <li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>

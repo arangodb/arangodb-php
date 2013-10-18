@@ -25,7 +25,8 @@ namespace triagens\ArangoDb;
  *
  * <br>
  *
- * @package triagens\ArangoDb
+ * @package   triagens\ArangoDb
+ * @since     0.2
  */
 class Endpoint
 {

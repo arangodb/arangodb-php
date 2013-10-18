@@ -53,6 +53,7 @@ namespace triagens\ArangoDb;
  * @property int    $lockTimeout     - LockTimeout on the transaction
  *
  * @package triagens\ArangoDb
+ * @since   1.3
  */
 class Transaction
 {
@@ -124,8 +125,8 @@ class Transaction
      * )
      *
      *
-     * @param Connection $connection             - the connection to be used
-     * @param array      $transactionArray       - transaction initialization data
+     * @param Connection $connection       - the connection to be used
+     * @param array      $transactionArray - transaction initialization data
      *
      * @return \triagens\ArangoDb\Transaction
      */
@@ -150,8 +151,8 @@ class Transaction
     public function execute()
     {
         $response      = $this->_connection->post(
-            Urls::URL_TRANSACTION,
-            $this->getConnection()->json_encode_wrapper($this->attributes)
+                                           Urls::URL_TRANSACTION,
+                                           $this->getConnection()->json_encode_wrapper($this->attributes)
         );
         $responseArray = $response->getJson();
         if (isset($responseArray['result'])) {

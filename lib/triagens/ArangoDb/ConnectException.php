@@ -17,7 +17,8 @@ namespace triagens\ArangoDb;
  * during connecting to the server.<br>
  * <br>
  *
- * @package triagens\ArangoDb
+ * @package   triagens\ArangoDb
+ * @since     0.2
  */
 class ConnectException extends
     Exception

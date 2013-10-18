@@ -45,7 +45,8 @@ namespace triagens\ArangoDb;
  * @property string $code - The code of the user function
  * @property mixed  _action
  *
- * @package triagens\ArangoDb
+ * @package   triagens\ArangoDb
+ * @since     1.3
  */
 class AqlUserFunction
 {
@@ -93,8 +94,8 @@ class AqlUserFunction
      * )
      *
      *
-     * @param Connection $connection             - the connection to be used
-     * @param array      $attributesArray        - user function initialization data
+     * @param Connection $connection      - the connection to be used
+     * @param array      $attributesArray - user function initialization data
      *
      * @return \triagens\ArangoDb\AqlUserFunction
      */
@@ -135,8 +136,8 @@ class AqlUserFunction
         }
 
         $response      = $this->_connection->post(
-            Urls::URL_AQL_USER_FUNCTION,
-            $this->getConnection()->json_encode_wrapper($attributes)
+                                           Urls::URL_AQL_USER_FUNCTION,
+                                           $this->getConnection()->json_encode_wrapper($attributes)
         );
         $responseArray = $response->getJson();
 
@@ -151,7 +152,7 @@ class AqlUserFunction
      *
      * If $name is passed, it will override the object's property with the passed one
      *
-     * @param string $name
+     * @param string  $name
      * @param boolean $namespace
      *
      * @throws Exception throw exception if the request fails
@@ -166,7 +167,7 @@ class AqlUserFunction
 
         $url = UrlHelper::buildUrl(Urls::URL_AQL_USER_FUNCTION, array($name));
 
-        if($namespace){
+        if ($namespace) {
             $url = UrlHelper::appendParamsUrl($url, array('group' => true));
         }
 
