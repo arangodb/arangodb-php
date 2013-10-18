@@ -13,11 +13,16 @@ namespace triagens\ArangoDb;
 
 
 /**
+ * A handler that manages documents
+ *
  * A document handler that fetches documents from the server and
  * persists them on the server. It does so by issuing the
- * appropriate HTTP requests to the server.
+ * appropriate HTTP requests to the server.<br>
  *
- * @package triagens\ArangoDb
+ * <br>
+ *
+ * @package   triagens\ArangoDb
+ * @since     0.2
  */
 class DocumentHandler extends
     Handler
@@ -48,12 +53,12 @@ class DocumentHandler extends
      * @param mixed $collectionId - collection id as a string or number
      * @param mixed $documentId   - document identifier
      * @param array $options      - optional, array of options
-     * <p>Options are :
-     * <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
-     * <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
-     * <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
-     * <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
-     * </p>
+     *                            <p>Options are :
+     *                            <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
+     *                            <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
+     *                            <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+     *                            <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
+     *                            </p>
      *
      * @return Document - the document fetched from the server
      */
@@ -73,12 +78,12 @@ class DocumentHandler extends
      * @param mixed $collectionId - collection id as a string or number
      * @param mixed $documentId   - document identifier
      * @param array $options      - optional, array of options
-     * <p>Options are :
-     * <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
-     * <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
-     * <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
-     * <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
-     * </p>
+     *                            <p>Options are :
+     *                            <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
+     *                            <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
+     *                            <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+     *                            <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
+     *                            </p>
      *
      * @return Document - the document fetched from the server
      */
@@ -142,21 +147,21 @@ class DocumentHandler extends
      * @param mixed      $collectionId - collection id as string or number
      * @param mixed      $document     - the example document as a Document object or an array
      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
-     * <p>Options are :<br>
-     * <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     * <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
-     * <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     * <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
-     * <p>
+     *                                 <p>Options are :<br>
+     *                                 <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     *                                 <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+     *                                 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+     *                                 <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
+     *                                 <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
      *                                 and the hidden attributes would not be applied to the attributes.<br>
-     * </p>
-     * </li>
-     * <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
-     * <li>'skip' -  Optional, The number of documents to skip in the query.</li>
-     * <li>'limit' -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
-     * </p>
+     *                                 </p>
+     *                                 </li>
+     *                                 <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
+     *                                 <li>'skip' -  Optional, The number of documents to skip in the query.</li>
+     *                                 <li>'limit' -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
+     *                                 </p>
      *
      * @return cursor - Returns a cursor containing the result
      *
@@ -182,10 +187,10 @@ class DocumentHandler extends
      * @param mixed      $collectionId - collection id as string or number
      * @param Document   $document     - the document to be added
      * @param bool|array $options      - optional, prior to v1.2.0 this was a boolean value for create. Since v1.0.0 it's an array of options.
-     * <p>Options are :<br>
-     * <li>'create' - create the collection if it does not yet exist.</li>
-     * <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
-     * </p>
+     *                                 <p>Options are :<br>
+     *                                 <li>'create' - create the collection if it does not yet exist.</li>
+     *                                 <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
+     *                                 </p>
      *
      * @return mixed - id of document created
      *
@@ -208,13 +213,13 @@ class DocumentHandler extends
      *
      * @throws Exception
      *
-     * @param Document   $document       - the document to be added, can be passed as a document or an array
-     * @param mixed      $collectionId   - collection id as string or number
-     * @param bool|array $options        - optional, prior to v1.2.0 this was a boolean value for create. Since v1.2.0 it's an array of options.
-     * <p>Options are :<br>
-     * <li>'create' - create the collection if it does not yet exist.</li>
-     * <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
-     * </p>
+     * @param Document   $document     - the document to be added, can be passed as a document or an array
+     * @param mixed      $collectionId - collection id as string or number
+     * @param bool|array $options      - optional, prior to v1.2.0 this was a boolean value for create. Since v1.2.0 it's an array of options.
+     *                                 <p>Options are :<br>
+     *                                 <li>'create' - create the collection if it does not yet exist.</li>
+     *                                 <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
+     *                                 </p>
      *
      * @return mixed - id of document created
      * @since 1.0
@@ -254,10 +259,10 @@ class DocumentHandler extends
      * @param mixed      $collectionId - collection id as string or number
      * @param mixed      $document     - the document to be added, can be passed as a document or an array
      * @param bool|array $options      - optional, prior to v1.2.0 this was a boolean value for create. Since v1.0.0 it's an array of options.
-     * <p>Options are :<br>
-     * <li>'create' - create the collection if it does not yet exist.</li>
-     * <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
-     * </p>
+     *                                 <p>Options are :<br>
+     *                                 <li>'create' - create the collection if it does not yet exist.</li>
+     *                                 <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
+     *                                 </p>
      *
      * @return mixed - id of document created
      * @since 1.0
@@ -267,17 +272,19 @@ class DocumentHandler extends
         // This preserves compatibility for the old create parameter.
         $params = array(self::OPTION_COLLECTION => $collectionId);
         $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            $params,
-            ConnectionOptions::OPTION_CREATE
+                       $options,
+                       $params,
+                       ConnectionOptions::OPTION_CREATE
         );
 
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            array(
-                 ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
-            )
+                       $options,
+                       $params,
+                       array(
+                            ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(
+                                                                        ConnectionOptions::OPTION_WAIT_SYNC
+                                ),
+                       )
         );
 
         if (is_array($document)) {
@@ -326,11 +333,11 @@ class DocumentHandler extends
      *
      * @param Document $document - The patch document that will update the document in question
      * @param mixed    $options  - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     * <p>Options are :
-     * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     * <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
-     * <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     * </p>
+     *                           <p>Options are :
+     *                           <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                           <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+     *                           <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                           </p>
      *
      * @return bool - always true, will throw if there is an error
      */
@@ -361,11 +368,11 @@ class DocumentHandler extends
      * @param mixed    $documentId   - document id as string or number
      * @param Document $document     - patch document which contains the attributes and values to be updated
      * @param mixed    $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     * <p>Options are :
-     * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     * <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
-     * <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     * </p>
+     *                               <p>Options are :
+     *                               <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                               <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+     *                               <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                               </p>
      *
      * @return bool - always true, will throw if there is an error
      */
@@ -374,17 +381,17 @@ class DocumentHandler extends
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            $params,
-            ConnectionOptions::OPTION_UPDATE_POLICY
+                       $options,
+                       $params,
+                       ConnectionOptions::OPTION_UPDATE_POLICY
         );
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            array(
-                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
-                 'keepNull'    => true,
-            )
+                       $options,
+                       $params,
+                       array(
+                            'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
+                            'keepNull'    => true,
+                       )
         );
 
         $revision = $document->getRevision();
@@ -417,10 +424,10 @@ class DocumentHandler extends
      *
      * @param Document $document - document to be updated
      * @param mixed    $options  - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     * <p>Options are :
-     * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     * <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     * </p>
+     *                           <p>Options are :
+     *                           <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                           <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                           </p>
      *
      * @return bool - always true, will throw if there is an error
      */
@@ -450,10 +457,10 @@ class DocumentHandler extends
      * @param mixed    $documentId   - document id as string or number
      * @param Document $document     - document to be updated
      * @param mixed    $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     * <p>Options are :
-     * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     * <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     * </p>
+     *                               <p>Options are :
+     *                               <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                               <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                               </p>
      *
      * @return bool - always true, will throw if there is an error
      */
@@ -462,14 +469,14 @@ class DocumentHandler extends
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            $params,
-            ConnectionOptions::OPTION_REPLACE_POLICY
+                       $options,
+                       $params,
+                       ConnectionOptions::OPTION_REPLACE_POLICY
         );
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            array('waitForSync' => ConnectionOptions::OPTION_WAIT_SYNC)
+                       $options,
+                       $params,
+                       array('waitForSync' => ConnectionOptions::OPTION_WAIT_SYNC)
         );
 
         $revision = $document->getRevision();
@@ -495,10 +502,10 @@ class DocumentHandler extends
      *
      * @param Document $document - document to be updated
      * @param mixed    $options  - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     * <p>Options are :
-     * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     * <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     * </p>
+     *                           <p>Options are :
+     *                           <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                           <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                           </p>
      *
      * @return bool - always true, will throw if there is an error
      *
@@ -518,10 +525,10 @@ class DocumentHandler extends
      *
      * @param Document $document - document to be removed
      * @param mixed    $options  - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     * <p>Options are :
-     * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     * <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     * </p>
+     *                           <p>Options are :
+     *                           <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                           <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                           </p>
      *
      * @return bool - always true, will throw if there is an error
      */
@@ -545,10 +552,10 @@ class DocumentHandler extends
      * @param mixed  $documentId   - document id as string or number
      * @param  mixed $revision     - optional revision of the document to be deleted
      * @param mixed  $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     * <p>Options are :
-     * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     * <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     * </p>
+     *                             <p>Options are :
+     *                             <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                             <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                             </p>
      *
      * @return bool - always true, will throw if there is an error
      *
@@ -571,10 +578,10 @@ class DocumentHandler extends
      * @param mixed  $documentId   - document id as string or number
      * @param  mixed $revision     - optional revision of the document to be deleted
      * @param mixed  $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     * <p>Options are :
-     * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     * <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     * </p>
+     *                             <p>Options are :
+     *                             <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                             <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                             </p>
      *
      * @return bool - always true, will throw if there is an error
      */
@@ -583,14 +590,14 @@ class DocumentHandler extends
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            $params,
-            ConnectionOptions::OPTION_DELETE_POLICY
+                       $options,
+                       $params,
+                       ConnectionOptions::OPTION_DELETE_POLICY
         );
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            array('waitForSync' => ConnectionOptions::OPTION_WAIT_SYNC)
+                       $options,
+                       $params,
+                       array('waitForSync' => ConnectionOptions::OPTION_WAIT_SYNC)
         );
 
         if (!is_null($revision)) {

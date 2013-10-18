@@ -12,12 +12,15 @@ namespace triagens\ArangoDb;
 
 /**
  * Provides access to the ArangoDB server
- * As all access is done using HTTP, we do not need to establish a
- * persistent connection and keep its state.
- * Instead, connections are established on the fly for each request
- * and are destroyed afterwards.
  *
- * @package triagens\ArangoDb
+ * As all access is done using HTTP, we do not need to establish a
+ * persistent connection and keep its state.<br>
+ * Instead, connections are established on the fly for each request
+ * and are destroyed afterwards.<br>
+ * <br>
+ *
+ * @package   triagens\ArangoDb
+ * @since     0.2
  */
 class Connection
 {
@@ -219,7 +222,7 @@ class Connection
             $handle = $this->_handle;
 
             // check if connection is still valid
-            if (! feof($handle)) {
+            if (!feof($handle)) {
                 // connection still valid
                 return $handle;
             }
@@ -279,7 +282,7 @@ class Connection
 
         return $response;
     }
-        
+
     /**
      * Execute an HTTP request and return the results
      *
@@ -313,7 +316,7 @@ class Connection
 
             if ($this->_captureBatch === true) {
                 $batchPart = $this->doBatch($method, $request);
-                if (! is_null($batchPart)) {
+                if (!is_null($batchPart)) {
                     return $batchPart;
                 }
             }
@@ -358,24 +361,25 @@ class Connection
                 $timeTaken = microtime(true) - $startTime;
             }
 
-            if (! $this->_useKeepAlive) {
+            if (!$this->_useKeepAlive) {
                 // must close the connection
                 fclose($handle);
             }
 
-/*
-            $status = socket_get_status($handle);
-            if ($status['timed_out']) {
-                throw new ClientException('Got a timeout when waiting on the server\'s response');
-            }
-*/
+            /*
+                        $status = socket_get_status($handle);
+                        if ($status['timed_out']) {
+                            throw new ClientException('Got a timeout when waiting on the server\'s response');
+                        }
+            */
             $response = new HttpResponse($result);
 
             if ($traceFunc) {
                 // call tracer func
                 if ($this->_options[ConnectionOptions::OPTION_ENHANCED_TRACE]) {
                     $traceFunc(
-                        new TraceResponse($response->getHeaders(), $response->getHttpCode(), $response->getBody(), $timeTaken)
+                        new TraceResponse($response->getHeaders(), $response->getHttpCode(), $response->getBody(
+                        ), $timeTaken)
                     );
                 } else {
                     $traceFunc('receive', $result);

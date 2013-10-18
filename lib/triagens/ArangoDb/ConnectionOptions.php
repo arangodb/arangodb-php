@@ -3,7 +3,7 @@
 /**
  * ArangoDB PHP client: connection options
  *
- * @package triagens\ArangoDb
+ * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
@@ -12,11 +12,14 @@ namespace triagens\ArangoDb;
 
 /**
  * Simple container class for connection options.
- * This class also provides the default values for the connection
- * options and will perform a simple validation of them.
- * It provides array access to its members.
  *
- * @package triagens\ArangoDb
+ * This class also provides the default values for the connection
+ * options and will perform a simple validation of them.<br>
+ * It provides array access to its members.<br>
+ * <br>
+ *
+ * @package   triagens\ArangoDb
+ * @since     0.2
  */
 class ConnectionOptions implements
     \ArrayAccess
@@ -361,17 +364,17 @@ class ConnectionOptions implements
         }
 
         if (isset($this->_values[self::OPTION_AUTH_TYPE]) && !in_array(
-            $this->_values[self::OPTION_AUTH_TYPE],
-            self::getSupportedAuthTypes()
-        )
+                $this->_values[self::OPTION_AUTH_TYPE],
+                self::getSupportedAuthTypes()
+            )
         ) {
             throw new ClientException('unsupported authorization method');
         }
 
         if (isset($this->_values[self::OPTION_CONNECTION]) && !in_array(
-            $this->_values[self::OPTION_CONNECTION],
-            self::getSupportedConnectionTypes()
-        )
+                $this->_values[self::OPTION_CONNECTION],
+                self::getSupportedConnectionTypes()
+            )
         ) {
             throw new ClientException(sprintf(
                                           "unsupported connection value '%s'",

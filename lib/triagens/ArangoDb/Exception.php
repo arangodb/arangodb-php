@@ -13,7 +13,10 @@ namespace triagens\ArangoDb;
 /**
  * Exception base class used to throw Arango specific exceptions
  *
- * @package triagens\ArangoDb
+ * <br>
+ *
+ * @package   triagens\ArangoDb
+ * @since     0.2
  */
 class Exception extends
     \Exception

@@ -13,7 +13,10 @@ namespace triagens\ArangoDb;
 /**
  * Helper methods for HTTP request/response handling
  *
+ * <br>
+ *
  * @package triagens\ArangoDb
+ * @since   0.2
  */
 class HttpHelper
 {
@@ -181,7 +184,7 @@ class HttpHelper
         $result = '';
         $first  = true;
 
-        while ($first || ! feof($socket)) {
+        while ($first || !feof($socket)) {
             $read = @fread($socket, self::CHUNK_SIZE);
             if ($read === false || $read === '') {
                 break;
@@ -190,9 +193,8 @@ class HttpHelper
 
             if ($first) {
                 $result = $read;
-                $first = false;
-            }
-            else {
+                $first  = false;
+            } else {
                 $result .= $read;
             }
 
@@ -241,10 +243,10 @@ class HttpHelper
             $message,
             $options[ConnectionOptions::OPTION_TIMEOUT]
         );
-        if (! $fp) {
+        if (!$fp) {
             throw new ConnectException($message, $number);
         }
-            
+
         stream_set_timeout($fp, $options[ConnectionOptions::OPTION_TIMEOUT]);
 
         return $fp;
@@ -265,7 +267,7 @@ class HttpHelper
         $barrier = HttpHelper::EOL . HttpHelper::EOL;
         $parts   = explode($barrier, $httpMessage, 2);
 
-        if (! isset($parts[1]) or $parts[1] === NULL) {
+        if (!isset($parts[1]) or $parts[1] === null) {
             throw new ClientException('Got an invalid response from the server');
         }
 
@@ -281,8 +283,8 @@ class HttpHelper
      */
     public static function parseHeaders($headers)
     {
-        $httpCode  = NULL;
-        $result    = NULL;
+        $httpCode  = null;
+        $result    = null;
         $processed = array();
 
         foreach (explode(HttpHelper::EOL, $headers) as $lineNumber => $line) {
@@ -292,7 +294,7 @@ class HttpHelper
                 // first line of result is special
                 $result = $line;
                 if (preg_match("/^HTTP\/\d+\.\d+\s+(\d+)/", $line, $matches)) {
-                  $httpCode = (int) $matches[1];
+                    $httpCode = (int) $matches[1];
                 }
             } else {
                 // other lines contain key:value-like headers

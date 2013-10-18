@@ -10,36 +10,43 @@
 namespace triagens\ArangoDb;
 
 /**
- * Class AqlUserFunction
+ * Provides management of user-functions
  *
- * AqlUserFunction object
- * An AqlUserFunction is an object that is used to manage AQL User Functions.
- * It registers, unregisters and lists user functions on the server
- *
- * The object encapsulates:
- *
- * * the name of the function
- * * the actual javascript function
- *
- *
+ * AqlUserFunction object<br>
+ * An AqlUserFunction is an object that is used to manage AQL User Functions.<br>
+ * It registers, unregisters and lists user functions on the server<br>
+ * <br>
+ * The object encapsulates:<br>
+ * <br>
+ * <ul>
+ * <li> the name of the function
+ * <li> the actual javascript function
+ * </ul>
+ * <br>
  * The object requires the connection object and can be initialized
- * with or without initial configuration.
- * Any configuration can be set and retrieved by the object's methods like this:
- *
- * $this->setName('myFunctions:myFunction');
+ * with or without initial configuration.<br>
+ * <br>
+ * Any configuration can be set and retrieved by the object's methods like this:<br>
+ * <br>
+ * <pre>
+ * $this->setName('myFunctions:myFunction');<br>
  * $this->setCode('function (){your code};');
+ * </pre>
  *
- * or like this:
- *
- * $this->name('myFunctions:myFunction');
+ * <br>
+ * or like this:<br>
+ * <br>
+ * <pre>
+ * $this->name('myFunctions:myFunction');<br>
  * $this->code('function (){your code};');
- *
+ * </pre>
  *
  * @property string $name - The name of the user function
  * @property string $code - The code of the user function
  * @property mixed  _action
  *
- * @package triagens\ArangoDb
+ * @package   triagens\ArangoDb
+ * @since     1.3
  */
 class AqlUserFunction
 {
@@ -87,8 +94,8 @@ class AqlUserFunction
      * )
      *
      *
-     * @param Connection $connection             - the connection to be used
-     * @param array      $attributesArray        - user function initialization data
+     * @param Connection $connection      - the connection to be used
+     * @param array      $attributesArray - user function initialization data
      *
      * @return \triagens\ArangoDb\AqlUserFunction
      */
@@ -129,8 +136,8 @@ class AqlUserFunction
         }
 
         $response      = $this->_connection->post(
-            Urls::URL_AQL_USER_FUNCTION,
-            $this->getConnection()->json_encode_wrapper($attributes)
+                                           Urls::URL_AQL_USER_FUNCTION,
+                                           $this->getConnection()->json_encode_wrapper($attributes)
         );
         $responseArray = $response->getJson();
 
@@ -145,7 +152,7 @@ class AqlUserFunction
      *
      * If $name is passed, it will override the object's property with the passed one
      *
-     * @param string $name
+     * @param string  $name
      * @param boolean $namespace
      *
      * @throws Exception throw exception if the request fails
@@ -160,7 +167,7 @@ class AqlUserFunction
 
         $url = UrlHelper::buildUrl(Urls::URL_AQL_USER_FUNCTION, array($name));
 
-        if($namespace){
+        if ($namespace) {
             $url = UrlHelper::appendParamsUrl($url, array('group' => true));
         }
 

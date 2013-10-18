@@ -13,13 +13,15 @@ namespace triagens\ArangoDb;
 /**
  * Provides access to the results of a read-only statement
  *
- * The cursor might not contain all results in the beginning.
+ * The cursor might not contain all results in the beginning.<br>
  *
  * If the result set is too big to be transferred in one go, the
  * cursor might issue additional HTTP requests to fetch the
- * remaining results from the server.
+ * remaining results from the server.<br>
+ * <br>
  *
- * @package triagens\ArangoDb
+ * @package   triagens\ArangoDb
+ * @since     0.2
  */
 class Cursor implements
     \Iterator
@@ -319,7 +321,7 @@ class Cursor implements
     /**
      * Create an array of documents from the input array
      *
-     * @param array $data    - array of incoming "document" arrays
+     * @param array $data - array of incoming "document" arrays
      *
      * @return void
      */
@@ -332,7 +334,7 @@ class Cursor implements
     /**
      * Create an array of Edges from the input array
      *
-     * @param array $data    - array of incoming "edge" arrays
+     * @param array $data - array of incoming "edge" arrays
      *
      * @return void
      */
@@ -345,7 +347,7 @@ class Cursor implements
     /**
      * Create an array of Vertex from the input array
      *
-     * @param array $data    - array of incoming "vertex" arrays
+     * @param array $data - array of incoming "vertex" arrays
      *
      * @return void
      */

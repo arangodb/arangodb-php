@@ -1,0 +1,352 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+
+/**
+ * ArangoDB PHP client: batchpart
+ *
+ * @package triagens\ArangoDb
+ * @author  Frank Mayer
+ * @since   1.1
+ *
+ */
+
+namespace triagens\ArangoDb;
+
+/**
+ * Provides batch part functionality
+ *
+ * @package triagens\ArangoDb
+ *
+ */
+
+
+class BatchPart
+{
+
+
+    /**
+     * An array of BatchPartCursor options
+     *
+     * @var array $_batchParts
+     */
+    private $_cursorOptions = array();
+
+
+    /**
+     * An array of BatchPartCursor options
+     *
+     * @var array $_batchParts
+     */
+    private $_id = null;
+
+
+    /**
+     * An array of BatchPartCursor options
+     *
+     * @var array $_batchParts
+     */
+    private $_type = null;
+
+
+    /**
+     * An array of BatchPartCursor options
+     *
+     * @var array $_batchParts
+     */
+    private $_request = array();
+
+
+    /**
+     * An array of BatchPartCursor options
+     *
+     * @var array $_batchParts
+     */
+    private $_response = array();
+
+
+    /**
+     * The batch that this instance is part of
+     *
+     * @var Batch $_batch
+     */
+    private $_batch = null;
+
+
+    /**
+     * Constructor
+     *
+     * @internal
+     *
+     * @param Batch $batch    the batch object, that this part belongs to
+     * @param mixed $id       The id of the batch part. TMust be unique and wil be passed to the server in the content-id header
+     * @param mixed $type     The type of the request. This is to distinguish the different request type in order to return correct results.
+     * @param mixed $request  The request string
+     * @param mixed $response The response string
+     * @param mixed $options  optional, options like sanitize, that can be passed to the request/response handler.
+     *
+     * @return BatchPart
+     */
+
+    public function __construct($batch, $id, $type, $request, $response, $options)
+    {
+        $sanitize = false;
+        $options  = array_merge($options, $this-&gt;getCursorOptions($sanitize));
+        extract($options, EXTR_IF_EXISTS);
+        $this-&gt;setBatch($batch);
+        $this-&gt;setId($id);
+        $this-&gt;setType($type);
+        $this-&gt;setRequest($request);
+        $this-&gt;setResponse($response);
+        $this-&gt;_cursorOptions[Cursor::ENTRY_SANITIZE] = $sanitize;
+
+        return $this;
+    }
+
+
+    /**
+     * Sets the id for the current batch part.
+     *
+     * @param Batch $batch
+     *
+     * @return Batch
+     */
+    public function setBatch($batch)
+    {
+        $this-&gt;_batch = $batch;
+
+        return $this;
+    }
+
+
+    /**
+     * Sets the id for the current batch part.
+     *
+     * @param mixed $id
+     *
+     * @return Batch
+     */
+    public function setId($id)
+    {
+        $this-&gt;_id = $id;
+
+        return $this;
+    }
+
+
+    /**
+     * Gets the id for the current batch part.
+     *
+     * @return Batch
+     */
+    public function getId()
+    {
+        return $this-&gt;_id;
+    }
+
+
+    /**
+     * Sets the type for the current batch part.
+     *
+     * @param mixed $type
+     *
+     * @return Batch
+     */
+    public function setType($type)
+    {
+        $this-&gt;_type = $type;
+
+        return $this;
+    }
+
+
+    /**
+     * Gets the type for the current batch part.
+     *
+     * @return Batch
+     */
+    public function getType()
+    {
+        return $this-&gt;_type;
+    }
+
+
+    /**
+     * Sets the request for the current batch part.
+     *
+     * @param mixed $request
+     *
+     * @return Batch
+     */
+    public function setRequest($request)
+    {
+        $this-&gt;_request = $request;
+
+        return $this;
+    }
+
+
+    /**
+     * Gets the request for the current batch part.
+     *
+     * @return Batch
+     */
+    public function getRequest()
+    {
+        return $this-&gt;_request;
+    }
+
+
+    /**
+     * Sets the response for the current batch part.
+     *
+     * @param mixed $response
+     *
+     * @return Batch
+     */
+    public function setResponse($response)
+    {
+        $this-&gt;_response = $response;
+
+        return $this;
+    }
+
+
+    /**
+     * Gets the response for he current batch part.
+     *
+     * @return HttpResponse
+     */
+    public function getResponse()
+    {
+        return $this-&gt;_response;
+    }
+
+
+    /**
+     * Gets the HttpCode for he current batch part.
+     *
+     * @return int
+     */
+    public function getHttpCode()
+    {
+        return $this-&gt;getResponse()-&gt;getHttpCode();
+    }
+
+
+    /**
+     * Get the batch part identified by the array key (0...n) or its id (if it was set with nextBatchPartId($id) )
+     *
+     * @throws ClientException
+     * @return mixed $partId
+     */
+    public function getProcessedResponse()
+    {
+        $response = $this-&gt;getResponse();
+        switch ($this-&gt;_type) {
+            case 'getdocument':
+                $json             = $response-&gt;getJson();
+                $options          = $this-&gt;getCursorOptions();
+                $options['isNew'] = false;
+                $response         = Document::createFromArray($json, $options);
+                break;
+            case 'document':
+                $json = $response-&gt;getJson();
+                if ($json['error'] === false) {
+                    $id       = $json[Document::ENTRY_ID];
+                    $response = $id;
+                }
+                break;
+            case 'getedge':
+                $json             = $response-&gt;getJson();
+                $options          = $this-&gt;getCursorOptions();
+                $options['isNew'] = false;
+                $response         = Edge::createFromArray($json, $options);
+                break;
+            case 'edge':
+                $json = $response-&gt;getJson();
+                if ($json['error'] === false) {
+                    $id       = $json[Edge::ENTRY_ID];
+                    $response = $id;
+                }
+                break;
+            case 'getcollection':
+                $json             = $response-&gt;getJson();
+                $options          = $this-&gt;getCursorOptions();
+                $options['isNew'] = false;
+                $response         = Collection::createFromArray($json, $options);
+                break;
+            case 'collection':
+                $json = $response-&gt;getJson();
+                if ($json['error'] === false) {
+                    $id       = $json[Collection::ENTRY_ID];
+                    $response = $id;
+                }
+                break;
+            case 'cursor':
+                $options          = $this-&gt;getCursorOptions();
+                $options['isNew'] = false;
+                $response         = new Cursor($this-&gt;_batch-&gt;getConnection(), $response-&gt;getJson(), $options);
+                break;
+            default:
+                throw new ClientException('Could not determine response data type.');
+                break;
+        }
+
+        return $response;
+    }
+
+
+    /**
+     * Return an array of cursor options
+     *
+     * @return array - array of options
+     */
+    private function getCursorOptions()
+    {
+        return $this-&gt;_cursorOptions;
+    }
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all()
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

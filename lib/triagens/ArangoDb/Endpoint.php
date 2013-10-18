@@ -15,13 +15,18 @@ namespace triagens\ArangoDb;
  *
  * An endpoint contains the server location the client connects to
  * the following endpoint types are currently supported (more to be added later):
- * - tcp://host:port for tcp connections
- * - unix://socket for UNIX sockets (provided the server supports this)
- * - ssl://host:port for SSL connections (provided the server supports this)
+ * <ul>
+ * <li> tcp://host:port for tcp connections
+ * <li> unix://socket for UNIX sockets (provided the server supports this)
+ * <li> ssl://host:port for SSL connections (provided the server supports this)
+ * </ul>
  *
- * Note: SSL support is added in ArangoDB server 1.1
+ * Note: SSL support is added in ArangoDB server 1.1<br>
  *
- * @package triagens\ArangoDb
+ * <br>
+ *
+ * @package   triagens\ArangoDb
+ * @since     0.2
  */
 class Endpoint
 {

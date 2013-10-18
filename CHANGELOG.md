@@ -1,11 +1,43 @@
 
+v1.3.1 (2013-10-17)
+-----------------------
+
+* Contributors to this version:
+
+  * Frank Mayer (Github: @frankmayer)
+  * Francis Chuang (Github: @F21)
+  * Alex (Github: @Beldur)
+  * Jan Steemann (Github: @jsteemann)
+
+=======================
+
+* improved  documentation
+
+* Added 'all' Method which corresponds to /simple/all
+
+* performance optimisations (only visible if many requests go over one connection)
+
+* fixed error message expectation
+
+* Added support for deleting all registered functions in a namespace.
+
+* Fixed getRegisteredAQLFunctions() not using the $namespace for filtering.
+
+* Fixed AQL user function's register() not using supplied arguments.
+
+* Added time taken to the tracer.
+
+
+
+
+
 v1.3.0 (2013-05-13)
 -----------------------
 
 * Contributors to this version:
   * Frank Mayer (Github: @frankmayer)
   * Francis Chuang (Github: @F21)
-  
+
 =======================
 
 * Changed PhpDocs @package content to triagens\ArangoDb, closes issue (see https://github.com/triAGENS/ArangoDB-PHP/issues/123)

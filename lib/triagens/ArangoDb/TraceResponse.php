@@ -13,8 +13,11 @@ namespace triagens\ArangoDb;
 /**
  * Class TraceResponse
  *
+ * <br />
+ *
  * @author    Francis Chuang
  * @package   triagens\ArangoDb
+ * @since     1.3
  */
 class TraceResponse
 {
@@ -48,6 +51,7 @@ class TraceResponse
 
     /**
      * The time taken to send and receive a response in seconds
+     *
      * @var float
      */
     private $_timeTaken;
@@ -107,12 +111,13 @@ class TraceResponse
      * @param array  $headers  - the array of http headers
      * @param int    $httpCode - the http code
      * @param string $body     - the string of http body
+     * @param        $timeTaken
      */
     public function __construct($headers, $httpCode, $body, $timeTaken)
     {
-        $this->_headers  = $headers;
-        $this->_httpCode = $httpCode;
-        $this->_body     = $body;
+        $this->_headers   = $headers;
+        $this->_httpCode  = $httpCode;
+        $this->_body      = $body;
         $this->_timeTaken = $timeTaken;
     }
 

@@ -13,7 +13,10 @@ namespace triagens\ArangoDb;
 /**
  * Document update policies
  *
+ * <br />
+ *
  * @package triagens\ArangoDb
+ * @since   0.2
  */
 class UpdatePolicy
 {

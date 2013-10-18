@@ -3,7 +3,7 @@
 # ArangoDB-PHP - A PHP client for ArangoDB
 
 [![Build Status](https://travis-ci.org/triAGENS/ArangoDB-PHP.png?branch=1.3)](https://travis-ci.org/triAGENS/ArangoDB-PHP)
-**Version: 1.3.0**
+**Version: 1.3.1**
 
 
 [Follow us on Twitter @arangodbphp to receive updates on the php driver](https://twitter.com/arangodbphp)

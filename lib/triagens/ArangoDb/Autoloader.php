@@ -11,11 +11,14 @@
 namespace triagens\ArangoDb;
 
 /**
- * Handles automatic loading of missing class files
- * The autoloader can be nested with other autoloaders. It will only
- * process classes from its own namespace and ignore all others.
+ * Handles automatic loading of missing class files.
  *
- * @package triagens\ArangoDb
+ * The autoloader can be nested with other autoloaders. It will only
+ * process classes from its own namespace and ignore all others.<br>
+ * <br>
+ *
+ * @package   triagens\ArangoDb
+ * @since     0.2
  */
 class Autoloader
 {

@@ -14,8 +14,10 @@ namespace triagens\ArangoDb;
 /**
  * Provides batch part functionality
  *
- * @package triagens\ArangoDb
+ * <br>
  *
+ * @package   triagens\ArangoDb
+ * @since     1.1
  */
 
 

@@ -1,0 +1,879 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+
+/**
+ * ArangoDB PHP client: graph handler
+ *
+ * @package   triagens\ArangoDb
+ * @author    Jan Steemann
+ * @author    Frank Mayer
+ * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
+ *
+ * @since     1.2
+ */
+
+namespace triagens\ArangoDb;
+
+/**
+ * A graph handler that manages graphs.
+ * It does so by issuing the
+ * appropriate HTTP requests to the server.
+ *
+ * @package triagens\ArangoDb
+ * @since   1.2
+ */
+class GraphHandler extends
+    Handler
+{
+    /**
+     * documents array index
+     */
+    const ENTRY_GRAPH = 'graph';
+
+    /**
+     * conditional update of edges or vertices
+     */
+    const OPTION_REVISION = 'revision';
+
+    /**
+     * vertex parameter
+     */
+    const OPTION_VERTICES = 'vertices';
+
+    /**
+     * direction parameter
+     */
+    const OPTION_EDGES = 'edges';
+
+    /**
+     * direction parameter
+     */
+    const OPTION_KEY = '_key';
+
+    /**
+     * example parameter
+     */
+    const KEY_FROM = '_from';
+
+    /**
+     * example parameter
+     */
+    const KEY_TO = '_to';
+
+
+    /**
+     * Create a graph
+     *
+     * This will create a graph using the given graph object and return an array of the created graph object's attributes.
+     *
+     * This will throw if the graph cannot be created
+     *
+     * @throws Exception
+     *
+     * @param Graph - $graph - The graph object which holds the information of the graph to be created
+     *
+     * @return array - an array of the created graph object's attributes.
+     * @since   1.2
+     *
+     * @example &quot;ArangoDb/examples/graph.php&quot; How to use this function
+     * @example &quot;ArangoDb/examples/graph.php&quot; How to use this function
+     */
+    public function createGraph(Graph $graph)
+    {
+        $params   = array(
+            self::OPTION_KEY      =&gt; $graph-&gt;getKey(),
+            self::OPTION_VERTICES =&gt; $graph-&gt;getVerticesCollection(),
+            self::OPTION_EDGES    =&gt; $graph-&gt;getEdgesCollection()
+        );
+        $url      = UrlHelper::appendParamsUrl(Urls::URL_GRAPH, $params);
+        $response = $this-&gt;getConnection()-&gt;post($url, $this-&gt;json_encode_wrapper($params));
+        $json     = $response-&gt;getJson();
+
+        $graph-&gt;setInternalId($json['graph'][Graph::ENTRY_ID]);
+        $graph-&gt;setRevision($json['graph'][Graph::ENTRY_REV]);
+
+        return $graph-&gt;getAll();
+    }
+
+    /**
+     * Get a graph
+     *
+     * This will get a graph.
+     *
+     * This will throw if the graph cannot be retrieved.
+     *
+     * @throws Exception
+     *
+     * @param String $graph - The name of the graph
+     * @param array  $options - Options to pass to the method
+     *
+     * @return Graph - A graph object representing the graph
+     * @since   1.2
+     *
+     * @example &quot;ArangoDb/examples/graph.php&quot; How to use this function
+     */
+    public function getGraph($graph, array $options = array())
+    {
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph));
+        $response = $this-&gt;getConnection()-&gt;get($url);
+        $data     = $response-&gt;getJson();
+
+        if ($data['error']) {
+            return false;
+        }
+
+        $options['_isNew'] = false;
+
+        return Graph::createFromArray($data['graph'], $options);
+    }
+
+
+    /**
+     * Drop a graph and remove all its vertices and edges, also drops vertex and edge collections
+     *
+     * @throws Exception
+     *
+     * @param string $graph - graph name as a string
+     *
+     * @return bool - always true, will throw if there is an error
+     * @since 1.2
+     */
+    public function dropGraph($graph)
+    {
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph));
+        $this-&gt;getConnection()-&gt;delete($url);
+
+        return true;
+    }
+
+
+    /**
+     * Get a graph's properties
+     *
+     * @throws Exception
+     *
+     * @param string $graph - graph name as a string
+     *
+     * @return bool - Returns an array of attributes. Will throw if there is an error
+     * @since 1.2
+     */
+    public function properties($graph)
+    {
+        $url         = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph));
+        $result      = $this-&gt;getConnection()-&gt;get($url);
+        $resultArray = $result-&gt;getJson();
+
+        return $resultArray['graph'];
+    }
+
+
+    /**
+     * save a vertex to a graph
+     *
+     * This will add the vertex-document to the graph and return the vertex id
+     *
+     * This will throw if the vertex cannot be saved
+     *
+     * @throws Exception
+     *
+     * @param mixed $graphName - the name of the graph
+     * @param mixed $document  - the vertex to be added, can be passed as a vertex object or an array
+     *
+     * @return mixed - id of vertex created
+     * @since 1.2
+     */
+    public function saveVertex($graphName, $document)
+    {
+        if (is_array($document)) {
+            $document = Vertex::createFromArray($document);
+        }
+        $data = $document-&gt;getAll();
+        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_VERTEX));
+
+        $response = $this-&gt;getConnection()-&gt;post($url, $this-&gt;json_encode_wrapper($data));
+
+        $jsonArray = $response-&gt;getJson();
+        $vertex    = $jsonArray['vertex'];
+        $id        = $vertex['_id'];
+        @list(, $documentId) = explode('/', $id, 2);
+
+        $document-&gt;setInternalId($vertex[Vertex::ENTRY_ID]);
+        $document-&gt;setRevision($vertex[Vertex::ENTRY_REV]);
+
+        if ($documentId != $document-&gt;getId()) {
+            throw new ClientException('Got an invalid response from the server');
+        }
+
+        $document-&gt;setIsNew(false);
+
+        return $document-&gt;getId();
+    }
+
+
+    /**
+     * Get a single vertex from a graph
+     *
+     * This will throw if the vertex cannot be fetched from the server
+     *
+     * @throws Exception
+     *
+     * @param string $graphName  - the graph name as a string
+     * @param mixed  $vertexId   - the vertex identifier
+     * @param array  $options    - optional, an array of options
+     * &lt;p&gt;Options are :
+     * &lt;li&gt;'_includeInternals' - true to include the internal attributes. Defaults to false&lt;/li&gt;
+     * &lt;li&gt;'includeInternals' - Deprecated, please use '_includeInternals'.&lt;/li&gt;
+     * &lt;li&gt;'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false&lt;/li&gt;
+     * &lt;li&gt;'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.&lt;/li&gt;
+     * &lt;/p&gt;
+     *
+     * @return Document - the vertex document fetched from the server
+     * @since 1.2
+     */
+    public function getVertex($graphName, $vertexId, array $options = array())
+    {
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_VERTEX, $vertexId));
+        $response = $this-&gt;getConnection()-&gt;get($url);
+
+        $jsonArray = $response-&gt;getJson();
+        $vertex    = $jsonArray['vertex'];
+
+        $options['_isNew'] = false;
+
+        return Vertex::createFromArray($vertex, $options);
+    }
+
+
+    /**
+     * Replace an existing vertex in a graph, identified graph name and vertex id
+     *
+     * This will update the vertex on the server
+     *
+     * This will throw if the vertex cannot be Replaced
+     *
+     * If policy is set to error (locally or globally through the ConnectionOptions)
+     * and the passed document has a _rev value set, the database will check
+     * that the revision of the to-be-replaced vertex is the same as the one given.
+     *
+     * @throws Exception
+     *
+     * @param string   $graphName    - the graph name as string
+     * @param mixed    $vertexId     - the vertex id as string or number
+     * @param Document $document     - the vertex-document to be updated
+     * @param mixed    $options      - optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     * &lt;p&gt;Options are :]
+     * &lt;li&gt;'revision' - revision for conditional updates ('some-revision-id' [use the passed in revision id], false or true [use document's revision])&lt;/li&gt;
+     * &lt;li&gt;'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])&lt;/li&gt;
+     * &lt;li&gt;'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection&lt;/li&gt;
+     * &lt;/p&gt;
+     *
+     * @return bool - always true, will throw if there is an error
+     *
+     * @since 1.2
+     */
+    public function ReplaceVertex($graphName, $vertexId, Document $document, $options = array())
+    {
+        $options = array_merge(array(self::OPTION_REVISION =&gt; false), $options);
+
+        // This preserves compatibility for the old policy parameter.
+        $params = array();
+        $params = $this-&gt;validateAndIncludeOldSingleParameterInParams(
+            $options,
+            $params,
+            ConnectionOptions::OPTION_REPLACE_POLICY
+        );
+        $params = $this-&gt;includeOptionsInParams(
+            $options,
+            $params,
+            array(
+                 'waitForSync' =&gt; $this-&gt;getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC)
+            )
+        );
+
+        //Include the revision for conditional updates if required
+        if ($options[self::OPTION_REVISION] === true) {
+
+            $revision = $document-&gt;getRevision();
+
+            if (!is_null($revision)) {
+                $params[ConnectionOptions::OPTION_REVISION] = $revision;
+            }
+        } elseif ($options[self::OPTION_REVISION]) {
+            $params[ConnectionOptions::OPTION_REVISION] = $options[self::OPTION_REVISION];
+        }
+
+        $data = $document-&gt;getAll();
+        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_VERTEX, $vertexId));
+        $url  = UrlHelper::appendParamsUrl($url, $params);
+
+        $response = $this-&gt;getConnection()-&gt;PUT($url, $this-&gt;json_encode_wrapper($data));
+
+        $jsonArray = $response-&gt;getJson();
+        $vertex    = $jsonArray['vertex'];
+        $id        = $vertex['_id'];
+        @list(, $documentId) = explode('/', $id, 2);
+
+        $document-&gt;setInternalId($vertex[Vertex::ENTRY_ID]);
+        $document-&gt;setRevision($vertex[Vertex::ENTRY_REV]);
+
+        if ($documentId != $document-&gt;getId()) {
+            throw new ClientException('Got an invalid response from the server');
+        }
+
+        return true;
+    }
+
+    /**
+     * Update an existing vertex in a graph, identified by graph name and vertex id
+     *
+     * This will update the vertex on the server
+     *
+     * This will throw if the vertex cannot be updated
+     *
+     * If policy is set to error (locally or globally through the ConnectionOptions)
+     * and the passed vertex-document has a _rev value set, the database will check
+     * that the revision of the to-be-replaced document is the same as the one given.
+     *
+     * @throws Exception
+     *
+     * @param string   $graphName   - the graph name as string
+     * @param mixed    $vertexId    - the vertex id as string or number
+     * @param Document $document    - the patch vertex-document which contains the attributes and values to be updated
+     * @param mixed    $options     - optional, an array of options (see below)
+     * &lt;p&gt;Options are :
+     * &lt;li&gt;'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])&lt;/li&gt;
+     * &lt;li&gt;'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)&lt;/li&gt;
+     * &lt;li&gt;'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection&lt;/li&gt;
+     * &lt;/p&gt;
+     *
+     * @return bool - always true, will throw if there is an error
+     * @since 1.2
+     */
+    public function updateVertex($graphName, $vertexId, Document $document, $options = array())
+    {
+        $options = array_merge(array(self::OPTION_REVISION =&gt; false), $options);
+
+        // This preserves compatibility for the old policy parameter.
+        $params = array();
+        $params = $this-&gt;validateAndIncludeOldSingleParameterInParams(
+            $options,
+            $params,
+            ConnectionOptions::OPTION_UPDATE_POLICY
+        );
+        $params = $this-&gt;includeOptionsInParams(
+            $options,
+            $params,
+            array(
+                 'waitForSync' =&gt; $this-&gt;getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
+                 'keepNull'    =&gt; true,
+            )
+        );
+
+        //Include the revision for conditional updates if required
+        if ($options[self::OPTION_REVISION] === true) {
+
+            $revision = $document-&gt;getRevision();
+
+            if (!is_null($revision)) {
+                $params[ConnectionOptions::OPTION_REVISION] = $revision;
+            }
+        } elseif ($options[self::OPTION_REVISION]) {
+            $params[ConnectionOptions::OPTION_REVISION] = $options[self::OPTION_REVISION];
+        }
+
+        $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_VERTEX, $vertexId));
+        $url    = UrlHelper::appendParamsUrl($url, $params);
+        $result = $this-&gt;getConnection()-&gt;patch($url, $this-&gt;json_encode_wrapper($document-&gt;getAll()));
+        $json   = $result-&gt;getJson();
+        $vertex = $json['vertex'];
+        $document-&gt;setRevision($vertex[Vertex::ENTRY_REV]);
+
+        return true;
+    }
+
+
+    /**
+     * Remove a vertex from a graph, identified by the graph name and vertex id
+     *
+     * @throws Exception
+     *
+     * @param mixed  $graphName  - the graph name as string
+     * @param mixed  $vertexId   - the vertex id as string or number
+     * @param  mixed $revision   - optional, the revision of the vertex to be deleted
+     * @param mixed  $options    - optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     * &lt;p&gt;Options are :
+     * &lt;li&gt;'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])&lt;/li&gt;
+     * &lt;li&gt;'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection&lt;/li&gt;
+     * &lt;/p&gt;
+     *
+     * @return bool - always true, will throw if there is an error
+     * @since 1.2
+     */
+    public function removeVertex($graphName, $vertexId, $revision = null, $options = array())
+    {
+        // This preserves compatibility for the old policy parameter.
+        $params = array();
+        $params = $this-&gt;validateAndIncludeOldSingleParameterInParams(
+            $options,
+            $params,
+            ConnectionOptions::OPTION_DELETE_POLICY
+        );
+        $params = $this-&gt;includeOptionsInParams(
+            $options,
+            $params,
+            array(
+                 'waitForSync' =&gt; $this-&gt;getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
+                 'keepNull'    =&gt; true,
+            )
+        );
+
+        if (!is_null($revision)) {
+            $params[ConnectionOptions::OPTION_REVISION] = $revision;
+        }
+
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_VERTEX, $vertexId));
+        $url = UrlHelper::appendParamsUrl($url, $params);
+        $this-&gt;getConnection()-&gt;delete($url);
+
+        return true;
+    }
+
+
+    /**
+     * save an edge to a graph
+     *
+     * This will save the edge to the graph and return the edges-document's id
+     *
+     * This will throw if the edge cannot be saved
+     *
+     * @throws Exception
+     *
+     * @param mixed $graphName    - the graph name as string
+     * @param mixed $from         - the 'from' vertex
+     * @param mixed $to           - the 'to' vertex
+     * @param mixed $label        - (optional) a label for the edge
+     * @param mixed $document     - the edge-document to be added, can be passed as an edge object or an array
+     *
+     * @return mixed - id of edge created
+     * @since 1.2
+     */
+    public function saveEdge($graphName, $from, $to, $label = null, $document)
+    {
+        if (is_array($document)) {
+            $document = Edge::createFromArray($document);
+        }
+        if (!is_null($label)) {
+            $document-&gt;set('$label', $label);
+        }
+        $document-&gt;setFrom($from);
+        $document-&gt;setTo($to);
+        $data                 = $document-&gt;getAll();
+        $data[self::KEY_FROM] = $from;
+        $data[self::KEY_TO]   = $to;
+
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_EDGE));
+        $response = $this-&gt;getConnection()-&gt;post($url, $this-&gt;json_encode_wrapper($data));
+
+        $jsonArray = $response-&gt;getJson();
+        $edge      = $jsonArray['edge'];
+        $id        = $edge['_id'];
+        @list(, $documentId) = explode('/', $id, 2);
+
+        $document-&gt;setInternalId($edge[Edge::ENTRY_ID]);
+        $document-&gt;setRevision($edge[Edge::ENTRY_REV]);
+
+        if ($documentId != $document-&gt;getId()) {
+            throw new ClientException('Got an invalid response from the server');
+        }
+
+        $document-&gt;setIsNew(false);
+
+        return $document-&gt;getId();
+    }
+
+
+    /**
+     * Get a single edge from a graph
+     *
+     * This will throw if the edge cannot be fetched from the server
+     *
+     * @throws Exception
+     *
+     * @param mixed $graphName  - collection id as a string or number
+     * @param mixed $edgeId     - edge identifier
+     * @param array $options    - optional, array of options
+     * &lt;p&gt;Options are :
+     * &lt;li&gt;'_includeInternals' - true to include the internal attributes. Defaults to false&lt;/li&gt;
+     * &lt;li&gt;'includeInternals' - Deprecated, please use '_includeInternals'.&lt;/li&gt;
+     * &lt;li&gt;'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false&lt;/li&gt;
+     * &lt;li&gt;'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.&lt;/li&gt;
+     * &lt;/p&gt;
+     *
+     * @return Document - the edge document fetched from the server
+     * @since 1.2
+     */
+    public function getEdge($graphName, $edgeId, array $options = array())
+    {
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_EDGE, $edgeId));
+        $response = $this-&gt;getConnection()-&gt;get($url);
+
+        $jsonArray = $response-&gt;getJson();
+        $edge      = $jsonArray['edge'];
+
+        $options['_isNew'] = false;
+
+        return Edge::createFromArray($edge, $options);
+    }
+
+
+    /**
+     * Replace an existing edge in a graph, identified graph name and edge id
+     *
+     * This will replace the edge on the server
+     *
+     * This will throw if the edge cannot be Replaced
+     *
+     * If policy is set to error (locally or globally through the ConnectionOptions)
+     * and the passed document has a _rev value set, the database will check
+     * that the revision of the to-be-replaced edge is the same as the one given.
+     *
+     * @throws Exception
+     *
+     * @param mixed $graphName     - graph name as string or number
+     * @param mixed $edgeId        - edge id as string or number
+     * @param mixed $label         - label for the edge or ''
+     * @param Edge  $document      - edge document to be updated
+     * @param mixed $options       - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     * &lt;p&gt;Options are :
+     * &lt;li&gt;'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])&lt;/li&gt;
+     * &lt;li&gt;'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection&lt;/li&gt;
+     * &lt;/p&gt;
+     *
+     * @return bool - always true, will throw if there is an error
+     *
+     * @since 1.2
+     */
+    public function ReplaceEdge($graphName, $edgeId, $label, Edge $document, $options = array())
+    {
+        $options = array_merge(array(self::OPTION_REVISION =&gt; false), $options);
+
+        // This preserves compatibility for the old policy parameter.
+        $params = array();
+        $params = $this-&gt;validateAndIncludeOldSingleParameterInParams(
+            $options,
+            $params,
+            ConnectionOptions::OPTION_REPLACE_POLICY
+        );
+        $params = $this-&gt;includeOptionsInParams(
+            $options,
+            $params,
+            array(
+                 'waitForSync' =&gt; $this-&gt;getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC)
+            )
+        );
+
+        //Include the revision for conditional updates if required
+        if ($options[self::OPTION_REVISION] === true) {
+
+            $revision = $document-&gt;getRevision();
+
+            if (!is_null($revision)) {
+                $params[ConnectionOptions::OPTION_REVISION] = $revision;
+            }
+        } elseif ($options[self::OPTION_REVISION]) {
+            $params[ConnectionOptions::OPTION_REVISION] = $options[self::OPTION_REVISION];
+        }
+
+        $data = $document-&gt;getAll();
+        if (!is_null($label)) {
+            $document-&gt;set('$label', $label);
+        }
+
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_EDGE, $edgeId));
+        $url = UrlHelper::appendParamsUrl($url, $params);
+
+        $response = $this-&gt;getConnection()-&gt;PUT($url, $this-&gt;json_encode_wrapper($data));
+
+        $jsonArray = $response-&gt;getJson();
+        $edge      = $jsonArray['edge'];
+        $id        = $edge['_id'];
+        @list(, $documentId) = explode('/', $id, 2);
+
+        $document-&gt;setInternalId($edge[Edge::ENTRY_ID]);
+        $document-&gt;setRevision($edge[Edge::ENTRY_REV]);
+
+        if ($documentId != $document-&gt;getId()) {
+            throw new ClientException('Got an invalid response from the server');
+        }
+
+        return true;
+    }
+
+    /**
+     * Update an existing edge in a graph, identified by graph name and edge id
+     *
+     * This will update the edge on the server
+     *
+     * This will throw if the edge cannot be updated
+     *
+     * If policy is set to error (locally or globally through the ConnectionOptions)
+     * and the passed edge-document has a _rev value set, the database will check
+     * that the revision of the to-be-replaced document is the same as the one given.
+     *
+     * @throws Exception
+     *
+     * @param string $graphName     - graph name as string
+     * @param mixed  $edgeId        - edge id as string or number
+     * @param mixed  $label         - label for the edge or ''
+     * @param Edge   $document      - patch edge-document which contains the attributes and values to be updated
+     * @param mixed  $options       - optional, array of options (see below)
+     * &lt;p&gt;Options are :
+     * &lt;li&gt;'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])&lt;/li&gt;
+     * &lt;li&gt;'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)&lt;/li&gt;
+     * &lt;li&gt;'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection&lt;/li&gt;
+     * &lt;/p&gt;
+     *
+     * @return bool - always true, will throw if there is an error
+     * @since 1.2
+     */
+    public function updateEdge($graphName, $edgeId, $label, Edge $document, $options = array())
+    {
+        $options = array_merge(array(self::OPTION_REVISION =&gt; false), $options);
+
+        // This preserves compatibility for the old policy parameter.
+        $params = array();
+        $params = $this-&gt;validateAndIncludeOldSingleParameterInParams(
+            $options,
+            $params,
+            ConnectionOptions::OPTION_UPDATE_POLICY
+        );
+        $params = $this-&gt;includeOptionsInParams(
+            $options,
+            $params,
+            array(
+                 'waitForSync' =&gt; $this-&gt;getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
+                 'keepNull'    =&gt; true,
+            )
+        );
+        $policy = null;
+
+        //Include the revision for conditional updates if required
+        if ($options[self::OPTION_REVISION] === true) {
+
+            $revision = $document-&gt;getRevision();
+
+            if (!is_null($revision)) {
+                $params[ConnectionOptions::OPTION_REVISION] = $revision;
+            }
+        } elseif ($options[self::OPTION_REVISION]) {
+            $params[ConnectionOptions::OPTION_REVISION] = $options[self::OPTION_REVISION];
+        }
+
+        if (!is_null($label)) {
+            $document-&gt;set('$label', $label);
+        }
+
+        $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_EDGE, $edgeId));
+        $url    = UrlHelper::appendParamsUrl($url, $params);
+        $result = $this-&gt;getConnection()-&gt;patch($url, $this-&gt;json_encode_wrapper($document-&gt;getAll()));
+        $json   = $result-&gt;getJson();
+        $edge   = $json['edge'];
+        $document-&gt;setRevision($edge[Edge::ENTRY_REV]);
+
+        return true;
+    }
+
+
+    /**
+     * Remove a edge from a graph, identified by the graph name and edge id
+     *
+     * @throws Exception
+     *
+     * @param mixed  $graphName   - graph name as string or number
+     * @param mixed  $edgeId      - edge id as string or number
+     * @param  mixed $revision    - optional revision of the edge to be deleted
+     * @param mixed  $options     - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     * &lt;p&gt;Options are :
+     * &lt;li&gt;'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])&lt;/li&gt;
+     * &lt;li&gt;'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection&lt;/li&gt;
+     * &lt;/p&gt;
+     *
+     * @return bool - always true, will throw if there is an error
+     * @since 1.2
+     */
+    public function removeEdge($graphName, $edgeId, $revision = null, $options = array())
+    {
+        // This preserves compatibility for the old policy parameter.
+        $params = array();
+        $params = $this-&gt;validateAndIncludeOldSingleParameterInParams(
+            $options,
+            $params,
+            ConnectionOptions::OPTION_DELETE_POLICY
+        );
+        $params = $this-&gt;includeOptionsInParams(
+            $options,
+            $params,
+            array(
+                 'waitForSync' =&gt; $this-&gt;getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
+                 'keepNull'    =&gt; true,
+            )
+        );
+        if (!is_null($revision)) {
+            $params[ConnectionOptions::OPTION_REVISION] = $revision;
+        }
+
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_EDGE, $edgeId));
+        $url = UrlHelper::appendParamsUrl($url, $params);
+        $this-&gt;getConnection()-&gt;delete($url);
+
+        return true;
+    }
+
+
+    /**
+     * Get neighboring vertices of a given vertex
+     *
+     * This will throw if the list cannot be fetched from the server
+     *
+     *
+     * @throws Exception
+     *
+     * @param mixed      $graphName    - the name of the graph
+     * @param mixed      $vertexId     - the vertex id
+     * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
+     * &lt;p&gt;Options are :&lt;br&gt;
+     * &lt;li&gt;'batchSize' - the batch size of the returned cursor&lt;/li&gt;
+     * &lt;li&gt;'limit' - limit the result size by a give number&lt;/li&gt;
+     * &lt;li&gt;'count' - return the total number of results  Defaults to false.&lt;/li&gt;
+     * &lt;li&gt;'filter' - a optional filter&lt;/li&gt;
+     * &lt;p&gt;Filter options are :&lt;br&gt;
+     * &lt;li&gt;'direction' - Filter for inbound (value &quot;in&quot;) or outbound (value &quot;out&quot;) neighbors. Default value is &quot;any&quot;.&lt;/li&gt;
+     * &lt;li&gt;'labels' - filter by an array of edge labels (empty array means no restriction).&lt;/li&gt;
+     * &lt;li&gt;'properties' - filter neighbors by an array of edge properties&lt;/li&gt;
+     * &lt;p&gt;Properties options are :&lt;br&gt;
+     * &lt;li&gt;'key' - Filter the result vertices by a key value pair.&lt;/li&gt;
+     * &lt;li&gt;'value' -  The value of the key.&lt;/li&gt;
+     * &lt;li&gt;'compare' - A comparison operator. (==, &gt;, &lt;, &gt;=, &lt;= )&lt;/li&gt;
+     * &lt;/p&gt;
+     * &lt;/p&gt;
+     * &lt;li&gt;'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.&lt;/li&gt;
+     * &lt;li&gt;'sanitize' - Deprecated, please use '_sanitize'.&lt;/li&gt;
+     * &lt;li&gt;'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+     * &lt;li&gt;'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.&lt;/li&gt;
+     * &lt;p&gt;
+     *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. &lt;br&gt;
+     *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called &lt;br&gt;
+     *                                 and the hidden attributes would not be applied to the attributes.&lt;br&gt;
+     * &lt;/p&gt;
+     * &lt;/li&gt;
+     * &lt;/p&gt;
+     *
+     * @return cursor - Returns a cursor containing the result
+     */
+    public function getNeighborVertices($graphName, $vertexId, $options = array())
+    {
+        $options['objectType'] = 'vertex';
+        $data                  = array_merge($options, $this-&gt;getCursorOptions($options));
+
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_VERTICES, $vertexId));
+        $response = $this-&gt;getConnection()-&gt;post($url, $this-&gt;json_encode_wrapper($data));
+
+        return new Cursor($this-&gt;getConnection(), $response-&gt;getJson(), $options);
+    }
+
+
+    /**
+     * Get connected edges of a given vertex
+     *
+     * This will throw if the list cannot be fetched from the server
+     *
+     *
+     * @throws Exception
+     *
+     * @param mixed      $graphName    - the name of the graph
+     * @param mixed      $vertexId     - the vertex id
+     * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
+     * &lt;p&gt;Options are :&lt;br&gt;
+     * &lt;li&gt;'batchSize' - the batch size of the returned cursor&lt;/li&gt;
+     * &lt;li&gt;'limit' - limit the result size by a give number&lt;/li&gt;
+     * &lt;li&gt;'count' - return the total number of results  Defaults to false.&lt;/li&gt;
+     * &lt;li&gt;'filter' - a optional filter&lt;/li&gt;
+     * &lt;p&gt;Filter options are :&lt;br&gt;
+     * &lt;li&gt;'direction' - Filter for inbound (value &quot;in&quot;) or outbound (value &quot;out&quot;) neighbors. Default value is &quot;any&quot;.&lt;/li&gt;
+     * &lt;li&gt;'labels' - filter by an array of edge labels (empty array means no restriction).&lt;/li&gt;
+     * &lt;li&gt;'properties' - filter neighbors by an array of edge properties&lt;/li&gt;
+     * &lt;p&gt;Properties options are :&lt;br&gt;
+     * &lt;li&gt;'key' - Filter the result vertices by a key value pair.&lt;/li&gt;
+     * &lt;li&gt;'value' -  The value of the key.&lt;/li&gt;
+     * &lt;li&gt;'compare' - A comparison operator. (==, &gt;, &lt;, &gt;=, &lt;= )&lt;/li&gt;
+     * &lt;/p&gt;
+     * &lt;/p&gt;
+     * &lt;li&gt;'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.&lt;/li&gt;
+     * &lt;li&gt;'sanitize' - Deprecated, please use '_sanitize'.&lt;/li&gt;
+     * &lt;li&gt;'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+     * &lt;li&gt;'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.&lt;/li&gt;
+     * &lt;p&gt;
+     *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. &lt;br&gt;
+     *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called &lt;br&gt;
+     *                                 and the hidden attributes would not be applied to the attributes.&lt;br&gt;
+     * &lt;/p&gt;
+     * &lt;/li&gt;
+     * &lt;/p&gt;
+     *
+     * @return cursor - Returns a cursor containing the result
+     */
+    public function getConnectedEdges($graphName, $vertexId, $options = array())
+    {
+        $options['objectType'] = 'edge';
+        $data                  = array_merge($options, $this-&gt;getCursorOptions($options));
+
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_EDGES, $vertexId));
+        $response = $this-&gt;getConnection()-&gt;post($url, $this-&gt;json_encode_wrapper($data));
+
+        return new Cursor($this-&gt;getConnection(), $response-&gt;getJson(), $options);
+    }
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all()
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

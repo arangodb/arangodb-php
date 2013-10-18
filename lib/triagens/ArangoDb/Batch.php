@@ -14,12 +14,11 @@ namespace triagens\ArangoDb;
 /**
  * Provides batching functionality
  *
- * @package triagens\ArangoDb
- * @example ArangoDb/examples/batch.php
+ * <br>
  *
+ * @package   triagens\ArangoDb
+ * @since     1.1
  */
-
-
 class Batch
 {
     /**

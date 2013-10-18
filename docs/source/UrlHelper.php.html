@@ -1,0 +1,142 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+
+/**
+ * ArangoDB PHP client: URL helper methods
+ *
+ * @package   triagens\ArangoDb
+ * @author    Jan Steemann
+ * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
+ */
+
+namespace triagens\ArangoDb;
+
+/**
+ * Some helper methods to construct and process URLs
+ *
+ * @package triagens\ArangoDb
+ */
+abstract class UrlHelper
+{
+    /**
+     * Get the document id from a location header
+     *
+     * @param string $location - HTTP response location header
+     *
+     * @return string - document id parsed from header
+     */
+    public static function getDocumentIdFromLocation($location)
+    {
+        @list(, , , , $id) = explode('/', $location);
+
+        return $id;
+    }
+
+    /**
+     * Get the collection id from a location header
+     *
+     * @param string $location - HTTP response location header
+     *
+     * @return string - collection id parsed from header
+     */
+    public static function getCollectionIdFromLocation($location)
+    {
+        @list(, , , $id) = explode('/', $location);
+
+        return $id;
+    }
+
+    /**
+     * Construct a URL from a base URL and additional parts, separated with '/' each
+     *
+     * This function accepts variable arguments.
+     *
+     * @param string $baseUrl - base URL
+     * @param array $parts - URL parts to append
+     *
+     * @return string - assembled URL
+     */
+    public static function buildUrl($baseUrl, array $parts)
+    {
+        $url = $baseUrl;
+
+        foreach ($parts as $part) {
+            $url .= '/' . urlencode($part);
+        }
+
+        return $url;
+    }
+
+    /**
+     * Append parameters to a URL
+     *
+     * Parameter values will be URL-encoded
+     *
+     * @param string $baseUrl - base URL
+     * @param array  $params  - an array of parameters
+     *
+     * @return string - the assembled URL
+     */
+    public static function appendParamsUrl($baseUrl, array $params)
+    {
+        $url = $baseUrl . '?' . http_build_query($params);
+
+        return $url;
+    }
+
+    /**
+     * Get a string from a boolean value
+     *
+     * @param mixed $value - the value
+     *
+     * @return string - &quot;true&quot; if $value evaluates to true, &quot;false&quot; otherwise
+     */
+    public static function getBoolString($value)
+    {
+        return $value ? 'true' : 'false';
+    }
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all()
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

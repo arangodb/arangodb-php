@@ -11,15 +11,20 @@
 namespace triagens\ArangoDb;
 
 /**
+ * Server-Exception
+ *
  * This exception type will be thrown by the client when the server returns an
  * error in response to a client request.
  *
  * The exception code is the HTTP status code as returned by
- * the server. In case the server provides additional details
+ * the server.
+ * In case the server provides additional details
  * about the error, these details can be queried using the
- * getDetails() function.
+ * getDetails() function.<br>
+ * <br>
  *
  * @package triagens\ArangoDb
+ * @since   0.2
  */
 class ServerException extends
     Exception

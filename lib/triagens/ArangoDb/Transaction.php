@@ -12,34 +12,38 @@ namespace triagens\ArangoDb;
 
 /**
  * Transaction object
+ *
  * A transaction is an object that is used to prepare and send a transaction
  * to the server.
  *
- * The object encapsulates:
- *
- * * the collections definitions for locking
- * * the actual javascript function
- * * additional options like waitForSync, lockTimeout and params
- *
+ * The object encapsulates:<br />
+ * <ul>
+ * <li> the collections definitions for locking
+ * <li> the actual javascript function
+ * <li> additional options like waitForSync, lockTimeout and params
+ * </ul>
  *
  * The transaction object requires the connection object and can be initialized
  * with or without initial transaction configuration.
- * Any configuration can be set and retrieved by the object's methods like this:
+ * Any configuration can be set and retrieved by the object's methods like this:<br />
  *
+ * <pre>
  * $this->setAction('function (){your code};');
  * $this->setCollections(array('read' => 'my_read_collection, 'write' => array('col_1', 'col2')));
- *
+ * </pre>
+ * <br />
  * or like this:
- *
+ * <pre>
  * $this->action('function (){your code};');
  * $this->collections(array('read' => 'my_read_collection, 'write' => array('col_1', 'col2')));
- *
- *
+ * </pre>
+ * <br />
  * There are also helper functions to set collections directly, based on their locking:
- *
+ * <pre>
  * $this->setWriteCollections($array or $string if single collection)
  * $this->setReadCollections($array or $string if single collection)
- *
+ * </pre>
+ * <br />
  *
  * @property array  $collection      - The collections array that includes both read and write collection definitions
  * @property mixed  $readCollection  - The read-collections array or string (if only one)
@@ -49,6 +53,7 @@ namespace triagens\ArangoDb;
  * @property int    $lockTimeout     - LockTimeout on the transaction
  *
  * @package triagens\ArangoDb
+ * @since   1.3
  */
 class Transaction
 {
@@ -120,8 +125,8 @@ class Transaction
      * )
      *
      *
-     * @param Connection $connection             - the connection to be used
-     * @param array      $transactionArray       - transaction initialization data
+     * @param Connection $connection       - the connection to be used
+     * @param array      $transactionArray - transaction initialization data
      *
      * @return \triagens\ArangoDb\Transaction
      */
@@ -146,8 +151,8 @@ class Transaction
     public function execute()
     {
         $response      = $this->_connection->post(
-            Urls::URL_TRANSACTION,
-            $this->getConnection()->json_encode_wrapper($this->attributes)
+                                           Urls::URL_TRANSACTION,
+                                           $this->getConnection()->json_encode_wrapper($this->attributes)
         );
         $responseArray = $response->getJson();
         if (isset($responseArray['result'])) {

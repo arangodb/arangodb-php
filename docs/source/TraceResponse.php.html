@@ -1,0 +1,227 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * ArangoDB PHP client: connection
+ *
+ * @package   triagens\ArangoDb
+ * @author    Jan Steemann
+ * @author    Francis Chuang
+ * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
+ */
+
+namespace triagens\ArangoDb;
+
+/**
+ * Class TraceResponse
+ *
+ * @author    Francis Chuang
+ * @package   triagens\ArangoDb
+ */
+class TraceResponse
+{
+    /**
+     * Stores each header as an array (key =&gt; value) element
+     *
+     * @var array
+     */
+    private $_headers = array();
+
+    /**
+     * The http status code
+     *
+     * @var int
+     */
+    private $_httpCode;
+
+    /**
+     * The raw body of the response
+     *
+     * @var string
+     */
+    private $_body;
+
+    /**
+     * The type of http message
+     *
+     * @var string
+     */
+    private $_type = &quot;response&quot;;
+
+    /**
+     * The time taken to send and receive a response in seconds
+     * @var float
+     */
+    private $_timeTaken;
+
+    /**
+     * Used to look up the definition for an http code
+     *
+     * @var array
+     */
+    private $_httpCodeDefinitions = array(
+        100 =&gt; 'Continue',
+        101 =&gt; 'Switching Protocols',
+        200 =&gt; 'OK',
+        201 =&gt; 'Created',
+        202 =&gt; 'Accepted',
+        203 =&gt; 'Non-Authoritative Information',
+        204 =&gt; 'No Content',
+        205 =&gt; 'Reset Content',
+        206 =&gt; 'Partial Content',
+        300 =&gt; 'Multiple Choices',
+        301 =&gt; 'Moved Permanently',
+        302 =&gt; 'Found',
+        303 =&gt; 'See Other',
+        304 =&gt; 'Not Modified',
+        305 =&gt; 'Use Proxy',
+        307 =&gt; 'Temporary Redirect',
+        400 =&gt; 'Bad Request',
+        401 =&gt; 'Unauthorized',
+        402 =&gt; 'Payment Required',
+        403 =&gt; 'Forbidden',
+        404 =&gt; 'Not Found',
+        405 =&gt; 'Method Not Allowed',
+        406 =&gt; 'Not Acceptable',
+        407 =&gt; 'Proxy Authentication Required',
+        408 =&gt; 'Request Timeout',
+        409 =&gt; 'Conflict',
+        410 =&gt; 'Gone',
+        411 =&gt; 'Length Required',
+        412 =&gt; 'Precondition Failed',
+        413 =&gt; 'Request Entity Too Large',
+        414 =&gt; 'Request-URI Too Long',
+        415 =&gt; 'Unsupported Media Type',
+        416 =&gt; 'Requested Range Not Satisfiable',
+        417 =&gt; 'Expectation Failed',
+        418 =&gt; 'I\'m a teapot',
+        500 =&gt; 'Internal Server Error',
+        501 =&gt; 'Not Implemented',
+        502 =&gt; 'Bad Gateway',
+        503 =&gt; 'Service Unavailable',
+        504 =&gt; 'Gateway Timeout',
+        505 =&gt; 'HTTP Version Not Supported',
+    );
+
+    /**
+     * Set up the response trace
+     *
+     * @param array  $headers  - the array of http headers
+     * @param int    $httpCode - the http code
+     * @param string $body     - the string of http body
+     * @param        $timeTaken
+     */
+    public function __construct($headers, $httpCode, $body, $timeTaken)
+    {
+        $this-&gt;_headers  = $headers;
+        $this-&gt;_httpCode = $httpCode;
+        $this-&gt;_body     = $body;
+        $this-&gt;_timeTaken = $timeTaken;
+    }
+
+    /**
+     * Get an array of the response headers
+     *
+     * @return array
+     */
+    public function getHeaders()
+    {
+        return $this-&gt;_headers;
+    }
+
+    /**
+     * Get the http response code
+     *
+     * @return int
+     */
+    public function getHttpCode()
+    {
+        return $this-&gt;_httpCode;
+    }
+
+    /**
+     * Get the http code definition
+     *
+     * @throws ClientException
+     * @return string
+     */
+    public function getHttpCodeDefinition()
+    {
+        if (!isset($this-&gt;_httpCodeDefinitions[$this-&gt;getHttpCode()])) {
+            throw new ClientException(&quot;Invalid http code provided.&quot;);
+        }
+
+        return $this-&gt;_httpCodeDefinitions[$this-&gt;getHttpCode()];
+    }
+
+    /**
+     * Get the response body
+     *
+     * @return string
+     */
+    public function getBody()
+    {
+        return $this-&gt;_body;
+    }
+
+    /**
+     * Get the http message type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this-&gt;_type;
+    }
+
+    /**
+     * Get the time taken for this request
+     */
+    public function getTimeTaken()
+    {
+        return $this-&gt;_timeTaken;
+    }
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all()
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

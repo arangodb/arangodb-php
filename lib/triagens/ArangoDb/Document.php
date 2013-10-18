@@ -13,7 +13,10 @@ namespace triagens\ArangoDb;
 /**
  * Value object representing a single collection-based document
  *
- * @package triagens\ArangoDb
+ * <br>
+ *
+ * @package   triagens\ArangoDb
+ * @since     0.2
  */
 class Document
 {
@@ -184,10 +187,10 @@ class Document
      * Returns the document as JSON-encoded string
      *
      * @param array $options - optional, array of options that will be passed to the getAll function
-     * <p>Options are :
-     * <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
-     * <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
-     * </p>
+     *                       <p>Options are :
+     *                       <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
+     *                       <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+     *                       </p>
      *
      * @return string - JSON-encoded document
      */
@@ -200,10 +203,10 @@ class Document
      * Returns the document as a serialized string
      *
      * @param array $options - optional, array of options that will be passed to the getAll function
-     * <p>Options are :
-     * <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
-     * <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
-     * </p>
+     *                       <p>Options are :
+     *                       <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
+     *                       <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+     *                       </p>
      *
      * @return string - PHP serialized document
      */
@@ -215,7 +218,7 @@ class Document
     /**
      * Returns the attributes with the hidden ones removed
      *
-     * @param array - attributes array
+     * @param array $attributes - attributes array
      *
      * @return array - attributes array
      */
@@ -347,10 +350,10 @@ class Document
      * Get all document attributes
      *
      * @param mixed $options - optional, array of options for the getAll function, or the boolean value for $includeInternals
-     * <p>Options are :
-     * <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
-     * <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
-     * </p>
+     *                       <p>Options are :
+     *                       <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
+     *                       <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+     *                       </p>
      *
      * @return array - array of all document attributes/values
      */

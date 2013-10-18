@@ -58,23 +58,23 @@
 <li class="nav-header">
 <i class="icon-custom icon-method"></i> Methods
                     <ul>
-<li class="method public "><a href="#method_init" title="init :: Initialise the autoloader"><span class="description">Initialise the autoloader</span><pre>init()</pre></a></li>
-<li class="method public "><a href="#method_load" title="load :: Handle loading of an unknown class"><span class="description">Handle loading of an unknown class</span><pre>load()</pre></a></li>
+<li class="method public "><a href="#method_init" title="init() :: Initialise the autoloader"><span class="description">Initialise the autoloader</span><pre>init()</pre></a></li>
+<li class="method public "><a href="#method_load" title="load() :: Handle loading of an unknown class"><span class="description">Handle loading of an unknown class</span><pre>load()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header private">» Private
-                    <ul><li class="method private "><a href="#method_checkEnvironment" title="checkEnvironment :: Check the runtime environment"><span class="description">Check the runtime environment</span><pre>checkEnvironment()</pre></a></li></ul>
+                    <ul><li class="method private "><a href="#method_checkEnvironment" title="checkEnvironment() :: Check the runtime environment"><span class="description">Check the runtime environment</span><pre>checkEnvironment()</pre></a></li></ul>
 </li>
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties
                     <ul></ul>
 </li>
 <li class="nav-header private">» Private
-                    <ul><li class="property private "><a href="#property_libDir" title="$libDir :: Directory with library files"><span class="description"></span><pre>$libDir</pre></a></li></ul>
+                    <ul><li class="property private "><a href="#property_libDir" title="$libDir() :: Directory with library files"><span class="description"></span><pre>$libDir</pre></a></li></ul>
 </li>
 <li class="nav-header">
 <i class="icon-custom icon-constant"></i> Constants
-                    <ul><li class="constant  "><a href="#constant_EXTENSION" title="EXTENSION :: Class file extension"><span class="description">Class file extension</span><pre>EXTENSION</pre></a></li></ul>
+                    <ul><li class="constant  "><a href="#constant_EXTENSION" title="EXTENSION() :: Class file extension"><span class="description">Class file extension</span><pre>EXTENSION</pre></a></li></ul>
 </li>
 </ul>
 </div>
@@ -92,15 +92,21 @@
 </li>
 </ul>
 <div class="element class">
-<p class="short_description">Handles automatic loading of missing class files
-The autoloader can be nested with other autoloaders.</p>
+<p class="short_description">Handles automatic loading of missing class files.</p>
 <div class="details">
-<div class="long_description"><p>It will only
-process classes from its own namespace and ignore all others.</p></div>
-<table class="table table-bordered"><tr>
+<div class="long_description">The autoloader can be nested with other autoloaders. It will only
+process classes from its own namespace and ignore all others.<br>
+<br></div>
+<table class="table table-bordered">
+<tr>
 <th>package</th>
 <td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
-</tr></table>
+</tr>
+<tr>
+<th>since</th>
+<td>0.2</td>
+</tr>
+</table>
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
 <a id="method_init"></a><div class="element clickable method public method_init" data-toggle="collapse" data-target=".method_init .collapse">
@@ -121,9 +127,9 @@ process classes from its own namespace and ignore all others.</p></div>
 <pre>load(string $className) : void</pre>
 <div class="labels"><span class="label">Static</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This will only handle class from its own namespace and ignore all others.</p>
+<div class="long_description">This will only handle class from its own namespace and ignore all others.
 
-<p>This allows multiple autoloaders to be used in a nested fashion.</p></div>
+This allows multiple autoloaders to be used in a nested fashion.</div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$className</h4>
@@ -138,8 +144,8 @@ process classes from its own namespace and ignore all others.</p></div>
 <pre>checkEnvironment() : void</pre>
 <div class="labels"><span class="label">Static</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This will check whether the runtime environment is compatible with the
-Arango PHP client.</p></div>
+<div class="long_description">This will check whether the runtime environment is compatible with the
+Arango PHP client.</div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
 <th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
@@ -150,9 +156,9 @@ Arango PHP client.</p></div>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
 <a id="property_libDir"> </a><div class="element clickable property private property_libDir" data-toggle="collapse" data-target=".property_libDir .collapse">
-<h2></h2>
+<h2>Directory with library files</h2>
 <pre>$libDir : string</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Static</span></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <h3>
@@ -169,8 +175,9 @@ Arango PHP client.</p></div>
 </div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
-            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-05-11T17:21:43+03:00.<br></footer></div>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.1.0
+</a> and<br>
+            generated on 2013-10-18T04:07:23+03:00.<br></footer></div>
 </div>
 </body>
 </html>

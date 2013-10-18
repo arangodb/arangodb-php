@@ -11,10 +11,14 @@
 namespace triagens\ArangoDb;
 
 /**
- * This exception type will be thrown by the client when there is an error
- * during connecting to the server
+ * Connect-Exception
  *
- * @package triagens\ArangoDb
+ * This exception type will be thrown by the client when there is an error
+ * during connecting to the server.<br>
+ * <br>
+ *
+ * @package   triagens\ArangoDb
+ * @since     0.2
  */
 class ConnectException extends
     Exception

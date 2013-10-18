@@ -14,9 +14,9 @@
 namespace triagens\ArangoDb;
 
 /**
- * A graph handler that manages graphs.
- * It does so by issuing the
- * appropriate HTTP requests to the server.
+ * A handler that manages graphs.
+ *
+ * <br>
  *
  * @package triagens\ArangoDb
  * @since   1.2
@@ -73,9 +73,6 @@ class GraphHandler extends
      *
      * @return array - an array of the created graph object's attributes.
      * @since   1.2
-     *
-     * @example "ArangoDb/examples/graph.php" How to use this function
-     * @example "ArangoDb/examples/graph.php" How to use this function
      */
     public function createGraph(Graph $graph)
     {
@@ -103,13 +100,11 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param String - $graph - The name of the graph
-     * @param array  - $options - Options to pass to the method
+     * @param String $graph   - The name of the graph
+     * @param array  $options - Options to pass to the method
      *
      * @return Graph - A graph object representing the graph
      * @since   1.2
-     *
-     * @example "ArangoDb/examples/graph.php" How to use this function
      */
     public function getGraph($graph, array $options = array())
     {
@@ -216,15 +211,15 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param string $graphName  - the graph name as a string
-     * @param mixed  $vertexId   - the vertex identifier
-     * @param array  $options    - optional, an array of options
-     * <p>Options are :
-     * <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
-     * <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
-     * <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
-     * <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
-     * </p>
+     * @param string $graphName - the graph name as a string
+     * @param mixed  $vertexId  - the vertex identifier
+     * @param array  $options   - optional, an array of options
+     *                          <p>Options are :
+     *                          <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
+     *                          <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
+     *                          <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+     *                          <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
+     *                          </p>
      *
      * @return Document - the vertex document fetched from the server
      * @since 1.2
@@ -256,15 +251,15 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param string   $graphName    - the graph name as string
-     * @param mixed    $vertexId     - the vertex id as string or number
-     * @param Document $document     - the vertex-document to be updated
-     * @param mixed    $options      - optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     * <p>Options are :]
-     * <li>'revision' - revision for conditional updates ('some-revision-id' [use the passed in revision id], false or true [use document's revision])</li>
-     * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     * <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     * </p>
+     * @param string   $graphName - the graph name as string
+     * @param mixed    $vertexId  - the vertex id as string or number
+     * @param Document $document  - the vertex-document to be updated
+     * @param mixed    $options   - optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     *                            <p>Options are :]
+     *                            <li>'revision' - revision for conditional updates ('some-revision-id' [use the passed in revision id], false or true [use document's revision])</li>
+     *                            <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                            <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                            </p>
      *
      * @return bool - always true, will throw if there is an error
      *
@@ -277,16 +272,16 @@ class GraphHandler extends
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            $params,
-            ConnectionOptions::OPTION_REPLACE_POLICY
+                       $options,
+                       $params,
+                       ConnectionOptions::OPTION_REPLACE_POLICY
         );
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            array(
-                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC)
-            )
+                       $options,
+                       $params,
+                       array(
+                            'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC)
+                       )
         );
 
         //Include the revision for conditional updates if required
@@ -335,15 +330,15 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param string   $graphName   - the graph name as string
-     * @param mixed    $vertexId    - the vertex id as string or number
-     * @param Document $document    - the patch vertex-document which contains the attributes and values to be updated
-     * @param mixed    $options     - optional, an array of options (see below)
-     * <p>Options are :
-     * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     * <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
-     * <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     * </p>
+     * @param string   $graphName - the graph name as string
+     * @param mixed    $vertexId  - the vertex id as string or number
+     * @param Document $document  - the patch vertex-document which contains the attributes and values to be updated
+     * @param mixed    $options   - optional, an array of options (see below)
+     *                            <p>Options are :
+     *                            <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                            <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+     *                            <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                            </p>
      *
      * @return bool - always true, will throw if there is an error
      * @since 1.2
@@ -355,17 +350,17 @@ class GraphHandler extends
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            $params,
-            ConnectionOptions::OPTION_UPDATE_POLICY
+                       $options,
+                       $params,
+                       ConnectionOptions::OPTION_UPDATE_POLICY
         );
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            array(
-                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
-                 'keepNull'    => true,
-            )
+                       $options,
+                       $params,
+                       array(
+                            'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
+                            'keepNull'    => true,
+                       )
         );
 
         //Include the revision for conditional updates if required
@@ -396,14 +391,14 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed  $graphName  - the graph name as string
-     * @param mixed  $vertexId   - the vertex id as string or number
-     * @param  mixed $revision   - optional, the revision of the vertex to be deleted
-     * @param mixed  $options    - optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     * <p>Options are :
-     * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     * <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     * </p>
+     * @param mixed  $graphName - the graph name as string
+     * @param mixed  $vertexId  - the vertex id as string or number
+     * @param  mixed $revision  - optional, the revision of the vertex to be deleted
+     * @param mixed  $options   - optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     *                          <p>Options are :
+     *                          <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                          <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                          </p>
      *
      * @return bool - always true, will throw if there is an error
      * @since 1.2
@@ -413,17 +408,17 @@ class GraphHandler extends
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            $params,
-            ConnectionOptions::OPTION_DELETE_POLICY
+                       $options,
+                       $params,
+                       ConnectionOptions::OPTION_DELETE_POLICY
         );
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            array(
-                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
-                 'keepNull'    => true,
-            )
+                       $options,
+                       $params,
+                       array(
+                            'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
+                            'keepNull'    => true,
+                       )
         );
 
         if (!is_null($revision)) {
@@ -447,11 +442,11 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $graphName    - the graph name as string
-     * @param mixed $from         - the 'from' vertex
-     * @param mixed $to           - the 'to' vertex
-     * @param mixed $label        - (optional) a label for the edge
-     * @param mixed $document     - the edge-document to be added, can be passed as an edge object or an array
+     * @param mixed $graphName - the graph name as string
+     * @param mixed $from      - the 'from' vertex
+     * @param mixed $to        - the 'to' vertex
+     * @param mixed $label     - (optional) a label for the edge
+     * @param mixed $document  - the edge-document to be added, can be passed as an edge object or an array
      *
      * @return mixed - id of edge created
      * @since 1.2
@@ -498,15 +493,15 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $graphName  - collection id as a string or number
-     * @param mixed $edgeId     - edge identifier
-     * @param array $options    - optional, array of options
-     * <p>Options are :
-     * <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
-     * <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
-     * <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
-     * <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
-     * </p>
+     * @param mixed $graphName - collection id as a string or number
+     * @param mixed $edgeId    - edge identifier
+     * @param array $options   - optional, array of options
+     *                         <p>Options are :
+     *                         <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
+     *                         <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
+     *                         <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+     *                         <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
+     *                         </p>
      *
      * @return Document - the edge document fetched from the server
      * @since 1.2
@@ -538,15 +533,15 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $graphName     - graph name as string or number
-     * @param mixed $edgeId        - edge id as string or number
-     * @param mixed $label         - label for the edge or ''
-     * @param Edge  $document      - edge document to be updated
-     * @param mixed $options       - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     * <p>Options are :
-     * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     * <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     * </p>
+     * @param mixed $graphName - graph name as string or number
+     * @param mixed $edgeId    - edge id as string or number
+     * @param mixed $label     - label for the edge or ''
+     * @param Edge  $document  - edge document to be updated
+     * @param mixed $options   - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     *                         <p>Options are :
+     *                         <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                         <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                         </p>
      *
      * @return bool - always true, will throw if there is an error
      *
@@ -559,16 +554,16 @@ class GraphHandler extends
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            $params,
-            ConnectionOptions::OPTION_REPLACE_POLICY
+                       $options,
+                       $params,
+                       ConnectionOptions::OPTION_REPLACE_POLICY
         );
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            array(
-                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC)
-            )
+                       $options,
+                       $params,
+                       array(
+                            'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC)
+                       )
         );
 
         //Include the revision for conditional updates if required
@@ -621,16 +616,16 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param string $graphName     - graph name as string
-     * @param mixed  $edgeId        - edge id as string or number
-     * @param mixed  $label         - label for the edge or ''
-     * @param Edge   $document      - patch edge-document which contains the attributes and values to be updated
-     * @param mixed  $options       - optional, array of options (see below)
-     * <p>Options are :
-     * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     * <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
-     * <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     * </p>
+     * @param string $graphName - graph name as string
+     * @param mixed  $edgeId    - edge id as string or number
+     * @param mixed  $label     - label for the edge or ''
+     * @param Edge   $document  - patch edge-document which contains the attributes and values to be updated
+     * @param mixed  $options   - optional, array of options (see below)
+     *                          <p>Options are :
+     *                          <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                          <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+     *                          <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                          </p>
      *
      * @return bool - always true, will throw if there is an error
      * @since 1.2
@@ -642,17 +637,17 @@ class GraphHandler extends
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            $params,
-            ConnectionOptions::OPTION_UPDATE_POLICY
+                       $options,
+                       $params,
+                       ConnectionOptions::OPTION_UPDATE_POLICY
         );
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            array(
-                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
-                 'keepNull'    => true,
-            )
+                       $options,
+                       $params,
+                       array(
+                            'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
+                            'keepNull'    => true,
+                       )
         );
         $policy = null;
 
@@ -688,14 +683,14 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed  $graphName   - graph name as string or number
-     * @param mixed  $edgeId      - edge id as string or number
-     * @param  mixed $revision    - optional revision of the edge to be deleted
-     * @param mixed  $options     - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     * <p>Options are :
-     * <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     * <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     * </p>
+     * @param mixed  $graphName - graph name as string or number
+     * @param mixed  $edgeId    - edge id as string or number
+     * @param  mixed $revision  - optional revision of the edge to be deleted
+     * @param mixed  $options   - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     *                          <p>Options are :
+     *                          <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                          <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                          </p>
      *
      * @return bool - always true, will throw if there is an error
      * @since 1.2
@@ -705,17 +700,17 @@ class GraphHandler extends
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            $params,
-            ConnectionOptions::OPTION_DELETE_POLICY
+                       $options,
+                       $params,
+                       ConnectionOptions::OPTION_DELETE_POLICY
         );
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            array(
-                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
-                 'keepNull'    => true,
-            )
+                       $options,
+                       $params,
+                       array(
+                            'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
+                            'keepNull'    => true,
+                       )
         );
         if (!is_null($revision)) {
             $params[ConnectionOptions::OPTION_REVISION] = $revision;
@@ -740,32 +735,32 @@ class GraphHandler extends
      * @param mixed      $graphName    - the name of the graph
      * @param mixed      $vertexId     - the vertex id
      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
-     * <p>Options are :<br>
-     * <li>'batchSize' - the batch size of the returned cursor</li>
-     * <li>'limit' - limit the result size by a give number</li>
-     * <li>'count' - return the total number of results  Defaults to false.</li>
-     * <li>'filter' - a optional filter</li>
-     * <p>Filter options are :<br>
-     * <li>'direction' - Filter for inbound (value "in") or outbound (value "out") neighbors. Default value is "any".</li>
-     * <li>'labels' - filter by an array of edge labels (empty array means no restriction).</li>
-     * <li>'properties' - filter neighbors by an array of edge properties</li>
-     * <p>Properties options are :<br>
-     * <li>'key' - Filter the result vertices by a key value pair.</li>
-     * <li>'value' -  The value of the key.</li>
-     * <li>'compare' - A comparison operator. (==, >, <, >=, <= )</li>
-     * </p>
-     * </p>
-     * <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     * <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
-     * <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     * <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
-     * <p>
+     *                                 <p>Options are :<br>
+     *                                 <li>'batchSize' - the batch size of the returned cursor</li>
+     *                                 <li>'limit' - limit the result size by a give number</li>
+     *                                 <li>'count' - return the total number of results  Defaults to false.</li>
+     *                                 <li>'filter' - a optional filter</li>
+     *                                 <p>Filter options are :<br>
+     *                                 <li>'direction' - Filter for inbound (value "in") or outbound (value "out") neighbors. Default value is "any".</li>
+     *                                 <li>'labels' - filter by an array of edge labels (empty array means no restriction).</li>
+     *                                 <li>'properties' - filter neighbors by an array of edge properties</li>
+     *                                 <p>Properties options are :<br>
+     *                                 <li>'key' - Filter the result vertices by a key value pair.</li>
+     *                                 <li>'value' -  The value of the key.</li>
+     *                                 <li>'compare' - A comparison operator. (==, >, <, >=, <= )</li>
+     *                                 </p>
+     *                                 </p>
+     *                                 <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     *                                 <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+     *                                 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+     *                                 <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
+     *                                 <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
      *                                 and the hidden attributes would not be applied to the attributes.<br>
-     * </p>
-     * </li>
-     * </p>
+     *                                 </p>
+     *                                 </li>
+     *                                 </p>
      *
      * @return cursor - Returns a cursor containing the result
      */
@@ -792,32 +787,32 @@ class GraphHandler extends
      * @param mixed      $graphName    - the name of the graph
      * @param mixed      $vertexId     - the vertex id
      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
-     * <p>Options are :<br>
-     * <li>'batchSize' - the batch size of the returned cursor</li>
-     * <li>'limit' - limit the result size by a give number</li>
-     * <li>'count' - return the total number of results  Defaults to false.</li>
-     * <li>'filter' - a optional filter</li>
-     * <p>Filter options are :<br>
-     * <li>'direction' - Filter for inbound (value "in") or outbound (value "out") neighbors. Default value is "any".</li>
-     * <li>'labels' - filter by an array of edge labels (empty array means no restriction).</li>
-     * <li>'properties' - filter neighbors by an array of edge properties</li>
-     * <p>Properties options are :<br>
-     * <li>'key' - Filter the result vertices by a key value pair.</li>
-     * <li>'value' -  The value of the key.</li>
-     * <li>'compare' - A comparison operator. (==, >, <, >=, <= )</li>
-     * </p>
-     * </p>
-     * <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     * <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
-     * <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     * <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
-     * <p>
+     *                                 <p>Options are :<br>
+     *                                 <li>'batchSize' - the batch size of the returned cursor</li>
+     *                                 <li>'limit' - limit the result size by a give number</li>
+     *                                 <li>'count' - return the total number of results  Defaults to false.</li>
+     *                                 <li>'filter' - a optional filter</li>
+     *                                 <p>Filter options are :<br>
+     *                                 <li>'direction' - Filter for inbound (value "in") or outbound (value "out") neighbors. Default value is "any".</li>
+     *                                 <li>'labels' - filter by an array of edge labels (empty array means no restriction).</li>
+     *                                 <li>'properties' - filter neighbors by an array of edge properties</li>
+     *                                 <p>Properties options are :<br>
+     *                                 <li>'key' - Filter the result vertices by a key value pair.</li>
+     *                                 <li>'value' -  The value of the key.</li>
+     *                                 <li>'compare' - A comparison operator. (==, >, <, >=, <= )</li>
+     *                                 </p>
+     *                                 </p>
+     *                                 <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     *                                 <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+     *                                 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+     *                                 <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
+     *                                 <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
      *                                 and the hidden attributes would not be applied to the attributes.<br>
-     * </p>
-     * </li>
-     * </p>
+     *                                 </p>
+     *                                 </li>
+     *                                 </p>
      *
      * @return cursor - Returns a cursor containing the result
      */

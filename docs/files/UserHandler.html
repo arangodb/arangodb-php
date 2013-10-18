@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>ArangoDB PHP client API</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta><link rel="stylesheet" href="../css/template.css" type="text/css"></link><script type="text/javascript" src="../js/jquery-1.4.2.min.js"></script><script type="text/javascript" src="../js/jquery.tools.min.js"></script><script type="text/javascript" src="../js/jquery-ui-1.8.2.custom.min.js"></script><script type="text/javascript" src="../js/template.js"></script></head><body><div id="content"><h1 class="file">UserHandler.php<a href="../source/UserHandler.php.html"><img src="../images/icons/view_source.png" alt="View Source" border="0"></img></a></h1><div id="file-nav-box"><div id="file-nav-options">
+              Show:
+              <img src="../images/icons/visibility_public.png" alt="Public" id="show-public"></img><img src="../images/icons/visibility_protected.png" alt="Protected" id="show-protected"></img><img src="../images/icons/visibility_private.png" alt="Private" id="show-private"></img><span class="attribute" id="show-inherited">inherited</span></div><div id="file-nav-container"><ul id="file-nav"><li><a href="#classes"><img src="../images/icons/class.png" alt="Class" height="14"></img>
+                          Classes
+                      </a><ul><li><a href="#\triagens\ArangoDb\UserHandler">\triagens\ArangoDb\UserHandler</a></li></ul></li></ul><div style="clear: left;"></div></div><div id="file-nav-tab">
+              Table of Contents
+          </div></div><a name="top" class="anchor"></a><div id="file-description"><div class="short-description">ArangoDB PHP client: user document handler</div><div class="long-description"></div></div><dl class="file-info"><dt>Author</dt><dd>Frank Mayer
+         
+    </dd><dt>Package</dt><dd>triagens\ArangoDb
+         
+    </dd><dt>Since</dt><dd>1.2
+         
+    </dd></dl><a name="classes" class="anchor"></a><a id="\triagens\ArangoDb\UserHandler" class="anchor"></a><h2 class="class">\triagens\ArangoDb\UserHandler<div class="to-top"><a href="#top">jump to top</a></div></h2><div class="class"><small class="package"><b>Package: </b>triagens\ArangoDb</small><div class="short-description">A user-document handler that fetches vertices from the server and
+persists them on the server. It does so by issuing the
+appropriate HTTP requests to the server.</div><div class="long-description"></div><dl class="class-info"><dt>Parent(s)</dt><dd><a href="../files/Handler.html#\triagens\ArangoDb\Handler">\triagens\ArangoDb\Handler</a></dd><dt>Since</dt><dd>1.2
+         
+    </dd></dl><h3>Methods</h3><div><a id="\triagens\ArangoDb\UserHandler::addUser()" class="anchor"></a><div class="method public"><a href="#" class="gripper"><img src="../images/icons/arrow_right.png"></img><img src="../images/icons/arrow_down.png" style="display: none;"></img></a><code class="title"><img src="../images/icons/method.png" alt="method" title="method"></img><img src="../images/icons/visibility_public.png" style="margin-right: 5px" alt="public"></img><span class="highlight">addUser</span><span class="nb-faded-text">(mixed $username, mixed $passwd = null, mixed $active = null, array $extra = null, array $options = array())</span> : boolean</code><div class="description"><p class="short_description">save an user to the user-collection</p></div><div class="code-tabs"><div class="long-description">This will save the user to the user-collection
+
+This will throw if the user cannot be saved</div><strong>Parameters</strong><table class="argument-info"><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tr><th>$username</th><td>mixed</td><td><em><ul>
+<li>The name of the user as a string. This is mandatory.</li>
+</ul>
+</em></td></tr><tr><th>$passwd</th><td>mixed</td><td><em><ul>
+<li>The user password as a string. If no password is specified, the empty string will be used.</li>
+</ul>
+</em></td></tr><tr><th>$active</th><td>mixed</td><td><em><ul>
+<li>an optional flag that specifies whether the user is active. If not specified, this will default to true.</li>
+</ul>
+</em></td></tr><tr><th>$extra</th><td>array</td><td><em><ul>
+<li>an optional array with arbitrary extra data about the user.</li>
+</ul>
+</em></td></tr><tr><th>$options</th><td>array</td><td><em><ul>
+<li>an array of options</li>
+</ul>
+
+<p>Options are :<br>
+</p>
+</em></td></tr></table><strong>Returns</strong><table class="argument-info"><thead><tr><th>Type</th><th>Description</th></tr></thead><tr><td>boolean</td><td>- true, if user could be saved</td></tr></table><strong>Throws</strong><table class="argument-info"><thead><tr><th>Exception</th><th>Description</th></tr></thead><tr><td><a href="../files/Exception.html">\triagens\ArangoDb\Exception</a></td><td><em></em></td></tr></table><strong>Details</strong><dl class="function-info"><dt>Since</dt><dd>1.2
+         
+    </dd></dl></div><div class="clear"></div></div><a id="\triagens\ArangoDb\UserHandler::get()" class="anchor"></a><div class="method public"><a href="#" class="gripper"><img src="../images/icons/arrow_right.png"></img><img src="../images/icons/arrow_down.png" style="display: none;"></img></a><code class="title"><img src="../images/icons/method.png" alt="method" title="method"></img><img src="../images/icons/visibility_public.png" style="margin-right: 5px" alt="public"></img><span class="highlight">get</span><span class="nb-faded-text">(mixed $username)</span> : <a href="../files/User.html">\triagens\ArangoDb\User</a></code><div class="description"><p class="short_description">Get a single user-document, identified by the username</p></div><div class="code-tabs"><div class="long-description">This will throw if the document cannot be fetched from the server</div><strong>Parameters</strong><table class="argument-info"><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tr><th>$username</th><td>mixed</td><td><em><ul>
+<li>username as a string</li>
+</ul>
+</em></td></tr></table><strong>Returns</strong><table class="argument-info"><thead><tr><th>Type</th><th>Description</th></tr></thead><tr><td><a href="../files/User.html">\triagens\ArangoDb\User</a></td><td>- the user-document fetched from the server</td></tr></table><strong>Throws</strong><table class="argument-info"><thead><tr><th>Exception</th><th>Description</th></tr></thead><tr><td><a href="../files/Exception.html">\triagens\ArangoDb\Exception</a></td><td><em></em></td></tr></table></div><div class="clear"></div></div><a id="\triagens\ArangoDb\UserHandler::removeUser()" class="anchor"></a><div class="method public"><a href="#" class="gripper"><img src="../images/icons/arrow_right.png"></img><img src="../images/icons/arrow_down.png" style="display: none;"></img></a><code class="title"><img src="../images/icons/method.png" alt="method" title="method"></img><img src="../images/icons/visibility_public.png" style="margin-right: 5px" alt="public"></img><span class="highlight">removeUser</span><span class="nb-faded-text">(mixed $username)</span> : bool</code><div class="description"><p class="short_description">Remove a user, identified by the username</p></div><div class="code-tabs"><div class="long-description"></div><strong>Parameters</strong><table class="argument-info"><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tr><th>$username</th><td>mixed</td><td><em><ul>
+<li>username as a string, of the user that is to be deleted</li>
+</ul>
+</em></td></tr></table><strong>Returns</strong><table class="argument-info"><thead><tr><th>Type</th><th>Description</th></tr></thead><tr><td>bool</td><td>- always true, will throw if there is an error</td></tr></table><strong>Throws</strong><table class="argument-info"><thead><tr><th>Exception</th><th>Description</th></tr></thead><tr><td><a href="../files/Exception.html">\triagens\ArangoDb\Exception</a></td><td><em></em></td></tr></table></div><div class="clear"></div></div><a id="\triagens\ArangoDb\UserHandler::replaceUser()" class="anchor"></a><div class="method public"><a href="#" class="gripper"><img src="../images/icons/arrow_right.png"></img><img src="../images/icons/arrow_down.png" style="display: none;"></img></a><code class="title"><img src="../images/icons/method.png" alt="method" title="method"></img><img src="../images/icons/visibility_public.png" style="margin-right: 5px" alt="public"></img><span class="highlight">replaceUser</span><span class="nb-faded-text">(mixed $username, mixed $passwd = null, mixed $active = null, array $extra = null, array $options = array())</span> : bool</code><div class="description"><p class="short_description">Replace an existing User, identified by its username</p></div><div class="code-tabs"><div class="long-description">This will replace the user-document on the server
+
+This will throw if the document cannot be Replaced</div><strong>Parameters</strong><table class="argument-info"><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tr><th>$username</th><td>mixed</td><td><em><ul>
+<li>The name of the user as a string, who's user-data is going to be replaced. This is mandatory.</li>
+</ul>
+</em></td></tr><tr><th>$passwd</th><td>mixed</td><td><em><ul>
+<li>The user password as a string. If no password is specified, the empty string will be used.</li>
+</ul>
+</em></td></tr><tr><th>$active</th><td>mixed</td><td><em><ul>
+<li>an optional flag that specifies whether the user is active. If not specified, this will default to true.</li>
+</ul>
+</em></td></tr><tr><th>$extra</th><td>array</td><td><em><ul>
+<li>an optional array with arbitrary extra data about the user.</li>
+</ul>
+</em></td></tr><tr><th>$options</th><td>array</td><td><em><ul>
+<li>an array of options</li>
+</ul>
+
+<p>Options are :
+</p>
+</em></td></tr></table><strong>Returns</strong><table class="argument-info"><thead><tr><th>Type</th><th>Description</th></tr></thead><tr><td>bool</td><td>- always true, will throw if there is an error</td></tr></table><strong>Throws</strong><table class="argument-info"><thead><tr><th>Exception</th><th>Description</th></tr></thead><tr><td><a href="../files/Exception.html">\triagens\ArangoDb\Exception</a></td><td><em></em></td></tr></table></div><div class="clear"></div></div><a id="\triagens\ArangoDb\UserHandler::updateUser()" class="anchor"></a><div class="method public"><a href="#" class="gripper"><img src="../images/icons/arrow_right.png"></img><img src="../images/icons/arrow_down.png" style="display: none;"></img></a><code class="title"><img src="../images/icons/method.png" alt="method" title="method"></img><img src="../images/icons/visibility_public.png" style="margin-right: 5px" alt="public"></img><span class="highlight">updateUser</span><span class="nb-faded-text">(mixed $username, mixed $passwd = null, mixed $active = null, array $extra = null, array $options = array())</span> : bool</code><div class="description"><p class="short_description">Update an existing user, identified by the username</p></div><div class="code-tabs"><div class="long-description">This will update the user-document on the server
+
+This will throw if the document cannot be updated</div><strong>Parameters</strong><table class="argument-info"><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tr><th>$username</th><td>mixed</td><td><em><ul>
+<li>The name of the user as a string, who's user-data is going to be updated. This is mandatory.</li>
+</ul>
+</em></td></tr><tr><th>$passwd</th><td>mixed</td><td><em><ul>
+<li>The user password as a string. If no password is specified, the empty string will be used.</li>
+</ul>
+</em></td></tr><tr><th>$active</th><td>mixed</td><td><em><ul>
+<li>an optional flag that specifies whether the user is active. If not specified, this will default to true.</li>
+</ul>
+</em></td></tr><tr><th>$extra</th><td>array</td><td><em><ul>
+<li>an optional array with arbitrary extra data about the user.</li>
+</ul>
+</em></td></tr><tr><th>$options</th><td>array</td><td><em><ul>
+<li>an array of options</li>
+</ul>
+
+<p>Options are :
+</p>
+</em></td></tr></table><strong>Returns</strong><table class="argument-info"><thead><tr><th>Type</th><th>Description</th></tr></thead><tr><td>bool</td><td>- always true, will throw if there is an error</td></tr></table><strong>Throws</strong><table class="argument-info"><thead><tr><th>Exception</th><th>Description</th></tr></thead><tr><td><a href="../files/Exception.html">\triagens\ArangoDb\Exception</a></td><td><em></em></td></tr></table></div><div class="clear"></div></div></div></div></div><small class="footer">
+            Documentation was generated by
+            <a href="http://phpdoc.org">phpDocumentor
+                2.1.0
+</a>.
+        </small></body></html>

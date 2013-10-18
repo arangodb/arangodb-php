@@ -11,9 +11,13 @@
 namespace triagens\ArangoDb;
 
 /**
+ * A handler that manages users
+ * .
  * A user-document handler that fetches vertices from the server and
  * persists them on the server. It does so by issuing the
  * appropriate HTTP requests to the server.
+ *
+ * <br />
  *
  * @package   triagens\ArangoDb
  * @since     1.2
@@ -31,13 +35,13 @@ class UserHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $username     - The name of the user as a string. This is mandatory.
-     * @param mixed $passwd       - The user password as a string. If no password is specified, the empty string will be used.
-     * @param mixed $active       - an optional flag that specifies whether the user is active. If not specified, this will default to true.
-     * @param array $extra        - an optional array with arbitrary extra data about the user.
-     * @param array $options      - an array of options
-     * <p>Options are :<br>
-     * </p>
+     * @param mixed $username - The name of the user as a string. This is mandatory.
+     * @param mixed $passwd   - The user password as a string. If no password is specified, the empty string will be used.
+     * @param mixed $active   - an optional flag that specifies whether the user is active. If not specified, this will default to true.
+     * @param array $extra    - an optional array with arbitrary extra data about the user.
+     * @param array $options  - an array of options
+     *                        <p>Options are :<br>
+     *                        </p>
      *
      * @return boolean - true, if user could be saved
      * @since 1.2
@@ -66,13 +70,13 @@ class UserHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $username     - The name of the user as a string, who's user-data is going to be replaced. This is mandatory.
-     * @param mixed $passwd       - The user password as a string. If no password is specified, the empty string will be used.
-     * @param mixed $active       - an optional flag that specifies whether the user is active. If not specified, this will default to true.
-     * @param array $extra        - an optional array with arbitrary extra data about the user.
-     * @param array $options      - an array of options
-     * <p>Options are :
-     * </p>
+     * @param mixed $username - The name of the user as a string, who's user-data is going to be replaced. This is mandatory.
+     * @param mixed $passwd   - The user password as a string. If no password is specified, the empty string will be used.
+     * @param mixed $active   - an optional flag that specifies whether the user is active. If not specified, this will default to true.
+     * @param array $extra    - an optional array with arbitrary extra data about the user.
+     * @param array $options  - an array of options
+     *                        <p>Options are :
+     *                        </p>
      *
      * @return bool - always true, will throw if there is an error
      */
@@ -99,13 +103,13 @@ class UserHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $username     - The name of the user as a string, who's user-data is going to be updated. This is mandatory.
-     * @param mixed $passwd       - The user password as a string. If no password is specified, the empty string will be used.
-     * @param mixed $active       - an optional flag that specifies whether the user is active. If not specified, this will default to true.
-     * @param array $extra        - an optional array with arbitrary extra data about the user.
-     * @param array $options      - an array of options
-     * <p>Options are :
-     * </p>
+     * @param mixed $username - The name of the user as a string, who's user-data is going to be updated. This is mandatory.
+     * @param mixed $passwd   - The user password as a string. If no password is specified, the empty string will be used.
+     * @param mixed $active   - an optional flag that specifies whether the user is active. If not specified, this will default to true.
+     * @param array $extra    - an optional array with arbitrary extra data about the user.
+     * @param array $options  - an array of options
+     *                        <p>Options are :
+     *                        </p>
      *
      * @return bool - always true, will throw if there is an error
      */
