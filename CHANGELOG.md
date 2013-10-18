@@ -1,5 +1,5 @@
 
-v1.3.devel (xxxx-xx-xx)
+v1.3.0 (2013-05-13)
 -----------------------
 
 * Contributors to this version:
@@ -7,6 +7,8 @@ v1.3.devel (xxxx-xx-xx)
   * Francis Chuang (Github: @F21)
   
 =======================
+
+* Changed PhpDocs @package content to triagens\ArangoDb, closes issue (see https://github.com/triAGENS/ArangoDB-PHP/issues/123)
 
 * [Breaking change] Removed getServerStatus() in favor of getServerStatistics() This breaks intentionally,
 	because of the different data and data structure returned by the server in version 1.3
