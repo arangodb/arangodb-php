@@ -326,7 +326,7 @@ class Batch
         }
 
         $result = 'HTTP/1.1 202 Accepted' . HttpHelper::EOL;
-        $result .= 'location: /_api/document/0/0' . HttpHelper::EOL;
+        $result .= 'location: /_db/_system/_api/document/0/0' . HttpHelper::EOL;
         $result .= 'server: triagens GmbH High-Performance HTTP Server' . HttpHelper::EOL;
         $result .= 'content-type: application/json; charset=utf-8' . HttpHelper::EOL;
         $result .= 'etag: "0"' . HttpHelper::EOL;
