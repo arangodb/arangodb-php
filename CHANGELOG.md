@@ -1,4 +1,26 @@
 
+v1.4.0-devel (xxxx-xx-xx)
+-----------------------
+
+* Contributors to this version:
+
+  * Frank Mayer (Github: @frankmayer)
+
+=======================
+
+* Made changes in order to support the new "Location" header style.
+  This renders the 1.4 client incompatible with ArangoDB version <1.4.0
+
+* Changes to support the new AQL function namespace separator '::' instead of the old one ':'
+  This renders the client incompatible to ArangoDB versions <1.4.0
+
+* Changed expected cutdownvalue as ArangoDB's response text is different since 1.4.0
+This renders the client incompatible to ArangoDB versions <1.4.0
+
+
+
+
+
 v1.3.1 (2013-10-17)
 -----------------------
 
