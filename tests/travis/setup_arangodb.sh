@@ -21,7 +21,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
   ARANGODB_DIR="$DIR/$NAME"
 
   ARANGOD="${ARANGODB_DIR}/bin/arangod"
-
   if [ "$ARCH" == "x86_64" ]; then
   ARANGOD="${ARANGOD}_x86_64"
   fi
@@ -35,12 +34,13 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
       --database.directory ${TMP_DIR}  \
       --configuration none  \
       --server.endpoint tcp://127.0.0.1:8529 \
-      --javascript.app-path ${ARANGODB_DIR}/js \
       --javascript.startup-directory ${ARANGODB_DIR}/js \
+      --server.admin-directory ${ARANGODB_DIR}/html/admin \
       --javascript.modules-path ${ARANGODB_DIR}/js/server/modules:${ARANGODB_DIR}/js/common/modules:${ARANGODB_DIR}/js/node \
       --javascript.package-path ${ARANGODB_DIR}/js/npm:${ARANGODB_DIR}/js/common/test-data/modules \
       --javascript.action-directory ${ARANGODB_DIR}/js/actions \
       --database.maximal-journal-size 1048576  \
+      --server.disable-admin-interface true \
       --server.disable-authentication true \
       --javascript.gc-interval 1 &
 
