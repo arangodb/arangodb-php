@@ -3,7 +3,7 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
   cd $DIR
 
-  VERSION=1.4.0-beta2
+  VERSION=1.4.0-beta1
   NAME=ArangoDB-$VERSION
 
   if [ ! -d "$DIR/$NAME" ]; then
