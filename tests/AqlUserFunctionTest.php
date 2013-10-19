@@ -41,7 +41,7 @@ class AqlUserFunctionTest extends
     public function testRegisterListAndUnregisterAqlUserFunctionWithInitialConfig()
     {
 
-        $name = 'myFunctions:myFunction';
+        $name = 'myFunctions::myFunction';
         $code = 'function (celsius) { return celsius * 1.8 + 32; }';
 
         $array = array(
@@ -79,7 +79,7 @@ class AqlUserFunctionTest extends
     public function testRegisterListAndUnregisterAqlUserFunctionUsingShortcut()
     {
 
-        $name = 'myFunctions:myFunction';
+        $name = 'myFunctions::myFunction';
         $code = 'function (celsius) { return celsius * 1.8 + 32; }';
 
         $userFunction = new AqlUserFunction($this->connection);
@@ -111,7 +111,7 @@ class AqlUserFunctionTest extends
      */
     public function testRegisterListAndUnregisterAqlUserFunctionWithGettersAndSetters()
     {
-        $name = 'myFunctions:myFunction';
+        $name = 'myFunctions::myFunction';
         $code = 'function (celsius) { return celsius * 1.8 + 32; }';
 
         $userFunction = new AqlUserFunction($this->connection);
@@ -158,7 +158,7 @@ class AqlUserFunctionTest extends
     public function testRegisterListAndUnregisterAqlUserFunctionWithWithMagicSettersAndGetters()
     {
 
-        $name = 'myFunctions:myFunction';
+        $name = 'myFunctions::myFunction';
         $code = 'function (celsius) { return celsius * 1.8 + 32; }';
 
 
@@ -206,7 +206,7 @@ class AqlUserFunctionTest extends
     public function testReRegisterListAndUnregisterAqlUserFunctionTwice()
     {
 
-        $name = 'myFunctions:myFunction';
+        $name = 'myFunctions::myFunction';
         $code = 'function (celsius) { return celsius * 1.8 + 32; }';
 
 
@@ -261,8 +261,8 @@ class AqlUserFunctionTest extends
     public function testGetAQLFunctionsWithNamespaceFilter()
     {
 
-        $name1 = 'myFunctions:myFunction';
-        $name2 = 'myFunctions1:myFunction';
+        $name1 = 'myFunctions::myFunction';
+        $name2 = 'myFunctions1::myFunction';
         $code = 'function (celsius) { return celsius * 1.8 + 32; }';
 
         //Setup
@@ -296,8 +296,8 @@ class AqlUserFunctionTest extends
     public function testUnregisterAQLFunctionsOnNamespace()
     {
 
-        $name1 = 'myFunctions:myFunction1';
-        $name2 = 'myFunctions:myFunction2';
+        $name1 = 'myFunctions::myFunction1';
+        $name2 = 'myFunctions::myFunction2';
         $code = 'function (celsius) { return celsius * 1.8 + 32; }';
 
         //Setup
