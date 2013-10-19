@@ -76,6 +76,14 @@ class Statement
      * @var bool
      */
     private $_doCount = false;
+    
+    /**
+     * The count flag (should server return total number of results ignoring the limit)
+     * Be careful! This option also prevents ArangoDB from using some server side optimizations!
+     *
+     * @var bool
+     */
+    private $_fullCount = false;
 
     /**
      * The query string
@@ -117,6 +125,11 @@ class Statement
      * Bind variables index
      */
     const ENTRY_BINDVARS = 'bindVars';
+    
+    /**
+     * Full count option index
+     */
+    const FULL_COUNT = 'fullCount';
 
     /**
      * Initialise the statement
@@ -155,6 +168,10 @@ class Statement
 
         if (isset($data[self::ENTRY_BINDVARS])) {
             $this->_bindVars->set($data[self::ENTRY_BINDVARS]);
+        }
+        
+        if (isset($data[self::FULL_COUNT])) {
+        	$this->_fullCount = (bool) $data[Cursor::FULL_COUNT];
         }
 
         if (isset($data[Cursor::ENTRY_SANITIZE])) {
@@ -336,6 +353,28 @@ class Statement
     {
         return $this->_doCount;
     }
+    
+    /**
+     * Set the full count option for the statement
+     *
+     * @param bool $value - value for full count option
+     *
+     * @return void
+     */
+    public function setFullCount($value)
+    {
+    	$this->_fullCount = (bool) $value;
+    }
+    
+    /**
+     * Get the full count option value of the statement
+     *
+     * @return bool - current value of full count option
+     */
+    public function getFullCount()
+    {
+    	return $this->_fullCount;
+    }
 
     /**
      * Set the batch size for the statement
@@ -382,6 +421,10 @@ class Statement
         $data = array(
             self::ENTRY_QUERY => $this->_query,
             self::ENTRY_COUNT => $this->_doCount,
+        		
+        	'options' => array(
+        		self::FULL_COUNT => $this->_fullCount
+        	)
         );
 
         if ($this->_bindVars->getCount() > 0) {
