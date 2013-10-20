@@ -187,4 +187,9 @@ abstract class Urls
      * base URL part for user management
      */
     const URL_USER = '/_api/user';
+
+    /**
+     * base URL part for user management
+     */
+    const URL_TRAVERSAL = '/_api/traversal';
 }
