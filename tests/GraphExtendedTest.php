@@ -11,7 +11,7 @@ namespace triagens\ArangoDb;
 
 /**
  * Class GraphExtendedTest
- * Basic Tests for the Graph API implementation
+ * Extended Tests for the Graph API implementation
  *
  * @property Connection        $connection
  * @property Graph             $graph
