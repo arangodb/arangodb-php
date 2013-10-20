@@ -91,6 +91,7 @@ class GraphHandler extends
         return $graph->getAll();
     }
 
+
     /**
      * Get a graph
      *
@@ -316,6 +317,7 @@ class GraphHandler extends
 
         return true;
     }
+
 
     /**
      * Update an existing vertex in a graph, identified by graph name and vertex id
@@ -602,6 +604,7 @@ class GraphHandler extends
 
         return true;
     }
+
 
     /**
      * Update an existing edge in a graph, identified by graph name and edge id
