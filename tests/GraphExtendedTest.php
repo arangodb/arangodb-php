@@ -11,7 +11,7 @@ namespace triagens\ArangoDb;
 
 /**
  * Class GraphExtendedTest
- * Basic Tests for the Graph API implementation
+ * Extended Tests for the Graph API implementation
  *
  * @property Connection        $connection
  * @property Graph             $graph
@@ -342,11 +342,10 @@ class GraphExtendedTest extends
 
 
         // Try to get the edge using GraphHandler
-        // This should return true
+        // This should cause an exception with a code of 404
         try {
             $e       = null;
-            $resultE = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
-            $this->assertTrue($resultE, 'Did not return true!');
+            $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -443,11 +442,10 @@ class GraphExtendedTest extends
 
 
         // Try to get the edge using GraphHandler
-        // This should return true
+        // This should cause an exception with a code of 404
         try {
             $e       = null;
-            $resultE = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
-            $this->assertTrue($resultE, 'Did not return true!');
+            $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
