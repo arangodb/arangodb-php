@@ -265,7 +265,7 @@ class GraphHandler extends
      *
      * @since 1.2
      */
-    public function ReplaceVertex($graphName, $vertexId, Document $document, $options = array())
+    public function replaceVertex($graphName, $vertexId, Document $document, $options = array())
     {
         $options = array_merge(array(self::OPTION_REVISION => false), $options);
 
@@ -547,7 +547,7 @@ class GraphHandler extends
      *
      * @since 1.2
      */
-    public function ReplaceEdge($graphName, $edgeId, $label, Edge $document, $options = array())
+    public function replaceEdge($graphName, $edgeId, $label, Edge $document, $options = array())
     {
         $options = array_merge(array(self::OPTION_REVISION => false), $options);
 
