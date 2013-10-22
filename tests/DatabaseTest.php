@@ -174,7 +174,7 @@ class DatabaseTest extends
             // don't bother us... just give us the $e
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 403, 'Should be 403, instead got: ' . $e->getCode());
+        $this->assertTrue($e->getCode() == 400, 'Should be 400, instead got: ' . $e->getCode());
 
 
         $this->connection->setDatabase('_system');
