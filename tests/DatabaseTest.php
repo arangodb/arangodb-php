@@ -23,8 +23,19 @@ class DatabaseTest extends
     public function setUp()
     {
         $this->connection = getConnection();
-    }
 
+        // remove existing databases to make test repeatable
+        $databases = array("ArangoTestSuiteDatabaseTest01", "ArangoTestSuiteDatabaseTest02");
+        foreach ($databases as $database) {
+        
+            try {
+                Database::delete($this->connection, $database);
+            }
+            catch (Exception $e) {
+            }
+        }
+
+    }
 
     /**
      * Test if Databases can be created and deleted
@@ -164,8 +175,7 @@ class DatabaseTest extends
         $this->connection->setDatabase($database);
 
         $response = Database::getInfo($this->connection);
-        //        $this->assertCount(2, $response);
-        var_dump($response);
+        $this->assertTrue($response['result']['name'] == $database);
 
         try {
             $e        = null;
@@ -174,10 +184,13 @@ class DatabaseTest extends
             // don't bother us... just give us the $e
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 400, 'Should be 400, instead got: ' . $e->getCode());
+        $this->assertTrue($e->getCode() == 403, 'Should be 403, instead got: ' . $e->getCode());
 
 
         $this->connection->setDatabase('_system');
+        
+        $response = Database::getInfo($this->connection);
+        $this->assertTrue($response['result']['name'] == '_system');
 
         $response = Database::delete($this->connection, $database);
 
@@ -189,6 +202,17 @@ class DatabaseTest extends
 
     public function tearDown()
     {
+        // clean up
+        $databases = array("ArangoTestSuiteDatabaseTest01", "ArangoTestSuiteDatabaseTest02");
+        foreach ($databases as $database) {
+        
+            try {
+                Database::delete($this->connection, $database);
+            }
+            catch (Exception $e) {
+            }
+        }
+
         unset($this->connection);
     }
 }
