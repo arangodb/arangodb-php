@@ -20,6 +20,12 @@ namespace triagens\ArangoDb;
  */
 abstract class Urls
 {
+
+    /**
+     * URL base part for all databases   
+     */
+    const URL_DB = '/_db';
+
     /**
      * URL base part for all document-related REST calls
      */

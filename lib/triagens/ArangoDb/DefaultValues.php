@@ -26,6 +26,11 @@ abstract class DefaultValues
     const DEFAULT_PORT = 8529;
 
     /**
+     * Default database name (used if no name specified)
+     */
+    const DEFAULT_DBNAME = "_system";
+
+    /**
      * Default timeout value (used if no timeout value specified)
      */
     const DEFAULT_TIMEOUT = 30;
