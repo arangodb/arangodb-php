@@ -1,908 +1,1401 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-<meta charset="utf-8">
-<title>ArangoDB PHP client API » \triagens\ArangoDb\DocumentHandler</title>
-<meta name="author" content="Mike van Riel">
-<meta name="description" content="">
-<link href="../css/template.css" rel="stylesheet" media="all">
-<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
-<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
-<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+    <meta charset="utf-8">
+    <title>ArangoDB PHP client API » \triagens\ArangoDb\DocumentHandler</title>
+    <meta name="author" content="Mike van Riel">
+    <meta name="description" content="">
+    <link href="../css/template.css" rel="stylesheet" media="all">
+    <script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script>
+    <script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script>
+    <script src="../js/bootstrap.js" type="text/javascript"></script>
+    <script src="../js/template.js" type="text/javascript"></script>
+    <script src="../js/prettify/prettify.min.js" type="text/javascript"></script>
+    <link rel="shortcut icon" href="../img/favicon.ico">
+    <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
 </head>
 <body>
 <div class="navbar navbar-fixed-top">
-<div class="navbar-inner"><div class="container">
-<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">ArangoDB PHP client API</a><div class="nav-collapse"><ul class="nav">
-<li class="dropdown">
-<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
-                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
-<li><a>Namespaces</a></li>
-<li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
-<li><a>Packages</a></li>
-<li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
-</ul>
-</li>
-<li class="dropdown" id="charts-menu">
-<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
-                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
-</li>
-<li class="dropdown" id="reports-menu">
-<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
-                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
-<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">0</span></a></li>
-<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
-                <ul></ul></a></li>
-<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
-                <span class="label label-info">9</span></a></li>
-</ul>
-</li>
-</ul></div>
-</div></div>
-<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span
+                    class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a
+                class="brand" href="../index.html">ArangoDB PHP client API</a>
+
+            <div class="nav-collapse">
+                <ul class="nav">
+                    <li class="dropdown">
+                        <a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                            API Documentation <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a>Namespaces</a></li>
+                            <li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
+                            <li><a>Packages</a></li>
+                            <li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="charts-menu">
+                        <a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                                <span class="label label-info">0</span></a></li>
+                            <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                                <ul></ul>
+                            </a></li>
+                            <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                                <span class="label label-info">9</span></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a>
+    </div>
 </div>
 <div id="___" class="container">
-<noscript><div class="alert alert-warning">
-                            Javascript is disabled; several features are only available
-                            if Javascript is enabled.
-                        </div></noscript>
+<noscript>
+    <div class="alert alert-warning">
+        Javascript is disabled; several features are only available
+        if Javascript is enabled.
+    </div>
+</noscript>
 <div class="row">
 <div class="span4">
-<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
-<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
-</div>
-<ul class="side-nav nav nav-list">
-<li class="nav-header">
-<i class="icon-custom icon-method"></i> Methods
-                    <ul>
-<li class="method public "><a href="#method_add" title="add() :: Add a document to a collection"><span class="description">Add a document to a collection</span><pre>add()</pre></a></li>
-<li class="method public "><a href="#method_delete" title="delete() :: Delete a document from a collection, identified by the document itself"><span class="description">Delete a document from a collection, identified by the document itself</span><pre>delete()</pre></a></li>
-<li class="method public "><a href="#method_deleteById" title="deleteById() :: Delete a document from a collection, identified by the collection id and document id"><span class="description">Delete a document from a collection, identified by the collection id and document id</span><pre>deleteById()</pre></a></li>
-<li class="method public "><a href="#method_get" title="get() :: Get a single document from a collection"><span class="description">Get a single document from a collection</span><pre>get()</pre></a></li>
-<li class="method public "><a href="#method_getAllIds" title="getAllIds() :: Get the list of all documents' ids from a collection"><span class="description">Get the list of all documents' ids from a collection</span><pre>getAllIds()</pre></a></li>
-<li class="method public "><a href="#method_getByExample" title="getByExample() :: Get document(s) by specifying an example"><span class="description">Get document(s) by specifying an example</span><pre>getByExample()</pre></a></li>
-<li class="method public "><a href="#method_getById" title="getById() :: Get a single document from a collection"><span class="description">Get a single document from a collection</span><pre>getById()</pre></a></li>
-<li class="method public "><a href="#method_remove" title="remove() :: Remove a document from a collection, identified by the document itself"><span class="description">Remove a document from a collection, identified by the document itself</span><pre>remove()</pre></a></li>
-<li class="method public "><a href="#method_removeById" title="removeById() :: Remove a document from a collection, identified by the collection id and document id"><span class="description">Remove a document from a collection, identified by the collection id and document id</span><pre>removeById()</pre></a></li>
-<li class="method public "><a href="#method_replace" title="replace() :: Replace an existing document in a collection, identified by the document itself"><span class="description">Replace an existing document in a collection, identified by the document itself</span><pre>replace()</pre></a></li>
-<li class="method public "><a href="#method_replaceById" title="replaceById() :: Replace an existing document in a collection, identified by collection id and document id"><span class="description">Replace an existing document in a collection, identified by collection id and document id</span><pre>replaceById()</pre></a></li>
-<li class="method public "><a href="#method_save" title="save() :: save a document to a collection"><span class="description">save a document to a collection</span><pre>save()</pre></a></li>
-<li class="method public "><a href="#method_store" title="store() :: Store a document to a collection"><span class="description">Store a document to a collection</span><pre>store()</pre></a></li>
-<li class="method public "><a href="#method_update" title="update() :: Update an existing document in a collection, identified by the including _id and optionally _rev in the patch document."><span class="description">Update an existing document in a collection, identified by the including _id and optionally _rev in the patch document.</span><pre>update()</pre></a></li>
-<li class="method public "><a href="#method_updateById" title="updateById() :: Update an existing document in a collection, identified by collection id and document id
+    <span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active"
+                                                                              title="Show public elements">Public
+    </button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private"
+                                                                                                     title="Show private elements">
+        Private
+    </button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span>
+
+    <div class="btn-group view pull-right" data-toggle="buttons-radio">
+        <button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button>
+        <button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+    </div>
+    <ul class="side-nav nav nav-list">
+        <li class="nav-header">
+            <i class="icon-custom icon-method"></i> Methods
+            <ul>
+                <li class="method public "><a href="#method_add" title="add() :: Add a document to a collection"><span
+                        class="description">Add a document to a collection</span>
+                    <pre>add()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_delete"
+                                              title="delete() :: Delete a document from a collection, identified by the document itself"><span
+                        class="description">Delete a document from a collection, identified by the document itself</span>
+                    <pre>delete()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_deleteById"
+                                              title="deleteById() :: Delete a document from a collection, identified by the collection id and document id"><span
+                        class="description">Delete a document from a collection, identified by the collection id and document id</span>
+                    <pre>deleteById()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_get"
+                                              title="get() :: Get a single document from a collection"><span
+                        class="description">Get a single document from a collection</span>
+                    <pre>get()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_getAllIds"
+                                              title="getAllIds() :: Get the list of all documents' ids from a collection"><span
+                        class="description">Get the list of all documents' ids from a collection</span>
+                    <pre>getAllIds()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_getByExample"
+                                              title="getByExample() :: Get document(s) by specifying an example"><span
+                        class="description">Get document(s) by specifying an example</span>
+                    <pre>getByExample()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_getById"
+                                              title="getById() :: Get a single document from a collection"><span
+                        class="description">Get a single document from a collection</span>
+                    <pre>getById()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_remove"
+                                              title="remove() :: Remove a document from a collection, identified by the document itself"><span
+                        class="description">Remove a document from a collection, identified by the document itself</span>
+                    <pre>remove()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_removeById"
+                                              title="removeById() :: Remove a document from a collection, identified by the collection id and document id"><span
+                        class="description">Remove a document from a collection, identified by the collection id and document id</span>
+                    <pre>removeById()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_replace"
+                                              title="replace() :: Replace an existing document in a collection, identified by the document itself"><span
+                        class="description">Replace an existing document in a collection, identified by the document itself</span>
+                    <pre>replace()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_replaceById"
+                                              title="replaceById() :: Replace an existing document in a collection, identified by collection id and document id"><span
+                        class="description">Replace an existing document in a collection, identified by collection id and document id</span>
+                    <pre>replaceById()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_save"
+                                              title="save() :: save a document to a collection"><span
+                        class="description">save a document to a collection</span>
+                    <pre>save()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_store"
+                                              title="store() :: Store a document to a collection"><span
+                        class="description">Store a document to a collection</span>
+                    <pre>store()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_update"
+                                              title="update() :: Update an existing document in a collection, identified by the including _id and optionally _rev in the patch document."><span
+                        class="description">Update an existing document in a collection, identified by the including _id and optionally _rev in the patch document.</span>
+                    <pre>update()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_updateById" title="updateById() :: Update an existing document in a collection, identified by collection id and document id
 Attention - The behavior of this method has changed since version 1.1"><span class="description">Update an existing document in a collection, identified by collection id and document id
-Attention - The behavior of this method has changed since version 1.1</span><pre>updateById()</pre></a></li>
-</ul>
-</li>
-<li class="nav-header protected">» Protected
-                    <ul><li class="method protected "><a href="#method_createFromArrayWithContext" title="createFromArrayWithContext() :: Intermediate function to call the createFromArray function from the right context"><span class="description">Intermediate function to call the createFromArray function from the right context</span><pre>createFromArrayWithContext()</pre></a></li></ul>
-</li>
-<li class="nav-header private">» Private
-                    <ul>
-<li class="method private "><a href="#method_getCollectionId" title="getCollectionId() :: Helper function to get a collection id from a document"><span class="description">Helper function to get a collection id from a document</span><pre>getCollectionId()</pre></a></li>
-<li class="method private "><a href="#method_getDocumentId" title="getDocumentId() :: Helper function to get a document id from a document or a document id value"><span class="description">Helper function to get a document id from a document or a document id value</span><pre>getDocumentId()</pre></a></li>
-<li class="method private "><a href="#method_getRevision" title="getRevision() :: Helper function to get a document id from a document or a document id value"><span class="description">Helper function to get a document id from a document or a document id value</span><pre>getRevision()</pre></a></li>
-</ul>
-</li>
-<li class="nav-header">
-<i class="icon-custom icon-constant"></i> Constants
-                    <ul>
-<li class="constant  "><a href="#constant_ENTRY_DOCUMENTS" title="ENTRY_DOCUMENTS() :: documents array index"><span class="description">documents array index</span><pre>ENTRY_DOCUMENTS</pre></a></li>
-<li class="constant  "><a href="#constant_OPTION_COLLECTION" title="OPTION_COLLECTION() :: collection parameter"><span class="description">collection parameter</span><pre>OPTION_COLLECTION</pre></a></li>
-<li class="constant  "><a href="#constant_OPTION_EXAMPLE" title="OPTION_EXAMPLE() :: example parameter"><span class="description">example parameter</span><pre>OPTION_EXAMPLE</pre></a></li>
-</ul>
-</li>
-</ul>
+Attention - The behavior of this method has changed since version 1.1</span>
+                    <pre>updateById()</pre>
+                </a></li>
+            </ul>
+        </li>
+        <li class="nav-header protected">» Protected
+            <ul>
+                <li class="method protected "><a href="#method_createFromArrayWithContext"
+                                                 title="createFromArrayWithContext() :: Intermediate function to call the createFromArray function from the right context"><span
+                        class="description">Intermediate function to call the createFromArray function from the right context</span>
+                    <pre>createFromArrayWithContext()</pre>
+                </a></li>
+            </ul>
+        </li>
+        <li class="nav-header private">» Private
+            <ul>
+                <li class="method private "><a href="#method_getCollectionId"
+                                               title="getCollectionId() :: Helper function to get a collection id from a document"><span
+                        class="description">Helper function to get a collection id from a document</span>
+                    <pre>getCollectionId()</pre>
+                </a></li>
+                <li class="method private "><a href="#method_getDocumentId"
+                                               title="getDocumentId() :: Helper function to get a document id from a document or a document id value"><span
+                        class="description">Helper function to get a document id from a document or a document id value</span>
+                    <pre>getDocumentId()</pre>
+                </a></li>
+                <li class="method private "><a href="#method_getRevision"
+                                               title="getRevision() :: Helper function to get a document id from a document or a document id value"><span
+                        class="description">Helper function to get a document id from a document or a document id value</span>
+                    <pre>getRevision()</pre>
+                </a></li>
+            </ul>
+        </li>
+        <li class="nav-header">
+            <i class="icon-custom icon-constant"></i> Constants
+            <ul>
+                <li class="constant  "><a href="#constant_ENTRY_DOCUMENTS"
+                                          title="ENTRY_DOCUMENTS() :: documents array index"><span class="description">documents array index</span>
+                    <pre>ENTRY_DOCUMENTS</pre>
+                </a></li>
+                <li class="constant  "><a href="#constant_OPTION_COLLECTION"
+                                          title="OPTION_COLLECTION() :: collection parameter"><span class="description">collection parameter</span>
+                    <pre>OPTION_COLLECTION</pre>
+                </a></li>
+                <li class="constant  "><a href="#constant_OPTION_EXAMPLE" title="OPTION_EXAMPLE() :: example parameter"><span
+                        class="description">example parameter</span>
+                    <pre>OPTION_EXAMPLE</pre>
+                </a></li>
+            </ul>
+        </li>
+    </ul>
 </div>
 <div class="span8">
-<a id="\triagens\ArangoDb\DocumentHandler"></a><ul class="breadcrumb">
-<li>
-<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
-</li>
-<li><a href="../namespaces/triagens.html">triagens</a></li>
-<li>
-<span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
-</li>
-<li class="active">
-<span class="divider">\</span><a href="../classes/triagens.ArangoDb.DocumentHandler.html">DocumentHandler</a>
-</li>
+<a id="\triagens\ArangoDb\DocumentHandler"></a>
+<ul class="breadcrumb">
+    <li>
+        <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+    </li>
+    <li><a href="../namespaces/triagens.html">triagens</a></li>
+    <li>
+        <span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
+    </li>
+    <li class="active">
+        <span class="divider">\</span><a href="../classes/triagens.ArangoDb.DocumentHandler.html">DocumentHandler</a>
+    </li>
 </ul>
 <div class="element class">
 <p class="short_description">A handler that manages documents</p>
+
 <div class="details">
 <div class="long_description">A document handler that fetches documents from the server and
-persists them on the server. It does so by issuing the
-appropriate HTTP requests to the server.<br>
+    persists them on the server. It does so by issuing the
+    appropriate HTTP requests to the server.<br>
 
-<br></div>
+    <br></div>
 <table class="table table-bordered">
-<tr>
-<th>package</th>
-<td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
-</tr>
-<tr>
-<th>since</th>
-<td>0.2</td>
-</tr>
+    <tr>
+        <th>package</th>
+        <td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
+    </tr>
+    <tr>
+        <th>since</th>
+        <td>0.2</td>
+    </tr>
 </table>
 <h3>
-<i class="icon-custom icon-method"></i> Methods</h3>
-<a id="method_add"></a><div class="element clickable method public method_add" data-toggle="collapse" data-target=".method_add .collapse">
-<h2>Add a document to a collection</h2>
-<pre>add(mixed $collectionId, \triagens\ArangoDb\Document $document, bool|array $options) : mixed</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">This will add the document to the collection and return the document's id
+    <i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method_add"></a>
 
-This will throw if the document cannot be created</div>
-<table class="table table-bordered"><tr>
-<th>deprecated</th>
-<td>to be removed in version 2.0 - This function is being replaced by save()</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$collectionId</h4>
-<code>mixed</code><ul>
-<li>collection id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$document</h4>
-<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
-<li>the document to be added</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>bool</code><code>array</code><ul>
-<li>optional, prior to v1.2.0 this was a boolean value for create. Since v1.0.0 it's an array of options.</li>
-</ul>
+<div class="element clickable method public method_add" data-toggle="collapse" data-target=".method_add .collapse">
+    <h2>Add a document to a collection</h2>
+    <pre>add(mixed $collectionId, \triagens\ArangoDb\Document $document, bool|array $options) : mixed</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">This will add the document to the collection and return the document's id
 
-<p>Options are :<br>
-                                <li>'create' - create the collection if it does not yet exist.</li>
-                                <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
-                                </p>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>- id of document created</div>
-</div></div>
-</div>
-<a id="method_delete"></a><div class="element clickable method public method_delete" data-toggle="collapse" data-target=".method_delete .collapse">
-<h2>Delete a document from a collection, identified by the document itself</h2>
-<pre>delete(\triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>deprecated</th>
-<td>to be removed in version 2.0 - This function is being replaced by remove()</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$document</h4>
-<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
-<li>document to be updated</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>mixed</code><ul>
-<li>optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)</li>
-</ul>
+                This will throw if the document cannot be created
+            </div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>deprecated</th>
+                    <td>to be removed in version 2.0 - This function is being replaced by save()</td>
+                </tr>
+            </table>
+            <h3>Parameters</h3>
 
-<p>Options are :
-                          <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-                          <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-                          </p>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>bool</code>- always true, will throw if there is an error</div>
-</div></div>
-</div>
-<a id="method_deleteById"></a><div class="element clickable method public method_deleteById" data-toggle="collapse" data-target=".method_deleteById .collapse">
-<h2>Delete a document from a collection, identified by the collection id and document id</h2>
-<pre>deleteById(mixed $collectionId, mixed $documentId, mixed $revision, mixed $options) : bool</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>deprecated</th>
-<td>to be removed in version 2.0 - This function is being replaced by removeById()</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$collectionId</h4>
-<code>mixed</code><ul>
-<li>collection id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$documentId</h4>
-<code>mixed</code><ul>
-<li>document id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$revision</h4>
-<code>mixed</code><ul>
-<li>optional revision of the document to be deleted</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>mixed</code><ul>
-<li>optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)</li>
-</ul>
+            <div class="subelement argument">
+                <h4>$collectionId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>collection id as string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$document</h4>
+                <code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>
+                <ul>
+                    <li>the document to be added</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>bool</code><code>array</code>
+                <ul>
+                    <li>optional, prior to v1.2.0 this was a boolean value for create. Since v1.0.0 it's an array of
+                        options.
+                    </li>
+                </ul>
 
-<p>Options are :
-                            <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-                            <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-                            </p>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>bool</code>- always true, will throw if there is an error</div>
-</div></div>
-</div>
-<a id="method_get"></a><div class="element clickable method public method_get" data-toggle="collapse" data-target=".method_get .collapse">
-<h2>Get a single document from a collection</h2>
-<pre>get(mixed $collectionId, mixed $documentId, array $options) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">Alias method for getById()</div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$collectionId</h4>
-<code>mixed</code><ul>
-<li>collection id as a string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$documentId</h4>
-<code>mixed</code><ul>
-<li>document identifier</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>array</code><ul>
-<li>optional, array of options</li>
-</ul>
+                <p>Options are :<br>
+                <li>'create' - create the collection if it does not yet exist.</li>
+                <li>'waitForSync' - if set to true, then all removal operations will instantly be synchronised to disk /
+                    If this is not specified, then the collection's default sync behavior will be applied.
+                </li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
 
-<p>Options are :
-                           <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
-                           <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
-                           <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
-                           <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
-                           </p>
+            <div class="subelement response">
+                <code>mixed</code>- id of document created
+            </div>
+        </div>
+    </div>
 </div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>- the document fetched from the server</div>
-</div></div>
-</div>
-<a id="method_getAllIds"></a><div class="element clickable method public method_getAllIds" data-toggle="collapse" data-target=".method_getAllIds .collapse">
-<h2>Get the list of all documents' ids from a collection</h2>
-<pre>getAllIds(mixed $collectionId) : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">This will throw if the list cannot be fetched from the server</div>
-<table class="table table-bordered"><tr>
-<th>deprecated</th>
-<td>to be removed in version 2.0 - This function is being replaced by  CollectionHandler::getAllIds()</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$collectionId</h4>
-<code>mixed</code><ul>
-<li>collection id as string or number</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>array</code>- ids of documents in the collection</div>
-</div></div>
-</div>
-<a id="method_getByExample"></a><div class="element clickable method public method_getByExample" data-toggle="collapse" data-target=".method_getByExample .collapse">
-<h2>Get document(s) by specifying an example</h2>
-<pre>getByExample(mixed $collectionId, mixed $document, bool|array $options) : <a href="cursor.html">\triagens\ArangoDb\cursor</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">This will throw if the list cannot be fetched from the server</div>
-<table class="table table-bordered"><tr>
-<th>deprecated</th>
-<td>to be removed in version 2.0 - This function is being replaced by CollectionHandler::byExample()</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$collectionId</h4>
-<code>mixed</code><ul>
-<li>collection id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$document</h4>
-<code>mixed</code><ul>
-<li>the example document as a Document object or an array</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>bool</code><code>array</code><ul>
-<li>optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.</li>
-</ul>
+<a id="method_delete"></a>
 
-<p>Options are :<br>
-                                <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-                                <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
-                                <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-                                <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
-                                <p>
-                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-                                The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
-                                and the hidden attributes would not be applied to the attributes.<br>
-                                </p>
-                                </li>
-                                <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
-                                <li>'skip' -  Optional, The number of documents to skip in the query.</li>
-                                <li>'limit' -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
-                                </p>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code><a href="cursor.html">\triagens\ArangoDb\cursor</a></code>- Returns a cursor containing the result</div>
-</div></div>
-</div>
-<a id="method_getById"></a><div class="element clickable method public method_getById" data-toggle="collapse" data-target=".method_getById .collapse">
-<h2>Get a single document from a collection</h2>
-<pre>getById(mixed $collectionId, mixed $documentId, array $options) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">This will throw if the document cannot be fetched from the server</div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$collectionId</h4>
-<code>mixed</code><ul>
-<li>collection id as a string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$documentId</h4>
-<code>mixed</code><ul>
-<li>document identifier</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>array</code><ul>
-<li>optional, array of options</li>
-</ul>
+<div class="element clickable method public method_delete" data-toggle="collapse"
+     data-target=".method_delete .collapse">
+    <h2>Delete a document from a collection, identified by the document itself</h2>
+    <pre>delete(\triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>deprecated</th>
+                    <td>to be removed in version 2.0 - This function is being replaced by remove()</td>
+                </tr>
+            </table>
+            <h3>Parameters</h3>
 
-<p>Options are :
-                           <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
-                           <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
-                           <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
-                           <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
-                           </p>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>- the document fetched from the server</div>
-</div></div>
-</div>
-<a id="method_remove"></a><div class="element clickable method public method_remove" data-toggle="collapse" data-target=".method_remove .collapse">
-<h2>Remove a document from a collection, identified by the document itself</h2>
-<pre>remove(\triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$document</h4>
-<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
-<li>document to be removed</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>mixed</code><ul>
-<li>optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)</li>
-</ul>
+            <div class="subelement argument">
+                <h4>$document</h4>
+                <code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>
+                <ul>
+                    <li>document to be updated</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>optional, array of options (see below) or the boolean value for $policy (for compatibility prior
+                        to version 1.1 of this method)
+                    </li>
+                </ul>
 
-<p>Options are :
-                          <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-                          <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-                          </p>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>bool</code>- always true, will throw if there is an error</div>
-</div></div>
-</div>
-<a id="method_removeById"></a><div class="element clickable method public method_removeById" data-toggle="collapse" data-target=".method_removeById .collapse">
-<h2>Remove a document from a collection, identified by the collection id and document id</h2>
-<pre>removeById(mixed $collectionId, mixed $documentId, mixed $revision, mixed $options) : bool</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$collectionId</h4>
-<code>mixed</code><ul>
-<li>collection id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$documentId</h4>
-<code>mixed</code><ul>
-<li>document id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$revision</h4>
-<code>mixed</code><ul>
-<li>optional revision of the document to be deleted</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>mixed</code><ul>
-<li>optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)</li>
-</ul>
+                <p>Options are :
+                <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+                <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk
+                    even in case that the waitForSync flag had been disabled for the entire collection
+                </li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
 
-<p>Options are :
-                            <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-                            <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-                            </p>
+            <div class="subelement response">
+                <code>bool</code>- always true, will throw if there is an error
+            </div>
+        </div>
+    </div>
 </div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>bool</code>- always true, will throw if there is an error</div>
-</div></div>
-</div>
-<a id="method_replace"></a><div class="element clickable method public method_replace" data-toggle="collapse" data-target=".method_replace .collapse">
-<h2>Replace an existing document in a collection, identified by the document itself</h2>
-<pre>replace(\triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">This will update the document on the server
+<a id="method_deleteById"></a>
 
-This will throw if the document cannot be updated
+<div class="element clickable method public method_deleteById" data-toggle="collapse"
+     data-target=".method_deleteById .collapse">
+    <h2>Delete a document from a collection, identified by the collection id and document id</h2>
+    <pre>deleteById(mixed $collectionId, mixed $documentId, mixed $revision, mixed $options) : bool</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>deprecated</th>
+                    <td>to be removed in version 2.0 - This function is being replaced by removeById()</td>
+                </tr>
+            </table>
+            <h3>Parameters</h3>
 
-If policy is set to error (locally or globally through the ConnectionOptions)
-and the passed document has a _rev value set, the database will check
-that the revision of the to-be-replaced document is the same as the one given.</div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$document</h4>
-<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
-<li>document to be updated</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>mixed</code><ul>
-<li>optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)</li>
-</ul>
+            <div class="subelement argument">
+                <h4>$collectionId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>collection id as string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$documentId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>document id as string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$revision</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>optional revision of the document to be deleted</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>optional, array of options (see below) or the boolean value for $policy (for compatibility prior
+                        to version 1.1 of this method)
+                    </li>
+                </ul>
 
-<p>Options are :
-                          <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-                          <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-                          </p>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>bool</code>- always true, will throw if there is an error</div>
-</div></div>
-</div>
-<a id="method_replaceById"></a><div class="element clickable method public method_replaceById" data-toggle="collapse" data-target=".method_replaceById .collapse">
-<h2>Replace an existing document in a collection, identified by collection id and document id</h2>
-<pre>replaceById(mixed $collectionId, mixed $documentId, \triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">This will update the document on the server
+                <p>Options are :
+                <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+                <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk
+                    even in case that the waitForSync flag had been disabled for the entire collection
+                </li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
 
-This will throw if the document cannot be Replaced
+            <div class="subelement response">
+                <code>bool</code>- always true, will throw if there is an error
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_get"></a>
 
-If policy is set to error (locally or globally through the ConnectionOptions)
-and the passed document has a _rev value set, the database will check
-that the revision of the to-be-replaced document is the same as the one given.</div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$collectionId</h4>
-<code>mixed</code><ul>
-<li>collection id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$documentId</h4>
-<code>mixed</code><ul>
-<li>document id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$document</h4>
-<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
-<li>document to be updated</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>mixed</code><ul>
-<li>optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)</li>
-</ul>
+<div class="element clickable method public method_get" data-toggle="collapse" data-target=".method_get .collapse">
+    <h2>Get a single document from a collection</h2>
+    <pre>get(mixed $collectionId, mixed $documentId, array $options) : <a
+            href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">Alias method for getById()</div>
+            <h3>Parameters</h3>
 
-<p>Options are :
-                              <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-                              <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-                              </p>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>bool</code>- always true, will throw if there is an error</div>
-</div></div>
-</div>
-<a id="method_save"></a><div class="element clickable method public method_save" data-toggle="collapse" data-target=".method_save .collapse">
-<h2>save a document to a collection</h2>
-<pre>save(mixed $collectionId, mixed $document, bool|array $options) : mixed</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">This will add the document to the collection and return the document's id
+            <div class="subelement argument">
+                <h4>$collectionId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>collection id as a string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$documentId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>document identifier</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>array</code>
+                <ul>
+                    <li>optional, array of options</li>
+                </ul>
 
-This will throw if the document cannot be saved</div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.0</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$collectionId</h4>
-<code>mixed</code><ul>
-<li>collection id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$document</h4>
-<code>mixed</code><ul>
-<li>the document to be added, can be passed as a document or an array</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>bool</code><code>array</code><ul>
-<li>optional, prior to v1.2.0 this was a boolean value for create. Since v1.0.0 it's an array of options.</li>
-</ul>
+                <p>Options are :
+                <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
+                <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
+                <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+                <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
 
-<p>Options are :<br>
-                                <li>'create' - create the collection if it does not yet exist.</li>
-                                <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
-                                </p>
+            <div class="subelement response">
+                <code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>- the
+                document fetched from the server
+            </div>
+        </div>
+    </div>
 </div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>- id of document created</div>
-</div></div>
-</div>
-<a id="method_store"></a><div class="element clickable method public method_store" data-toggle="collapse" data-target=".method_store .collapse">
-<h2>Store a document to a collection</h2>
-<pre>store(\triagens\ArangoDb\Document $document, mixed $collectionId, bool|array $options) : mixed</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">This is an alias/shortcut to save() and replace(). Instead of having to determine which of the 3 functions to use,
-simply pass the document to store() and it will figure out which one to call.
+<a id="method_getAllIds"></a>
 
-This will throw if the document cannot be saved or replaced.</div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.0</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$document</h4>
-<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
-<li>the document to be added, can be passed as a document or an array</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$collectionId</h4>
-<code>mixed</code><ul>
-<li>collection id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>bool</code><code>array</code><ul>
-<li>optional, prior to v1.2.0 this was a boolean value for create. Since v1.2.0 it's an array of options.</li>
-</ul>
+<div class="element clickable method public method_getAllIds" data-toggle="collapse"
+     data-target=".method_getAllIds .collapse">
+    <h2>Get the list of all documents' ids from a collection</h2>
+    <pre>getAllIds(mixed $collectionId) : array</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">This will throw if the list cannot be fetched from the server</div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>deprecated</th>
+                    <td>to be removed in version 2.0 - This function is being replaced by
+                        CollectionHandler::getAllIds()
+                    </td>
+                </tr>
+            </table>
+            <h3>Parameters</h3>
 
-<p>Options are :<br>
-                                <li>'create' - create the collection if it does not yet exist.</li>
-                                <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
-                                </p>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>- id of document created</div>
-</div></div>
-</div>
-<a id="method_update"></a><div class="element clickable method public method_update" data-toggle="collapse" data-target=".method_update .collapse">
-<h2>Update an existing document in a collection, identified by the including _id and optionally _rev in the patch document.</h2>
-<pre>update(\triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">Attention - The behavior of this method has changed since version 1.1
+            <div class="subelement argument">
+                <h4>$collectionId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>collection id as string or number</li>
+                </ul>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
 
-This will update the document on the server
+            <div class="subelement response">
+                <code>array</code>- ids of documents in the collection
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_getByExample"></a>
 
-This will throw if the document cannot be updated
+<div class="element clickable method public method_getByExample" data-toggle="collapse"
+     data-target=".method_getByExample .collapse">
+    <h2>Get document(s) by specifying an example</h2>
+    <pre>getByExample(mixed $collectionId, mixed $document, bool|array $options) : <a href="cursor.html">\triagens\ArangoDb\cursor</a></pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">This will throw if the list cannot be fetched from the server</div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>deprecated</th>
+                    <td>to be removed in version 2.0 - This function is being replaced by
+                        CollectionHandler::byExample()
+                    </td>
+                </tr>
+            </table>
+            <h3>Parameters</h3>
 
-If policy is set to error (locally or globally through the ConnectionOptions)
-and the passed document has a _rev value set, the database will check
-that the revision of the document to-be-replaced is the same as the one given.</div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$document</h4>
-<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
-<li>The patch document that will update the document in question</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>mixed</code><ul>
-<li>optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)</li>
-</ul>
+            <div class="subelement argument">
+                <h4>$collectionId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>collection id as string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$document</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>the example document as a Document object or an array</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>bool</code><code>array</code>
+                <ul>
+                    <li>optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of
+                        options.
+                    </li>
+                </ul>
 
-<p>Options are :
-                          <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-                          <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
-                          <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-                          </p>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>bool</code>- always true, will throw if there is an error</div>
-</div></div>
-</div>
-<a id="method_updateById"></a><div class="element clickable method public method_updateById" data-toggle="collapse" data-target=".method_updateById .collapse">
-<h2>Update an existing document in a collection, identified by collection id and document id
-Attention - The behavior of this method has changed since version 1.1</h2>
-<pre>updateById(mixed $collectionId, mixed $documentId, \triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">This will update the document on the server
+                <p>Options are :<br>
+                <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+                <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+                <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+                <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
+                <p>
+                    This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.
+                    <br>
+                    The difference is, that if you're returning a resultset of documents, the getAll() is already called
+                    <br>
+                    and the hidden attributes would not be applied to the attributes.<br>
+                </p>
+                </li>
+                <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be
+                    transferred in one batch
+                </li>
+                <li>'skip' - Optional, The number of documents to skip in the query.</li>
+                <li>'limit' - Optional, The maximal amount of documents to return. 'skip' is applied before the limit
+                    restriction.
+                </li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
 
-This will throw if the document cannot be updated
+            <div class="subelement response">
+                <code><a href="cursor.html">\triagens\ArangoDb\cursor</a></code>- Returns a cursor containing the result
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_getById"></a>
 
-If policy is set to error (locally or globally through the ConnectionOptions)
-and the passed document has a _rev value set, the database will check
-that the revision of the document to-be-updated is the same as the one given.</div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$collectionId</h4>
-<code>mixed</code><ul>
-<li>collection id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$documentId</h4>
-<code>mixed</code><ul>
-<li>document id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$document</h4>
-<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
-<li>patch document which contains the attributes and values to be updated</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>mixed</code><ul>
-<li>optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)</li>
-</ul>
+<div class="element clickable method public method_getById" data-toggle="collapse"
+     data-target=".method_getById .collapse">
+    <h2>Get a single document from a collection</h2>
+    <pre>getById(mixed $collectionId, mixed $documentId, array $options) : <a
+            href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">This will throw if the document cannot be fetched from the server</div>
+            <h3>Parameters</h3>
 
-<p>Options are :
-                              <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-                              <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
-                              <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-                              </p>
+            <div class="subelement argument">
+                <h4>$collectionId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>collection id as a string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$documentId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>document identifier</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>array</code>
+                <ul>
+                    <li>optional, array of options</li>
+                </ul>
+
+                <p>Options are :
+                <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
+                <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
+                <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+                <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>- the
+                document fetched from the server
+            </div>
+        </div>
+    </div>
 </div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>bool</code>- always true, will throw if there is an error</div>
-</div></div>
+<a id="method_remove"></a>
+
+<div class="element clickable method public method_remove" data-toggle="collapse"
+     data-target=".method_remove .collapse">
+    <h2>Remove a document from a collection, identified by the document itself</h2>
+    <pre>remove(\triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$document</h4>
+                <code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>
+                <ul>
+                    <li>document to be removed</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>optional, array of options (see below) or the boolean value for $policy (for compatibility prior
+                        to version 1.1 of this method)
+                    </li>
+                </ul>
+
+                <p>Options are :
+                <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+                <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even
+                    in case that the waitForSync flag had been disabled for the entire collection
+                </li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>bool</code>- always true, will throw if there is an error
+            </div>
+        </div>
+    </div>
 </div>
-<a id="method_createFromArrayWithContext"></a><div class="element clickable method protected method_createFromArrayWithContext" data-toggle="collapse" data-target=".method_createFromArrayWithContext .collapse">
-<h2>Intermediate function to call the createFromArray function from the right context</h2>
-<pre>createFromArrayWithContext(mixed $data, mixed $options) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument"><h4>$data</h4></div>
-<div class="subelement argument"><h4>$options</h4></div>
-<h3>Returns</h3>
-<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code></div>
-</div></div>
+<a id="method_removeById"></a>
+
+<div class="element clickable method public method_removeById" data-toggle="collapse"
+     data-target=".method_removeById .collapse">
+    <h2>Remove a document from a collection, identified by the collection id and document id</h2>
+    <pre>removeById(mixed $collectionId, mixed $documentId, mixed $revision, mixed $options) : bool</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$collectionId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>collection id as string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$documentId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>document id as string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$revision</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>optional revision of the document to be deleted</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>optional, array of options (see below) or the boolean value for $policy (for compatibility prior
+                        to version 1.1 of this method)
+                    </li>
+                </ul>
+
+                <p>Options are :
+                <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+                <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even
+                    in case that the waitForSync flag had been disabled for the entire collection
+                </li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>bool</code>- always true, will throw if there is an error
+            </div>
+        </div>
+    </div>
 </div>
-<a id="method_getCollectionId"></a><div class="element clickable method private method_getCollectionId" data-toggle="collapse" data-target=".method_getCollectionId .collapse">
-<h2>Helper function to get a collection id from a document</h2>
-<pre>getCollectionId(\triagens\ArangoDb\Document $document) : mixed</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$document</h4>
-<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
-<li>document id</li>
-</ul>
+<a id="method_replace"></a>
+
+<div class="element clickable method public method_replace" data-toggle="collapse"
+     data-target=".method_replace .collapse">
+    <h2>Replace an existing document in a collection, identified by the document itself</h2>
+    <pre>replace(\triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">This will update the document on the server
+
+                This will throw if the document cannot be updated
+
+                If policy is set to error (locally or globally through the ConnectionOptions)
+                and the passed document has a _rev value set, the database will check
+                that the revision of the to-be-replaced document is the same as the one given.
+            </div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$document</h4>
+                <code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>
+                <ul>
+                    <li>document to be updated</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>optional, array of options (see below) or the boolean value for $policy (for compatibility prior
+                        to version 1.1 of this method)
+                    </li>
+                </ul>
+
+                <p>Options are :
+                <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+                <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even
+                    in case that the waitForSync flag had been disabled for the entire collection
+                </li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>bool</code>- always true, will throw if there is an error
+            </div>
+        </div>
+    </div>
 </div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>- collection id, will throw if there is an error</div>
-</div></div>
+<a id="method_replaceById"></a>
+
+<div class="element clickable method public method_replaceById" data-toggle="collapse"
+     data-target=".method_replaceById .collapse">
+    <h2>Replace an existing document in a collection, identified by collection id and document id</h2>
+    <pre>replaceById(mixed $collectionId, mixed $documentId, \triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">This will update the document on the server
+
+                This will throw if the document cannot be Replaced
+
+                If policy is set to error (locally or globally through the ConnectionOptions)
+                and the passed document has a _rev value set, the database will check
+                that the revision of the to-be-replaced document is the same as the one given.
+            </div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$collectionId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>collection id as string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$documentId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>document id as string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$document</h4>
+                <code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>
+                <ul>
+                    <li>document to be updated</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>optional, array of options (see below) or the boolean value for $policy (for compatibility prior
+                        to version 1.1 of this method)
+                    </li>
+                </ul>
+
+                <p>Options are :
+                <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+                <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk
+                    even in case that the waitForSync flag had been disabled for the entire collection
+                </li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>bool</code>- always true, will throw if there is an error
+            </div>
+        </div>
+    </div>
 </div>
-<a id="method_getDocumentId"></a><div class="element clickable method private method_getDocumentId" data-toggle="collapse" data-target=".method_getDocumentId .collapse">
-<h2>Helper function to get a document id from a document or a document id value</h2>
-<pre>getDocumentId(mixed $document) : mixed</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$document</h4>
-<code>mixed</code><ul>
-<li>document id OR document to be updated</li>
-</ul>
+<a id="method_save"></a>
+
+<div class="element clickable method public method_save" data-toggle="collapse" data-target=".method_save .collapse">
+    <h2>save a document to a collection</h2>
+    <pre>save(mixed $collectionId, mixed $document, bool|array $options) : mixed</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">This will add the document to the collection and return the document's id
+
+                This will throw if the document cannot be saved
+            </div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>since</th>
+                    <td>1.0</td>
+                </tr>
+            </table>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$collectionId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>collection id as string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$document</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>the document to be added, can be passed as a document or an array</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>bool</code><code>array</code>
+                <ul>
+                    <li>optional, prior to v1.2.0 this was a boolean value for create. Since v1.0.0 it's an array of
+                        options.
+                    </li>
+                </ul>
+
+                <p>Options are :<br>
+                <li>'create' - create the collection if it does not yet exist.</li>
+                <li>'waitForSync' - if set to true, then all removal operations will instantly be synchronised to disk /
+                    If this is not specified, then the collection's default sync behavior will be applied.
+                </li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>mixed</code>- id of document created
+            </div>
+        </div>
+    </div>
 </div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>- document id, will throw if there is an error</div>
-</div></div>
+<a id="method_store"></a>
+
+<div class="element clickable method public method_store" data-toggle="collapse" data-target=".method_store .collapse">
+    <h2>Store a document to a collection</h2>
+    <pre>store(\triagens\ArangoDb\Document $document, mixed $collectionId, bool|array $options) : mixed</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">This is an alias/shortcut to save() and replace(). Instead of having to
+                determine which of the 3 functions to use,
+                simply pass the document to store() and it will figure out which one to call.
+
+                This will throw if the document cannot be saved or replaced.
+            </div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>since</th>
+                    <td>1.0</td>
+                </tr>
+            </table>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$document</h4>
+                <code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>
+                <ul>
+                    <li>the document to be added, can be passed as a document or an array</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$collectionId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>collection id as string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>bool</code><code>array</code>
+                <ul>
+                    <li>optional, prior to v1.2.0 this was a boolean value for create. Since v1.2.0 it's an array of
+                        options.
+                    </li>
+                </ul>
+
+                <p>Options are :<br>
+                <li>'create' - create the collection if it does not yet exist.</li>
+                <li>'waitForSync' - if set to true, then all removal operations will instantly be synchronised to disk /
+                    If this is not specified, then the collection's default sync behavior will be applied.
+                </li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>mixed</code>- id of document created
+            </div>
+        </div>
+    </div>
 </div>
-<a id="method_getRevision"></a><div class="element clickable method private method_getRevision" data-toggle="collapse" data-target=".method_getRevision .collapse">
-<h2>Helper function to get a document id from a document or a document id value</h2>
-<pre>getRevision(mixed $document) : mixed</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$document</h4>
-<code>mixed</code><ul>
-<li>document id OR document to be updated</li>
-</ul>
+<a id="method_update"></a>
+
+<div class="element clickable method public method_update" data-toggle="collapse"
+     data-target=".method_update .collapse">
+    <h2>Update an existing document in a collection, identified by the including _id and optionally _rev in the patch
+        document.</h2>
+    <pre>update(\triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">Attention - The behavior of this method has changed since version 1.1
+
+                This will update the document on the server
+
+                This will throw if the document cannot be updated
+
+                If policy is set to error (locally or globally through the ConnectionOptions)
+                and the passed document has a _rev value set, the database will check
+                that the revision of the document to-be-replaced is the same as the one given.
+            </div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$document</h4>
+                <code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>
+                <ul>
+                    <li>The patch document that will update the document in question</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>optional, array of options (see below) or the boolean value for $policy (for compatibility prior
+                        to version 1.1 of this method)
+                    </li>
+                </ul>
+
+                <p>Options are :
+                <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+                <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their
+                    values to null. Defaults to true (keep attributes when set to null)
+                </li>
+                <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even
+                    in case that the waitForSync flag had been disabled for the entire collection
+                </li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>bool</code>- always true, will throw if there is an error
+            </div>
+        </div>
+    </div>
 </div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>- document id, will throw if there is an error</div>
-</div></div>
+<a id="method_updateById"></a>
+
+<div class="element clickable method public method_updateById" data-toggle="collapse"
+     data-target=".method_updateById .collapse">
+    <h2>Update an existing document in a collection, identified by collection id and document id
+        Attention - The behavior of this method has changed since version 1.1</h2>
+    <pre>updateById(mixed $collectionId, mixed $documentId, \triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">This will update the document on the server
+
+                This will throw if the document cannot be updated
+
+                If policy is set to error (locally or globally through the ConnectionOptions)
+                and the passed document has a _rev value set, the database will check
+                that the revision of the document to-be-updated is the same as the one given.
+            </div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$collectionId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>collection id as string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$documentId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>document id as string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$document</h4>
+                <code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>
+                <ul>
+                    <li>patch document which contains the attributes and values to be updated</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>optional, array of options (see below) or the boolean value for $policy (for compatibility prior
+                        to version 1.1 of this method)
+                    </li>
+                </ul>
+
+                <p>Options are :
+                <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+                <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their
+                    values to null. Defaults to true (keep attributes when set to null)
+                </li>
+                <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even
+                    in case that the waitForSync flag had been disabled for the entire collection
+                </li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>bool</code>- always true, will throw if there is an error
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_createFromArrayWithContext"></a>
+
+<div class="element clickable method protected method_createFromArrayWithContext" data-toggle="collapse"
+     data-target=".method_createFromArrayWithContext .collapse">
+    <h2>Intermediate function to call the createFromArray function from the right context</h2>
+    <pre>createFromArrayWithContext(mixed $data, mixed $options) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument"><h4>$data</h4></div>
+            <div class="subelement argument"><h4>$options</h4></div>
+            <h3>Returns</h3>
+
+            <div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_getCollectionId"></a>
+
+<div class="element clickable method private method_getCollectionId" data-toggle="collapse"
+     data-target=".method_getCollectionId .collapse">
+    <h2>Helper function to get a collection id from a document</h2>
+    <pre>getCollectionId(\triagens\ArangoDb\Document $document) : mixed</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$document</h4>
+                <code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>
+                <ul>
+                    <li>document id</li>
+                </ul>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>mixed</code>- collection id, will throw if there is an error
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_getDocumentId"></a>
+
+<div class="element clickable method private method_getDocumentId" data-toggle="collapse"
+     data-target=".method_getDocumentId .collapse">
+    <h2>Helper function to get a document id from a document or a document id value</h2>
+    <pre>getDocumentId(mixed $document) : mixed</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$document</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>document id OR document to be updated</li>
+                </ul>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>mixed</code>- document id, will throw if there is an error
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_getRevision"></a>
+
+<div class="element clickable method private method_getRevision" data-toggle="collapse"
+     data-target=".method_getRevision .collapse">
+    <h2>Helper function to get a document id from a document or a document id value</h2>
+    <pre>getRevision(mixed $document) : mixed</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$document</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>document id OR document to be updated</li>
+                </ul>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>mixed</code>- document id, will throw if there is an error
+            </div>
+        </div>
+    </div>
 </div>
 <h3>
-<i class="icon-custom icon-constant"></i> Constants</h3>
-<a id="constant_ENTRY_DOCUMENTS"> </a><div class="element clickable constant  constant_ENTRY_DOCUMENTS" data-toggle="collapse" data-target=".constant_ENTRY_DOCUMENTS .collapse">
-<h2>documents array index</h2>
-<pre>ENTRY_DOCUMENTS </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+    <i class="icon-custom icon-constant"></i> Constants</h3>
+<a id="constant_ENTRY_DOCUMENTS"> </a>
+
+<div class="element clickable constant  constant_ENTRY_DOCUMENTS" data-toggle="collapse"
+     data-target=".constant_ENTRY_DOCUMENTS .collapse">
+    <h2>documents array index</h2>
+    <pre>ENTRY_DOCUMENTS </pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
-<a id="constant_OPTION_COLLECTION"> </a><div class="element clickable constant  constant_OPTION_COLLECTION" data-toggle="collapse" data-target=".constant_OPTION_COLLECTION .collapse">
-<h2>collection parameter</h2>
-<pre>OPTION_COLLECTION </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<a id="constant_OPTION_COLLECTION"> </a>
+
+<div class="element clickable constant  constant_OPTION_COLLECTION" data-toggle="collapse"
+     data-target=".constant_OPTION_COLLECTION .collapse">
+    <h2>collection parameter</h2>
+    <pre>OPTION_COLLECTION </pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
-<a id="constant_OPTION_EXAMPLE"> </a><div class="element clickable constant  constant_OPTION_EXAMPLE" data-toggle="collapse" data-target=".constant_OPTION_EXAMPLE .collapse">
-<h2>example parameter</h2>
-<pre>OPTION_EXAMPLE </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<a id="constant_OPTION_EXAMPLE"> </a>
+
+<div class="element clickable constant  constant_OPTION_EXAMPLE" data-toggle="collapse"
+     data-target=".constant_OPTION_EXAMPLE .collapse">
+    <h2>example parameter</h2>
+    <pre>OPTION_EXAMPLE </pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="row"><footer class="span12">
-            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
-            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.1.0
-</a> and<br>
-            generated on 2013-10-18T04:07:23+03:00.<br></footer></div>
+<div class="row">
+    <footer class="span12">
+        Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons
+        provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+        Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.1.0
+    </a> and<br>
+        generated on 2013-11-09T09:19:51+02:00.<br></footer>
+</div>
 </div>
 </body>
 </html>

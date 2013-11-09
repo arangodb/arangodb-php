@@ -1,339 +1,542 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-<meta charset="utf-8">
-<title>ArangoDB PHP client API » \triagens\ArangoDb\EdgeHandler</title>
-<meta name="author" content="Mike van Riel">
-<meta name="description" content="">
-<link href="../css/template.css" rel="stylesheet" media="all">
-<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
-<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
-<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+    <meta charset="utf-8">
+    <title>ArangoDB PHP client API » \triagens\ArangoDb\EdgeHandler</title>
+    <meta name="author" content="Mike van Riel">
+    <meta name="description" content="">
+    <link href="../css/template.css" rel="stylesheet" media="all">
+    <script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script>
+    <script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script>
+    <script src="../js/bootstrap.js" type="text/javascript"></script>
+    <script src="../js/template.js" type="text/javascript"></script>
+    <script src="../js/prettify/prettify.min.js" type="text/javascript"></script>
+    <link rel="shortcut icon" href="../img/favicon.ico">
+    <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
 </head>
 <body>
 <div class="navbar navbar-fixed-top">
-<div class="navbar-inner"><div class="container">
-<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">ArangoDB PHP client API</a><div class="nav-collapse"><ul class="nav">
-<li class="dropdown">
-<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
-                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
-<li><a>Namespaces</a></li>
-<li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
-<li><a>Packages</a></li>
-<li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
-</ul>
-</li>
-<li class="dropdown" id="charts-menu">
-<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
-                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
-</li>
-<li class="dropdown" id="reports-menu">
-<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
-                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
-<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">0</span></a></li>
-<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
-                <ul></ul></a></li>
-<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
-                <span class="label label-info">9</span></a></li>
-</ul>
-</li>
-</ul></div>
-</div></div>
-<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span
+                    class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a
+                class="brand" href="../index.html">ArangoDB PHP client API</a>
+
+            <div class="nav-collapse">
+                <ul class="nav">
+                    <li class="dropdown">
+                        <a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                            API Documentation <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a>Namespaces</a></li>
+                            <li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
+                            <li><a>Packages</a></li>
+                            <li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="charts-menu">
+                        <a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                                <span class="label label-info">0</span></a></li>
+                            <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                                <ul></ul>
+                            </a></li>
+                            <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                                <span class="label label-info">9</span></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a>
+    </div>
 </div>
 <div id="___" class="container">
-<noscript><div class="alert alert-warning">
-                            Javascript is disabled; several features are only available
-                            if Javascript is enabled.
-                        </div></noscript>
+<noscript>
+    <div class="alert alert-warning">
+        Javascript is disabled; several features are only available
+        if Javascript is enabled.
+    </div>
+</noscript>
 <div class="row">
 <div class="span4">
-<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
-<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
-</div>
-<ul class="side-nav nav nav-list">
-<li class="nav-header">
-<i class="icon-custom icon-method"></i> Methods
-                    <ul>
-<li class="method public "><a href="#method_createFromArrayWithContext" title="createFromArrayWithContext() :: Intermediate function to call the createFromArray function from the right context"><span class="description">Intermediate function to call the createFromArray function from the right context</span><pre>createFromArrayWithContext()</pre></a></li>
-<li class="method public "><a href="#method_edges" title="edges() :: Get edges for a given vertex"><span class="description">Get edges for a given vertex</span><pre>edges()</pre></a></li>
-<li class="method public "><a href="#method_inEdges" title="inEdges() :: Get inbound edges for a given vertex"><span class="description">Get inbound edges for a given vertex</span><pre>inEdges()</pre></a></li>
-<li class="method public "><a href="#method_outEdges" title="outEdges() :: Get outbound edges for a given vertex"><span class="description">Get outbound edges for a given vertex</span><pre>outEdges()</pre></a></li>
-<li class="method public "><a href="#method_saveEdge" title="saveEdge() :: save an edge to an edge-collection"><span class="description">save an edge to an edge-collection</span><pre>saveEdge()</pre></a></li>
-</ul>
-</li>
-<li class="nav-header">
-<i class="icon-custom icon-constant"></i> Constants
-                    <ul>
-<li class="constant  "><a href="#constant_ENTRY_DOCUMENTS" title="ENTRY_DOCUMENTS() :: documents array index"><span class="description">documents array index</span><pre>ENTRY_DOCUMENTS</pre></a></li>
-<li class="constant  "><a href="#constant_OPTION_COLLECTION" title="OPTION_COLLECTION() :: collection parameter"><span class="description">collection parameter</span><pre>OPTION_COLLECTION</pre></a></li>
-<li class="constant  "><a href="#constant_OPTION_DIRECTION" title="OPTION_DIRECTION() :: direction parameter"><span class="description">direction parameter</span><pre>OPTION_DIRECTION</pre></a></li>
-<li class="constant  "><a href="#constant_OPTION_EXAMPLE" title="OPTION_EXAMPLE() :: example parameter"><span class="description">example parameter</span><pre>OPTION_EXAMPLE</pre></a></li>
-<li class="constant  "><a href="#constant_OPTION_FROM" title="OPTION_FROM() :: example parameter"><span class="description">example parameter</span><pre>OPTION_FROM</pre></a></li>
-<li class="constant  "><a href="#constant_OPTION_TO" title="OPTION_TO() :: example parameter"><span class="description">example parameter</span><pre>OPTION_TO</pre></a></li>
-<li class="constant  "><a href="#constant_OPTION_VERTEX" title="OPTION_VERTEX() :: vertex parameter"><span class="description">vertex parameter</span><pre>OPTION_VERTEX</pre></a></li>
-</ul>
-</li>
-</ul>
+    <span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active"
+                                                                              title="Show public elements">Public
+    </button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private"
+                                                                                                     title="Show private elements">
+        Private
+    </button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span>
+
+    <div class="btn-group view pull-right" data-toggle="buttons-radio">
+        <button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button>
+        <button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+    </div>
+    <ul class="side-nav nav nav-list">
+        <li class="nav-header">
+            <i class="icon-custom icon-method"></i> Methods
+            <ul>
+                <li class="method public "><a href="#method_createFromArrayWithContext"
+                                              title="createFromArrayWithContext() :: Intermediate function to call the createFromArray function from the right context"><span
+                        class="description">Intermediate function to call the createFromArray function from the right context</span>
+                    <pre>createFromArrayWithContext()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_edges" title="edges() :: Get edges for a given vertex"><span
+                        class="description">Get edges for a given vertex</span>
+                    <pre>edges()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_inEdges"
+                                              title="inEdges() :: Get inbound edges for a given vertex"><span
+                        class="description">Get inbound edges for a given vertex</span>
+                    <pre>inEdges()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_outEdges"
+                                              title="outEdges() :: Get outbound edges for a given vertex"><span
+                        class="description">Get outbound edges for a given vertex</span>
+                    <pre>outEdges()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_saveEdge"
+                                              title="saveEdge() :: save an edge to an edge-collection"><span
+                        class="description">save an edge to an edge-collection</span>
+                    <pre>saveEdge()</pre>
+                </a></li>
+            </ul>
+        </li>
+        <li class="nav-header">
+            <i class="icon-custom icon-constant"></i> Constants
+            <ul>
+                <li class="constant  "><a href="#constant_ENTRY_DOCUMENTS"
+                                          title="ENTRY_DOCUMENTS() :: documents array index"><span class="description">documents array index</span>
+                    <pre>ENTRY_DOCUMENTS</pre>
+                </a></li>
+                <li class="constant  "><a href="#constant_OPTION_COLLECTION"
+                                          title="OPTION_COLLECTION() :: collection parameter"><span class="description">collection parameter</span>
+                    <pre>OPTION_COLLECTION</pre>
+                </a></li>
+                <li class="constant  "><a href="#constant_OPTION_DIRECTION"
+                                          title="OPTION_DIRECTION() :: direction parameter"><span class="description">direction parameter</span>
+                    <pre>OPTION_DIRECTION</pre>
+                </a></li>
+                <li class="constant  "><a href="#constant_OPTION_EXAMPLE" title="OPTION_EXAMPLE() :: example parameter"><span
+                        class="description">example parameter</span>
+                    <pre>OPTION_EXAMPLE</pre>
+                </a></li>
+                <li class="constant  "><a href="#constant_OPTION_FROM" title="OPTION_FROM() :: example parameter"><span
+                        class="description">example parameter</span>
+                    <pre>OPTION_FROM</pre>
+                </a></li>
+                <li class="constant  "><a href="#constant_OPTION_TO" title="OPTION_TO() :: example parameter"><span
+                        class="description">example parameter</span>
+                    <pre>OPTION_TO</pre>
+                </a></li>
+                <li class="constant  "><a href="#constant_OPTION_VERTEX"
+                                          title="OPTION_VERTEX() :: vertex parameter"><span class="description">vertex parameter</span>
+                    <pre>OPTION_VERTEX</pre>
+                </a></li>
+            </ul>
+        </li>
+    </ul>
 </div>
 <div class="span8">
-<a id="\triagens\ArangoDb\EdgeHandler"></a><ul class="breadcrumb">
-<li>
-<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
-</li>
-<li><a href="../namespaces/triagens.html">triagens</a></li>
-<li>
-<span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
-</li>
-<li class="active">
-<span class="divider">\</span><a href="../classes/triagens.ArangoDb.EdgeHandler.html">EdgeHandler</a>
-</li>
+<a id="\triagens\ArangoDb\EdgeHandler"></a>
+<ul class="breadcrumb">
+    <li>
+        <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+    </li>
+    <li><a href="../namespaces/triagens.html">triagens</a></li>
+    <li>
+        <span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
+    </li>
+    <li class="active">
+        <span class="divider">\</span><a href="../classes/triagens.ArangoDb.EdgeHandler.html">EdgeHandler</a>
+    </li>
 </ul>
 <div class="element class">
 <p class="short_description">A handler that manages edges</p>
+
 <div class="details">
 <div class="long_description">An edge-document handler that fetches edges from the server and
-persists them on the server. It does so by issuing the
-appropriate HTTP requests to the server.<br>
+    persists them on the server. It does so by issuing the
+    appropriate HTTP requests to the server.<br>
 
-<br></div>
+    <br></div>
 <table class="table table-bordered">
-<tr>
-<th>package</th>
-<td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
-</tr>
-<tr>
-<th>since</th>
-<td>1.0</td>
-</tr>
+    <tr>
+        <th>package</th>
+        <td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
+    </tr>
+    <tr>
+        <th>since</th>
+        <td>1.0</td>
+    </tr>
 </table>
 <h3>
-<i class="icon-custom icon-method"></i> Methods</h3>
-<a id="method_createFromArrayWithContext"></a><div class="element clickable method public method_createFromArrayWithContext" data-toggle="collapse" data-target=".method_createFromArrayWithContext .collapse">
-<h2>Intermediate function to call the createFromArray function from the right context</h2>
-<pre>createFromArrayWithContext(mixed $data, mixed $options) : <a href="../classes/triagens.ArangoDb.Edge.html">\triagens\ArangoDb\Edge</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument"><h4>$data</h4></div>
-<div class="subelement argument"><h4>$options</h4></div>
-<h3>Returns</h3>
-<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Edge.html">\triagens\ArangoDb\Edge</a></code></div>
-</div></div>
-</div>
-<a id="method_edges"></a><div class="element clickable method public method_edges" data-toggle="collapse" data-target=".method_edges .collapse">
-<h2>Get edges for a given vertex</h2>
-<pre>edges(mixed $collectionId, mixed $vertexHandle, string $direction) : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.0</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$collectionId</h4>
-<code>mixed</code><ul>
-<li>edge-collection id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$vertexHandle</h4>
-<code>mixed</code><ul>
-<li>the vertex involved</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$direction</h4>
-<code>string</code><ul>
-<li>optional defaults to 'any'. Other possible Values 'in' & 'out'</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>array</code>- array of cursors</div>
-</div></div>
-</div>
-<a id="method_inEdges"></a><div class="element clickable method public method_inEdges" data-toggle="collapse" data-target=".method_inEdges .collapse">
-<h2>Get inbound edges for a given vertex</h2>
-<pre>inEdges(mixed $collectionId, mixed $vertexHandle) : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$collectionId</h4>
-<code>mixed</code><ul>
-<li>edge-collection id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$vertexHandle</h4>
-<code>mixed</code><ul>
-<li>the vertex involved</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>array</code>- array of cursors</div>
-</div></div>
-</div>
-<a id="method_outEdges"></a><div class="element clickable method public method_outEdges" data-toggle="collapse" data-target=".method_outEdges .collapse">
-<h2>Get outbound edges for a given vertex</h2>
-<pre>outEdges(mixed $collectionId, mixed $vertexHandle) : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$collectionId</h4>
-<code>mixed</code><ul>
-<li>edge-collection id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$vertexHandle</h4>
-<code>mixed</code><ul>
-<li>the vertex involved</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>array</code>- array of cursors</div>
-</div></div>
-</div>
-<a id="method_saveEdge"></a><div class="element clickable method public method_saveEdge" data-toggle="collapse" data-target=".method_saveEdge .collapse">
-<h2>save an edge to an edge-collection</h2>
-<pre>saveEdge(mixed $collectionId, mixed $from, mixed $to, mixed $document, bool|array $options) : mixed</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">This will save the edge to the collection and return the edges-document's id
+    <i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method_createFromArrayWithContext"></a>
 
-This will throw if the document cannot be saved</div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.0</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$collectionId</h4>
-<code>mixed</code><ul>
-<li>collection id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$from</h4>
-<code>mixed</code><ul>
-<li>from vertex</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$to</h4>
-<code>mixed</code><ul>
-<li>to vertex</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$document</h4>
-<code>mixed</code><ul>
-<li>the edge-document to be added, can be passed as an object or an array</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>bool</code><code>array</code><ul>
-<li>optional, prior to v1.2.0 this was a boolean value for create. Since v1.0.0 it's an array of options.</li>
-</ul>
+<div class="element clickable method public method_createFromArrayWithContext" data-toggle="collapse"
+     data-target=".method_createFromArrayWithContext .collapse">
+    <h2>Intermediate function to call the createFromArray function from the right context</h2>
+    <pre>createFromArrayWithContext(mixed $data, mixed $options) : <a href="../classes/triagens.ArangoDb.Edge.html">\triagens\ArangoDb\Edge</a></pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Parameters</h3>
 
-<p>Options are :<br>
-                                <li>'create' - create the collection if it does not yet exist.</li>
-                                <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk.<br>
-                                If this is not specified, then the collection's default sync behavior will be applied.</li>
-                                </p>
+            <div class="subelement argument"><h4>$data</h4></div>
+            <div class="subelement argument"><h4>$options</h4></div>
+            <h3>Returns</h3>
+
+            <div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Edge.html">\triagens\ArangoDb\Edge</a></code>
+            </div>
+        </div>
+    </div>
 </div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>- id of document created</div>
-</div></div>
+<a id="method_edges"></a>
+
+<div class="element clickable method public method_edges" data-toggle="collapse" data-target=".method_edges .collapse">
+    <h2>Get edges for a given vertex</h2>
+    <pre>edges(mixed $collectionId, mixed $vertexHandle, string $direction) : array</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>since</th>
+                    <td>1.0</td>
+                </tr>
+            </table>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$collectionId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>edge-collection id as string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$vertexHandle</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>the vertex involved</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$direction</h4>
+                <code>string</code>
+                <ul>
+                    <li>optional defaults to 'any'. Other possible Values 'in' & 'out'</li>
+                </ul>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>array</code>- array of cursors
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_inEdges"></a>
+
+<div class="element clickable method public method_inEdges" data-toggle="collapse"
+     data-target=".method_inEdges .collapse">
+    <h2>Get inbound edges for a given vertex</h2>
+    <pre>inEdges(mixed $collectionId, mixed $vertexHandle) : array</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$collectionId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>edge-collection id as string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$vertexHandle</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>the vertex involved</li>
+                </ul>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>array</code>- array of cursors
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_outEdges"></a>
+
+<div class="element clickable method public method_outEdges" data-toggle="collapse"
+     data-target=".method_outEdges .collapse">
+    <h2>Get outbound edges for a given vertex</h2>
+    <pre>outEdges(mixed $collectionId, mixed $vertexHandle) : array</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$collectionId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>edge-collection id as string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$vertexHandle</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>the vertex involved</li>
+                </ul>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>array</code>- array of cursors
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_saveEdge"></a>
+
+<div class="element clickable method public method_saveEdge" data-toggle="collapse"
+     data-target=".method_saveEdge .collapse">
+    <h2>save an edge to an edge-collection</h2>
+    <pre>saveEdge(mixed $collectionId, mixed $from, mixed $to, mixed $document, bool|array $options) : mixed</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">This will save the edge to the collection and return the edges-document's id
+
+                This will throw if the document cannot be saved
+            </div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>since</th>
+                    <td>1.0</td>
+                </tr>
+            </table>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$collectionId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>collection id as string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$from</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>from vertex</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$to</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>to vertex</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$document</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>the edge-document to be added, can be passed as an object or an array</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>bool</code><code>array</code>
+                <ul>
+                    <li>optional, prior to v1.2.0 this was a boolean value for create. Since v1.0.0 it's an array of
+                        options.
+                    </li>
+                </ul>
+
+                <p>Options are :<br>
+                <li>'create' - create the collection if it does not yet exist.</li>
+                <li>'waitForSync' - if set to true, then all removal operations will instantly be synchronised to
+                    disk.<br>
+                    If this is not specified, then the collection's default sync behavior will be applied.
+                </li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>mixed</code>- id of document created
+            </div>
+        </div>
+    </div>
 </div>
 <h3>
-<i class="icon-custom icon-constant"></i> Constants</h3>
-<a id="constant_ENTRY_DOCUMENTS"> </a><div class="element clickable constant  constant_ENTRY_DOCUMENTS" data-toggle="collapse" data-target=".constant_ENTRY_DOCUMENTS .collapse">
-<h2>documents array index</h2>
-<pre>ENTRY_DOCUMENTS </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+    <i class="icon-custom icon-constant"></i> Constants</h3>
+<a id="constant_ENTRY_DOCUMENTS"> </a>
+
+<div class="element clickable constant  constant_ENTRY_DOCUMENTS" data-toggle="collapse"
+     data-target=".constant_ENTRY_DOCUMENTS .collapse">
+    <h2>documents array index</h2>
+    <pre>ENTRY_DOCUMENTS </pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
-<a id="constant_OPTION_COLLECTION"> </a><div class="element clickable constant  constant_OPTION_COLLECTION" data-toggle="collapse" data-target=".constant_OPTION_COLLECTION .collapse">
-<h2>collection parameter</h2>
-<pre>OPTION_COLLECTION </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<a id="constant_OPTION_COLLECTION"> </a>
+
+<div class="element clickable constant  constant_OPTION_COLLECTION" data-toggle="collapse"
+     data-target=".constant_OPTION_COLLECTION .collapse">
+    <h2>collection parameter</h2>
+    <pre>OPTION_COLLECTION </pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
-<a id="constant_OPTION_DIRECTION"> </a><div class="element clickable constant  constant_OPTION_DIRECTION" data-toggle="collapse" data-target=".constant_OPTION_DIRECTION .collapse">
-<h2>direction parameter</h2>
-<pre>OPTION_DIRECTION </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<a id="constant_OPTION_DIRECTION"> </a>
+
+<div class="element clickable constant  constant_OPTION_DIRECTION" data-toggle="collapse"
+     data-target=".constant_OPTION_DIRECTION .collapse">
+    <h2>direction parameter</h2>
+    <pre>OPTION_DIRECTION </pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
-<a id="constant_OPTION_EXAMPLE"> </a><div class="element clickable constant  constant_OPTION_EXAMPLE" data-toggle="collapse" data-target=".constant_OPTION_EXAMPLE .collapse">
-<h2>example parameter</h2>
-<pre>OPTION_EXAMPLE </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<a id="constant_OPTION_EXAMPLE"> </a>
+
+<div class="element clickable constant  constant_OPTION_EXAMPLE" data-toggle="collapse"
+     data-target=".constant_OPTION_EXAMPLE .collapse">
+    <h2>example parameter</h2>
+    <pre>OPTION_EXAMPLE </pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
-<a id="constant_OPTION_FROM"> </a><div class="element clickable constant  constant_OPTION_FROM" data-toggle="collapse" data-target=".constant_OPTION_FROM .collapse">
-<h2>example parameter</h2>
-<pre>OPTION_FROM </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<a id="constant_OPTION_FROM"> </a>
+
+<div class="element clickable constant  constant_OPTION_FROM" data-toggle="collapse"
+     data-target=".constant_OPTION_FROM .collapse">
+    <h2>example parameter</h2>
+    <pre>OPTION_FROM </pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
-<a id="constant_OPTION_TO"> </a><div class="element clickable constant  constant_OPTION_TO" data-toggle="collapse" data-target=".constant_OPTION_TO .collapse">
-<h2>example parameter</h2>
-<pre>OPTION_TO </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<a id="constant_OPTION_TO"> </a>
+
+<div class="element clickable constant  constant_OPTION_TO" data-toggle="collapse"
+     data-target=".constant_OPTION_TO .collapse">
+    <h2>example parameter</h2>
+    <pre>OPTION_TO </pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
-<a id="constant_OPTION_VERTEX"> </a><div class="element clickable constant  constant_OPTION_VERTEX" data-toggle="collapse" data-target=".constant_OPTION_VERTEX .collapse">
-<h2>vertex parameter</h2>
-<pre>OPTION_VERTEX </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<a id="constant_OPTION_VERTEX"> </a>
+
+<div class="element clickable constant  constant_OPTION_VERTEX" data-toggle="collapse"
+     data-target=".constant_OPTION_VERTEX .collapse">
+    <h2>vertex parameter</h2>
+    <pre>OPTION_VERTEX </pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="row"><footer class="span12">
-            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
-            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.1.0
-</a> and<br>
-            generated on 2013-10-18T04:07:23+03:00.<br></footer></div>
+<div class="row">
+    <footer class="span12">
+        Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons
+        provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+        Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.1.0
+    </a> and<br>
+        generated on 2013-11-09T09:19:51+02:00.<br></footer>
+</div>
 </div>
 </body>
 </html>

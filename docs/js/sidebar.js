@@ -1,24 +1,24 @@
-jQuery.expr[':'].Contains = function(a, i, m) {
+jQuery.expr[':'].Contains = function (a, i, m) {
     return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
 };
 
-$(function() {
+$(function () {
     $("#sidebar-nav").accordion({
         autoHeight: false,
         navigation: true,
         collapsible: true
     }).accordion("activate", false)
-            .find('a.link').unbind('click').click(
-            function(ev) {
-                ev.cancelBubble = true; // IE
-                if (ev.stopPropagation) {
-                    ev.stopPropagation(); // the rest
-                }
+        .find('a.link').unbind('click').click(
+        function (ev) {
+            ev.cancelBubble = true; // IE
+            if (ev.stopPropagation) {
+                ev.stopPropagation(); // the rest
+            }
 
-                return true;
-            }).prev().prev().remove();
+            return true;
+        }).prev().prev().remove();
 
-    $("#sidebar-nav>h3").click(function() {
+    $("#sidebar-nav>h3").click(function () {
         if ($(this).attr('initialized') == 'true') return;
 
         $(this).next().find(".sidebar-nav-tree").treeview({
