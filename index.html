@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Arangodb-php : PHP ODM for ArangoDB" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Arangodb-php</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/triAGENS/ArangoDB-PHP">View on GitHub</a>
+
+          <h1 id="project_title">Arangodb-php</h1>
+          <h2 id="project_tagline">PHP ODM for ArangoDB</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/triAGENS/ArangoDB-PHP/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/triAGENS/ArangoDB-PHP/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p><img src="http://www.arangodb.org/wp-content/uploads/2013/03/logo_arangodbphp_trans.png" alt="ArangoDB-PHP Logo"></p>
+
+<h1>
+<a name="arangodb-php---a-php-client-for-arangodb" class="anchor" href="#arangodb-php---a-php-client-for-arangodb"><span class="octicon octicon-link"></span></a>ArangoDB-PHP - A PHP client for ArangoDB</h1>
+
+<p><a href="https://travis-ci.org/triAGENS/ArangoDB-PHP"><img src="https://travis-ci.org/triAGENS/ArangoDB-PHP.png?branch=master" alt="Build Status"></a>
+<strong>Branch: Master (v1.4.0)</strong></p>
+
+<p><a href="https://travis-ci.org/triAGENS/ArangoDB-PHP"><img src="https://travis-ci.org/triAGENS/ArangoDB-PHP.png?branch=devel" alt="Build Status"></a>
+<strong>Branch: devel</strong></p>
+
+<p><a href="https://twitter.com/arangodbphp">Follow us on Twitter @arangodbphp to receive updates on the php driver</a>
+<br><br></p>
+
+<h5>
+<a name="table-of-contents" class="anchor" href="#table-of-contents"><span class="octicon octicon-link"></span></a>Table of Contents</h5>
+
+<ul>
+<li><a href="#description">Description</a></li>
+<li><a href="#requirements">Requirements</a></li>
+<li>
+<a href="#installing">Installing the PHP client</a>
+
+<ul>
+<li><a href="#using_packagist">Using packagist/composer</a></li>
+<li><a href="#cloning_git">Cloning the git repository</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#howto_use">How to use the PHP client</a></p>
+
+<ul>
+<li><a href="#setting_up_connection_options">Setting up the connection options</a></li>
+<li><a href="#creating_collection">Creating a collection</a></li>
+<li><a href="#creating_document">Creating a document</a></li>
+<li><a href="#adding_exception_handling">Adding exception handling</a></li>
+<li><a href="#retrieving_document">Retrieving a document</a></li>
+<li><a href="#updating_document">Updating a document</a></li>
+<li><a href="#deleting_document">Deleting a document</a></li>
+<li><a href="#dropping_collection">Dropping a collection</a></li>
+<li><a href="#alltogether">Putting it all together</a></li>
+</ul>
+</li>
+<li><p><a href="#more_info">More information</a></p></li>
+</ul><p><br></p>
+
+<p>Please take a look <a href="https://github.com/triAGENS/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix">here</a> for the <strong>ArangoDB-PHP Client</strong> / <strong>ArangoDB Server</strong> interoperability matrix.</p>
+
+<p><strong><a href="https://github.com/triAGENS/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP">Important versioning information on ArangoDB-PHP</a></strong></p>
+
+<p><br><a name="description"></a></p>
+
+<h1>
+<a name="description" class="anchor" href="#description"><span class="octicon octicon-link"></span></a>Description</h1>
+
+<p>This PHP client allows REST-based access to documents on the server.
+The ArangoDocumentHandler class should be used for these purposes.
+There is an example for REST-based documents access in the file examples/document.php.</p>
+
+<p>Furthermore, the PHP client also allows to issue more complex queries using the ArangoStatement class.
+There is an example for this kind of statements in the file examples/select.php.</p>
+
+<p>To use the PHP client, you must include the file autoloader.php from the main directory.
+The autoloader will care about loading additionally required classes on the fly. The autoloader can be nested with other autoloaders.</p>
+
+<p>The ArangoDB PHP client is an API that allows you to send and retrieve documents from ArangoDB from out of your PHP application. The client library itself is written in PHP and has no further dependencies but just plain PHP 5.3 (or higher).</p>
+
+<p>The client library provides document and collection classes you can use to work with documents and collections in an OO fashion. When exchanging document data with the server, the library internally will use the <a href="https://github.com/triAGENS/ArangoDB/wiki/OTWP">HTTP REST interface of ArangoDB</a>. The library user does not have to care about this fact as all the details of the REST interface are abstracted by the client library.</p>
+
+<p><br></p>
+
+<p><a name="requirements"></a></p>
+
+<h1>
+<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h1>
+
+<ul>
+<li><p>ArangoDB database server version 1.3 (detailed info <a href="https://github.com/triAGENS/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix">here</a>)</p></li>
+<li><p>PHP version 5.3 or higher (Travis-tested with 5.4 and 5.5)</p></li>
+</ul><p><br></p>
+
+<p><a name="installing"></a></p>
+
+<h2>
+<a name="installing-the-php-client" class="anchor" href="#installing-the-php-client"><span class="octicon octicon-link"></span></a>Installing the PHP client</h2>
+
+<p>To get started you need PHP 5.3 or higher plus an ArangoDB server running on any host that you can access.</p>
+
+<p>There are two alternative ways to get the ArangoDB PHP client:</p>
+
+<ul>
+<li>Using packagist/composer</li>
+<li>Cloning the git repository</li>
+</ul><p><a name="using_packagist"></a></p>
+
+<h2>
+<a name="alternative-1-using-packagistcomposer" class="anchor" href="#alternative-1-using-packagistcomposer"><span class="octicon octicon-link"></span></a>Alternative 1: Using packagist/composer</h2>
+
+<p>When using <a href="http://packagist.org/">packagist</a>, the procedure is as follows:</p>
+
+<p>Get the composer.phar file from <a href="http://getcomposer.org">getcomposer.org</a>:</p>
+
+<pre><code>curl -s http://getcomposer.org/installer | php
+</code></pre>
+
+<p>This will put the composer.phar file into the current directory. Next, create a new directory for your project, e.g. arangophp, and move into it:</p>
+
+<pre><code>mkdir arangophp &amp;&amp; cd arangophp
+</code></pre>
+
+<p>Then, use composer's init command to define the initial dependencies for your project:</p>
+
+<pre><code>php ../composer.phar init
+</code></pre>
+
+<p>This will fire up composer's interactive config generator. It will ask you several questions, and the below example shows how you can answer them. Most questions have reasonable default settings and you can should use the defaults whenever you're unsure.
+When asked for a package name, type ## triagens/Arango. This is the package name for the ArangoDB PHP client. When being asked for a package number (package ##), you can either use dev-master (latest version) or one of the designated tagged versions.</p>
+
+<pre><code>Welcome to the Composer config generator
+</code></pre>
+
+<p>This command will guide you through creating your composer.json config.</p>
+
+<pre><code>Package name (/) [jsteemann/arangophp]:
+Description []: An example application using ArangoDB PHP client
+Author [jsteemann]:
+
+Define your dependencies.
+
+Would you like to define your dependencies interactively [yes]? yes
+Search for a package []: triagens/Arango
+
+Found 3 packages matching triagens/Arango
+
+[0] triagens/ArangoDb dev-master
+[1] triagens/ArangoDb V0.1.1
+[2] triagens/ArangoDb V0.0.1
+
+Enter package ## to add, or a couple if it is not listed []: 0
+Search for a package []:
+
+{
+    "name": "jsteemann/arangophp",
+    "description": "An example application using ArangoDB PHP client",
+    "require": {
+        "triagens/arangodb": "dev-master"
+    },
+    "authors": [
+    {
+        "name": "jsteemann",
+        "email": "j.steemann@triagens.de"
+    }
+    ]
+}
+
+Do you confirm generation [yes]? yes
+Would you like the vendor directory added to your .gitignore [yes]?
+</code></pre>
+
+<p>The above has created a file composer.json in your current directory, which contains information about your project plus the project dependencies. The ArangoDB PHP client is the only dependency for now, and it can be installed by running the following command:</p>
+
+<pre><code>php ../composer.phar update
+Updating dependencies
+- Package triagens/arangodb (dev-master)
+Cloning e4e9107aec3d1e0c914e40436f77fed0e5df2485
+
+Writing lock file
+Generating autoload files
+</code></pre>
+
+<p>Running this command has created a subdirectory vendor in the current directory. The vendor directory contains a subdirectory triagens that contains the ArangoDB PHP client library files. The vendor directory also contains a subdirectory .composer that contains auto-generated autoloader files for all dependencies you defined in your composer.json file (the file auto-generated by running the previous init command).</p>
+
+<p>You need to include the generated autoloader file in your project when using the ArangoDB PHP classes. You can do so by adding the following line to any PHP file that will use them:</p>
+
+<pre><code>require 'vendor/.composer/autoload.php';
+</code></pre>
+
+<p><a name="cloning_git"></a></p>
+
+<h2>
+<a name="alternative-2-cloning-the-git-repository" class="anchor" href="#alternative-2-cloning-the-git-repository"><span class="octicon octicon-link"></span></a>Alternative 2: Cloning the git repository</h2>
+
+<p>When preferring this alternative, you need to have a git client installed. To clone the ArangoDB PHP client repository from github, execute the following command in your project directory:</p>
+
+<pre><code>git clone "https://github.com/triAGENS/ArangoDB-PHP.git"
+</code></pre>
+
+<p>This will create a subdirectory ArangoDB-PHP in your current directory. It contains all the files of the client library. It also includes a dedicated autoloader that you can use for autoloading the client libraries class files.
+To invoke this autoloader, add the following line to your PHP files that will use the library:</p>
+
+<pre><code>require 'ArangoDB-PHP/autoload.php';
+</code></pre>
+
+<p>The ArangoDB PHP client's autoloader will only care about its own class files and will not handle any other files. That means it is fully nestable with other autoloaders.</p>
+
+<p><a name="invoke_autoloader_directly"></a></p>
+
+<h2>
+<a name="alternative-3-invoking-the-autoloader-directly" class="anchor" href="#alternative-3-invoking-the-autoloader-directly"><span class="octicon octicon-link"></span></a>Alternative 3: Invoking the autoloader directly</h2>
+
+<p>If you do not wish to include autoload.php to load and setup the autoloader, you can invoke the autoloader directly:</p>
+
+<pre><code>require 'ArangoDB-PHP/lib/triagens/ArangoDb/autoloader.php';
+\triagens\ArangoDb\Autoloader::init();
+</code></pre>
+
+<p><br></p>
+
+<p><a name="howto_use"></a></p>
+
+<h1>
+<a name="how-to-use-the-php-client" class="anchor" href="#how-to-use-the-php-client"><span class="octicon octicon-link"></span></a>How to use the PHP client</h1>
+
+<p><a name="setting_up_connection_options"></a></p>
+
+<h2>
+<a name="setting-up-the-connection-options" class="anchor" href="#setting-up-the-connection-options"><span class="octicon octicon-link"></span></a>Setting up the connection options</h2>
+
+<p>In order to use ArangoDB, you need to specify the connection options. We do so by creating a PHP array $connectionOptions. Put this code into a file named test.php in your current directory:</p>
+
+<pre><code>// use the following line when using packagist/composer
+// require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . '.composer' . DIRECTORY_SEPARATOR . 'autoload.php';
+
+// use the following line when using git
+require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ArangoDB-PHP' . DIRECTORY_SEPARATOR . 'autoload.php';
+
+// set up some aliases for less typing later
+use triagens\ArangoDb\Connection as ArangoConnection;
+use triagens\ArangoDb\ConnectionOptions as ArangoConnectionOptions;
+use triagens\ArangoDb\DocumentHandler as ArangoDocumentHandler;
+use triagens\ArangoDb\Document as ArangoDocument;
+use triagens\ArangoDb\Exception as ArangoException;
+use triagens\ArangoDb\ConnectException as ArangoConnectException;
+use triagens\ArangoDb\ClientException as ArangoClientException;
+use triagens\ArangoDb\ServerException as ArangoServerException;
+use triagens\ArangoDb\UpdatePolicy as ArangoUpdatePolicy;
+
+// set up some basic connection options
+$connectionOptions = array(
+    // server endpoint to connect to
+    ArangoConnectionOptions::OPTION_ENDPOINT =&gt; 'tcp://127.0.0.1:8529',
+    // authorization type to use (currently supported: 'Basic')
+    ArangoConnectionOptions::OPTION_AUTH_TYPE =&gt; 'Basic',
+    // user for basic authorization
+    ArangoConnectionOptions::OPTION_AUTH_USER =&gt; 'root',     
+    // password for basic authorization
+    ArangoConnectionOptions::OPTION_AUTH_PASSWD =&gt; '', 
+    // connection persistence on server. can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
+    ArangoConnectionOptions::OPTION_CONNECTION =&gt; 'Close',  
+    // connect timeout in seconds
+    ArangoConnectionOptions::OPTION_TIMEOUT =&gt; 3,
+    // whether or not to reconnect when a keep-alive connection has timed out on server
+    ArangoConnectionOptions::OPTION_RECONNECT =&gt; true,
+    // optionally create new collections when inserting documents
+    ArangoConnectionOptions::OPTION_CREATE =&gt; true,
+    // optionally create new collections when inserting documents
+    ArangoConnectionOptions::OPTION_UPDATE_POLICY =&gt; ArangoUpdatePolicy::LAST,
+);
+
+$connection = new ArangoConnection($connectionOptions);
+</code></pre>
+
+<p>This will make the client connect to ArangoDB</p>
+
+<ul>
+<li>running on localhost (OPTION_HOST)</li>
+<li>on the default port 8529 (OPTION_PORT)</li>
+<li>with a connection timeout of 3 seconds (OPTION_TIMEOUT)</li>
+</ul><p>When creating new documents in a collection that does not yet exist, you have the following choices:</p>
+
+<ul>
+<li>auto-generate a new collection: if you prefer that, set OPTION_CREATE to true</li>
+<li>fail with an error: if you prefer this behavior, set OPTION_CREATE to false</li>
+</ul><p>When updating a document that was previously/concurrently updated by another user, you can select between the following behaviors:</p>
+
+<ul>
+<li>last update wins: if you prefer this, set OPTION_UPDATE_POLICY to last</li>
+<li>fail with a conflict error: if you prefer that, set OPTION_UPDATE_POLICY to conflict</li>
+</ul><p><a name="creating_collection"></a></p>
+
+<h2>
+<a name="creating-a-collection" class="anchor" href="#creating-a-collection"><span class="octicon octicon-link"></span></a>Creating a collection</h2>
+
+<p><em>This is just to show how a collection is created.</em>
+<br><em>For these examples it is not needed to create a collection prior to inserting a document, as we set ArangoConnectionOptions::OPTION_CREATE to true.</em></p>
+
+<p>So, after we get the settings, we can start with creating a collection. We will create a collection named "users".</p>
+
+<p>The below code will first set up the collection locally in a variable name $user, and then push it to the server and return the collection id created by the server:</p>
+
+<pre><code>$collectionHandler = new CollectionHandler($connection);
+
+// create a new document
+$userCollection = new ArangoCollection();
+$userCollection-&gt;setName('user');
+$id = $collectionHandler-&gt;add($userCollection);
+
+// print the collection id created by the server
+var_dump($id);
+</code></pre>
+
+<p><a name="creating_document"></a></p>
+
+<h2>
+<a name="creating-a-document" class="anchor" href="#creating-a-document"><span class="octicon octicon-link"></span></a>Creating a document</h2>
+
+<p>After we created the collection, we can start with creating an initial document. We will create a user document in a collection named "users". This collection does not need to exist yet. The first document we'll insert in this collection will create the collection on the fly. This is because we have set OPTION_CREATE to true in $connectionOptions.</p>
+
+<p>The below code will first set up the document locally in a variable name $user, and then push it to the server and return the document id created by the server:</p>
+
+<pre><code>$handler = new ArangoDocumentHandler($connection);
+
+// create a new document
+$user = new ArangoDocument();
+
+// use set method to set document properties
+$user-&gt;set("name", "John");
+$user-&gt;set("age", 25);
+
+// use magic methods to set document properties
+$user-&gt;likes = array('fishing', 'hiking', 'swimming');
+
+// send the document to the server
+$id = $handler-&gt;add('users', $user);
+
+// print the document id created by the server
+var_dump($id);
+</code></pre>
+
+<p>Document properties can be set by using the set() method, or by directly manipulating the document properties.</p>
+
+<p>As you can see, sending a document to the server is achieved by calling the add() method on the client library's DocumentHandler class. It needs the collection name ("users" in this case") plus the document object to be added. add() will return the document id as created by the server. The id is a numeric value that might or might not fit in a PHP integer.</p>
+
+<p><a name="adding_exception_handling"></a></p>
+
+<h2>
+<a name="adding-exception-handling" class="anchor" href="#adding-exception-handling"><span class="octicon octicon-link"></span></a>Adding exception handling</h2>
+
+<p>The above code will work but it does not check for any errors. To make it work in the face of errors, we'll wrap it into some basic exception handlers</p>
+
+<pre><code>try {
+$connection = new ArangoConnection($connectionOptions);
+$handler = new ArangoDocumentHandler($connection);
+
+// create a new document
+$user = new ArangoDocument();
+
+// use set method to set document properties
+$user-&gt;set("name", "John");
+$user-&gt;set("age", 25);
+
+// use magic methods to set document properties
+$user-&gt;likes = array('fishing', 'hiking', 'swimming');
+
+// send the document to the server
+$id = $handler-&gt;add('users', $user);
+
+// print the document id created by the server
+var_dump($id);
+} catch (ArangoConnectException $e) {
+  print 'Connection error: ' . $e-&gt;getMessage() . PHP_EOL;
+} catch (ArangoClientException $e) {
+  print 'Client error: ' . $e-&gt;getMessage() . PHP_EOL;
+} catch (ArangoServerException $e) {
+  print 'Server error: ' . $e-&gt;getServerCode() . ':' . $e-&gt;getServerMessage() . ' ' . $e-&gt;getMessage() . PHP_EOL;
+}
+</code></pre>
+
+<p><a name="retrieving_document"></a></p>
+
+<h2>
+<a name="retrieving-a-document" class="anchor" href="#retrieving-a-document"><span class="octicon octicon-link"></span></a>Retrieving a document</h2>
+
+<p>To retrieve a document from the server, the get() method of the DocumentHandler class can be used. It needs the collection name plus a document id. There is also the getById() method which is an alias for get().</p>
+
+<pre><code>// get the document back from the server
+$userFromServer = $handler-&gt;get('users', $id);
+var_dump($userFromServer);
+
+
+The result of the get() method is a Document object that you can use in an OO fashion:
+
+object(triagens\ArangoDb\Document)##6 (4) {
+    ["_id":"triagens\ArangoDb\Document":private]=&gt;
+    string(15) "2377907/4818344"
+    ["_rev":"triagens\ArangoDb\Document":private]=&gt;
+    int(4818344)
+    ["_values":"triagens\ArangoDb\Document":private]=&gt;
+    array(3) {
+        ["age"]=&gt;
+        int(25)
+        ["name"]=&gt;
+        string(4) "John"
+        ["likes"]=&gt;
+        array(3) {
+            [0]=&gt;
+            string(7) "fishing"
+            [1]=&gt;
+            string(6) "hiking"
+            [2]=&gt;
+            string(8) "swimming"
+        }
+    }
+    ["_changed":"triagens\ArangoDb\Document":private]=&gt;
+    bool(false)
+}
+</code></pre>
+
+<p>Whenever the document id is yet unknown, but you want to fetch a document from the server by any of its other properties, you can use the getByExample() method. It allows you to provide an example of the document that you are looking for. The example should either be a Document object with the relevant properties set, or, a PHP array with the propeties that you are looking for:</p>
+
+<pre><code>$cursor = $handler-&gt;getByExample('users', array('name'=&gt;'John'));
+var_dump($cursor-&gt;getAll());
+
+$user = new Document();
+$user-&gt;name = 'John';
+$cursor = $handler-&gt;getByExample('users', $user);
+var_dump($cursor-&gt;getAll());
+</code></pre>
+
+<p>This will return all documents from the specified collection (here: "users") with the properties provided in the example (here: that have an attribute "name" with a value of "John"). The result is a cursor which can be iterated sequentially or completely. We have chosen to get the complete result set above by calling the cursor's getAll() method.
+Note that getByExample() might return multiple documents if the example is ambigious.</p>
+
+<p><a name="updating_document"></a></p>
+
+<h2>
+<a name="updating-a-document" class="anchor" href="#updating-a-document"><span class="octicon octicon-link"></span></a>Updating a document</h2>
+
+<p>To update an existing document, the update() method of the DocumentHandler class can be used.</p>
+
+<pre><code>// update a document
+$userFromServer-&gt;likes = array('fishing', 'swimming');
+$userFromServer-&gt;state = 'CA';
+unset($userFromServer-&gt;age);
+
+$result = $handler-&gt;update($userFromServer);
+var_dump($result);
+</code></pre>
+
+<p>The document that is updated using update() must have been fetched from the server before. If you want to update a document without having fetched it from the server before, use updateById():</p>
+
+<pre><code>// update a document, identified by collection and document id
+$user = new Document();
+$user-&gt;name = 'John';
+$user-&gt;likes = array('Running', 'Rowing');
+
+// 4818344 is the document's id
+$result = $handler-&gt;updateById('users', 4818344, $user);
+var_dump($result);
+</code></pre>
+
+<p><a name="deleting_document"></a></p>
+
+<h2>
+<a name="deleting-a-document" class="anchor" href="#deleting-a-document"><span class="octicon octicon-link"></span></a>Deleting a document</h2>
+
+<p>To delete an existing document on the server, the delete() method of the DocumentHandler class will do. delete() just needs the document to be deleted:</p>
+
+<pre><code>// delete a document on the server, using a document object
+$result = $handler-&gt;delete($userFromServer);
+var_dump($result);
+</code></pre>
+
+<p>Note that the document must have been fetched from the server before. If you haven't fetched the document from the server before, use the deleteById() method. This requires just the collection name (here: "users") and the document id.</p>
+
+<pre><code>// delete a document on the server, using a collection id and document id
+// 4818344 is the document's id
+$result = $handler-&gt;deleteById('users', 4818344);
+var_dump($result);
+</code></pre>
+
+<p><a name="dropping_collection"></a></p>
+
+<h2>
+<a name="dropping-a-collection" class="anchor" href="#dropping-a-collection"><span class="octicon octicon-link"></span></a>Dropping a collection</h2>
+
+<p>To delete an existing collection on the server, use the drop() method of the CollectionHandler class. drop() just needs the name of the collection name to be dropped:</p>
+
+<pre><code>// delete a collection on the server, using it's name,
+$result = $handler-&gt;drop('users');
+var_dump($result);
+</code></pre>
+
+<p><a name="alltogether"></a></p>
+
+<h2>
+<a name="putting-it-all-together" class="anchor" href="#putting-it-all-together"><span class="octicon octicon-link"></span></a>Putting it all together</h2>
+
+<p>Here's the full code that combines all the pieces outlined above:</p>
+
+<pre><code>// use the following line when using packagist/composer
+//require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . '.composer' . DIRECTORY_SEPARATOR . 'autoload.php';
+// use the following line when using git
+require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ArangoDB-PHP' . DIRECTORY_SEPARATOR . 'autoload.php';
+
+// set up some aliases for less typing later
+use triagens\ArangoDb\Connection as ArangoConnection;
+use triagens\ArangoDb\ConnectionOptions as ArangoConnectionOptions;
+use triagens\ArangoDb\DocumentHandler as ArangoDocumentHandler;
+use triagens\ArangoDb\Document as ArangoDocument;
+use triagens\ArangoDb\Exception as ArangoException;
+use triagens\ArangoDb\ConnectException as ArangoConnectException;
+use triagens\ArangoDb\ClientException as ArangoClientException;
+use triagens\ArangoDb\ServerException as ArangoServerException;
+use triagens\ArangoDb\UpdatePolicy as ArangoUpdatePolicy;
+
+// set up some basic connection options
+$connectionOptions = array(
+    ArangoConnectionOptions::OPTION_ENDPOINT =&gt; 'tcp://127.0.0.1:8529',
+    // authorization type to use (currently supported: 'Basic')
+    ArangoConnectionOptions::OPTION_AUTH_TYPE =&gt; 'Basic',
+    // user for basic authorization
+    ArangoConnectionOptions::OPTION_AUTH_USER =&gt; 'root',     
+    // password for basic authorization
+    ArangoConnectionOptions::OPTION_AUTH_PASSWD =&gt; '', 
+    // connection persistence on server. can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
+    ArangoConnectionOptions::OPTION_CONNECTION =&gt; 'Close',  
+    // connect timeout in seconds
+    ArangoConnectionOptions::OPTION_TIMEOUT =&gt; 3,
+    // optionally create new collections when inserting documents
+    ArangoConnectionOptions::OPTION_CREATE =&gt; true,
+    // optionally create new collections when inserting documents
+    ArangoConnectionOptions::OPTION_UPDATE_POLICY =&gt; ArangoUpdatePolicy::LAST,
+);
+
+try {
+    $connection = new ArangoConnection($connectionOptions);
+
+
+    $collectionHandler = new CollectionHandler($connection);
+
+    // create a new document
+    $userCollection = new ArangoCollection();
+    $userCollection-&gt;setName('user');
+    $id = $collectionHandler-&gt;add($userCollection);
+
+    // print the collection id created by the server
+    var_dump($id);
+
+
+    $handler = new ArangoDocumentHandler($connection);
+
+    // create a new document
+    $user = new ArangoDocument();
+
+    // use set method to set document properties
+    $user-&gt;set("name", "John");
+    $user-&gt;set("age", 25);
+
+    // use magic methods to set document properties
+    $user-&gt;likes = array('fishing', 'hiking', 'swimming');
+
+    // send the document to the server
+    $id = $handler-&gt;add('users', $user);
+
+    // print the document id created by the server
+    var_dump($id);
+    var_dump($user-&gt;getId());
+
+
+    // get the document back from the server
+    $userFromServer = $handler-&gt;get('users', $id);
+    var_dump($userFromServer);
+
+    // get a document list back from the server, using a document example
+    $cursor = $handler-&gt;getByExample('users', array('name'=&gt;'John'));
+    var_dump($cursor-&gt;getAll());
+
+
+    // update a document
+    $userFromServer-&gt;likes = array('fishing', 'swimming');
+    $userFromServer-&gt;state = 'CA';
+    unset($userFromServer-&gt;age);
+
+    $result = $handler-&gt;update($userFromServer);
+    var_dump($result);
+
+    // get the document back from the server
+    $userFromServer = $handler-&gt;get('users', $id);
+    var_dump($userFromServer);
+
+
+    // delete a document on the server
+    $result = $handler-&gt;delete($userFromServer);
+    var_dump($result);
+
+
+    // delete a collection on the server, using it's name,
+    $result = $handler-&gt;drop('users');
+    var_dump($result);
+}
+catch (ArangoConnectException $e) {
+    print 'Connection error: ' . $e-&gt;getMessage() . PHP_EOL;
+}
+catch (ArangoClientException $e) {
+    print 'Client error: ' . $e-&gt;getMessage() . PHP_EOL;
+}
+catch (ArangoServerException $e) {
+    print 'Server error: ' . $e-&gt;getServerCode() . ':' . $e-&gt;getServerMessage() . ' ' . $e-&gt;getMessage() . PHP_EOL;
+}
+</code></pre>
+
+<p><br></p>
+
+<p><a name="more_info"></a></p>
+
+<h1>
+<a name="more-information" class="anchor" href="#more-information"><span class="octicon octicon-link"></span></a>More information</h1>
+
+<ul>
+<li><p>More example code, containing some code to create, delete and rename collections, is provided in the example subdirectory that is provided with the library.</p></li>
+<li><p>PHPDoc documentation for the complete library is in the library's docs subdirectory. Point your browser at this directory to get a click-through version of the documentation.</p></li>
+<li><p><a href="https://twitter.com/arangodbphp">Follow us on Twitter @arangodbphp to receive updates on the php driver</a></p></li>
+<li><p>Check the ArangoDB PHP client on github.com regularly for new releases and updates: <a href="https://github.com/triAGENS/ArangoDB-PHP">https://github.com/triAGENS/ArangoDB-PHP</a></p></li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Arangodb-php maintained by <a href="https://github.com/triAGENS">triAGENS</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
