@@ -141,25 +141,25 @@ class GraphExtendedTest extends
         $this->graphHandler->getVertex($this->graphName, $this->vertex3Name);
         $this->graphHandler->getVertex($this->graphName, $this->vertex4Name);
         $this->graphHandler->saveEdge(
-            $this->graphName,
-            $this->vertex1Name,
-            $this->vertex2Name,
-            $this->edgeLabel1,
-            $edge1
+                           $this->graphName,
+                           $this->vertex1Name,
+                           $this->vertex2Name,
+                           $this->edgeLabel1,
+                           $edge1
         );
         $this->graphHandler->saveEdge(
-            $this->graphName,
-            $this->vertex2Name,
-            $this->vertex3Name,
-            $this->edgeLabel2,
-            $edge2
+                           $this->graphName,
+                           $this->vertex2Name,
+                           $this->vertex3Name,
+                           $this->edgeLabel2,
+                           $edge2
         );
         $this->graphHandler->saveEdge(
-            $this->graphName,
-            $this->vertex3Name,
-            $this->vertex4Name,
-            $this->edgeLabel3,
-            $edge3
+                           $this->graphName,
+                           $this->vertex3Name,
+                           $this->vertex4Name,
+                           $this->edgeLabel3,
+                           $edge3
         );
         $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
         $this->graphHandler->getEdge($this->graphName, $this->edge2Name);
@@ -197,11 +197,11 @@ class GraphExtendedTest extends
 
         // Save edge
         $resultE = $this->graphHandler->saveEdge(
-            $this->graphName,
-            $this->vertex1Name,
-            $this->vertex2Name,
-            $this->edgeLabel1,
-            $edge1
+                                      $this->graphName,
+                                      $this->vertex1Name,
+                                      $this->vertex2Name,
+                                      $this->edgeLabel1,
+                                      $edge1
         );
         $this->assertTrue($resultE == 'edge1', 'Did not return edge1!');
 
@@ -298,11 +298,11 @@ class GraphExtendedTest extends
 
         // Save edge
         $result1 = $this->graphHandler->saveEdge(
-            $this->graphName,
-            $this->vertex1Name,
-            $this->vertex2Name,
-            $this->edgeLabel1,
-            $edge1
+                                      $this->graphName,
+                                      $this->vertex1Name,
+                                      $this->vertex2Name,
+                                      $this->edgeLabel1,
+                                      $edge1
         );
         $this->assertTrue($result1 == 'edge1', 'Did not return edge1!');
 
@@ -344,7 +344,7 @@ class GraphExtendedTest extends
         // Try to get the edge using GraphHandler
         // This should cause an exception with a code of 404
         try {
-            $e       = null;
+            $e = null;
             $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
@@ -444,7 +444,7 @@ class GraphExtendedTest extends
         // Try to get the edge using GraphHandler
         // This should cause an exception with a code of 404
         try {
-            $e       = null;
+            $e = null;
             $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
@@ -608,10 +608,10 @@ class GraphExtendedTest extends
 
         // Replace vertex
         $result1a = $this->graphHandler->replaceVertex(
-            $this->graphName,
-            $this->vertex1Name,
-            $vertex1a,
-            array('revision' => $result1->getRevision())
+                                       $this->graphName,
+                                       $this->vertex1Name,
+                                       $vertex1a,
+                                       array('revision' => $result1->getRevision())
         );
         $this->assertTrue($result1a, 'Did not return true!');
 
@@ -642,19 +642,19 @@ class GraphExtendedTest extends
 
         try {
             $result1 = $this->graphHandler->updateVertex(
-                $this->graphName,
-                $this->vertex1Name,
-                $vertex1,
-                array('revision' => true)
+                                          $this->graphName,
+                                          $this->vertex1Name,
+                                          $vertex1,
+                                          array('revision' => true)
             );
             $this->assertTrue($result1, 'Did not return true!');
         } catch (Exception $e) {
             //just give us the $e
         }
         $this->assertInstanceOf(
-            'triagens\ArangoDb\ServerException',
-            $e,
-            "An exception should be thrown by the mis-matching revision!"
+             'triagens\ArangoDb\ServerException',
+             $e,
+             "An exception should be thrown by the mis-matching revision!"
         );
 
         $result1a = $this->graphHandler->removeVertex($this->graphName, $this->vertex1Name);
@@ -693,11 +693,11 @@ class GraphExtendedTest extends
 
 
         $result1 = $this->graphHandler->saveEdge(
-            $this->graphName,
-            $this->vertex1Name,
-            $this->vertex2Name,
-            $this->edgeLabel1,
-            $edge1
+                                      $this->graphName,
+                                      $this->vertex1Name,
+                                      $this->vertex2Name,
+                                      $this->edgeLabel1,
+                                      $edge1
         );
         $this->assertTrue($result1 == 'edge1', 'Did not return edge1!');
 
@@ -788,11 +788,11 @@ class GraphExtendedTest extends
 
 
         $result1 = $this->graphHandler->saveEdge(
-            $this->graphName,
-            $this->vertex1Name,
-            $this->vertex2Name,
-            $this->edgeLabel1,
-            $edge1
+                                      $this->graphName,
+                                      $this->vertex1Name,
+                                      $this->vertex2Name,
+                                      $this->edgeLabel1,
+                                      $edge1
         );
         $this->assertTrue($result1 == 'edge1', 'Did not return edge1!');
 
@@ -802,11 +802,11 @@ class GraphExtendedTest extends
 
 
         $result1a = $this->graphHandler->replaceEdge(
-            $this->graphName,
-            $this->edge1Name,
-            $this->edgeLabel1,
-            $edge1a,
-            array('revision' => $result1->getRevision())
+                                       $this->graphName,
+                                       $this->edge1Name,
+                                       $this->edgeLabel1,
+                                       $edge1a,
+                                       array('revision' => $result1->getRevision())
         );
         $this->assertTrue($result1a, 'Did not return true!');
 
@@ -817,20 +817,20 @@ class GraphExtendedTest extends
         $e = null;
         try {
             $this->graphHandler->updateEdge(
-                $this->graphName,
-                $this->edge1Name,
-                $this->edgeLabel1,
-                $edge1,
-                array('revision' => true)
+                               $this->graphName,
+                               $this->edge1Name,
+                               $this->edgeLabel1,
+                               $edge1,
+                               array('revision' => true)
             );
         } catch (Exception $e) {
             //Just give the $e
         }
 
         $this->assertInstanceOf(
-            'triagens\ArangoDb\ServerException',
-            $e,
-            "An exception should be thrown by the mis-matching revision!"
+             'triagens\ArangoDb\ServerException',
+             $e,
+             "An exception should be thrown by the mis-matching revision!"
         );
 
         $result1a = $this->graphHandler->removeVertex($this->graphName, $this->vertex1Name);
@@ -875,10 +875,10 @@ class GraphExtendedTest extends
         // Save edge using EdgeHandler
         $edgeHandler = new EdgeHandler($this->connection);
         $result1     = $edgeHandler->saveEdge(
-            $this->edgeCollectionName,
-            $this->vertexCollectionName . '/' . $this->vertex1Name,
-            $this->vertexCollectionName . '/' . $this->vertex2Name,
-            $edge1
+                                   $this->edgeCollectionName,
+                                   $this->vertexCollectionName . '/' . $this->vertex1Name,
+                                   $this->vertexCollectionName . '/' . $this->vertex2Name,
+                                   $edge1
         );
         $this->assertTrue($result1 == 'edge1', 'Did not return edge1!');
 
@@ -968,12 +968,12 @@ class GraphExtendedTest extends
             $resultingDocument[$key] = $value;
         }
         $this->assertTrue(
-            $resultingDocument[0]->someKey1 == 'someValue1',
-            'Should return "someValue1", returned: ' . $resultingDocument[0]->someKey1
+             $resultingDocument[0]->someKey1 == 'someValue1',
+             'Should return "someValue1", returned: ' . $resultingDocument[0]->someKey1
         );
         $this->assertTrue(
-            $resultingDocument[1]->someKey3 == 'someValue3',
-            'Should return "someValue3", returned: ' . $resultingDocument[1]->someKey3
+             $resultingDocument[1]->someKey3 == 'someValue3',
+             'Should return "someValue3", returned: ' . $resultingDocument[1]->someKey3
         );
         $this->assertTrue(count($resultingDocument) == 2, 'Should be 2, was: ' . count($resultingDocument));
 
@@ -989,12 +989,12 @@ class GraphExtendedTest extends
             $resultingDocument[$key] = $value;
         }
         $this->assertTrue(
-            $resultingDocument[0]->someKey1 == 'someValue1',
-            'Should return "someValue1", returned: ' . $resultingDocument[0]->someKey1
+             $resultingDocument[0]->someKey1 == 'someValue1',
+             'Should return "someValue1", returned: ' . $resultingDocument[0]->someKey1
         );
         $this->assertTrue(
-            $resultingDocument[1]->someKey3 == 'someValue3',
-            'Should return "someValue3", returned: ' . $resultingDocument[1]->someKey3
+             $resultingDocument[1]->someKey3 == 'someValue3',
+             'Should return "someValue3", returned: ' . $resultingDocument[1]->someKey3
         );
         $this->assertTrue(count($resultingDocument) == 2, 'Should be 2, was: ' . count($resultingDocument));
 
@@ -1009,8 +1009,8 @@ class GraphExtendedTest extends
             $resultingDocument[$key] = $value;
         }
         $this->assertTrue(
-            $resultingDocument[0]->someKey1 == 'someValue1',
-            'Should return "someValue1", returned: ' . $resultingDocument[0]->someKey1
+             $resultingDocument[0]->someKey1 == 'someValue1',
+             'Should return "someValue1", returned: ' . $resultingDocument[0]->someKey1
         );
         $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
 
@@ -1025,14 +1025,14 @@ class GraphExtendedTest extends
             $resultingDocument[$key] = $value;
         }
         $this->assertTrue(
-            $resultingDocument[0]->someKey1 == 'someValue1',
-            'Should return "someValue1", returned: ' . $resultingDocument[0]->someKey1
+             $resultingDocument[0]->someKey1 == 'someValue1',
+             'Should return "someValue1", returned: ' . $resultingDocument[0]->someKey1
         );
         $this->assertInstanceOf('triagens\ArangoDb\Vertex', $resultingDocument[0]);
 
         $this->assertTrue(
-            $resultingDocument[1]->someKey3 == 'someValue3',
-            'Should return "someValue3", returned: ' . $resultingDocument[1]->someKey3
+             $resultingDocument[1]->someKey3 == 'someValue3',
+             'Should return "someValue3", returned: ' . $resultingDocument[1]->someKey3
         );
         $this->assertInstanceOf('triagens\ArangoDb\Vertex', $resultingDocument[1]);
 
@@ -1054,8 +1054,8 @@ class GraphExtendedTest extends
             $resultingDocument[$key] = $value;
         }
         $this->assertTrue(
-            $resultingDocument[0]->someKey3 == 'someValue3',
-            'Should return "someValue3", returned: ' . $resultingDocument[0]->someKey3
+             $resultingDocument[0]->someKey3 == 'someValue3',
+             'Should return "someValue3", returned: ' . $resultingDocument[0]->someKey3
         );
         $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
 
@@ -1072,8 +1072,8 @@ class GraphExtendedTest extends
             $resultingDocument[$key] = $value;
         }
         $this->assertTrue(
-            $resultingDocument[0]->someKey3 == 'someValue3',
-            'Should return "someValue3", returned: ' . $resultingDocument[0]->someKey3
+             $resultingDocument[0]->someKey3 == 'someValue3',
+             'Should return "someValue3", returned: ' . $resultingDocument[0]->someKey3
         );
         $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
 
@@ -1091,8 +1091,8 @@ class GraphExtendedTest extends
             $resultingDocument[$key] = $value;
         }
         $this->assertTrue(
-            $resultingDocument[0]->someKey3 == 'someValue3',
-            'Should return "someValue3", returned: ' . $resultingDocument[0]->someKey3
+             $resultingDocument[0]->someKey3 == 'someValue3',
+             'Should return "someValue3", returned: ' . $resultingDocument[0]->someKey3
         );
         $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
     }
@@ -1112,13 +1112,13 @@ class GraphExtendedTest extends
             $resultingDocument[$key] = $value;
         }
         $this->assertTrue(
-            $resultingDocument[0]->someEdgeKey1 == 'someEdgeValue1',
-            'Should return "someEdgeValue1", returned: ' . $resultingDocument[0]->someEdgeKey1
+             $resultingDocument[0]->someEdgeKey1 == 'someEdgeValue1',
+             'Should return "someEdgeValue1", returned: ' . $resultingDocument[0]->someEdgeKey1
         );
         $this->assertInstanceOf('triagens\ArangoDb\Edge', $resultingDocument[0]);
         $this->assertTrue(
-            $resultingDocument[1]->someEdgeKey2 == 'someEdgeValue2',
-            'Should return "someEdgeValue2", returned: ' . $resultingDocument[1]->someEdgeKey1
+             $resultingDocument[1]->someEdgeKey2 == 'someEdgeValue2',
+             'Should return "someEdgeValue2", returned: ' . $resultingDocument[1]->someEdgeKey1
         );
         $this->assertInstanceOf('triagens\ArangoDb\Edge', $resultingDocument[1]);
 
@@ -1135,12 +1135,12 @@ class GraphExtendedTest extends
             $resultingDocument[$key] = $value;
         }
         $this->assertTrue(
-            $resultingDocument[0]->someEdgeKey1 == 'someEdgeValue1',
-            'Should return "someEdgeValue1", returned: ' . $resultingDocument[0]->someEdgeKey1
+             $resultingDocument[0]->someEdgeKey1 == 'someEdgeValue1',
+             'Should return "someEdgeValue1", returned: ' . $resultingDocument[0]->someEdgeKey1
         );
         $this->assertTrue(
-            $resultingDocument[1]->someEdgeKey2 == 'someEdgeValue2',
-            'Should return "someEdgeValue2", returned: ' . $resultingDocument[1]->someEdgeKey1
+             $resultingDocument[1]->someEdgeKey2 == 'someEdgeValue2',
+             'Should return "someEdgeValue2", returned: ' . $resultingDocument[1]->someEdgeKey1
         );
         $this->assertTrue(count($resultingDocument) == 2, 'Should be 2, was: ' . count($resultingDocument));
 
@@ -1155,8 +1155,8 @@ class GraphExtendedTest extends
             $resultingDocument[$key] = $value;
         }
         $this->assertTrue(
-            $resultingDocument[0]->someEdgeKey1 == 'someEdgeValue1',
-            'Should return "someEdgeValue1", returned: ' . $resultingDocument[0]->someEdgeKey1
+             $resultingDocument[0]->someEdgeKey1 == 'someEdgeValue1',
+             'Should return "someEdgeValue1", returned: ' . $resultingDocument[0]->someEdgeKey1
         );
         $this->assertTrue(count($resultingDocument) == 1, 'Should be 2, was: ' . count($resultingDocument));
 
@@ -1171,8 +1171,8 @@ class GraphExtendedTest extends
             $resultingDocument[$key] = $value;
         }
         $this->assertTrue(
-            $resultingDocument[0]->someEdgeKey1 == 'someEdgeValue1',
-            'Should return "someEdgeValue1", returned: ' . $resultingDocument[0]->someEdgeKey1
+             $resultingDocument[0]->someEdgeKey1 == 'someEdgeValue1',
+             'Should return "someEdgeValue1", returned: ' . $resultingDocument[0]->someEdgeKey1
         );
         $this->assertTrue(count($resultingDocument) == 2, 'Should be 2, was: ' . count($resultingDocument));
 
@@ -1193,8 +1193,8 @@ class GraphExtendedTest extends
         }
 
         $this->assertTrue(
-            $resultingDocument[0]->someEdgeKey2 == 'someEdgeValue2',
-            'Should return "someEdgeValue2", returned: ' . $resultingDocument[0]->someEdgeKey2
+             $resultingDocument[0]->someEdgeKey2 == 'someEdgeValue2',
+             'Should return "someEdgeValue2", returned: ' . $resultingDocument[0]->someEdgeKey2
         );
         $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
 
@@ -1212,8 +1212,8 @@ class GraphExtendedTest extends
         }
 
         $this->assertTrue(
-            $resultingDocument[0]->someEdgeKey2 == 'someEdgeValue2',
-            'Should return "someEdgeValue2", returned: ' . $resultingDocument[0]->someEdgeKey2
+             $resultingDocument[0]->someEdgeKey2 == 'someEdgeValue2',
+             'Should return "someEdgeValue2", returned: ' . $resultingDocument[0]->someEdgeKey2
         );
         $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
 
@@ -1231,8 +1231,8 @@ class GraphExtendedTest extends
             $resultingDocument[$key] = $value;
         }
         $this->assertTrue(
-            $resultingDocument[0]->someEdgeKey2 == 'someEdgeValue2',
-            'Should return "someEdgeValue2", returned: ' . $resultingDocument[0]->someEdgeKey1
+             $resultingDocument[0]->someEdgeKey2 == 'someEdgeValue2',
+             'Should return "someEdgeValue2", returned: ' . $resultingDocument[0]->someEdgeKey1
         );
         $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
     }

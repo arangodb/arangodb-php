@@ -76,7 +76,7 @@ class Statement
      * @var bool
      */
     private $_doCount = false;
-    
+
     /**
      * The count flag (should server return total number of results ignoring the limit)
      * Be careful! This option also prevents ArangoDB from using some server side optimizations!
@@ -125,7 +125,7 @@ class Statement
      * Bind variables index
      */
     const ENTRY_BINDVARS = 'bindVars';
-    
+
     /**
      * Full count option index
      */
@@ -169,9 +169,9 @@ class Statement
         if (isset($data[self::ENTRY_BINDVARS])) {
             $this->_bindVars->set($data[self::ENTRY_BINDVARS]);
         }
-        
+
         if (isset($data[self::FULL_COUNT])) {
-        	$this->_fullCount = (bool) $data[Cursor::FULL_COUNT];
+            $this->_fullCount = (bool) $data[Cursor::FULL_COUNT];
         }
 
         if (isset($data[Cursor::ENTRY_SANITIZE])) {
@@ -353,7 +353,7 @@ class Statement
     {
         return $this->_doCount;
     }
-    
+
     /**
      * Set the full count option for the statement
      *
@@ -363,9 +363,9 @@ class Statement
      */
     public function setFullCount($value)
     {
-    	$this->_fullCount = (bool) $value;
+        $this->_fullCount = (bool) $value;
     }
-    
+
     /**
      * Get the full count option value of the statement
      *
@@ -373,7 +373,7 @@ class Statement
      */
     public function getFullCount()
     {
-    	return $this->_fullCount;
+        return $this->_fullCount;
     }
 
     /**
@@ -421,10 +421,9 @@ class Statement
         $data = array(
             self::ENTRY_QUERY => $this->_query,
             self::ENTRY_COUNT => $this->_doCount,
-        		
-        	'options' => array(
-        		self::FULL_COUNT => $this->_fullCount
-        	)
+            'options'         => array(
+                self::FULL_COUNT => $this->_fullCount
+            )
         );
 
         if ($this->_bindVars->getCount() > 0) {

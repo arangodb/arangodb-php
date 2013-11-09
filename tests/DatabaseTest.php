@@ -27,14 +27,12 @@ class DatabaseTest extends
         // remove existing databases to make test repeatable
         $databases = array("ArangoTestSuiteDatabaseTest01", "ArangoTestSuiteDatabaseTest02");
         foreach ($databases as $database) {
-        
+
             try {
                 Database::delete($this->connection, $database);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
             }
         }
-
     }
 
     /**
@@ -188,7 +186,7 @@ class DatabaseTest extends
 
 
         $this->connection->setDatabase('_system');
-        
+
         $response = Database::getInfo($this->connection);
         $this->assertTrue($response['result']['name'] == '_system');
 
@@ -205,11 +203,10 @@ class DatabaseTest extends
         // clean up
         $databases = array("ArangoTestSuiteDatabaseTest01", "ArangoTestSuiteDatabaseTest02");
         foreach ($databases as $database) {
-        
+
             try {
                 Database::delete($this->connection, $database);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
             }
         }
 

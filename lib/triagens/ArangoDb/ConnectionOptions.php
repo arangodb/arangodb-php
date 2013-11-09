@@ -310,7 +310,7 @@ class ConnectionOptions implements
             self::OPTION_RECONNECT          => false,
             self::OPTION_BATCH              => false,
             self::OPTION_BATCHPART          => false,
-            self::OPTION_DATABASE => '_system',
+            self::OPTION_DATABASE           => '_system',
             self::OPTION_CHECK_UTF8_CONFORM => DefaultValues::DEFAULT_CHECK_UTF8_CONFORM,
         );
     }

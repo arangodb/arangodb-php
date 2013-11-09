@@ -70,7 +70,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+                              array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
@@ -95,7 +95,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+                              array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
@@ -122,12 +122,12 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+                              array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document, array('waitForSync' => true));
 
         $document2   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute2' => 'someOtherValue2')
+                               array('someAttribute' => 'someValue', 'someOtherAttribute2' => 'someOtherValue2')
         );
         $documentId2 = $documentHandler->add($this->collection->getId(), $document2, array('waitForSync' => true));
 
@@ -135,13 +135,13 @@ class DocumentExtendedTest extends
         $this->assertTrue(is_numeric($documentId2), 'Did not return an id!');
 
         $exampleDocument = Document::createFromArray(
-            array('someAttribute' => 'someValue')
+                                   array('someAttribute' => 'someValue')
         );
 
         $cursor = $documentHandler->getByExample(
-            $this->collection->getId(),
-            $exampleDocument,
-            array('batchSize' => 1, 'skip' => 0, 'limit' => 2)
+                                  $this->collection->getId(),
+                                  $exampleDocument,
+                                  array('batchSize' => 1, 'skip' => 0, 'limit' => 2)
         );
 
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
@@ -151,22 +151,22 @@ class DocumentExtendedTest extends
         }
 
         $this->assertTrue(
-            ($resultingDocument[0]->someAttribute == 'someValue'),
-            'Document returned did not contain expected data.'
+             ($resultingDocument[0]->someAttribute == 'someValue'),
+                 'Document returned did not contain expected data.'
         );
 
         $this->assertTrue(
-            ($resultingDocument[1]->someAttribute == 'someValue'),
-            'Document returned did not contain expected data.'
+             ($resultingDocument[1]->someAttribute == 'someValue'),
+                 'Document returned did not contain expected data.'
         );
 
         $this->assertTrue(count($resultingDocument) == 2, 'Should be 2, was: ' . count($resultingDocument));
 
 
         $cursor = $documentHandler->getByExample(
-            $this->collection->getId(),
-            $exampleDocument,
-            array('batchSize' => 1, 'skip' => 1)
+                                  $this->collection->getId(),
+                                  $exampleDocument,
+                                  array('batchSize' => 1, 'skip' => 1)
         );
 
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
@@ -176,17 +176,17 @@ class DocumentExtendedTest extends
         }
 
         $this->assertTrue(
-            ($resultingDocument[0]->someAttribute == 'someValue'),
-            'Document returned did not contain expected data.'
+             ($resultingDocument[0]->someAttribute == 'someValue'),
+                 'Document returned did not contain expected data.'
         );
 
         $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
 
 
         $cursor = $documentHandler->getByExample(
-            $this->collection->getId(),
-            $exampleDocument,
-            array('batchSize' => 1, 'limit' => 1)
+                                  $this->collection->getId(),
+                                  $exampleDocument,
+                                  array('batchSize' => 1, 'limit' => 1)
         );
 
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
@@ -195,8 +195,8 @@ class DocumentExtendedTest extends
             $resultingDocument[$key] = $value;
         }
         $this->assertTrue(
-            ($resultingDocument[0]->someAttribute == 'someValue'),
-            'Document returned did not contain expected data.'
+             ($resultingDocument[0]->someAttribute == 'someValue'),
+                 'Document returned did not contain expected data.'
         );
         $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
 
@@ -214,7 +214,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+                              array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
@@ -239,7 +239,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+                              array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
@@ -256,12 +256,12 @@ class DocumentExtendedTest extends
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
         $this->assertTrue(
-            ($resultingDocument->someAttribute == 'someValue'),
-            'Should be :someValue, is: ' . $resultingDocument->someAttribute
+             ($resultingDocument->someAttribute == 'someValue'),
+                 'Should be :someValue, is: ' . $resultingDocument->someAttribute
         );
         $this->assertTrue(
-            ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
-            'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
+             ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
+                 'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
         );
         $response = $documentHandler->delete($resultingDocument);
         $this->assertTrue($response, 'Delete should return true!');
@@ -278,10 +278,10 @@ class DocumentExtendedTest extends
     {
         $documentHandler = $this->documentHandler;
 
-        $document          = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+        $document   = Document::createFromArray(
+                              array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
         );
-        $documentId        = $documentHandler->add($this->collection->getId(), $document);
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
         $documentHandler->get($this->collection->getId(), $documentId);
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
 
@@ -301,12 +301,12 @@ class DocumentExtendedTest extends
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
         $this->assertTrue(
-            ($resultingDocument->someAttribute == 'someValue'),
-            'Should be :someValue, is: ' . $resultingDocument->someAttribute
+             ($resultingDocument->someAttribute == 'someValue'),
+                 'Should be :someValue, is: ' . $resultingDocument->someAttribute
         );
         $this->assertTrue(
-            ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
-            'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
+             ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
+                 'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
         );
         $response = $documentHandler->delete($resultingDocument);
         $this->assertTrue($response, 'Delete should return true!');
@@ -321,7 +321,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+                              array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
@@ -339,12 +339,12 @@ class DocumentExtendedTest extends
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
         $this->assertTrue(
-            ($resultingDocument->someAttribute == null),
-            'Should be : null, is: ' . $resultingDocument->someAttribute
+             ($resultingDocument->someAttribute == null),
+                 'Should be : null, is: ' . $resultingDocument->someAttribute
         );
         $this->assertTrue(
-            ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
-            'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
+             ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
+                 'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
         );
         $response = $documentHandler->delete($resultingDocument);
         $this->assertTrue($response, 'Delete should return true!');
@@ -359,7 +359,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+                              array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
@@ -375,12 +375,12 @@ class DocumentExtendedTest extends
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
         $this->assertTrue(
-            ($resultingDocument->someAttribute == 'someValue2'),
-            'Should be :someValue2, is: ' . $resultingDocument->someAttribute
+             ($resultingDocument->someAttribute == 'someValue2'),
+                 'Should be :someValue2, is: ' . $resultingDocument->someAttribute
         );
         $this->assertTrue(
-            ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
-            'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
+             ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
+                 'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
         );
 
         $response = $documentHandler->delete($resultingDocument);
@@ -399,7 +399,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+                              array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
@@ -419,12 +419,12 @@ class DocumentExtendedTest extends
         $this->assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
         $this->assertTrue(
-            ($resultingDocument->someAttribute == 'someValue2'),
-            'Should be :someValue2, is: ' . $resultingDocument->someAttribute
+             ($resultingDocument->someAttribute == 'someValue2'),
+                 'Should be :someValue2, is: ' . $resultingDocument->someAttribute
         );
         $this->assertTrue(
-            ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
-            'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
+             ($resultingDocument->someOtherAttribute == 'someOtherValue2'),
+                 'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
         );
 
         $response = $documentHandler->delete($resultingDocument);
@@ -440,7 +440,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+                              array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
@@ -471,7 +471,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+                              array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
@@ -497,7 +497,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+                              array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
@@ -507,8 +507,8 @@ class DocumentExtendedTest extends
 
         $response = $documentHandler->deleteById($this->collection->getId(), $documentId, $revision - 1000, 'last');
         $this->assertTrue(
-            $response,
-            'deleteById() should return true! (because policy  is "last write wins")'
+             $response,
+             'deleteById() should return true! (because policy  is "last write wins")'
         );
     }
 
@@ -521,7 +521,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+                              array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
@@ -562,8 +562,8 @@ class DocumentExtendedTest extends
         $resultingDocument1 = $documentHandler->get($this->collection->getId(), $documentId);
 
         $this->assertTrue(
-            ($resultingDocument1->someAttribute == 'someValue2'),
-            "This value should not have changed using UPDATE() - this is the behavior of REPLACE()"
+             ($resultingDocument1->someAttribute == 'someValue2'),
+                 "This value should not have changed using UPDATE() - this is the behavior of REPLACE()"
         );
         $this->assertTrue($resultingDocument1->someOtherAttribute == 'someOtherValue2');
         unset ($e);
@@ -620,7 +620,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+                              array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
@@ -668,7 +668,7 @@ class DocumentExtendedTest extends
         unset ($e);
 
         $document = Document::createFromArray(
-            array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue3')
+                            array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue3')
         );
         $document->setInternalId($this->collection->getId() . '/' . $documentId);
         // Set some new values on the attributes and  _rev attribute to NULL
@@ -723,11 +723,11 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document = Document::createFromArray(
-            array(
-                 'someAttribute'      => 'someValue',
-                 'someOtherAttribute' => 'someOtherValue',
-                 'someThirdAttribute' => 'someThirdValue'
-            )
+                            array(
+                                 'someAttribute'      => 'someValue',
+                                 'someOtherAttribute' => 'someOtherValue',
+                                 'someThirdAttribute' => 'someThirdValue'
+                            )
         );
         $documentHandler->add($this->collection->getId(), $document);
 
@@ -756,11 +756,11 @@ class DocumentExtendedTest extends
         // Setup objects
         $documentHandler = $this->documentHandler;
         $document        = Document::createFromArray(
-            array(
-                 'someAttribute'      => 'someValue',
-                 'someOtherAttribute' => 'someOtherValue',
-                 'someThirdAttribute' => 'someThirdValue'
-            )
+                                   array(
+                                        'someAttribute'      => 'someValue',
+                                        'someOtherAttribute' => 'someOtherValue',
+                                        'someThirdAttribute' => 'someThirdValue'
+                                   )
         );
 
 
@@ -845,8 +845,8 @@ class DocumentExtendedTest extends
 
         $this->assertTrue($id == $document->getId(), 'Returned ID does not match the one in the document');
         $this->assertTrue(
-            $document->get('data') == 'this is some test data',
-            'Data has been modified for some reason.'
+             $document->get('data') == 'this is some test data',
+             'Data has been modified for some reason.'
         );
 
         //Check that the document is not new

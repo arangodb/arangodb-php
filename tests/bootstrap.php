@@ -4,7 +4,7 @@
  * File: bootstrap.php
  *
  * @package triagens\ArangoDb
- * @author Frank Mayer
+ * @author  Frank Mayer
  */
 
 namespace triagens\ArangoDb;
@@ -17,24 +17,30 @@ require dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '
 
 function getConnectionOptions()
 {
-    $traceFunc = function($type, $data) {
-        print "TRACE FOR ". $type . PHP_EOL;
+    $traceFunc = function ($type, $data) {
+        print "TRACE FOR " . $type . PHP_EOL;
     };
 
     return array(
-        ConnectionOptions::OPTION_ENDPOINT        => 'tcp://localhost:8529/', // endpoint to connect to
-        ConnectionOptions::OPTION_CONNECTION      => 'Close',                 // can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
-        ConnectionOptions::OPTION_AUTH_TYPE       => 'Basic',                 // use basic authorization
+        ConnectionOptions::OPTION_ENDPOINT      => 'tcp://localhost:8529/',
+        // endpoint to connect to
+        ConnectionOptions::OPTION_CONNECTION    => 'Close',
+        // can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
+        ConnectionOptions::OPTION_AUTH_TYPE     => 'Basic',
+        // use basic authorization
         /*
         ConnectionOptions::OPTION_AUTH_USER       => '',                      // user for basic authorization
         ConnectionOptions::OPTION_AUTH_PASSWD     => '',                      // password for basic authorization
         ConnectionOptions::OPTION_PORT            => 8529,                    // port to connect to (deprecated, should use endpoint instead)
         ConnectionOptions::OPTION_HOST            => "localhost",             // host to connect to (deprecated, should use endpoint instead)
         */
-        ConnectionOptions::OPTION_TIMEOUT         => 5,                       // timeout in seconds
+        ConnectionOptions::OPTION_TIMEOUT       => 5,
+        // timeout in seconds
         //ConnectionOptions::OPTION_TRACE           => $traceFunc,              // tracer function, can be used for debugging
-        ConnectionOptions::OPTION_CREATE          => false,                   // do not create unknown collections automatically
-        ConnectionOptions::OPTION_UPDATE_POLICY   => UpdatePolicy::LAST,      // last update wins
+        ConnectionOptions::OPTION_CREATE        => false,
+        // do not create unknown collections automatically
+        ConnectionOptions::OPTION_UPDATE_POLICY => UpdatePolicy::LAST,
+        // last update wins
     );
 }
 
