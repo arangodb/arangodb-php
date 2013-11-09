@@ -1,15 +1,23 @@
 
-v1.4.0-devel (xxxx-xx-xx)
+v1.4.0 (2013-11-09)
 -----------------------
 
 * Contributors to this version:
 
   * Frank Mayer (Github: @frankmayer)
+  * Jan Steemann (Github: @jsteemann)
 
 =======================
+* Fixes to Tests and Travis Setup (jsteemann)
+
+* Implemented Multi-Database and Database API support. Closes #146
+
+* Implemented Endpoint API support by extending the existing endpoint class. Closes #154
 
 * Made changes in order to support the new "Location" header style.
   This renders the 1.4 client incompatible with ArangoDB version <1.4.0
+
+* Support for Traversal API. Closes #148
 
 * Changes to support the new AQL function namespace separator '::' instead of the old one ':'
   This renders the client incompatible to ArangoDB versions <1.4.0

@@ -2,8 +2,11 @@
 
 # ArangoDB-PHP - A PHP client for ArangoDB
 
+[![Build Status](https://travis-ci.org/triAGENS/ArangoDB-PHP.png?branch=master)](https://travis-ci.org/triAGENS/ArangoDB-PHP)
+**Branch: Master (v1.4.0)**
+
 [![Build Status](https://travis-ci.org/triAGENS/ArangoDB-PHP.png?branch=devel)](https://travis-ci.org/triAGENS/ArangoDB-PHP)
-**Version: 1.4.0-devel**
+**Branch: devel**
 
 
 [Follow us on Twitter @arangodbphp to receive updates on the php driver](https://twitter.com/arangodbphp)
