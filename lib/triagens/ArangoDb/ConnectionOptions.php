@@ -169,6 +169,11 @@ class ConnectionOptions implements
     const OPTION_BATCHPART = 'BatchPart';
 
     /**
+     * Database flag
+     */
+    const OPTION_DATABASE = 'database';
+
+    /**
      * UTF-8 CHeck Flag
      */
     const OPTION_CHECK_UTF8_CONFORM = 'CheckUtf8Conform';
@@ -305,6 +310,7 @@ class ConnectionOptions implements
             self::OPTION_RECONNECT          => false,
             self::OPTION_BATCH              => false,
             self::OPTION_BATCHPART          => false,
+            self::OPTION_DATABASE           => '_system',
             self::OPTION_CHECK_UTF8_CONFORM => DefaultValues::DEFAULT_CHECK_UTF8_CONFORM,
         );
     }

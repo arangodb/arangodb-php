@@ -1,933 +1,1424 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-<meta charset="utf-8">
-<title>ArangoDB PHP client API » \triagens\ArangoDb\GraphHandler</title>
-<meta name="author" content="Mike van Riel">
-<meta name="description" content="">
-<link href="../css/template.css" rel="stylesheet" media="all">
-<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
-<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
-<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+    <meta charset="utf-8">
+    <title>ArangoDB PHP client API » \triagens\ArangoDb\GraphHandler</title>
+    <meta name="author" content="Mike van Riel">
+    <meta name="description" content="">
+    <link href="../css/template.css" rel="stylesheet" media="all">
+    <script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script>
+    <script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script>
+    <script src="../js/bootstrap.js" type="text/javascript"></script>
+    <script src="../js/template.js" type="text/javascript"></script>
+    <script src="../js/prettify/prettify.min.js" type="text/javascript"></script>
+    <link rel="shortcut icon" href="../img/favicon.ico">
+    <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
 </head>
 <body>
 <div class="navbar navbar-fixed-top">
-<div class="navbar-inner"><div class="container">
-<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">ArangoDB PHP client API</a><div class="nav-collapse"><ul class="nav">
-<li class="dropdown">
-<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
-                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
-<li><a>Namespaces</a></li>
-<li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
-<li><a>Packages</a></li>
-<li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
-</ul>
-</li>
-<li class="dropdown" id="charts-menu">
-<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
-                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
-</li>
-<li class="dropdown" id="reports-menu">
-<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
-                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
-<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">0</span></a></li>
-<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
-                <ul></ul></a></li>
-<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
-                <span class="label label-info">9</span></a></li>
-</ul>
-</li>
-</ul></div>
-</div></div>
-<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span
+                    class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a
+                class="brand" href="../index.html">ArangoDB PHP client API</a>
+
+            <div class="nav-collapse">
+                <ul class="nav">
+                    <li class="dropdown">
+                        <a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                            API Documentation <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a>Namespaces</a></li>
+                            <li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
+                            <li><a>Packages</a></li>
+                            <li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="charts-menu">
+                        <a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                                <span class="label label-info">0</span></a></li>
+                            <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                                <ul></ul>
+                            </a></li>
+                            <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                                <span class="label label-info">9</span></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a>
+    </div>
 </div>
 <div id="___" class="container">
-<noscript><div class="alert alert-warning">
-                            Javascript is disabled; several features are only available
-                            if Javascript is enabled.
-                        </div></noscript>
+<noscript>
+    <div class="alert alert-warning">
+        Javascript is disabled; several features are only available
+        if Javascript is enabled.
+    </div>
+</noscript>
 <div class="row">
 <div class="span4">
-<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
-<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
-</div>
-<ul class="side-nav nav nav-list">
-<li class="nav-header">
-<i class="icon-custom icon-method"></i> Methods
-                    <ul>
-<li class="method public "><a href="#method_ReplaceEdge" title="ReplaceEdge() :: Replace an existing edge in a graph, identified graph name and edge id"><span class="description">Replace an existing edge in a graph, identified graph name and edge id</span><pre>ReplaceEdge()</pre></a></li>
-<li class="method public "><a href="#method_ReplaceVertex" title="ReplaceVertex() :: Replace an existing vertex in a graph, identified graph name and vertex id"><span class="description">Replace an existing vertex in a graph, identified graph name and vertex id</span><pre>ReplaceVertex()</pre></a></li>
-<li class="method public "><a href="#method_createGraph" title="createGraph() :: Create a graph"><span class="description">Create a graph</span><pre>createGraph()</pre></a></li>
-<li class="method public "><a href="#method_dropGraph" title="dropGraph() :: Drop a graph and remove all its vertices and edges, also drops vertex and edge collections"><span class="description">Drop a graph and remove all its vertices and edges, also drops vertex and edge collections</span><pre>dropGraph()</pre></a></li>
-<li class="method public "><a href="#method_getConnectedEdges" title="getConnectedEdges() :: Get connected edges of a given vertex"><span class="description">Get connected edges of a given vertex</span><pre>getConnectedEdges()</pre></a></li>
-<li class="method public "><a href="#method_getEdge" title="getEdge() :: Get a single edge from a graph"><span class="description">Get a single edge from a graph</span><pre>getEdge()</pre></a></li>
-<li class="method public "><a href="#method_getGraph" title="getGraph() :: Get a graph"><span class="description">Get a graph</span><pre>getGraph()</pre></a></li>
-<li class="method public "><a href="#method_getNeighborVertices" title="getNeighborVertices() :: Get neighboring vertices of a given vertex"><span class="description">Get neighboring vertices of a given vertex</span><pre>getNeighborVertices()</pre></a></li>
-<li class="method public "><a href="#method_getVertex" title="getVertex() :: Get a single vertex from a graph"><span class="description">Get a single vertex from a graph</span><pre>getVertex()</pre></a></li>
-<li class="method public "><a href="#method_properties" title="properties() :: Get a graph's properties"><span class="description">Get a graph's properties</span><pre>properties()</pre></a></li>
-<li class="method public "><a href="#method_removeEdge" title="removeEdge() :: Remove a edge from a graph, identified by the graph name and edge id"><span class="description">Remove a edge from a graph, identified by the graph name and edge id</span><pre>removeEdge()</pre></a></li>
-<li class="method public "><a href="#method_removeVertex" title="removeVertex() :: Remove a vertex from a graph, identified by the graph name and vertex id"><span class="description">Remove a vertex from a graph, identified by the graph name and vertex id</span><pre>removeVertex()</pre></a></li>
-<li class="method public "><a href="#method_saveEdge" title="saveEdge() :: save an edge to a graph"><span class="description">save an edge to a graph</span><pre>saveEdge()</pre></a></li>
-<li class="method public "><a href="#method_saveVertex" title="saveVertex() :: save a vertex to a graph"><span class="description">save a vertex to a graph</span><pre>saveVertex()</pre></a></li>
-<li class="method public "><a href="#method_updateEdge" title="updateEdge() :: Update an existing edge in a graph, identified by graph name and edge id"><span class="description">Update an existing edge in a graph, identified by graph name and edge id</span><pre>updateEdge()</pre></a></li>
-<li class="method public "><a href="#method_updateVertex" title="updateVertex() :: Update an existing vertex in a graph, identified by graph name and vertex id"><span class="description">Update an existing vertex in a graph, identified by graph name and vertex id</span><pre>updateVertex()</pre></a></li>
-</ul>
-</li>
-<li class="nav-header">
-<i class="icon-custom icon-constant"></i> Constants
-                    <ul>
-<li class="constant  "><a href="#constant_ENTRY_GRAPH" title="ENTRY_GRAPH() :: documents array index"><span class="description">documents array index</span><pre>ENTRY_GRAPH</pre></a></li>
-<li class="constant  "><a href="#constant_KEY_FROM" title="KEY_FROM() :: example parameter"><span class="description">example parameter</span><pre>KEY_FROM</pre></a></li>
-<li class="constant  "><a href="#constant_KEY_TO" title="KEY_TO() :: example parameter"><span class="description">example parameter</span><pre>KEY_TO</pre></a></li>
-<li class="constant  "><a href="#constant_OPTION_EDGES" title="OPTION_EDGES() :: direction parameter"><span class="description">direction parameter</span><pre>OPTION_EDGES</pre></a></li>
-<li class="constant  "><a href="#constant_OPTION_KEY" title="OPTION_KEY() :: direction parameter"><span class="description">direction parameter</span><pre>OPTION_KEY</pre></a></li>
-<li class="constant  "><a href="#constant_OPTION_REVISION" title="OPTION_REVISION() :: conditional update of edges or vertices"><span class="description">conditional update of edges or vertices</span><pre>OPTION_REVISION</pre></a></li>
-<li class="constant  "><a href="#constant_OPTION_VERTICES" title="OPTION_VERTICES() :: vertex parameter"><span class="description">vertex parameter</span><pre>OPTION_VERTICES</pre></a></li>
-</ul>
-</li>
-</ul>
+    <span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active"
+                                                                              title="Show public elements">Public
+    </button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private"
+                                                                                                     title="Show private elements">
+        Private
+    </button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span>
+
+    <div class="btn-group view pull-right" data-toggle="buttons-radio">
+        <button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button>
+        <button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+    </div>
+    <ul class="side-nav nav nav-list">
+        <li class="nav-header">
+            <i class="icon-custom icon-method"></i> Methods
+            <ul>
+                <li class="method public "><a href="#method_createGraph" title="createGraph() :: Create a graph"><span
+                        class="description">Create a graph</span>
+                    <pre>createGraph()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_dropGraph"
+                                              title="dropGraph() :: Drop a graph and remove all its vertices and edges, also drops vertex and edge collections"><span
+                        class="description">Drop a graph and remove all its vertices and edges, also drops vertex and edge collections</span>
+                    <pre>dropGraph()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_getConnectedEdges"
+                                              title="getConnectedEdges() :: Get connected edges of a given vertex"><span
+                        class="description">Get connected edges of a given vertex</span>
+                    <pre>getConnectedEdges()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_getEdge"
+                                              title="getEdge() :: Get a single edge from a graph"><span
+                        class="description">Get a single edge from a graph</span>
+                    <pre>getEdge()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_getGraph" title="getGraph() :: Get a graph"><span
+                        class="description">Get a graph</span>
+                    <pre>getGraph()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_getNeighborVertices"
+                                              title="getNeighborVertices() :: Get neighboring vertices of a given vertex"><span
+                        class="description">Get neighboring vertices of a given vertex</span>
+                    <pre>getNeighborVertices()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_getVertex"
+                                              title="getVertex() :: Get a single vertex from a graph"><span
+                        class="description">Get a single vertex from a graph</span>
+                    <pre>getVertex()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_properties"
+                                              title="properties() :: Get a graph's properties"><span
+                        class="description">Get a graph's properties</span>
+                    <pre>properties()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_removeEdge"
+                                              title="removeEdge() :: Remove a edge from a graph, identified by the graph name and edge id"><span
+                        class="description">Remove a edge from a graph, identified by the graph name and edge id</span>
+                    <pre>removeEdge()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_removeVertex"
+                                              title="removeVertex() :: Remove a vertex from a graph, identified by the graph name and vertex id"><span
+                        class="description">Remove a vertex from a graph, identified by the graph name and vertex id</span>
+                    <pre>removeVertex()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_replaceEdge"
+                                              title="replaceEdge() :: Replace an existing edge in a graph, identified graph name and edge id"><span
+                        class="description">Replace an existing edge in a graph, identified graph name and edge id</span>
+                    <pre>replaceEdge()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_replaceVertex"
+                                              title="replaceVertex() :: Replace an existing vertex in a graph, identified graph name and vertex id"><span
+                        class="description">Replace an existing vertex in a graph, identified graph name and vertex id</span>
+                    <pre>replaceVertex()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_saveEdge"
+                                              title="saveEdge() :: save an edge to a graph"><span class="description">save an edge to a graph</span>
+                    <pre>saveEdge()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_saveVertex"
+                                              title="saveVertex() :: save a vertex to a graph"><span
+                        class="description">save a vertex to a graph</span>
+                    <pre>saveVertex()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_updateEdge"
+                                              title="updateEdge() :: Update an existing edge in a graph, identified by graph name and edge id"><span
+                        class="description">Update an existing edge in a graph, identified by graph name and edge id</span>
+                    <pre>updateEdge()</pre>
+                </a></li>
+                <li class="method public "><a href="#method_updateVertex"
+                                              title="updateVertex() :: Update an existing vertex in a graph, identified by graph name and vertex id"><span
+                        class="description">Update an existing vertex in a graph, identified by graph name and vertex id</span>
+                    <pre>updateVertex()</pre>
+                </a></li>
+            </ul>
+        </li>
+        <li class="nav-header">
+            <i class="icon-custom icon-constant"></i> Constants
+            <ul>
+                <li class="constant  "><a href="#constant_ENTRY_GRAPH"
+                                          title="ENTRY_GRAPH() :: documents array index"><span class="description">documents array index</span>
+                    <pre>ENTRY_GRAPH</pre>
+                </a></li>
+                <li class="constant  "><a href="#constant_KEY_FROM" title="KEY_FROM() :: example parameter"><span
+                        class="description">example parameter</span>
+                    <pre>KEY_FROM</pre>
+                </a></li>
+                <li class="constant  "><a href="#constant_KEY_TO" title="KEY_TO() :: example parameter"><span
+                        class="description">example parameter</span>
+                    <pre>KEY_TO</pre>
+                </a></li>
+                <li class="constant  "><a href="#constant_OPTION_EDGES"
+                                          title="OPTION_EDGES() :: direction parameter"><span class="description">direction parameter</span>
+                    <pre>OPTION_EDGES</pre>
+                </a></li>
+                <li class="constant  "><a href="#constant_OPTION_KEY" title="OPTION_KEY() :: direction parameter"><span
+                        class="description">direction parameter</span>
+                    <pre>OPTION_KEY</pre>
+                </a></li>
+                <li class="constant  "><a href="#constant_OPTION_REVISION"
+                                          title="OPTION_REVISION() :: conditional update of edges or vertices"><span
+                        class="description">conditional update of edges or vertices</span>
+                    <pre>OPTION_REVISION</pre>
+                </a></li>
+                <li class="constant  "><a href="#constant_OPTION_VERTICES"
+                                          title="OPTION_VERTICES() :: vertex parameter"><span class="description">vertex parameter</span>
+                    <pre>OPTION_VERTICES</pre>
+                </a></li>
+            </ul>
+        </li>
+    </ul>
 </div>
 <div class="span8">
-<a id="\triagens\ArangoDb\GraphHandler"></a><ul class="breadcrumb">
-<li>
-<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
-</li>
-<li><a href="../namespaces/triagens.html">triagens</a></li>
-<li>
-<span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
-</li>
-<li class="active">
-<span class="divider">\</span><a href="../classes/triagens.ArangoDb.GraphHandler.html">GraphHandler</a>
-</li>
+<a id="\triagens\ArangoDb\GraphHandler"></a>
+<ul class="breadcrumb">
+    <li>
+        <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+    </li>
+    <li><a href="../namespaces/triagens.html">triagens</a></li>
+    <li>
+        <span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
+    </li>
+    <li class="active">
+        <span class="divider">\</span><a href="../classes/triagens.ArangoDb.GraphHandler.html">GraphHandler</a>
+    </li>
 </ul>
 <div class="element class">
 <p class="short_description">A handler that manages graphs.</p>
+
 <div class="details">
 <div class="long_description"><br></div>
 <table class="table table-bordered">
-<tr>
-<th>package</th>
-<td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
-</tr>
-<tr>
-<th>since</th>
-<td>1.2</td>
-</tr>
+    <tr>
+        <th>package</th>
+        <td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
+    </tr>
+    <tr>
+        <th>since</th>
+        <td>1.2</td>
+    </tr>
 </table>
 <h3>
-<i class="icon-custom icon-method"></i> Methods</h3>
-<a id="method_ReplaceEdge"></a><div class="element clickable method public method_ReplaceEdge" data-toggle="collapse" data-target=".method_ReplaceEdge .collapse">
-<h2>Replace an existing edge in a graph, identified graph name and edge id</h2>
-<pre>ReplaceEdge(mixed $graphName, mixed $edgeId, mixed $label, \triagens\ArangoDb\Edge $document, mixed $options) : bool</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">This will replace the edge on the server
+    <i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method_createGraph"></a>
 
-This will throw if the edge cannot be Replaced
+<div class="element clickable method public method_createGraph" data-toggle="collapse"
+     data-target=".method_createGraph .collapse">
+    <h2>Create a graph</h2>
+    <pre>createGraph(\triagens\ArangoDb\Graph $graph) : array</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">This will create a graph using the given graph object and return an array of
+                the created graph object's attributes.
 
-If policy is set to error (locally or globally through the ConnectionOptions)
-and the passed document has a _rev value set, the database will check
-that the revision of the to-be-replaced edge is the same as the one given.</div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$graphName</h4>
-<code>mixed</code><ul>
-<li>graph name as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$edgeId</h4>
-<code>mixed</code><ul>
-<li>edge id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$label</h4>
-<code>mixed</code><ul>
-<li>label for the edge or ''</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$document</h4>
-<code><a href="../classes/triagens.ArangoDb.Edge.html">\triagens\ArangoDb\Edge</a></code><ul>
-<li>edge document to be updated</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>mixed</code><ul>
-<li>optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)</li>
-</ul>
+                This will throw if the graph cannot be created
+            </div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>since</th>
+                    <td>1.2</td>
+                </tr>
+            </table>
+            <h3>Parameters</h3>
 
-<p>Options are :
-                        <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-                        <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-                        </p>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>bool</code>- always true, will throw if there is an error</div>
-</div></div>
-</div>
-<a id="method_ReplaceVertex"></a><div class="element clickable method public method_ReplaceVertex" data-toggle="collapse" data-target=".method_ReplaceVertex .collapse">
-<h2>Replace an existing vertex in a graph, identified graph name and vertex id</h2>
-<pre>ReplaceVertex(string $graphName, mixed $vertexId, \triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">This will update the vertex on the server
+            <div class="subelement argument"><h4>$graph</h4></div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
 
-This will throw if the vertex cannot be Replaced
+            <div class="subelement response">
+                <code>array</code>- an array of the created graph object's attributes.
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_dropGraph"></a>
 
-If policy is set to error (locally or globally through the ConnectionOptions)
-and the passed document has a _rev value set, the database will check
-that the revision of the to-be-replaced vertex is the same as the one given.</div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$graphName</h4>
-<code>string</code><ul>
-<li>the graph name as string</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$vertexId</h4>
-<code>mixed</code><ul>
-<li>the vertex id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$document</h4>
-<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
-<li>the vertex-document to be updated</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>mixed</code><ul>
-<li>optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)</li>
-</ul>
+<div class="element clickable method public method_dropGraph" data-toggle="collapse"
+     data-target=".method_dropGraph .collapse">
+    <h2>Drop a graph and remove all its vertices and edges, also drops vertex and edge collections</h2>
+    <pre>dropGraph(string $graph) : bool</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>since</th>
+                    <td>1.2</td>
+                </tr>
+            </table>
+            <h3>Parameters</h3>
 
-<p>Options are :]
-                           <li>'revision' - revision for conditional updates ('some-revision-id' [use the passed in revision id], false or true [use document's revision])</li>
-                           <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-                           <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-                           </p>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>bool</code>- always true, will throw if there is an error</div>
-</div></div>
-</div>
-<a id="method_createGraph"></a><div class="element clickable method public method_createGraph" data-toggle="collapse" data-target=".method_createGraph .collapse">
-<h2>Create a graph</h2>
-<pre>createGraph(\triagens\ArangoDb\Graph $graph) : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">This will create a graph using the given graph object and return an array of the created graph object's attributes.
+            <div class="subelement argument">
+                <h4>$graph</h4>
+                <code>string</code>
+                <ul>
+                    <li>graph name as a string</li>
+                </ul>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
 
-This will throw if the graph cannot be created</div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument"><h4>$graph</h4></div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>array</code>- an array of the created graph object's attributes.</div>
-</div></div>
+            <div class="subelement response">
+                <code>bool</code>- always true, will throw if there is an error
+            </div>
+        </div>
+    </div>
 </div>
-<a id="method_dropGraph"></a><div class="element clickable method public method_dropGraph" data-toggle="collapse" data-target=".method_dropGraph .collapse">
-<h2>Drop a graph and remove all its vertices and edges, also drops vertex and edge collections</h2>
-<pre>dropGraph(string $graph) : bool</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$graph</h4>
-<code>string</code><ul>
-<li>graph name as a string</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>bool</code>- always true, will throw if there is an error</div>
-</div></div>
-</div>
-<a id="method_getConnectedEdges"></a><div class="element clickable method public method_getConnectedEdges" data-toggle="collapse" data-target=".method_getConnectedEdges .collapse">
-<h2>Get connected edges of a given vertex</h2>
-<pre>getConnectedEdges(mixed $graphName, mixed $vertexId, bool|array $options) : <a href="cursor.html">\triagens\ArangoDb\cursor</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">This will throw if the list cannot be fetched from the server</div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$graphName</h4>
-<code>mixed</code><ul>
-<li>the name of the graph</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$vertexId</h4>
-<code>mixed</code><ul>
-<li>the vertex id</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>bool</code><code>array</code><ul>
-<li>optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.</li>
-</ul>
+<a id="method_getConnectedEdges"></a>
 
-<p>Options are :<br>
-                                <li>'batchSize' - the batch size of the returned cursor</li>
-                                <li>'limit' - limit the result size by a give number</li>
-                                <li>'count' - return the total number of results  Defaults to false.</li>
-                                <li>'filter' - a optional filter</li>
-                                <p>Filter options are :<br>
-                                <li>'direction' - Filter for inbound (value "in") or outbound (value "out") neighbors. Default value is "any".</li>
-                                <li>'labels' - filter by an array of edge labels (empty array means no restriction).</li>
-                                <li>'properties' - filter neighbors by an array of edge properties</li>
-                                <p>Properties options are :<br>
-                                <li>'key' - Filter the result vertices by a key value pair.</li>
-                                <li>'value' -  The value of the key.</li>
-                                <li>'compare' - A comparison operator. (==, >, <, >=, <= )</li>
-                                </p>
-                                </p>
-                                <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-                                <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
-                                <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-                                <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
-                                <p>
-                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-                                The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
-                                and the hidden attributes would not be applied to the attributes.<br>
-                                </p>
-                                </li>
-                                </p>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code><a href="cursor.html">\triagens\ArangoDb\cursor</a></code>- Returns a cursor containing the result</div>
-</div></div>
-</div>
-<a id="method_getEdge"></a><div class="element clickable method public method_getEdge" data-toggle="collapse" data-target=".method_getEdge .collapse">
-<h2>Get a single edge from a graph</h2>
-<pre>getEdge(mixed $graphName, mixed $edgeId, array $options) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">This will throw if the edge cannot be fetched from the server</div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$graphName</h4>
-<code>mixed</code><ul>
-<li>collection id as a string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$edgeId</h4>
-<code>mixed</code><ul>
-<li>edge identifier</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>array</code><ul>
-<li>optional, array of options</li>
-</ul>
+<div class="element clickable method public method_getConnectedEdges" data-toggle="collapse"
+     data-target=".method_getConnectedEdges .collapse">
+    <h2>Get connected edges of a given vertex</h2>
+    <pre>getConnectedEdges(mixed $graphName, mixed $vertexId, bool|array $options) : <a href="cursor.html">\triagens\ArangoDb\cursor</a></pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">This will throw if the list cannot be fetched from the server</div>
+            <h3>Parameters</h3>
 
-<p>Options are :
-                        <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
-                        <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
-                        <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
-                        <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
-                        </p>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>- the edge document fetched from the server</div>
-</div></div>
-</div>
-<a id="method_getGraph"></a><div class="element clickable method public method_getGraph" data-toggle="collapse" data-target=".method_getGraph .collapse">
-<h2>Get a graph</h2>
-<pre>getGraph(String $graph, array $options) : <a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">This will get a graph.
+            <div class="subelement argument">
+                <h4>$graphName</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>the name of the graph</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$vertexId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>the vertex id</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>bool</code><code>array</code>
+                <ul>
+                    <li>optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of
+                        options.
+                    </li>
+                </ul>
 
-This will throw if the graph cannot be retrieved.</div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$graph</h4>
-<code>String</code><ul>
-<li>The name of the graph</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>array</code><ul>
-<li>Options to pass to the method</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code><a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a></code>- A graph object representing the graph</div>
-</div></div>
-</div>
-<a id="method_getNeighborVertices"></a><div class="element clickable method public method_getNeighborVertices" data-toggle="collapse" data-target=".method_getNeighborVertices .collapse">
-<h2>Get neighboring vertices of a given vertex</h2>
-<pre>getNeighborVertices(mixed $graphName, mixed $vertexId, bool|array $options) : <a href="cursor.html">\triagens\ArangoDb\cursor</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">This will throw if the list cannot be fetched from the server</div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$graphName</h4>
-<code>mixed</code><ul>
-<li>the name of the graph</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$vertexId</h4>
-<code>mixed</code><ul>
-<li>the vertex id</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>bool</code><code>array</code><ul>
-<li>optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.</li>
-</ul>
+                <p>Options are :<br>
+                <li>'batchSize' - the batch size of the returned cursor</li>
+                <li>'limit' - limit the result size by a give number</li>
+                <li>'count' - return the total number of results Defaults to false.</li>
+                <li>'filter' - a optional filter</li>
+                <p>Filter options are :<br>
+                <li>'direction' - Filter for inbound (value "in") or outbound (value "out") neighbors. Default value is
+                    "any".
+                </li>
+                <li>'labels' - filter by an array of edge labels (empty array means no restriction).</li>
+                <li>'properties' - filter neighbors by an array of edge properties</li>
+                <p>Properties options are :<br>
+                <li>'key' - Filter the result vertices by a key value pair.</li>
+                <li>'value' - The value of the key.</li>
+                <li>'compare' - A comparison operator. (==, >, <, >=, <= )</li>
+                </p>
+                </p>
+                <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+                <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+                <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+                <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
+                <p>
+                    This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.
+                    <br>
+                    The difference is, that if you're returning a resultset of documents, the getAll() is already called
+                    <br>
+                    and the hidden attributes would not be applied to the attributes.<br>
+                </p>
+                </li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
 
-<p>Options are :<br>
-                                <li>'batchSize' - the batch size of the returned cursor</li>
-                                <li>'limit' - limit the result size by a give number</li>
-                                <li>'count' - return the total number of results  Defaults to false.</li>
-                                <li>'filter' - a optional filter</li>
-                                <p>Filter options are :<br>
-                                <li>'direction' - Filter for inbound (value "in") or outbound (value "out") neighbors. Default value is "any".</li>
-                                <li>'labels' - filter by an array of edge labels (empty array means no restriction).</li>
-                                <li>'properties' - filter neighbors by an array of edge properties</li>
-                                <p>Properties options are :<br>
-                                <li>'key' - Filter the result vertices by a key value pair.</li>
-                                <li>'value' -  The value of the key.</li>
-                                <li>'compare' - A comparison operator. (==, >, <, >=, <= )</li>
-                                </p>
-                                </p>
-                                <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-                                <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
-                                <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-                                <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
-                                <p>
-                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-                                The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
-                                and the hidden attributes would not be applied to the attributes.<br>
-                                </p>
-                                </li>
-                                </p>
+            <div class="subelement response">
+                <code><a href="cursor.html">\triagens\ArangoDb\cursor</a></code>- Returns a cursor containing the result
+            </div>
+        </div>
+    </div>
 </div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code><a href="cursor.html">\triagens\ArangoDb\cursor</a></code>- Returns a cursor containing the result</div>
-</div></div>
-</div>
-<a id="method_getVertex"></a><div class="element clickable method public method_getVertex" data-toggle="collapse" data-target=".method_getVertex .collapse">
-<h2>Get a single vertex from a graph</h2>
-<pre>getVertex(string $graphName, mixed $vertexId, array $options) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">This will throw if the vertex cannot be fetched from the server</div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$graphName</h4>
-<code>string</code><ul>
-<li>the graph name as a string</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$vertexId</h4>
-<code>mixed</code><ul>
-<li>the vertex identifier</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>array</code><ul>
-<li>optional, an array of options</li>
-</ul>
+<a id="method_getEdge"></a>
 
-<p>Options are :
-                         <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
-                         <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
-                         <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
-                         <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
-                         </p>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>- the vertex document fetched from the server</div>
-</div></div>
-</div>
-<a id="method_properties"></a><div class="element clickable method public method_properties" data-toggle="collapse" data-target=".method_properties .collapse">
-<h2>Get a graph's properties</h2>
-<pre>properties(string $graph) : bool</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$graph</h4>
-<code>string</code><ul>
-<li>graph name as a string</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>bool</code>- Returns an array of attributes. Will throw if there is an error</div>
-</div></div>
-</div>
-<a id="method_removeEdge"></a><div class="element clickable method public method_removeEdge" data-toggle="collapse" data-target=".method_removeEdge .collapse">
-<h2>Remove a edge from a graph, identified by the graph name and edge id</h2>
-<pre>removeEdge(mixed $graphName, mixed $edgeId, mixed $revision, mixed $options) : bool</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$graphName</h4>
-<code>mixed</code><ul>
-<li>graph name as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$edgeId</h4>
-<code>mixed</code><ul>
-<li>edge id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$revision</h4>
-<code>mixed</code><ul>
-<li>optional revision of the edge to be deleted</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>mixed</code><ul>
-<li>optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)</li>
-</ul>
+<div class="element clickable method public method_getEdge" data-toggle="collapse"
+     data-target=".method_getEdge .collapse">
+    <h2>Get a single edge from a graph</h2>
+    <pre>getEdge(mixed $graphName, mixed $edgeId, array $options) : <a
+            href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">This will throw if the edge cannot be fetched from the server</div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>since</th>
+                    <td>1.2</td>
+                </tr>
+            </table>
+            <h3>Parameters</h3>
 
-<p>Options are :
-                         <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-                         <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-                         </p>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>bool</code>- always true, will throw if there is an error</div>
-</div></div>
-</div>
-<a id="method_removeVertex"></a><div class="element clickable method public method_removeVertex" data-toggle="collapse" data-target=".method_removeVertex .collapse">
-<h2>Remove a vertex from a graph, identified by the graph name and vertex id</h2>
-<pre>removeVertex(mixed $graphName, mixed $vertexId, mixed $revision, mixed $options) : bool</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$graphName</h4>
-<code>mixed</code><ul>
-<li>the graph name as string</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$vertexId</h4>
-<code>mixed</code><ul>
-<li>the vertex id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$revision</h4>
-<code>mixed</code><ul>
-<li>optional, the revision of the vertex to be deleted</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>mixed</code><ul>
-<li>optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)</li>
-</ul>
+            <div class="subelement argument">
+                <h4>$graphName</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>collection id as a string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$edgeId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>edge identifier</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>array</code>
+                <ul>
+                    <li>optional, array of options</li>
+                </ul>
 
-<p>Options are :
-                         <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-                         <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-                         </p>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>bool</code>- always true, will throw if there is an error</div>
-</div></div>
-</div>
-<a id="method_saveEdge"></a><div class="element clickable method public method_saveEdge" data-toggle="collapse" data-target=".method_saveEdge .collapse">
-<h2>save an edge to a graph</h2>
-<pre>saveEdge(mixed $graphName, mixed $from, mixed $to, mixed $label, mixed $document) : mixed</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">This will save the edge to the graph and return the edges-document's id
+                <p>Options are :
+                <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
+                <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
+                <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+                <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
 
-This will throw if the edge cannot be saved</div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$graphName</h4>
-<code>mixed</code><ul>
-<li>the graph name as string</li>
-</ul>
+            <div class="subelement response">
+                <code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>- the
+                edge document fetched from the server
+            </div>
+        </div>
+    </div>
 </div>
-<div class="subelement argument">
-<h4>$from</h4>
-<code>mixed</code><ul>
-<li>the 'from' vertex</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$to</h4>
-<code>mixed</code><ul>
-<li>the 'to' vertex</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$label</h4>
-<code>mixed</code><ul>
-<li>(optional) a label for the edge</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$document</h4>
-<code>mixed</code><ul>
-<li>the edge-document to be added, can be passed as an edge object or an array</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>- id of edge created</div>
-</div></div>
-</div>
-<a id="method_saveVertex"></a><div class="element clickable method public method_saveVertex" data-toggle="collapse" data-target=".method_saveVertex .collapse">
-<h2>save a vertex to a graph</h2>
-<pre>saveVertex(mixed $graphName, mixed $document) : mixed</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">This will add the vertex-document to the graph and return the vertex id
+<a id="method_getGraph"></a>
 
-This will throw if the vertex cannot be saved</div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$graphName</h4>
-<code>mixed</code><ul>
-<li>the name of the graph</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$document</h4>
-<code>mixed</code><ul>
-<li>the vertex to be added, can be passed as a vertex object or an array</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>- id of vertex created</div>
-</div></div>
-</div>
-<a id="method_updateEdge"></a><div class="element clickable method public method_updateEdge" data-toggle="collapse" data-target=".method_updateEdge .collapse">
-<h2>Update an existing edge in a graph, identified by graph name and edge id</h2>
-<pre>updateEdge(string $graphName, mixed $edgeId, mixed $label, \triagens\ArangoDb\Edge $document, mixed $options) : bool</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">This will update the edge on the server
+<div class="element clickable method public method_getGraph" data-toggle="collapse"
+     data-target=".method_getGraph .collapse">
+    <h2>Get a graph</h2>
+    <pre>getGraph(String $graph, array $options) : <a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a></pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">This will get a graph.
 
-This will throw if the edge cannot be updated
+                This will throw if the graph cannot be retrieved.
+            </div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>since</th>
+                    <td>1.2</td>
+                </tr>
+            </table>
+            <h3>Parameters</h3>
 
-If policy is set to error (locally or globally through the ConnectionOptions)
-and the passed edge-document has a _rev value set, the database will check
-that the revision of the to-be-replaced document is the same as the one given.</div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$graphName</h4>
-<code>string</code><ul>
-<li>graph name as string</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$edgeId</h4>
-<code>mixed</code><ul>
-<li>edge id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$label</h4>
-<code>mixed</code><ul>
-<li>label for the edge or ''</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$document</h4>
-<code><a href="../classes/triagens.ArangoDb.Edge.html">\triagens\ArangoDb\Edge</a></code><ul>
-<li>patch edge-document which contains the attributes and values to be updated</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>mixed</code><ul>
-<li>optional, array of options (see below)</li>
-</ul>
+            <div class="subelement argument">
+                <h4>$graph</h4>
+                <code>String</code>
+                <ul>
+                    <li>The name of the graph</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>array</code>
+                <ul>
+                    <li>Options to pass to the method</li>
+                </ul>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
 
-<p>Options are :
-                         <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-                         <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
-                         <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-                         </p>
+            <div class="subelement response">
+                <code><a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a></code>- A graph
+                object representing the graph
+            </div>
+        </div>
+    </div>
 </div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>bool</code>- always true, will throw if there is an error</div>
-</div></div>
-</div>
-<a id="method_updateVertex"></a><div class="element clickable method public method_updateVertex" data-toggle="collapse" data-target=".method_updateVertex .collapse">
-<h2>Update an existing vertex in a graph, identified by graph name and vertex id</h2>
-<pre>updateVertex(string $graphName, mixed $vertexId, \triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">This will update the vertex on the server
+<a id="method_getNeighborVertices"></a>
 
-This will throw if the vertex cannot be updated
+<div class="element clickable method public method_getNeighborVertices" data-toggle="collapse"
+     data-target=".method_getNeighborVertices .collapse">
+    <h2>Get neighboring vertices of a given vertex</h2>
+    <pre>getNeighborVertices(mixed $graphName, mixed $vertexId, bool|array $options) : <a href="cursor.html">\triagens\ArangoDb\cursor</a></pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">This will throw if the list cannot be fetched from the server</div>
+            <h3>Parameters</h3>
 
-If policy is set to error (locally or globally through the ConnectionOptions)
-and the passed vertex-document has a _rev value set, the database will check
-that the revision of the to-be-replaced document is the same as the one given.</div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$graphName</h4>
-<code>string</code><ul>
-<li>the graph name as string</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$vertexId</h4>
-<code>mixed</code><ul>
-<li>the vertex id as string or number</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$document</h4>
-<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><ul>
-<li>the patch vertex-document which contains the attributes and values to be updated</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>mixed</code><ul>
-<li>optional, an array of options (see below)</li>
-</ul>
+            <div class="subelement argument">
+                <h4>$graphName</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>the name of the graph</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$vertexId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>the vertex id</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>bool</code><code>array</code>
+                <ul>
+                    <li>optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of
+                        options.
+                    </li>
+                </ul>
 
-<p>Options are :
-                           <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-                           <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
-                           <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-                           </p>
+                <p>Options are :<br>
+                <li>'batchSize' - the batch size of the returned cursor</li>
+                <li>'limit' - limit the result size by a give number</li>
+                <li>'count' - return the total number of results Defaults to false.</li>
+                <li>'filter' - a optional filter</li>
+                <p>Filter options are :<br>
+                <li>'direction' - Filter for inbound (value "in") or outbound (value "out") neighbors. Default value is
+                    "any".
+                </li>
+                <li>'labels' - filter by an array of edge labels (empty array means no restriction).</li>
+                <li>'properties' - filter neighbors by an array of edge properties</li>
+                <p>Properties options are :<br>
+                <li>'key' - Filter the result vertices by a key value pair.</li>
+                <li>'value' - The value of the key.</li>
+                <li>'compare' - A comparison operator. (==, >, <, >=, <= )</li>
+                </p>
+                </p>
+                <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+                <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+                <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+                <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
+                <p>
+                    This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.
+                    <br>
+                    The difference is, that if you're returning a resultset of documents, the getAll() is already called
+                    <br>
+                    and the hidden attributes would not be applied to the attributes.<br>
+                </p>
+                </li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code><a href="cursor.html">\triagens\ArangoDb\cursor</a></code>- Returns a cursor containing the result
+            </div>
+        </div>
+    </div>
 </div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>bool</code>- always true, will throw if there is an error</div>
-</div></div>
+<a id="method_getVertex"></a>
+
+<div class="element clickable method public method_getVertex" data-toggle="collapse"
+     data-target=".method_getVertex .collapse">
+    <h2>Get a single vertex from a graph</h2>
+    <pre>getVertex(string $graphName, mixed $vertexId, array $options) : <a
+            href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">This will throw if the vertex cannot be fetched from the server</div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>since</th>
+                    <td>1.2</td>
+                </tr>
+            </table>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$graphName</h4>
+                <code>string</code>
+                <ul>
+                    <li>the graph name as a string</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$vertexId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>the vertex identifier</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>array</code>
+                <ul>
+                    <li>optional, an array of options</li>
+                </ul>
+
+                <p>Options are :
+                <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
+                <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
+                <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+                <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>- the
+                vertex document fetched from the server
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_properties"></a>
+
+<div class="element clickable method public method_properties" data-toggle="collapse"
+     data-target=".method_properties .collapse">
+    <h2>Get a graph's properties</h2>
+    <pre>properties(string $graph) : bool</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>since</th>
+                    <td>1.2</td>
+                </tr>
+            </table>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$graph</h4>
+                <code>string</code>
+                <ul>
+                    <li>graph name as a string</li>
+                </ul>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>bool</code>- Returns an array of attributes. Will throw if there is an error
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_removeEdge"></a>
+
+<div class="element clickable method public method_removeEdge" data-toggle="collapse"
+     data-target=".method_removeEdge .collapse">
+    <h2>Remove a edge from a graph, identified by the graph name and edge id</h2>
+    <pre>removeEdge(mixed $graphName, mixed $edgeId, mixed $revision, mixed $options) : bool</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>since</th>
+                    <td>1.2</td>
+                </tr>
+            </table>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$graphName</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>graph name as string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$edgeId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>edge id as string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$revision</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>optional revision of the edge to be deleted</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>optional, array of options (see below) or the boolean value for $policy (for compatibility prior
+                        to version 1.1 of this method)
+                    </li>
+                </ul>
+
+                <p>Options are :
+                <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+                <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even
+                    in case that the waitForSync flag had been disabled for the entire collection
+                </li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>bool</code>- always true, will throw if there is an error
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_removeVertex"></a>
+
+<div class="element clickable method public method_removeVertex" data-toggle="collapse"
+     data-target=".method_removeVertex .collapse">
+    <h2>Remove a vertex from a graph, identified by the graph name and vertex id</h2>
+    <pre>removeVertex(mixed $graphName, mixed $vertexId, mixed $revision, mixed $options) : bool</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>since</th>
+                    <td>1.2</td>
+                </tr>
+            </table>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$graphName</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>the graph name as string</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$vertexId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>the vertex id as string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$revision</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>optional, the revision of the vertex to be deleted</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>optional, an array of options (see below) or the boolean value for $policy (for compatibility
+                        prior to version 1.1 of this method)
+                    </li>
+                </ul>
+
+                <p>Options are :
+                <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+                <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even
+                    in case that the waitForSync flag had been disabled for the entire collection
+                </li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>bool</code>- always true, will throw if there is an error
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_replaceEdge"></a>
+
+<div class="element clickable method public method_replaceEdge" data-toggle="collapse"
+     data-target=".method_replaceEdge .collapse">
+    <h2>Replace an existing edge in a graph, identified graph name and edge id</h2>
+    <pre>replaceEdge(mixed $graphName, mixed $edgeId, mixed $label, \triagens\ArangoDb\Edge $document, mixed $options) : bool</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">This will replace the edge on the server
+
+                This will throw if the edge cannot be Replaced
+
+                If policy is set to error (locally or globally through the ConnectionOptions)
+                and the passed document has a _rev value set, the database will check
+                that the revision of the to-be-replaced edge is the same as the one given.
+            </div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>since</th>
+                    <td>1.2</td>
+                </tr>
+            </table>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$graphName</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>graph name as string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$edgeId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>edge id as string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$label</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>label for the edge or ''</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$document</h4>
+                <code><a href="../classes/triagens.ArangoDb.Edge.html">\triagens\ArangoDb\Edge</a></code>
+                <ul>
+                    <li>edge document to be updated</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>optional, array of options (see below) or the boolean value for $policy (for compatibility prior
+                        to version 1.1 of this method)
+                    </li>
+                </ul>
+
+                <p>Options are :
+                <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+                <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk
+                    even in case that the waitForSync flag had been disabled for the entire collection
+                </li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>bool</code>- always true, will throw if there is an error
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_replaceVertex"></a>
+
+<div class="element clickable method public method_replaceVertex" data-toggle="collapse"
+     data-target=".method_replaceVertex .collapse">
+    <h2>Replace an existing vertex in a graph, identified graph name and vertex id</h2>
+    <pre>replaceVertex(string $graphName, mixed $vertexId, \triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">This will update the vertex on the server
+
+                This will throw if the vertex cannot be Replaced
+
+                If policy is set to error (locally or globally through the ConnectionOptions)
+                and the passed document has a _rev value set, the database will check
+                that the revision of the to-be-replaced vertex is the same as the one given.
+            </div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>since</th>
+                    <td>1.2</td>
+                </tr>
+            </table>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$graphName</h4>
+                <code>string</code>
+                <ul>
+                    <li>the graph name as string</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$vertexId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>the vertex id as string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$document</h4>
+                <code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>
+                <ul>
+                    <li>the vertex-document to be updated</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>optional, an array of options (see below) or the boolean value for $policy (for compatibility
+                        prior to version 1.1 of this method)
+                    </li>
+                </ul>
+
+                <p>Options are :]
+                <li>'revision' - revision for conditional updates ('some-revision-id' [use the passed in revision id],
+                    false or true [use document's revision])
+                </li>
+                <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+                <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk
+                    even in case that the waitForSync flag had been disabled for the entire collection
+                </li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>bool</code>- always true, will throw if there is an error
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_saveEdge"></a>
+
+<div class="element clickable method public method_saveEdge" data-toggle="collapse"
+     data-target=".method_saveEdge .collapse">
+    <h2>save an edge to a graph</h2>
+    <pre>saveEdge(mixed $graphName, mixed $from, mixed $to, mixed $label, mixed $document) : mixed</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">This will save the edge to the graph and return the edges-document's id
+
+                This will throw if the edge cannot be saved
+            </div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>since</th>
+                    <td>1.2</td>
+                </tr>
+            </table>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$graphName</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>the graph name as string</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$from</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>the 'from' vertex</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$to</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>the 'to' vertex</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$label</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>(optional) a label for the edge</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$document</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>the edge-document to be added, can be passed as an edge object or an array</li>
+                </ul>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>mixed</code>- id of edge created
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_saveVertex"></a>
+
+<div class="element clickable method public method_saveVertex" data-toggle="collapse"
+     data-target=".method_saveVertex .collapse">
+    <h2>save a vertex to a graph</h2>
+    <pre>saveVertex(mixed $graphName, mixed $document) : mixed</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">This will add the vertex-document to the graph and return the vertex id
+
+                This will throw if the vertex cannot be saved
+            </div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>since</th>
+                    <td>1.2</td>
+                </tr>
+            </table>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$graphName</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>the name of the graph</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$document</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>the vertex to be added, can be passed as a vertex object or an array</li>
+                </ul>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>mixed</code>- id of vertex created
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_updateEdge"></a>
+
+<div class="element clickable method public method_updateEdge" data-toggle="collapse"
+     data-target=".method_updateEdge .collapse">
+    <h2>Update an existing edge in a graph, identified by graph name and edge id</h2>
+    <pre>updateEdge(string $graphName, mixed $edgeId, mixed $label, \triagens\ArangoDb\Edge $document, mixed $options) : bool</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">This will update the edge on the server
+
+                This will throw if the edge cannot be updated
+
+                If policy is set to error (locally or globally through the ConnectionOptions)
+                and the passed edge-document has a _rev value set, the database will check
+                that the revision of the to-be-replaced document is the same as the one given.
+            </div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>since</th>
+                    <td>1.2</td>
+                </tr>
+            </table>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$graphName</h4>
+                <code>string</code>
+                <ul>
+                    <li>graph name as string</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$edgeId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>edge id as string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$label</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>label for the edge or ''</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$document</h4>
+                <code><a href="../classes/triagens.ArangoDb.Edge.html">\triagens\ArangoDb\Edge</a></code>
+                <ul>
+                    <li>patch edge-document which contains the attributes and values to be updated</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>optional, array of options (see below)</li>
+                </ul>
+
+                <p>Options are :
+                <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+                <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their
+                    values to null. Defaults to true (keep attributes when set to null)
+                </li>
+                <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even
+                    in case that the waitForSync flag had been disabled for the entire collection
+                </li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>bool</code>- always true, will throw if there is an error
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_updateVertex"></a>
+
+<div class="element clickable method public method_updateVertex" data-toggle="collapse"
+     data-target=".method_updateVertex .collapse">
+    <h2>Update an existing vertex in a graph, identified by graph name and vertex id</h2>
+    <pre>updateVertex(string $graphName, mixed $vertexId, \triagens\ArangoDb\Document $document, mixed $options) : bool</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">This will update the vertex on the server
+
+                This will throw if the vertex cannot be updated
+
+                If policy is set to error (locally or globally through the ConnectionOptions)
+                and the passed vertex-document has a _rev value set, the database will check
+                that the revision of the to-be-replaced document is the same as the one given.
+            </div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>since</th>
+                    <td>1.2</td>
+                </tr>
+            </table>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$graphName</h4>
+                <code>string</code>
+                <ul>
+                    <li>the graph name as string</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$vertexId</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>the vertex id as string or number</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$document</h4>
+                <code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code>
+                <ul>
+                    <li>the patch vertex-document which contains the attributes and values to be updated</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>optional, an array of options (see below)</li>
+                </ul>
+
+                <p>Options are :
+                <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+                <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their
+                    values to null. Defaults to true (keep attributes when set to null)
+                </li>
+                <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even
+                    in case that the waitForSync flag had been disabled for the entire collection
+                </li>
+                </p>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>bool</code>- always true, will throw if there is an error
+            </div>
+        </div>
+    </div>
 </div>
 <h3>
-<i class="icon-custom icon-constant"></i> Constants</h3>
-<a id="constant_ENTRY_GRAPH"> </a><div class="element clickable constant  constant_ENTRY_GRAPH" data-toggle="collapse" data-target=".constant_ENTRY_GRAPH .collapse">
-<h2>documents array index</h2>
-<pre>ENTRY_GRAPH </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+    <i class="icon-custom icon-constant"></i> Constants</h3>
+<a id="constant_ENTRY_GRAPH"> </a>
+
+<div class="element clickable constant  constant_ENTRY_GRAPH" data-toggle="collapse"
+     data-target=".constant_ENTRY_GRAPH .collapse">
+    <h2>documents array index</h2>
+    <pre>ENTRY_GRAPH </pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
-<a id="constant_KEY_FROM"> </a><div class="element clickable constant  constant_KEY_FROM" data-toggle="collapse" data-target=".constant_KEY_FROM .collapse">
-<h2>example parameter</h2>
-<pre>KEY_FROM </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<a id="constant_KEY_FROM"> </a>
+
+<div class="element clickable constant  constant_KEY_FROM" data-toggle="collapse"
+     data-target=".constant_KEY_FROM .collapse">
+    <h2>example parameter</h2>
+    <pre>KEY_FROM </pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
-<a id="constant_KEY_TO"> </a><div class="element clickable constant  constant_KEY_TO" data-toggle="collapse" data-target=".constant_KEY_TO .collapse">
-<h2>example parameter</h2>
-<pre>KEY_TO </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<a id="constant_KEY_TO"> </a>
+
+<div class="element clickable constant  constant_KEY_TO" data-toggle="collapse"
+     data-target=".constant_KEY_TO .collapse">
+    <h2>example parameter</h2>
+    <pre>KEY_TO </pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
-<a id="constant_OPTION_EDGES"> </a><div class="element clickable constant  constant_OPTION_EDGES" data-toggle="collapse" data-target=".constant_OPTION_EDGES .collapse">
-<h2>direction parameter</h2>
-<pre>OPTION_EDGES </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<a id="constant_OPTION_EDGES"> </a>
+
+<div class="element clickable constant  constant_OPTION_EDGES" data-toggle="collapse"
+     data-target=".constant_OPTION_EDGES .collapse">
+    <h2>direction parameter</h2>
+    <pre>OPTION_EDGES </pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
-<a id="constant_OPTION_KEY"> </a><div class="element clickable constant  constant_OPTION_KEY" data-toggle="collapse" data-target=".constant_OPTION_KEY .collapse">
-<h2>direction parameter</h2>
-<pre>OPTION_KEY </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<a id="constant_OPTION_KEY"> </a>
+
+<div class="element clickable constant  constant_OPTION_KEY" data-toggle="collapse"
+     data-target=".constant_OPTION_KEY .collapse">
+    <h2>direction parameter</h2>
+    <pre>OPTION_KEY </pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
-<a id="constant_OPTION_REVISION"> </a><div class="element clickable constant  constant_OPTION_REVISION" data-toggle="collapse" data-target=".constant_OPTION_REVISION .collapse">
-<h2>conditional update of edges or vertices</h2>
-<pre>OPTION_REVISION </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<a id="constant_OPTION_REVISION"> </a>
+
+<div class="element clickable constant  constant_OPTION_REVISION" data-toggle="collapse"
+     data-target=".constant_OPTION_REVISION .collapse">
+    <h2>conditional update of edges or vertices</h2>
+    <pre>OPTION_REVISION </pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
-<a id="constant_OPTION_VERTICES"> </a><div class="element clickable constant  constant_OPTION_VERTICES" data-toggle="collapse" data-target=".constant_OPTION_VERTICES .collapse">
-<h2>vertex parameter</h2>
-<pre>OPTION_VERTICES </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<a id="constant_OPTION_VERTICES"> </a>
+
+<div class="element clickable constant  constant_OPTION_VERTICES" data-toggle="collapse"
+     data-target=".constant_OPTION_VERTICES .collapse">
+    <h2>vertex parameter</h2>
+    <pre>OPTION_VERTICES </pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="row"><footer class="span12">
-            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
-            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.1.0
-</a> and<br>
-            generated on 2013-10-18T04:07:23+03:00.<br></footer></div>
+<div class="row">
+    <footer class="span12">
+        Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons
+        provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+        Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.1.0
+    </a> and<br>
+        generated on 2013-11-09T09:19:51+02:00.<br></footer>
+</div>
 </div>
 </body>
 </html>

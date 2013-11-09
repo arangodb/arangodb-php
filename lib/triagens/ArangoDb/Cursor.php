@@ -75,6 +75,12 @@ class Cursor implements
      */
     private $_length;
 
+    /**
+     * full count of the result set (ignoring the outermost LIMIT)
+     *
+     * @var int
+     */
+    private $_fullCount;
 
     /**
      * result entry for cursor id
@@ -90,6 +96,11 @@ class Cursor implements
      * result entry for result documents
      */
     const ENTRY_RESULT = 'result';
+
+    /**
+     * result entry for the full count (ignoring the outermost LIMIT)
+     */
+    const FULL_COUNT = 'fullCount';
 
     /**
      * sanitize option entry
@@ -117,6 +128,10 @@ class Cursor implements
         $this->_id         = null;
         if (isset($data[self::ENTRY_ID])) {
             $this->_id = $data[self::ENTRY_ID];
+        }
+
+        if (isset($data['extra'][self::FULL_COUNT])) {
+            $this->_fullCount = $data['extra'][self::FULL_COUNT];
         }
 
         // attribute must be there
@@ -173,6 +188,16 @@ class Cursor implements
         }
 
         return $this->_length;
+    }
+
+    /**
+     * Get the full count of the cursor (ignoring the outermost LIMIT)
+     *
+     * @return int - total number of results
+     */
+    public function getFullCount()
+    {
+        return $this->_fullCount;
     }
 
 

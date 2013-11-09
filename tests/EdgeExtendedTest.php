@@ -43,11 +43,11 @@ class EdgeExtendedTest extends
         // Setup objects
         $edgeHandler = $this->edgeHandler;
         $edge        = Edge::createFromArray(
-            array(
-                 'someAttribute'      => 'someValue',
-                 'someOtherAttribute' => 'someOtherValue',
-                 'someThirdAttribute' => 'someThirdValue'
-            )
+                           array(
+                                'someAttribute'      => 'someValue',
+                                'someOtherAttribute' => 'someOtherValue',
+                                'someThirdAttribute' => 'someThirdValue'
+                           )
         );
 
 

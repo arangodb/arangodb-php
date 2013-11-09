@@ -72,24 +72,24 @@ class TransactionTest extends
         // check if object was initialized correctly with the array
 
         $this->assertTrue(
-            $transaction->getWriteCollections() == $writeCollections,
-            'Did not return writeCollections, instead returned: ' . print_r($transaction->getWriteCollections(), 1)
+             $transaction->getWriteCollections() == $writeCollections,
+             'Did not return writeCollections, instead returned: ' . print_r($transaction->getWriteCollections(), 1)
         );
         $this->assertTrue(
-            $transaction->getReadCollections() == $readCollections,
-            'Did not return readCollections, instead returned: ' . print_r($transaction->getReadCollections(), 1)
+             $transaction->getReadCollections() == $readCollections,
+             'Did not return readCollections, instead returned: ' . print_r($transaction->getReadCollections(), 1)
         );
         $this->assertTrue(
-            $transaction->getAction() == $action,
-            'Did not return action, instead returned: ' . $transaction->getAction()
+             $transaction->getAction() == $action,
+             'Did not return action, instead returned: ' . $transaction->getAction()
         );
         $this->assertTrue(
-            $transaction->getWaitForSync() == $waitForSync,
-            'Did not return waitForSync, instead returned: ' . $transaction->getWaitForSync()
+             $transaction->getWaitForSync() == $waitForSync,
+             'Did not return waitForSync, instead returned: ' . $transaction->getWaitForSync()
         );
         $this->assertTrue(
-            $transaction->getLockTimeout() == $lockTimeout,
-            'Did not return lockTimeout, instead returned: ' . $transaction->getLockTimeout()
+             $transaction->getLockTimeout() == $lockTimeout,
+             'Did not return lockTimeout, instead returned: ' . $transaction->getLockTimeout()
         );
 
 
@@ -124,24 +124,24 @@ class TransactionTest extends
         // check if getters work fine
 
         $this->assertTrue(
-            $transaction->writeCollections == $writeCollections,
-            'Did not return writeCollections, instead returned: ' . print_r($transaction->writeCollections, 1)
+             $transaction->writeCollections == $writeCollections,
+             'Did not return writeCollections, instead returned: ' . print_r($transaction->writeCollections, 1)
         );
         $this->assertTrue(
-            $transaction->readCollections == $readCollections,
-            'Did not return readCollections, instead returned: ' . print_r($transaction->readCollections, 1)
+             $transaction->readCollections == $readCollections,
+             'Did not return readCollections, instead returned: ' . print_r($transaction->readCollections, 1)
         );
         $this->assertTrue(
-            $transaction->action == $action,
-            'Did not return action, instead returned: ' . $transaction->action
+             $transaction->action == $action,
+             'Did not return action, instead returned: ' . $transaction->action
         );
         $this->assertTrue(
-            $transaction->waitForSync == $waitForSync,
-            'Did not return waitForSync, instead returned: ' . $transaction->waitForSync
+             $transaction->waitForSync == $waitForSync,
+             'Did not return waitForSync, instead returned: ' . $transaction->waitForSync
         );
         $this->assertTrue(
-            $transaction->lockTimeout == $lockTimeout,
-            'Did not return lockTimeout, instead returned: ' . $transaction->lockTimeout
+             $transaction->lockTimeout == $lockTimeout,
+             'Did not return lockTimeout, instead returned: ' . $transaction->lockTimeout
         );
 
         $result = $transaction->execute();
@@ -175,24 +175,24 @@ class TransactionTest extends
         // check if getters work fine
 
         $this->assertTrue(
-            $transaction->writeCollections == $writeCollections,
-            'Did not return writeCollections, instead returned: ' . print_r($transaction->writeCollections, 1)
+             $transaction->writeCollections == $writeCollections,
+             'Did not return writeCollections, instead returned: ' . print_r($transaction->writeCollections, 1)
         );
         $this->assertTrue(
-            $transaction->readCollections == $readCollections,
-            'Did not return readCollections, instead returned: ' . print_r($transaction->readCollections, 1)
+             $transaction->readCollections == $readCollections,
+             'Did not return readCollections, instead returned: ' . print_r($transaction->readCollections, 1)
         );
         $this->assertTrue(
-            $transaction->action == $action,
-            'Did not return action, instead returned: ' . $transaction->action
+             $transaction->action == $action,
+             'Did not return action, instead returned: ' . $transaction->action
         );
         $this->assertTrue(
-            $transaction->waitForSync == $waitForSync,
-            'Did not return waitForSync, instead returned: ' . $transaction->waitForSync
+             $transaction->waitForSync == $waitForSync,
+             'Did not return waitForSync, instead returned: ' . $transaction->waitForSync
         );
         $this->assertTrue(
-            $transaction->lockTimeout == $lockTimeout,
-            'Did not return lockTimeout, instead returned: ' . $transaction->lockTimeout
+             $transaction->lockTimeout == $lockTimeout,
+             'Did not return lockTimeout, instead returned: ' . $transaction->lockTimeout
         );
 
         $result = $transaction->execute();
@@ -228,24 +228,24 @@ class TransactionTest extends
         // check if getters work fine
 
         $this->assertTrue(
-            $transaction->getWriteCollections() == $writeCollections,
-            'Did not return writeCollections, instead returned: ' . print_r($transaction->getWriteCollections(), 1)
+             $transaction->getWriteCollections() == $writeCollections,
+             'Did not return writeCollections, instead returned: ' . print_r($transaction->getWriteCollections(), 1)
         );
         $this->assertTrue(
-            $transaction->getReadCollections() == $readCollections,
-            'Did not return readCollections, instead returned: ' . print_r($transaction->getReadCollections(), 1)
+             $transaction->getReadCollections() == $readCollections,
+             'Did not return readCollections, instead returned: ' . print_r($transaction->getReadCollections(), 1)
         );
         $this->assertTrue(
-            $transaction->getAction() == $action,
-            'Did not return action, instead returned: ' . $transaction->getAction()
+             $transaction->getAction() == $action,
+             'Did not return action, instead returned: ' . $transaction->getAction()
         );
         $this->assertTrue(
-            $transaction->getWaitForSync() == $waitForSync,
-            'Did not return waitForSync, instead returned: ' . $transaction->getWaitForSync()
+             $transaction->getWaitForSync() == $waitForSync,
+             'Did not return waitForSync, instead returned: ' . $transaction->getWaitForSync()
         );
         $this->assertTrue(
-            $transaction->getLockTimeout() == $lockTimeout,
-            'Did not return lockTimeout, instead returned: ' . $transaction->getLockTimeout()
+             $transaction->getLockTimeout() == $lockTimeout,
+             'Did not return lockTimeout, instead returned: ' . $transaction->getLockTimeout()
         );
 
 
@@ -308,9 +308,9 @@ class TransactionTest extends
         $details = $e->getDetails();
 
         $this->assertTrue(
-            $e->getCode() == 500 && $details['errorMessage'] == 'doh!',
-            'Did not return code 500 with message doh!, instead returned: ' . $e->getCode(
-            ) . ' and ' . $details['errorMessage']
+             $e->getCode() == 500 && $details['errorMessage'] == 'doh!',
+             'Did not return code 500 with message doh!, instead returned: ' . $e->getCode(
+             ) . ' and ' . $details['errorMessage']
         );
     }
 
@@ -340,16 +340,16 @@ class TransactionTest extends
         } catch (ServerException $e) {
         }
         $details                = $e->getDetails();
-        $expectedCutDownMessage = "cannot save document: unique constraint violated";
+        $expectedCutDownMessage = "unique constraint violated";
         $len                    = strlen($expectedCutDownMessage);
         $this->assertTrue(
-            $e->getCode() == 400 && substr(
-                $details['errorMessage'],
-                0,
-                $len
-            ) == $expectedCutDownMessage,
-            'Did not return code 400 with first part of the message: "' . $expectedCutDownMessage . '", instead returned: ' . $e->getCode(
-            ) . ' and "' . $details['errorMessage'] . '"'
+             $e->getCode() == 400 && substr(
+                 $details['errorMessage'],
+                 0,
+                 $len
+             ) == $expectedCutDownMessage,
+             'Did not return code 400 with first part of the message: "' . $expectedCutDownMessage . '", instead returned: ' . $e->getCode(
+             ) . ' and "' . $details['errorMessage'] . '"'
         );
     }
 

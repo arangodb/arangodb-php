@@ -29,7 +29,7 @@ class Connection
      *
      * @var string
      */
-    public static $_apiVersion = '1.2.0';
+    public static $_apiVersion = '1.4.0';
 
     /**
      * Connection options
@@ -81,6 +81,13 @@ class Connection
     private $_batchRequest = false;
 
     /**
+     * $_database string
+     *
+     * @var string
+     */
+    private $_database = '';
+
+    /**
      * Set up the connection object, validate the options provided
      *
      * @throws Exception
@@ -93,6 +100,7 @@ class Connection
     {
         $this->_options      = new ConnectionOptions($options);
         $this->_useKeepAlive = ($this->_options[ConnectionOptions::OPTION_CONNECTION] === 'Keep-Alive');
+        $this->setDatabase($this->_options[ConnectionOptions::OPTION_DATABASE]);
     }
 
     /**
@@ -302,6 +310,13 @@ class Connection
     private function executeRequest($method, $url, $data)
     {
         HttpHelper::validateMethod($method);
+        $database = $this->getDatabase();
+        if ($database === '') {
+            $url = '/_db/' . '_system' . $url;
+        } else {
+            $url = '/_db/' . $database . $url;
+        }
+
 
         // create request data
         if ($this->_batchRequest === false) {
@@ -538,20 +553,7 @@ class Connection
      */
     public static function detect_utf($string)
     {
-        if (preg_match(
-            '%^(?:
-                      [\x09\x0A\x0D\x20-\x7E]            # ASCII
-                    | [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
-                    | \xE0[\xA0-\xBF][\x80-\xBF]         # excluding overlongs
-                    | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}  # straight 3-byte
-                    | \xED[\x80-\x9F][\x80-\xBF]         # excluding surrogates
-                    | \xF0[\x90-\xBF][\x80-\xBF]{2}      # planes 1-3
-                    | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
-                    | \xF4[\x80-\x8F][\x80-\xBF]{2}      # plane 16
-                )*$%xs',
-            $string
-        )
-        ) {
+        if (preg_match("//u", $string)) {
             return true;
         } else {
             return false;
@@ -620,5 +622,31 @@ class Connection
         }
 
         return $response;
+    }
+
+
+    /**
+     * Set the database to use with this connection
+     *
+     * Sets the database to use with this connection, for example: 'my_database'<br>
+     * Further calls to the database will be addressed to the given database.
+     *
+     * @param string $database the database to use
+     */
+    public function setDatabase($database)
+    {
+        $this->_database = $database;
+    }
+
+    /**
+     * Get the database that is currently used with this connection
+     *
+     * Get the database to use with this connection, for example: 'my_database'
+     *
+     * @return string
+     */
+    public function getDatabase()
+    {
+        return $this->_database;
     }
 }

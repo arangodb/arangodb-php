@@ -66,8 +66,8 @@ class StatementTest extends
         $result = $cursor->current();
 
         $this->assertTrue(
-            $result->someAttribute === 'someValue',
-            'Expected value someValue, found :' . $result->someAttribute
+             $result->someAttribute === 'someValue',
+             'Expected value someValue, found :' . $result->someAttribute
         );
     }
 
@@ -108,8 +108,8 @@ class StatementTest extends
         $result = $cursor->current();
 
         $this->assertTrue(
-            $result->someAttribute === 'someValue',
-            'Expected value someValue, found :' . $result->someAttribute
+             $result->someAttribute === 'someValue',
+             'Expected value someValue, found :' . $result->someAttribute
         );
     }
 
@@ -181,8 +181,8 @@ class StatementTest extends
                                                 ));
         $cursor    = $statement->execute();
         $this->assertEquals(
-            array(array(1, 2)),
-            $cursor->getAll()
+             array(array(1, 2)),
+             $cursor->getAll()
         );
     }
 
@@ -208,6 +208,38 @@ class StatementTest extends
         foreach ($cursor->getAll() as $row) {
             $this->assertNotInstanceOf('\triagens\ArangoDb\Document', $row, "A document object was in the result set!");
         }
+    }
+
+    public function testStatementWithFullCount()
+    {
+        $connection = $this->connection;
+        $collection = $this->collection;
+
+        $documentHandler = new DocumentHandler($connection);
+
+        $document       = new Document();
+        $document->name = 'john';
+        $documentHandler->add($collection->getId(), $document);
+
+        $document       = new Document();
+        $document->name = 'peter';
+        $documentHandler->add($collection->getId(), $document);
+
+        $document       = new Document();
+        $document->name = 'jane';
+        $documentHandler->add($collection->getId(), $document);
+
+        $statement = new Statement($connection, array(
+                                                     "query"     => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` LIMIT 2 RETURN a.name',
+                                                     "count"     => true,
+                                                     "fullCount" => true,
+                                                     "_sanitize" => true
+                                                ));
+
+        $cursor = $statement->execute();
+
+        $this->assertEquals(2, $cursor->getCount(), "The number of results in the cursor should be 2");
+        $this->assertEquals(3, $cursor->getFullCount(), "The fullCount should be 3");
     }
 
     public function tearDown()

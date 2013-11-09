@@ -66,8 +66,8 @@ class DocumentBasicTest extends
 
         $resultingAttribute = $resultingDocument->someAttribute;
         $this->assertTrue(
-            $resultingAttribute === 'someValue',
-            'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
+             $resultingAttribute === 'someValue',
+             'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
         );
 
         $documentHandler->delete($document);
@@ -93,12 +93,12 @@ class DocumentBasicTest extends
         $resultingAttribute = $resultingDocument->someAttribute;
         $resultingKey       = $resultingDocument->getKey();
         $this->assertTrue(
-            $resultingAttribute === 'someValue',
-            'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
+             $resultingAttribute === 'someValue',
+             'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
         );
         $this->assertTrue(
-            $resultingKey === 'frank01',
-            'Resulting Attribute should be "someValue". It\'s :' . $resultingKey
+             $resultingKey === 'frank01',
+             'Resulting Attribute should be "someValue". It\'s :' . $resultingKey
         );
 
 
@@ -123,8 +123,8 @@ class DocumentBasicTest extends
 
         $resultingAttribute = $resultingDocument->someAttribute;
         $this->assertTrue(
-            $resultingAttribute === 'someValue',
-            'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
+             $resultingAttribute === 'someValue',
+             'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
         );
 
         $documentHandler->deleteById($collection->getName(), $documentId);
@@ -147,12 +147,12 @@ class DocumentBasicTest extends
         $resultingAttribute = $resultingDocument->someAttribute;
         $resultingKey       = $resultingDocument->getKey();
         $this->assertTrue(
-            $resultingAttribute === 'someValue',
-            'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
+             $resultingAttribute === 'someValue',
+             'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
         );
         $this->assertTrue(
-            $resultingKey === 'frank01',
-            'Resulting Attribute should be "someValue". It\'s :' . $resultingKey
+             $resultingKey === 'frank01',
+             'Resulting Attribute should be "someValue". It\'s :' . $resultingKey
         );
 
 

@@ -140,7 +140,7 @@ class Document
      * @param array $values  - initial values for document
      * @param array $options - optional, initial options for document
      *
-     * @return Document
+     * @return Document|Edge
      */
     public static function createFromArray(array $values, array $options = array())
     {

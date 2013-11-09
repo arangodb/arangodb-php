@@ -29,7 +29,7 @@ abstract class UrlHelper
      */
     public static function getDocumentIdFromLocation($location)
     {
-        @list(, , , , $id) = explode('/', $location);
+        @list(, , , , , , $id) = explode('/', $location);
 
         return $id;
     }

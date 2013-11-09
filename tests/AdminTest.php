@@ -18,7 +18,7 @@ class AdminTest extends
 {
     public function setUp()
     {
-        $this->connection = getConnection();
+        $this->connection   = getConnection();
         $this->adminHandler = new AdminHandler($this->connection);
     }
 
@@ -40,9 +40,9 @@ class AdminTest extends
         $result = $this->adminHandler->getServerVersion(true);
         $this->assertInternalType('array', $result, "The server version details must be an array!");
         $this->assertInternalType(
-            'array',
-            $result['details'],
-            "The server version details must have a `details` array!"
+             'array',
+             $result['details'],
+             "The server version details must have a `details` array!"
         );
 
         // intentionally dumping the result, so that we have a bit more info about the Arango build we're testing in the log.
@@ -52,7 +52,7 @@ class AdminTest extends
         $this->assertArrayHasKey('build-date', $details);
         $this->assertArrayHasKey('configure', $details);
         $this->assertArrayHasKey('icu-version', $details);
-        $this->assertArrayHasKey('libev-version', $details);
+        //        $this->assertArrayHasKey('libev-version', $details);
         $this->assertArrayHasKey('openssl-version', $details);
         $this->assertArrayHasKey('server-version', $details);
         $this->assertArrayHasKey('v8-version', $details);

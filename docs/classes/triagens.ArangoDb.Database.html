@@ -1,0 +1,225 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>ArangoDB PHP client API » \triagens\ArangoDb\Database</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">ArangoDB PHP client API</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
+<li><a>Packages</a></li>
+<li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">0</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">9</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public "><a href="#method_create" title="create() :: creates a database"><span class="description">creates a database</span><pre>create()</pre></a></li>
+<li class="method public "><a href="#method_delete" title="delete() :: Deletes a database"><span class="description">Deletes a database</span><pre>delete()</pre></a></li>
+<li class="method public "><a href="#method_getInfo" title="getInfo() :: Retrieves information about the current database"><span class="description">Retrieves information about the current database</span><pre>getInfo()</pre></a></li>
+<li class="method public "><a href="#method_listDatabases" title="listDatabases() :: List databases"><span class="description">List databases</span><pre>listDatabases()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-constant"></i> Constants
+                    <ul><li class="constant  "><a href="#constant_ENTRY_DATABASE_NAME" title="ENTRY_DATABASE_NAME() :: Databases index"><span class="description">Databases index</span><pre>ENTRY_DATABASE_NAME</pre></a></li></ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\triagens\ArangoDb\Database"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/triagens.html">triagens</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/triagens.ArangoDb.Database.html">Database</a>
+</li>
+</ul>
+<div class="element class">
+<p class="short_description">A class for managing ArangoDB Databases</p>
+<div class="details">
+<div class="long_description">This class provides functions to manage Databases through ArangoDB's Database API<br></div>
+<table class="table table-bordered">
+<tr>
+<th>link</th>
+<td><a href="http://www.arangodb.org/manuals/1.4/HttpDatabase.html">http://www.arangodb.org/manuals/1.4/HttpDatabase.html</a></td>
+</tr>
+<tr>
+<th>package</th>
+<td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
+</tr>
+<tr>
+<th>since</th>
+<td>1.4</td>
+</tr>
+</table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method_create"></a><div class="element clickable method public method_create" data-toggle="collapse" data-target=".method_create .collapse">
+<h2>creates a database</h2>
+<pre>create(\triagens\ArangoDb\Connection $connection, string $name) : array</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description">This creates a new database<br></div>
+<table class="table table-bordered"><tr>
+<th>link</th>
+<td><a href="http://www.arangodb.org/manuals/1.4/HttpDatabase.html">http://www.arangodb.org/manuals/1.4/HttpDatabase.html</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$connection</h4>
+<code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code><ul>
+<li>the connection to be used</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code><ul>
+<li>the database specification, for example 'myDatabase'</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>$responseArray - The response array.</div>
+</div></div>
+</div>
+<a id="method_delete"></a><div class="element clickable method public method_delete" data-toggle="collapse" data-target=".method_delete .collapse">
+<h2>Deletes a database</h2>
+<pre>delete(\triagens\ArangoDb\Connection $connection, string $name) : array</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description">This will delete an existing database.</div>
+<table class="table table-bordered"><tr>
+<th>link</th>
+<td><a href="http://www.arangodb.org/manuals/1.4/HttpDatabase.html">http://www.arangodb.org/manuals/1.4/HttpDatabase.html</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$connection</h4>
+<code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code><ul>
+<li>the connection to be used</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code><ul>
+<li>the database specification, for example 'myDatabase'</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>$responseArray - The response array.</div>
+</div></div>
+</div>
+<a id="method_getInfo"></a><div class="element clickable method public method_getInfo" data-toggle="collapse" data-target=".method_getInfo .collapse">
+<h2>Retrieves information about the current database</h2>
+<pre>getInfo(\triagens\ArangoDb\Connection $connection) : array</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description">This will get information about the currently used database from the server</div>
+<table class="table table-bordered"><tr>
+<th>link</th>
+<td><a href="http://www.arangodb.org/manuals/1.4/HttpDatabase.html">http://www.arangodb.org/manuals/1.4/HttpDatabase.html</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$connection</h4>
+<code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code><ul>
+<li>the connection to be used</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>$responseArray - The response array.</div>
+</div></div>
+</div>
+<a id="method_listDatabases"></a><div class="element clickable method public method_listDatabases" data-toggle="collapse" data-target=".method_listDatabases .collapse">
+<h2>List databases</h2>
+<pre>listDatabases(\triagens\ArangoDb\Connection $connection) : array</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description">This will list the databases that exist on the server</div>
+<table class="table table-bordered"><tr>
+<th>link</th>
+<td><a href="http://www.arangodb.org/manuals/1.4/HttpDatabase.html">http://www.arangodb.org/manuals/1.4/HttpDatabase.html</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$connection</h4>
+<code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code><ul>
+<li>the connection to be used</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>$responseArray - The response array.</div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-constant"></i> Constants</h3>
+<a id="constant_ENTRY_DATABASE_NAME"> </a><div class="element clickable constant  constant_ENTRY_DATABASE_NAME" data-toggle="collapse" data-target=".constant_ENTRY_DATABASE_NAME .collapse">
+<h2>Databases index</h2>
+<pre>ENTRY_DATABASE_NAME </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.1.0
+</a> and<br>
+            generated on 2013-11-09T09:19:51+02:00.<br></footer></div>
+</div>
+</body>
+</html>

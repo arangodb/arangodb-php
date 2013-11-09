@@ -80,9 +80,9 @@ class ConnectionTest extends
         $self        = $this; //Hack for PHP 5.3 compatibility
         $basicTracer = function ($type, $data) use ($self) {
             $self->assertContains(
-                $type,
-                array('send', 'receive'),
-                'Basic tracer\'s type should only be \'send\' or \'receive\''
+                 $type,
+                 array('send', 'receive'),
+                 'Basic tracer\'s type should only be \'send\' or \'receive\''
             );
             $self->assertInternalType('string', $data, 'Basic tracer data is not a string!.');
         };
@@ -113,8 +113,8 @@ class ConnectionTest extends
 
         $enhancedTracer = function ($data) use ($self) {
             $self->assertTrue(
-                $data instanceof TraceRequest || $data instanceof TraceResponse,
-                '$data must be instance of TraceRequest or TraceResponse.'
+                 $data instanceof TraceRequest || $data instanceof TraceResponse,
+                 '$data must be instance of TraceRequest or TraceResponse.'
             );
 
             $self->assertInternalType('array', $data->getHeaders(), 'Headers should be an array!');
@@ -123,32 +123,31 @@ class ConnectionTest extends
 
             if ($data instanceof TraceRequest) {
                 $self->assertContains(
-                    $data->getMethod(),
-                    array(
-                         HttpHelper::METHOD_DELETE,
-                         HttpHelper::METHOD_GET,
-                         HttpHelper::METHOD_HEAD,
-                         HttpHelper::METHOD_PATCH,
-                         HttpHelper::METHOD_POST,
-                         HttpHelper::METHOD_PUT
-                    ),
-                    'Invalid http method!'
+                     $data->getMethod(),
+                     array(
+                          HttpHelper::METHOD_DELETE,
+                          HttpHelper::METHOD_GET,
+                          HttpHelper::METHOD_HEAD,
+                          HttpHelper::METHOD_PATCH,
+                          HttpHelper::METHOD_POST,
+                          HttpHelper::METHOD_PUT
+                     ),
+                     'Invalid http method!'
                 );
 
                 $self->assertInternalType('string', $data->getRequestUrl(), 'Request url must be a string!');
                 $self->assertEquals('request', $data->getType());
-                
+
                 foreach ($data->getHeaders() as $header => $value) {
-                	$self->assertInternalType('string', $value, "The header value should be a string");
-                	$self->assertInternalType('string', $header, "The header should be a string");
+                    $self->assertInternalType('string', $value, "The header value should be a string");
+                    $self->assertInternalType('string', $header, "The header should be a string");
                 }
-                
             } else {
                 $self->assertInternalType('integer', $data->getHttpCode(), 'Http code must be an integer!');
                 $self->assertInternalType(
-                    'string',
-                    $data->getHttpCodeDefinition(),
-                    'Http code definition must be a string!'
+                     'string',
+                     $data->getHttpCodeDefinition(),
+                     'Http code definition must be a string!'
                 );
                 $self->assertEquals('response', $data->getType());
                 $self->assertInternalType('float', $data->getTimeTaken());

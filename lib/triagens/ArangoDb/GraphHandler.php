@@ -91,6 +91,7 @@ class GraphHandler extends
         return $graph->getAll();
     }
 
+
     /**
      * Get a graph
      *
@@ -265,7 +266,7 @@ class GraphHandler extends
      *
      * @since 1.2
      */
-    public function ReplaceVertex($graphName, $vertexId, Document $document, $options = array())
+    public function replaceVertex($graphName, $vertexId, Document $document, $options = array())
     {
         $options = array_merge(array(self::OPTION_REVISION => false), $options);
 
@@ -316,6 +317,7 @@ class GraphHandler extends
 
         return true;
     }
+
 
     /**
      * Update an existing vertex in a graph, identified by graph name and vertex id
@@ -547,7 +549,7 @@ class GraphHandler extends
      *
      * @since 1.2
      */
-    public function ReplaceEdge($graphName, $edgeId, $label, Edge $document, $options = array())
+    public function replaceEdge($graphName, $edgeId, $label, Edge $document, $options = array())
     {
         $options = array_merge(array(self::OPTION_REVISION => false), $options);
 
@@ -602,6 +604,7 @@ class GraphHandler extends
 
         return true;
     }
+
 
     /**
      * Update an existing edge in a graph, identified by graph name and edge id

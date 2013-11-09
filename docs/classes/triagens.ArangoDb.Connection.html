@@ -1,638 +1,1174 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-<meta charset="utf-8">
-<title>ArangoDB PHP client API » \triagens\ArangoDb\Connection</title>
-<meta name="author" content="Mike van Riel">
-<meta name="description" content="">
-<link href="../css/template.css" rel="stylesheet" media="all">
-<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
-<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
-<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+    <meta charset="utf-8">
+    <title>ArangoDB PHP client API » \triagens\ArangoDb\Connection</title>
+    <meta name="author" content="Mike van Riel">
+    <meta name="description" content="">
+    <link href="../css/template.css" rel="stylesheet" media="all">
+    <script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script>
+    <script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script>
+    <script src="../js/bootstrap.js" type="text/javascript"></script>
+    <script src="../js/template.js" type="text/javascript"></script>
+    <script src="../js/prettify/prettify.min.js" type="text/javascript"></script>
+    <link rel="shortcut icon" href="../img/favicon.ico">
+    <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
 </head>
 <body>
 <div class="navbar navbar-fixed-top">
-<div class="navbar-inner"><div class="container">
-<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">ArangoDB PHP client API</a><div class="nav-collapse"><ul class="nav">
-<li class="dropdown">
-<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
-                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
-<li><a>Namespaces</a></li>
-<li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
-<li><a>Packages</a></li>
-<li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
-</ul>
-</li>
-<li class="dropdown" id="charts-menu">
-<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
-                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
-</li>
-<li class="dropdown" id="reports-menu">
-<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
-                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
-<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">0</span></a></li>
-<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
-                <ul></ul></a></li>
-<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
-                <span class="label label-info">9</span></a></li>
-</ul>
-</li>
-</ul></div>
-</div></div>
-<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span
+                    class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a
+                class="brand" href="../index.html">ArangoDB PHP client API</a>
+
+            <div class="nav-collapse">
+                <ul class="nav">
+                    <li class="dropdown">
+                        <a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                            API Documentation <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a>Namespaces</a></li>
+                            <li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
+                            <li><a>Packages</a></li>
+                            <li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="charts-menu">
+                        <a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                                <span class="label label-info">0</span></a></li>
+                            <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                                <ul></ul>
+                            </a></li>
+                            <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                                <span class="label label-info">9</span></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a>
+    </div>
 </div>
 <div id="___" class="container">
-<noscript><div class="alert alert-warning">
-                            Javascript is disabled; several features are only available
-                            if Javascript is enabled.
-                        </div></noscript>
+<noscript>
+    <div class="alert alert-warning">
+        Javascript is disabled; several features are only available
+        if Javascript is enabled.
+    </div>
+</noscript>
 <div class="row">
 <div class="span4">
-<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
-<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active"
+                                                                          title="Show public elements">Public
+</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private"
+                                                                                                 title="Show private elements">
+    Private
+</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span>
+
+<div class="btn-group view pull-right" data-toggle="buttons-radio">
+    <button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button>
+    <button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
 </div>
 <ul class="side-nav nav nav-list">
-<li class="nav-header">
-<i class="icon-custom icon-method"></i> Methods
-                    <ul>
-<li class="method public "><a href="#method___construct" title="__construct() :: Set up the connection object, validate the options provided"><span class="description">Set up the connection object, validate the options provided</span><pre>__construct()</pre></a></li>
-<li class="method public "><a href="#method___destruct" title="__destruct() :: Close existing connection handle if a keep-alive connection was used"><span class="description">Close existing connection handle if a keep-alive connection was used</span><pre>__destruct()</pre></a></li>
-<li class="method public "><a href="#method_check_encoding" title="check_encoding() :: This function checks that the encoding of the keys and
+    <li class="nav-header">
+        <i class="icon-custom icon-method"></i> Methods
+        <ul>
+            <li class="method public "><a href="#method___construct"
+                                          title="__construct() :: Set up the connection object, validate the options provided"><span
+                    class="description">Set up the connection object, validate the options provided</span>
+                <pre>__construct()</pre>
+            </a></li>
+            <li class="method public "><a href="#method___destruct"
+                                          title="__destruct() :: Close existing connection handle if a keep-alive connection was used"><span
+                    class="description">Close existing connection handle if a keep-alive connection was used</span>
+                <pre>__destruct()</pre>
+            </a></li>
+            <li class="method public "><a href="#method_check_encoding" title="check_encoding() :: This function checks that the encoding of the keys and
 values of the array are utf-8, recursively."><span class="description">This function checks that the encoding of the keys and
-values of the array are utf-8, recursively.</span><pre>check_encoding()</pre></a></li>
-<li class="method public "><a href="#method_delete" title="delete() :: Issue an HTTP DELETE request with the data provided"><span class="description">Issue an HTTP DELETE request with the data provided</span><pre>delete()</pre></a></li>
-<li class="method public "><a href="#method_detect_utf" title="detect_utf() :: This function checks that the encoding of a string is utf."><span class="description">This function checks that the encoding of a string is utf.</span><pre>detect_utf()</pre></a></li>
-<li class="method public "><a href="#method_get" title="get() :: Issue an HTTP GET request"><span class="description">Issue an HTTP GET request</span><pre>get()</pre></a></li>
-<li class="method public "><a href="#method_getActiveBatch" title="getActiveBatch() :: returns the active batch"><span class="description">returns the active batch</span><pre>getActiveBatch()</pre></a></li>
-<li class="method public "><a href="#method_getBatches" title="getBatches() :: returns the active batch"><span class="description">returns the active batch</span><pre>getBatches()</pre></a></li>
-<li class="method public "><a href="#method_getClientVersion" title="getClientVersion() :: Get the client version"><span class="description">Get the client version</span><pre>getClientVersion()</pre></a></li>
-<li class="method public "><a href="#method_getOption" title="getOption() :: Get an option set for the connection"><span class="description">Get an option set for the connection</span><pre>getOption()</pre></a></li>
-<li class="method public "><a href="#method_getVersion" title="getVersion() :: Get the client version (alias for getClientVersion)"><span class="description">Get the client version (alias for getClientVersion)</span><pre>getVersion()</pre></a></li>
-<li class="method public "><a href="#method_isInBatchCaptureMode" title="isInBatchCaptureMode() :: Returns true if this connection is in Batch-Capture mode"><span class="description">Returns true if this connection is in Batch-Capture mode</span><pre>isInBatchCaptureMode()</pre></a></li>
-<li class="method public "><a href="#method_json_encode_wrapper" title="json_encode_wrapper() :: This is a json_encode() wrapper that also checks if the data is utf-8 conform."><span class="description">This is a json_encode() wrapper that also checks if the data is utf-8 conform.</span><pre>json_encode_wrapper()</pre></a></li>
-<li class="method public "><a href="#method_parseResponse" title="parseResponse() :: Parse the response return the body values as an assoc array"><span class="description">Parse the response return the body values as an assoc array</span><pre>parseResponse()</pre></a></li>
-<li class="method public "><a href="#method_patch" title="patch() :: Issue an HTTP PATCH request with the data provided"><span class="description">Issue an HTTP PATCH request with the data provided</span><pre>patch()</pre></a></li>
-<li class="method public "><a href="#method_post" title="post() :: Issue an HTTP POST request with the data provided"><span class="description">Issue an HTTP POST request with the data provided</span><pre>post()</pre></a></li>
-<li class="method public "><a href="#method_put" title="put() :: Issue an HTTP PUT request with the data provided"><span class="description">Issue an HTTP PUT request with the data provided</span><pre>put()</pre></a></li>
-<li class="method public "><a href="#method_setActiveBatch" title="setActiveBatch() :: Sets the active Batch for this connection"><span class="description">Sets the active Batch for this connection</span><pre>setActiveBatch()</pre></a></li>
-<li class="method public "><a href="#method_setBatchRequest" title="setBatchRequest() :: Sets connection into Batch-request mode. This is needed for some operations to act differently when in this mode."><span class="description">Sets connection into Batch-request mode. This is needed for some operations to act differently when in this mode.</span><pre>setBatchRequest()</pre></a></li>
-<li class="method public "><a href="#method_setCaptureBatch" title="setCaptureBatch() :: Sets the batch capture state (true, if capturing)"><span class="description">Sets the batch capture state (true, if capturing)</span><pre>setCaptureBatch()</pre></a></li>
-<li class="method public "><a href="#method_stopCaptureBatch" title="stopCaptureBatch() :: Stop capturing commands"><span class="description">Stop capturing commands</span><pre>stopCaptureBatch()</pre></a></li>
-</ul>
-</li>
-<li class="nav-header private">» Private
-                    <ul>
-<li class="method private "><a href="#method_doBatch" title="doBatch() :: This is a helper function to executeRequest that captures requests if we're in batch mode"><span class="description">This is a helper function to executeRequest that captures requests if we're in batch mode</span><pre>doBatch()</pre></a></li>
-<li class="method private "><a href="#method_executeRequest" title="executeRequest() :: Execute an HTTP request and return the results"><span class="description">Execute an HTTP request and return the results</span><pre>executeRequest()</pre></a></li>
-<li class="method private "><a href="#method_getHandle" title="getHandle() :: Get a connection handle"><span class="description">Get a connection handle</span><pre>getHandle()</pre></a></li>
-</ul>
-</li>
-<li class="nav-header">
-<i class="icon-custom icon-property"></i> Properties
-                    <ul><li class="property public "><a href="#property__apiVersion" title="$_apiVersion() :: Api Version"><span class="description"></span><pre>$_apiVersion</pre></a></li></ul>
-</li>
-<li class="nav-header private">» Private
-                    <ul>
-<li class="property private "><a href="#property__activeBatch" title="$_activeBatch() :: $_activeBatch object"><span class="description"></span><pre>$_activeBatch</pre></a></li>
-<li class="property private "><a href="#property__batchRequest" title="$_batchRequest() :: $_batchRequest boolean"><span class="description"></span><pre>$_batchRequest</pre></a></li>
-<li class="property private "><a href="#property__batches" title="$_batches() :: Batches Array"><span class="description"></span><pre>$_batches</pre></a></li>
-<li class="property private "><a href="#property__captureBatch" title="$_captureBatch() :: $_captureBatch boolean"><span class="description"></span><pre>$_captureBatch</pre></a></li>
-<li class="property private "><a href="#property__handle" title="$_handle() :: Connection handle, used in case of keep-alive"><span class="description"></span><pre>$_handle</pre></a></li>
-<li class="property private "><a href="#property__options" title="$_options() :: Connection options"><span class="description"></span><pre>$_options</pre></a></li>
-<li class="property private "><a href="#property__useKeepAlive" title="$_useKeepAlive() :: Flag if keep-alive connections are used"><span class="description"></span><pre>$_useKeepAlive</pre></a></li>
-</ul>
-</li>
+values of the array are utf-8, recursively.</span>
+                <pre>check_encoding()</pre>
+            </a></li>
+            <li class="method public "><a href="#method_delete"
+                                          title="delete() :: Issue an HTTP DELETE request with the data provided"><span
+                    class="description">Issue an HTTP DELETE request with the data provided</span>
+                <pre>delete()</pre>
+            </a></li>
+            <li class="method public "><a href="#method_detect_utf"
+                                          title="detect_utf() :: This function checks that the encoding of a string is utf."><span
+                    class="description">This function checks that the encoding of a string is utf.</span>
+                <pre>detect_utf()</pre>
+            </a></li>
+            <li class="method public "><a href="#method_get" title="get() :: Issue an HTTP GET request"><span
+                    class="description">Issue an HTTP GET request</span>
+                <pre>get()</pre>
+            </a></li>
+            <li class="method public "><a href="#method_getActiveBatch"
+                                          title="getActiveBatch() :: returns the active batch"><span
+                    class="description">returns the active batch</span>
+                <pre>getActiveBatch()</pre>
+            </a></li>
+            <li class="method public "><a href="#method_getBatches"
+                                          title="getBatches() :: returns the active batch"><span
+                    class="description">returns the active batch</span>
+                <pre>getBatches()</pre>
+            </a></li>
+            <li class="method public "><a href="#method_getClientVersion"
+                                          title="getClientVersion() :: Get the client version"><span
+                    class="description">Get the client version</span>
+                <pre>getClientVersion()</pre>
+            </a></li>
+            <li class="method public "><a href="#method_getDatabase"
+                                          title="getDatabase() :: Get the database that is currently used with this connection"><span
+                    class="description">Get the database that is currently used with this connection</span>
+                <pre>getDatabase()</pre>
+            </a></li>
+            <li class="method public "><a href="#method_getOption"
+                                          title="getOption() :: Get an option set for the connection"><span
+                    class="description">Get an option set for the connection</span>
+                <pre>getOption()</pre>
+            </a></li>
+            <li class="method public "><a href="#method_getVersion"
+                                          title="getVersion() :: Get the client version (alias for getClientVersion)"><span
+                    class="description">Get the client version (alias for getClientVersion)</span>
+                <pre>getVersion()</pre>
+            </a></li>
+            <li class="method public "><a href="#method_isInBatchCaptureMode"
+                                          title="isInBatchCaptureMode() :: Returns true if this connection is in Batch-Capture mode"><span
+                    class="description">Returns true if this connection is in Batch-Capture mode</span>
+                <pre>isInBatchCaptureMode()</pre>
+            </a></li>
+            <li class="method public "><a href="#method_json_encode_wrapper"
+                                          title="json_encode_wrapper() :: This is a json_encode() wrapper that also checks if the data is utf-8 conform."><span
+                    class="description">This is a json_encode() wrapper that also checks if the data is utf-8 conform.</span>
+                <pre>json_encode_wrapper()</pre>
+            </a></li>
+            <li class="method public "><a href="#method_parseResponse"
+                                          title="parseResponse() :: Parse the response return the body values as an assoc array"><span
+                    class="description">Parse the response return the body values as an assoc array</span>
+                <pre>parseResponse()</pre>
+            </a></li>
+            <li class="method public "><a href="#method_patch"
+                                          title="patch() :: Issue an HTTP PATCH request with the data provided"><span
+                    class="description">Issue an HTTP PATCH request with the data provided</span>
+                <pre>patch()</pre>
+            </a></li>
+            <li class="method public "><a href="#method_post"
+                                          title="post() :: Issue an HTTP POST request with the data provided"><span
+                    class="description">Issue an HTTP POST request with the data provided</span>
+                <pre>post()</pre>
+            </a></li>
+            <li class="method public "><a href="#method_put"
+                                          title="put() :: Issue an HTTP PUT request with the data provided"><span
+                    class="description">Issue an HTTP PUT request with the data provided</span>
+                <pre>put()</pre>
+            </a></li>
+            <li class="method public "><a href="#method_setActiveBatch"
+                                          title="setActiveBatch() :: Sets the active Batch for this connection"><span
+                    class="description">Sets the active Batch for this connection</span>
+                <pre>setActiveBatch()</pre>
+            </a></li>
+            <li class="method public "><a href="#method_setBatchRequest"
+                                          title="setBatchRequest() :: Sets connection into Batch-request mode. This is needed for some operations to act differently when in this mode."><span
+                    class="description">Sets connection into Batch-request mode. This is needed for some operations to act differently when in this mode.</span>
+                <pre>setBatchRequest()</pre>
+            </a></li>
+            <li class="method public "><a href="#method_setCaptureBatch"
+                                          title="setCaptureBatch() :: Sets the batch capture state (true, if capturing)"><span
+                    class="description">Sets the batch capture state (true, if capturing)</span>
+                <pre>setCaptureBatch()</pre>
+            </a></li>
+            <li class="method public "><a href="#method_setDatabase"
+                                          title="setDatabase() :: Set the database to use with this connection"><span
+                    class="description">Set the database to use with this connection</span>
+                <pre>setDatabase()</pre>
+            </a></li>
+            <li class="method public "><a href="#method_stopCaptureBatch"
+                                          title="stopCaptureBatch() :: Stop capturing commands"><span
+                    class="description">Stop capturing commands</span>
+                <pre>stopCaptureBatch()</pre>
+            </a></li>
+        </ul>
+    </li>
+    <li class="nav-header private">» Private
+        <ul>
+            <li class="method private "><a href="#method_doBatch"
+                                           title="doBatch() :: This is a helper function to executeRequest that captures requests if we're in batch mode"><span
+                    class="description">This is a helper function to executeRequest that captures requests if we're in batch mode</span>
+                <pre>doBatch()</pre>
+            </a></li>
+            <li class="method private "><a href="#method_executeRequest"
+                                           title="executeRequest() :: Execute an HTTP request and return the results"><span
+                    class="description">Execute an HTTP request and return the results</span>
+                <pre>executeRequest()</pre>
+            </a></li>
+            <li class="method private "><a href="#method_getHandle"
+                                           title="getHandle() :: Get a connection handle"><span class="description">Get a connection handle</span>
+                <pre>getHandle()</pre>
+            </a></li>
+        </ul>
+    </li>
+    <li class="nav-header">
+        <i class="icon-custom icon-property"></i> Properties
+        <ul>
+            <li class="property public "><a href="#property__apiVersion" title="$_apiVersion() :: Api Version"><span
+                    class="description"></span>
+                <pre>$_apiVersion</pre>
+            </a></li>
+        </ul>
+    </li>
+    <li class="nav-header private">» Private
+        <ul>
+            <li class="property private "><a href="#property__activeBatch"
+                                             title="$_activeBatch() :: $_activeBatch object"><span
+                    class="description"></span>
+                <pre>$_activeBatch</pre>
+            </a></li>
+            <li class="property private "><a href="#property__batchRequest"
+                                             title="$_batchRequest() :: $_batchRequest boolean"><span
+                    class="description"></span>
+                <pre>$_batchRequest</pre>
+            </a></li>
+            <li class="property private "><a href="#property__batches" title="$_batches() :: Batches Array"><span
+                    class="description"></span>
+                <pre>$_batches</pre>
+            </a></li>
+            <li class="property private "><a href="#property__captureBatch"
+                                             title="$_captureBatch() :: $_captureBatch boolean"><span
+                    class="description"></span>
+                <pre>$_captureBatch</pre>
+            </a></li>
+            <li class="property private "><a href="#property__database"
+                                             title="$_database() :: $_database string"><span
+                    class="description"></span>
+                <pre>$_database</pre>
+            </a></li>
+            <li class="property private "><a href="#property__handle"
+                                             title="$_handle() :: Connection handle, used in case of keep-alive"><span
+                    class="description"></span>
+                <pre>$_handle</pre>
+            </a></li>
+            <li class="property private "><a href="#property__options"
+                                             title="$_options() :: Connection options"><span
+                    class="description"></span>
+                <pre>$_options</pre>
+            </a></li>
+            <li class="property private "><a href="#property__useKeepAlive"
+                                             title="$_useKeepAlive() :: Flag if keep-alive connections are used"><span
+                    class="description"></span>
+                <pre>$_useKeepAlive</pre>
+            </a></li>
+        </ul>
+    </li>
 </ul>
 </div>
 <div class="span8">
-<a id="\triagens\ArangoDb\Connection"></a><ul class="breadcrumb">
-<li>
-<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
-</li>
-<li><a href="../namespaces/triagens.html">triagens</a></li>
-<li>
-<span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
-</li>
-<li class="active">
-<span class="divider">\</span><a href="../classes/triagens.ArangoDb.Connection.html">Connection</a>
-</li>
+<a id="\triagens\ArangoDb\Connection"></a>
+<ul class="breadcrumb">
+    <li>
+        <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+    </li>
+    <li><a href="../namespaces/triagens.html">triagens</a></li>
+    <li>
+        <span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
+    </li>
+    <li class="active">
+        <span class="divider">\</span><a href="../classes/triagens.ArangoDb.Connection.html">Connection</a>
+    </li>
 </ul>
 <div class="element class">
 <p class="short_description">Provides access to the ArangoDB server</p>
+
 <div class="details">
 <div class="long_description">As all access is done using HTTP, we do not need to establish a
-persistent connection and keep its state.<br>
-Instead, connections are established on the fly for each request
-and are destroyed afterwards.<br>
-<br></div>
+    persistent connection and keep its state.<br>
+    Instead, connections are established on the fly for each request
+    and are destroyed afterwards.<br>
+    <br></div>
 <table class="table table-bordered">
-<tr>
-<th>package</th>
-<td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
-</tr>
-<tr>
-<th>since</th>
-<td>0.2</td>
-</tr>
+    <tr>
+        <th>package</th>
+        <td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
+    </tr>
+    <tr>
+        <th>since</th>
+        <td>0.2</td>
+    </tr>
 </table>
 <h3>
-<i class="icon-custom icon-method"></i> Methods</h3>
-<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
-<h2>Set up the connection object, validate the options provided</h2>
-<pre>__construct(array $options) : <a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>array</code><ul>
-<li>initial connection options</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code></div>
-</div></div>
-</div>
-<a id="method___destruct"></a><div class="element clickable method public method___destruct" data-toggle="collapse" data-target=".method___destruct .collapse">
-<h2>Close existing connection handle if a keep-alive connection was used</h2>
-<pre>__destruct() : void</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="method_check_encoding"></a><div class="element clickable method public method_check_encoding" data-toggle="collapse" data-target=".method_check_encoding .collapse">
-<h2>This function checks that the encoding of the keys and
-values of the array are utf-8, recursively.</h2>
-<pre>check_encoding(array $data) </pre>
-<div class="labels"><span class="label">Static</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">It will raise an exception if it encounters wrong encoded strings.</div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$data</h4>
-<code>array</code><p>the data to check</p></div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
-<td></td>
-</tr></table>
-</div></div>
-</div>
-<a id="method_delete"></a><div class="element clickable method public method_delete" data-toggle="collapse" data-target=".method_delete .collapse">
-<h2>Issue an HTTP DELETE request with the data provided</h2>
-<pre>delete(string $url) : <a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$url</h4>
-<code>string</code><ul>
-<li>DELETE URL</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></code></div>
-</div></div>
-</div>
-<a id="method_detect_utf"></a><div class="element clickable method public method_detect_utf" data-toggle="collapse" data-target=".method_detect_utf .collapse">
-<h2>This function checks that the encoding of a string is utf.</h2>
-<pre>detect_utf(array $string) : boolean</pre>
-<div class="labels"><span class="label">Static</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">It only checks for printable characters.</div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$string</h4>
-<code>array</code><p>the data to check</p></div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>boolean</code>true if string is UTF-8, false if not</div>
-</div></div>
-</div>
-<a id="method_get"></a><div class="element clickable method public method_get" data-toggle="collapse" data-target=".method_get .collapse">
-<h2>Issue an HTTP GET request</h2>
-<pre>get(string $url) : <a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$url</h4>
-<code>string</code><ul>
-<li>GET URL</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></code></div>
-</div></div>
-</div>
-<a id="method_getActiveBatch"></a><div class="element clickable method public method_getActiveBatch" data-toggle="collapse" data-target=".method_getActiveBatch .collapse">
-<h2>returns the active batch</h2>
-<pre>getActiveBatch() : <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code><a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></code>active batch</div>
-</div></div>
-</div>
-<a id="method_getBatches"></a><div class="element clickable method public method_getBatches" data-toggle="collapse" data-target=".method_getBatches .collapse">
-<h2>returns the active batch</h2>
-<pre>getBatches() </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="method_getClientVersion"></a><div class="element clickable method public method_getClientVersion" data-toggle="collapse" data-target=".method_getClientVersion .collapse">
-<h2>Get the client version</h2>
-<pre>getClientVersion() : string</pre>
-<div class="labels"><span class="label">Static</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Returns</h3>
-<div class="subelement response"><code>string</code></div>
-</div></div>
-</div>
-<a id="method_getOption"></a><div class="element clickable method public method_getOption" data-toggle="collapse" data-target=".method_getOption .collapse">
-<h2>Get an option set for the connection</h2>
-<pre>getOption(string $name) : mixed</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$name</h4>
-<code>string</code><ul>
-<li>name of option</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response"><code>mixed</code></div>
-</div></div>
-</div>
-<a id="method_getVersion"></a><div class="element clickable method public method_getVersion" data-toggle="collapse" data-target=".method_getVersion .collapse">
-<h2>Get the client version (alias for getClientVersion)</h2>
-<pre>getVersion() : string</pre>
-<div class="labels"><span class="label">Static</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Returns</h3>
-<div class="subelement response"><code>string</code></div>
-</div></div>
-</div>
-<a id="method_isInBatchCaptureMode"></a><div class="element clickable method public method_isInBatchCaptureMode" data-toggle="collapse" data-target=".method_isInBatchCaptureMode .collapse">
-<h2>Returns true if this connection is in Batch-Capture mode</h2>
-<pre>isInBatchCaptureMode() : bool</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>bool</code>returns the active batch</div>
-</div></div>
-</div>
-<a id="method_json_encode_wrapper"></a><div class="element clickable method public method_json_encode_wrapper" data-toggle="collapse" data-target=".method_json_encode_wrapper .collapse">
-<h2>This is a json_encode() wrapper that also checks if the data is utf-8 conform.</h2>
-<pre>json_encode_wrapper(mixed $data, mixed $options) : string</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">internally it calls the check_encoding() method. If that method does not throw
-an Exception, this method will happily return the json_encoded data.</div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$data</h4>
-<code>mixed</code><p>the data to encode</p></div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>mixed</code><p>the options for the json_encode() call</p>
-</div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>string</code>the result of the json_encode</div>
-</div></div>
-</div>
-<a id="method_parseResponse"></a><div class="element clickable method public method_parseResponse" data-toggle="collapse" data-target=".method_parseResponse .collapse">
-<h2>Parse the response return the body values as an assoc array</h2>
-<pre>parseResponse(\triagens\ArangoDb\HttpResponse $response) : <a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$response</h4>
-<code><a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></code><ul>
-<li>the response as supplied by the server</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></code></div>
-</div></div>
-</div>
-<a id="method_patch"></a><div class="element clickable method public method_patch" data-toggle="collapse" data-target=".method_patch .collapse">
-<h2>Issue an HTTP PATCH request with the data provided</h2>
-<pre>patch(string $url, string $data) : <a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$url</h4>
-<code>string</code><ul>
-<li>PATCH URL</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$data</h4>
-<code>string</code><ul>
-<li>patch body</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></code></div>
-</div></div>
-</div>
-<a id="method_post"></a><div class="element clickable method public method_post" data-toggle="collapse" data-target=".method_post .collapse">
-<h2>Issue an HTTP POST request with the data provided</h2>
-<pre>post(string $url, string $data) : <a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$url</h4>
-<code>string</code><ul>
-<li>POST URL</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$data</h4>
-<code>string</code><ul>
-<li>body to post</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></code></div>
-</div></div>
-</div>
-<a id="method_put"></a><div class="element clickable method public method_put" data-toggle="collapse" data-target=".method_put .collapse">
-<h2>Issue an HTTP PUT request with the data provided</h2>
-<pre>put(string $url, string $data) : <a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$url</h4>
-<code>string</code><ul>
-<li>PUT URL</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$data</h4>
-<code>string</code><ul>
-<li>body to post</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></code></div>
-</div></div>
-</div>
-<a id="method_setActiveBatch"></a><div class="element clickable method public method_setActiveBatch" data-toggle="collapse" data-target=".method_setActiveBatch .collapse">
-<h2>Sets the active Batch for this connection</h2>
-<pre>setActiveBatch(\triagens\ArangoDb\Batch $batch) : <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$batch</h4>
-<code><a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></code><ul>
-<li>Sets the given batch as active</li>
-</ul>
-</div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code><a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></code>active batch</div>
-</div></div>
-</div>
-<a id="method_setBatchRequest"></a><div class="element clickable method public method_setBatchRequest" data-toggle="collapse" data-target=".method_setBatchRequest .collapse">
-<h2>Sets connection into Batch-request mode. This is needed for some operations to act differently when in this mode.</h2>
-<pre>setBatchRequest(boolean $state) </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$state</h4>
-<code>boolean</code><p>sets the connection state to batch request, meaning it is currently doing a batch request.</p></div>
-</div></div>
-</div>
-<a id="method_setCaptureBatch"></a><div class="element clickable method public method_setCaptureBatch" data-toggle="collapse" data-target=".method_setCaptureBatch .collapse">
-<h2>Sets the batch capture state (true, if capturing)</h2>
-<pre>setCaptureBatch(boolean $state) </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$state</h4>
-<code>boolean</code><p>true to turn on capture batch mode, false to turn it off</p></div>
-</div></div>
-</div>
-<a id="method_stopCaptureBatch"></a><div class="element clickable method public method_stopCaptureBatch" data-toggle="collapse" data-target=".method_stopCaptureBatch .collapse">
-<h2>Stop capturing commands</h2>
-<pre>stopCaptureBatch() : <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code><a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></code>- Returns the active batch object</div>
-</div></div>
-</div>
-<a id="method_doBatch"></a><div class="element clickable method private method_doBatch" data-toggle="collapse" data-target=".method_doBatch .collapse">
-<h2>This is a helper function to executeRequest that captures requests if we're in batch mode</h2>
-<pre>doBatch(mixed $method, string $request) : mixed</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$method</h4>
-<code>mixed</code><ul>
-<li>The method of the request (GET, POST...)</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$request</h4>
-<code>string</code><ul>
-<li>The request to process
-This checks if we're in batch mode and returns a placeholder object,
-since we need to return some object that is expected by the caller.
-if we're not in batch mode it doesn't return anything, and</li>
-</ul>
-</div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>Batchpart or null if not in batch capturing mode</div>
-</div></div>
-</div>
-<a id="method_executeRequest"></a><div class="element clickable method private method_executeRequest" data-toggle="collapse" data-target=".method_executeRequest .collapse">
-<h2>Execute an HTTP request and return the results</h2>
-<pre>executeRequest(string $method, string $url, string $data) : <a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">This function will throw if no connection to the server can be established or if
-there is a problem during data exchange with the server.
+    <i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method___construct"></a>
 
-will restore it.</div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$method</h4>
-<code>string</code><ul>
-<li>HTTP request method</li>
-</ul>
+<div class="element clickable method public method___construct" data-toggle="collapse"
+     data-target=".method___construct .collapse">
+    <h2>Set up the connection object, validate the options provided</h2>
+    <pre>__construct(array $options) : <a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>array</code>
+                <ul>
+                    <li>initial connection options</li>
+                </ul>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="subelement argument">
-<h4>$url</h4>
-<code>string</code><ul>
-<li>HTTP URL</li>
-</ul>
+<a id="method___destruct"></a>
+
+<div class="element clickable method public method___destruct" data-toggle="collapse"
+     data-target=".method___destruct .collapse">
+    <h2>Close existing connection handle if a keep-alive connection was used</h2>
+    <pre>__destruct() : void</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
-<div class="subelement argument">
-<h4>$data</h4>
-<code>string</code><ul>
-<li>data to post in body</li>
-</ul>
+<a id="method_check_encoding"></a>
+
+<div class="element clickable method public method_check_encoding" data-toggle="collapse"
+     data-target=".method_check_encoding .collapse">
+    <h2>This function checks that the encoding of the keys and
+        values of the array are utf-8, recursively.</h2>
+    <pre>check_encoding(array $data) </pre>
+    <div class="labels"><span class="label">Static</span></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">It will raise an exception if it encounters wrong encoded strings.</div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$data</h4>
+                <code>array</code>
+
+                <p>the data to check</p></div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></code></div>
-</div></div>
+<a id="method_delete"></a>
+
+<div class="element clickable method public method_delete" data-toggle="collapse"
+     data-target=".method_delete .collapse">
+    <h2>Issue an HTTP DELETE request with the data provided</h2>
+    <pre>delete(string $url) : <a
+            href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$url</h4>
+                <code>string</code>
+                <ul>
+                    <li>DELETE URL</li>
+                </ul>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response"><code><a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></code>
+            </div>
+        </div>
+    </div>
 </div>
-<a id="method_getHandle"></a><div class="element clickable method private method_getHandle" data-toggle="collapse" data-target=".method_getHandle .collapse">
-<h2>Get a connection handle</h2>
-<pre>getHandle() : resource</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description">If keep-alive connections are used, the handle will be stored and re-used</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>resource</code>- connection handle</div>
-</div></div>
+<a id="method_detect_utf"></a>
+
+<div class="element clickable method public method_detect_utf" data-toggle="collapse"
+     data-target=".method_detect_utf .collapse">
+    <h2>This function checks that the encoding of a string is utf.</h2>
+    <pre>detect_utf(array $string) : boolean</pre>
+    <div class="labels"><span class="label">Static</span></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">It only checks for printable characters.</div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$string</h4>
+                <code>array</code>
+
+                <p>the data to check</p></div>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>boolean</code>true if string is UTF-8, false if not
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_get"></a>
+
+<div class="element clickable method public method_get" data-toggle="collapse" data-target=".method_get .collapse">
+    <h2>Issue an HTTP GET request</h2>
+    <pre>get(string $url) : <a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$url</h4>
+                <code>string</code>
+                <ul>
+                    <li>GET URL</li>
+                </ul>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response"><code><a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></code>
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_getActiveBatch"></a>
+
+<div class="element clickable method public method_getActiveBatch" data-toggle="collapse"
+     data-target=".method_getActiveBatch .collapse">
+    <h2>returns the active batch</h2>
+    <pre>getActiveBatch() : <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code><a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></code>active batch
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_getBatches"></a>
+
+<div class="element clickable method public method_getBatches" data-toggle="collapse"
+     data-target=".method_getBatches .collapse">
+    <h2>returns the active batch</h2>
+    <pre>getBatches() </pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
+</div>
+<a id="method_getClientVersion"></a>
+
+<div class="element clickable method public method_getClientVersion" data-toggle="collapse"
+     data-target=".method_getClientVersion .collapse">
+    <h2>Get the client version</h2>
+    <pre>getClientVersion() : string</pre>
+    <div class="labels"><span class="label">Static</span></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Returns</h3>
+
+            <div class="subelement response"><code>string</code></div>
+        </div>
+    </div>
+</div>
+<a id="method_getDatabase"></a>
+
+<div class="element clickable method public method_getDatabase" data-toggle="collapse"
+     data-target=".method_getDatabase .collapse">
+    <h2>Get the database that is currently used with this connection</h2>
+    <pre>getDatabase() : string</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">Get the database to use with this connection, for example: 'my_database'</div>
+            <h3>Returns</h3>
+
+            <div class="subelement response"><code>string</code></div>
+        </div>
+    </div>
+</div>
+<a id="method_getOption"></a>
+
+<div class="element clickable method public method_getOption" data-toggle="collapse"
+     data-target=".method_getOption .collapse">
+    <h2>Get an option set for the connection</h2>
+    <pre>getOption(string $name) : mixed</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$name</h4>
+                <code>string</code>
+                <ul>
+                    <li>name of option</li>
+                </ul>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response"><code>mixed</code></div>
+        </div>
+    </div>
+</div>
+<a id="method_getVersion"></a>
+
+<div class="element clickable method public method_getVersion" data-toggle="collapse"
+     data-target=".method_getVersion .collapse">
+    <h2>Get the client version (alias for getClientVersion)</h2>
+    <pre>getVersion() : string</pre>
+    <div class="labels"><span class="label">Static</span></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Returns</h3>
+
+            <div class="subelement response"><code>string</code></div>
+        </div>
+    </div>
+</div>
+<a id="method_isInBatchCaptureMode"></a>
+
+<div class="element clickable method public method_isInBatchCaptureMode" data-toggle="collapse"
+     data-target=".method_isInBatchCaptureMode .collapse">
+    <h2>Returns true if this connection is in Batch-Capture mode</h2>
+    <pre>isInBatchCaptureMode() : bool</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>bool</code>returns the active batch
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_json_encode_wrapper"></a>
+
+<div class="element clickable method public method_json_encode_wrapper" data-toggle="collapse"
+     data-target=".method_json_encode_wrapper .collapse">
+    <h2>This is a json_encode() wrapper that also checks if the data is utf-8 conform.</h2>
+    <pre>json_encode_wrapper(mixed $data, mixed $options) : string</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">internally it calls the check_encoding() method. If that method does not throw
+                an Exception, this method will happily return the json_encoded data.
+            </div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$data</h4>
+                <code>mixed</code>
+
+                <p>the data to encode</p></div>
+            <div class="subelement argument">
+                <h4>$options</h4>
+                <code>mixed</code>
+
+                <p>the options for the json_encode() call</p>
+            </div>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>string</code>the result of the json_encode
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_parseResponse"></a>
+
+<div class="element clickable method public method_parseResponse" data-toggle="collapse"
+     data-target=".method_parseResponse .collapse">
+    <h2>Parse the response return the body values as an assoc array</h2>
+    <pre>parseResponse(\triagens\ArangoDb\HttpResponse $response) : <a
+            href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$response</h4>
+                <code><a
+                        href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></code>
+                <ul>
+                    <li>the response as supplied by the server</li>
+                </ul>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response"><code><a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></code>
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_patch"></a>
+
+<div class="element clickable method public method_patch" data-toggle="collapse" data-target=".method_patch .collapse">
+    <h2>Issue an HTTP PATCH request with the data provided</h2>
+    <pre>patch(string $url, string $data) : <a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$url</h4>
+                <code>string</code>
+                <ul>
+                    <li>PATCH URL</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$data</h4>
+                <code>string</code>
+                <ul>
+                    <li>patch body</li>
+                </ul>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response"><code><a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></code>
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_post"></a>
+
+<div class="element clickable method public method_post" data-toggle="collapse" data-target=".method_post .collapse">
+    <h2>Issue an HTTP POST request with the data provided</h2>
+    <pre>post(string $url, string $data) : <a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$url</h4>
+                <code>string</code>
+                <ul>
+                    <li>POST URL</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$data</h4>
+                <code>string</code>
+                <ul>
+                    <li>body to post</li>
+                </ul>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response"><code><a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></code>
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_put"></a>
+
+<div class="element clickable method public method_put" data-toggle="collapse" data-target=".method_put .collapse">
+    <h2>Issue an HTTP PUT request with the data provided</h2>
+    <pre>put(string $url, string $data) : <a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$url</h4>
+                <code>string</code>
+                <ul>
+                    <li>PUT URL</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$data</h4>
+                <code>string</code>
+                <ul>
+                    <li>body to post</li>
+                </ul>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response"><code><a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></code>
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_setActiveBatch"></a>
+
+<div class="element clickable method public method_setActiveBatch" data-toggle="collapse"
+     data-target=".method_setActiveBatch .collapse">
+    <h2>Sets the active Batch for this connection</h2>
+    <pre>setActiveBatch(\triagens\ArangoDb\Batch $batch) : <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$batch</h4>
+                <code><a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></code>
+                <ul>
+                    <li>Sets the given batch as active</li>
+                </ul>
+            </div>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code><a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></code>active batch
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_setBatchRequest"></a>
+
+<div class="element clickable method public method_setBatchRequest" data-toggle="collapse"
+     data-target=".method_setBatchRequest .collapse">
+    <h2>Sets connection into Batch-request mode. This is needed for some operations to act differently when in this
+        mode.</h2>
+    <pre>setBatchRequest(boolean $state) </pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$state</h4>
+                <code>boolean</code>
+
+                <p>sets the connection state to batch request, meaning it is currently doing a batch request.</p></div>
+        </div>
+    </div>
+</div>
+<a id="method_setCaptureBatch"></a>
+
+<div class="element clickable method public method_setCaptureBatch" data-toggle="collapse"
+     data-target=".method_setCaptureBatch .collapse">
+    <h2>Sets the batch capture state (true, if capturing)</h2>
+    <pre>setCaptureBatch(boolean $state) </pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$state</h4>
+                <code>boolean</code>
+
+                <p>true to turn on capture batch mode, false to turn it off</p></div>
+        </div>
+    </div>
+</div>
+<a id="method_setDatabase"></a>
+
+<div class="element clickable method public method_setDatabase" data-toggle="collapse"
+     data-target=".method_setDatabase .collapse">
+    <h2>Set the database to use with this connection</h2>
+    <pre>setDatabase(string $database) </pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">Sets the database to use with this connection, for example: 'my_database'<br>
+                Further calls to the database will be addressed to the given database.
+            </div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$database</h4>
+                <code>string</code>
+
+                <p>the database to use</p></div>
+        </div>
+    </div>
+</div>
+<a id="method_stopCaptureBatch"></a>
+
+<div class="element clickable method public method_stopCaptureBatch" data-toggle="collapse"
+     data-target=".method_stopCaptureBatch .collapse">
+    <h2>Stop capturing commands</h2>
+    <pre>stopCaptureBatch() : <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code><a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></code>- Returns the
+                active batch object
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_doBatch"></a>
+
+<div class="element clickable method private method_doBatch" data-toggle="collapse"
+     data-target=".method_doBatch .collapse">
+    <h2>This is a helper function to executeRequest that captures requests if we're in batch mode</h2>
+    <pre>doBatch(mixed $method, string $request) : mixed</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$method</h4>
+                <code>mixed</code>
+                <ul>
+                    <li>The method of the request (GET, POST...)</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$request</h4>
+                <code>string</code>
+                <ul>
+                    <li>The request to process
+                        This checks if we're in batch mode and returns a placeholder object,
+                        since we need to return some object that is expected by the caller.
+                        if we're not in batch mode it doesn't return anything, and
+                    </li>
+                </ul>
+            </div>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>mixed</code>Batchpart or null if not in batch capturing mode
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_executeRequest"></a>
+
+<div class="element clickable method private method_executeRequest" data-toggle="collapse"
+     data-target=".method_executeRequest .collapse">
+    <h2>Execute an HTTP request and return the results</h2>
+    <pre>executeRequest(string $method, string $url, string $data) : <a
+            href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">This function will throw if no connection to the server can be established or
+                if
+                there is a problem during data exchange with the server.
+
+                will restore it.
+            </div>
+            <h3>Parameters</h3>
+
+            <div class="subelement argument">
+                <h4>$method</h4>
+                <code>string</code>
+                <ul>
+                    <li>HTTP request method</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$url</h4>
+                <code>string</code>
+                <ul>
+                    <li>HTTP URL</li>
+                </ul>
+            </div>
+            <div class="subelement argument">
+                <h4>$data</h4>
+                <code>string</code>
+                <ul>
+                    <li>data to post in body</li>
+                </ul>
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a
+                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response"><code><a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></code>
+            </div>
+        </div>
+    </div>
+</div>
+<a id="method_getHandle"></a>
+
+<div class="element clickable method private method_getHandle" data-toggle="collapse"
+     data-target=".method_getHandle .collapse">
+    <h2>Get a connection handle</h2>
+    <pre>getHandle() : resource</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description">If keep-alive connections are used, the handle will be stored and re-used
+            </div>
+            <h3>Exceptions</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code>
+                    </th>
+                    <td></td>
+                </tr>
+            </table>
+            <h3>Returns</h3>
+
+            <div class="subelement response">
+                <code>resource</code>- connection handle
+            </div>
+        </div>
+    </div>
 </div>
 <h3>
-<i class="icon-custom icon-property"></i> Properties</h3>
-<a id="property__apiVersion"> </a><div class="element clickable property public property__apiVersion" data-toggle="collapse" data-target=".property__apiVersion .collapse">
-<h2>Api Version</h2>
-<pre>$_apiVersion : string</pre>
-<div class="labels"><span class="label">Static</span></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+    <i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property__apiVersion"> </a>
+
+<div class="element clickable property public property__apiVersion" data-toggle="collapse"
+     data-target=".property__apiVersion .collapse">
+    <h2>Api Version</h2>
+    <pre>$_apiVersion : string</pre>
+    <div class="labels"><span class="label">Static</span></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
-<a id="property__activeBatch"> </a><div class="element clickable property private property__activeBatch" data-toggle="collapse" data-target=".property__activeBatch .collapse">
-<h2>$_activeBatch object</h2>
-<pre>$_activeBatch : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<a id="property__activeBatch"> </a>
+
+<div class="element clickable property private property__activeBatch" data-toggle="collapse"
+     data-target=".property__activeBatch .collapse">
+    <h2>$_activeBatch object</h2>
+    <pre>$_activeBatch : array</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
-<a id="property__batchRequest"> </a><div class="element clickable property private property__batchRequest" data-toggle="collapse" data-target=".property__batchRequest .collapse">
-<h2>$_batchRequest boolean</h2>
-<pre>$_batchRequest : boolean</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<a id="property__batchRequest"> </a>
+
+<div class="element clickable property private property__batchRequest" data-toggle="collapse"
+     data-target=".property__batchRequest .collapse">
+    <h2>$_batchRequest boolean</h2>
+    <pre>$_batchRequest : boolean</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
-<a id="property__batches"> </a><div class="element clickable property private property__batches" data-toggle="collapse" data-target=".property__batches .collapse">
-<h2>Batches Array</h2>
-<pre>$_batches : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<a id="property__batches"> </a>
+
+<div class="element clickable property private property__batches" data-toggle="collapse"
+     data-target=".property__batches .collapse">
+    <h2>Batches Array</h2>
+    <pre>$_batches : array</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
-<a id="property__captureBatch"> </a><div class="element clickable property private property__captureBatch" data-toggle="collapse" data-target=".property__captureBatch .collapse">
-<h2>$_captureBatch boolean</h2>
-<pre>$_captureBatch : boolean</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<a id="property__captureBatch"> </a>
+
+<div class="element clickable property private property__captureBatch" data-toggle="collapse"
+     data-target=".property__captureBatch .collapse">
+    <h2>$_captureBatch boolean</h2>
+    <pre>$_captureBatch : boolean</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
-<a id="property__handle"> </a><div class="element clickable property private property__handle" data-toggle="collapse" data-target=".property__handle .collapse">
-<h2>Connection handle, used in case of keep-alive</h2>
-<pre>$_handle : resource</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<a id="property__database"> </a>
+
+<div class="element clickable property private property__database" data-toggle="collapse"
+     data-target=".property__database .collapse">
+    <h2>$_database string</h2>
+    <pre>$_database : string</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
-<a id="property__options"> </a><div class="element clickable property private property__options" data-toggle="collapse" data-target=".property__options .collapse">
-<h2>Connection options</h2>
-<pre>$_options : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<a id="property__handle"> </a>
+
+<div class="element clickable property private property__handle" data-toggle="collapse"
+     data-target=".property__handle .collapse">
+    <h2>Connection handle, used in case of keep-alive</h2>
+    <pre>$_handle : resource</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
-<a id="property__useKeepAlive"> </a><div class="element clickable property private property__useKeepAlive" data-toggle="collapse" data-target=".property__useKeepAlive .collapse">
-<h2>Flag if keep-alive connections are used</h2>
-<pre>$_useKeepAlive : bool</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<a id="property__options"> </a>
+
+<div class="element clickable property private property__options" data-toggle="collapse"
+     data-target=".property__options .collapse">
+    <h2>Connection options</h2>
+    <pre>$_options : array</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
+</div>
+<a id="property__useKeepAlive"> </a>
+
+<div class="element clickable property private property__useKeepAlive" data-toggle="collapse"
+     data-target=".property__useKeepAlive .collapse">
+    <h2>Flag if keep-alive connections are used</h2>
+    <pre>$_useKeepAlive : bool</pre>
+    <div class="labels"></div>
+    <div class="row collapse">
+        <div class="detail-description">
+            <div class="long_description"></div>
+        </div>
+    </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="row"><footer class="span12">
-            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
-            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.1.0
-</a> and<br>
-            generated on 2013-10-18T04:07:23+03:00.<br></footer></div>
+<div class="row">
+    <footer class="span12">
+        Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons
+        provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+        Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.1.0
+    </a> and<br>
+        generated on 2013-11-09T09:19:51+02:00.<br></footer>
+</div>
 </div>
 </body>
 </html>
