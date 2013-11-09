@@ -11,9 +11,11 @@
 namespace triagens\ArangoDb;
 
 /**
- * Value object representing a database
+ * A class for managing ArangoDB Databases
  *
- * <br>
+ * This class provides functions to manage Databases through ArangoDB's Database API<br>
+ *
+ * @link      http://www.arangodb.org/manuals/1.4/HttpDatabase.html
  *
  * @package   triagens\ArangoDb
  * @since     1.4
@@ -31,7 +33,7 @@ class Database
      * This creates a new database<br>
      *
      * @param Connection $connection - the connection to be used
-     * @param string $name - the database specification, for example 'myDatabase'
+     * @param string     $name       - the database specification, for example 'myDatabase'
      *
      * @link http://www.arangodb.org/manuals/1.4/HttpDatabase.html
      *
@@ -55,7 +57,7 @@ class Database
      * This will delete an existing database.
      *
      * @param Connection $connection - the connection to be used
-     * @param string $name - the database specification, for example 'myDatabase'
+     * @param string     $name       - the database specification, for example 'myDatabase'
      *
      * @link http://www.arangodb.org/manuals/1.4/HttpDatabase.html
      *

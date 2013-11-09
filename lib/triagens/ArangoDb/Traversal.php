@@ -12,12 +12,13 @@ namespace triagens\ArangoDb;
 /**
  * Provides graph traversal
  *
- * Traversal object<br>
- * A Traversal is an object that is used to execute a graph traversal on the server side.<br>
+ * A Traversal object is used to execute a graph traversal on the server side.<br>
  * <br>
  *
  * The object requires the connection object, the startVertex, the edgeCollection and the optional parameters.<br>
  * <br>
+ *
+ * @link http://www.arangodb.org/manuals/1.4/HttpTraversals.html
  *
  * @package   triagens\ArangoDb
  * @since     1.4
