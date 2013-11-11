@@ -29,7 +29,7 @@ class Connection
      *
      * @var string
      */
-    public static $_apiVersion = '1.4.0';
+    public static $_apiVersion = 10400;
 
     /**
      * Connection options
@@ -425,7 +425,7 @@ class Connection
      */
     public static function getClientVersion()
     {
-        return self::$_apiVersion;
+         return self::$_apiVersion;
     }
 
 

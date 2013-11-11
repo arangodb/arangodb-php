@@ -143,9 +143,12 @@ class HttpHelper
             $connection = sprintf("Connection: %s%s", $options[ConnectionOptions::OPTION_CONNECTION], self::EOL);
         }
 
+        $apiVersion = 'x-arango-version: ' . Connection::$_apiVersion . self::EOL;
+
         // finally assemble the request
         $request = sprintf('%s %s %s%s', $method, $url, self::PROTOCOL, self::EOL) .
             $host .
+            $apiVersion .
             $contentType .
             $authorization .
             $connection .

@@ -65,10 +65,10 @@ class ConnectionTest extends
         $connection = getConnection();
 
         $response = $connection->getVersion();
-        $this->assertTrue($response !== "", 'Version String is empty!');
+        $this->assertTrue($response >0, 'Version number is not correct!');
 
         $response = $connection->getClientVersion();
-        $this->assertTrue($response !== "", 'Version String is empty!');
+        $this->assertTrue($response >0, 'Version number is not correct!');
     }
 
     /**
