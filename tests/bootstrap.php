@@ -22,7 +22,7 @@ function getConnectionOptions()
     };
 
     return array(
-        ConnectionOptions::OPTION_ENDPOINT      => 'tcp://localhost:8529/',
+        ConnectionOptions::OPTION_ENDPOINT      => 'tcp://localhost:8529',
         // endpoint to connect to
         ConnectionOptions::OPTION_CONNECTION    => 'Close',
         // can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
