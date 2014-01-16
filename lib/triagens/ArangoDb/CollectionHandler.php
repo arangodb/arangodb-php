@@ -170,6 +170,16 @@ class CollectionHandler extends
     const OPTION_COUNT = 'count';
 
     /**
+     * checksum option
+     */
+    const OPTION_CHECKSUM = 'checksum';
+
+    /**
+     * revision option
+     */
+    const OPTION_REVISION = 'revision';
+
+    /**
      * properties option
      */
     const OPTION_PROPERTIES = 'properties';
@@ -424,6 +434,54 @@ class CollectionHandler extends
         return $id;
     }
 
+    /**
+     * Calculate a checksum of the collection.
+     *
+     * Will calculate a checksum of the meta-data (keys and optionally revision ids)
+     * and optionally the document data in the collection.
+     *
+     * @throws Exception
+     *
+     * @param mixed $collectionId - collection id as a string or number
+     * @param boolean $withRevisions - optional boolean whether or not to include document revision ids
+     *                                 in the checksum calculation.
+     * @param boolean $withData - optional boolean whether or not to include document body data in the
+     *                                      checksum calculation.
+     *
+     * @return array - array containing keys "checksum" and "revision"
+     */
+    public function getChecksum($collectionId, $withRevisions = false, $withData = false)
+    {
+
+        $url      = UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_CHECKSUM));
+        $url = UrlHelper::appendParamsUrl($url, array('withRevisions' => $withRevisions, 'withData' => $withData));
+        $response = $this->getConnection()->get($url);
+        $data  = $response->getJson();
+
+        return $data;
+    }
+
+    /**
+     * Returns the Collections revision ID
+     *
+     * The revision id is a server-generated string that clients can use to check whether data in a collection has
+     * changed since the last revision check.
+     *
+     * @throws Exception
+     *
+     * @param mixed $collectionId - collection id as a string or number
+     *
+     * @return array - containing a key revision
+     */
+    public function getRevision($collectionId)
+    {
+
+        $url      = UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_REVISION));
+        $response = $this->getConnection()->get($url);
+        $data  = $response->getJson();
+
+        return $data;
+    }
 
     /**
      * Create a cap constraint

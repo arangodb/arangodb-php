@@ -58,6 +58,7 @@ class DocumentHandler extends
      *                            <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
      *                            <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
      *                            <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
+     *                            <li>'revision' - the documents revision</li>
      *                            </p>
      *
      * @return Document - the document fetched from the server
@@ -83,6 +84,7 @@ class DocumentHandler extends
      *                            <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
      *                            <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
      *                            <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
+     *                            <li>'revision' - the documents revision</li>
      *                            </p>
      *
      * @return Document - the document fetched from the server
@@ -90,6 +92,11 @@ class DocumentHandler extends
     public function getById($collectionId, $documentId, array $options = array())
     {
         $url      = UrlHelper::buildUrl(Urls::URL_DOCUMENT, array($collectionId, $documentId));
+        if (array_key_exists("revision", $options)) {
+            $url = UrlHelper::appendParamsUrl($url, array('rev' => $options["revision"]));
+            unset($options["revision"]);
+        }
+
         $response = $this->getConnection()->get($url);
 
         $data = $response->getJson();
@@ -99,6 +106,32 @@ class DocumentHandler extends
         return $this->createFromArrayWithContext($data, $options);
     }
 
+
+    /**
+     * Gets information about a single documents from a collection
+     *
+     * This will throw if the document cannot be fetched from the server
+     *
+     *
+     * @throws Exception
+     *
+     * @param mixed $collectionId - collection id as a string or number
+     * @param mixed $documentId   - document identifier
+     * @param string $revision    - optional,a certain revision
+     *
+     * @return array - an array containing the key "etag".
+     */
+    public function getHead($collectionId, $documentId, $revision = null)
+    {
+        $url      = UrlHelper::buildUrl(Urls::URL_DOCUMENT, array($collectionId, $documentId));
+        if ($revision === null) {
+            $url = UrlHelper::appendParamsUrl($url, array('rev' => $revision));
+        }
+
+        $response = $this->getConnection()->head($url);
+
+        return $response->getHeaders();
+    }
 
     /**
      * Intermediate function to call the createFromArray function from the right context

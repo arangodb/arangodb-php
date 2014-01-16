@@ -156,6 +156,106 @@ class CollectionExtendedTest extends
         }
     }
 
+    /**
+     * test for getting the Checksum for a collection containing 3 documents in different varieties
+     */
+    public function testGetChecksum()
+    {
+        $collectionHandler = $this->collectionHandler;
+        $documentHandler   = $this->documentHandler;
+
+        $collection = new Collection();
+        $collection->setName("ArangoDB_PHP_TestSuite_TestCollection_01");
+
+        $collection->setId($collectionHandler->create($collection));
+
+        $document    = Document::createFromArray(
+            array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentHandler->save($collection->getId(), $document);
+        $document2   = Document::createFromArray(
+            array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+        );
+        $documentHandler->save($collection->getId(), $document2);
+        $document3   = Document::createFromArray(
+            array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentHandler->save($collection->getId(), $document3);
+
+        $checksum1 = $collectionHandler->getChecksum($collection->getName(), true, true);
+        $checksum2 = $collectionHandler->getChecksum($collection->getName());
+        $checksum3 = $collectionHandler->getChecksum($collection->getName(), false, true);
+        $checksum4 = $collectionHandler->getChecksum($collection->getName(), true);
+        $revision = $checksum1['revision'];
+        $this->assertEquals($revision, $checksum2['revision']);
+        $this->assertEquals($revision, $checksum3['revision']);
+        $this->assertEquals($revision, $checksum4['revision']);
+
+        $this->assertNotEquals($checksum1['checksum'], $checksum2['checksum']);
+        $this->assertNotEquals($checksum1['checksum'], $checksum3['checksum']);
+        $this->assertNotEquals($checksum1['checksum'], $checksum4['checksum']);
+        $this->assertNotEquals($checksum2['checksum'], $checksum3['checksum']);
+        $this->assertNotEquals($checksum2['checksum'], $checksum4['checksum']);
+        $this->assertNotEquals($checksum3['checksum'], $checksum4['checksum']);
+
+        $collectionHandler->drop($collection);
+    }
+
+    /**
+     *
+     * test for getting the Checksum for a non existing collection
+     */
+    public function testGetChecksumWithException()
+    {
+        $collectionHandler = $this->collectionHandler;
+        try {
+            $collectionHandler->getChecksum("nonExisting", true, true);
+        } catch (\Exception $e) {
+            $this->assertEquals($e->getCode() , 404);
+        }
+    }
+
+    /**
+     * test for getting the , true, true for a collection
+     */
+    public function testGetRevision()
+    {
+        $collectionHandler = $this->collectionHandler;
+        $documentHandler   = $this->documentHandler;
+
+        $collection = new Collection();
+        $collection->setName("ArangoDB_PHP_TestSuite_TestCollection_01");
+
+        $collection->setId($collectionHandler->create($collection));
+        $revision = $collectionHandler->getRevision($collection->getName());
+        $this->assertArrayHasKey('revision', $revision);
+
+        $document    = Document::createFromArray(
+            array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentHandler->save($collection->getId(), $document);
+
+        $revision2 = $collectionHandler->getRevision($collection->getName());
+
+        $this->assertNotEquals($revision2['revision'], $revision['revision']);
+
+        $collectionHandler->drop($collection);
+    }
+
+    /**
+     *
+     * test for getting the revision for a non existing collection
+     */
+    public function testGetRevisionWithException()
+    {
+        $collectionHandler = $this->collectionHandler;
+        try {
+            $collectionHandler->getRevision("nonExisting");
+        } catch (\Exception $e) {
+            $this->assertEquals($e->getCode() , 404);
+        }
+    }
+
 
     /**
      * test for creation, rename, and delete of a collection

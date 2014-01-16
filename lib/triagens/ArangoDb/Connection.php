@@ -182,6 +182,22 @@ class Connection
     }
 
     /**
+     * Issue an HTTP Head request with the data provided
+     *
+     * @throws Exception
+     *
+     * @param string $url  - PUT URL
+     *
+     * @return HttpResponse
+     */
+    public function head($url)
+    {
+        $response = $this->executeRequest(HttpHelper::METHOD_HEAD, $url, '');
+
+        return $this->parseResponse($response);
+    }
+
+    /**
      * Issue an HTTP PATCH request with the data provided
      *
      * @throws Exception

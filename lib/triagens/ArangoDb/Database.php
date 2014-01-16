@@ -95,6 +95,30 @@ class Database
         return $responseArray;
     }
 
+    /**
+     * List user databases
+     *
+     * Retrieves the list of all databases the current user can access without
+     * specifying a different username or password.
+     *
+     * @param Connection $connection - the connection to be used
+     *
+     * @link http://www.arangodb.org/manuals/1.4/HttpDatabase.html
+     *
+     * @return array $responseArray - The response array.
+     */
+    public static function listUserDatabases(Connection $connection)
+    {
+
+        $url      = UrlHelper::buildUrl(Urls::URL_DATABASE, array('user'));
+
+        $response = $connection->get($url);
+
+        $responseArray = $response->getJson();
+
+        return $responseArray;
+    }
+
 
     /**
      * Retrieves information about the current database

@@ -58,13 +58,12 @@ class DatabaseTest extends
         );
 
         $response = Database::listDatabases($this->connection);
-
-        $this->assertCount(1, $response['result']);
+        $this->assertArrayNotHasKey($database, array_flip($response['result']));
     }
 
 
     /**
-     * Test if Databases can be created, if they can be listed and deleted again
+     * Test if Databases can be created, if they can be listed, if they can be listed for the current user and deleted again
      */
     public function testCreateDatabaseGetListOfDatabasesAndDeleteItAgain()
     {
@@ -81,7 +80,11 @@ class DatabaseTest extends
 
         $response = Database::listDatabases($this->connection);
 
-        $this->assertCount(2, $response['result']);
+        $this->assertArrayHasKey($database, array_flip($response['result']));
+
+        $responseUser = Database::listUserDatabases($this->connection);
+
+        $this->assertArrayHasKey($database, array_flip($responseUser['result']));
 
 
         $response = Database::delete($this->connection, $database);
