@@ -245,6 +245,135 @@ class EdgeBasicTest extends
         $edgeDocumentHandler->delete($resultingEdge);
     }
 
+    /**
+     * Try to create, get and delete a edge using the revision-
+     */
+    public function testCreateGetAndDeleteEdgeWithRevision()
+    {
+        $connection      = $this->connection;
+        $edgeHandler = new EdgeHandler($connection);
+
+
+        $edgeCollection = $this->edgeCollection;
+
+        $document1       = new Document();
+        $document2       = new Document();
+        $documentHandler = new DocumentHandler($connection);
+
+        $edgeDocument        = new Edge();
+
+        $document1->someAttribute = 'someValue1';
+        $document2->someAttribute = 'someValue2';
+
+
+        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
+        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandle1 = $document1->getHandle();
+        $documentHandle2 = $document2->getHandle();
+
+
+        $edgeDocument->set('label', 'knows');
+        $edgeId = $edgeHandler->saveEdge(
+            $edgeCollection->getName(),
+            $documentHandle1,
+            $documentHandle2,
+            $edgeDocument
+        );
+
+
+        /**
+         * lets get the edge in a wrong revision
+         */
+        try {
+            $edgeHandler->get($edgeCollection->getId(), $edgeId, array("ifMatch" => true, "revision" => 12345));
+        } catch (\Exception $exception412) {
+        }
+        $this->assertEquals($exception412->getCode() , 412);
+
+        try {
+            $edgeHandler->get($edgeCollection->getId(), $edgeId, array("ifMatch" => false, "revision" => $edgeId));
+        } catch (\Exception $exception304) {
+        }
+        $this->assertEquals($exception304->getMessage() , 'Edge has not changed.');
+
+        $resultingEdge = $edgeHandler->get($edgeCollection->getId(), $edgeId);
+
+
+        $resultingEdge->set('someAttribute', 'someValue2');
+        $resultingEdge->set('someOtherAttribute', 'someOtherValue2');
+        $edgeHandler->replace($resultingEdge);
+
+        $oldRevision = $edgeHandler->get($edgeCollection->getId(), $edgeId,
+            array("revision" => $resultingEdge->getRevision()));
+        $this->assertEquals($oldRevision->getRevision(), $resultingEdge->getRevision());
+        $documentHandler->delete($document1);
+        $documentHandler->delete($document2);
+        $edgeHandler->deleteById($edgeCollection->getName(), $edgeId);
+    }
+
+    /**
+     * Try to create, head and delete a edge
+     */
+    public function testCreateHeadAndDeleteEdgeWithRevision()
+    {
+        $connection      = $this->connection;
+        $edgeHandler = new EdgeHandler($connection);
+
+
+        $edgeCollection = $this->edgeCollection;
+
+        $document1       = new Document();
+        $document2       = new Document();
+        $documentHandler = new DocumentHandler($connection);
+
+        $edgeDocument        = new Edge();
+
+        $document1->someAttribute = 'someValue1';
+        $document2->someAttribute = 'someValue2';
+
+
+        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
+        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandle1 = $document1->getHandle();
+        $documentHandle2 = $document2->getHandle();
+
+
+        $edgeDocument->set('label', 'knows');
+        $edgeId = $edgeHandler->saveEdge(
+            $edgeCollection->getName(),
+            $documentHandle1,
+            $documentHandle2,
+            $edgeDocument
+        );
+
+        try {
+            $edgeHandler->getHead($edgeCollection->getId(), $edgeId, "12345", true);
+        } catch (\Exception $e412) {
+        }
+
+        $this->assertEquals($e412->getCode() , 412);
+
+        try {
+            $edgeHandler->getHead($edgeCollection->getId(), "notExisting");
+        } catch (\Exception $e404) {
+        }
+
+        $this->assertEquals($e404->getCode() , 404);
+
+
+        $result304 = $edgeHandler->getHead($edgeCollection->getId(), $edgeId, $edgeId , false);
+        $this->assertEquals($result304["etag"] , '"' .strval($edgeId).'"');
+        $this->assertEquals($result304["content-length"] , 0);
+        $this->assertEquals($result304["httpCode"] , 304);
+
+        $result200 = $edgeHandler->getHead($edgeCollection->getId(), $edgeId, $edgeId , true);
+        $this->assertEquals($result200["etag"] , '"' .strval($edgeId).'"');
+        $this->assertNotEquals($result200["content-length"] , 0);
+        $this->assertEquals($result200["httpCode"] , 200);
+        $documentHandler->delete($document1);
+        $documentHandler->delete($document2);
+        $edgeHandler->deleteById($edgeCollection->getName(), $edgeId);
+    }
 
     public function tearDown()
     {

@@ -137,12 +137,13 @@ class Connection
      * @throws Exception
      *
      * @param string $url - GET URL
+     * @param array $customerHeader
      *
      * @return HttpResponse
      */
-    public function get($url)
+    public function get($url, $customerHeader = array())
     {
-        $response = $this->executeRequest(HttpHelper::METHOD_GET, $url, '');
+        $response = $this->executeRequest(HttpHelper::METHOD_GET, $url, '', $customerHeader);
 
         return $this->parseResponse($response);
     }
@@ -187,12 +188,13 @@ class Connection
      * @throws Exception
      *
      * @param string $url  - PUT URL
+     * @param array $customerHeader
      *
      * @return HttpResponse
      */
-    public function head($url)
+    public function head($url, $customerHeader=array())
     {
-        $response = $this->executeRequest(HttpHelper::METHOD_HEAD, $url, '');
+        $response = $this->executeRequest(HttpHelper::METHOD_HEAD, $url, '', $customerHeader );
 
         return $this->parseResponse($response);
     }
@@ -320,10 +322,11 @@ class Connection
      * @param string $method - HTTP request method
      * @param string $url    - HTTP URL
      * @param string $data   - data to post in body
+     * @param array $customerHeader - any arry containing header elements
      *
      * @return HttpResponse
      */
-    private function executeRequest($method, $url, $data)
+    private function executeRequest($method, $url, $data, $customerHeader = array())
     {
         HttpHelper::validateMethod($method);
         $database = $this->getDatabase();
@@ -339,10 +342,10 @@ class Connection
 
             if ($this->_captureBatch === true) {
                 $this->_options->offsetSet(ConnectionOptions::OPTION_BATCHPART, true);
-                $request = HttpHelper::buildRequest($this->_options, $method, $url, $data);
+                $request = HttpHelper::buildRequest($this->_options, $method, $url, $data, $customerHeader);
                 $this->_options->offsetSet(ConnectionOptions::OPTION_BATCHPART, false);
             } else {
-                $request = HttpHelper::buildRequest($this->_options, $method, $url, $data);
+                $request = HttpHelper::buildRequest($this->_options, $method, $url, $data, $customerHeader);
             }
 
             if ($this->_captureBatch === true) {
@@ -356,7 +359,7 @@ class Connection
 
             $this->_options->offsetSet(ConnectionOptions::OPTION_BATCH, true);
 
-            $request = HttpHelper::buildRequest($this->_options, $method, $url, $data);
+            $request = HttpHelper::buildRequest($this->_options, $method, $url, $data, $customerHeader);
             $this->_options->offsetSet(ConnectionOptions::OPTION_BATCH, false);
         }
 

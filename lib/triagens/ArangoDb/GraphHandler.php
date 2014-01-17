@@ -829,4 +829,102 @@ class GraphHandler extends
 
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
+
+    /**
+     * Get all vertices of a graph
+     *
+     * This will throw if the list cannot be fetched from the server
+     *
+     *
+     * @throws Exception
+     *
+     * @param mixed      $graphName    - the name of the graph
+     * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
+     *                                 <p>Options are :<br>
+     *                                 <li>'batchSize' - the batch size of the returned cursor</li>
+     *                                 <li>'limit' - limit the result size by a give number</li>
+     *                                 <li>'count' - return the total number of results  Defaults to false.</li>
+     *                                 <li>'filter' - a optional filter</li>
+     *                                 <p>Filter options are :<br>
+     *                                 <li>'properties' - filter neighbors by an array of edge properties</li>
+     *                                 <p>Properties options are :<br>
+     *                                 <li>'key' - Filter the result vertices by a key value pair.</li>
+     *                                 <li>'value' -  The value of the key.</li>
+     *                                 <li>'compare' - A comparison operator. (==, >, <, >=, <= )</li>
+     *                                 </p>
+     *                                 </p>
+     *                                 <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     *                                 <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+     *                                 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+     *                                 <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
+     *                                 <p>
+     *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+     *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
+     *                                 and the hidden attributes would not be applied to the attributes.<br>
+     *                                 </p>
+     *                                 </li>
+     *                                 </p>
+     *
+     * @return cursor - Returns a cursor containing the result
+     */
+    public function getVertices($graphName, $options = array())
+    {
+        $options['objectType'] = 'vertex';
+        $data                  = array_merge($options, $this->getCursorOptions($options));
+
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_VERTICES));
+        $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
+
+        return new Cursor($this->getConnection(), $response->getJson(), $options);
+    }
+
+
+    /**
+     * Get edges of a graph
+     *
+     * This will throw if the list cannot be fetched from the server
+     *
+     *
+     * @throws Exception
+     *
+     * @param mixed      $graphName    - the name of the graph
+     * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
+     *                                 <p>Options are :<br>
+     *                                 <li>'batchSize' - the batch size of the returned cursor</li>
+     *                                 <li>'limit' - limit the result size by a give number</li>
+     *                                 <li>'count' - return the total number of results  Defaults to false.</li>
+     *                                 <li>'filter' - a optional filter</li>
+     *                                 <p>Filter options are :<br>
+     *                                 <li>'properties' - filter neighbors by an array of edge properties</li>
+     *                                 <li>'labels' - filter by an array of edge labels (empty array means no restriction).</li>
+     *                                 <p>Properties options are :<br>
+     *                                 <li>'key' - Filter the result vertices by a key value pair.</li>
+     *                                 <li>'value' -  The value of the key.</li>
+     *                                 <li>'compare' - A comparison operator. (==, >, <, >=, <= )</li>
+     *                                 </p>
+     *                                 </p>
+     *                                 <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     *                                 <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
+     *                                 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+     *                                 <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
+     *                                 <p>
+     *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+     *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
+     *                                 and the hidden attributes would not be applied to the attributes.<br>
+     *                                 </p>
+     *                                 </li>
+     *                                 </p>
+     *
+     * @return cursor - Returns a cursor containing the result
+     */
+    public function getEdges($graphName, $options = array())
+    {
+        $options['objectType'] = 'edge';
+        $data                  = array_merge($options, $this->getCursorOptions($options));
+
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_EDGES));
+        $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
+
+        return new Cursor($this->getConnection(), $response->getJson(), $options);
+    }
 }

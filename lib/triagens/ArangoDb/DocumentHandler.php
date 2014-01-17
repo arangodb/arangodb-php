@@ -59,6 +59,7 @@ class DocumentHandler extends
      *                            <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
      *                            <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
      *                            <li>'revision' - the documents revision</li>
+     *                            <li>'ifMatch' - boolean if given revision should match or not</li>
      *                            </p>
      *
      * @return Document - the document fetched from the server
@@ -72,7 +73,7 @@ class DocumentHandler extends
     /**
      * Get a single document from a collection
      *
-     * This will throw if the document cannot be fetched from the server
+     * This will throw if the document cannot be fetched from the server.
      *
      * @throws Exception
      *
@@ -84,7 +85,8 @@ class DocumentHandler extends
      *                            <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
      *                            <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
      *                            <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
-     *                            <li>'revision' - the documents revision</li>
+     *                            <li>'ifMatch' - boolean if given revision should match or not</li>
+     *                            <li>'revision' - The document is returned if it matches/not matches revision.</li>
      *                            </p>
      *
      * @return Document - the document fetched from the server
@@ -92,12 +94,20 @@ class DocumentHandler extends
     public function getById($collectionId, $documentId, array $options = array())
     {
         $url      = UrlHelper::buildUrl(Urls::URL_DOCUMENT, array($collectionId, $documentId));
-        if (array_key_exists("revision", $options)) {
-            $url = UrlHelper::appendParamsUrl($url, array('rev' => $options["revision"]));
-            unset($options["revision"]);
+        $headerElements = array();
+        if (array_key_exists("ifMatch", $options) && array_key_exists("revision", $options)) {
+            if ($options["ifMatch"] === true) {
+                $headerElements["If-Match"] = '"' . $options["revision"] .'"';
+            } else {
+                $headerElements["If-None-Match"] = '"' . $options["revision"]. '"';
+            }
         }
 
-        $response = $this->getConnection()->get($url);
+        $response = $this->getConnection()->get($url, $headerElements);
+
+        if ($response->getHttpCode() === 304) {
+            throw new ClientException('Document has not changed.');
+        }
 
         $data = $response->getJson();
 
@@ -117,20 +127,27 @@ class DocumentHandler extends
      *
      * @param mixed $collectionId - collection id as a string or number
      * @param mixed $documentId   - document identifier
-     * @param string $revision    - optional,a certain revision
+     * @param ifMatch' -  boolean if given revision should match or not</li>
+     * @param revision' - The document is returned if it matches/not matches revision.</li>
      *
-     * @return array - an array containing the key "etag".
+     * @return array - an array containing the complete header including the key httpCode.
      */
-    public function getHead($collectionId, $documentId, $revision = null)
+    public function  getHead($collectionId, $documentId, $revision = null, $ifMatch = null)
     {
         $url      = UrlHelper::buildUrl(Urls::URL_DOCUMENT, array($collectionId, $documentId));
-        if ($revision === null) {
-            $url = UrlHelper::appendParamsUrl($url, array('rev' => $revision));
+        $headerElements = array();
+        if ($revision != null && $ifMatch !== null) {
+            if ($ifMatch) {
+                $headerElements["If-Match"] = '"' . $revision .'"';
+            } else {
+                $headerElements["If-None-Match"] = '"' . $revision . '"';
+            }
         }
 
-        $response = $this->getConnection()->head($url);
-
-        return $response->getHeaders();
+        $response = $this->getConnection()->head($url, $headerElements);
+        $headers = $response->getHeaders();
+        $headers["httpCode"] = $response->getHttpCode();
+        return $headers;
     }
 
     /**

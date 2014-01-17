@@ -102,10 +102,11 @@ class HttpHelper
      * @param string            $method  - HTTP method
      * @param string            $url     - HTTP URL
      * @param string            $body    - optional body to post
+     * @param array             $customerHeader - any arry containing header elements
      *
      * @return string - assembled HTTP request string
      */
-    public static function buildRequest(ConnectionOptions $options, $method, $url, $body)
+    public static function buildRequest(ConnectionOptions $options, $method, $url, $body, $customerHeader = array())
     {
         $host   = $contentType = $authorization = $connection = '';
         $length = strlen($body);
@@ -144,11 +145,16 @@ class HttpHelper
         }
 
         $apiVersion = 'x-arango-version: ' . Connection::$_apiVersion . self::EOL;
+        $customerHeaders = "";
+        foreach ($customerHeader as $headerKey => $headerValue) {
+            $customerHeaders .= $headerKey.": " . $headerValue . self::EOL;
+        }
 
         // finally assemble the request
         $request = sprintf('%s %s %s%s', $method, $url, self::PROTOCOL, self::EOL) .
             $host .
             $apiVersion .
+            $customerHeaders .
             $contentType .
             $authorization .
             $connection .
@@ -269,6 +275,10 @@ class HttpHelper
 
         $barrier = HttpHelper::EOL . HttpHelper::EOL;
         $parts   = explode($barrier, $httpMessage, 2);
+        if (HttpHelper::parseHeaders($parts[0])[0] == 304 ||
+            HttpHelper::parseHeaders($parts[0])[0] == 204) {
+            return $parts;
+        }
 
         if (!isset($parts[1]) or $parts[1] === null) {
             throw new ClientException('Got an invalid response from the server');

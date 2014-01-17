@@ -245,4 +245,239 @@ class EdgeHandler extends
     {
         return $this->edges($collectionId, $vertexHandle, 'out');
     }
+
+    /**
+     * Get a single edge from a collection
+     *
+     * This will throw if the edge cannot be fetched from the server.
+     *
+     * @throws Exception
+     *
+     * @param mixed $collectionId - collection id as a string or number
+     * @param mixed $edgeId   - document identifier
+     * @param array $options      - optional, array of options
+     *                            <p>Options are :
+     *                            <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
+     *                            <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
+     *                            <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+     *                            <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
+     *                            <li>'ifMatch' - boolean if given revision should match or not</li>
+     *                            <li>'revision' - The document is returned if it matches/not matches revision.</li>
+     *                            </p>
+     *
+     * @return edge - the edge fetched from the server
+     */
+    public function getById($collectionId, $edgeId, array $options = array())
+    {
+        $url      = UrlHelper::buildUrl(Urls::URL_EDGE, array($collectionId, $edgeId));
+        $headerElements = array();
+        if (array_key_exists("ifMatch", $options) && array_key_exists("revision", $options)) {
+            if ($options["ifMatch"] === true) {
+                $headerElements["If-Match"] = '"' . $options["revision"] .'"';
+            } else {
+                $headerElements["If-None-Match"] = '"' . $options["revision"]. '"';
+            }
+        }
+
+        $response = $this->getConnection()->get($url, $headerElements);
+
+        if ($response->getHttpCode() === 304) {
+            throw new ClientException('Edge has not changed.');
+        }
+
+        $data = $response->getJson();
+
+        $options['_isNew'] = false;
+        return $this->createFromArrayWithContext($data, $options);
+    }
+
+
+    /**
+     * Gets information about a single edge from a collection
+     *
+     * This will throw if the edge cannot be fetched from the server
+     *
+     *
+     * @throws Exception
+     *
+     * @param mixed $collectionId - collection id as a string or number
+     * @param mixed $edgeId   - document identifier
+     * @param ifMatch' -  boolean if given revision should match or not</li>
+     * @param revision' - The edge is returned if it matches/not matches revision.</li>
+     *
+     * @return array - an array containing the complete header including the key httpCode.
+     */
+    public function  getHead($collectionId, $edgeId, $revision = null, $ifMatch = null)
+    {
+        $url      = UrlHelper::buildUrl(Urls::URL_EDGE, array($collectionId, $edgeId));
+        $headerElements = array();
+        if ($revision != null && $ifMatch !== null) {
+            if ($ifMatch) {
+                $headerElements["If-Match"] = '"' . $revision .'"';
+            } else {
+                $headerElements["If-None-Match"] = '"' . $revision . '"';
+            }
+        }
+
+        $response = $this->getConnection()->head($url, $headerElements);
+        $headers = $response->getHeaders();
+        $headers["httpCode"] = $response->getHttpCode();
+        return $headers;
+    }
+
+    /**
+     * Remove an edge from a collection, identified by the collection id and edge id
+     *
+     * @throws |Exception
+     *
+     * @param mixed  $collectionId - collection id as string or number
+     * @param mixed  $edgeId   - document id as string or number
+     * @param  mixed $revision     - optional revision of the document to be deleted
+     * @param mixed  $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     *                             <p>Options are :
+     *                             <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                             <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                             </p>
+     *
+     * @return bool - always true, will throw if there is an error
+     */
+    public function removeById($collectionId, $edgeId, $revision = null, $options = array())
+    {
+        // This preserves compatibility for the old policy parameter.
+        $params = array();
+        $params = $this->validateAndIncludeOldSingleParameterInParams(
+            $options,
+            $params,
+            ConnectionOptions::OPTION_DELETE_POLICY
+        );
+        $params = $this->includeOptionsInParams(
+            $options,
+            $params,
+            array('waitForSync' => ConnectionOptions::OPTION_WAIT_SYNC)
+        );
+
+        if (!is_null($revision)) {
+            $params[ConnectionOptions::OPTION_REVISION] = $revision;
+        }
+
+        $url = UrlHelper::buildUrl(Urls::URL_EDGE, array($collectionId, $edgeId));
+        $url = UrlHelper::appendParamsUrl($url, $params);
+        $this->getConnection()->delete($url);
+
+        return true;
+    }
+
+    /**
+     * Replace an existing edge in a collection, identified by collection id and edge id
+     *
+     * This will update the edge on the server
+     *
+     * This will throw if the edge cannot be Replaced
+     *
+     * If policy is set to error (locally or globally through the ConnectionOptions)
+     * and the passed edge has a _rev value set, the database will check
+     * that the revision of the to-be-replaced edge is the same as the one given.
+     *
+     * @throws Exception
+     *
+     * @param mixed    $collectionId - collection id as string or number
+     * @param mixed    $edgeId   - edge id as string or number
+     * @param Edge     $edge     - edge to be updated
+     * @param mixed    $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     *                               <p>Options are :
+     *                               <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                               <li>'waitForSync' - can be used to force synchronisation of the edge replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                               </p>
+     *
+     * @return bool - always true, will throw if there is an error
+     */
+    public function replaceById($collectionId, $edgeId, Edge $edge, $options = array())
+    {
+        // This preserves compatibility for the old policy parameter.
+        $params = array();
+        $params = $this->validateAndIncludeOldSingleParameterInParams(
+            $options,
+            $params,
+            ConnectionOptions::OPTION_REPLACE_POLICY
+        );
+        $params = $this->includeOptionsInParams(
+            $options,
+            $params,
+            array('waitForSync' => ConnectionOptions::OPTION_WAIT_SYNC)
+        );
+
+        $revision = $edge->getRevision();
+        if (!is_null($revision)) {
+            $params[ConnectionOptions::OPTION_REVISION] = $revision;
+        }
+
+        $data   = $edge->getAll();
+        $url    = UrlHelper::buildUrl(Urls::URL_EDGE, array($collectionId, $edgeId));
+        $url    = UrlHelper::appendParamsUrl($url, $params);
+        $result = $this->getConnection()->put($url, $this->json_encode_wrapper($data));
+        $json   = $result->getJson();
+        $edge->setRevision($json[Edge::ENTRY_REV]);
+
+        return true;
+    }
+
+
+    /**
+     * Update an existing edge in a collection, identified by collection id and edge id
+     * Attention - The behavior of this method has changed since version 1.1
+     *
+     * This will update the edge on the server
+     *
+     * This will throw if the edge cannot be updated
+     *
+     * If policy is set to error (locally or globally through the ConnectionOptions)
+     * and the passed edge has a _rev value set, the database will check
+     * that the revision of the edge to-be-updated is the same as the one given.
+     *
+     * @throws Exception
+     *
+     * @param mixed    $collectionId - collection id as string or number
+     * @param mixed    $edgeId   - edge id as string or number
+     * @param Edge     $edge     - patch edge which contains the attributes and values to be updated
+     * @param mixed    $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     *                               <p>Options are :
+     *                               <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                               <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+     *                               <li>'waitForSync' - can be used to force synchronisation of the edge update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                               </p>
+     *
+     * @return bool - always true, will throw if there is an error
+     */
+    public function updateById($collectionId, $edgeId, Edge $edge, $options = array())
+    {
+        // This preserves compatibility for the old policy parameter.
+        $params = array();
+        $params = $this->validateAndIncludeOldSingleParameterInParams(
+            $options,
+            $params,
+            ConnectionOptions::OPTION_UPDATE_POLICY
+        );
+        $params = $this->includeOptionsInParams(
+            $options,
+            $params,
+            array(
+                'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
+                'keepNull'    => true,
+            )
+        );
+
+        $revision = $edge->getRevision();
+        if (!is_null($revision)) {
+            $params[ConnectionOptions::OPTION_REVISION] = $revision;
+        }
+
+        $url    = UrlHelper::buildUrl(Urls::URL_EDGE, array($collectionId, $edgeId));
+        $url    = UrlHelper::appendParamsUrl($url, $params);
+        $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($edge->getAll()));
+        $json   = $result->getJson();
+        $edge->setRevision($json[Edge::ENTRY_REV]);
+
+        return true;
+    }
+
 }

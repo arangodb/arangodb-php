@@ -1238,6 +1238,139 @@ class GraphExtendedTest extends
     }
 
 
+
+
+
+
+
+    /**
+     * Test for creation of a graph and query vertices.
+     */
+    public function testCreateGraphAndQueryVertices()
+    {
+        $this->createGraph();
+
+        // Test without options
+        $cursor = $this->graphHandler->getVertices($this->graphName);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+        $resultingDocument = null;
+        foreach ($cursor as $key => $value) {
+            $resultingDocument[$key] = $value;
+        }
+        $this->assertTrue(count($resultingDocument) == 4, 'Should be 4, was: ' . count($resultingDocument));
+
+
+        // Test options->batchSize
+        unset($resultingDocument);
+        unset($cursor);
+        $options = array('batchSize' => 1);
+        $cursor  = $this->graphHandler->getVertices($this->graphName, $options);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+
+        $this->assertTrue(count($cursor->getMetadata()["result"]) == 1);
+        $this->assertTrue($cursor->getMetadata()["hasMore"] == true);
+
+
+        // Test options->limit
+        unset($resultingDocument);
+        $options = array('limit' => 1);
+        $cursor  = $this->graphHandler->getVertices($this->graphName, $options);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+        $this->assertTrue(count($cursor->getMetadata()["result"]) == 1);
+        $this->assertTrue($cursor->getMetadata()["hasMore"] == false);;
+
+
+        // Test options->count
+        unset($resultingDocument);
+        $options = array('count' => true);
+        $cursor  = $this->graphHandler->getVertices($this->graphName, $options);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+
+
+        $this->assertTrue(count($cursor->getMetadata()["result"]) == 4);
+        $this->assertTrue($cursor->getMetadata()["hasMore"] == false);
+
+        // Test options->properties
+        unset($resultingDocument);
+        $properties = array('key' => 'someKey1', 'value' => 'someValue1', 'compare' => '==');
+        $filter     = array('properties' => $properties);
+        $options    = array('filter' => $filter);
+
+        $cursor = $this->graphHandler->getVertices($this->graphName, $options);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+        $this->assertTrue(count($cursor->getMetadata()["result"]) == 1);
+        $this->assertTrue($cursor->getMetadata()["hasMore"] == false);;
+    }
+
+
+    /**
+     * Test for creation of a graph and query edges
+     */
+    public function testCreateGraphAndQueryEdges()
+    {
+        $this->createGraph();
+
+        $cursor = $this->graphHandler->getEdges($this->graphName);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+        $this->assertTrue(count($cursor->getMetadata()["result"]) == 3);
+        $this->assertTrue($cursor->getMetadata()["hasMore"] == false);
+
+
+        // Test options->batchSize
+        unset($resultingDocument);
+        $options = array('batchSize' => 1);
+        $cursor  = $this->graphHandler->getEdges($this->graphName, $options);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+        $this->assertTrue(count($cursor->getMetadata()["result"]) == 1);
+        $this->assertTrue($cursor->getMetadata()["hasMore"] == true);
+
+        // Test options->limit
+        unset($resultingDocument);
+        $options = array('limit' => 1);
+        $cursor  = $this->graphHandler->getEdges($this->graphName, $options);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+        $this->assertTrue(count($cursor->getMetadata()["result"]) == 1);
+        $this->assertTrue($cursor->getMetadata()["hasMore"] == false);
+
+
+        // Test options->count
+        unset($resultingDocument);
+        $options = array('count' => true);
+        $cursor  = $this->graphHandler->getEdges($this->graphName, $options);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+        $this->assertTrue(count($cursor->getMetadata()["result"]) == 3);
+        $this->assertTrue($cursor->getMetadata()["hasMore"] == false);
+
+        // Test options->filter
+        unset($resultingDocument);
+        $filter  = array('labels' => array($this->edgeLabel2));
+        $options = array('filter' => $filter);
+
+        $cursor = $this->graphHandler->getEdges($this->graphName, $options);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+        $this->assertTrue(count($cursor->getMetadata()["result"]) == 1);
+        $this->assertTrue($cursor->getMetadata()["hasMore"] == false);
+
+
+        // Test options->properties
+        unset($resultingDocument);
+        $properties = array('key' => 'someEdgeKey2', 'value' => 'someEdgeValue2', 'compare' => '==');
+        $filter     = array('properties' => $properties);
+        $options    = array('filter' => $filter);
+
+        $cursor = $this->graphHandler->getEdges($this->graphName, $options);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+        $this->assertTrue(count($cursor->getMetadata()["result"]) == 1);
+        $this->assertTrue($cursor->getMetadata()["hasMore"] == false);;
+    }
+
+
     public function tearDown()
     {
         try {
