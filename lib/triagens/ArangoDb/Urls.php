@@ -96,6 +96,21 @@ abstract class Urls
     const URL_ANY = '/_api/simple/any';
 
     /**
+     * base URL part for fulltext
+     */
+    const URL_FULLTEXT = '/_api/simple/fulltext';
+
+    /**
+     * base URL part for first
+     */
+    const URL_FIRST = '/_api/simple/first';
+
+    /**
+     * base URL part for last
+     */
+    const URL_LAST = '/_api/simple/last';
+
+    /**
      * base URL part for remove-by-example
      */
     const URL_REMOVE_BY_EXAMPLE = '/_api/simple/remove-by-example';
@@ -197,6 +212,11 @@ abstract class Urls
      * base URL part for endpoint management
      */
     const URL_ENDPOINT = '/_api/endpoint';
+
+    /**
+     * base URL part for job management
+     */
+    const URL_JOB = '/_api/job';
 
     /**
      * base URL part for database management

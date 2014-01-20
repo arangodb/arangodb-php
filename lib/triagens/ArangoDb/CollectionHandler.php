@@ -95,6 +95,11 @@ class CollectionHandler extends
     const OPTION_SKIP = 'skip';
 
     /**
+     * index parameter
+     */
+    const OPTION_INDEX = 'index';
+
+    /**
      * limit parameter
      */
     const OPTION_LIMIT = 'limit';
@@ -168,6 +173,11 @@ class CollectionHandler extends
      * count option
      */
     const OPTION_COUNT = 'count';
+
+    /**
+     * query option
+     */
+    const OPTION_QUERY = 'query';
 
     /**
      * checksum option
@@ -939,6 +949,76 @@ class CollectionHandler extends
 
 
     /**
+     * Get document(s) by a fulltext query
+     *
+     * This will find all documents from the collection that match the fulltext query specified in query.
+     * In order to use the fulltext operator, a fulltext index must be defined for the collection and the specified attribute.
+     *
+     *
+     * @throws Exception
+     *
+     * @param mixed      $collectionId - collection id as string or number
+     * @param mixed      $attribute     - The attribute that contains the texts.
+     * @param mixed      $query     - The fulltext query.
+     * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
+     *                                 <p>Options are :<br>
+     *                                 <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     *                                 <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
+     *                                 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+     *                                 <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
+     *                                 <p>
+     *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+     *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
+     *                                 and the hidden attributes would not be applied to the attributes.<br>
+     *                                 </p>
+     *                                 </li>
+     *                                 <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
+     *                                 <li>'skip'      - Optional, The number of documents to skip in the query.</li>
+     *                                 <li>'limit'     - Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
+     *                                 <li>'index'     - If given, the identifier of the fulltext-index to use.</li>
+     *                                 </p>
+     *
+     * @return cursor - Returns a cursor containing the result
+     */
+    public function fulltext($collectionId, $attribute, $query, $options = array())
+    {
+        // This preserves compatibility for the old sanitize parameter.
+        if (!is_array($options)) {
+            $sanitize = $options;
+            $options  = array();
+            $options  = array_merge($options, $this->getCursorOptions($sanitize));
+        } else {
+            $options = array_merge($options, $this->getCursorOptions($options));
+        }
+
+        $body = array(
+            self::OPTION_COLLECTION => $collectionId,
+            self::OPTION_ATTRIBUTE    => $attribute,
+            self::OPTION_QUERY    => $query,
+        );
+
+        $body = $this->includeOptionsInBody(
+            $options,
+            $body,
+            array(
+                ConnectionOptions::OPTION_BATCHSIZE => $this->getConnectionOption(
+                        ConnectionOptions::OPTION_BATCHSIZE
+                    ),
+                self::OPTION_LIMIT                  => null,
+                self::OPTION_SKIP                   => null,
+                self::OPTION_INDEX                  => null,
+            )
+        );
+
+        $response = $this->getConnection()->put(Urls::URL_FULLTEXT, $this->json_encode_wrapper($body));
+
+        $options['isNew'] = false;
+
+        return new Cursor($this->getConnection(), $response->getJson(), $options);
+    }
+
+
+    /**
      * Get the first document matching a given example.
      *
      * This will throw if the document cannot be fetched from the server
@@ -991,7 +1071,7 @@ class CollectionHandler extends
         $response = $this->getConnection()->put(Urls::URL_FIRST_EXAMPLE, $this->json_encode_wrapper($data));
         $data     = $response->getJson();
 
-        $options['isNew'] = false;
+        $options['_isNew'] = false;
 
         return Document::createFromArray($data['document'], $options);
     }
@@ -1024,6 +1104,96 @@ class CollectionHandler extends
         } else {
             return null;
         }
+    }
+
+    /**
+     * This will return the first documents from the collection, in the order of insertion/update time.
+     * When the count argument is supplied, the result will be a list of documents, with the "oldest" document being
+     * first in the result list.
+     * If the count argument is not supplied, the result is the "oldest" document of the collection,
+     * or null if the collection is empty.
+     *
+     *
+     * @throws Exception
+     *
+     * @param mixed $collectionId - collection id as string or number
+     * @param int $count - the number of documents to return at most. Specifiying count is optional.
+     *
+     * @return array - array of documents in the collection
+     * @since 1.2
+     */
+    public function first($collectionId, $count = null)
+    {
+
+        $data = array(
+            self::OPTION_COLLECTION => $collectionId,
+        );
+        if ($count != null) {
+            $data[self::OPTION_COUNT] = $count;
+        }
+
+        $response = $this->getConnection()->put(Urls::URL_FIRST, $this->json_encode_wrapper($data));
+        $data     = $response->getJson();
+
+        $result = array();
+        if ($data["result"] == null) {
+            return array();
+        }
+        $options = array();
+        $options['_isNew'] = false;
+        if ($count != null && $count > 1) {
+            foreach  ($data["result"] as $doc) {
+                $result[] = Document::createFromArray($doc, $options);
+            }
+        } else {
+            return Document::createFromArray($data["result"], $options);
+        }
+        return $result;
+    }
+
+    /**
+     * This will return the last documents from the collection, in the order of insertion/update time.
+     * When the count argument is supplied, the result will be a list of documents, with the "latest" document being
+     * first in the result list.
+     * If the count argument is not supplied, the result is the "latest" document of the collection,
+     * or null if the collection is empty.
+     *
+     *
+     * @throws Exception
+     *
+     * @param mixed $collectionId - collection id as string or number
+     * @param int $count - the number of documents to return at most. Specifiying count is optional.
+     *
+     * @return array - array of documents in the collection
+     * @since 1.2
+     */
+    public function last($collectionId, $count = null)
+    {
+
+        $data = array(
+            self::OPTION_COLLECTION => $collectionId,
+        );
+        if ($count != null) {
+            $data[self::OPTION_COUNT] = $count;
+        }
+
+        $response = $this->getConnection()->put(Urls::URL_LAST, $this->json_encode_wrapper($data));
+        $data     = $response->getJson();
+
+        $result = array();
+        if ($data["result"] == null) {
+            return array();
+        }
+        $options = array();
+        $options['_isNew'] = false;
+        if ($count != null && $count > 1) {
+            foreach  ($data["result"] as $doc) {
+                $result[] = Document::createFromArray($doc, $options);
+            }
+        } else {
+            return Document::createFromArray($data["result"], $options);
+        }
+        return $result;
     }
 
 
