@@ -1,478 +1,278 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-    <meta charset="utf-8">
-    <title>ArangoDB PHP client API » \triagens\ArangoDb\HttpResponse</title>
-    <meta name="author" content="Mike van Riel">
-    <meta name="description" content="">
-    <link href="../css/template.css" rel="stylesheet" media="all">
-    <script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script>
-    <script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script>
-    <script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script>
-    <script src="../js/bootstrap.js" type="text/javascript"></script>
-    <script src="../js/template.js" type="text/javascript"></script>
-    <script src="../js/prettify/prettify.min.js" type="text/javascript"></script>
-    <link rel="shortcut icon" href="../img/favicon.ico">
-    <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>ArangoDB PHP client API » \triagens\ArangoDb\HttpResponse</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
 </head>
 <body>
 <div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-        <div class="container">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span
-                    class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a
-                class="brand" href="../index.html">ArangoDB PHP client API</a>
-
-            <div class="nav-collapse">
-                <ul class="nav">
-                    <li class="dropdown">
-                        <a href="#api" class="dropdown-toggle" data-toggle="dropdown">
-                            API Documentation <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a>Namespaces</a></li>
-                            <li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
-                            <li><a>Packages</a></li>
-                            <li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown" id="charts-menu">
-                        <a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
-                            Charts <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown" id="reports-menu">
-                        <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
-                            Reports <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                                <span class="label label-info">0</span></a></li>
-                            <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
-                                <ul></ul>
-                            </a></li>
-                            <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
-                                <span class="label label-info">9</span></a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a>
-    </div>
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">ArangoDB PHP client API</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
+<li><a>Packages</a></li>
+<li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">0</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">9</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
 </div>
 <div id="___" class="container">
-<noscript>
-    <div class="alert alert-warning">
-        Javascript is disabled; several features are only available
-        if Javascript is enabled.
-    </div>
-</noscript>
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
 <div class="row">
 <div class="span4">
-    <span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active"
-                                                                              title="Show public elements">Public
-    </button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private"
-                                                                                                     title="Show private elements">
-        Private
-    </button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span>
-
-    <div class="btn-group view pull-right" data-toggle="buttons-radio">
-        <button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button>
-        <button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
-    </div>
-    <ul class="side-nav nav nav-list">
-        <li class="nav-header">
-            <i class="icon-custom icon-method"></i> Methods
-            <ul>
-                <li class="method public "><a href="#method___construct"
-                                              title="__construct() :: Set up the response"><span class="description">Set up the response</span>
-                    <pre>__construct()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_getBody"
-                                              title="getBody() :: Return the body of the response"><span
-                        class="description">Return the body of the response</span>
-                    <pre>getBody()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_getHeader"
-                                              title="getHeader() :: Return an individual HTTP headers of the response"><span
-                        class="description">Return an individual HTTP headers of the response</span>
-                    <pre>getHeader()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_getHeaders"
-                                              title="getHeaders() :: Return the HTTP headers of the response"><span
-                        class="description">Return the HTTP headers of the response</span>
-                    <pre>getHeaders()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_getHttpCode"
-                                              title="getHttpCode() :: Return the HTTP status code of the response"><span
-                        class="description">Return the HTTP status code of the response</span>
-                    <pre>getHttpCode()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_getJson"
-                                              title="getJson() :: Return the data from the JSON-encoded body"><span
-                        class="description">Return the data from the JSON-encoded body</span>
-                    <pre>getJson()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_getLocationHeader"
-                                              title="getLocationHeader() :: Return the location HTTP header of the response"><span
-                        class="description">Return the location HTTP header of the response</span>
-                    <pre>getLocationHeader()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_getResult"
-                                              title="getResult() :: Return the result line (first header line) of the response"><span
-                        class="description">Return the result line (first header line) of the response</span>
-                    <pre>getResult()</pre>
-                </a></li>
-            </ul>
-        </li>
-        <li class="nav-header">
-            <i class="icon-custom icon-property"></i> Properties
-            <ul></ul>
-        </li>
-        <li class="nav-header private">» Private
-            <ul>
-                <li class="property private "><a href="#property__body" title="$_body() :: The body retrieved"><span
-                        class="description"></span>
-                    <pre>$_body</pre>
-                </a></li>
-                <li class="property private "><a href="#property__header"
-                                                 title="$_header() :: The header retrieved"><span
-                        class="description"></span>
-                    <pre>$_header</pre>
-                </a></li>
-                <li class="property private "><a href="#property__headers"
-                                                 title="$_headers() :: All headers retrieved as an assoc array"><span
-                        class="description"></span>
-                    <pre>$_headers</pre>
-                </a></li>
-                <li class="property private "><a href="#property__httpCode"
-                                                 title="$_httpCode() :: The HTTP status code of the response"><span
-                        class="description"></span>
-                    <pre>$_httpCode</pre>
-                </a></li>
-                <li class="property private "><a href="#property__result"
-                                                 title="$_result() :: The result status-line (first line of HTTP response header)"><span
-                        class="description"></span>
-                    <pre>$_result</pre>
-                </a></li>
-            </ul>
-        </li>
-        <li class="nav-header">
-            <i class="icon-custom icon-constant"></i> Constants
-            <ul>
-                <li class="constant  "><a href="#constant_HEADER_LOCATION"
-                                          title="HEADER_LOCATION() :: HTTP location header"><span class="description">HTTP location header</span>
-                    <pre>HEADER_LOCATION</pre>
-                </a></li>
-            </ul>
-        </li>
-    </ul>
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public "><a href="#method___construct" title="__construct :: Set up the response"><span class="description">Set up the response</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#method_getBody" title="getBody :: Return the body of the response"><span class="description">Return the body of the response</span><pre>getBody()</pre></a></li>
+<li class="method public "><a href="#method_getHeader" title="getHeader :: Return an individual HTTP headers of the response"><span class="description">Return an individual HTTP headers of the response</span><pre>getHeader()</pre></a></li>
+<li class="method public "><a href="#method_getHeaders" title="getHeaders :: Return the HTTP headers of the response"><span class="description">Return the HTTP headers of the response</span><pre>getHeaders()</pre></a></li>
+<li class="method public "><a href="#method_getHttpCode" title="getHttpCode :: Return the HTTP status code of the response"><span class="description">Return the HTTP status code of the response</span><pre>getHttpCode()</pre></a></li>
+<li class="method public "><a href="#method_getJson" title="getJson :: Return the data from the JSON-encoded body"><span class="description">Return the data from the JSON-encoded body</span><pre>getJson()</pre></a></li>
+<li class="method public "><a href="#method_getLocationHeader" title="getLocationHeader :: Return the location HTTP header of the response"><span class="description">Return the location HTTP header of the response</span><pre>getLocationHeader()</pre></a></li>
+<li class="method public "><a href="#method_getResult" title="getResult :: Return the result line (first header line) of the response"><span class="description">Return the result line (first header line) of the response</span><pre>getResult()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header private">» Private
+                    <ul>
+<li class="property private "><a href="#property__body" title="$_body :: The body retrieved"><span class="description">The body retrieved</span><pre>$_body</pre></a></li>
+<li class="property private "><a href="#property__header" title="$_header :: The header retrieved"><span class="description">The header retrieved</span><pre>$_header</pre></a></li>
+<li class="property private "><a href="#property__headers" title="$_headers :: All headers retrieved as an assoc array"><span class="description">All headers retrieved as an assoc array</span><pre>$_headers</pre></a></li>
+<li class="property private "><a href="#property__httpCode" title="$_httpCode :: The HTTP status code of the response"><span class="description">The HTTP status code of the response</span><pre>$_httpCode</pre></a></li>
+<li class="property private "><a href="#property__result" title="$_result :: The result status-line (first line of HTTP response header)"><span class="description">The result status-line (first line of HTTP response header)</span><pre>$_result</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-constant"></i> Constants
+                    <ul><li class="constant  "><a href="#constant_HEADER_LOCATION" title="HEADER_LOCATION :: HTTP location header"><span class="description">HTTP location header</span><pre>HEADER_LOCATION</pre></a></li></ul>
+</li>
+</ul>
 </div>
 <div class="span8">
-<a id="\triagens\ArangoDb\HttpResponse"></a>
-<ul class="breadcrumb">
-    <li>
-        <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
-    </li>
-    <li><a href="../namespaces/triagens.html">triagens</a></li>
-    <li>
-        <span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
-    </li>
-    <li class="active">
-        <span class="divider">\</span><a href="../classes/triagens.ArangoDb.HttpResponse.html">HttpResponse</a>
-    </li>
+<a id="\triagens\ArangoDb\HttpResponse"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/triagens.html">triagens</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/triagens.ArangoDb.HttpResponse.html">HttpResponse</a>
+</li>
 </ul>
 <div class="element class">
 <p class="short_description">Container class for HTTP responses</p>
-
 <div class="details">
-<div class="long_description"><br></div>
+<div class="long_description"><p><br></p></div>
 <table class="table table-bordered">
-    <tr>
-        <th>package</th>
-        <td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
-    </tr>
-    <tr>
-        <th>since</th>
-        <td>0.2</td>
-    </tr>
+<tr>
+<th>package</th>
+<td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
+</tr>
+<tr>
+<th>since</th>
+<td>0.2</td>
+</tr>
 </table>
 <h3>
-    <i class="icon-custom icon-method"></i> Methods</h3>
-<a id="method___construct"></a>
-
-<div class="element clickable method public method___construct" data-toggle="collapse"
-     data-target=".method___construct .collapse">
-    <h2>Set up the response</h2>
-    <pre>__construct(string $responseString) </pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument">
-                <h4>$responseString</h4>
-                <code>string</code>
-                <ul>
-                    <li>the complete HTTP response as supplied by the server</li>
-                </ul>
-            </div>
-            <h3>Exceptions</h3>
-            <table class="table table-bordered">
-                <tr>
-                    <th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code>
-                    </th>
-                    <td></td>
-                </tr>
-            </table>
-        </div>
-    </div>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
+<h2>Set up the response</h2>
+<pre>__construct(string $responseString) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$responseString</h4>
+<code>string</code><ul>
+<li>the complete HTTP response as supplied by the server</li>
+</ul>
 </div>
-<a id="method_getBody"></a>
-
-<div class="element clickable method public method_getBody" data-toggle="collapse"
-     data-target=".method_getBody .collapse">
-    <h2>Return the body of the response</h2>
-    <pre>getBody() : string</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>string</code>- body of the response
-            </div>
-        </div>
-    </div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
+<td></td>
+</tr></table>
+</div></div>
 </div>
-<a id="method_getHeader"></a>
-
-<div class="element clickable method public method_getHeader" data-toggle="collapse"
-     data-target=".method_getHeader .collapse">
-    <h2>Return an individual HTTP headers of the response</h2>
-    <pre>getHeader(string $name) : string</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument">
-                <h4>$name</h4>
-                <code>string</code>
-                <ul>
-                    <li>name of header</li>
-                </ul>
-            </div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>string</code>- header value, NULL if header wasn't set in response
-            </div>
-        </div>
-    </div>
+<a id="method_getBody"></a><div class="element clickable method public method_getBody" data-toggle="collapse" data-target=".method_getBody .collapse">
+<h2>Return the body of the response</h2>
+<pre>getBody() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>- body of the response</div>
+</div></div>
 </div>
-<a id="method_getHeaders"></a>
-
-<div class="element clickable method public method_getHeaders" data-toggle="collapse"
-     data-target=".method_getHeaders .collapse">
-    <h2>Return the HTTP headers of the response</h2>
-    <pre>getHeaders() : array</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>array</code>- array of all headers with values
-            </div>
-        </div>
-    </div>
+<a id="method_getHeader"></a><div class="element clickable method public method_getHeader" data-toggle="collapse" data-target=".method_getHeader .collapse">
+<h2>Return an individual HTTP headers of the response</h2>
+<pre>getHeader(string $name) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code><ul>
+<li>name of header</li>
+</ul>
 </div>
-<a id="method_getHttpCode"></a>
-
-<div class="element clickable method public method_getHttpCode" data-toggle="collapse"
-     data-target=".method_getHttpCode .collapse">
-    <h2>Return the HTTP status code of the response</h2>
-    <pre>getHttpCode() : int</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>int</code>- HTTP status code of response
-            </div>
-        </div>
-    </div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>- header value, NULL if header wasn't set in response</div>
+</div></div>
 </div>
-<a id="method_getJson"></a>
-
-<div class="element clickable method public method_getJson" data-toggle="collapse"
-     data-target=".method_getJson .collapse">
-    <h2>Return the data from the JSON-encoded body</h2>
-    <pre>getJson() : array</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Exceptions</h3>
-            <table class="table table-bordered">
-                <tr>
-                    <th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code>
-                    </th>
-                    <td></td>
-                </tr>
-            </table>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>array</code>- array of values from the JSON-encoded response body
-            </div>
-        </div>
-    </div>
+<a id="method_getHeaders"></a><div class="element clickable method public method_getHeaders" data-toggle="collapse" data-target=".method_getHeaders .collapse">
+<h2>Return the HTTP headers of the response</h2>
+<pre>getHeaders() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- array of all headers with values</div>
+</div></div>
 </div>
-<a id="method_getLocationHeader"></a>
-
-<div class="element clickable method public method_getLocationHeader" data-toggle="collapse"
-     data-target=".method_getLocationHeader .collapse">
-    <h2>Return the location HTTP header of the response</h2>
-    <pre>getLocationHeader() : string</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>string</code>- header value, NULL is header wasn't set in response
-            </div>
-        </div>
-    </div>
+<a id="method_getHttpCode"></a><div class="element clickable method public method_getHttpCode" data-toggle="collapse" data-target=".method_getHttpCode .collapse">
+<h2>Return the HTTP status code of the response</h2>
+<pre>getHttpCode() : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>int</code>- HTTP status code of response</div>
+</div></div>
 </div>
-<a id="method_getResult"></a>
-
-<div class="element clickable method public method_getResult" data-toggle="collapse"
-     data-target=".method_getResult .collapse">
-    <h2>Return the result line (first header line) of the response</h2>
-    <pre>getResult() : string</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>string</code>- the result line (first line of header)
-            </div>
-        </div>
-    </div>
+<a id="method_getJson"></a><div class="element clickable method public method_getJson" data-toggle="collapse" data-target=".method_getJson .collapse">
+<h2>Return the data from the JSON-encoded body</h2>
+<pre>getJson() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- array of values from the JSON-encoded response body</div>
+</div></div>
+</div>
+<a id="method_getLocationHeader"></a><div class="element clickable method public method_getLocationHeader" data-toggle="collapse" data-target=".method_getLocationHeader .collapse">
+<h2>Return the location HTTP header of the response</h2>
+<pre>getLocationHeader() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>- header value, NULL is header wasn't set in response</div>
+</div></div>
+</div>
+<a id="method_getResult"></a><div class="element clickable method public method_getResult" data-toggle="collapse" data-target=".method_getResult .collapse">
+<h2>Return the result line (first header line) of the response</h2>
+<pre>getResult() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>- the result line (first line of header)</div>
+</div></div>
 </div>
 <h3>
-    <i class="icon-custom icon-property"></i> Properties</h3>
-<a id="property__body"> </a>
-
-<div class="element clickable property private property__body" data-toggle="collapse"
-     data-target=".property__body .collapse">
-    <h2>The body retrieved</h2>
-    <pre>$_body : string</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property__body"> </a><div class="element clickable property private property__body" data-toggle="collapse" data-target=".property__body .collapse">
+<h2>The body retrieved</h2>
+<pre>$_body : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a id="property__header"> </a>
-
-<div class="element clickable property private property__header" data-toggle="collapse"
-     data-target=".property__header .collapse">
-    <h2>The header retrieved</h2>
-    <pre>$_header : string</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
+<a id="property__header"> </a><div class="element clickable property private property__header" data-toggle="collapse" data-target=".property__header .collapse">
+<h2>The header retrieved</h2>
+<pre>$_header : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a id="property__headers"> </a>
-
-<div class="element clickable property private property__headers" data-toggle="collapse"
-     data-target=".property__headers .collapse">
-    <h2>All headers retrieved as an assoc array</h2>
-    <pre>$_headers : array</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
+<a id="property__headers"> </a><div class="element clickable property private property__headers" data-toggle="collapse" data-target=".property__headers .collapse">
+<h2>All headers retrieved as an assoc array</h2>
+<pre>$_headers : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a id="property__httpCode"> </a>
-
-<div class="element clickable property private property__httpCode" data-toggle="collapse"
-     data-target=".property__httpCode .collapse">
-    <h2>The HTTP status code of the response</h2>
-    <pre>$_httpCode : int</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
+<a id="property__httpCode"> </a><div class="element clickable property private property__httpCode" data-toggle="collapse" data-target=".property__httpCode .collapse">
+<h2>The HTTP status code of the response</h2>
+<pre>$_httpCode : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a id="property__result"> </a>
-
-<div class="element clickable property private property__result" data-toggle="collapse"
-     data-target=".property__result .collapse">
-    <h2>The result status-line (first line of HTTP response header)</h2>
-    <pre>$_result : string</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
+<a id="property__result"> </a><div class="element clickable property private property__result" data-toggle="collapse" data-target=".property__result .collapse">
+<h2>The result status-line (first line of HTTP response header)</h2>
+<pre>$_result : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <h3>
-    <i class="icon-custom icon-constant"></i> Constants</h3>
-<a id="constant_HEADER_LOCATION"> </a>
-
-<div class="element clickable constant  constant_HEADER_LOCATION" data-toggle="collapse"
-     data-target=".constant_HEADER_LOCATION .collapse">
-    <h2>HTTP location header</h2>
-    <pre>HEADER_LOCATION </pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
+<i class="icon-custom icon-constant"></i> Constants</h3>
+<a id="constant_HEADER_LOCATION"> </a><div class="element clickable constant  constant_HEADER_LOCATION" data-toggle="collapse" data-target=".constant_HEADER_LOCATION .collapse">
+<h2>HTTP location header</h2>
+<pre>HEADER_LOCATION </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="row">
-    <footer class="span12">
-        Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons
-        provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
-        Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.1.0
-    </a> and<br>
-        generated on 2013-11-09T09:19:51+02:00.<br></footer>
-</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
+            generated on 2014-01-29T18:12:39+01:00.<br></footer></div>
 </div>
 </body>
 </html>

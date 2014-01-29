@@ -1,675 +1,408 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-    <meta charset="utf-8">
-    <title>ArangoDB PHP client API » \triagens\ArangoDb\Endpoint</title>
-    <meta name="author" content="Mike van Riel">
-    <meta name="description" content="">
-    <link href="../css/template.css" rel="stylesheet" media="all">
-    <script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script>
-    <script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script>
-    <script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script>
-    <script src="../js/bootstrap.js" type="text/javascript"></script>
-    <script src="../js/template.js" type="text/javascript"></script>
-    <script src="../js/prettify/prettify.min.js" type="text/javascript"></script>
-    <link rel="shortcut icon" href="../img/favicon.ico">
-    <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>ArangoDB PHP client API » \triagens\ArangoDb\Endpoint</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
 </head>
 <body>
 <div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-        <div class="container">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span
-                    class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a
-                class="brand" href="../index.html">ArangoDB PHP client API</a>
-
-            <div class="nav-collapse">
-                <ul class="nav">
-                    <li class="dropdown">
-                        <a href="#api" class="dropdown-toggle" data-toggle="dropdown">
-                            API Documentation <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a>Namespaces</a></li>
-                            <li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
-                            <li><a>Packages</a></li>
-                            <li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown" id="charts-menu">
-                        <a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
-                            Charts <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown" id="reports-menu">
-                        <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
-                            Reports <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                                <span class="label label-info">0</span></a></li>
-                            <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
-                                <ul></ul>
-                            </a></li>
-                            <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
-                                <span class="label label-info">9</span></a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a>
-    </div>
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">ArangoDB PHP client API</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
+<li><a>Packages</a></li>
+<li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">0</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">9</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
 </div>
 <div id="___" class="container">
-<noscript>
-    <div class="alert alert-warning">
-        Javascript is disabled; several features are only available
-        if Javascript is enabled.
-    </div>
-</noscript>
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
 <div class="row">
 <div class="span4">
-    <span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active"
-                                                                              title="Show public elements">Public
-    </button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private"
-                                                                                                     title="Show private elements">
-        Private
-    </button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span>
-
-    <div class="btn-group view pull-right" data-toggle="buttons-radio">
-        <button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button>
-        <button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
-    </div>
-    <ul class="side-nav nav nav-list">
-        <li class="nav-header">
-            <i class="icon-custom icon-method"></i> Methods
-            <ul>
-                <li class="method public "><a href="#method___construct" title="__construct() :: Create a new endpoint"><span
-                        class="description">Create a new endpoint</span>
-                    <pre>__construct()</pre>
-                </a></li>
-                <li class="method public "><a href="#method___toString"
-                                              title="__toString() :: Return a string representation of the endpoint"><span
-                        class="description">Return a string representation of the endpoint</span>
-                    <pre>__toString()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_create" title="create() :: creates an endpoint"><span
-                        class="description">creates an endpoint</span>
-                    <pre>create()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_delete" title="delete() :: Deletes an endpoint"><span
-                        class="description">Deletes an endpoint</span>
-                    <pre>delete()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_getHost"
-                                              title="getHost() :: Return the host name of an endpoint"><span
-                        class="description">Return the host name of an endpoint</span>
-                    <pre>getHost()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_getType"
-                                              title="getType() :: Return the type of an endpoint"><span
-                        class="description">Return the type of an endpoint</span>
-                    <pre>getType()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_isValid"
-                                              title="isValid() :: check whether an endpoint specification is valid"><span
-                        class="description">check whether an endpoint specification is valid</span>
-                    <pre>isValid()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_listEndpoints"
-                                              title="listEndpoints() :: List endpoints"><span class="description">List endpoints</span>
-                    <pre>listEndpoints()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_modify" title="modify() :: modifies an endpoint"><span
-                        class="description">modifies an endpoint</span>
-                    <pre>modify()</pre>
-                </a></li>
-            </ul>
-        </li>
-        <li class="nav-header">
-            <i class="icon-custom icon-property"></i> Properties
-            <ul></ul>
-        </li>
-        <li class="nav-header private">» Private
-            <ul>
-                <li class="property private "><a href="#property__value"
-                                                 title="$_value() :: Current endpoint value"><span
-                        class="description"></span>
-                    <pre>$_value</pre>
-                </a></li>
-            </ul>
-        </li>
-        <li class="nav-header">
-            <i class="icon-custom icon-constant"></i> Constants
-            <ul>
-                <li class="constant  "><a href="#constant_ENTRY_DATABASES" title="ENTRY_DATABASES() :: Databases index"><span
-                        class="description">Databases index</span>
-                    <pre>ENTRY_DATABASES</pre>
-                </a></li>
-                <li class="constant  "><a href="#constant_ENTRY_ENDPOINT"
-                                          title="ENTRY_ENDPOINT() :: Endpoint index"><span class="description">Endpoint index</span>
-                    <pre>ENTRY_ENDPOINT</pre>
-                </a></li>
-                <li class="constant  "><a href="#constant_REGEXP_SSL"
-                                          title="REGEXP_SSL() :: Regexp for SSL endpoints"><span class="description">Regexp for SSL endpoints</span>
-                    <pre>REGEXP_SSL</pre>
-                </a></li>
-                <li class="constant  "><a href="#constant_REGEXP_TCP"
-                                          title="REGEXP_TCP() :: Regexp for TCP endpoints"><span class="description">Regexp for TCP endpoints</span>
-                    <pre>REGEXP_TCP</pre>
-                </a></li>
-                <li class="constant  "><a href="#constant_REGEXP_UNIX"
-                                          title="REGEXP_UNIX() :: Regexp for UNIX socket endpoints"><span
-                        class="description">Regexp for UNIX socket endpoints</span>
-                    <pre>REGEXP_UNIX</pre>
-                </a></li>
-                <li class="constant  "><a href="#constant_TYPE_SSL" title="TYPE_SSL() :: SSL endpoint type"><span
-                        class="description">SSL endpoint type</span>
-                    <pre>TYPE_SSL</pre>
-                </a></li>
-                <li class="constant  "><a href="#constant_TYPE_TCP" title="TYPE_TCP() :: TCP endpoint type"><span
-                        class="description">TCP endpoint type</span>
-                    <pre>TYPE_TCP</pre>
-                </a></li>
-                <li class="constant  "><a href="#constant_TYPE_UNIX"
-                                          title="TYPE_UNIX() :: UNIX socket endpoint type"><span class="description">UNIX socket endpoint type</span>
-                    <pre>TYPE_UNIX</pre>
-                </a></li>
-            </ul>
-        </li>
-    </ul>
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public "><a href="#method___construct" title="__construct :: Create a new endpoint"><span class="description">Create a new endpoint</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#method___toString" title="__toString :: Return a string representation of the endpoint"><span class="description">Return a string representation of the endpoint</span><pre>__toString()</pre></a></li>
+<li class="method public "><a href="#method_create" title="create :: creates an endpoint"><span class="description">creates an endpoint</span><pre>create()</pre></a></li>
+<li class="method public "><a href="#method_delete" title="delete :: Deletes an endpoint"><span class="description">Deletes an endpoint</span><pre>delete()</pre></a></li>
+<li class="method public "><a href="#method_getHost" title="getHost :: Return the host name of an endpoint"><span class="description">Return the host name of an endpoint</span><pre>getHost()</pre></a></li>
+<li class="method public "><a href="#method_getType" title="getType :: Return the type of an endpoint"><span class="description">Return the type of an endpoint</span><pre>getType()</pre></a></li>
+<li class="method public "><a href="#method_isValid" title="isValid :: check whether an endpoint specification is valid"><span class="description">check whether an endpoint specification is valid</span><pre>isValid()</pre></a></li>
+<li class="method public "><a href="#method_listEndpoints" title="listEndpoints :: List endpoints"><span class="description">List endpoints</span><pre>listEndpoints()</pre></a></li>
+<li class="method public "><a href="#method_modify" title="modify :: modifies an endpoint"><span class="description">modifies an endpoint</span><pre>modify()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header private">» Private
+                    <ul><li class="property private "><a href="#property__value" title="$_value :: Current endpoint value"><span class="description">Current endpoint value</span><pre>$_value</pre></a></li></ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-constant"></i> Constants
+                    <ul>
+<li class="constant  "><a href="#constant_ENTRY_DATABASES" title="ENTRY_DATABASES :: Databases index"><span class="description">Databases index</span><pre>ENTRY_DATABASES</pre></a></li>
+<li class="constant  "><a href="#constant_ENTRY_ENDPOINT" title="ENTRY_ENDPOINT :: Endpoint index"><span class="description">Endpoint index</span><pre>ENTRY_ENDPOINT</pre></a></li>
+<li class="constant  "><a href="#constant_REGEXP_SSL" title="REGEXP_SSL :: Regexp for SSL endpoints"><span class="description">Regexp for SSL endpoints</span><pre>REGEXP_SSL</pre></a></li>
+<li class="constant  "><a href="#constant_REGEXP_TCP" title="REGEXP_TCP :: Regexp for TCP endpoints"><span class="description">Regexp for TCP endpoints</span><pre>REGEXP_TCP</pre></a></li>
+<li class="constant  "><a href="#constant_REGEXP_UNIX" title="REGEXP_UNIX :: Regexp for UNIX socket endpoints"><span class="description">Regexp for UNIX socket endpoints</span><pre>REGEXP_UNIX</pre></a></li>
+<li class="constant  "><a href="#constant_TYPE_SSL" title="TYPE_SSL :: SSL endpoint type"><span class="description">SSL endpoint type</span><pre>TYPE_SSL</pre></a></li>
+<li class="constant  "><a href="#constant_TYPE_TCP" title="TYPE_TCP :: TCP endpoint type"><span class="description">TCP endpoint type</span><pre>TYPE_TCP</pre></a></li>
+<li class="constant  "><a href="#constant_TYPE_UNIX" title="TYPE_UNIX :: UNIX socket endpoint type"><span class="description">UNIX socket endpoint type</span><pre>TYPE_UNIX</pre></a></li>
+</ul>
+</li>
+</ul>
 </div>
 <div class="span8">
-<a id="\triagens\ArangoDb\Endpoint"></a>
-<ul class="breadcrumb">
-    <li>
-        <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
-    </li>
-    <li><a href="../namespaces/triagens.html">triagens</a></li>
-    <li>
-        <span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
-    </li>
-    <li class="active">
-        <span class="divider">\</span><a href="../classes/triagens.ArangoDb.Endpoint.html">Endpoint</a>
-    </li>
+<a id="\triagens\ArangoDb\Endpoint"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/triagens.html">triagens</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/triagens.ArangoDb.Endpoint.html">Endpoint</a>
+</li>
 </ul>
 <div class="element class">
 <p class="short_description">Endpoint specification</p>
-
 <div class="details">
-<div class="long_description">An endpoint contains the server location the client connects to
-    the following endpoint types are currently supported (more to be added later):
-    <ul>
-        <li> tcp://host:port for tcp connections
-        <li> unix://socket for UNIX sockets (provided the server supports this)
-        <li> ssl://host:port for SSL connections (provided the server supports this)
-    </ul>
+<div class="long_description"><p>An endpoint contains the server location the client connects to
+the following endpoint types are currently supported (more to be added later):</p>
 
-    Note: SSL support is added in ArangoDB server 1.1<br>
+<ul>
+<li> tcp://host:port for tcp connections
+<li> unix://socket for UNIX sockets (provided the server supports this)
+<li> ssl://host:port for SSL connections (provided the server supports this)
+</ul>
 
-    <br></div>
+<p>Note: SSL support is added in ArangoDB server 1.1<br></p>
+
+<p><br></p></div>
 <table class="table table-bordered">
-    <tr>
-        <th>package</th>
-        <td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
-    </tr>
-    <tr>
-        <th>since</th>
-        <td>0.2</td>
-    </tr>
+<tr>
+<th>package</th>
+<td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
+</tr>
+<tr>
+<th>since</th>
+<td>0.2</td>
+</tr>
 </table>
 <h3>
-    <i class="icon-custom icon-method"></i> Methods</h3>
-<a id="method___construct"></a>
-
-<div class="element clickable method public method___construct" data-toggle="collapse"
-     data-target=".method___construct .collapse">
-    <h2>Create a new endpoint</h2>
-    <pre>__construct(string $value) : <a
-            href="../classes/triagens.ArangoDb.Endpoint.html">\triagens\ArangoDb\Endpoint</a></pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument">
-                <h4>$value</h4>
-                <code>string</code>
-                <ul>
-                    <li>endpoint specification</li>
-                </ul>
-            </div>
-            <h3>Exceptions</h3>
-            <table class="table table-bordered">
-                <tr>
-                    <th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code>
-                    </th>
-                    <td></td>
-                </tr>
-            </table>
-            <h3>Returns</h3>
-
-            <div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Endpoint.html">\triagens\ArangoDb\Endpoint</a></code>
-            </div>
-        </div>
-    </div>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
+<h2>Create a new endpoint</h2>
+<pre>__construct(string $value) : <a href="../classes/triagens.ArangoDb.Endpoint.html">\triagens\ArangoDb\Endpoint</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>string</code><ul>
+<li>endpoint specification</li>
+</ul>
 </div>
-<a id="method___toString"></a>
-
-<div class="element clickable method public method___toString" data-toggle="collapse"
-     data-target=".method___toString .collapse">
-    <h2>Return a string representation of the endpoint</h2>
-    <pre>__toString() : string</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>string</code>- string representation of the endpoint
-            </div>
-        </div>
-    </div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Endpoint.html">\triagens\ArangoDb\Endpoint</a></code></div>
+</div></div>
 </div>
-<a id="method_create"></a>
-
-<div class="element clickable method public method_create" data-toggle="collapse"
-     data-target=".method_create .collapse">
-    <h2>creates an endpoint</h2>
-    <pre>create(\triagens\ArangoDb\Connection $connection, string $endpoint, array $databases) : array</pre>
-    <div class="labels"><span class="label">Static</span></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description">This creates a new endpoint<br>
-                This is an alias function to Endpoint::modify, as ArangoDB's API has one call to support both new and
-                modify
-            </div>
-            <table class="table table-bordered">
-                <tr>
-                    <th>link</th>
-                    <td><a href="http://www.arangodb.org/manuals/1.4/HttpEndpoint.html">http://www.arangodb.org/manuals/1.4/HttpEndpoint.html</a>
-                    </td>
-                </tr>
-            </table>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument">
-                <h4>$connection</h4>
-                <code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>
-                <ul>
-                    <li>the connection to be used</li>
-                </ul>
-            </div>
-            <div class="subelement argument">
-                <h4>$endpoint</h4>
-                <code>string</code>
-                <ul>
-                    <li>the endpoint specification, e.g. tcp://127.0.0.1:8530</li>
-                </ul>
-            </div>
-            <div class="subelement argument">
-                <h4>$databases</h4>
-                <code>array</code>
-                <ul>
-                    <li>a list of database names the endpoint is responsible for.
-                        *
-                    </li>
-                </ul>
-            </div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>array</code>$responseArray - The response array.
-            </div>
-        </div>
-    </div>
+<a id="method___toString"></a><div class="element clickable method public method___toString" data-toggle="collapse" data-target=".method___toString .collapse">
+<h2>Return a string representation of the endpoint</h2>
+<pre>__toString() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>- string representation of the endpoint</div>
+</div></div>
 </div>
-<a id="method_delete"></a>
-
-<div class="element clickable method public method_delete" data-toggle="collapse"
-     data-target=".method_delete .collapse">
-    <h2>Deletes an endpoint</h2>
-    <pre>delete(\triagens\ArangoDb\Connection $connection, string $endpoint) : array</pre>
-    <div class="labels"><span class="label">Static</span></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description">This will delete an existing endpoint.</div>
-            <table class="table table-bordered">
-                <tr>
-                    <th>link</th>
-                    <td><a href="http://www.arangodb.org/manuals/1.4/HttpEndpoint.html">http://www.arangodb.org/manuals/1.4/HttpEndpoint.html</a>
-                    </td>
-                </tr>
-            </table>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument">
-                <h4>$connection</h4>
-                <code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>
-                <ul>
-                    <li>the connection to be used</li>
-                </ul>
-            </div>
-            <div class="subelement argument">
-                <h4>$endpoint</h4>
-                <code>string</code>
-                <ul>
-                    <li>the endpoint specification, e.g. tcp://127.0.0.1:8530</li>
-                </ul>
-            </div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>array</code>$responseArray - The response array.
-            </div>
-        </div>
-    </div>
+<a id="method_create"></a><div class="element clickable method public method_create" data-toggle="collapse" data-target=".method_create .collapse">
+<h2>creates an endpoint</h2>
+<pre>create(\triagens\ArangoDb\Connection $connection, string $endpoint, array $databases) : array</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This creates a new endpoint<br>
+This is an alias function to Endpoint::modify, as ArangoDB's API has one call to support both new and modify</p></div>
+<table class="table table-bordered"><tr>
+<th>link</th>
+<td><a href="http://www.arangodb.org/manuals/1.4/HttpEndpoint.html">http://www.arangodb.org/manuals/1.4/HttpEndpoint.html</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$connection</h4>
+<code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code><ul>
+<li>the connection to be used</li>
+</ul>
 </div>
-<a id="method_getHost"></a>
-
-<div class="element clickable method public method_getHost" data-toggle="collapse"
-     data-target=".method_getHost .collapse">
-    <h2>Return the host name of an endpoint</h2>
-    <pre>getHost(string $value) : string</pre>
-    <div class="labels"><span class="label">Static</span></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument">
-                <h4>$value</h4>
-                <code>string</code>
-                <ul>
-                    <li>endpoint specification value</li>
-                </ul>
-            </div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>string</code>- host name
-            </div>
-        </div>
-    </div>
+<div class="subelement argument">
+<h4>$endpoint</h4>
+<code>string</code><ul>
+<li>the endpoint specification, e.g. tcp://127.0.0.1:8530</li>
+</ul>
 </div>
-<a id="method_getType"></a>
-
-<div class="element clickable method public method_getType" data-toggle="collapse"
-     data-target=".method_getType .collapse">
-    <h2>Return the type of an endpoint</h2>
-    <pre>getType(string $value) : string</pre>
-    <div class="labels"><span class="label">Static</span></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument">
-                <h4>$value</h4>
-                <code>string</code>
-                <ul>
-                    <li>endpoint specification value</li>
-                </ul>
-            </div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>string</code>- endpoint type
-            </div>
-        </div>
-    </div>
+<div class="subelement argument">
+<h4>$databases</h4>
+<code>array</code><ul>
+<li>a list of database names the endpoint is responsible for. *</li>
+</ul>
 </div>
-<a id="method_isValid"></a>
-
-<div class="element clickable method public method_isValid" data-toggle="collapse"
-     data-target=".method_isValid .collapse">
-    <h2>check whether an endpoint specification is valid</h2>
-    <pre>isValid(string $value) : bool</pre>
-    <div class="labels"><span class="label">Static</span></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument">
-                <h4>$value</h4>
-                <code>string</code>
-                <ul>
-                    <li>endpoint specification value</li>
-                </ul>
-            </div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>bool</code>- true if endpoint specification is valid, false otherwise
-            </div>
-        </div>
-    </div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>$responseArray - The response array.</div>
+</div></div>
 </div>
-<a id="method_listEndpoints"></a>
-
-<div class="element clickable method public method_listEndpoints" data-toggle="collapse"
-     data-target=".method_listEndpoints .collapse">
-    <h2>List endpoints</h2>
-    <pre>listEndpoints(\triagens\ArangoDb\Connection $connection) : array</pre>
-    <div class="labels"><span class="label">Static</span></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description">This will list the endpoints that are configured on the server</div>
-            <table class="table table-bordered">
-                <tr>
-                    <th>link</th>
-                    <td><a href="http://www.arangodb.org/manuals/1.4/HttpEndpoint.html">http://www.arangodb.org/manuals/1.4/HttpEndpoint.html</a>
-                    </td>
-                </tr>
-            </table>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument">
-                <h4>$connection</h4>
-                <code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>
-                <ul>
-                    <li>the connection to be used</li>
-                </ul>
-            </div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>array</code>$responseArray - The response array.
-            </div>
-        </div>
-    </div>
+<a id="method_delete"></a><div class="element clickable method public method_delete" data-toggle="collapse" data-target=".method_delete .collapse">
+<h2>Deletes an endpoint</h2>
+<pre>delete(\triagens\ArangoDb\Connection $connection, string $endpoint) : array</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will delete an existing endpoint.</p></div>
+<table class="table table-bordered"><tr>
+<th>link</th>
+<td><a href="http://www.arangodb.org/manuals/1.4/HttpEndpoint.html">http://www.arangodb.org/manuals/1.4/HttpEndpoint.html</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$connection</h4>
+<code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code><ul>
+<li>the connection to be used</li>
+</ul>
 </div>
-<a id="method_modify"></a>
-
-<div class="element clickable method public method_modify" data-toggle="collapse"
-     data-target=".method_modify .collapse">
-    <h2>modifies an endpoint</h2>
-    <pre>modify(\triagens\ArangoDb\Connection $connection, string $endpoint, array $databases) : array</pre>
-    <div class="labels"><span class="label">Static</span></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description">This will modify an existing or create a new endpoint.</div>
-            <table class="table table-bordered">
-                <tr>
-                    <th>link</th>
-                    <td><a href="http://www.arangodb.org/manuals/1.4/HttpEndpoint.html">http://www.arangodb.org/manuals/1.4/HttpEndpoint.html</a>
-                    </td>
-                </tr>
-            </table>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument">
-                <h4>$connection</h4>
-                <code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>
-                <ul>
-                    <li>the connection to be used</li>
-                </ul>
-            </div>
-            <div class="subelement argument">
-                <h4>$endpoint</h4>
-                <code>string</code>
-                <ul>
-                    <li>the endpoint specification, e.g. tcp://127.0.0.1:8530</li>
-                </ul>
-            </div>
-            <div class="subelement argument">
-                <h4>$databases</h4>
-                <code>array</code>
-                <ul>
-                    <li>a list of database names the endpoint is responsible for.</li>
-                </ul>
-            </div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>array</code>$responseArray - The response array.
-            </div>
-        </div>
-    </div>
+<div class="subelement argument">
+<h4>$endpoint</h4>
+<code>string</code><ul>
+<li>the endpoint specification, e.g. tcp://127.0.0.1:8530</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>$responseArray - The response array.</div>
+</div></div>
+</div>
+<a id="method_getHost"></a><div class="element clickable method public method_getHost" data-toggle="collapse" data-target=".method_getHost .collapse">
+<h2>Return the host name of an endpoint</h2>
+<pre>getHost(string $value) : string</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>string</code><ul>
+<li>endpoint specification value</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>- host name</div>
+</div></div>
+</div>
+<a id="method_getType"></a><div class="element clickable method public method_getType" data-toggle="collapse" data-target=".method_getType .collapse">
+<h2>Return the type of an endpoint</h2>
+<pre>getType(string $value) : string</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>string</code><ul>
+<li>endpoint specification value</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>- endpoint type</div>
+</div></div>
+</div>
+<a id="method_isValid"></a><div class="element clickable method public method_isValid" data-toggle="collapse" data-target=".method_isValid .collapse">
+<h2>check whether an endpoint specification is valid</h2>
+<pre>isValid(string $value) : bool</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>string</code><ul>
+<li>endpoint specification value</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>bool</code>- true if endpoint specification is valid, false otherwise</div>
+</div></div>
+</div>
+<a id="method_listEndpoints"></a><div class="element clickable method public method_listEndpoints" data-toggle="collapse" data-target=".method_listEndpoints .collapse">
+<h2>List endpoints</h2>
+<pre>listEndpoints(\triagens\ArangoDb\Connection $connection) : array</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will list the endpoints that are configured on the server</p></div>
+<table class="table table-bordered"><tr>
+<th>link</th>
+<td><a href="http://www.arangodb.org/manuals/1.4/HttpEndpoint.html">http://www.arangodb.org/manuals/1.4/HttpEndpoint.html</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$connection</h4>
+<code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code><ul>
+<li>the connection to be used</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>$responseArray - The response array.</div>
+</div></div>
+</div>
+<a id="method_modify"></a><div class="element clickable method public method_modify" data-toggle="collapse" data-target=".method_modify .collapse">
+<h2>modifies an endpoint</h2>
+<pre>modify(\triagens\ArangoDb\Connection $connection, string $endpoint, array $databases) : array</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will modify an existing or create a new endpoint.</p></div>
+<table class="table table-bordered"><tr>
+<th>link</th>
+<td><a href="http://www.arangodb.org/manuals/1.4/HttpEndpoint.html">http://www.arangodb.org/manuals/1.4/HttpEndpoint.html</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$connection</h4>
+<code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code><ul>
+<li>the connection to be used</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$endpoint</h4>
+<code>string</code><ul>
+<li>the endpoint specification, e.g. tcp://127.0.0.1:8530</li>
+</ul>
+</div>
+<div class="subelement argument">
+<h4>$databases</h4>
+<code>array</code><ul>
+<li>a list of database names the endpoint is responsible for.</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>$responseArray - The response array.</div>
+</div></div>
 </div>
 <h3>
-    <i class="icon-custom icon-property"></i> Properties</h3>
-<a id="property__value"> </a>
-
-<div class="element clickable property private property__value" data-toggle="collapse"
-     data-target=".property__value .collapse">
-    <h2>Current endpoint value</h2>
-    <pre>$_value : string</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property__value"> </a><div class="element clickable property private property__value" data-toggle="collapse" data-target=".property__value .collapse">
+<h2>Current endpoint value</h2>
+<pre>$_value : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <h3>
-    <i class="icon-custom icon-constant"></i> Constants</h3>
-<a id="constant_ENTRY_DATABASES"> </a>
-
-<div class="element clickable constant  constant_ENTRY_DATABASES" data-toggle="collapse"
-     data-target=".constant_ENTRY_DATABASES .collapse">
-    <h2>Databases index</h2>
-    <pre>ENTRY_DATABASES </pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
+<i class="icon-custom icon-constant"></i> Constants</h3>
+<a id="constant_ENTRY_DATABASES"> </a><div class="element clickable constant  constant_ENTRY_DATABASES" data-toggle="collapse" data-target=".constant_ENTRY_DATABASES .collapse">
+<h2>Databases index</h2>
+<pre>ENTRY_DATABASES </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a id="constant_ENTRY_ENDPOINT"> </a>
-
-<div class="element clickable constant  constant_ENTRY_ENDPOINT" data-toggle="collapse"
-     data-target=".constant_ENTRY_ENDPOINT .collapse">
-    <h2>Endpoint index</h2>
-    <pre>ENTRY_ENDPOINT </pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
+<a id="constant_ENTRY_ENDPOINT"> </a><div class="element clickable constant  constant_ENTRY_ENDPOINT" data-toggle="collapse" data-target=".constant_ENTRY_ENDPOINT .collapse">
+<h2>Endpoint index</h2>
+<pre>ENTRY_ENDPOINT </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a id="constant_REGEXP_SSL"> </a>
-
-<div class="element clickable constant  constant_REGEXP_SSL" data-toggle="collapse"
-     data-target=".constant_REGEXP_SSL .collapse">
-    <h2>Regexp for SSL endpoints</h2>
-    <pre>REGEXP_SSL </pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
+<a id="constant_REGEXP_SSL"> </a><div class="element clickable constant  constant_REGEXP_SSL" data-toggle="collapse" data-target=".constant_REGEXP_SSL .collapse">
+<h2>Regexp for SSL endpoints</h2>
+<pre>REGEXP_SSL </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a id="constant_REGEXP_TCP"> </a>
-
-<div class="element clickable constant  constant_REGEXP_TCP" data-toggle="collapse"
-     data-target=".constant_REGEXP_TCP .collapse">
-    <h2>Regexp for TCP endpoints</h2>
-    <pre>REGEXP_TCP </pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
+<a id="constant_REGEXP_TCP"> </a><div class="element clickable constant  constant_REGEXP_TCP" data-toggle="collapse" data-target=".constant_REGEXP_TCP .collapse">
+<h2>Regexp for TCP endpoints</h2>
+<pre>REGEXP_TCP </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a id="constant_REGEXP_UNIX"> </a>
-
-<div class="element clickable constant  constant_REGEXP_UNIX" data-toggle="collapse"
-     data-target=".constant_REGEXP_UNIX .collapse">
-    <h2>Regexp for UNIX socket endpoints</h2>
-    <pre>REGEXP_UNIX </pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
+<a id="constant_REGEXP_UNIX"> </a><div class="element clickable constant  constant_REGEXP_UNIX" data-toggle="collapse" data-target=".constant_REGEXP_UNIX .collapse">
+<h2>Regexp for UNIX socket endpoints</h2>
+<pre>REGEXP_UNIX </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a id="constant_TYPE_SSL"> </a>
-
-<div class="element clickable constant  constant_TYPE_SSL" data-toggle="collapse"
-     data-target=".constant_TYPE_SSL .collapse">
-    <h2>SSL endpoint type</h2>
-    <pre>TYPE_SSL </pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
+<a id="constant_TYPE_SSL"> </a><div class="element clickable constant  constant_TYPE_SSL" data-toggle="collapse" data-target=".constant_TYPE_SSL .collapse">
+<h2>SSL endpoint type</h2>
+<pre>TYPE_SSL </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a id="constant_TYPE_TCP"> </a>
-
-<div class="element clickable constant  constant_TYPE_TCP" data-toggle="collapse"
-     data-target=".constant_TYPE_TCP .collapse">
-    <h2>TCP endpoint type</h2>
-    <pre>TYPE_TCP </pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
+<a id="constant_TYPE_TCP"> </a><div class="element clickable constant  constant_TYPE_TCP" data-toggle="collapse" data-target=".constant_TYPE_TCP .collapse">
+<h2>TCP endpoint type</h2>
+<pre>TYPE_TCP </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a id="constant_TYPE_UNIX"> </a>
-
-<div class="element clickable constant  constant_TYPE_UNIX" data-toggle="collapse"
-     data-target=".constant_TYPE_UNIX .collapse">
-    <h2>UNIX socket endpoint type</h2>
-    <pre>TYPE_UNIX </pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
+<a id="constant_TYPE_UNIX"> </a><div class="element clickable constant  constant_TYPE_UNIX" data-toggle="collapse" data-target=".constant_TYPE_UNIX .collapse">
+<h2>UNIX socket endpoint type</h2>
+<pre>TYPE_UNIX </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="row">
-    <footer class="span12">
-        Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons
-        provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
-        Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.1.0
-    </a> and<br>
-        generated on 2013-11-09T09:19:51+02:00.<br></footer>
-</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
+            generated on 2014-01-29T18:12:39+01:00.<br></footer></div>
 </div>
 </body>
 </html>

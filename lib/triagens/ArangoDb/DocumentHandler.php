@@ -50,7 +50,7 @@ class DocumentHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collectionId - collection id as a string or number
+     * @param string $collectionId - collection id as a string or number
      * @param mixed $documentId   - document identifier
      * @param array $options      - optional, array of options
      *                            <p>Options are :
@@ -77,7 +77,7 @@ class DocumentHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collectionId - collection id as a string or number
+     * @param string $collectionId - collection id as a string or number
      * @param mixed $documentId   - document identifier
      * @param array $options      - optional, array of options
      *                            <p>Options are :
@@ -100,6 +100,28 @@ class DocumentHandler extends
     }
 
 
+    /**
+     * Get a single document (internal method)
+     *
+     * This method is the workhorse for getById() in this handler and the edges handler
+     *
+     * @throws Exception
+     *
+     * @param string $url          - the server-side URL being called
+     * @param string $collectionId - collection id as a string or number
+     * @param mixed $documentId   - document identifier
+     * @param array $options      - optional, array of options
+     *                            <p>Options are :
+     *                            <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
+     *                            <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
+     *                            <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+     *                            <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
+     *                            <li>'ifMatch' - boolean if given revision should match or not</li>
+     *                            <li>'revision' - The document is returned if it matches/not matches revision.</li>
+     *                            </p>
+     *
+     * @return Document - the document fetched from the server
+     */
     protected function getDocument($url, $collectionId, $documentId, array $options = array())
     {
         $url      = UrlHelper::buildUrl($url, array($collectionId, $documentId));
@@ -130,19 +152,34 @@ class DocumentHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collectionId - collection id as a string or number.
+     * @param string $collectionId - collection id as a string or number.
      * @param mixed $documentId   - document identifier.
-     * @param ifMatch       -  boolean if given revision should match or not.
-     * @param revision      - The document is returned if it matches/not matches revision.
+     * @param boolean ifMatch     -  boolean if given revision should match or not.
+     * @param string revision     - The document is returned if it matches/not matches revision.
      *
      * @return array - an array containing the complete header including the key httpCode.
      */
-    public function  getHead($collectionId, $documentId, $revision = null, $ifMatch = null)
+    public function getHead($collectionId, $documentId, $revision = null, $ifMatch = null)
     {
         return $this->head(Urls::URL_DOCUMENT, $collectionId, $documentId, $revision, $ifMatch);
     }
 
 
+    /**
+     * Get meta-data for a single document (internal method)
+     *
+     * This method is the workhorse for getHead() in this handler and the edges handler
+     *
+     * @throws Exception
+     *
+     * @param string $url          - the server-side URL being called
+     * @param string $collectionId - collection id as a string or number
+     * @param mixed $documentId    - document identifier
+     * @param mixed $revision      - optional document revision
+     * @param boolean ifMatch      -  boolean if given revision should match or not.
+     *
+     * @return array - the document meta-data
+     */
     protected function head($url, $collectionId, $documentId, $revision = null, $ifMatch = null) {
         $url      = UrlHelper::buildUrl($url, array($collectionId, $documentId));
         $headerElements = array();
@@ -159,6 +196,7 @@ class DocumentHandler extends
         $headers["httpCode"] = $response->getHttpCode();
         return $headers;
     }
+
 
     /**
      * Intermediate function to call the createFromArray function from the right context
@@ -424,7 +462,7 @@ class DocumentHandler extends
      *
      * @throws Exception
      *
-     * @param mixed    $collectionId - collection id as string or number
+     * @param string    $collectionId - collection id as string or number
      * @param mixed    $documentId   - document id as string or number
      * @param Document $document     - patch document which contains the attributes and values to be updated
      * @param mixed    $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
@@ -442,7 +480,24 @@ class DocumentHandler extends
     }
 
 
-
+    /**
+     * Update an existing document in a collection (internal method)
+     *
+     * @throws Exception
+     *
+     * @param string   $url          - server-side URL being called
+     * @param string   $collectionId - collection id as string or number
+     * @param mixed    $documentId   - document id as string or number
+     * @param Document $document     - patch document which contains the attributes and values to be updated
+     * @param mixed    $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     *                               <p>Options are :
+     *                               <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                               <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+     *                               <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                               </p>
+     *
+     * @return bool - always true, will throw if there is an error
+     */
     protected function patch($url, $collectionId, $documentId, Document $document, $options = array())
     {
         // This preserves compatibility for the old policy parameter.
@@ -535,7 +590,25 @@ class DocumentHandler extends
     {
         return $this->put(Urls::URL_DOCUMENT, $collectionId, $documentId, $document, $options);
     }
-
+   
+    
+    /**
+     * Replace an existing document in a collection (internal method)
+     *
+     * @throws Exception
+     *
+     * @param string   $url          - the server-side URL being called
+     * @param string   $collectionId - collection id as string or number
+     * @param mixed    $documentId   - document id as string or number
+     * @param Document $document     - document to be updated
+     * @param mixed    $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     *                               <p>Options are :
+     *                               <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                               <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                               </p>
+     *
+     * @return bool - always true, will throw if there is an error
+     */
     protected function put($url, $collectionId, $documentId, Document $document, $options = array())
     {
         // This preserves compatibility for the old policy parameter.
@@ -619,7 +692,7 @@ class DocumentHandler extends
      *
      * @throws Exception
      *
-     * @param mixed  $collectionId - collection id as string or number
+     * @param string $collectionId - collection id as string or number
      * @param mixed  $documentId   - document id as string or number
      * @param  mixed $revision     - optional revision of the document to be deleted
      * @param mixed  $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
@@ -643,7 +716,7 @@ class DocumentHandler extends
     /**
      * Remove a document from a collection, identified by the collection id and document id
      *
-     * @throws |Exception
+     * @throws Exception
      *
      * @param mixed  $collectionId - collection id as string or number
      * @param mixed  $documentId   - document id as string or number
@@ -661,7 +734,24 @@ class DocumentHandler extends
        return $this->erase(Urls::URL_DOCUMENT, $collectionId, $documentId, $revision, $options);
     }
 
-
+    
+    /**
+     * Remove a document from a collection (internal method)
+     *
+     * @throws Exception
+     *
+     * @param string $url          - the server-side URL being called
+     * @param string $collectionId - collection id as string or number
+     * @param mixed  $documentId   - document id as string or number
+     * @param mixed $revision      - optional revision of the document to be deleted
+     * @param mixed  $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     *                             <p>Options are :
+     *                             <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                             <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                             </p>
+     *
+     * @return bool - always true, will throw if there is an error
+     */
     protected function erase($url, $collectionId, $documentId, $revision = null, $options = array())
     {
         // This preserves compatibility for the old policy parameter.

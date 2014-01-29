@@ -58,15 +58,16 @@
 <li class="nav-header">
 <i class="icon-custom icon-method"></i> Methods
                     <ul>
-<li class="method public "><a href="#method_create" title="create() :: creates a database"><span class="description">creates a database</span><pre>create()</pre></a></li>
-<li class="method public "><a href="#method_delete" title="delete() :: Deletes a database"><span class="description">Deletes a database</span><pre>delete()</pre></a></li>
-<li class="method public "><a href="#method_getInfo" title="getInfo() :: Retrieves information about the current database"><span class="description">Retrieves information about the current database</span><pre>getInfo()</pre></a></li>
-<li class="method public "><a href="#method_listDatabases" title="listDatabases() :: List databases"><span class="description">List databases</span><pre>listDatabases()</pre></a></li>
+<li class="method public "><a href="#method_create" title="create :: creates a database"><span class="description">creates a database</span><pre>create()</pre></a></li>
+<li class="method public "><a href="#method_delete" title="delete :: Deletes a database"><span class="description">Deletes a database</span><pre>delete()</pre></a></li>
+<li class="method public "><a href="#method_getInfo" title="getInfo :: Retrieves information about the current database"><span class="description">Retrieves information about the current database</span><pre>getInfo()</pre></a></li>
+<li class="method public "><a href="#method_listDatabases" title="listDatabases :: List databases"><span class="description">List databases</span><pre>listDatabases()</pre></a></li>
+<li class="method public "><a href="#method_listUserDatabases" title="listUserDatabases :: List user databases"><span class="description">List user databases</span><pre>listUserDatabases()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header">
 <i class="icon-custom icon-constant"></i> Constants
-                    <ul><li class="constant  "><a href="#constant_ENTRY_DATABASE_NAME" title="ENTRY_DATABASE_NAME() :: Databases index"><span class="description">Databases index</span><pre>ENTRY_DATABASE_NAME</pre></a></li></ul>
+                    <ul><li class="constant  "><a href="#constant_ENTRY_DATABASE_NAME" title="ENTRY_DATABASE_NAME :: Databases index"><span class="description">Databases index</span><pre>ENTRY_DATABASE_NAME</pre></a></li></ul>
 </li>
 </ul>
 </div>
@@ -86,7 +87,7 @@
 <div class="element class">
 <p class="short_description">A class for managing ArangoDB Databases</p>
 <div class="details">
-<div class="long_description">This class provides functions to manage Databases through ArangoDB's Database API<br></div>
+<div class="long_description"><p>This class provides functions to manage Databases through ArangoDB's Database API<br></p></div>
 <table class="table table-bordered">
 <tr>
 <th>link</th>
@@ -108,7 +109,7 @@
 <pre>create(\triagens\ArangoDb\Connection $connection, string $name) : array</pre>
 <div class="labels"><span class="label">Static</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description">This creates a new database<br></div>
+<div class="long_description"><p>This creates a new database<br></p></div>
 <table class="table table-bordered"><tr>
 <th>link</th>
 <td><a href="http://www.arangodb.org/manuals/1.4/HttpDatabase.html">http://www.arangodb.org/manuals/1.4/HttpDatabase.html</a></td>
@@ -136,7 +137,7 @@
 <pre>delete(\triagens\ArangoDb\Connection $connection, string $name) : array</pre>
 <div class="labels"><span class="label">Static</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description">This will delete an existing database.</div>
+<div class="long_description"><p>This will delete an existing database.</p></div>
 <table class="table table-bordered"><tr>
 <th>link</th>
 <td><a href="http://www.arangodb.org/manuals/1.4/HttpDatabase.html">http://www.arangodb.org/manuals/1.4/HttpDatabase.html</a></td>
@@ -164,7 +165,7 @@
 <pre>getInfo(\triagens\ArangoDb\Connection $connection) : array</pre>
 <div class="labels"><span class="label">Static</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description">This will get information about the currently used database from the server</div>
+<div class="long_description"><p>This will get information about the currently used database from the server</p></div>
 <table class="table table-bordered"><tr>
 <th>link</th>
 <td><a href="http://www.arangodb.org/manuals/1.4/HttpDatabase.html">http://www.arangodb.org/manuals/1.4/HttpDatabase.html</a></td>
@@ -186,7 +187,30 @@
 <pre>listDatabases(\triagens\ArangoDb\Connection $connection) : array</pre>
 <div class="labels"><span class="label">Static</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description">This will list the databases that exist on the server</div>
+<div class="long_description"><p>This will list the databases that exist on the server</p></div>
+<table class="table table-bordered"><tr>
+<th>link</th>
+<td><a href="http://www.arangodb.org/manuals/1.4/HttpDatabase.html">http://www.arangodb.org/manuals/1.4/HttpDatabase.html</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$connection</h4>
+<code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code><ul>
+<li>the connection to be used</li>
+</ul>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>$responseArray - The response array.</div>
+</div></div>
+</div>
+<a id="method_listUserDatabases"></a><div class="element clickable method public method_listUserDatabases" data-toggle="collapse" data-target=".method_listUserDatabases .collapse">
+<h2>List user databases</h2>
+<pre>listUserDatabases(\triagens\ArangoDb\Connection $connection) : array</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Retrieves the list of all databases the current user can access without
+specifying a different username or password.</p></div>
 <table class="table table-bordered"><tr>
 <th>link</th>
 <td><a href="http://www.arangodb.org/manuals/1.4/HttpDatabase.html">http://www.arangodb.org/manuals/1.4/HttpDatabase.html</a></td>
@@ -217,9 +241,8 @@
 </div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
-            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.1.0
-</a> and<br>
-            generated on 2013-11-09T09:19:51+02:00.<br></footer></div>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
+            generated on 2014-01-29T18:12:39+01:00.<br></footer></div>
 </div>
 </body>
 </html>
