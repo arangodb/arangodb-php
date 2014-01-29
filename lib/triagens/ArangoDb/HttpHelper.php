@@ -275,8 +275,9 @@ class HttpHelper
 
         $barrier = HttpHelper::EOL . HttpHelper::EOL;
         $parts   = explode($barrier, $httpMessage, 2);
-        if (HttpHelper::parseHeaders($parts[0])[0] == 304 ||
-            HttpHelper::parseHeaders($parts[0])[0] == 204) {
+        $parsed = HttpHelper::parseHeaders($parts[0]);
+        if ($parsed[0] == 304 ||
+            $parsed[0] == 204) {
             return $parts;
         }
 

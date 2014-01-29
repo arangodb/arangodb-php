@@ -2096,7 +2096,8 @@ class CollectionExtendedTest extends
         $this->assertTrue($e->getCode() === 400);
 
         // Now we create an index
-        $fulltextIndexId = $collectionHandler->createFulltextIndex($collection->getId(), array("someOtherAttribute"))["id"];
+        $fulltextIndexId = $collectionHandler->createFulltextIndex($collection->getId(), array("someOtherAttribute"));
+        $fulltextIndexId = $fulltextIndexId["id"];
         $cursor = $collectionHandler->fulltext(
             $collection->getId(),
             "someOtherAttribute",
@@ -2104,8 +2105,9 @@ class CollectionExtendedTest extends
             array("index" => $fulltextIndexId)
         );
 
-        $this->assertTrue($cursor->getMetadata()["count"] == 2);
-        $this->assertTrue($cursor->getMetadata()["hasMore"] == false);
+        $m = $cursor->getMetadata();
+        $this->assertTrue($m["count"] == 2);
+        $this->assertTrue($m["hasMore"] == false);
 
         // Now we pass some options
         $cursor = $collectionHandler->fulltext(
@@ -2115,8 +2117,9 @@ class CollectionExtendedTest extends
             array("index" => $fulltextIndexId, "skip" => 1, )
         );
 
-        $this->assertTrue($cursor->getMetadata()["count"] == 1);
-        $this->assertTrue($cursor->getMetadata()["hasMore"] == false);
+        $m = $cursor->getMetadata();
+        $this->assertTrue($m["count"] == 1);
+        $this->assertTrue($m["hasMore"] == false);
 
         $cursor = $collectionHandler->fulltext(
             $collection->getId(),
@@ -2125,9 +2128,10 @@ class CollectionExtendedTest extends
             array("batchSize" =>  1)
         );
 
-        $this->assertTrue($cursor->getMetadata()["count"] == 2);
-        $this->assertTrue(count($cursor->getMetadata()["result"]) == 1);
-        $this->assertTrue($cursor->getMetadata()["hasMore"] == true);
+        $m = $cursor->getMetadata();
+        $this->assertTrue($m["count"] == 2);
+        $this->assertTrue(count($m["result"]) == 1);
+        $this->assertTrue($m["hasMore"] == true);
 
     }
 

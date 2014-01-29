@@ -1267,17 +1267,19 @@ class GraphExtendedTest extends
         $cursor  = $this->graphHandler->getVertices($this->graphName, $options);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
 
-        $this->assertTrue(count($cursor->getMetadata()["result"]) == 1);
-        $this->assertTrue($cursor->getMetadata()["hasMore"] == true);
+        $m = $cursor->getMetadata();
+        $this->assertTrue(count($m["result"]) == 1);
+        $this->assertTrue($m["hasMore"] == true);
 
 
         // Test options->limit
         unset($resultingDocument);
         $options = array('limit' => 1);
         $cursor  = $this->graphHandler->getVertices($this->graphName, $options);
+        $m = $cursor->getMetadata();
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-        $this->assertTrue(count($cursor->getMetadata()["result"]) == 1);
-        $this->assertTrue($cursor->getMetadata()["hasMore"] == false);;
+        $this->assertTrue(count($m["result"]) == 1);
+        $this->assertTrue($m["hasMore"] == false);;
 
 
         // Test options->count
@@ -1286,9 +1288,9 @@ class GraphExtendedTest extends
         $cursor  = $this->graphHandler->getVertices($this->graphName, $options);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
 
-
-        $this->assertTrue(count($cursor->getMetadata()["result"]) == 4);
-        $this->assertTrue($cursor->getMetadata()["hasMore"] == false);
+        $m = $cursor->getMetadata();
+        $this->assertTrue(count($m["result"]) == 4);
+        $this->assertTrue($m["hasMore"] == false);
 
         // Test options->properties
         unset($resultingDocument);
@@ -1298,8 +1300,9 @@ class GraphExtendedTest extends
 
         $cursor = $this->graphHandler->getVertices($this->graphName, $options);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-        $this->assertTrue(count($cursor->getMetadata()["result"]) == 1);
-        $this->assertTrue($cursor->getMetadata()["hasMore"] == false);;
+        $m = $cursor->getMetadata();
+        $this->assertTrue(count($m["result"]) == 1);
+        $this->assertTrue($m["hasMore"] == false);
     }
 
 
@@ -1313,8 +1316,9 @@ class GraphExtendedTest extends
         $cursor = $this->graphHandler->getEdges($this->graphName);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-        $this->assertTrue(count($cursor->getMetadata()["result"]) == 3);
-        $this->assertTrue($cursor->getMetadata()["hasMore"] == false);
+        $m = $cursor->getMetadata();
+        $this->assertTrue(count($m["result"]) == 3);
+        $this->assertTrue($m["hasMore"] == false);
 
 
         // Test options->batchSize
@@ -1323,8 +1327,9 @@ class GraphExtendedTest extends
         $cursor  = $this->graphHandler->getEdges($this->graphName, $options);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-        $this->assertTrue(count($cursor->getMetadata()["result"]) == 1);
-        $this->assertTrue($cursor->getMetadata()["hasMore"] == true);
+        $m = $cursor->getMetadata();
+        $this->assertTrue(count($m["result"]) == 1);
+        $this->assertTrue($m["hasMore"] == true);
 
         // Test options->limit
         unset($resultingDocument);
@@ -1332,8 +1337,9 @@ class GraphExtendedTest extends
         $cursor  = $this->graphHandler->getEdges($this->graphName, $options);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-        $this->assertTrue(count($cursor->getMetadata()["result"]) == 1);
-        $this->assertTrue($cursor->getMetadata()["hasMore"] == false);
+        $m = $cursor->getMetadata();
+        $this->assertTrue(count($m["result"]) == 1);
+        $this->assertTrue($m["hasMore"] == false);
 
 
         // Test options->count
@@ -1342,8 +1348,9 @@ class GraphExtendedTest extends
         $cursor  = $this->graphHandler->getEdges($this->graphName, $options);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-        $this->assertTrue(count($cursor->getMetadata()["result"]) == 3);
-        $this->assertTrue($cursor->getMetadata()["hasMore"] == false);
+        $m = $cursor->getMetadata();
+        $this->assertTrue(count($m["result"]) == 3);
+        $this->assertTrue($m["hasMore"] == false);
 
         // Test options->filter
         unset($resultingDocument);
@@ -1353,8 +1360,9 @@ class GraphExtendedTest extends
         $cursor = $this->graphHandler->getEdges($this->graphName, $options);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-        $this->assertTrue(count($cursor->getMetadata()["result"]) == 1);
-        $this->assertTrue($cursor->getMetadata()["hasMore"] == false);
+        $m = $cursor->getMetadata();
+        $this->assertTrue(count($m["result"]) == 1);
+        $this->assertTrue($m["hasMore"] == false);
 
 
         // Test options->properties
@@ -1366,8 +1374,9 @@ class GraphExtendedTest extends
         $cursor = $this->graphHandler->getEdges($this->graphName, $options);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-        $this->assertTrue(count($cursor->getMetadata()["result"]) == 1);
-        $this->assertTrue($cursor->getMetadata()["hasMore"] == false);;
+        $m = $cursor->getMetadata();
+        $this->assertTrue(count($m["result"]) == 1);
+        $this->assertTrue($m["hasMore"] == false);
     }
 
 
