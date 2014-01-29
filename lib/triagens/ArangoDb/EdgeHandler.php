@@ -332,8 +332,8 @@ class EdgeHandler extends
      *
      * @param mixed    $collectionId - collection id as string or number
      * @param mixed    $edgeId   - edge id as string or number
-     * @param Edge     $edge     - edge to be updated
-     * @param mixed    $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     * @param Document $edge     - edge to be updated
+     * @param mixed    $options  - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
      *                               <p>Options are :
      *                               <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
      *                               <li>'waitForSync' - can be used to force synchronisation of the edge replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
@@ -341,7 +341,7 @@ class EdgeHandler extends
      *
      * @return bool - always true, will throw if there is an error
      */
-    public function replaceById($collectionId, $edgeId, Edge $edge, $options = array())
+    public function replaceById($collectionId, $edgeId, Document $edge, $options = array())
     {
         return $this->put(Urls::URL_EDGE, $collectionId, $edgeId, $edge, $options);
     }
