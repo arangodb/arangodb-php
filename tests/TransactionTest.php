@@ -34,6 +34,12 @@ class TransactionTest extends
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
+        
+        try {
+            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_02');
+        } catch (Exception $e) {
+            //Silence the exception
+        }
 
 
         $this->collection1 = new Collection();

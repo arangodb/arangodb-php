@@ -81,8 +81,15 @@ class CollectionBasicTest extends
         $connection        = $this->connection;
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
-
+        
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
         $collection->setName($name);
         $response = $collectionHandler->add($collection);
 
@@ -109,8 +116,15 @@ class CollectionBasicTest extends
         $connection        = $this->connection;
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
-
+        
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
         $collection->setName($name);
         $collection->setKeyOptions(
                    array("type" => "autoincrement", "allowUserKeys" => false, "increment" => 5, "offset" => 10)
@@ -153,8 +167,15 @@ class CollectionBasicTest extends
         $connection        = $this->connection;
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
-
+        
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
         $collection->setName($name);
         $collectionHandler->add($collection);
 
@@ -180,8 +201,15 @@ class CollectionBasicTest extends
         $connection        = $this->connection;
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
-
+        
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
         $collection->setName($name);
         $collection->setType(3);
         $collectionHandler->add($collection);
@@ -209,6 +237,13 @@ class CollectionBasicTest extends
         $collectionHandler = new CollectionHandler($connection);
 
         $name    = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
         $options = array('type' => 3);
         $collectionHandler->create($name, $options);
 
@@ -235,6 +270,13 @@ class CollectionBasicTest extends
         $collectionHandler = new CollectionHandler($connection);
 
         $name    = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
         $options = array('isVolatile' => true);
         $collectionHandler->create($name, $options);
         $resultingCollection = $collectionHandler->get($name);
@@ -260,6 +302,13 @@ class CollectionBasicTest extends
         $collectionHandler = new CollectionHandler($connection);
 
         $name    = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
         $options = array('isSystem' => true, 'waitForSync' => true);
         $collectionHandler->create($name, $options);
 
@@ -494,7 +543,6 @@ class CollectionBasicTest extends
 
     public function tearDown()
     {
-
         try {
             $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_IndexTestCollection');
         } catch (Exception $e) {
