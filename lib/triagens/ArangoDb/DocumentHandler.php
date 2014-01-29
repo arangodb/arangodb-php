@@ -93,7 +93,16 @@ class DocumentHandler extends
      */
     public function getById($collectionId, $documentId, array $options = array())
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_DOCUMENT, array($collectionId, $documentId));
+        $data = $this->getDocument(Urls::URL_DOCUMENT, $collectionId, $documentId, $options);
+        $options['_isNew'] = false;
+
+        return $this->createFromArrayWithContext($data, $options);
+    }
+
+
+    protected function getDocument($url, $collectionId, $documentId, array $options = array())
+    {
+        $url      = UrlHelper::buildUrl($url, array($collectionId, $documentId));
         $headerElements = array();
         if (array_key_exists("ifMatch", $options) && array_key_exists("revision", $options)) {
             if ($options["ifMatch"] === true) {
@@ -109,11 +118,7 @@ class DocumentHandler extends
             throw new ClientException('Document has not changed.');
         }
 
-        $data = $response->getJson();
-
-        $options['_isNew'] = false;
-
-        return $this->createFromArrayWithContext($data, $options);
+        return  $response->getJson();
     }
 
 
@@ -125,16 +130,21 @@ class DocumentHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collectionId - collection id as a string or number
-     * @param mixed $documentId   - document identifier
-     * @param ifMatch' -  boolean if given revision should match or not</li>
-     * @param revision' - The document is returned if it matches/not matches revision.</li>
+     * @param mixed $collectionId - collection id as a string or number.
+     * @param mixed $documentId   - document identifier.
+     * @param ifMatch       -  boolean if given revision should match or not.
+     * @param revision      - The document is returned if it matches/not matches revision.
      *
      * @return array - an array containing the complete header including the key httpCode.
      */
     public function  getHead($collectionId, $documentId, $revision = null, $ifMatch = null)
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_DOCUMENT, array($collectionId, $documentId));
+        return $this->head(Urls::URL_DOCUMENT, $collectionId, $documentId, $revision, $ifMatch);
+    }
+
+
+    protected function head($url, $collectionId, $documentId, $revision = null, $ifMatch = null) {
+        $url      = UrlHelper::buildUrl($url, array($collectionId, $documentId));
         $headerElements = array();
         if ($revision != null && $ifMatch !== null) {
             if ($ifMatch) {
@@ -428,20 +438,27 @@ class DocumentHandler extends
      */
     public function updateById($collectionId, $documentId, Document $document, $options = array())
     {
+        return $this->patch(Urls::URL_DOCUMENT, $collectionId, $documentId, $document, $options);
+    }
+
+
+
+    protected function patch($url, $collectionId, $documentId, Document $document, $options = array())
+    {
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
-                       $options,
-                       $params,
-                       ConnectionOptions::OPTION_UPDATE_POLICY
+            $options,
+            $params,
+            ConnectionOptions::OPTION_UPDATE_POLICY
         );
         $params = $this->includeOptionsInParams(
-                       $options,
-                       $params,
-                       array(
-                            'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
-                            'keepNull'    => true,
-                       )
+            $options,
+            $params,
+            array(
+                'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
+                'keepNull'    => true,
+            )
         );
 
         $revision = $document->getRevision();
@@ -449,7 +466,7 @@ class DocumentHandler extends
             $params[ConnectionOptions::OPTION_REVISION] = $revision;
         }
 
-        $url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, array($collectionId, $documentId));
+        $url    = UrlHelper::buildUrl($url, array($collectionId, $documentId));
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAll()));
         $json   = $result->getJson();
@@ -516,17 +533,22 @@ class DocumentHandler extends
      */
     public function replaceById($collectionId, $documentId, Document $document, $options = array())
     {
+        return $this->put(Urls::URL_DOCUMENT, $collectionId, $documentId, $document, $options);
+    }
+
+    protected function put($url, $collectionId, $documentId, Document $document, $options = array())
+    {
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
-                       $options,
-                       $params,
-                       ConnectionOptions::OPTION_REPLACE_POLICY
+            $options,
+            $params,
+            ConnectionOptions::OPTION_REPLACE_POLICY
         );
         $params = $this->includeOptionsInParams(
-                       $options,
-                       $params,
-                       array('waitForSync' => ConnectionOptions::OPTION_WAIT_SYNC)
+            $options,
+            $params,
+            array('waitForSync' => ConnectionOptions::OPTION_WAIT_SYNC)
         );
 
         $revision = $document->getRevision();
@@ -535,7 +557,7 @@ class DocumentHandler extends
         }
 
         $data   = $document->getAll();
-        $url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, array($collectionId, $documentId));
+        $url    = UrlHelper::buildUrl($url, array($collectionId, $documentId));
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->put($url, $this->json_encode_wrapper($data));
         $json   = $result->getJson();
@@ -543,7 +565,6 @@ class DocumentHandler extends
 
         return true;
     }
-
 
     /**
      * Delete a document from a collection, identified by the document itself
@@ -637,24 +658,30 @@ class DocumentHandler extends
      */
     public function removeById($collectionId, $documentId, $revision = null, $options = array())
     {
+       return $this->erase(Urls::URL_DOCUMENT, $collectionId, $documentId, $revision, $options);
+    }
+
+
+    protected function erase($url, $collectionId, $documentId, $revision = null, $options = array())
+    {
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
-                       $options,
-                       $params,
-                       ConnectionOptions::OPTION_DELETE_POLICY
+            $options,
+            $params,
+            ConnectionOptions::OPTION_DELETE_POLICY
         );
         $params = $this->includeOptionsInParams(
-                       $options,
-                       $params,
-                       array('waitForSync' => ConnectionOptions::OPTION_WAIT_SYNC)
+            $options,
+            $params,
+            array('waitForSync' => ConnectionOptions::OPTION_WAIT_SYNC)
         );
 
         if (!is_null($revision)) {
             $params[ConnectionOptions::OPTION_REVISION] = $revision;
         }
 
-        $url = UrlHelper::buildUrl(Urls::URL_DOCUMENT, array($collectionId, $documentId));
+        $url = UrlHelper::buildUrl($url, array($collectionId, $documentId));
         $url = UrlHelper::appendParamsUrl($url, $params);
         $this->getConnection()->delete($url);
 

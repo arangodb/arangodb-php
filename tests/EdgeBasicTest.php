@@ -294,7 +294,7 @@ class EdgeBasicTest extends
             $edgeHandler->get($edgeCollection->getId(), $edgeId, array("ifMatch" => false, "revision" => $edgeId));
         } catch (\Exception $exception304) {
         }
-        $this->assertEquals($exception304->getMessage() , 'Edge has not changed.');
+        $this->assertEquals($exception304->getMessage() , 'Document has not changed.');
 
         $resultingEdge = $edgeHandler->get($edgeCollection->getId(), $edgeId);
 

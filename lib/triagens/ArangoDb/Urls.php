@@ -214,11 +214,6 @@ abstract class Urls
     const URL_ENDPOINT = '/_api/endpoint';
 
     /**
-     * base URL part for job management
-     */
-    const URL_JOB = '/_api/job';
-
-    /**
      * base URL part for database management
      */
     const URL_DATABASE = '/_api/database';

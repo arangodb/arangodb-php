@@ -269,25 +269,9 @@ class EdgeHandler extends
      */
     public function getById($collectionId, $edgeId, array $options = array())
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_EDGE, array($collectionId, $edgeId));
-        $headerElements = array();
-        if (array_key_exists("ifMatch", $options) && array_key_exists("revision", $options)) {
-            if ($options["ifMatch"] === true) {
-                $headerElements["If-Match"] = '"' . $options["revision"] .'"';
-            } else {
-                $headerElements["If-None-Match"] = '"' . $options["revision"]. '"';
-            }
-        }
-
-        $response = $this->getConnection()->get($url, $headerElements);
-
-        if ($response->getHttpCode() === 304) {
-            throw new ClientException('Edge has not changed.');
-        }
-
-        $data = $response->getJson();
-
+        $data = $this->getDocument(Urls::URL_EDGE, $collectionId, $edgeId, $options);
         $options['_isNew'] = false;
+
         return $this->createFromArrayWithContext($data, $options);
     }
 
@@ -309,20 +293,7 @@ class EdgeHandler extends
      */
     public function  getHead($collectionId, $edgeId, $revision = null, $ifMatch = null)
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_EDGE, array($collectionId, $edgeId));
-        $headerElements = array();
-        if ($revision != null && $ifMatch !== null) {
-            if ($ifMatch) {
-                $headerElements["If-Match"] = '"' . $revision .'"';
-            } else {
-                $headerElements["If-None-Match"] = '"' . $revision . '"';
-            }
-        }
-
-        $response = $this->getConnection()->head($url, $headerElements);
-        $headers = $response->getHeaders();
-        $headers["httpCode"] = $response->getHttpCode();
-        return $headers;
+        return $this->head(Urls::URL_EDGE, $collectionId, $edgeId, $revision, $ifMatch);
     }
 
     /**
@@ -343,28 +314,7 @@ class EdgeHandler extends
      */
     public function removeById($collectionId, $edgeId, $revision = null, $options = array())
     {
-        // This preserves compatibility for the old policy parameter.
-        $params = array();
-        $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            $params,
-            ConnectionOptions::OPTION_DELETE_POLICY
-        );
-        $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            array('waitForSync' => ConnectionOptions::OPTION_WAIT_SYNC)
-        );
-
-        if (!is_null($revision)) {
-            $params[ConnectionOptions::OPTION_REVISION] = $revision;
-        }
-
-        $url = UrlHelper::buildUrl(Urls::URL_EDGE, array($collectionId, $edgeId));
-        $url = UrlHelper::appendParamsUrl($url, $params);
-        $this->getConnection()->delete($url);
-
-        return true;
+        return $this->erase(Urls::URL_EDGE, $collectionId, $edgeId, $revision, $options);
     }
 
     /**
@@ -393,32 +343,7 @@ class EdgeHandler extends
      */
     public function replaceById($collectionId, $edgeId, Edge $edge, $options = array())
     {
-        // This preserves compatibility for the old policy parameter.
-        $params = array();
-        $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            $params,
-            ConnectionOptions::OPTION_REPLACE_POLICY
-        );
-        $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            array('waitForSync' => ConnectionOptions::OPTION_WAIT_SYNC)
-        );
-
-        $revision = $edge->getRevision();
-        if (!is_null($revision)) {
-            $params[ConnectionOptions::OPTION_REVISION] = $revision;
-        }
-
-        $data   = $edge->getAll();
-        $url    = UrlHelper::buildUrl(Urls::URL_EDGE, array($collectionId, $edgeId));
-        $url    = UrlHelper::appendParamsUrl($url, $params);
-        $result = $this->getConnection()->put($url, $this->json_encode_wrapper($data));
-        $json   = $result->getJson();
-        $edge->setRevision($json[Edge::ENTRY_REV]);
-
-        return true;
+        return $this->put(Urls::URL_EDGE, $collectionId, $edgeId, $edge, $options);
     }
 
 
@@ -450,34 +375,7 @@ class EdgeHandler extends
      */
     public function updateById($collectionId, $edgeId, Edge $edge, $options = array())
     {
-        // This preserves compatibility for the old policy parameter.
-        $params = array();
-        $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            $params,
-            ConnectionOptions::OPTION_UPDATE_POLICY
-        );
-        $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            array(
-                'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
-                'keepNull'    => true,
-            )
-        );
-
-        $revision = $edge->getRevision();
-        if (!is_null($revision)) {
-            $params[ConnectionOptions::OPTION_REVISION] = $revision;
-        }
-
-        $url    = UrlHelper::buildUrl(Urls::URL_EDGE, array($collectionId, $edgeId));
-        $url    = UrlHelper::appendParamsUrl($url, $params);
-        $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($edge->getAll()));
-        $json   = $result->getJson();
-        $edge->setRevision($json[Edge::ENTRY_REV]);
-
-        return true;
+        return $this->patch(Urls::URL_EDGE, $collectionId, $edgeId, $edge, $options);
     }
 
 }

@@ -1120,7 +1120,7 @@ class CollectionHandler extends
      * @param int $count - the number of documents to return at most. Specifiying count is optional.
      *
      * @return array - array of documents in the collection
-     * @since 1.2
+     * @since 1.4
      */
     public function first($collectionId, $count = null)
     {
@@ -1165,7 +1165,7 @@ class CollectionHandler extends
      * @param int $count - the number of documents to return at most. Specifiying count is optional.
      *
      * @return array - array of documents in the collection
-     * @since 1.2
+     * @since 1.4
      */
     public function last($collectionId, $count = null)
     {
