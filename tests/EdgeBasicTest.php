@@ -28,14 +28,27 @@ class EdgeBasicTest extends
     {
         $this->connection        = getConnection();
         $this->collectionHandler = new CollectionHandler($this->connection);
+
+        try {
+            $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestEdgeCollection01');
+        } catch (\Exception $e) {
+            #don't bother us, if it's already deleted.
+        }
+        
+        try {
+            $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestCollection01');
+        } catch (\Exception $e) {
+            #don't bother us, if it's already deleted.
+        }
+
         $this->edgeCollection    = new Collection();
         $this->edgeCollection->setName('ArangoDBPHPTestSuiteTestEdgeCollection01');
         $this->edgeCollection->set('type', 3);
+
         $this->collection = new Collection();
         $this->collection->setName('ArangoDBPHPTestSuiteTestCollection01');
-
+        
         $this->collectionHandler->add($this->edgeCollection);
-
         $this->collectionHandler->add($this->collection);
     }
 
@@ -48,7 +61,6 @@ class EdgeBasicTest extends
         $this->collection        = new Collection();
         $this->collectionHandler = new CollectionHandler($this->connection);
         $document                = new Edge();
-        $this->assertInstanceOf('triagens\ArangoDb\Edge', $document);
         $this->assertInstanceOf('triagens\ArangoDb\Edge', $document);
         unset ($document);
     }

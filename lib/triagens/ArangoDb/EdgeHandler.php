@@ -363,7 +363,7 @@ class EdgeHandler extends
      *
      * @param mixed    $collectionId - collection id as string or number
      * @param mixed    $edgeId   - edge id as string or number
-     * @param Edge     $edge     - patch edge which contains the attributes and values to be updated
+     * @param Document $edge     - patch edge which contains the attributes and values to be updated
      * @param mixed    $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
      *                               <p>Options are :
      *                               <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
@@ -373,7 +373,7 @@ class EdgeHandler extends
      *
      * @return bool - always true, will throw if there is an error
      */
-    public function updateById($collectionId, $edgeId, Edge $edge, $options = array())
+    public function updateById($collectionId, $edgeId, Document $edge, $options = array())
     {
         return $this->patch(Urls::URL_EDGE, $collectionId, $edgeId, $edge, $options);
     }
