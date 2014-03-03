@@ -199,6 +199,76 @@ class CollectionBasicTest extends
         
         $this->assertEquals($e->getCode() , 501);
     }
+    
+    
+    /**
+     * Try to create a collection with number of shards
+     */
+    public function testCreateCollectionWithNumberOfShardsCluster()
+    {
+        if (! isCluster($this->connection)) {
+            // don't execute this test in a non-cluster
+            return;
+        }
+        
+        $connection        = $this->connection;
+        $collection        = new Collection();
+        $collectionHandler = new CollectionHandler($connection);
+   
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
+        $collection->setName($name);
+        $collection->setNumberOfShards(4);
+
+        $response = $collectionHandler->add($collection);
+
+        $resultingCollection = $collectionHandler->getProperties($response);
+        $properties          = $resultingCollection->getAll();
+
+        $this->assertEquals($properties[Collection::ENTRY_NUMBER_OF_SHARDS], 4, 'Number of shards does not match.');
+        $this->assertEquals($properties[Collection::ENTRY_SHARD_KEYS], array("_key"), 'Shard keys do not match.');
+    }
+   
+    
+    /**
+     * Try to create a collection with specified shard keys
+     */
+    public function testCreateCollectionWithShardKeysCluster()
+    {
+        if (! isCluster($this->connection)) {
+            // don't execute this test in a non-cluster
+            return;
+        }
+        
+        $connection        = $this->connection;
+        $collection        = new Collection();
+        $collectionHandler = new CollectionHandler($connection);
+   
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
+        $collection->setName($name);
+        $collection->setShardKeys(array("_key", "a", "b"));
+
+        $response = $collectionHandler->add($collection);
+
+        $resultingCollection = $collectionHandler->getProperties($response);
+        $properties          = $resultingCollection->getAll();
+
+        $this->assertEquals($properties[Collection::ENTRY_NUMBER_OF_SHARDS], 1, 'Number of shards does not match.');
+        $this->assertEquals($properties[Collection::ENTRY_SHARD_KEYS], array("_key", "a", "b"), 'Shard keys do not match.');
+    }
 
 
     /**

@@ -386,11 +386,13 @@ class CollectionHandler extends
      * @param mixed $collection - collection object to be created on the server or a string with the name
      * @param array $options    - an array of options.
      *                          <p>Options are :<br>
-     *                          <li>'type' - 2 -> normal collection, 3 -> edge-collection</li>
-     *                          <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
-     *                          <li>'journalSize' -  journalSize value.</li>
-     *                          <li>'isSystem'    -  false->user collection(default), true->system collection .</li>
-     *                          <li>'isVolatile'  -  false->persistent collection(default), true->volatile (in-memory) collection .</li>
+     *                          <li>'type'            - 2 -> normal collection, 3 -> edge-collection</li>
+     *                          <li>'waitForSync'     -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
+     *                          <li>'journalSize'     -  journalSize value.</li>
+     *                          <li>'isSystem'        -  false->user collection(default), true->system collection .</li>
+     *                          <li>'isVolatile'      -  false->persistent collection(default), true->volatile (in-memory) collection .</li>
+     *                          <li>'numberOfShards'  -  number of shards for the collection.</li>
+     *                          <li>'shardKeys'       -  list of shard key attributes.</li>
      *                          </p>
      *
      * @return mixed - id of collection created
@@ -431,6 +433,16 @@ class CollectionHandler extends
             Collection::ENTRY_IS_VOLATILE  => $collection->getIsVolatile(),
             Collection::ENTRY_KEY_OPTIONS  => $collection->getKeyOptions(),
         );
+
+        // set extra cluster attributes
+        if ($collection->getNumberOfShards() !== null) {
+            $params[Collection::ENTRY_NUMBER_OF_SHARDS] = $collection->getNumberOfShards();
+        }
+        
+        if (is_array($collection->getShardKeys())) {
+            $params[Collection::ENTRY_SHARD_KEYS] = $collection->getShardKeys();
+        }
+
         $response = $this->getConnection()->post(Urls::URL_COLLECTION, $this->json_encode_wrapper($params));
 
         //    $location = $response->getLocationHeader();
