@@ -161,6 +161,11 @@ class CollectionExtendedTest extends
      */
     public function testGetChecksum()
     {
+        if (isCluster($this->connection)) {
+            // don't execute this test in a cluster
+            return;
+        }
+
         $collectionHandler = $this->collectionHandler;
         $documentHandler   = $this->documentHandler;
 
@@ -262,6 +267,11 @@ class CollectionExtendedTest extends
      */
     public function testCreateRenameAndDeleteCollection()
     {
+        if (isCluster($this->connection)) {
+            // don't execute this test in a cluster
+            return;
+        }
+
         $collection        = $this->collection;
         $collectionHandler = $this->collectionHandler;
 
@@ -820,6 +830,11 @@ class CollectionExtendedTest extends
      */
     public function testImportFromFileUsingHeadersAndValues()
     {
+        if (isCluster($this->connection)) {
+            // don't execute this test in a cluster
+            return;
+        }
+
         $collectionHandler = $this->collectionHandler;
         $result            = $collectionHandler->importFromFile(
                                                'importCollection_01_arango_unittests',
@@ -866,6 +881,11 @@ class CollectionExtendedTest extends
      */
     public function testImportFromFileUsingDocumentsLineByLine()
     {
+        if (isCluster($this->connection)) {
+            // don't execute this test in a cluster
+            return;
+        }
+
         $collectionHandler = $this->collectionHandler;
         $result            = $collectionHandler->importFromFile(
                                                'importCollection_01_arango_unittests',
@@ -911,6 +931,11 @@ class CollectionExtendedTest extends
      */
     public function testImportFromFileUsingResultSet()
     {
+        if (isCluster($this->connection)) {
+            // don't execute this test in a cluster
+            return;
+        }
+
         $collectionHandler = $this->collectionHandler;
         $result            = $collectionHandler->importFromFile(
                                                'importCollection_01_arango_unittests',
@@ -961,6 +986,11 @@ class CollectionExtendedTest extends
      */
     public function testImportFromArrayOfDocuments()
     {
+        if (isCluster($this->connection)) {
+            // don't execute this test in a cluster
+            return;
+        }
+
         $collectionHandler = $this->collectionHandler;
 
         $document1 = Document::createFromArray(
@@ -1028,6 +1058,11 @@ class CollectionExtendedTest extends
      */
     public function testImportFromStringWithValuesAndHeaders()
     {
+        if (isCluster($this->connection)) {
+            // don't execute this test in a cluster
+            return;
+        }
+
         $collectionHandler = $this->collectionHandler;
 
         $data = '[ "firstName", "lastName", "age", "gender", "_key"]
@@ -1079,6 +1114,11 @@ class CollectionExtendedTest extends
      */
     public function testImportFromStringUsingDocumentsLineByLine()
     {
+        if (isCluster($this->connection)) {
+            // don't execute this test in a cluster
+            return;
+        }
+
         $collectionHandler = $this->collectionHandler;
 
         $data = '{ "firstName" : "Joe", "lastName" : "Public", "age" : 42, "gender" : "male", "_key" : "test1"}
@@ -1129,6 +1169,11 @@ class CollectionExtendedTest extends
      */
     public function testImportFromStringUsingDocumentsUsingResultset()
     {
+        if (isCluster($this->connection)) {
+            // don't execute this test in a cluster
+            return;
+        }
+
         $collectionHandler = $this->collectionHandler;
 
         $data = '[{ "firstName" : "Joe", "lastName" : "Public", "age" : 42, "gender" : "male", "_key" : "test1"},
@@ -2144,6 +2189,11 @@ class CollectionExtendedTest extends
     {
         try {
             $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+        } catch (\Exception $e) {
+            // don't bother us, if it's already deleted.
+        }
+        try {
+            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_02');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }

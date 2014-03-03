@@ -29,7 +29,7 @@ class Connection
      *
      * @var string
      */
-    public static $_apiVersion = 10400;
+    public static $_apiVersion = 20000;
 
     /**
      * Connection options
@@ -447,7 +447,6 @@ class Connection
          return self::$_apiVersion;
     }
 
-
     /**
      * Stop capturing commands
      *
@@ -517,7 +516,6 @@ class Connection
      */
     public function isInBatchCaptureMode()
     {
-
         return $this->_captureBatch;
     }
 

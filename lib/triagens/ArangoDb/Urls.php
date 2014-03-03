@@ -164,10 +164,17 @@ abstract class Urls
      * base URL part for admin version
      */
     const URL_ADMIN_VERSION = '/_admin/version';
+    
+    /**
+     * base URL part for server role
+     */
+    const URL_ADMIN_SERVER_ROLE = '/_admin/server/role';
+
     /**
      * base URL part for admin time
      */
     const URL_ADMIN_TIME = '/_admin/time';
+
     /**
      * base URL part for admin log
      */

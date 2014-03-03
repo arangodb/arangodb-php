@@ -14,6 +14,24 @@ require dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '
 
 /* set up a trace function that will be called for each communication with the server */
 
+function isCluster(Connection $connection)
+{
+    static $isCluster = null;
+
+    if ($isCluster === null) {
+        $adminHandler = new AdminHandler($connection);
+        try {
+            $role = $adminHandler->getServerRole();
+            $isCluster = ($role === 'COORDINATOR' || $role === 'DBSERVER');
+        }
+        catch (\Exception $e) {
+            // maybe server version is too "old"
+            $isCluster = false;
+        }
+    }
+
+    return $isCluster;
+}
 
 function getConnectionOptions()
 {

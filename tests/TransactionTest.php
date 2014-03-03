@@ -326,6 +326,11 @@ class TransactionTest extends
      */
     public function testCreateAndExecuteTransactionWithTransactionErrorUniqueConstraintOnSave()
     {
+        if (isCluster($this->connection)) {
+            // don't execute this test in a cluster
+            return;
+        }
+
         $writeCollections = array($this->collection1->getName());
         $readCollections  = array($this->collection2->getName());
         $action           = '

@@ -113,10 +113,15 @@ class CollectionBasicTest extends
      */
     public function testCreateCollectionWithKeyOptionsAndVerifyProperties()
     {
+        if (isCluster($this->connection)) {
+            // don't execute this test in a cluster
+            return;
+        }
+        
         $connection        = $this->connection;
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
-        
+   
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
         
         try {
@@ -156,6 +161,43 @@ class CollectionBasicTest extends
              'Key options offset does not match'
         );
         $collectionHandler->delete($collection);
+    }
+    
+
+    /**
+     * Try to create a collection with keyOptions and then retrieve it to confirm.
+     */
+    public function testCreateCollectionWithKeyOptionsCluster()
+    {
+        if (! isCluster($this->connection)) {
+            // don't execute this test in a non-cluster
+            return;
+        }
+        
+        $connection        = $this->connection;
+        $collection        = new Collection();
+        $collectionHandler = new CollectionHandler($connection);
+   
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
+        $collection->setName($name);
+        $collection->setKeyOptions(
+                   array("type" => "autoincrement", "allowUserKeys" => false, "increment" => 5, "offset" => 10)
+        );
+
+        try {
+            $response = $collectionHandler->add($collection);
+        }
+        catch (\Exception $e) {
+        }
+        
+        $this->assertEquals($e->getCode() , 501);
     }
 
 
@@ -418,7 +460,12 @@ class CollectionBasicTest extends
              $indexInfo[CollectionHandler::OPTION_CONSTRAINT],
              'constraint was not set to false!'
         );
-        $this->assertArrayNotHasKey(CollectionHandler::OPTION_IGNORE_NULL, $indexInfo, 'ignoreNull was set!');
+
+        if (! array_key_exists(CollectionHandler::OPTION_IGNORE_NULL, $indexInfo)) {
+            // downwards-compatibility
+            $indexInfo[CollectionHandler::OPTION_IGNORE_NULL] = false;
+        }
+        $this->assertEquals(false, $indexInfo[CollectionHandler::OPTION_IGNORE_NULL], 'ignoreNull was not false!');
     }
 
 

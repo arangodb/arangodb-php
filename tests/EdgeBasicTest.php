@@ -292,7 +292,6 @@ class EdgeBasicTest extends
             $edgeDocument
         );
 
-
         /**
          * lets get the edge in a wrong revision
          */
@@ -303,7 +302,7 @@ class EdgeBasicTest extends
         $this->assertEquals($exception412->getCode() , 412);
 
         try {
-            $edgeHandler->get($edgeCollection->getId(), $edgeId, array("ifMatch" => false, "revision" => $edgeId));
+            $edgeHandler->get($edgeCollection->getId(), $edgeId, array("ifMatch" => false, "revision" => $edgeDocument->getRevision()));
         } catch (\Exception $exception304) {
         }
         $this->assertEquals($exception304->getMessage() , 'Document has not changed.');
@@ -373,13 +372,13 @@ class EdgeBasicTest extends
         $this->assertEquals($e404->getCode() , 404);
 
 
-        $result304 = $edgeHandler->getHead($edgeCollection->getId(), $edgeId, $edgeId , false);
-        $this->assertEquals($result304["etag"] , '"' .strval($edgeId).'"');
+        $result304 = $edgeHandler->getHead($edgeCollection->getId(), $edgeId, $edgeDocument->getRevision() , false);
+        $this->assertEquals($result304["etag"] , '"' .$edgeDocument->getRevision().'"');
         $this->assertEquals($result304["content-length"] , 0);
         $this->assertEquals($result304["httpCode"] , 304);
 
-        $result200 = $edgeHandler->getHead($edgeCollection->getId(), $edgeId, $edgeId , true);
-        $this->assertEquals($result200["etag"] , '"' .strval($edgeId).'"');
+        $result200 = $edgeHandler->getHead($edgeCollection->getId(), $edgeId, $edgeDocument->getRevision() , true);
+        $this->assertEquals($result200["etag"] , '"' .$edgeDocument->getRevision().'"');
         $this->assertNotEquals($result200["content-length"] , 0);
         $this->assertEquals($result200["httpCode"] , 200);
         $documentHandler->delete($document1);

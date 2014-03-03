@@ -59,6 +59,25 @@ class AdminHandler extends
             return $data['version'];
         }
     }
+    
+    /**
+     * Get the server role
+     *
+     * This will throw if the role cannot be retrieved
+     *
+     * @throws Exception
+     *
+     * @return string - a string holding the server role (e.g. UNDEFINED, COORDINATOR, DBSERVER)
+     * @since 2.0
+     */
+    public function getServerRole()
+    {
+        $url = Urls::URL_ADMIN_SERVER_ROLE;
+        $response = $this->getConnection()->get($url);
+        $data     = $response->getJson();
+
+        return $data['role'];
+    }
 
 
     /**

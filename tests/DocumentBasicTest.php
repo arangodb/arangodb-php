@@ -144,6 +144,8 @@ class DocumentBasicTest extends
 
         $documentId = $documentHandler->save($collection->getId(), $documentArray);
 
+        $document = $documentHandler->get($collection->getId(), $documentId);
+
         /**
          * lets get the document in a wrong revision
          */
@@ -154,7 +156,7 @@ class DocumentBasicTest extends
         $this->assertEquals($exception412->getCode() , 412);
 
         try {
-            $result304 = $documentHandler->get($collection->getId(), $documentId, array("ifMatch" => false, "revision" => $documentId));
+            $result304 = $documentHandler->get($collection->getId(), $documentId, array("ifMatch" => false, "revision" => $document->getRevision()));
         } catch (\Exception $exception304) {
         }
         $this->assertEquals($exception304->getMessage() , 'Document has not changed.');
@@ -189,6 +191,7 @@ class DocumentBasicTest extends
         $documentArray = array('someAttribute' => 'someValue');
 
         $documentId = $documentHandler->save($collection->getId(), $documentArray);
+        $document = $documentHandler->get($collection->getId(), $documentId);
 
         try {
             $documentHandler->getHead($collection->getId(), $documentId, "12345", true);
@@ -205,13 +208,13 @@ class DocumentBasicTest extends
         $this->assertEquals($e404->getCode() , 404);
 
 
-        $result304 = $documentHandler->getHead($collection->getId(), $documentId, $documentId , false);
-        $this->assertEquals($result304["etag"] , '"' .strval($documentId).'"');
+        $result304 = $documentHandler->getHead($collection->getId(), $documentId, $document->getRevision(), false);
+        $this->assertEquals($result304["etag"] , '"' .$document->getRevision().'"');
         $this->assertEquals($result304["content-length"] , 0);
         $this->assertEquals($result304["httpCode"] , 304);
 
-        $result200 = $documentHandler->getHead($collection->getId(), $documentId, $documentId , true);
-        $this->assertEquals($result200["etag"] , '"' .strval($documentId).'"');
+        $result200 = $documentHandler->getHead($collection->getId(), $documentId, $document->getRevision() , true);
+        $this->assertEquals($result200["etag"] , '"' .$document->getRevision().'"');
         $this->assertNotEquals($result200["content-length"] , 0);
         $this->assertEquals($result200["httpCode"] , 200);
 
