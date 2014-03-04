@@ -63,9 +63,9 @@ The client library provides document and collection classes you can use to work 
 <a name="requirements"/a>
 # Requirements
 
-* ArangoDB database server version 1.3 (detailed info [here](https://github.com/triAGENS/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix))
+* ArangoDB database server version 1.3 or higher (detailed info [here](https://github.com/triAGENS/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix))
 
-* PHP version 5.3 or higher (Travis-tested with 5.4 and 5.5)
+* PHP version 5.3 or higher (Travis-tested with 5.4, 5.5, 5.6 and hhvm)
 
 <br>
 
