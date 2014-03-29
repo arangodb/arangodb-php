@@ -216,11 +216,11 @@ In order to use ArangoDB, you need to specify the connection options. We do so b
         // authorization type to use (currently supported: 'Basic')
         ArangoConnectionOptions::OPTION_AUTH_TYPE => 'Basic',
         // user for basic authorization
-        ArangoConnectionOptions::OPTION_AUTH_USER => 'root',     
+        ArangoConnectionOptions::OPTION_AUTH_USER => 'root',
         // password for basic authorization
-        ArangoConnectionOptions::OPTION_AUTH_PASSWD => '', 
+        ArangoConnectionOptions::OPTION_AUTH_PASSWD => '',
         // connection persistence on server. can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
-        ArangoConnectionOptions::OPTION_CONNECTION => 'Close',  
+        ArangoConnectionOptions::OPTION_CONNECTION => 'Close',
         // connect timeout in seconds
         ArangoConnectionOptions::OPTION_TIMEOUT => 3,
         // whether or not to reconnect when a keep-alive connection has timed out on server
@@ -263,13 +263,17 @@ The below code will first set up the collection locally in a variable name $user
 
     $collectionHandler = new CollectionHandler($connection);
 
-    // create a new document
+    // create a new collection
     $userCollection = new ArangoCollection();
     $userCollection->setName('user');
     $id = $collectionHandler->add($userCollection);
 
     // print the collection id created by the server
     var_dump($id);
+
+    // check if the collection exists
+    $result = $collectionHandler->has('user');
+    var_dump($result);
 
 
 <a name="creating_document"/a>
@@ -297,6 +301,10 @@ The below code will first set up the document locally in a variable name $user, 
 
     // print the document id created by the server
     var_dump($id);
+
+    // check if a document exists
+    $result = $handler->has("users", $id);
+    var_dump($result);
 
 
 
@@ -484,11 +492,11 @@ Here's the full code that combines all the pieces outlined above:
         // authorization type to use (currently supported: 'Basic')
         ArangoConnectionOptions::OPTION_AUTH_TYPE => 'Basic',
         // user for basic authorization
-        ArangoConnectionOptions::OPTION_AUTH_USER => 'root',     
+        ArangoConnectionOptions::OPTION_AUTH_USER => 'root',
         // password for basic authorization
-        ArangoConnectionOptions::OPTION_AUTH_PASSWD => '', 
+        ArangoConnectionOptions::OPTION_AUTH_PASSWD => '',
         // connection persistence on server. can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
-        ArangoConnectionOptions::OPTION_CONNECTION => 'Close',  
+        ArangoConnectionOptions::OPTION_CONNECTION => 'Close',
         // connect timeout in seconds
         ArangoConnectionOptions::OPTION_TIMEOUT => 3,
         // optionally create new collections when inserting documents

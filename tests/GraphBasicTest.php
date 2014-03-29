@@ -92,6 +92,25 @@ class GraphBasicTest extends
         $this->assertTrue($result, 'Did not return true!');
     }
 
+    /**
+     * Test if a graph can be created and then destroyed by giving an instance of Graph
+     */
+    public function testGetPropertiesAndDeleteGraphByInstance()
+    {
+        $this->graph = new Graph('Graph4');
+        $this->graph->setVerticesCollection('ArangoDBPHPTestSuiteTestCollection04');
+        $this->graph->setEdgesCollection('ArangoDBPHPTestSuiteTestEdgeCollection04');
+        $this->graphHandler = new GraphHandler($this->connection);
+
+        $result = $this->graphHandler->createGraph($this->graph);
+        $this->assertTrue($result['_key'] == 'Graph4', 'Did not return Graph4!');
+
+        $properties = $this->graphHandler->properties($this->graph);
+        $this->assertTrue($properties['_key'] == 'Graph4', 'Did not return Graph4!');
+
+        $result = $this->graphHandler->dropGraph($this->graph);
+        $this->assertTrue($result, 'Did not return true!');
+    }
 
     public function tearDown()
     {
@@ -106,6 +125,10 @@ class GraphBasicTest extends
         }
         try {
             $this->graphHandler->dropGraph('Graph3');
+        } catch (Exception $e) {
+        }
+        try {
+            $this->graphHandler->dropGraph('Graph4');
         } catch (Exception $e) {
         }
         unset($this->graph);

@@ -128,13 +128,17 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param string $graph - graph name as a string
+     * @param mixed $graph - graph name as a string or instance of Graph
      *
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
     public function dropGraph($graph)
     {
+        if ($graph instanceof Graph) {
+            $graph = $graph->getKey();
+        }
+
         $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph));
         $this->getConnection()->delete($url);
 
@@ -147,13 +151,17 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param string $graph - graph name as a string
+     * @param mixed $graph - graph name as a string or instance of Graph
      *
      * @return bool - Returns an array of attributes. Will throw if there is an error
      * @since 1.2
      */
     public function properties($graph)
     {
+        if ($graph instanceof Graph) {
+            $graph = $graph->getKey();
+        }
+
         $url         = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph));
         $result      = $this->getConnection()->get($url);
         $resultArray = $result->getJson();
@@ -171,19 +179,23 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $graphName - the name of the graph
+     * @param mixed $graph - graph name as a string or instance of Graph
      * @param mixed $document  - the vertex to be added, can be passed as a vertex object or an array
      *
      * @return mixed - id of vertex created
      * @since 1.2
      */
-    public function saveVertex($graphName, $document)
+    public function saveVertex($graph, $document)
     {
+        if ($graph instanceof Graph) {
+            $graph = $graph->getKey();
+        }
+
         if (is_array($document)) {
             $document = Vertex::createFromArray($document);
         }
         $data = $document->getAll();
-        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_VERTEX));
+        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX));
 
         $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
 
@@ -212,9 +224,9 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param string $graphName - the graph name as a string
-     * @param mixed  $vertexId  - the vertex identifier
-     * @param array  $options   - optional, an array of options
+     * @param mixed $graph - graph name as a string or instance of Graph
+     * @param mixed $vertexId  - the vertex identifier
+     * @param array $options   - optional, an array of options
      *                          <p>Options are :
      *                          <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
      *                          <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
@@ -225,9 +237,13 @@ class GraphHandler extends
      * @return Document - the vertex document fetched from the server
      * @since 1.2
      */
-    public function getVertex($graphName, $vertexId, array $options = array())
+    public function getVertex($graph, $vertexId, array $options = array())
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_VERTEX, $vertexId));
+        if ($graph instanceof Graph) {
+            $graph = $graph->getKey();
+        }
+
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX, $vertexId));
         $response = $this->getConnection()->get($url);
 
         $jsonArray = $response->getJson();
@@ -236,6 +252,38 @@ class GraphHandler extends
         $options['_isNew'] = false;
 
         return Vertex::createFromArray($vertex, $options);
+    }
+
+
+    /**
+     * Check if a vertex exists
+     *
+     * This will call self::getVertex() internally and checks if there
+     * was an exception thrown which represents an 404 request.
+     *
+     * @throws Exception When any other error than a 404 occurs
+     *
+     * @param mixed $graph - graph name as a string or instance of Graph
+     * @param mixed $vertexId  - the vertex identifier
+     * @return boolean
+     */
+    public function hasVertex($graph, $vertexId)
+    {
+        try {
+            // will throw ServerException if entry could not be retrieved
+            $result = $this->getVertex($graph, $vertexId);
+            return true;
+        } catch (ServerException $e) {
+            // we are expecting a 404 to return boolean false
+            if (strpos($e->getMessage(), '404') !== false) {
+                return false;
+            }
+
+            // just rethrow
+            throw $e;
+        }
+
+        return false;
     }
 
 
@@ -252,7 +300,7 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param string   $graphName - the graph name as string
+     * @param mixed    $graph     - graph name as a string or instance of Graph
      * @param mixed    $vertexId  - the vertex id as string or number
      * @param Document $document  - the vertex-document to be updated
      * @param mixed    $options   - optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
@@ -266,8 +314,12 @@ class GraphHandler extends
      *
      * @since 1.2
      */
-    public function replaceVertex($graphName, $vertexId, Document $document, $options = array())
+    public function replaceVertex($graph, $vertexId, Document $document, $options = array())
     {
+        if ($graph instanceof Graph) {
+            $graph = $graph->getKey();
+        }
+
         $options = array_merge(array(self::OPTION_REVISION => false), $options);
 
         // This preserves compatibility for the old policy parameter.
@@ -298,7 +350,7 @@ class GraphHandler extends
         }
 
         $data = $document->getAll();
-        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_VERTEX, $vertexId));
+        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX, $vertexId));
         $url  = UrlHelper::appendParamsUrl($url, $params);
 
         $response = $this->getConnection()->PUT($url, $this->json_encode_wrapper($data));
@@ -332,7 +384,7 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param string   $graphName - the graph name as string
+     * @param mixed    $graph     - graph name as a string or instance of Graph
      * @param mixed    $vertexId  - the vertex id as string or number
      * @param Document $document  - the patch vertex-document which contains the attributes and values to be updated
      * @param mixed    $options   - optional, an array of options (see below)
@@ -345,8 +397,12 @@ class GraphHandler extends
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function updateVertex($graphName, $vertexId, Document $document, $options = array())
+    public function updateVertex($graph, $vertexId, Document $document, $options = array())
     {
+        if ($graph instanceof Graph) {
+            $graph = $graph->getKey();
+        }
+
         $options = array_merge(array(self::OPTION_REVISION => false), $options);
 
         // This preserves compatibility for the old policy parameter.
@@ -377,7 +433,7 @@ class GraphHandler extends
             $params[ConnectionOptions::OPTION_REVISION] = $options[self::OPTION_REVISION];
         }
 
-        $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_VERTEX, $vertexId));
+        $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX, $vertexId));
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAll()));
         $json   = $result->getJson();
@@ -393,9 +449,9 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed  $graphName - the graph name as string
+     * @param mixed  $graph     - graph name as a string or instance of Graph
      * @param mixed  $vertexId  - the vertex id as string or number
-     * @param  mixed $revision  - optional, the revision of the vertex to be deleted
+     * @param mixed  $revision  - optional, the revision of the vertex to be deleted
      * @param mixed  $options   - optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
      *                          <p>Options are :
      *                          <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
@@ -405,8 +461,12 @@ class GraphHandler extends
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function removeVertex($graphName, $vertexId, $revision = null, $options = array())
+    public function removeVertex($graph, $vertexId, $revision = null, $options = array())
     {
+        if ($graph instanceof Graph) {
+            $graph = $graph->getKey();
+        }
+
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
@@ -427,7 +487,7 @@ class GraphHandler extends
             $params[ConnectionOptions::OPTION_REVISION] = $revision;
         }
 
-        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_VERTEX, $vertexId));
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX, $vertexId));
         $url = UrlHelper::appendParamsUrl($url, $params);
         $this->getConnection()->delete($url);
 
@@ -444,7 +504,7 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $graphName - the graph name as string
+     * @param mixed $graph     - graph name as a string or instance of Graph
      * @param mixed $from      - the 'from' vertex
      * @param mixed $to        - the 'to' vertex
      * @param mixed $label     - (optional) a label for the edge
@@ -453,8 +513,12 @@ class GraphHandler extends
      * @return mixed - id of edge created
      * @since 1.2
      */
-    public function saveEdge($graphName, $from, $to, $label = null, $document)
+    public function saveEdge($graph, $from, $to, $label = null, $document)
     {
+        if ($graph instanceof Graph) {
+            $graph = $graph->getKey();
+        }
+
         if (is_array($document)) {
             $document = Edge::createFromArray($document);
         }
@@ -467,7 +531,7 @@ class GraphHandler extends
         $data[self::KEY_FROM] = $from;
         $data[self::KEY_TO]   = $to;
 
-        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_EDGE));
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE));
         $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
 
         $jsonArray = $response->getJson();
@@ -495,7 +559,7 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $graphName - collection id as a string or number
+     * @param mixed $graph     - graph name as a string or instance of Graph
      * @param mixed $edgeId    - edge identifier
      * @param array $options   - optional, array of options
      *                         <p>Options are :
@@ -508,9 +572,13 @@ class GraphHandler extends
      * @return Document - the edge document fetched from the server
      * @since 1.2
      */
-    public function getEdge($graphName, $edgeId, array $options = array())
+    public function getEdge($graph, $edgeId, array $options = array())
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_EDGE, $edgeId));
+        if ($graph instanceof Graph) {
+            $graph = $graph->getKey();
+        }
+
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $edgeId));
         $response = $this->getConnection()->get($url);
 
         $jsonArray = $response->getJson();
@@ -519,6 +587,38 @@ class GraphHandler extends
         $options['_isNew'] = false;
 
         return Edge::createFromArray($edge, $options);
+    }
+
+
+    /**
+     * Check if an edge exists
+     *
+     * This will call self::getEdge() internally and checks if there
+     * was an exception thrown which represents an 404 request.
+     *
+     * @throws Exception When any other error than a 404 occurs
+     *
+     * @param mixed $graph - graph name as a string or instance of Graph
+     * @param mixed $edgeId  - the vertex identifier
+     * @return boolean
+     */
+    public function hasEdge($graph, $edgeId)
+    {
+        try {
+            // will throw ServerException if entry could not be retrieved
+            $result = $this->getEdge($graph, $edgeId);
+            return true;
+        } catch (ServerException $e) {
+            // we are expecting a 404 to return boolean false
+            if (strpos($e->getMessage(), '404') !== false) {
+                return false;
+            }
+
+            // just rethrow
+            throw $e;
+        }
+
+        return false;
     }
 
 
@@ -535,7 +635,7 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $graphName - graph name as string or number
+     * @param mixed $graph     - graph name as a string or instance of Graph
      * @param mixed $edgeId    - edge id as string or number
      * @param mixed $label     - label for the edge or ''
      * @param Edge  $document  - edge document to be updated
@@ -549,8 +649,12 @@ class GraphHandler extends
      *
      * @since 1.2
      */
-    public function replaceEdge($graphName, $edgeId, $label, Edge $document, $options = array())
+    public function replaceEdge($graph, $edgeId, $label, Edge $document, $options = array())
     {
+        if ($graph instanceof Graph) {
+            $graph = $graph->getKey();
+        }
+
         $options = array_merge(array(self::OPTION_REVISION => false), $options);
 
         // This preserves compatibility for the old policy parameter.
@@ -585,7 +689,7 @@ class GraphHandler extends
             $document->set('$label', $label);
         }
 
-        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_EDGE, $edgeId));
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $edgeId));
         $url = UrlHelper::appendParamsUrl($url, $params);
 
         $response = $this->getConnection()->PUT($url, $this->json_encode_wrapper($data));
@@ -619,7 +723,7 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param string $graphName - graph name as string
+     * @param mixed  $graph     - graph name as a string or instance of Graph
      * @param mixed  $edgeId    - edge id as string or number
      * @param mixed  $label     - label for the edge or ''
      * @param Edge   $document  - patch edge-document which contains the attributes and values to be updated
@@ -633,8 +737,12 @@ class GraphHandler extends
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function updateEdge($graphName, $edgeId, $label, Edge $document, $options = array())
+    public function updateEdge($graph, $edgeId, $label, Edge $document, $options = array())
     {
+        if ($graph instanceof Graph) {
+            $graph = $graph->getKey();
+        }
+
         $options = array_merge(array(self::OPTION_REVISION => false), $options);
 
         // This preserves compatibility for the old policy parameter.
@@ -670,7 +778,7 @@ class GraphHandler extends
             $document->set('$label', $label);
         }
 
-        $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_EDGE, $edgeId));
+        $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $edgeId));
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAll()));
         $json   = $result->getJson();
@@ -686,9 +794,9 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed  $graphName - graph name as string or number
+     * @param mixed  $graph     - graph name as a string or instance of Graph
      * @param mixed  $edgeId    - edge id as string or number
-     * @param  mixed $revision  - optional revision of the edge to be deleted
+     * @param mixed  $revision  - optional revision of the edge to be deleted
      * @param mixed  $options   - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
      *                          <p>Options are :
      *                          <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
@@ -698,8 +806,12 @@ class GraphHandler extends
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function removeEdge($graphName, $edgeId, $revision = null, $options = array())
+    public function removeEdge($graph, $edgeId, $revision = null, $options = array())
     {
+        if ($graph instanceof Graph) {
+            $graph = $graph->getKey();
+        }
+
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
@@ -719,7 +831,7 @@ class GraphHandler extends
             $params[ConnectionOptions::OPTION_REVISION] = $revision;
         }
 
-        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_EDGE, $edgeId));
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $edgeId));
         $url = UrlHelper::appendParamsUrl($url, $params);
         $this->getConnection()->delete($url);
 
@@ -735,7 +847,7 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $graphName    - the name of the graph
+     * @param mixed      $graph        - graph name as a string or instance of Graph
      * @param mixed      $vertexId     - the vertex id
      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
      *                                 <p>Options are :<br>
@@ -767,12 +879,16 @@ class GraphHandler extends
      *
      * @return cursor - Returns a cursor containing the result
      */
-    public function getNeighborVertices($graphName, $vertexId, $options = array())
+    public function getNeighborVertices($graph, $vertexId, $options = array())
     {
+        if ($graph instanceof Graph) {
+            $graph = $graph->getKey();
+        }
+
         $options['objectType'] = 'vertex';
         $data                  = array_merge($options, $this->getCursorOptions($options));
 
-        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_VERTICES, $vertexId));
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTICES, $vertexId));
         $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
 
         return new Cursor($this->getConnection(), $response->getJson(), $options);
@@ -787,7 +903,7 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $graphName    - the name of the graph
+     * @param mixed      $graph        - graph name as a string or instance of Graph
      * @param mixed      $vertexId     - the vertex id
      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
      *                                 <p>Options are :<br>
@@ -819,12 +935,16 @@ class GraphHandler extends
      *
      * @return cursor - Returns a cursor containing the result
      */
-    public function getConnectedEdges($graphName, $vertexId, $options = array())
+    public function getConnectedEdges($graph, $vertexId, $options = array())
     {
+        if ($graph instanceof Graph) {
+            $graph = $graph->getKey();
+        }
+
         $options['objectType'] = 'edge';
         $data                  = array_merge($options, $this->getCursorOptions($options));
 
-        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_EDGES, $vertexId));
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGES, $vertexId));
         $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
 
         return new Cursor($this->getConnection(), $response->getJson(), $options);
@@ -838,7 +958,7 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $graphName    - the name of the graph
+     * @param mixed      $graph        - graph name as a string or instance of Graph
      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
      *                                 <p>Options are :<br>
      *                                 <li>'batchSize' - the batch size of the returned cursor</li>
@@ -867,12 +987,16 @@ class GraphHandler extends
      *
      * @return cursor - Returns a cursor containing the result
      */
-    public function getVertices($graphName, $options = array())
+    public function getVertices($graph, $options = array())
     {
+        if ($graph instanceof Graph) {
+            $graph = $graph->getKey();
+        }
+
         $options['objectType'] = 'vertex';
         $data                  = array_merge($options, $this->getCursorOptions($options));
 
-        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_VERTICES));
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTICES));
         $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
 
         return new Cursor($this->getConnection(), $response->getJson(), $options);
@@ -887,7 +1011,7 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $graphName    - the name of the graph
+     * @param mixed      $graph        - graph name as a string or instance of Graph
      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
      *                                 <p>Options are :<br>
      *                                 <li>'batchSize' - the batch size of the returned cursor</li>
@@ -917,12 +1041,16 @@ class GraphHandler extends
      *
      * @return cursor - Returns a cursor containing the result
      */
-    public function getEdges($graphName, $options = array())
+    public function getEdges($graph, $options = array())
     {
+        if ($graph instanceof Graph) {
+            $graph = $graph->getKey();
+        }
+
         $options['objectType'] = 'edge';
         $data                  = array_merge($options, $this->getCursorOptions($options));
 
-        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graphName, Urls::URLPART_EDGES));
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGES));
         $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
 
         return new Cursor($this->getConnection(), $response->getJson(), $options);
