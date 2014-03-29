@@ -256,6 +256,38 @@ class GraphHandler extends
 
 
     /**
+     * Check if a vertex exists
+     *
+     * This will call self::getVertex() internally and checks if there
+     * was an exception thrown which represents an 404 request.
+     *
+     * @throws Exception When any other error than a 404 occurs
+     *
+     * @param mixed $graph - graph name as a string or instance of Graph
+     * @param mixed $vertexId  - the vertex identifier
+     * @return boolean
+     */
+    public function hasVertex($graph, $vertexId)
+    {
+        try {
+            // will throw ServerException if entry could not be retrieved
+            $result = $this->getVertex($graph, $vertexId);
+            return true;
+        } catch (ServerException $e) {
+            // we are expecting a 404 to return boolean false
+            if (strpos($e->getMessage(), '404') !== false) {
+                return false;
+            }
+
+            // just rethrow
+            throw $e;
+        }
+
+        return false;
+    }
+
+
+    /**
      * Replace an existing vertex in a graph, identified graph name and vertex id
      *
      * This will update the vertex on the server
@@ -555,6 +587,38 @@ class GraphHandler extends
         $options['_isNew'] = false;
 
         return Edge::createFromArray($edge, $options);
+    }
+
+
+    /**
+     * Check if an edge exists
+     *
+     * This will call self::getEdge() internally and checks if there
+     * was an exception thrown which represents an 404 request.
+     *
+     * @throws Exception When any other error than a 404 occurs
+     *
+     * @param mixed $graph - graph name as a string or instance of Graph
+     * @param mixed $edgeId  - the vertex identifier
+     * @return boolean
+     */
+    public function hasEdge($graph, $edgeId)
+    {
+        try {
+            // will throw ServerException if entry could not be retrieved
+            $result = $this->getEdge($graph, $edgeId);
+            return true;
+        } catch (ServerException $e) {
+            // we are expecting a 404 to return boolean false
+            if (strpos($e->getMessage(), '404') !== false) {
+                return false;
+            }
+
+            // just rethrow
+            throw $e;
+        }
+
+        return false;
     }
 
 
