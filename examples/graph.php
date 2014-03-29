@@ -42,8 +42,14 @@ try {
     $getResult1 = $graphHandler->getVertex('Graph', 'vertex1');
     $getResult2 = $graphHandler->getVertex('Graph', 'vertex2');
 
+    // check if vertex exists
+    var_dump($graphHandler->hasVertex('Graph', 'vertex1'));
+
     // Save the connecting edge
     $saveEdgeResult1 = $graphHandler->saveEdge('Graph', 'vertex1', 'vertex2', 'somelabelValue', $edge1);
+
+    // check if edge exists
+    var_dump($graphHandler->hasEdge('Graph', 'edge1'));
 
     // Get the connecting edge
     $getEdgeResult1 = $graphHandler->getEdge('Graph', 'edge1');

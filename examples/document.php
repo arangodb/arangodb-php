@@ -50,6 +50,10 @@ try {
     // delete the document
     $result = $handler->deleteById("users", $id);
     var_dump($result);
+
+    // check if a document exists
+    $result = $handler->has("users", "foobar123");
+    var_dump($result);
 } catch (ConnectException $e) {
     print $e . PHP_EOL;
 } catch (ServerException $e) {

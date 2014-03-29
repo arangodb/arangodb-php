@@ -81,9 +81,9 @@ class CollectionBasicTest extends
         $connection        = $this->connection;
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
-        
+
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
-        
+
         try {
             $collectionHandler->drop($name);
         } catch (Exception $e) {
@@ -117,13 +117,13 @@ class CollectionBasicTest extends
             // don't execute this test in a cluster
             return;
         }
-        
+
         $connection        = $this->connection;
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
-   
+
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
-        
+
         try {
             $collectionHandler->drop($name);
         } catch (Exception $e) {
@@ -162,7 +162,7 @@ class CollectionBasicTest extends
         );
         $collectionHandler->delete($collection);
     }
-    
+
 
     /**
      * Try to create a collection with keyOptions and then retrieve it to confirm.
@@ -173,13 +173,13 @@ class CollectionBasicTest extends
             // don't execute this test in a non-cluster
             return;
         }
-        
+
         $connection        = $this->connection;
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
-   
+
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
-        
+
         try {
             $collectionHandler->drop($name);
         } catch (Exception $e) {
@@ -196,11 +196,11 @@ class CollectionBasicTest extends
         }
         catch (\Exception $e) {
         }
-        
+
         $this->assertEquals($e->getCode() , 501);
     }
-    
-    
+
+
     /**
      * Try to create a collection with number of shards
      */
@@ -210,13 +210,13 @@ class CollectionBasicTest extends
             // don't execute this test in a non-cluster
             return;
         }
-        
+
         $connection        = $this->connection;
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
-   
+
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
-        
+
         try {
             $collectionHandler->drop($name);
         } catch (Exception $e) {
@@ -234,8 +234,8 @@ class CollectionBasicTest extends
         $this->assertEquals($properties[Collection::ENTRY_NUMBER_OF_SHARDS], 4, 'Number of shards does not match.');
         $this->assertEquals($properties[Collection::ENTRY_SHARD_KEYS], array("_key"), 'Shard keys do not match.');
     }
-   
-    
+
+
     /**
      * Try to create a collection with specified shard keys
      */
@@ -245,13 +245,13 @@ class CollectionBasicTest extends
             // don't execute this test in a non-cluster
             return;
         }
-        
+
         $connection        = $this->connection;
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
-   
+
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
-        
+
         try {
             $collectionHandler->drop($name);
         } catch (Exception $e) {
@@ -279,9 +279,9 @@ class CollectionBasicTest extends
         $connection        = $this->connection;
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
-        
+
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
-        
+
         try {
             $collectionHandler->drop($name);
         } catch (Exception $e) {
@@ -313,7 +313,7 @@ class CollectionBasicTest extends
         $connection        = $this->connection;
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
-        
+
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_02';
 
         try {
@@ -349,7 +349,7 @@ class CollectionBasicTest extends
         $collectionHandler = new CollectionHandler($connection);
 
         $name    = 'ArangoDB_PHP_TestSuite_TestCollection_02';
-        
+
         try {
             $collectionHandler->drop($name);
         } catch (Exception $e) {
@@ -382,7 +382,7 @@ class CollectionBasicTest extends
         $collectionHandler = new CollectionHandler($connection);
 
         $name    = 'ArangoDB_PHP_TestSuite_TestCollection_02';
-        
+
         try {
             $collectionHandler->drop($name);
         } catch (Exception $e) {
@@ -414,7 +414,7 @@ class CollectionBasicTest extends
         $collectionHandler = new CollectionHandler($connection);
 
         $name    = 'ArangoDB_PHP_TestSuite_TestCollection_02';
-        
+
         try {
             $collectionHandler->drop($name);
         } catch (Exception $e) {
@@ -657,6 +657,15 @@ class CollectionBasicTest extends
         $this->assertEquals(100, $indexInfo[CollectionHandler::OPTION_MIN_LENGTH], 'Min length does not match!');
     }
 
+    public function testHasCollectionReturnsFalseIfCollectionDoesNotExist()
+    {
+        $this->assertFalse($this->collectionHandler->has('just_a_stupid_collection_id_which_does_not_exist'));
+    }
+
+    public function testHasCollectionReturnsTrueIfCollectionExists()
+    {
+        $this->assertTrue($this->collectionHandler->has('ArangoDB_PHP_TestSuite_IndexTestCollection'));
+    }
 
     public function tearDown()
     {
