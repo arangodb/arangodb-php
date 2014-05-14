@@ -3,13 +3,13 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
-VERSION=devel-nightly
+VERSION=2.1.0-rc1
 NAME=ArangoDB-$VERSION
 
 if [ ! -d "$DIR/$NAME" ]; then
   # download ArangoDB
-  echo "wget https://www.arangodb.org/repositories/nightly/travisCI/$NAME.tar.gz"
-  wget https://www.arangodb.org/repositories/nightly/travisCI/$NAME.tar.gz
+  echo "wget http://www.arangodb.org/repositories/travisCI/$NAME.tar.gz"
+  wget http://www.arangodb.org/repositories/travisCI/$NAME.tar.gz
   echo "tar zxf $NAME.tar.gz"
   tar zvxf $NAME.tar.gz
 fi
@@ -19,7 +19,11 @@ PID=$(echo $PPID)
 TMP_DIR="/tmp/arangodb.$PID"
 PID_FILE="/tmp/arangodb.$PID.pid"
 ARANGODB_DIR="$DIR/$NAME"
-ARANGOD="${ARANGODB_DIR}/bin/arangod_x86_64"
+
+ARANGOD="${ARANGODB_DIR}/bin/arangod"
+if [ "$ARCH" == "x86_64" ]; then
+  ARANGOD="${ARANGOD}_x86_64"
+fi
 
 # create database directory
 mkdir ${TMP_DIR}
@@ -53,3 +57,4 @@ while [[ -z `curl -s 'http://127.0.0.1:8529/_api/version' ` ]] ; do
 done
 
 echo "ArangoDB is up"
+
