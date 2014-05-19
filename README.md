@@ -3,7 +3,7 @@
 # ArangoDB-PHP - A PHP client for ArangoDB
 
 [![Build Status](https://travis-ci.org/triAGENS/ArangoDB-PHP.png?branch=master)](https://travis-ci.org/triAGENS/ArangoDB-PHP)
-**Branch: Master (v1.4.0)**
+**Branch: Master (v2.0.0)**
 
 [![Build Status](https://travis-ci.org/triAGENS/ArangoDB-PHP.png?branch=devel)](https://travis-ci.org/triAGENS/ArangoDB-PHP)
 **Branch: devel**
@@ -63,7 +63,7 @@ The client library provides document and collection classes you can use to work 
 <a name="requirements"/a>
 # Requirements
 
-* ArangoDB database server version 1.3 or higher (detailed info [here](https://github.com/triAGENS/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix))
+* ArangoDB database server version 1.4 or higher (detailed info [here](https://github.com/triAGENS/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix))
 
 * PHP version 5.3 or higher (Travis-tested with 5.4, 5.5, 5.6 and hhvm)
 
