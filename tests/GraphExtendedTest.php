@@ -1379,6 +1379,148 @@ class GraphExtendedTest extends
         $this->assertTrue($m["hasMore"] == false);
     }
 
+    /**
+     * Tests if the saveVertex method accepts an instance of Graph as first argument and extracts the graph name out of it.
+     */
+    public function testSaveVertexWithGraphInstance()
+    {
+        $id = $this->graphHandler->saveVertex($this->graph, $this->vertex1Array);
+        $this->assertEquals('vertex1', $id);
+    }
+
+    /**
+     * Tests if the getVertex method accepts an instance of Graph as first argument and extracts the graph name out of it.
+     */
+    public function testGetVertexWithGraphInstance()
+    {
+        $this->createGraph();
+        $this->assertEquals('vertex1', $this->graphHandler->getVertex($this->graph, 'vertex1')->getKey());
+    }
+
+    /**
+     * Tests if the replaceVertex method accepts an instance of Graph as first argument and extracts the graph name out of it.
+     */
+    public function testReplaceVertexWithGraphInstance()
+    {
+        $this->createGraph();
+        $new = Vertex::createFromArray(array(
+            '_key'     => 'testreplacewithgraphinstancekey',
+            'someKey' => 'someValue'
+        ));
+        $this->assertTrue($this->graphHandler->replaceVertex($this->graph, 'vertex1', $new));
+    }
+
+    /**
+     * Tests if the updateVertex method accepts an instance of Graph as first argument and extracts the graph name out of it.
+     */
+    public function testUpdateVertexWithGraphInstance()
+    {
+        $this->createGraph();
+        $new = Vertex::createFromArray(array(
+            '_key'     => 'vertex1',
+            'someKey' => 'foobar'
+        ));
+        $this->assertTrue($this->graphHandler->updateVertex($this->graph, 'vertex1', $new));
+    }
+
+    /**
+     * Tests if the removeVertex method accepts an instance of Graph as first argument and extracts the graph name out of it.
+     */
+    public function testRemoveVertexWithGraphInstance()
+    {
+        $this->createGraph();
+        $this->assertTrue($this->graphHandler->removeVertex($this->graph, 'vertex1'));
+    }
+
+    /**
+     * Tests if the saveEde method accepts an instance of Graph as first argument and extracts the graph name out of it.
+     */
+    public function testSaveEdgeWithGraphInstance()
+    {
+        $this->createGraph();
+        $id = $this->graphHandler->saveEdge($this->graph, $this->vertex1Name, $this->vertex2Name, 'foobaredge', array('_key' => 'foobaredgekey'));
+        $this->assertEquals('foobaredgekey', $id);
+    }
+
+    /**
+     * Tests if the getEdge method accepts an instance of Graph as first argument and extracts the graph name out of it.
+     */
+    public function testGetEdgeWithGraphInstance()
+    {
+        $this->createGraph();
+        $edge = $this->graphHandler->getEdge($this->graph, $this->edge1Name);
+        $this->assertEquals($this->edge1Name, $edge->getKey());
+    }
+
+    /**
+     * Tests if the replaceEdge method accepts an instance of Graph as first argument and extracts the graph name out of it.
+     */
+    public function testReplaceEdgeWithGraphInstance()
+    {
+        $this->createGraph();
+        $result = $this->graphHandler->replaceEdge($this->graph, $this->edge1Name, '', Edge::createFromArray(array('_key' => 'foobar')));
+        $this->assertTrue($result);
+    }
+
+    /**
+     * Tests if the updateEdge method accepts an instance of Graph as first argument and extracts the graph name out of it.
+     */
+    public function testUpdateEdgeWithGraphInstance()
+    {
+        $this->createGraph();
+        $result = $this->graphHandler->updateEdge($this->graph, $this->edge1Name, '', Edge::createFromArray(array('_key' => 'foobar')));
+        $this->assertTrue($result);
+    }
+
+    /**
+     * Tests if the removeEdge method accepts an instance of Graph as first argument and extracts the graph name out of it.
+     */
+    public function testRemoveEdgeWithGraphInstance()
+    {
+        $this->createGraph();
+        $result = $this->graphHandler->removeEdge($this->graph, $this->edge1Name);
+        $this->assertTrue($result);
+    }
+
+    /**
+     * Tests if the getNeighborVertices method accepts an instance of Graph as first argument and extracts the graph name out of it.
+     */
+    public function testNeighborVerticesWithGraphInstance()
+    {
+        $this->createGraph();
+        $cursor = $this->graphHandler->getNeighborVertices($this->graph, $this->vertex2Name);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+    }
+
+    /**
+     * Tests if the getConnectedEdges method accepts an instance of Graph as first argument and extracts the graph name out of it.
+     */
+    public function testConnectedEdgesWithGraphInstance()
+    {
+        $this->createGraph();
+        $cursor = $this->graphHandler->getConnectedEdges($this->graph, $this->vertex2Name);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+    }
+
+    /**
+     * Tests if the getVertices method accepts an instance of Graph as first argument and extracts the graph name out of it.
+     */
+    public function testGetVerticesWithGraphInstance()
+    {
+        $this->createGraph();
+        $cursor = $this->graphHandler->getVertices($this->graph);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+    }
+
+    /**
+     * Tests if the getEdges method accepts an instance of Graph as first argument and extracts the graph name out of it.
+     */
+    public function testGetEdgesWithGraphInstance()
+    {
+        $this->createGraph();
+        $cursor = $this->graphHandler->getEdges($this->graph);
+        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+    }
 
     public function tearDown()
     {
