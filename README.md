@@ -155,7 +155,9 @@ Running this command has created a subdirectory vendor in the current directory.
 
 You need to include the generated autoloader file in your project when using the ArangoDB PHP classes. You can do so by adding the following line to any PHP file that will use them:
 
-    require 'vendor/.composer/autoload.php';
+```php
+require 'vendor/.composer/autoload.php';
+```
 
 <a name="cloning_git"/a>
 ## Alternative 2: Cloning the git repository
@@ -168,7 +170,9 @@ When preferring this alternative, you need to have a git client installed. To cl
 This will create a subdirectory ArangoDB-PHP in your current directory. It contains all the files of the client library. It also includes a dedicated autoloader that you can use for autoloading the client libraries class files.
 To invoke this autoloader, add the following line to your PHP files that will use the library:
 
-    require 'ArangoDB-PHP/autoload.php';
+```php
+require 'ArangoDB-PHP/autoload.php';
+```
 
 
 The ArangoDB PHP client's autoloader will only care about its own class files and will not handle any other files. That means it is fully nestable with other autoloaders.
@@ -178,8 +182,10 @@ The ArangoDB PHP client's autoloader will only care about its own class files an
 
 If you do not wish to include autoload.php to load and setup the autoloader, you can invoke the autoloader directly:
 
-    require 'ArangoDB-PHP/lib/triagens/ArangoDb/autoloader.php';
-    \triagens\ArangoDb\Autoloader::init();
+```php
+require 'ArangoDB-PHP/lib/triagens/ArangoDb/autoloader.php';
+\triagens\ArangoDb\Autoloader::init();
+```
 
 <br>
 
@@ -191,48 +197,48 @@ If you do not wish to include autoload.php to load and setup the autoloader, you
 
 In order to use ArangoDB, you need to specify the connection options. We do so by creating a PHP array $connectionOptions. Put this code into a file named test.php in your current directory:
 
+```php
+// use the following line when using packagist/composer
+// require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . '.composer' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-    // use the following line when using packagist/composer
-    // require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . '.composer' . DIRECTORY_SEPARATOR . 'autoload.php';
+// use the following line when using git
+require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ArangoDB-PHP' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-    // use the following line when using git
-    require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ArangoDB-PHP' . DIRECTORY_SEPARATOR . 'autoload.php';
+// set up some aliases for less typing later
+use triagens\ArangoDb\Connection as ArangoConnection;
+use triagens\ArangoDb\ConnectionOptions as ArangoConnectionOptions;
+use triagens\ArangoDb\DocumentHandler as ArangoDocumentHandler;
+use triagens\ArangoDb\Document as ArangoDocument;
+use triagens\ArangoDb\Exception as ArangoException;
+use triagens\ArangoDb\ConnectException as ArangoConnectException;
+use triagens\ArangoDb\ClientException as ArangoClientException;
+use triagens\ArangoDb\ServerException as ArangoServerException;
+use triagens\ArangoDb\UpdatePolicy as ArangoUpdatePolicy;
 
-    // set up some aliases for less typing later
-    use triagens\ArangoDb\Connection as ArangoConnection;
-    use triagens\ArangoDb\ConnectionOptions as ArangoConnectionOptions;
-    use triagens\ArangoDb\DocumentHandler as ArangoDocumentHandler;
-    use triagens\ArangoDb\Document as ArangoDocument;
-    use triagens\ArangoDb\Exception as ArangoException;
-    use triagens\ArangoDb\ConnectException as ArangoConnectException;
-    use triagens\ArangoDb\ClientException as ArangoClientException;
-    use triagens\ArangoDb\ServerException as ArangoServerException;
-    use triagens\ArangoDb\UpdatePolicy as ArangoUpdatePolicy;
+// set up some basic connection options
+$connectionOptions = array(
+    // server endpoint to connect to
+    ArangoConnectionOptions::OPTION_ENDPOINT => 'tcp://127.0.0.1:8529',
+    // authorization type to use (currently supported: 'Basic')
+    ArangoConnectionOptions::OPTION_AUTH_TYPE => 'Basic',
+    // user for basic authorization
+    ArangoConnectionOptions::OPTION_AUTH_USER => 'root',
+    // password for basic authorization
+    ArangoConnectionOptions::OPTION_AUTH_PASSWD => '',
+    // connection persistence on server. can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
+    ArangoConnectionOptions::OPTION_CONNECTION => 'Close',
+    // connect timeout in seconds
+    ArangoConnectionOptions::OPTION_TIMEOUT => 3,
+    // whether or not to reconnect when a keep-alive connection has timed out on server
+    ArangoConnectionOptions::OPTION_RECONNECT => true,
+    // optionally create new collections when inserting documents
+    ArangoConnectionOptions::OPTION_CREATE => true,
+    // optionally create new collections when inserting documents
+    ArangoConnectionOptions::OPTION_UPDATE_POLICY => ArangoUpdatePolicy::LAST,
+);
 
-    // set up some basic connection options
-    $connectionOptions = array(
-        // server endpoint to connect to
-        ArangoConnectionOptions::OPTION_ENDPOINT => 'tcp://127.0.0.1:8529',
-        // authorization type to use (currently supported: 'Basic')
-        ArangoConnectionOptions::OPTION_AUTH_TYPE => 'Basic',
-        // user for basic authorization
-        ArangoConnectionOptions::OPTION_AUTH_USER => 'root',     
-        // password for basic authorization
-        ArangoConnectionOptions::OPTION_AUTH_PASSWD => '', 
-        // connection persistence on server. can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
-        ArangoConnectionOptions::OPTION_CONNECTION => 'Close',  
-        // connect timeout in seconds
-        ArangoConnectionOptions::OPTION_TIMEOUT => 3,
-        // whether or not to reconnect when a keep-alive connection has timed out on server
-        ArangoConnectionOptions::OPTION_RECONNECT => true,
-        // optionally create new collections when inserting documents
-        ArangoConnectionOptions::OPTION_CREATE => true,
-        // optionally create new collections when inserting documents
-        ArangoConnectionOptions::OPTION_UPDATE_POLICY => ArangoUpdatePolicy::LAST,
-    );
-
-    $connection = new ArangoConnection($connectionOptions);
-
+$connection = new ArangoConnection($connectionOptions);
+```
 
 This will make the client connect to ArangoDB
 
@@ -261,16 +267,17 @@ So, after we get the settings, we can start with creating a collection. We will 
 
 The below code will first set up the collection locally in a variable name $user, and then push it to the server and return the collection id created by the server:
 
-    $collectionHandler = new CollectionHandler($connection);
+```php
+$collectionHandler = new CollectionHandler($connection);
 
-    // create a new document
-    $userCollection = new ArangoCollection();
-    $userCollection->setName('user');
-    $id = $collectionHandler->add($userCollection);
+// create a new document
+$userCollection = new ArangoCollection();
+$userCollection->setName('user');
+$id = $collectionHandler->add($userCollection);
 
-    // print the collection id created by the server
-    var_dump($id);
-
+// print the collection id created by the server
+var_dump($id);
+```
 
 <a name="creating_document"/a>
 ## Creating a document
@@ -279,26 +286,25 @@ After we created the collection, we can start with creating an initial document.
 
 The below code will first set up the document locally in a variable name $user, and then push it to the server and return the document id created by the server:
 
+```php
+$handler = new ArangoDocumentHandler($connection);
 
-    $handler = new ArangoDocumentHandler($connection);
+// create a new document
+$user = new ArangoDocument();
 
-    // create a new document
-    $user = new ArangoDocument();
+// use set method to set document properties
+$user->set("name", "John");
+$user->set("age", 25);
 
-    // use set method to set document properties
-    $user->set("name", "John");
-    $user->set("age", 25);
+// use magic methods to set document properties
+$user->likes = array('fishing', 'hiking', 'swimming');
 
-    // use magic methods to set document properties
-    $user->likes = array('fishing', 'hiking', 'swimming');
+// send the document to the server
+$id = $handler->add('users', $user);
 
-    // send the document to the server
-    $id = $handler->add('users', $user);
-
-    // print the document id created by the server
-    var_dump($id);
-
-
+// print the document id created by the server
+var_dump($id);
+```
 
 Document properties can be set by using the set() method, or by directly manipulating the document properties.
 
@@ -310,8 +316,8 @@ As you can see, sending a document to the server is achieved by calling the add(
 
 The above code will work but it does not check for any errors. To make it work in the face of errors, we'll wrap it into some basic exception handlers
 
-
-    try {
+```php
+try {
     $connection = new ArangoConnection($connectionOptions);
     $handler = new ArangoDocumentHandler($connection);
 
@@ -330,65 +336,66 @@ The above code will work but it does not check for any errors. To make it work i
 
     // print the document id created by the server
     var_dump($id);
-    } catch (ArangoConnectException $e) {
-      print 'Connection error: ' . $e->getMessage() . PHP_EOL;
-    } catch (ArangoClientException $e) {
-      print 'Client error: ' . $e->getMessage() . PHP_EOL;
-    } catch (ArangoServerException $e) {
-      print 'Server error: ' . $e->getServerCode() . ':' . $e->getServerMessage() . ' ' . $e->getMessage() . PHP_EOL;
-    }
-
+} catch (ArangoConnectException $e) {
+  print 'Connection error: ' . $e->getMessage() . PHP_EOL;
+} catch (ArangoClientException $e) {
+  print 'Client error: ' . $e->getMessage() . PHP_EOL;
+} catch (ArangoServerException $e) {
+  print 'Server error: ' . $e->getServerCode() . ':' . $e->getServerMessage() . ' ' . $e->getMessage() . PHP_EOL;
+}
+```
 
 <a name="retrieving_document"/a>
 ## Retrieving a document
 
-
 To retrieve a document from the server, the get() method of the DocumentHandler class can be used. It needs the collection name plus a document id. There is also the getById() method which is an alias for get().
 
-    // get the document back from the server
-    $userFromServer = $handler->get('users', $id);
-    var_dump($userFromServer);
+```php
+// get the document back from the server
+$userFromServer = $handler->get('users', $id);
+var_dump($userFromServer);
 
+/*
+The result of the get() method is a Document object that you can use in an OO fashion:
 
-    The result of the get() method is a Document object that you can use in an OO fashion:
-
-    object(triagens\ArangoDb\Document)##6 (4) {
-        ["_id":"triagens\ArangoDb\Document":private]=>
-        string(15) "2377907/4818344"
-        ["_rev":"triagens\ArangoDb\Document":private]=>
-        int(4818344)
-        ["_values":"triagens\ArangoDb\Document":private]=>
+object(triagens\ArangoDb\Document)##6 (4) {
+    ["_id":"triagens\ArangoDb\Document":private]=>
+    string(15) "2377907/4818344"
+    ["_rev":"triagens\ArangoDb\Document":private]=>
+    int(4818344)
+    ["_values":"triagens\ArangoDb\Document":private]=>
+    array(3) {
+        ["age"]=>
+        int(25)
+        ["name"]=>
+        string(4) "John"
+        ["likes"]=>
         array(3) {
-            ["age"]=>
-            int(25)
-            ["name"]=>
-            string(4) "John"
-            ["likes"]=>
-            array(3) {
-                [0]=>
-                string(7) "fishing"
-                [1]=>
-                string(6) "hiking"
-                [2]=>
-                string(8) "swimming"
-            }
+            [0]=>
+            string(7) "fishing"
+            [1]=>
+            string(6) "hiking"
+            [2]=>
+            string(8) "swimming"
         }
-        ["_changed":"triagens\ArangoDb\Document":private]=>
-        bool(false)
     }
-
-
+    ["_changed":"triagens\ArangoDb\Document":private]=>
+    bool(false)
+}
+*/
+```
 
 Whenever the document id is yet unknown, but you want to fetch a document from the server by any of its other properties, you can use the getByExample() method. It allows you to provide an example of the document that you are looking for. The example should either be a Document object with the relevant properties set, or, a PHP array with the propeties that you are looking for:
 
-    $cursor = $handler->getByExample('users', array('name'=>'John'));
-    var_dump($cursor->getAll());
+```php
+$cursor = $handler->getByExample('users', array('name'=>'John'));
+var_dump($cursor->getAll());
 
-    $user = new Document();
-    $user->name = 'John';
-    $cursor = $handler->getByExample('users', $user);
-    var_dump($cursor->getAll());
-
+$user = new Document();
+$user->name = 'John';
+$cursor = $handler->getByExample('users', $user);
+var_dump($cursor->getAll());
+```
 
 This will return all documents from the specified collection (here: "users") with the properties provided in the example (here: that have an attribute "name" with a value of "John"). The result is a cursor which can be iterated sequentially or completely. We have chosen to get the complete result set above by calling the cursor's getAll() method.
 Note that getByExample() might return multiple documents if the example is ambigious.
@@ -399,6 +406,146 @@ Note that getByExample() might return multiple documents if the example is ambig
 
 To update an existing document, the update() method of the DocumentHandler class can be used.
 
+```php
+// update a document
+$userFromServer->likes = array('fishing', 'swimming');
+$userFromServer->state = 'CA';
+unset($userFromServer->age);
+
+$result = $handler->update($userFromServer);
+var_dump($result);
+```
+
+The document that is updated using update() must have been fetched from the server before. If you want to update a document without having fetched it from the server before, use updateById():
+
+```php
+// update a document, identified by collection and document id
+$user = new Document();
+$user->name = 'John';
+$user->likes = array('Running', 'Rowing');
+
+// 4818344 is the document's id
+$result = $handler->updateById('users', 4818344, $user);
+var_dump($result);
+```
+
+<a name="deleting_document"/a>
+## Deleting a document
+
+To delete an existing document on the server, the delete() method of the DocumentHandler class will do. delete() just needs the document to be deleted:
+
+```php
+// delete a document on the server, using a document object
+$result = $handler->delete($userFromServer);
+var_dump($result);
+```
+
+Note that the document must have been fetched from the server before. If you haven't fetched the document from the server before, use the deleteById() method. This requires just the collection name (here: "users") and the document id.
+
+```php
+// delete a document on the server, using a collection id and document id
+// 4818344 is the document's id
+$result = $handler->deleteById('users', 4818344);
+var_dump($result);
+```
+
+
+<a name="dropping_collection"/a>
+## Dropping a collection
+
+
+To delete an existing collection on the server, use the drop() method of the CollectionHandler class. drop() just needs the name of the collection name to be dropped:
+
+```php
+// delete a collection on the server, using it's name,
+$result = $handler->drop('users');
+var_dump($result);
+```
+
+<a name="alltogether"/a>
+## Putting it all together
+
+Here's the full code that combines all the pieces outlined above:
+
+```php
+// use the following line when using packagist/composer
+//require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . '.composer' . DIRECTORY_SEPARATOR . 'autoload.php';
+// use the following line when using git
+require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ArangoDB-PHP' . DIRECTORY_SEPARATOR . 'autoload.php';
+
+// set up some aliases for less typing later
+use triagens\ArangoDb\Connection as ArangoConnection;
+use triagens\ArangoDb\ConnectionOptions as ArangoConnectionOptions;
+use triagens\ArangoDb\DocumentHandler as ArangoDocumentHandler;
+use triagens\ArangoDb\Document as ArangoDocument;
+use triagens\ArangoDb\Exception as ArangoException;
+use triagens\ArangoDb\ConnectException as ArangoConnectException;
+use triagens\ArangoDb\ClientException as ArangoClientException;
+use triagens\ArangoDb\ServerException as ArangoServerException;
+use triagens\ArangoDb\UpdatePolicy as ArangoUpdatePolicy;
+
+// set up some basic connection options
+$connectionOptions = array(
+    ArangoConnectionOptions::OPTION_ENDPOINT => 'tcp://127.0.0.1:8529',
+    // authorization type to use (currently supported: 'Basic')
+    ArangoConnectionOptions::OPTION_AUTH_TYPE => 'Basic',
+    // user for basic authorization
+    ArangoConnectionOptions::OPTION_AUTH_USER => 'root',
+    // password for basic authorization
+    ArangoConnectionOptions::OPTION_AUTH_PASSWD => '',
+    // connection persistence on server. can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
+    ArangoConnectionOptions::OPTION_CONNECTION => 'Close',
+    // connect timeout in seconds
+    ArangoConnectionOptions::OPTION_TIMEOUT => 3,
+    // optionally create new collections when inserting documents
+    ArangoConnectionOptions::OPTION_CREATE => true,
+    // optionally create new collections when inserting documents
+    ArangoConnectionOptions::OPTION_UPDATE_POLICY => ArangoUpdatePolicy::LAST,
+);
+
+try {
+    $connection = new ArangoConnection($connectionOptions);
+
+
+    $collectionHandler = new CollectionHandler($connection);
+
+    // create a new document
+    $userCollection = new ArangoCollection();
+	$userCollection->setName('user');
+	$id = $collectionHandler->add($userCollection);
+
+    // print the collection id created by the server
+    var_dump($id);
+
+
+    $handler = new ArangoDocumentHandler($connection);
+
+    // create a new document
+    $user = new ArangoDocument();
+
+    // use set method to set document properties
+    $user->set("name", "John");
+    $user->set("age", 25);
+
+    // use magic methods to set document properties
+    $user->likes = array('fishing', 'hiking', 'swimming');
+
+    // send the document to the server
+    $id = $handler->add('users', $user);
+
+    // print the document id created by the server
+    var_dump($id);
+    var_dump($user->getId());
+
+
+    // get the document back from the server
+    $userFromServer = $handler->get('users', $id);
+    var_dump($userFromServer);
+
+    // get a document list back from the server, using a document example
+    $cursor = $handler->getByExample('users', array('name'=>'John'));
+    var_dump($cursor->getAll());
+
 
     // update a document
     $userFromServer->likes = array('fishing', 'swimming');
@@ -408,170 +555,30 @@ To update an existing document, the update() method of the DocumentHandler class
     $result = $handler->update($userFromServer);
     var_dump($result);
 
+    // get the document back from the server
+    $userFromServer = $handler->get('users', $id);
+    var_dump($userFromServer);
 
 
-The document that is updated using update() must have been fetched from the server before. If you want to update a document without having fetched it from the server before, use updateById():
-
-
-    // update a document, identified by collection and document id
-    $user = new Document();
-    $user->name = 'John';
-    $user->likes = array('Running', 'Rowing');
-
-    // 4818344 is the document's id
-    $result = $handler->updateById('users', 4818344, $user);
-    var_dump($result);
-
-
-<a name="deleting_document"/a>
-## Deleting a document
-
-
-To delete an existing document on the server, the delete() method of the DocumentHandler class will do. delete() just needs the document to be deleted:
-
-
-    // delete a document on the server, using a document object
+    // delete a document on the server
     $result = $handler->delete($userFromServer);
     var_dump($result);
-
-
-Note that the document must have been fetched from the server before. If you haven't fetched the document from the server before, use the deleteById() method. This requires just the collection name (here: "users") and the document id.
-
-
-    // delete a document on the server, using a collection id and document id
-    // 4818344 is the document's id
-    $result = $handler->deleteById('users', 4818344);
-    var_dump($result);
-
-
-<a name="dropping_collection"/a>
-## Dropping a collection
-
-
-To delete an existing collection on the server, use the drop() method of the CollectionHandler class. drop() just needs the name of the collection name to be dropped:
 
 
     // delete a collection on the server, using it's name,
     $result = $handler->drop('users');
     var_dump($result);
-
-
-<a name="alltogether"/a>
-## Putting it all together
-
-Here's the full code that combines all the pieces outlined above:
-
-
-    // use the following line when using packagist/composer
-    //require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . '.composer' . DIRECTORY_SEPARATOR . 'autoload.php';
-    // use the following line when using git
-    require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ArangoDB-PHP' . DIRECTORY_SEPARATOR . 'autoload.php';
-
-    // set up some aliases for less typing later
-    use triagens\ArangoDb\Connection as ArangoConnection;
-    use triagens\ArangoDb\ConnectionOptions as ArangoConnectionOptions;
-    use triagens\ArangoDb\DocumentHandler as ArangoDocumentHandler;
-    use triagens\ArangoDb\Document as ArangoDocument;
-    use triagens\ArangoDb\Exception as ArangoException;
-    use triagens\ArangoDb\ConnectException as ArangoConnectException;
-    use triagens\ArangoDb\ClientException as ArangoClientException;
-    use triagens\ArangoDb\ServerException as ArangoServerException;
-    use triagens\ArangoDb\UpdatePolicy as ArangoUpdatePolicy;
-
-    // set up some basic connection options
-    $connectionOptions = array(
-        ArangoConnectionOptions::OPTION_ENDPOINT => 'tcp://127.0.0.1:8529',
-        // authorization type to use (currently supported: 'Basic')
-        ArangoConnectionOptions::OPTION_AUTH_TYPE => 'Basic',
-        // user for basic authorization
-        ArangoConnectionOptions::OPTION_AUTH_USER => 'root',     
-        // password for basic authorization
-        ArangoConnectionOptions::OPTION_AUTH_PASSWD => '', 
-        // connection persistence on server. can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
-        ArangoConnectionOptions::OPTION_CONNECTION => 'Close',  
-        // connect timeout in seconds
-        ArangoConnectionOptions::OPTION_TIMEOUT => 3,
-        // optionally create new collections when inserting documents
-        ArangoConnectionOptions::OPTION_CREATE => true,
-        // optionally create new collections when inserting documents
-        ArangoConnectionOptions::OPTION_UPDATE_POLICY => ArangoUpdatePolicy::LAST,
-    );
-
-    try {
-        $connection = new ArangoConnection($connectionOptions);
-
-
-        $collectionHandler = new CollectionHandler($connection);
-
-	    // create a new document
-	    $userCollection = new ArangoCollection();
-		$userCollection->setName('user');
-		$id = $collectionHandler->add($userCollection);
-
-	    // print the collection id created by the server
-	    var_dump($id);
-
-
-        $handler = new ArangoDocumentHandler($connection);
-
-        // create a new document
-        $user = new ArangoDocument();
-
-        // use set method to set document properties
-        $user->set("name", "John");
-        $user->set("age", 25);
-
-        // use magic methods to set document properties
-        $user->likes = array('fishing', 'hiking', 'swimming');
-
-        // send the document to the server
-        $id = $handler->add('users', $user);
-
-        // print the document id created by the server
-        var_dump($id);
-        var_dump($user->getId());
-
-
-        // get the document back from the server
-        $userFromServer = $handler->get('users', $id);
-        var_dump($userFromServer);
-
-        // get a document list back from the server, using a document example
-        $cursor = $handler->getByExample('users', array('name'=>'John'));
-        var_dump($cursor->getAll());
-
-
-        // update a document
-        $userFromServer->likes = array('fishing', 'swimming');
-        $userFromServer->state = 'CA';
-        unset($userFromServer->age);
-
-        $result = $handler->update($userFromServer);
-        var_dump($result);
-
-        // get the document back from the server
-        $userFromServer = $handler->get('users', $id);
-        var_dump($userFromServer);
-
-
-        // delete a document on the server
-        $result = $handler->delete($userFromServer);
-        var_dump($result);
-
-
-        // delete a collection on the server, using it's name,
-        $result = $handler->drop('users');
-        var_dump($result);
-    }
-    catch (ArangoConnectException $e) {
-        print 'Connection error: ' . $e->getMessage() . PHP_EOL;
-    }
-    catch (ArangoClientException $e) {
-        print 'Client error: ' . $e->getMessage() . PHP_EOL;
-    }
-    catch (ArangoServerException $e) {
-        print 'Server error: ' . $e->getServerCode() . ':' . $e->getServerMessage() . ' ' . $e->getMessage() . PHP_EOL;
-    }
+}
+catch (ArangoConnectException $e) {
+    print 'Connection error: ' . $e->getMessage() . PHP_EOL;
+}
+catch (ArangoClientException $e) {
+    print 'Client error: ' . $e->getMessage() . PHP_EOL;
+}
+catch (ArangoServerException $e) {
+    print 'Server error: ' . $e->getServerCode() . ':' . $e->getServerMessage() . ' ' . $e->getMessage() . PHP_EOL;
+}
+```
 
 <br>
 
