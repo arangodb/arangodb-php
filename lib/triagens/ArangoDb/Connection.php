@@ -29,7 +29,7 @@ class Connection
      *
      * @var string
      */
-    public static $_apiVersion = 20000;
+    public static $_apiVersion = 20100;
 
     /**
      * Connection options
