@@ -558,7 +558,7 @@ class DocumentExtendedTest extends
         }
 
         $this->assertInstanceOf('Exception', $e);
-        $this->assertTrue($e->getMessage() == 'HTTP/1.1 412 Precondition Failed');
+        $this->assertTrue($e->getMessage() == 'precondition failed');
         $resultingDocument1 = $documentHandler->get($this->collection->getId(), $documentId);
 
         $this->assertTrue(
@@ -604,7 +604,7 @@ class DocumentExtendedTest extends
         }
 
         $this->assertInstanceOf('Exception', $e, "Delete should have raised an exception here");
-        $this->assertTrue($e->getMessage() == 'HTTP/1.1 412 Precondition Failed');
+        $this->assertTrue($e->getMessage() == 'precondition failed');
         unset ($e);
 
         $response = $documentHandler->delete($resultingDocument3, "error");
@@ -660,7 +660,7 @@ class DocumentExtendedTest extends
         }
 
         $this->assertInstanceOf('Exception', $e);
-        $this->assertTrue($e->getMessage() == 'HTTP/1.1 412 Precondition Failed');
+        $this->assertTrue($e->getMessage() == 'precondition failed');
         $resultingDocument1 = $documentHandler->get($this->collection->getId(), $documentId);
 
         $this->assertTrue($resultingDocument1->someAttribute == 'someValue2');
@@ -706,7 +706,7 @@ class DocumentExtendedTest extends
         }
 
         $this->assertInstanceOf('Exception', $e, "Delete should have raised an exception here");
-        $this->assertTrue($e->getMessage() == 'HTTP/1.1 412 Precondition Failed');
+        $this->assertTrue($e->getMessage() == 'precondition failed');
         unset ($e);
 
         $response = $documentHandler->delete($resultingDocument3, "error");

@@ -33,7 +33,7 @@ abstract class Urls
     /**
      * URL base part for all document-related REST calls
      */
-    const URL_GRAPH = '/_api/graph';
+    const URL_GRAPH = '/_api/gharial';
 
     /**
      * URL base part for all document-related REST calls

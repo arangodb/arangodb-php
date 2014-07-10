@@ -6,7 +6,8 @@
  * @package   triagens\ArangoDb
  * @author    Jan Steemann
  * @author    Frank Mayer
- * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
+ * @author    Florian Bartels
+ * @copyright Copyright 2014, triagens GmbH, Cologne, Germany
  *
  * @since     1.2
  */
@@ -48,6 +49,16 @@ class GraphHandler extends
      * direction parameter
      */
     const OPTION_KEY = '_key';
+    
+    /**
+     * collection parameter
+     */
+    const OPTION_COLLECTION = 'collection';
+    
+    /**
+     * collections parameter
+     */
+    const OPTION_COLLECTIONS = 'collections';
 
     /**
      * example parameter
@@ -58,35 +69,113 @@ class GraphHandler extends
      * example parameter
      */
     const KEY_TO = '_to';
+    
+    /**
+     * name parameter
+     */
+    const OPTION_NAME = 'name';
 
+    /**
+     * edge defintion parameter
+     */
+    const OPTION_EDGE_DEFINITION = 'edgeDefinition';
+    
+    /**
+     * edge defintions parameter
+     */
+    const OPTION_EDGE_DEFINITIONS = 'edgeDefinitions';
+    
+    /**
+     * orphan collection parameter
+     */
+    const OPTION_ORPHAN_COLLECTIONS = 'orphanCollections';
+    
+    /**
+     * drop collection 
+     */
+    const OPTION_DROP_COLLECTION = 'dropCollection';
+    
+    /**
+     * batchsize
+     */
+    private $batchsize;
+    
+    /**
+     * count
+     */
+    private $count;
+    
+    /**
+     * limit
+     */
+    private $limit;
 
+    
+    /**
+     * Sets the batchsize for any method creating a cursor.
+     * Will be reseted after the cursor has been created.
+     * 
+     * @param int $batchsize 
+     */
+    public function setBatchsize($batchsize)
+    {
+    	$this->batchsize = $batchsize;
+    }
+    
+    /**
+     * Sets the count for any method creating a cursor.
+     * Will be reseted after the cursor has been created.
+     *
+     * @param int $count
+     */
+    public function setCount($count)
+    {
+    	$this->count = $count;
+    }
+    
+    /**
+     * Sets the limit for any method creating a cursor.
+     * Will be reseted after the cursor has been created.
+     *
+     * @param int $limit
+     */
+    public function setLimit($limit)
+    {
+    	$this->limit = $limit;
+    }
+    
+    
     /**
      * Create a graph
      *
      * This will create a graph using the given graph object and return an array of the created graph object's attributes.
      *
-     * This will throw if the graph cannot be created
-     *
      * @throws Exception
      *
-     * @param Graph - $graph - The graph object which holds the information of the graph to be created
+     * @param Graph $graph  - The graph object which holds the information of the graph to be created
      *
-     * @return array - an array of the created graph object's attributes.
+     * @return array
      * @since   1.2
      */
     public function createGraph(Graph $graph)
-    {
-        $params   = array(
-            self::OPTION_KEY      => $graph->getKey(),
-            self::OPTION_VERTICES => $graph->getVerticesCollection(),
-            self::OPTION_EDGES    => $graph->getEdgesCollection()
+    {	
+    	$edgeDefintions = array();
+    	foreach ($graph->getEdgeDefinitions() as $ed) {
+    		$edgeDefintions[] = $ed->transformToArray();
+    	}
+    	
+    	$params   = array(
+            self::OPTION_NAME      => $graph->getKey(),
+            self::OPTION_EDGE_DEFINITIONS => $edgeDefintions,
+            self::OPTION_ORPHAN_COLLECTIONS    => $graph->getOrphanCollections()
         );
-        $url      = UrlHelper::appendParamsUrl(Urls::URL_GRAPH, $params);
+        $url      = Urls::URL_GRAPH;
         $response = $this->getConnection()->post($url, $this->json_encode_wrapper($params));
         $json     = $response->getJson();
-
-        $graph->setInternalId($json['graph'][Graph::ENTRY_ID]);
+		$graph->setInternalId($json['graph'][Graph::ENTRY_ID]);
+		$graph->set(Graph::ENTRY_KEY, $json['graph'][self::OPTION_NAME ]);
         $graph->setRevision($json['graph'][Graph::ENTRY_REV]);
+        
 
         return $graph->getAll();
     }
@@ -97,29 +186,29 @@ class GraphHandler extends
      *
      * This will get a graph.
      *
-     * This will throw if the graph cannot be retrieved.
-     *
      * @throws Exception
      *
      * @param String $graph   - The name of the graph
      * @param array  $options - Options to pass to the method
      *
-     * @return Graph - A graph object representing the graph
+     * @return Graph
      * @since   1.2
      */
     public function getGraph($graph, array $options = array())
     {
         $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph));
-        $response = $this->getConnection()->get($url);
-        $data     = $response->getJson();
-
-        if ($data['error']) {
-            return false;
+        try {
+        	$response = $this->getConnection()->get($url);
+        } catch (Exception $e) {
+        	return false;
         }
+        $data     = $response->getJson();
 
         $options['_isNew'] = false;
 
-        return Graph::createFromArray($data['graph'], $options);
+        $result =  Graph::createFromArray($data['graph'], $options);
+        $result->set(Graph::ENTRY_KEY, $data['graph'][self::OPTION_NAME]);
+        return $result;
     }
 
 
@@ -128,20 +217,23 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $graph - graph name as a string or instance of Graph
+     * @param mixed $graph          - graph name as a string or instance of Graph
+     * @param bool $dropCollections - if set to false the graphs collections will not be droped.
      *
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function dropGraph($graph)
+    public function dropGraph($graph, $dropCollections = true)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
         }
-
+        
+        
         $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph));
+        $url  = UrlHelper::appendParamsUrl($url, array("dropCollections" => $dropCollections));
         $this->getConnection()->delete($url);
-
+        
         return true;
     }
 
@@ -162,14 +254,275 @@ class GraphHandler extends
             $graph = $graph->getKey();
         }
 
-        $url         = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph));
+        $url         = UrlHelper::buildUrl(Urls::URL_DOCUMENT . "/_graphs" , array($graph));
+        
         $result      = $this->getConnection()->get($url);
         $resultArray = $result->getJson();
 
-        return $resultArray['graph'];
+        return $resultArray;
     }
+    
+    /**
+     * add an orphan collection to the graph.
+     *
+     * This will add a further orphan collection to the graph.
+     *
+     *
+     * @throws Exception
+     *
+     * @param mixed $graph - graph name as a string or instance of Graph
+     * @param string $orphanCollection  - the orphan collection to be added as string.
+     *
+     * @return Graph
+     * @since 2.2
+     */
+    public function addOrphanCollection($graph, $orphanCollection)
+    {
+    	if ($graph instanceof Graph) {
+    		$graph = $graph->getKey();
+    	}
+    
+    	$url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX));
+    	$data = array(
+    		self::OPTION_COLLECTION => $orphanCollection
+    	);
+    
+    	try {
+    		$response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
+    	} catch (Exception $e) {
+    		throw new ClientException($e->getMessage());
+    	}
+    
+    	$data     = $response->getJson();
 
+        $options['_isNew'] = false;
 
+        $result =  Graph::createFromArray($data['graph'], $options);
+        $result->set(Graph::ENTRY_KEY, $data['graph'][self::OPTION_NAME]);
+        return $result;
+    }
+    
+    /**
+     * deletes an orphan collection from the graph.
+     *
+     * This will delete an orphan collection from the graph.
+     *
+     *
+     * @throws Exception
+     *
+     * @param mixed $graph - graph name as a string or instance of Graph
+     * @param string $orphanCollection  - the orphan collection to be removed as string.
+     * @param boolean $dropCollection  - if set to true the collection is deleted, not just removed from the graph.
+     *
+     * @return Graph
+     * @since 2.2
+     */
+    public function deleteOrphanCollection($graph, $orphanCollection, $dropCollection= false)
+    {
+    	if ($graph instanceof Graph) {
+    		$graph = $graph->getKey();
+    	}
+    
+    	$url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX, $orphanCollection));
+    	$data = array(
+    			self::OPTION_DROP_COLLECTION => $dropCollection
+    	);
+    	$url  = UrlHelper::appendParamsUrl($url, $data);
+    
+    	try {
+    		$response = $this->getConnection()->delete($url);
+    	} catch (Exception $e) {
+    		throw new ClientException($e->getMessage());
+    	}
+    
+    	$data     = $response->getJson();
+
+        $options['_isNew'] = false;
+
+        $result =  Graph::createFromArray($data['graph'], $options);
+        $result->set(Graph::ENTRY_KEY, $data['graph'][self::OPTION_NAME]);
+        return $result;
+    }
+    /**
+     * gets all vertex collection from the graph.
+     *
+     * This will get all vertex collection (orphans and used in edge definitions) from the graph.
+     *
+     * @throws Exception
+     *
+     * @param mixed $graph - graph name as a string or instance of Graph
+     *
+     * @return array
+     * @since 2.2
+     */
+    public function getVertexCollections($graph)
+    {
+    	if ($graph instanceof Graph) {
+    		$graph = $graph->getKey();
+    	}
+    
+    	$url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX));
+    	
+    	try {
+    		$response = $this->getConnection()->get($url);
+    	} catch (Exception $e) {
+    		throw new ClientException($e->getMessage());
+    	}
+    	
+    	$data     = $response->getJson();
+    	sort($data[self::OPTION_COLLECTIONS]);
+    	return $data[self::OPTION_COLLECTIONS];
+    }
+    
+    /**
+     * adds an edge definition to the graph.
+     *
+     * This will add a further edge definition to the graph.
+     *
+     *
+     * @throws Exception
+     *
+     * @param mixed $graph - graph name as a string or instance of Graph
+     * @param EdgeDefinition $edgeDefinition  - the new edge definition.
+     *
+     * @return Graph
+     * @since 2.2
+     */
+    public function addEdgeDefinition($graph, $edgeDefinition)
+    {
+    	if ($graph instanceof Graph) {
+    		$graph = $graph->getKey();
+    	}
+    
+    	$url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE));
+    	$data = $edgeDefinition->transformToArray();
+    	
+    	try {
+    		$response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
+    		
+    	} catch (Exception $e) {
+    		throw new ClientException($e->getMessage());
+    	}
+    
+    	$data     = $response->getJson();
+    
+    	$options['_isNew'] = false;
+    
+    	$result =  Graph::createFromArray($data['graph'], $options);
+    	$result->set(Graph::ENTRY_KEY, $data['graph'][self::OPTION_NAME]);
+    	return $result;
+    }
+    
+    /**
+     * deletes an edge definition from the graph.
+     *
+     * This will delete an edge definition from the graph.
+     *
+     *
+     * @throws Exception
+     *
+     * @param mixed $graph - graph name as a string or instance of Graph
+     * @param string $edgeDefinition  - the name of the edge definitions relation.
+     * @param boolean $dropCollection  - if set to true the edge definitions collections are deleted.
+     *
+     * @return Graph
+     * @since 2.2
+     */
+    public function deleteEdgeDefinition($graph, $edgeDefinition, $dropCollection= false)
+    {
+    	if ($graph instanceof Graph) {
+    		$graph = $graph->getKey();
+    	}
+    
+    	$url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $edgeDefinition));
+    	$data = array(
+    			self::OPTION_DROP_COLLECTION => $dropCollection
+    	);
+    	$url  = UrlHelper::appendParamsUrl($url, $data);
+    	try {
+    		$response = $this->getConnection()->delete($url);
+    	} catch (Exception $e) {
+    		throw new ClientException($e->getMessage());
+    	}
+    
+    	$data     = $response->getJson();
+    
+    	$options['_isNew'] = false;
+    
+    	$result =  Graph::createFromArray($data['graph'], $options);
+    	$result->set(Graph::ENTRY_KEY, $data['graph'][self::OPTION_NAME]);
+    	return $result;
+    }
+    /**
+     * gets all edge collections from the graph.
+     *
+     * This will get all edge collections from the graph.
+     *
+     *
+     * @throws Exception
+     *
+     * @param mixed $graph - graph name as a string or instance of Graph
+     *
+     * @return array()
+     * @since 2.2
+     */
+    public function getEdgeCollections($graph)
+    {
+    	if ($graph instanceof Graph) {
+    		$graph = $graph->getKey();
+    	}
+    
+    	$url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE));
+    	 
+    	try {
+    		$response = $this->getConnection()->get($url);
+    	} catch (Exception $e) {
+    		throw new ClientException($e->getMessage());
+    	}
+    	$data     = $response->getJson();
+    	sort($data[self::OPTION_COLLECTIONS]);
+    	return $data[self::OPTION_COLLECTIONS];
+    }
+    
+    
+    /**
+     * replaces an edge definition of the graph.
+     *
+     * This will replace an edge definition in the graph.
+     *
+     *
+     * @throws Exception
+     *
+     * @param mixed $graph - graph name as a string or instance of Graph
+     * @param EdgeDefinition $edgeDefinition  - the edge definition.
+     *
+     * @return Graph
+     * @since 2.2
+     */
+    public function replaceEdgeDefinition($graph, $edgeDefinition)
+    {
+    	if ($graph instanceof Graph) {
+    		$graph = $graph->getKey();
+    	}
+    
+    	$url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $edgeDefinition->getRelation()));
+    	$data = $edgeDefinition->transformToArray();
+    	 
+    	try {
+    		$response = $this->getConnection()->put($url, $this->json_encode_wrapper($data));
+      	} catch (Exception $e) {
+      		throw new ClientException($e->getMessage());
+    	}
+    
+    	$data     = $response->getJson();
+    
+    	$options['_isNew'] = false;
+    
+    	$result =  Graph::createFromArray($data['graph'], $options);
+    	$result->set(Graph::ENTRY_KEY, $data['graph'][self::OPTION_NAME]);
+    	return $result;
+    }
+    
     /**
      * save a vertex to a graph
      *
@@ -181,11 +534,13 @@ class GraphHandler extends
      *
      * @param mixed $graph - graph name as a string or instance of Graph
      * @param mixed $document  - the vertex to be added, can be passed as a vertex object or an array
+     * @param string $collection  - if one uses a graph with more than one vertex collection one must provide 
+     * the collection to store the vertex.
      *
-     * @return mixed - id of vertex created
+     * @return string - id of vertex created
      * @since 1.2
      */
-    public function saveVertex($graph, $document)
+    public function saveVertex($graph, $document ,$collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
@@ -194,26 +549,27 @@ class GraphHandler extends
         if (is_array($document)) {
             $document = Vertex::createFromArray($document);
         }
+        if (count($this->getVertexCollections($graph)) !== 1 && $collection === null) {
+        	throw new ClientException('A collection must be provided.');
+        } else if (count($this->getVertexCollections($graph)) === 1 && $collection === null) {
+        	$collection = $this->getVertexCollections($graph)[0];
+        }
+        
         $data = $document->getAll();
-        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX));
+        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX, $collection));
 
         $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
 
         $jsonArray = $response->getJson();
         $vertex    = $jsonArray['vertex'];
         $id        = $vertex['_id'];
-        @list(, $documentId) = explode('/', $id, 2);
-
+        
         $document->setInternalId($vertex[Vertex::ENTRY_ID]);
         $document->setRevision($vertex[Vertex::ENTRY_REV]);
 
-        if ($documentId != $document->getId()) {
-            throw new ClientException('Got an invalid response from the server');
-        }
-
         $document->setIsNew(false);
 
-        return $document->getId();
+        return $document->getInternalId();
     }
 
 
@@ -225,25 +581,37 @@ class GraphHandler extends
      * @throws Exception
      *
      * @param mixed $graph - graph name as a string or instance of Graph
-     * @param mixed $vertexId  - the vertex identifier
-     * @param array $options   - optional, an array of options
-     *                          <p>Options are :
-     *                          <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
-     *                          <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
-     *                          <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
-     *                          <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
-     *                          </p>
+     * @param mixed $vertexId - the vertex identifier
+     * @param array $options  optional, an array of options:
+     * <p>
+	 * <li><b>_includeInternals</b> - true to include the internal attributes. Defaults to false</li>
+     * <li><b>includeInternals</b> - Deprecated, please use '_includeInternals'.</li>
+     * <li><b>_ignoreHiddenAttributes</b> - true to show hidden attributes. Defaults to false</li>
+     * <li><b>ignoreHiddenAttributes</b> - Deprecated, please use '_ignoreHiddenAttributes'.</li>
+     * </p>
+     * @param string $collection - if one uses a graph with more than one vertex collection one must provide the collection
+     *  to load the vertex.                        
      *
-     * @return Document - the vertex document fetched from the server
+     * @return Document
      * @since 1.2
      */
-    public function getVertex($graph, $vertexId, array $options = array())
+    public function getVertex($graph, $vertexId, array $options = array(), $collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
         }
-
-        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX, $vertexId));
+        $parts = explode( "/" , $vertexId);
+        if (count($parts) === 2) {
+        	$vertexId = $parts[1];
+        	$collection = $parts[0]; 
+        }
+        if (count($this->getVertexCollections($graph)) !== 1 && $collection === null) {
+        	throw new ClientException('A collection must be provided.');
+        } else if (count($this->getVertexCollections($graph)) === 1 && $collection === null) {
+        	$collection = $this->getVertexCollections($graph)[0];
+        }
+        
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX, $collection, $vertexId));
         $response = $this->getConnection()->get($url);
 
         $jsonArray = $response->getJson();
@@ -260,8 +628,6 @@ class GraphHandler extends
      *
      * This will update the vertex on the server
      *
-     * This will throw if the vertex cannot be Replaced
-     *
      * If policy is set to error (locally or globally through the ConnectionOptions)
      * and the passed document has a _rev value set, the database will check
      * that the revision of the to-be-replaced vertex is the same as the one given.
@@ -271,25 +637,37 @@ class GraphHandler extends
      * @param mixed    $graph     - graph name as a string or instance of Graph
      * @param mixed    $vertexId  - the vertex id as string or number
      * @param Document $document  - the vertex-document to be updated
-     * @param mixed    $options   - optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     *                            <p>Options are :]
-     *                            <li>'revision' - revision for conditional updates ('some-revision-id' [use the passed in revision id], false or true [use document's revision])</li>
-     *                            <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     *                            <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     *                            </p>
+     * @param mixed    $options   optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method):
+     * <p>
+     * <li><b>revision</b> - revision for conditional updates ('some-revision-id' [use the passed in revision id], false or true [use document's revision])</li>
+     * <li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     * <li><b>waitForSync</b> - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     * </p>
+     * @param string $collection  - if one uses a graph with more than one vertex collection one must provide the collection                            
      *
      * @return bool - always true, will throw if there is an error
      *
      * @since 1.2
      */
-    public function replaceVertex($graph, $vertexId, Document $document, $options = array())
+    public function replaceVertex($graph, $vertexId, Document $document, $options = array(), $collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
         }
-
+		
+        $parts = explode( "/" , $vertexId);
+        if (count($parts) === 2) {
+        	$vertexId = $parts[1];
+        	$collection = $parts[0];
+        }
+        if (count($this->getVertexCollections($graph)) !== 1 && $collection === null) {
+        	throw new ClientException('A collection must be provided.');
+        } else if (count($this->getVertexCollections($graph)) === 1 && $collection === null) {
+        	$collection = $this->getVertexCollections($graph)[0];
+        }
+        
         $options = array_merge(array(self::OPTION_REVISION => false), $options);
-
+        
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
@@ -318,22 +696,17 @@ class GraphHandler extends
         }
 
         $data = $document->getAll();
-        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX, $vertexId));
+        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX, $collection, $vertexId));
         $url  = UrlHelper::appendParamsUrl($url, $params);
 
         $response = $this->getConnection()->PUT($url, $this->json_encode_wrapper($data));
 
         $jsonArray = $response->getJson();
         $vertex    = $jsonArray['vertex'];
-        $id        = $vertex['_id'];
-        @list(, $documentId) = explode('/', $id, 2);
-
+        
         $document->setInternalId($vertex[Vertex::ENTRY_ID]);
         $document->setRevision($vertex[Vertex::ENTRY_REV]);
 
-        if ($documentId != $document->getId()) {
-            throw new ClientException('Got an invalid response from the server');
-        }
 
         return true;
     }
@@ -355,24 +728,34 @@ class GraphHandler extends
      * @param mixed    $graph     - graph name as a string or instance of Graph
      * @param mixed    $vertexId  - the vertex id as string or number
      * @param Document $document  - the patch vertex-document which contains the attributes and values to be updated
-     * @param mixed    $options   - optional, an array of options (see below)
-     *                            <p>Options are :
-     *                            <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     *                            <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
-     *                            <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     *                            </p>
-     *
+     * @param mixed    $options    optional, an array of options (see below)
+     * <p>
+     * <li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     * <li><b>keepNull</b> - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+     * <li><b>waitForSync</b> - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     * </p>
+     * @param string $collection  - if one uses a graph with more than one vertex collection one must provide the collection
+     * 
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function updateVertex($graph, $vertexId, Document $document, $options = array())
+    public function updateVertex($graph, $vertexId, Document $document, $options = array(), $collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
         }
-
+        $parts = explode( "/" , $vertexId);
+        if (count($parts) === 2) {
+        	$vertexId = $parts[1];
+        	$collection = $parts[0];
+        }
+        if (count($this->getVertexCollections($graph)) !== 1 && $collection === null) {
+        	throw new ClientException('A collection must be provided.');
+        } else if (count($this->getVertexCollections($graph)) === 1 && $collection === null) {
+        	$collection = $this->getVertexCollections($graph)[0];
+        }
+        
         $options = array_merge(array(self::OPTION_REVISION => false), $options);
-
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
@@ -401,7 +784,7 @@ class GraphHandler extends
             $params[ConnectionOptions::OPTION_REVISION] = $options[self::OPTION_REVISION];
         }
 
-        $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX, $vertexId));
+        $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX, $collection, $vertexId));
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAll()));
         $json   = $result->getJson();
@@ -420,21 +803,32 @@ class GraphHandler extends
      * @param mixed  $graph     - graph name as a string or instance of Graph
      * @param mixed  $vertexId  - the vertex id as string or number
      * @param mixed  $revision  - optional, the revision of the vertex to be deleted
-     * @param mixed  $options   - optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     *                          <p>Options are :
-     *                          <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     *                          <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     *                          </p>
-     *
+     * @param mixed  $options    optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     * <p>
+     * <li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     * <li><b>waitForSync</b> - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     * </p>
+     * @param string $collection  - if one uses a graph with more than one vertex collection one must provide the collection
+     * 
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function removeVertex($graph, $vertexId, $revision = null, $options = array())
+    public function removeVertex($graph, $vertexId, $revision = null, $options = array(), $collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
         }
-
+        $parts = explode( "/" , $vertexId);
+        if (count($parts) === 2) {
+        	$vertexId = $parts[1];
+        	$collection = $parts[0];
+        }
+        if (count($this->getVertexCollections($graph)) !== 1 && $collection === null) {
+        	throw new ClientException('A collection must be provided.');
+        } else if (count($this->getVertexCollections($graph)) === 1 && $collection === null) {
+        	$collection = $this->getVertexCollections($graph)[0];
+        }
+        
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
@@ -455,7 +849,7 @@ class GraphHandler extends
             $params[ConnectionOptions::OPTION_REVISION] = $revision;
         }
 
-        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX, $vertexId));
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX, $collection, $vertexId));
         $url = UrlHelper::appendParamsUrl($url, $params);
         $this->getConnection()->delete($url);
 
@@ -477,16 +871,23 @@ class GraphHandler extends
      * @param mixed $to        - the 'to' vertex
      * @param mixed $label     - (optional) a label for the edge
      * @param mixed $document  - the edge-document to be added, can be passed as an edge object or an array
+     * @param string $collection  - if one uses a graph with more than one vertex collection one must provide the collection
      *
      * @return mixed - id of edge created
      * @since 1.2
      */
-    public function saveEdge($graph, $from, $to, $label = null, $document)
+    public function saveEdge($graph, $from, $to, $label = null, $document, $collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
         }
-
+		if (count($this->getEdgeCollections($graph)) !== 1 && $collection === null) {
+        	throw new ClientException('A collection must be provided.');
+        } else if (count($this->getEdgeCollections($graph)) === 1 && $collection === null) {
+        	$collection = $this->getEdgeCollections($graph)[0];
+        }
+        
+        
         if (is_array($document)) {
             $document = Edge::createFromArray($document);
         }
@@ -498,25 +899,20 @@ class GraphHandler extends
         $data                 = $document->getAll();
         $data[self::KEY_FROM] = $from;
         $data[self::KEY_TO]   = $to;
-
-        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE));
+        
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $collection));
+        
         $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
-
+        
         $jsonArray = $response->getJson();
         $edge      = $jsonArray['edge'];
-        $id        = $edge['_id'];
-        @list(, $documentId) = explode('/', $id, 2);
 
         $document->setInternalId($edge[Edge::ENTRY_ID]);
         $document->setRevision($edge[Edge::ENTRY_REV]);
 
-        if ($documentId != $document->getId()) {
-            throw new ClientException('Got an invalid response from the server');
-        }
-
         $document->setIsNew(false);
 
-        return $document->getId();
+        return $document->getInternalId();
     }
 
 
@@ -529,24 +925,35 @@ class GraphHandler extends
      *
      * @param mixed $graph     - graph name as a string or instance of Graph
      * @param mixed $edgeId    - edge identifier
-     * @param array $options   - optional, array of options
-     *                         <p>Options are :
-     *                         <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
-     *                         <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
-     *                         <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
-     *                         <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
-     *                         </p>
+     * @param array $options   optional, array of options
+     * <p>
+     * <li><b>_includeInternals</b> - true to include the internal attributes. Defaults to false</li>
+     * <li><b>includeInternals</b> - Deprecated, please use '_includeInternals'.</li>
+     * <li><b>_ignoreHiddenAttributes</b> - true to show hidden attributes. Defaults to false</li>
+     * <li><b>ignoreHiddenAttributes</b> - Deprecated, please use '_ignoreHiddenAttributes'.</li>
+     * </p>
+     * @param string $collection  - if one uses a graph with more than one vertex collection one must provide the collection                         
      *
      * @return Document - the edge document fetched from the server
      * @since 1.2
      */
-    public function getEdge($graph, $edgeId, array $options = array())
+    public function getEdge($graph, $edgeId, array $options = array(), $collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
         }
+        $parts = explode( "/" , $edgeId);
+        if (count($parts) === 2) {
+        	$edgeId = $parts[1];
+        	$collection = $parts[0];
+        }
+        if (count($this->getEdgeCollections($graph)) !== 1 && $collection === null) {
+        	throw new ClientException('A collection must be provided.');
+        } else if (count($this->getEdgeCollections($graph)) === 1 && $collection === null) {
+        	$collection = $this->getEdgeCollections($graph)[0];
+        }
 
-        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $edgeId));
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $collection, $edgeId));
         $response = $this->getConnection()->get($url);
 
         $jsonArray = $response->getJson();
@@ -575,20 +982,31 @@ class GraphHandler extends
      * @param mixed $edgeId    - edge id as string or number
      * @param mixed $label     - label for the edge or ''
      * @param Edge  $document  - edge document to be updated
-     * @param mixed $options   - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     *                         <p>Options are :
-     *                         <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     *                         <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     *                         </p>
+     * @param mixed $options   optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     * <p>
+     * <li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     * <li><b>waitForSync</b> - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     * </p>
+     * @param string $collection  - if one uses a graph with more than one vertex collection one must provide the collection
      *
      * @return bool - always true, will throw if there is an error
      *
      * @since 1.2
      */
-    public function replaceEdge($graph, $edgeId, $label, Edge $document, $options = array())
+    public function replaceEdge($graph, $edgeId, $label, Edge $document, $options = array(), $collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
+        }
+        $parts = explode( "/" , $edgeId);
+        if (count($parts) === 2) {
+        	$edgeId = $parts[1];
+        	$collection = $parts[0];
+        }
+        if (count($this->getEdgeCollections($graph)) !== 1 && $collection === null) {
+        	throw new ClientException('A collection must be provided.');
+        } else if (count($this->getEdgeCollections($graph)) === 1 && $collection === null) {
+        	$collection = $this->getEdgeCollections($graph)[0];
         }
 
         $options = array_merge(array(self::OPTION_REVISION => false), $options);
@@ -625,22 +1043,16 @@ class GraphHandler extends
             $document->set('$label', $label);
         }
 
-        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $edgeId));
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $collection,  $edgeId));
         $url = UrlHelper::appendParamsUrl($url, $params);
 
         $response = $this->getConnection()->PUT($url, $this->json_encode_wrapper($data));
 
         $jsonArray = $response->getJson();
         $edge      = $jsonArray['edge'];
-        $id        = $edge['_id'];
-        @list(, $documentId) = explode('/', $id, 2);
-
+        
         $document->setInternalId($edge[Edge::ENTRY_ID]);
         $document->setRevision($edge[Edge::ENTRY_REV]);
-
-        if ($documentId != $document->getId()) {
-            throw new ClientException('Got an invalid response from the server');
-        }
 
         return true;
     }
@@ -663,20 +1075,31 @@ class GraphHandler extends
      * @param mixed  $edgeId    - edge id as string or number
      * @param mixed  $label     - label for the edge or ''
      * @param Edge   $document  - patch edge-document which contains the attributes and values to be updated
-     * @param mixed  $options   - optional, array of options (see below)
-     *                          <p>Options are :
-     *                          <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     *                          <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
-     *                          <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     *                          </p>
+     * @param mixed  $options   optional, array of options (see below)
+     * <p>
+     * <li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     * <li><b>keepNull</b> - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+     * <li><b>waitForSync</b> - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     * </p>
+     * @param string $collection  - if one uses a graph with more than one vertex collection one must provide the collection                          
      *
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function updateEdge($graph, $edgeId, $label, Edge $document, $options = array())
+    public function updateEdge($graph, $edgeId, $label, Edge $document, $options = array(), $collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
+        }
+        $parts = explode( "/" , $edgeId);
+        if (count($parts) === 2) {
+        	$edgeId = $parts[1];
+        	$collection = $parts[0];
+        }
+        if (count($this->getEdgeCollections($graph)) !== 1 && $collection === null) {
+        	throw new ClientException('A collection must be provided.');
+        } else if (count($this->getEdgeCollections($graph)) === 1 && $collection === null) {
+        	$collection = $this->getEdgeCollections($graph)[0];
         }
 
         $options = array_merge(array(self::OPTION_REVISION => false), $options);
@@ -714,7 +1137,7 @@ class GraphHandler extends
             $document->set('$label', $label);
         }
 
-        $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $edgeId));
+        $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $collection, $edgeId));
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAll()));
         $json   = $result->getJson();
@@ -733,19 +1156,30 @@ class GraphHandler extends
      * @param mixed  $graph     - graph name as a string or instance of Graph
      * @param mixed  $edgeId    - edge id as string or number
      * @param mixed  $revision  - optional revision of the edge to be deleted
-     * @param mixed  $options   - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     *                          <p>Options are :
-     *                          <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     *                          <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     *                          </p>
+     * @param mixed  $options  optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     * <p>
+     * <li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     * <li><b>waitForSync</b> - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     * </p>
+     * @param string $collection  - if one uses a graph with more than one vertex collection one must provide the collection                          
      *
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function removeEdge($graph, $edgeId, $revision = null, $options = array())
+    public function removeEdge($graph, $edgeId, $revision = null, $options = array(), $collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
+        }
+        $parts = explode( "/" , $edgeId);
+        if (count($parts) === 2) {
+        	$edgeId = $parts[1];
+        	$collection = $parts[0];
+        }
+        if (count($this->getEdgeCollections($graph)) !== 1 && $collection === null) {
+        	throw new ClientException('A collection must be provided.');
+        } else if (count($this->getEdgeCollections($graph)) === 1 && $collection === null) {
+        	$collection = $this->getEdgeCollections($graph)[0];
         }
 
         // This preserves compatibility for the old policy parameter.
@@ -767,7 +1201,7 @@ class GraphHandler extends
             $params[ConnectionOptions::OPTION_REVISION] = $revision;
         }
 
-        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $edgeId));
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $collection, $edgeId));
         $url = UrlHelper::appendParamsUrl($url, $params);
         $this->getConnection()->delete($url);
 
@@ -778,44 +1212,53 @@ class GraphHandler extends
     /**
      * Get neighboring vertices of a given vertex
      *
-     * This will throw if the list cannot be fetched from the server
+     * This method accepts multiple argument types for the <b>vertex examples</b>, these can be:
+     * <li>a vertex id </li>
+     * <li>'null' to select every vertex</li>
+     * <li>an array containing key value pairs that must match a vertex</li>
+     * <li>an array of arrays containing key value pairs that must match a vertex. 
+     * This example means that you can define filters and combine them with "or".</li>
      *
      *
      * @throws Exception
      *
      * @param mixed      $graph        - graph name as a string or instance of Graph
-     * @param mixed      $vertexId     - the vertex id
-     * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
-     *                                 <p>Options are :<br>
-     *                                 <li>'batchSize' - the batch size of the returned cursor</li>
-     *                                 <li>'limit' - limit the result size by a give number</li>
-     *                                 <li>'count' - return the total number of results  Defaults to false.</li>
-     *                                 <li>'filter' - a optional filter</li>
-     *                                 <p>Filter options are :<br>
-     *                                 <li>'direction' - Filter for inbound (value "in") or outbound (value "out") neighbors. Default value is "any".</li>
-     *                                 <li>'labels' - filter by an array of edge labels (empty array means no restriction).</li>
-     *                                 <li>'properties' - filter neighbors by an array of edge properties</li>
-     *                                 <p>Properties options are :<br>
-     *                                 <li>'key' - Filter the result vertices by a key value pair.</li>
-     *                                 <li>'value' -  The value of the key.</li>
-     *                                 <li>'compare' - A comparison operator. (==, >, <, >=, <= )</li>
-     *                                 </p>
-     *                                 </p>
-     *                                 <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     *                                 <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
-     *                                 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     *                                 <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
-     *                                 <p>
-     *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-     *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
-     *                                 and the hidden attributes would not be applied to the attributes.<br>
-     *                                 </p>
-     *                                 </li>
-     *                                 </p>
+     * @param mixed      $vertexExample     - see functions introduction
+     * @param bool|array $options      optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
+     * <p>
+     * <li><b>batchSize</b> - the batch size of the returned cursor (deprecated, use 'setBatchsize' instead)</li>
+     * <li><b>limit</b> - limit the result size by a give number  (deprecated, use 'setLimit' instead)</li>
+     * <li><b>count</b> - return the total number of results  Defaults to false  (deprecated, use 'setCount' instead)</li>
+     * <li><b>filter</b> - a optional filter</li>
+     * <p>Filter options are :<br>
+     * <li><b>direction</b> - Filter for inbound (value "in") or outbound (value "out") neighbors. Default value is "any".</li>
+     * <li><b>labels</b> - filter by an array of edge labels (empty array means no restriction).</li>
+     * <li><b>properties</b> - filter neighbors by an array of edge properties</li>
+     * <p>Properties options are :<br>
+     * <li><b>key</b> - Filter the result vertices by a key value pair.</li>
+     * <li><b>value</b> -  The value of the key.</li>
+     * <li><b>compare</b> - A comparison operator. (==, >, <, >=, <= )</li>
+     * </p>
+     * </p>
+     * <li><b>minDepth</b> -  Defines the minimal length of a path from an edge to a vertex (default is 1, which means only the edges directly 
+     *  connected to a vertex would be returned).
+	 * <li><b>maxDepth</b> - Defines the maximal length of a path from an edge to a vertex (default is 1, which means only the edges directly
+	 *  connected to a vertex would be returned).
+     * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
+     * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
+     * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
+     * <p>
+     * This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+     * The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
+     * and the hidden attributes would not be applied to the attributes.<br>
+     * </p>
+     * </li>
+     * </p>
      *
-     * @return cursor - Returns a cursor containing the result
+     * @return Cursor
      */
-    public function getNeighborVertices($graph, $vertexId, $options = array())
+    public function getNeighborVertices($graph, $vertexExample, $options = array())
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
@@ -823,11 +1266,86 @@ class GraphHandler extends
 
         $options['objectType'] = 'vertex';
         $data                  = array_merge($options, $this->getCursorOptions($options));
-
-        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTICES, $vertexId));
-        $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
-
-        return new Cursor($this->getConnection(), $response->getJson(), $options);
+        $filterString = 'FILTER ';
+        $statement = new Statement($this->getConnection(), array(
+        		"query"     => ''
+        ));
+        $statement->setResulType($options['objectType']);
+        $aql = "FOR a IN GRAPH_NEIGHBORS(@graphName, @vertex, @options) ";
+        if (isset($options['filter']) && isset($options['filter']['direction'])) {
+        	if ($options['filter']['direction'] === "in") {
+        		$options['filter']['direction'] = "inbound";
+        	}
+        	if ($options['filter']['direction'] === "out") {
+        		$options['filter']['direction'] = "outbound";
+        	}
+        	$options['direction'] = $options['filter']['direction'];
+        }
+        if (isset($options['filter']) && isset($options['filter']['properties'])) {
+        	if (!isset($options['filter']['properties'][0])) {
+        		$tmp = $options['filter']['properties'];
+        		$options['filter']['properties'] = array();
+        		$options['filter']['properties'][0] = $tmp;
+        	}
+        	$i = 0;
+        	foreach ($options['filter']['properties'] as $filter) {
+        		$i++;
+        		switch ($filter['compare']) {
+        			case "HAS":
+        				$aql .= $filterString . "HAS(a.path.edges[0], @key" . $i . ") ";
+        				$statement->bind('key' . $i, $filter['key']);
+        				break;
+        			case "HAS_NOT":
+        				$aql .= $filterString . "!HAS(a.path.edges[0], @key" . $i . ") ";
+        				$statement->bind('key' . $i, $filter['key']);
+        				break;
+        			default:
+        				$aql .= $filterString . "a.path.edges[0][@key" . $i . "] " .  $filter['compare'] . " @value" . $i;
+        				$statement->bind('key' . $i, $filter['key']);
+        				$statement->bind('value' . $i, $filter['value']);
+        				break;
+        		} 
+        		$filterString = ' && ';
+        	}
+        }
+        
+        if (isset($options['filter']) && isset($options['filter']['labels'])) {
+        	$aql .= $filterString . 'a.path.edges[0]["$label"] IN @labels ';
+        	$statement->bind('labels', $options['filter']['labels']);
+        }
+        unset($options['filter']);  
+        $statement->bind('graphName', $graph);
+        $statement->bind('vertex', $vertexExample);
+        $statement->bind('options', $options);
+        if (isset($options["batchSize"])) {
+        	$this->setBatchsize($options["batchSize"]);
+        	$statement->setBatchSize($options["batchSize"]);
+        }
+        if (isset($options["count"])) {
+        	$this->setCount($options["count"]);
+        	$statement->setCount($options["count"]);
+        }
+        if (isset($options["limit"])) {
+        	$this->setLimit($options["limit"]);
+        	$aql .= " LIMIT " . $options["limit"];
+        }
+        if (isset($this->batchsize)) {
+        	$statement->setBatchSize($this->batchsize);
+        	unset($this->batchsize);
+        }
+        if (isset($this->count)) {
+        	$statement->setCount($this->count);
+        	unset($this->count);
+        }
+        if (isset($this->limit)) {
+        	$aql .= " LIMIT " . $this->limit;
+        	unset($this->limit);
+        }
+        
+        $aql .= " RETURN a.vertex";
+        $statement->setQuery($aql);
+        return $statement->execute();
+        
     }
 
 
@@ -842,26 +1360,30 @@ class GraphHandler extends
      * @param mixed      $graph        - graph name as a string or instance of Graph
      * @param mixed      $vertexId     - the vertex id
      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
-     *                                 <p>Options are :<br>
-     *                                 <li>'batchSize' - the batch size of the returned cursor</li>
-     *                                 <li>'limit' - limit the result size by a give number</li>
-     *                                 <li>'count' - return the total number of results  Defaults to false.</li>
-     *                                 <li>'filter' - a optional filter</li>
-     *                                 <p>Filter options are :<br>
-     *                                 <li>'direction' - Filter for inbound (value "in") or outbound (value "out") neighbors. Default value is "any".</li>
-     *                                 <li>'labels' - filter by an array of edge labels (empty array means no restriction).</li>
-     *                                 <li>'properties' - filter neighbors by an array of edge properties</li>
-     *                                 <p>Properties options are :<br>
-     *                                 <li>'key' - Filter the result vertices by a key value pair.</li>
-     *                                 <li>'value' -  The value of the key.</li>
-     *                                 <li>'compare' - A comparison operator. (==, >, <, >=, <= )</li>
+     * <p><br>
+     * <li><b>batchSize</b> - the batch size of the returned cursor (deprecated, use 'setBatchsize' instead)</li>
+     * <li><b>limit</b> - limit the result size by a give number  (deprecated, use 'setLimit' instead)</li>
+     * <li><b>count</b> - return the total number of results  Defaults to false  (deprecated, use 'setCount' instead)</li>
+     * <li><b>filter</b> - a optional filter</li>
+     * <p>Filter options are :<br>
+     * <li><b>direction</b> - Filter for inbound (value "in") or outbound (value "out") neighbors. Default value is "any".</li>
+     * <li><b>labels</b> - filter by an array of edge labels (empty array means no restriction).</li>
+     * <li><b>properties</b> - filter neighbors by an array of edge properties</li>
+     * <p>Properties options are :<br>
+     * <li><b>key</b> - Filter the result vertices by a key value pair.</li>
+     * <li><b>value</b> -  The value of the key.</li>
+     * <li><b>compare</b> - A comparison operator. (==, >, <, >=, <= )</li>
      *                                 </p>
      *                                 </p>
-     *                                 <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     *                                 <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
-     *                                 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     *                                 <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
-     *                                 <p>
+     * <li><b>minDepth</b> -  Defines the minimal length of a path from an edge to a vertex 
+	 *                                 (default is 1, which means only the edges directly connected to a vertex would be returned).
+	 * <li><b>maxDepth</b> - Defines the maximal length of a path from an edge to a vertex 
+	 *                                 (default is 1, which means only the edges directly connected to a vertex would be returned).
+     * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
+     * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
+     * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
+     * <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
      *                                 and the hidden attributes would not be applied to the attributes.<br>
@@ -877,13 +1399,12 @@ class GraphHandler extends
             $graph = $graph->getKey();
         }
 
-        $options['objectType'] = 'edge';
-        $data                  = array_merge($options, $this->getCursorOptions($options));
-
-        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGES, $vertexId));
-        $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
-
-        return new Cursor($this->getConnection(), $response->getJson(), $options);
+        if (isset($options["filter"]) && isset($options["filter"]["direction"])) {
+        	$options["direction"] = $options["filter"]["direction"];
+        }
+        $options['vertexExample'] = $vertexId;
+        
+        return $this->getEdges($graph, $options);
     }
 
     /**
@@ -896,24 +1417,24 @@ class GraphHandler extends
      *
      * @param mixed      $graph        - graph name as a string or instance of Graph
      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
-     *                                 <p>Options are :<br>
-     *                                 <li>'batchSize' - the batch size of the returned cursor</li>
-     *                                 <li>'limit' - limit the result size by a give number</li>
-     *                                 <li>'count' - return the total number of results  Defaults to false.</li>
-     *                                 <li>'filter' - a optional filter</li>
-     *                                 <p>Filter options are :<br>
-     *                                 <li>'properties' - filter neighbors by an array of edge properties</li>
-     *                                 <p>Properties options are :<br>
-     *                                 <li>'key' - Filter the result vertices by a key value pair.</li>
-     *                                 <li>'value' -  The value of the key.</li>
-     *                                 <li>'compare' - A comparison operator. (==, >, <, >=, <= )</li>
+     * <p><br>
+     * <li><b>batchSize</b> - the batch size of the returned cursor (deprecated, use 'setBatchsize' instead)</li>
+     * <li><b>limit</b> - limit the result size by a give number  (deprecated, use 'setLimit' instead)</li>
+     * <li><b>count</b> - return the total number of results  Defaults to false  (deprecated, use 'setCount' instead)</li>
+     * <li><b>filter</b> - a optional filter</li>
+     * <p>Filter options are :<br>
+     * <li><b>properties</b> - filter neighbors by an array of edge properties</li>
+     * <p>Properties options are :<br>
+     * <li><b>key</b> - Filter the result vertices by a key value pair.</li>
+     * <li><b>value</b> -  The value of the key.</li>
+     * <li><b>compare</b> - A comparison operator. (==, >, <, >=, <= )</li>
      *                                 </p>
      *                                 </p>
-     *                                 <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     *                                 <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
-     *                                 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     *                                 <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
-     *                                 <p>
+     * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
+     * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
+     * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
+     * <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
      *                                 and the hidden attributes would not be applied to the attributes.<br>
@@ -928,14 +1449,73 @@ class GraphHandler extends
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
         }
-
+        
         $options['objectType'] = 'vertex';
         $data                  = array_merge($options, $this->getCursorOptions($options));
-
-        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTICES));
-        $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
-
-        return new Cursor($this->getConnection(), $response->getJson(), $options);
+        $filterString = 'FILTER ';
+        $statement = new Statement($this->getConnection(), array(
+        		"query"     => ''
+        ));
+        $aql = "FOR a IN GRAPH_VERTICES(@graphName, {}, @options) ";
+        
+        if (isset($options['filter']) && isset($options['filter']['properties'])) {
+        	if (!isset($options['filter']['properties'][0])) {
+        		$tmp = $options['filter']['properties'];
+        		$options['filter']['properties'] = array();
+        		$options['filter']['properties'][0] = $tmp;
+        	}
+        	$i = 0;
+        	foreach ($options['filter']['properties'] as $filter) {
+        		$i++;
+        		switch ($filter['compare']) {
+        			case "HAS":
+        				$aql .= $filterString . "HAS(a, @key" . $i . ") ";
+        				$statement->bind('key' . $i, $filter['key']);
+        				break;
+        			case "HAS_NOT":
+        				$aql .= $filterString . "!HAS(a, @key" . $i . ") ";
+        				$statement->bind('key' . $i, $filter['key']);
+        				break;
+        			default:
+        				$aql .= $filterString . "a[@key" . $i . "] " .  $filter['compare'] . " @value" . $i;
+        				$statement->bind('key' . $i, $filter['key']);
+        				$statement->bind('value' . $i, $filter['value']);
+        				break;
+        		} 
+        		$filterString = ' && ';
+        	}
+        }
+        
+        $statement->bind('graphName', $graph);
+        $statement->bind('options', $options);
+    	if (isset($options["batchSize"])) {
+        	$this->setBatchsize($options["batchSize"]);
+        	$statement->setBatchSize($options["batchSize"]);
+        }
+        if (isset($options["count"])) {
+        	$this->setCount($options["count"]);
+        	$statement->setCount($options["count"]);
+        }
+        if (isset($options["limit"])) {
+        	$this->setLimit($options["limit"]);
+        	$aql .= " LIMIT " . $options["limit"];
+        }
+        if (isset($this->batchsize)) {
+        	$statement->setBatchSize($this->batchsize);
+        	unset($this->batchsize);
+        }
+        if (isset($this->count)) {
+        	$statement->setCount($this->count);
+        	unset($this->count);
+        }
+        if (isset($this->limit)) {
+        	$aql .= " LIMIT " . $this->limit;
+        	unset($this->limit);
+        }
+        
+        $aql .= " RETURN a";
+        $statement->setQuery($aql);
+        return $statement->execute();
     }
 
 
@@ -949,25 +1529,37 @@ class GraphHandler extends
      *
      * @param mixed      $graph        - graph name as a string or instance of Graph
      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
-     *                                 <p>Options are :<br>
-     *                                 <li>'batchSize' - the batch size of the returned cursor</li>
-     *                                 <li>'limit' - limit the result size by a give number</li>
-     *                                 <li>'count' - return the total number of results  Defaults to false.</li>
-     *                                 <li>'filter' - a optional filter</li>
-     *                                 <p>Filter options are :<br>
-     *                                 <li>'properties' - filter neighbors by an array of edge properties</li>
-     *                                 <li>'labels' - filter by an array of edge labels (empty array means no restriction).</li>
-     *                                 <p>Properties options are :<br>
-     *                                 <li>'key' - Filter the result vertices by a key value pair.</li>
-     *                                 <li>'value' -  The value of the key.</li>
-     *                                 <li>'compare' - A comparison operator. (==, >, <, >=, <= )</li>
+     * <p><br>
+     * <li><b>batchSize</b> - the batch size of the returned cursor (deprecated, use 'setBatchsize' instead)</li>
+     * <li><b>limit</b> - limit the result size by a give number  (deprecated, use 'setLimit' instead)</li>
+     * <li><b>count</b> - return the total number of results  Defaults to false  (deprecated, use 'setCount' instead)</li>
+     * <li><b>filter</b> - a optional filter</li>
+     * <p>Filter options are :<br>
+     * <li><b>properties</b> - filter neighbors by an array of edge properties</li>
+     * <li><b>labels</b> - filter by an array of edge labels (empty array means no restriction).</li>
+     * <p>Properties options are :<br>
+     * <li><b>key</b> - Filter the result edges by a key value pair.</li>
+     * <li><b>value</b> -  The value of the key.</li>
+     * <li><b>compare</b> - A comparison operator. (==, >, <, >=, <= )</li>
      *                                 </p>
-     *                                 </p>
-     *                                 <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     *                                 <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
-     *                                 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     *                                 <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
-     *                                 <p>
+     *                                 
+     * <li><b>vertexExample</b> - An example for the desired vertices.
+     * <li><b>direction</b> - The direction of the edges as a string. 
+     *                                 Possible values are *outbound*, *inbound* and *any* (default).
+     * <li>edgeCollectionRestriction*  - One or multiple edge collection names. 
+     *                                 Only edges from these collections will be considered for the path.
+     * <li>vertexCollectionRestriction* - One or multiple vertex collection names. 
+     *                                 Only vertices from these collections will be considered as start vertex of a path.
+	 * <li><b>minDepth</b> -  Defines the minimal length of a path from an edge to a vertex 
+	 *                                 (default is 1, which means only the edges directly connected to a vertex would be returned).
+	 * <li><b>maxDepth</b> - Defines the maximal length of a path from an edge to a vertex 
+	 *                                 (default is 1, which means only the edges directly connected to a vertex would be returned).
+     *                                 
+     * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
+     * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
+     * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
+     * <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
      *                                 and the hidden attributes would not be applied to the attributes.<br>
@@ -982,13 +1574,1110 @@ class GraphHandler extends
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
         }
-
+        
         $options['objectType'] = 'edge';
         $data                  = array_merge($options, $this->getCursorOptions($options));
+        $filterString = 'FILTER ';
+        $statement = new Statement($this->getConnection(), array(
+        		"query"     => ''
+        ));
+        $statement->setResulType($options['objectType']);
+        $p = "{}";
+        if (isset($options["vertexExample"])) {
+        	$p = "@ve";
+        	$statement->bind('ve', $options["vertexExample"]);
+        }
+        $aql = "FOR a IN GRAPH_EDGES(@graphName, " . $p . ", @options) ";
+        
+        if (isset($options['direction'])) {
+        	if ($options['direction'] === "in") {
+        		$options['direction'] = "inbound";
+        	}
+        	if ($options['direction'] === "out") {
+        		$options['direction'] = "outbound";
+        	}
+        }
+        
+        if (isset($options['filter']) && isset($options['filter']['properties'])) {
+        	if (!isset($options['filter']['properties'][0])) {
+        		$tmp = $options['filter']['properties'];
+        		$options['filter']['properties'] = array();
+        		$options['filter']['properties'][0] = $tmp;
+        	}
+        	$i = 0;
+        	foreach ($options['filter']['properties'] as $filter) {
+        		$i++;
+        		switch ($filter['compare']) {
+        			case "HAS":
+        				$aql .= $filterString . "HAS(a, @key" . $i . ") ";
+        				$statement->bind('key' . $i, $filter['key']);
+        				break;
+        			case "HAS_NOT":
+        				$aql .= $filterString . "!HAS(a, @key" . $i . ") ";
+        				$statement->bind('key' . $i, $filter['key']);
+        				break;
+        			default:
+        				$aql .= $filterString . "a[@key" . $i . "] " .  $filter['compare'] . " @value" . $i;
+        				$statement->bind('key' . $i, $filter['key']);
+        				$statement->bind('value' . $i, $filter['value']);
+        				break;
+        		} 
+        		$filterString = ' && ';
+        	}
+        }
+        
+        if (isset($options['filter']) && isset($options['filter']['labels'])) {
+        	$aql .= $filterString . 'a["$label"] IN @labels ';
+        	$statement->bind('labels', $options['filter']['labels']);
+        }
+        
+        $statement->bind('graphName', $graph);
+        $statement->bind('options', $options);
+    	if (isset($options["batchSize"])) {
+        	$this->setBatchsize($options["batchSize"]);
+        	$statement->setBatchSize($options["batchSize"]);
+        }
+        if (isset($options["count"])) {
+        	$this->setCount($options["count"]);
+        	$statement->setCount($options["count"]);
+        }
+        if (isset($options["limit"])) {
+        	$this->setLimit($options["limit"]);
+        	$aql .= " LIMIT " . $options["limit"];
+        }
+        if (isset($this->batchsize)) {
+        	$statement->setBatchSize($this->batchsize);
+        	unset($this->batchsize);
+        }
+        if (isset($this->count)) {
+        	$statement->setCount($this->count);
+        	unset($this->count);
+        }
+        if (isset($this->limit)) {
+        	$aql .= " LIMIT " . $this->limit;
+        	unset($this->limit);
+        }
+        
+        $aql .= " RETURN a";
+        $statement->setQuery($aql);
+        return $statement->execute();
+     }
+     
+     
+     
+     /**
+      * Get all pathes of a graph
+      *
+      * This will throw if the list cannot be fetched from the server
+      *
+      *
+      * @throws Exception
+      *
+      * @param mixed      $graph        - graph name as a string or instance of Graph
+      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
+      * <p><br>
+      * <li><b>batchSize</b> - the batch size of the returned cursor (deprecated, use 'setBatchsize' instead)</li>
+      * <li><b>limit</b> - limit the result size by a give number  (deprecated, use 'setLimit' instead)</li>
+      * <li><b>count</b> - return the total number of results  Defaults to false  (deprecated, use 'setCount' instead)</li>
+      * <li><b>direction</b> - The direction of the edges as a string.
+      *                                 Possible values are *outbound*, *inbound* and *any* (default).
+      * <li>followCycles*  - If set to *true* the query follows cycles in the graph,
+  	  *						            default is false.
+      * <li><b>minDepth</b> -  Defines the minimal length of a path from an edge to a vertex
+      *                                 (default is 1, which means only the edges directly connected to a vertex would be returned).
+      * <li><b>maxDepth</b> - Defines the maximal length of a path from an edge to a vertex
+      *                                 (default is 1, which means only the edges directly connected to a vertex would be returned).
+      *
+      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
+      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
+      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
+      * <p>
+      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
+      *                                 and the hidden attributes would not be applied to the attributes.<br>
+      *                                 </p>
+      *                                 </li>
+      *                                 </p>
+      *
+      * @return cursor - Returns a cursor containing the result
+      */
+     public function getPaths($graph, $options = array())
+     {
+     	if ($graph instanceof Graph) {
+     		$graph = $graph->getKey();
+     	}
+     
+     	$options['objectType'] = 'path';
+     	$data                  = array_merge($options, $this->getCursorOptions($options));
+     	$statement = new Statement($this->getConnection(), array(
+     			"query"     => ''
+     	));
+     	$statement->setResulType($options['objectType']);
+     	$aql = "FOR a IN GRAPH_PATHS(@graphName,  @options) ";
+     
+     	if (isset($options['direction'])) {
+     		if ($options['direction'] === "in") {
+     			$options['direction'] = "inbound";
+     		}
+     		if ($options['direction'] === "out") {
+     			$options['direction'] = "outbound";
+     		}
+     	}
+     
+     	$statement->bind('graphName', $graph);
+     	$statement->bind('options', $options);
+     	if (isset($options["batchSize"])) {
+        	$this->setBatchsize($options["batchSize"]);
+        	$statement->setBatchSize($options["batchSize"]);
+        }
+        if (isset($options["count"])) {
+        	$this->setCount($options["count"]);
+        	$statement->setCount($options["count"]);
+        }
+        if (isset($options["limit"])) {
+        	$this->setLimit($options["limit"]);
+        	$aql .= " LIMIT " . $options["limit"];
+        }
+        if (isset($this->batchsize)) {
+        	$statement->setBatchSize($this->batchsize);
+        	unset($this->batchsize);
+        }
+        if (isset($this->count)) {
+        	$statement->setCount($this->count);
+        	unset($this->count);
+        }
+        if (isset($this->limit)) {
+        	$aql .= " LIMIT " . $this->limit;
+        	unset($this->limit);
+        }
+        
+     	$aql .= " RETURN a";
+     	$statement->setQuery($aql);
+     	return $statement->execute();
+     }
+     
+     /**
+      * Get the shortest pathes of a graph
+      *
+      * This will throw if the list cannot be fetched from the server
+      * This method accepts multiple argument types for the <b>vertex examples</b>, these can be:
+      * <li>a vertex id </li>
+      * <li><b>null' to select every vertex</li>
+      * <li>an array containing key value pairs that must match a vertex</li>
+      * <li>an array of arrays containing key value pairs that must match a vertex. 
+      * This example means that you can define filters and combine them with "or".</li>
+      *
+      * @throws Exception
+      *
+      * @param mixed      $graph        - graph name as a string or instance of Graph
+      * @param mixed      $startVertexExample  - see functions introduction
+      * @param mixed      $endVertexExample    - see functions introduction
+      * 
+      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
+      * <p><br>
+      * <li><b>batchSize</b> - the batch size of the returned cursor (deprecated, use 'setBatchsize' instead)</li>
+      * <li><b>limit</b> - limit the result size by a give number  (deprecated, use 'setLimit' instead)</li>
+      * <li><b>count</b> - return the total number of results  Defaults to false  (deprecated, use 'setCount' instead)</li>
+      * <li><b>direction</b> - The direction of the edges as a string.
+      *                                 Possible values are *outbound*, *inbound* and *any* (default).</li>
+      * 								<li><b>edgeCollectionRestriction'        - One or multiple edge
+	  *									collection names. Only edges from these collections will be considered for the path.<li>
+	  * 								<li><b>startVertexCollectionRestriction</b> - One or multiple vertex
+      *									collection names. Only vertices from these collections will be considered as start vertex of a path.</li>
+      * 								<li><b>endVertexCollectionRestriction</b> - One or multiple vertex
+      *									collection names. Only vertices from these collections will be considered as end vertex of a path.</li>
+      * 								<li><b>edgeExamples'  - A filter example for the edges in the shortest paths, see introduction.
+	  *									<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
+      *                                 <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the 
+      *                                 default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
+	  * 								<li><b>weight'  - The name of the attribute of the edges containing the length as a string.
+	  * 								<li><b>defaultWeight'  - Only used with the option *weight*. If an edge does not have the attribute named as 
+	  * 								defined in option *weight* this default.
+      *
+      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
+      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
+      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
+      * <p>
+      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
+      *                                 and the hidden attributes would not be applied to the attributes.<br>
+      *                                 </p>
+      *                                 </li>
+      *                                 </p>
+      *
+      * @return cursor - Returns a cursor containing the result
+      */
+     public function getShortestPaths($graph, 
+     								  $startVertexExample = null,
+                                      $endVertexExample = null,
+                                      $options = array())
+     {
+     	if ($graph instanceof Graph) {
+     		$graph = $graph->getKey();
+     	}
+     	 
+     	$options['objectType'] = 'shortestPath';
+     	$data                  = array_merge($options, $this->getCursorOptions($options));
+     	$statement = new Statement($this->getConnection(), array(
+     			"query"     => ''
+     	));
+     	$statement->setResulType($options['objectType']);
+     	$aql = "FOR a IN GRAPH_SHORTEST_PATH(@graphName, @start, @end , @options) ";
+     	 
+     	if (isset($options['direction'])) {
+     		if ($options['direction'] === "in") {
+     			$options['direction'] = "inbound";
+     		}
+     		if ($options['direction'] === "out") {
+     			$options['direction'] = "outbound";
+     		}
+     	}
+     	 
+     	$statement->bind('graphName', $graph);
+     	$statement->bind('start', $startVertexExample);
+     	$statement->bind('end', $endVertexExample);
+     	$statement->bind('options', $options);
+     	if (isset($options["batchSize"])) {
+        	$this->setBatchsize($options["batchSize"]);
+        	$statement->setBatchSize($options["batchSize"]);
+        }
+        if (isset($options["count"])) {
+        	$this->setCount($options["count"]);
+        	$statement->setCount($options["count"]);
+        }
+        if (isset($options["limit"])) {
+        	$this->setLimit($options["limit"]);
+        	$aql .= " LIMIT " . $options["limit"];
+        }
+        if (isset($this->batchsize)) {
+        	$statement->setBatchSize($this->batchsize);
+        	unset($this->batchsize);
+        }
+        if (isset($this->count)) {
+        	$statement->setCount($this->count);
+        	unset($this->count);
+        }
+        if (isset($this->limit)) {
+        	$aql .= " LIMIT " . $this->limit;
+        	unset($this->limit);
+        }
+        
+     	$aql .= " RETURN a";
+     	$statement->setQuery($aql);
+     	return $statement->execute();
+     }
+     
+     /**
+      * Gets the distance of vertex pairs of a graph
+      *
+      * This will throw if the list cannot be fetched from the server
+      * For optional parameter description see 'getShortestPaths'. 
+      *
+      * @throws Exception
+      *
+      * @param mixed      $graph        - graph name as a string or instance of Graph
+      * @param mixed      $startVertexExample  - see functions introduction
+      * @param mixed      $endVertexExample    - see functions introduction
+      *
+      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
+      *
+      * @return cursor - Returns a cursor containing the result
+      */
+     public function getDistanceTo($graph,
+     	$startVertexExample = null,
+     	$endVertexExample = null,
+     	$options = array())
+     {
+     	if ($graph instanceof Graph) {
+     		$graph = $graph->getKey();
+     	}
+     	 
+     	$options['objectType'] = 'distanceTo';
+     	$data                  = array_merge($options, $this->getCursorOptions($options));
+     	$statement = new Statement($this->getConnection(), array(
+     			"query"     => ''
+     	));
+     	$statement->setResulType($options['objectType']);
+     	$aql = "FOR a IN GRAPH_DISTANCE_TO(@graphName, @start, @end , @options) ";
+     	 
+     	if (isset($options['direction'])) {
+     		if ($options['direction'] === "in") {
+     			$options['direction'] = "inbound";
+     		}
+     		if ($options['direction'] === "out") {
+     			$options['direction'] = "outbound";
+     		}
+     	}
+     	 
+     	$statement->bind('graphName', $graph);
+     	$statement->bind('start', $startVertexExample);
+     	$statement->bind('end', $endVertexExample);
+     	$statement->bind('options', $options);
+     	if (isset($options["batchSize"])) {
+        	$this->setBatchsize($options["batchSize"]);
+        	$statement->setBatchSize($options["batchSize"]);
+        }
+        if (isset($options["count"])) {
+        	$this->setCount($options["count"]);
+        	$statement->setCount($options["count"]);
+        }
+        if (isset($options["limit"])) {
+        	$this->setLimit($options["limit"]);
+        	$aql .= " LIMIT " . $options["limit"];
+        }
+        if (isset($this->batchsize)) {
+        	$statement->setBatchSize($this->batchsize);
+        	unset($this->batchsize);
+        }
+        if (isset($this->count)) {
+        	$statement->setCount($this->count);
+        	unset($this->count);
+        }
+        if (isset($this->limit)) {
+        	$aql .= " LIMIT " . $this->limit;
+        	unset($this->limit);
+        }
+        
+     	$aql .= " RETURN a";
+     	$statement->setQuery($aql);
+     	return $statement->execute();
+     }
+     
+     /**
+      * Get common neighboring vertices of 2 gicen vertices.
+      *
+      * This will throw if the list cannot be fetched from the server
+      * 
+      * This method returns the intersection of the result of 'getNeighborVertices.'
+      * This method accepts a different set of options than 'getNeighborVertices.'
+      * 'batchsize', 'limit' and 'count' can be passed in any of the options arrays. 
+      *
+      *
+      * @throws Exception
+      *
+      * @param mixed      $graph        - graph name as a string or instance of Graph
+      * @param mixed      $vertex1Example     - see 'getNeighborVertices'
+      * @param mixed      $vertex2Example     - see 'getNeighborVertices'
+      * @param array      $options1      - see 'options' description. 
+      * @param array      $options2      - see 'options' description.
+      * <p><br>
+      * <li><b>direction</b> - "any" or "inbound" (or "in") or "outbound" (or "out") . Default value is "any".</li>
+      * <li><b>edgeExamples</b> - A filter example for the edges, see $vertex1Example</li>
+      * <li><b>neighborExamples</b> - A filter example for the neighbors, see $vertex1Example</li>
+      *									<li>edgeCollectionRestriction*  - One or multiple edge collection names. 
+      *                                 Only edges from these collections will be considered for the path.
+      * <li>vertexCollectionRestriction* - One or multiple vertex collection names. 
+      *                                 Only vertices from these collections will be considered as start vertex of a path.
+	  * <li><b>minDepth</b> -  Defines the minimal length of a path from an edge to a vertex 
+	  *                                 (default is 1, which means only the edges directly connected to a vertex would be returned).
+	  * <li><b>maxDepth</b> - Defines the maximal length of a path from an edge to a vertex 
+	  *                                 (default is 1, which means only the edges directly connected to a vertex would be returned).
+      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
+      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
+      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
+      * <p>
+      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
+      *                                 and the hidden attributes would not be applied to the attributes.<br>
+      *                                 </p>
+      *                                 </li>
+      *                                 </p>
+      *
+      * @return cursor - Returns a cursor containing the result
+      */
+     public function getCommonNeighborVertices($graph, $vertex1Example = null, $vertex2Example = null, $options1 = array(),$options2 = array())
+     {
+     	if ($graph instanceof Graph) {
+     		$graph = $graph->getKey();
+     	}
+     
+     	$statement = new Statement($this->getConnection(), array(
+     			"query"     => ''
+     	));
+     	$statement->setResulType('commonNeighbors');
+     	$aql = "FOR a IN GRAPH_COMMON_NEIGHBORS(@graphName, @vertex1, @vertex2, @options1, @options2) ";
+     	if (isset($options1['direction'])) {
+     		if ($options1['direction'] === "in") {
+     			$options1['direction'] = "inbound";
+     		}
+     		if ($options1['direction'] === "out") {
+     			$options1['direction'] = "outbound";
+     		}
+     	}
 
-        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGES));
-        $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
-
-        return new Cursor($this->getConnection(), $response->getJson(), $options);
-    }
+     	if (isset($options2['direction'])) {
+     		if ($options2['direction'] === "in") {
+     			$options2['direction'] = "inbound";
+     		}
+     		if ($options2['direction'] === "out") {
+     			$options2['direction'] = "outbound";
+     		}
+     	}
+     	
+     	$statement->bind('graphName', $graph);
+     	$statement->bind('vertex1', $vertex1Example);
+     	$statement->bind('vertex2', $vertex2Example);
+     	$statement->bind('options1', $options1);
+     	$statement->bind('options2', $options2);
+        if (isset($this->batchsize)) {
+        	$statement->setBatchSize($this->batchsize);
+        	unset($this->batchsize);
+        }
+        if (isset($this->count)) {
+        	$statement->setCount($this->count);
+        	unset($this->count);
+        }
+        if (isset($this->limit)) {
+        	$aql .= " LIMIT " . $this->limit;
+        	unset($this->limit);
+        }
+        
+     	$aql .= " RETURN a";
+     	$statement->setQuery($aql);
+     	return $statement->execute();
+     
+     }
+     
+     
+     /**
+      * Get vertices with common properties.
+      *
+      * This will throw if the list cannot be fetched from the server
+      *
+      * This method accepts multiple argument types for the <b>vertex examples</b>, these can be:
+      * <li>a vertex id </li>
+      * <li><b>null' to select every vertex</li>
+      * <li>an array containing key value pairs that must match a vertex</li>
+      * <li>an array of arrays containing key value pairs that must match a vertex. 
+      * This example means that you can define filters and combine them with "or".</li>
+      *
+      * @throws Exception
+      *
+      * @param mixed      $graph        - graph name as a string or instance of Graph
+      * @param mixed      $vertex1Example     - see 'getNeighborVertices'
+      * @param mixed      $vertex2Example     - see 'getNeighborVertices'
+      * @param array      $options      - see 'options' description.
+      * <p><br>
+      * <li>vertex1CollectionRestriction* - One or multiple vertex collection names.
+      *                                 Only vertices from these collections will be considered.
+      * <li>vertex2CollectionRestriction* - One or multiple vertex collection names.
+      *                                 Only vertices from these collections will be considered.
+      * <li><b>ignoreProperties</b> - One or multiple attributes of a document that should be ignored, either a string or an array.
+      *                                 </li>
+      *                                 </p>
+      *
+      * @return cursor - Returns a cursor containing the result
+      */
+     public function getCommonProperties($graph, $vertex1Example= null, $vertex2Example = null, $options = array())
+     {
+     	if ($graph instanceof Graph) {
+     		$graph = $graph->getKey();
+     	}
+     	 
+     	$statement = new Statement($this->getConnection(), array(
+     			"query"     => ''
+     	));
+     	$statement->setResulType('commonProperties');
+     	$aql = "FOR a IN GRAPH_COMMON_PROPERTIES(@graphName, @vertex1, @vertex2, @options) ";
+     	
+     	$statement->bind('graphName', $graph);
+     	$statement->bind('vertex1', $vertex1Example);
+     	$statement->bind('vertex2', $vertex2Example);
+     	$statement->bind('options', $options);
+     	if (isset($this->batchsize)) {
+     		$statement->setBatchSize($this->batchsize);
+     		unset($this->batchsize);
+     	}
+     	if (isset($this->count)) {
+     		$statement->setCount($this->count);
+     		unset($this->count);
+     	}
+     	if (isset($this->limit)) {
+     		$aql .= " LIMIT " . $this->limit;
+     		unset($this->limit);
+     	}
+     
+     	$aql .= " RETURN a";
+     	$statement->setQuery($aql);
+     	return $statement->execute();
+     	 
+     }
+     
+     
+     
+     /**
+      * Get the absolute <a href="http://en.wikipedia.org/wiki/Distance_%28graph_theory%29">eccentricity</a> of a graph.
+      *
+      * This will throw if the list cannot be fetched from the server
+      * This does not support 'batchsize', 'limit' and 'count'.
+      * This method accepts multiple argument types for the <b>vertex examples</b>, these can be:
+      * <li>a vertex id </li>
+      * <li><b>null' to select every vertex</li>
+      * <li>an array containing key value pairs that must match a vertex</li>
+      * <li>an array of arrays containing key value pairs that must match a vertex.
+      * This example means that you can define filters and combine them with "or".</li>
+      *
+      * @throws Exception
+      *
+      * @param mixed      $graph        - graph name as a string or instance of Graph
+      * @param mixed      $vertexExample  - see functions introduction
+      *
+      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
+      * <p><br>
+      * <li><b>direction</b> - The direction of the edges as a string.
+      *                                 Possible values are *outbound*, *inbound* and *any* (default).</li>
+      * 								<li><b>edgeCollectionRestriction'        - One or multiple edge
+      *									collection names. Only edges from these collections will be considered for the path.<li>
+      * 								<li><b>startVertexCollectionRestriction</b> - One or multiple vertex
+      *									collection names. Only vertices from these collections will be considered as start vertex of a path.</li>
+      * 								<li><b>endVertexCollectionRestriction</b> - One or multiple vertex
+      *									collection names. Only vertices from these collections will be considered as end vertex of a path.</li>
+      * 								<li><b>edgeExamples'  - A filter example for the edges in the shortest paths, see introduction.
+      *									<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
+      *                                 <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the
+      *                                 default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
+      * 								<li><b>weight'  - The name of the attribute of the edges containing the length as a string.
+      * 								<li><b>defaultWeight'  - Only used with the option *weight*. If an edge does not have the attribute named as
+      * 								defined in option *weight* this default.
+      *
+      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
+      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
+      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
+      * <p>
+      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
+      *                                 and the hidden attributes would not be applied to the attributes.<br>
+      *                                 </p>
+      *                                 </li>
+      *                                 </p>
+      *
+      *
+      * @return array - Returns an array containing the result
+      */
+     public function getAbsoluteEccentricity($graph,
+     										$vertexExample = null,
+     										$options = array())
+     {
+     	if ($graph instanceof Graph) {
+     		$graph = $graph->getKey();
+     	}
+     	 
+     	$options['objectType'] = 'figure';
+     	$data                  = array_merge($options, $this->getCursorOptions($options));
+     	$statement = new Statement($this->getConnection(), array(
+     			"query"     => ''
+     	));
+     	$statement->setResulType($options['objectType']);
+     	$aql = "RETURN GRAPH_ABSOLUTE_ECCENTRICITY(@graphName, @vertex , @options) ";
+     	 
+     	if (isset($options['direction'])) {
+     		if ($options['direction'] === "in") {
+     			$options['direction'] = "inbound";
+     		}
+     		if ($options['direction'] === "out") {
+     			$options['direction'] = "outbound";
+     		}
+     	}
+     	 
+     	$statement->bind('graphName', $graph);
+     	$statement->bind('vertex', $vertexExample);
+     	$statement->bind('options', $options);
+     	
+     	$statement->setQuery($aql);
+     	return $statement->execute()->getAll();
+     }
+     
+     
+     /**
+      * Get the <a href="http://en.wikipedia.org/wiki/Distance_%28graph_theory%29">eccentricity</a> of a graph.
+      *
+      * This will throw if the list cannot be fetched from the server
+      * This does not support 'batchsize', 'limit' and 'count'.
+      *
+      * @throws Exception
+      *
+      * @param mixed      $graph        - graph name as a string or instance of Graph
+      *
+      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
+      * <p><br>
+      * <li><b>direction</b> - The direction of the edges as a string.
+      *                                 Possible values are *outbound*, *inbound* and *any* (default).</li>
+      *									<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
+      *                                 <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the
+      *                                 default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
+      * 								<li><b>weight'  - The name of the attribute of the edges containing the length as a string.
+      * 								<li><b>defaultWeight'  - Only used with the option *weight*. If an edge does not have the attribute named as
+      * 								defined in option *weight* this default.
+      *
+      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
+      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
+      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
+      * <p>
+      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
+      *                                 and the hidden attributes would not be applied to the attributes.<br>
+      *                                 </p>
+      *                                 </li>
+      *                                 </p>
+      *
+      *
+      * @return array - Returns an array containing the result
+      */
+     public function getEccentricity($graph,
+     	$options = array())
+     {
+     	if ($graph instanceof Graph) {
+     		$graph = $graph->getKey();
+     	}
+     	 
+     	$options['objectType'] = 'figure';
+     	$data                  = array_merge($options, $this->getCursorOptions($options));
+     	$statement = new Statement($this->getConnection(), array(
+     			"query"     => ''
+     	));
+     	$statement->setResulType($options['objectType']);
+     	$aql = "RETURN GRAPH_ECCENTRICITY(@graphName, @options) ";
+     	 
+     	if (isset($options['direction'])) {
+     		if ($options['direction'] === "in") {
+     			$options['direction'] = "inbound";
+     		}
+     		if ($options['direction'] === "out") {
+     			$options['direction'] = "outbound";
+     		}
+     	}
+     	 
+     	$statement->bind('graphName', $graph);
+     	$statement->bind('options', $options);
+     
+     	$statement->setQuery($aql);
+     	return $statement->execute()->getAll();
+     }
+     
+     /**
+      * Get the absolute <a href="http://en.wikipedia.org/wiki/Centrality#Closeness_centrality">closeness</a> of a graph.
+      *
+      * This will throw if the list cannot be fetched from the server
+      * This does not support 'batchsize', 'limit' and 'count'.
+      * This method accepts multiple argument types for the <b>vertex examples</b>, these can be:
+      * <li>a vertex id </li>
+      * <li><b>null' to select every vertex</li>
+      * <li>an array containing key value pairs that must match a vertex</li>
+      * <li>an array of arrays containing key value pairs that must match a vertex.
+      * This example means that you can define filters and combine them with "or".</li>
+      *
+      * @throws Exception
+      *
+      * @param mixed      $graph        - graph name as a string or instance of Graph
+      * @param mixed      $vertexExample  - see functions introduction
+      *
+      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
+      * <p><br>
+      * <li><b>direction</b> - The direction of the edges as a string.
+      *                                 Possible values are *outbound*, *inbound* and *any* (default).</li>
+      * 								<li><b>edgeCollectionRestriction'        - One or multiple edge
+      *									collection names. Only edges from these collections will be considered for the path.<li>
+      * 								<li><b>startVertexCollectionRestriction</b> - One or multiple vertex
+      *									collection names. Only vertices from these collections will be considered as start vertex of a path.</li>
+      * 								<li><b>endVertexCollectionRestriction</b> - One or multiple vertex
+      *									collection names. Only vertices from these collections will be considered as end vertex of a path.</li>
+      * 								<li><b>edgeExamples'  - A filter example for the edges in the shortest paths, see introduction.
+      *									<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
+      *                                 <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the
+      *                                 default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
+      * 								<li><b>weight'  - The name of the attribute of the edges containing the length as a string.
+      * 								<li><b>defaultWeight'  - Only used with the option *weight*. If an edge does not have the attribute named as
+      * 								defined in option *weight* this default.
+      *
+      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
+      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
+      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
+      * <p>
+      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
+      *                                 and the hidden attributes would not be applied to the attributes.<br>
+      *                                 </p>
+      *                                 </li>
+      *                                 </p>
+      *
+      *
+      * @return array - Returns an array containing the result
+      */
+     public function getAbsoluteCloseness($graph,
+     $vertexExample = null,
+     $options = array())
+     {
+     	if ($graph instanceof Graph) {
+     		$graph = $graph->getKey();
+     	}
+     	 
+     	$options['objectType'] = 'figure';
+     	$data                  = array_merge($options, $this->getCursorOptions($options));
+     	$statement = new Statement($this->getConnection(), array(
+     			"query"     => ''
+     	));
+     	$statement->setResulType($options['objectType']);
+     	$aql = "RETURN GRAPH_ABSOLUTE_CLOSENESS(@graphName, @vertex , @options) ";
+     	 
+     	if (isset($options['direction'])) {
+     		if ($options['direction'] === "in") {
+     			$options['direction'] = "inbound";
+     		}
+     		if ($options['direction'] === "out") {
+     			$options['direction'] = "outbound";
+     		}
+     	}
+     	 
+     	$statement->bind('graphName', $graph);
+     	$statement->bind('vertex', $vertexExample);
+     	$statement->bind('options', $options);
+     
+     	$statement->setQuery($aql);
+     	return $statement->execute()->getAll();
+     }
+      
+      
+     /**
+      * Get the <a href="http://en.wikipedia.org/wiki/Centrality#Closeness_centrality">closeness</a> of a graph.
+      *
+      * This will throw if the list cannot be fetched from the server
+      * This does not support 'batchsize', 'limit' and 'count'.
+      *
+      * @throws Exception
+      *
+      * @param mixed      $graph        - graph name as a string or instance of Graph
+      *
+      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
+      * <p><br>
+      * <li><b>direction</b> - The direction of the edges as a string.
+      *                                 Possible values are *outbound*, *inbound* and *any* (default).</li>
+      *									<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
+      *                                 <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the
+      *                                 default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
+      * 								<li><b>weight'  - The name of the attribute of the edges containing the length as a string.
+      * 								<li><b>defaultWeight'  - Only used with the option *weight*. If an edge does not have the attribute named as
+      * 								defined in option *weight* this default.
+      *
+      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
+      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
+      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
+      * <p>
+      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
+      *                                 and the hidden attributes would not be applied to the attributes.<br>
+      *                                 </p>
+      *                                 </li>
+      *                                 </p>
+      *
+      *
+      * @return array - Returns an array containing the result
+      */
+     public function getCloseness($graph,
+     $options = array())
+     {
+     	if ($graph instanceof Graph) {
+     		$graph = $graph->getKey();
+     	}
+     	 
+     	$options['objectType'] = 'figure';
+     	$data                  = array_merge($options, $this->getCursorOptions($options));
+     	$statement = new Statement($this->getConnection(), array(
+     			"query"     => ''
+     	));
+     	$statement->setResulType($options['objectType']);
+     	$aql = "RETURN GRAPH_CLOSENESS(@graphName, @options) ";
+     	 
+     	if (isset($options['direction'])) {
+     		if ($options['direction'] === "in") {
+     			$options['direction'] = "inbound";
+     		}
+     		if ($options['direction'] === "out") {
+     			$options['direction'] = "outbound";
+     		}
+     	}
+     	 
+     	$statement->bind('graphName', $graph);
+     	$statement->bind('options', $options);
+     	 
+     	$statement->setQuery($aql);
+     	return $statement->execute()->getAll();
+     }
+     
+     
+     /**
+      * Get the absolute <a href="http://en.wikipedia.org/wiki/Betweenness_centrality">betweenness</a> of a graph.
+      *
+      * This will throw if the list cannot be fetched from the server
+      * This does not support 'batchsize', 'limit' and 'count'.
+      *
+      * @throws Exception
+      *
+      * @param mixed      $graph        - graph name as a string or instance of Graph
+      *
+      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
+      * <p><br>
+      * <li><b>direction</b> - The direction of the edges as a string.
+      *                                 Possible values are *outbound*, *inbound* and *any* (default).</li>
+      *									<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
+      *                                 <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the
+      *                                 default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
+      * 								<li><b>weight'  - The name of the attribute of the edges containing the length as a string.
+      * 								<li><b>defaultWeight'  - Only used with the option *weight*. If an edge does not have the attribute named as
+      * 								defined in option *weight* this default.
+      *
+      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
+      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
+      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
+      * <p>
+      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
+      *                                 and the hidden attributes would not be applied to the attributes.<br>
+      *                                 </p>
+      *                                 </li>
+      *                                 </p>
+      *
+      *
+      * @return array - Returns an array containing the result
+      */
+     public function getAbsoluteBetweenness($graph,
+     $options = array())
+     {
+     	if ($graph instanceof Graph) {
+     		$graph = $graph->getKey();
+     	}
+     	 
+     	$options['objectType'] = 'figure';
+     	$data                  = array_merge($options, $this->getCursorOptions($options));
+     	$statement = new Statement($this->getConnection(), array(
+     			"query"     => ''
+     	));
+     	$statement->setResulType($options['objectType']);
+     	$aql = "RETURN GRAPH_ABSOLUTE_BETWEENNESS(@graphName, @options) ";
+     	 
+     	if (isset($options['direction'])) {
+     		if ($options['direction'] === "in") {
+     			$options['direction'] = "inbound";
+     		}
+     		if ($options['direction'] === "out") {
+     			$options['direction'] = "outbound";
+     		}
+     	}
+     	 
+     	$statement->bind('graphName', $graph);
+     	$statement->bind('options', $options);
+     	 
+     	$statement->setQuery($aql);
+     	return $statement->execute()->getAll();
+     }
+     
+     
+     /**
+      * Get the <a href="http://en.wikipedia.org/wiki/Betweenness_centrality">betweenness</a> of a graph.
+      *
+      * This will throw if the list cannot be fetched from the server
+      * This does not support 'batchsize', 'limit' and 'count'.
+      *
+      * @throws Exception
+      *
+      * @param mixed      $graph        - graph name as a string or instance of Graph
+      *
+      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
+      * <p><br>
+      * <li><b>direction</b> - The direction of the edges as a string.
+      *                                 Possible values are *outbound*, *inbound* and *any* (default).</li>
+      *									<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
+      *                                 <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the
+      *                                 default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
+      * 								<li><b>weight'  - The name of the attribute of the edges containing the length as a string.
+      * 								<li><b>defaultWeight'  - Only used with the option *weight*. If an edge does not have the attribute named as
+      * 								defined in option *weight* this default.
+      *
+      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
+      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
+      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
+      * <p>
+      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
+      *                                 and the hidden attributes would not be applied to the attributes.<br>
+      *                                 </p>
+      *                                 </li>
+      *                                 </p>
+      *
+      *
+      * @return array - Returns an array containing the result
+      */
+     public function getBetweenness($graph,
+     $options = array())
+     {
+     	if ($graph instanceof Graph) {
+     		$graph = $graph->getKey();
+     	}
+     	 
+     	$options['objectType'] = 'figure';
+     	$data                  = array_merge($options, $this->getCursorOptions($options));
+     	$statement = new Statement($this->getConnection(), array(
+     			"query"     => ''
+     	));
+     	$statement->setResulType($options['objectType']);
+     	$aql = "RETURN GRAPH_BETWEENNESS(@graphName, @options) ";
+     	 
+     	if (isset($options['direction'])) {
+     		if ($options['direction'] === "in") {
+     			$options['direction'] = "inbound";
+     		}
+     		if ($options['direction'] === "out") {
+     			$options['direction'] = "outbound";
+     		}
+     	}
+     	 
+     	$statement->bind('graphName', $graph);
+     	$statement->bind('options', $options);
+     	 
+     	$statement->setQuery($aql);
+     	return $statement->execute()->getAll();
+     }
+     
+     /**
+      * Get the <a href="http://en.wikipedia.org/wiki/Eccentricity_%28graph_theory%29">radius</a> of a graph.
+      *
+      * This will throw if the list cannot be fetched from the server
+      * This does not support 'batchsize', 'limit' and 'count'.
+      *
+      * @throws Exception
+      *
+      * @param mixed      $graph        - graph name as a string or instance of Graph
+      *
+      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
+      * <p><br>
+      * <li><b>direction</b> - The direction of the edges as a string.
+      *                                 Possible values are *outbound*, *inbound* and *any* (default).</li>
+      *									<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
+      *                                 <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the
+      *                                 default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
+      * 								<li><b>weight'  - The name of the attribute of the edges containing the length as a string.
+      * 								<li><b>defaultWeight'  - Only used with the option *weight*. If an edge does not have the attribute named as
+      * 								defined in option *weight* this default.
+      *
+      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
+      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
+      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
+      * <p>
+      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
+      *                                 and the hidden attributes would not be applied to the attributes.<br>
+      *                                 </p>
+      *                                 </li>
+      *                                 </p>
+      *
+      *
+      * @return double - the graph's radius
+      */
+     public function getRadius($graph,
+     $options = array())
+     {
+     	if ($graph instanceof Graph) {
+     		$graph = $graph->getKey();
+     	}
+     	 
+     	$options['objectType'] = 'figure';
+     	$data                  = array_merge($options, $this->getCursorOptions($options));
+     	$statement = new Statement($this->getConnection(), array(
+     			"query"     => ''
+     	));
+     	$statement->setResulType($options['objectType']);
+     	$aql = "RETURN GRAPH_RADIUS(@graphName, @options) ";
+     	 
+     	if (isset($options['direction'])) {
+     		if ($options['direction'] === "in") {
+     			$options['direction'] = "inbound";
+     		}
+     		if ($options['direction'] === "out") {
+     			$options['direction'] = "outbound";
+     		}
+     	}
+     	 
+     	$statement->bind('graphName', $graph);
+     	$statement->bind('options', $options);
+     	 
+     	$statement->setQuery($aql);
+     	return $statement->execute()->getAll()[0];
+     }
+     
+     /**
+      * Get the <a href="http://en.wikipedia.org/wiki/Eccentricity_%28graph_theory%29">diameter</a> of a graph.
+      *
+      * This will throw if the list cannot be fetched from the server
+      * This does not support 'batchsize', 'limit' and 'count'.
+      *
+      * @throws Exception
+      *
+      * @param mixed      $graph        - graph name as a string or instance of Graph
+      *
+      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
+      * <p><br>
+      * <li><b>direction</b> - The direction of the edges as a string.
+      *                                 Possible values are *outbound*, *inbound* and *any* (default).</li>
+      *									<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
+      *                                 <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the
+      *                                 default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
+      * 								<li><b>weight'  - The name of the attribute of the edges containing the length as a string.
+      * 								<li><b>defaultWeight'  - Only used with the option *weight*. If an edge does not have the attribute named as
+      * 								defined in option *weight* this default.
+      *
+      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
+      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
+      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
+      * <p>
+      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
+      *                                 and the hidden attributes would not be applied to the attributes.<br>
+      *                                 </p>
+      *                                 </li>
+      *                                 </p>
+      *
+      *
+      * @return double - the graph's diameter
+      */
+     public function getDiameter($graph,
+     $options = array())
+     {
+     	if ($graph instanceof Graph) {
+     		$graph = $graph->getKey();
+     	}
+     	 
+     	$options['objectType'] = 'figure';
+     	$data                  = array_merge($options, $this->getCursorOptions($options));
+     	$statement = new Statement($this->getConnection(), array(
+     			"query"     => ''
+     	));
+     	$statement->setResulType($options['objectType']);
+     	$aql = "RETURN GRAPH_DIAMETER(@graphName, @options) ";
+     	 
+     	if (isset($options['direction'])) {
+     		if ($options['direction'] === "in") {
+     			$options['direction'] = "inbound";
+     		}
+     		if ($options['direction'] === "out") {
+     			$options['direction'] = "outbound";
+     		}
+     	}
+     	 
+     	$statement->bind('graphName', $graph);
+     	$statement->bind('options', $options);
+     	 
+     	$statement->setQuery($aql);
+     	return $statement->execute()->getAll()[0];
+     }
+      
 }

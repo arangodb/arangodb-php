@@ -105,6 +105,14 @@ class Statement
      * @var bool
      */
     private $_sanitize = false;
+    
+    /**
+     * resultType
+     *
+     * @var string
+     */
+    private $resultType;
+    
 
     /**
      * Query string index
@@ -206,7 +214,7 @@ class Statement
     {
         $data     = $this->buildData();
         $response = $this->_connection->post(Urls::URL_CURSOR, $this->getConnection()->json_encode_wrapper($data));
-
+        
         return new Cursor($this->_connection, $response->getJson(), $this->getCursorOptions());
     }
 
@@ -331,6 +339,16 @@ class Statement
     {
         return $this->_query;
     }
+    
+    /**
+     * setResultType
+     *
+     * @return string - resultType of the query
+     */
+    public function setResulType($resultType)
+    {
+    	return $this->resultType = $resultType;
+    }
 
     /**
      * Set the count option for the statement
@@ -433,8 +451,7 @@ class Statement
         if ($this->_batchSize > 0) {
             $data[self::ENTRY_BATCHSIZE] = $this->_batchSize;
         }
-
-        return $data;
+		return $data;
     }
 
     /**
@@ -444,9 +461,13 @@ class Statement
      */
     private function getCursorOptions()
     {
-        return array(
+        $result = array(
             Cursor::ENTRY_SANITIZE => (bool) $this->_sanitize,
             Cursor::ENTRY_FLAT     => (bool) $this->_flat
         );
+        if (isset($this->resultType)) {
+        	$result[Cursor::ENTRY_TYPE]  = $this->resultType; 
+        }
+        return $result;
     }
 }

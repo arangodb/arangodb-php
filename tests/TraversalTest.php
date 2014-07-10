@@ -155,36 +155,36 @@ class TraversalTest extends
         $this->graphHandler->getVertex($this->graphName, $this->vertex5Name);
         $this->graphHandler->saveEdge(
                            $this->graphName,
-                           $this->vertex1Name,
-                           $this->vertex2Name,
+                           $this->vertexCollectionName . "/" . $this->vertex1Name,
+                           $this->vertexCollectionName . "/" . $this->vertex2Name,
                            $this->edgeLabel1,
                            $edge1
         );
         $this->graphHandler->saveEdge(
                            $this->graphName,
-                           $this->vertex2Name,
-                           $this->vertex3Name,
+                           $this->vertexCollectionName . "/" . $this->vertex2Name,
+                           $this->vertexCollectionName . "/" . $this->vertex3Name,
                            $this->edgeLabel2,
                            $edge2
         );
         $this->graphHandler->saveEdge(
                            $this->graphName,
-                           $this->vertex2Name,
-                           $this->vertex4Name,
+                           $this->vertexCollectionName . "/" . $this->vertex2Name,
+                           $this->vertexCollectionName . "/" . $this->vertex4Name,
                            $this->edgeLabel3,
                            $edge3
         );
         $this->graphHandler->saveEdge(
                            $this->graphName,
-                           $this->vertex5Name,
-                           $this->vertex1Name,
+                           $this->vertexCollectionName . "/" . $this->vertex5Name,
+                           $this->vertexCollectionName . "/" . $this->vertex1Name,
                            $this->edgeLabel4,
                            $edge4
         );
         $this->graphHandler->saveEdge(
                            $this->graphName,
-                           $this->vertex5Name,
-                           $this->vertex2Name,
+                           $this->vertexCollectionName . "/" . $this->vertex5Name,
+                           $this->vertexCollectionName . "/" . $this->vertex2Name,
                            $this->edgeLabel5,
                            $edge5
         );

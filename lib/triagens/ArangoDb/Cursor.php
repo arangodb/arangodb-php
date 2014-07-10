@@ -111,6 +111,11 @@ class Cursor implements
      * "flat" option entry (will treat the results as a simple array, not documents)
      */
     const ENTRY_FLAT = '_flat';
+    
+    /**
+     * "objectType" option entry.
+     */
+    const ENTRY_TYPE = 'objectType';
 
     /**
      * Initialise the cursor with the first results and some metadata
@@ -300,8 +305,8 @@ class Cursor implements
      * @return void
      */
     private function add(array $data)
-    {
-        foreach ($this->sanitize($data) as $row) {
+    {	
+    	foreach ($this->sanitize($data) as $row) {
 
             if ((isset($this->_options[self::ENTRY_FLAT]) && $this->_options[self::ENTRY_FLAT]) || !is_array($row)) {
                 $this->addFlatFromArray($row);
@@ -317,8 +322,34 @@ class Cursor implements
                             break;
                         case 'vertex' :
                             $this->addVerticesFromArray($row);
-
                             break;
+                        case 'path' :
+                        	$this->addPathsFromArray($row);
+                        	
+                            break;
+                        case 'shortestPath' :
+                          	$this->addShortestPathFromArray($row);
+                            	 
+                           	break;
+                           	
+						case 'distanceTo' :
+							$this->addDistanceToFromArray($row);
+							
+							break;
+							
+						case 'commonNeighbors' :
+							$this->addCommonNeighborsFromArray($row);
+								
+							break;
+
+						case 'commonProperties' :
+							$this->addCommonPropertiesFromArray($row);
+							
+							break;
+						case 'figure' :
+							$this->addFigureFromArray($row);
+								
+							break;
                         default :
                             $this->addDocumentsFromArray($row);
 
@@ -354,8 +385,130 @@ class Cursor implements
     {
         $this->_result[] = Document::createFromArray($data, $this->_options);
     }
-
-
+    
+    /**
+     * Create an array of paths from the input array
+     *
+     * @param array $data - array of incoming "paths" arrays
+     *
+     * @return void
+     */
+    private function addPathsFromArray(array $data)
+    {	
+    	$entry = array(
+    		"vertices" => array(),
+    		"edges" => array(),
+    		"source" => Document::createFromArray($data["source"], $this->_options),
+    		"destination" => Document::createFromArray($data["destination"], $this->_options),
+    	);
+    	foreach ($data["vertices"] as $v) {
+    		$entry["vertices"][] = Document::createFromArray($v, $this->_options);
+    	}
+    	foreach ($data["edges"] as $v) {
+    		$entry["edges"][] = Edge::createFromArray($v, $this->_options);
+    	}
+    	$this->_result[] = $entry;
+    }
+    
+    /**
+     * Create an array of shortest paths from the input array
+     *
+     * @param array $data - array of incoming "paths" arrays
+     *
+     * @return void
+     */
+    private function addShortestPathFromArray(array $data)
+    {
+    	$entry = array(
+    			"paths" => array (),
+    			"source" => $data["startVertex"],
+    			"distance" => $data["distance"],
+    			"destination" => Document::createFromArray($data["vertex"], $this->_options),
+    	);
+    	foreach ($data["paths"] as $p) {
+    		$path = array (
+    				"vertices" => array(),
+    				"edges" => array()
+    		);
+    		foreach ($p["vertices"] as $v) {
+	    		$path["vertices"][] = $v;
+	    	}
+	    	foreach ($p["edges"] as $v) {
+	    		$path["edges"][] = Edge::createFromArray($v, $this->_options);
+	    	}
+	    	$entry["paths"][] = $path;
+    	}
+    	$this->_result[] = $entry;
+    }
+    
+    
+    /**
+     * Create an array of distances from the input array
+     *
+     * @param array $data - array of incoming "paths" arrays
+     *
+     * @return void
+     */
+    private function addDistanceToFromArray(array $data)
+    {
+    	$entry = array(
+    			"source" => $data["startVertex"],
+    			"distance" => $data["distance"],
+    			"destination" => Document::createFromArray($data["vertex"], $this->_options),
+    	);
+    	$this->_result[] = $entry;
+    }
+    
+    /**
+     * Create an array of common neighbors from the input array
+     *
+     * @param array $data - array of incoming "paths" arrays
+     *
+     * @return void
+     */
+    private function addCommonNeighborsFromArray(array $data)
+    {	
+    	$k = array_keys($data)[0];
+    	$this->_result[$k] = array();
+    	
+     	foreach ($data[$k] as $neighbor => $neighbors) {
+    		$this->_result[$k][$neighbor] = array();
+    		foreach ($neighbors as $n) {
+    			$this->_result[$k][$neighbor][] = Document::createFromArray($n);
+    		}
+     	}
+    }
+    
+    /**
+     * Create an array of common properties from the input array
+     *
+     * @param array $data - array of incoming "paths" arrays
+     *
+     * @return void
+     */
+    private function addCommonPropertiesFromArray(array $data)
+    {	
+    	$k = array_keys($data)[0];
+     	$this->_result[$k] = array();
+      	foreach ($data[$k] as $c) {
+      		$id = $c["_id"];
+      		unset($c["_id"]);
+     		$this->_result[$k][$id] = $c;
+      	}
+    }
+    
+    /**
+     * Create an array of figuresfrom the input array
+     *
+     * @param array $data - array of incoming "paths" arrays
+     *
+     * @return void
+     */
+    private function addFigureFromArray(array $data)
+    {	
+    	$this->_result = $data;
+    }
+    
     /**
      * Create an array of Edges from the input array
      *

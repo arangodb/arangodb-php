@@ -294,9 +294,8 @@ class Connection
                 // check if we can find details in the response body
                 $details = json_decode($body, true);
                 if (is_array($details)) {
-
-                    // yes, we got details
-                    $exception = new ServerException($response->getResult(), $httpCode);
+					// yes, we got details
+                    $exception = new ServerException($details["errorMessage"], $details["code"]);
                     $exception->setDetails($details);
                     throw $exception;
                 }
@@ -631,13 +630,11 @@ class Connection
         if ($this->_options[ConnectionOptions::OPTION_CHECK_UTF8_CONFORM] === true) {
             self::check_encoding($data);
         }
-
         if (empty($data)) {
-            $response = json_encode($data, $options | JSON_FORCE_OBJECT);
+        	$response = json_encode($data, $options | JSON_FORCE_OBJECT);
         } else {
             $response = json_encode($data, $options);
         }
-
         return $response;
     }
 
