@@ -1,556 +1,1414 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-<meta charset="utf-8">
-<title>ArangoDB PHP client API » \triagens\ArangoDb\Batch</title>
-<meta name="author" content="Mike van Riel">
-<meta name="description" content="">
-<link href="../css/template.css" rel="stylesheet" media="all">
-<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
-<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
-<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>ArangoDB PHP client API</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="https://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    <script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
+
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
+
+            pre.textContent = '';
+
+            code.textContent = 'Loading…';
+
+            pre.appendChild(code);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', src, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
+
+                        Prism.highlightElement(code);
+                    }
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist or is empty';
+                    }
+                }
+            };
+
+            xhr.send(null);
+        });
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
+
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
 </head>
 <body>
+
 <div class="navbar navbar-fixed-top">
-<div class="navbar-inner"><div class="container">
-<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">ArangoDB PHP client API</a><div class="nav-collapse"><ul class="nav">
-<li class="dropdown">
-<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
-                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
-<li><a>Namespaces</a></li>
-<li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
-<li><a>Packages</a></li>
-<li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
-</ul>
-</li>
-<li class="dropdown" id="charts-menu">
-<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
-                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
-</li>
-<li class="dropdown" id="reports-menu">
-<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
-                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
-<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">0</span></a></li>
-<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
-                <ul></ul></a></li>
-<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
-                <span class="label label-info">9</span></a></li>
-</ul>
-</li>
-</ul></div>
-</div></div>
-<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
-</div>
-<div id="___" class="container">
-<noscript><div class="alert alert-warning">
-                            Javascript is disabled; several features are only available
-                            if Javascript is enabled.
-                        </div></noscript>
-<div class="row">
-<div class="span4">
-<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
-<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
-</div>
-<ul class="side-nav nav nav-list">
-<li class="nav-header">
-<i class="icon-custom icon-method"></i> Methods
-                    <ul>
-<li class="method public "><a href="#method___construct" title="__construct :: Constructor for Batch instance."><span class="description">Constructor for Batch instance.</span><pre>__construct()</pre></a></li>
-<li class="method public "><a href="#method_activate" title="activate :: Activates the batch."><span class="description">Activates the batch.</span><pre>activate()</pre></a></li>
-<li class="method public "><a href="#method_append" title="append :: Append the request to the batch-part"><span class="description">Append the request to the batch-part</span><pre>append()</pre></a></li>
-<li class="method public "><a href="#method_countParts" title="countParts :: Get the total count of the batch parts"><span class="description">Get the total count of the batch parts</span><pre>countParts()</pre></a></li>
-<li class="method public "><a href="#method_getActive" title="getActive :: Gets active batch in given connection."><span class="description">Gets active batch in given connection.</span><pre>getActive()</pre></a></li>
-<li class="method public "><a href="#method_getBatchParts" title="getBatchParts :: Returns the array of batch-parts"><span class="description">Returns the array of batch-parts</span><pre>getBatchParts()</pre></a></li>
-<li class="method public "><a href="#method_getConnection" title="getConnection :: Return this batch's connection"><span class="description">Return this batch's connection</span><pre>getConnection()</pre></a></li>
-<li class="method public "><a href="#method_getConnectionCaptureMode" title="getConnectionCaptureMode :: Returns true, if given connection is in batch-capture mode."><span class="description">Returns true, if given connection is in batch-capture mode.</span><pre>getConnectionCaptureMode()</pre></a></li>
-<li class="method public "><a href="#method_getPart" title="getPart :: Get the batch part identified by the array key (0."><span class="description">Get the batch part identified by the array key (0.</span><pre>getPart()</pre></a></li>
-<li class="method public "><a href="#method_getPartResponse" title="getPartResponse :: Get the batch part identified by the array key (0."><span class="description">Get the batch part identified by the array key (0.</span><pre>getPartResponse()</pre></a></li>
-<li class="method public "><a href="#method_getProcessedPartResponse" title="getProcessedPartResponse :: Get the batch part identified by the array key (0."><span class="description">Get the batch part identified by the array key (0.</span><pre>getProcessedPartResponse()</pre></a></li>
-<li class="method public "><a href="#method_isActive" title="isActive :: Returns true, if this batch is active in its associated connection."><span class="description">Returns true, if this batch is active in its associated connection.</span><pre>isActive()</pre></a></li>
-<li class="method public "><a href="#method_isCapturing" title="isCapturing :: Returns true, if this batch is capturing requests."><span class="description">Returns true, if this batch is capturing requests.</span><pre>isCapturing()</pre></a></li>
-<li class="method public "><a href="#method_nextBatchPartCursorOptions" title="nextBatchPartCursorOptions :: Set client side cursor options (for example: sanitize) for the next batch part."><span class="description">Set client side cursor options (for example: sanitize) for the next batch part.</span><pre>nextBatchPartCursorOptions()</pre></a></li>
-<li class="method public "><a href="#method_nextBatchPartId" title="nextBatchPartId :: Sets the id of the next batch-part."><span class="description">Sets the id of the next batch-part.</span><pre>nextBatchPartId()</pre></a></li>
-<li class="method public "><a href="#method_process" title="process :: Processes this batch."><span class="description">Processes this batch.</span><pre>process()</pre></a></li>
-<li class="method public "><a href="#method_setActive" title="setActive :: Sets the batch active in its associated connection."><span class="description">Sets the batch active in its associated connection.</span><pre>setActive()</pre></a></li>
-<li class="method public "><a href="#method_setCapture" title="setCapture :: Sets the batch's associated connection into capture mode."><span class="description">Sets the batch's associated connection into capture mode.</span><pre>setCapture()</pre></a></li>
-<li class="method public "><a href="#method_setConnection" title="setConnection :: Sets the connection for he current batch."><span class="description">Sets the connection for he current batch.</span><pre>setConnection()</pre></a></li>
-<li class="method public "><a href="#method_splitWithContentIdKey" title="splitWithContentIdKey :: Split batch request and use ContentId as array key"><span class="description">Split batch request and use ContentId as array key</span><pre>splitWithContentIdKey()</pre></a></li>
-<li class="method public "><a href="#method_startCapture" title="startCapture :: Start capturing requests."><span class="description">Start capturing requests.</span><pre>startCapture()</pre></a></li>
-<li class="method public "><a href="#method_stopCapture" title="stopCapture :: Stop capturing requests."><span class="description">Stop capturing requests.</span><pre>stopCapture()</pre></a></li>
-</ul>
-</li>
-<li class="nav-header private">» Private
-                    <ul>
-<li class="method private "><a href="#method_getCursorOptions" title="getCursorOptions :: Return an array of cursor options"><span class="description">Return an array of cursor options</span><pre>getCursorOptions()</pre></a></li>
-<li class="method private "><a href="#method_setBatchRequest" title="setBatchRequest :: Sets connection into Batch-Request mode."><span class="description">Sets connection into Batch-Request mode.</span><pre>setBatchRequest()</pre></a></li>
-</ul>
-</li>
-<li class="nav-header">
-<i class="icon-custom icon-property"></i> Properties
-                    <ul><li class="property public "><a href="#property__batchResponse" title="$_batchResponse :: Batch Response Object"><span class="description">Batch Response Object</span><pre>$_batchResponse</pre></a></li></ul>
-</li>
-<li class="nav-header private">» Private
-                    <ul>
-<li class="property private "><a href="#property__batchPartCursorOptions" title="$_batchPartCursorOptions :: An array of BatchPartCursor options"><span class="description">An array of BatchPartCursor options</span><pre>$_batchPartCursorOptions</pre></a></li>
-<li class="property private "><a href="#property__batchParts" title="$_batchParts :: The array of BatchPart objects"><span class="description">The array of BatchPart objects</span><pre>$_batchParts</pre></a></li>
-<li class="property private "><a href="#property__connection" title="$_connection :: The connection object"><span class="description">The connection object</span><pre>$_connection</pre></a></li>
-<li class="property private "><a href="#property__nextBatchPartId" title="$_nextBatchPartId :: The array of BatchPart objects"><span class="description">The array of BatchPart objects</span><pre>$_nextBatchPartId</pre></a></li>
-<li class="property private "><a href="#property__processed" title="$_processed :: Flag that signals if this batch was processed or not."><span class="description">Flag that signals if this batch was processed or not.</span><pre>$_processed</pre></a></li>
-<li class="property private "><a href="#property__sanitize" title="$_sanitize :: The sanitize default value"><span class="description">The sanitize default value</span><pre>$_sanitize</pre></a></li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="span8">
-<a id="\triagens\ArangoDb\Batch"></a><ul class="breadcrumb">
-<li>
-<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
-</li>
-<li><a href="../namespaces/triagens.html">triagens</a></li>
-<li>
-<span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
-</li>
-<li class="active">
-<span class="divider">\</span><a href="../classes/triagens.ArangoDb.Batch.html">Batch</a>
-</li>
-</ul>
-<div class="element class">
-<p class="short_description">Provides batching functionality</p>
-<div class="details">
-<div class="long_description"><p><br></p></div>
-<table class="table table-bordered">
-<tr>
-<th>package</th>
-<td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
-</tr>
-<tr>
-<th>since</th>
-<td>1.1</td>
-</tr>
-</table>
-<h3>
-<i class="icon-custom icon-method"></i> Methods</h3>
-<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
-<h2>Constructor for Batch instance.</h2>
-<pre>__construct(\triagens\ArangoDb\Connection $connection, array $options) : <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>Batch instance by default starts capturing request after initiated.
-To disable this, pass startCapture=>false inside the options array parameter</p></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$connection</h4>
-<code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code><p>that this batch class will monitor for requests in order to batch them. Connection parameter is mandatory.</p></div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>array</code><p>An array of options for Batch construction. See below for options:</p>
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">ArangoDB PHP client API</a>
 
-<p>Options are : <li>'_sanitize' - True to remove _id and _rev attributes from result documents returned from this batch. Defaults to false.</li> <li>'$startCapture' - Start batch capturing immediately after batch instantiation. Defaults to true. </li> </p>
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                                        <li class="dropdown">
+                        <a href="../index.html" class="dropdown-toggle" data-toggle="dropdown">
+                            API Documentation <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                                                        <li><a href="../namespaces/triagens.html">\triagens</a></li>
+                                                    </ul>
+                    </li>
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">39</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">13</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
 </div>
-<h3>Returns</h3>
-<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></code></div>
-</div></div>
-</div>
-<a id="method_activate"></a><div class="element clickable method public method_activate" data-toggle="collapse" data-target=".method_activate .collapse">
-<h2>Activates the batch.</h2>
-<pre>activate() : object</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This sets the batch active in its associated connection and also starts capturing.</p></div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>object</code>$this</div>
-</div></div>
-</div>
-<a id="method_append"></a><div class="element clickable method public method_append" data-toggle="collapse" data-target=".method_append .collapse">
-<h2>Append the request to the batch-part</h2>
-<pre>append(mixed $method, mixed $request) : <a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$method</h4>
-<code>mixed</code><ul>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-72188900"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-72188900" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-503536372"></a>
+                                <a href="../namespaces/triagens.html" style="margin-left: 30px; padding-left: 0">triagens</a>
+            </div>
+            <div id="namespace-503536372" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1709782465"></a>
+                                <a href="../namespaces/triagens.ArangoDb.html" style="margin-left: 30px; padding-left: 0">ArangoDb</a>
+            </div>
+            <div id="namespace-1709782465" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/triagens.ArangoDb.AdminHandler.html">AdminHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.AqlUserFunction.html">AqlUserFunction</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Autoloader.html">Autoloader</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Batch.html">Batch</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.BatchPart.html">BatchPart</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.BindVars.html">BindVars</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ClientException.html">ClientException</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Collection.html">Collection</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.CollectionHandler.html">CollectionHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ConnectException.html">ConnectException</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Connection.html">Connection</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ConnectionOptions.html">ConnectionOptions</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Cursor.html">Cursor</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Database.html">Database</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.DefaultValues.html">DefaultValues</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Document.html">Document</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.DocumentHandler.html">DocumentHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Edge.html">Edge</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.EdgeDefinition.html">EdgeDefinition</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.EdgeHandler.html">EdgeHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Endpoint.html">Endpoint</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Exception.html">Exception</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Graph.html">Graph</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.GraphHandler.html">GraphHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Handler.html">Handler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.HttpHelper.html">HttpHelper</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.HttpResponse.html">HttpResponse</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ServerException.html">ServerException</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Statement.html">Statement</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.TraceRequest.html">TraceRequest</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.TraceResponse.html">TraceResponse</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Transaction.html">Transaction</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Traversal.html">Traversal</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.UpdatePolicy.html">UpdatePolicy</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.UrlHelper.html">UrlHelper</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Urls.html">Urls</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.User.html">User</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.UserHandler.html">UserHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ValueValidator.html">ValueValidator</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Vertex.html">Vertex</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.VertexHandler.html">VertexHandler</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav>
+                                                <a href="../namespaces/triagens.ArangoDb.html">\triagens\ArangoDb</a> <i class="icon-level-up"></i>
+                                            </nav>
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+
+                    <h1><small>\triagens\ArangoDb</small>Batch</h1>
+                    <p><em>Provides batching functionality</em></p>
+                    <p><br></p>
+
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#method___construct" class="">__construct()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#method_setConnection" class="">setConnection()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#method_startCapture" class="">startCapture()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#method_stopCapture" class="">stopCapture()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#method_isActive" class="">isActive()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#method_isCapturing" class="">isCapturing()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#method_activate" class="">activate()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#method_setActive" class="">setActive()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#method_setCapture" class="">setCapture()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#method_getActive" class="">getActive()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#method_getConnectionCaptureMode" class="">getConnectionCaptureMode()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#method_nextBatchPartId" class="">nextBatchPartId()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#method_nextBatchPartCursorOptions" class="">nextBatchPartCursorOptions()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#method_append" class="">append()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#method_splitWithContentIdKey" class="">splitWithContentIdKey()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#method_process" class="">process()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#method_countParts" class="">countParts()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#method_getPart" class="">getPart()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#method_getPartResponse" class="">getPartResponse()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#method_getProcessedPartResponse" class="">getProcessedPartResponse()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#method_getBatchParts" class="">getBatchParts()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#method_getConnection" class="">getConnection()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#property__batchResponse" class="">$_batchResponse</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No constants found</em>
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <em>No protected methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No protected properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#method_setBatchRequest" class="">setBatchRequest()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#method_getCursorOptions" class="">getCursorOptions()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#property__processed" class="">$_processed</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#property__batchParts" class="">$_batchParts</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#property__nextBatchPartId" class="">$_nextBatchPartId</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#property__batchPartCursorOptions" class="">$_batchPartCursorOptions</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#property__connection" class="">$_connection</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Batch.html#property__sanitize" class="">$_sanitize</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                                        
+                    
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/Batch.html"><div class="path-wrapper">Batch.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">\triagens\ArangoDb</div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                    <div class="namespace-wrapper">\triagens\ArangoDb\Batch</div>
+                            </dd>
+
+                        
+                        
+                        
+                        
+                                                                        </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                            <tr>
+                            <th>
+                                since
+                            </th>
+                            <td>
+                                                                    
+                                                            </td>
+                        </tr>
+                                        </table>
+                </aside>
+            </div>
+
+                        
+                                    <a id="properties" name="properties"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Properties</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__batchResponse" name="property__batchResponse" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$_batchResponse</h3>
+                <pre class="signature">$_batchResponse : \triagens\ArangoDb\HttpResponse</pre>
+                <p><em>Batch Response Object</em></p>
+                
+
+                                <h4>Type</h4>
+                <a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a>
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__processed" name="property__processed" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$_processed</h3>
+                <pre class="signature">$_processed : boolean</pre>
+                <p><em>Flag that signals if this batch was processed or not. Processed =&gt; true ,or not processed =&gt; false</em></p>
+                
+
+                                <h4>Type</h4>
+                boolean
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__batchParts" name="property__batchParts" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$_batchParts</h3>
+                <pre class="signature">$_batchParts : array</pre>
+                <p><em>The array of BatchPart objects</em></p>
+                
+
+                                <h4>Type</h4>
+                array
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__nextBatchPartId" name="property__nextBatchPartId" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$_nextBatchPartId</h3>
+                <pre class="signature">$_nextBatchPartId : array</pre>
+                <p><em>The array of BatchPart objects</em></p>
+                
+
+                                <h4>Type</h4>
+                array
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__batchPartCursorOptions" name="property__batchPartCursorOptions" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$_batchPartCursorOptions</h3>
+                <pre class="signature">$_batchPartCursorOptions : array</pre>
+                <p><em>An array of BatchPartCursor options</em></p>
+                
+
+                                <h4>Type</h4>
+                array
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__connection" name="property__connection" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$_connection</h3>
+                <pre class="signature">$_connection : \triagens\ArangoDb\Connection</pre>
+                <p><em>The connection object</em></p>
+                
+
+                                <h4>Type</h4>
+                <a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a>
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__sanitize" name="property__sanitize" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$_sanitize</h3>
+                <pre class="signature">$_sanitize : object</pre>
+                <p><em>The sanitize default value</em></p>
+                
+
+                                <h4>Type</h4>
+                object
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                            
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___construct" name="method___construct" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__construct()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__construct(\triagens\ArangoDb\Connection <span class="argument">$connection</span>, array <span class="argument">$options</span>) : \triagens\ArangoDb\Batch</pre>
+                <p><em>Constructor for Batch instance. Batch instance by default starts capturing request after initiated.</em></p>
+                <p>To disable this, pass startCapture=>false inside the options array parameter</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></td>
+                                <td>$connection </td>
+                                <td><p>that this batch class will monitor for requests in order to batch them. Connection parameter is mandatory.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$options </td>
+                                <td><p>An array of options for Batch construction. See below for options:</p>
+<p>Options are :
+<li>'_sanitize' - True to remove _id and _rev attributes from result documents returned from this batch. Defaults to false.</li>
+<li>'$startCapture' - Start batch capturing immediately after batch instantiation. Defaults to true.
+</li>
+</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setConnection" name="method_setConnection" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setConnection()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setConnection(\triagens\ArangoDb\Connection <span class="argument">$connection</span>) : \triagens\ArangoDb\Batch</pre>
+                <p><em>Sets the connection for he current batch. (mostly internal function)</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></td>
+                                <td>$connection </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_startCapture" name="method_startCapture" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">startCapture()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">startCapture(array <span class="argument">$options</span>) : \triagens\ArangoDb\Batch</pre>
+                <p><em>Start capturing requests. To stop capturing, use stopCapture()</em></p>
+                <p>see triagens\ArangoDb\Batch::stopCapture()</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$options </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_stopCapture" name="method_stopCapture" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">stopCapture()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">stopCapture() : \triagens\ArangoDb\Batch</pre>
+                <p><em>Stop capturing requests. If the batch has not been processed yet, more requests can be appended by calling startCapture() again.</em></p>
+                <p>see Batch::startCapture()</p>
+
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\ClientException</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_isActive" name="method_isActive" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">isActive()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">isActive() : boolean</pre>
+                <p><em>Returns true, if this batch is active in its associated connection.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_isCapturing" name="method_isCapturing" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">isCapturing()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">isCapturing() : boolean</pre>
+                <p><em>Returns true, if this batch is capturing requests.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_activate" name="method_activate" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">activate()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">activate() : object</pre>
+                <p><em>Activates the batch. This sets the batch active in its associated connection and also starts capturing.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    object
+                                            &mdash; <p>$this</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setActive" name="method_setActive" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setActive()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setActive() : object</pre>
+                <p><em>Sets the batch active in its associated connection.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    object
+                                            &mdash; <p>$this</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setCapture" name="method_setCapture" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setCapture()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setCapture(boolean <span class="argument">$state</span>) : object</pre>
+                <p><em>Sets the batch&#039;s associated connection into capture mode.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$state </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    object
+                                            &mdash; <p>$this</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getActive" name="method_getActive" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getActive()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getActive(\triagens\ArangoDb\Connection <span class="argument">$connection</span>) : $this</pre>
+                <p><em>Gets active batch in given connection.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></td>
+                                <td>$connection </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    $this
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getConnectionCaptureMode" name="method_getConnectionCaptureMode" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getConnectionCaptureMode()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getConnectionCaptureMode(\triagens\ArangoDb\Connection <span class="argument">$connection</span>) : boolean</pre>
+                <p><em>Returns true, if given connection is in batch-capture mode.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></td>
+                                <td>$connection </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_nextBatchPartId" name="method_nextBatchPartId" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">nextBatchPartId()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">nextBatchPartId(mixed <span class="argument">$batchPartId</span>) : \triagens\ArangoDb\Batch</pre>
+                <p><em>Sets the id of the next batch-part. The id can later be used to retrieve the batch-part.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$batchPartId </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_nextBatchPartCursorOptions" name="method_nextBatchPartCursorOptions" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">nextBatchPartCursorOptions()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">nextBatchPartCursorOptions(mixed <span class="argument">$batchPartCursorOptions</span>) : \triagens\ArangoDb\Batch</pre>
+                <p><em>Set client side cursor options (for example: sanitize) for the next batch part.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$batchPartCursorOptions </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_append" name="method_append" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">append()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">append(mixed <span class="argument">$method</span>, mixed <span class="argument">$request</span>) : \triagens\ArangoDb\HttpResponse</pre>
+                <p><em>Append the request to the batch-part</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$method </td>
+                                <td><ul>
 <li>The method of the request (GET, POST...)</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$request</h4>
-<code>mixed</code><ul>
+</ul></td>
+                            </tr>
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$request </td>
+                                <td><ul>
 <li>The request that will get appended to the batch</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_splitWithContentIdKey" name="method_splitWithContentIdKey" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">splitWithContentIdKey()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">splitWithContentIdKey(mixed <span class="argument">$pattern</span>, mixed <span class="argument">$string</span>) : array</pre>
+                <p><em>Split batch request and use ContentId as array key</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$pattern </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$string </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>$array - Array of batch-parts</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_process" name="method_process" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">process()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">process() : boolean</pre>
+                <p><em>Processes this batch. This sends the captured requests to the server as one batch.</em></p>
+                
+
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\ClientException</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <ul>
+<li>true if processing of the batch was  or the HttpResponse object in case of a failure. A successful process just means that tha parts were processed. Each part has it's own response though and should be checked on its own.</li>
 </ul>
-</div>
-<h3>Returns</h3>
-<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></code></div>
-</div></div>
-</div>
-<a id="method_countParts"></a><div class="element clickable method public method_countParts" data-toggle="collapse" data-target=".method_countParts .collapse">
-<h2>Get the total count of the batch parts</h2>
-<pre>countParts() : integer</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>integer</code>$count</div>
-</div></div>
-</div>
-<a id="method_getActive"></a><div class="element clickable method public method_getActive" data-toggle="collapse" data-target=".method_getActive .collapse">
-<h2>Gets active batch in given connection.</h2>
-<pre>getActive(<a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a> $connection) : <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>fluent</th>
-<td>This method is part of a fluent interface and will return the same instance</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$connection</h4>
-<code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>
-</div>
-<h3>Returns</h3>
-<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></code></div>
-</div></div>
-</div>
-<a id="method_getBatchParts"></a><div class="element clickable method public method_getBatchParts" data-toggle="collapse" data-target=".method_getBatchParts .collapse">
-<h2>Returns the array of batch-parts</h2>
-<pre>getBatchParts() : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>array</code>$_batchParts</div>
-</div></div>
-</div>
-<a id="method_getConnection"></a><div class="element clickable method public method_getConnection" data-toggle="collapse" data-target=".method_getConnection .collapse">
-<h2>Return this batch's connection</h2>
-<pre>getConnection() : <a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Returns</h3>
-<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code></div>
-</div></div>
-</div>
-<a id="method_getConnectionCaptureMode"></a><div class="element clickable method public method_getConnectionCaptureMode" data-toggle="collapse" data-target=".method_getConnectionCaptureMode .collapse">
-<h2>Returns true, if given connection is in batch-capture mode.</h2>
-<pre>getConnectionCaptureMode(<a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a> $connection) : bool</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$connection</h4>
-<code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>
-</div>
-<h3>Returns</h3>
-<div class="subelement response"><code>bool</code></div>
-</div></div>
-</div>
-<a id="method_getPart"></a><div class="element clickable method public method_getPart" data-toggle="collapse" data-target=".method_getPart .collapse">
-<h2>Get the batch part identified by the array key (0.</h2>
-<pre>getPart(mixed $partId) : mixed</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>..n) or its id (if it was set with nextBatchPartId($id) )</p></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$partId</h4>
-<code>mixed</code><p>the batch part id. Either it's numeric key or a given name.</p>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>$batchPart</div>
-</div></div>
-</div>
-<a id="method_getPartResponse"></a><div class="element clickable method public method_getPartResponse" data-toggle="collapse" data-target=".method_getPartResponse .collapse">
-<h2>Get the batch part identified by the array key (0.</h2>
-<pre>getPartResponse(mixed $partId) : mixed</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>..n) or its id (if it was set with nextBatchPartId($id) )</p></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$partId</h4>
-<code>mixed</code><p>the batch part id. Either it's numeric key or a given name.</p>
-</div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>$partId</div>
-</div></div>
-</div>
-<a id="method_getProcessedPartResponse"></a><div class="element clickable method public method_getProcessedPartResponse" data-toggle="collapse" data-target=".method_getProcessedPartResponse .collapse">
-<h2>Get the batch part identified by the array key (0.</h2>
-<pre>getProcessedPartResponse(mixed $partId) : mixed</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>..n) or its id (if it was set with nextBatchPartId($id) )</p></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$partId</h4>
-<code>mixed</code><p>the batch part id. Either it's numeric key or a given name.</p>
-</div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>$partId</div>
-</div></div>
-</div>
-<a id="method_isActive"></a><div class="element clickable method public method_isActive" data-toggle="collapse" data-target=".method_isActive .collapse">
-<h2>Returns true, if this batch is active in its associated connection.</h2>
-<pre>isActive() : bool</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Returns</h3>
-<div class="subelement response"><code>bool</code></div>
-</div></div>
-</div>
-<a id="method_isCapturing"></a><div class="element clickable method public method_isCapturing" data-toggle="collapse" data-target=".method_isCapturing .collapse">
-<h2>Returns true, if this batch is capturing requests.</h2>
-<pre>isCapturing() : bool</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Returns</h3>
-<div class="subelement response"><code>bool</code></div>
-</div></div>
-</div>
-<a id="method_nextBatchPartCursorOptions"></a><div class="element clickable method public method_nextBatchPartCursorOptions" data-toggle="collapse" data-target=".method_nextBatchPartCursorOptions .collapse">
-<h2>Set client side cursor options (for example: sanitize) for the next batch part.</h2>
-<pre>nextBatchPartCursorOptions(mixed $batchPartCursorOptions) : <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$batchPartCursorOptions</h4>
-<code>mixed</code>
-</div>
-<h3>Returns</h3>
-<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></code></div>
-</div></div>
-</div>
-<a id="method_nextBatchPartId"></a><div class="element clickable method public method_nextBatchPartId" data-toggle="collapse" data-target=".method_nextBatchPartId .collapse">
-<h2>Sets the id of the next batch-part.</h2>
-<pre>nextBatchPartId(mixed $batchPartId) : <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>The id can later be used to retrieve the batch-part.</p></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$batchPartId</h4>
-<code>mixed</code>
-</div>
-<h3>Returns</h3>
-<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></code></div>
-</div></div>
-</div>
-<a id="method_process"></a><div class="element clickable method public method_process" data-toggle="collapse" data-target=".method_process .collapse">
-<h2>Processes this batch.</h2>
-<pre>process() : bool</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This sends the captured requests to the server as one batch.</p></div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>bool</code>- true if processing of the batch was  or the HttpResponse object in case of a failure. A successful process just means that tha parts were processed. Each part has it's own response though and should be checked on its own.</div>
-</div></div>
-</div>
-<a id="method_setActive"></a><div class="element clickable method public method_setActive" data-toggle="collapse" data-target=".method_setActive .collapse">
-<h2>Sets the batch active in its associated connection.</h2>
-<pre>setActive() : object</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>object</code>$this</div>
-</div></div>
-</div>
-<a id="method_setCapture"></a><div class="element clickable method public method_setCapture" data-toggle="collapse" data-target=".method_setCapture .collapse">
-<h2>Sets the batch's associated connection into capture mode.</h2>
-<pre>setCapture(boolean $state) : object</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$state</h4>
-<code>boolean</code>
-</div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>object</code>$this</div>
-</div></div>
-</div>
-<a id="method_setConnection"></a><div class="element clickable method public method_setConnection" data-toggle="collapse" data-target=".method_setConnection .collapse">
-<h2>Sets the connection for he current batch.</h2>
-<pre>setConnection(<a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a> $connection) : <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>(mostly internal function)</p></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$connection</h4>
-<code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>
-</div>
-<h3>Returns</h3>
-<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></code></div>
-</div></div>
-</div>
-<a id="method_splitWithContentIdKey"></a><div class="element clickable method public method_splitWithContentIdKey" data-toggle="collapse" data-target=".method_splitWithContentIdKey .collapse">
-<h2>Split batch request and use ContentId as array key</h2>
-<pre>splitWithContentIdKey(mixed $pattern, mixed $string) : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$pattern</h4>
-<code>mixed</code>
-</div>
-<div class="subelement argument">
-<h4>$string</h4>
-<code>mixed</code>
-</div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>array</code>$array - Array of batch-parts</div>
-</div></div>
-</div>
-<a id="method_startCapture"></a><div class="element clickable method public method_startCapture" data-toggle="collapse" data-target=".method_startCapture .collapse">
-<h2>Start capturing requests.</h2>
-<pre>startCapture(array $options) : <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>To stop capturing, use stopCapture()</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
 
-<p>see triagens\ArangoDb\Batch::stopCapture()</p></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>array</code>
-</div>
-<h3>Returns</h3>
-<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></code></div>
-</div></div>
-</div>
-<a id="method_stopCapture"></a><div class="element clickable method public method_stopCapture" data-toggle="collapse" data-target=".method_stopCapture .collapse">
-<h2>Stop capturing requests.</h2>
-<pre>stopCapture() : <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>If the batch has not been processed yet, more requests can be appended by calling startCapture() again.</p>
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_countParts" name="method_countParts" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">countParts()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">countParts() : integer</pre>
+                <p><em>Get the total count of the batch parts</em></p>
+                
 
-<p>see Batch::startCapture()</p></div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></code></div>
-</div></div>
+                
+                
+                                    <h4>Returns</h4>
+                    integer
+                                            &mdash; <p>$count</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getPart" name="method_getPart" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getPart()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getPart(mixed <span class="argument">$partId</span>) : mixed</pre>
+                <p><em>Get the batch part identified by the array key (0.</em></p>
+                <p>..n) or its id (if it was set with nextBatchPartId($id) )</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$partId </td>
+                                <td><p>the batch part id. Either it's numeric key or a given name.</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\ClientException</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <p>$batchPart</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getPartResponse" name="method_getPartResponse" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getPartResponse()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getPartResponse(mixed <span class="argument">$partId</span>) : mixed</pre>
+                <p><em>Get the batch part identified by the array key (0.</em></p>
+                <p>..n) or its id (if it was set with nextBatchPartId($id) )</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$partId </td>
+                                <td><p>the batch part id. Either it's numeric key or a given name.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <p>$partId</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getProcessedPartResponse" name="method_getProcessedPartResponse" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getProcessedPartResponse()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getProcessedPartResponse(mixed <span class="argument">$partId</span>) : mixed</pre>
+                <p><em>Get the batch part identified by the array key (0.</em></p>
+                <p>..n) or its id (if it was set with nextBatchPartId($id) )</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$partId </td>
+                                <td><p>the batch part id. Either it's numeric key or a given name.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <p>$partId</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getBatchParts" name="method_getBatchParts" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getBatchParts()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getBatchParts() : array</pre>
+                <p><em>Returns the array of batch-parts</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>$_batchParts</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getConnection" name="method_getConnection" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getConnection()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getConnection() : \triagens\ArangoDb\Connection</pre>
+                <p><em>Return this batch&#039;s connection</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setBatchRequest" name="method_setBatchRequest" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">setBatchRequest()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setBatchRequest(boolean <span class="argument">$state</span>) : $this</pre>
+                <p><em>Sets connection into Batch-Request mode. This is necessary to distinguish between normal and the batch request.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$state </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    $this
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getCursorOptions" name="method_getCursorOptions" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">getCursorOptions()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getCursorOptions() : array</pre>
+                <p><em>Return an array of cursor options</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <ul>
+<li>array of options</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">Batch.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/Batch.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                            <li><a href="../namespaces/triagens.html">\triagens</a></li>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on July 11th, 2014 at 12:23.
+                </section>
+            </section>
+        </section>
+    </footer>
 </div>
-<a id="method_getCursorOptions"></a><div class="element clickable method private method_getCursorOptions" data-toggle="collapse" data-target=".method_getCursorOptions .collapse">
-<h2>Return an array of cursor options</h2>
-<pre>getCursorOptions() : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>array</code>- array of options</div>
-</div></div>
-</div>
-<a id="method_setBatchRequest"></a><div class="element clickable method private method_setBatchRequest" data-toggle="collapse" data-target=".method_setBatchRequest .collapse">
-<h2>Sets connection into Batch-Request mode.</h2>
-<pre>setBatchRequest(boolean $state) : <a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This is necessary to distinguish between normal and the batch request.</p></div>
-<table class="table table-bordered"><tr>
-<th>fluent</th>
-<td>This method is part of a fluent interface and will return the same instance</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$state</h4>
-<code>boolean</code>
-</div>
-<h3>Returns</h3>
-<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Batch.html">\triagens\ArangoDb\Batch</a></code></div>
-</div></div>
-</div>
-<h3>
-<i class="icon-custom icon-property"></i> Properties</h3>
-<a id="property__batchResponse"> </a><div class="element clickable property public property__batchResponse" data-toggle="collapse" data-target=".property__batchResponse .collapse">
-<h2>Batch Response Object</h2>
-<pre>$_batchResponse : <a href="../classes/triagens.ArangoDb.HttpResponse.html">\triagens\ArangoDb\HttpResponse</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="property__batchPartCursorOptions"> </a><div class="element clickable property private property__batchPartCursorOptions" data-toggle="collapse" data-target=".property__batchPartCursorOptions .collapse">
-<h2>An array of BatchPartCursor options</h2>
-<pre>$_batchPartCursorOptions : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="property__batchParts"> </a><div class="element clickable property private property__batchParts" data-toggle="collapse" data-target=".property__batchParts .collapse">
-<h2>The array of BatchPart objects</h2>
-<pre>$_batchParts : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="property__connection"> </a><div class="element clickable property private property__connection" data-toggle="collapse" data-target=".property__connection .collapse">
-<h2>The connection object</h2>
-<pre>$_connection : <a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="property__nextBatchPartId"> </a><div class="element clickable property private property__nextBatchPartId" data-toggle="collapse" data-target=".property__nextBatchPartId .collapse">
-<h2>The array of BatchPart objects</h2>
-<pre>$_nextBatchPartId : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="property__processed"> </a><div class="element clickable property private property__processed" data-toggle="collapse" data-target=".property__processed .collapse">
-<h2>Flag that signals if this batch was processed or not.</h2>
-<pre>$_processed : boolean</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"><p>Processed => true ,or not processed => false</p></div></div></div>
-</div>
-<a id="property__sanitize"> </a><div class="element clickable property private property__sanitize" data-toggle="collapse" data-target=".property__sanitize .collapse">
-<h2>The sanitize default value</h2>
-<pre>$_sanitize : object</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="row"><footer class="span12">
-            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
-            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2014-01-29T18:12:39+01:00.<br></footer></div>
-</div>
+
 </body>
 </html>

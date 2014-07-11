@@ -1,1019 +1,2442 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-<meta charset="utf-8">
-<title>ArangoDB PHP client API » \triagens\ArangoDb\Graph</title>
-<meta name="author" content="Mike van Riel">
-<meta name="description" content="">
-<link href="../css/template.css" rel="stylesheet" media="all">
-<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
-<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
-<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>ArangoDB PHP client API</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="https://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    <script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
+
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
+
+            pre.textContent = '';
+
+            code.textContent = 'Loading…';
+
+            pre.appendChild(code);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', src, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
+
+                        Prism.highlightElement(code);
+                    }
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist or is empty';
+                    }
+                }
+            };
+
+            xhr.send(null);
+        });
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
+
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
 </head>
 <body>
-<div class="navbar navbar-fixed-top">
-<div class="navbar-inner"><div class="container">
-<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">ArangoDB PHP client API</a><div class="nav-collapse"><ul class="nav">
-<li class="dropdown">
-<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
-                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
-<li><a>Namespaces</a></li>
-<li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
-<li><a>Packages</a></li>
-<li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
-</ul>
-</li>
-<li class="dropdown" id="charts-menu">
-<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
-                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
-</li>
-<li class="dropdown" id="reports-menu">
-<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
-                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
-<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">0</span></a></li>
-<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
-                <ul></ul></a></li>
-<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
-                <span class="label label-info">9</span></a></li>
-</ul>
-</li>
-</ul></div>
-</div></div>
-<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
-</div>
-<div id="___" class="container">
-<noscript><div class="alert alert-warning">
-                            Javascript is disabled; several features are only available
-                            if Javascript is enabled.
-                        </div></noscript>
-<div class="row">
-<div class="span4">
-<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
-<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
-</div>
-<ul class="side-nav nav nav-list">
-<li class="nav-header">
-<i class="icon-custom icon-method"></i> Methods
-                    <ul>
-<li class="method public inherited"><a href="#method___clone" title="__clone :: Clone a document"><span class="description">Clone a document</span><pre>__clone()</pre></a></li>
-<li class="method public "><a href="#method___construct" title="__construct :: Constructs an empty graph"><span class="description">Constructs an empty graph</span><pre>__construct()</pre></a></li>
-<li class="method public inherited"><a href="#method___get" title="__get :: Get a document attribute, magic method"><span class="description">Get a document attribute, magic method</span><pre>__get()</pre></a></li>
-<li class="method public inherited"><a href="#method___set" title="__set :: Set a document attribute, magic method"><span class="description">Set a document attribute, magic method</span><pre>__set()</pre></a></li>
-<li class="method public inherited"><a href="#method___toString" title="__toString :: Get a string representation of the document."><span class="description">Get a string representation of the document.</span><pre>__toString()</pre></a></li>
-<li class="method public inherited"><a href="#method_createFromArray" title="createFromArray :: Factory method to construct a new document using the values passed to populate it"><span class="description">Factory method to construct a new document using the values passed to populate it</span><pre>createFromArray()</pre></a></li>
-<li class="method public inherited"><a href="#method_filterHiddenAttributes" title="filterHiddenAttributes :: Returns the attributes with the hidden ones removed"><span class="description">Returns the attributes with the hidden ones removed</span><pre>filterHiddenAttributes()</pre></a></li>
-<li class="method public inherited"><a href="#method_get" title="get :: Get a document attribute"><span class="description">Get a document attribute</span><pre>get()</pre></a></li>
-<li class="method public inherited"><a href="#method_getAll" title="getAll :: Get all document attributes"><span class="description">Get all document attributes</span><pre>getAll()</pre></a></li>
-<li class="method public inherited"><a href="#method_getChanged" title="getChanged :: Get the changed flag"><span class="description">Get the changed flag</span><pre>getChanged()</pre></a></li>
-<li class="method public inherited"><a href="#method_getCollectionId" title="getCollectionId :: Get the collection id (if already known)"><span class="description">Get the collection id (if already known)</span><pre>getCollectionId()</pre></a></li>
-<li class="method public "><a href="#method_getEdgesCollection" title="getEdgesCollection :: Get the Edges Collection of the graph"><span class="description">Get the Edges Collection of the graph</span><pre>getEdgesCollection()</pre></a></li>
-<li class="method public inherited"><a href="#method_getHandle" title="getHandle :: Convenience function to get the document handle (if already known) - is an alias to getInternalId()"><span class="description">Convenience function to get the document handle (if already known) - is an alias to getInternalId()</span><pre>getHandle()</pre></a></li>
-<li class="method public inherited"><a href="#method_getHiddenAttributes" title="getHiddenAttributes :: Get the hidden attributes"><span class="description">Get the hidden attributes</span><pre>getHiddenAttributes()</pre></a></li>
-<li class="method public inherited"><a href="#method_getId" title="getId :: Get the document id (if already known)"><span class="description">Get the document id (if already known)</span><pre>getId()</pre></a></li>
-<li class="method public inherited"><a href="#method_getInternalId" title="getInternalId :: Get the internal document id (if already known)"><span class="description">Get the internal document id (if already known)</span><pre>getInternalId()</pre></a></li>
-<li class="method public inherited"><a href="#method_getInternalKey" title="getInternalKey :: Get the internal document key (if already known)"><span class="description">Get the internal document key (if already known)</span><pre>getInternalKey()</pre></a></li>
-<li class="method public inherited"><a href="#method_getIsNew" title="getIsNew :: Get the isNew flag"><span class="description">Get the isNew flag</span><pre>getIsNew()</pre></a></li>
-<li class="method public inherited"><a href="#method_getKey" title="getKey :: Get the document key (if already known)."><span class="description">Get the document key (if already known).</span><pre>getKey()</pre></a></li>
-<li class="method public inherited"><a href="#method_getRevision" title="getRevision :: Get the document revision (if already known)"><span class="description">Get the document revision (if already known)</span><pre>getRevision()</pre></a></li>
-<li class="method public "><a href="#method_getVerticesCollection" title="getVerticesCollection :: Get the Vertices Collection of the graph"><span class="description">Get the Vertices Collection of the graph</span><pre>getVerticesCollection()</pre></a></li>
-<li class="method public "><a href="#method_set" title="set :: Set a graph attribute"><span class="description">Set a graph attribute</span><pre>set()</pre></a></li>
-<li class="method public inherited"><a href="#method_setChanged" title="setChanged :: Set the changed flag"><span class="description">Set the changed flag</span><pre>setChanged()</pre></a></li>
-<li class="method public "><a href="#method_setEdgesCollection" title="setEdgesCollection :: Set the edges-collection of the graph"><span class="description">Set the edges-collection of the graph</span><pre>setEdgesCollection()</pre></a></li>
-<li class="method public inherited"><a href="#method_setHiddenAttributes" title="setHiddenAttributes :: Set the hidden attributes"><span class="description">Set the hidden attributes</span><pre>setHiddenAttributes()</pre></a></li>
-<li class="method public inherited"><a href="#method_setInternalId" title="setInternalId :: Set the internal document id"><span class="description">Set the internal document id</span><pre>setInternalId()</pre></a></li>
-<li class="method public inherited"><a href="#method_setInternalKey" title="setInternalKey :: Set the internal document key"><span class="description">Set the internal document key</span><pre>setInternalKey()</pre></a></li>
-<li class="method public inherited"><a href="#method_setIsNew" title="setIsNew :: Set the isNew flag"><span class="description">Set the isNew flag</span><pre>setIsNew()</pre></a></li>
-<li class="method public inherited"><a href="#method_setRevision" title="setRevision :: Set the document revision"><span class="description">Set the document revision</span><pre>setRevision()</pre></a></li>
-<li class="method public "><a href="#method_setVerticesCollection" title="setVerticesCollection :: Set the vertices-collection of the graph"><span class="description">Set the vertices-collection of the graph</span><pre>setVerticesCollection()</pre></a></li>
-<li class="method public inherited"><a href="#method_toJson" title="toJson :: Returns the document as JSON-encoded string"><span class="description">Returns the document as JSON-encoded string</span><pre>toJson()</pre></a></li>
-<li class="method public inherited"><a href="#method_toSerialized" title="toSerialized :: Returns the document as a serialized string"><span class="description">Returns the document as a serialized string</span><pre>toSerialized()</pre></a></li>
-</ul>
-</li>
-<li class="nav-header">
-<i class="icon-custom icon-property"></i> Properties
-                    <ul></ul>
-</li>
-<li class="nav-header protected">» Protected
-                    <ul>
-<li class="property protected inherited"><a href="#property__changed" title="$_changed :: Flag to indicate whether document was changed locally"><span class="description">Flag to indicate whether document was changed locally</span><pre>$_changed</pre></a></li>
-<li class="property protected "><a href="#property__edgesCollection" title="$_edgesCollection :: The collection used for edges"><span class="description">The collection used for edges</span><pre>$_edgesCollection</pre></a></li>
-<li class="property protected inherited"><a href="#property__hidden" title="$_hidden :: Flag to indicate whether document was changed locally"><span class="description">Flag to indicate whether document was changed locally</span><pre>$_hidden</pre></a></li>
-<li class="property protected inherited"><a href="#property__id" title="$_id :: The document id (might be NULL for new documents)"><span class="description">The document id (might be NULL for new documents)</span><pre>$_id</pre></a></li>
-<li class="property protected inherited"><a href="#property__isNew" title="$_isNew :: Flag to indicate whether document is a new document (never been saved to the server)"><span class="description">Flag to indicate whether document is a new document (never been saved to the server)</span><pre>$_isNew</pre></a></li>
-<li class="property protected inherited"><a href="#property__key" title="$_key :: The document key (might be NULL for new documents)"><span class="description">The document key (might be NULL for new documents)</span><pre>$_key</pre></a></li>
-<li class="property protected inherited"><a href="#property__rev" title="$_rev :: The document revision (might be NULL for new documents)"><span class="description">The document revision (might be NULL for new documents)</span><pre>$_rev</pre></a></li>
-<li class="property protected inherited"><a href="#property__values" title="$_values :: The document attributes (names/values)"><span class="description">The document attributes (names/values)</span><pre>$_values</pre></a></li>
-<li class="property protected "><a href="#property__verticesCollection" title="$_verticesCollection :: The collection used for vertices"><span class="description">The collection used for vertices</span><pre>$_verticesCollection</pre></a></li>
-</ul>
-</li>
-<li class="nav-header">
-<i class="icon-custom icon-constant"></i> Constants
-                    <ul>
-<li class="constant  "><a href="#constant_ENTRY_EDGES" title="ENTRY_EDGES :: Graph edges"><span class="description">Graph edges</span><pre>ENTRY_EDGES</pre></a></li>
-<li class="constant  inherited"><a href="#constant_ENTRY_HIDDEN" title="ENTRY_HIDDEN :: hidden attribute index"><span class="description">hidden attribute index</span><pre>ENTRY_HIDDEN</pre></a></li>
-<li class="constant  inherited"><a href="#constant_ENTRY_ID" title="ENTRY_ID :: Document id index"><span class="description">Document id index</span><pre>ENTRY_ID</pre></a></li>
-<li class="constant  inherited"><a href="#constant_ENTRY_ISNEW" title="ENTRY_ISNEW :: isNew id index"><span class="description">isNew id index</span><pre>ENTRY_ISNEW</pre></a></li>
-<li class="constant  inherited"><a href="#constant_ENTRY_KEY" title="ENTRY_KEY :: Document key index"><span class="description">Document key index</span><pre>ENTRY_KEY</pre></a></li>
-<li class="constant  inherited"><a href="#constant_ENTRY_REV" title="ENTRY_REV :: Revision id index"><span class="description">Revision id index</span><pre>ENTRY_REV</pre></a></li>
-<li class="constant  "><a href="#constant_ENTRY_VERTICES" title="ENTRY_VERTICES :: Graph vertices"><span class="description">Graph vertices</span><pre>ENTRY_VERTICES</pre></a></li>
-<li class="constant  inherited"><a href="#constant_OPTION_KEEPNULL" title="OPTION_KEEPNULL :: keepNull option index"><span class="description">keepNull option index</span><pre>OPTION_KEEPNULL</pre></a></li>
-<li class="constant  inherited"><a href="#constant_OPTION_POLICY" title="OPTION_POLICY :: policy option index"><span class="description">policy option index</span><pre>OPTION_POLICY</pre></a></li>
-<li class="constant  inherited"><a href="#constant_OPTION_WAIT_FOR_SYNC" title="OPTION_WAIT_FOR_SYNC :: waitForSync option index"><span class="description">waitForSync option index</span><pre>OPTION_WAIT_FOR_SYNC</pre></a></li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="span8">
-<a id="\triagens\ArangoDb\Graph"></a><ul class="breadcrumb">
-<li>
-<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
-</li>
-<li><a href="../namespaces/triagens.html">triagens</a></li>
-<li>
-<span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
-</li>
-<li class="active">
-<span class="divider">\</span><a href="../classes/triagens.ArangoDb.Graph.html">Graph</a>
-</li>
-</ul>
-<div class="element class">
-<p class="short_description">Value object representing a graph</p>
-<div class="details">
-<div class="long_description"><p><br></p></div>
-<table class="table table-bordered">
-<tr>
-<th>package</th>
-<td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
-</tr>
-<tr>
-<th>since</th>
-<td>1.2</td>
-</tr>
-</table>
-<h3>
-<i class="icon-custom icon-method"></i> Methods</h3>
-<a id="method___clone"></a><div class="element clickable method public method___clone" data-toggle="collapse" data-target=".method___clone .collapse">
-<h2>Clone a document</h2>
-<pre>__clone() : void</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>Returns the clone</p></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::__clone()</td>
-</tr></table>
-</div></div>
-</div>
-<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
-<h2>Constructs an empty graph</h2>
-<pre>__construct(array $name, array $options) : <a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$name</h4>
-<code>array</code><ul>
-<li>optional, initial name for graph</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>array</code><ul>
-<li>optional, initial $options for graph</li>
-</ul>
-</div>
-<h3>Returns</h3>
-<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a></code></div>
-</div></div>
-</div>
-<a id="method___get"></a><div class="element clickable method public method___get" data-toggle="collapse" data-target=".method___get .collapse">
-<h2>Get a document attribute, magic method</h2>
-<pre>__get(string $key) : mixed</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This function is mapped to get() internally.</p></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::__get()</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$key</h4>
-<code>string</code><ul>
-<li>name of attribute</li>
-</ul>
-</div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>- value of attribute, NULL if attribute is not set</div>
-</div></div>
-</div>
-<a id="method___set"></a><div class="element clickable method public method___set" data-toggle="collapse" data-target=".method___set .collapse">
-<h2>Set a document attribute, magic method</h2>
-<pre>__set(string $key, mixed $value) : void</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This is a magic method that allows the object to be used without
-declaring all document attributes first.
-This function is mapped to set() internally.</p></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::__set()</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$key</h4>
-<code>string</code><ul>
-<li>attribute name</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$value</h4>
-<code>mixed</code><ul>
-<li>value for attribute</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
-<td></td>
-</tr></table>
-</div></div>
-</div>
-<a id="method___toString"></a><div class="element clickable method public method___toString" data-toggle="collapse" data-target=".method___toString .collapse">
-<h2>Get a string representation of the document.</h2>
-<pre>__toString() : string</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>It will not output hidden attributes.</p>
 
-<p>Returns the document as JSON-encoded string</p></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::__toString()</td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>string</code>- JSON-encoded document</div>
-</div></div>
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">ArangoDB PHP client API</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                                        <li class="dropdown">
+                        <a href="../index.html" class="dropdown-toggle" data-toggle="dropdown">
+                            API Documentation <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                                                        <li><a href="../namespaces/triagens.html">\triagens</a></li>
+                                                    </ul>
+                    </li>
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">39</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">13</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
 </div>
-<a id="method_createFromArray"></a><div class="element clickable method public method_createFromArray" data-toggle="collapse" data-target=".method_createFromArray .collapse">
-<h2>Factory method to construct a new document using the values passed to populate it</h2>
-<pre>createFromArray(array $values, array $options) : <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a> | <a href="../classes/triagens.ArangoDb.Edge.html">\triagens\ArangoDb\Edge</a></pre>
-<div class="labels">
-<span class="label">Inherited</span><span class="label">Static</span>
-</div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::createFromArray()</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$values</h4>
-<code>array</code><ul>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1284273350"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-1284273350" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-280627656"></a>
+                                <a href="../namespaces/triagens.html" style="margin-left: 30px; padding-left: 0">triagens</a>
+            </div>
+            <div id="namespace-280627656" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1118854708"></a>
+                                <a href="../namespaces/triagens.ArangoDb.html" style="margin-left: 30px; padding-left: 0">ArangoDb</a>
+            </div>
+            <div id="namespace-1118854708" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/triagens.ArangoDb.AdminHandler.html">AdminHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.AqlUserFunction.html">AqlUserFunction</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Autoloader.html">Autoloader</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Batch.html">Batch</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.BatchPart.html">BatchPart</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.BindVars.html">BindVars</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ClientException.html">ClientException</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Collection.html">Collection</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.CollectionHandler.html">CollectionHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ConnectException.html">ConnectException</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Connection.html">Connection</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ConnectionOptions.html">ConnectionOptions</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Cursor.html">Cursor</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Database.html">Database</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.DefaultValues.html">DefaultValues</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Document.html">Document</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.DocumentHandler.html">DocumentHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Edge.html">Edge</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.EdgeDefinition.html">EdgeDefinition</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.EdgeHandler.html">EdgeHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Endpoint.html">Endpoint</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Exception.html">Exception</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Graph.html">Graph</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.GraphHandler.html">GraphHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Handler.html">Handler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.HttpHelper.html">HttpHelper</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.HttpResponse.html">HttpResponse</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ServerException.html">ServerException</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Statement.html">Statement</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.TraceRequest.html">TraceRequest</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.TraceResponse.html">TraceResponse</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Transaction.html">Transaction</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Traversal.html">Traversal</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.UpdatePolicy.html">UpdatePolicy</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.UrlHelper.html">UrlHelper</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Urls.html">Urls</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.User.html">User</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.UserHandler.html">UserHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ValueValidator.html">ValueValidator</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Vertex.html">Vertex</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.VertexHandler.html">VertexHandler</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav>
+                                                <a href="../namespaces/triagens.ArangoDb.html">\triagens\ArangoDb</a> <i class="icon-level-up"></i>
+                                            </nav>
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+
+                    <h1><small>\triagens\ArangoDb</small>Graph</h1>
+                    <p><em>Value object representing a graph</em></p>
+                    <p><br></p>
+
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.Graph.html#method___construct" class="">__construct()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method_createFromArray" class="">createFromArray()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method___clone" class="">__clone()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method___toString" class="">__toString()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method_toJson" class="">toJson()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method_toSerialized" class="">toSerialized()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method_filterHiddenAttributes" class="">filterHiddenAttributes()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Graph.html#method_set" class="">set()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method___set" class="">__set()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method_get" class="">get()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method___get" class="">__get()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method_getAll" class="">getAll()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method_setHiddenAttributes" class="">setHiddenAttributes()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method_getHiddenAttributes" class="">getHiddenAttributes()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method_setChanged" class="">setChanged()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method_getChanged" class="">getChanged()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method_setIsNew" class="">setIsNew()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method_getIsNew" class="">getIsNew()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method_setInternalId" class="">setInternalId()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method_setInternalKey" class="">setInternalKey()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method_getInternalId" class="">getInternalId()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method_getInternalKey" class="">getInternalKey()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method_getHandle" class="">getHandle()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method_getId" class="">getId()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method_getKey" class="">getKey()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method_getCollectionId" class="">getCollectionId()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method_setRevision" class="">setRevision()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#method_getRevision" class="">getRevision()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Graph.html#method_setVerticesCollection" class="deprecated">setVerticesCollection()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Graph.html#method_getVerticesCollection" class="deprecated">getVerticesCollection()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Graph.html#method_setEdgesCollection" class="deprecated">setEdgesCollection()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Graph.html#method_getEdgesCollection" class="deprecated">getEdgesCollection()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Graph.html#method_addEdgeDefinition" class="">addEdgeDefinition()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Graph.html#method_getEdgeDefinitions" class="">getEdgeDefinitions()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Graph.html#method_addOrphanCollection" class="">addOrphanCollection()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Graph.html#method_getOrphanCollections" class="">getOrphanCollections()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No public properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#constant_ENTRY_ID" class="">ENTRY_ID</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#constant_ENTRY_KEY" class="">ENTRY_KEY</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#constant_ENTRY_REV" class="">ENTRY_REV</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#constant_ENTRY_ISNEW" class="">ENTRY_ISNEW</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#constant_ENTRY_HIDDEN" class="">ENTRY_HIDDEN</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#constant_OPTION_WAIT_FOR_SYNC" class="">OPTION_WAIT_FOR_SYNC</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#constant_OPTION_POLICY" class="">OPTION_POLICY</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#constant_OPTION_KEEPNULL" class="">OPTION_KEEPNULL</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Graph.html#constant_ENTRY_EDGE_DEFINITIONS" class="">ENTRY_EDGE_DEFINITIONS</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Graph.html#constant_ENTRY_FROM" class="">ENTRY_FROM</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Graph.html#constant_ENTRY_TO" class="">ENTRY_TO</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Graph.html#constant_ENTRY_COLLECTION" class="">ENTRY_COLLECTION</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Graph.html#constant_ENTRY_ORPHAN_COLLECTIONS" class="">ENTRY_ORPHAN_COLLECTIONS</a><br />
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <em>No protected methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#property__id" class="">$_id</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#property__key" class="">$_key</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#property__rev" class="">$_rev</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#property__values" class="">$_values</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#property__changed" class="">$_changed</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#property__isNew" class="">$_isNew</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Document.html#property__hidden" class="">$_hidden</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Graph.html#property__edgeDefinitions" class="">$_edgeDefinitions</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Graph.html#property__orphanCollections" class="">$_orphanCollections</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.Graph.html#method_getSingleUndirectedRelation" class="">getSingleUndirectedRelation()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No private properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                                        
+                    
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/Graph.html"><div class="path-wrapper">Graph.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">\triagens\ArangoDb</div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                                                                                                                                                
+                                        <div class="namespace-wrapper"><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></div>
+                                                                                                    <div class="namespace-wrapper">\triagens\ArangoDb\Graph</div>
+                            </dd>
+
+                        
+                        
+                        
+                        
+                                                                        </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                            <tr>
+                            <th>
+                                since
+                            </th>
+                            <td>
+                                                                    
+                                                            </td>
+                        </tr>
+                                        </table>
+                </aside>
+            </div>
+
+                                    <a id="constants" name="constants"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Constants</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ENTRY_ID" name="constant_ENTRY_ID" class="anchor"></a>
+            <article id="constant_ENTRY_ID" class="constant">
+                <h3 class="">ENTRY_ID</h3>
+                <pre class="signature">ENTRY_ID</pre>
+                <p><em>Document id index</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ENTRY_KEY" name="constant_ENTRY_KEY" class="anchor"></a>
+            <article id="constant_ENTRY_KEY" class="constant">
+                <h3 class="">ENTRY_KEY</h3>
+                <pre class="signature">ENTRY_KEY</pre>
+                <p><em>Document key index</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ENTRY_REV" name="constant_ENTRY_REV" class="anchor"></a>
+            <article id="constant_ENTRY_REV" class="constant">
+                <h3 class="">ENTRY_REV</h3>
+                <pre class="signature">ENTRY_REV</pre>
+                <p><em>Revision id index</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ENTRY_ISNEW" name="constant_ENTRY_ISNEW" class="anchor"></a>
+            <article id="constant_ENTRY_ISNEW" class="constant">
+                <h3 class="">ENTRY_ISNEW</h3>
+                <pre class="signature">ENTRY_ISNEW</pre>
+                <p><em>isNew id index</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ENTRY_HIDDEN" name="constant_ENTRY_HIDDEN" class="anchor"></a>
+            <article id="constant_ENTRY_HIDDEN" class="constant">
+                <h3 class="">ENTRY_HIDDEN</h3>
+                <pre class="signature">ENTRY_HIDDEN</pre>
+                <p><em>hidden attribute index</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_OPTION_WAIT_FOR_SYNC" name="constant_OPTION_WAIT_FOR_SYNC" class="anchor"></a>
+            <article id="constant_OPTION_WAIT_FOR_SYNC" class="constant">
+                <h3 class="">OPTION_WAIT_FOR_SYNC</h3>
+                <pre class="signature">OPTION_WAIT_FOR_SYNC</pre>
+                <p><em>waitForSync option index</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_OPTION_POLICY" name="constant_OPTION_POLICY" class="anchor"></a>
+            <article id="constant_OPTION_POLICY" class="constant">
+                <h3 class="">OPTION_POLICY</h3>
+                <pre class="signature">OPTION_POLICY</pre>
+                <p><em>policy option index</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_OPTION_KEEPNULL" name="constant_OPTION_KEEPNULL" class="anchor"></a>
+            <article id="constant_OPTION_KEEPNULL" class="constant">
+                <h3 class="">OPTION_KEEPNULL</h3>
+                <pre class="signature">OPTION_KEEPNULL</pre>
+                <p><em>keepNull option index</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ENTRY_EDGE_DEFINITIONS" name="constant_ENTRY_EDGE_DEFINITIONS" class="anchor"></a>
+            <article id="constant_ENTRY_EDGE_DEFINITIONS" class="constant">
+                <h3 class="">ENTRY_EDGE_DEFINITIONS</h3>
+                <pre class="signature">ENTRY_EDGE_DEFINITIONS</pre>
+                <p><em>Graph edge definitions</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ENTRY_FROM" name="constant_ENTRY_FROM" class="anchor"></a>
+            <article id="constant_ENTRY_FROM" class="constant">
+                <h3 class="">ENTRY_FROM</h3>
+                <pre class="signature">ENTRY_FROM</pre>
+                <p><em>Graph edge definitions from collections</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ENTRY_TO" name="constant_ENTRY_TO" class="anchor"></a>
+            <article id="constant_ENTRY_TO" class="constant">
+                <h3 class="">ENTRY_TO</h3>
+                <pre class="signature">ENTRY_TO</pre>
+                <p><em>Graph edge definitions to collections</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ENTRY_COLLECTION" name="constant_ENTRY_COLLECTION" class="anchor"></a>
+            <article id="constant_ENTRY_COLLECTION" class="constant">
+                <h3 class="">ENTRY_COLLECTION</h3>
+                <pre class="signature">ENTRY_COLLECTION</pre>
+                <p><em>Graph edge definitions collections</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ENTRY_ORPHAN_COLLECTIONS" name="constant_ENTRY_ORPHAN_COLLECTIONS" class="anchor"></a>
+            <article id="constant_ENTRY_ORPHAN_COLLECTIONS" class="constant">
+                <h3 class="">ENTRY_ORPHAN_COLLECTIONS</h3>
+                <pre class="signature">ENTRY_ORPHAN_COLLECTIONS</pre>
+                <p><em>Graph orphan collections</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                            
+                                    <a id="properties" name="properties"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Properties</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__id" name="property__id" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$_id</h3>
+                <pre class="signature">$_id : string</pre>
+                <p><em>The document id (might be NULL for new documents)</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; - document id                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__key" name="property__key" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$_key</h3>
+                <pre class="signature">$_key : string</pre>
+                <p><em>The document key (might be NULL for new documents)</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; - document id                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__rev" name="property__rev" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$_rev</h3>
+                <pre class="signature">$_rev : mixed</pre>
+                <p><em>The document revision (might be NULL for new documents)</em></p>
+                
+
+                                <h4>Type</h4>
+                mixed
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__values" name="property__values" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$_values</h3>
+                <pre class="signature">$_values : array</pre>
+                <p><em>The document attributes (names/values)</em></p>
+                
+
+                                <h4>Type</h4>
+                array
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__changed" name="property__changed" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$_changed</h3>
+                <pre class="signature">$_changed : boolean</pre>
+                <p><em>Flag to indicate whether document was changed locally</em></p>
+                
+
+                                <h4>Type</h4>
+                boolean
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__isNew" name="property__isNew" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$_isNew</h3>
+                <pre class="signature">$_isNew : boolean</pre>
+                <p><em>Flag to indicate whether document is a new document (never been saved to the server)</em></p>
+                
+
+                                <h4>Type</h4>
+                boolean
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__hidden" name="property__hidden" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$_hidden</h3>
+                <pre class="signature">$_hidden : boolean</pre>
+                <p><em>Flag to indicate whether document was changed locally</em></p>
+                
+
+                                <h4>Type</h4>
+                boolean
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__edgeDefinitions" name="property__edgeDefinitions" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$_edgeDefinitions</h3>
+                <pre class="signature">$_edgeDefinitions : array&lt;mixed,\triagens\ArangoDb\EdgeDefinition&gt;</pre>
+                <p><em>The list of edge definitions defining the graph.</em></p>
+                
+
+                                <h4>Type</h4>
+                array&lt;mixed,<a href="../classes/triagens.ArangoDb.EdgeDefinition.html">\triagens\ArangoDb\EdgeDefinition</a>&gt;
+                &mdash; list of edge definitions.                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__orphanCollections" name="property__orphanCollections" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$_orphanCollections</h3>
+                <pre class="signature">$_orphanCollections : array</pre>
+                <p><em>The list of orphan collections defining the graph.</em></p>
+                <p>These collections are not used in any edge definition of the graph.</p>
+
+                                <h4>Type</h4>
+                array
+                &mdash; list of orphan collections.                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                            
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___construct" name="method___construct" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__construct()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__construct(array <span class="argument">$name</span>, array <span class="argument">$options</span>) : \triagens\ArangoDb\Graph</pre>
+                <p><em>Constructs an empty graph</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$name </td>
+                                <td><ul>
+<li>optional, initial name for graph</li>
+</ul></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$options </td>
+                                <td><ul>
+<li>optional, initial options for graph</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.2                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_createFromArray" name="method_createFromArray" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">createFromArray()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">createFromArray(array <span class="argument">$values</span>, array <span class="argument">$options</span>) : \triagens\ArangoDb\Document|\triagens\ArangoDb\Edge</pre>
+                <p><em>Factory method to construct a new document using the values passed to populate it</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$values </td>
+                                <td><ul>
 <li>initial values for document</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>array</code><ul>
+</ul></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$options </td>
+                                <td><ul>
 <li>optional, initial options for document</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\ClientException</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a>|<a href="../classes/triagens.ArangoDb.Edge.html">\triagens\ArangoDb\Edge</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___clone" name="method___clone" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__clone()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__clone() : void</pre>
+                <p><em>Clone a document</em></p>
+                <p>Returns the clone</p>
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___toString" name="method___toString" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__toString()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__toString() : string</pre>
+                <p><em>Get a string representation of the document.</em></p>
+                <p>It will not output hidden attributes.</p>
+<p>Returns the document as JSON-encoded string</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <ul>
+<li>JSON-encoded document</li>
 </ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code><a href="../classes/triagens.ArangoDb.Document.html">\triagens\ArangoDb\Document</a></code><code><a href="../classes/triagens.ArangoDb.Edge.html">\triagens\ArangoDb\Edge</a></code>
-</div>
-</div></div>
-</div>
-<a id="method_filterHiddenAttributes"></a><div class="element clickable method public method_filterHiddenAttributes" data-toggle="collapse" data-target=".method_filterHiddenAttributes .collapse">
-<h2>Returns the attributes with the hidden ones removed</h2>
-<pre>filterHiddenAttributes(array $attributes) : array</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::filterHiddenAttributes()</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$attributes</h4>
-<code>array</code><ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_toJson" name="method_toJson" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">toJson()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">toJson(array <span class="argument">$options</span>) : string</pre>
+                <p><em>Returns the document as JSON-encoded string</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$options </td>
+                                <td><ul>
+<li>optional, array of options that will be passed to the getAll function
+<pre><code>              &lt;p&gt;Options are :
+              &lt;li&gt;'_includeInternals' - true to include the internal attributes. Defaults to false&lt;/li&gt;
+              &lt;li&gt;'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false&lt;/li&gt;
+              &lt;/p&gt;</code></pre></li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <ul>
+<li>JSON-encoded document</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_toSerialized" name="method_toSerialized" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">toSerialized()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">toSerialized(array <span class="argument">$options</span>) : string</pre>
+                <p><em>Returns the document as a serialized string</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$options </td>
+                                <td><ul>
+<li>optional, array of options that will be passed to the getAll function
+<pre><code>              &lt;p&gt;Options are :
+              &lt;li&gt;'_includeInternals' - true to include the internal attributes. Defaults to false&lt;/li&gt;
+              &lt;li&gt;'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false&lt;/li&gt;
+              &lt;/p&gt;</code></pre></li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <ul>
+<li>PHP serialized document</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_filterHiddenAttributes" name="method_filterHiddenAttributes" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">filterHiddenAttributes()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">filterHiddenAttributes(array <span class="argument">$attributes</span>) : array</pre>
+                <p><em>Returns the attributes with the hidden ones removed</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$attributes </td>
+                                <td><ul>
+<li>attributes array</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <ul>
 <li>attributes array</li>
 </ul>
-</div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>array</code>- attributes array</div>
-</div></div>
-</div>
-<a id="method_get"></a><div class="element clickable method public method_get" data-toggle="collapse" data-target=".method_get .collapse">
-<h2>Get a document attribute</h2>
-<pre>get(string $key) : mixed</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::get()</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$key</h4>
-<code>string</code><ul>
-<li>name of attribute</li>
-</ul>
-</div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>- value of attribute, NULL if attribute is not set</div>
-</div></div>
-</div>
-<a id="method_getAll"></a><div class="element clickable method public method_getAll" data-toggle="collapse" data-target=".method_getAll .collapse">
-<h2>Get all document attributes</h2>
-<pre>getAll(mixed $options) : array</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::getAll()</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>mixed</code><ul>
-<li>optional, array of options for the getAll function, or the boolean value for $includeInternals </li>
-</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
 
-<p>Options are : <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li> <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li> </p>
-</div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>array</code>- array of all document attributes/values</div>
-</div></div>
-</div>
-<a id="method_getChanged"></a><div class="element clickable method public method_getChanged" data-toggle="collapse" data-target=".method_getChanged .collapse">
-<h2>Get the changed flag</h2>
-<pre>getChanged() : bool</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::getChanged()</td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>bool</code>- true if document was changed, false otherwise</div>
-</div></div>
-</div>
-<a id="method_getCollectionId"></a><div class="element clickable method public method_getCollectionId" data-toggle="collapse" data-target=".method_getCollectionId .collapse">
-<h2>Get the collection id (if already known)</h2>
-<pre>getCollectionId() : mixed</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>Collection ids are generated on the server only. Collection ids are numeric but might be
-bigger than PHP_INT_MAX. To reliably store a collection id elsewhere, a PHP string should be used</p></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::getCollectionId()</td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>- collection id, might be NULL if document does not yet have an id</div>
-</div></div>
-</div>
-<a id="method_getEdgesCollection"></a><div class="element clickable method public method_getEdgesCollection" data-toggle="collapse" data-target=".method_getEdgesCollection .collapse">
-<h2>Get the Edges Collection of the graph</h2>
-<pre>getEdgesCollection() : string</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>string</code>- name of the edges collection</div>
-</div></div>
-</div>
-<a id="method_getHandle"></a><div class="element clickable method public method_getHandle" data-toggle="collapse" data-target=".method_getHandle .collapse">
-<h2>Convenience function to get the document handle (if already known) - is an alias to getInternalId()</h2>
-<pre>getHandle() : string</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>Document handles are generated on the server only. Document handles consist of collection id and
-document id, in the format collectionId/documentId</p></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::getHandle()</td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>string</code>- internal document id, might be NULL if document does not yet have an id</div>
-</div></div>
-</div>
-<a id="method_getHiddenAttributes"></a><div class="element clickable method public method_getHiddenAttributes" data-toggle="collapse" data-target=".method_getHiddenAttributes .collapse">
-<h2>Get the hidden attributes</h2>
-<pre>getHiddenAttributes() : array</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::getHiddenAttributes()</td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>array</code>$attributes - array of attributes</div>
-</div></div>
-</div>
-<a id="method_getId"></a><div class="element clickable method public method_getId" data-toggle="collapse" data-target=".method_getId .collapse">
-<h2>Get the document id (if already known)</h2>
-<pre>getId() : mixed</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>Document ids are generated on the server only. Document ids are numeric but might be
-bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string should be used</p></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::getId()</td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>- document id, might be NULL if document does not yet have an id</div>
-</div></div>
-</div>
-<a id="method_getInternalId"></a><div class="element clickable method public method_getInternalId" data-toggle="collapse" data-target=".method_getInternalId .collapse">
-<h2>Get the internal document id (if already known)</h2>
-<pre>getInternalId() : string</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>Document ids are generated on the server only. Document ids consist of collection id and
-document id, in the format collectionId/documentId</p></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::getInternalId()</td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>string</code>- internal document id, might be NULL if document does not yet have an id</div>
-</div></div>
-</div>
-<a id="method_getInternalKey"></a><div class="element clickable method public method_getInternalKey" data-toggle="collapse" data-target=".method_getInternalKey .collapse">
-<h2>Get the internal document key (if already known)</h2>
-<pre>getInternalKey() : string</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::getInternalKey()</td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>string</code>- internal document key, might be NULL if document does not yet have a key</div>
-</div></div>
-</div>
-<a id="method_getIsNew"></a><div class="element clickable method public method_getIsNew" data-toggle="collapse" data-target=".method_getIsNew .collapse">
-<h2>Get the isNew flag</h2>
-<pre>getIsNew() : bool</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::getIsNew()</td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>bool</code>$isNew - flags if new or existing doc</div>
-</div></div>
-</div>
-<a id="method_getKey"></a><div class="element clickable method public method_getKey" data-toggle="collapse" data-target=".method_getKey .collapse">
-<h2>Get the document key (if already known).</h2>
-<pre>getKey() : mixed</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>Alias function for getInternalKey()</p></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::getKey()</td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>- document key, might be NULL if document does not yet have a key</div>
-</div></div>
-</div>
-<a id="method_getRevision"></a><div class="element clickable method public method_getRevision" data-toggle="collapse" data-target=".method_getRevision .collapse">
-<h2>Get the document revision (if already known)</h2>
-<pre>getRevision() : mixed</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::getRevision()</td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>- revision id, might be NULL if document does not yet have an id</div>
-</div></div>
-</div>
-<a id="method_getVerticesCollection"></a><div class="element clickable method public method_getVerticesCollection" data-toggle="collapse" data-target=".method_getVerticesCollection .collapse">
-<h2>Get the Vertices Collection of the graph</h2>
-<pre>getVerticesCollection() : string</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>string</code>- name of the vertices collection</div>
-</div></div>
-</div>
-<a id="method_set"></a><div class="element clickable method public method_set" data-toggle="collapse" data-target=".method_set .collapse">
-<h2>Set a graph attribute</h2>
-<pre>set(string $key, mixed $value) : void</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>The key (attribute name) must be a string.
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_set" name="method_set" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">set()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">set(string <span class="argument">$key</span>, mixed <span class="argument">$value</span>) : void</pre>
+                <p><em>Set a graph attribute</em></p>
+                <p>The key (attribute name) must be a string.
 This will validate the value of the attribute and might throw an
-exception if the value is invalid.</p></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$key</h4>
-<code>string</code><ul>
+exception if the value is invalid.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$key </td>
+                                <td><ul>
 <li>attribute name</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$value</h4>
-<code>mixed</code><ul>
+</ul></td>
+                            </tr>
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$value </td>
+                                <td><ul>
 <li>value for attribute</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\ClientException</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___set" name="method___set" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__set()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__set(string <span class="argument">$key</span>, mixed <span class="argument">$value</span>) : void</pre>
+                <p><em>Set a document attribute, magic method</em></p>
+                <p>This is a magic method that allows the object to be used without
+declaring all document attributes first.
+This function is mapped to set() internally.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$key </td>
+                                <td><ul>
+<li>attribute name</li>
+</ul></td>
+                            </tr>
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$value </td>
+                                <td><ul>
+<li>value for attribute</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\ClientException</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get" name="method_get" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get(string <span class="argument">$key</span>) : mixed</pre>
+                <p><em>Get a document attribute</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$key </td>
+                                <td><ul>
+<li>name of attribute</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <ul>
+<li>value of attribute, NULL if attribute is not set</li>
 </ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
-<td></td>
-</tr></table>
-</div></div>
-</div>
-<a id="method_setChanged"></a><div class="element clickable method public method_setChanged" data-toggle="collapse" data-target=".method_setChanged .collapse">
-<h2>Set the changed flag</h2>
-<pre>setChanged(bool $value) : bool</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::setChanged()</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$value</h4>
-<code>bool</code><ul>
-<li>change flag</li>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___get" name="method___get" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__get()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__get(string <span class="argument">$key</span>) : mixed</pre>
+                <p><em>Get a document attribute, magic method</em></p>
+                <p>This function is mapped to get() internally.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$key </td>
+                                <td><ul>
+<li>name of attribute</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <ul>
+<li>value of attribute, NULL if attribute is not set</li>
 </ul>
-</div>
-<h3>Returns</h3>
-<div class="subelement response"><code>bool</code></div>
-</div></div>
-</div>
-<a id="method_setEdgesCollection"></a><div class="element clickable method public method_setEdgesCollection" data-toggle="collapse" data-target=".method_setEdgesCollection .collapse">
-<h2>Set the edges-collection of the graph</h2>
-<pre>setEdgesCollection(mixed $edgesCollection) : <a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$edgesCollection</h4>
-<code>mixed</code><ul>
-<li>the name of the edges-collection</li>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getAll" name="method_getAll" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getAll()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getAll(mixed <span class="argument">$options</span>) : array</pre>
+                <p><em>Get all document attributes</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$options </td>
+                                <td><ul>
+<li>optional, array of options for the getAll function, or the boolean value for $includeInternals
+<pre><code>              &lt;p&gt;Options are :
+              &lt;li&gt;'_includeInternals' - true to include the internal attributes. Defaults to false&lt;/li&gt;
+              &lt;li&gt;'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false&lt;/li&gt;
+              &lt;/p&gt;</code></pre></li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <ul>
+<li>array of all document attributes/values</li>
 </ul>
-</div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code><a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a></code>- graph object</div>
-</div></div>
-</div>
-<a id="method_setHiddenAttributes"></a><div class="element clickable method public method_setHiddenAttributes" data-toggle="collapse" data-target=".method_setHiddenAttributes .collapse">
-<h2>Set the hidden attributes</h2>
-<pre>setHiddenAttributes(array $attributes) : void</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::setHiddenAttributes()</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$attributes</h4>
-<code>array</code><ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setHiddenAttributes" name="method_setHiddenAttributes" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setHiddenAttributes()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setHiddenAttributes(array <span class="argument">$attributes</span>) : void</pre>
+                <p><em>Set the hidden attributes</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$attributes </td>
+                                <td><ul>
 <li>array of attributes</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getHiddenAttributes" name="method_getHiddenAttributes" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getHiddenAttributes()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getHiddenAttributes() : array</pre>
+                <p><em>Get the hidden attributes</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>$attributes - array of attributes</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setChanged" name="method_setChanged" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setChanged()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setChanged(boolean <span class="argument">$value</span>) : boolean</pre>
+                <p><em>Set the changed flag</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$value </td>
+                                <td><ul>
+<li>change flag</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getChanged" name="method_getChanged" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getChanged()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getChanged() : boolean</pre>
+                <p><em>Get the changed flag</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <ul>
+<li>true if document was changed, false otherwise</li>
 </ul>
-</div>
-</div></div>
-</div>
-<a id="method_setInternalId"></a><div class="element clickable method public method_setInternalId" data-toggle="collapse" data-target=".method_setInternalId .collapse">
-<h2>Set the internal document id</h2>
-<pre>setInternalId(string $id) : void</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This will throw if the id of an existing document gets updated to some other id</p></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::setInternalId()</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$id</h4>
-<code>string</code><ul>
-<li>internal document id</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
-<td></td>
-</tr></table>
-</div></div>
-</div>
-<a id="method_setInternalKey"></a><div class="element clickable method public method_setInternalKey" data-toggle="collapse" data-target=".method_setInternalKey .collapse">
-<h2>Set the internal document key</h2>
-<pre>setInternalKey(string $key) : void</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This will throw if the key of an existing document gets updated to some other key</p></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::setInternalKey()</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$key</h4>
-<code>string</code><ul>
-<li>internal document key</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
-<td></td>
-</tr></table>
-</div></div>
-</div>
-<a id="method_setIsNew"></a><div class="element clickable method public method_setIsNew" data-toggle="collapse" data-target=".method_setIsNew .collapse">
-<h2>Set the isNew flag</h2>
-<pre>setIsNew(bool $isNew) : void</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::setIsNew()</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$isNew</h4>
-<code>bool</code><ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setIsNew" name="method_setIsNew" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setIsNew()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setIsNew(boolean <span class="argument">$isNew</span>) : void</pre>
+                <p><em>Set the isNew flag</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$isNew </td>
+                                <td><ul>
 <li>flags if new or existing doc</li>
-</ul>
-</div>
-</div></div>
-</div>
-<a id="method_setRevision"></a><div class="element clickable method public method_setRevision" data-toggle="collapse" data-target=".method_setRevision .collapse">
-<h2>Set the document revision</h2>
-<pre>setRevision(mixed $rev) : void</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>Revision ids are generated on the server only.</p>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
 
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getIsNew" name="method_getIsNew" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getIsNew()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getIsNew() : boolean</pre>
+                <p><em>Get the isNew flag</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>$isNew - flags if new or existing doc</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setInternalId" name="method_setInternalId" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setInternalId()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setInternalId(string <span class="argument">$id</span>) : void</pre>
+                <p><em>Set the internal document id</em></p>
+                <p>This will throw if the id of an existing document gets updated to some other id</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$id </td>
+                                <td><ul>
+<li>internal document id</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\ClientException</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setInternalKey" name="method_setInternalKey" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setInternalKey()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setInternalKey(string <span class="argument">$key</span>) : void</pre>
+                <p><em>Set the internal document key</em></p>
+                <p>This will throw if the key of an existing document gets updated to some other key</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$key </td>
+                                <td><ul>
+<li>internal document key</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\ClientException</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getInternalId" name="method_getInternalId" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getInternalId()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getInternalId() : string</pre>
+                <p><em>Get the internal document id (if already known)</em></p>
+                <p>Document ids are generated on the server only. Document ids consist of collection id and
+document id, in the format collectionId/documentId</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <ul>
+<li>internal document id, might be NULL if document does not yet have an id</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getInternalKey" name="method_getInternalKey" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getInternalKey()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getInternalKey() : string</pre>
+                <p><em>Get the internal document key (if already known)</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <ul>
+<li>internal document key, might be NULL if document does not yet have a key</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getHandle" name="method_getHandle" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getHandle()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getHandle() : string</pre>
+                <p><em>Convenience function to get the document handle (if already known) - is an alias to getInternalId()</em></p>
+                <p>Document handles are generated on the server only. Document handles consist of collection id and
+document id, in the format collectionId/documentId</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <ul>
+<li>internal document id, might be NULL if document does not yet have an id</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getId" name="method_getId" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getId()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getId() : mixed</pre>
+                <p><em>Get the document id (if already known)</em></p>
+                <p>Document ids are generated on the server only. Document ids are numeric but might be
+bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string should be used</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <ul>
+<li>document id, might be NULL if document does not yet have an id</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getKey" name="method_getKey" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getKey()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getKey() : mixed</pre>
+                <p><em>Get the document key (if already known).</em></p>
+                <p>Alias function for getInternalKey()</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <ul>
+<li>document key, might be NULL if document does not yet have a key</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getCollectionId" name="method_getCollectionId" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getCollectionId()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getCollectionId() : mixed</pre>
+                <p><em>Get the collection id (if already known)</em></p>
+                <p>Collection ids are generated on the server only. Collection ids are numeric but might be
+bigger than PHP_INT_MAX. To reliably store a collection id elsewhere, a PHP string should be used</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <ul>
+<li>collection id, might be NULL if document does not yet have an id</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setRevision" name="method_setRevision" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setRevision()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setRevision(mixed <span class="argument">$rev</span>) : void</pre>
+                <p><em>Set the document revision</em></p>
+                <p>Revision ids are generated on the server only.</p>
 <p>Document ids are numeric but might be bigger than PHP_INT_MAX.
-To reliably store a document id elsewhere, a PHP string should be used</p></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::setRevision()</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$rev</h4>
-<code>mixed</code><ul>
+To reliably store a document id elsewhere, a PHP string should be used</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$rev </td>
+                                <td><ul>
 <li>revision id</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getRevision" name="method_getRevision" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getRevision()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getRevision() : mixed</pre>
+                <p><em>Get the document revision (if already known)</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <ul>
+<li>revision id, might be NULL if document does not yet have an id</li>
 </ul>
-</div>
-</div></div>
-</div>
-<a id="method_setVerticesCollection"></a><div class="element clickable method public method_setVerticesCollection" data-toggle="collapse" data-target=".method_setVerticesCollection .collapse">
-<h2>Set the vertices-collection of the graph</h2>
-<pre>setVerticesCollection(mixed $verticesCollection) : <a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.2</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$verticesCollection</h4>
-<code>mixed</code><ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/triagens.ArangoDb.Document.html"><div class="path-wrapper">\triagens\ArangoDb\Document</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setVerticesCollection" name="method_setVerticesCollection" class="anchor"></a>
+            <article class="method">
+                <h3 class="public deprecated">setVerticesCollection()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setVerticesCollection(string <span class="argument">$verticesCollection</span>) : \triagens\ArangoDb\Graph</pre>
+                <p><em>Set the vertices collection of the graph</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$verticesCollection </td>
+                                <td><ul>
 <li>the name of the vertices-collection</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a>
+                                            &mdash; <ul>
+<li>graph object</li>
 </ul>
-</div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code><a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a></code>- graph object</div>
-</div></div>
-</div>
-<a id="method_toJson"></a><div class="element clickable method public method_toJson" data-toggle="collapse" data-target=".method_toJson .collapse">
-<h2>Returns the document as JSON-encoded string</h2>
-<pre>toJson(array $options) : string</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::toJson()</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>array</code><ul>
-<li>optional, array of options that will be passed to the getAll function </li>
-</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                                <aside class="alert alert-block alert-error">
+                    <h4>Deprecated</h4>
+                    to be removed in version 2.2 - Please define a graph with the edge definitions.
+                </aside>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.2                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
 
-<p>Options are : <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li> <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li> </p>
-</div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>string</code>- JSON-encoded document</div>
-</div></div>
-</div>
-<a id="method_toSerialized"></a><div class="element clickable method public method_toSerialized" data-toggle="collapse" data-target=".method_toSerialized .collapse">
-<h2>Returns the document as a serialized string</h2>
-<pre>toSerialized(array $options) : string</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::toSerialized()</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>array</code><ul>
-<li>optional, array of options that will be passed to the getAll function </li>
-</ul>
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getVerticesCollection" name="method_getVerticesCollection" class="anchor"></a>
+            <article class="method">
+                <h3 class="public deprecated">getVerticesCollection()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getVerticesCollection() : string</pre>
+                <p><em>Get the vertices collection of the graph</em></p>
+                
 
-<p>Options are : <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li> <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li> </p>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>name of the vertices collection</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                                <aside class="alert alert-block alert-error">
+                    <h4>Deprecated</h4>
+                    to be removed in version 2.2 - Please define a graph with the edge definitions.
+                </aside>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.2                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setEdgesCollection" name="method_setEdgesCollection" class="anchor"></a>
+            <article class="method">
+                <h3 class="public deprecated">setEdgesCollection()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setEdgesCollection(mixed <span class="argument">$edgesCollection</span>) : \triagens\ArangoDb\Graph</pre>
+                <p><em>Set the edges collection of the graph</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$edgesCollection </td>
+                                <td><ul>
+<li>the name of the edges collection</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a>
+                                            &mdash; <ul>
+<li>graph object</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                                <aside class="alert alert-block alert-error">
+                    <h4>Deprecated</h4>
+                    to be removed in version 2.2 - Please define a graph with the edge definitions.
+                </aside>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.2                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getEdgesCollection" name="method_getEdgesCollection" class="anchor"></a>
+            <article class="method">
+                <h3 class="public deprecated">getEdgesCollection()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getEdgesCollection() : string</pre>
+                <p><em>Get the edges collection of the graph</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <ul>
+<li>name of the edges collection</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                                <aside class="alert alert-block alert-error">
+                    <h4>Deprecated</h4>
+                    to be removed in version 2.2 - Please define a graph with the edge definitions.
+                </aside>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.2                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_addEdgeDefinition" name="method_addEdgeDefinition" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">addEdgeDefinition()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">addEdgeDefinition(\triagens\ArangoDb\EdgeDefinition <span class="argument">$edgeDefinition</span>) : \triagens\ArangoDb\Graph</pre>
+                <p><em>Adds an edge definition to the graph.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td><a href="../classes/triagens.ArangoDb.EdgeDefinition.html">\triagens\ArangoDb\EdgeDefinition</a></td>
+                                <td>$edgeDefinition </td>
+                                <td><ul>
+<li>the edge Definition.</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            2.2                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getEdgeDefinitions" name="method_getEdgeDefinitions" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getEdgeDefinitions()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getEdgeDefinitions() : array&lt;mixed,\triagens\ArangoDb\EdgeDefinition&gt;</pre>
+                <p><em>Get the edge definitions of the graph.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    array&lt;mixed,<a href="../classes/triagens.ArangoDb.EdgeDefinition.html">\triagens\ArangoDb\EdgeDefinition</a>&gt;
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            2.2                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_addOrphanCollection" name="method_addOrphanCollection" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">addOrphanCollection()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">addOrphanCollection(string <span class="argument">$orphanCollection</span>) : \triagens\ArangoDb\Graph</pre>
+                <p><em>Adds an orphan collection to the graph.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$orphanCollection </td>
+                                <td><ul>
+<li>the orphan collection.</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/triagens.ArangoDb.Graph.html">\triagens\ArangoDb\Graph</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            2.2                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getOrphanCollections" name="method_getOrphanCollections" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getOrphanCollections()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getOrphanCollections() : array&lt;mixed,string&gt;</pre>
+                <p><em>Get the orphan collections of the graph.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    array&lt;mixed,string&gt;
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            2.2                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getSingleUndirectedRelation" name="method_getSingleUndirectedRelation" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">getSingleUndirectedRelation()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getSingleUndirectedRelation() : \triagens\ArangoDb\EdgeDefinition</pre>
+                <p><em>returns (or creates) the edge definition for single-vertexcollection-undirected graphs, throw an exception for any other type of graph.</em></p>
+                
+
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\ClientException</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/triagens.ArangoDb.EdgeDefinition.html">\triagens\ArangoDb\EdgeDefinition</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">Graph.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/Graph.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                            <li><a href="../namespaces/triagens.html">\triagens</a></li>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on July 11th, 2014 at 12:23.
+                </section>
+            </section>
+        </section>
+    </footer>
 </div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>string</code>- PHP serialized document</div>
-</div></div>
-</div>
-<h3>
-<i class="icon-custom icon-property"></i> Properties</h3>
-<a id="property__changed"> </a><div class="element clickable property protected property__changed" data-toggle="collapse" data-target=".property__changed .collapse">
-<h2>Flag to indicate whether document was changed locally</h2>
-<pre>$_changed : bool</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::$$_changed</td>
-</tr></table>
-</div></div>
-</div>
-<a id="property__edgesCollection"> </a><div class="element clickable property protected property__edgesCollection" data-toggle="collapse" data-target=".property__edgesCollection .collapse">
-<h2>The collection used for edges</h2>
-<pre>$_edgesCollection : string</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="property__hidden"> </a><div class="element clickable property protected property__hidden" data-toggle="collapse" data-target=".property__hidden .collapse">
-<h2>Flag to indicate whether document was changed locally</h2>
-<pre>$_hidden : bool</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::$$_hidden</td>
-</tr></table>
-</div></div>
-</div>
-<a id="property__id"> </a><div class="element clickable property protected property__id" data-toggle="collapse" data-target=".property__id .collapse">
-<h2>The document id (might be NULL for new documents)</h2>
-<pre>$_id : string</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::$$_id</td>
-</tr></table>
-</div></div>
-</div>
-<a id="property__isNew"> </a><div class="element clickable property protected property__isNew" data-toggle="collapse" data-target=".property__isNew .collapse">
-<h2>Flag to indicate whether document is a new document (never been saved to the server)</h2>
-<pre>$_isNew : bool</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::$$_isNew</td>
-</tr></table>
-</div></div>
-</div>
-<a id="property__key"> </a><div class="element clickable property protected property__key" data-toggle="collapse" data-target=".property__key .collapse">
-<h2>The document key (might be NULL for new documents)</h2>
-<pre>$_key : string</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::$$_key</td>
-</tr></table>
-</div></div>
-</div>
-<a id="property__rev"> </a><div class="element clickable property protected property__rev" data-toggle="collapse" data-target=".property__rev .collapse">
-<h2>The document revision (might be NULL for new documents)</h2>
-<pre>$_rev : mixed</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::$$_rev</td>
-</tr></table>
-</div></div>
-</div>
-<a id="property__values"> </a><div class="element clickable property protected property__values" data-toggle="collapse" data-target=".property__values .collapse">
-<h2>The document attributes (names/values)</h2>
-<pre>$_values : array</pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::$$_values</td>
-</tr></table>
-</div></div>
-</div>
-<a id="property__verticesCollection"> </a><div class="element clickable property protected property__verticesCollection" data-toggle="collapse" data-target=".property__verticesCollection .collapse">
-<h2>The collection used for vertices</h2>
-<pre>$_verticesCollection : string</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<h3>
-<i class="icon-custom icon-constant"></i> Constants</h3>
-<a id="constant_ENTRY_EDGES"> </a><div class="element clickable constant  constant_ENTRY_EDGES" data-toggle="collapse" data-target=".constant_ENTRY_EDGES .collapse">
-<h2>Graph edges</h2>
-<pre>ENTRY_EDGES </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="constant_ENTRY_HIDDEN"> </a><div class="element clickable constant  constant_ENTRY_HIDDEN" data-toggle="collapse" data-target=".constant_ENTRY_HIDDEN .collapse">
-<h2>hidden attribute index</h2>
-<pre>ENTRY_HIDDEN </pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::ENTRY_HIDDEN</td>
-</tr></table>
-</div></div>
-</div>
-<a id="constant_ENTRY_ID"> </a><div class="element clickable constant  constant_ENTRY_ID" data-toggle="collapse" data-target=".constant_ENTRY_ID .collapse">
-<h2>Document id index</h2>
-<pre>ENTRY_ID </pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::ENTRY_ID</td>
-</tr></table>
-</div></div>
-</div>
-<a id="constant_ENTRY_ISNEW"> </a><div class="element clickable constant  constant_ENTRY_ISNEW" data-toggle="collapse" data-target=".constant_ENTRY_ISNEW .collapse">
-<h2>isNew id index</h2>
-<pre>ENTRY_ISNEW </pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::ENTRY_ISNEW</td>
-</tr></table>
-</div></div>
-</div>
-<a id="constant_ENTRY_KEY"> </a><div class="element clickable constant  constant_ENTRY_KEY" data-toggle="collapse" data-target=".constant_ENTRY_KEY .collapse">
-<h2>Document key index</h2>
-<pre>ENTRY_KEY </pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::ENTRY_KEY</td>
-</tr></table>
-</div></div>
-</div>
-<a id="constant_ENTRY_REV"> </a><div class="element clickable constant  constant_ENTRY_REV" data-toggle="collapse" data-target=".constant_ENTRY_REV .collapse">
-<h2>Revision id index</h2>
-<pre>ENTRY_REV </pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::ENTRY_REV</td>
-</tr></table>
-</div></div>
-</div>
-<a id="constant_ENTRY_VERTICES"> </a><div class="element clickable constant  constant_ENTRY_VERTICES" data-toggle="collapse" data-target=".constant_ENTRY_VERTICES .collapse">
-<h2>Graph vertices</h2>
-<pre>ENTRY_VERTICES </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="constant_OPTION_KEEPNULL"> </a><div class="element clickable constant  constant_OPTION_KEEPNULL" data-toggle="collapse" data-target=".constant_OPTION_KEEPNULL .collapse">
-<h2>keepNull option index</h2>
-<pre>OPTION_KEEPNULL </pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::OPTION_KEEPNULL</td>
-</tr></table>
-</div></div>
-</div>
-<a id="constant_OPTION_POLICY"> </a><div class="element clickable constant  constant_OPTION_POLICY" data-toggle="collapse" data-target=".constant_OPTION_POLICY .collapse">
-<h2>policy option index</h2>
-<pre>OPTION_POLICY </pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::OPTION_POLICY</td>
-</tr></table>
-</div></div>
-</div>
-<a id="constant_OPTION_WAIT_FOR_SYNC"> </a><div class="element clickable constant  constant_OPTION_WAIT_FOR_SYNC" data-toggle="collapse" data-target=".constant_OPTION_WAIT_FOR_SYNC .collapse">
-<h2>waitForSync option index</h2>
-<pre>OPTION_WAIT_FOR_SYNC </pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\triagens\ArangoDb\Document::OPTION_WAIT_FOR_SYNC</td>
-</tr></table>
-</div></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="row"><footer class="span12">
-            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
-            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2014-01-29T18:12:39+01:00.<br></footer></div>
-</div>
+
 </body>
 </html>

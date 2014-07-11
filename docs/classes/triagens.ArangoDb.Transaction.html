@@ -1,704 +1,1608 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-<meta charset="utf-8">
-<title>ArangoDB PHP client API » \triagens\ArangoDb\Transaction</title>
-<meta name="author" content="Mike van Riel">
-<meta name="description" content="">
-<link href="../css/template.css" rel="stylesheet" media="all">
-<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
-<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
-<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>ArangoDB PHP client API</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="https://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    <script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
+
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
+
+            pre.textContent = '';
+
+            code.textContent = 'Loading…';
+
+            pre.appendChild(code);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', src, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
+
+                        Prism.highlightElement(code);
+                    }
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist or is empty';
+                    }
+                }
+            };
+
+            xhr.send(null);
+        });
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
+
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
 </head>
 <body>
+
 <div class="navbar navbar-fixed-top">
-<div class="navbar-inner"><div class="container">
-<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">ArangoDB PHP client API</a><div class="nav-collapse"><ul class="nav">
-<li class="dropdown">
-<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
-                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
-<li><a>Namespaces</a></li>
-<li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
-<li><a>Packages</a></li>
-<li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
-</ul>
-</li>
-<li class="dropdown" id="charts-menu">
-<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
-                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
-</li>
-<li class="dropdown" id="reports-menu">
-<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
-                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
-<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">0</span></a></li>
-<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
-                <ul></ul></a></li>
-<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
-                <span class="label label-info">9</span></a></li>
-</ul>
-</li>
-</ul></div>
-</div></div>
-<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">ArangoDB PHP client API</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                                        <li class="dropdown">
+                        <a href="../index.html" class="dropdown-toggle" data-toggle="dropdown">
+                            API Documentation <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                                                        <li><a href="../namespaces/triagens.html">\triagens</a></li>
+                                                    </ul>
+                    </li>
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">39</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">13</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
 </div>
-<div id="___" class="container">
-<noscript><div class="alert alert-warning">
-                            Javascript is disabled; several features are only available
-                            if Javascript is enabled.
-                        </div></noscript>
-<div class="row">
-<div class="span4">
-<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
-<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
-</div>
-<ul class="side-nav nav nav-list">
-<li class="nav-header">
-<i class="icon-custom icon-method"></i> Methods
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-903008493"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-903008493" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-439044375"></a>
+                                <a href="../namespaces/triagens.html" style="margin-left: 30px; padding-left: 0">triagens</a>
+            </div>
+            <div id="namespace-439044375" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-336678098"></a>
+                                <a href="../namespaces/triagens.ArangoDb.html" style="margin-left: 30px; padding-left: 0">ArangoDb</a>
+            </div>
+            <div id="namespace-336678098" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
                     <ul>
-<li class="method public "><a href="#method___construct" title="__construct :: Initialise the transaction object"><span class="description">Initialise the transaction object</span><pre>__construct()</pre></a></li>
-<li class="method public "><a href="#method___get" title="__get :: Get an attribute, magic method"><span class="description">Get an attribute, magic method</span><pre>__get()</pre></a></li>
-<li class="method public "><a href="#method___set" title="__set :: Set an attribute, magic method"><span class="description">Set an attribute, magic method</span><pre>__set()</pre></a></li>
-<li class="method public "><a href="#method___toString" title="__toString :: Returns the action string"><span class="description">Returns the action string</span><pre>__toString()</pre></a></li>
-<li class="method public "><a href="#method_buildTransactionAttributesFromArray" title="buildTransactionAttributesFromArray :: Build the object's attributes from a given array"><span class="description">Build the object's attributes from a given array</span><pre>buildTransactionAttributesFromArray()</pre></a></li>
-<li class="method public "><a href="#method_execute" title="execute :: Execute the transaction"><span class="description">Execute the transaction</span><pre>execute()</pre></a></li>
-<li class="method public "><a href="#method_get" title="get :: Get an attribute"><span class="description">Get an attribute</span><pre>get()</pre></a></li>
-<li class="method public "><a href="#method_getAction" title="getAction :: get action value"><span class="description">get action value</span><pre>getAction()</pre></a></li>
-<li class="method public "><a href="#method_getCollections" title="getCollections :: Get collections array"><span class="description">Get collections array</span><pre>getCollections()</pre></a></li>
-<li class="method public "><a href="#method_getLockTimeout" title="getLockTimeout :: Get lockTimeout value"><span class="description">Get lockTimeout value</span><pre>getLockTimeout()</pre></a></li>
-<li class="method public "><a href="#method_getParams" title="getParams :: Get params value"><span class="description">Get params value</span><pre>getParams()</pre></a></li>
-<li class="method public "><a href="#method_getReadCollections" title="getReadCollections :: Convenience function to directly get read-collections without having to access
-them from the collections attribute."><span class="description">Convenience function to directly get read-collections without having to access
-them from the collections attribute.</span><pre>getReadCollections()</pre></a></li>
-<li class="method public "><a href="#method_getWaitForSync" title="getWaitForSync :: get waitForSync value"><span class="description">get waitForSync value</span><pre>getWaitForSync()</pre></a></li>
-<li class="method public "><a href="#method_getWriteCollections" title="getWriteCollections :: Convenience function to directly get write-collections without having to access
-them from the collections attribute."><span class="description">Convenience function to directly get write-collections without having to access
-them from the collections attribute.</span><pre>getWriteCollections()</pre></a></li>
-<li class="method public "><a href="#method_set" title="set :: Sets an attribute"><span class="description">Sets an attribute</span><pre>set()</pre></a></li>
-<li class="method public "><a href="#method_setAction" title="setAction :: set action value"><span class="description">set action value</span><pre>setAction()</pre></a></li>
-<li class="method public "><a href="#method_setCollections" title="setCollections :: Set the collections array."><span class="description">Set the collections array.</span><pre>setCollections()</pre></a></li>
-<li class="method public "><a href="#method_setLockTimeout" title="setLockTimeout :: Set lockTimeout value"><span class="description">Set lockTimeout value</span><pre>setLockTimeout()</pre></a></li>
-<li class="method public "><a href="#method_setParams" title="setParams :: Set params value"><span class="description">Set params value</span><pre>setParams()</pre></a></li>
-<li class="method public "><a href="#method_setReadCollections" title="setReadCollections :: Convenience function to directly set read-collections without having to access
-them from the collections attribute."><span class="description">Convenience function to directly set read-collections without having to access
-them from the collections attribute.</span><pre>setReadCollections()</pre></a></li>
-<li class="method public "><a href="#method_setWaitForSync" title="setWaitForSync :: set waitForSync value"><span class="description">set waitForSync value</span><pre>setWaitForSync()</pre></a></li>
-<li class="method public "><a href="#method_setWriteCollections" title="setWriteCollections :: Convenience function to directly set write-collections without having to access
-them from the collections attribute."><span class="description">Convenience function to directly set write-collections without having to access
-them from the collections attribute.</span><pre>setWriteCollections()</pre></a></li>
-</ul>
-</li>
-<li class="nav-header protected">» Protected
-                    <ul><li class="method protected "><a href="#method_getConnection" title="getConnection :: Return the connection object"><span class="description">Return the connection object</span><pre>getConnection()</pre></a></li></ul>
-</li>
-<li class="nav-header">
-<i class="icon-custom icon-property"></i> Properties
+                                                                                                    <li class="class"><a href="../classes/triagens.ArangoDb.AdminHandler.html">AdminHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.AqlUserFunction.html">AqlUserFunction</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Autoloader.html">Autoloader</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Batch.html">Batch</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.BatchPart.html">BatchPart</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.BindVars.html">BindVars</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ClientException.html">ClientException</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Collection.html">Collection</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.CollectionHandler.html">CollectionHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ConnectException.html">ConnectException</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Connection.html">Connection</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ConnectionOptions.html">ConnectionOptions</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Cursor.html">Cursor</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Database.html">Database</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.DefaultValues.html">DefaultValues</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Document.html">Document</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.DocumentHandler.html">DocumentHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Edge.html">Edge</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.EdgeDefinition.html">EdgeDefinition</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.EdgeHandler.html">EdgeHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Endpoint.html">Endpoint</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Exception.html">Exception</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Graph.html">Graph</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.GraphHandler.html">GraphHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Handler.html">Handler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.HttpHelper.html">HttpHelper</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.HttpResponse.html">HttpResponse</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ServerException.html">ServerException</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Statement.html">Statement</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.TraceRequest.html">TraceRequest</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.TraceResponse.html">TraceResponse</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Transaction.html">Transaction</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Traversal.html">Traversal</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.UpdatePolicy.html">UpdatePolicy</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.UrlHelper.html">UrlHelper</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Urls.html">Urls</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.User.html">User</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.UserHandler.html">UserHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ValueValidator.html">ValueValidator</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Vertex.html">Vertex</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.VertexHandler.html">VertexHandler</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
                     <ul>
-<li class="property public "><a href="#property_action" title="$action :: - The action to pass to the server"><span class="description">- The action to pass to the server</span><pre>$action</pre></a></li>
-<li class="property public "><a href="#property_collection" title="$collection :: - The collections array that includes both read and write collection definitions"><span class="description">- The collections array that includes both read and write collection definitions</span><pre>$collection</pre></a></li>
-<li class="property public "><a href="#property_lockTimeout" title="$lockTimeout :: - LockTimeout on the transaction"><span class="description">- LockTimeout on the transaction</span><pre>$lockTimeout</pre></a></li>
-<li class="property public "><a href="#property_readCollection" title="$readCollection :: - The read-collections array or string (if only one)"><span class="description">- The read-collections array or string (if only one)</span><pre>$readCollection</pre></a></li>
-<li class="property public "><a href="#property_waitForSync" title="$waitForSync :: - WaitForSync on the transaction"><span class="description">- WaitForSync on the transaction</span><pre>$waitForSync</pre></a></li>
-<li class="property public "><a href="#property_writeCollection" title="$writeCollection :: - The write-collections array or string (if only one)"><span class="description">- The write-collections array or string (if only one)</span><pre>$writeCollection</pre></a></li>
-</ul>
-</li>
-<li class="nav-header protected">» Protected
-                    <ul><li class="property protected "><a href="#property_attributes" title="$attributes :: The transaction's attributes."><span class="description">The transaction's attributes.</span><pre>$attributes</pre></a></li></ul>
-</li>
-<li class="nav-header private">» Private
-                    <ul><li class="property private "><a href="#property__connection" title="$_connection :: The connection object"><span class="description">The connection object</span><pre>$_connection</pre></a></li></ul>
-</li>
-<li class="nav-header">
-<i class="icon-custom icon-constant"></i> Constants
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
                     <ul>
-<li class="constant  "><a href="#constant_ENTRY_ACTION" title="ENTRY_ACTION :: Action index"><span class="description">Action index</span><pre>ENTRY_ACTION</pre></a></li>
-<li class="constant  "><a href="#constant_ENTRY_COLLECTIONS" title="ENTRY_COLLECTIONS :: Collections index"><span class="description">Collections index</span><pre>ENTRY_COLLECTIONS</pre></a></li>
-<li class="constant  "><a href="#constant_ENTRY_LOCK_TIMEOUT" title="ENTRY_LOCK_TIMEOUT :: Lock timeout index"><span class="description">Lock timeout index</span><pre>ENTRY_LOCK_TIMEOUT</pre></a></li>
-<li class="constant  "><a href="#constant_ENTRY_PARAMS" title="ENTRY_PARAMS :: Params index"><span class="description">Params index</span><pre>ENTRY_PARAMS</pre></a></li>
-<li class="constant  "><a href="#constant_ENTRY_READ" title="ENTRY_READ :: Read index"><span class="description">Read index</span><pre>ENTRY_READ</pre></a></li>
-<li class="constant  "><a href="#constant_ENTRY_WAIT_FOR_SYNC" title="ENTRY_WAIT_FOR_SYNC :: WaitForSync index"><span class="description">WaitForSync index</span><pre>ENTRY_WAIT_FOR_SYNC</pre></a></li>
-<li class="constant  "><a href="#constant_ENTRY_WRITE" title="ENTRY_WRITE :: WRITE index"><span class="description">WRITE index</span><pre>ENTRY_WRITE</pre></a></li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="span8">
-<a id="\triagens\ArangoDb\Transaction"></a><ul class="breadcrumb">
-<li>
-<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
-</li>
-<li><a href="../namespaces/triagens.html">triagens</a></li>
-<li>
-<span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
-</li>
-<li class="active">
-<span class="divider">\</span><a href="../classes/triagens.ArangoDb.Transaction.html">Transaction</a>
-</li>
-</ul>
-<div class="element class">
-<p class="short_description">Transaction object</p>
-<div class="details">
-<div class="long_description"><p>A transaction is an object that is used to prepare and send a transaction
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav>
+                                                <a href="../namespaces/triagens.ArangoDb.html">\triagens\ArangoDb</a> <i class="icon-level-up"></i>
+                                            </nav>
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+
+                    <h1><small>\triagens\ArangoDb</small>Transaction</h1>
+                    <p><em>Transaction object</em></p>
+                    <p>A transaction is an object that is used to prepare and send a transaction
 to the server.</p>
-
 <p>The object encapsulates:<br /></p>
-
 <ul>
 <li> the collections definitions for locking
 <li> the actual javascript function
 <li> additional options like waitForSync, lockTimeout and params
 </ul>
-
 <p>The transaction object requires the connection object and can be initialized
 with or without initial transaction configuration.
 Any configuration can be set and retrieved by the object's methods like this:<br /></p>
-
 <pre>
 $this->setAction('function (){your code};');
 $this->setCollections(array('read' => 'my_read_collection, 'write' => array('col_1', 'col2')));
 </pre>
-
 <p><br />
 or like this:</p>
-
 <pre>
 $this->action('function (){your code};');
 $this->collections(array('read' => 'my_read_collection, 'write' => array('col_1', 'col2')));
 </pre>
-
 <p><br />
 There are also helper functions to set collections directly, based on their locking:</p>
-
 <pre>
 $this->setWriteCollections($array or $string if single collection)
 $this->setReadCollections($array or $string if single collection)
 </pre>
+<p><br /></p>
 
-<p><br /></p></div>
-<table class="table table-bordered">
-<tr>
-<th>package</th>
-<td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
-</tr>
-<tr>
-<th>since</th>
-<td>1.3</td>
-</tr>
-</table>
-<h3>
-<i class="icon-custom icon-method"></i> Methods</h3>
-<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
-<h2>Initialise the transaction object</h2>
-<pre>__construct(\triagens\ArangoDb\Connection $connection, array $transactionArray) : <a href="../classes/triagens.ArangoDb.Transaction.html">\triagens\ArangoDb\Transaction</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>The $transaction array can be used to specify the collections, action and further
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#method___construct" class="">__construct()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#method_execute" class="">execute()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#method_setCollections" class="">setCollections()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#method_getCollections" class="">getCollections()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#method_setAction" class="">setAction()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#method_getAction" class="">getAction()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#method_setWaitForSync" class="">setWaitForSync()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#method_getWaitForSync" class="">getWaitForSync()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#method_setLockTimeout" class="">setLockTimeout()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#method_getLockTimeout" class="">getLockTimeout()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#method_setParams" class="">setParams()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#method_getParams" class="">getParams()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#method_setWriteCollections" class="">setWriteCollections()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#method_getWriteCollections" class="">getWriteCollections()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#method_setReadCollections" class="">setReadCollections()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#method_getReadCollections" class="">getReadCollections()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#method_set" class="">set()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#method___set" class="">__set()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#method_get" class="">get()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#method___get" class="">__get()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#method___toString" class="">__toString()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#method_buildTransactionAttributesFromArray" class="">buildTransactionAttributesFromArray()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#property_collection" class="">$collection</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#property_readCollection" class="">$readCollection</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#property_writeCollection" class="">$writeCollection</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#property_action" class="">$action</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#property_waitForSync" class="">$waitForSync</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#property_lockTimeout" class="">$lockTimeout</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#constant_ENTRY_COLLECTIONS" class="">ENTRY_COLLECTIONS</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#constant_ENTRY_ACTION" class="">ENTRY_ACTION</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#constant_ENTRY_WAIT_FOR_SYNC" class="">ENTRY_WAIT_FOR_SYNC</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#constant_ENTRY_LOCK_TIMEOUT" class="">ENTRY_LOCK_TIMEOUT</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#constant_ENTRY_PARAMS" class="">ENTRY_PARAMS</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#constant_ENTRY_READ" class="">ENTRY_READ</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#constant_ENTRY_WRITE" class="">ENTRY_WRITE</a><br />
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#method_getConnection" class="">getConnection()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#property_attributes" class="">$attributes</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <em>No private methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.Transaction.html#property__connection" class="">$_connection</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                                        
+                    
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/Transaction.html"><div class="path-wrapper">Transaction.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">\triagens\ArangoDb</div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                    <div class="namespace-wrapper">\triagens\ArangoDb\Transaction</div>
+                            </dd>
+
+                        
+                        
+                        
+                        
+                                                                        </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                            <tr>
+                            <th>
+                                since
+                            </th>
+                            <td>
+                                                                    
+                                                            </td>
+                        </tr>
+                                        </table>
+                </aside>
+            </div>
+
+                                    <a id="constants" name="constants"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Constants</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ENTRY_COLLECTIONS" name="constant_ENTRY_COLLECTIONS" class="anchor"></a>
+            <article id="constant_ENTRY_COLLECTIONS" class="constant">
+                <h3 class="">ENTRY_COLLECTIONS</h3>
+                <pre class="signature">ENTRY_COLLECTIONS</pre>
+                <p><em>Collections index</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ENTRY_ACTION" name="constant_ENTRY_ACTION" class="anchor"></a>
+            <article id="constant_ENTRY_ACTION" class="constant">
+                <h3 class="">ENTRY_ACTION</h3>
+                <pre class="signature">ENTRY_ACTION</pre>
+                <p><em>Action index</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ENTRY_WAIT_FOR_SYNC" name="constant_ENTRY_WAIT_FOR_SYNC" class="anchor"></a>
+            <article id="constant_ENTRY_WAIT_FOR_SYNC" class="constant">
+                <h3 class="">ENTRY_WAIT_FOR_SYNC</h3>
+                <pre class="signature">ENTRY_WAIT_FOR_SYNC</pre>
+                <p><em>WaitForSync index</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ENTRY_LOCK_TIMEOUT" name="constant_ENTRY_LOCK_TIMEOUT" class="anchor"></a>
+            <article id="constant_ENTRY_LOCK_TIMEOUT" class="constant">
+                <h3 class="">ENTRY_LOCK_TIMEOUT</h3>
+                <pre class="signature">ENTRY_LOCK_TIMEOUT</pre>
+                <p><em>Lock timeout index</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ENTRY_PARAMS" name="constant_ENTRY_PARAMS" class="anchor"></a>
+            <article id="constant_ENTRY_PARAMS" class="constant">
+                <h3 class="">ENTRY_PARAMS</h3>
+                <pre class="signature">ENTRY_PARAMS</pre>
+                <p><em>Params index</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ENTRY_READ" name="constant_ENTRY_READ" class="anchor"></a>
+            <article id="constant_ENTRY_READ" class="constant">
+                <h3 class="">ENTRY_READ</h3>
+                <pre class="signature">ENTRY_READ</pre>
+                <p><em>Read index</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ENTRY_WRITE" name="constant_ENTRY_WRITE" class="anchor"></a>
+            <article id="constant_ENTRY_WRITE" class="constant">
+                <h3 class="">ENTRY_WRITE</h3>
+                <pre class="signature">ENTRY_WRITE</pre>
+                <p><em>WRITE index</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                            
+                                    <a id="properties" name="properties"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Properties</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_collection" name="property_collection" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$collection</h3>
+                <pre class="signature">$collection : array</pre>
+                <p><em></em></p>
+                <ul>
+<li>The collections array that includes both read and write collection definitions</li>
+</ul>
+
+                                <h4>Type</h4>
+                array
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_readCollection" name="property_readCollection" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$readCollection</h3>
+                <pre class="signature">$readCollection : mixed</pre>
+                <p><em></em></p>
+                <ul>
+<li>The read-collections array or string (if only one)</li>
+</ul>
+
+                                <h4>Type</h4>
+                mixed
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_writeCollection" name="property_writeCollection" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$writeCollection</h3>
+                <pre class="signature">$writeCollection : mixed</pre>
+                <p><em></em></p>
+                <ul>
+<li>The write-collections array or string (if only one)</li>
+</ul>
+
+                                <h4>Type</h4>
+                mixed
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_action" name="property_action" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$action</h3>
+                <pre class="signature">$action : string</pre>
+                <p><em></em></p>
+                <ul>
+<li>The action to pass to the server</li>
+</ul>
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_waitForSync" name="property_waitForSync" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$waitForSync</h3>
+                <pre class="signature">$waitForSync : boolean</pre>
+                <p><em></em></p>
+                <ul>
+<li>WaitForSync on the transaction</li>
+</ul>
+
+                                <h4>Type</h4>
+                boolean
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_lockTimeout" name="property_lockTimeout" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$lockTimeout</h3>
+                <pre class="signature">$lockTimeout : integer</pre>
+                <p><em></em></p>
+                <ul>
+<li>LockTimeout on the transaction</li>
+</ul>
+
+                                <h4>Type</h4>
+                integer
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_attributes" name="property_attributes" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$attributes</h3>
+                <pre class="signature">$attributes : array</pre>
+                <p><em>The transaction&#039;s attributes.</em></p>
+                
+
+                                <h4>Type</h4>
+                array
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__connection" name="property__connection" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$_connection</h3>
+                <pre class="signature">$_connection : \triagens\ArangoDb\Connection</pre>
+                <p><em>The connection object</em></p>
+                
+
+                                <h4>Type</h4>
+                <a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a>
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                            
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___construct" name="method___construct" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__construct()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__construct(\triagens\ArangoDb\Connection <span class="argument">$connection</span>, array <span class="argument">$transactionArray</span>) : \triagens\ArangoDb\Transaction</pre>
+                <p><em>Initialise the transaction object</em></p>
+                <p>The $transaction array can be used to specify the collections, action and further
 options for the transaction in form of an array.</p>
-
 <p>Example:
 array(
-  'collections' => array(
-    'write' => array(
-      'my_collection'
-     )
-   ),
-  'action' => 'function (){}',
-  'waitForSync' => true
-)</p></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$connection</h4>
-<code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code><ul>
+'collections' => array(</p>
+<pre><code>'write' =&gt; array(
+  'my_collection'
+ )</code></pre>
+<p>),
+'action' => 'function (){}',
+'waitForSync' => true
+)</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></td>
+                                <td>$connection </td>
+                                <td><ul>
 <li>the connection to be used</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$transactionArray</h4>
-<code>array</code><ul>
+</ul></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$transactionArray </td>
+                                <td><ul>
 <li>transaction initialization data</li>
-</ul>
-</div>
-<h3>Returns</h3>
-<div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Transaction.html">\triagens\ArangoDb\Transaction</a></code></div>
-</div></div>
-</div>
-<a id="method___get"></a><div class="element clickable method public method___get" data-toggle="collapse" data-target=".method___get .collapse">
-<h2>Get an attribute, magic method</h2>
-<pre>__get(string $key) : mixed</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This function is mapped to get() internally.</p></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$key</h4>
-<code>string</code><ul>
-<li>name of attribute</li>
-</ul>
-</div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>- value of attribute, NULL if attribute is not set</div>
-</div></div>
-</div>
-<a id="method___set"></a><div class="element clickable method public method___set" data-toggle="collapse" data-target=".method___set .collapse">
-<h2>Set an attribute, magic method</h2>
-<pre>__set(string $key, mixed $value) : void</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This is a magic method that allows the object to be used without
-declaring all document attributes first.</p></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$key</h4>
-<code>string</code><ul>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/triagens.ArangoDb.Transaction.html">\triagens\ArangoDb\Transaction</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_execute" name="method_execute" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">execute()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">execute() : mixed</pre>
+                <p><em>Execute the transaction</em></p>
+                <p>This will post the query to the server and return the results as
+a Cursor. The cursor can then be used to iterate the results.</p>
+
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\Exception</dt>
+                            <dd><p>throw exception if transaction failed</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <p>true if successful without a return value or the return value if one was set in the action</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setCollections" name="method_setCollections" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setCollections()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setCollections(array <span class="argument">$value</span>)</pre>
+                <p><em>Set the collections array.</em></p>
+                <p>The array should have 2 sub-arrays, namely 'read' and 'write' which should hold the respective collections
+for the transaction</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$value </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getCollections" name="method_getCollections" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getCollections()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getCollections() : array</pre>
+                <p><em>Get collections array</em></p>
+                <p>This holds the read and write collections of the transaction</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>$value</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setAction" name="method_setAction" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setAction()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setAction(string <span class="argument">$value</span>)</pre>
+                <p><em>set action value</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$value </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getAction" name="method_getAction" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getAction()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getAction() : string</pre>
+                <p><em>get action value</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>action</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setWaitForSync" name="method_setWaitForSync" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setWaitForSync()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setWaitForSync(boolean <span class="argument">$value</span>)</pre>
+                <p><em>set waitForSync value</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$value </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getWaitForSync" name="method_getWaitForSync" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getWaitForSync()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getWaitForSync() : boolean</pre>
+                <p><em>get waitForSync value</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>waitForSync</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setLockTimeout" name="method_setLockTimeout" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setLockTimeout()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setLockTimeout(integer <span class="argument">$value</span>)</pre>
+                <p><em>Set lockTimeout value</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$value </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getLockTimeout" name="method_getLockTimeout" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getLockTimeout()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getLockTimeout() : integer</pre>
+                <p><em>Get lockTimeout value</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    integer
+                                            &mdash; <p>lockTimeout</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setParams" name="method_setParams" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setParams()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setParams(array <span class="argument">$value</span>)</pre>
+                <p><em>Set params value</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$value </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getParams" name="method_getParams" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getParams()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getParams() : array</pre>
+                <p><em>Get params value</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>params</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setWriteCollections" name="method_setWriteCollections" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setWriteCollections()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setWriteCollections(array <span class="argument">$value</span>)</pre>
+                <p><em>Convenience function to directly set write-collections without having to access
+them from the collections attribute.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$value </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getWriteCollections" name="method_getWriteCollections" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getWriteCollections()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getWriteCollections() : array</pre>
+                <p><em>Convenience function to directly get write-collections without having to access
+them from the collections attribute.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>params</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setReadCollections" name="method_setReadCollections" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setReadCollections()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setReadCollections(array <span class="argument">$value</span>)</pre>
+                <p><em>Convenience function to directly set read-collections without having to access
+them from the collections attribute.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$value </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getReadCollections" name="method_getReadCollections" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getReadCollections()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getReadCollections() : array</pre>
+                <p><em>Convenience function to directly get read-collections without having to access
+them from the collections attribute.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>params</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_set" name="method_set" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">set()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">set( <span class="argument">$key</span>,  <span class="argument">$value</span>)</pre>
+                <p><em>Sets an attribute</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$key </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$value </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\ClientException</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___set" name="method___set" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__set()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__set(string <span class="argument">$key</span>, mixed <span class="argument">$value</span>) : void</pre>
+                <p><em>Set an attribute, magic method</em></p>
+                <p>This is a magic method that allows the object to be used without
+declaring all document attributes first.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$key </td>
+                                <td><ul>
 <li>attribute name</li>
-</ul>
-</div>
-<div class="subelement argument">
-<h4>$value</h4>
-<code>mixed</code><ul>
+</ul></td>
+                            </tr>
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$value </td>
+                                <td><ul>
 <li>value for attribute</li>
-</ul>
-</div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
-<td></td>
-</tr></table>
-</div></div>
-</div>
-<a id="method___toString"></a><div class="element clickable method public method___toString" data-toggle="collapse" data-target=".method___toString .collapse">
-<h2>Returns the action string</h2>
-<pre>__toString() : string</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>string</code>- the current action string</div>
-</div></div>
-</div>
-<a id="method_buildTransactionAttributesFromArray"></a><div class="element clickable method public method_buildTransactionAttributesFromArray" data-toggle="collapse" data-target=".method_buildTransactionAttributesFromArray .collapse">
-<h2>Build the object's attributes from a given array</h2>
-<pre>buildTransactionAttributesFromArray($options) </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument"><h4>$options</h4></div>
-</div></div>
-</div>
-<a id="method_execute"></a><div class="element clickable method public method_execute" data-toggle="collapse" data-target=".method_execute .collapse">
-<h2>Execute the transaction</h2>
-<pre>execute() : mixed</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This will post the query to the server and return the results as
-a Cursor. The cursor can then be used to iterate the results.</p></div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code></th>
-<td>throw exception if transaction failed</td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>true if successful without a return value or the return value if one was set in the action</div>
-</div></div>
-</div>
-<a id="method_get"></a><div class="element clickable method public method_get" data-toggle="collapse" data-target=".method_get .collapse">
-<h2>Get an attribute</h2>
-<pre>get(string $key) : mixed</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$key</h4>
-<code>string</code><ul>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\ClientException</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get" name="method_get" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get(string <span class="argument">$key</span>) : mixed</pre>
+                <p><em>Get an attribute</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$key </td>
+                                <td><ul>
 <li>name of attribute</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <ul>
+<li>value of attribute, NULL if attribute is not set</li>
 </ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___get" name="method___get" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__get()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__get(string <span class="argument">$key</span>) : mixed</pre>
+                <p><em>Get an attribute, magic method</em></p>
+                <p>This function is mapped to get() internally.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$key </td>
+                                <td><ul>
+<li>name of attribute</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <ul>
+<li>value of attribute, NULL if attribute is not set</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___toString" name="method___toString" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__toString()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__toString() : string</pre>
+                <p><em>Returns the action string</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <ul>
+<li>the current action string</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_buildTransactionAttributesFromArray" name="method_buildTransactionAttributesFromArray" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">buildTransactionAttributesFromArray()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">buildTransactionAttributesFromArray( <span class="argument">$options</span>)</pre>
+                <p><em>Build the object&#039;s attributes from a given array</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$options </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getConnection" name="method_getConnection" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">getConnection()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getConnection() : \triagens\ArangoDb\Connection</pre>
+                <p><em>Return the connection object</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a>
+                                            &mdash; <ul>
+<li>the connection object</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">Transaction.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/Transaction.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                            <li><a href="../namespaces/triagens.html">\triagens</a></li>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on July 11th, 2014 at 12:23.
+                </section>
+            </section>
+        </section>
+    </footer>
 </div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>- value of attribute, NULL if attribute is not set</div>
-</div></div>
-</div>
-<a id="method_getAction"></a><div class="element clickable method public method_getAction" data-toggle="collapse" data-target=".method_getAction .collapse">
-<h2>get action value</h2>
-<pre>getAction() : string</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>string</code>action</div>
-</div></div>
-</div>
-<a id="method_getCollections"></a><div class="element clickable method public method_getCollections" data-toggle="collapse" data-target=".method_getCollections .collapse">
-<h2>Get collections array</h2>
-<pre>getCollections() : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This holds the read and write collections of the transaction</p></div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>array</code>$value</div>
-</div></div>
-</div>
-<a id="method_getLockTimeout"></a><div class="element clickable method public method_getLockTimeout" data-toggle="collapse" data-target=".method_getLockTimeout .collapse">
-<h2>Get lockTimeout value</h2>
-<pre>getLockTimeout() : int</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>int</code>lockTimeout</div>
-</div></div>
-</div>
-<a id="method_getParams"></a><div class="element clickable method public method_getParams" data-toggle="collapse" data-target=".method_getParams .collapse">
-<h2>Get params value</h2>
-<pre>getParams() : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>array</code>params</div>
-</div></div>
-</div>
-<a id="method_getReadCollections"></a><div class="element clickable method public method_getReadCollections" data-toggle="collapse" data-target=".method_getReadCollections .collapse">
-<h2>Convenience function to directly get read-collections without having to access
-them from the collections attribute.</h2>
-<pre>getReadCollections() : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>array</code>params</div>
-</div></div>
-</div>
-<a id="method_getWaitForSync"></a><div class="element clickable method public method_getWaitForSync" data-toggle="collapse" data-target=".method_getWaitForSync .collapse">
-<h2>get waitForSync value</h2>
-<pre>getWaitForSync() : bool</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>bool</code>waitForSync</div>
-</div></div>
-</div>
-<a id="method_getWriteCollections"></a><div class="element clickable method public method_getWriteCollections" data-toggle="collapse" data-target=".method_getWriteCollections .collapse">
-<h2>Convenience function to directly get write-collections without having to access
-them from the collections attribute.</h2>
-<pre>getWriteCollections() : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>array</code>params</div>
-</div></div>
-</div>
-<a id="method_set"></a><div class="element clickable method public method_set" data-toggle="collapse" data-target=".method_set .collapse">
-<h2>Sets an attribute</h2>
-<pre>set($key, $value) </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument"><h4>$key</h4></div>
-<div class="subelement argument"><h4>$value</h4></div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code></th>
-<td></td>
-</tr></table>
-</div></div>
-</div>
-<a id="method_setAction"></a><div class="element clickable method public method_setAction" data-toggle="collapse" data-target=".method_setAction .collapse">
-<h2>set action value</h2>
-<pre>setAction(string $value) </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$value</h4>
-<code>string</code>
-</div>
-</div></div>
-</div>
-<a id="method_setCollections"></a><div class="element clickable method public method_setCollections" data-toggle="collapse" data-target=".method_setCollections .collapse">
-<h2>Set the collections array.</h2>
-<pre>setCollections(array $value) </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>The array should have 2 sub-arrays, namely 'read' and 'write' which should hold the respective collections
-for the transaction</p></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$value</h4>
-<code>array</code>
-</div>
-</div></div>
-</div>
-<a id="method_setLockTimeout"></a><div class="element clickable method public method_setLockTimeout" data-toggle="collapse" data-target=".method_setLockTimeout .collapse">
-<h2>Set lockTimeout value</h2>
-<pre>setLockTimeout(int $value) </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$value</h4>
-<code>int</code>
-</div>
-</div></div>
-</div>
-<a id="method_setParams"></a><div class="element clickable method public method_setParams" data-toggle="collapse" data-target=".method_setParams .collapse">
-<h2>Set params value</h2>
-<pre>setParams(array $value) </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$value</h4>
-<code>array</code>
-</div>
-</div></div>
-</div>
-<a id="method_setReadCollections"></a><div class="element clickable method public method_setReadCollections" data-toggle="collapse" data-target=".method_setReadCollections .collapse">
-<h2>Convenience function to directly set read-collections without having to access
-them from the collections attribute.</h2>
-<pre>setReadCollections(array $value) </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$value</h4>
-<code>array</code>
-</div>
-</div></div>
-</div>
-<a id="method_setWaitForSync"></a><div class="element clickable method public method_setWaitForSync" data-toggle="collapse" data-target=".method_setWaitForSync .collapse">
-<h2>set waitForSync value</h2>
-<pre>setWaitForSync(bool $value) </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$value</h4>
-<code>bool</code>
-</div>
-</div></div>
-</div>
-<a id="method_setWriteCollections"></a><div class="element clickable method public method_setWriteCollections" data-toggle="collapse" data-target=".method_setWriteCollections .collapse">
-<h2>Convenience function to directly set write-collections without having to access
-them from the collections attribute.</h2>
-<pre>setWriteCollections(array $value) </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$value</h4>
-<code>array</code>
-</div>
-</div></div>
-</div>
-<a id="method_getConnection"></a><div class="element clickable method protected method_getConnection" data-toggle="collapse" data-target=".method_getConnection .collapse">
-<h2>Return the connection object</h2>
-<pre>getConnection() : <a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Returns</h3>
-<div class="subelement response">
-<code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>- the connection object</div>
-</div></div>
-</div>
-<h3>
-<i class="icon-custom icon-property"></i> Properties</h3>
-<a id="property_action"> </a><div class="element clickable property public property_action" data-toggle="collapse" data-target=".property_action .collapse">
-<h2>- The action to pass to the server</h2>
-<pre>$action : string</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered">
-<tr>
-<th>magic</th>
-<td></td>
-</tr>
-<tr>
-<th>property</th>
-<td>- The action to pass to the server</td>
-</tr>
-</table>
-</div></div>
-</div>
-<a id="property_collection"> </a><div class="element clickable property public property_collection" data-toggle="collapse" data-target=".property_collection .collapse">
-<h2>- The collections array that includes both read and write collection definitions</h2>
-<pre>$collection : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered">
-<tr>
-<th>magic</th>
-<td></td>
-</tr>
-<tr>
-<th>property</th>
-<td>- The collections array that includes both read and write collection definitions</td>
-</tr>
-</table>
-</div></div>
-</div>
-<a id="property_lockTimeout"> </a><div class="element clickable property public property_lockTimeout" data-toggle="collapse" data-target=".property_lockTimeout .collapse">
-<h2>- LockTimeout on the transaction</h2>
-<pre>$lockTimeout : int</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered">
-<tr>
-<th>magic</th>
-<td></td>
-</tr>
-<tr>
-<th>property</th>
-<td>- LockTimeout on the transaction</td>
-</tr>
-</table>
-</div></div>
-</div>
-<a id="property_readCollection"> </a><div class="element clickable property public property_readCollection" data-toggle="collapse" data-target=".property_readCollection .collapse">
-<h2>- The read-collections array or string (if only one)</h2>
-<pre>$readCollection : mixed</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered">
-<tr>
-<th>magic</th>
-<td></td>
-</tr>
-<tr>
-<th>property</th>
-<td>- The read-collections array or string (if only one)</td>
-</tr>
-</table>
-</div></div>
-</div>
-<a id="property_waitForSync"> </a><div class="element clickable property public property_waitForSync" data-toggle="collapse" data-target=".property_waitForSync .collapse">
-<h2>- WaitForSync on the transaction</h2>
-<pre>$waitForSync : bool</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered">
-<tr>
-<th>magic</th>
-<td></td>
-</tr>
-<tr>
-<th>property</th>
-<td>- WaitForSync on the transaction</td>
-</tr>
-</table>
-</div></div>
-</div>
-<a id="property_writeCollection"> </a><div class="element clickable property public property_writeCollection" data-toggle="collapse" data-target=".property_writeCollection .collapse">
-<h2>- The write-collections array or string (if only one)</h2>
-<pre>$writeCollection : mixed</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered">
-<tr>
-<th>magic</th>
-<td></td>
-</tr>
-<tr>
-<th>property</th>
-<td>- The write-collections array or string (if only one)</td>
-</tr>
-</table>
-</div></div>
-</div>
-<a id="property_attributes"> </a><div class="element clickable property protected property_attributes" data-toggle="collapse" data-target=".property_attributes .collapse">
-<h2>The transaction's attributes.</h2>
-<pre>$attributes : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="property__connection"> </a><div class="element clickable property private property__connection" data-toggle="collapse" data-target=".property__connection .collapse">
-<h2>The connection object</h2>
-<pre>$_connection : <a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<h3>
-<i class="icon-custom icon-constant"></i> Constants</h3>
-<a id="constant_ENTRY_ACTION"> </a><div class="element clickable constant  constant_ENTRY_ACTION" data-toggle="collapse" data-target=".constant_ENTRY_ACTION .collapse">
-<h2>Action index</h2>
-<pre>ENTRY_ACTION </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="constant_ENTRY_COLLECTIONS"> </a><div class="element clickable constant  constant_ENTRY_COLLECTIONS" data-toggle="collapse" data-target=".constant_ENTRY_COLLECTIONS .collapse">
-<h2>Collections index</h2>
-<pre>ENTRY_COLLECTIONS </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="constant_ENTRY_LOCK_TIMEOUT"> </a><div class="element clickable constant  constant_ENTRY_LOCK_TIMEOUT" data-toggle="collapse" data-target=".constant_ENTRY_LOCK_TIMEOUT .collapse">
-<h2>Lock timeout index</h2>
-<pre>ENTRY_LOCK_TIMEOUT </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="constant_ENTRY_PARAMS"> </a><div class="element clickable constant  constant_ENTRY_PARAMS" data-toggle="collapse" data-target=".constant_ENTRY_PARAMS .collapse">
-<h2>Params index</h2>
-<pre>ENTRY_PARAMS </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="constant_ENTRY_READ"> </a><div class="element clickable constant  constant_ENTRY_READ" data-toggle="collapse" data-target=".constant_ENTRY_READ .collapse">
-<h2>Read index</h2>
-<pre>ENTRY_READ </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="constant_ENTRY_WAIT_FOR_SYNC"> </a><div class="element clickable constant  constant_ENTRY_WAIT_FOR_SYNC" data-toggle="collapse" data-target=".constant_ENTRY_WAIT_FOR_SYNC .collapse">
-<h2>WaitForSync index</h2>
-<pre>ENTRY_WAIT_FOR_SYNC </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="constant_ENTRY_WRITE"> </a><div class="element clickable constant  constant_ENTRY_WRITE" data-toggle="collapse" data-target=".constant_ENTRY_WRITE .collapse">
-<h2>WRITE index</h2>
-<pre>ENTRY_WRITE </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="row"><footer class="span12">
-            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
-            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2014-01-29T18:12:38+01:00.<br></footer></div>
-</div>
+
 </body>
 </html>
