@@ -148,10 +148,10 @@ class GraphHandler extends
     /**
      * Create a graph
      *
-     * This will create a graph using the given graph object and return an array of the created graph object's attributes.
+     * This will create a graph using the given graph object and return an array of the created graph object's attributes.<br><br>
      *
      * @throws Exception
-     *
+     * 
      * @param Graph $graph  - The graph object which holds the information of the graph to be created
      *
      * @return array
@@ -184,7 +184,7 @@ class GraphHandler extends
     /**
      * Get a graph
      *
-     * This will get a graph.
+     * This will get a graph.<br><br>
      *
      * @throws Exception
      *
@@ -213,7 +213,7 @@ class GraphHandler extends
 
 
     /**
-     * Drop a graph and remove all its vertices and edges, also drops vertex and edge collections
+     * Drop a graph and remove all its vertices and edges, also drops vertex and edge collections<br><br>
      *
      * @throws Exception
      *
@@ -239,7 +239,7 @@ class GraphHandler extends
 
 
     /**
-     * Get a graph's properties
+     * Get a graph's properties<br><br>
      *
      * @throws Exception
      *
@@ -265,7 +265,7 @@ class GraphHandler extends
     /**
      * add an orphan collection to the graph.
      *
-     * This will add a further orphan collection to the graph.
+     * This will add a further orphan collection to the graph.<br><br>
      *
      *
      * @throws Exception
@@ -305,7 +305,7 @@ class GraphHandler extends
     /**
      * deletes an orphan collection from the graph.
      *
-     * This will delete an orphan collection from the graph.
+     * This will delete an orphan collection from the graph.<br><br>
      *
      *
      * @throws Exception
@@ -346,7 +346,7 @@ class GraphHandler extends
     /**
      * gets all vertex collection from the graph.
      *
-     * This will get all vertex collection (orphans and used in edge definitions) from the graph.
+     * This will get all vertex collection (orphans and used in edge definitions) from the graph.<br><br>
      *
      * @throws Exception
      *
@@ -377,7 +377,7 @@ class GraphHandler extends
     /**
      * adds an edge definition to the graph.
      *
-     * This will add a further edge definition to the graph.
+     * This will add a further edge definition to the graph.<br><br>
      *
      *
      * @throws Exception
@@ -416,7 +416,7 @@ class GraphHandler extends
     /**
      * deletes an edge definition from the graph.
      *
-     * This will delete an edge definition from the graph.
+     * This will delete an edge definition from the graph.<br><br>
      *
      *
      * @throws Exception
@@ -456,7 +456,7 @@ class GraphHandler extends
     /**
      * gets all edge collections from the graph.
      *
-     * This will get all edge collections from the graph.
+     * This will get all edge collections from the graph.<br><br>
      *
      *
      * @throws Exception
@@ -488,7 +488,7 @@ class GraphHandler extends
     /**
      * replaces an edge definition of the graph.
      *
-     * This will replace an edge definition in the graph.
+     * This will replace an edge definition in the graph.<br><br>
      *
      *
      * @throws Exception
@@ -528,7 +528,7 @@ class GraphHandler extends
      *
      * This will add the vertex-document to the graph and return the vertex id
      *
-     * This will throw if the vertex cannot be saved
+     * This will throw if the vertex cannot be saved<br><br>
      *
      * @throws Exception
      *
@@ -576,7 +576,7 @@ class GraphHandler extends
     /**
      * Get a single vertex from a graph
      *
-     * This will throw if the vertex cannot be fetched from the server
+     * This will throw if the vertex cannot be fetched from the server<br><br>
      *
      * @throws Exception
      *
@@ -630,7 +630,7 @@ class GraphHandler extends
      *
      * If policy is set to error (locally or globally through the ConnectionOptions)
      * and the passed document has a _rev value set, the database will check
-     * that the revision of the to-be-replaced vertex is the same as the one given.
+     * that the revision of the to-be-replaced vertex is the same as the one given.<br><br>
      *
      * @throws Exception
      *
@@ -646,7 +646,6 @@ class GraphHandler extends
      * @param string $collection  - if one uses a graph with more than one vertex collection one must provide the collection                            
      *
      * @return bool - always true, will throw if there is an error
-     *
      * @since 1.2
      */
     public function replaceVertex($graph, $vertexId, Document $document, $options = array(), $collection = null)
@@ -721,7 +720,7 @@ class GraphHandler extends
      *
      * If policy is set to error (locally or globally through the ConnectionOptions)
      * and the passed vertex-document has a _rev value set, the database will check
-     * that the revision of the to-be-replaced document is the same as the one given.
+     * that the revision of the to-be-replaced document is the same as the one given.<br><br>
      *
      * @throws Exception
      *
@@ -796,7 +795,7 @@ class GraphHandler extends
 
 
     /**
-     * Remove a vertex from a graph, identified by the graph name and vertex id
+     * Remove a vertex from a graph, identified by the graph name and vertex id<br><br>
      *
      * @throws Exception
      *
@@ -862,7 +861,7 @@ class GraphHandler extends
      *
      * This will save the edge to the graph and return the edges-document's id
      *
-     * This will throw if the edge cannot be saved
+     * This will throw if the edge cannot be saved<br><br>
      *
      * @throws Exception
      *
@@ -919,7 +918,7 @@ class GraphHandler extends
     /**
      * Get a single edge from a graph
      *
-     * This will throw if the edge cannot be fetched from the server
+     * This will throw if the edge cannot be fetched from the server<br><br>
      *
      * @throws Exception
      *
@@ -974,7 +973,7 @@ class GraphHandler extends
      *
      * If policy is set to error (locally or globally through the ConnectionOptions)
      * and the passed document has a _rev value set, the database will check
-     * that the revision of the to-be-replaced edge is the same as the one given.
+     * that the revision of the to-be-replaced edge is the same as the one given.<br><br>
      *
      * @throws Exception
      *
@@ -990,7 +989,6 @@ class GraphHandler extends
      * @param string $collection  - if one uses a graph with more than one vertex collection one must provide the collection
      *
      * @return bool - always true, will throw if there is an error
-     *
      * @since 1.2
      */
     public function replaceEdge($graph, $edgeId, $label, Edge $document, $options = array(), $collection = null)
@@ -1067,7 +1065,7 @@ class GraphHandler extends
      *
      * If policy is set to error (locally or globally through the ConnectionOptions)
      * and the passed edge-document has a _rev value set, the database will check
-     * that the revision of the to-be-replaced document is the same as the one given.
+     * that the revision of the to-be-replaced document is the same as the one given.<br><br>
      *
      * @throws Exception
      *
@@ -1149,7 +1147,7 @@ class GraphHandler extends
 
 
     /**
-     * Remove a edge from a graph, identified by the graph name and edge id
+     * Remove a edge from a graph, identified by the graph name and edge id<br><br>
      *
      * @throws Exception
      *
@@ -1217,29 +1215,29 @@ class GraphHandler extends
      * <li>'null' to select every vertex</li>
      * <li>an array containing key value pairs that must match a vertex</li>
      * <li>an array of arrays containing key value pairs that must match a vertex. 
-     * This example means that you can define filters and combine them with "or".</li>
+     * This example means that you can define filters and combine them with "or".</li><br><br>
      *
      *
      * @throws Exception
      *
      * @param mixed      $graph        - graph name as a string or instance of Graph
      * @param mixed      $vertexExample     - see functions introduction
-     * @param bool|array $options      optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
-     * <p>
+     * @param bool|array $options      an array of optional parameters:
+     * <ul>
      * <li><b>batchSize</b> - the batch size of the returned cursor (deprecated, use 'setBatchsize' instead)</li>
      * <li><b>limit</b> - limit the result size by a give number  (deprecated, use 'setLimit' instead)</li>
      * <li><b>count</b> - return the total number of results  Defaults to false  (deprecated, use 'setCount' instead)</li>
      * <li><b>filter</b> - a optional filter</li>
-     * <p>Filter options are :<br>
+     * <ul>Filter options are :<br>
      * <li><b>direction</b> - Filter for inbound (value "in") or outbound (value "out") neighbors. Default value is "any".</li>
      * <li><b>labels</b> - filter by an array of edge labels (empty array means no restriction).</li>
      * <li><b>properties</b> - filter neighbors by an array of edge properties</li>
-     * <p>Properties options are :<br>
+     * <ul>Properties options are :<br>
      * <li><b>key</b> - Filter the result vertices by a key value pair.</li>
      * <li><b>value</b> -  The value of the key.</li>
      * <li><b>compare</b> - A comparison operator. (==, >, <, >=, <= )</li>
-     * </p>
-     * </p>
+     * </ul>
+     * </ul>
      * <li><b>minDepth</b> -  Defines the minimal length of a path from an edge to a vertex (default is 1, which means only the edges directly 
      *  connected to a vertex would be returned).
 	 * <li><b>maxDepth</b> - Defines the maximal length of a path from an edge to a vertex (default is 1, which means only the edges directly
@@ -1248,13 +1246,13 @@ class GraphHandler extends
      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
-     * <p>
+     * <ul>
      * This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
      * The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
      * and the hidden attributes would not be applied to the attributes.<br>
-     * </p>
+     * </ul>
      * </li>
-     * </p>
+     * </ul>
      *
      * @return Cursor
      */
@@ -1352,46 +1350,46 @@ class GraphHandler extends
     /**
      * Get connected edges of a given vertex
      *
-     * This will throw if the list cannot be fetched from the server
+     * This will throw if the list cannot be fetched from the server<br><br>
      *
      *
      * @throws Exception
      *
      * @param mixed      $graph        - graph name as a string or instance of Graph
      * @param mixed      $vertexId     - the vertex id
-     * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
-     * <p><br>
+     * @param bool|array $options      - an array of optional parameters:
+     * <ul><br>
      * <li><b>batchSize</b> - the batch size of the returned cursor (deprecated, use 'setBatchsize' instead)</li>
      * <li><b>limit</b> - limit the result size by a give number  (deprecated, use 'setLimit' instead)</li>
      * <li><b>count</b> - return the total number of results  Defaults to false  (deprecated, use 'setCount' instead)</li>
      * <li><b>filter</b> - a optional filter</li>
-     * <p>Filter options are :<br>
+     * <ul>Filter options are :<br>
      * <li><b>direction</b> - Filter for inbound (value "in") or outbound (value "out") neighbors. Default value is "any".</li>
      * <li><b>labels</b> - filter by an array of edge labels (empty array means no restriction).</li>
      * <li><b>properties</b> - filter neighbors by an array of edge properties</li>
-     * <p>Properties options are :<br>
+     * <ul>Properties options are :<br>
      * <li><b>key</b> - Filter the result vertices by a key value pair.</li>
      * <li><b>value</b> -  The value of the key.</li>
      * <li><b>compare</b> - A comparison operator. (==, >, <, >=, <= )</li>
-     *                                 </p>
-     *                                 </p>
+     * </ul>
+     * </ul>
      * <li><b>minDepth</b> -  Defines the minimal length of a path from an edge to a vertex 
-	 *                                 (default is 1, which means only the edges directly connected to a vertex would be returned).
+	 * (default is 1, which means only the edges directly connected to a vertex would be returned).
 	 * <li><b>maxDepth</b> - Defines the maximal length of a path from an edge to a vertex 
-	 *                                 (default is 1, which means only the edges directly connected to a vertex would be returned).
+	 * (default is 1, which means only the edges directly connected to a vertex would be returned).
      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
-     * <p>
-     *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-     *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
-     *                                 and the hidden attributes would not be applied to the attributes.<br>
-     *                                 </p>
-     *                                 </li>
-     *                                 </p>
+     * <ul>
+     * This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+     * The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
+     * and the hidden attributes would not be applied to the attributes.<br>
+     * </ul>
+     * </li>
+     * </ul>
      *
-     * @return cursor - Returns a cursor containing the result
+     * @return Cursor
      */
     public function getConnectedEdges($graph, $vertexId, $options = array())
     {
@@ -1410,39 +1408,39 @@ class GraphHandler extends
     /**
      * Get all vertices of a graph
      *
-     * This will throw if the list cannot be fetched from the server
+     * This will throw if the list cannot be fetched from the server<br><br>
      *
      *
      * @throws Exception
      *
      * @param mixed      $graph        - graph name as a string or instance of Graph
-     * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
-     * <p><br>
+     * @param bool|array $options      - an array of optional parameters:
+     * <ul><br>
      * <li><b>batchSize</b> - the batch size of the returned cursor (deprecated, use 'setBatchsize' instead)</li>
      * <li><b>limit</b> - limit the result size by a give number  (deprecated, use 'setLimit' instead)</li>
      * <li><b>count</b> - return the total number of results  Defaults to false  (deprecated, use 'setCount' instead)</li>
      * <li><b>filter</b> - a optional filter</li>
-     * <p>Filter options are :<br>
+     * <ul>Filter options are :<br>
      * <li><b>properties</b> - filter neighbors by an array of edge properties</li>
-     * <p>Properties options are :<br>
+     * <ul>Properties options are :<br>
      * <li><b>key</b> - Filter the result vertices by a key value pair.</li>
      * <li><b>value</b> -  The value of the key.</li>
      * <li><b>compare</b> - A comparison operator. (==, >, <, >=, <= )</li>
-     *                                 </p>
-     *                                 </p>
+     * </ul>
+     * </ul>
      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
-     * <p>
-     *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-     *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
-     *                                 and the hidden attributes would not be applied to the attributes.<br>
-     *                                 </p>
-     *                                 </li>
-     *                                 </p>
+     * <ul>
+     * This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+     * The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
+     * and the hidden attributes would not be applied to the attributes.<br>
+     * </ul>
+     * </li>
+     * </ul>
      *
-     * @return cursor - Returns a cursor containing the result
+     * @return Cursor
      */
     public function getVertices($graph, $options = array())
     {
@@ -1522,52 +1520,51 @@ class GraphHandler extends
     /**
      * Get edges of a graph
      *
-     * This will throw if the list cannot be fetched from the server
+     * This will throw if the list cannot be fetched from the server<br><br>
      *
      *
      * @throws Exception
      *
      * @param mixed      $graph        - graph name as a string or instance of Graph
-     * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
-     * <p><br>
+     * @param bool|array $options      - an array of optional parameters:
+     * <ul><br>
      * <li><b>batchSize</b> - the batch size of the returned cursor (deprecated, use 'setBatchsize' instead)</li>
      * <li><b>limit</b> - limit the result size by a give number  (deprecated, use 'setLimit' instead)</li>
      * <li><b>count</b> - return the total number of results  Defaults to false  (deprecated, use 'setCount' instead)</li>
      * <li><b>filter</b> - a optional filter</li>
-     * <p>Filter options are :<br>
+     * <ul>Filter options are :<br>
      * <li><b>properties</b> - filter neighbors by an array of edge properties</li>
      * <li><b>labels</b> - filter by an array of edge labels (empty array means no restriction).</li>
-     * <p>Properties options are :<br>
+     * <ul>Properties options are :<br>
      * <li><b>key</b> - Filter the result edges by a key value pair.</li>
      * <li><b>value</b> -  The value of the key.</li>
      * <li><b>compare</b> - A comparison operator. (==, >, <, >=, <= )</li>
-     *                                 </p>
-     *                                 
+     * </ul>
+     * </ul>                                
      * <li><b>vertexExample</b> - An example for the desired vertices.
      * <li><b>direction</b> - The direction of the edges as a string. 
-     *                                 Possible values are *outbound*, *inbound* and *any* (default).
+     * Possible values are *outbound*, *inbound* and *any* (default).
      * <li>edgeCollectionRestriction*  - One or multiple edge collection names. 
-     *                                 Only edges from these collections will be considered for the path.
+     * Only edges from these collections will be considered for the path.
      * <li>vertexCollectionRestriction* - One or multiple vertex collection names. 
-     *                                 Only vertices from these collections will be considered as start vertex of a path.
+     * Only vertices from these collections will be considered as start vertex of a path.
 	 * <li><b>minDepth</b> -  Defines the minimal length of a path from an edge to a vertex 
-	 *                                 (default is 1, which means only the edges directly connected to a vertex would be returned).
+	 * (default is 1, which means only the edges directly connected to a vertex would be returned).
 	 * <li><b>maxDepth</b> - Defines the maximal length of a path from an edge to a vertex 
-	 *                                 (default is 1, which means only the edges directly connected to a vertex would be returned).
-     *                                 
+	 * (default is 1, which means only the edges directly connected to a vertex would be returned).
      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
-     * <p>
-     *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-     *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
-     *                                 and the hidden attributes would not be applied to the attributes.<br>
-     *                                 </p>
-     *                                 </li>
-     *                                 </p>
+     * <ul>
+     * This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+     * The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
+     * and the hidden attributes would not be applied to the attributes.<br>
+     * </ul>
+     * </li>
+     * </ul>
      *
-     * @return cursor - Returns a cursor containing the result
+     * @return Cursor
      */
     public function getEdges($graph, $options = array())
     {
@@ -1668,39 +1665,29 @@ class GraphHandler extends
      /**
       * Get all pathes of a graph
       *
-      * This will throw if the list cannot be fetched from the server
+      * This will throw if the list cannot be fetched from the server<br><br>
       *
       *
       * @throws Exception
       *
       * @param mixed      $graph        - graph name as a string or instance of Graph
-      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
-      * <p><br>
+      * @param bool|array $options      - an array of optional parameters:
+      * <ul><br>
       * <li><b>batchSize</b> - the batch size of the returned cursor (deprecated, use 'setBatchsize' instead)</li>
       * <li><b>limit</b> - limit the result size by a give number  (deprecated, use 'setLimit' instead)</li>
       * <li><b>count</b> - return the total number of results  Defaults to false  (deprecated, use 'setCount' instead)</li>
       * <li><b>direction</b> - The direction of the edges as a string.
-      *                                 Possible values are *outbound*, *inbound* and *any* (default).
+      * Possible values are *outbound*, *inbound* and *any* (default).
       * <li>followCycles*  - If set to *true* the query follows cycles in the graph,
-  	  *						            default is false.
+  	  *	default is false.
       * <li><b>minDepth</b> -  Defines the minimal length of a path from an edge to a vertex
-      *                                 (default is 1, which means only the edges directly connected to a vertex would be returned).
+      * (default is 1, which means only the edges directly connected to a vertex would be returned).
       * <li><b>maxDepth</b> - Defines the maximal length of a path from an edge to a vertex
-      *                                 (default is 1, which means only the edges directly connected to a vertex would be returned).
+      * (default is 1, which means only the edges directly connected to a vertex would be returned).
+      * </li>
+      * </ul>
       *
-      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
-      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
-      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
-      * <p>
-      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
-      *                                 and the hidden attributes would not be applied to the attributes.<br>
-      *                                 </p>
-      *                                 </li>
-      *                                 </p>
-      *
-      * @return cursor - Returns a cursor containing the result
+      * @return Cursor
       */
      public function getPaths($graph, $options = array())
      {
@@ -1763,10 +1750,10 @@ class GraphHandler extends
       * This will throw if the list cannot be fetched from the server
       * This method accepts multiple argument types for the <b>vertex examples</b>, these can be:
       * <li>a vertex id </li>
-      * <li><b>null' to select every vertex</li>
+      * <li><b>null</b> to select every vertex</li>
       * <li>an array containing key value pairs that must match a vertex</li>
       * <li>an array of arrays containing key value pairs that must match a vertex. 
-      * This example means that you can define filters and combine them with "or".</li>
+      * This example means that you can define filters and combine them with "or".</li><br><br>
       *
       * @throws Exception
       *
@@ -1774,40 +1761,30 @@ class GraphHandler extends
       * @param mixed      $startVertexExample  - see functions introduction
       * @param mixed      $endVertexExample    - see functions introduction
       * 
-      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
-      * <p><br>
+      * @param bool|array $options      - an array of optional parameters:
+      * <ul><br>
       * <li><b>batchSize</b> - the batch size of the returned cursor (deprecated, use 'setBatchsize' instead)</li>
       * <li><b>limit</b> - limit the result size by a give number  (deprecated, use 'setLimit' instead)</li>
       * <li><b>count</b> - return the total number of results  Defaults to false  (deprecated, use 'setCount' instead)</li>
       * <li><b>direction</b> - The direction of the edges as a string.
-      *                                 Possible values are *outbound*, *inbound* and *any* (default).</li>
-      * 								<li><b>edgeCollectionRestriction'        - One or multiple edge
-	  *									collection names. Only edges from these collections will be considered for the path.<li>
-	  * 								<li><b>startVertexCollectionRestriction</b> - One or multiple vertex
-      *									collection names. Only vertices from these collections will be considered as start vertex of a path.</li>
-      * 								<li><b>endVertexCollectionRestriction</b> - One or multiple vertex
-      *									collection names. Only vertices from these collections will be considered as end vertex of a path.</li>
-      * 								<li><b>edgeExamples'  - A filter example for the edges in the shortest paths, see introduction.
-	  *									<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
-      *                                 <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the 
-      *                                 default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
-	  * 								<li><b>weight'  - The name of the attribute of the edges containing the length as a string.
-	  * 								<li><b>defaultWeight'  - Only used with the option *weight*. If an edge does not have the attribute named as 
-	  * 								defined in option *weight* this default.
+      * Possible values are *outbound*, *inbound* and *any* (default).</li>
+      * <li><b>edgeCollectionRestriction</b> - One or multiple edge
+	  *	collection names. Only edges from these collections will be considered for the path.</li>
+	  * <li><b>startVertexCollectionRestriction</b> - One or multiple vertex
+      *	collection names. Only vertices from these collections will be considered as start vertex of a path.</li>
+      * <li><b>endVertexCollectionRestriction</b> - One or multiple vertex
+      *	collection names. Only vertices from these collections will be considered as end vertex of a path.</li>
+      * <li><b>edgeExamples'  - A filter example for the edges in the shortest paths, see introduction.
+	  *	<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
+      * <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the 
+      * default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
+	  * <li><b>weight'  - The name of the attribute of the edges containing the length as a string.
+	  * <li><b>defaultWeight'  - Only used with the option *weight*. If an edge does not have the attribute named as 
+	  * defined in option *weight* this default.
+      * </li>
+      * </ul>
       *
-      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
-      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
-      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
-      * <p>
-      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
-      *                                 and the hidden attributes would not be applied to the attributes.<br>
-      *                                 </p>
-      *                                 </li>
-      *                                 </p>
-      *
-      * @return cursor - Returns a cursor containing the result
+      * @return Cursor
       */
      public function getShortestPaths($graph, 
      								  $startVertexExample = null,
@@ -1872,8 +1849,9 @@ class GraphHandler extends
      /**
       * Gets the distance of vertex pairs of a graph
       *
-      * This will throw if the list cannot be fetched from the server
-      * For optional parameter description see 'getShortestPaths'. 
+      * This will throw if the list cannot be fetched from the server<br><br>
+      *  
+      * @see GraphHandler::getShortestPaths()  For parameter description see 'getShortestPaths'. 
       *
       * @throws Exception
       *
@@ -1881,9 +1859,9 @@ class GraphHandler extends
       * @param mixed      $startVertexExample  - see functions introduction
       * @param mixed      $endVertexExample    - see functions introduction
       *
-      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
+      * @param bool|array $options      - an array of optional parameters:
       *
-      * @return cursor - Returns a cursor containing the result
+      * @return Cursor
       */
      public function getDistanceTo($graph,
      	$startVertexExample = null,
@@ -1951,42 +1929,31 @@ class GraphHandler extends
       * This will throw if the list cannot be fetched from the server
       * 
       * This method returns the intersection of the result of 'getNeighborVertices.'
-      * This method accepts a different set of options than 'getNeighborVertices.'
-      * 'batchsize', 'limit' and 'count' can be passed in any of the options arrays. 
+      * This method accepts a different set of options than 'getNeighborVertices.'<br><br>
       *
-      *
+      * @see GraphHandler::getNeighborVertices()  This method returns the intersection of the result of 'getNeighborVertices.' 
       * @throws Exception
       *
       * @param mixed      $graph        - graph name as a string or instance of Graph
       * @param mixed      $vertex1Example     - see 'getNeighborVertices'
       * @param mixed      $vertex2Example     - see 'getNeighborVertices'
-      * @param array      $options1      - see 'options' description. 
-      * @param array      $options2      - see 'options' description.
-      * <p><br>
+      * @param array      $options1      - see '$options2'. 
+      * @param array      $options2      - an array of optional parameters:
+      * <ul><br>
       * <li><b>direction</b> - "any" or "inbound" (or "in") or "outbound" (or "out") . Default value is "any".</li>
       * <li><b>edgeExamples</b> - A filter example for the edges, see $vertex1Example</li>
       * <li><b>neighborExamples</b> - A filter example for the neighbors, see $vertex1Example</li>
-      *									<li>edgeCollectionRestriction*  - One or multiple edge collection names. 
-      *                                 Only edges from these collections will be considered for the path.
-      * <li>vertexCollectionRestriction* - One or multiple vertex collection names. 
-      *                                 Only vertices from these collections will be considered as start vertex of a path.
+      *	<li><b>edgeCollectionRestriction</b>  - One or multiple edge collection names. 
+      * Only edges from these collections will be considered for the path.
+      * <li><b>vertexCollectionRestriction</b> - One or multiple vertex collection names. 
+      * Only vertices from these collections will be considered as start vertex of a path.
 	  * <li><b>minDepth</b> -  Defines the minimal length of a path from an edge to a vertex 
-	  *                                 (default is 1, which means only the edges directly connected to a vertex would be returned).
+	  * (default is 1, which means only the edges directly connected to a vertex would be returned).
 	  * <li><b>maxDepth</b> - Defines the maximal length of a path from an edge to a vertex 
-	  *                                 (default is 1, which means only the edges directly connected to a vertex would be returned).
-      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
-      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
-      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
-      * <p>
-      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
-      *                                 and the hidden attributes would not be applied to the attributes.<br>
-      *                                 </p>
-      *                                 </li>
-      *                                 </p>
+	  * (default is 1, which means only the edges directly connected to a vertex would be returned).
+      * </ul>
       *
-      * @return cursor - Returns a cursor containing the result
+      * @return Cursor
       */
      public function getCommonNeighborVertices($graph, $vertex1Example = null, $vertex2Example = null, $options1 = array(),$options2 = array())
      {
@@ -2049,10 +2016,10 @@ class GraphHandler extends
       *
       * This method accepts multiple argument types for the <b>vertex examples</b>, these can be:
       * <li>a vertex id </li>
-      * <li><b>null' to select every vertex</li>
+      * <li><b>null</b> select every vertex</li>
       * <li>an array containing key value pairs that must match a vertex</li>
       * <li>an array of arrays containing key value pairs that must match a vertex. 
-      * This example means that you can define filters and combine them with "or".</li>
+      * This example means that you can define filters and combine them with "or".</li><br><br>
       *
       * @throws Exception
       *
@@ -2060,16 +2027,16 @@ class GraphHandler extends
       * @param mixed      $vertex1Example     - see 'getNeighborVertices'
       * @param mixed      $vertex2Example     - see 'getNeighborVertices'
       * @param array      $options      - see 'options' description.
-      * <p><br>
-      * <li>vertex1CollectionRestriction* - One or multiple vertex collection names.
-      *                                 Only vertices from these collections will be considered.
-      * <li>vertex2CollectionRestriction* - One or multiple vertex collection names.
-      *                                 Only vertices from these collections will be considered.
+      * <ul><br>
+      * <li><b>vertex1CollectionRestriction</b> - One or multiple vertex collection names.
+      * Only vertices from these collections will be considered.
+      * <li><b>vertex2CollectionRestriction</b> - One or multiple vertex collection names.
+      * Only vertices from these collections will be considered.
       * <li><b>ignoreProperties</b> - One or multiple attributes of a document that should be ignored, either a string or an array.
-      *                                 </li>
-      *                                 </p>
+      * </li>
+      * </ul>
       *
-      * @return cursor - Returns a cursor containing the result
+      * @return Cursor
       */
      public function getCommonProperties($graph, $vertex1Example= null, $vertex2Example = null, $options = array())
      {
@@ -2115,48 +2082,37 @@ class GraphHandler extends
       * This does not support 'batchsize', 'limit' and 'count'.
       * This method accepts multiple argument types for the <b>vertex examples</b>, these can be:
       * <li>a vertex id </li>
-      * <li><b>null' to select every vertex</li>
+      * <li><b>null</b> select every vertex</li>
       * <li>an array containing key value pairs that must match a vertex</li>
       * <li>an array of arrays containing key value pairs that must match a vertex.
-      * This example means that you can define filters and combine them with "or".</li>
+      * This example means that you can define filters and combine them with "or".</li><br><br>
       *
       * @throws Exception
       *
       * @param mixed      $graph        - graph name as a string or instance of Graph
       * @param mixed      $vertexExample  - see functions introduction
       *
-      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
-      * <p><br>
+      * @param bool|array $options      - an array of optional parameters:
+      * <ul><br>
       * <li><b>direction</b> - The direction of the edges as a string.
-      *                                 Possible values are *outbound*, *inbound* and *any* (default).</li>
-      * 								<li><b>edgeCollectionRestriction'        - One or multiple edge
-      *									collection names. Only edges from these collections will be considered for the path.<li>
-      * 								<li><b>startVertexCollectionRestriction</b> - One or multiple vertex
-      *									collection names. Only vertices from these collections will be considered as start vertex of a path.</li>
-      * 								<li><b>endVertexCollectionRestriction</b> - One or multiple vertex
-      *									collection names. Only vertices from these collections will be considered as end vertex of a path.</li>
-      * 								<li><b>edgeExamples'  - A filter example for the edges in the shortest paths, see introduction.
-      *									<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
-      *                                 <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the
-      *                                 default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
-      * 								<li><b>weight'  - The name of the attribute of the edges containing the length as a string.
-      * 								<li><b>defaultWeight'  - Only used with the option *weight*. If an edge does not have the attribute named as
-      * 								defined in option *weight* this default.
-      *
-      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
-      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
-      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
-      * <p>
-      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
-      *                                 and the hidden attributes would not be applied to the attributes.<br>
-      *                                 </p>
-      *                                 </li>
-      *                                 </p>
+      * Possible values are *outbound*, *inbound* and *any* (default).</li>
+      * <li><b>edgeCollectionRestriction</b>        - One or multiple edge
+      *	collection names. Only edges from these collections will be considered for the path.<li>
+      * <li><b>startVertexCollectionRestriction</b> - One or multiple vertex
+      *	collection names. Only vertices from these collections will be considered as start vertex of a path.</li>
+      * <li><b>endVertexCollectionRestriction</b> - One or multiple vertex
+      *	collection names. Only vertices from these collections will be considered as end vertex of a path.</li>
+      * <li><b>edgeExamples</b>  - A filter example for the edges in the shortest paths, see introduction.
+      *	<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
+      * <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the
+      * default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
+      * <li><b>weight</b>  - The name of the attribute of the edges containing the length as a string.
+      * <li><b>defaultWeight</b>  - Only used with the option *weight*. If an edge does not have the attribute named as
+      * defined in option *weight* this default.
+      * </ul>
       *
       *
-      * @return array - Returns an array containing the result
+      * @return array
       */
      public function getAbsoluteEccentricity($graph,
      										$vertexExample = null,
@@ -2196,37 +2152,25 @@ class GraphHandler extends
       * Get the <a href="http://en.wikipedia.org/wiki/Distance_%28graph_theory%29">eccentricity</a> of a graph.
       *
       * This will throw if the list cannot be fetched from the server
-      * This does not support 'batchsize', 'limit' and 'count'.
+      * This does not support 'batchsize', 'limit' and 'count'.<br><br>
       *
       * @throws Exception
       *
       * @param mixed      $graph        - graph name as a string or instance of Graph
-      *
-      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
-      * <p><br>
-      * <li><b>direction</b> - The direction of the edges as a string.
-      *                                 Possible values are *outbound*, *inbound* and *any* (default).</li>
-      *									<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
-      *                                 <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the
-      *                                 default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
-      * 								<li><b>weight'  - The name of the attribute of the edges containing the length as a string.
-      * 								<li><b>defaultWeight'  - Only used with the option *weight*. If an edge does not have the attribute named as
-      * 								defined in option *weight* this default.
-      *
-      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
-      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
-      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
-      * <p>
-      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
-      *                                 and the hidden attributes would not be applied to the attributes.<br>
-      *                                 </p>
-      *                                 </li>
-      *                                 </p>
+      * @param bool|array $options      - an array of optional parameters:
+      * <ul><br>
+      * <li><b>direction</b> - The direction of the edges as a string.</li>
+      * Possible values are *outbound*, *inbound* and *any* (default).</li>
+      *	<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
+      * <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the
+      * default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.</li>
+      * <li><b>weight</b>  - The name of the attribute of the edges containing the length as a string.</li>
+      * <li><b>defaultWeight</b>  - Only used with the option *weight*. If an edge does not have the attribute named as
+      * defined in option *weight* this default.</li>
+      * </ul>
       *
       *
-      * @return array - Returns an array containing the result
+      * @return array 
       */
      public function getEccentricity($graph,
      	$options = array())
@@ -2266,48 +2210,37 @@ class GraphHandler extends
       * This does not support 'batchsize', 'limit' and 'count'.
       * This method accepts multiple argument types for the <b>vertex examples</b>, these can be:
       * <li>a vertex id </li>
-      * <li><b>null' to select every vertex</li>
+      * <li><b>null</b> select every vertex</li>
       * <li>an array containing key value pairs that must match a vertex</li>
       * <li>an array of arrays containing key value pairs that must match a vertex.
-      * This example means that you can define filters and combine them with "or".</li>
+      * This example means that you can define filters and combine them with "or".</li><br><br>
       *
       * @throws Exception
       *
       * @param mixed      $graph        - graph name as a string or instance of Graph
       * @param mixed      $vertexExample  - see functions introduction
       *
-      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
-      * <p><br>
+      * @param bool|array $options      - an array of optional parameters:
+      * <ul><br>
       * <li><b>direction</b> - The direction of the edges as a string.
-      *                                 Possible values are *outbound*, *inbound* and *any* (default).</li>
-      * 								<li><b>edgeCollectionRestriction'        - One or multiple edge
-      *									collection names. Only edges from these collections will be considered for the path.<li>
-      * 								<li><b>startVertexCollectionRestriction</b> - One or multiple vertex
-      *									collection names. Only vertices from these collections will be considered as start vertex of a path.</li>
-      * 								<li><b>endVertexCollectionRestriction</b> - One or multiple vertex
-      *									collection names. Only vertices from these collections will be considered as end vertex of a path.</li>
-      * 								<li><b>edgeExamples'  - A filter example for the edges in the shortest paths, see introduction.
-      *									<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
-      *                                 <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the
-      *                                 default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
-      * 								<li><b>weight'  - The name of the attribute of the edges containing the length as a string.
-      * 								<li><b>defaultWeight'  - Only used with the option *weight*. If an edge does not have the attribute named as
-      * 								defined in option *weight* this default.
-      *
-      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
-      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
-      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
-      * <p>
-      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
-      *                                 and the hidden attributes would not be applied to the attributes.<br>
-      *                                 </p>
-      *                                 </li>
-      *                                 </p>
+      * Possible values are *outbound*, *inbound* and *any* (default).</li>
+      * <li><b>edgeCollectionRestriction</b>  - One or multiple edge
+      *	collection names. Only edges from these collections will be considered for the path.<li>
+      * <li><b>startVertexCollectionRestriction</b> - One or multiple vertex
+      *	collection names. Only vertices from these collections will be considered as start vertex of a path.</li>
+      * <li><b>endVertexCollectionRestriction</b> - One or multiple vertex
+      *	collection names. Only vertices from these collections will be considered as end vertex of a path.</li>
+      * <li><b>edgeExamples</b>  - A filter example for the edges in the shortest paths, see introduction.
+      *	<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
+      * <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the
+      * default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
+      * <li><b>weight</b> - The name of the attribute of the edges containing the length as a string.
+      * <li><b>defaultWeight</b>  - Only used with the option *weight*. If an edge does not have the attribute named as
+      * defined in option *weight* this default.
+      * </ul>
       *
       *
-      * @return array - Returns an array containing the result
+      * @return array
       */
      public function getAbsoluteCloseness($graph,
      $vertexExample = null,
@@ -2347,37 +2280,25 @@ class GraphHandler extends
       * Get the <a href="http://en.wikipedia.org/wiki/Centrality#Closeness_centrality">closeness</a> of a graph.
       *
       * This will throw if the list cannot be fetched from the server
-      * This does not support 'batchsize', 'limit' and 'count'.
+      * This does not support 'batchsize', 'limit' and 'count'.<br><br>
       *
       * @throws Exception
       *
       * @param mixed      $graph        - graph name as a string or instance of Graph
-      *
-      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
-      * <p><br>
+      * @param bool|array $options      - an array of optional parameters:
+      * <ul><br>
       * <li><b>direction</b> - The direction of the edges as a string.
-      *                                 Possible values are *outbound*, *inbound* and *any* (default).</li>
-      *									<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
-      *                                 <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the
-      *                                 default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
-      * 								<li><b>weight'  - The name of the attribute of the edges containing the length as a string.
-      * 								<li><b>defaultWeight'  - Only used with the option *weight*. If an edge does not have the attribute named as
-      * 								defined in option *weight* this default.
-      *
-      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
-      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
-      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
-      * <p>
-      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
-      *                                 and the hidden attributes would not be applied to the attributes.<br>
-      *                                 </p>
-      *                                 </li>
-      *                                 </p>
+      * Possible values are *outbound*, *inbound* and *any* (default).</li>
+      *	<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
+      * <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the
+      * default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
+      * <li><b>weight</b>  - The name of the attribute of the edges containing the length as a string.
+      * <li><b>defaultWeight</b>  - Only used with the option *weight*. If an edge does not have the attribute named as
+      * defined in option *weight* this default.
+      * </ul>
       *
       *
-      * @return array - Returns an array containing the result
+      * @return array
       */
      public function getCloseness($graph,
      $options = array())
@@ -2415,37 +2336,26 @@ class GraphHandler extends
       * Get the absolute <a href="http://en.wikipedia.org/wiki/Betweenness_centrality">betweenness</a> of a graph.
       *
       * This will throw if the list cannot be fetched from the server
-      * This does not support 'batchsize', 'limit' and 'count'.
+      * This does not support 'batchsize', 'limit' and 'count'.<br><br>
       *
       * @throws Exception
       *
       * @param mixed      $graph        - graph name as a string or instance of Graph
       *
-      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
-      * <p><br>
+      * @param bool|array $options      - an array of optional parameters:
+      * <ul><br>
       * <li><b>direction</b> - The direction of the edges as a string.
-      *                                 Possible values are *outbound*, *inbound* and *any* (default).</li>
-      *									<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
-      *                                 <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the
-      *                                 default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
-      * 								<li><b>weight'  - The name of the attribute of the edges containing the length as a string.
-      * 								<li><b>defaultWeight'  - Only used with the option *weight*. If an edge does not have the attribute named as
-      * 								defined in option *weight* this default.
-      *
-      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
-      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
-      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
-      * <p>
-      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
-      *                                 and the hidden attributes would not be applied to the attributes.<br>
-      *                                 </p>
-      *                                 </li>
-      *                                 </p>
+      * Possible values are *outbound*, *inbound* and *any* (default).</li>
+      *	<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
+      * <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the
+      * default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
+      * <li><b>weight</b> - The name of the attribute of the edges containing the length as a string.
+      * <li><b>defaultWeight</b>  - Only used with the option *weight*. If an edge does not have the attribute named as
+      * defined in option *weight* this default.
+      * </ul>
       *
       *
-      * @return array - Returns an array containing the result
+      * @return array
       */
      public function getAbsoluteBetweenness($graph,
      $options = array())
@@ -2483,37 +2393,25 @@ class GraphHandler extends
       * Get the <a href="http://en.wikipedia.org/wiki/Betweenness_centrality">betweenness</a> of a graph.
       *
       * This will throw if the list cannot be fetched from the server
-      * This does not support 'batchsize', 'limit' and 'count'.
+      * This does not support 'batchsize', 'limit' and 'count'.<br><br>
       *
       * @throws Exception
       *
       * @param mixed      $graph        - graph name as a string or instance of Graph
-      *
-      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
-      * <p><br>
+      * @param bool|array $options      - an array of optional parameters:
+      * <ul><br>
       * <li><b>direction</b> - The direction of the edges as a string.
-      *                                 Possible values are *outbound*, *inbound* and *any* (default).</li>
-      *									<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
-      *                                 <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the
-      *                                 default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
-      * 								<li><b>weight'  - The name of the attribute of the edges containing the length as a string.
-      * 								<li><b>defaultWeight'  - Only used with the option *weight*. If an edge does not have the attribute named as
-      * 								defined in option *weight* this default.
-      *
-      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
-      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
-      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
-      * <p>
-      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
-      *                                 and the hidden attributes would not be applied to the attributes.<br>
-      *                                 </p>
-      *                                 </li>
-      *                                 </p>
+      * Possible values are *outbound*, *inbound* and *any* (default).</li>
+      *	<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
+      * <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the
+      * default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
+      * <li><b>weight</b> - The name of the attribute of the edges containing the length as a string.
+      * <li><b>defaultWeight</b> - Only used with the option *weight*. If an edge does not have the attribute named as
+      * defined in option *weight* this default.
+      * </ul>
       *
       *
-      * @return array - Returns an array containing the result
+      * @return array
       */
      public function getBetweenness($graph,
      $options = array())
@@ -2550,37 +2448,25 @@ class GraphHandler extends
       * Get the <a href="http://en.wikipedia.org/wiki/Eccentricity_%28graph_theory%29">radius</a> of a graph.
       *
       * This will throw if the list cannot be fetched from the server
-      * This does not support 'batchsize', 'limit' and 'count'.
+      * This does not support 'batchsize', 'limit' and 'count'.<br><br>
       *
       * @throws Exception
       *
       * @param mixed      $graph        - graph name as a string or instance of Graph
-      *
-      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
-      * <p><br>
+      * @param bool|array $options      - an array of optional parameters:
+      * <ul><br>
       * <li><b>direction</b> - The direction of the edges as a string.
-      *                                 Possible values are *outbound*, *inbound* and *any* (default).</li>
-      *									<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
-      *                                 <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the
-      *                                 default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
-      * 								<li><b>weight'  - The name of the attribute of the edges containing the length as a string.
-      * 								<li><b>defaultWeight'  - Only used with the option *weight*. If an edge does not have the attribute named as
-      * 								defined in option *weight* this default.
-      *
-      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
-      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
-      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
-      * <p>
-      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
-      *                                 and the hidden attributes would not be applied to the attributes.<br>
-      *                                 </p>
-      *                                 </li>
-      *                                 </p>
+      * Possible values are *outbound*, *inbound* and *any* (default).</li>
+      *	<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
+      * <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the
+      * default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
+      * <li><b>weight</b> - The name of the attribute of the edges containing the length as a string.
+      * <li><b>defaultWeight</b>  - Only used with the option *weight*. If an edge does not have the attribute named as
+      * defined in option *weight* this default.
+      * </ul>
       *
       *
-      * @return double - the graph's radius
+      * @return double
       */
      public function getRadius($graph,
      $options = array())
@@ -2617,37 +2503,26 @@ class GraphHandler extends
       * Get the <a href="http://en.wikipedia.org/wiki/Eccentricity_%28graph_theory%29">diameter</a> of a graph.
       *
       * This will throw if the list cannot be fetched from the server
-      * This does not support 'batchsize', 'limit' and 'count'.
+      * This does not support 'batchsize', 'limit' and 'count'.<br><br>
       *
       * @throws Exception
       *
       * @param mixed      $graph        - graph name as a string or instance of Graph
       *
-      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
-      * <p><br>
+      * @param bool|array $options      - an array of optional parameters:
+      * <ul><br>
       * <li><b>direction</b> - The direction of the edges as a string.
-      *                                 Possible values are *outbound*, *inbound* and *any* (default).</li>
-      *									<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
-      *                                 <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the
-      *                                 default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
-      * 								<li><b>weight'  - The name of the attribute of the edges containing the length as a string.
-      * 								<li><b>defaultWeight'  - Only used with the option *weight*. If an edge does not have the attribute named as
-      * 								defined in option *weight* this default.
-      *
-      * <li><b>_sanitize</b> - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-      * <li><b>sanitize</b> - Deprecated, please use '_sanitize'.</li>
-      * <li><b>_hiddenAttributes</b> - Set an array of hidden attributes for created documents.
-      * <li><b>hiddenAttributes</b> - Deprecated, please use '_hiddenAttributes'.</li>
-      * <p>
-      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
-      *                                 and the hidden attributes would not be applied to the attributes.<br>
-      *                                 </p>
-      *                                 </li>
-      *                                 </p>
+      * Possible values are *outbound*, *inbound* and *any* (default).</li>
+      *	<li><b>algorithm</b> - The algorithm to calculate the shortest paths. If both start and end vertex examples are empty
+      * <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">Floyd-Warshall</a> is used, otherwise the
+      * default is <a "href=http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra</a>.
+      * <li><b>weight</b> - The name of the attribute of the edges containing the length as a string.
+      * <li><b>defaultWeight</b> - Only used with the option *weight*. If an edge does not have the attribute named as
+      * defined in option *weight* this default.
+      * </ul>
       *
       *
-      * @return double - the graph's diameter
+      * @return double
       */
      public function getDiameter($graph,
      $options = array())
