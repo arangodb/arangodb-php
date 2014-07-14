@@ -56,8 +56,13 @@ class GraphBasicTest extends
      */
     public function testCreateAndDeleteGraphsWithDefintions()
     {	
-    	
-    	$ed1 = EdgeDefinition::createDirectedRelation("directed", ["lba", "blub"], ["bla", "blob"]);
+    	$param1 = array ();
+    	$param1[] = "lba";
+    	$param1[] = "blub";
+    	$param2 = array ();
+    	$param2[] = "bla";
+    	$param2[] = "blob";
+    	$ed1 = EdgeDefinition::createDirectedRelation("directed", $param1, $param2);
     	$ed2 = EdgeDefinition::createUndirectedRelation("undirected", "singleV");
     	$this->graph = new Graph();
     	$this->graph->set('_key', 'Graph1');
