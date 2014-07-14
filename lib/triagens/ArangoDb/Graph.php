@@ -262,13 +262,16 @@ class Graph extends
      */
     private function getSingleUndirectedRelation() {
     	$ed = $this->getEdgeDefinitions();
+    	if (count($ed) > 0) {
+    		$a = $ed[0];
+    	}
     	if (count($ed) > 1 || 
         	(
         		count($ed) === 1 && (
-            			count($ed[0]->getFromCollections()) > 1 ||
-            			count($ed[0]->getToCollections()) > 1 ||
-        				$ed[0]->getFromCollections()[0] !== 
-        				$ed[0]->getToCollections()[0]
+        				count($a->getFromCollections()) > 1 ||
+            			count($a->getToCollections()) > 1 ||
+        				$a->getFromCollections()[0] !== 
+        				$a->getToCollections()[0]
         			
     			)
         	)
