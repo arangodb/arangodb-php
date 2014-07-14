@@ -120,7 +120,8 @@ class Graph extends
     		return null;
     	}
     	$this->addEdgeDefinition($edgeDefinition);
-    	return $edgeDefinition->getFromCollections()[0];
+    	$fc = $edgeDefinition->getFromCollections();
+    	return $fc[0];
     }
 
     /**
@@ -260,21 +261,26 @@ class Graph extends
      * @return EdgeDefinition
      */
     private function getSingleUndirectedRelation() {
-    	if (count($this->getEdgeDefinitions()) > 1 || 
+    	$ed = $this->getEdgeDefinitions();
+    	if (count($ed) > 0) {
+    		$a = $ed[0];
+    		$b = $a->getFromCollections();
+    		$c = $a->getToCollections();
+    	}
+    	if (count($ed) > 1 || 
         	(
-        		count($this->getEdgeDefinitions()) === 1 && (
-            			count($this->getEdgeDefinitions()[0]->getFromCollections()) > 1 ||
-            			count($this->getEdgeDefinitions()[0]->getToCollections()) > 1 ||
-        				$this->getEdgeDefinitions()[0]->getFromCollections()[0] !== 
-        				$this->getEdgeDefinitions()[0]->getToCollections()[0]
+        		count($ed) === 1 && (
+        				count($a->getFromCollections()) > 1 ||
+            			count($a->getToCollections()) > 1 ||
+        				$b[0] !== $c[0]
         			
     			)
         	)
         ) {
     		throw new ClientException('This operation only supports graphs with one undirected single collection relation'); 	
     	}
-  		if (count($this->getEdgeDefinitions()) === 1) {
-  			$eD =  $this->getEdgeDefinitions()[0];
+  		if (count($ed) === 1) {
+  			$eD =  $ed[0];
   			$this->_edgeDefinitions = array();
   		} else {
   			$eD = new EdgeDefinition();

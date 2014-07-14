@@ -552,7 +552,8 @@ class GraphHandler extends
         if (count($this->getVertexCollections($graph)) !== 1 && $collection === null) {
         	throw new ClientException('A collection must be provided.');
         } else if (count($this->getVertexCollections($graph)) === 1 && $collection === null) {
-        	$collection = $this->getVertexCollections($graph)[0];
+        	$collection = $this->getVertexCollections($graph);
+        	$collection = $collection[0];
         }
         
         $data = $document->getAll();
@@ -608,7 +609,8 @@ class GraphHandler extends
         if (count($this->getVertexCollections($graph)) !== 1 && $collection === null) {
         	throw new ClientException('A collection must be provided.');
         } else if (count($this->getVertexCollections($graph)) === 1 && $collection === null) {
-        	$collection = $this->getVertexCollections($graph)[0];
+        	$collection = $this->getVertexCollections($graph);
+        	$collection = $collection[0];
         }
         
         $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX, $collection, $vertexId));
@@ -662,7 +664,8 @@ class GraphHandler extends
         if (count($this->getVertexCollections($graph)) !== 1 && $collection === null) {
         	throw new ClientException('A collection must be provided.');
         } else if (count($this->getVertexCollections($graph)) === 1 && $collection === null) {
-        	$collection = $this->getVertexCollections($graph)[0];
+        	$collection = $this->getVertexCollections($graph);
+        	$collection = $collection[0];
         }
         
         $options = array_merge(array(self::OPTION_REVISION => false), $options);
@@ -751,7 +754,8 @@ class GraphHandler extends
         if (count($this->getVertexCollections($graph)) !== 1 && $collection === null) {
         	throw new ClientException('A collection must be provided.');
         } else if (count($this->getVertexCollections($graph)) === 1 && $collection === null) {
-        	$collection = $this->getVertexCollections($graph)[0];
+        	$collection = $this->getVertexCollections($graph);
+        	$collection = $collection[0];
         }
         
         $options = array_merge(array(self::OPTION_REVISION => false), $options);
@@ -825,7 +829,8 @@ class GraphHandler extends
         if (count($this->getVertexCollections($graph)) !== 1 && $collection === null) {
         	throw new ClientException('A collection must be provided.');
         } else if (count($this->getVertexCollections($graph)) === 1 && $collection === null) {
-        	$collection = $this->getVertexCollections($graph)[0];
+        	$collection = $this->getVertexCollections($graph);
+        	$collection = $collection[0];
         }
         
         // This preserves compatibility for the old policy parameter.
@@ -883,7 +888,8 @@ class GraphHandler extends
 		if (count($this->getEdgeCollections($graph)) !== 1 && $collection === null) {
         	throw new ClientException('A collection must be provided.');
         } else if (count($this->getEdgeCollections($graph)) === 1 && $collection === null) {
-        	$collection = $this->getEdgeCollections($graph)[0];
+        	$collection = $this->getEdgeCollections($graph);
+        	$collection = $collection[0];
         }
         
         
@@ -949,7 +955,8 @@ class GraphHandler extends
         if (count($this->getEdgeCollections($graph)) !== 1 && $collection === null) {
         	throw new ClientException('A collection must be provided.');
         } else if (count($this->getEdgeCollections($graph)) === 1 && $collection === null) {
-        	$collection = $this->getEdgeCollections($graph)[0];
+        	$collection = $this->getEdgeCollections($graph);
+        	$collection = $collection[0];
         }
 
         $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $collection, $edgeId));
@@ -1004,7 +1011,8 @@ class GraphHandler extends
         if (count($this->getEdgeCollections($graph)) !== 1 && $collection === null) {
         	throw new ClientException('A collection must be provided.');
         } else if (count($this->getEdgeCollections($graph)) === 1 && $collection === null) {
-        	$collection = $this->getEdgeCollections($graph)[0];
+        	$collection = $this->getEdgeCollections($graph);
+        	$collection = $collection[0];
         }
 
         $options = array_merge(array(self::OPTION_REVISION => false), $options);
@@ -1097,7 +1105,8 @@ class GraphHandler extends
         if (count($this->getEdgeCollections($graph)) !== 1 && $collection === null) {
         	throw new ClientException('A collection must be provided.');
         } else if (count($this->getEdgeCollections($graph)) === 1 && $collection === null) {
-        	$collection = $this->getEdgeCollections($graph)[0];
+        	$collection = $this->getEdgeCollections($graph);
+        	$collection = $collection[0];
         }
 
         $options = array_merge(array(self::OPTION_REVISION => false), $options);
@@ -1177,7 +1186,8 @@ class GraphHandler extends
         if (count($this->getEdgeCollections($graph)) !== 1 && $collection === null) {
         	throw new ClientException('A collection must be provided.');
         } else if (count($this->getEdgeCollections($graph)) === 1 && $collection === null) {
-        	$collection = $this->getEdgeCollections($graph)[0];
+        	$collection = $this->getEdgeCollections($graph);
+        	$collection = $collection[0];
         }
 
         // This preserves compatibility for the old policy parameter.
@@ -2496,7 +2506,8 @@ class GraphHandler extends
      	$statement->bind('options', $options);
      	 
      	$statement->setQuery($aql);
-     	return $statement->execute()->getAll()[0];
+     	$a = $statement->execute()->getAll();
+     	return $a[0];
      }
      
      /**
@@ -2552,7 +2563,8 @@ class GraphHandler extends
      	$statement->bind('options', $options);
      	 
      	$statement->setQuery($aql);
-     	return $statement->execute()->getAll()[0];
+     	$a = $statement->execute()->getAll();
+     	return $a[0];
      }
       
 }

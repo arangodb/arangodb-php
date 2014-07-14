@@ -56,8 +56,13 @@ class GraphBasicTest extends
      */
     public function testCreateAndDeleteGraphsWithDefintions()
     {	
-    	
-    	$ed1 = EdgeDefinition::createDirectedRelation("directed", ["lba", "blub"], ["bla", "blob"]);
+    	$param1 = array ();
+    	$param1[] = "lba";
+    	$param1[] = "blub";
+    	$param2 = array ();
+    	$param2[] = "bla";
+    	$param2[] = "blob";
+    	$ed1 = EdgeDefinition::createDirectedRelation("directed", $param1, $param2);
     	$ed2 = EdgeDefinition::createUndirectedRelation("undirected", "singleV");
     	$this->graph = new Graph();
     	$this->graph->set('_key', 'Graph1');
@@ -87,15 +92,20 @@ class GraphBasicTest extends
         $this->assertTrue($this->graph->getEdgesCollection() === 'ArangoDBPHPTestSuiteTestEdgeCollection01');
         $this->assertTrue($this->graph->getVerticesCollection() === 'ArangoDBPHPTestSuiteTestCollection01');
         $this->assertTrue(count($this->graph->getEdgeDefinitions()) === 1);
-        $this->assertTrue($this->graph->getEdgeDefinitions()[0]->getRelation() === 'ArangoDBPHPTestSuiteTestEdgeCollection01');
-        $this->assertTrue($this->graph->getEdgeDefinitions()[0]->getToCollections()[0] === 'ArangoDBPHPTestSuiteTestCollection01');
-        $this->assertTrue($this->graph->getEdgeDefinitions()[0]->getFromCollections()[0] === 'ArangoDBPHPTestSuiteTestCollection01');
+        $ed = $this->graph->getEdgeDefinitions();
+        $ed = $ed[0];
+        $a = $ed->getToCollections();
+        $b = $ed->getFromCollections();
+        $this->assertTrue($ed->getRelation() === 'ArangoDBPHPTestSuiteTestEdgeCollection01');
+        $this->assertTrue($a[0] === 'ArangoDBPHPTestSuiteTestCollection01');
+        $this->assertTrue($b[0] === 'ArangoDBPHPTestSuiteTestCollection01');
+        $ed = $this->graph->getEdgeDefinitions();
+        $ed = $ed[0];
+        $ed->addFromCollection("newFrom");
+        $ed->addToCollection("newTo");
         
-        $this->graph->getEdgeDefinitions()[0]->addFromCollection("newFrom");
-        $this->graph->getEdgeDefinitions()[0]->addToCollection("newTo");
-        
-        $this->assertTrue(count($this->graph->getEdgeDefinitions()[0]->getFromCollections()) === 2);
-        $this->assertTrue(count($this->graph->getEdgeDefinitions()[0]->getToCollections()) === 2);
+        $this->assertTrue(count($ed->getFromCollections()) === 2);
+        $this->assertTrue(count($ed->getToCollections()) === 2);
         
         $exception = null;
     	try {
@@ -312,7 +322,11 @@ class GraphBasicTest extends
     			$this->graph,
     			EdgeDefinition::createUndirectedRelation("undirected2", "singleV3")
     	);
-    	$this->assertTrue($this->graph->getEdgeDefinitions()[0]->getToCollections()[0] === "singleV3");
+    	
+    	$ed = $this->graph->getEdgeDefinitions();
+    	$ed = $ed[0];
+    	$ed = $ed->getToCollections();
+    	$this->assertTrue($ed[0] === "singleV3");
     	
     	$error = null;
     	try {

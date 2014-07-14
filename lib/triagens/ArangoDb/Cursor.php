@@ -468,7 +468,8 @@ class Cursor implements
      */
     private function addCommonNeighborsFromArray(array $data)
     {	
-    	$k = array_keys($data)[0];
+    	$k = array_keys($data);
+    	$k = $k[0];
     	$this->_result[$k] = array();
     	
      	foreach ($data[$k] as $neighbor => $neighbors) {
@@ -488,7 +489,8 @@ class Cursor implements
      */
     private function addCommonPropertiesFromArray(array $data)
     {	
-    	$k = array_keys($data)[0];
+    	$k = array_keys($data);
+    	$k = $k[0];
      	$this->_result[$k] = array();
       	foreach ($data[$k] as $c) {
       		$id = $c["_id"];
