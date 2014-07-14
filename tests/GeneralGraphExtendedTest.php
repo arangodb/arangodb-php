@@ -699,9 +699,9 @@ class GeneralGraphExtendedTest extends
     			), 
     			array("_id" => $this->v1 . "/" . $this->vertex7Array["_key"])
     	);
-    	
-    	$this->assertTrue($e->getMetadata()["hasMore"]);
-    	$this->assertTrue($e->getMetadata()["count"] === 2);
+    	$meta = $e->getMetadata();
+    	$this->assertTrue($meta["hasMore"]);
+    	$this->assertTrue($meta["count"] === 2);
     	
     	 
     }
@@ -734,8 +734,9 @@ class GeneralGraphExtendedTest extends
     	$this->graphHandler->setCount(true);
     	$this->graphHandler->setLimit(2);
     	$e = $this->graphHandler->getCommonProperties($this->graphName);
-    	$this->assertTrue($e->getMetadata()["hasMore"]);
-    	$this->assertTrue($e->getMetadata()["count"] === 2);
+    	$meta = $e->getMetadata();
+    	$this->assertTrue($meta["hasMore"]);
+    	$this->assertTrue($meta["count"] === 2);
     	
     }
     
