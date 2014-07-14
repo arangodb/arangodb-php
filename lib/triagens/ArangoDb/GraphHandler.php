@@ -2506,7 +2506,8 @@ class GraphHandler extends
      	$statement->bind('options', $options);
      	 
      	$statement->setQuery($aql);
-     	return $statement->execute()->getAll()[0];
+     	$a = $statement->execute()->getAll();
+     	return $a[0];
      }
      
      /**
@@ -2562,7 +2563,8 @@ class GraphHandler extends
      	$statement->bind('options', $options);
      	 
      	$statement->setQuery($aql);
-     	return $statement->execute()->getAll()[0];
+     	$a = $statement->execute()->getAll();
+     	return $a[0];
      }
       
 }
