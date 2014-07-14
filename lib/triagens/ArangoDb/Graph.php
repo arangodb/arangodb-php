@@ -264,14 +264,15 @@ class Graph extends
     	$ed = $this->getEdgeDefinitions();
     	if (count($ed) > 0) {
     		$a = $ed[0];
+    		$b = $a->getFromCollections();
+    		$c = $a->getToCollections();
     	}
     	if (count($ed) > 1 || 
         	(
         		count($ed) === 1 && (
         				count($a->getFromCollections()) > 1 ||
             			count($a->getToCollections()) > 1 ||
-        				$a->getFromCollections()[0] !== 
-        				$a->getToCollections()[0]
+        				$b[0] !== $c[0]
         			
     			)
         	)
