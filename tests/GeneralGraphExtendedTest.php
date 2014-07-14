@@ -30,8 +30,12 @@ class GeneralGraphExtendedTest extends
     	$this->v5 = "v5" . $v;
     	$this->e1 = "e1" . $v;
     	$this->e2 = "e2" . $v;
-    	$param1 = [$this->v1, $this->v2];
-    	$param2 = [$this->v3, $this->v4];
+    	$param1 = array();
+    	$param1[] = $this->v1;
+    	$param1[] = $this->v2;
+    	$param2 = array();
+    	$param2[] = $this->v3;
+    	$param2[] = $this->v4;
         $ed1 = EdgeDefinition::createDirectedRelation(
         		$this->e1, 
         		$param1, 
