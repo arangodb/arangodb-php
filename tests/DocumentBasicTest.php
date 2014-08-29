@@ -104,6 +104,66 @@ class DocumentBasicTest extends
 
         $documentHandler->delete($document);
     }
+    
+    /**
+     * Try to create and delete a document with several keys
+     */
+    public function testCreateAndDeleteDocumentWithSeveralKeys()
+    {
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+        $documentHandler = new DocumentHandler($connection);
+
+        $keys = array("foo", "bar", "bar:bar", "baz", "1", "0", "a-b-c", "a:b", "this-is-a-test", "FOO", "BAR", "Bar", "bAr");
+        foreach ($keys as $key) {
+          $document        = new Document();
+          $document->someAttribute = 'someValue';
+          $document->set('_key', $key);
+          $documentId = $documentHandler->add($collection->getName(), $document);
+
+          $resultingDocument = $documentHandler->get($collection->getName(), $documentId);
+
+          $resultingAttribute = $resultingDocument->someAttribute;
+          $resultingKey       = $resultingDocument->getKey();
+          $this->assertTrue(
+               $resultingAttribute === 'someValue',
+               'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
+          );
+          $this->assertTrue(
+               $resultingKey === $key,
+               'Resulting Attribute should be "someValue". It\'s :' . $resultingKey
+          );
+
+          $documentHandler->delete($document);
+        }
+    }
+    
+    
+    /**
+     * Try to create a document with invalid keys
+     */
+    public function testCreateDocumentWithInvalidKeys()
+    {
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+        $documentHandler = new DocumentHandler($connection);
+
+        $keys = array("", " ", " bar", "bar ", "/", "?", "abcdef gh", "abcxde&", "mötörhead", "this-key-will-be-too-long-to-be-processed-successfully-would-you-agree-with-me-sure-you-will-because-there-is-a-limit-of-254-characters-per-key-which-this-string-will-not-conform-to-if-you-are-still-reading-this-you-should-probably-do-something-else-right-now-REALLY");
+
+        foreach ($keys as $key) {
+          $document        = new Document();
+          $document->someAttribute = 'someValue';
+
+          $caught = false;
+          try {
+            $document->set('_key', $key);
+          } catch (\triagens\ArangoDb\ClientException $exception) {
+            $caught = true;
+          }
+
+          $this->assertTrue($caught, "expecting exception to be thrown for key ". $key);
+        }
+    }
 
 
     /**

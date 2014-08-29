@@ -796,7 +796,7 @@ class DocumentHandler extends
             $documentId = $document;
         }
 
-        if (!$documentId || !(is_string($documentId) || is_double($documentId) || is_int($documentId))) {
+        if (trim($documentId) === "" || !(is_string($documentId) || is_double($documentId) || is_int($documentId))) {
             throw new ClientException('Cannot alter a document without a document id');
         }
 
