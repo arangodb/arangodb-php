@@ -351,14 +351,10 @@ class TransactionTest extends
         } catch (ServerException $e) {
         }
         $details                = $e->getDetails();
-        $expectedCutDownMessage = "Error: unique constraint violated";
-        $len                    = strlen($expectedCutDownMessage);
+        $expectedCutDownMessage = "unique constraint violated";
         $this->assertTrue(
-             $e->getCode() == 400 && substr(
-                 $details['errorMessage'],
-                 0,
-                 $len
-             ) == $expectedCutDownMessage,
+             $e->getCode() == 400 && strstr($details['errorMessage'],
+                 $expectedCutDownMessage) !== false,
              'Did not return code 400 with first part of the message: "' . $expectedCutDownMessage . '", instead returned: ' . $e->getCode(
              ) . ' and "' . $details['errorMessage'] . '"'
         );
