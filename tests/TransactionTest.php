@@ -351,7 +351,7 @@ class TransactionTest extends
         } catch (ServerException $e) {
         }
         $details                = $e->getDetails();
-        $expectedCutDownMessage = "unique constraint violated";
+        $expectedCutDownMessage = "Error: unique constraint violated";
         $len                    = strlen($expectedCutDownMessage);
         $this->assertTrue(
              $e->getCode() == 400 && substr(
