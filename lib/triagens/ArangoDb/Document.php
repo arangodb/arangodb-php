@@ -53,7 +53,7 @@ class Document
      *
      * @var bool
      */
-    protected $_changed;
+    protected $_changed = false;
 
     /**
      * Flag to indicate whether document is a new document (never been saved to the server)
@@ -61,6 +61,14 @@ class Document
      * @var bool
      */
     protected $_isNew = true;
+
+    /**
+     * Flag to indicate whether validation of document values should be performed
+     * This can be turned on, but has a performance penalty
+     *
+     * @var bool
+     */
+    protected $_doValidate = false;
 
     /**
      * Flag to indicate whether document was changed locally
@@ -116,19 +124,22 @@ class Document
      *
      * @return Document
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options = null)
     {
-        // keeping the non-underscored version for backwards-compatibility
-        $this->setChanged(false);
-        if (array_key_exists('hiddenAttributes', $options)) {
-            $this->setHiddenAttributes($options['hiddenAttributes']);
-        }
-        if (array_key_exists('_hiddenAttributes', $options)) {
-            $this->setHiddenAttributes($options['_hiddenAttributes']);
-        }
-
-        if (array_key_exists('_isNew', $options)) {
-            $this->setIsNew($options['_isNew']);
+        if (is_array($options)) {
+            // keeping the non-underscored version for backwards-compatibility
+            if (isset($options['hiddenAttributes'])) {
+                $this->setHiddenAttributes($options['hiddenAttributes']);
+            }
+            if (isset($options['_hiddenAttributes'])) {
+                $this->setHiddenAttributes($options['_hiddenAttributes']);
+            }
+            if (isset($options[self::ENTRY_ISNEW])) {
+                $this->setIsNew($options[self::ENTRY_ISNEW]);
+            }
+            if (isset($options['_validate'])) {
+                $this->_doValidate = $options['_validate'];
+            }
         }
     }
 
@@ -150,7 +161,7 @@ class Document
         }
 
         $document->setChanged(true);
-
+                
         return $document;
     }
 
@@ -255,39 +266,35 @@ class Document
      */
     public function set($key, $value)
     {
-        if (!is_string($key)) {
-            throw new ClientException('Invalid document attribute key');
+        if ($this->_doValidate) {
+            // validate the value passed
+            ValueValidator::validate($value);
         }
 
-        // validate the value passed
-        ValueValidator::validate($value);
+        if ($key[0] === '_') {
+            if ($key === self::ENTRY_ID) {
+                $this->setInternalId($value);
+                return;
+            }
 
-        if ($key === self::ENTRY_ID) {
-            $this->setInternalId($value);
+            if ($key === self::ENTRY_KEY) {
+                $this->setInternalKey($value);
+                return;
+            }
 
-            return;
+            if ($key === self::ENTRY_REV) {
+                $this->setRevision($value);
+                return;
+            }
+        
+            if ($key === self::ENTRY_ISNEW) {
+                $this->setIsNew($value);
+                return;
+            }
         }
 
-        if ($key === self::ENTRY_KEY) {
-            $this->setInternalKey($value);
-
-            return;
-        }
-
-        if ($key === self::ENTRY_REV) {
-            $this->setRevision($value);
-
-            return;
-        }
-
-        if ($key === self::ENTRY_ISNEW) {
-            $this->setIsNew($value);
-
-            return;
-        }
-
-        if (!$this->_changed) {
-            if (!isset($this->_values[$key]) || $this->_values[$key] !== $value) {
+        if (! $this->_changed) {
+            if (! isset($this->_values[$key]) || $this->_values[$key] !== $value) {
                 // set changed flag
                 $this->_changed = true;
             }
