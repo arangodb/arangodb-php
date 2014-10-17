@@ -226,12 +226,13 @@ class Graph extends
      */
     public function set($key, $value)
     {
+        if ($key === self::ENTRY_EDGE_DEFINITIONS) {
+            if ($this->_doValidate) {
+	              ValueValidator::validate($value);
+            }
 
-        if (in_array($key, array(self::ENTRY_EDGE_DEFINITIONS, self::ENTRY_ORPHAN_COLLECTIONS))) {
-	        ValueValidator::validate($value);
-            if ($key === self::ENTRY_EDGE_DEFINITIONS) {
-            	foreach ($value as $ed) {
-            		$edgeDefinition = new EdgeDefinition();
+           	foreach ($value as $ed) {
+             		$edgeDefinition = new EdgeDefinition();
             		foreach ($ed[self::ENTRY_FROM] as $from) {
             			$edgeDefinition->addFromCollection($from);
             		}
@@ -240,16 +241,18 @@ class Graph extends
             		}
             		$edgeDefinition->setRelation($ed[self::ENTRY_COLLECTION]);
             		$this->addEdgeDefinition($edgeDefinition);
-            	};
-            	return;
             }
-            if ($key === self::ENTRY_ORPHAN_COLLECTIONS) {
-            	foreach ($value as $o) {
+        }
+        else if ($key === self::ENTRY_ORPHAN_COLLECTIONS) {
+            if ($this->_doValidate) {
+	              ValueValidator::validate($value);
+            }
+
+            foreach ($value as $o) {
             		$this->addOrphanCollection($o);
-            	}
-            	return;
             }
-        } else {
+        } 
+        else {
             parent::set($key, $value);
         }
     }
