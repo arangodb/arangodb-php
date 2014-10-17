@@ -144,7 +144,7 @@ class HttpHelper
             $connection = sprintf("Connection: %s%s", $options[ConnectionOptions::OPTION_CONNECTION], self::EOL);
         }
 
-        $apiVersion = 'x-arango-version: ' . Connection::$_apiVersion . self::EOL;
+        $apiVersion = 'X-Arango-Version: ' . Connection::$_apiVersion . self::EOL;
         $customerHeaders = "";
         foreach ($customerHeader as $headerKey => $headerValue) {
             $customerHeaders .= $headerKey.": " . $headerValue . self::EOL;
