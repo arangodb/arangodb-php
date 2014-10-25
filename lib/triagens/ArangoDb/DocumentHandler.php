@@ -71,6 +71,38 @@ class DocumentHandler extends
 
 
     /**
+     * Check if a document exists
+     *
+     * This will call self::get() internally and checks if there
+     * was an exception thrown which represents an 404 request.
+     *
+     * @throws Exception When any other error than a 404 occurs
+     *
+     * @param string $collectionId - collection id as a string or number
+     * @param mixed  $documentId   - document identifier
+     * @return boolean
+     */
+    public function has($collectionId, $documentId)
+    {
+        try {
+            // will throw ServerException if entry could not be retrieved
+            $result = $this->get($collectionId, $documentId);
+            return true;
+        } catch (ServerException $e) {
+            // we are expecting a 404 to return boolean false
+            if ($e->getCode() === 404) {
+                return false;
+            }
+
+            // just rethrow
+            throw $e;
+        }
+
+        return false;
+    }
+
+
+    /**
      * Get a single document from a collection
      *
      * This will throw if the document cannot be fetched from the server.

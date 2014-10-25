@@ -36,14 +36,14 @@ class GeneralGraphExtendedTest extends
     	$param2 = array();
     	$param2[] = $this->v3;
     	$param2[] = $this->v4;
-        $ed1 = EdgeDefinition::createDirectedRelation(
+      $ed1 = EdgeDefinition::createDirectedRelation(
         		$this->e1, 
         		$param1, 
         		$param2
-		);
+		  );
     	$ed2 = EdgeDefinition::createUndirectedRelation(
     			$this->e2, $this->v5
-		);
+		  );
     	$this->graph = new Graph($this->graphName);
     	$this->graph->addEdgeDefinition($ed1);
     	$this->graph->addEdgeDefinition($ed2);
@@ -427,7 +427,7 @@ class GeneralGraphExtendedTest extends
     	
     	$params = array(
     			"edgeCollectionRestriction" => $this->e1,
-    			"vertexCollectionRestriction" => $this->v3,
+    			"vertexCollectionRestriction" => array($this->v1, $this->v3),
     			"maxDepth" => "2",
     			"direction" => "in",
     			"filter" => array(
@@ -442,6 +442,7 @@ class GeneralGraphExtendedTest extends
     							)
     					)
     			)
+
     	);
     	 
     	$cursor = $this->graphHandler->getEdges($this->graphName, $params);

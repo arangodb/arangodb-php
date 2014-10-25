@@ -657,6 +657,15 @@ class CollectionBasicTest extends
         $this->assertEquals(100, $indexInfo[CollectionHandler::OPTION_MIN_LENGTH], 'Min length does not match!');
     }
 
+    public function testHasCollectionReturnsFalseIfCollectionDoesNotExist()
+    {
+        $this->assertFalse($this->collectionHandler->has('just_a_stupid_collection_id_which_does_not_exist'));
+    }
+
+    public function testHasCollectionReturnsTrueIfCollectionExists()
+    {
+        $this->assertTrue($this->collectionHandler->has('ArangoDB_PHP_TestSuite_IndexTestCollection'));
+    }
 
     public function tearDown()
     {

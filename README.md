@@ -510,14 +510,17 @@ try {
 
     $collectionHandler = new CollectionHandler($connection);
 
-    // create a new document
+    // create a new collection
     $userCollection = new ArangoCollection();
-	$userCollection->setName('user');
-	$id = $collectionHandler->add($userCollection);
+    $userCollection->setName('user');
+    $id = $collectionHandler->add($userCollection);
 
     // print the collection id created by the server
     var_dump($id);
 
+    // check if the collection exists
+    $result = $collectionHandler->has('user');
+    var_dump($result);
 
     $handler = new ArangoDocumentHandler($connection);
 
@@ -533,6 +536,10 @@ try {
 
     // send the document to the server
     $id = $handler->add('users', $user);
+
+    // check if a document exists
+    $result = $handler->has("users", $id);
+    var_dump($result);
 
     // print the document id created by the server
     var_dump($id);

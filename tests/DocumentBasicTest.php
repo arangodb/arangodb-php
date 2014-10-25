@@ -311,6 +311,31 @@ class DocumentBasicTest extends
     }
 
 
+    public function testHasDocumentReturnsFalseIfDocumentDoesNotExist()
+    {
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+        $documentHandler = new DocumentHandler($connection);
+        $this->assertFalse($documentHandler->has($collection->getId(), 'just_a_stupid_document_id_which_does_not_exist'));
+    }
+
+
+    public function testHasDocumentReturnsTrueIfDocumentExists()
+    {
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+        $documentHandler = new DocumentHandler($connection);
+
+        // create doc first
+        $document        = new Document();
+        $document->someAttribute = 'someValue';
+
+        $documentId = $documentHandler->add($collection->getId(), $document);
+
+        $this->assertTrue($this->collectionHandler->has($collection->getId(), $documentId));
+    }
+
+
     public function tearDown()
     {
         try {

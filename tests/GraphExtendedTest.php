@@ -1549,6 +1549,32 @@ class GraphExtendedTest extends
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
     }
 
+    public function testHasVertexReturnsFalseIfNotExists()
+    {
+        $result = $this->graphHandler->hasVertex($this->graphName, 'just_a_stupid_vertex_id_which_does_not_exist');
+        $this->assertFalse($result);
+    }
+
+    public function testHasVertexReturnsTrueIfExists()
+    {
+        $this->createGraph();
+        $result = $this->graphHandler->hasVertex($this->graphName, $this->vertex1Name);
+        $this->assertTrue($result);
+    }
+
+    public function testHasEdgeReturnsFalseIfNotExists()
+    {
+        $result = $this->graphHandler->hasEdge($this->graphName, 'just_a_stupid_edge_id_which_does_not_exist');
+        $this->assertFalse($result);
+    }
+
+    public function testHasEdgeReturnsTrueIfExists()
+    {
+        $this->createGraph();
+        $result = $this->graphHandler->hasEdge($this->graphName, $this->edge1Name);
+        $this->assertTrue($result);
+    }
+
     public function tearDown()
     {
         try {

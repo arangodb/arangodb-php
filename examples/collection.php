@@ -14,6 +14,10 @@ try {
     $result = $handler->add($col);
     var_dump($result);
 
+    // check if a collection exists
+    $result = $handler->has("foobar");
+    var_dump($result);
+
     // get an existing collection
     $result = $handler->get("hihi");
     var_dump($result);

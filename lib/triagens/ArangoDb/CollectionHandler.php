@@ -248,6 +248,37 @@ class CollectionHandler extends
 
 
     /**
+     * Check if a collection exists
+     *
+     * This will call self::get() internally and checks if there
+     * was an exception thrown which represents an 404 request.
+     *
+     * @throws Exception When any other error than a 404 occurs
+     *
+     * @param  mixed  $collectionId - collection id as a string or number
+     * @return boolean
+     */
+    public function has($collectionId)
+    {
+        try {
+            // will throw ServerException if entry could not be retrieved
+            $result = $this->get($collectionId);
+            return true;
+        } catch (ServerException $e) {
+            // we are expecting a 404 to return boolean false
+            if ($e->getCode() === 404) {
+                return false;
+            }
+
+            // just rethrow
+            throw $e;
+        }
+
+        return false;
+    }
+
+
+    /**
      * Get properties of a collection
      *
      * This will throw if the collection cannot be fetched from the server
@@ -438,7 +469,7 @@ class CollectionHandler extends
         if ($collection->getNumberOfShards() !== null) {
             $params[Collection::ENTRY_NUMBER_OF_SHARDS] = $collection->getNumberOfShards();
         }
-        
+
         if (is_array($collection->getShardKeys())) {
             $params[Collection::ENTRY_SHARD_KEYS] = $collection->getShardKeys();
         }
