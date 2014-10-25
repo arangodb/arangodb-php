@@ -141,16 +141,6 @@ class AdminTest extends
     /**
      * Test if we can get the server version
      */
-    public function testServerModuleCache()
-    {
-        $result = $this->adminHandler->flushServerModuleCache();
-        $this->assertTrue($result, 'Should be true!');
-    }
-
-
-    /**
-     * Test if we can get the server version
-     */
     public function testReloadServerRouting()
     {
         $result = $this->adminHandler->reloadServerRouting();

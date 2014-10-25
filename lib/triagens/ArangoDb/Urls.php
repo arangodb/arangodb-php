@@ -186,11 +186,6 @@ abstract class Urls
     const URL_ADMIN_ROUTING_RELOAD = '/_admin/routing/reload';
 
     /**
-     * base URL part for admin modules flush
-     */
-    const URL_ADMIN_MODULES_FLUSH = '/_admin/modules/flush';
-
-    /**
      * base URL part for admin statistics
      */
     const URL_ADMIN_STATISTICS = '/_admin/statistics';

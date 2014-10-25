@@ -142,17 +142,16 @@ class AdminHandler extends
      * Flush the server's modules cache
      * The call triggers a flush of the modules cache on the server. See Modules Cache for details about this cache.
      *
-     * This will throw if the modules cache cannot be flushed
+     * This method does not exist on the server side since ArangoDB 2.3.0
      *
      * @throws Exception
      *
-     * @return array
+     * @return bool
      * @since 1.2
+     * @deprecated
      */
     public function flushServerModuleCache()
     {
-        $this->getConnection()->POST(Urls::URL_ADMIN_MODULES_FLUSH, '');
-
         return true;
     }
 

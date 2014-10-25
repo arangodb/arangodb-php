@@ -3,7 +3,7 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
-VERSION=2.2.0
+VERSION=2.2.6
 NAME=ArangoDB-$VERSION
 
 if [ ! -d "$DIR/$NAME" ]; then
@@ -37,6 +37,7 @@ ${ARANGOD} \
     --javascript.app-path ${ARANGODB_DIR}/js/apps \
     --javascript.startup-directory ${ARANGODB_DIR}/js \
     --database.maximal-journal-size 1048576 \
+    --database.force-sync-properties false \
     --server.disable-authentication true &
 
 sleep 2
