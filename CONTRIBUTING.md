@@ -38,7 +38,7 @@ This will help us reproducing and finding bugs.
 
 ## Additional Resources
 
-* [ArangoDB website](https://www.arangodb.org/)
+* [ArangoDB website](https://www.arangodb.com/)
 * [ArangoDB on Twitter](https://twitter.com/arangodb)
 * [ArangoDB-PHP on Twitter](https://twitter.com/arangodbphp)
 * [General GitHub documentation](https://help.github.com/)

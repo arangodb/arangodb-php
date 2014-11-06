@@ -185,7 +185,7 @@ class AdminHandler extends
      * and the distribution list in counts.
      * For more information on the statistics returned, please lookup the statistics interface description at
      *
-     * @link  http://www.arangodb.org/manuals/1.3.devel/HttpSystem.html#HttpSystemAdminStatistics
+     * @link  http://www.arangodb.com/manuals/1.3.devel/HttpSystem.html#HttpSystemAdminStatistics
      *
      * This will throw if the statistics cannot be retrieved
      *
@@ -213,7 +213,7 @@ class AdminHandler extends
      * and a list of statistics figures in the attribute figures.
      * For more information on the statistics returned, please lookup the statistics interface description at
      *
-     * @link  http://www.arangodb.org/manuals/1.3.devel/HttpSystem.html#HttpSystemAdminStatistics
+     * @link  http://www.arangodb.com/manuals/1.3.devel/HttpSystem.html#HttpSystemAdminStatistics
      *
      * This will throw if the statistics-description cannot be retrieved
      *

@@ -542,7 +542,7 @@ class CollectionHandler extends
      * @param string $collectionId - the collection id
      * @param int    $size         - the size of the cap constraint
      *
-     * @link http://www.arangodb.org/manuals/current/IndexCapHttp.html
+     * @link http://www.arangodb.com/manuals/current/IndexCapHttp.html
      *
      * @return array - server response of the created index
      */
@@ -564,7 +564,7 @@ class CollectionHandler extends
      * @param boolean $constraint   - whether this is a constraint or not
      * @param boolean $ignoreNull   - whether to ignore null
      *
-     * @link http://www.arangodb.org/manuals/current/IndexGeoHttp.html
+     * @link http://www.arangodb.com/manuals/current/IndexGeoHttp.html
      *
      * @return array - server response of the created index
      */
@@ -599,7 +599,7 @@ class CollectionHandler extends
      * @param array   $fields       - an array of fields
      * @param boolean $unique       - whether the values in the index should be unique or not
      *
-     * @link http://www.arangodb.org/manuals/current/IndexHashHttp.html
+     * @link http://www.arangodb.com/manuals/current/IndexHashHttp.html
      *
      * @return array - server response of the created index
      */
@@ -621,7 +621,7 @@ class CollectionHandler extends
      * @param array  $fields       - an array of fields
      * @param int    $minLength    - the minimum length of words to index
      *
-     * @link http://www.arangodb.org/manuals/current/IndexFulltextHttp.html
+     * @link http://www.arangodb.com/manuals/current/IndexFulltextHttp.html
      *
      * @return array - server response of the created index
      */
@@ -643,7 +643,7 @@ class CollectionHandler extends
      * @param array  $fields       - an array of fields
      * @param bool   $unique       - whether the index is unique or not
      *
-     * @link http://www.arangodb.org/manuals/current/IndexSkiplistHttp.html
+     * @link http://www.arangodb.com/manuals/current/IndexSkiplistHttp.html
      *
      * @return array - server response of the created index
      */

@@ -518,7 +518,7 @@ class GraphHandler extends
     
     	$options['_isNew'] = false;
     
-    	$result =  Graph::createFromArray($data['graph'], $options);
+    	$result = Graph::createFromArray($data['graph'], $options);
     	$result->set(Graph::ENTRY_KEY, $data['graph'][self::OPTION_NAME]);
     	return $result;
     }

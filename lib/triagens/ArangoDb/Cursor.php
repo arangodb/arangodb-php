@@ -96,6 +96,11 @@ class Cursor implements
      * result entry for result documents
      */
     const ENTRY_RESULT = 'result';
+    
+    /**
+     * result entry for stats
+     */
+    const ENTRY_STATS = 'stats';
 
     /**
      * result entry for the full count (ignoring the outermost LIMIT)
@@ -135,8 +140,16 @@ class Cursor implements
             $this->_id = $data[self::ENTRY_ID];
         }
 
-        if (isset($data['extra'][self::FULL_COUNT])) {
-            $this->_fullCount = $data['extra'][self::FULL_COUNT];
+        if (isset($data['extra'][self::ENTRY_STATS])) {
+          // ArangoDB 2.3+ return value struct
+          $stats = $data['extra'][self::ENTRY_STATS];
+          if (isset($stats[self::FULL_COUNT])) {
+            $this->_fullCount = $stats[self::FULL_COUNT];
+          }
+        }
+        else if (isset($data['extra'][self::FULL_COUNT])) {
+          // pre-ArangoDB 2.3 return value struct
+          $this->_fullCount = $data['extra'][self::FULL_COUNT];
         }
 
         // attribute must be there

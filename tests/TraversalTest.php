@@ -13,7 +13,7 @@ namespace triagens\ArangoDb;
  * Class TraversalTest
  * Tests for the Traversal API implementation
  *
- * These tests are modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+ * These tests are modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
  *
  * @property Connection        $connection
  * @property Graph             $graph
@@ -193,7 +193,7 @@ class TraversalTest extends
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Follow only outbound edges:
@@ -217,7 +217,7 @@ class TraversalTest extends
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Follow only inbound edges:
@@ -241,7 +241,7 @@ class TraversalTest extends
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Follow any direction of edges:
@@ -268,7 +268,7 @@ class TraversalTest extends
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Excluding Charlie and Bob:
@@ -295,7 +295,7 @@ class TraversalTest extends
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Do not follow edges from Bob:
@@ -322,7 +322,7 @@ class TraversalTest extends
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Visit only nodes in a depth of at least 2:
@@ -349,7 +349,7 @@ class TraversalTest extends
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Visit only nodes in a depth of at most 1:
@@ -376,7 +376,7 @@ class TraversalTest extends
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Count all visited nodes and return a list of nodes only:
@@ -405,7 +405,7 @@ class TraversalTest extends
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Expand only inbound edges of Alice and outbound edges of Eve:
@@ -432,7 +432,7 @@ class TraversalTest extends
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Follow the depthfirst strategy:
@@ -476,7 +476,7 @@ class TraversalTest extends
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Using postorder ordering:
@@ -520,7 +520,7 @@ class TraversalTest extends
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Using backward item-ordering:
@@ -564,7 +564,7 @@ class TraversalTest extends
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Edges should only be included once globally, but nodes are included every time they are visited:
@@ -600,7 +600,7 @@ class TraversalTest extends
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * If the underlying graph is cyclic, maxIterations should be set:

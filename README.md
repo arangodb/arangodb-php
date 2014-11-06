@@ -1,4 +1,4 @@
-![ArangoDB-PHP Logo](http://www.arangodb.org/wp-content/uploads/2013/03/logo_arangodbphp_trans.png)
+![ArangoDB-PHP Logo](http://www.arangodb.com/wp-content/uploads/2013/03/logo_arangodbphp_trans.png)
 
 # ArangoDB-PHP - A PHP client for ArangoDB
 

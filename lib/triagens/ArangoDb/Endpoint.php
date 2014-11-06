@@ -182,7 +182,7 @@ class Endpoint
      * @param array      $databases  - a list of database names the endpoint is responsible for.
      *                               *
      *
-     * @link http://www.arangodb.org/manuals/1.4/HttpEndpoint.html
+     * @link http://www.arangodb.com/manuals/1.4/HttpEndpoint.html
      * @return array $responseArray - The response array.
      */
     public static function create(Connection $connection, $endpoint, array $databases)
@@ -200,7 +200,7 @@ class Endpoint
      * @param string     $endpoint   - the endpoint specification, e.g. tcp://127.0.0.1:8530
      * @param array      $databases  - a list of database names the endpoint is responsible for.
      *
-     * @link http://www.arangodb.org/manuals/1.4/HttpEndpoint.html
+     * @link http://www.arangodb.com/manuals/1.4/HttpEndpoint.html
      * @return array $responseArray - The response array.
      */
     public static function modify(Connection $connection, $endpoint, array $databases)
@@ -223,7 +223,7 @@ class Endpoint
      * @param Connection $connection - the connection to be used
      * @param string     $endpoint   - the endpoint specification, e.g. tcp://127.0.0.1:8530
      *
-     * @link                         http://www.arangodb.org/manuals/1.4/HttpEndpoint.html
+     * @link                         http://www.arangodb.com/manuals/1.4/HttpEndpoint.html
      * @return array $responseArray - The response array.
      */
     public static function delete(Connection $connection, $endpoint)
@@ -245,7 +245,7 @@ class Endpoint
      *
      * @param Connection $connection - the connection to be used
      *
-     * @link                         http://www.arangodb.org/manuals/1.4/HttpEndpoint.html
+     * @link                         http://www.arangodb.com/manuals/1.4/HttpEndpoint.html
      * @return array $responseArray - The response array.
      */
     public static function listEndpoints(Connection $connection)
