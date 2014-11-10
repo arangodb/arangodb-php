@@ -269,11 +269,11 @@ So, after we get the settings, we can start with creating a collection. We will 
 The below code will first set up the collection locally in a variable name $user, and then push it to the server and return the collection id created by the server:
 
 ```php
-$collectionHandler = new CollectionHandler($connection);
+$collectionHandler = new triagens\ArangoDb\CollectionHandler($connection);
 
 // create a new document
-$userCollection = new ArangoCollection();
-$userCollection->setName('user');
+$userCollection = new triagens\ArangoDb\Collection();
+$userCollection->setName('users');
 $id = $collectionHandler->add($userCollection);
 
 // print the collection id created by the server
