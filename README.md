@@ -206,6 +206,8 @@ In order to use ArangoDB, you need to specify the connection options. We do so b
 require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ArangoDB-PHP' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 // set up some aliases for less typing later
+use triagens\ArangoDb\Collection as ArangoCollection;
+use triagens\ArangoDb\CollectionHandler as ArangoCollectionHandler;
 use triagens\ArangoDb\Connection as ArangoConnection;
 use triagens\ArangoDb\ConnectionOptions as ArangoConnectionOptions;
 use triagens\ArangoDb\DocumentHandler as ArangoDocumentHandler;
@@ -269,10 +271,10 @@ So, after we get the settings, we can start with creating a collection. We will 
 The below code will first set up the collection locally in a variable name $user, and then push it to the server and return the collection id created by the server:
 
 ```php
-$collectionHandler = new triagens\ArangoDb\CollectionHandler($connection);
+$collectionHandler = new ArangoCollectionHandler($connection);
 
 // create a new document
-$userCollection = new triagens\ArangoDb\Collection();
+$userCollection = new ArangoCollection();
 $userCollection->setName('users');
 $id = $collectionHandler->add($userCollection);
 
@@ -470,11 +472,14 @@ Here's the full code that combines all the pieces outlined above:
 
 ```php
 // use the following line when using packagist/composer
-//require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . '.composer' . DIRECTORY_SEPARATOR . 'autoload.php';
+// require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . '.composer' . DIRECTORY_SEPARATOR . 'autoload.php';
+
 // use the following line when using git
 require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ArangoDB-PHP' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 // set up some aliases for less typing later
+use triagens\ArangoDb\Collection as ArangoCollection;
+use triagens\ArangoDb\CollectionHandler as ArangoCollectionHandler;
 use triagens\ArangoDb\Connection as ArangoConnection;
 use triagens\ArangoDb\ConnectionOptions as ArangoConnectionOptions;
 use triagens\ArangoDb\DocumentHandler as ArangoDocumentHandler;
@@ -487,6 +492,7 @@ use triagens\ArangoDb\UpdatePolicy as ArangoUpdatePolicy;
 
 // set up some basic connection options
 $connectionOptions = array(
+    // server endpoint to connect to
     ArangoConnectionOptions::OPTION_ENDPOINT => 'tcp://127.0.0.1:8529',
     // authorization type to use (currently supported: 'Basic')
     ArangoConnectionOptions::OPTION_AUTH_TYPE => 'Basic',
@@ -508,18 +514,18 @@ try {
     $connection = new ArangoConnection($connectionOptions);
 
 
-    $collectionHandler = new CollectionHandler($connection);
+    $collectionHandler = new ArangoCollectionHandler($connection);
 
     // create a new collection
     $userCollection = new ArangoCollection();
-    $userCollection->setName('user');
+    $userCollection->setName('users');
     $id = $collectionHandler->add($userCollection);
 
     // print the collection id created by the server
     var_dump($id);
 
     // check if the collection exists
-    $result = $collectionHandler->has('user');
+    $result = $collectionHandler->has('users');
     var_dump($result);
 
     $handler = new ArangoDocumentHandler($connection);
