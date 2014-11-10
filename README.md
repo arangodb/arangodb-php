@@ -461,7 +461,7 @@ To delete an existing collection on the server, use the drop() method of the Col
 
 ```php
 // delete a collection on the server, using it's name,
-$result = $handler->drop('users');
+$result = $collectionHandler->drop('users');
 var_dump($result);
 ```
 
@@ -580,7 +580,7 @@ try {
 
 
     // delete a collection on the server, using it's name,
-    $result = $handler->drop('users');
+    $result = $collectionHandler->drop('users');
     var_dump($result);
 }
 catch (ArangoConnectException $e) {
