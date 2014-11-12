@@ -6,15 +6,25 @@ require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'init.php';
 
 
 try {
-    $connection = new Connection($connectionOptions);
-    $handler    = new DocumentHandler($connection);
+    $connection        = new Connection($connectionOptions);
+    $collectionHandler = new CollectionHandler($connection);
+    $handler           = new DocumentHandler($connection);
+    
+    // set up a document collection "users"
+    $collection        = new Collection("users");
+    try {
+        $collectionHandler->add($collection);
+    }
+    catch (\Exception $e) {
+        // collection may already exist - ignore this error for now
+    }
 
     // create a new document
     $user = new Document();
     $user->set("name", "John");
     $user->age = 19;
 
-    $id = $handler->add("users", $user);
+    $id = $handler->save("users", $user);
 
     // get documents by example
     $cursor = $handler->getByExample("users", array("name" => "John", "age" => 19));
@@ -30,7 +40,7 @@ try {
     $user->level = 1;
     $user->vists = array(1, 2, 3);
 
-    $id = $handler->add("users", $user);
+    $id = $handler->save("users", $user);
     var_dump("CREATED A NEW DOCUMENT WITH ID: ", $id);
 
     // get this document from the server

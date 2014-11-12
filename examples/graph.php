@@ -13,6 +13,14 @@ try {
     $graph->set('_key', 'Graph');
     $graph->setVerticesCollection('VertexCollection');
     $graph->setEdgesCollection('EdgeCollection');
+
+    try {
+        $graphHandler->dropGraph($graph);
+    }
+    catch (\Exception $e) {
+        // graph may not yet exist. ignore this error for now
+    }
+
     $graphHandler->createGraph($graph);
 
     // Define some arrays to build the content of the vertices and edges
@@ -46,7 +54,7 @@ try {
     var_dump($graphHandler->hasVertex('Graph', 'vertex1'));
 
     // Save the connecting edge
-    $saveEdgeResult1 = $graphHandler->saveEdge('Graph', 'vertex1', 'vertex2', 'somelabelValue', $edge1);
+    $saveEdgeResult1 = $graphHandler->saveEdge('Graph', $vertex1->getHandle(), $vertex2->getHandle(), 'somelabelValue', $edge1);
 
     // check if edge exists
     var_dump($graphHandler->hasEdge('Graph', 'edge1'));
@@ -57,7 +65,8 @@ try {
     // Remove vertices and edges
     $result1 = $graphHandler->removeVertex('Graph', 'vertex1');
     $result1 = $graphHandler->removeVertex('Graph', 'vertex2');
-    $result1 = $graphHandler->removeEdge('Graph', 'edge1');
+
+    // the connecting edge will be deleted automatically
 } catch (ConnectException $e) {
     print $e . PHP_EOL;
 } catch (ServerException $e) {
