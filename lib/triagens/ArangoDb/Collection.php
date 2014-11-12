@@ -195,10 +195,15 @@ class Collection
     /**
      * Constructs an empty collection
      *
+     * @param string $name - name for the collection
+     *
      * @return Collection
      */
-    public function __construct()
+    public function __construct($name = null)
     {
+        if ($name !== null) {
+            $this->setName($name);
+        }
     }
 
     /**
