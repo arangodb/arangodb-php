@@ -27,7 +27,7 @@ try {
     $id = $handler->save("users", $user);
 
     // get documents by example
-    $cursor = $handler->getByExample("users", array("name" => "John", "age" => 19));
+    $cursor = $collectionHandler->byExample("users", array("name" => "John", "age" => 19));
     var_dump($cursor->getAll());
 
     // get the ids of all documents in the collection
