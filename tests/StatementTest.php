@@ -242,6 +242,55 @@ class StatementTest extends
         $this->assertEquals(3, $cursor->getFullCount(), "The fullCount should be 3");
     }
 
+
+    public function testBindReservedValue()
+    {
+        $connection = $this->connection;
+        $collection = $this->collection;
+
+        $documentHandler = new DocumentHandler($connection);
+
+        $document       = new Document();
+        $document->file = 'testFooBar';
+        $documentHandler->add($collection->getId(), $document);
+
+        $statement = new Statement($connection, array(
+                                                     "query"     => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` FILTER a.file == @file RETURN a.file',
+                                                     "bindVars"  => array("file" => "testFooBar"),
+                                                     "_sanitize" => true
+                                                ));
+
+        $cursor = $statement->execute();
+
+        $rows = $cursor->getAll();
+        $this->assertEquals("testFooBar", $rows[0]);
+    }
+
+
+    public function testBindReservedName()
+    {
+        $connection = $this->connection;
+        $collection = $this->collection;
+
+        $documentHandler = new DocumentHandler($connection);
+
+        $document       = new Document();
+        $document->test = 'file';
+        $documentHandler->add($collection->getId(), $document);
+
+        $statement = new Statement($connection, array(
+                                                     "query"     => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` FILTER a.test == @test RETURN a.test',
+                                                     "bindVars"  => array("test" => "file"),
+                                                     "_sanitize" => true
+                                                ));
+
+        $cursor = $statement->execute();
+
+        $rows = $cursor->getAll();
+        $this->assertEquals("file", $rows[0]);
+    }
+
+
     public function tearDown()
     {
         try {
