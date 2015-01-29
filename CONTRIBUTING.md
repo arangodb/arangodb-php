@@ -15,7 +15,7 @@ Please follow these guidelines if you want to contribute to ArangoDB-PHP:
 * Clone the fork to your development box and pull the latest changes from the ArangoDB-PHP repository. Please make sure to use the appropriate branch:
   * the "devel" branch is normally used for new features
   * bug fixes should be done in the "devel" first, before being applied to master or other branches
-* Make sure the ArangoDB version is the correct one to use with your client version. The client version follows the ArangoDB version. [More info on this, here.](https://github.com/triAGENS/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP)
+* Make sure the ArangoDB version is the correct one to use with your client version. The client version follows the ArangoDB version. [More info on this, here.](https://github.com/arangodb/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP)
 * Make sure the unmodified clone works locally before making any code changes. You can do so by running the included test suite (phpunit --testsuite ArangoDB-PHP)
 * If you intend to do documentation changes, you also must install PHPDocumentor in the most recent version (Currently version 2).
 
