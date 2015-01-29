@@ -29,6 +29,7 @@
  - [Updating a document](#updating_document)
  - [Deleting a document](#deleting_document)
  - [Dropping a collection](#dropping_collection)
+ - [Logging exceptions](#logging_exceptions)
  - [Putting it all together](#alltogether)
 
 - [More information](#more_info)
@@ -465,6 +466,33 @@ $result = $collectionHandler->drop('users');
 var_dump($result);
 ```
 
+
+<a name="logging_exceptions"/a>
+## Logging exceptions
+
+
+The driver provides a simple logging mechanism that is turned off by default. If it is turned on, the driver
+will log all its exceptions using PHP's standard `error_log` mechanism. It will call PHP's `error_log()` 
+function for this. It depends on the PHP configuration if and where exceptions will be logged. Please consult
+your php.ini settings for further details.
+
+To turn on exception logging in the driver, set a flag on the driver's Exception base class, from which all 
+driver exceptions are subclassed:
+
+```php
+use triagens\ArangoDb\Exception as ArangoException;
+
+ArangoException::enableLogging();
+```
+
+To turn logging off, call its `disableLogging` method: 
+
+```php
+use triagens\ArangoDb\Exception as ArangoException;
+
+ArangoException::disableLogging();
+```
+
 <a name="alltogether"/a>
 ## Putting it all together
 
@@ -510,16 +538,26 @@ $connectionOptions = array(
     ArangoConnectionOptions::OPTION_UPDATE_POLICY => ArangoUpdatePolicy::LAST,
 );
 
+
+// turn on exception logging (logs to whatever PHP is configured)
+ArangoException::enableLogging();
+
 try {
     $connection = new ArangoConnection($connectionOptions);
 
-
     $collectionHandler = new ArangoCollectionHandler($connection);
+
+    // clean up first
+    try {
+      $collectionHandler->drop('users');
+    }
+    catch (\Exception $e) {
+      // ignore here...
+    }
 
     // create a new collection
     $userCollection = new ArangoCollection();
     $userCollection->setName('users');
-    $id = $collectionHandler->add($userCollection);
 
     // print the collection id created by the server
     var_dump($id);
@@ -590,7 +628,7 @@ catch (ArangoClientException $e) {
     print 'Client error: ' . $e->getMessage() . PHP_EOL;
 }
 catch (ArangoServerException $e) {
-    print 'Server error: ' . $e->getServerCode() . ':' . $e->getServerMessage() . ' ' . $e->getMessage() . PHP_EOL;
+    print 'Server error: ' . $e->getServerCode() . ': ' . $e->getServerMessage() . ' - ' . $e->getMessage() . PHP_EOL;
 }
 ```
 

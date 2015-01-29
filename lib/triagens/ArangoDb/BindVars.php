@@ -92,7 +92,7 @@ class BindVars
                 $this->_values[(string) $name] = $value;
                 ValueValidator::validate($value);
             } else {
-                throw new ClientException('Bind variable name should be string, int or array');
+                throw new ClientException('Bind variable name should be string or int');
             }
         }
     }
