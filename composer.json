@@ -1,5 +1,5 @@
 {
-  "name": "triagens/ArangoDb",
+  "name": "arangodb/arangodb",
   "type": "library",
   "description": "ArangoDb PHP client",
   "keywords": ["database","ArangoDb","Arango","document store","NoSQL"],
