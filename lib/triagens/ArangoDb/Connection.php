@@ -293,8 +293,8 @@ class Connection
             if ($body != '') {
                 // check if we can find details in the response body
                 $details = json_decode($body, true);
-                if (is_array($details)) {
-					// yes, we got details
+                if (is_array($details) && isset($details["errorMessage"])) { 
+                    // yes, we got details
                     $exception = new ServerException($details["errorMessage"], $details["code"]);
                     $exception->setDetails($details);
                     throw $exception;
