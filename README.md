@@ -2,10 +2,10 @@
 
 # ArangoDB-PHP - A PHP client for ArangoDB
 
-[![Build Status](https://travis-ci.org/triAGENS/ArangoDB-PHP.png?branch=master)](https://travis-ci.org/triAGENS/ArangoDB-PHP)
+[![Build Status](https://travis-ci.org/arangodb/ArangoDB-PHP.png?branch=master)](https://travis-ci.org/arangodb/ArangoDB-PHP)
 **Branch: Master (v2.3)**
 
-[![Build Status](https://travis-ci.org/triAGENS/ArangoDB-PHP.png?branch=devel)](https://travis-ci.org/triAGENS/ArangoDB-PHP)
+[![Build Status](https://travis-ci.org/arangodb/ArangoDB-PHP.png?branch=devel)](https://travis-ci.org/arangodb/ArangoDB-PHP)
 **Branch: devel**
 
 
@@ -35,9 +35,9 @@
 
 <br>
 
-Please take a look [here](https://github.com/triAGENS/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix) for the **ArangoDB-PHP Client** / **ArangoDB Server** interoperability matrix.
+Please take a look [here](https://github.com/arangodb/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix) for the **ArangoDB-PHP Client** / **ArangoDB Server** interoperability matrix.
 
-**[Important versioning information on ArangoDB-PHP](https://github.com/triAGENS/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP)**
+**[Important versioning information on ArangoDB-PHP](https://github.com/arangodb/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP)**
 
 <br>
 <a name="description"/a>
@@ -64,7 +64,7 @@ The client library provides document and collection classes you can use to work 
 <a name="requirements"/a>
 # Requirements
 
-* ArangoDB database server version 1.4 or higher (detailed info [here](https://github.com/triAGENS/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix))
+* ArangoDB database server version 1.4 or higher (detailed info [here](https://github.com/arangodb/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix))
 
 * PHP version 5.3 or higher (Travis-tested with 5.4, 5.5, 5.6 and hhvm)
 
@@ -165,7 +165,7 @@ require 'vendor/.composer/autoload.php';
 
 When preferring this alternative, you need to have a git client installed. To clone the ArangoDB PHP client repository from github, execute the following command in your project directory:
 
-    git clone "https://github.com/triAGENS/ArangoDB-PHP.git"
+    git clone "https://github.com/arangodb/ArangoDB-PHP.git"
 
 
 This will create a subdirectory ArangoDB-PHP in your current directory. It contains all the files of the client library. It also includes a dedicated autoloader that you can use for autoloading the client libraries class files.
@@ -607,4 +607,4 @@ catch (ArangoServerException $e) {
 
 * [Follow us on Twitter @arangodbphp to receive updates on the php driver](https://twitter.com/arangodbphp)
 
-* Check the ArangoDB PHP client on github.com regularly for new releases and updates: [https://github.com/triAGENS/ArangoDB-PHP](https://github.com/triAGENS/ArangoDB-PHP)
+* Check the ArangoDB PHP client on github.com regularly for new releases and updates: [https://github.com/arangodb/ArangoDB-PHP](https://github.com/arangodb/ArangoDB-PHP)
