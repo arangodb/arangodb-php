@@ -55,7 +55,7 @@ The autoloader will care about loading additionally required classes on the fly.
 
 The ArangoDB PHP client is an API that allows you to send and retrieve documents from ArangoDB from out of your PHP application. The client library itself is written in PHP and has no further dependencies but just plain PHP 5.3 (or higher).
 
-The client library provides document and collection classes you can use to work with documents and collections in an OO fashion. When exchanging document data with the server, the library internally will use the [HTTP REST interface of ArangoDB](https://github.com/triAGENS/ArangoDB/wiki/OTWP). The library user does not have to care about this fact as all the details of the REST interface are abstracted by the client library.
+The client library provides document and collection classes you can use to work with documents and collections in an OO fashion. When exchanging document data with the server, the library internally will use the [HTTP REST interface of ArangoDB](https://docs.arangodb.com/HttpApi/README.html). The library user does not have to care about this fact as all the details of the REST interface are abstracted by the client library.
 
 <br>
 
