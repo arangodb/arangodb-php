@@ -367,7 +367,7 @@ class Connection
         if ($traceFunc) {
             // call tracer func
             if ($this->_options[ConnectionOptions::OPTION_ENHANCED_TRACE]) {
-                list($header) = HttpHelper::parseHttpMessage($request);
+                list($header) = HttpHelper::parseHttpMessage($request, $url, $method);
                 $headers = HttpHelper::parseHeaders($header);
                 $traceFunc(new TraceRequest($headers[2], $method, $url, $data));
             } else {
@@ -405,7 +405,7 @@ class Connection
                             throw new ClientException('Got a timeout when waiting on the server\'s response');
                         }
             */
-            $response = new HttpResponse($result);
+            $response = new HttpResponse($result, $url, $method);
 
             if ($traceFunc) {
                 // call tracer func
