@@ -70,7 +70,7 @@ v1.3.0 (2013-05-13)
 
 =======================
 
-* Changed PhpDocs @package content to triagens\ArangoDb, closes issue (see https://github.com/triAGENS/ArangoDB-PHP/issues/123)
+* Changed PhpDocs @package content to triagens\ArangoDb, closes issue (see https://github.com/arangodb/ArangoDB-PHP/issues/123)
 
 * [Breaking change] Removed getServerStatus() in favor of getServerStatistics() This breaks intentionally,
 	because of the different data and data structure returned by the server in version 1.3
@@ -82,13 +82,13 @@ v1.3.0 (2013-05-13)
   * PSR-2 reformatting
   * Made some things more IDE Friendly (in regards to code-completion) and fixed some errors in the PHPDocs
 
-* Initial AQL user functions implementation (see https://github.com/triAGENS/ArangoDB-PHP/pull/116)
+* Initial AQL user functions implementation (see https://github.com/arangodb/ArangoDB-PHP/pull/116)
 
-* Implemented support for ArangoDB's transactions (see https://github.com/triAGENS/ArangoDB-PHP/issues/71)
+* Implemented support for ArangoDB's transactions (see https://github.com/arangodb/ArangoDB-PHP/issues/71)
 
-* Re-implemented statistics according to new implementation in ArangoDB 1.3 (see https://github.com/triAGENS/ArangoDB-PHP/issues/113)
+* Re-implemented statistics according to new implementation in ArangoDB 1.3 (see https://github.com/arangodb/ArangoDB-PHP/issues/113)
 
-* Fixed precondition failed errors (see https://github.com/triAGENS/ArangoDB-PHP/issues/95)
+* Fixed precondition failed errors (see https://github.com/arangodb/ArangoDB-PHP/issues/95)
 
 * Minor fixes in tests
 
@@ -171,7 +171,7 @@ v1.2.0-BETA2 (2013-02-23)
 
 * Bumped travis ArangoDB version to 1.2.beta3
 
-* Modified CollectionHandler.php to also accept a name and options instead of only a collection object (see https://github.com/triAGENS/ArangoDB-PHP/issues/44). Options can also be set when using an object. Also did some code-style fixing.
+* Modified CollectionHandler.php to also accept a name and options instead of only a collection object (see https://github.com/arangodb/ArangoDB-PHP/issues/44). Options can also be set when using an object. Also did some code-style fixing.
 
 * Modified GraphHandler->saveVertex() and GraphHandler->saveEdge() so that an array can be passed instead of an object.
 
@@ -179,7 +179,7 @@ v1.2.0-BETA2 (2013-02-23)
 
 * Modified DocumentHandler->save() so that an array can be passed instead of a document object.
 
-* Implemented CollectionHandler->updateByExample() & CollectionHandler->replaceByExample(), (see https://github.com/triAGENS/ArangoDB-PHP/issues/40)
+* Implemented CollectionHandler->updateByExample() & CollectionHandler->replaceByExample(), (see https://github.com/arangodb/ArangoDB-PHP/issues/40)
 
 * Corrected HTTP response codes assertions in some cases, after ArangoDB is now correctly returning 404 in those cases
 
