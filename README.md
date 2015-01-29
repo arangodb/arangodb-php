@@ -2,10 +2,10 @@
 
 # ArangoDB-PHP - A PHP client for ArangoDB
 
-[![Build Status](https://travis-ci.org/arangodb/ArangoDB-PHP.png?branch=master)](https://travis-ci.org/arangodb/ArangoDB-PHP)
+[![Build Status](https://travis-ci.org/arangodb/arangodb-php.png?branch=master)](https://travis-ci.org/arangodb/arangodb-php)
 **Branch: Master (v2.3)**
 
-[![Build Status](https://travis-ci.org/arangodb/ArangoDB-PHP.png?branch=devel)](https://travis-ci.org/arangodb/ArangoDB-PHP)
+[![Build Status](https://travis-ci.org/arangodb/arangodb-php.png?branch=devel)](https://travis-ci.org/arangodb/arangodb-php)
 **Branch: devel**
 
 
@@ -36,9 +36,9 @@
 
 <br>
 
-Please take a look [here](https://github.com/arangodb/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix) for the **ArangoDB-PHP Client** / **ArangoDB Server** interoperability matrix.
+Please take a look [here](https://github.com/arangodb/arangodb-php/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix) for the **ArangoDB-PHP Client** / **ArangoDB Server** interoperability matrix.
 
-**[Important versioning information on ArangoDB-PHP](https://github.com/arangodb/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP)**
+**[Important versioning information on ArangoDB-PHP](https://github.com/arangodb/arangodb-php/wiki/Important-versioning-information-on-ArangoDB-PHP)**
 
 <br>
 <a name="description"/a>
@@ -65,7 +65,7 @@ The client library provides document and collection classes you can use to work 
 <a name="requirements"/a>
 # Requirements
 
-* ArangoDB database server version 1.4 or higher (detailed info [here](https://github.com/arangodb/ArangoDB-PHP/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix))
+* ArangoDB database server version 1.4 or higher (detailed info [here](https://github.com/arangodb/arangodb-php/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix))
 
 * PHP version 5.3 or higher (Travis-tested with 5.4, 5.5, 5.6 and hhvm)
 
@@ -166,14 +166,14 @@ require 'vendor/.composer/autoload.php';
 
 When preferring this alternative, you need to have a git client installed. To clone the ArangoDB PHP client repository from github, execute the following command in your project directory:
 
-    git clone "https://github.com/arangodb/ArangoDB-PHP.git"
+    git clone "https://github.com/arangodb/arangodb-php.git"
 
 
-This will create a subdirectory ArangoDB-PHP in your current directory. It contains all the files of the client library. It also includes a dedicated autoloader that you can use for autoloading the client libraries class files.
+This will create a subdirectory arangodb-php in your current directory. It contains all the files of the client library. It also includes a dedicated autoloader that you can use for autoloading the client libraries class files.
 To invoke this autoloader, add the following line to your PHP files that will use the library:
 
 ```php
-require 'ArangoDB-PHP/autoload.php';
+require 'arangodb-php/autoload.php';
 ```
 
 
@@ -185,7 +185,7 @@ The ArangoDB PHP client's autoloader will only care about its own class files an
 If you do not wish to include autoload.php to load and setup the autoloader, you can invoke the autoloader directly:
 
 ```php
-require 'ArangoDB-PHP/lib/triagens/ArangoDb/autoloader.php';
+require 'arangodb-php/lib/triagens/ArangoDb/autoloader.php';
 \triagens\ArangoDb\Autoloader::init();
 ```
 
@@ -204,7 +204,7 @@ In order to use ArangoDB, you need to specify the connection options. We do so b
 // require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . '.composer' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 // use the following line when using git
-require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ArangoDB-PHP' . DIRECTORY_SEPARATOR . 'autoload.php';
+require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'arangodb-php' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 // set up some aliases for less typing later
 use triagens\ArangoDb\Collection as ArangoCollection;
@@ -503,7 +503,7 @@ Here's the full code that combines all the pieces outlined above:
 // require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . '.composer' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 // use the following line when using git
-require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ArangoDB-PHP' . DIRECTORY_SEPARATOR . 'autoload.php';
+require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'arangodb-php' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 // set up some aliases for less typing later
 use triagens\ArangoDb\Collection as ArangoCollection;
@@ -645,4 +645,4 @@ catch (ArangoServerException $e) {
 
 * [Follow us on Twitter @arangodbphp to receive updates on the php driver](https://twitter.com/arangodbphp)
 
-* Check the ArangoDB PHP client on github.com regularly for new releases and updates: [https://github.com/arangodb/ArangoDB-PHP](https://github.com/arangodb/ArangoDB-PHP)
+* Check the ArangoDB PHP client on github.com regularly for new releases and updates: [https://github.com/arangodb/arangodb-php](https://github.com/arangodb/arangodb-php)
