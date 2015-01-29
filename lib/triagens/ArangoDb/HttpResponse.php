@@ -66,10 +66,12 @@ class HttpResponse
      * @throws ClientException
      *
      * @param string $responseString - the complete HTTP response as supplied by the server
+     * @param string $originUrl The original URL the response is coming from
+     * @param string $originMethod The HTTP method that was used when sending data to the origin URL
      */
-    public function __construct($responseString)
+    public function __construct($responseString, $originUrl = null, $originMethod = null)
     {
-        list($this->_header, $this->_body) = HttpHelper::parseHttpMessage($responseString);
+        list($this->_header, $this->_body) = HttpHelper::parseHttpMessage($responseString, $originUrl, $originMethod);
         list($this->_httpCode, $this->_result, $this->_headers) = HttpHelper::parseHeaders($this->_header);
     }
 

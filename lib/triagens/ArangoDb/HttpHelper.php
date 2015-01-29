@@ -92,7 +92,7 @@ class HttpHelper
             return true;
         }
 
-        throw new ClientException('Invalid request method');
+        throw new ClientException('Invalid request method \'' . $method . '\'');
     }
 
     /**
@@ -253,7 +253,8 @@ class HttpHelper
             $options[ConnectionOptions::OPTION_TIMEOUT]
         );
         if (!$fp) {
-            throw new ConnectException($message, $number);
+            throw new ConnectException('cannot connect to endpoint \'' . 
+              $options[ConnectionOptions::OPTION_ENDPOINT] . '\': ' . $message, $number);
         }
 
         stream_set_timeout($fp, $options[ConnectionOptions::OPTION_TIMEOUT]);
@@ -265,11 +266,13 @@ class HttpHelper
      * Splits a http message into its header and body.
      *
      * @param string $httpMessage The http message string.
+     * @param string $originUrl The original URL the response is coming from
+     * @param string $originMethod The HTTP method that was used when sending data to the origin URL
      *
      * @throws ClientException
      * @return array
      */
-    public static function parseHttpMessage($httpMessage)
+    public static function parseHttpMessage($httpMessage, $originUrl = null, $originMethod = null)
     {
         assert(is_string($httpMessage));
 
@@ -282,6 +285,11 @@ class HttpHelper
         }
 
         if (!isset($parts[1]) or $parts[1] === null) {
+            if ($originUrl !== null && $originMethod !== null) {
+                throw new ClientException('Got an invalid response from the server after request to '
+                    . $originMethod . ' ' . $originUrl);
+            }
+
             throw new ClientException('Got an invalid response from the server');
         }
 
