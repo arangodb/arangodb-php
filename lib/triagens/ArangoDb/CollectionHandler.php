@@ -168,6 +168,11 @@ class CollectionHandler extends
      * skiplist index option
      */
     const OPTION_SKIPLIST_INDEX = 'skiplist';
+    
+    /**
+     * sparse index option
+     */
+    const OPTION_SPARSE = 'sparse';
 
     /**
      * count option
@@ -542,7 +547,7 @@ class CollectionHandler extends
      * @param string $collectionId - the collection id
      * @param int    $size         - the size of the cap constraint
      *
-     * @link http://www.arangodb.com/manuals/current/IndexCapHttp.html
+     * @link https://docs.arangodb.com/HttpIndexes/Cap.html
      *
      * @return array - server response of the created index
      */
@@ -564,7 +569,7 @@ class CollectionHandler extends
      * @param boolean $constraint   - whether this is a constraint or not
      * @param boolean $ignoreNull   - whether to ignore null
      *
-     * @link http://www.arangodb.com/manuals/current/IndexGeoHttp.html
+     * @link https://docs.arangodb.com/HttpIndexes/Geo.html
      *
      * @return array - server response of the created index
      */
@@ -598,17 +603,21 @@ class CollectionHandler extends
      * @param string  $collectionId - the collection id
      * @param array   $fields       - an array of fields
      * @param boolean $unique       - whether the values in the index should be unique or not
+     * @param boolean $sparse       - whether the index should be sparse
      *
-     * @link http://www.arangodb.com/manuals/current/IndexHashHttp.html
+     * @link https://docs.arangodb.com/HttpIndexes/Hash.html
      *
      * @return array - server response of the created index
      */
-    public function createHashIndex($collectionId, array $fields, $unique = null)
+    public function createHashIndex($collectionId, array $fields, $unique = null, $sparse = null)
     {
         $indexOptions = array();
 
         if ($unique) {
             $indexOptions[self::OPTION_UNIQUE] = (bool) $unique;
+        }
+        if ($sparse) {
+            $indexOptions[self::OPTION_SPARSE] = (bool) $sparse;
         }
 
         return $this->index($collectionId, self::OPTION_HASH_INDEX, $fields, null, $indexOptions);
@@ -621,7 +630,7 @@ class CollectionHandler extends
      * @param array  $fields       - an array of fields
      * @param int    $minLength    - the minimum length of words to index
      *
-     * @link http://www.arangodb.com/manuals/current/IndexFulltextHttp.html
+     * @link https://docs.arangodb.com/HttpIndexes/Fulltext.html
      *
      * @return array - server response of the created index
      */
@@ -642,17 +651,21 @@ class CollectionHandler extends
      * @param string $collectionId - the collection id
      * @param array  $fields       - an array of fields
      * @param bool   $unique       - whether the index is unique or not
+     * @param bool   $sparse       - whether the index should be sparse
      *
-     * @link http://www.arangodb.com/manuals/current/IndexSkiplistHttp.html
+     * @link https://docs.arangodb.com/HttpIndexes/Skiplist.html
      *
      * @return array - server response of the created index
      */
-    public function createSkipListIndex($collectionId, array $fields, $unique = null)
+    public function createSkipListIndex($collectionId, array $fields, $unique = null, $sparse = null)
     {
         $indexOptions = array();
 
         if ($unique) {
             $indexOptions[self::OPTION_UNIQUE] = (bool) $unique;
+        }
+        if ($sparse) {
+            $indexOptions[self::OPTION_SPARSE] = (bool) $sparse;
         }
 
         return $this->index($collectionId, self::OPTION_SKIPLIST_INDEX, $fields, null, $indexOptions);
@@ -671,7 +684,7 @@ class CollectionHandler extends
      * @param string $type         - index type: hash, skiplist or geo
      * @param array  $attributes   - an array of attributes that can be defined like array('a') or array('a', 'b.c')
      * @param bool   $unique       - true/false to create a unique index
-     * @param array  $indexOptions - an associative array of options for the index like array('geoJson' => true)
+     * @param array  $indexOptions - an associative array of options for the index like array('geoJson' => true, 'sparse' => false)
      *
      * @return array - server response of the created index
      */

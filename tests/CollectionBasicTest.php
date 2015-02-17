@@ -566,7 +566,43 @@ class CollectionBasicTest extends
         $this->assertCount(2, $indexInfo['fields'], "There should only be 2 indexed fields");
         $this->assertEquals("hashfield1", $indexInfo['fields'][0], "The first indexed field is not 'hashfield1'");
         $this->assertEquals("hashfield2", $indexInfo['fields'][1], "The second indexed field is not 'hashfield2'");
-        $this->assertEquals(true, $indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to true!');
+        $this->assertTrue($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to true!');
+        $this->assertFalse($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to false!');
+        $this->assertTrue(isset($indexInfo['selectivityEstimate']), 'selectivity estimate not present!');
+    }
+    
+    
+    /**
+     * Create a sparse hash index and verify it by getting information about the index from the server
+     */
+    public function testCreateSparseHashIndex()
+    {
+        $result = $this->collectionHandler->createHashIndex(
+                                          'ArangoDB_PHP_TestSuite_IndexTestCollection',
+                                          array('hashfield1', 'hashfield2'),
+                                          false,
+                                          array('sparse' => true)
+        );
+
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
+
+        $indicesByIdentifiers = $indices['identifiers'];
+
+        $this->assertArrayHasKey($result['id'], $indicesByIdentifiers, 'Hash index was not created!');
+
+        $indexInfo = $indicesByIdentifiers[$result['id']];
+
+        $this->assertEquals(
+             CollectionHandler::OPTION_HASH_INDEX,
+             $indexInfo[CollectionHandler::OPTION_TYPE],
+             "Index type is not 'hash'!"
+        );
+        $this->assertCount(2, $indexInfo['fields'], "There should only be 2 indexed fields");
+        $this->assertEquals("hashfield1", $indexInfo['fields'][0], "The first indexed field is not 'hashfield1'");
+        $this->assertEquals("hashfield2", $indexInfo['fields'][1], "The second indexed field is not 'hashfield2'");
+        $this->assertFalse($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to false!');
+        $this->assertTrue($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to true!');
+        $this->assertTrue(isset($indexInfo['selectivityEstimate']), 'selectivity estimate not present!');
     }
 
 
@@ -627,7 +663,41 @@ class CollectionBasicTest extends
         $this->assertCount(2, $indexInfo['fields'], "There should only be 2 indexed field");
         $this->assertEquals("skiplistfield1", $indexInfo['fields'][0], "The indexed field is not 'skiplistfield1'");
         $this->assertEquals("skiplistfield2", $indexInfo['fields'][1], "The indexed field is not 'skiplistfield2'");
-        $this->assertEquals(true, $indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to true!');
+        $this->assertTrue($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to true!');
+        $this->assertFalse($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to false!');
+    }
+    
+    
+    /**
+     * Create a sparse skiplist index and verify it by getting information about the index from the server
+     */
+    public function testCreateSparseSkipListIndex()
+    {
+        $result = $this->collectionHandler->createSkipListIndex(
+                                          'ArangoDB_PHP_TestSuite_IndexTestCollection',
+                                          array('skiplistfield1', 'skiplistfield2'),
+                                          false,
+                                          array('sparse' => true)
+        );
+
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
+
+        $indicesByIdentifiers = $indices['identifiers'];
+
+        $this->assertArrayHasKey($result['id'], $indicesByIdentifiers, 'skip-list index was not created!');
+
+        $indexInfo = $indicesByIdentifiers[$result['id']];
+
+        $this->assertEquals(
+             CollectionHandler::OPTION_SKIPLIST_INDEX,
+             $indexInfo[CollectionHandler::OPTION_TYPE],
+             "Index type is not 'skip-list'!"
+        );
+        $this->assertCount(2, $indexInfo['fields'], "There should only be 2 indexed field");
+        $this->assertEquals("skiplistfield1", $indexInfo['fields'][0], "The indexed field is not 'skiplistfield1'");
+        $this->assertEquals("skiplistfield2", $indexInfo['fields'][1], "The indexed field is not 'skiplistfield2'");
+        $this->assertFalse($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to false!');
+        $this->assertTrue($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to true!');
     }
 
 
