@@ -14,7 +14,8 @@ namespace triagens\ArangoDb;
  * @property Connection             connection
  * @property Collection             collection
  * @property CollectionHandler      collectionHandler
- * @property DocumentHandler        documentHandler
+ * @property bool                   hasSparseIndexes
+ * @property bool                   hasSelectivityEstimates
  */
 class CollectionBasicTest extends
     \PHPUnit_Framework_TestCase
@@ -24,6 +25,12 @@ class CollectionBasicTest extends
         $this->connection        = getConnection();
         $this->collectionHandler = new CollectionHandler($this->connection);
         $this->collectionHandler->create('ArangoDB_PHP_TestSuite_IndexTestCollection');
+
+        $adminHandler = new AdminHandler($this->connection);
+        $version = $adminHandler->getServerVersion();
+
+        $this->hasSparseIndexes = (version_compare($version, '2.5.0') >= 0);
+        $this->hasSelectivityEstimates = (version_compare($version, '2.5.0') >= 0);
     }
 
 
@@ -567,8 +574,13 @@ class CollectionBasicTest extends
         $this->assertEquals("hashfield1", $indexInfo['fields'][0], "The first indexed field is not 'hashfield1'");
         $this->assertEquals("hashfield2", $indexInfo['fields'][1], "The second indexed field is not 'hashfield2'");
         $this->assertTrue($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to true!');
-        $this->assertFalse($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to false!');
-        $this->assertTrue(isset($indexInfo['selectivityEstimate']), 'selectivity estimate not present!');
+
+        if ($this->hasSparseIndexes) {
+          $this->assertFalse($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to false!');
+        }
+        if ($this->hasSelectivityEstimates) {
+          $this->assertTrue(isset($indexInfo['selectivityEstimate']), 'selectivity estimate not present!');
+        }
     }
     
     
@@ -601,8 +613,13 @@ class CollectionBasicTest extends
         $this->assertEquals("hashfield1", $indexInfo['fields'][0], "The first indexed field is not 'hashfield1'");
         $this->assertEquals("hashfield2", $indexInfo['fields'][1], "The second indexed field is not 'hashfield2'");
         $this->assertFalse($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to false!');
-        $this->assertTrue($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to true!');
-        $this->assertTrue(isset($indexInfo['selectivityEstimate']), 'selectivity estimate not present!');
+
+        if ($this->hasSparseIndexes) {
+          $this->assertTrue($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to true!');
+        }
+        if ($this->hasSelectivityEstimates) {
+          $this->assertTrue(isset($indexInfo['selectivityEstimate']), 'selectivity estimate not present!');
+        }
     }
 
 
@@ -664,7 +681,9 @@ class CollectionBasicTest extends
         $this->assertEquals("skiplistfield1", $indexInfo['fields'][0], "The indexed field is not 'skiplistfield1'");
         $this->assertEquals("skiplistfield2", $indexInfo['fields'][1], "The indexed field is not 'skiplistfield2'");
         $this->assertTrue($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to true!');
-        $this->assertFalse($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to false!');
+        if ($this->hasSparseIndexes) {
+          $this->assertFalse($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to false!');
+        }
     }
     
     
@@ -697,7 +716,9 @@ class CollectionBasicTest extends
         $this->assertEquals("skiplistfield1", $indexInfo['fields'][0], "The indexed field is not 'skiplistfield1'");
         $this->assertEquals("skiplistfield2", $indexInfo['fields'][1], "The indexed field is not 'skiplistfield2'");
         $this->assertFalse($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to false!');
-        $this->assertTrue($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to true!');
+        if ($this->hasSparseIndexes) {
+          $this->assertTrue($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to true!');
+        }
     }
 
 
