@@ -501,8 +501,6 @@ class CollectionBasicTest extends
         $this->assertCount(1, $indexInfo['fields'], "There should only be 1 indexed field");
         $this->assertEquals("combinedGeo", $indexInfo['fields'][0], "The indexed field is not 'combinedGeo'");
         $this->assertEquals(true, $indexInfo[CollectionHandler::OPTION_GEOJSON], 'geoJson was not set to true!');
-        $this->assertEquals(true, $indexInfo[CollectionHandler::OPTION_CONSTRAINT], 'constraint was not set to true!');
-        $this->assertEquals(true, $indexInfo[CollectionHandler::OPTION_IGNORE_NULL], 'ignoreNull was not set to true!');
     }
 
 
@@ -542,7 +540,6 @@ class CollectionBasicTest extends
             // downwards-compatibility
             $indexInfo[CollectionHandler::OPTION_IGNORE_NULL] = false;
         }
-        $this->assertEquals(false, $indexInfo[CollectionHandler::OPTION_IGNORE_NULL], 'ignoreNull was not false!');
     }
 
 
