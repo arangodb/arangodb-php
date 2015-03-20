@@ -438,20 +438,20 @@ var_dump($result);
 <a name="deleting_document"/a>
 ## Deleting a document
 
-To delete an existing document on the server, the delete() method of the DocumentHandler class will do. delete() just needs the document to be deleted:
+To remove an existing document on the server, the remove() method of the DocumentHandler class will do. remove() just needs the document to be removed as a parameter:
 
 ```php
-// delete a document on the server, using a document object
-$result = $handler->delete($userFromServer);
+// remove a document on the server, using a document object
+$result = $handler->remove($userFromServer);
 var_dump($result);
 ```
 
-Note that the document must have been fetched from the server before. If you haven't fetched the document from the server before, use the deleteById() method. This requires just the collection name (here: "users") and the document id.
+Note that the document must have been fetched from the server before. If you haven't fetched the document from the server before, use the removeById() method. This requires just the collection name (here: "users") and the document id.
 
 ```php
-// delete a document on the server, using a collection id and document id
+// remove a document on the server, using a collection id and document id
 // 4818344 is the document's id
-$result = $handler->deleteById('users', 4818344);
+$result = $handler->removeById('users', 4818344);
 var_dump($result);
 ```
 
@@ -653,8 +653,8 @@ try {
     var_dump($userFromServer);
 
 
-    // delete a document on the server
-    $result = $handler->delete($userFromServer);
+    // remove a document on the server
+    $result = $handler->remove($userFromServer);
     var_dump($result);
 
 
