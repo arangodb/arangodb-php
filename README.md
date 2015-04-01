@@ -28,6 +28,7 @@
  - [Retrieving a document](#retrieving_document)
  - [Updating a document](#updating_document)
  - [Deleting a document](#deleting_document)
+ - [Running an AQL query](#running_aql)
  - [Dropping a collection](#dropping_collection)
  - [Logging exceptions](#logging_exceptions)
  - [Putting it all together](#alltogether)
@@ -48,7 +49,7 @@ This PHP client allows REST-based access to documents on the server.
 The ArangoDocumentHandler class should be used for these purposes.
 There is an example for REST-based documents access in the file examples/document.php.
 
-Furthermore, the PHP client also allows to issue more complex queries using the ArangoStatement class.
+Furthermore, the PHP client also allows to issue more AQL complex queries using the ArangoStatement class.
 There is an example for this kind of statements in the file examples/select.php.
 
 To use the PHP client, you must include the file autoloader.php from the main directory.
@@ -213,6 +214,7 @@ use triagens\ArangoDb\Connection as ArangoConnection;
 use triagens\ArangoDb\ConnectionOptions as ArangoConnectionOptions;
 use triagens\ArangoDb\DocumentHandler as ArangoDocumentHandler;
 use triagens\ArangoDb\Document as ArangoDocument;
+use triagens\ArangoDb\Statement as ArangoStatement;
 use triagens\ArangoDb\Exception as ArangoException;
 use triagens\ArangoDb\ConnectException as ArangoConnectException;
 use triagens\ArangoDb\ClientException as ArangoClientException;
@@ -230,7 +232,7 @@ $connectionOptions = array(
     // password for basic authorization
     ArangoConnectionOptions::OPTION_AUTH_PASSWD => '',
     // connection persistence on server. can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
-    ArangoConnectionOptions::OPTION_CONNECTION => 'Close',
+    ArangoConnectionOptions::OPTION_CONNECTION => 'Keep-Alive',
     // connect timeout in seconds
     ArangoConnectionOptions::OPTION_TIMEOUT => 3,
     // whether or not to reconnect when a keep-alive connection has timed out on server
@@ -392,7 +394,7 @@ object(triagens\ArangoDb\Document)##6 (4) {
 Whenever the document id is yet unknown, but you want to fetch a document from the server by any of its other properties, you can use the getByExample() method. It allows you to provide an example of the document that you are looking for. The example should either be a Document object with the relevant properties set, or, a PHP array with the propeties that you are looking for:
 
 ```php
-$cursor = $handler->getByExample('users', array('name'=>'John'));
+$cursor = $handler->getByExample('users', array('name' => 'John'));
 var_dump($cursor->getAll());
 
 $user = new Document();
@@ -454,14 +456,52 @@ var_dump($result);
 ```
 
 
+<a name="running_aql"/a>
+## Running an AQL query
+
+
+To run an AQL query, use the Statement class:
+
+
+```php
+// create a statement to insert tests 1000 users
+$statement = new Statement($connection, array(
+    'query' => 'FOR i IN 1..1000 INSERT { _key: CONCAT('test', i) } IN users'
+));
+
+// execute the statement
+$cursor = $statement->execute();
+
+
+// now run another query on the data, using bind parameters
+$statement = new Statement($connection, array(
+    'query' => 'FOR u IN @@collection FILTER u.name == @name RETURN u',
+    'bindVars' => array(
+        '@collection' => 'users',
+        'name' => 'John'
+    )
+));
+
+// executing the statement returns a cursor
+$cursor = $statement->execute();
+
+// easiest way to get all results returned by the cursor
+var_dump($cursor->getAll());
+
+// to get statistics for the query, use Cursor::getExtra();
+var_dump($cursor->getExtra());
+```
+
+
 <a name="dropping_collection"/a>
 ## Dropping a collection
 
 
-To delete an existing collection on the server, use the drop() method of the CollectionHandler class. drop() just needs the name of the collection name to be dropped:
+To drop an existing collection on the server, use the drop() method of the CollectionHandler class. 
+drop() just needs the name of the collection name to be dropped:
 
 ```php
-// delete a collection on the server, using it's name,
+// drop a collection on the server, using its name,
 $result = $collectionHandler->drop('users');
 var_dump($result);
 ```
@@ -512,6 +552,7 @@ use triagens\ArangoDb\Connection as ArangoConnection;
 use triagens\ArangoDb\ConnectionOptions as ArangoConnectionOptions;
 use triagens\ArangoDb\DocumentHandler as ArangoDocumentHandler;
 use triagens\ArangoDb\Document as ArangoDocument;
+use triagens\ArangoDb\Statement as ArangoStatement;
 use triagens\ArangoDb\Exception as ArangoException;
 use triagens\ArangoDb\ConnectException as ArangoConnectException;
 use triagens\ArangoDb\ClientException as ArangoClientException;
@@ -529,9 +570,11 @@ $connectionOptions = array(
     // password for basic authorization
     ArangoConnectionOptions::OPTION_AUTH_PASSWD => '',
     // connection persistence on server. can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
-    ArangoConnectionOptions::OPTION_CONNECTION => 'Close',
+    ArangoConnectionOptions::OPTION_CONNECTION => 'Keep-Alive',
     // connect timeout in seconds
     ArangoConnectionOptions::OPTION_TIMEOUT => 3,
+    // whether or not to reconnect when a keep-alive connection has timed out on server
+    ArangoConnectionOptions::OPTION_RECONNECT => true,
     // optionally create new collections when inserting documents
     ArangoConnectionOptions::OPTION_CREATE => true,
     // optionally create new collections when inserting documents
@@ -548,16 +591,14 @@ try {
     $collectionHandler = new ArangoCollectionHandler($connection);
 
     // clean up first
-    try {
-      $collectionHandler->drop('users');
-    }
-    catch (\Exception $e) {
-      // ignore here...
+    if ($collectionHandler->has('users')) {
+        $collectionHandler->drop('users');
     }
 
     // create a new collection
     $userCollection = new ArangoCollection();
     $userCollection->setName('users');
+    $id = $collectionHandler->add($userCollection);
 
     // print the collection id created by the server
     var_dump($id);
@@ -595,7 +636,7 @@ try {
     var_dump($userFromServer);
 
     // get a document list back from the server, using a document example
-    $cursor = $handler->getByExample('users', array('name'=>'John'));
+    $cursor = $handler->getByExample('users', array('name' => 'John'));
     var_dump($cursor->getAll());
 
 
@@ -617,7 +658,36 @@ try {
     var_dump($result);
 
 
-    // delete a collection on the server, using it's name,
+    // create a statement to insert tests 1000 users
+    $statement = new Statement($connection, array(
+        'query' => 'FOR i IN 1..1000 INSERT { _key: CONCAT("test", i) } IN users'
+    ));
+
+    // execute the statement
+    $cursor = $statement->execute();
+
+
+    // now run another query on the data, using bind parameters
+    $statement = new Statement($connection, array(
+        'query' => 'FOR u IN @@collection FILTER u.name == @name RETURN u',
+        'bindVars' => array(
+            '@collection' => 'users',
+            'name' => 'John'
+        )
+    ));
+
+    // executing the statement returns a cursor
+    $cursor = $statement->execute();
+
+    // easiest way to get all results returned by the cursor
+    var_dump($cursor->getAll());
+
+    // to get statistics for the query, use Cursor::getExtra();
+    var_dump($cursor->getExtra());
+
+
+
+    // drop a collection on the server, using its name,
     $result = $collectionHandler->drop('users');
     var_dump($result);
 }
