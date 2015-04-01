@@ -96,7 +96,8 @@ class StatementTest extends
         $cursor = $statement->execute();
 
         $this->assertEquals(1, count($cursor->getWarnings()));
-        $this->assertEquals(1562, $cursor->getWarnings()[0]["code"]);
+        $warnings = $this->getWarnings();
+        $this->assertEquals(1562, $warnings[0]["code"]);
     }
     
     
