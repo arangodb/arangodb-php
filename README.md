@@ -465,7 +465,7 @@ To run an AQL query, use the Statement class:
 
 ```php
 // create a statement to insert tests 1000 users
-$statement = new Statement($connection, array(
+$statement = new ArangoStatement($connection, array(
     'query' => 'FOR i IN 1..1000 INSERT { _key: CONCAT('test', i) } IN users'
 ));
 
@@ -474,7 +474,7 @@ $cursor = $statement->execute();
 
 
 // now run another query on the data, using bind parameters
-$statement = new Statement($connection, array(
+$statement = new ArangoStatement($connection, array(
     'query' => 'FOR u IN @@collection FILTER u.name == @name RETURN u',
     'bindVars' => array(
         '@collection' => 'users',
@@ -659,7 +659,7 @@ try {
 
 
     // create a statement to insert tests 1000 users
-    $statement = new Statement($connection, array(
+    $statement = new ArangoStatement($connection, array(
         'query' => 'FOR i IN 1..1000 INSERT { _key: CONCAT("test", i) } IN users'
     ));
 
@@ -668,7 +668,7 @@ try {
 
 
     // now run another query on the data, using bind parameters
-    $statement = new Statement($connection, array(
+    $statement = new ArangoStatement($connection, array(
         'query' => 'FOR u IN @@collection FILTER u.name == @name RETURN u',
         'bindVars' => array(
             '@collection' => 'users',
