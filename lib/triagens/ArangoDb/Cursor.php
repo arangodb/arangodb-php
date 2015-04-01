@@ -83,6 +83,13 @@ class Cursor implements
     private $_fullCount;
 
     /**
+     * extra data (statistics) returned from the statement
+     *
+     * @var array
+     */
+    private $_extra;
+
+    /**
      * result entry for cursor id
      */
     const ENTRY_ID = 'id';
@@ -96,6 +103,11 @@ class Cursor implements
      * result entry for result documents
      */
     const ENTRY_RESULT = 'result';
+    
+    /**
+     * result entry for extra data
+     */
+    const ENTRY_EXTRA = 'extra';
     
     /**
      * result entry for stats
@@ -136,20 +148,24 @@ class Cursor implements
         $this->_connection = $connection;
         $this->data        = $data;
         $this->_id         = null;
+        $this->_extra      = array();
+
         if (isset($data[self::ENTRY_ID])) {
             $this->_id = $data[self::ENTRY_ID];
         }
+          
 
-        if (isset($data['extra'][self::ENTRY_STATS])) {
-          // ArangoDB 2.3+ return value struct
-          $stats = $data['extra'][self::ENTRY_STATS];
-          if (isset($stats[self::FULL_COUNT])) {
-            $this->_fullCount = $stats[self::FULL_COUNT];
-          }
+        if (isset($data[self::ENTRY_EXTRA])) {
+            // ArangoDB 2.3+ return value struct
+            $this->_extra = $data[self::ENTRY_EXTRA];
+          
+            if (isset($this->_extra[self::ENTRY_STATS][self::FULL_COUNT])) {
+                $this->_fullCount = $this->_extra[self::ENTRY_STATS][self::FULL_COUNT];
+            }
         }
-        else if (isset($data['extra'][self::FULL_COUNT])) {
-          // pre-ArangoDB 2.3 return value struct
-          $this->_fullCount = $data['extra'][self::FULL_COUNT];
+        else if (isset($data[self::ENTRY_EXTRA][self::FULL_COUNT])) {
+            // pre-ArangoDB 2.3 return value struct
+            $this->_fullCount = $data[self::ENTRY_EXTRA][self::FULL_COUNT];
         }
 
         // attribute must be there
@@ -331,41 +347,30 @@ class Cursor implements
                     switch ($this->_options['objectType']) {
                         case 'edge' :
                             $this->addEdgesFromArray($row);
-
                             break;
                         case 'vertex' :
                             $this->addVerticesFromArray($row);
                             break;
                         case 'path' :
-                        	$this->addPathsFromArray($row);
-                        	
+                            $this->addPathsFromArray($row);
                             break;
                         case 'shortestPath' :
-                          	$this->addShortestPathFromArray($row);
-                            	 
-                           	break;
-                           	
-						case 'distanceTo' :
-							$this->addDistanceToFromArray($row);
-							
-							break;
-							
-						case 'commonNeighbors' :
-							$this->addCommonNeighborsFromArray($row);
-								
-							break;
-
-						case 'commonProperties' :
-							$this->addCommonPropertiesFromArray($row);
-							
-							break;
-						case 'figure' :
-							$this->addFigureFromArray($row);
-								
-							break;
+                            $this->addShortestPathFromArray($row);
+                            break;
+                        case 'distanceTo' :
+                            $this->addDistanceToFromArray($row);
+                            break;
+                        case 'commonNeighbors' :
+                            $this->addCommonNeighborsFromArray($row);
+                            break;
+                        case 'commonProperties' :
+                            $this->addCommonPropertiesFromArray($row);
+                            break;
+                        case 'figure' :
+                            $this->addFigureFromArray($row);
+                            break;
                         default :
                             $this->addDocumentsFromArray($row);
-
                             break;
                     }
                 }
@@ -613,6 +618,21 @@ class Cursor implements
         $this->_length = count($this->_result);
     }
 
+    
+    /**
+     * Get a statistical figure value from the query result
+     *
+     * @param string $name - name of figure to return
+     *
+     * @return int
+     */
+    private function getStatValue($name) 
+    {
+        if (isset($this->_extra[self::ENTRY_STATS][$name])) {
+            return $this->_extra[self::ENTRY_STATS][$name];
+        }
+        return 0;
+    }
 
     /**
      * Get MetaData of the current cursor
@@ -623,4 +643,79 @@ class Cursor implements
     {
         return $this->data;
     }
+    
+    /**
+     * Return the extra data of the query (statistics etc.). Contents of the result array
+     * depend on the type of query executed
+     *
+     * @return array
+     */
+    public function getExtra()
+    {
+        return $this->_extra;
+    }
+    
+    /**
+     * Return the warnings issued during query execution
+     *
+     * @return array
+     */
+    public function getWarnings()
+    {
+        if (isset($this->_extra['warnings'])) {
+            return $this->_extra['warnings'];
+        }
+        return array();
+    }
+
+    /**
+     * Return the number of writes executed by the query
+     *
+     * @return int
+     */
+    public function getWritesExecuted()
+    {
+        return $this->getStatValue('writesExecuted');
+    }
+    
+    /**
+     * Return the number of ignored write operations from the query
+     *
+     * @return int
+     */
+    public function getWritesIgnored()
+    {
+        return $this->getStatValue('writesIgnored');
+    }
+
+    /**
+     * Return the number of documents iterated over in full scans
+     *
+     * @return int
+     */
+    public function getScannedFull()
+    {
+        return $this->getStatValue('scannedFull');
+    }
+    
+    /**
+     * Return the number of documents iterated over in index scans
+     *
+     * @return int
+     */
+    public function getScannedIndex()
+    {
+        return $this->getStatValue('scannedIndex');
+    }
+    
+    /**
+     * Return the number of documents filtered by the query
+     *
+     * @return int
+     */
+    public function getFiltered()
+    {
+        return $this->getStatValue('filtered');
+    }
+
 }
