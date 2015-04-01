@@ -164,7 +164,9 @@ class Statement
         $this->_connection = $connection;
         $this->_bindVars   = new BindVars();
 
-        $this->setQuery(@$data[self::ENTRY_QUERY]);
+        if (isset($data[self::ENTRY_QUERY])) {
+            $this->setQuery($data[self::ENTRY_QUERY]);
+        }
 
         if (isset($data[self::ENTRY_COUNT])) {
             $this->setCount($data[self::ENTRY_COUNT]);
@@ -212,6 +214,10 @@ class Statement
      */
     public function execute()
     {
+        if (!is_string($this->_query)) {
+            throw new ClientException('Query should be a string');
+        }
+
         $data     = $this->buildData();
         $response = $this->_connection->post(Urls::URL_CURSOR, $this->getConnection()->json_encode_wrapper($data));
         
