@@ -1342,7 +1342,7 @@ class GraphHandler extends
         $statement = new Statement($this->getConnection(), array(
         		"query"     => ''
         ));
-        $statement->setResulType($options['objectType']);
+        $statement->setResultType($options['objectType']);
         $aql = "FOR a IN GRAPH_NEIGHBORS(@graphName, @vertex, @options) ";
         if (isset($options['filter']) && isset($options['filter']['direction'])) {
         	if ($options['filter']['direction'] === "in") {
@@ -1652,7 +1652,7 @@ class GraphHandler extends
         $statement = new Statement($this->getConnection(), array(
         		"query"     => ''
         ));
-        $statement->setResulType($options['objectType']);
+        $statement->setResultType($options['objectType']);
         $p = "{}";
         if (isset($options["vertexExample"])) {
         	$p = "@ve";
@@ -1774,7 +1774,7 @@ class GraphHandler extends
      	$statement = new Statement($this->getConnection(), array(
      			"query"     => ''
      	));
-     	$statement->setResulType($options['objectType']);
+     	$statement->setResultType($options['objectType']);
      	$aql = "FOR a IN GRAPH_PATHS(@graphName,  @options) ";
      
      	if (isset($options['direction'])) {
@@ -1874,7 +1874,7 @@ class GraphHandler extends
      	$statement = new Statement($this->getConnection(), array(
      			"query"     => ''
      	));
-     	$statement->setResulType($options['objectType']);
+     	$statement->setResultType($options['objectType']);
      	$aql = "FOR a IN GRAPH_SHORTEST_PATH(@graphName, @start, @end , @options) ";
      	 
      	if (isset($options['direction'])) {
@@ -1951,7 +1951,7 @@ class GraphHandler extends
      	$statement = new Statement($this->getConnection(), array(
      			"query"     => ''
      	));
-     	$statement->setResulType($options['objectType']);
+     	$statement->setResultType($options['objectType']);
      	$aql = "FOR a IN GRAPH_DISTANCE_TO(@graphName, @start, @end , @options) ";
      	 
      	if (isset($options['direction'])) {
@@ -2038,7 +2038,7 @@ class GraphHandler extends
      	$statement = new Statement($this->getConnection(), array(
      			"query"     => ''
      	));
-     	$statement->setResulType('commonNeighbors');
+     	$statement->setResultType('commonNeighbors');
      	$aql = "FOR a IN GRAPH_COMMON_NEIGHBORS(@graphName, @vertex1, @vertex2, @options1, @options2) ";
      	if (isset($options1['direction'])) {
      		if ($options1['direction'] === "in") {
@@ -2121,7 +2121,7 @@ class GraphHandler extends
      	$statement = new Statement($this->getConnection(), array(
      			"query"     => ''
      	));
-     	$statement->setResulType('commonProperties');
+     	$statement->setResultType('commonProperties');
      	$aql = "FOR a IN GRAPH_COMMON_PROPERTIES(@graphName, @vertex1, @vertex2, @options) ";
      	
      	$statement->bind('graphName', $graph);
@@ -2201,7 +2201,7 @@ class GraphHandler extends
      	$statement = new Statement($this->getConnection(), array(
      			"query"     => ''
      	));
-     	$statement->setResulType($options['objectType']);
+     	$statement->setResultType($options['objectType']);
      	$aql = "RETURN GRAPH_ABSOLUTE_ECCENTRICITY(@graphName, @vertex , @options) ";
      	 
      	if (isset($options['direction'])) {
@@ -2258,7 +2258,7 @@ class GraphHandler extends
      	$statement = new Statement($this->getConnection(), array(
      			"query"     => ''
      	));
-     	$statement->setResulType($options['objectType']);
+     	$statement->setResultType($options['objectType']);
      	$aql = "RETURN GRAPH_ECCENTRICITY(@graphName, @options) ";
      	 
      	if (isset($options['direction'])) {
@@ -2329,7 +2329,7 @@ class GraphHandler extends
      	$statement = new Statement($this->getConnection(), array(
      			"query"     => ''
      	));
-     	$statement->setResulType($options['objectType']);
+     	$statement->setResultType($options['objectType']);
      	$aql = "RETURN GRAPH_ABSOLUTE_CLOSENESS(@graphName, @vertex , @options) ";
      	 
      	if (isset($options['direction'])) {
@@ -2386,7 +2386,7 @@ class GraphHandler extends
      	$statement = new Statement($this->getConnection(), array(
      			"query"     => ''
      	));
-     	$statement->setResulType($options['objectType']);
+     	$statement->setResultType($options['objectType']);
      	$aql = "RETURN GRAPH_CLOSENESS(@graphName, @options) ";
      	 
      	if (isset($options['direction'])) {
@@ -2443,7 +2443,7 @@ class GraphHandler extends
      	$statement = new Statement($this->getConnection(), array(
      			"query"     => ''
      	));
-     	$statement->setResulType($options['objectType']);
+     	$statement->setResultType($options['objectType']);
      	$aql = "RETURN GRAPH_ABSOLUTE_BETWEENNESS(@graphName, @options) ";
      	 
      	if (isset($options['direction'])) {
@@ -2499,7 +2499,7 @@ class GraphHandler extends
      	$statement = new Statement($this->getConnection(), array(
      			"query"     => ''
      	));
-     	$statement->setResulType($options['objectType']);
+     	$statement->setResultType($options['objectType']);
      	$aql = "RETURN GRAPH_BETWEENNESS(@graphName, @options) ";
      	 
      	if (isset($options['direction'])) {
@@ -2554,7 +2554,7 @@ class GraphHandler extends
      	$statement = new Statement($this->getConnection(), array(
      			"query"     => ''
      	));
-     	$statement->setResulType($options['objectType']);
+     	$statement->setResultType($options['objectType']);
      	$aql = "RETURN GRAPH_RADIUS(@graphName, @options) ";
      	 
      	if (isset($options['direction'])) {
@@ -2611,7 +2611,7 @@ class GraphHandler extends
      	$statement = new Statement($this->getConnection(), array(
      			"query"     => ''
      	));
-     	$statement->setResulType($options['objectType']);
+     	$statement->setResultType($options['objectType']);
      	$aql = "RETURN GRAPH_DIAMETER(@graphName, @options) ";
      	 
      	if (isset($options['direction'])) {
