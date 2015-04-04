@@ -27,7 +27,7 @@ class ExportTest extends
 
         // clean up first
         try {
-            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
@@ -42,7 +42,6 @@ class ExportTest extends
         $version = preg_replace("/-[a-z0-9]+$/", "", $adminHandler->getServerVersion());
         $this->hasExportApi = (version_compare($version, '2.6.0') >= 0);
     }
-
 
     /**
      * Test export empty collection
@@ -61,13 +60,11 @@ class ExportTest extends
         $this->assertNull($cursor->getId());
 
         // we're not expecting any results 
-        $this->assertEquals(0, count($cursor->getAll()));
+        $this->assertEquals(0, $cursor->getCount());
         $this->assertEquals(1, $cursor->getFetches());
-
-        // shouldn't have warnings
-        $this->assertEquals(0, count($cursor->getWarnings()));
+        
+        $this->assertFalse($cursor->getNextBatch());
     }
-
 
     /**
      * Test export some documents
@@ -91,8 +88,10 @@ class ExportTest extends
         $this->assertEquals(100, $cursor->getCount());
         $this->assertEquals(1, $cursor->getFetches());
 
-        $all = $cursor->getAll();
+        $all = $cursor->getNextBatch();
         $this->assertEquals(100, count($all));
+        
+        $this->assertFalse($cursor->getNextBatch());
     }
 
     /**
@@ -115,12 +114,16 @@ class ExportTest extends
         $this->assertNotNull($cursor->getId());
         $this->assertEquals(1, $cursor->getFetches());
 
-        // the next call will issue another HTTP fetch command
         $this->assertEquals(1001, $cursor->getCount());
-        $this->assertEquals(2, $cursor->getFetches());
 
-        $all = $cursor->getAll();
+        $all = array();
+        while ($more = $cursor->getNextBatch()) {
+          $all = array_merge($all, $more);
+        }
+        $this->assertEquals(2, $cursor->getFetches());
         $this->assertEquals(1001, count($all));
+
+        $this->assertFalse($cursor->getNextBatch());
     }
 
     /**
@@ -144,12 +147,14 @@ class ExportTest extends
         $this->assertNotNull($cursor->getId());
 
         $this->assertEquals(5000, $cursor->getCount());
+        $all = array();
+        while ($more = $cursor->getNextBatch()) {
+          $all = array_merge($all, $more);
+        }
         $this->assertEquals(5, $cursor->getFetches());
-
-        $all = $cursor->getAll();
         $this->assertEquals(5000, count($all));
-        
-        $this->assertEquals(5, $cursor->getFetches());
+
+        $this->assertFalse($cursor->getNextBatch());
     }
 
     /**
@@ -173,10 +178,129 @@ class ExportTest extends
         $this->assertNotNull($cursor->getId());
 
         $this->assertEquals(5000, $cursor->getCount());
+        $all = array();
+        while ($more = $cursor->getNextBatch()) {
+          $all = array_merge($all, $more);
+        }
         $this->assertEquals(50, $cursor->getFetches());
-        
-        $all = $cursor->getAll();
         $this->assertEquals(5000, count($all));
+
+        $this->assertFalse($cursor->getNextBatch());
+    }
+
+    /**
+     * Test export as Document object
+     */
+    public function testExportDocumentObjects()
+    {
+        if (! $this->hasExportApi) {
+            return;
+        }
+        for ($i = 0; $i < 100; ++$i) {
+            $this->documentHandler->save($this->collection, array("value" => $i));
+        }
+
+        $export = new Export($this->connection, $this->collection, array("_flat" => false));
+        $cursor = $export->execute();
+
+        $this->assertEquals(1, $cursor->getFetches());
+        $this->assertNull($cursor->getId());
+
+        $this->assertEquals(100, $cursor->getCount());
+        $this->assertEquals(1, $cursor->getFetches());
+
+        $all = $cursor->getNextBatch();
+        $this->assertEquals(100, count($all));
+
+        foreach ($all as $doc) {
+            $this->assertTrue($doc instanceof Document);
+        }
+        
+        $this->assertFalse($cursor->getNextBatch());
+    }
+
+    /**
+     * Test export as Edge object
+     */
+    public function testExportEdgeObjects()
+    {
+        if (! $this->hasExportApi) {
+            return;
+        }
+
+        try {
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdge');
+        } catch (\Exception $e) {
+        }
+
+        $edgeCollection = new Collection();
+        $edgeCollection->setName('ArangoDB_PHP_TestSuite_TestEdge');
+        $edgeCollection->setType(Collection::TYPE_EDGE);
+        $this->collectionHandler->add($edgeCollection);
+        
+        $edgeHandler = new EdgeHandler($this->connection);
+
+        $vertexCollection = $this->collection->getName();
+
+        for ($i = 0; $i < 100; ++$i) {
+            $edgeHandler->saveEdge($edgeCollection, $vertexCollection . "/1", $vertexCollection . "/2", array("value" => $i));
+        }
+
+        $export = new Export($this->connection, $edgeCollection, array("_flat" => false));
+        $cursor = $export->execute();
+
+        $this->assertEquals(1, $cursor->getFetches());
+        $this->assertNull($cursor->getId());
+
+        $this->assertEquals(100, $cursor->getCount());
+        $this->assertEquals(1, $cursor->getFetches());
+
+        $all = $cursor->getNextBatch();
+        $this->assertEquals(100, count($all));
+
+        foreach ($all as $doc) {
+            $this->assertTrue($doc instanceof Document);
+            $this->assertTrue($doc instanceof Edge);
+        }
+        
+        $this->assertFalse($cursor->getNextBatch());
+
+        $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdge');
+    }
+
+    /**
+     * Test export as flat array
+     */
+    public function testExportFlat()
+    {
+        if (! $this->hasExportApi) {
+            return;
+        }
+        for ($i = 0; $i < 200; ++$i) {
+            $this->documentHandler->save($this->collection, array("value" => $i));
+        }
+
+        $export = new Export($this->connection, $this->collection, array("batchSize" => 50, "_flat" => true));
+        $cursor = $export->execute();
+
+        $this->assertEquals(1, $cursor->getFetches());
+        $this->assertNotNull($cursor->getId());
+
+        $this->assertEquals(200, $cursor->getCount());
+        $this->assertEquals(1, $cursor->getFetches());
+
+        $all = array();
+        while ($more = $cursor->getNextBatch()) {
+          $all = array_merge($all, $more);
+        }
+        $this->assertEquals(200, count($all));
+
+        foreach ($all as $doc) {
+            $this->assertFalse($doc instanceof Document);
+            $this->assertTrue(is_array($doc));
+        }
+        
+        $this->assertFalse($cursor->getNextBatch());
     }
 
     public function tearDown()

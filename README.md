@@ -29,6 +29,7 @@
  - [Updating a document](#updating_document)
  - [Deleting a document](#deleting_document)
  - [Running an AQL query](#running_aql)
+ - [Exporting data](#exporting_data)
  - [Dropping a collection](#dropping_collection)
  - [Logging exceptions](#logging_exceptions)
  - [Putting it all together](#alltogether)
@@ -214,6 +215,7 @@ use triagens\ArangoDb\Connection as ArangoConnection;
 use triagens\ArangoDb\ConnectionOptions as ArangoConnectionOptions;
 use triagens\ArangoDb\DocumentHandler as ArangoDocumentHandler;
 use triagens\ArangoDb\Document as ArangoDocument;
+use triagens\ArangoDb\Export as ArangoExport;
 use triagens\ArangoDb\Statement as ArangoStatement;
 use triagens\ArangoDb\Exception as ArangoException;
 use triagens\ArangoDb\ConnectException as ArangoConnectException;
@@ -490,6 +492,32 @@ var_dump($cursor->getAll());
 
 // to get statistics for the query, use Cursor::getExtra();
 var_dump($cursor->getExtra());
+```
+
+
+<a name="exporting_data"/a>
+## Exporting data
+
+
+To export the contents of a collection to PHP, use the Export class.
+The Export class will create a light-weight cursor over all documents
+of the specified collection. The results can be transferred to PHP
+in chunks incrementally. This is the most efficient way of iterating
+over all documents in a collection.
+
+
+```php
+// creates an export object for collection users
+$export = new ArangoExport($connection, 'users', array());
+
+// execute the export. this will return a special, forward-only cursor
+$cursor = $export->execute();
+
+// now we can fetch the documents from the collection in blocks
+while ($docs = $export->getNextBatch()) {
+    // do something with $docs
+    var_dump($docs);
+}
 ```
 
 

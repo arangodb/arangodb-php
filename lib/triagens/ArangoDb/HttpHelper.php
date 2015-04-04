@@ -286,6 +286,10 @@ class HttpHelper
 
         if (!isset($parts[1]) or $parts[1] === null) {
             if ($originUrl !== null && $originMethod !== null) {
+                if ($httpMessage === '') {
+                    throw new ClientException('Got no response from the server after request to '
+                        . $originMethod . ' ' . $originUrl . ' - Note: this may be a timeout issue');
+                }
                 throw new ClientException('Got an invalid response from the server after request to '
                     . $originMethod . ' ' . $originUrl);
             }

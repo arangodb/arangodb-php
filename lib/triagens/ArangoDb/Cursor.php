@@ -11,7 +11,7 @@
 namespace triagens\ArangoDb;
 
 /**
- * Provides access to the results of a read-only statement
+ * Provides access to the results of an AQL query or another statement
  *
  * The cursor might not contain all results in the beginning.<br>
  *
@@ -611,7 +611,7 @@ class Cursor implements
         $this->add($data[self::ENTRY_RESULT]);
 
         if (!$this->_hasMore) {
-            // we have fetch the complete result set and can unset the id now
+            // we have fetched the complete result set and can unset the id now
             $this->_id = null;
         }
 

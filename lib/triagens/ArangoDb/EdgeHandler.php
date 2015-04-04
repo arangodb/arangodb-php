@@ -136,6 +136,9 @@ class EdgeHandler extends
      */
     public function saveEdge($collectionId, $from, $to, $document, $options = array())
     {
+        if ($collectionId instanceof Collection) {
+            $collectionId = $collectionId->getName();
+        } 
         if (is_array($document)) {
             $document = Edge::createFromArray($document);
         }

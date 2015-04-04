@@ -47,11 +47,20 @@ class Export
     private $_flat = false;
 
     /**
-     * Sanitation flag (if set, the _id and _rev attributes will be removed from the results)
+     * Flush flag (if set, then all documents from the collection that are currently only
+     * in the write-ahead log (WAL) will be moved to the collection's datafiles. This may cause
+     * an initial delay in the export, but will lead to the documents in the WAL not being 
+     * excluded from the export run. If the flush flag is set to false, the documents still
+     * in the WAL may be missing in the export result.
      *
      * @var bool
      */
-    private $_sanitize = false;
+    private $_flush = true;
+    
+    /**
+     * The underlying collection type
+     */
+    private $_type;
     
     /**
      * Count option index
@@ -59,9 +68,14 @@ class Export
     const ENTRY_COUNT = 'count';
 
     /**
-     * Batch size index
+     * Batch size option index
      */
     const ENTRY_BATCHSIZE = 'batchSize';
+
+    /**
+     * Flush option index
+     */
+    const ENTRY_FLUSH = 'flush';
 
     /**
      * Initialize the export
@@ -72,21 +86,30 @@ class Export
      * @param string     $collection - the collection to export
      * @param array      $data       - export options
      */
-    public function __construct(Connection $connection, $collection, array $data)
+    public function __construct(Connection $connection, $collection, array $data = array())
     {
         $this->_connection = $connection;
+
+        if (! ($collection instanceof Collection)) {
+            $collectionHandler = new CollectionHandler($this->_connection);
+            $collection = $collectionHandler->get($collection);
+        }
         $this->_collection = $collection;
+
+        // check if we're working with an edge collection or not
+        $this->_type = $this->_collection->getType();
+
+        if (isset($data[self::ENTRY_FLUSH])) {
+            // set a default value
+            $this->_flush = $data[self::ENTRY_FLUSH];
+        }
 
         if (isset($data[self::ENTRY_BATCHSIZE])) {
             $this->setBatchSize($data[self::ENTRY_BATCHSIZE]);
         }
 
-        if (isset($data[Cursor::ENTRY_SANITIZE])) {
-            $this->_sanitize = (bool) $data[Cursor::ENTRY_SANITIZE];
-        }
-
-        if (isset($data[Cursor::ENTRY_FLAT])) {
-            $this->_flat = (bool) $data[Cursor::ENTRY_FLAT];
+        if (isset($data[ExportCursor::ENTRY_FLAT])) {
+            $this->_flat = (bool) $data[ExportCursor::ENTRY_FLAT];
         }
     }
 
@@ -110,7 +133,11 @@ class Export
      */
     public function execute()
     {
-        $data = array("flush" => true);
+        $data = array(
+            self::ENTRY_FLUSH => $this->_flush,
+            self::ENTRY_COUNT => true
+        );
+
         if ($this->_batchSize > 0) {
             $data[self::ENTRY_BATCHSIZE] = $this->_batchSize;
         }
@@ -119,10 +146,11 @@ class Export
         if ($collection instanceof Collection) {
             $collection = $collection->getName();
         } 
+
         $url = UrlHelper::appendParamsUrl(Urls::URL_EXPORT, array("collection" => $collection));
         $response = $this->_connection->post($url, $this->getConnection()->json_encode_wrapper($data));
         
-        return new Cursor($this->_connection, $response->getJson(), $this->getCursorOptions());
+        return new ExportCursor($this->_connection, $response->getJson(), $this->getCursorOptions());
     }
 
     /**
@@ -168,9 +196,9 @@ class Export
     private function getCursorOptions()
     {
         $result = array(
-            Cursor::ENTRY_SANITIZE => (bool) $this->_sanitize,
-            Cursor::ENTRY_FLAT     => (bool) $this->_flat,
-            Cursor::ENTRY_BASEURL  => Urls::URL_EXPORT
+            ExportCursor::ENTRY_FLAT     => (bool) $this->_flat,
+            ExportCursor::ENTRY_BASEURL  => Urls::URL_EXPORT,
+            ExportCursor::ENTRY_TYPE     => $this->_type
         );
         return $result;
     }
