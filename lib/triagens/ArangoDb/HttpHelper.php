@@ -102,11 +102,11 @@ class HttpHelper
      * @param string            $method  - HTTP method
      * @param string            $url     - HTTP URL
      * @param string            $body    - optional body to post
-     * @param array             $customerHeader - any arry containing header elements
+     * @param array             $customHeader - any arry containing header elements
      *
      * @return string - assembled HTTP request string
      */
-    public static function buildRequest(ConnectionOptions $options, $method, $url, $body, $customerHeader = array())
+    public static function buildRequest(ConnectionOptions $options, $method, $url, $body, $customHeader = array())
     {
         $host   = $contentType = $authorization = $connection = '';
         $length = strlen($body);
@@ -145,16 +145,16 @@ class HttpHelper
         }
 
         $apiVersion = 'X-Arango-Version: ' . Connection::$_apiVersion . self::EOL;
-        $customerHeaders = "";
-        foreach ($customerHeader as $headerKey => $headerValue) {
-            $customerHeaders .= $headerKey.": " . $headerValue . self::EOL;
+        $customHeaders = "";
+        foreach ($customHeader as $headerKey => $headerValue) {
+            $customHeaders .= $headerKey.": " . $headerValue . self::EOL;
         }
 
         // finally assemble the request
         $request = sprintf('%s %s %s%s', $method, $url, self::PROTOCOL, self::EOL) .
             $host .
             $apiVersion .
-            $customerHeaders .
+            $customHeaders .
             $contentType .
             $authorization .
             $connection .
