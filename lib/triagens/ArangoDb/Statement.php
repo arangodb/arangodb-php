@@ -351,7 +351,7 @@ class Statement
      *
      * @return string - resultType of the query
      */
-    public function setResulType($resultType)
+    public function setResultType($resultType)
     {
     	return $this->resultType = $resultType;
     }
