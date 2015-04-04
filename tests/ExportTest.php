@@ -37,6 +37,10 @@ class ExportTest extends
         $this->collectionHandler->add($this->collection);
 
         $this->documentHandler = new DocumentHandler($this->connection);
+
+        $adminHandler = new AdminHandler($this->connection);
+        $version = preg_replace("/-[a-z0-9]+$/", "", $adminHandler->getServerVersion());
+        $this->hasExportApi = (version_compare($version, '2.6.0') >= 0);
     }
 
 
@@ -45,6 +49,9 @@ class ExportTest extends
      */
     public function testExportEmpty()
     {
+        if (! $this->hasExportApi) {
+            return;
+        }
         $connection      = $this->connection;
 
         $export = new Export($connection, $this->collection, array());
@@ -67,6 +74,9 @@ class ExportTest extends
      */
     public function testExportDocuments()
     {
+        if (! $this->hasExportApi) {
+            return;
+        }
         $connection      = $this->connection;
         for ($i = 0; $i < 100; ++$i) {
             $this->documentHandler->save($this->collection, array("value" => $i));
@@ -90,6 +100,9 @@ class ExportTest extends
      */
     public function testExportDocumentsTwoFetches()
     {
+        if (! $this->hasExportApi) {
+            return;
+        }
         $connection      = $this->connection;
         $statement = new Statement($connection, array(
             "query" => "FOR i IN 1..1001 INSERT { _key: CONCAT('test', i), value: i } IN " . $this->collection->getName()
@@ -115,6 +128,9 @@ class ExportTest extends
      */
     public function testExportDocumentsMultipleFetches()
     {
+        if (! $this->hasExportApi) {
+            return;
+        }
         $connection      = $this->connection;
         $statement = new Statement($connection, array(
             "query" => "FOR i IN 1..5000 INSERT { _key: CONCAT('test', i), value: i } IN " . $this->collection->getName()
@@ -141,6 +157,9 @@ class ExportTest extends
      */
     public function testExportDocumentsWithSmallBatchSize()
     {
+        if (! $this->hasExportApi) {
+            return;
+        }
         $connection      = $this->connection;
         $statement = new Statement($connection, array(
             "query" => "FOR i IN 1..5000 INSERT { _key: CONCAT('test', i), value: i } IN " . $this->collection->getName()
