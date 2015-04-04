@@ -468,7 +468,8 @@ class Statement
     {
         $result = array(
             Cursor::ENTRY_SANITIZE => (bool) $this->_sanitize,
-            Cursor::ENTRY_FLAT     => (bool) $this->_flat
+            Cursor::ENTRY_FLAT     => (bool) $this->_flat,
+            Cursor::ENTRY_BASEURL  => Urls::URL_CURSOR
         );
         if (isset($this->resultType)) {
         	$result[Cursor::ENTRY_TYPE]  = $this->resultType; 

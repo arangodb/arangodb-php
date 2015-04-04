@@ -399,6 +399,9 @@ class DocumentHandler extends
      */
     public function save($collectionId, $document, $options = array())
     {
+        if ($collectionId instanceof Collection) {
+            $collectionId = $collectionId->getName();
+        } 
         // This preserves compatibility for the old create parameter.
         $params = array(self::OPTION_COLLECTION => $collectionId);
         $params = $this->validateAndIncludeOldSingleParameterInParams(
@@ -532,6 +535,10 @@ class DocumentHandler extends
      */
     protected function patch($url, $collectionId, $documentId, Document $document, $options = array())
     {
+        if ($collectionId instanceof Collection) {
+            $collectionId = $collectionId->getName();
+        }
+ 
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
@@ -643,6 +650,10 @@ class DocumentHandler extends
      */
     protected function put($url, $collectionId, $documentId, Document $document, $options = array())
     {
+        if ($collectionId instanceof Collection) {
+            $collectionId = $collectionId->getName();
+        }
+ 
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
@@ -786,6 +797,10 @@ class DocumentHandler extends
      */
     protected function erase($url, $collectionId, $documentId, $revision = null, $options = array())
     {
+        if ($collectionId instanceof Collection) {
+            $collectionId = $collectionId->getName();
+        }
+ 
         // This preserves compatibility for the old policy parameter.
         $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(

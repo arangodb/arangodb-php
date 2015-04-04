@@ -88,6 +88,11 @@ class Cursor implements
      * @var array
      */
     private $_extra;
+    
+    /**
+     * number of HTTP calls that were made to build the cursor result
+     */
+    private $_fetches = 1;
 
     /**
      * result entry for cursor id
@@ -135,6 +140,11 @@ class Cursor implements
     const ENTRY_TYPE = 'objectType';
 
     /**
+     * "baseurl" option entry.
+     */
+    const ENTRY_BASEURL = 'baseurl';
+
+    /**
      * Initialise the cursor with the first results and some metadata
      *
      * @param Connection $connection - connection to be used
@@ -154,7 +164,6 @@ class Cursor implements
             $this->_id = $data[self::ENTRY_ID];
         }
           
-
         if (isset($data[self::ENTRY_EXTRA])) {
             // ArangoDB 2.3+ return value struct
             $this->_extra = $data[self::ENTRY_EXTRA];
@@ -195,7 +204,7 @@ class Cursor implements
     {
         if ($this->_id) {
             try {
-                $this->_connection->delete(Urls::URL_CURSOR . '/' . $this->_id);
+                $this->_connection->delete($this->url() . '/' . $this->_id);
 
                 return true;
             } catch (Exception $e) {
@@ -593,7 +602,9 @@ class Cursor implements
     private function fetchOutstanding()
     {
         // continuation
-        $response = $this->_connection->put(Urls::URL_CURSOR . "/" . $this->_id, '');
+        $response = $this->_connection->put($this->url() . "/" . $this->_id, '');
+        ++$this->_fetches;
+
         $data     = $response->getJson();
 
         $this->_hasMore = (bool) $data[self::ENTRY_HASMORE];
@@ -618,6 +629,20 @@ class Cursor implements
         $this->_length = count($this->_result);
     }
 
+
+    /**
+     * Return the base URL for the cursor 
+     *
+     * @return string
+     */
+    private function url() {
+        if (isset($this->_options[self::ENTRY_BASEURL])) {
+            return $this->_options[self::ENTRY_BASEURL];
+        }
+
+        // this is the fallback
+        return Urls::URL_CURSOR;
+    }
     
     /**
      * Get a statistical figure value from the query result
@@ -716,6 +741,26 @@ class Cursor implements
     public function getFiltered()
     {
         return $this->getStatValue('filtered');
+    }
+
+    /**
+     * Return the number of HTTP calls that were made to build the cursor result
+     *
+     * @return int
+     */
+    public function getFetches()
+    {
+        return $this->_fetches;
+    }
+
+    /**
+     * Return the cursor id, if any
+     *
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->_id;
     }
 
 }
