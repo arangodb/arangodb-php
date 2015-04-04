@@ -11,35 +11,34 @@
 namespace triagens\ArangoDb;
 
 /**
- * Container for a read-only ("select") statement
+ * Container for an AQL query
  *
- * A statement is an AQL query that can be issued to the
- * server. Optional bind parameters can be used when issuing the
- * statement to separate the statement from the values.
- * Executing a statement will result in a cursor being created.
+ * Optional bind parameters can be used when issuing thei AQL query to separate
+ * the query from the values.
+ * Executing a query will result in a cursor being created.
  *
  * There is an important distinction between two different types of statements:
  * <ul>
- * <li> statements that produce a list of documents as their result AND<br />
+ * <li> statements that produce an array of documents as their result AND<br />
  * <li> statements that do not produce documents
  * </ul>
  *
  * For example, a statement such as "FOR e IN example RETURN e" will produce
- * a list of documents as its result. The result can be treated as a list of
- * documents, and the document can be updated and sent back to the server by
+ * an array of documents as its result. The result can be treated as an array of
+ * documents, and each document can be updated and sent back to the server by
  * the client.<br />
  * <br />
- * However, the query "RETURN 1 + 1" will not produce a list of documents as
- * its result, but a list with a single scalar value (the number 2).
+ * However, the query "RETURN 1 + 1" will not produce an array of documents as
+ * its result, but an array with a single scalar value (the number 2).
  * "2" is not a valid document so creating a document from it will fail.<br />
  * <br />
  * To turn the results of this query into a document, the following needs to
  * be done:
  * <ul>
  * <li> modify the query to "RETURN { value: 1 + 1 }". The result will then be a
- *   a list of documents with a "value" attribute<br />
+ *   an array of documents with a "value" attribute<br />
  * <li> use the "_flat" option for the statement to indicate that you don't want
- *   to treat the statement result as a list of documents, but as a flat list
+ *   to treat the statement result as an array of documents, but as a flat array
  * </ul>
  *
  * <br />
@@ -457,7 +456,7 @@ class Statement
         if ($this->_batchSize > 0) {
             $data[self::ENTRY_BATCHSIZE] = $this->_batchSize;
         }
-		return $data;
+        return $data;
     }
 
     /**

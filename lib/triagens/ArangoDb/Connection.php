@@ -137,13 +137,13 @@ class Connection
      * @throws Exception
      *
      * @param string $url - GET URL
-     * @param array $customerHeader
+     * @param array $customHeader
      *
      * @return HttpResponse
      */
-    public function get($url, $customerHeader = array())
+    public function get($url, $customHeader = array())
     {
-        $response = $this->executeRequest(HttpHelper::METHOD_GET, $url, '', $customerHeader);
+        $response = $this->executeRequest(HttpHelper::METHOD_GET, $url, '', $customHeader);
 
         return $this->parseResponse($response);
     }
@@ -155,12 +155,13 @@ class Connection
      *
      * @param string $url  - POST URL
      * @param string $data - body to post
+     * @param array $customHeader
      *
      * @return HttpResponse
      */
-    public function post($url, $data)
+    public function post($url, $data, $customHeader = array())
     {
-        $response = $this->executeRequest(HttpHelper::METHOD_POST, $url, $data);
+        $response = $this->executeRequest(HttpHelper::METHOD_POST, $url, $data, $customHeader);
 
         return $this->parseResponse($response);
     }
@@ -172,12 +173,13 @@ class Connection
      *
      * @param string $url  - PUT URL
      * @param string $data - body to post
+     * @param array $customHeader
      *
      * @return HttpResponse
      */
-    public function put($url, $data)
+    public function put($url, $data, $customHeader = array())
     {
-        $response = $this->executeRequest(HttpHelper::METHOD_PUT, $url, $data);
+        $response = $this->executeRequest(HttpHelper::METHOD_PUT, $url, $data, $customHeader);
 
         return $this->parseResponse($response);
     }
@@ -188,13 +190,13 @@ class Connection
      * @throws Exception
      *
      * @param string $url  - PUT URL
-     * @param array $customerHeader
+     * @param array $customHeader
      *
      * @return HttpResponse
      */
-    public function head($url, $customerHeader=array())
+    public function head($url, $customHeader = array())
     {
-        $response = $this->executeRequest(HttpHelper::METHOD_HEAD, $url, '', $customerHeader );
+        $response = $this->executeRequest(HttpHelper::METHOD_HEAD, $url, '', $customHeader);
 
         return $this->parseResponse($response);
     }
@@ -206,12 +208,13 @@ class Connection
      *
      * @param string $url  - PATCH URL
      * @param string $data - patch body
+     * @param array $customHeader
      *
      * @return HttpResponse
      */
-    public function patch($url, $data)
+    public function patch($url, $data, $customHeader = array())
     {
-        $response = $this->executeRequest(HttpHelper::METHOD_PATCH, $url, $data);
+        $response = $this->executeRequest(HttpHelper::METHOD_PATCH, $url, $data, $customHeader);
 
         return $this->parseResponse($response);
     }
@@ -222,12 +225,13 @@ class Connection
      * @throws Exception
      *
      * @param string $url - DELETE URL
+     * @param array $customHeader
      *
      * @return HttpResponse
      */
-    public function delete($url)
+    public function delete($url, $customHeader = array())
     {
-        $response = $this->executeRequest(HttpHelper::METHOD_DELETE, $url, '');
+        $response = $this->executeRequest(HttpHelper::METHOD_DELETE, $url, '', $customHeader);
 
         return $this->parseResponse($response);
     }
@@ -321,11 +325,11 @@ class Connection
      * @param string $method - HTTP request method
      * @param string $url    - HTTP URL
      * @param string $data   - data to post in body
-     * @param array $customerHeader - any arry containing header elements
+     * @param array $customHeader - any arry containing header elements
      *
      * @return HttpResponse
      */
-    private function executeRequest($method, $url, $data, $customerHeader = array())
+    private function executeRequest($method, $url, $data, $customHeader = array())
     {
         HttpHelper::validateMethod($method);
         $database = $this->getDatabase();
@@ -341,10 +345,10 @@ class Connection
 
             if ($this->_captureBatch === true) {
                 $this->_options->offsetSet(ConnectionOptions::OPTION_BATCHPART, true);
-                $request = HttpHelper::buildRequest($this->_options, $method, $url, $data, $customerHeader);
+                $request = HttpHelper::buildRequest($this->_options, $method, $url, $data, $customHeader);
                 $this->_options->offsetSet(ConnectionOptions::OPTION_BATCHPART, false);
             } else {
-                $request = HttpHelper::buildRequest($this->_options, $method, $url, $data, $customerHeader);
+                $request = HttpHelper::buildRequest($this->_options, $method, $url, $data, $customHeader);
             }
 
             if ($this->_captureBatch === true) {
@@ -358,7 +362,7 @@ class Connection
 
             $this->_options->offsetSet(ConnectionOptions::OPTION_BATCH, true);
 
-            $request = HttpHelper::buildRequest($this->_options, $method, $url, $data, $customerHeader);
+            $request = HttpHelper::buildRequest($this->_options, $method, $url, $data, $customHeader);
             $this->_options->offsetSet(ConnectionOptions::OPTION_BATCH, false);
         }
 
