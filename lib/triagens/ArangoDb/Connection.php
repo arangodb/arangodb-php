@@ -137,7 +137,7 @@ class Connection
      * @throws Exception
      *
      * @param string $url - GET URL
-     * @param array $customHeader
+     * @param array  $customHeader
      *
      * @return HttpResponse
      */
@@ -155,7 +155,7 @@ class Connection
      *
      * @param string $url  - POST URL
      * @param string $data - body to post
-     * @param array $customHeader
+     * @param array  $customHeader
      *
      * @return HttpResponse
      */
@@ -173,7 +173,7 @@ class Connection
      *
      * @param string $url  - PUT URL
      * @param string $data - body to post
-     * @param array $customHeader
+     * @param array  $customHeader
      *
      * @return HttpResponse
      */
@@ -189,8 +189,8 @@ class Connection
      *
      * @throws Exception
      *
-     * @param string $url  - PUT URL
-     * @param array $customHeader
+     * @param string $url - PUT URL
+     * @param array  $customHeader
      *
      * @return HttpResponse
      */
@@ -208,7 +208,7 @@ class Connection
      *
      * @param string $url  - PATCH URL
      * @param string $data - patch body
-     * @param array $customHeader
+     * @param array  $customHeader
      *
      * @return HttpResponse
      */
@@ -225,7 +225,7 @@ class Connection
      * @throws Exception
      *
      * @param string $url - DELETE URL
-     * @param array $customHeader
+     * @param array  $customHeader
      *
      * @return HttpResponse
      */
@@ -297,7 +297,7 @@ class Connection
             if ($body != '') {
                 // check if we can find details in the response body
                 $details = json_decode($body, true);
-                if (is_array($details) && isset($details["errorMessage"])) { 
+                if (is_array($details) && isset($details["errorMessage"])) {
                     // yes, we got details
                     $exception = new ServerException($details["errorMessage"], $details["code"]);
                     $exception->setDetails($details);
@@ -322,10 +322,10 @@ class Connection
      *
      * @throws Exception
      *
-     * @param string $method - HTTP request method
-     * @param string $url    - HTTP URL
-     * @param string $data   - data to post in body
-     * @param array $customHeader - any arry containing header elements
+     * @param string $method       - HTTP request method
+     * @param string $url          - HTTP URL
+     * @param string $data         - data to post in body
+     * @param array  $customHeader - any array containing header elements
      *
      * @return HttpResponse
      */
@@ -398,25 +398,24 @@ class Connection
                 $timeTaken = microtime(true) - $startTime;
             }
 
+            $status = socket_get_status($handle);
+            if ($status['timed_out']) {
+                throw new ClientException('Got a timeout while waiting for the server\'s response', 408);
+            }
+
             if (!$this->_useKeepAlive) {
                 // must close the connection
                 fclose($handle);
             }
 
-            /*
-                        $status = socket_get_status($handle);
-                        if ($status['timed_out']) {
-                            throw new ClientException('Got a timeout when waiting on the server\'s response');
-                        }
-            */
             $response = new HttpResponse($result, $url, $method);
 
             if ($traceFunc) {
                 // call tracer func
                 if ($this->_options[ConnectionOptions::OPTION_ENHANCED_TRACE]) {
                     $traceFunc(
-                        new TraceResponse($response->getHeaders(), $response->getHttpCode(), $response->getBody(
-                        ), $timeTaken)
+                        new TraceResponse($response->getHeaders(), $response->getHttpCode(), $response->getBody(),
+                            $timeTaken)
                     );
                 } else {
                     $traceFunc('receive', $result);
@@ -447,7 +446,7 @@ class Connection
      */
     public static function getClientVersion()
     {
-         return self::$_apiVersion;
+        return self::$_apiVersion;
     }
 
     /**
@@ -635,10 +634,11 @@ class Connection
             self::check_encoding($data);
         }
         if (empty($data)) {
-        	$response = json_encode($data, $options | JSON_FORCE_OBJECT);
+            $response = json_encode($data, $options | JSON_FORCE_OBJECT);
         } else {
             $response = json_encode($data, $options);
         }
+
         return $response;
     }
 
