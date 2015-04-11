@@ -22,22 +22,22 @@ class QueryTest extends
 {
     public function setUp()
     {
-        $this->connection        = getConnection();
-        $this->queryHandler      = new QueryHandler($this->connection);
+        $this->connection   = getConnection();
+        $this->queryHandler = new QueryHandler($this->connection);
 
         $this->queryHandler->clearSlow();
     }
 
     /**
-     * Test current query 
+     * Test current query
      */
     public function testCurrentAndKill()
     {
-        $query = "RETURN SLEEP(30)";
+        $query   = "RETURN SLEEP(30)";
         $command = 'require("internal").db._query("' . $query . '");';
 
         // executes the command on the server
-        $this->connection->post("/_admin/execute", $command, array("X-Arango-Async" => "true"));
+        $this->connection->post("/_admin/execute", $command, array ("X-Arango-Async" => "true"));
 
         // sleep a bit because we do not know when the server will start executing the query
         sleep(3);
@@ -47,7 +47,7 @@ class QueryTest extends
             if ($q['query'] === $query) {
                 ++$found;
                 $id = $q['id'];
-            } 
+            }
         }
         $this->assertEquals(1, $found);
 
@@ -55,7 +55,7 @@ class QueryTest extends
         $result = $this->queryHandler->kill($id);
         $this->assertTrue($result);
     }
-    
+
     /**
      * Test slow query - empty
      */
@@ -69,7 +69,7 @@ class QueryTest extends
      */
     public function testGetSlow()
     {
-        $query = 'RETURN SLEEP(11)';
+        $query = 'RETURN SLEEP(10)';
 
         $statement = new Statement($this->connection, array("query" => $query));
         $statement->execute();
@@ -79,8 +79,8 @@ class QueryTest extends
             if ($q['query'] === $query) {
                 ++$found;
 
-                $this->assertTrue($q['runTime'] >= 11);
-            } 
+                $this->assertTrue($q['runTime'] >= 10);
+            }
         }
         $this->assertEquals(1, $found);
 
@@ -91,9 +91,29 @@ class QueryTest extends
         foreach ($this->queryHandler->getSlow() as $q) {
             if ($q['query'] === $query) {
                 ++$found;
-            } 
+            }
         }
         $this->assertEquals(0, $found);
+    }
+
+
+    /**
+     * Test getting correct Timeout Exception
+     *
+     * @expectedException \triagens\ArangoDb\ClientException
+     */
+    public function testTimeoutException()
+    {
+        $query = 'RETURN SLEEP(13)';
+
+        $statement = new Statement($this->connection, array("query" => $query));
+
+        try {
+            $statement->execute();
+        } catch (ClientException $exception) {
+            $this->assertEquals($exception->getCode(), 408);
+                throw $exception;
+        }
     }
 
     public function tearDown()
