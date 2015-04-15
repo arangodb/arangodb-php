@@ -140,13 +140,28 @@ class Connection
      * @param string $value - value of option
      */
     public function setOption($name, $value) {
+        if ($name === ConnectionOptions::OPTION_ENDPOINT ||
+            $name === ConnectionOptions::OPTION_HOST ||
+            $name === ConnectionOptions::OPTION_PORT) {
+            throw new ClientException('Must not set option ' . $value . ' after connection is created.');
+        }
+
         $this->_options[$name] = $value;
 
-        // special handling for the timeout option: patch the stream of an existing connection
+        // special handling for several options
         if ($name === ConnectionOptions::OPTION_TIMEOUT) {
+            // set the timeout option: patch the stream of an existing connection
             if (is_resource($this->_handle)) {
                 stream_set_timeout($this->_handle, $value); 
             }
+        }
+        else if ($name === ConnectionOptions::OPTION_CONNECTION) {
+          // set keep-alive flag
+          $this->_useKeepAlive = ($value === 'Keep-Alive');
+        }
+        else if ($name === ConnectionOptions::OPTION_DATABASE) {
+          // set database
+          $this->setDatabase($value);
         }
     }
 
@@ -672,6 +687,7 @@ class Connection
      */
     public function setDatabase($database)
     {
+        $this->_options[ConnectionOptions::OPTION_DATABASE] = $database;
         $this->_database = $database;
     }
 
