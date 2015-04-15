@@ -56,6 +56,161 @@ class ConnectionTest extends
         $this->assertTrue($response->getHttpCode() == 200, 'Did not return http code 200');
     }
 
+    /**
+     * Test get options
+     */
+    public function testGetOptions()
+    {
+        $connection = getConnection();
+
+        $value = $connection->getOption(ConnectionOptions::OPTION_TIMEOUT);
+        $this->assertEquals(12, $value);
+        
+        $value = $connection->getOption(ConnectionOptions::OPTION_CONNECTION);
+        $this->assertEquals('Close', $value);
+        
+        $value = $connection->getOption(ConnectionOptions::OPTION_RECONNECT);
+        $this->assertFalse($value);
+
+        $value = $connection->getOption(ConnectionOptions::OPTION_DATABASE);
+        $this->assertEquals("_system", $value);
+    }
+    
+    /**
+     * Test set options
+     */
+    public function testSetOptions()
+    {
+        $connection = getConnection();
+
+        // timeout
+        $connection->setOption(ConnectionOptions::OPTION_TIMEOUT, 10);
+        $value = $connection->getOption(ConnectionOptions::OPTION_TIMEOUT);
+        $this->assertEquals(10, $value);
+        
+        // connection
+        $connection->setOption(ConnectionOptions::OPTION_CONNECTION, 'Keep-Alive');
+        $value = $connection->getOption(ConnectionOptions::OPTION_CONNECTION);
+        $this->assertEquals('Keep-Alive', $value);
+       
+        // reconnect 
+        $connection->setOption(ConnectionOptions::OPTION_RECONNECT, true);
+        $value = $connection->getOption(ConnectionOptions::OPTION_RECONNECT);
+        $this->assertTrue($value);
+        
+        $connection->setOption(ConnectionOptions::OPTION_RECONNECT, false);
+        $value = $connection->getOption(ConnectionOptions::OPTION_RECONNECT);
+        $this->assertFalse($value);
+    }
+    
+    /**
+     * Test set invalid options
+     *
+     * @expectedException \triagens\ArangoDb\ClientException
+     */
+    public function testSetEndpointOption()
+    {
+        $connection = getConnection();
+
+        // will fail!
+        $connection->setOption(ConnectionOptions::OPTION_ENDPOINT, "tcp://127.0.0.1:8529");
+    }
+    
+    /**
+     * Test set invalid options
+     *
+     * @expectedException \triagens\ArangoDb\ClientException
+     */
+    public function testSetHostOption()
+    {
+        $connection = getConnection();
+
+        // will fail!
+        $connection->setOption(ConnectionOptions::OPTION_HOST, "127.0.0.1");
+    }
+    
+    /**
+     * Test set invalid options
+     *
+     * @expectedException \triagens\ArangoDb\ClientException
+     */
+    public function testSetPortOption()
+    {
+        $connection = getConnection();
+
+        // will fail!
+        $connection->setOption(ConnectionOptions::OPTION_PORT, "127.0.0.1");
+    }
+    
+    /**
+     * Test get/set database
+     */
+    public function testGetSetDatabase()
+    {
+        $connection = getConnection();
+
+        $value = $connection->getOption(ConnectionOptions::OPTION_DATABASE);
+        $this->assertEquals("_system", $value);
+        
+        $value = $connection->getDatabase();
+        $this->assertEquals("_system", $value);
+       
+        // set the database to something else and re-check
+        $connection->setDatabase("foobar");
+        
+        $value = $connection->getOption(ConnectionOptions::OPTION_DATABASE);
+        $this->assertEquals("foobar", $value);
+        
+        $value = $connection->getDatabase();
+        $this->assertEquals("foobar", $value);
+        
+        // set the database back and re-check
+        $connection->setOption(ConnectionOptions::OPTION_DATABASE, "_system");
+        
+        $value = $connection->getOption(ConnectionOptions::OPTION_DATABASE);
+        $this->assertEquals("_system", $value);
+        
+        $value = $connection->getDatabase();
+        $this->assertEquals("_system", $value);
+    }
+    
+    /**
+     * Test timeout exception
+     *
+     * @expectedException \triagens\ArangoDb\ClientException
+     */
+    public function testSetTimeoutException()
+    {
+        $connection = getConnection();
+        $connection->setOption(ConnectionOptions::OPTION_TIMEOUT, 3);
+        $query = 'RETURN SLEEP(6)';
+
+        $statement = new Statement($connection, array("query" => $query));
+
+        try {
+            // this is expected to fail
+            $statement->execute();
+        } catch (ClientException $exception) {
+            $this->assertEquals($exception->getCode(), 408);
+            throw $exception;
+        }
+    }
+    
+    /**
+     * Test timeout, no exception
+     */
+    public function testSetTimeout()
+    {
+        $connection = getConnection();
+        $connection->setOption(ConnectionOptions::OPTION_TIMEOUT, 5);
+        $query = 'RETURN SLEEP(1)';
+
+        $statement = new Statement($connection, array("query" => $query));
+
+        // should work
+        $cursor = $statement->execute();
+        $this->assertEquals(1, count($cursor->getAll()));
+    }
 
     /**
      * Test if we can get the api version
