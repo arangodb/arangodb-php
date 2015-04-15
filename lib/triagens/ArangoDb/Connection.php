@@ -132,6 +132,25 @@ class Connection
     }
 
     /**
+     * Set an option set for the connection
+     *
+     * @throws ClientException
+     *
+     * @param string $name - name of option
+     * @param string $value - value of option
+     */
+    public function setOption($name, $value) {
+        $this->_options[$name] = $value;
+
+        // special handling for the timeout option: patch the stream of an existing connection
+        if ($name === ConnectionOptions::OPTION_TIMEOUT) {
+            if (is_resource($this->_handle)) {
+                stream_set_timeout($this->_handle, $value); 
+            }
+        }
+    }
+
+    /**
      * Issue an HTTP GET request
      *
      * @throws Exception
@@ -635,7 +654,7 @@ class Connection
             self::check_encoding($data);
         }
         if (empty($data)) {
-        	$response = json_encode($data, $options | JSON_FORCE_OBJECT);
+            $response = json_encode($data, $options | JSON_FORCE_OBJECT);
         } else {
             $response = json_encode($data, $options);
         }
