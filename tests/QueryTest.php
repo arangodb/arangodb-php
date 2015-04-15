@@ -112,7 +112,7 @@ class QueryTest extends
             $statement->execute();
         } catch (ClientException $exception) {
             $this->assertEquals($exception->getCode(), 408);
-                throw $exception;
+            throw $exception;
         }
     }
 
