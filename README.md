@@ -514,7 +514,7 @@ $export = new ArangoExport($connection, 'users', array());
 $cursor = $export->execute();
 
 // now we can fetch the documents from the collection in blocks
-while ($docs = $export->getNextBatch()) {
+while ($docs = $cursor->getNextBatch()) {
     // do something with $docs
     var_dump($docs);
 }
