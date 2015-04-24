@@ -63,6 +63,13 @@ class Export
     private $_type;
     
     /**
+     * export restrictions - either null for no restrictions or an array with a "type" and a "fields" index
+     *
+     * @var mixed
+     */
+    private $_restrictions;
+    
+    /**
      * Count option index
      */
     const ENTRY_COUNT = 'count';
@@ -76,6 +83,11 @@ class Export
      * Flush option index
      */
     const ENTRY_FLUSH = 'flush';
+
+    /**
+     * Export restrictions
+     */
+    const ENTRY_RESTRICT = 'restrict';
 
     /**
      * Initialize the export
@@ -106,6 +118,26 @@ class Export
 
         if (isset($data[self::ENTRY_BATCHSIZE])) {
             $this->setBatchSize($data[self::ENTRY_BATCHSIZE]);
+        }
+        
+        if (isset($data[self::ENTRY_RESTRICT]) &&
+            is_array($data[self::ENTRY_RESTRICT])) {
+            $restrictions = $data[self::ENTRY_RESTRICT];
+
+            if (! isset($restrictions["type"]) || 
+                ! in_array($restrictions["type"], array("include", "exclude"), true)) {
+                // validate restrictions.type
+                throw new ClientException('Invalid restrictions type definition');
+            }
+
+            if (! isset($restrictions["fields"]) || 
+                ! is_array($restrictions["fields"])) {
+                // validate restrictions.fields
+                throw new ClientException('Invalid restrictions fields definition');
+            }
+            
+            // all valid 
+            $this->_restrictions = $restrictions;
         }
 
         if (isset($data[ExportCursor::ENTRY_FLAT])) {
@@ -142,11 +174,15 @@ class Export
             $data[self::ENTRY_BATCHSIZE] = $this->_batchSize;
         }
 
+        if (is_array($this->_restrictions)) {
+            $data[self::ENTRY_RESTRICT] = $this->_restrictions;
+        }
+
         $collection = $this->_collection;
         if ($collection instanceof Collection) {
             $collection = $collection->getName();
-        } 
-
+        }
+        
         $url = UrlHelper::appendParamsUrl(Urls::URL_EXPORT, array("collection" => $collection));
         $response = $this->_connection->post($url, $this->getConnection()->json_encode_wrapper($data));
         
