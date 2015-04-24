@@ -58,7 +58,7 @@ The autoloader will care about loading additionally required classes on the fly.
 
 The ArangoDB PHP client is an API that allows you to send and retrieve documents from ArangoDB from out of your PHP application. The client library itself is written in PHP and has no further dependencies but just plain PHP 5.3 (or higher).
 
-The client library provides document and collection classes you can use to work with documents and collections in an OO fashion. When exchanging document data with the server, the library internally will use the [HTTP REST interface of ArangoDB](https://docs.arangodb.com/HttpApi/README.html). The library user does not have to care about this fact as all the details of the REST interface are abstracted by the client library.
+The client library provides document and collection classes you can use to work with documents and collections in an OO fashion. When exchanging document data with the server, the library internally will use the [HTTP REST interface of ArangoDB](https://docs.arangodb.com/HttpApi/index.html). The library user does not have to care about this fact as all the details of the REST interface are abstracted by the client library.
 
 <br>
 
@@ -225,22 +225,24 @@ use triagens\ArangoDb\UpdatePolicy as ArangoUpdatePolicy;
 
 // set up some basic connection options
 $connectionOptions = array(
+    // database name
+    ArangoConnectionOptions::OPTION_DATABASE      => '_system',
     // server endpoint to connect to
-    ArangoConnectionOptions::OPTION_ENDPOINT => 'tcp://127.0.0.1:8529',
+    ArangoConnectionOptions::OPTION_ENDPOINT      => 'tcp://127.0.0.1:8529',
     // authorization type to use (currently supported: 'Basic')
-    ArangoConnectionOptions::OPTION_AUTH_TYPE => 'Basic',
+    ArangoConnectionOptions::OPTION_AUTH_TYPE     => 'Basic',
     // user for basic authorization
-    ArangoConnectionOptions::OPTION_AUTH_USER => 'root',
+    ArangoConnectionOptions::OPTION_AUTH_USER     => 'root',
     // password for basic authorization
-    ArangoConnectionOptions::OPTION_AUTH_PASSWD => '',
+    ArangoConnectionOptions::OPTION_AUTH_PASSWD   => '',
     // connection persistence on server. can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
-    ArangoConnectionOptions::OPTION_CONNECTION => 'Keep-Alive',
+    ArangoConnectionOptions::OPTION_CONNECTION    => 'Keep-Alive',
     // connect timeout in seconds
-    ArangoConnectionOptions::OPTION_TIMEOUT => 3,
+    ArangoConnectionOptions::OPTION_TIMEOUT       => 3,
     // whether or not to reconnect when a keep-alive connection has timed out on server
-    ArangoConnectionOptions::OPTION_RECONNECT => true,
+    ArangoConnectionOptions::OPTION_RECONNECT     => true,
     // optionally create new collections when inserting documents
-    ArangoConnectionOptions::OPTION_CREATE => true,
+    ArangoConnectionOptions::OPTION_CREATE        => true,
     // optionally create new collections when inserting documents
     ArangoConnectionOptions::OPTION_UPDATE_POLICY => ArangoUpdatePolicy::LAST,
 );
@@ -589,22 +591,24 @@ use triagens\ArangoDb\UpdatePolicy as ArangoUpdatePolicy;
 
 // set up some basic connection options
 $connectionOptions = array(
+    // database name
+    ArangoConnectionOptions::OPTION_DATABASE      => '_system',
     // server endpoint to connect to
-    ArangoConnectionOptions::OPTION_ENDPOINT => 'tcp://127.0.0.1:8529',
+    ArangoConnectionOptions::OPTION_ENDPOINT      => 'tcp://127.0.0.1:8529',
     // authorization type to use (currently supported: 'Basic')
-    ArangoConnectionOptions::OPTION_AUTH_TYPE => 'Basic',
+    ArangoConnectionOptions::OPTION_AUTH_TYPE     => 'Basic',
     // user for basic authorization
-    ArangoConnectionOptions::OPTION_AUTH_USER => 'root',
+    ArangoConnectionOptions::OPTION_AUTH_USER     => 'root',
     // password for basic authorization
-    ArangoConnectionOptions::OPTION_AUTH_PASSWD => '',
+    ArangoConnectionOptions::OPTION_AUTH_PASSWD   => '',
     // connection persistence on server. can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
-    ArangoConnectionOptions::OPTION_CONNECTION => 'Keep-Alive',
+    ArangoConnectionOptions::OPTION_CONNECTION    => 'Keep-Alive',
     // connect timeout in seconds
-    ArangoConnectionOptions::OPTION_TIMEOUT => 3,
+    ArangoConnectionOptions::OPTION_TIMEOUT       => 3,
     // whether or not to reconnect when a keep-alive connection has timed out on server
-    ArangoConnectionOptions::OPTION_RECONNECT => true,
+    ArangoConnectionOptions::OPTION_RECONNECT     => true,
     // optionally create new collections when inserting documents
-    ArangoConnectionOptions::OPTION_CREATE => true,
+    ArangoConnectionOptions::OPTION_CREATE        => true,
     // optionally create new collections when inserting documents
     ArangoConnectionOptions::OPTION_UPDATE_POLICY => ArangoUpdatePolicy::LAST,
 );
