@@ -479,7 +479,7 @@ class ExportTest extends
     public function testExportRestrictInvalidType()
     {
         if (! $this->hasExportApi) {
-            return;
+            throw new ClientException('Invalid restrictions type definition');
         }
 
         $export = new Export($this->connection, $this->collection, array(
@@ -496,7 +496,7 @@ class ExportTest extends
     public function testExportRestrictMissingType()
     {
         if (! $this->hasExportApi) {
-            return;
+            throw new ClientException('Invalid restrictions type definition');
         }
 
         $export = new Export($this->connection, $this->collection, array(
@@ -513,7 +513,7 @@ class ExportTest extends
     public function testExportRestrictInvalidFields()
     {
         if (! $this->hasExportApi) {
-            return;
+            throw new ClientException('Invalid restrictions fields definition');
         }
 
         $export = new Export($this->connection, $this->collection, array(
@@ -530,7 +530,7 @@ class ExportTest extends
     public function testExportRestrictMissingFields()
     {
         if (! $this->hasExportApi) {
-            return;
+            throw new ClientException('Invalid restrictions fields definition');
         }
 
         $export = new Export($this->connection, $this->collection, array(
