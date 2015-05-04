@@ -204,10 +204,10 @@ class EdgeHandler extends
     {
 
         $params   = array(
-            self::OPTION_COLLECTION => $collectionId,
             self::OPTION_VERTEX     => $vertexHandle,
             self::OPTION_DIRECTION  => $direction
         );
+		$url      = UrlHelper::buildUrl(Urls::URL_EDGES, array($collectionId));
         $url      = UrlHelper::appendParamsUrl(Urls::URL_EDGE, $params);
         $response = $this->getConnection()->get($url);
         $json     = $response->getJson();

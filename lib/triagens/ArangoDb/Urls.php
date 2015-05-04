@@ -29,6 +29,11 @@ abstract class Urls
      * URL base part for all document-related REST calls
      */
     const URL_EDGE = '/_api/edge';
+    
+	/**
+     * URL base part for all edges-related REST calls
+     */
+    const URL_EDGES = '/_api/edges';
 
     /**
      * URL base part for all document-related REST calls
