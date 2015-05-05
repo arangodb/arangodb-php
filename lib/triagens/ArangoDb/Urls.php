@@ -21,39 +21,34 @@ namespace triagens\ArangoDb;
 abstract class Urls
 {
     /**
-     * URL base part for all document-related REST calls
+     * URL base part for document-related CRUD operations REST calls
      */
     const URL_DOCUMENT = '/_api/document';
 
     /**
-     * URL base part for all document-related REST calls
+     * URL base part for edge-related CRUD operations REST calls
      */
     const URL_EDGE = '/_api/edge';
+    
+    /**
+     * URL base part for all retrieving connected edges
+     */
+    const URL_EDGES = '/_api/edges';
 
     /**
-     * URL base part for all document-related REST calls
+     * URL base part for all graph-related REST calls
      */
     const URL_GRAPH = '/_api/gharial';
 
     /**
-     * URL base part for all document-related REST calls
+     * URL part vertex-related graph REST calls
      */
     const URLPART_VERTEX = 'vertex';
 
     /**
-     * URL base part for all document-related REST calls
-     */
-    const URLPART_VERTICES = 'vertices';
-
-    /**
-     * URL base part for all document-related REST calls
+     * URL part for edge-related graph REST calls
      */
     const URLPART_EDGE = 'edge';
-
-    /**
-     * URL base part for all document-related REST calls
-     */
-    const URLPART_EDGES = 'edges';
 
     /**
      * URL base part for all collection-related REST calls

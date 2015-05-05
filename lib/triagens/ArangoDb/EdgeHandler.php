@@ -30,6 +30,11 @@ class EdgeHandler extends
      * documents array index
      */
     const ENTRY_DOCUMENTS = 'edge';
+    
+    /**
+     * edges array index
+     */
+    const ENTRY_EDGES = 'edges';
 
     /**
      * collection parameter
@@ -192,42 +197,50 @@ class EdgeHandler extends
 
 
     /**
-     * Get edges for a given vertex
+     * Get connected edges for a given vertex
      *
      * @throws Exception
      *
      * @param mixed  $collectionId - edge-collection id as string or number
      * @param mixed  $vertexHandle - the vertex involved
      * @param string $direction    - optional defaults to 'any'. Other possible Values 'in' & 'out'
+     * @param array $options       - optional, array of options
+     *                               <p>Options are :
+     *                               <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
+     *                               <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+     *                               </p>
      *
-     * @return array - array of cursors
+     * @return array - array of connected edges
      * @since 1.0
      */
-    public function edges($collectionId, $vertexHandle, $direction = 'any')
+    public function edges($collectionId, $vertexHandle, $direction = 'any', array $options = array())
     {
-
         $params   = array(
-            self::OPTION_COLLECTION => $collectionId,
             self::OPTION_VERTEX     => $vertexHandle,
             self::OPTION_DIRECTION  => $direction
         );
-        $url      = UrlHelper::appendParamsUrl(Urls::URL_EDGE, $params);
+        $url      = UrlHelper::appendParamsUrl(Urls::URL_EDGES . '/' . urlencode($collectionId), $params);
         $response = $this->getConnection()->get($url);
         $json     = $response->getJson();
+       
+        $edges = array();
+        foreach ($json[self::ENTRY_EDGES] as $data) {
+           $edges[] = $this->createFromArrayWithContext($data, $options);
+        }
 
-        return $json;
+        return $edges;
     }
 
 
     /**
-     * Get inbound edges for a given vertex
+     * Get connected inbound edges for a given vertex
      *
      * @throws Exception
      *
      * @param mixed $collectionId - edge-collection id as string or number
      * @param mixed $vertexHandle - the vertex involved
      *
-     * @return array - array of cursors
+     * @return array - array of connected edges
      */
     public function inEdges($collectionId, $vertexHandle)
     {
@@ -235,14 +248,14 @@ class EdgeHandler extends
     }
 
     /**
-     * Get outbound edges for a given vertex
+     * Get connected outbound edges for a given vertex
      *
      * @throws Exception
      *
      * @param mixed $collectionId - edge-collection id as string or number
      * @param mixed $vertexHandle - the vertex involved
      *
-     * @return array - array of cursors
+     * @return array - array of connected edges
      */
     public function outEdges($collectionId, $vertexHandle)
     {

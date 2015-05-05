@@ -114,7 +114,36 @@ class DocumentBasicTest extends
         $collection      = $this->collection;
         $documentHandler = new DocumentHandler($connection);
 
-        $keys = array("foo", "bar", "bar:bar", "baz", "1", "0", "a-b-c", "a:b", "this-is-a-test", "FOO", "BAR", "Bar", "bAr");
+        $keys = array(
+            "_",
+            "foo", 
+            "bar", 
+            "bar:bar", 
+            "baz", 
+            "1", 
+            "0", 
+            "a-b-c", 
+            "a:b", 
+            "this-is-a-test", 
+            "FOO", 
+            "BAR", 
+            "Bar", 
+            "bAr"
+        );
+        
+        $adminHandler = new AdminHandler($this->connection);
+        $version = preg_replace("/-[a-z0-9]+$/", "", $adminHandler->getServerVersion());
+
+        if (version_compare($version, '2.6.0') >= 0) {
+            // 2.6 will also allow the following document keys, while 2.5 will not
+            $keys[] = ".";
+            $keys[] = ":";
+            $keys[] = "@";
+            $keys[] = "-.:@";
+            $keys[] = "foo@bar.baz.com";
+            $keys[] = ":.foo@bar-bar_bar.baz.com.:";
+        }
+
         foreach ($keys as $key) {
           $document        = new Document();
           $document->someAttribute = 'someValue';
@@ -148,10 +177,27 @@ class DocumentBasicTest extends
         $collection      = $this->collection;
         $documentHandler = new DocumentHandler($connection);
 
-        $keys = array("", " ", " bar", "bar ", "/", "?", "abcdef gh", "abcxde&", "mötörhead", "this-key-will-be-too-long-to-be-processed-successfully-would-you-agree-with-me-sure-you-will-because-there-is-a-limit-of-254-characters-per-key-which-this-string-will-not-conform-to-if-you-are-still-reading-this-you-should-probably-do-something-else-right-now-REALLY");
+        $keys = array(
+            "", 
+            " ", 
+            " bar", 
+            "bar ", 
+            "/", 
+            "?", 
+            "abcdef gh", 
+            "abcxde&", 
+            "mötörhead", 
+            "this-key-will-be-too-long-to-be-processed-successfully-would-you-agree-with-me-sure-you-will-because-there-is-a-limit-of-254-characters-per-key-which-this-string-will-not-conform-to-if-you-are-still-reading-this-you-should-probably-do-something-else-right-now-REALLY", 
+            "#", 
+            "|",
+            "ü",
+            "~",
+            "<>",
+            "µµ"
+        );
 
         foreach ($keys as $key) {
-          $document        = new Document();
+          $document = new Document();
           $document->someAttribute = 'someValue';
 
           $caught = false;

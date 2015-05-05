@@ -119,11 +119,8 @@ class EdgeBasicTest extends
 
 
         $edgesQuery1Result = $edgeDocumentHandler->edges($edgeCollection->getName(), $documentHandle1, 'out');
-        $this->assertArrayHasKey(
-             'documents',
-             $edgesQuery1Result,
-             "edges didn't return an array with a documents attribute!"
-        );
+
+        $this->assertEquals(2, count($edgesQuery1Result));
 
         $statement = new Statement($connection, array(
                                                      "query"     => '',
@@ -214,11 +211,8 @@ class EdgeBasicTest extends
 
 
         $edgesQuery1Result = $edgeDocumentHandler->edges($edgeCollection->getId(), $documentHandle1, 'out');
-        $this->assertArrayHasKey(
-             'documents',
-             $edgesQuery1Result,
-             "edges didn't return an array with a documents attribute!"
-        );
+        
+        $this->assertEquals(2, count($edgesQuery1Result));
 
         $statement = new Statement($connection, array(
                                                      "query"     => '',
@@ -384,6 +378,322 @@ class EdgeBasicTest extends
         $documentHandler->delete($document1);
         $documentHandler->delete($document2);
         $edgeHandler->deleteById($edgeCollection->getName(), $edgeId);
+    }
+    
+    /**
+     * Test collectionHandler::getAllIds on an edge collection
+     */
+    public function testGetAllIds()
+    {
+        $connection     = $this->connection;
+        $edgeCollection = $this->edgeCollection;
+
+        $document1       = new Document();
+        $document2       = new Document();
+        $documentHandler = new DocumentHandler($connection);
+
+        $edgeDocumentHandler = new EdgeHandler($connection);
+
+        $document1->someAttribute = 'someValue1';
+        $document2->someAttribute = 'someValue2';
+
+        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
+        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandle1 = $document1->getHandle();
+        $documentHandle2 = $document2->getHandle();
+
+        $edgeDocument1 = $edgeDocumentHandler->saveEdge(
+                                              $edgeCollection->getName(),
+                                              $documentHandle1,
+                                              $documentHandle2,
+                                              array('value' => 1)
+        );
+        
+        $edgeDocument2 = $edgeDocumentHandler->saveEdge(
+                                              $edgeCollection->getName(),
+                                              $documentHandle2,
+                                              $documentHandle1,
+                                              array('value' => 2)
+        );
+        
+        $edgeDocument3 = $edgeDocumentHandler->saveEdge(
+                                              $edgeCollection->getName(),
+                                              $documentHandle1,
+                                              $documentHandle2,
+                                              array('value' => 3)
+        );
+
+        $result = $this->collectionHandler->getAllIds($edgeCollection->getName());
+
+        $this->assertEquals(3, count($result));
+
+        $this->assertTrue(in_array($edgeDocument1, $result));
+        $this->assertTrue(in_array($edgeDocument2, $result));
+        $this->assertTrue(in_array($edgeDocument3, $result));
+    }
+    
+    /**
+     * Test edges method
+     */
+    public function testEdges()
+    {
+        $connection     = $this->connection;
+        $edgeCollection = $this->edgeCollection;
+
+        $document1       = new Document();
+        $document2       = new Document();
+        $documentHandler = new DocumentHandler($connection);
+
+        $edgeDocumentHandler = new EdgeHandler($connection);
+
+        $document1->someAttribute = 'someValue1';
+        $document2->someAttribute = 'someValue2';
+
+        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
+        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandle1 = $document1->getHandle();
+        $documentHandle2 = $document2->getHandle();
+
+        $edgeDocument1 = $edgeDocumentHandler->saveEdge(
+                                              $edgeCollection->getName(),
+                                              $documentHandle1,
+                                              $documentHandle2,
+                                              array('value' => 1)
+        );
+        
+        $edgeDocument2 = $edgeDocumentHandler->saveEdge(
+                                              $edgeCollection->getName(),
+                                              $documentHandle2,
+                                              $documentHandle1,
+                                              array('value' => 2)
+        );
+        
+        $edgeDocument3 = $edgeDocumentHandler->saveEdge(
+                                              $edgeCollection->getName(),
+                                              $documentHandle1,
+                                              $documentHandle2,
+                                              array('value' => 3)
+        );
+
+        $edgesQueryResult = $edgeDocumentHandler->edges($edgeCollection->getName(), $documentHandle1);
+
+        $this->assertEquals(3, count($edgesQueryResult));
+        foreach ($edgesQueryResult as $edge) {
+            $this->assertInstanceOf('triagens\ArangoDb\Edge', $edge);
+
+            if ($edge->value === 1) {
+                $this->assertEquals($documentHandle1, $edge->getFrom());
+                $this->assertEquals($documentHandle2, $edge->getTo());
+                $this->assertEquals($edgeDocument1, $edge->getId());
+            }
+            else if ($edge->value === 2) {
+                $this->assertEquals($documentHandle2, $edge->getFrom());
+                $this->assertEquals($documentHandle1, $edge->getTo());
+                $this->assertEquals($edgeDocument2, $edge->getId());
+            }
+            else {
+                $this->assertEquals($documentHandle1, $edge->getFrom());
+                $this->assertEquals($documentHandle2, $edge->getTo());
+                $this->assertEquals($edgeDocument3, $edge->getId());
+            }
+        }
+        
+        // test empty result
+        $edgesQueryResult = $edgeDocumentHandler->edges($edgeCollection->getName(), "ArangoDBPHPTestSuiteTestCollection01/foobar");
+        $this->assertEquals(0, count($edgesQueryResult));
+    }
+    
+    /**
+     * Test edges method
+     */
+    public function testEdgesAny()
+    {
+        $connection     = $this->connection;
+        $edgeCollection = $this->edgeCollection;
+
+        $document1       = new Document();
+        $document2       = new Document();
+        $documentHandler = new DocumentHandler($connection);
+
+        $edgeDocumentHandler = new EdgeHandler($connection);
+
+        $document1->someAttribute = 'someValue1';
+        $document2->someAttribute = 'someValue2';
+
+        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
+        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandle1 = $document1->getHandle();
+        $documentHandle2 = $document2->getHandle();
+
+        $edgeDocument1 = $edgeDocumentHandler->saveEdge(
+                                              $edgeCollection->getName(),
+                                              $documentHandle1,
+                                              $documentHandle2,
+                                              array('value' => 1)
+        );
+        
+        $edgeDocument2 = $edgeDocumentHandler->saveEdge(
+                                              $edgeCollection->getName(),
+                                              $documentHandle2,
+                                              $documentHandle1,
+                                              array('value' => 2)
+        );
+        
+        $edgeDocument3 = $edgeDocumentHandler->saveEdge(
+                                              $edgeCollection->getName(),
+                                              $documentHandle1,
+                                              $documentHandle2,
+                                              array('value' => 3)
+        );
+
+        $edgesQueryResult = $edgeDocumentHandler->edges($edgeCollection->getName(), $documentHandle1, "any");
+
+        $this->assertEquals(3, count($edgesQueryResult));
+        foreach ($edgesQueryResult as $edge) {
+            $this->assertInstanceOf('triagens\ArangoDb\Edge', $edge);
+
+            if ($edge->value === 1) {
+                $this->assertEquals($documentHandle1, $edge->getFrom());
+                $this->assertEquals($documentHandle2, $edge->getTo());
+                $this->assertEquals($edgeDocument1, $edge->getId());
+            }
+            else if ($edge->value === 2) {
+                $this->assertEquals($documentHandle2, $edge->getFrom());
+                $this->assertEquals($documentHandle1, $edge->getTo());
+                $this->assertEquals($edgeDocument2, $edge->getId());
+            }
+            else {
+                $this->assertEquals($documentHandle1, $edge->getFrom());
+                $this->assertEquals($documentHandle2, $edge->getTo());
+                $this->assertEquals($edgeDocument3, $edge->getId());
+            }
+        }
+        
+        // test empty result
+        $edgesQueryResult = $edgeDocumentHandler->edges($edgeCollection->getName(), "ArangoDBPHPTestSuiteTestCollection01/foobar", "any");
+        $this->assertEquals(0, count($edgesQueryResult));
+    }
+    
+    /**
+     * Test inEdges method
+     */
+    public function testEdgesIn()
+    {
+        $connection     = $this->connection;
+        $edgeCollection = $this->edgeCollection;
+
+        $document1       = new Document();
+        $document2       = new Document();
+        $documentHandler = new DocumentHandler($connection);
+
+        $edgeDocumentHandler = new EdgeHandler($connection);
+
+        $document1->someAttribute = 'someValue1';
+        $document2->someAttribute = 'someValue2';
+
+        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
+        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandle1 = $document1->getHandle();
+        $documentHandle2 = $document2->getHandle();
+
+        $edgeDocument1 = $edgeDocumentHandler->saveEdge(
+                                              $edgeCollection->getName(),
+                                              $documentHandle1,
+                                              $documentHandle2,
+                                              array('value' => 1)
+        );
+        
+        $edgeDocument2 = $edgeDocumentHandler->saveEdge(
+                                              $edgeCollection->getName(),
+                                              $documentHandle2,
+                                              $documentHandle1,
+                                              array('value' => 2)
+        );
+        
+        $edgeDocument3 = $edgeDocumentHandler->saveEdge(
+                                              $edgeCollection->getName(),
+                                              $documentHandle1,
+                                              $documentHandle2,
+                                              array('value' => 3)
+        );
+
+        $edgesQueryResult = $edgeDocumentHandler->inEdges($edgeCollection->getName(), $documentHandle1);
+
+        $this->assertEquals(1, count($edgesQueryResult));
+        $edge = $edgesQueryResult[0];
+        $this->assertEquals($documentHandle2, $edge->getFrom());
+        $this->assertEquals($documentHandle1, $edge->getTo());
+        $this->assertEquals($edgeDocument2, $edge->getId());
+        
+        // test empty result
+        $edgesQueryResult = $edgeDocumentHandler->inEdges($edgeCollection->getName(), "ArangoDBPHPTestSuiteTestCollection01/foobar");
+        $this->assertEquals(0, count($edgesQueryResult));
+    }
+    
+    /**
+     * Test outEdges method
+     */
+    public function testEdgesOut()
+    {
+        $connection     = $this->connection;
+        $edgeCollection = $this->edgeCollection;
+
+        $document1       = new Document();
+        $document2       = new Document();
+        $documentHandler = new DocumentHandler($connection);
+
+        $edgeDocumentHandler = new EdgeHandler($connection);
+
+        $document1->someAttribute = 'someValue1';
+        $document2->someAttribute = 'someValue2';
+
+        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
+        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandle1 = $document1->getHandle();
+        $documentHandle2 = $document2->getHandle();
+
+        $edgeDocument1 = $edgeDocumentHandler->saveEdge(
+                                              $edgeCollection->getName(),
+                                              $documentHandle1,
+                                              $documentHandle2,
+                                              array('value' => 1)
+        );
+        
+        $edgeDocument2 = $edgeDocumentHandler->saveEdge(
+                                              $edgeCollection->getName(),
+                                              $documentHandle2,
+                                              $documentHandle1,
+                                              array('value' => 2)
+        );
+        
+        $edgeDocument3 = $edgeDocumentHandler->saveEdge(
+                                              $edgeCollection->getName(),
+                                              $documentHandle1,
+                                              $documentHandle2,
+                                              array('value' => 3)
+        );
+
+        $edgesQueryResult = $edgeDocumentHandler->outEdges($edgeCollection->getName(), $documentHandle1);
+
+        $this->assertEquals(2, count($edgesQueryResult));
+        foreach ($edgesQueryResult as $edge) {
+            $this->assertInstanceOf('triagens\ArangoDb\Edge', $edge);
+
+            if ($edge->value === 1) {
+                $this->assertEquals($documentHandle1, $edge->getFrom());
+                $this->assertEquals($documentHandle2, $edge->getTo());
+                $this->assertEquals($edgeDocument1, $edge->getId());
+            }
+            else {
+                $this->assertEquals($documentHandle1, $edge->getFrom());
+                $this->assertEquals($documentHandle2, $edge->getTo());
+                $this->assertEquals($edgeDocument3, $edge->getId());
+            }
+        }
+        
+        // test empty result
+        $edgesQueryResult = $edgeDocumentHandler->outEdges($edgeCollection->getName(), "ArangoDBPHPTestSuiteTestCollection01/foobar");
+        $this->assertEquals(0, count($edgesQueryResult));
     }
 
     public function tearDown()

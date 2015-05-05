@@ -1949,7 +1949,8 @@ class GraphHandler extends
      	$options['objectType'] = 'distanceTo';
      	$data                  = array_merge($options, $this->getCursorOptions($options));
      	$statement = new Statement($this->getConnection(), array(
-     			"query"     => ''
+     			"query"     => '',
+                        "_flat"     => true
      	));
      	$statement->setResultType($options['objectType']);
      	$aql = "FOR a IN GRAPH_DISTANCE_TO(@graphName, @start, @end , @options) ";
@@ -2466,7 +2467,6 @@ class GraphHandler extends
      /**
       * Get the <a href="http://en.wikipedia.org/wiki/Betweenness_centrality">betweenness</a> of a graph.
       *
-      * This will throw if the list cannot be fetched from the server
       * This does not support 'batchsize', 'limit' and 'count'.<br><br>
       *
       * @throws Exception
@@ -2487,8 +2487,7 @@ class GraphHandler extends
       *
       * @return array
       */
-     public function getBetweenness($graph,
-     $options = array())
+     public function getBetweenness($graph, $options = array())
      {
      	if ($graph instanceof Graph) {
      		$graph = $graph->getKey();
@@ -2497,7 +2496,8 @@ class GraphHandler extends
      	$options['objectType'] = 'figure';
      	$data                  = array_merge($options, $this->getCursorOptions($options));
      	$statement = new Statement($this->getConnection(), array(
-     			"query"     => ''
+     			"query"     => '',
+                        "_flat"     => true
      	));
      	$statement->setResultType($options['objectType']);
      	$aql = "RETURN GRAPH_BETWEENNESS(@graphName, @options) ";
@@ -2515,7 +2515,9 @@ class GraphHandler extends
      	$statement->bind('options', $options);
      	 
      	$statement->setQuery($aql);
-     	return $statement->execute()->getAll();
+     	$result = $statement->execute()->getAll();
+
+        return $result[0];
      }
      
      /**

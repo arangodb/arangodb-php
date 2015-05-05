@@ -29,21 +29,23 @@ abstract class UrlHelper
      */
     public static function getDocumentIdFromLocation($location)
     {
-        @list(, , , , , , $id) = explode('/', $location);
+        if (!is_string($location)) {
+            // can't do anything about it if location is not even a string
+            return null;
+        }
 
-        return $id;
-    }
+        if (substr($location, 0, 5) === '/_db/') {
+           // /_db/<dbname>/_api/document/<collection>/<key>
+           @list(, , , , , , $id) = explode('/', $location);
+        }
+        else {
+           // /_api/document/<collection>/<key>
+          @list(, , , , $id) = explode('/', $location);
+        }
 
-    /**
-     * Get the collection id from a location header
-     *
-     * @param string $location - HTTP response location header
-     *
-     * @return string - collection id parsed from header
-     */
-    public static function getCollectionIdFromLocation($location)
-    {
-        @list(, , , $id) = explode('/', $location);
+        if (is_string($id)) {
+            $id = urldecode($id);
+        }
 
         return $id;
     }
