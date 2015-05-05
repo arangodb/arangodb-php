@@ -12,8 +12,9 @@ $traceFunc = function($type, $data) {
 
 /* set up connection options */
 $connectionOptions = array(
-  ConnectionOptions::OPTION_ENDPOINT        => 'tcp://localhost:8529', // endpoint to connect to
-  ConnectionOptions::OPTION_CONNECTION      => 'Keep-Alive',           // can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
+  ConnectionOptions::OPTION_DATABASE        => '_system',               // database name
+  ConnectionOptions::OPTION_ENDPOINT        => 'tcp://localhost:8529',  // endpoint to connect to
+  ConnectionOptions::OPTION_CONNECTION      => 'Keep-Alive',            // can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
   ConnectionOptions::OPTION_AUTH_TYPE       => 'Basic',                 // use basic authorization
   /*
   ConnectionOptions::OPTION_AUTH_USER       => '',                      // user for basic authorization
