@@ -66,117 +66,127 @@ abstract class Urls
     const URL_CURSOR = '/_api/cursor';
 
     /**
-     * base URL part for export related operations
+     * URL for export related operations
      */
     const URL_EXPORT = '/_api/export';
 
     /**
-     * base URL part for aql explain related operations
+     * URL for AQL explain-related operations
      */
     const URL_EXPLAIN = '/_api/explain';
 
     /**
-     * base URL part for aql query validation related operations
+     * URL for AQL query validation-related operations
      */
     const URL_QUERY = '/_api/query';
 
     /**
-     * base URL part for select-by-example
+     * URL for select-by-example
      */
     const URL_EXAMPLE = '/_api/simple/by-example';
 
     /**
-     * base URL part for first-example
+     * URL for first-example
      */
     const URL_FIRST_EXAMPLE = '/_api/simple/first-example';
 
     /**
-     * base URL part for any
+     * URL for any
      */
     const URL_ANY = '/_api/simple/any';
 
     /**
-     * base URL part for fulltext
+     * URL for fulltext
      */
     const URL_FULLTEXT = '/_api/simple/fulltext';
 
     /**
-     * base URL part for first
+     * URL for first
      */
     const URL_FIRST = '/_api/simple/first';
 
     /**
-     * base URL part for last
+     * URL for last
      */
     const URL_LAST = '/_api/simple/last';
 
     /**
-     * base URL part for remove-by-example
+     * URL remove-by-example
      */
     const URL_REMOVE_BY_EXAMPLE = '/_api/simple/remove-by-example';
+    
+    /**
+     * URL for remove-by-keys
+     */
+    const URL_REMOVE_BY_KEYS = '/_api/simple/remove-by-keys';
 
     /**
-     * base URL part for update-by-example
+     * URL for update-by-example
      */
     const URL_UPDATE_BY_EXAMPLE = '/_api/simple/update-by-example';
 
     /**
-     * base URL part for replace-by-example
+     * URL for replace-by-example
      */
     const URL_REPLACE_BY_EXAMPLE = '/_api/simple/replace-by-example';
-
+    
     /**
-     * base URL part for remove-by-example
+     * URL for lookup-by-keys
      */
-    const URL_IMPORT = '/_api/import';
+    const URL_LOOKUP_BY_KEYS = '/_api/simple/lookup-by-keys';
 
     /**
-     * base URL part for select-range
+     * URL for select-range
      */
     const URL_RANGE = '/_api/simple/range';
 
     /**
-     * base URL part for select-all
+     * URL for select-all
      */
     const URL_ALL = '/_api/simple/all';
 
     /**
-     * base URL part for select-range
+     * URL for select-range
      */
     const URL_NEAR = '/_api/simple/near';
 
     /**
-     * base URL part for select-range
+     * URL for select-range
      */
     const URL_WITHIN = '/_api/simple/within';
+    
+    /**
+     * URL for document import
+     */
+    const URL_IMPORT = '/_api/import';
 
     /**
-     * base URL part for batch processing
+     * URL for batch processing
      */
     const URL_BATCH = '/_api/batch';
 
     /**
-     * base URL part for batch processing
+     * URL for transactions
      */
     const URL_TRANSACTION = '/_api/transaction';
 
     /**
-     * base URL part for admin version
+     * URL for admin version
      */
     const URL_ADMIN_VERSION = '/_admin/version';
     
     /**
-     * base URL part for server role
+     * URL for server role
      */
     const URL_ADMIN_SERVER_ROLE = '/_admin/server/role';
 
     /**
-     * base URL part for admin time
+     * URL for admin time
      */
     const URL_ADMIN_TIME = '/_admin/time';
 
     /**
-     * base URL part for admin log
+     * URL for admin log
      */
     const URL_ADMIN_LOG = '/_admin/log';
 

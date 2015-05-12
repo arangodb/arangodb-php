@@ -31,6 +31,12 @@ class CollectionExtendedTest extends
         $this->collection        = new Collection();
         $this->collectionHandler = new CollectionHandler($this->connection);
         $this->documentHandler   = new DocumentHandler($this->connection);
+        
+        try {
+            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+        } catch (\Exception $e) {
+            // don't bother us, if it's already deleted.
+        }
     }
 
 
@@ -440,6 +446,90 @@ class CollectionExtendedTest extends
 
         $response = $collectionHandler->delete($collection);
         $this->assertTrue($response, 'Delete should return true!');
+    }
+    
+
+    /**
+     * test for creation of documents, and removal by keys
+     */
+    public function testRemoveByKeys()
+    {
+        $documentHandler   = $this->documentHandler;
+        $collectionHandler = $this->collectionHandler;
+
+        $collection = Collection::createFromArray(
+                                array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => false)
+        );
+        $collectionHandler->add($collection);
+        $document    = Document::createFromArray(
+                               array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId  = $documentHandler->add($collection->getId(), $document);
+        $document2   = Document::createFromArray(
+                               array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+        );
+        $documentId2 = $documentHandler->add($collection->getId(), $document2);
+        $document3   = Document::createFromArray(
+                               array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId3 = $documentHandler->add($collection->getId(), $document3);
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId2), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId3), 'Did not return an id!');
+
+        $keys = array($documentId, $documentId2, $documentId3);
+        $result = $collectionHandler->removeByKeys($collection->getId(), $keys);
+        $this->assertEquals(array("removed" => 3, "ignored" => 0), $result);
+    }
+    
+    
+    /**
+     * test for removal by keys with unknown collection
+     * @expectedException \triagens\ArangoDb\ServerException
+     */
+    public function testRemoveByKeysCollectionNotFound()
+    {
+        $documentHandler   = $this->documentHandler;
+        $collectionHandler = $this->collectionHandler;
+
+        $keys = array("foo");
+        $result = $collectionHandler->removeByKeys("ThisDoesNotExist", $keys);
+    }
+    
+    
+    /**
+     * test for creation of documents, and removal by keys
+     */
+    public function testRemoveByKeysNotFound()
+    {
+        $documentHandler   = $this->documentHandler;
+        $collectionHandler = $this->collectionHandler;
+
+        $collection = Collection::createFromArray(
+                                array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => false)
+        );
+        $collectionHandler->add($collection);
+        $document    = Document::createFromArray(
+                               array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId  = $documentHandler->add($collection->getId(), $document);
+        $document2   = Document::createFromArray(
+                               array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+        );
+        $documentId2 = $documentHandler->add($collection->getId(), $document2);
+        $document3   = Document::createFromArray(
+                               array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId3 = $documentHandler->add($collection->getId(), $document3);
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId2), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId3), 'Did not return an id!');
+
+        $keys = array("foo", "bar", "baz");
+        $result = $collectionHandler->removeByKeys($collection->getId(), $keys);
+        $this->assertEquals(array("removed" => 0, "ignored" => 3), $result);
     }
 
 
@@ -2180,7 +2270,89 @@ class CollectionExtendedTest extends
 
     }
 
+    
+    /**
+     * test bulk document lookups
+     */
+    public function testLookupByKeys()
+    {
+        $documentHandler   = $this->documentHandler;
+        $collectionHandler = $this->collectionHandler;
 
+        $collection = Collection::createFromArray(
+                                array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => false)
+        );
+        $collectionHandler->add($collection);
+        $document    = Document::createFromArray(
+                               array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId  = $documentHandler->add($collection->getId(), $document);
+        $document2   = Document::createFromArray(
+                               array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+        );
+        $documentId2 = $documentHandler->add($collection->getId(), $document2);
+        $document3   = Document::createFromArray(
+                               array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId3 = $documentHandler->add($collection->getId(), $document3);
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId2), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId3), 'Did not return an id!');
+
+        $keys = array($documentId, $documentId2, $documentId3);
+        $result = $collectionHandler->lookupByKeys($collection->getId(), $keys);
+        $this->assertEquals(3, count($result));
+
+        $document = $result[0];
+        $this->assertInstanceOf(
+                 '\triagens\ArangoDb\Document',
+                 $document,
+                 "Object was not a Document!"
+            );
+
+        $this->assertEquals($documentId, $document->getId());
+
+        $this->assertEquals("someValue1", $document->someAttribute);
+        $this->assertEquals("someOtherValue", $document->someOtherAttribute);
+        
+        $document = $result[1];
+        $this->assertInstanceOf(
+                 '\triagens\ArangoDb\Document',
+                 $document,
+                 "Object was not a Document!"
+            );
+
+        $this->assertEquals($documentId2, $document->getId());
+
+        $this->assertEquals("someValue2", $document->someAttribute);
+        $this->assertEquals("someOtherValue2", $document->someOtherAttribute);
+        
+        $document = $result[2];
+        $this->assertInstanceOf(
+                 '\triagens\ArangoDb\Document',
+                 $document,
+                 "Object was not a Document!"
+            );
+
+        $this->assertEquals($documentId3, $document->getId());
+
+        $this->assertEquals("someValue3", $document->someAttribute);
+        $this->assertEquals("someOtherValue", $document->someOtherAttribute);
+    }
+
+    /**
+     * test for lookup by keys with unknown collection
+     * @expectedException \triagens\ArangoDb\ServerException
+     */
+    public function testLookupByCollectionNotFound()
+    {
+        $documentHandler   = $this->documentHandler;
+        $collectionHandler = $this->collectionHandler;
+
+        $keys = array("foo");
+        $result = $collectionHandler->lookupByKeys("ThisDoesNotExist", $keys);
+    }
 
     /**
      * Test tear-down

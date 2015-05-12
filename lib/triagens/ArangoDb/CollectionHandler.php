@@ -53,6 +53,11 @@ class CollectionHandler extends
      * attribute parameter
      */
     const OPTION_ATTRIBUTE = 'attribute';
+    
+    /**
+     * keys parameter
+     */
+    const OPTION_KEYS = 'keys';
 
     /**
      * left parameter
@@ -105,17 +110,17 @@ class CollectionHandler extends
     const OPTION_LIMIT = 'limit';
 
     /**
-     * count fields
+     * fields
      */
     const OPTION_FIELDS = 'fields';
 
     /**
-     * count unique
+     * unique
      */
     const OPTION_UNIQUE = 'unique';
 
     /**
-     * count unique
+     * type
      */
     const OPTION_TYPE = 'type';
 
@@ -1440,6 +1445,95 @@ class CollectionHandler extends
         }
 
         return $responseArray['deleted'];
+    }
+    
+    
+    /**
+     * Remove document(s) by specifying an array of keys
+     *
+     * This will throw on any error
+     *
+     * @throws Exception
+     *
+     * @param mixed      $collectionId - collection id as string or number
+     * @param array      $keys         - array of document keys
+     * @param bool|array $options      - optional - an array of options.
+     *                                 <p>Options are :<br>
+     *                                 <li>
+     *                                 'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk.<br>
+     *                                 If this is not specified, then the collection's default sync behavior will be applied.
+     *                                 </li>
+     *                                 </p>
+     *
+     * @return array - an array containing an attribute 'removed' with the number of documents that were deleted, an an array 'ignored' with the number of not removed keys/documents
+     *
+     * @since 2.6
+     */
+    public function removeByKeys($collectionId, array $keys, $options = array())
+    {
+        $body = array(
+            self::OPTION_COLLECTION => $collectionId,
+            self::OPTION_KEYS       => $keys
+        );
+
+        $body = $this->includeOptionsInBody(
+                     $options,
+                     $body,
+                     array(
+                          ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(
+                                                                      ConnectionOptions::OPTION_WAIT_SYNC
+                              )
+                     )
+        );
+
+        $response = $this->getConnection()->put(Urls::URL_REMOVE_BY_KEYS, $this->json_encode_wrapper($body));
+
+        $responseArray = $response->getJson();
+
+        return array(
+            'removed' => $responseArray['removed'], 
+            'ignored' => $responseArray['ignored'] 
+        );
+    }
+    
+    
+    /**
+     * Bulk lookup documents by specifying an array of keys
+     *
+     * This will throw on any error
+     *
+     * @throws Exception
+     *
+     * @param mixed      $collectionId - collection id as string or number
+     * @param array      $keys         - array of document keys
+     * @param array      $options      - optional array of options.
+     *                                   <p>Options are :<br>
+     *                                   <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     *                                   <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+     *                                   </p>
+     *
+     * @return array - an array containing all documents found for the keys specified.
+     *                 note that if for a given key not document is found, it will not be returned nor will the document's non-existence be reported.
+     *
+     * @since 2.6
+     */
+    public function lookupByKeys($collectionId, array $keys, $options = array())
+    {
+        $body = array(
+            self::OPTION_COLLECTION => $collectionId,
+            self::OPTION_KEYS       => $keys
+        );
+
+        $response = $this->getConnection()->put(Urls::URL_LOOKUP_BY_KEYS, $this->json_encode_wrapper($body));
+
+        $responseArray = $response->getJson();
+        
+        $result = array();
+        foreach ($responseArray['documents'] as $document) {
+          $result[] = Document::createFromArray($document, $options);
+        }
+
+        return $result;
     }
 
 

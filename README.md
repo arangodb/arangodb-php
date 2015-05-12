@@ -30,6 +30,7 @@
  - [Deleting a document](#deleting_document)
  - [Running an AQL query](#running_aql)
  - [Exporting data](#exporting_data)
+ - [Bulk document handling](#bulk_documents)
  - [Dropping a collection](#dropping_collection)
  - [Logging exceptions](#logging_exceptions)
  - [Putting it all together](#alltogether)
@@ -468,7 +469,7 @@ To run an AQL query, use the Statement class:
 
 
 ```php
-// create a statement to insert tests 1000 users
+// create a statement to insert 1000 test users
 $statement = new ArangoStatement($connection, array(
     'query' => 'FOR i IN 1..1000 INSERT { _key: CONCAT('test', i) } IN users'
 ));
@@ -520,8 +521,59 @@ while ($docs = $cursor->getNextBatch()) {
     // do something with $docs
     var_dump($docs);
 }
+
+// the export can also be restricted to just a few attributes per document:
+$export = new ArangoExport($connection, 'users', array(
+    '_flat' => true,
+    'restrict' => array(
+        'type' => "include",
+        'fields' => array("_key", "likes")
+    )
+));
+
+// now fetch just the configured attributes for each document
+while ($docs = $cursor->getNextBatch()) {
+    // do something with $docs
+    var_dump($docs);
+}
 ```
 
+
+<a name="bulk_documents"/a>
+## Bulk document handling
+
+
+The ArangoDB-PHP driver provides a mechanism to easily fetch multiple documents from
+the same collection with a single request. All that needs to be provided is an array
+of document keys:
+
+
+```php
+$exampleCollection = new ArangoCollection();
+$exampleCollection->setName('example');
+$id = $collectionHandler->add($exampleCollection);
+
+// create a statement to insert 100 example documents
+$statement = new ArangoStatement($connection, array(
+    'query' => 'FOR i IN 1..100 INSERT { _key: CONCAT("example", i), value: i } IN example'
+));
+$statement->execute();
+
+// later on, we can assemble a list of document keys
+$keys = array();
+for ($i = 1; $i <= 100; ++$i) {
+  $keys[] = 'example' . $i;
+}
+// and fetch all the documents at once
+$documents = $collectionHandler->lookupByKeys('example', $keys);
+var_dump($documents);
+
+// we can also bulk-remove them:
+$result = $collectionHandler->removeByKeys('example', $keys);
+
+var_dump($result);
+
+```
 
 <a name="dropping_collection"/a>
 ## Dropping a collection
@@ -531,9 +583,12 @@ To drop an existing collection on the server, use the drop() method of the Colle
 drop() just needs the name of the collection name to be dropped:
 
 ```php
-// drop a collection on the server, using its name,
+// drop a collection on the server, using its name
 $result = $collectionHandler->drop('users');
 var_dump($result);
+
+// drop the other one we created, too
+$collectionHandler->drop('example');
 ```
 
 
@@ -582,11 +637,12 @@ use triagens\ArangoDb\Connection as ArangoConnection;
 use triagens\ArangoDb\ConnectionOptions as ArangoConnectionOptions;
 use triagens\ArangoDb\DocumentHandler as ArangoDocumentHandler;
 use triagens\ArangoDb\Document as ArangoDocument;
-use triagens\ArangoDb\Statement as ArangoStatement;
 use triagens\ArangoDb\Exception as ArangoException;
+use triagens\ArangoDb\Export as ArangoExport;
 use triagens\ArangoDb\ConnectException as ArangoConnectException;
 use triagens\ArangoDb\ClientException as ArangoClientException;
 use triagens\ArangoDb\ServerException as ArangoServerException;
+use triagens\ArangoDb\Statement as ArangoStatement;
 use triagens\ArangoDb\UpdatePolicy as ArangoUpdatePolicy;
 
 // set up some basic connection options
@@ -625,6 +681,9 @@ try {
     // clean up first
     if ($collectionHandler->has('users')) {
         $collectionHandler->drop('users');
+    }
+    if ($collectionHandler->has('example')) {
+        $collectionHandler->drop('example');
     }
 
     // create a new collection
@@ -690,7 +749,7 @@ try {
     var_dump($result);
 
 
-    // create a statement to insert tests 1000 users
+    // create a statement to insert 1000 test users
     $statement = new ArangoStatement($connection, array(
         'query' => 'FOR i IN 1..1000 INSERT { _key: CONCAT("test", i) } IN users'
     ));
@@ -718,10 +777,65 @@ try {
     var_dump($cursor->getExtra());
 
 
+    // creates an export object for collection users
+    $export = new ArangoExport($connection, 'users', array());
+
+    // execute the export. this will return a special, forward-only cursor
+    $cursor = $export->execute();
+
+    // now we can fetch the documents from the collection in blocks
+    while ($docs = $cursor->getNextBatch()) {
+        // do something with $docs
+        var_dump($docs);
+    }
+
+    // the export can also be restricted to just a few attributes per document:
+    $export = new ArangoExport($connection, 'users', array(
+        '_flat' => true,
+        'restrict' => array(
+            'type' => "include",
+            'fields' => array("_key", "likes")
+        )
+    ));
+
+    // now fetch just the configured attributes for each document
+    while ($docs = $cursor->getNextBatch()) {
+        // do something with $docs
+        var_dump($docs);
+    }
+
+
+    $exampleCollection = new ArangoCollection();
+    $exampleCollection->setName('example');
+    $id = $collectionHandler->add($exampleCollection);
+
+    // create a statement to insert 100 example documents
+    $statement = new ArangoStatement($connection, array(
+        'query' => 'FOR i IN 1..100 INSERT { _key: CONCAT("example", i), value: i } IN example'
+    ));
+    $statement->execute();
+
+    // later on, we can assemble a list of document keys
+    $keys = array();
+    for ($i = 1; $i <= 100; ++$i) {
+      $keys[] = 'example' . $i;
+    }
+    // and fetch all the documents at once
+    $documents = $collectionHandler->lookupByKeys('example', $keys);
+    var_dump($documents);
+
+    // we can also bulk-remove them:
+    $result = $collectionHandler->removeByKeys('example', $keys);
+
+    var_dump($result);
+
 
     // drop a collection on the server, using its name,
     $result = $collectionHandler->drop('users');
     var_dump($result);
+
+    // drop the other one we created, too
+    $collectionHandler->drop('example');
 }
 catch (ArangoConnectException $e) {
     print 'Connection error: ' . $e->getMessage() . PHP_EOL;
