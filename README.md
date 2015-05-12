@@ -44,7 +44,7 @@ Please take a look [here](https://github.com/arangodb/arangodb-php/wiki/Importan
 **[Important versioning information on ArangoDB-PHP](https://github.com/arangodb/arangodb-php/wiki/Important-versioning-information-on-ArangoDB-PHP)**
 
 <br>
-<a name="description"/a>
+<a name="description"></a>
 # Description
 
 This PHP client allows REST-based access to documents on the server.
@@ -65,18 +65,18 @@ The client library provides document and collection classes you can use to work 
 
 
 
-<a name="requirements"/a>
+<a name="requirements"></a>
 # Requirements
 
-* ArangoDB database server version 1.4 or higher (detailed info [here](https://github.com/arangodb/arangodb-php/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix))
+* ArangoDB database server version 1.4 or higher. Detailed info [here](https://github.com/arangodb/arangodb-php/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix))
 
-* PHP version 5.3 or higher (Travis-tested with 5.4, 5.5, 5.6 and hhvm)
+* PHP version 5.3 or higher (Travis-tested with 5.4, 5.5, 5.6, 7 and hhvm)
 
 <br>
 
 
 
-<a name="installing"/a>
+<a name="installing"></a>
 ## Installing the PHP client
 
 To get started you need PHP 5.3 or higher plus an ArangoDB server running on any host that you can access.
@@ -86,7 +86,7 @@ There are two alternative ways to get the ArangoDB PHP client:
  * Using packagist/composer
  * Cloning the git repository
 
-<a name="using_packagist"/a>
+<a name="using_packagist"></a>
 ## Alternative 1: Using packagist/composer
 
 When using [packagist](http://packagist.org/), the procedure is as follows:
@@ -164,7 +164,7 @@ You need to include the generated autoloader file in your project when using the
 require 'vendor/.composer/autoload.php';
 ```
 
-<a name="cloning_git"/a>
+<a name="cloning_git"></a>
 ## Alternative 2: Cloning the git repository
 
 When preferring this alternative, you need to have a git client installed. To clone the ArangoDB PHP client repository from github, execute the following command in your project directory:
@@ -182,7 +182,7 @@ require 'arangodb-php/autoload.php';
 
 The ArangoDB PHP client's autoloader will only care about its own class files and will not handle any other files. That means it is fully nestable with other autoloaders.
 
-<a name="invoke_autoloader_directly"/a>
+<a name="invoke_autoloader_directly"></a>
 ## Alternative 3: Invoking the autoloader directly
 
 If you do not wish to include autoload.php to load and setup the autoloader, you can invoke the autoloader directly:
@@ -194,10 +194,10 @@ require 'arangodb-php/lib/triagens/ArangoDb/autoloader.php';
 
 <br>
 
-<a name="howto_use"/a>
+<a name="howto_use"></a>
 # How to use the PHP client
 
-<a name="setting_up_connection_options"/a>
+<a name="setting_up_connection_options"></a>
 ## Setting up the connection options
 
 In order to use ArangoDB, you need to specify the connection options. We do so by creating a PHP array $connectionOptions. Put this code into a file named test.php in your current directory:
@@ -268,7 +268,7 @@ When updating a document that was previously/concurrently updated by another use
 * fail with a conflict error: if you prefer that, set OPTION_UPDATE_POLICY to conflict
 
 
-<a name="creating_collection"/a>
+<a name="creating_collection"></a>
 ## Creating a collection
 *This is just to show how a collection is created.*
 <br>
@@ -290,7 +290,7 @@ $id = $collectionHandler->add($userCollection);
 var_dump($id);
 ```
 
-<a name="creating_document"/a>
+<a name="creating_document"></a>
 ## Creating a document
 
 After we created the collection, we can start with creating an initial document. We will create a user document in a collection named "users". This collection does not need to exist yet. The first document we'll insert in this collection will create the collection on the fly. This is because we have set OPTION_CREATE to true in $connectionOptions.
@@ -321,7 +321,7 @@ Document properties can be set by using the set() method, or by directly manipul
 
 As you can see, sending a document to the server is achieved by calling the add() method on the client library's DocumentHandler class. It needs the collection name ("users" in this case") plus the document object to be added. add() will return the document id as created by the server. The id is a numeric value that might or might not fit in a PHP integer.
 
-<a name="adding_exception_handling"/a>
+<a name="adding_exception_handling"></a>
 ## Adding exception handling
 
 
@@ -356,7 +356,7 @@ try {
 }
 ```
 
-<a name="retrieving_document"/a>
+<a name="retrieving_document"></a>
 ## Retrieving a document
 
 To retrieve a document from the server, the get() method of the DocumentHandler class can be used. It needs the collection name plus a document id. There is also the getById() method which is an alias for get().
@@ -411,7 +411,7 @@ var_dump($cursor->getAll());
 This will return all documents from the specified collection (here: "users") with the properties provided in the example (here: that have an attribute "name" with a value of "John"). The result is a cursor which can be iterated sequentially or completely. We have chosen to get the complete result set above by calling the cursor's getAll() method.
 Note that getByExample() might return multiple documents if the example is ambigious.
 
-<a name="updating_document"/a>
+<a name="updating_document"></a>
 ## Updating a document
 
 
@@ -440,7 +440,7 @@ $result = $handler->updateById('users', 4818344, $user);
 var_dump($result);
 ```
 
-<a name="deleting_document"/a>
+<a name="deleting_document"></a>
 ## Deleting a document
 
 To remove an existing document on the server, the remove() method of the DocumentHandler class will do. remove() just needs the document to be removed as a parameter:
@@ -461,7 +461,7 @@ var_dump($result);
 ```
 
 
-<a name="running_aql"/a>
+<a name="running_aql"></a>
 ## Running an AQL query
 
 
@@ -498,7 +498,7 @@ var_dump($cursor->getExtra());
 ```
 
 
-<a name="exporting_data"/a>
+<a name="exporting_data"></a>
 ## Exporting data
 
 
@@ -539,7 +539,7 @@ while ($docs = $cursor->getNextBatch()) {
 ```
 
 
-<a name="bulk_documents"/a>
+<a name="bulk_documents"></a>
 ## Bulk document handling
 
 
@@ -575,7 +575,7 @@ var_dump($result);
 
 ```
 
-<a name="dropping_collection"/a>
+<a name="dropping_collection"></a>
 ## Dropping a collection
 
 
@@ -592,7 +592,7 @@ $collectionHandler->drop('example');
 ```
 
 
-<a name="logging_exceptions"/a>
+<a name="logging_exceptions"></a>
 ## Logging exceptions
 
 
@@ -618,7 +618,7 @@ use triagens\ArangoDb\Exception as ArangoException;
 ArangoException::disableLogging();
 ```
 
-<a name="alltogether"/a>
+<a name="alltogether"></a>
 ## Putting it all together
 
 Here's the full code that combines all the pieces outlined above:
@@ -852,13 +852,13 @@ catch (ArangoServerException $e) {
 
 
 
-<a name="more_info"/a>
+<a name="more_info"></a>
 # More information
 
-* More example code, containing some code to create, delete and rename collections, is provided in the example subdirectory that is provided with the library.
+* More example code, containing some code to create, delete and rename collections, is provided in the **examples** subdirectory that is provided with the library.
 
 * PHPDoc documentation for the complete library is in the library's docs subdirectory. Point your browser at this directory to get a click-through version of the documentation.
 
-* [Follow us on Twitter @arangodbphp to receive updates on the php driver](https://twitter.com/arangodbphp)
+* [Follow us on Twitter](https://twitter.com/arangodbphp) [@arangodbphp](https://twitter.com/arangodbphp) to receive updates on the PHP driver
 
 * Check the ArangoDB PHP client on github.com regularly for new releases and updates: [https://github.com/arangodb/arangodb-php](https://github.com/arangodb/arangodb-php)
