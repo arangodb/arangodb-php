@@ -304,6 +304,41 @@ class ExportTest extends
     }
     
     /**
+     * Test export with limit
+     */
+    public function testExportLimit()
+    {
+        if (! $this->hasExportApi) {
+            return;
+        }
+        for ($i = 0; $i < 200; ++$i) {
+            $this->documentHandler->save($this->collection, array("value" => $i));
+        }
+
+        $export = new Export($this->connection, $this->collection, array("batchSize" => 50, "_flat" => true, "limit" => 107));
+        $cursor = $export->execute();
+
+        $this->assertEquals(1, $cursor->getFetches());
+        $this->assertNotNull($cursor->getId());
+
+        $this->assertEquals(107, $cursor->getCount());
+        $this->assertEquals(1, $cursor->getFetches());
+
+        $all = array();
+        while ($more = $cursor->getNextBatch()) {
+          $all = array_merge($all, $more);
+        }
+        $this->assertEquals(107, count($all));
+
+        foreach ($all as $doc) {
+            $this->assertFalse($doc instanceof Document);
+            $this->assertTrue(is_array($doc));
+        }
+        
+        $this->assertFalse($cursor->getNextBatch());
+    }
+    
+    /**
      * Test export with include restriction
      */
     public function testExportRestrictInclude()

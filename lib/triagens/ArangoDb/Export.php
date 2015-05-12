@@ -68,6 +68,14 @@ class Export
      * @var mixed
      */
     private $_restrictions;
+
+    /**
+     * optional limit for export - if specified and positive, will cap the amount of documents in the cursor to
+     * the specified value
+     *
+     * @var int
+     */
+    private $_limit = 0;
     
     /**
      * Count option index
@@ -88,6 +96,11 @@ class Export
      * Export restrictions
      */
     const ENTRY_RESTRICT = 'restrict';
+    
+    /**
+     * Optional limit for the number of documents
+     */
+    const ENTRY_LIMIT = 'limit';
 
     /**
      * Initialize the export
@@ -118,6 +131,10 @@ class Export
 
         if (isset($data[self::ENTRY_BATCHSIZE])) {
             $this->setBatchSize($data[self::ENTRY_BATCHSIZE]);
+        }
+        
+        if (isset($data[self::ENTRY_LIMIT])) {
+            $this->_limit = (int) $data[self::ENTRY_LIMIT];
         }
         
         if (isset($data[self::ENTRY_RESTRICT]) &&
@@ -173,11 +190,15 @@ class Export
         if ($this->_batchSize > 0) {
             $data[self::ENTRY_BATCHSIZE] = $this->_batchSize;
         }
+        
+        if ($this->_limit > 0) {
+            $data[self::ENTRY_LIMIT] = $this->_limit;
+        }
 
         if (is_array($this->_restrictions)) {
             $data[self::ENTRY_RESTRICT] = $this->_restrictions;
         }
-
+        
         $collection = $this->_collection;
         if ($collection instanceof Collection) {
             $collection = $collection->getName();
