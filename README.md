@@ -48,10 +48,10 @@ Please take a look [here](https://github.com/arangodb/arangodb-php/wiki/Importan
 # Description
 
 This PHP client allows REST-based access to documents on the server.
-The ArangoDocumentHandler class should be used for these purposes.
+The *DocumentHandler* class should be used for these purposes.
 There is an example for REST-based documents access in the file examples/document.php.
 
-Furthermore, the PHP client also allows to issue more AQL complex queries using the ArangoStatement class.
+Furthermore, the PHP client also allows to issue more AQL complex queries using the *Statement* class.
 There is an example for this kind of statements in the file examples/select.php.
 
 To use the PHP client, you must include the file autoloader.php from the main directory.
@@ -68,9 +68,9 @@ The client library provides document and collection classes you can use to work 
 <a name="requirements"></a>
 # Requirements
 
-* ArangoDB database server version 1.4 or higher. Detailed info [here](https://github.com/arangodb/arangodb-php/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix))
+* ArangoDB database server version 1.4 or higher. Detailed info [here](https://github.com/arangodb/arangodb-php/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix)
 
-* PHP version 5.3 or higher (Travis-tested with 5.4, 5.5, 5.6, 7 and hhvm)
+* PHP version 5.3 or higher (Travis-tested with PHP 5.3, 5.4, 5.5, 5.6, 7 and hhvm)
 
 <br>
 
@@ -319,7 +319,7 @@ var_dump($id);
 
 Document properties can be set by using the set() method, or by directly manipulating the document properties.
 
-As you can see, sending a document to the server is achieved by calling the add() method on the client library's DocumentHandler class. It needs the collection name ("users" in this case") plus the document object to be added. add() will return the document id as created by the server. The id is a numeric value that might or might not fit in a PHP integer.
+As you can see, sending a document to the server is achieved by calling the add() method on the client library's *DocumentHandler* class. It needs the collection name ("users" in this case") plus the document object to be added. add() will return the document id as created by the server. The id is a numeric value that might or might not fit in a PHP integer.
 
 <a name="adding_exception_handling"></a>
 ## Adding exception handling
@@ -359,7 +359,7 @@ try {
 <a name="retrieving_document"></a>
 ## Retrieving a document
 
-To retrieve a document from the server, the get() method of the DocumentHandler class can be used. It needs the collection name plus a document id. There is also the getById() method which is an alias for get().
+To retrieve a document from the server, the get() method of the *DocumentHandler* class can be used. It needs the collection name plus a document id. There is also the getById() method which is an alias for get().
 
 ```php
 // get the document back from the server
@@ -415,7 +415,7 @@ Note that getByExample() might return multiple documents if the example is ambig
 ## Updating a document
 
 
-To update an existing document, the update() method of the DocumentHandler class can be used.
+To update an existing document, the update() method of the *DocumentHandler* class can be used.
 
 ```php
 // update a document
@@ -443,7 +443,7 @@ var_dump($result);
 <a name="deleting_document"></a>
 ## Deleting a document
 
-To remove an existing document on the server, the remove() method of the DocumentHandler class will do. remove() just needs the document to be removed as a parameter:
+To remove an existing document on the server, the remove() method of the *DocumentHandler* class will do. remove() just needs the document to be removed as a parameter:
 
 ```php
 // remove a document on the server, using a document object
@@ -465,7 +465,7 @@ var_dump($result);
 ## Running an AQL query
 
 
-To run an AQL query, use the Statement class:
+To run an AQL query, use the *Statement* class:
 
 
 ```php
@@ -502,8 +502,8 @@ var_dump($cursor->getExtra());
 ## Exporting data
 
 
-To export the contents of a collection to PHP, use the Export class.
-The Export class will create a light-weight cursor over all documents
+To export the contents of a collection to PHP, use the *Export* class.
+The *Export* class will create a light-weight cursor over all documents
 of the specified collection. The results can be transferred to PHP
 in chunks incrementally. This is the most efficient way of iterating
 over all documents in a collection.
@@ -579,7 +579,7 @@ var_dump($result);
 ## Dropping a collection
 
 
-To drop an existing collection on the server, use the drop() method of the CollectionHandler class. 
+To drop an existing collection on the server, use the drop() method of the *CollectionHandler* class. 
 drop() just needs the name of the collection name to be dropped:
 
 ```php
