@@ -961,15 +961,21 @@ class GraphExtendedTest extends
     {
         $this->createGraph();
 
+        $sortFunc = function ($l, $r) {
+          if ($l->get("someKey1") !== null) { 
+            return -1;
+          }
+          return 1;
+        };
+
         // Test without options
         $cursor = $this->graphHandler->getNeighborVertices(
         		$this->graphName, $this->vertexCollectionName . "/" . $this->vertex2Name
             );
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-        $resultingDocument = null;
-        foreach ($cursor as $key => $value) {
-            $resultingDocument[$key] = $value;
-        }
+        $resultingDocument = $cursor->getAll();
+        usort($resultingDocument, $sortFunc);
+       
         $this->assertTrue(
              $resultingDocument[0]->someKey1 == 'someValue1',
              'Should return "someValue1", returned: ' . $resultingDocument[0]->someKey1
@@ -982,15 +988,12 @@ class GraphExtendedTest extends
 
 
         // Test options->batchSize
-        unset($resultingDocument);
         $options = array('batchSize' => 1);
         $cursor  = $this->graphHandler->getNeighborVertices($this->graphName, $this->vertexCollectionName . "/" .$this->vertex2Name, $options);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
 
-        $resultingDocument = null;
-        foreach ($cursor as $key => $value) {
-            $resultingDocument[$key] = $value;
-        }
+        $resultingDocument = $cursor->getAll();
+        usort($resultingDocument, $sortFunc);
         
         $this->assertTrue(
              $resultingDocument[0]->someKey1 == 'someValue1',
@@ -1004,30 +1007,22 @@ class GraphExtendedTest extends
 
 
         // Test options->limit
-        unset($resultingDocument);
         $options = array('limit' => 1);
         $cursor  = $this->graphHandler->getNeighborVertices($this->graphName, $this->vertexCollectionName . "/" .$this->vertex2Name, $options);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-        $resultingDocument = null;
-        foreach ($cursor as $key => $value) {
-            $resultingDocument[$key] = $value;
-        }
-        $this->assertTrue(
-             $resultingDocument[0]->someKey1 == 'someValue1',
-             'Should return "someValue1", returned: ' . $resultingDocument[0]->someKey1
-        );
+        
+        $resultingDocument = $cursor->getAll();
         $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
 
 
         // Test options->count
-        unset($resultingDocument);
         $options = array('count' => true);
         $cursor  = $this->graphHandler->getNeighborVertices($this->graphName, $this->vertexCollectionName . "/" . $this->vertex2Name, $options);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-        $resultingDocument = null;
-        foreach ($cursor as $key => $value) {
-            $resultingDocument[$key] = $value;
-        }
+        
+        $resultingDocument = $cursor->getAll();
+        usort($resultingDocument, $sortFunc);
+
         $this->assertTrue(
              $resultingDocument[0]->someKey1 == 'someValue1',
              'Should return "someValue1", returned: ' . $resultingDocument[0]->someKey1
@@ -1046,56 +1041,15 @@ class GraphExtendedTest extends
         $this->assertTrue($metaData['count'] == 2, 'Should be 2, was: ' . count($resultingDocument));
 
 
-        // Test options->filter
-        unset($resultingDocument);
-        $filter  = array('labels' => array($this->edgeLabel2));
-        $options = array('filter' => $filter);
-
-        $cursor = $this->graphHandler->getNeighborVertices($this->graphName, $this->vertexCollectionName . "/" .$this->vertex2Name, $options);
-        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-        $resultingDocument = null;
-        foreach ($cursor as $key => $value) {
-            $resultingDocument[$key] = $value;
-        }
-        
-        $this->assertTrue(
-             $resultingDocument[0]->someKey3 == 'someValue3',
-             'Should return "someValue3", returned: ' . $resultingDocument[0]->someKey3
-        );
-        $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
-
-
         // Test options->direction
-        unset($resultingDocument);
         $filter  = array('direction' => 'out');
         $options = array('filter' => $filter);
 
         $cursor = $this->graphHandler->getNeighborVertices($this->graphName, $this->vertexCollectionName . "/" .$this->vertex2Name, $options);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-        $resultingDocument = null;
-        foreach ($cursor as $key => $value) {
-            $resultingDocument[$key] = $value;
-        }
         
-        $this->assertTrue(
-             $resultingDocument[0]->someKey3 == 'someValue3',
-             'Should return "someValue3", returned: ' . $resultingDocument[0]->someKey3
-        );
-        $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
-
-
-        // Test options->properties
-        unset($resultingDocument);
-        $properties = array('key' => 'someEdgeKey2', 'value' => 'someEdgeValue2', 'compare' => '==');
-        $filter     = array('properties' => $properties);
-        $options    = array('filter' => $filter);
-
-        $cursor = $this->graphHandler->getNeighborVertices($this->graphName,$this->vertexCollectionName . "/" . $this->vertex2Name, $options);
-        $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
-        $resultingDocument = null;
-        foreach ($cursor as $key => $value) {
-            $resultingDocument[$key] = $value;
-        }
+        $resultingDocument = $cursor->getAll();
+        usort($resultingDocument, $sortFunc);
         
         $this->assertTrue(
              $resultingDocument[0]->someKey3 == 'someValue3',
@@ -1515,7 +1469,7 @@ class GraphExtendedTest extends
     public function testNeighborVerticesWithGraphInstance()
     {
         $this->createGraph();
-        $cursor = $this->graphHandler->getNeighborVertices($this->graph, $this->vertex2Name);
+        $cursor = $this->graphHandler->getNeighborVertices($this->graph, $this->vertexCollectionName . '/' . $this->vertex2Name);
         $this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
     }
 

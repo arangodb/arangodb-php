@@ -126,7 +126,6 @@ class GeneralGraphExtendedTest extends
     // Helper method to setup a graph
     public function createGraph()
     {
-        
     	$vertex1 = Vertex::createFromArray($this->vertex1Array);
     	$vertex2 = Vertex::createFromArray($this->vertex2Array);
     	$vertex3 = Vertex::createFromArray($this->vertex3Array);
@@ -139,7 +138,6 @@ class GeneralGraphExtendedTest extends
     	$edge3   = Edge::createFromArray($this->edge3Array);
     	$edge4   = Edge::createFromArray($this->edge4Array);
     	$edge5   = Edge::createFromArray($this->edge5Array);
-    	$edge6   = Edge::createFromArray($this->edge6Array);
     	$this->graphHandler->saveVertex($this->graphName, $vertex1, $this->v1);
     	$this->graphHandler->saveVertex($this->graphName, $vertex2, $this->v2);
     	$this->graphHandler->saveVertex($this->graphName, $vertex3, $this->v3);
@@ -422,7 +420,7 @@ class GeneralGraphExtendedTest extends
     	$cursor = $this->graphHandler->getEdges($this->graphName, $params);
     	$this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
     	$m = $cursor->getMetadata();
-    	$this->assertTrue(count($m["result"]) == 3);
+    	$this->assertTrue(count($m["result"]) == 2);
     	$this->assertTrue($m["hasMore"] == false);
     	
     	$params = array(
@@ -540,14 +538,14 @@ class GeneralGraphExtendedTest extends
     public function testGetShortestPaths()
     {
     	$this->createGraph();
-    	$cursor = $this->graphHandler->getShortestPaths($this->graphName, null, null,array(
+    	$cursor = $this->graphHandler->getShortestPaths($this->graphName, null, null, array(
     			"direction" => "out"
     	));
     	$this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
     	$m = $cursor->getAll();
-    	$this->assertTrue(count($m) === 7);
+    	$this->assertTrue(count($m) === 5);
     	
-    	$cursor = $this->graphHandler->getShortestPaths($this->graph, null, null,array(
+    	$cursor = $this->graphHandler->getShortestPaths($this->graph, null, null, array(
     			"direction" => "in",
     			"batchSize" => 2,
     			"limit" => 1,
@@ -557,7 +555,7 @@ class GeneralGraphExtendedTest extends
     	$m = $cursor->getAll();
     	$this->assertTrue(count($m) === 1);
     	
-    	$cursor = $this->graphHandler->getShortestPaths($this->graphName, null, null,array(
+    	$cursor = $this->graphHandler->getShortestPaths($this->graphName, null, null, array(
     			"direction" => "any",
     			"edgeCollectionRestriction" => $this->e1,
     			"startVertexCollectionRestriction" => $this->v1,
@@ -583,21 +581,21 @@ class GeneralGraphExtendedTest extends
     			));
     	$this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
     	$m = $cursor->getAll();
-    	$this->assertTrue(count($m) === 3);
+    	$this->assertTrue(count($m) === 2);
     	 
     }
     
     public function testGetDistanceToPaths()
     {
     	$this->createGraph();
-    	$cursor = $this->graphHandler->getDistanceTo($this->graphName, null, null,array(
+    	$cursor = $this->graphHandler->getDistanceTo($this->graphName, null, null, array(
     			"direction" => "out"
     	));
     	$this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
     	$m = $cursor->getAll();
-    	$this->assertTrue(count($m) === 7);
+    	$this->assertTrue(count($m) === 5);
     	 
-    	$cursor = $this->graphHandler->getDistanceTo($this->graph, null, null,array(
+    	$cursor = $this->graphHandler->getDistanceTo($this->graph, null, null, array(
     			"direction" => "in",
     			"batchSize" => 2,
     			"limit" => 1,
@@ -607,7 +605,7 @@ class GeneralGraphExtendedTest extends
     	$m = $cursor->getAll();
     	$this->assertTrue(count($m) === 1);
     	 
-    	$cursor = $this->graphHandler->getDistanceTo($this->graphName, null, null,array(
+    	$cursor = $this->graphHandler->getDistanceTo($this->graphName, null, null, array(
     			"direction" => "any",
     			"edgeCollectionRestriction" => $this->e1,
     			"startVertexCollectionRestriction" => $this->v1,
@@ -631,7 +629,7 @@ class GeneralGraphExtendedTest extends
     			));
     	$this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
     	$m = $cursor->getAll();
-    	$this->assertTrue(count($m) === 4);
+    	$this->assertTrue(count($m) === 3);
     	
     	$cursor = $this->graphHandler->getDistanceTo(
     			$this->graphName,
@@ -646,8 +644,7 @@ class GeneralGraphExtendedTest extends
     	$this->assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
     	$m = $cursor->getAll();
     	 
-    	$this->assertTrue(count($m) === 4);
-    
+    	$this->assertTrue(count($m) === 3);
     }
     
     public function testGetCommonNeighborVertices()
@@ -660,6 +657,7 @@ class GeneralGraphExtendedTest extends
     			
     	);
     	$e = $this->graphHandler->getCommonNeighborVertices($this->graphName, null, null, $options, $options);
+
     	$m = $e->getAll();
     	$this->assertTrue(count($m) === 5);
     	$this->assertTrue(count($m[$this->v1 . "/" . $this->vertex1Array["_key"]]) === 4);
@@ -675,7 +673,7 @@ class GeneralGraphExtendedTest extends
     	$options2 = array(
     		"direction" => "in"
     	);
-    	$e = $this->graphHandler->getCommonNeighborVertices($this->graph, null, null, $options1, $options2);
+    	$e = $this->graphHandler->getCommonNeighborVertices($this->graph, array(), array(), $options1, $options2);
     	$m = $e->getAll();
     	$this->assertTrue(count($m) === 0);
     	
@@ -685,7 +683,7 @@ class GeneralGraphExtendedTest extends
     	$options2 = array(
     			"direction" => "out"
     	);
-    	$e = $this->graphHandler->getCommonNeighborVertices($this->graph, null, null, $options1, $options2);
+    	$e = $this->graphHandler->getCommonNeighborVertices($this->graph, array(), array(), $options1, $options2);
     	$m = $e->getAll();
     	$this->assertTrue(count($m) === 0);
     	
@@ -715,7 +713,6 @@ class GeneralGraphExtendedTest extends
     	$this->assertTrue(count($m) === 7);
     	
     	$e = $this->graphHandler->getCommonProperties($this->graphName, null, null, array(
-    		
     			"vertex1CollectionRestriction" => array($this->v1, $this->v2),
     			"vertex2CollectionRestriction" => array($this->v3, $this->v4)
     	));
@@ -723,7 +720,6 @@ class GeneralGraphExtendedTest extends
     	$this->assertTrue(count($m) === 3);
     	
     	$e = $this->graphHandler->getCommonProperties($this->graph, null, null, array(
-    	
     			"vertex1CollectionRestriction" => array($this->v1, $this->v2),
     			"vertex2CollectionRestriction" => array($this->v3, $this->v4),
     			"ignoreProperties" => array("sharedKey1")
