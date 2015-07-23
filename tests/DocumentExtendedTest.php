@@ -746,6 +746,87 @@ class DocumentExtendedTest extends
         $this->assertArrayHasKey('_id', $result);
         $this->assertArrayHasKey('_rev', $result);
     }
+    
+    /**
+     * test to set some attributes and get all attributes of the document through getAll()
+     * Also testing to optionally get internal attributes _id and _rev
+     */
+    public function testHiddenAttributesGetAll()
+    {
+        $documentHandler = $this->documentHandler;
+
+        $document = Document::createFromArray(
+                            array(
+                                 '_key'     => 'test1',
+                                 'isActive' => true,
+                                 'password' => 'secret',
+                                 'name'     => 'foo'
+                                 )
+        );
+        $documentHandler->add($this->collection->getId(), $document);
+        
+        $document = Document::createFromArray(
+                            array(
+                                 '_key'     => 'test2',
+                                 'isActive' => false,
+                                 'password' => 'secret',
+                                 'name'     => 'bar'
+                                 )
+        );
+        $documentHandler->add($this->collection->getId(), $document);
+
+
+        $document = $documentHandler->getById($this->collection->getId(), "test1");
+        $document->setHiddenAttributes(array('password'));
+        $result = $document->getAll();
+
+        $this->assertTrue($result['isActive']);
+        $this->assertEquals('foo', $result['name']);
+        $this->assertArrayNotHasKey('password', $result);
+        
+        // test with even more hidden attributes
+        $document = $documentHandler->getById($this->collection->getId(), "test1");
+        $document->setHiddenAttributes(array('isActive', 'password', 'foobar'));
+        $result = $document->getAll();
+
+        $this->assertArrayNotHasKey('isActive', $result);
+        $this->assertEquals('foo', $result['name']);
+        $this->assertArrayNotHasKey('password', $result);
+    
+        // fetch again, without hidden fields now
+        $document = $documentHandler->getById($this->collection->getId(), "test1");
+        $result = $document->getAll();
+
+        $this->assertTrue($result['isActive']);
+        $this->assertEquals('foo', $result['name']);
+        $this->assertEquals('secret', $result['password']);
+        
+            
+        $document = $documentHandler->getById($this->collection->getId(), "test2");
+        $document->setHiddenAttributes(array('password'));
+        $result = $document->getAll();
+
+        $this->assertFalse($result['isActive']);
+        $this->assertEquals('bar', $result['name']);
+        $this->assertArrayNotHasKey('password', $result);
+        
+        // test with even more hidden attributes
+        $document = $documentHandler->getById($this->collection->getId(), "test2");
+        $document->setHiddenAttributes(array('isActive', 'password', 'foobar'));
+        $result = $document->getAll();
+
+        $this->assertArrayNotHasKey('isActive', $result);
+        $this->assertEquals('bar', $result['name']);
+        $this->assertArrayNotHasKey('password', $result);
+        
+        // fetch again, without hidden fields now
+        $document = $documentHandler->getById($this->collection->getId(), "test2");
+        $result = $document->getAll();
+
+        $this->assertFalse($result['isActive']);
+        $this->assertEquals('bar', $result['name']);
+        $this->assertEquals('secret', $result['password']);
+    }
 
 
     /**

@@ -239,8 +239,8 @@ class Document
 
         if (is_array($hiddenAttributes)) {
             foreach ($hiddenAttributes as $hiddenAttributeName) {
-                if (!in_array($hiddenAttributeName, $attributes)) {
-                    unset ($attributes[$hiddenAttributeName]);
+                if (isset($attributes[$hiddenAttributeName])) {
+                    unset($attributes[$hiddenAttributeName]);
                 }
             }
         }
