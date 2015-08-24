@@ -130,6 +130,11 @@ class Cursor implements
     const ENTRY_SANITIZE = '_sanitize';
 
     /**
+     * custom queue option entry
+     */
+    const ENTRY_CUSTOM_QUEUE = 'customQueue';
+
+    /**
      * "flat" option entry (will treat the results as a simple array, not documents)
      */
     const ENTRY_FLAT = '_flat';
@@ -204,7 +209,7 @@ class Cursor implements
     {
         if ($this->_id) {
             try {
-                $this->_connection->delete($this->url() . '/' . $this->_id);
+                $this->_connection->delete($this->url() . '/' . $this->_id, $this->buildHeaders());
 
                 return true;
             } catch (Exception $e) {
@@ -614,7 +619,7 @@ class Cursor implements
     private function fetchOutstanding()
     {
         // continuation
-        $response = $this->_connection->put($this->url() . "/" . $this->_id, '');
+        $response = $this->_connection->put($this->url() . "/" . $this->_id, '', $this->buildHeaders());
         ++$this->_fetches;
 
         $data     = $response->getJson();
@@ -628,6 +633,27 @@ class Cursor implements
         }
 
         $this->updateLength();
+    }
+
+
+    /**
+     * Build headers for the cursor requests
+     *
+     * @return array - headers used when executing further cursor fetches
+     */
+    private function buildHeaders()  
+    {
+        $result = array();
+
+        if (isset($this->_options[self::ENTRY_CUSTOM_QUEUE])) {
+            $value = $this->_options[self::ENTRY_CUSTOM_QUEUE];
+
+            if ($value != null && $value !== '') {
+                $result[HttpHelper::QUEUE_HEADER] = $this->_options[self::ENTRY_CUSTOM_QUEUE];
+            }
+        }
+
+        return $result;
     }
 
 

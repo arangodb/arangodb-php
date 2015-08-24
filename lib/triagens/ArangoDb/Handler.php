@@ -13,8 +13,6 @@ namespace triagens\ArangoDb;
 /**
  * A base class for REST-based handlers
  *
- * <br>
- *
  * @package triagens\ArangoDb
  * @since   0.2
  */
@@ -40,6 +38,28 @@ abstract class Handler
         $this->_connection = $connection;
     }
 
+    /**
+     * Enables a custom queue name for all actions of this handler and other actions
+     * that use the same connection
+     *
+     * @param string $queueName - queue name
+     * @param number $count - number of requests the custom queue will be used for
+     */
+    public function enableCustomQueue($queueName, $count = null) 
+    {
+        // pass it on to the connection
+        $this->_connection->enableCustomQueue($queueName, $count);
+    }
+
+    /**
+     * Disable usage of custom queue for this handler and other actions that use the
+     * same connection
+     */
+    public function disableCustomQueue() 
+    {
+        // pass it on to the connection
+        $this->_connection->disableCustomQueue();
+    }
 
     /**
      * Return the connection object
@@ -166,7 +186,6 @@ abstract class Handler
      */
     protected function includeOptionsInParams($options, $params, $includeArray = array())
     {
-        #$value = null;
         if (is_array($options)) {
             foreach ($options as $key => $value) {
                 if (array_key_exists($key, $includeArray)) {
@@ -196,7 +215,6 @@ abstract class Handler
      */
     protected function includeOptionsInBody($options, $body, $includeArray = array())
     {
-        #$value = null;
         if (is_array($options)) {
             foreach ($options as $key => $value) {
                 if (array_key_exists($key, $includeArray)) {

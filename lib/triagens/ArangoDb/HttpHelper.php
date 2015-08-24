@@ -66,10 +66,14 @@ class HttpHelper
     const PROTOCOL = 'HTTP/1.1';
 
     /**
-     * HTTP protocol version used, hard-coded to version 1.1
+     * Boundary string for batch request parts
      */
     const MIME_BOUNDARY = 'XXXsubpartXXX';
 
+    /**
+     * HTTP Header for specifying a custom queue
+     */
+    const QUEUE_HEADER = 'X-Arango-Queue';
 
     /**
      * Validate an HTTP request method name
