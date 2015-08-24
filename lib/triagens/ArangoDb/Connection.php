@@ -178,6 +178,8 @@ class Connection
      *
      * @param string $queueName - queue name
      * @param number $count - number of requests the custom queue will be used for
+     * @internal this method is currently experimental. whether or not it will 
+     *           become part of the official API needs decision
      */
 
     public function enableCustomQueue($queueName, $count = null) 
@@ -194,6 +196,9 @@ class Connection
 
     /**
      * Disable usage of custom queue for all actions of the connection
+     *
+     * @internal this method is currently experimental. whether or not it will 
+     *           become part of the official API needs decision
      */
     public function disableCustomQueue() 
     {
