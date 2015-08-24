@@ -151,12 +151,10 @@ abstract class Handler
      */
     protected function validateAndIncludeOldSingleParameterInParams($options, $params, $parameter)
     {
-        $value = null;
-
         if (!is_array($options)) {
             $value = $options;
         } else {
-            $value = array_key_exists($parameter, $options) ? $options[$parameter] : $value;
+            $value = isset($options[$parameter]) ? $options[$parameter] : null;
         }
 
         if ($value === null) {

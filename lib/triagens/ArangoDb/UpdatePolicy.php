@@ -43,7 +43,7 @@ class UpdatePolicy
     {
         assert(is_string($value));
 
-        if (!in_array($value, array(self::LAST, self::ERROR))) {
+        if ($value !== self::LAST && $value !== self::ERROR) {
             throw new ClientException('Invalid update policy');
         }
     }

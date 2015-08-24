@@ -13,8 +13,6 @@ namespace triagens\ArangoDb;
 /**
  * Some helper methods to construct and process URLs
  *
- * <br />
- *
  * @package triagens\ArangoDb
  * @since   0.2
  */
@@ -83,9 +81,7 @@ abstract class UrlHelper
      */
     public static function appendParamsUrl($baseUrl, array $params)
     {
-        $url = $baseUrl . '?' . http_build_query($params);
-
-        return $url;
+        return $baseUrl . '?' . http_build_query($params);
     }
 
     /**

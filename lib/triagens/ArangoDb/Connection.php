@@ -17,7 +17,6 @@ namespace triagens\ArangoDb;
  * persistent connection and keep its state.<br>
  * Instead, connections are established on the fly for each request
  * and are destroyed afterwards.<br>
- * <br>
  *
  * @package   triagens\ArangoDb
  * @since     0.2
@@ -37,6 +36,26 @@ class Connection
      * @var array
      */
     private $_options;
+
+    /**
+     * Pre-assembled HTTP headers string for connection
+     * This is precalculated when connection options are set/changed, to avoid
+     * calculation of the same HTTP header values in each request done via the
+     * connection
+     *
+     * @var string
+     */
+    private $_httpHeader = '';
+
+    /**
+     * Pre-assembled base URL for the current database
+     * This is precalculated when connection options are set/changed, to avoid
+     * calculation of the same base URL in each request done via the
+     * connection
+     *
+     * @var string
+     */
+    private $_baseUrl = '';
 
     /**
      * Connection handle, used in case of keep-alive
@@ -108,6 +127,8 @@ class Connection
         $this->_options      = new ConnectionOptions($options);
         $this->_useKeepAlive = ($this->_options[ConnectionOptions::OPTION_CONNECTION] === 'Keep-Alive');
         $this->setDatabase($this->_options[ConnectionOptions::OPTION_DATABASE]);
+
+        $this->updateHttpHeader();
     }
 
     /**
@@ -170,6 +191,8 @@ class Connection
           // set database
           $this->setDatabase($value);
         }
+        
+        $this->updateHttpHeader();
     }
 
 
@@ -314,6 +337,48 @@ class Connection
 
 
     /**
+     * Recalculate the static HTTP header string used for all HTTP requests in this connection
+     */
+    private function updateHttpHeader()
+    {
+        $this->_httpHeader = HttpHelper::EOL;
+
+        $endpoint = $this->_options[ConnectionOptions::OPTION_ENDPOINT];
+        if (Endpoint::getType($endpoint) !== Endpoint::TYPE_UNIX) {
+            $this->_httpHeader .= sprintf('Host: %s%s', Endpoint::getHost($endpoint), HttpHelper::EOL);
+        }
+
+        if (isset($this->_options[ConnectionOptions::OPTION_AUTH_TYPE]) && 
+            isset($this->_options[ConnectionOptions::OPTION_AUTH_USER])) {
+            // add authorization header
+            $authorizationValue = base64_encode(
+                $this->_options[ConnectionOptions::OPTION_AUTH_USER] . ':' . 
+                $this->_options[ConnectionOptions::OPTION_AUTH_PASSWD]
+            );
+
+            $this->_httpHeader .= sprintf(
+                'Authorization: %s %s%s',
+                $this->_options[ConnectionOptions::OPTION_AUTH_TYPE],
+                $authorizationValue,
+                HttpHelper::EOL
+            );
+        }
+
+        if (isset($this->_options[ConnectionOptions::OPTION_CONNECTION])) {
+            // add connection header
+            $this->_httpHeader .= sprintf('Connection: %s%s', $this->_options[ConnectionOptions::OPTION_CONNECTION], HttpHelper::EOL);
+        }
+
+        $this->_httpHeader .= sprintf('X-Arango-Version: %s%s', self::$_apiVersion, HttpHelper::EOL);
+
+        if ($this->_database === '') {
+            $this->_baseUrl = '/_db/_system';
+        } else {
+            $this->_baseUrl = '/_db/' . urlencode($this->_database);
+        }
+    }
+
+    /**
      * Get a connection handle
      *
      * If keep-alive connections are used, the handle will be stored and re-used
@@ -407,13 +472,7 @@ class Connection
      */
     private function executeRequest($method, $url, $data, array $customHeaders = array())
     {
-        HttpHelper::validateMethod($method);
-        $database = $this->getDatabase();
-        if ($database === '') {
-            $url = '/_db/' . '_system' . $url;
-        } else {
-            $url = '/_db/' . urlencode($database) . $url;
-        }
+        assert($this->_httpHeader !== '');
 
         // check if a custom queue should be used
         if (! isset($customHeaders[ConnectionOptions::OPTION_CUSTOM_QUEUE]) &&
@@ -434,16 +493,20 @@ class Connection
                 }
             }
         }
+        
+
+        HttpHelper::validateMethod($method);
+        $url = $this->_baseUrl . $url;
 
         // create request data
         if ($this->_batchRequest === false) {
 
             if ($this->_captureBatch === true) {
                 $this->_options->offsetSet(ConnectionOptions::OPTION_BATCHPART, true);
-                $request = HttpHelper::buildRequest($this->_options, $method, $url, $data, $customHeaders);
+                $request = HttpHelper::buildRequest($this->_options, $this->_httpHeader, $method, $url, $data, $customHeaders);
                 $this->_options->offsetSet(ConnectionOptions::OPTION_BATCHPART, false);
             } else {
-                $request = HttpHelper::buildRequest($this->_options, $method, $url, $data, $customHeaders);
+                $request = HttpHelper::buildRequest($this->_options, $this->_httpHeader, $method, $url, $data, $customHeaders);
             }
 
             if ($this->_captureBatch === true) {
@@ -457,7 +520,7 @@ class Connection
 
             $this->_options->offsetSet(ConnectionOptions::OPTION_BATCH, true);
 
-            $request = HttpHelper::buildRequest($this->_options, $method, $url, $data, $customHeaders);
+            $request = HttpHelper::buildRequest($this->_options, $this->_httpHeader, $method, $url, $data, $customHeaders);
             $this->_options->offsetSet(ConnectionOptions::OPTION_BATCH, false);
         }
 
@@ -750,6 +813,8 @@ class Connection
     {
         $this->_options[ConnectionOptions::OPTION_DATABASE] = $database;
         $this->_database = $database;
+
+        $this->updateHttpHeader();
     }
 
     /**

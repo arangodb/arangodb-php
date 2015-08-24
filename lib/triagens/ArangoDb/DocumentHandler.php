@@ -420,21 +420,27 @@ class DocumentHandler extends
                        )
         );
 
-        if (is_array($document)) {
-            $document = Document::createFromArray($document);
-        }
-        $data = $document->getAll();
-
         $url = UrlHelper::appendParamsUrl(Urls::URL_DOCUMENT, $params);
 
+        if (is_array($document)) {
+            $data = $document;
+        }
+        else {
+            $data = $document->getAll();
+        }
+
         $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
+        $json = $response->getJson();
+
+        if (is_array($document)) {
+            return $json[Document::ENTRY_KEY];
+        }
 
         $location = $response->getLocationHeader();
         if (!$location) {
             throw new ClientException('Did not find location header in server response');
         }
 
-        $json = $response->getJson();
         $id   = UrlHelper::getDocumentIdFromLocation($location);
 
         $document->setInternalId($json[Document::ENTRY_ID]);
@@ -448,7 +454,6 @@ class DocumentHandler extends
 
         return $document->getId();
     }
-
 
     /**
      * Update an existing document in a collection, identified by the including _id and optionally _rev in the patch document.

@@ -59,6 +59,8 @@ function getConnectionOptions()
         // do not create unknown collections automatically
         ConnectionOptions::OPTION_UPDATE_POLICY => UpdatePolicy::LAST,
         // last update wins
+        ConnectionOptions::OPTION_CHECK_UTF8_CONFORM => true
+        // force UTF-8 checks for data
     );
 }
 
