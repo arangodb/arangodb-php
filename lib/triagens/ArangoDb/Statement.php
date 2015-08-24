@@ -197,6 +197,9 @@ class Statement
         if (isset($data[Cursor::ENTRY_FLAT])) {
             $this->_flat = (bool) $data[Cursor::ENTRY_FLAT];
         }
+        if (isset($data[Cursor::ENTRY_CUSTOM_QUEUE])) {
+            $this->_customQueue = $data[Cursor::ENTRY_CUSTOM_QUEUE];
+        }
     }
 
     /**
