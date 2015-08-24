@@ -10,35 +10,9 @@
 
 namespace triagens\ArangoDb;
 
-class QueryHandler
+class QueryHandler extends
+    Handler
 {
-    /**
-     * The connection object
-     *
-     * @var Connection
-     */
-    private $_connection = null;
-
-    /**
-     * Initialize the query handler
-     *
-     * @param Connection $connection - the connection to be used
-     */
-    public function __construct(Connection $connection)
-    {
-        $this->_connection = $connection;
-    }
-
-    /**
-     * Return the connection object
-     *
-     * @return Connection - the connection object
-     */
-    protected function getConnection()
-    {
-        return $this->_connection;
-    }
-
     /**
      * Clears the list of slow queries
      *
@@ -47,7 +21,7 @@ class QueryHandler
     public function clearSlow() 
     {
         $url      = UrlHelper::buildUrl(Urls::URL_QUERY, array('slow'));
-        $response = $this->_connection->delete($url);
+        $response = $this->getConnection()->delete($url);
     }
 
     /**
@@ -60,7 +34,7 @@ class QueryHandler
     public function getSlow() 
     {
         $url      = UrlHelper::buildUrl(Urls::URL_QUERY, array('slow'));
-        $response = $this->_connection->get($url);
+        $response = $this->getConnection()->get($url);
 
         $result = $response->getJson();
         return $result;
@@ -76,7 +50,7 @@ class QueryHandler
     public function getCurrent() 
     {
         $url      = UrlHelper::buildUrl(Urls::URL_QUERY, array('current'));
-        $response = $this->_connection->get($url);
+        $response = $this->getConnection()->get($url);
 
         $result = $response->getJson();
         return $result;
@@ -96,7 +70,7 @@ class QueryHandler
     public function kill($id) 
     {
         $url      = UrlHelper::buildUrl(Urls::URL_QUERY, array($id));
-        $this->_connection->delete($url);
+        $this->getConnection()->delete($url);
 
         return true;
     }

@@ -81,6 +81,13 @@ class Connection
     private $_batchRequest = false;
 
     /**
+     * custom queue name (leave empty if no custom queue is required)
+     *
+     * @var string
+     */
+    private $_customQueue = null;
+
+    /**
      * $_database string
      *
      * @var string
@@ -157,13 +164,43 @@ class Connection
         }
         else if ($name === ConnectionOptions::OPTION_CONNECTION) {
           // set keep-alive flag
-          $this->_useKeepAlive = ($value === 'Keep-Alive');
+          $this->_useKeepAlive = (strtolower($value) === 'keep-alive');
         }
         else if ($name === ConnectionOptions::OPTION_DATABASE) {
           // set database
           $this->setDatabase($value);
         }
     }
+
+
+    /**
+     * Enables a custom queue name for all actions of the connection
+     *
+     * @param string $queueName - queue name
+     * @param number $count - number of requests the custom queue will be used for
+     */
+
+    public function enableCustomQueue($queueName, $count = null) 
+    {
+        $this->_options[ConnectionOptions::OPTION_CUSTOM_QUEUE] = $queueName;
+
+        if ($count !== null) {
+            if (! is_numeric($count) || $count <= 0) {
+                throw new ClientException('Invalid value for count value of custom queues');
+            }
+            $this->_options[ConnectionOptions::OPTION_CUSTOM_QUEUE_COUNT] = $count;
+        }
+    }
+
+    /**
+     * Disable usage of custom queue for all actions of the connection
+     */
+    public function disableCustomQueue() 
+    {
+        $this->_options[ConnectionOptions::OPTION_CUSTOM_QUEUE] = null;
+        $this->_options[ConnectionOptions::OPTION_CUSTOM_QUEUE_COUNT] = null;
+    }
+ 
 
     /**
      * Issue an HTTP GET request
@@ -175,9 +212,9 @@ class Connection
      *
      * @return HttpResponse
      */
-    public function get($url, $customHeader = array())
+    public function get($url, array $customHeaders = array())
     {
-        $response = $this->executeRequest(HttpHelper::METHOD_GET, $url, '', $customHeader);
+        $response = $this->executeRequest(HttpHelper::METHOD_GET, $url, '', $customHeaders);
 
         return $this->parseResponse($response);
     }
@@ -193,9 +230,9 @@ class Connection
      *
      * @return HttpResponse
      */
-    public function post($url, $data, $customHeader = array())
+    public function post($url, $data, array $customHeaders = array())
     {
-        $response = $this->executeRequest(HttpHelper::METHOD_POST, $url, $data, $customHeader);
+        $response = $this->executeRequest(HttpHelper::METHOD_POST, $url, $data, $customHeaders);
 
         return $this->parseResponse($response);
     }
@@ -211,9 +248,9 @@ class Connection
      *
      * @return HttpResponse
      */
-    public function put($url, $data, $customHeader = array())
+    public function put($url, $data, array $customHeaders = array())
     {
-        $response = $this->executeRequest(HttpHelper::METHOD_PUT, $url, $data, $customHeader);
+        $response = $this->executeRequest(HttpHelper::METHOD_PUT, $url, $data, $customHeaders);
 
         return $this->parseResponse($response);
     }
@@ -228,9 +265,9 @@ class Connection
      *
      * @return HttpResponse
      */
-    public function head($url, $customHeader = array())
+    public function head($url, array $customHeaders = array())
     {
-        $response = $this->executeRequest(HttpHelper::METHOD_HEAD, $url, '', $customHeader);
+        $response = $this->executeRequest(HttpHelper::METHOD_HEAD, $url, '', $customHeaders);
 
         return $this->parseResponse($response);
     }
@@ -246,9 +283,9 @@ class Connection
      *
      * @return HttpResponse
      */
-    public function patch($url, $data, $customHeader = array())
+    public function patch($url, $data, array $customHeaders = array())
     {
-        $response = $this->executeRequest(HttpHelper::METHOD_PATCH, $url, $data, $customHeader);
+        $response = $this->executeRequest(HttpHelper::METHOD_PATCH, $url, $data, $customHeaders);
 
         return $this->parseResponse($response);
     }
@@ -263,9 +300,9 @@ class Connection
      *
      * @return HttpResponse
      */
-    public function delete($url, $customHeader = array())
+    public function delete($url, array $customHeaders = array())
     {
-        $response = $this->executeRequest(HttpHelper::METHOD_DELETE, $url, '', $customHeader);
+        $response = $this->executeRequest(HttpHelper::METHOD_DELETE, $url, '', $customHeaders);
 
         return $this->parseResponse($response);
     }
@@ -356,33 +393,52 @@ class Connection
      *
      * @throws Exception
      *
-     * @param string $method       - HTTP request method
-     * @param string $url          - HTTP URL
-     * @param string $data         - data to post in body
-     * @param array  $customHeader - any array containing header elements
+     * @param string $method        - HTTP request method
+     * @param string $url           - HTTP URL
+     * @param string $data          - data to post in body
+     * @param array  $customHeaders - any array containing header elements
      *
      * @return HttpResponse
      */
-    private function executeRequest($method, $url, $data, $customHeader = array())
+    private function executeRequest($method, $url, $data, array $customHeaders = array())
     {
         HttpHelper::validateMethod($method);
         $database = $this->getDatabase();
         if ($database === '') {
             $url = '/_db/' . '_system' . $url;
         } else {
-            $url = '/_db/' . $database . $url;
+            $url = '/_db/' . urlencode($database) . $url;
         }
 
+        // check if a custom queue should be used
+        if (! isset($customHeaders[ConnectionOptions::OPTION_CUSTOM_QUEUE]) &&
+            $this->_options[ConnectionOptions::OPTION_CUSTOM_QUEUE] !== null) {
+
+            $customHeaders[HttpHelper::QUEUE_HEADER] = $this->_options[ConnectionOptions::OPTION_CUSTOM_QUEUE]; 
+
+            // check if a counter is set for the custom queue
+            $count = $this->_options[ConnectionOptions::OPTION_CUSTOM_QUEUE_COUNT];
+            if ($count !== null) {
+                // yes, now decrease the counter
+
+                if ($count === 1) {
+                    $this->disableCustomQueue();
+                }
+                else {
+                    $this->_options->offsetSet(ConnectionOptions::OPTION_CUSTOM_QUEUE_COUNT, $count - 1);
+                }
+            }
+        }
 
         // create request data
         if ($this->_batchRequest === false) {
 
             if ($this->_captureBatch === true) {
                 $this->_options->offsetSet(ConnectionOptions::OPTION_BATCHPART, true);
-                $request = HttpHelper::buildRequest($this->_options, $method, $url, $data, $customHeader);
+                $request = HttpHelper::buildRequest($this->_options, $method, $url, $data, $customHeaders);
                 $this->_options->offsetSet(ConnectionOptions::OPTION_BATCHPART, false);
             } else {
-                $request = HttpHelper::buildRequest($this->_options, $method, $url, $data, $customHeader);
+                $request = HttpHelper::buildRequest($this->_options, $method, $url, $data, $customHeaders);
             }
 
             if ($this->_captureBatch === true) {
@@ -396,7 +452,7 @@ class Connection
 
             $this->_options->offsetSet(ConnectionOptions::OPTION_BATCH, true);
 
-            $request = HttpHelper::buildRequest($this->_options, $method, $url, $data, $customHeader);
+            $request = HttpHelper::buildRequest($this->_options, $method, $url, $data, $customHeaders);
             $this->_options->offsetSet(ConnectionOptions::OPTION_BATCH, false);
         }
 
