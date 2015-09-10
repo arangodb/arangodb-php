@@ -104,6 +104,13 @@ class Statement
      * @var bool
      */
     private $_sanitize = false;
+    
+    /**
+     * Whether or not the query cache should be consulted
+     *
+     * @var bool 
+     */
+    private $_cache = null;
 
     /**
      * Custom queue name
@@ -197,6 +204,11 @@ class Statement
         if (isset($data[Cursor::ENTRY_FLAT])) {
             $this->_flat = (bool) $data[Cursor::ENTRY_FLAT];
         }
+        
+        if (isset($data[Cursor::ENTRY_CACHE])) {
+            $this->_cache = (bool) $data[Cursor::ENTRY_CACHE];
+        }
+
         if (isset($data[Cursor::ENTRY_CUSTOM_QUEUE])) {
             $this->_customQueue = $data[Cursor::ENTRY_CUSTOM_QUEUE];
         }
@@ -410,6 +422,28 @@ class Statement
     }
 
     /**
+     * Set the caching option for the statement
+     *
+     * @param bool $value - value for 'cache' option
+     *
+     * @return void
+     */
+    public function setCache($value)
+    {
+        $this->_cache = (bool) $value;
+    }
+
+    /**
+     * Get the caching option value of the statement
+     *
+     * @return bool - current value of 'cache' option
+     */
+    public function getCache()
+    {
+        return $this->_cache;
+    }
+
+    /**
      * Set the batch size for the statement
      *
      * The batch size is the number of results to be transferred
@@ -473,6 +507,10 @@ class Statement
                 self::FULL_COUNT => $this->_fullCount
             )
         );
+            
+        if ($this->_cache !== null) {
+            $data[Cursor::ENTRY_CACHE] = $this->_cache;
+        }
 
         if ($this->_bindVars->getCount() > 0) {
             $data[self::ENTRY_BINDVARS] = $this->_bindVars->getAll();

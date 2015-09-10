@@ -95,6 +95,11 @@ class Cursor implements
     private $_fetches = 1;
 
     /**
+     * whether or not the query result was served from the AQL query result cache
+     */
+    private $_cached;
+
+    /**
      * result entry for cursor id
      */
     const ENTRY_ID = 'id';
@@ -123,17 +128,27 @@ class Cursor implements
      * result entry for the full count (ignoring the outermost LIMIT)
      */
     const FULL_COUNT = 'fullCount';
-
+    
     /**
-     * sanitize option entry
+     * cache option entry
      */
-    const ENTRY_SANITIZE = '_sanitize';
+    const ENTRY_CACHE = 'cache';
+    
+    /**
+     * cached result attribute - whether or not the result was served from the AQL query cache
+     */
+    const ENTRY_CACHED = 'cached';
 
     /**
      * custom queue option entry
      */
     const ENTRY_CUSTOM_QUEUE = 'customQueue';
 
+    /**
+     * sanitize option entry
+     */
+    const ENTRY_SANITIZE = '_sanitize';
+    
     /**
      * "flat" option entry (will treat the results as a simple array, not documents)
      */
@@ -164,6 +179,7 @@ class Cursor implements
         $this->data        = $data;
         $this->_id         = null;
         $this->_extra      = array();
+        $this->_cached     = false;
 
         if (isset($data[self::ENTRY_ID])) {
             $this->_id = $data[self::ENTRY_ID];
@@ -181,7 +197,11 @@ class Cursor implements
             // pre-ArangoDB 2.3 return value struct
             $this->_fullCount = $data[self::ENTRY_EXTRA][self::FULL_COUNT];
         }
-
+        
+        if (isset($data[self::ENTRY_CACHED])) {
+            $this->_cached = $data[self::ENTRY_CACHED];
+        }
+        
         // attribute must be there
         assert(isset($data[self::ENTRY_HASMORE]));
         $this->_hasMore = (bool) $data[self::ENTRY_HASMORE];
@@ -246,6 +266,17 @@ class Cursor implements
     public function getFullCount()
     {
         return $this->_fullCount;
+    }
+    
+    
+    /**
+     * Get the cached attribute for the result set
+     *
+     * @return bool - whether or not the query result was served from the AQL query cache
+     */
+    public function getCached()
+    {
+        return $this->_cached;
     }
 
 

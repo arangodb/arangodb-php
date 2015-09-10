@@ -20,8 +20,8 @@ class QueryHandler extends
      */
     public function clearSlow() 
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_QUERY, array('slow'));
-        $response = $this->getConnection()->delete($url);
+        $url = UrlHelper::buildUrl(Urls::URL_QUERY, array('slow'));
+        $this->getConnection()->delete($url);
     }
 
     /**

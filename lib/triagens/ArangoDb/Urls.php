@@ -229,5 +229,10 @@ abstract class Urls
      * base URL part for database management
      */
     const URL_DATABASE = '/_api/database';
+    
+    /**
+     * URL for AQL query result cache
+     */
+    const URL_QUERY_CACHE = '/_api/query-cache';
 
 }

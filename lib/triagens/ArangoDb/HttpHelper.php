@@ -118,6 +118,10 @@ class HttpHelper
      */
     public static function buildRequest(ConnectionOptions $options, $connectionHeader, $method, $url, $body, $customHeaders = array())
     {
+        if (! is_string($body)) {
+            throw new ClientException('Invalid value for body. Expecting string, got ' . gettype($body));
+        }
+
         $length = strlen($body);
 
         if ($options[ConnectionOptions::OPTION_BATCH] === true) {

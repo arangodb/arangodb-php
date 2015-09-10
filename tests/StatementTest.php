@@ -426,6 +426,54 @@ class StatementTest extends
         $rows = $cursor->getAll();
         $this->assertEquals("file", $rows[0]);
     }
+    
+    
+    /**
+     * Test cache attribute
+     */
+    public function testCacheAttributeTrue()
+    {
+        $statement = new Statement($this->connection, array("cache" => true, "_flat" => true));
+        $statement->setQuery('FOR i IN 1..100 RETURN i');
+
+        $this->assertTrue($statement->getCache());
+    }
+    
+
+    /**
+     * Test cache attribute
+     */
+    public function testCacheAttributeFalse()
+    {
+        $statement = new Statement($this->connection, array("cache" => false, "_flat" => true));
+        $statement->setQuery('FOR i IN 1..100 RETURN i');
+
+        $this->assertFalse($statement->getCache());
+    }
+    
+    
+    /**
+     * Test cache attribute
+     */
+    public function testCacheAttributeNull()
+    {
+        $statement = new Statement($this->connection, array("cache" => null, "_flat" => true));
+        $statement->setQuery('FOR i IN 1..100 RETURN i');
+
+        $this->assertNull($statement->getCache());
+    }
+    
+    
+    /**
+     * Test cache attribute
+     */
+    public function testCacheAttributeNotSet()
+    {
+        $statement = new Statement($this->connection, array("_flat" => true));
+        $statement->setQuery('FOR i IN 1..100 RETURN i');
+
+        $this->assertNull($statement->getCache());
+    }
 
 
     public function tearDown()
