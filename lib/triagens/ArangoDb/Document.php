@@ -417,6 +417,28 @@ class Document
 
         return $data;
     }
+    
+    
+    /**
+     * Get all document attributes, and return an empty object if the documentapped into a DocumentWrapper class
+     *
+     * @param mixed $options - optional, array of options for the getAll function, or the boolean value for $includeInternals
+     *                       <p>Options are :
+     *                       <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
+     *                       <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+     *                       </p>
+     *
+     * @return mixed - associative array of all document attributes/values, or an empty StdClass if the document
+     *                 does not have any
+     */
+    public function getAllAsObject($options = array())
+    {
+          $result = $this->getAll($options);
+          if (count($result) === 0) {
+              return new \StdClass;
+          }
+          return $result;
+    }
 
     /**
      * Set the hidden attributes

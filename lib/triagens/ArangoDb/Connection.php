@@ -749,23 +749,27 @@ class Connection
      */
     public static function check_encoding($data)
     {
+        if (!is_array($data)) {
+            return;
+        }
+
         foreach ($data as $key => $value) {
             if (!is_array($value)) {
                 // check if the multibyte library function is installed and use it.
                 if (function_exists('mb_detect_encoding')) {
                     // check with mb library
-                    if (mb_detect_encoding($key, 'UTF-8', true) === false) {
+                    if (is_string($key) && mb_detect_encoding($key, 'UTF-8', true) === false) {
                         throw new ClientException("Only UTF-8 encoded keys allowed. Wrong encoding in key string: " . $key);
                     }
-                    if (mb_detect_encoding($value, 'UTF-8', true) === false) {
+                    if (is_string($value) && mb_detect_encoding($value, 'UTF-8', true) === false) {
                         throw new ClientException("Only UTF-8 encoded values allowed. Wrong encoding in value string: " . $value);
                     }
                 } else {
                     // fallback to preg_match checking
-                    if (self::detect_utf($key) == false) {
+                    if (is_string($key) && self::detect_utf($key) == false) {
                         throw new ClientException("Only UTF-8 encoded keys allowed. Wrong encoding in key string: " . $key);
                     }
-                    if (self::detect_utf($value) == false) {
+                    if (is_string($value) && self::detect_utf($value) == false) {
                         throw new ClientException("Only UTF-8 encoded values allowed. Wrong encoding in value string: " . $value);
                     }
                 }

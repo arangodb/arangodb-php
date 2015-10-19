@@ -531,6 +531,212 @@ class CollectionExtendedTest extends
         $result = $collectionHandler->removeByKeys($collection->getId(), $keys);
         $this->assertEquals(array("removed" => 0, "ignored" => 3), $result);
     }
+    
+    
+    /**
+     * test for creation of documents, and removal by example, using an empty example
+     */
+    public function testCreateDocumentsAndRemoveByExampleEmptyExample()
+    {
+        $documentHandler   = $this->documentHandler;
+        $collectionHandler = $this->collectionHandler;
+
+        $collection = Collection::createFromArray(
+                                array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01')
+        );
+        $collectionHandler->add($collection);
+        $document    = Document::createFromArray(
+                               array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId  = $documentHandler->add($collection->getId(), $document);
+        $document2   = Document::createFromArray(
+                               array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+        );
+        $documentId2 = $documentHandler->add($collection->getId(), $document2);
+        $document3   = Document::createFromArray(
+                               array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId3 = $documentHandler->add($collection->getId(), $document3);
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId2), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId3), 'Did not return an id!');
+
+        $result          = $collectionHandler->removeByExample($collection->getId(), array());
+        $this->assertEquals(3, $result);
+    }
+    
+    
+    /**
+     * test for update by example, using an empty example
+     */
+    public function testCreateDocumentsAndUpdateByExampleEmptyExample()
+    {
+        $documentHandler   = $this->documentHandler;
+        $collectionHandler = $this->collectionHandler;
+
+        $collection = Collection::createFromArray(
+                                array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01')
+        );
+        $collectionHandler->add($collection);
+        $document    = Document::createFromArray(
+                               array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId  = $documentHandler->add($collection->getId(), $document);
+        $document2   = Document::createFromArray(
+                               array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+        );
+        $documentId2 = $documentHandler->add($collection->getId(), $document2);
+        $document3   = Document::createFromArray(
+                               array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId3 = $documentHandler->add($collection->getId(), $document3);
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId2), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId3), 'Did not return an id!');
+
+        $result          = $collectionHandler->updateByExample($collection->getId(), array(), array('foo' => 'bar'));
+        $this->assertEquals(3, $result);
+    }
+    
+    
+    /**
+     * test for update by example, using an empty update example
+     */
+    public function testCreateDocumentsAndUpdateByExampleEmptyUpdateExample()
+    {
+        $documentHandler   = $this->documentHandler;
+        $collectionHandler = $this->collectionHandler;
+
+        $collection = Collection::createFromArray(
+                                array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01')
+        );
+        $collectionHandler->add($collection);
+        $document    = Document::createFromArray(
+                               array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId  = $documentHandler->add($collection->getId(), $document);
+        $document2   = Document::createFromArray(
+                               array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+        );
+        $documentId2 = $documentHandler->add($collection->getId(), $document2);
+        $document3   = Document::createFromArray(
+                               array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId3 = $documentHandler->add($collection->getId(), $document3);
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId2), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId3), 'Did not return an id!');
+
+        $result          = $collectionHandler->updateByExample($collection->getId(), array(), array());
+        $this->assertEquals(3, $result);
+    }
+    
+    
+    /**
+     * test for replace by example, using an empty example
+     */
+    public function testCreateDocumentsAndReplaceByExampleEmptyExample()
+    {
+        $documentHandler   = $this->documentHandler;
+        $collectionHandler = $this->collectionHandler;
+
+        $collection = Collection::createFromArray(
+                                array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01')
+        );
+        $collectionHandler->add($collection);
+        $document    = Document::createFromArray(
+                               array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId  = $documentHandler->add($collection->getId(), $document);
+        $document2   = Document::createFromArray(
+                               array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+        );
+        $documentId2 = $documentHandler->add($collection->getId(), $document2);
+        $document3   = Document::createFromArray(
+                               array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId3 = $documentHandler->add($collection->getId(), $document3);
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId2), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId3), 'Did not return an id!');
+
+        $result          = $collectionHandler->replaceByExample($collection->getId(), array(), array('foo' => 'bar'));
+        $this->assertEquals(3, $result);
+    }
+    
+    /**
+     * test for replace by example, using an empty example
+     */
+    public function testCreateDocumentsAndReplaceByExampleEmptyReplaceExample()
+    {
+        $documentHandler   = $this->documentHandler;
+        $collectionHandler = $this->collectionHandler;
+
+        $collection = Collection::createFromArray(
+                                array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01')
+        );
+        $collectionHandler->add($collection);
+        $document    = Document::createFromArray(
+                               array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId  = $documentHandler->add($collection->getId(), $document);
+        $document2   = Document::createFromArray(
+                               array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+        );
+        $documentId2 = $documentHandler->add($collection->getId(), $document2);
+        $document3   = Document::createFromArray(
+                               array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId3 = $documentHandler->add($collection->getId(), $document3);
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId2), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId3), 'Did not return an id!');
+
+        $result          = $collectionHandler->replaceByExample($collection->getId(), array(), array());
+        $this->assertEquals(3, $result);
+    }
+    
+    
+    /**
+     * test for query by example, using an empty example
+     */
+    public function testCreateDocumentsAndQueryByExampleEmptyExample()
+    {
+        $documentHandler   = $this->documentHandler;
+        $collectionHandler = $this->collectionHandler;
+
+        $collection = Collection::createFromArray(
+                                array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01')
+        );
+        $collectionHandler->add($collection);
+        $document    = Document::createFromArray(
+                               array('someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId  = $documentHandler->add($collection->getId(), $document);
+        $document2   = Document::createFromArray(
+                               array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+        );
+        $documentId2 = $documentHandler->add($collection->getId(), $document2);
+        $document3   = Document::createFromArray(
+                               array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId3 = $documentHandler->add($collection->getId(), $document3);
+
+        $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId2), 'Did not return an id!');
+        $this->assertTrue(is_numeric($documentId3), 'Did not return an id!');
+
+        $cursor          = $collectionHandler->byExample($collection->getId(), array());
+        $this->assertTrue(
+             $cursor->getCount() == 3,
+             'should return 3.'
+        );
+    }
 
 
     /**

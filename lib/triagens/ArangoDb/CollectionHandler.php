@@ -986,7 +986,7 @@ class CollectionHandler extends
 
         $body = array(
             self::OPTION_COLLECTION => $collectionId,
-            self::OPTION_EXAMPLE    => $document->getAll(array('_ignoreHiddenAttributes' => true))
+            self::OPTION_EXAMPLE    => $document->getAllAsObject(array('_ignoreHiddenAttributes' => true))
         );
 
         $body = $this->includeOptionsInBody(
@@ -1292,8 +1292,8 @@ class CollectionHandler extends
 
         $body = array(
             self::OPTION_COLLECTION => $collectionId,
-            self::OPTION_EXAMPLE    => $example->getAll(array('_ignoreHiddenAttributes' => true)),
-            self::OPTION_NEW_VALUE  => $newValue->getAll(array('_ignoreHiddenAttributes' => true))
+            self::OPTION_EXAMPLE    => $example->getAllAsObject(array('_ignoreHiddenAttributes' => true)),
+            self::OPTION_NEW_VALUE  => $newValue->getAllAsObject(array('_ignoreHiddenAttributes' => true))
         );
 
         $body = $this->includeOptionsInBody(
@@ -1357,8 +1357,8 @@ class CollectionHandler extends
 
         $body = array(
             self::OPTION_COLLECTION => $collectionId,
-            self::OPTION_EXAMPLE    => $example->getAll(array('_ignoreHiddenAttributes' => true)),
-            self::OPTION_NEW_VALUE  => $newValue->getAll(array('_ignoreHiddenAttributes' => true))
+            self::OPTION_EXAMPLE    => $example->getAllAsObject(array('_ignoreHiddenAttributes' => true)),
+            self::OPTION_NEW_VALUE  => $newValue->getAllAsObject(array('_ignoreHiddenAttributes' => true))
         );
 
         $body = $this->includeOptionsInBody(
@@ -1372,9 +1372,6 @@ class CollectionHandler extends
                           self::OPTION_LIMIT                  => null,
                      )
         );
-
-        #$url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, array($collectionId));
-        #$result = $this->getConnection()->patch($url, $this->json_encode_wrapper($body));
 
         $response = $this->getConnection()->put(Urls::URL_REPLACE_BY_EXAMPLE, $this->json_encode_wrapper($body));
 
@@ -1422,7 +1419,7 @@ class CollectionHandler extends
 
         $body = array(
             self::OPTION_COLLECTION => $collectionId,
-            self::OPTION_EXAMPLE    => $document->getAll(array('_ignoreHiddenAttributes' => true))
+            self::OPTION_EXAMPLE    => $document->getAllAsObject(array('_ignoreHiddenAttributes' => true))
         );
 
         $body = $this->includeOptionsInBody(
