@@ -473,6 +473,10 @@ class Connection
     private function executeRequest($method, $url, $data, array $customHeaders = array())
     {
         assert($this->_httpHeader !== '');
+        $wasAsync = false;
+        if (is_array($customHeaders) && isset($customHeaders[HttpHelper::ASYNC_HEADER])) {
+            $wasAsync = true;
+        }
 
         // check if a custom queue should be used
         if (! isset($customHeaders[ConnectionOptions::OPTION_CUSTOM_QUEUE]) &&
@@ -566,7 +570,7 @@ class Connection
                 fclose($handle);
             }
 
-            $response = new HttpResponse($result, $url, $method);
+            $response = new HttpResponse($result, $url, $method, $wasAsync);
 
             if ($traceFunc) {
                 // call tracer func

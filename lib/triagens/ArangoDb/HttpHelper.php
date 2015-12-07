@@ -79,6 +79,11 @@ class HttpHelper
      * HTTP Header for specifying a custom queue
      */
     const QUEUE_HEADER = 'X-Arango-Queue';
+    
+    /**
+     * HTTP Header for making an operation asynchronous
+     */
+    const ASYNC_HEADER = 'X-Arango-Async';
 
     /**
      * Validate an HTTP request method name
