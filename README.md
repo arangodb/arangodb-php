@@ -39,11 +39,6 @@
 
 <br>
 
-Please take a look [here](https://github.com/arangodb/arangodb-php/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix) for the **ArangoDB-PHP Client** / **ArangoDB Server** interoperability matrix.
-
-**[Important versioning information on ArangoDB-PHP](https://github.com/arangodb/arangodb-php/wiki/Important-versioning-information-on-ArangoDB-PHP)**
-
-<br>
 <a name="description"></a>
 # Description
 
@@ -57,7 +52,7 @@ There is an example for this kind of statements in the file examples/select.php.
 To use the PHP client, you must include the file autoloader.php from the main directory.
 The autoloader will care about loading additionally required classes on the fly. The autoloader can be nested with other autoloaders.
 
-The ArangoDB PHP client is an API that allows you to send and retrieve documents from ArangoDB from out of your PHP application. The client library itself is written in PHP and has no further dependencies but just plain PHP 5.3 (or higher).
+The ArangoDB PHP client is an API that allows you to send and retrieve documents from ArangoDB from out of your PHP application. The client library itself is written in PHP and has no further dependencies but just plain PHP 5.4 (or higher).
 
 The client library provides document and collection classes you can use to work with documents and collections in an OO fashion. When exchanging document data with the server, the library internally will use the [HTTP REST interface of ArangoDB](https://docs.arangodb.com/HttpApi/index.html). The library user does not have to care about this fact as all the details of the REST interface are abstracted by the client library.
 
@@ -68,9 +63,9 @@ The client library provides document and collection classes you can use to work 
 <a name="requirements"></a>
 # Requirements
 
-* ArangoDB database server version 1.4 or higher. Detailed info [here](https://github.com/arangodb/arangodb-php/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix)
+* ArangoDB database server version 2.5 or higher. Detailed info [here](https://github.com/arangodb/arangodb-php/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix)
 
-* PHP version 5.3 or higher (Travis-tested with PHP 5.3, 5.4, 5.5, 5.6, 7 and hhvm)
+* PHP version 5.4 or higher (Travis-tested with PHP 5.4, 5.5, 5.6, 7 and hhvm)
 
 <br>
 
@@ -79,7 +74,7 @@ The client library provides document and collection classes you can use to work 
 <a name="installing"></a>
 ## Installing the PHP client
 
-To get started you need PHP 5.3 or higher plus an ArangoDB server running on any host that you can access.
+To get started you need PHP 5.4 or higher plus an ArangoDB server running on any host that you can access.
 
 There are two alternative ways to get the ArangoDB PHP client:
 

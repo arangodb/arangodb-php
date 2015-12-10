@@ -24,6 +24,11 @@ class CollectionBasicTest extends
     {
         $this->connection        = getConnection();
         $this->collectionHandler = new CollectionHandler($this->connection);
+        try {
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_IndexTestCollection');
+        } catch (Exception $e) {
+            //Silence the exception
+        }
         $this->collectionHandler->create('ArangoDB_PHP_TestSuite_IndexTestCollection');
 
         $adminHandler = new AdminHandler($this->connection);

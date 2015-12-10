@@ -39,7 +39,7 @@ class StatementTest extends
         $this->collectionHandler->add($this->collection);
     }
 
-
+    
     /**
      * This is just a test to really test connectivity with the server before moving on to further tests.
      */
@@ -71,6 +71,26 @@ class StatementTest extends
         );
     }
     
+    
+    /**
+     * Test deadlock handling
+     */
+    public function testDeadlock()
+    {
+        $connection = $this->connection;
+        $statement = new Statement($connection, array(
+                                                     "query"     => 'RETURN TEST_INTERNAL("DEADLOCK", null)',
+                                                     "_sanitize" => true
+                                                ));
+        try {
+            $cursor = $statement->execute();
+        }
+        catch (ServerException $e) {
+        }
+       
+        $this->assertEquals(500, $e->getCode()); 
+        $this->assertEquals(29, $e->getServerCode());
+    }
     
     /**
      * Test warnings returned by statement

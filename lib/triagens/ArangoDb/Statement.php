@@ -106,6 +106,13 @@ class Statement
     private $_sanitize = false;
     
     /**
+     * Number of retries in case a deadlock occurs
+     *
+     * @var bool
+     */
+    private $_retries = 0;
+    
+    /**
      * Whether or not the query cache should be consulted
      *
      * @var bool 
@@ -141,6 +148,11 @@ class Statement
      * Batch size index
      */
     const ENTRY_BATCHSIZE = 'batchSize';
+    
+    /**
+     * Retries index
+     */
+    const ENTRY_RETRIES = 'retries';
 
     /**
      * Bind variables index
@@ -151,7 +163,7 @@ class Statement
      * Full count option index
      */
     const FULL_COUNT = 'fullCount';
-
+    
     /**
      * Initialise the statement
      *
@@ -200,6 +212,10 @@ class Statement
         if (isset($data[Cursor::ENTRY_SANITIZE])) {
             $this->_sanitize = (bool) $data[Cursor::ENTRY_SANITIZE];
         }
+        
+        if (isset($data[self::ENTRY_RETRIES])) {
+            $this->_retries = (int) $data[self::ENTRY_RETRIES];
+        }
 
         if (isset($data[Cursor::ENTRY_FLAT])) {
             $this->_flat = (bool) $data[Cursor::ENTRY_FLAT];
@@ -240,9 +256,25 @@ class Statement
         }
 
         $data     = $this->buildData();
-        $response = $this->_connection->post(Urls::URL_CURSOR, $this->getConnection()->json_encode_wrapper($data), $this->buildHeaders());
+
+        $tries = 0;
+        while (true) {
+            try {
+                $response = $this->_connection->post(Urls::URL_CURSOR, $this->getConnection()->json_encode_wrapper($data), $this->buildHeaders());
         
-        return new Cursor($this->_connection, $response->getJson(), $this->getCursorOptions());
+                return new Cursor($this->_connection, $response->getJson(), $this->getCursorOptions());
+            }
+            catch (ServerException $e) {
+                if ($tries++ >= $this->_retries) {
+                    throw $e;
+                }
+                if ($e->getServerCode() !== 29) {
+                    // 29 is "deadlock detected"
+                    throw $e;
+                }
+                // try again
+            }    
+        }
     }
 
 
