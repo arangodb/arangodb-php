@@ -12,4 +12,4 @@ before_script:
   - chmod 777 ./tests/travis/setup_arangodb.sh
   - ./tests/travis/setup_arangodb.sh
 
-script: phpunit --configuration ./tests/phpunit.xml
+script: phpunit ./tests/ --colors=auto --verbose --bootstrap=./tests/bootstrap.php
