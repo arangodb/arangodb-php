@@ -79,7 +79,7 @@ class StatementTest extends
     {
         $connection = $this->connection;
         $statement = new Statement($connection, array(
-                                                     "query"     => 'RETURN TEST_MODIFY("DEADLOCK", null)',
+                                                     "query"     => 'RETURN TEST_INTERNAL("DEADLOCK", null)',
                                                      "_sanitize" => true
                                                 ));
         try {
