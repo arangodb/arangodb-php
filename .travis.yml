@@ -14,7 +14,6 @@ matrix:
       env: PHP_VERSION_USED="hhvm"
 
 before_script:
-  - echo "PHP version used: ${PHP_VERSION_USED}"
   - wget https://phar.phpunit.de/phpunit.phar
   - chmod a+x phpunit.phar
   - chmod 777 ./tests/travis/setup_arangodb.sh
