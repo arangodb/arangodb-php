@@ -153,6 +153,19 @@ class ConnectionTest extends
      *
      * @expectedException \triagens\ArangoDb\ClientException
      */
+    public function testSetCiphers()
+    {
+        $connection = getConnection();
+
+        // will fail!
+        $connection->setOption(ConnectionOptions::OPTION_CIPHERS, "ALL");
+    }
+    
+    /**
+     * Test set invalid options
+     *
+     * @expectedException \triagens\ArangoDb\ClientException
+     */
     public function testSetHostOption()
     {
         $connection = getConnection();

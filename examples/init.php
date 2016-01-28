@@ -21,7 +21,8 @@ $connectionOptions = array(
   // ConnectionOptions::OPTION_ENDPOINT        => 'ssl://localhost:8529',  // SSL endpoint to connect to
   // ConnectionOptions::OPTION_VERIFY_CERT     => false,                   // SSL certificate validation
   // ConnectionOptions::OPTION_ALLOW_SELF_SIGNED => true,                  // allow self-signed certificates
-
+  // ConnectionOptions::OPTION_CIPHERS         => 'DEFAULT',               // https://www.openssl.org/docs/manmaster/apps/ciphers.html
+  
   // // connection via UNIX domain socket
   // ConnectionOptions::OPTION_ENDPOINT        => 'unix:///tmp/arangodb.sock',  // UNIX domain socket
 
