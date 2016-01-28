@@ -64,6 +64,11 @@ abstract class DefaultValues
      * Default value for accepting self-signed SSL certificates
      */
     const DEFAULT_ALLOW_SELF_SIGNED = true;
+    
+    /**
+     * Default value for ciphers to be used in SSL
+     */
+    const DEFAULT_CIPHERS = null;
 
     /**
      * Default update policy

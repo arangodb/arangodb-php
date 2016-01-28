@@ -72,6 +72,11 @@ class ConnectionOptions implements
      * "allow self-signed" index constant
      */
     const OPTION_ALLOW_SELF_SIGNED = 'allowSelfSigned';
+    
+    /**
+     * ciphers allowed to be used in SSL
+     */
+    const OPTION_CIPHERS = 'ciphers';
 
     /**
      * Enhanced trace
@@ -326,6 +331,7 @@ class ConnectionOptions implements
             self::OPTION_ENHANCED_TRACE     => false,
             self::OPTION_VERIFY_CERT        => DefaultValues::DEFAULT_VERIFY_CERT,
             self::OPTION_ALLOW_SELF_SIGNED  => DefaultValues::DEFAULT_ALLOW_SELF_SIGNED,
+            self::OPTION_CIPHERS            => DefaultValues::DEFAULT_CIPHERS,
             self::OPTION_AUTH_USER          => null,
             self::OPTION_AUTH_PASSWD        => null,
             self::OPTION_AUTH_TYPE          => null,
