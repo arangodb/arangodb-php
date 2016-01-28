@@ -62,6 +62,16 @@ class ConnectionOptions implements
      * Trace function index constant
      */
     const OPTION_TRACE = 'trace';
+    
+    /**
+     * "verify certificates" index constant
+     */
+    const OPTION_VERIFY_CERT = 'verifyCert';
+
+    /**
+     * "allow self-signed" index constant
+     */
+    const OPTION_ALLOW_SELF_SIGNED = 'allowSelfSigned';
 
     /**
      * Enhanced trace
@@ -314,6 +324,8 @@ class ConnectionOptions implements
             self::OPTION_CONNECTION         => DefaultValues::DEFAULT_CONNECTION,
             self::OPTION_TRACE              => null,
             self::OPTION_ENHANCED_TRACE     => false,
+            self::OPTION_VERIFY_CERT        => DefaultValues::DEFAULT_VERIFY_CERT,
+            self::OPTION_ALLOW_SELF_SIGNED  => DefaultValues::DEFAULT_ALLOW_SELF_SIGNED,
             self::OPTION_AUTH_USER          => null,
             self::OPTION_AUTH_PASSWD        => null,
             self::OPTION_AUTH_TYPE          => null,
@@ -376,8 +388,14 @@ class ConnectionOptions implements
         assert(isset($this->_values[self::OPTION_ENDPOINT]));
         // set up a new endpoint, this will also validate it
         $this->getEndpoint();
-        if (Endpoint::getType($this->_values[self::OPTION_ENDPOINT]) === Endpoint::TYPE_UNIX) {
-            // must set port to 0 for UNIX sockets
+
+        $type = Endpoint::getType($this->_values[self::OPTION_ENDPOINT]);
+        if ($type === Endpoint::TYPE_UNIX) {
+            // must set port to 0 for UNIX domain sockets
+            $this->_values[self::OPTION_PORT] = 0;
+        }
+        elseif ($type === Endpoint::TYPE_SSL) {
+            // must set port to 0 for SSL connections
             $this->_values[self::OPTION_PORT] = 0;
         }
 
