@@ -54,6 +54,16 @@ abstract class DefaultValues
      * Default value for HTTP Connection header
      */
     const DEFAULT_CONNECTION = "Close";
+    
+    /**
+     * Default value for SSL certificate verification
+     */
+    const DEFAULT_VERIFY_CERT = false;
+    
+    /**
+     * Default value for accepting self-signed SSL certificates
+     */
+    const DEFAULT_ALLOW_SELF_SIGNED = true;
 
     /**
      * Default update policy

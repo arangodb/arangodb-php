@@ -244,16 +244,29 @@ class HttpHelper
      */
     public static function createConnection(ConnectionOptions $options)
     {
-        $fp = @fsockopen(
-            $options[ConnectionOptions::OPTION_ENDPOINT],
-            $options[ConnectionOptions::OPTION_PORT],
-            $number,
-            $message,
-            $options[ConnectionOptions::OPTION_TIMEOUT]
+        $endpoint = $options[ConnectionOptions::OPTION_ENDPOINT];
+
+        $context = stream_context_create();
+
+        if (Endpoint::getType($endpoint) === Endpoint::TYPE_SSL) {
+            // set further SSL options for the endpoint
+            stream_context_set_option($context, 'ssl', 'verify_host', $options[ConnectionOptions::OPTION_VERIFY_CERT]);
+            stream_context_set_option($context, 'ssl', 'verify_peer', $options[ConnectionOptions::OPTION_VERIFY_CERT]);
+            stream_context_set_option($context, 'ssl', 'allow_self_signed', $options[ConnectionOptions::OPTION_ALLOW_SELF_SIGNED]);
+        }
+
+        $fp = @stream_socket_client(
+            $endpoint,
+            $errno, 
+            $message, 
+            $options[ConnectionOptions::OPTION_TIMEOUT], 
+            STREAM_CLIENT_CONNECT, 
+            $context
         );
+        
         if (!$fp) {
             throw new ConnectException('cannot connect to endpoint \'' . 
-              $options[ConnectionOptions::OPTION_ENDPOINT] . '\': ' . $message, $number);
+              $options[ConnectionOptions::OPTION_ENDPOINT] . '\': ' . $message, $errno);
         }
 
         stream_set_timeout($fp, $options[ConnectionOptions::OPTION_TIMEOUT]);

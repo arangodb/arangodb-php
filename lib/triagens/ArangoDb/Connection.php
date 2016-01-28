@@ -170,7 +170,9 @@ class Connection
     public function setOption($name, $value) {
         if ($name === ConnectionOptions::OPTION_ENDPOINT ||
             $name === ConnectionOptions::OPTION_HOST ||
-            $name === ConnectionOptions::OPTION_PORT) {
+            $name === ConnectionOptions::OPTION_PORT ||
+            $name === ConnectionOptions::OPTION_VERIFY_CERT ||
+            $name === ConnectionOptions::OPTION_ALLOW_SELF_SIGNED) {
             throw new ClientException('Must not set option ' . $value . ' after connection is created.');
         }
 

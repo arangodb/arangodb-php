@@ -74,6 +74,12 @@ class ConnectionTest extends
 
         $value = $connection->getOption(ConnectionOptions::OPTION_DATABASE);
         $this->assertEquals("_system", $value);
+        
+        $value = $connection->getOption(ConnectionOptions::OPTION_VERIFY_CERT);
+        $this->assertFalse($value);
+        
+        $value = $connection->getOption(ConnectionOptions::OPTION_ALLOW_SELF_SIGNED);
+        $this->assertTrue($value);
     }
     
     /**
@@ -114,6 +120,32 @@ class ConnectionTest extends
 
         // will fail!
         $connection->setOption(ConnectionOptions::OPTION_ENDPOINT, "tcp://127.0.0.1:8529");
+    }
+    
+    /**
+     * Test set invalid options
+     *
+     * @expectedException \triagens\ArangoDb\ClientException
+     */
+    public function testSetAllowSelfSignedOption()
+    {
+        $connection = getConnection();
+
+        // will fail!
+        $connection->setOption(ConnectionOptions::OPTION_ALLOW_SELF_SIGNED, true);
+    }
+    
+    /**
+     * Test set invalid options
+     *
+     * @expectedException \triagens\ArangoDb\ClientException
+     */
+    public function testSetVerifyCert()
+    {
+        $connection = getConnection();
+
+        // will fail!
+        $connection->setOption(ConnectionOptions::OPTION_VERIFY_CERT, true);
     }
     
     /**
