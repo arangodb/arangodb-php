@@ -19,28 +19,28 @@ namespace triagens\ArangoDb;
 class Export
 {
     /**
-     * The connection object
+     * The connection object.
      *
      * @var Connection
      */
     private $_connection = null;
 
     /**
-     * The collection name or collection object
+     * The collection name or collection object.
      *
      * @var mixed
      */
     private $_collection = null;
 
     /**
-     * The current batch size (number of result documents retrieved per round-trip)
+     * The current batch size (number of result documents retrieved per round-trip).
      *
      * @var mixed
      */
     private $_batchSize = null;
 
     /**
-     * "flat" flag (if set, the query results will be treated as a simple array, not documents)
+     * "flat" flag (if set, the query results will be treated as a simple array, not documents).
      *
      * @var bool
      */
@@ -49,21 +49,21 @@ class Export
     /**
      * Flush flag (if set, then all documents from the collection that are currently only
      * in the write-ahead log (WAL) will be moved to the collection's datafiles. This may cause
-     * an initial delay in the export, but will lead to the documents in the WAL not being 
+     * an initial delay in the export, but will lead to the documents in the WAL not being
      * excluded from the export run. If the flush flag is set to false, the documents still
      * in the WAL may be missing in the export result.
      *
      * @var bool
      */
     private $_flush = true;
-    
+
     /**
-     * The underlying collection type
+     * The underlying collection type.
      */
     private $_type;
-    
+
     /**
-     * export restrictions - either null for no restrictions or an array with a "type" and a "fields" index
+     * export restrictions - either null for no restrictions or an array with a "type" and a "fields" index.
      *
      * @var mixed
      */
@@ -71,39 +71,51 @@ class Export
 
     /**
      * optional limit for export - if specified and positive, will cap the amount of documents in the cursor to
-     * the specified value
+     * the specified value.
      *
      * @var int
      */
     private $_limit = 0;
-    
+
     /**
-     * Count option index
+     * Cursor time to live.
+     *
+     * @var int
+     */
+    private $_ttl = 0;
+
+    /**
+     * Count option index.
      */
     const ENTRY_COUNT = 'count';
 
     /**
-     * Batch size option index
+     * Batch size option index.
      */
     const ENTRY_BATCHSIZE = 'batchSize';
 
     /**
-     * Flush option index
+     * Flush option index.
      */
     const ENTRY_FLUSH = 'flush';
 
     /**
-     * Export restrictions
+     * Export restrictions.
      */
     const ENTRY_RESTRICT = 'restrict';
-    
+
     /**
-     * Optional limit for the number of documents
+     * Optional limit for the number of documents.
      */
     const ENTRY_LIMIT = 'limit';
 
     /**
-     * Initialize the export
+     * Optional cursor's time to live.
+     */
+    const ENTRY_TTL = 'ttl';
+
+    /**
+     * Initialize the export.
      *
      * @throws Exception
      *
@@ -115,7 +127,7 @@ class Export
     {
         $this->_connection = $connection;
 
-        if (! ($collection instanceof Collection)) {
+        if (!($collection instanceof Collection)) {
             $collectionHandler = new CollectionHandler($this->_connection);
             $collection = $collectionHandler->get($collection);
         }
@@ -132,28 +144,32 @@ class Export
         if (isset($data[self::ENTRY_BATCHSIZE])) {
             $this->setBatchSize($data[self::ENTRY_BATCHSIZE]);
         }
-        
+
         if (isset($data[self::ENTRY_LIMIT])) {
             $this->_limit = (int) $data[self::ENTRY_LIMIT];
         }
-        
+
+        if (isset($data[self::ENTRY_TTL])) {
+            $this->_ttl = (int) $data[self::ENTRY_TTL];
+        }
+
         if (isset($data[self::ENTRY_RESTRICT]) &&
             is_array($data[self::ENTRY_RESTRICT])) {
             $restrictions = $data[self::ENTRY_RESTRICT];
 
-            if (! isset($restrictions["type"]) || 
+            if (! isset($restrictions["type"]) ||
                 ! in_array($restrictions["type"], array("include", "exclude"), true)) {
                 // validate restrictions.type
                 throw new ClientException('Invalid restrictions type definition');
             }
 
-            if (! isset($restrictions["fields"]) || 
+            if (! isset($restrictions["fields"]) ||
                 ! is_array($restrictions["fields"])) {
                 // validate restrictions.fields
                 throw new ClientException('Invalid restrictions fields definition');
             }
-            
-            // all valid 
+
+            // all valid
             $this->_restrictions = $restrictions;
         }
 
@@ -163,7 +179,7 @@ class Export
     }
 
     /**
-     * Return the connection object
+     * Return the connection object.
      *
      * @return Connection - the connection object
      */
@@ -173,45 +189,50 @@ class Export
     }
 
     /**
-     * Execute the export
+     * Execute the export.
      *
      * This will return the results as a Cursor. The cursor can then be used to iterate the results.
      *
      * @throws Exception
+     *
      * @return ExportCursor
      */
     public function execute()
     {
         $data = array(
             self::ENTRY_FLUSH => $this->_flush,
-            self::ENTRY_COUNT => true
+            self::ENTRY_COUNT => true,
         );
 
         if ($this->_batchSize > 0) {
             $data[self::ENTRY_BATCHSIZE] = $this->_batchSize;
         }
-        
+
         if ($this->_limit > 0) {
             $data[self::ENTRY_LIMIT] = $this->_limit;
+        }
+
+        if ($this->_ttl > 0) {
+            $data[self::ENTRY_TTL] = $this->_ttl;
         }
 
         if (is_array($this->_restrictions)) {
             $data[self::ENTRY_RESTRICT] = $this->_restrictions;
         }
-        
+
         $collection = $this->_collection;
         if ($collection instanceof Collection) {
             $collection = $collection->getName();
         }
-        
+
         $url = UrlHelper::appendParamsUrl(Urls::URL_EXPORT, array("collection" => $collection));
         $response = $this->_connection->post($url, $this->getConnection()->json_encode_wrapper($data));
-        
+
         return new ExportCursor($this->_connection, $response->getJson(), $this->getCursorOptions());
     }
 
     /**
-     * Set the batch size for the export
+     * Set the batch size for the export.
      *
      * The batch size is the number of results to be transferred
      * in one server round-trip. If an export produces more documents
@@ -236,7 +257,7 @@ class Export
     }
 
     /**
-     * Get the batch size for the export
+     * Get the batch size for the export.
      *
      * @return int - current batch size value
      */
@@ -246,7 +267,7 @@ class Export
     }
 
     /**
-     * Return an array of cursor options
+     * Return an array of cursor options.
      *
      * @return array - array of options
      */
@@ -257,6 +278,7 @@ class Export
             ExportCursor::ENTRY_BASEURL  => Urls::URL_EXPORT,
             ExportCursor::ENTRY_TYPE     => $this->_type
         );
+
         return $result;
     }
 }
