@@ -46,13 +46,10 @@ class AdminTest extends
         );
 
         // intentionally dumping the result, so that we have a bit more info about the Arango build we're testing in the log.
-        var_dump($result);
 
         $details = $result['details'];
         $this->assertArrayHasKey('build-date', $details);
-        $this->assertArrayHasKey('configure', $details);
         $this->assertArrayHasKey('icu-version', $details);
-        //        $this->assertArrayHasKey('libev-version', $details);
         $this->assertArrayHasKey('openssl-version', $details);
         $this->assertArrayHasKey('server-version', $details);
         $this->assertArrayHasKey('v8-version', $details);

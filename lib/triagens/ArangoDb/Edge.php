@@ -170,4 +170,17 @@ class Edge extends
 
         return $this;
     }
+    
+    /**
+     * Get all document attributes for insertion/update
+     *
+     * @return mixed - associative array of all document attributes/values
+     */
+    public function getAllForInsertUpdate() {
+        $data = parent::getAllForInsertUpdate();
+        $data["_from"] = $this->_from;
+        $data["_to"] = $this->_to;
+        return $data;
+    }
+
 }

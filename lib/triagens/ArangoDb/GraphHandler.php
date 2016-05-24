@@ -1082,41 +1082,46 @@ class GraphHandler extends
         $options = array_merge(array(self::OPTION_REVISION => false), $options);
 
         // This preserves compatibility for the old policy parameter.
-        $params = array();
         $params = $this->validateAndIncludeOldSingleParameterInParams(
                        $options,
-                       $params,
+                       array(),
                        ConnectionOptions::OPTION_REPLACE_POLICY
         );
         $params = $this->includeOptionsInParams(
-                       $options,
                        $params,
+                       array(),
                        array(
-                            'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC)
+                            'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
+                            'silent'      => false,
+                            'ignoreRevs'  => true,
+                            'policy'      => ''
                        )
         );
-
+        
         //Include the revision for conditional updates if required
+        $headers = array();
         if ($options[self::OPTION_REVISION] === true) {
-
             $revision = $document->getRevision();
 
             if (!is_null($revision)) {
-                $params[ConnectionOptions::OPTION_REVISION] = $revision;
+                $params['ignoreRevs'] = false;
+                $headers['if-match'] = '"' . $revision . '"';
             }
         } elseif ($options[self::OPTION_REVISION]) {
-            $params[ConnectionOptions::OPTION_REVISION] = $options[self::OPTION_REVISION];
+            $revision = $options[self::OPTION_REVISION];
+            $params['ignoreRevs'] = false;
+            $headers['if-match'] = '"' . $revision . '"';
         }
 
-        $data = $document->getAll();
+        $data = $document->getAllForInsertUpdate();
         if (!is_null($label)) {
             $document->set('$label', $label);
         }
 
-        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $collection,  $edgeId));
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $collection, $edgeId));
         $url = UrlHelper::appendParamsUrl($url, $params);
 
-        $response = $this->getConnection()->PUT($url, $this->json_encode_wrapper($data));
+        $response = $this->getConnection()->put($url, $this->json_encode_wrapper($data), $headers);
 
         $jsonArray = $response->getJson();
         $edge      = $jsonArray['edge'];

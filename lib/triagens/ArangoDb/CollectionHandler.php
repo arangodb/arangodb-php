@@ -125,11 +125,6 @@ class CollectionHandler extends
     const OPTION_TYPE = 'type';
 
     /**
-     * cap constraint option
-     */
-    const OPTION_CAP_CONSTRAINT = 'cap';
-
-    /**
      * size option
      */
     const OPTION_SIZE = 'size';
@@ -242,14 +237,16 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collectionId - collection id as a string or number
+     * @param mixed $collection - collection id as a string or number
      *
      * @return Collection - the collection fetched from the server
      */
-    public function get($collectionId)
+    public function get($collection)
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId));
-        $response = $this->getConnection()->get($url);
+        $collection = $this->makeCollection($collection);
+
+        $url        = UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collection));
+        $response   = $this->getConnection()->get($url);
 
         $data = $response->getJson();
 
@@ -265,14 +262,16 @@ class CollectionHandler extends
      *
      * @throws Exception When any other error than a 404 occurs
      *
-     * @param  mixed  $collectionId - collection id as a string or number
+     * @param  mixed  $collection - collection id as a string or number
      * @return boolean
      */
-    public function has($collectionId)
+    public function has($collection)
     {
+        $collection = $this->makeCollection($collection);
+
         try {
             // will throw ServerException if entry could not be retrieved
-            $result = $this->get($collectionId);
+            $result = $this->get($collection);
             return true;
         } catch (ServerException $e) {
             // we are expecting a 404 to return boolean false
@@ -295,14 +294,15 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collectionId - collection id as a string or number
+     * @param mixed $collection - collection id as a string or number
      *
      * @return Collection - the collection fetched from the server
      */
-    public function getProperties($collectionId)
+    public function getProperties($collection)
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_PROPERTIES));
-        $response = $this->getConnection()->get($url);
+        $collection = $this->makeCollection($collection);
+        $url        = UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collection, self::OPTION_PROPERTIES));
+        $response   = $this->getConnection()->get($url);
 
         $data = $response->getJson();
 
@@ -317,15 +317,15 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collectionId - collection id as a string or number
+     * @param mixed $collection - collection id as a string or number
      *
      * @return int - the number of documents in the collection
      *
      * @deprecated to be removed in version 2.0 - This function is being replaced by count()
      */
-    public function getCount($collectionId)
+    public function getCount($collection)
     {
-        return $this->count($collectionId);
+        return $this->count($collection);
     }
 
 
@@ -336,14 +336,15 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collectionId - collection id as a string or number
+     * @param mixed $collection - collection id as a string or number
      *
      * @return int - the number of documents in the collection
      */
-    public function count($collectionId)
+    public function count($collection)
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_COUNT));
-        $response = $this->getConnection()->get($url);
+        $collection = $this->makeCollection($collection);
+        $url        = UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collection, self::OPTION_COUNT));
+        $response   = $this->getConnection()->get($url);
 
         $data  = $response->getJson();
         $count = $data[self::OPTION_COUNT];
@@ -359,15 +360,15 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collectionId - collection id as a string or number
+     * @param mixed $collection - collection id as a string or number
      *
      * @return array - the figures for the collection
      *
      * @deprecated to be removed in version 2.0 - This function is being replaced by figures()
      */
-    public function getFigures($collectionId)
+    public function getFigures($collection)
     {
-        return $this->figures($collectionId);
+        return $this->figures($collection);
     }
 
 
@@ -378,14 +379,15 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collectionId - collection id as a string or number
+     * @param mixed $collection - collection id as a string or number
      *
      * @return array - the figures for the collection
      */
-    public function figures($collectionId)
+    public function figures($collection)
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_FIGURES));
-        $response = $this->getConnection()->get($url);
+        $collection = $this->makeCollection($collection);
+        $url        = UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collection, self::OPTION_FIGURES));
+        $response   = $this->getConnection()->get($url);
 
         $data    = $response->getJson();
         $figures = $data[self::OPTION_FIGURES];
@@ -544,25 +546,6 @@ class CollectionHandler extends
         $data  = $response->getJson();
 
         return $data;
-    }
-
-    /**
-     * Create a cap constraint
-     *
-     * @param string $collectionId - the collection id
-     * @param int    $size         - the size of the cap constraint
-     *
-     * @link https://docs.arangodb.com/HttpIndexes/Cap.html
-     *
-     * @return array - server response of the created index
-     */
-    public function createCapConstraint($collectionId, $size)
-    {
-        $indexOptions = array();
-
-        $indexOptions[self::OPTION_SIZE] = $size;
-
-        return $this->index($collectionId, self::OPTION_CAP_CONSTRAINT, array(), null, $indexOptions);
     }
 
     /**
@@ -1018,9 +1001,9 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $collectionId - collection id as string or number
-     * @param mixed      $attribute     - The attribute that contains the texts.
-     * @param mixed      $query     - The fulltext query.
+     * @param mixed      $collection   - collection id as string or number
+     * @param mixed      $attribute    - The attribute that contains the texts.
+     * @param mixed      $query        - The fulltext query.
      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
      *                                 <p>Options are :<br>
      *                                 <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
@@ -1041,7 +1024,7 @@ class CollectionHandler extends
      *
      * @return cursor - Returns a cursor containing the result
      */
-    public function fulltext($collectionId, $attribute, $query, $options = array())
+    public function fulltext($collection, $attribute, $query, $options = array())
     {
         // This preserves compatibility for the old sanitize parameter.
         if (!is_array($options)) {
@@ -1053,9 +1036,9 @@ class CollectionHandler extends
         }
 
         $body = array(
-            self::OPTION_COLLECTION => $collectionId,
-            self::OPTION_ATTRIBUTE    => $attribute,
-            self::OPTION_QUERY    => $query,
+            self::OPTION_COLLECTION => $collection,
+            self::OPTION_ATTRIBUTE  => $attribute,
+            self::OPTION_QUERY      => $query,
         );
 
         $body = $this->includeOptionsInBody(
@@ -1166,97 +1149,6 @@ class CollectionHandler extends
             return null;
         }
     }
-
-    /**
-     * This will return the first documents from the collection, in the order of insertion/update time.
-     * When the count argument is supplied, the result will be a list of documents, with the "oldest" document being
-     * first in the result list.
-     * If the count argument is not supplied, the result is the "oldest" document of the collection,
-     * or null if the collection is empty.
-     *
-     *
-     * @throws Exception
-     *
-     * @param mixed $collectionId - collection id as string or number
-     * @param int $count - the number of documents to return at most. Specifiying count is optional.
-     *
-     * @return array - array of documents in the collection
-     * @since 1.4
-     */
-    public function first($collectionId, $count = null)
-    {
-
-        $data = array(
-            self::OPTION_COLLECTION => $collectionId,
-        );
-        if ($count != null) {
-            $data[self::OPTION_COUNT] = $count;
-        }
-
-        $response = $this->getConnection()->put(Urls::URL_FIRST, $this->json_encode_wrapper($data));
-        $data     = $response->getJson();
-
-        $result = array();
-        if ($data["result"] == null) {
-            return array();
-        }
-        $options = array();
-        $options['_isNew'] = false;
-        if ($count != null && $count > 1) {
-            foreach  ($data["result"] as $doc) {
-                $result[] = Document::createFromArray($doc, $options);
-            }
-        } else {
-            return Document::createFromArray($data["result"], $options);
-        }
-        return $result;
-    }
-
-    /**
-     * This will return the last documents from the collection, in the order of insertion/update time.
-     * When the count argument is supplied, the result will be a list of documents, with the "latest" document being
-     * first in the result list.
-     * If the count argument is not supplied, the result is the "latest" document of the collection,
-     * or null if the collection is empty.
-     *
-     *
-     * @throws Exception
-     *
-     * @param mixed $collectionId - collection id as string or number
-     * @param int $count - the number of documents to return at most. Specifiying count is optional.
-     *
-     * @return array - array of documents in the collection
-     * @since 1.4
-     */
-    public function last($collectionId, $count = null)
-    {
-
-        $data = array(
-            self::OPTION_COLLECTION => $collectionId,
-        );
-        if ($count != null) {
-            $data[self::OPTION_COUNT] = $count;
-        }
-
-        $response = $this->getConnection()->put(Urls::URL_LAST, $this->json_encode_wrapper($data));
-        $data     = $response->getJson();
-
-        $result = array();
-        if ($data["result"] == null) {
-            return array();
-        }
-        $options = array();
-        $options['_isNew'] = false;
-        if ($count != null && $count > 1) {
-            foreach  ($data["result"] as $doc) {
-                $result[] = Document::createFromArray($doc, $options);
-            }
-        } else {
-            return Document::createFromArray($data["result"], $options);
-        }
-        return $result;
-    }
-
 
     /**
      * Update document(s) matching a given example
@@ -1575,6 +1467,11 @@ class CollectionHandler extends
             throw new ClientException('Invalid attribute specification');
         }
 
+        if (strpos($attribute, '.') !== false) {
+            // split attribute name
+            $attribute = explode('.', $attribute);
+        }
+
         $body = array(
             self::OPTION_COLLECTION => $collectionId,
             self::OPTION_ATTRIBUTE  => $attribute,
@@ -1769,22 +1666,25 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collectionId - collection id as string or number
+     * @param mixed $collection - collection id as string or number
      *
      * @return array - ids of documents in the collection
      */
-    public function getAllIds($collectionId)
+    public function getAllIds($collection)
     {
-        $url      = UrlHelper::appendParamsUrl(Urls::URL_DOCUMENT, array(self::OPTION_COLLECTION => $collectionId));
-        $response = $this->getConnection()->get($url);
+        $params = array(
+            self::OPTION_COLLECTION => $this->makeCollection($collection)
+        );
+        $response = $this->getConnection()->put(Urls::URL_ALL_KEYS, $this->json_encode_wrapper($params));
 
         $data = $response->getJson();
-        if (!isset($data[self::ENTRY_DOCUMENTS])) {
+        if (!isset($data[Cursor::ENTRY_RESULT])) {
             throw new ClientException('Got an invalid document list from the server');
         }
 
+        $cursor = new Cursor($this->getConnection(), $response->getJson(), array());
         $ids = array();
-        foreach ($data[self::ENTRY_DOCUMENTS] as $location) {
+        foreach ($cursor->getAll() as $location) {
             $ids[] = UrlHelper::getDocumentIdFromLocation($location);
         }
 
@@ -1819,7 +1719,7 @@ class CollectionHandler extends
      */
     public function getAllCollections($options = array())
     {
-        $options = array_merge(array("excludeSystem" => false, 'keys' => "names"), $options);
+        $options = array_merge(array("excludeSystem" => false, 'keys' => "result"), $options);
         $params  = array();
         if ($options["excludeSystem"] === true) {
             $params[self::OPTION_EXCLUDE_SYSTEM] = true;
@@ -1827,8 +1727,12 @@ class CollectionHandler extends
         $url      = UrlHelper::appendParamsUrl(Urls::URL_COLLECTION, $params);
         $response = $this->getConnection()->get(UrlHelper::buildUrl($url, array()));
         $response = $response->getJson();
-        if (isset($options["keys"]) && isset($response[$options["keys"]])) {
-            return $response[$options["keys"]];
+        if (isset($response[$options["keys"]])) {
+            $result = array();
+            foreach ($response[$options["keys"]] as $collection) {
+                $result[$collection["name"]] = $collection;
+            }
+            return $result;
         }
 
         return $response;
@@ -1947,13 +1851,16 @@ class CollectionHandler extends
      * @return int - number of documents that were deleted
      */
     public function import(
-        $collectionId,
+        $collection,
         $importData,
         $options = array(
-            'createCollection' => false,
-            'type'             => null
+            'createCollection'     => false,
+            'createCollectionType' => 'document',
+            'type'                 => null
         )
     ) {
+        $collection = $this->makeCollection($collection);
+
         $tmpContent = '';
         if (is_array($importData)) {
             foreach ($importData as $document) {
@@ -1965,10 +1872,12 @@ class CollectionHandler extends
             $options['type'] = 'documents';
         }
 
-        $params[self::OPTION_COLLECTION] = $collectionId;
-        if (array_key_exists('createCollection', $options)) {
-            $params[self::OPTION_CREATE_COLLECTION] = $options['createCollection'] == true ? true : false;
-        }
+        $this->createCollectionIfOptions($collection, $options);
+
+        $params = array(
+            self::OPTION_COLLECTION => $collection
+        );
+
         if (array_key_exists('type', $options)) {
             switch ($options['type']) {
                 case "documents":
@@ -1987,5 +1896,36 @@ class CollectionHandler extends
         $responseArray = $response->getJson();
 
         return $responseArray;
+    }
+
+    public function createCollectionIfOptions($collection, $options) { 
+        if (!array_key_exists(CollectionHandler::OPTION_CREATE_COLLECTION, $options)) {
+            return;
+        }
+
+        $value = (bool) $options[CollectionHandler::OPTION_CREATE_COLLECTION];
+
+        if (!$value) {
+            return;
+        }
+
+        $collectionOptions = array();
+        if (isset($options['createCollectionType'])) {
+            if ($options['createCollectionType'] === 'edge' ||
+                $options['createCollectionType'] == 3) {
+                // edge collection
+                $collectionOptions['type'] = 3;
+            } else {
+                // document collection
+                $collectionOptions['type'] = 2;
+            }
+        }
+
+        try {
+            // attempt to create the collection
+            $this->create($collection, $collectionOptions);            
+        } catch (Exception $e) {
+            // collection may have existed already
+        }
     }
 }

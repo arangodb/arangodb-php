@@ -28,7 +28,7 @@ abstract class Urls
     /**
      * URL base part for edge-related CRUD operations REST calls
      */
-    const URL_EDGE = '/_api/edge';
+    const URL_EDGE = '/_api/document';
     
     /**
      * URL base part for all retrieving connected edges
@@ -101,16 +101,6 @@ abstract class Urls
     const URL_FULLTEXT = '/_api/simple/fulltext';
 
     /**
-     * URL for first
-     */
-    const URL_FIRST = '/_api/simple/first';
-
-    /**
-     * URL for last
-     */
-    const URL_LAST = '/_api/simple/last';
-
-    /**
      * URL remove-by-example
      */
     const URL_REMOVE_BY_EXAMPLE = '/_api/simple/remove-by-example';
@@ -144,6 +134,11 @@ abstract class Urls
      * URL for select-all
      */
     const URL_ALL = '/_api/simple/all';
+    
+    /**
+     * URL for select-all-keys
+     */
+    const URL_ALL_KEYS = '/_api/simple/all-keys';
 
     /**
      * URL for select-range
@@ -159,11 +154,6 @@ abstract class Urls
      * URL for document import
      */
     const URL_IMPORT = '/_api/import';
-
-    /**
-     * URL for batch processing
-     */
-    const URL_BATCH = '/_api/batch';
 
     /**
      * URL for transactions

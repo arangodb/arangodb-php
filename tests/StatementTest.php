@@ -9,6 +9,11 @@
 
 namespace triagens\ArangoDb;
 
+function filtered(array $values) {
+    unset($values["executionTime"]);
+    return $values;
+}
+
 /**
  * Class StatementTest
  *
@@ -144,7 +149,7 @@ class StatementTest extends
             'scannedFull'    => 0,
             'scannedIndex'   => 0,
             'filtered'       => 0
-        ), $extra['stats']);
+        ), filtered($extra['stats']));
 
         $this->assertEquals(1000, $cursor->getWritesExecuted());
         $this->assertEquals(0, $cursor->getWritesIgnored());
@@ -180,7 +185,7 @@ class StatementTest extends
             'scannedFull'    => 0,
             'scannedIndex'   => 3,
             'filtered'       => 0
-        ), $extra['stats']);
+        ), filtered($extra['stats']));
 
         $this->assertEquals(3, $cursor->getWritesExecuted());
         $this->assertEquals(0, $cursor->getWritesIgnored());
@@ -216,7 +221,7 @@ class StatementTest extends
             'scannedFull'    => 1000,
             'scannedIndex'   => 0,
             'filtered'       => 500
-        ), $extra['stats']);
+        ), filtered($extra['stats']));
 
         $this->assertEquals(0, $cursor->getWritesExecuted());
         $this->assertEquals(0, $cursor->getWritesIgnored());

@@ -418,6 +418,32 @@ class Document
         return $data;
     }
     
+    /**
+     * Get all document attributes for insertion/update
+     *
+     * @return mixed - associative array of all document attributes/values
+     */
+    public function getAllForInsertUpdate()
+    {
+        $data = array();
+        foreach ($this->_values as $key => $value) {
+            if ($key === "_id" || $key === "_rev") {
+                continue;
+            } else if ($key === "_key") {
+                if ($value === null) {
+                    // key value not yet set
+                    continue;
+                }
+            }
+            $data[$key] = $value;
+        }
+        if ($this->_key !== null) {
+            $data["_key"] = $this->_key;
+        }
+
+        return $data;
+    }
+    
     
     /**
      * Get all document attributes, and return an empty object if the documentapped into a DocumentWrapper class

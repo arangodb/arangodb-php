@@ -706,6 +706,8 @@ class GraphExtendedTest extends
         $result1 = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
         $this->assertTrue($result1->getKey() == 'edge1', 'Did not return edge1!');
 
+        $edge1a->setFrom($result1->getInternalId());
+        $edge1a->setTo($result2->getInternalId());
 
         $result1a = $this->graphHandler->replaceEdge($this->graphName, $this->edge1Name, $this->edgeLabel1, $edge1a);
         $this->assertTrue($result1a, 'Did not return true!');
@@ -800,6 +802,9 @@ class GraphExtendedTest extends
 
         $result1 = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
         $this->assertTrue($result1->getKey() == 'edge1', 'Did not return edge1!');
+
+        $edge1a->setFrom($result1->getInternalId());
+        $edge1a->setTo($result2->getInternalId());
 
 
         $result1a = $this->graphHandler->replaceEdge(
@@ -1073,6 +1078,14 @@ class GraphExtendedTest extends
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }
+
+        usort($resultingDocument, function($l, $r) {
+          if ($l->getKey() < $r->getKey()) {
+            return -1;
+          }
+          return 1;
+        });
+
         $this->assertTrue(
              $resultingDocument[0]->someEdgeKey1 == 'someEdgeValue1',
              'Should return "someEdgeValue1", returned: ' . $resultingDocument[0]->someEdgeKey1
@@ -1096,6 +1109,14 @@ class GraphExtendedTest extends
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }
+        
+        usort($resultingDocument, function($l, $r) {
+          if ($l->getKey() < $r->getKey()) {
+            return -1;
+          }
+          return 1;
+        });
+
         $this->assertTrue(
              $resultingDocument[0]->someEdgeKey1 == 'someEdgeValue1',
              'Should return "someEdgeValue1", returned: ' . $resultingDocument[0]->someEdgeKey1
@@ -1116,12 +1137,8 @@ class GraphExtendedTest extends
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }
-        $this->assertTrue(
-             $resultingDocument[0]->someEdgeKey1 == 'someEdgeValue1',
-             'Should return "someEdgeValue1", returned: ' . $resultingDocument[0]->someEdgeKey1
-        );
-        $this->assertTrue(count($resultingDocument) == 1, 'Should be 2, was: ' . count($resultingDocument));
-
+        
+        $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
 
         // Test options->count
         unset($resultingDocument);
@@ -1132,10 +1149,7 @@ class GraphExtendedTest extends
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }
-        $this->assertTrue(
-             $resultingDocument[0]->someEdgeKey1 == 'someEdgeValue1',
-             'Should return "someEdgeValue1", returned: ' . $resultingDocument[0]->someEdgeKey1
-        );
+
         $this->assertTrue(count($resultingDocument) == 2, 'Should be 2, was: ' . count($resultingDocument));
 
         $metaData = $cursor->getMetadata();
@@ -1153,6 +1167,13 @@ class GraphExtendedTest extends
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }
+        
+        usort($resultingDocument, function($l, $r) {
+          if ($l->getKey() < $r->getKey()) {
+            return -1;
+          }
+          return 1;
+        });
 
         $this->assertTrue(
              $resultingDocument[0]->someEdgeKey2 == 'someEdgeValue2',
@@ -1172,6 +1193,13 @@ class GraphExtendedTest extends
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }
+        
+        usort($resultingDocument, function($l, $r) {
+          if ($l->getKey() < $r->getKey()) {
+            return -1;
+          }
+          return 1;
+        });
 
         $this->assertTrue(
              $resultingDocument[0]->someEdgeKey2 == 'someEdgeValue2',
@@ -1192,18 +1220,20 @@ class GraphExtendedTest extends
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
         }
+        
+        usort($resultingDocument, function($l, $r) {
+          if ($l->getKey() < $r->getKey()) {
+            return -1;
+          }
+          return 1;
+        });
+
         $this->assertTrue(
              $resultingDocument[0]->someEdgeKey2 == 'someEdgeValue2',
              'Should return "someEdgeValue2", returned: ' . $resultingDocument[0]->someEdgeKey1
         );
         $this->assertTrue(count($resultingDocument) == 1, 'Should be 1, was: ' . count($resultingDocument));
     }
-
-
-
-
-
-
 
     /**
      * Test for creation of a graph and query vertices.
@@ -1439,7 +1469,11 @@ class GraphExtendedTest extends
     public function testReplaceEdgeWithGraphInstance()
     {
         $this->createGraph();
-        $result = $this->graphHandler->replaceEdge($this->graph, $this->edge1Name, '', Edge::createFromArray(array('_key' => 'foobar')));
+        $edge = $this->graphHandler->getEdge($this->graph, $this->edge1Name);
+        $newEdge = Edge::createFromArray(array('_key' => 'foobar'));
+        $newEdge->setFrom($edge->getFrom());
+        $newEdge->setTo($edge->getTo());
+        $result = $this->graphHandler->replaceEdge($this->graph, $this->edge1Name, '', $newEdge);
         $this->assertTrue($result);
     }
 

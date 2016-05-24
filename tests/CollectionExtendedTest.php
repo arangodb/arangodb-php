@@ -2278,128 +2278,6 @@ class CollectionExtendedTest extends
 
 
     /**
-     * Test getting the first documents in a collection
-     */
-    public function testFirstWithCountAndTHreeDocuments()
-    {
-        // set up collections and documents
-        $collectionHandler = $this->collectionHandler;
-        $documentHandler   = $this->documentHandler;
-
-        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_Any'));
-        $collectionHandler->add($collection);
-
-        $document1 = new Document();
-        $document1->set('message', 'message1');
-
-        $documentHandler->save($collection->getId(), $document1);
-
-        $document2 = new Document();
-        $document2->set('message', 'message2');
-
-        $documentHandler->save($collection->getId(), $document2);
-
-        $document3 = new Document();
-        $document3->set('message', 'message3');
-
-        $documentHandler->save($collection->getId(), $document3);
-
-        //Now, let's try to query any document
-        $documents = $collectionHandler->first($collection->getName(), 2);
-        $this->assertTrue(count($documents)  == 2);
-
-        //Let's try another random document
-        $documents = $collectionHandler->first($collection->getName());
-        $this->assertTrue(count($documents)  == 1);
-
-        $collectionHandler->delete($collection->getName());
-    }
-
-    /**
-     * Test getting the first documents in an empty collection
-     */
-    public function testFirstWithEmptyCollection()
-    {
-        // set up collections and documents
-        $collectionHandler = $this->collectionHandler;
-
-        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_Any'));
-        $collectionHandler->add($collection);
-
-        //Now, let's try to query any document
-        $documents = $collectionHandler->first($collection->getName(), 1);
-        $this->assertTrue(count($documents)  == 0);
-
-        //Let's try another random document
-        $documents = $collectionHandler->first($collection->getName());
-        $this->assertTrue(count($documents)  == 0);
-
-        $collectionHandler->delete($collection->getName());
-    }
-
-    /**
-     * Test getting the last documents in a collection
-     */
-    public function testLasttWithCountAndTHreeDocuments()
-    {
-        // set up collections and documents
-        $collectionHandler = $this->collectionHandler;
-        $documentHandler   = $this->documentHandler;
-
-        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_Any'));
-        $collectionHandler->add($collection);
-
-        $document1 = new Document();
-        $document1->set('message', 'message1');
-
-        $documentHandler->save($collection->getId(), $document1);
-
-        $document2 = new Document();
-        $document2->set('message', 'message2');
-
-        $documentHandler->save($collection->getId(), $document2);
-
-        $document3 = new Document();
-        $document3->set('message', 'message3');
-
-        $documentHandler->save($collection->getId(), $document3);
-
-        //Now, let's try to query any document
-        $documents = $collectionHandler->last($collection->getName(), 2);
-        $this->assertTrue(count($documents)  == 2);
-
-        //Let's try another random document
-        $documents = $collectionHandler->last($collection->getName());
-        $this->assertTrue(count($documents)  == 1);
-
-        $collectionHandler->delete($collection->getName());
-    }
-
-    /**
-     * Test getting the last documents in an empty collection
-     */
-    public function testLastWithEmptyCollection()
-    {
-        // set up collections and documents
-        $collectionHandler = $this->collectionHandler;
-
-        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_Any'));
-        $collectionHandler->add($collection);
-
-        //Now, let's try to query any document
-        $documents = $collectionHandler->last($collection->getName(), 1);
-        $this->assertTrue(count($documents)  == 0);
-
-        //Let's try another random document
-        $documents = $collectionHandler->last($collection->getName());
-        $this->assertTrue(count($documents)  == 0);
-
-        $collectionHandler->delete($collection->getName());
-    }
-
-
-
-    /**
      * test for fulltext queries
      */
     public function testFulltextQuery()
@@ -2427,7 +2305,7 @@ class CollectionExtendedTest extends
         // First we test without a fulltext index and expect a 400
         try {
             $result = $collectionHandler->fulltext(
-                $collection->getId(),
+                $collection->getName(),
                 "someOtherAttribute",
                 "someOtherValue"
             );
@@ -2440,7 +2318,7 @@ class CollectionExtendedTest extends
         $fulltextIndexId = $collectionHandler->createFulltextIndex($collection->getId(), array("someOtherAttribute"));
         $fulltextIndexId = $fulltextIndexId["id"];
         $cursor = $collectionHandler->fulltext(
-            $collection->getId(),
+            $collection->getName(),
             "someOtherAttribute",
             "someOtherValue",
             array("index" => $fulltextIndexId)
@@ -2452,7 +2330,7 @@ class CollectionExtendedTest extends
 
         // Now we pass some options
         $cursor = $collectionHandler->fulltext(
-            $collection->getId(),
+            $collection->getName(),
             "someOtherAttribute",
             "someOtherValue",
             array("index" => $fulltextIndexId, "skip" => 1, )
@@ -2463,7 +2341,7 @@ class CollectionExtendedTest extends
         $this->assertTrue($m["hasMore"] == false);
 
         $cursor = $collectionHandler->fulltext(
-            $collection->getId(),
+            $collection->getName(),
             "someOtherAttribute",
             "someOtherValue",
             array("batchSize" =>  1)

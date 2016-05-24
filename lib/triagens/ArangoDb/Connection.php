@@ -24,13 +24,6 @@ namespace triagens\ArangoDb;
 class Connection
 {
     /**
-     * Api Version
-     *
-     * @var string
-     */
-    public static $_apiVersion = 20200;
-
-    /**
      * Connection options
      *
      * @var array
@@ -70,41 +63,6 @@ class Connection
      * @var bool
      */
     private $_useKeepAlive;
-
-    /**
-     * Batches Array
-     *
-     * @var array
-     */
-    private $_batches = array();
-
-    /**
-     * $_activeBatch object
-     *
-     * @var array
-     */
-    private $_activeBatch = null;
-
-    /**
-     * $_captureBatch boolean
-     *
-     * @var boolean
-     */
-    private $_captureBatch = false;
-
-    /**
-     * $_batchRequest boolean
-     *
-     * @var boolean
-     */
-    private $_batchRequest = false;
-
-    /**
-     * custom queue name (leave empty if no custom queue is required)
-     *
-     * @var string
-     */
-    private $_customQueue = null;
 
     /**
      * $_database string
@@ -198,40 +156,6 @@ class Connection
         $this->updateHttpHeader();
     }
 
-
-    /**
-     * Enables a custom queue name for all actions of the connection
-     *
-     * @param string $queueName - queue name
-     * @param number $count - number of requests the custom queue will be used for
-     * @internal this method is currently experimental. whether or not it will 
-     *           become part of the official API needs decision
-     */
-
-    public function enableCustomQueue($queueName, $count = null) 
-    {
-        $this->_options[ConnectionOptions::OPTION_CUSTOM_QUEUE] = $queueName;
-
-        if ($count !== null) {
-            if (! is_numeric($count) || $count <= 0) {
-                throw new ClientException('Invalid value for count value of custom queues');
-            }
-            $this->_options[ConnectionOptions::OPTION_CUSTOM_QUEUE_COUNT] = $count;
-        }
-    }
-
-    /**
-     * Disable usage of custom queue for all actions of the connection
-     *
-     * @internal this method is currently experimental. whether or not it will 
-     *           become part of the official API needs decision
-     */
-    public function disableCustomQueue() 
-    {
-        $this->_options[ConnectionOptions::OPTION_CUSTOM_QUEUE] = null;
-        $this->_options[ConnectionOptions::OPTION_CUSTOM_QUEUE_COUNT] = null;
-    }
- 
 
     /**
      * Issue an HTTP GET request
@@ -372,8 +296,6 @@ class Connection
             $this->_httpHeader .= sprintf('Connection: %s%s', $this->_options[ConnectionOptions::OPTION_CONNECTION], HttpHelper::EOL);
         }
 
-        $this->_httpHeader .= sprintf('X-Arango-Version: %s%s', self::$_apiVersion, HttpHelper::EOL);
-
         if ($this->_database === '') {
             $this->_baseUrl = '/_db/_system';
         } else {
@@ -481,56 +403,11 @@ class Connection
             $wasAsync = true;
         }
 
-        // check if a custom queue should be used
-        if (! isset($customHeaders[ConnectionOptions::OPTION_CUSTOM_QUEUE]) &&
-            $this->_options[ConnectionOptions::OPTION_CUSTOM_QUEUE] !== null) {
-
-            $customHeaders[HttpHelper::QUEUE_HEADER] = $this->_options[ConnectionOptions::OPTION_CUSTOM_QUEUE]; 
-
-            // check if a counter is set for the custom queue
-            $count = $this->_options[ConnectionOptions::OPTION_CUSTOM_QUEUE_COUNT];
-            if ($count !== null) {
-                // yes, now decrease the counter
-
-                if ($count === 1) {
-                    $this->disableCustomQueue();
-                }
-                else {
-                    $this->_options->offsetSet(ConnectionOptions::OPTION_CUSTOM_QUEUE_COUNT, $count - 1);
-                }
-            }
-        }
-        
-
         HttpHelper::validateMethod($method);
         $url = $this->_baseUrl . $url;
 
         // create request data
-        if ($this->_batchRequest === false) {
-
-            if ($this->_captureBatch === true) {
-                $this->_options->offsetSet(ConnectionOptions::OPTION_BATCHPART, true);
-                $request = HttpHelper::buildRequest($this->_options, $this->_httpHeader, $method, $url, $data, $customHeaders);
-                $this->_options->offsetSet(ConnectionOptions::OPTION_BATCHPART, false);
-            } else {
-                $request = HttpHelper::buildRequest($this->_options, $this->_httpHeader, $method, $url, $data, $customHeaders);
-            }
-
-            if ($this->_captureBatch === true) {
-                $batchPart = $this->doBatch($method, $request);
-                if (!is_null($batchPart)) {
-                    return $batchPart;
-                }
-            }
-        } else {
-            $this->_batchRequest = false;
-
-            $this->_options->offsetSet(ConnectionOptions::OPTION_BATCH, true);
-
-            $request = HttpHelper::buildRequest($this->_options, $this->_httpHeader, $method, $url, $data, $customHeaders);
-            $this->_options->offsetSet(ConnectionOptions::OPTION_BATCH, false);
-        }
-
+        $request = HttpHelper::buildRequest($this->_options, $this->_httpHeader, $method, $url, $data, $customHeaders);
 
         $traceFunc = $this->_options[ConnectionOptions::OPTION_TRACE];
         if ($traceFunc) {
@@ -592,139 +469,6 @@ class Connection
 
         throw new ClientException('Whoops, this should never happen');
     }
-
-    /**
-     * Get the client version (alias for getClientVersion)
-     *
-     * @return string
-     */
-    public static function getVersion()
-    {
-        return self::getClientVersion();
-    }
-
-
-    /**
-     * Get the client version
-     *
-     * @return string
-     */
-    public static function getClientVersion()
-    {
-        return self::$_apiVersion;
-    }
-
-    /**
-     * Stop capturing commands
-     *
-     * @return Batch - Returns the active batch object
-     */
-    public function stopCaptureBatch()
-    {
-        $this->_captureBatch = false;
-
-        return $this->getActiveBatch();
-    }
-
-
-    /**
-     * returns the active batch
-     *
-     * @return Batch active batch
-     */
-    public function getActiveBatch()
-    {
-        return $this->_activeBatch;
-    }
-
-    /**
-     * Sets the active Batch for this connection
-     *
-     * @param Batch $batch - Sets the given batch as active
-     *
-     * @return Batch active batch
-     */
-    public function setActiveBatch($batch)
-    {
-        $this->_activeBatch = $batch;
-
-        return $this->_activeBatch;
-    }
-
-
-    /**
-     * Sets the batch capture state (true, if capturing)
-     *
-     * @param boolean $state true to turn on capture batch mode, false to turn it off
-     */
-    public function setCaptureBatch($state)
-    {
-        $this->_captureBatch = $state;
-    }
-
-
-    /**
-     * Sets connection into Batch-request mode. This is needed for some operations to act differently when in this mode.
-     *
-     * @param boolean $state sets the connection state to batch request, meaning it is currently doing a batch request.
-     */
-    public function setBatchRequest($state)
-    {
-        $this->_batchRequest = $state;
-    }
-
-
-    /**
-     * Returns true if this connection is in Batch-Capture mode
-     *
-     * @return bool
-     *
-     * returns the active batch
-     */
-    public function isInBatchCaptureMode()
-    {
-        return $this->_captureBatch;
-    }
-
-
-    /**
-     * returns the active batch
-     *
-     */
-    public function getBatches()
-    {
-        return $this->_batches;
-    }
-
-
-    /**
-     * This is a helper function to executeRequest that captures requests if we're in batch mode
-     *
-     * @param mixed  $method  - The method of the request (GET, POST...)
-     *
-     * @param string $request - The request to process
-     *
-     * This checks if we're in batch mode and returns a placeholder object,
-     * since we need to return some object that is expected by the caller.
-     * if we're not in batch mode it doesn't return anything, and
-     *
-     * @return mixed Batchpart or null if not in batch capturing mode
-     */
-    private function doBatch($method, $request)
-    {
-        $batchPart = null;
-        if ($this->_captureBatch === true) {
-
-            /** @var $batch Batch */
-            $batch = $this->getActiveBatch();
-
-            $batchPart = $batch->append($method, $request);
-        }
-
-        # do batch processing
-        return $batchPart;
-    }
-
 
     /**
      * This function checks that the encoding of a string is utf.

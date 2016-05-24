@@ -323,6 +323,8 @@ class GeneralGraphExtendedTest extends
     	
     	$v1 = $this->graphHandler->getEdge($this->graphName, $this->e1 . "/" . $this->edge1Array["_key"] ,array());
     	$v = Edge::createFromArray($this->edge1Array);
+        $v->setFrom($v1->getFrom());
+        $v->setTo($v1->getTo());
     	$v->setRevision($v1->getRevision());
     	$this->assertTrue(
     			$this->graphHandler->replaceEdge($this->graphName, $this->edge1Array["_key"],null ,$v, array('revision' =>$v1->getRevision()),  $this->e1)
@@ -330,6 +332,8 @@ class GeneralGraphExtendedTest extends
     	$v1 = $this->graphHandler->getEdge($this->graphName, $this->e1 . "/" . $this->edge1Array["_key"] ,array());
     	$v = Edge::createFromArray($this->edge1Array);
     	$v->setRevision($v1->getRevision());
+        $v->setFrom($v1->getFrom());
+        $v->setTo($v1->getTo());
     	$this->assertTrue(
     			$this->graphHandler->replaceEdge($this->graphName, $this->e1 . "/" . $this->edge1Array["_key"],null ,$v, array('revision' =>true))
     	);
@@ -955,8 +959,6 @@ class GeneralGraphExtendedTest extends
     	$this->assertTrue($e === 1);
     	$e = $this->graphHandler->getDiameter($this->graph, array("direction" => "in"));
     	$this->assertTrue($e === 1);
-    	
-    	
     	
     	$e = $this->graphHandler->getRadius($this->graph, array("weight" => "weight"));
     	$this->assertTrue($e === 5);

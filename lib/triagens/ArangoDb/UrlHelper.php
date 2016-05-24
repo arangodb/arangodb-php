@@ -81,6 +81,11 @@ abstract class UrlHelper
      */
     public static function appendParamsUrl($baseUrl, array $params)
     {
+        foreach ($params as $key => $value) {
+            if (is_bool($value)) {
+                $params[$key] = self::getBoolString($value);
+            }
+        }
         return $baseUrl . '?' . http_build_query($params);
     }
 

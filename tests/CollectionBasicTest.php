@@ -453,35 +453,6 @@ class CollectionBasicTest extends
 
 
     /**
-     * Create a cap constraint and verify it by getting information about the constraint from the server
-     */
-    public function testCreateCapConstraint()
-    {
-        $result = $this->collectionHandler->createCapConstraint('ArangoDB_PHP_TestSuite_IndexTestCollection', 50);
-
-        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
-
-        $indicesByIdentifiers = $indices['identifiers'];
-
-        $this->assertArrayHasKey($result['id'], $indicesByIdentifiers, 'Cap constraint was not created!');
-
-        $indexInfo = $indicesByIdentifiers[$result['id']];
-
-        $this->assertEquals(
-             CollectionHandler::OPTION_CAP_CONSTRAINT,
-             $indexInfo[CollectionHandler::OPTION_TYPE],
-             "Index type is not 'cap'!"
-        );
-
-        $this->assertEquals(
-             50,
-             $indexInfo[CollectionHandler::OPTION_SIZE],
-             'Size of the cap constrain does not match!'
-        );
-    }
-
-
-    /**
      * Create a geo index with 1 field and verify it by getting information about the index from the server
      */
     public function testCreateGeo1Index()

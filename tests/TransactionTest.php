@@ -60,7 +60,7 @@ class TransactionTest extends
         $action1 = '
         try {
           require("internal").db._executeTransaction({ collections: { write: [ "' . $this->collection2->getName() . '" ] }, action: function () {
-          require("internal").wait(7);
+          require("internal").wait(7, false);
           var db = require("internal").db;
           db.' . $this->collection1->getName() . '.any();
           }});
@@ -76,7 +76,7 @@ class TransactionTest extends
         $action2 = '
         try {
           require("internal").db._executeTransaction({ collections: { write: [ "' . $this->collection1->getName() . '" ] }, action: function () {
-            require("internal").wait(7);
+            require("internal").wait(7, false);
             var db = require("internal").db;
             db.' . $this->collection2->getName() . '.any();
           }});
