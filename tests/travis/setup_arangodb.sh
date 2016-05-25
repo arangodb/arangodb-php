@@ -38,7 +38,7 @@ ${ARANGOD} \
     --javascript.app-path ${ARANGODB_DIR}/js/apps \
     --database.maximal-journal-size 1048576 \
     --database.force-sync-properties false \
-    --server.authentication false &
+    --server.authentication true &
 
 sleep 2
 
