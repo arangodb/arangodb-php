@@ -1,4 +1,3 @@
-
 Release notes for the ArangoDB-PHP driver 3.0
 =============================================
 
@@ -19,6 +18,46 @@ the 3.0 branch:
 - CollectionHandler::createCapConstraint($collectionId, $size)
 - CollectionHandler::first($collectionId, $count = null)
 - CollectionHandler::last($collectionId, $count = null)
+
+Graph functions
+---------------
+
+The ArangoDB PHP driver provided PHP wrapper methods for common graph functions
+that were implemented server-side. When one of these wrapper methods was called,
+the PHP driver assembled an AQL query that called the equivalent graph AQL functions
+on the server. The driver has provided some extra post-filtering options for some
+of the graph functions, but for others it only provided a subset of the features
+available server-side.
+
+With ArangoDB 3.0, the graph functionality on the server-side has changed: the
+previously available AQL graph functions that were called by the PHP driver are 
+not available anymore in 3.0. This affects the following previously existing
+methods of the PHP driver's `GraphHandler` class, which are now gone in 3.0:
+
+- GraphHandler::getNeighborVertices($graph, $vertexExample, $options = array())
+- GraphHandler::getConnectedEdges($graph, $vertexId, $options = array())
+- GraphHandler::getVertices($graph, $options = array())
+- GraphHandler::getEdges($graph, $options = array())
+- GraphHandler::getPaths($graph, $options = array())
+- GraphHandler::getShortestPaths($graph, $startVertexExample = array(), $endVertexExample = array(), $options = array())
+- GraphHandler::getDistanceTo($graph, $startVertexExample = null, $endVertexExample = null, $options = array())
+- GraphHandler::getCommonNeighborVertices($graph, $vertex1Example = null, $vertex2Example = null, $options1 = array(),$options2 = array())
+- GraphHandler::getCommonProperties($graph, $vertex1Example= null, $vertex2Example = null, $options = array())
+- GraphHandler::getAbsoluteEccentricity($graph, $vertexExample = null, $options = array())
+- GraphHandler::getEccentricity($graph, $options = array())
+- GraphHandler::getAbsoluteCloseness($graph, $vertexExample = null, $options = array())
+- GraphHandler::getCloseness($graph, $options = array())
+- GraphHandler::getAbsoluteBetweenness($graph, $options = array())
+- GraphHandler::getBetweenness($graph, $options = array())
+- GraphHandler::getRadius($graph, $options = array())
+- GraphHandler::getDiameter($graph, $options = array())
+
+Most of these methods can be emulated by issuing an AQL query from the PHP driver.
+AQL provides provides blocks for computing the vertices, connected edges, and paths 
+in a graph or just dedicated collections. As a bonus, by using AQL queries one is
+not limited to the subset of the functionality that was available in the "old"
+graph functions' interfaces, but can use the full functionality and composability
+of AQL.
 
 Custom queues
 -------------

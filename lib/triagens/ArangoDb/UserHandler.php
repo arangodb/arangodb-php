@@ -49,7 +49,7 @@ class UserHandler extends
     public function addUser($username, $passwd = null, $active = null, $extra = null, $options = array())
     {
         $userDocument           = new User();
-        $userDocument->username = $username;
+        $userDocument->user     = $username;
         $userDocument->passwd   = $passwd;
         $userDocument->active   = $active;
         $userDocument->extra    = $extra;

@@ -85,7 +85,7 @@ class DatabaseTest extends
         );
 
 
-        $response = Database::listDatabases($this->connection);
+        $response = Database::databases($this->connection);
 
         $this->assertArrayHasKey($database, array_flip($response['result']));
 
