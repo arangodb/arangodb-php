@@ -100,6 +100,16 @@ class Connection
             @fclose($this->_handle);
         }
     }
+    
+    /**
+     * Get the options set for the connection
+     *
+     * @return ConnectionOptions
+     */
+    public function getOptions()
+    {
+        return $this->_options;
+    }
 
     /**
      * Get an option set for the connection

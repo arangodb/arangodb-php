@@ -5,6 +5,35 @@ This version of the driver is compatible with ArangoDB 3.0.
 It is not compatible to earlier versions of ArangoDB (i.e. 2.x).
 Please use ones of the `2.x` branches of the driver for 2.x-compatibility.
 
+Changed functionality
+=====================
+
+User management
+---------------
+
+The user management APIs in class `UserHandler` have changed slightly. The methods for adding,
+replacing and updating users had an optional parameter named `$options`, which did nothing.
+This parameter has been removed.
+
+The API methods simplify to:
+
+- UserHandler::addUser($username, $passwd = null, $active = null, $extra = null, $options = array())
+- UserHandler::replaceUser($username, $passwd = null, $active = null, $extra = null, $options = array())
+- UserHandler::updateUser($username, $passwd = null, $active = null, $extra = null, $options = array())
+
+- UserHandler::addUser($username, $passwd = null, $active = null, $extra = null)
+- UserHandler::replaceUser($username, $passwd = null, $active = null, $extra = null)
+- UserHandler::updateUser($username, $passwd = null, $active = null, $extra = null)
+
+Note that when adding a new user via the `addUser()` method, the new user will now be given
+access permissions for the current database the PHP driver is connected to.
+User permissions can be adjusted manually by using the following new methods of the
+`UserHandler` class:
+
+- UserHandler::grantPermissions($username, $databaseName) 
+- UserHandler::revokePermissions($username, $databaseName) 
+
+
 Unsupported functionality
 =========================
 
