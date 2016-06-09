@@ -10,7 +10,7 @@
 
 
 
-[Follow us on Twitter @arangodbphp to receive updates on the php driver](https://twitter.com/arangodbphp)
+[Follow us on Twitter @arangodbphp to receive updates on the PHP driver](https://twitter.com/arangodbphp)
 <br>
 <br>
 ##### Table of Contents
@@ -63,7 +63,7 @@ The client library provides document and collection classes you can use to work 
 <a name="requirements"></a>
 # Requirements
 
-* ArangoDB database server version 2.5 or higher. Detailed info [here](https://github.com/arangodb/arangodb-php/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix)
+* ArangoDB database server version 3.0 or higher. Detailed info [here](https://github.com/arangodb/arangodb-php/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix)
 
 * PHP version 5.4 or higher (Travis-tested with PHP 5.4, 5.5, 5.6, 7 and hhvm)
 
