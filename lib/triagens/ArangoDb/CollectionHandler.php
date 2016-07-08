@@ -977,7 +977,7 @@ class CollectionHandler extends
         }
 
         if (is_array($document)) {
-            $document = Document::createFromArray($document, $options);
+            $document = ($this->_documentClass)::createFromArray($document, $options);
         }
 
         if (!($document instanceof Document)) {
@@ -1117,7 +1117,7 @@ class CollectionHandler extends
         }
 
         if (is_array($document)) {
-            $document = Document::createFromArray($document, $options);
+            $document = ($this->_documentClass)::createFromArray($document, $options);
         }
 
         if (!($document instanceof Document)) {
@@ -1134,7 +1134,7 @@ class CollectionHandler extends
 
         $options['_isNew'] = false;
 
-        return Document::createFromArray($data['document'], $options);
+        return ($this->_documentClass)::createFromArray($data['document'], $options);
     }
 
     /**
@@ -1161,7 +1161,7 @@ class CollectionHandler extends
         $data     = $response->getJson();
 
         if ($data['document']) {
-            return Document::createFromArray($data['document']);
+            return ($this->_documentClass)::createFromArray($data['document']);
         } else {
             return null;
         }
@@ -1204,10 +1204,10 @@ class CollectionHandler extends
         $options['_isNew'] = false;
         if ($count != null && $count > 1) {
             foreach  ($data["result"] as $doc) {
-                $result[] = Document::createFromArray($doc, $options);
+                $result[] = ($this->_documentClass)::createFromArray($doc, $options);
             }
         } else {
-            return Document::createFromArray($data["result"], $options);
+            return ($this->_documentClass)::createFromArray($data["result"], $options);
         }
         return $result;
     }
@@ -1249,10 +1249,10 @@ class CollectionHandler extends
         $options['_isNew'] = false;
         if ($count != null && $count > 1) {
             foreach  ($data["result"] as $doc) {
-                $result[] = Document::createFromArray($doc, $options);
+                $result[] = ($this->_documentClass)::createFromArray($doc, $options);
             }
         } else {
-            return Document::createFromArray($data["result"], $options);
+            return ($this->_documentClass)::createFromArray($data["result"], $options);
         }
         return $result;
     }
@@ -1283,11 +1283,11 @@ class CollectionHandler extends
     public function updateByExample($collectionId, $example, $newValue, $options = array())
     {
         if (is_array($example)) {
-            $example = Document::createFromArray($example);
+            $example = ($this->_documentClass)::createFromArray($example);
         }
 
         if (is_array($newValue)) {
-            $newValue = Document::createFromArray($newValue);
+            $newValue = ($this->_documentClass)::createFromArray($newValue);
         }
 
         $body = array(
@@ -1348,11 +1348,11 @@ class CollectionHandler extends
     public function replaceByExample($collectionId, $example, $newValue, $options = array())
     {
         if (is_array($example)) {
-            $example = Document::createFromArray($example);
+            $example = ($this->_documentClass)::createFromArray($example);
         }
 
         if (is_array($newValue)) {
-            $newValue = Document::createFromArray($newValue);
+            $newValue = ($this->_documentClass)::createFromArray($newValue);
         }
 
         $body = array(
@@ -1413,7 +1413,7 @@ class CollectionHandler extends
     public function removeByExample($collectionId, $document, $options = array())
     {
         if (is_array($document)) {
-            $document = Document::createFromArray($document, $options);
+            $document = ($this->_documentClass)::createFromArray($document, $options);
         }
 
         if (!($document instanceof Document)) {
@@ -1530,7 +1530,7 @@ class CollectionHandler extends
         
         $result = array();
         foreach ($responseArray['documents'] as $document) {
-          $result[] = Document::createFromArray($document, $options);
+          $result[] = ($this->_documentClass)::createFromArray($document, $options);
         }
 
         return $result;

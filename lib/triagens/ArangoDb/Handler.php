@@ -44,10 +44,10 @@ abstract class Handler
      *
      * @param string $queueName - queue name
      * @param number $count - number of requests the custom queue will be used for
-     * @internal this method is currently experimental. whether or not it will 
+     * @internal this method is currently experimental. whether or not it will
      *           become part of the official API needs decision
      */
-    public function enableCustomQueue($queueName, $count = null) 
+    public function enableCustomQueue($queueName, $count = null)
     {
         // pass it on to the connection
         $this->_connection->enableCustomQueue($queueName, $count);
@@ -57,10 +57,10 @@ abstract class Handler
      * Disable usage of custom queue for this handler and other actions that use the
      * same connection
      *
-     * @internal this method is currently experimental. whether or not it will 
+     * @internal this method is currently experimental. whether or not it will
      *           become part of the official API needs decision
      */
-    public function disableCustomQueue() 
+    public function disableCustomQueue()
     {
         // pass it on to the connection
         $this->_connection->disableCustomQueue();
@@ -119,6 +119,7 @@ abstract class Handler
 
         return array(
             Cursor::ENTRY_SANITIZE => $sanitize,
+            '_documentClass' => $this->_documentClass,
         );
     }
 
@@ -234,5 +235,20 @@ abstract class Handler
         }
 
         return $body;
+    }
+
+    /**
+     * @var string Document class to use
+     */
+    protected $_documentClass = '\triagens\ArangoDb\Document';
+
+    /**
+     * Sets the document class to use
+     *
+     * @param string $class Document class to use
+     */
+    public function setDocumentClass($class)
+    {
+        $this->_documentClass = $class;
     }
 }
