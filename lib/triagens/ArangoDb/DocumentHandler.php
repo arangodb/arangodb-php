@@ -240,7 +240,7 @@ class DocumentHandler extends
      */
     protected function createFromArrayWithContext($data, $options)
     {
-        return Document::createFromArray($data, $options);
+        return ($this->_documentClass)::createFromArray($data, $options);
     }
 
 
@@ -416,7 +416,7 @@ class DocumentHandler extends
         );
 
         if (is_array($document)) {
-            $document = Document::createFromArray($document);
+            $document = ($this->_documentClass)::createFromArray($document);
         }
         $data = $document->getAll();
 
