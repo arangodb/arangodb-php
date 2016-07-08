@@ -240,7 +240,7 @@ class DocumentHandler extends
      */
     protected function createFromArrayWithContext($data, $options)
     {
-        return ($this->_documentClass)::createFromArray($data, $options);
+        return Document::createFromArray($data, $options);
     }
 
 
@@ -367,11 +367,6 @@ class DocumentHandler extends
 
             return $result;
         } else {
-
-            if ($collectionId) {
-                throw new ClientException('An existing document cannot be stored into a new collection');
-            }
-
             return $this->replace($document, $options);
         }
     }
@@ -401,7 +396,7 @@ class DocumentHandler extends
     {
         if ($collectionId instanceof Collection) {
             $collectionId = $collectionId->getName();
-        } 
+        }
         // This preserves compatibility for the old create parameter.
         $params = array(self::OPTION_COLLECTION => $collectionId);
         $params = $this->validateAndIncludeOldSingleParameterInParams(
@@ -421,7 +416,7 @@ class DocumentHandler extends
         );
 
         if (is_array($document)) {
-            $document = ($this->_documentClass)::createFromArray($document);
+            $document = Document::createFromArray($document);
         }
         $data = $document->getAll();
 
