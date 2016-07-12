@@ -367,7 +367,8 @@ class DocumentHandler extends
 
             return $result;
         } else {
-            return $this->replace($document, $options);
+            $this->replace($document, $options);
+            return $document->getId();
         }
     }
 
