@@ -967,6 +967,7 @@ class CollectionHandler extends
      */
     public function byExample($collectionId, $document, $options = array())
     {
+        $_documentClass =  $this->_documentClass;
         // This preserves compatibility for the old sanitize parameter.
         if (!is_array($options)) {
             $sanitize = $options;
@@ -977,7 +978,7 @@ class CollectionHandler extends
         }
 
         if (is_array($document)) {
-            $document = ($this->_documentClass)::createFromArray($document, $options);
+            $document = $_documentClass::createFromArray($document, $options);
         }
 
         if (!($document instanceof Document)) {
@@ -1108,6 +1109,7 @@ class CollectionHandler extends
      */
     public function firstExample($collectionId, $document, $options = array())
     {
+        $_documentClass =  $this->_documentClass;
         if (!is_array($options)) {
             $sanitize = $options;
             $options  = array();
@@ -1117,7 +1119,7 @@ class CollectionHandler extends
         }
 
         if (is_array($document)) {
-            $document = ($this->_documentClass)::createFromArray($document, $options);
+            $document = $_documentClass::createFromArray($document, $options);
         }
 
         if (!($document instanceof Document)) {
@@ -1134,7 +1136,7 @@ class CollectionHandler extends
 
         $options['_isNew'] = false;
 
-        return ($this->_documentClass)::createFromArray($data['document'], $options);
+        return $_documentClass::createFromArray($data['document'], $options);
     }
 
     /**
@@ -1152,7 +1154,7 @@ class CollectionHandler extends
      */
     public function any($collectionId)
     {
-
+        $_documentClass =  $this->_documentClass;
         $data = array(
             self::OPTION_COLLECTION => $collectionId,
         );
@@ -1161,7 +1163,7 @@ class CollectionHandler extends
         $data     = $response->getJson();
 
         if ($data['document']) {
-            return ($this->_documentClass)::createFromArray($data['document']);
+            return $_documentClass::createFromArray($data['document']);
         } else {
             return null;
         }
@@ -1185,6 +1187,7 @@ class CollectionHandler extends
      */
     public function first($collectionId, $count = null)
     {
+        $_documentClass =  $this->_documentClass;
 
         $data = array(
             self::OPTION_COLLECTION => $collectionId,
@@ -1204,10 +1207,10 @@ class CollectionHandler extends
         $options['_isNew'] = false;
         if ($count != null && $count > 1) {
             foreach  ($data["result"] as $doc) {
-                $result[] = ($this->_documentClass)::createFromArray($doc, $options);
+                $result[] = $_documentClass::createFromArray($doc, $options);
             }
         } else {
-            return ($this->_documentClass)::createFromArray($data["result"], $options);
+            return $_documentClass::createFromArray($data["result"], $options);
         }
         return $result;
     }
@@ -1230,6 +1233,7 @@ class CollectionHandler extends
      */
     public function last($collectionId, $count = null)
     {
+        $_documentClass =  $this->_documentClass;
 
         $data = array(
             self::OPTION_COLLECTION => $collectionId,
@@ -1249,10 +1253,10 @@ class CollectionHandler extends
         $options['_isNew'] = false;
         if ($count != null && $count > 1) {
             foreach  ($data["result"] as $doc) {
-                $result[] = ($this->_documentClass)::createFromArray($doc, $options);
+                $result[] = $_documentClass::createFromArray($doc, $options);
             }
         } else {
-            return ($this->_documentClass)::createFromArray($data["result"], $options);
+            return $_documentClass::createFromArray($data["result"], $options);
         }
         return $result;
     }
@@ -1282,12 +1286,14 @@ class CollectionHandler extends
      */
     public function updateByExample($collectionId, $example, $newValue, $options = array())
     {
+        $_documentClass =  $this->_documentClass;
+
         if (is_array($example)) {
-            $example = ($this->_documentClass)::createFromArray($example);
+            $example = $_documentClass::createFromArray($example);
         }
 
         if (is_array($newValue)) {
-            $newValue = ($this->_documentClass)::createFromArray($newValue);
+            $newValue = $_documentClass::createFromArray($newValue);
         }
 
         $body = array(
@@ -1347,12 +1353,14 @@ class CollectionHandler extends
      */
     public function replaceByExample($collectionId, $example, $newValue, $options = array())
     {
+        $_documentClass =  $this->_documentClass;
+
         if (is_array($example)) {
-            $example = ($this->_documentClass)::createFromArray($example);
+            $example = $_documentClass::createFromArray($example);
         }
 
         if (is_array($newValue)) {
-            $newValue = ($this->_documentClass)::createFromArray($newValue);
+            $newValue = $_documentClass::createFromArray($newValue);
         }
 
         $body = array(
@@ -1412,8 +1420,10 @@ class CollectionHandler extends
      */
     public function removeByExample($collectionId, $document, $options = array())
     {
+        $_documentClass =  $this->_documentClass;
+
         if (is_array($document)) {
-            $document = ($this->_documentClass)::createFromArray($document, $options);
+            $document = $_documentClass::createFromArray($document, $options);
         }
 
         if (!($document instanceof Document)) {
@@ -1519,6 +1529,8 @@ class CollectionHandler extends
      */
     public function lookupByKeys($collectionId, array $keys, $options = array())
     {
+        $_documentClass =  $this->_documentClass;
+
         $body = array(
             self::OPTION_COLLECTION => $collectionId,
             self::OPTION_KEYS       => $keys
@@ -1530,7 +1542,7 @@ class CollectionHandler extends
         
         $result = array();
         foreach ($responseArray['documents'] as $document) {
-          $result[] = ($this->_documentClass)::createFromArray($document, $options);
+          $result[] = $_documentClass::createFromArray($document, $options);
         }
 
         return $result;

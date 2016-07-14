@@ -418,7 +418,8 @@ class Cursor implements
      */
     private function addDocumentsFromArray(array $data)
     {
-        $this->_result[] = ($this->_documentClass)::createFromArray($data, $this->_options);
+        $_documentClass =  $this->_documentClass;
+        $this->_result[] = $_documentClass::createFromArray($data, $this->_options);
     }
     
     /**
@@ -429,15 +430,16 @@ class Cursor implements
      * @return void
      */
     private function addPathsFromArray(array $data)
-    {	
+    {
+        $_documentClass =  $this->_documentClass;
     	$entry = array(
     		"vertices" => array(),
     		"edges" => array(),
-    		"source" => ($this->_documentClass)::createFromArray($data["source"], $this->_options),
-    		"destination" => ($this->_documentClass)::createFromArray($data["destination"], $this->_options),
+    		"source" => $_documentClass::createFromArray($data["source"], $this->_options),
+    		"destination" => $_documentClass::createFromArray($data["destination"], $this->_options),
     	);
     	foreach ($data["vertices"] as $v) {
-    		$entry["vertices"][] = ($this->_documentClass)::createFromArray($v, $this->_options);
+    		$entry["vertices"][] = $_documentClass::createFromArray($v, $this->_options);
     	}
     	foreach ($data["edges"] as $v) {
     		$entry["edges"][] = Edge::createFromArray($v, $this->_options);
@@ -454,6 +456,8 @@ class Cursor implements
      */
     private function addShortestPathFromArray(array $data)
     {
+        $_documentClass =  $this->_documentClass;
+
         if (! isset($data["vertices"])) {
             return;
         }
@@ -464,9 +468,9 @@ class Cursor implements
 
     	$entry = array(
     			"paths" => array (),
-    			"source" => ($this->_documentClass)::createFromArray($startVertex, $this->_options),
+    			"source" => $_documentClass::createFromArray($startVertex, $this->_options),
     			"distance" => $data["distance"],
-    			"destination" => ($this->_documentClass)::createFromArray($destination, $this->_options),
+    			"destination" => $_documentClass::createFromArray($destination, $this->_options),
     	);
 
     	$path = array (
@@ -511,7 +515,9 @@ class Cursor implements
      * @return void
      */
     private function addCommonNeighborsFromArray(array $data)
-    {	
+    {
+        $_documentClass =  $this->_documentClass;
+
         $left  = $data["left"];
         $right = $data["right"];
 
@@ -523,7 +529,7 @@ class Cursor implements
         }
     	
     	foreach ($data["neighbors"] as $neighbor) {
-  			$this->_result[$left][$right][] = ($this->_documentClass)::createFromArray($neighbor);
+  			$this->_result[$left][$right][] = $_documentClass::createFromArray($neighbor);
      	}
     }
     
