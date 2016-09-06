@@ -69,6 +69,11 @@ class HttpHelper
      * HTTP protocol version used, hard-coded to version 1.1
      */
     const PROTOCOL = 'HTTP/1.1';
+     
+    /**
+     * Boundary string for batch request parts
+     */
+    const MIME_BOUNDARY = 'XXXsubpartXXX';
 
     /**
      * HTTP Header for making an operation asynchronous
@@ -119,12 +124,16 @@ class HttpHelper
 
         $length = strlen($body);
 
-        if ($length > 0) {
-            // if body is set, we should set a content-type header
-            $contentType = 'Content-Type: application/json' . self::EOL;
-        }
-        else {
-            $contentType = "";
+        if ($options[ConnectionOptions::OPTION_BATCH] === true) {
+            $contentType = 'Content-Type: multipart/form-data; boundary=' . self::MIME_BOUNDARY . self::EOL;
+        } else {
+            if ($length > 0 && $options[ConnectionOptions::OPTION_BATCHPART] === false) {
+                // if body is set, we should set a content-type header
+                $contentType = 'Content-Type: application/json' . self::EOL;
+            }
+            else {
+                $contentType = "";
+            }
         }
 
         $customHeader = "";

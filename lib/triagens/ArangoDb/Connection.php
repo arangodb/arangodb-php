@@ -63,6 +63,34 @@ class Connection
      * @var bool
      */
     private $_useKeepAlive;
+     
+    /**
+     * Batches Array
+     *
+     * @var array
+     */
+    private $_batches = array();
+
+    /**
+     * $_activeBatch object
+     *
+     * @var array
+     */
+    private $_activeBatch = null;
+
+    /**
+     * $_captureBatch boolean
+     *
+     * @var boolean
+     */
+    private $_captureBatch = false;
+
+    /**
+     * $_batchRequest boolean
+     *
+     * @var boolean
+     */
+    private $_batchRequest = false;
 
     /**
      * $_database string
@@ -417,6 +445,31 @@ class Connection
         $url = $this->_baseUrl . $url;
 
         // create request data
+        if ($this->_batchRequest === false) {
+
+            if ($this->_captureBatch === true) {
+                $this->_options->offsetSet(ConnectionOptions::OPTION_BATCHPART, true);
+                $request = HttpHelper::buildRequest($this->_options, $this->_httpHeader, $method, $url, $data, $customHeaders);
+                $this->_options->offsetSet(ConnectionOptions::OPTION_BATCHPART, false);
+            } else {
+                $request = HttpHelper::buildRequest($this->_options, $this->_httpHeader, $method, $url, $data, $customHeaders);
+            }
+
+            if ($this->_captureBatch === true) {
+                $batchPart = $this->doBatch($method, $request);
+                if (!is_null($batchPart)) {
+                    return $batchPart;
+                }
+            }
+        } else {
+            $this->_batchRequest = false;
+
+            $this->_options->offsetSet(ConnectionOptions::OPTION_BATCH, true);
+
+            $request = HttpHelper::buildRequest($this->_options, $this->_httpHeader, $method, $url, $data, $customHeaders);
+            $this->_options->offsetSet(ConnectionOptions::OPTION_BATCH, false);
+        }
+
         $request = HttpHelper::buildRequest($this->_options, $this->_httpHeader, $method, $url, $data, $customHeaders);
 
         $traceFunc = $this->_options[ConnectionOptions::OPTION_TRACE];
@@ -478,6 +531,117 @@ class Connection
         }
 
         throw new ClientException('Whoops, this should never happen');
+    }
+
+    /**
+     * Stop capturing commands
+     *
+     * @return Batch - Returns the active batch object
+     */
+    public function stopCaptureBatch()
+    {
+        $this->_captureBatch = false;
+
+        return $this->getActiveBatch();
+    }
+
+
+    /**
+     * returns the active batch
+     *
+     * @return Batch active batch
+     */
+    public function getActiveBatch()
+    {
+        return $this->_activeBatch;
+    }
+
+    /**
+     * Sets the active Batch for this connection
+     *
+     * @param Batch $batch - Sets the given batch as active
+     *
+     * @return Batch active batch
+     */
+    public function setActiveBatch($batch)
+    {
+        $this->_activeBatch = $batch;
+
+        return $this->_activeBatch;
+    }
+
+
+    /**
+     * Sets the batch capture state (true, if capturing)
+     *
+     * @param boolean $state true to turn on capture batch mode, false to turn it off
+     */
+    public function setCaptureBatch($state)
+    {
+        $this->_captureBatch = $state;
+    }
+
+
+    /**
+     * Sets connection into Batch-request mode. This is needed for some operations to act differently when in this mode.
+     *
+     * @param boolean $state sets the connection state to batch request, meaning it is currently doing a batch request.
+     */
+    public function setBatchRequest($state)
+    {
+        $this->_batchRequest = $state;
+    }
+
+
+    /**
+     * Returns true if this connection is in Batch-Capture mode
+     *
+     * @return bool
+     *
+     * returns the active batch
+     */
+    public function isInBatchCaptureMode()
+    {
+        return $this->_captureBatch;
+    }
+
+
+    /**
+     * returns the active batch
+     *
+     */
+    public function getBatches()
+    {
+        return $this->_batches;
+    }
+
+
+    /**
+     * This is a helper function to executeRequest that captures requests if we're in batch mode
+     *
+     * @param mixed  $method  - The method of the request (GET, POST...)
+     *
+     * @param string $request - The request to process
+     *
+     * This checks if we're in batch mode and returns a placeholder object,
+     * since we need to return some object that is expected by the caller.
+     * if we're not in batch mode it doesn't return anything, and
+     *
+     * @return mixed Batchpart or null if not in batch capturing mode
+     */
+    private function doBatch($method, $request)
+    {
+        $batchPart = null;
+        if ($this->_captureBatch === true) {
+
+            /** @var $batch Batch */
+            $batch = $this->getActiveBatch();
+
+            $batchPart = $batch->append($method, $request);
+        }
+
+        # do batch processing
+        return $batchPart;
     }
 
     /**
