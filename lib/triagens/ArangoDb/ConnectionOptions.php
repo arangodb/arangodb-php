@@ -172,6 +172,16 @@ class ConnectionOptions implements
      * Reconnect flag
      */
     const OPTION_RECONNECT = 'Reconnect';
+     
+    /**
+     * Batch flag
+     */
+    const OPTION_BATCH = 'Batch';
+
+    /**
+     * Batchpart flag
+     */
+    const OPTION_BATCHPART = 'BatchPart';
 
     /**
      * Database flag
@@ -316,6 +326,8 @@ class ConnectionOptions implements
             self::OPTION_AUTH_PASSWD        => null,
             self::OPTION_AUTH_TYPE          => null,
             self::OPTION_RECONNECT          => false,
+            self::OPTION_BATCH              => false,
+            self::OPTION_BATCHPART          => false,
             self::OPTION_DATABASE           => '_system',
             self::OPTION_CHECK_UTF8_CONFORM => DefaultValues::DEFAULT_CHECK_UTF8_CONFORM
         );

@@ -154,6 +154,11 @@ abstract class Urls
      * URL for document import
      */
     const URL_IMPORT = '/_api/import';
+     
+    /**
+     * URL for batch processing
+     */
+    const URL_BATCH = '/_api/batch';
 
     /**
      * URL for transactions

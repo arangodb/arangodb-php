@@ -104,28 +104,6 @@ PHP driver:
 - Connection::enableCustomQueue($queueName, $count = null) 
 - Connection::disableCustomQueue() 
 
-Batch requests
---------------
-
-The 2.x versions of the PHP driver allowed assembling HTTP operations in the
-client without actually dispatching them immediately. Once enough operations
-were assembled, they could be sent in a batch to the server.
-
-The PHP driver offered the classes `Batch` and `BatchPart` for this purpose.
-These have been removed from the 3.0 version of the driver.
-
-The `Connection` class also had methods for working with batches, namely:
-
-- Connection::stopCaptureBatch()
-- Connection::getActiveBatch()
-- Connection::setActiveBatch($batch)
-- Connection::setCaptureBatch($state)
-- Connection::setBatchRequest($state)
-- Connection::isInBatchCaptureMode()
-- Connection::getBatches()
-
-These have been removed in the 3.0 version of the driver as well.
-
 Client versioning
 -----------------
 
