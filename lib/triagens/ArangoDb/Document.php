@@ -75,7 +75,14 @@ class Document
      *
      * @var bool
      */
-    protected $_hidden = array();
+    protected $_hiddenAttributes = array();
+
+    /**
+     * Flag to indicate whether document was changed locally
+     *
+     * @var bool
+     */
+    protected $_ignoreHiddenAttributes = false;
 
     /**
      * Document id index
@@ -100,7 +107,12 @@ class Document
     /**
      * hidden attribute index
      */
-    const ENTRY_HIDDEN = '_hidden';
+    const ENTRY_HIDDENATTRIBUTES = '_hiddenAttributes';
+
+    /**
+     * hidden attribute index
+     */
+    const ENTRY_IGNOREHIDDENATTRIBUTES = '_ignoreHiddenAttributes';
 
     /**
      * waitForSync option index
@@ -121,7 +133,12 @@ class Document
      * Constructs an empty document
      *
      * @param array $options - optional, initial $options for document
-     *
+     *                                 <p>Options are :<br>
+     *                                 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+     *                                 <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
+     *                                 <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+     *                                 <p>
+     *     *
      * @return Document
      */
     public function __construct(array $options = null)
@@ -131,8 +148,11 @@ class Document
             if (isset($options['hiddenAttributes'])) {
                 $this->setHiddenAttributes($options['hiddenAttributes']);
             }
-            if (isset($options['_hiddenAttributes'])) {
-                $this->setHiddenAttributes($options['_hiddenAttributes']);
+            if (isset($options[self::ENTRY_HIDDENATTRIBUTES])) {
+                $this->setHiddenAttributes($options[self::ENTRY_HIDDENATTRIBUTES]);
+            }
+            if (isset($options[self::ENTRY_IGNOREHIDDENATTRIBUTES])) {
+                $this->setIgnoreHiddenAttributes($options[self::ENTRY_IGNOREHIDDENATTRIBUTES]);
             }
             if (isset($options[self::ENTRY_ISNEW])) {
                 $this->setIsNew($options[self::ENTRY_ISNEW]);
@@ -148,7 +168,7 @@ class Document
      *
      * @throws ClientException
      *
-     * @param array $values  - initial values for document
+     * @param array $values - initial values for document
      * @param array $options - optional, initial options for document
      *
      * @return Document|Edge
@@ -161,7 +181,7 @@ class Document
         }
 
         $document->setChanged(true);
-                
+
         return $document;
     }
 
@@ -174,7 +194,7 @@ class Document
      */
     public function __clone()
     {
-        $this->_id  = null;
+        $this->_id = null;
         $this->_key = null;
         $this->_rev = null;
         // do not change the _changed flag here
@@ -233,9 +253,9 @@ class Document
      *
      * @return array - attributes array
      */
-    public function filterHiddenAttributes($attributes)
+    public function filterHiddenAttributes($attributes, $_hiddenAttributes = null)
     {
-        $hiddenAttributes = $this->getHiddenAttributes();
+        $hiddenAttributes = $_hiddenAttributes !== null ? $_hiddenAttributes : $this->getHiddenAttributes();
 
         if (is_array($hiddenAttributes)) {
             foreach ($hiddenAttributes as $hiddenAttributeName) {
@@ -245,7 +265,7 @@ class Document
             }
         }
 
-        unset ($attributes['_hidden']);
+        unset ($attributes[self::ENTRY_HIDDENATTRIBUTES]);
 
         return $attributes;
     }
@@ -259,8 +279,8 @@ class Document
      *
      * @throws ClientException
      *
-     * @param string $key   - attribute name
-     * @param mixed  $value - value for attribute
+     * @param string $key - attribute name
+     * @param mixed $value - value for attribute
      *
      * @return void
      */
@@ -286,15 +306,15 @@ class Document
                 $this->setRevision($value);
                 return;
             }
-        
+
             if ($key === self::ENTRY_ISNEW) {
                 $this->setIsNew($value);
                 return;
             }
         }
 
-        if (! $this->_changed) {
-            if (! isset($this->_values[$key]) || $this->_values[$key] !== $value) {
+        if (!$this->_changed) {
+            if (!isset($this->_values[$key]) || $this->_values[$key] !== $value) {
                 // set changed flag
                 $this->_changed = true;
             }
@@ -313,8 +333,8 @@ class Document
      *
      * @throws ClientException
      *
-     * @param string $key   - attribute name
-     * @param mixed  $value - value for attribute
+     * @param string $key - attribute name
+     * @param mixed $value - value for attribute
      *
      * @return void
      */
@@ -367,12 +387,14 @@ class Document
     public function getAll($options = array())
     {
         // This preserves compatibility for the old includeInternals parameter.
-        $includeInternals       = false;
-        $ignoreHiddenAttributes = false;
+        $includeInternals = false;
+        $ignoreHiddenAttributes = $this->{self::ENTRY_IGNOREHIDDENATTRIBUTES};
+        $_hiddenAttributes = $this->{self::ENTRY_HIDDENATTRIBUTES};
 
         if (!is_array($options)) {
             $includeInternals = $options;
-        } else {
+        }
+        else {
             // keeping the non-underscored version for backwards-compatibility
             $includeInternals = array_key_exists(
                 'includeInternals',
@@ -391,13 +413,18 @@ class Document
             ) ? $options['ignoreHiddenAttributes'] : $ignoreHiddenAttributes;
 
             $ignoreHiddenAttributes = array_key_exists(
-                '_ignoreHiddenAttributes',
+                self::ENTRY_IGNOREHIDDENATTRIBUTES,
                 $options
-            ) ? $options['_ignoreHiddenAttributes'] : $ignoreHiddenAttributes;
+            ) ? $options[self::ENTRY_IGNOREHIDDENATTRIBUTES] : $ignoreHiddenAttributes;
+
+            $_hiddenAttributes = array_key_exists(
+                self::ENTRY_HIDDENATTRIBUTES,
+                $options
+            ) ? $options[self::ENTRY_HIDDENATTRIBUTES] : $_hiddenAttributes;
         }
 
-        $data         = $this->_values;
-        $nonInternals = array('_changed', '_values', '_hidden');
+        $data = $this->_values;
+        $nonInternals = array('_changed', '_values', self::ENTRY_HIDDENATTRIBUTES);
 
         if ($includeInternals == true) {
             foreach ($this as $key => $value) {
@@ -407,8 +434,8 @@ class Document
             }
         }
 
-        if ($ignoreHiddenAttributes == false) {
-            $data = $this->filterHiddenAttributes($data);
+        if ($ignoreHiddenAttributes === false) {
+            $data = $this->filterHiddenAttributes($data, $_hiddenAttributes);
         }
 
         if (!is_null($this->_key)) {
@@ -417,7 +444,7 @@ class Document
 
         return $data;
     }
-    
+
     /**
      * Get all document attributes for insertion/update
      *
@@ -429,7 +456,8 @@ class Document
         foreach ($this->_values as $key => $value) {
             if ($key === "_id" || $key === "_rev") {
                 continue;
-            } else if ($key === "_key") {
+            }
+            else if ($key === "_key") {
                 if ($value === null) {
                     // key value not yet set
                     continue;
@@ -443,8 +471,8 @@ class Document
 
         return $data;
     }
-    
-    
+
+
     /**
      * Get all document attributes, and return an empty object if the documentapped into a DocumentWrapper class
      *
@@ -459,23 +487,23 @@ class Document
      */
     public function getAllAsObject($options = array())
     {
-          $result = $this->getAll($options);
-          if (count($result) === 0) {
-              return new \StdClass;
-          }
-          return $result;
+        $result = $this->getAll($options);
+        if (count($result) === 0) {
+            return new \StdClass;
+        }
+        return $result;
     }
 
     /**
      * Set the hidden attributes
-     *
+     *$cursor
      * @param array $attributes - array of attributes
      *
      * @return void
      */
     public function setHiddenAttributes(array $attributes)
     {
-        $this->_hidden = $attributes;
+        $this->{self::ENTRY_HIDDENATTRIBUTES} = $attributes;
     }
 
     /**
@@ -485,7 +513,23 @@ class Document
      */
     public function getHiddenAttributes()
     {
-        return $this->_hidden;
+        return $this->{self::ENTRY_HIDDENATTRIBUTES};
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isIgnoreHiddenAttributes()
+    {
+        return $this->{self::ENTRY_IGNOREHIDDENATTRIBUTES};
+    }
+
+    /**
+     * @param boolean $ignoreHiddenAttributes
+     */
+    public function setIgnoreHiddenAttributes($ignoreHiddenAttributes)
+    {
+        $this->{self::ENTRY_IGNOREHIDDENATTRIBUTES} = (bool) $ignoreHiddenAttributes;
     }
 
     /**
