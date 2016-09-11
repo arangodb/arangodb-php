@@ -13,8 +13,6 @@ namespace triagens\ArangoDb;
 /**
  * Some helper methods to construct and process URLs
  *
- * <br />
- *
  * @package triagens\ArangoDb
  * @since   0.2
  */
@@ -29,21 +27,23 @@ abstract class UrlHelper
      */
     public static function getDocumentIdFromLocation($location)
     {
-        @list(, , , , , , $id) = explode('/', $location);
+        if (!is_string($location)) {
+            // can't do anything about it if location is not even a string
+            return null;
+        }
 
-        return $id;
-    }
+        if (substr($location, 0, 5) === '/_db/') {
+           // /_db/<dbname>/_api/document/<collection>/<key>
+           @list(, , , , , , $id) = explode('/', $location);
+        }
+        else {
+           // /_api/document/<collection>/<key>
+          @list(, , , , $id) = explode('/', $location);
+        }
 
-    /**
-     * Get the collection id from a location header
-     *
-     * @param string $location - HTTP response location header
-     *
-     * @return string - collection id parsed from header
-     */
-    public static function getCollectionIdFromLocation($location)
-    {
-        @list(, , , $id) = explode('/', $location);
+        if (is_string($id)) {
+            $id = urldecode($id);
+        }
 
         return $id;
     }
@@ -81,9 +81,12 @@ abstract class UrlHelper
      */
     public static function appendParamsUrl($baseUrl, array $params)
     {
-        $url = $baseUrl . '?' . http_build_query($params);
-
-        return $url;
+        foreach ($params as $key => $value) {
+            if (is_bool($value)) {
+                $params[$key] = self::getBoolString($value);
+            }
+        }
+        return $baseUrl . '?' . http_build_query($params);
     }
 
     /**

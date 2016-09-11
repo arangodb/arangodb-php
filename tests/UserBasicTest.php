@@ -27,6 +27,74 @@ class UserBasicTest extends
         $this->connection = getConnection();
     }
 
+    
+    /**
+     * Test permission handling
+     */
+    public function testGrantPermission()
+    {
+        $this->userHandler = new UserHandler($this->connection);
+
+        $result = $this->userHandler->addUser('testUser42', 'testPasswd', true);
+        $this->assertTrue($result);
+        
+        $result = $this->userHandler->grantPermissions('testUser42', $this->connection->getDatabase());
+        $this->assertTrue($result);
+        
+        $options = $this->connection->getOptions()->getAll();
+        $options[ConnectionOptions::OPTION_AUTH_USER] = 'testUser42';
+        $options[ConnectionOptions::OPTION_AUTH_PASSWD] = 'testPasswd';
+        $userConnection = new Connection($options);
+
+        $userHandler = new UserHandler($userConnection);
+        $result =  $userHandler->getDatabases('testUser42');
+        $this->assertEquals($result, array($this->connection->getDatabase()));
+        
+        $this->userHandler->removeUser('testUser42');
+
+        try {
+            $result = $userHandler->getDatabases('testUser42');
+        } catch (\Exception $e) {
+            // Just give us the $e
+            $this->assertTrue($e->getCode() == 401);
+        }
+        $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
+    }
+    
+    /**
+     * Test permission handling
+     */
+    public function testGrantAndRevokePermissions()
+    {
+        $this->userHandler = new UserHandler($this->connection);
+
+        $result = $this->userHandler->addUser('testUser42', 'testPasswd', true);
+        $this->assertTrue($result);
+        
+        $result = $this->userHandler->grantPermissions('testUser42', $this->connection->getDatabase());
+        $this->assertTrue($result);
+        
+        $options = $this->connection->getOptions()->getAll();
+        $options[ConnectionOptions::OPTION_AUTH_USER] = 'testUser42';
+        $options[ConnectionOptions::OPTION_AUTH_PASSWD] = 'testPasswd';
+        $userConnection = new Connection($options);
+
+        $userHandler = new UserHandler($userConnection);
+        $result = $userHandler->getDatabases('testUser42');
+        $this->assertEquals($result, array($this->connection->getDatabase()));
+        
+        $result = $this->userHandler->revokePermissions('testUser42', $this->connection->getDatabase());
+        $this->assertTrue($result);
+
+        try {
+            $result = $userHandler->getDatabases('testUser42');
+        } catch (\Exception $e) {
+            // Just give us the $e
+            $this->assertTrue($e->getCode() == 401);
+        }
+        $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
+    }
+
 
     /**
      * Test if Document and DocumentHandler instances can be initialized
@@ -50,8 +118,6 @@ class UserBasicTest extends
 
         $this->userHandler->removeUser('testUser1');
         $this->assertTrue($result);
-
-        unset ($document);
     }
 
 
@@ -77,7 +143,7 @@ class UserBasicTest extends
 
         $response = $this->userHandler->get('testUser1');
         $extra    = $response->extra;
-        $this->assertTrue($response->active, 'Should be true');
+        $this->assertTrue($response->active);
         $this->assertTrue($extra['level'] == 1, 'Should return 1');
 
 
@@ -87,7 +153,7 @@ class UserBasicTest extends
 
         $response = $this->userHandler->get('testUser1');
         $extra    = $response->extra;
-        $this->assertFalse($response->active, 'Should be false');
+        $this->assertFalse($response->active);
 
         $this->assertTrue($extra['level'] == 2, 'Should return 2');
 
@@ -98,20 +164,15 @@ class UserBasicTest extends
 
         $response = $this->userHandler->get('testUser1');
         $extra    = $response->extra;
-        $this->assertFalse($response->active, 'Should be false');
-
+        $this->assertFalse($response->active);
 
         $this->assertTrue($extra['level'] == 3, 'Should return 3');
-        $this->assertFalse($response->active, 'Should be false');
-
 
         $this->userHandler->removeUser('testUser1');
         $this->assertTrue($result);
-
-        unset ($document);
     }
-
-
+    
+    
     // test functions on non-existent user
     public function testFunctionsOnNonExistentUser()
     {
@@ -161,6 +222,12 @@ class UserBasicTest extends
     {
         try {
             $this->userHandler->removeUser('testUser1');
+        } catch (\Exception $e) {
+            // Do nothing
+        }
+        
+        try {
+            $this->userHandler->removeUser('testUser42');
         } catch (\Exception $e) {
             // Do nothing
         }

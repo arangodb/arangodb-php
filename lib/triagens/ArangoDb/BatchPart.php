@@ -252,7 +252,7 @@ class BatchPart
                 break;
             case 'document':
                 $json = $response->getJson();
-                if ($json['error'] === false) {
+                if (!isset($json['error']) or $json['error'] === false) {
                     $id       = $json[Document::ENTRY_ID];
                     $response = $id;
                 }
@@ -265,7 +265,7 @@ class BatchPart
                 break;
             case 'edge':
                 $json = $response->getJson();
-                if ($json['error'] === false) {
+                if (!isset($json['error']) or $json['error'] === false) {
                     $id       = $json[Edge::ENTRY_ID];
                     $response = $id;
                 }
@@ -278,7 +278,7 @@ class BatchPart
                 break;
             case 'collection':
                 $json = $response->getJson();
-                if ($json['error'] === false) {
+                if (!isset($json['error']) or $json['error'] === false) {
                     $id       = $json[Collection::ENTRY_ID];
                     $response = $id;
                 }

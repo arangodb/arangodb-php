@@ -61,15 +61,24 @@ class HttpHelper
     const EOL = "\r\n";
 
     /**
-     * HTTP protocol version used, hard-coded to version 1.1
+     * Separator between header and body
      */
-    const PROTOCOL = 'HTTP/1.1';
+    const SEPARATOR = "\r\n\r\n";
 
     /**
      * HTTP protocol version used, hard-coded to version 1.1
      */
+    const PROTOCOL = 'HTTP/1.1';
+     
+    /**
+     * Boundary string for batch request parts
+     */
     const MIME_BOUNDARY = 'XXXsubpartXXX';
 
+    /**
+     * HTTP Header for making an operation asynchronous
+     */
+    const ASYNC_HEADER = 'X-Arango-Async';
 
     /**
      * Validate an HTTP request method name
@@ -92,28 +101,28 @@ class HttpHelper
             return true;
         }
 
-        throw new ClientException('Invalid request method');
+        throw new ClientException('Invalid request method \'' . $method . '\'');
     }
 
     /**
      * Create a request string (header and body)
      *
      * @param ConnectionOptions $options - connection options
+     * @param string            $connectionHeader - preassembled header string for connection
      * @param string            $method  - HTTP method
      * @param string            $url     - HTTP URL
      * @param string            $body    - optional body to post
+     * @param array             $customHeader - any arry containing header elements
      *
      * @return string - assembled HTTP request string
      */
-    public static function buildRequest(ConnectionOptions $options, $method, $url, $body)
+    public static function buildRequest(ConnectionOptions $options, $connectionHeader, $method, $url, $body, $customHeaders = array())
     {
-        $host   = $contentType = $authorization = $connection = '';
-        $length = strlen($body);
-
-        $endpoint = $options[ConnectionOptions::OPTION_ENDPOINT];
-        if (Endpoint::getType($endpoint) !== Endpoint::TYPE_UNIX) {
-            $host = sprintf('Host: %s%s', Endpoint::getHost($endpoint), self::EOL);
+        if (! is_string($body)) {
+            throw new ClientException('Invalid value for body. Expecting string, got ' . gettype($body));
         }
+
+        $length = strlen($body);
 
         if ($options[ConnectionOptions::OPTION_BATCH] === true) {
             $contentType = 'Content-Type: multipart/form-data; boundary=' . self::MIME_BOUNDARY . self::EOL;
@@ -122,37 +131,22 @@ class HttpHelper
                 // if body is set, we should set a content-type header
                 $contentType = 'Content-Type: application/json' . self::EOL;
             }
+            else {
+                $contentType = "";
+            }
         }
 
-        if (isset($options[ConnectionOptions::OPTION_AUTH_TYPE]) && isset($options[ConnectionOptions::OPTION_AUTH_USER])) {
-            // add authorization header
-            $authorizationValue = base64_encode(
-                $options[ConnectionOptions::OPTION_AUTH_USER] . ':' . $options[ConnectionOptions::OPTION_AUTH_PASSWD]
-            );
-
-            $authorization = sprintf(
-                'Authorization: %s %s%s',
-                $options[ConnectionOptions::OPTION_AUTH_TYPE],
-                $authorizationValue,
-                self::EOL
-            );
+        $customHeader = "";
+        foreach ($customHeaders as $headerKey => $headerValue) {
+            $customHeader .= $headerKey.": " . $headerValue . self::EOL;
         }
-
-        if (isset($options[ConnectionOptions::OPTION_CONNECTION])) {
-            // add connection header
-            $connection = sprintf("Connection: %s%s", $options[ConnectionOptions::OPTION_CONNECTION], self::EOL);
-        }
-
-        $apiVersion = 'x-arango-version: ' . Connection::$_apiVersion . self::EOL;
 
         // finally assemble the request
-        $request = sprintf('%s %s %s%s', $method, $url, self::PROTOCOL, self::EOL) .
-            $host .
-            $apiVersion .
+        $request = sprintf('%s %s %s', $method, $url, self::PROTOCOL) .
+            $connectionHeader .   // note: this one starts with an EOL
+            $customHeader .
             $contentType .
-            $authorization .
-            $connection .
-            sprintf('Content-Length: %s%s%s', $length, self::EOL, self::EOL) .
+            sprintf('Content-Length: %s', $length) . self::EOL . self::EOL .
             $body;
 
         return $request;
@@ -180,9 +174,10 @@ class HttpHelper
         @fwrite($socket, $request);
         @fflush($socket);
 
-        $contentLength  = null;
-        $expectedLength = null;
-        $totalRead      = 0;
+        $contentLength    = null;
+        $expectedLength   = null;
+        $totalRead        = 0;
+        $contentLengthPos = 0;
 
         $result = '';
         $first  = true;
@@ -192,6 +187,7 @@ class HttpHelper
             if ($read === false || $read === '') {
                 break;
             }
+
             $totalRead += strlen($read);
 
             if ($first) {
@@ -203,22 +199,26 @@ class HttpHelper
 
             if ($contentLength === null) {
                 // check if content-length header is present
-                $pos = stripos($result, "content-length: ");
+
+                // 12 = minimum offset (i.e. strlen("HTTP/1.1 xxx") - 
+                // after that we could see "content-length:"
+                $pos = stripos($result, "content-length: ", 12); 
 
                 if ($pos !== false) {
-                    $contentLength = (int) substr($result, $pos + 15, 10);
+                    $contentLength = (int) substr($result, $pos + 16, 10); // 16 = strlen("content-length: ")
+                    $contentLengthPos = $pos + 17; // 17 = 16 + 1 one digit 
                 }
             }
 
             if ($contentLength !== null && $expectedLength === null) {
-                $bodyStart = strpos($result, "\r\n\r\n");
+                $bodyStart = strpos($result, "\r\n\r\n", $contentLengthPos);
                 if ($bodyStart !== false) {
-                    $bodyStart += 4;
+                    $bodyStart += 4; // 4 = strlen("\r\n\r\n")
                     $expectedLength = $bodyStart + $contentLength;
                 }
             }
 
-            if ($totalRead >= $expectedLength) {
+            if ($expectedLength !== null && $totalRead >= $expectedLength) {
                 break;
             }
         }
@@ -239,15 +239,33 @@ class HttpHelper
      */
     public static function createConnection(ConnectionOptions $options)
     {
-        $fp = @fsockopen(
-            $options[ConnectionOptions::OPTION_ENDPOINT],
-            $options[ConnectionOptions::OPTION_PORT],
-            $number,
-            $message,
-            $options[ConnectionOptions::OPTION_TIMEOUT]
+        $endpoint = $options[ConnectionOptions::OPTION_ENDPOINT];
+
+        $context = stream_context_create();
+
+        if (Endpoint::getType($endpoint) === Endpoint::TYPE_SSL) {
+            // set further SSL options for the endpoint
+            stream_context_set_option($context, 'ssl', 'verify_peer', $options[ConnectionOptions::OPTION_VERIFY_CERT]);
+            stream_context_set_option($context, 'ssl', 'allow_self_signed', $options[ConnectionOptions::OPTION_ALLOW_SELF_SIGNED]);
+
+            if ($options[ConnectionOptions::OPTION_CIPHERS] !== null) {
+                // SSL ciphers
+                stream_context_set_option($context, 'ssl', 'ciphers', $options[ConnectionOptions::OPTION_CIPHERS]);
+            }
+        }
+
+        $fp = @stream_socket_client(
+            $endpoint,
+            $errno, 
+            $message, 
+            $options[ConnectionOptions::OPTION_TIMEOUT], 
+            STREAM_CLIENT_CONNECT, 
+            $context
         );
+        
         if (!$fp) {
-            throw new ConnectException($message, $number);
+            throw new ConnectException('cannot connect to endpoint \'' . 
+              $options[ConnectionOptions::OPTION_ENDPOINT] . '\': ' . $message, $errno);
         }
 
         stream_set_timeout($fp, $options[ConnectionOptions::OPTION_TIMEOUT]);
@@ -259,22 +277,17 @@ class HttpHelper
      * Splits a http message into its header and body.
      *
      * @param string $httpMessage The http message string.
+     * @param string $originUrl The original URL the response is coming from
+     * @param string $originMethod The HTTP method that was used when sending data to the origin URL
      *
      * @throws ClientException
      * @return array
      */
-    public static function parseHttpMessage($httpMessage)
+    public static function parseHttpMessage($httpMessage, $originUrl = null, $originMethod = null)
     {
         assert(is_string($httpMessage));
 
-        $barrier = HttpHelper::EOL . HttpHelper::EOL;
-        $parts   = explode($barrier, $httpMessage, 2);
-
-        if (!isset($parts[1]) or $parts[1] === null) {
-            throw new ClientException('Got an invalid response from the server');
-        }
-
-        return $parts;
+        return explode(self::SEPARATOR, $httpMessage, 2);
     }
 
     /**
@@ -291,18 +304,24 @@ class HttpHelper
         $processed = array();
 
         foreach (explode(HttpHelper::EOL, $headers) as $lineNumber => $line) {
-            $line = trim($line);
-
-            if ($lineNumber == 0) {
+            if ($lineNumber === 0) {
                 // first line of result is special
-                $result = $line;
                 if (preg_match("/^HTTP\/\d+\.\d+\s+(\d+)/", $line, $matches)) {
                     $httpCode = (int) $matches[1];
                 }
+                $result = $line;
             } else {
                 // other lines contain key:value-like headers
-                list($key, $value) = explode(':', $line, 2);
-                $processed[strtolower(rtrim($key))] = ltrim($value);
+                // the following is a performance optimization to get rid of
+                // the two trims (which are expensive as they are executed over and over) 
+                if (strpos($line, ': ') !== false) {
+                    list($key, $value) = explode(': ', $line, 2);
+                }
+                else {
+                    list($key, $value) = explode(':', $line, 2);
+                }
+                $processed[strtolower($key)] = $value;
+                // $processed[strtolower(rtrim($key))] = ltrim($value);
             }
         }
 

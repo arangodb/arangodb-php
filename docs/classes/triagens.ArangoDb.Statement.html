@@ -1,1002 +1,1501 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-    <meta charset="utf-8">
-    <title>ArangoDB PHP client API » \triagens\ArangoDb\Statement</title>
-    <meta name="author" content="Mike van Riel">
-    <meta name="description" content="">
-    <link href="../css/template.css" rel="stylesheet" media="all">
-    <script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script>
-    <script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script>
-    <script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script>
-    <script src="../js/bootstrap.js" type="text/javascript"></script>
-    <script src="../js/template.js" type="text/javascript"></script>
-    <script src="../js/prettify/prettify.min.js" type="text/javascript"></script>
-    <link rel="shortcut icon" href="../img/favicon.ico">
-    <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>ArangoDB PHP client API</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="https://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    <script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
+
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
+
+            pre.textContent = '';
+
+            code.textContent = 'Loading…';
+
+            pre.appendChild(code);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', src, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
+
+                        Prism.highlightElement(code);
+                    }
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist or is empty';
+                    }
+                }
+            };
+
+            xhr.send(null);
+        });
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
+
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
 </head>
 <body>
+
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span
-                    class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a
-                class="brand" href="../index.html">ArangoDB PHP client API</a>
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">ArangoDB PHP client API</a>
 
             <div class="nav-collapse">
-                <ul class="nav">
-                    <li class="dropdown">
-                        <a href="#api" class="dropdown-toggle" data-toggle="dropdown">
-                            API Documentation <b class="caret"></b></a>
+                <ul class="nav pull-right">
+                                        <li class="dropdown">
+                        <a href="../index.html" class="dropdown-toggle" data-toggle="dropdown">
+                            API Documentation <b class="caret"></b>
+                        </a>
                         <ul class="dropdown-menu">
-                            <li><a>Namespaces</a></li>
-                            <li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
-                            <li><a>Packages</a></li>
-                            <li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
-                        </ul>
+                                                        <li><a href="../namespaces/triagens.html">\triagens</a></li>
+                                                    </ul>
                     </li>
-                    <li class="dropdown" id="charts-menu">
-                        <a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
-                            Charts <b class="caret"></b></a>
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
                         <ul class="dropdown-menu">
-                            <li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a>
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
                             </li>
                         </ul>
                     </li>
                     <li class="dropdown" id="reports-menu">
-                        <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
-                            Reports <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
                         <ul class="dropdown-menu">
-                            <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                                <span class="label label-info">0</span></a></li>
-                            <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
-                                <ul></ul>
-                            </a></li>
-                            <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
-                                <span class="label label-info">9</span></a></li>
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">39</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">13</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a>
-    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
 </div>
-<div id="___" class="container">
-<noscript>
-    <div class="alert alert-warning">
-        Javascript is disabled; several features are only available
-        if Javascript is enabled.
-    </div>
-</noscript>
-<div class="row">
-<div class="span4">
-    <span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active"
-                                                                              title="Show public elements">Public
-    </button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private"
-                                                                                                     title="Show private elements">
-        Private
-    </button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span>
 
-    <div class="btn-group view pull-right" data-toggle="buttons-radio">
-        <button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button>
-        <button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-540640496"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-540640496" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-560453934"></a>
+                                <a href="../namespaces/triagens.html" style="margin-left: 30px; padding-left: 0">triagens</a>
+            </div>
+            <div id="namespace-560453934" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1054626661"></a>
+                                <a href="../namespaces/triagens.ArangoDb.html" style="margin-left: 30px; padding-left: 0">ArangoDb</a>
+            </div>
+            <div id="namespace-1054626661" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/triagens.ArangoDb.AdminHandler.html">AdminHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.AqlUserFunction.html">AqlUserFunction</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Autoloader.html">Autoloader</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Batch.html">Batch</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.BatchPart.html">BatchPart</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.BindVars.html">BindVars</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ClientException.html">ClientException</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Collection.html">Collection</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.CollectionHandler.html">CollectionHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ConnectException.html">ConnectException</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Connection.html">Connection</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ConnectionOptions.html">ConnectionOptions</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Cursor.html">Cursor</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Database.html">Database</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.DefaultValues.html">DefaultValues</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Document.html">Document</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.DocumentHandler.html">DocumentHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Edge.html">Edge</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.EdgeDefinition.html">EdgeDefinition</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.EdgeHandler.html">EdgeHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Endpoint.html">Endpoint</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Exception.html">Exception</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Graph.html">Graph</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.GraphHandler.html">GraphHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Handler.html">Handler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.HttpHelper.html">HttpHelper</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.HttpResponse.html">HttpResponse</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ServerException.html">ServerException</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Statement.html">Statement</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.TraceRequest.html">TraceRequest</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.TraceResponse.html">TraceResponse</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Transaction.html">Transaction</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Traversal.html">Traversal</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.UpdatePolicy.html">UpdatePolicy</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.UrlHelper.html">UrlHelper</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Urls.html">Urls</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.User.html">User</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.UserHandler.html">UserHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ValueValidator.html">ValueValidator</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Vertex.html">Vertex</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.VertexHandler.html">VertexHandler</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
     </div>
-    <ul class="side-nav nav nav-list">
-        <li class="nav-header">
-            <i class="icon-custom icon-method"></i> Methods
-            <ul>
-                <li class="method public "><a href="#method___construct"
-                                              title="__construct() :: Initialise the statement"><span
-                        class="description">Initialise the statement</span>
-                    <pre>__construct()</pre>
-                </a></li>
-                <li class="method public "><a href="#method___invoke" title="__invoke() :: Invoke the statement"><span
-                        class="description">Invoke the statement</span>
-                    <pre>__invoke()</pre>
-                </a></li>
-                <li class="method public "><a href="#method___toString"
-                                              title="__toString() :: Return a string representation of the statement"><span
-                        class="description">Return a string representation of the statement</span>
-                    <pre>__toString()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_bind"
-                                              title="bind() :: Bind a parameter to the statement"><span
-                        class="description">Bind a parameter to the statement</span>
-                    <pre>bind()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_execute" title="execute() :: Execute the statement"><span
-                        class="description">Execute the statement</span>
-                    <pre>execute()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_explain"
-                                              title="explain() :: Explain the statement's execution plan"><span
-                        class="description">Explain the statement's execution plan</span>
-                    <pre>explain()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_getBatchSize"
-                                              title="getBatchSize() :: Get the batch size for the statement"><span
-                        class="description">Get the batch size for the statement</span>
-                    <pre>getBatchSize()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_getBindVars"
-                                              title="getBindVars() :: Get all bind parameters as an array"><span
-                        class="description">Get all bind parameters as an array</span>
-                    <pre>getBindVars()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_getCount"
-                                              title="getCount() :: Get the count option value of the statement"><span
-                        class="description">Get the count option value of the statement</span>
-                    <pre>getCount()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_getFullCount"
-                                              title="getFullCount() :: Get the full count option value of the statement"><span
-                        class="description">Get the full count option value of the statement</span>
-                    <pre>getFullCount()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_getQuery" title="getQuery() :: Get the query string"><span
-                        class="description">Get the query string</span>
-                    <pre>getQuery()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_setBatchSize"
-                                              title="setBatchSize() :: Set the batch size for the statement"><span
-                        class="description">Set the batch size for the statement</span>
-                    <pre>setBatchSize()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_setCount"
-                                              title="setCount() :: Set the count option for the statement"><span
-                        class="description">Set the count option for the statement</span>
-                    <pre>setCount()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_setFullCount"
-                                              title="setFullCount() :: Set the full count option for the statement"><span
-                        class="description">Set the full count option for the statement</span>
-                    <pre>setFullCount()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_setQuery" title="setQuery() :: Set the query string"><span
-                        class="description">Set the query string</span>
-                    <pre>setQuery()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_validate"
-                                              title="validate() :: Validates the statement"><span class="description">Validates the statement</span>
-                    <pre>validate()</pre>
-                </a></li>
-            </ul>
-        </li>
-        <li class="nav-header protected">» Protected
-            <ul>
-                <li class="method protected "><a href="#method_getConnection"
-                                                 title="getConnection() :: Return the connection object"><span
-                        class="description">Return the connection object</span>
-                    <pre>getConnection()</pre>
-                </a></li>
-            </ul>
-        </li>
-        <li class="nav-header private">» Private
-            <ul>
-                <li class="method private "><a href="#method_buildData"
-                                               title="buildData() :: Build an array of data to be posted to the server when issuing the statement"><span
-                        class="description">Build an array of data to be posted to the server when issuing the statement</span>
-                    <pre>buildData()</pre>
-                </a></li>
-                <li class="method private "><a href="#method_getCursorOptions"
-                                               title="getCursorOptions() :: Return an array of cursor options"><span
-                        class="description">Return an array of cursor options</span>
-                    <pre>getCursorOptions()</pre>
-                </a></li>
-            </ul>
-        </li>
-        <li class="nav-header">
-            <i class="icon-custom icon-property"></i> Properties
-            <ul></ul>
-        </li>
-        <li class="nav-header private">» Private
-            <ul>
-                <li class="property private "><a href="#property__batchSize"
-                                                 title="$_batchSize() :: The current batch size (number of result documents retrieved per round-trip)"><span
-                        class="description"></span>
-                    <pre>$_batchSize</pre>
-                </a></li>
-                <li class="property private "><a href="#property__bindVars"
-                                                 title="$_bindVars() :: The bind variables and values used for the statement"><span
-                        class="description"></span>
-                    <pre>$_bindVars</pre>
-                </a></li>
-                <li class="property private "><a href="#property__connection"
-                                                 title="$_connection() :: The connection object"><span
-                        class="description"></span>
-                    <pre>$_connection</pre>
-                </a></li>
-                <li class="property private "><a href="#property__doCount"
-                                                 title="$_doCount() :: The count flag (should server return total number of results)"><span
-                        class="description"></span>
-                    <pre>$_doCount</pre>
-                </a></li>
-                <li class="property private "><a href="#property__flat"
-                                                 title='$_flat() :: "flat" flag (if set, the query results will be treated as a simple array, not documents)'><span
-                        class="description"></span>
-                    <pre>$_flat</pre>
-                </a></li>
-                <li class="property private "><a href="#property__fullCount" title="$_fullCount() :: The count flag (should server return total number of results ignoring the limit)
-Be careful! This option also prevents ArangoDB from using some server side optimizations!"><span
-                        class="description"></span>
-                    <pre>$_fullCount</pre>
-                </a></li>
-                <li class="property private "><a href="#property__query" title="$_query() :: The query string"><span
-                        class="description"></span>
-                    <pre>$_query</pre>
-                </a></li>
-                <li class="property private "><a href="#property__sanitize"
-                                                 title="$_sanitize() :: Sanitation flag (if set, the _id and _rev attributes will be removed from the results)"><span
-                        class="description"></span>
-                    <pre>$_sanitize</pre>
-                </a></li>
-            </ul>
-        </li>
-        <li class="nav-header">
-            <i class="icon-custom icon-constant"></i> Constants
-            <ul>
-                <li class="constant  "><a href="#constant_ENTRY_BATCHSIZE"
-                                          title="ENTRY_BATCHSIZE() :: Batch size index"><span class="description">Batch size index</span>
-                    <pre>ENTRY_BATCHSIZE</pre>
-                </a></li>
-                <li class="constant  "><a href="#constant_ENTRY_BINDVARS"
-                                          title="ENTRY_BINDVARS() :: Bind variables index"><span class="description">Bind variables index</span>
-                    <pre>ENTRY_BINDVARS</pre>
-                </a></li>
-                <li class="constant  "><a href="#constant_ENTRY_COUNT" title="ENTRY_COUNT() :: Count option index"><span
-                        class="description">Count option index</span>
-                    <pre>ENTRY_COUNT</pre>
-                </a></li>
-                <li class="constant  "><a href="#constant_ENTRY_QUERY" title="ENTRY_QUERY() :: Query string index"><span
-                        class="description">Query string index</span>
-                    <pre>ENTRY_QUERY</pre>
-                </a></li>
-                <li class="constant  "><a href="#constant_FULL_COUNT"
-                                          title="FULL_COUNT() :: Full count option index"><span class="description">Full count option index</span>
-                    <pre>FULL_COUNT</pre>
-                </a></li>
-            </ul>
-        </li>
-    </ul>
-</div>
-<div class="span8">
-<a id="\triagens\ArangoDb\Statement"></a>
-<ul class="breadcrumb">
-    <li>
-        <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
-    </li>
-    <li><a href="../namespaces/triagens.html">triagens</a></li>
-    <li>
-        <span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
-    </li>
-    <li class="active">
-        <span class="divider">\</span><a href="../classes/triagens.ArangoDb.Statement.html">Statement</a>
-    </li>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav>
+                                                <a href="../namespaces/triagens.ArangoDb.html">\triagens\ArangoDb</a> <i class="icon-level-up"></i>
+                                            </nav>
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+
+                    <h1><small>\triagens\ArangoDb</small>Statement</h1>
+                    <p><em>Container for a read-only (&quot;select&quot;) statement</em></p>
+                    <p>A statement is an AQL query that can be issued to the
+server. Optional bind parameters can be used when issuing the
+statement to separate the statement from the values.
+Executing a statement will result in a cursor being created.</p>
+<p>There is an important distinction between two different types of statements:</p>
+<ul>
+<li> statements that produce a list of documents as their result AND<br />
+<li> statements that do not produce documents
 </ul>
-<div class="element class">
-<p class="short_description">Container for a read-only ("select") statement</p>
+<p>For example, a statement such as "FOR e IN example RETURN e" will produce
+a list of documents as its result. The result can be treated as a list of
+documents, and the document can be updated and sent back to the server by
+the client.<br />
+<br />
+However, the query "RETURN 1 + 1" will not produce a list of documents as
+its result, but a list with a single scalar value (the number 2).
+"2" is not a valid document so creating a document from it will fail.<br />
+<br />
+To turn the results of this query into a document, the following needs to
+be done:</p>
+<ul>
+<li> modify the query to "RETURN { value: 1 + 1 }". The result will then be a
+  a list of documents with a "value" attribute<br />
+<li> use the "_flat" option for the statement to indicate that you don't want
+  to treat the statement result as a list of documents, but as a flat list
+</ul>
+<p><br /></p>
 
-<div class="details">
-<div class="long_description">A statement is an AQL query that can be issued to the
-    server. Optional bind parameters can be used when issuing the
-    statement to separate the statement from the values.
-    Executing a statement will result in a cursor being created.
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#method___construct" class="">__construct()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#method_execute" class="">execute()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#method_explain" class="">explain()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#method_validate" class="">validate()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#method___invoke" class="">__invoke()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#method___toString" class="">__toString()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#method_bind" class="">bind()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#method_getBindVars" class="">getBindVars()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#method_setQuery" class="">setQuery()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#method_getQuery" class="">getQuery()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#method_setResulType" class="">setResulType()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#method_setCount" class="">setCount()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#method_getCount" class="">getCount()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#method_setFullCount" class="">setFullCount()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#method_getFullCount" class="">getFullCount()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#method_setBatchSize" class="">setBatchSize()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#method_getBatchSize" class="">getBatchSize()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No public properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#constant_ENTRY_QUERY" class="">ENTRY_QUERY</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#constant_ENTRY_COUNT" class="">ENTRY_COUNT</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#constant_ENTRY_BATCHSIZE" class="">ENTRY_BATCHSIZE</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#constant_ENTRY_BINDVARS" class="">ENTRY_BINDVARS</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#constant_FULL_COUNT" class="">FULL_COUNT</a><br />
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#method_getConnection" class="">getConnection()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No protected properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#method_buildData" class="">buildData()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#method_getCursorOptions" class="">getCursorOptions()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#property__connection" class="">$_connection</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#property__bindVars" class="">$_bindVars</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#property__batchSize" class="">$_batchSize</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#property__doCount" class="">$_doCount</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#property__fullCount" class="">$_fullCount</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#property__query" class="">$_query</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#property__flat" class="">$_flat</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#property__sanitize" class="">$_sanitize</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.Statement.html#property_resultType" class="">$resultType</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                                        
+                    
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/Statement.html"><div class="path-wrapper">Statement.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">\triagens\ArangoDb</div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                    <div class="namespace-wrapper">\triagens\ArangoDb\Statement</div>
+                            </dd>
 
-    There is an important distinction between two different types of statements:
-    <ul>
-        <li> statements that produce a list of documents as their result AND<br/>
-        <li> statements that do not produce documents
-    </ul>
-
-    For example, a statement such as "FOR e IN example RETURN e" will produce
-    a list of documents as its result. The result can be treated as a list of
-    documents, and the document can be updated and sent back to the server by
-    the client.<br/>
-    <br/>
-    However, the query "RETURN 1 + 1" will not produce a list of documents as
-    its result, but a list with a single scalar value (the number 2).
-    "2" is not a valid document so creating a document from it will fail.<br/>
-    <br/>
-    To turn the results of this query into a document, the following needs to
-    be done:
-    <ul>
-        <li> modify the query to "RETURN { value: 1 + 1 }". The result will then be a
-            a list of documents with a "value" attribute<br/>
-        <li> use the "_flat" option for the statement to indicate that you don't want
-            to treat the statement result as a list of documents, but as a flat list
-    </ul>
-
-    <br/></div>
-<table class="table table-bordered">
-    <tr>
-        <th>package</th>
-        <td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
-    </tr>
-    <tr>
-        <th>since</th>
-        <td>0.2</td>
-    </tr>
-</table>
-<h3>
-    <i class="icon-custom icon-method"></i> Methods</h3>
-<a id="method___construct"></a>
-
-<div class="element clickable method public method___construct" data-toggle="collapse"
-     data-target=".method___construct .collapse">
-    <h2>Initialise the statement</h2>
-    <pre>__construct(\triagens\ArangoDb\Connection $connection, array $data) </pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description">The $data property can be used to specify the query text and further
-                options for the query.
-
-                An important consideration when creating a statement is whether the
-                statement will produce a list of documents as its result or any other
-                non-document value. When a statement is created, by default it is
-                assumed that the statement will produce documents. If this is not the
-                case, executing a statement that returns non-documents will fail.
-
-                To explicitly mark the statement as returning non-documents, the '_flat'
-                option should be specified in $data.
+                        
+                        
+                        
+                        
+                                                                        </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                            <tr>
+                            <th>
+                                since
+                            </th>
+                            <td>
+                                                                    
+                                                            </td>
+                        </tr>
+                                        </table>
+                </aside>
             </div>
-            <h3>Parameters</h3>
 
-            <div class="subelement argument">
-                <h4>$connection</h4>
-                <code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>
-                <ul>
-                    <li>the connection to be used</li>
-                </ul>
+                                    <a id="constants" name="constants"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Constants</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
             </div>
-            <div class="subelement argument">
-                <h4>$data</h4>
-                <code>array</code>
-                <ul>
-                    <li>statement initialization data</li>
-                </ul>
+
+                                <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ENTRY_QUERY" name="constant_ENTRY_QUERY" class="anchor"></a>
+            <article id="constant_ENTRY_QUERY" class="constant">
+                <h3 class="">ENTRY_QUERY</h3>
+                <pre class="signature">ENTRY_QUERY</pre>
+                <p><em>Query string index</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ENTRY_COUNT" name="constant_ENTRY_COUNT" class="anchor"></a>
+            <article id="constant_ENTRY_COUNT" class="constant">
+                <h3 class="">ENTRY_COUNT</h3>
+                <pre class="signature">ENTRY_COUNT</pre>
+                <p><em>Count option index</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ENTRY_BATCHSIZE" name="constant_ENTRY_BATCHSIZE" class="anchor"></a>
+            <article id="constant_ENTRY_BATCHSIZE" class="constant">
+                <h3 class="">ENTRY_BATCHSIZE</h3>
+                <pre class="signature">ENTRY_BATCHSIZE</pre>
+                <p><em>Batch size index</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ENTRY_BINDVARS" name="constant_ENTRY_BINDVARS" class="anchor"></a>
+            <article id="constant_ENTRY_BINDVARS" class="constant">
+                <h3 class="">ENTRY_BINDVARS</h3>
+                <pre class="signature">ENTRY_BINDVARS</pre>
+                <p><em>Bind variables index</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_FULL_COUNT" name="constant_FULL_COUNT" class="anchor"></a>
+            <article id="constant_FULL_COUNT" class="constant">
+                <h3 class="">FULL_COUNT</h3>
+                <pre class="signature">FULL_COUNT</pre>
+                <p><em>Full count option index</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                            
+                                    <a id="properties" name="properties"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Properties</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
             </div>
-            <h3>Exceptions</h3>
-            <table class="table table-bordered">
-                <tr>
-                    <th><code><a
-                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
-                    </th>
-                    <td></td>
-                </tr>
-            </table>
+
+                                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__connection" name="property__connection" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$_connection</h3>
+                <pre class="signature">$_connection : \triagens\ArangoDb\Connection</pre>
+                <p><em>The connection object</em></p>
+                
+
+                                <h4>Type</h4>
+                <a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a>
+                                            </article>
         </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
     </div>
-</div>
-<a id="method___invoke"></a>
 
-<div class="element clickable method public method___invoke" data-toggle="collapse"
-     data-target=".method___invoke .collapse">
-    <h2>Invoke the statement</h2>
-    <pre>__invoke(mixed $args) : <a href="../classes/triagens.ArangoDb.Cursor.html">\triagens\ArangoDb\Cursor</a></pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description">This will simply call execute(). Arguments are ignored.</div>
-            <h3>Parameters</h3>
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__bindVars" name="property__bindVars" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$_bindVars</h3>
+                <pre class="signature">$_bindVars : \triagens\ArangoDb\BindVars</pre>
+                <p><em>The bind variables and values used for the statement</em></p>
+                
 
-            <div class="subelement argument">
-                <h4>$args</h4>
-                <code>mixed</code>
-                <ul>
-                    <li>arguments for invocation, will be ignored</li>
-                </ul>
+                                <h4>Type</h4>
+                <a href="../classes/triagens.ArangoDb.BindVars.html">\triagens\ArangoDb\BindVars</a>
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__batchSize" name="property__batchSize" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$_batchSize</h3>
+                <pre class="signature">$_batchSize : mixed</pre>
+                <p><em>The current batch size (number of result documents retrieved per round-trip)</em></p>
+                
+
+                                <h4>Type</h4>
+                mixed
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__doCount" name="property__doCount" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$_doCount</h3>
+                <pre class="signature">$_doCount : boolean</pre>
+                <p><em>The count flag (should server return total number of results)</em></p>
+                
+
+                                <h4>Type</h4>
+                boolean
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__fullCount" name="property__fullCount" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$_fullCount</h3>
+                <pre class="signature">$_fullCount : boolean</pre>
+                <p><em>The count flag (should server return total number of results ignoring the limit)
+Be careful! This option also prevents ArangoDB from using some server side optimizations!</em></p>
+                
+
+                                <h4>Type</h4>
+                boolean
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__query" name="property__query" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$_query</h3>
+                <pre class="signature">$_query : string</pre>
+                <p><em>The query string</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__flat" name="property__flat" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$_flat</h3>
+                <pre class="signature">$_flat : boolean</pre>
+                <p><em>&quot;flat&quot; flag (if set, the query results will be treated as a simple array, not documents)</em></p>
+                
+
+                                <h4>Type</h4>
+                boolean
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__sanitize" name="property__sanitize" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$_sanitize</h3>
+                <pre class="signature">$_sanitize : boolean</pre>
+                <p><em>Sanitation flag (if set, the _id and _rev attributes will be removed from the results)</em></p>
+                
+
+                                <h4>Type</h4>
+                boolean
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_resultType" name="property_resultType" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$resultType</h3>
+                <pre class="signature">$resultType : string</pre>
+                <p><em>resultType</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                            
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
             </div>
-            <h3>Exceptions</h3>
-            <table class="table table-bordered">
-                <tr>
-                    <th><code><a
-                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
-                    </th>
-                    <td></td>
-                </tr>
-            </table>
-            <h3>Returns</h3>
 
-            <div class="subelement response">
-                <code><a href="../classes/triagens.ArangoDb.Cursor.html">\triagens\ArangoDb\Cursor</a></code>- the
-                result cursor
-            </div>
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___construct" name="method___construct" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__construct()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__construct(\triagens\ArangoDb\Connection <span class="argument">$connection</span>, array <span class="argument">$data</span>)</pre>
+                <p><em>Initialise the statement</em></p>
+                <p>The $data property can be used to specify the query text and further
+options for the query.</p>
+<p>An important consideration when creating a statement is whether the
+statement will produce a list of documents as its result or any other
+non-document value. When a statement is created, by default it is
+assumed that the statement will produce documents. If this is not the
+case, executing a statement that returns non-documents will fail.</p>
+<p>To explicitly mark the statement as returning non-documents, the '_flat'
+option should be specified in $data.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></td>
+                                <td>$connection </td>
+                                <td><ul>
+<li>the connection to be used</li>
+</ul></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$data </td>
+                                <td><ul>
+<li>statement initialization data</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\Exception</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_execute" name="method_execute" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">execute()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">execute() : \triagens\ArangoDb\Cursor</pre>
+                <p><em>Execute the statement</em></p>
+                <p>This will post the query to the server and return the results as
+a Cursor. The cursor can then be used to iterate the results.</p>
+
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\Exception</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/triagens.ArangoDb.Cursor.html">\triagens\ArangoDb\Cursor</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_explain" name="method_explain" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">explain()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">explain() : Array</pre>
+                <p><em>Explain the statement&#039;s execution plan</em></p>
+                <p>This will post the query to the server and return the execution plan as an array.</p>
+
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\Exception</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    Array
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_validate" name="method_validate" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">validate()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">validate() : Array</pre>
+                <p><em>Validates the statement</em></p>
+                <p>This will post the query to the server for validation and return the validation result as an array.</p>
+
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\Exception</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    Array
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___invoke" name="method___invoke" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__invoke()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__invoke(mixed <span class="argument">$args</span>) : \triagens\ArangoDb\Cursor</pre>
+                <p><em>Invoke the statement</em></p>
+                <p>This will simply call execute(). Arguments are ignored.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$args </td>
+                                <td><ul>
+<li>arguments for invocation, will be ignored</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\Exception</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/triagens.ArangoDb.Cursor.html">\triagens\ArangoDb\Cursor</a>
+                                            &mdash; <ul>
+<li>the result cursor</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___toString" name="method___toString" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__toString()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__toString() : string</pre>
+                <p><em>Return a string representation of the statement</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <ul>
+<li>the current query string</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_bind" name="method_bind" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">bind()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">bind(mixed <span class="argument">$key</span>, mixed <span class="argument">$value</span>) : void</pre>
+                <p><em>Bind a parameter to the statement</em></p>
+                <p>This method can either be called with a string $key and a
+separate value in $value, or with an array of all bind
+bind parameters in $key, with $value being NULL.</p>
+<p>Allowed value types for bind parameters are string, int,
+double, bool and array. Arrays must not contain any other
+than these types.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$key </td>
+                                <td><ul>
+<li>name of bind variable OR an array of all bind variables</li>
+</ul></td>
+                            </tr>
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$value </td>
+                                <td><ul>
+<li>value for bind variable</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\Exception</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getBindVars" name="method_getBindVars" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getBindVars()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getBindVars() : array</pre>
+                <p><em>Get all bind parameters as an array</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <ul>
+<li>array of bind variables/values</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setQuery" name="method_setQuery" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setQuery()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setQuery(string <span class="argument">$query</span>) : void</pre>
+                <p><em>Set the query string</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$query </td>
+                                <td><ul>
+<li>query string</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\ClientException</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getQuery" name="method_getQuery" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getQuery()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getQuery() : string</pre>
+                <p><em>Get the query string</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <ul>
+<li>current query string value</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setResulType" name="method_setResulType" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setResulType()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setResulType( <span class="argument">$resultType</span>) : string</pre>
+                <p><em>setResultType</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$resultType </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <ul>
+<li>resultType of the query</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setCount" name="method_setCount" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setCount()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setCount(boolean <span class="argument">$value</span>) : void</pre>
+                <p><em>Set the count option for the statement</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$value </td>
+                                <td><ul>
+<li>value for count option</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getCount" name="method_getCount" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getCount()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getCount() : boolean</pre>
+                <p><em>Get the count option value of the statement</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <ul>
+<li>current value of count option</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setFullCount" name="method_setFullCount" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setFullCount()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setFullCount(boolean <span class="argument">$value</span>) : void</pre>
+                <p><em>Set the full count option for the statement</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$value </td>
+                                <td><ul>
+<li>value for full count option</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getFullCount" name="method_getFullCount" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getFullCount()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getFullCount() : boolean</pre>
+                <p><em>Get the full count option value of the statement</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <ul>
+<li>current value of full count option</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setBatchSize" name="method_setBatchSize" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setBatchSize()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setBatchSize(integer <span class="argument">$value</span>) : void</pre>
+                <p><em>Set the batch size for the statement</em></p>
+                <p>The batch size is the number of results to be transferred
+in one server round-trip. If a query produces more results
+than the batch size, it creates a server-side cursor that
+provides the additional results.</p>
+<p>The server-side cursor can be accessed by the client with subsequent HTTP requests.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$value </td>
+                                <td><ul>
+<li>batch size value</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\ClientException</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getBatchSize" name="method_getBatchSize" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getBatchSize()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getBatchSize() : integer</pre>
+                <p><em>Get the batch size for the statement</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    integer
+                                            &mdash; <ul>
+<li>current batch size value</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getConnection" name="method_getConnection" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">getConnection()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getConnection() : \triagens\ArangoDb\Connection</pre>
+                <p><em>Return the connection object</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a>
+                                            &mdash; <ul>
+<li>the connection object</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_buildData" name="method_buildData" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">buildData()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">buildData() : array</pre>
+                <p><em>Build an array of data to be posted to the server when issuing the statement</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <ul>
+<li>array of data to be sent to server</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getCursorOptions" name="method_getCursorOptions" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">getCursorOptions()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getCursorOptions() : array</pre>
+                <p><em>Return an array of cursor options</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <ul>
+<li>array of options</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">Statement.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/Statement.php.txt" class="language-php line-numbers"></pre>
         </div>
     </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                            <li><a href="../namespaces/triagens.html">\triagens</a></li>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on July 11th, 2014 at 12:23.
+                </section>
+            </section>
+        </section>
+    </footer>
 </div>
-<a id="method___toString"></a>
 
-<div class="element clickable method public method___toString" data-toggle="collapse"
-     data-target=".method___toString .collapse">
-    <h2>Return a string representation of the statement</h2>
-    <pre>__toString() : string</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>string</code>- the current query string
-            </div>
-        </div>
-    </div>
-</div>
-<a id="method_bind"></a>
-
-<div class="element clickable method public method_bind" data-toggle="collapse" data-target=".method_bind .collapse">
-    <h2>Bind a parameter to the statement</h2>
-    <pre>bind(mixed $key, mixed $value) : void</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description">This method can either be called with a string $key and a
-                separate value in $value, or with an array of all bind
-                bind parameters in $key, with $value being NULL.
-
-                Allowed value types for bind parameters are string, int,
-                double, bool and array. Arrays must not contain any other
-                than these types.
-            </div>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument">
-                <h4>$key</h4>
-                <code>mixed</code>
-                <ul>
-                    <li>name of bind variable OR an array of all bind variables</li>
-                </ul>
-            </div>
-            <div class="subelement argument">
-                <h4>$value</h4>
-                <code>mixed</code>
-                <ul>
-                    <li>value for bind variable</li>
-                </ul>
-            </div>
-            <h3>Exceptions</h3>
-            <table class="table table-bordered">
-                <tr>
-                    <th><code><a
-                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
-                    </th>
-                    <td></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-</div>
-<a id="method_execute"></a>
-
-<div class="element clickable method public method_execute" data-toggle="collapse"
-     data-target=".method_execute .collapse">
-    <h2>Execute the statement</h2>
-    <pre>execute() : <a href="../classes/triagens.ArangoDb.Cursor.html">\triagens\ArangoDb\Cursor</a></pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description">This will post the query to the server and return the results as
-                a Cursor. The cursor can then be used to iterate the results.
-            </div>
-            <h3>Exceptions</h3>
-            <table class="table table-bordered">
-                <tr>
-                    <th><code><a
-                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
-                    </th>
-                    <td></td>
-                </tr>
-            </table>
-            <h3>Returns</h3>
-
-            <div class="subelement response"><code><a href="../classes/triagens.ArangoDb.Cursor.html">\triagens\ArangoDb\Cursor</a></code>
-            </div>
-        </div>
-    </div>
-</div>
-<a id="method_explain"></a>
-
-<div class="element clickable method public method_explain" data-toggle="collapse"
-     data-target=".method_explain .collapse">
-    <h2>Explain the statement's execution plan</h2>
-    <pre>explain() : Array</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description">This will post the query to the server and return the execution plan as an
-                array.
-            </div>
-            <h3>Exceptions</h3>
-            <table class="table table-bordered">
-                <tr>
-                    <th><code><a
-                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
-                    </th>
-                    <td></td>
-                </tr>
-            </table>
-            <h3>Returns</h3>
-
-            <div class="subelement response"><code>Array</code></div>
-        </div>
-    </div>
-</div>
-<a id="method_getBatchSize"></a>
-
-<div class="element clickable method public method_getBatchSize" data-toggle="collapse"
-     data-target=".method_getBatchSize .collapse">
-    <h2>Get the batch size for the statement</h2>
-    <pre>getBatchSize() : int</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>int</code>- current batch size value
-            </div>
-        </div>
-    </div>
-</div>
-<a id="method_getBindVars"></a>
-
-<div class="element clickable method public method_getBindVars" data-toggle="collapse"
-     data-target=".method_getBindVars .collapse">
-    <h2>Get all bind parameters as an array</h2>
-    <pre>getBindVars() : array</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>array</code>- array of bind variables/values
-            </div>
-        </div>
-    </div>
-</div>
-<a id="method_getCount"></a>
-
-<div class="element clickable method public method_getCount" data-toggle="collapse"
-     data-target=".method_getCount .collapse">
-    <h2>Get the count option value of the statement</h2>
-    <pre>getCount() : bool</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>bool</code>- current value of count option
-            </div>
-        </div>
-    </div>
-</div>
-<a id="method_getFullCount"></a>
-
-<div class="element clickable method public method_getFullCount" data-toggle="collapse"
-     data-target=".method_getFullCount .collapse">
-    <h2>Get the full count option value of the statement</h2>
-    <pre>getFullCount() : bool</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>bool</code>- current value of full count option
-            </div>
-        </div>
-    </div>
-</div>
-<a id="method_getQuery"></a>
-
-<div class="element clickable method public method_getQuery" data-toggle="collapse"
-     data-target=".method_getQuery .collapse">
-    <h2>Get the query string</h2>
-    <pre>getQuery() : string</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>string</code>- current query string value
-            </div>
-        </div>
-    </div>
-</div>
-<a id="method_setBatchSize"></a>
-
-<div class="element clickable method public method_setBatchSize" data-toggle="collapse"
-     data-target=".method_setBatchSize .collapse">
-    <h2>Set the batch size for the statement</h2>
-    <pre>setBatchSize(int $value) : void</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description">The batch size is the number of results to be transferred
-                in one server round-trip. If a query produces more results
-                than the batch size, it creates a server-side cursor that
-                provides the additional results.
-
-                The server-side cursor can be accessed by the client with subsequent HTTP requests.
-            </div>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument">
-                <h4>$value</h4>
-                <code>int</code>
-                <ul>
-                    <li>batch size value</li>
-                </ul>
-            </div>
-            <h3>Exceptions</h3>
-            <table class="table table-bordered">
-                <tr>
-                    <th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code>
-                    </th>
-                    <td></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-</div>
-<a id="method_setCount"></a>
-
-<div class="element clickable method public method_setCount" data-toggle="collapse"
-     data-target=".method_setCount .collapse">
-    <h2>Set the count option for the statement</h2>
-    <pre>setCount(bool $value) : void</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument">
-                <h4>$value</h4>
-                <code>bool</code>
-                <ul>
-                    <li>value for count option</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-<a id="method_setFullCount"></a>
-
-<div class="element clickable method public method_setFullCount" data-toggle="collapse"
-     data-target=".method_setFullCount .collapse">
-    <h2>Set the full count option for the statement</h2>
-    <pre>setFullCount(bool $value) : void</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument">
-                <h4>$value</h4>
-                <code>bool</code>
-                <ul>
-                    <li>value for full count option</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-<a id="method_setQuery"></a>
-
-<div class="element clickable method public method_setQuery" data-toggle="collapse"
-     data-target=".method_setQuery .collapse">
-    <h2>Set the query string</h2>
-    <pre>setQuery(string $query) : void</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument">
-                <h4>$query</h4>
-                <code>string</code>
-                <ul>
-                    <li>query string</li>
-                </ul>
-            </div>
-            <h3>Exceptions</h3>
-            <table class="table table-bordered">
-                <tr>
-                    <th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code>
-                    </th>
-                    <td></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-</div>
-<a id="method_validate"></a>
-
-<div class="element clickable method public method_validate" data-toggle="collapse"
-     data-target=".method_validate .collapse">
-    <h2>Validates the statement</h2>
-    <pre>validate() : Array</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description">This will post the query to the server for validation and return the
-                validation result as an array.
-            </div>
-            <h3>Exceptions</h3>
-            <table class="table table-bordered">
-                <tr>
-                    <th><code><a
-                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
-                    </th>
-                    <td></td>
-                </tr>
-            </table>
-            <h3>Returns</h3>
-
-            <div class="subelement response"><code>Array</code></div>
-        </div>
-    </div>
-</div>
-<a id="method_getConnection"></a>
-
-<div class="element clickable method protected method_getConnection" data-toggle="collapse"
-     data-target=".method_getConnection .collapse">
-    <h2>Return the connection object</h2>
-    <pre>getConnection() : <a
-            href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>-
-                the connection object
-            </div>
-        </div>
-    </div>
-</div>
-<a id="method_buildData"></a>
-
-<div class="element clickable method private method_buildData" data-toggle="collapse"
-     data-target=".method_buildData .collapse">
-    <h2>Build an array of data to be posted to the server when issuing the statement</h2>
-    <pre>buildData() : array</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>array</code>- array of data to be sent to server
-            </div>
-        </div>
-    </div>
-</div>
-<a id="method_getCursorOptions"></a>
-
-<div class="element clickable method private method_getCursorOptions" data-toggle="collapse"
-     data-target=".method_getCursorOptions .collapse">
-    <h2>Return an array of cursor options</h2>
-    <pre>getCursorOptions() : array</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>array</code>- array of options
-            </div>
-        </div>
-    </div>
-</div>
-<h3>
-    <i class="icon-custom icon-property"></i> Properties</h3>
-<a id="property__batchSize"> </a>
-
-<div class="element clickable property private property__batchSize" data-toggle="collapse"
-     data-target=".property__batchSize .collapse">
-    <h2>The current batch size (number of result documents retrieved per round-trip)</h2>
-    <pre>$_batchSize : mixed</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
-</div>
-<a id="property__bindVars"> </a>
-
-<div class="element clickable property private property__bindVars" data-toggle="collapse"
-     data-target=".property__bindVars .collapse">
-    <h2>The bind variables and values used for the statement</h2>
-    <pre>$_bindVars : <a href="../classes/triagens.ArangoDb.BindVars.html">\triagens\ArangoDb\BindVars</a></pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
-</div>
-<a id="property__connection"> </a>
-
-<div class="element clickable property private property__connection" data-toggle="collapse"
-     data-target=".property__connection .collapse">
-    <h2>The connection object</h2>
-    <pre>$_connection : <a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
-</div>
-<a id="property__doCount"> </a>
-
-<div class="element clickable property private property__doCount" data-toggle="collapse"
-     data-target=".property__doCount .collapse">
-    <h2>The count flag (should server return total number of results)</h2>
-    <pre>$_doCount : bool</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
-</div>
-<a id="property__flat"> </a>
-
-<div class="element clickable property private property__flat" data-toggle="collapse"
-     data-target=".property__flat .collapse">
-    <h2>"flat" flag (if set, the query results will be treated as a simple array, not documents)</h2>
-    <pre>$_flat : bool</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
-</div>
-<a id="property__fullCount"> </a>
-
-<div class="element clickable property private property__fullCount" data-toggle="collapse"
-     data-target=".property__fullCount .collapse">
-    <h2>The count flag (should server return total number of results ignoring the limit)
-        Be careful! This option also prevents ArangoDB from using some server side optimizations!</h2>
-    <pre>$_fullCount : bool</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
-</div>
-<a id="property__query"> </a>
-
-<div class="element clickable property private property__query" data-toggle="collapse"
-     data-target=".property__query .collapse">
-    <h2>The query string</h2>
-    <pre>$_query : string</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
-</div>
-<a id="property__sanitize"> </a>
-
-<div class="element clickable property private property__sanitize" data-toggle="collapse"
-     data-target=".property__sanitize .collapse">
-    <h2>Sanitation flag (if set, the _id and _rev attributes will be removed from the results)</h2>
-    <pre>$_sanitize : bool</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
-</div>
-<h3>
-    <i class="icon-custom icon-constant"></i> Constants</h3>
-<a id="constant_ENTRY_BATCHSIZE"> </a>
-
-<div class="element clickable constant  constant_ENTRY_BATCHSIZE" data-toggle="collapse"
-     data-target=".constant_ENTRY_BATCHSIZE .collapse">
-    <h2>Batch size index</h2>
-    <pre>ENTRY_BATCHSIZE </pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
-</div>
-<a id="constant_ENTRY_BINDVARS"> </a>
-
-<div class="element clickable constant  constant_ENTRY_BINDVARS" data-toggle="collapse"
-     data-target=".constant_ENTRY_BINDVARS .collapse">
-    <h2>Bind variables index</h2>
-    <pre>ENTRY_BINDVARS </pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
-</div>
-<a id="constant_ENTRY_COUNT"> </a>
-
-<div class="element clickable constant  constant_ENTRY_COUNT" data-toggle="collapse"
-     data-target=".constant_ENTRY_COUNT .collapse">
-    <h2>Count option index</h2>
-    <pre>ENTRY_COUNT </pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
-</div>
-<a id="constant_ENTRY_QUERY"> </a>
-
-<div class="element clickable constant  constant_ENTRY_QUERY" data-toggle="collapse"
-     data-target=".constant_ENTRY_QUERY .collapse">
-    <h2>Query string index</h2>
-    <pre>ENTRY_QUERY </pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
-</div>
-<a id="constant_FULL_COUNT"> </a>
-
-<div class="element clickable constant  constant_FULL_COUNT" data-toggle="collapse"
-     data-target=".constant_FULL_COUNT .collapse">
-    <h2>Full count option index</h2>
-    <pre>FULL_COUNT </pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="row">
-    <footer class="span12">
-        Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons
-        provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
-        Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.1.0
-    </a> and<br>
-        generated on 2013-11-09T09:19:51+02:00.<br></footer>
-</div>
-</div>
 </body>
 </html>

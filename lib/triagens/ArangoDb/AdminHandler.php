@@ -59,6 +59,25 @@ class AdminHandler extends
             return $data['version'];
         }
     }
+    
+    /**
+     * Get the server role
+     *
+     * This will throw if the role cannot be retrieved
+     *
+     * @throws Exception
+     *
+     * @return string - a string holding the server role (e.g. UNDEFINED, COORDINATOR, DBSERVER)
+     * @since 2.0
+     */
+    public function getServerRole()
+    {
+        $url = Urls::URL_ADMIN_SERVER_ROLE;
+        $response = $this->getConnection()->get($url);
+        $data     = $response->getJson();
+
+        return $data['role'];
+    }
 
 
     /**
@@ -123,17 +142,16 @@ class AdminHandler extends
      * Flush the server's modules cache
      * The call triggers a flush of the modules cache on the server. See Modules Cache for details about this cache.
      *
-     * This will throw if the modules cache cannot be flushed
+     * This method does not exist on the server side since ArangoDB 2.3.0
      *
      * @throws Exception
      *
-     * @return array
+     * @return bool
      * @since 1.2
+     * @deprecated
      */
     public function flushServerModuleCache()
     {
-        $this->getConnection()->POST(Urls::URL_ADMIN_MODULES_FLUSH, '');
-
         return true;
     }
 
@@ -167,7 +185,7 @@ class AdminHandler extends
      * and the distribution list in counts.
      * For more information on the statistics returned, please lookup the statistics interface description at
      *
-     * @link  http://www.arangodb.org/manuals/1.3.devel/HttpSystem.html#HttpSystemAdminStatistics
+     * @link  http://www.arangodb.com/manuals/1.3.devel/HttpSystem.html#HttpSystemAdminStatistics
      *
      * This will throw if the statistics cannot be retrieved
      *
@@ -195,7 +213,7 @@ class AdminHandler extends
      * and a list of statistics figures in the attribute figures.
      * For more information on the statistics returned, please lookup the statistics interface description at
      *
-     * @link  http://www.arangodb.org/manuals/1.3.devel/HttpSystem.html#HttpSystemAdminStatistics
+     * @link  http://www.arangodb.com/manuals/1.3.devel/HttpSystem.html#HttpSystemAdminStatistics
      *
      * This will throw if the statistics-description cannot be retrieved
      *

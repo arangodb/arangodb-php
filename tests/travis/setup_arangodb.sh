@@ -3,13 +3,13 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
-VERSION=1.4.0
-NAME=ArangoDB-$VERSION
+VERSION="3.0-nightly"
+NAME="ArangoDB-$VERSION"
 
 if [ ! -d "$DIR/$NAME" ]; then
   # download ArangoDB
-  echo "wget http://www.arangodb.org/repositories/travisCI/$NAME.tar.gz"
-  wget http://www.arangodb.org/repositories/travisCI/$NAME.tar.gz
+  echo "wget --no-check-certificate http://www.arangodb.com/repositories/nightly/travisCI/$NAME.tar.gz"
+  wget --no-check-certificate http://www.arangodb.com/repositories/nightly/travisCI/$NAME.tar.gz
   echo "tar zxf $NAME.tar.gz"
   tar zvxf $NAME.tar.gz
 fi
@@ -35,13 +35,10 @@ ${ARANGOD} \
     --configuration none \
     --server.endpoint tcp://127.0.0.1:8529 \
     --javascript.startup-directory ${ARANGODB_DIR}/js \
-    --javascript.modules-path ${ARANGODB_DIR}/js/server/modules:${ARANGODB_DIR}/js/common/modules:${ARANGODB_DIR}/js/node \
-    --javascript.package-path ${ARANGODB_DIR}/js/npm:${ARANGODB_DIR}/js/common/test-data/modules \
     --javascript.app-path ${ARANGODB_DIR}/js/apps \
-    --javascript.action-directory ${ARANGODB_DIR}/js/actions \
     --database.maximal-journal-size 1048576 \
-    --server.disable-authentication true \
-    --javascript.gc-interval 1 &
+    --database.force-sync-properties false \
+    --server.authentication true &
 
 sleep 2
 
@@ -55,9 +52,19 @@ if [ "x$process" == "x" ]; then
 fi
 
 echo "Waiting until ArangoDB is ready on port 8529"
-while [[ -z `curl -s 'http://127.0.0.1:8529/_api/version' ` ]] ; do
+
+n=0
+timeout=60
+while [[ (-z `curl -H 'Authorization: Basic cm9vdDo=' -s 'http://127.0.0.1:8529/_api/version' `) && (n -lt timeout) ]] ; do
   echo -n "."
-  sleep 2s
+  sleep 1s
+  n=$[$n+1]
 done
+if [[ n -eq timeout ]];
+then
+    echo "Could not start ArangoDB. Timeout reached."
+    exit 1
+fi
 
 echo "ArangoDB is up"
+

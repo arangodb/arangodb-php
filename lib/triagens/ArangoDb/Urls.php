@@ -21,39 +21,34 @@ namespace triagens\ArangoDb;
 abstract class Urls
 {
     /**
-     * URL base part for all document-related REST calls
+     * URL base part for document-related CRUD operations REST calls
      */
     const URL_DOCUMENT = '/_api/document';
 
     /**
-     * URL base part for all document-related REST calls
+     * URL base part for edge-related CRUD operations REST calls
      */
-    const URL_EDGE = '/_api/edge';
+    const URL_EDGE = '/_api/document';
+    
+    /**
+     * URL base part for all retrieving connected edges
+     */
+    const URL_EDGES = '/_api/edges';
 
     /**
-     * URL base part for all document-related REST calls
+     * URL base part for all graph-related REST calls
      */
-    const URL_GRAPH = '/_api/graph';
+    const URL_GRAPH = '/_api/gharial';
 
     /**
-     * URL base part for all document-related REST calls
+     * URL part vertex-related graph REST calls
      */
     const URLPART_VERTEX = 'vertex';
 
     /**
-     * URL base part for all document-related REST calls
-     */
-    const URLPART_VERTICES = 'vertices';
-
-    /**
-     * URL base part for all document-related REST calls
+     * URL part for edge-related graph REST calls
      */
     const URLPART_EDGE = 'edge';
-
-    /**
-     * URL base part for all document-related REST calls
-     */
-    const URLPART_EDGES = 'edges';
 
     /**
      * URL base part for all collection-related REST calls
@@ -71,90 +66,122 @@ abstract class Urls
     const URL_CURSOR = '/_api/cursor';
 
     /**
-     * base URL part for aql explain related operations
+     * URL for export related operations
+     */
+    const URL_EXPORT = '/_api/export';
+
+    /**
+     * URL for AQL explain-related operations
      */
     const URL_EXPLAIN = '/_api/explain';
 
     /**
-     * base URL part for aql query validation related operations
+     * URL for AQL query validation-related operations
      */
     const URL_QUERY = '/_api/query';
 
     /**
-     * base URL part for select-by-example
+     * URL for select-by-example
      */
     const URL_EXAMPLE = '/_api/simple/by-example';
 
     /**
-     * base URL part for first-example
+     * URL for first-example
      */
     const URL_FIRST_EXAMPLE = '/_api/simple/first-example';
 
     /**
-     * base URL part for any
+     * URL for any
      */
     const URL_ANY = '/_api/simple/any';
 
     /**
-     * base URL part for remove-by-example
+     * URL for fulltext
      */
-    const URL_REMOVE_BY_EXAMPLE = '/_api/simple/remove-by-example';
+    const URL_FULLTEXT = '/_api/simple/fulltext';
 
     /**
-     * base URL part for update-by-example
+     * URL remove-by-example
+     */
+    const URL_REMOVE_BY_EXAMPLE = '/_api/simple/remove-by-example';
+    
+    /**
+     * URL for remove-by-keys
+     */
+    const URL_REMOVE_BY_KEYS = '/_api/simple/remove-by-keys';
+
+    /**
+     * URL for update-by-example
      */
     const URL_UPDATE_BY_EXAMPLE = '/_api/simple/update-by-example';
 
     /**
-     * base URL part for replace-by-example
+     * URL for replace-by-example
      */
     const URL_REPLACE_BY_EXAMPLE = '/_api/simple/replace-by-example';
-
+    
     /**
-     * base URL part for remove-by-example
+     * URL for lookup-by-keys
      */
-    const URL_IMPORT = '/_api/import';
+    const URL_LOOKUP_BY_KEYS = '/_api/simple/lookup-by-keys';
 
     /**
-     * base URL part for select-range
+     * URL for select-range
      */
     const URL_RANGE = '/_api/simple/range';
 
     /**
-     * base URL part for select-all
+     * URL for select-all
      */
     const URL_ALL = '/_api/simple/all';
+    
+    /**
+     * URL for select-all-keys
+     */
+    const URL_ALL_KEYS = '/_api/simple/all-keys';
 
     /**
-     * base URL part for select-range
+     * URL for select-range
      */
     const URL_NEAR = '/_api/simple/near';
 
     /**
-     * base URL part for select-range
+     * URL for select-range
      */
     const URL_WITHIN = '/_api/simple/within';
-
+    
     /**
-     * base URL part for batch processing
+     * URL for document import
+     */
+    const URL_IMPORT = '/_api/import';
+     
+    /**
+     * URL for batch processing
      */
     const URL_BATCH = '/_api/batch';
 
     /**
-     * base URL part for batch processing
+     * URL for transactions
      */
     const URL_TRANSACTION = '/_api/transaction';
 
     /**
-     * base URL part for admin version
+     * URL for admin version
      */
     const URL_ADMIN_VERSION = '/_admin/version';
+    
     /**
-     * base URL part for admin time
+     * URL for server role
+     */
+    const URL_ADMIN_SERVER_ROLE = '/_admin/server/role';
+
+    /**
+     * URL for admin time
      */
     const URL_ADMIN_TIME = '/_admin/time';
+
     /**
-     * base URL part for admin log
+     * URL for admin log
      */
     const URL_ADMIN_LOG = '/_admin/log';
 
@@ -162,11 +189,6 @@ abstract class Urls
      * base URL part for admin routing reload
      */
     const URL_ADMIN_ROUTING_RELOAD = '/_admin/routing/reload';
-
-    /**
-     * base URL part for admin modules flush
-     */
-    const URL_ADMIN_MODULES_FLUSH = '/_admin/modules/flush';
 
     /**
      * base URL part for admin statistics
@@ -202,4 +224,10 @@ abstract class Urls
      * base URL part for database management
      */
     const URL_DATABASE = '/_api/database';
+    
+    /**
+     * URL for AQL query result cache
+     */
+    const URL_QUERY_CACHE = '/_api/query-cache';
+
 }

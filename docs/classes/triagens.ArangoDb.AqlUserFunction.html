@@ -1,844 +1,1220 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-    <meta charset="utf-8">
-    <title>ArangoDB PHP client API » \triagens\ArangoDb\AqlUserFunction</title>
-    <meta name="author" content="Mike van Riel">
-    <meta name="description" content="">
-    <link href="../css/template.css" rel="stylesheet" media="all">
-    <script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script>
-    <script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script>
-    <script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script>
-    <script src="../js/bootstrap.js" type="text/javascript"></script>
-    <script src="../js/template.js" type="text/javascript"></script>
-    <script src="../js/prettify/prettify.min.js" type="text/javascript"></script>
-    <link rel="shortcut icon" href="../img/favicon.ico">
-    <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>ArangoDB PHP client API</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="https://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    <script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
+
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
+
+            pre.textContent = '';
+
+            code.textContent = 'Loading…';
+
+            pre.appendChild(code);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', src, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
+
+                        Prism.highlightElement(code);
+                    }
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist or is empty';
+                    }
+                }
+            };
+
+            xhr.send(null);
+        });
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
+
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
 </head>
 <body>
+
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span
-                    class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a
-                class="brand" href="../index.html">ArangoDB PHP client API</a>
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">ArangoDB PHP client API</a>
 
             <div class="nav-collapse">
-                <ul class="nav">
-                    <li class="dropdown">
-                        <a href="#api" class="dropdown-toggle" data-toggle="dropdown">
-                            API Documentation <b class="caret"></b></a>
+                <ul class="nav pull-right">
+                                        <li class="dropdown">
+                        <a href="../index.html" class="dropdown-toggle" data-toggle="dropdown">
+                            API Documentation <b class="caret"></b>
+                        </a>
                         <ul class="dropdown-menu">
-                            <li><a>Namespaces</a></li>
-                            <li><a href="../namespaces/triagens.html"><i class="icon-th"></i> triagens</a></li>
-                            <li><a>Packages</a></li>
-                            <li><a href="../packages/triagens.html"><i class="icon-folder-open"></i> triagens</a></li>
-                        </ul>
+                                                        <li><a href="../namespaces/triagens.html">\triagens</a></li>
+                                                    </ul>
                     </li>
-                    <li class="dropdown" id="charts-menu">
-                        <a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
-                            Charts <b class="caret"></b></a>
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
                         <ul class="dropdown-menu">
-                            <li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a>
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
                             </li>
                         </ul>
                     </li>
                     <li class="dropdown" id="reports-menu">
-                        <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
-                            Reports <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
                         <ul class="dropdown-menu">
-                            <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                                <span class="label label-info">0</span></a></li>
-                            <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
-                                <ul></ul>
-                            </a></li>
-                            <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
-                                <span class="label label-info">9</span></a></li>
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">39</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">13</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a>
-    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
 </div>
-<div id="___" class="container">
-<noscript>
-    <div class="alert alert-warning">
-        Javascript is disabled; several features are only available
-        if Javascript is enabled.
-    </div>
-</noscript>
-<div class="row">
-<div class="span4">
-    <span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active"
-                                                                              title="Show public elements">Public
-    </button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private"
-                                                                                                     title="Show private elements">
-        Private
-    </button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span>
 
-    <div class="btn-group view pull-right" data-toggle="buttons-radio">
-        <button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button>
-        <button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1386894025"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-1386894025" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1921897301"></a>
+                                <a href="../namespaces/triagens.html" style="margin-left: 30px; padding-left: 0">triagens</a>
+            </div>
+            <div id="namespace-1921897301" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1638419132"></a>
+                                <a href="../namespaces/triagens.ArangoDb.html" style="margin-left: 30px; padding-left: 0">ArangoDb</a>
+            </div>
+            <div id="namespace-1638419132" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/triagens.ArangoDb.AdminHandler.html">AdminHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.AqlUserFunction.html">AqlUserFunction</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Autoloader.html">Autoloader</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Batch.html">Batch</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.BatchPart.html">BatchPart</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.BindVars.html">BindVars</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ClientException.html">ClientException</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Collection.html">Collection</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.CollectionHandler.html">CollectionHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ConnectException.html">ConnectException</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Connection.html">Connection</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ConnectionOptions.html">ConnectionOptions</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Cursor.html">Cursor</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Database.html">Database</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.DefaultValues.html">DefaultValues</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Document.html">Document</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.DocumentHandler.html">DocumentHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Edge.html">Edge</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.EdgeDefinition.html">EdgeDefinition</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.EdgeHandler.html">EdgeHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Endpoint.html">Endpoint</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Exception.html">Exception</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Graph.html">Graph</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.GraphHandler.html">GraphHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Handler.html">Handler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.HttpHelper.html">HttpHelper</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.HttpResponse.html">HttpResponse</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ServerException.html">ServerException</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Statement.html">Statement</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.TraceRequest.html">TraceRequest</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.TraceResponse.html">TraceResponse</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Transaction.html">Transaction</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Traversal.html">Traversal</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.UpdatePolicy.html">UpdatePolicy</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.UrlHelper.html">UrlHelper</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Urls.html">Urls</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.User.html">User</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.UserHandler.html">UserHandler</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.ValueValidator.html">ValueValidator</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.Vertex.html">Vertex</a></li>
+                                                    <li class="class"><a href="../classes/triagens.ArangoDb.VertexHandler.html">VertexHandler</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
     </div>
-    <ul class="side-nav nav nav-list">
-        <li class="nav-header">
-            <i class="icon-custom icon-method"></i> Methods
-            <ul>
-                <li class="method public "><a href="#method___construct"
-                                              title="__construct() :: Initialise the AqlUserFunction object"><span
-                        class="description">Initialise the AqlUserFunction object</span>
-                    <pre>__construct()</pre>
-                </a></li>
-                <li class="method public "><a href="#method___get"
-                                              title="__get() :: Get an attribute, magic method"><span
-                        class="description">Get an attribute, magic method</span>
-                    <pre>__get()</pre>
-                </a></li>
-                <li class="method public "><a href="#method___set"
-                                              title="__set() :: Set an attribute, magic method"><span
-                        class="description">Set an attribute, magic method</span>
-                    <pre>__set()</pre>
-                </a></li>
-                <li class="method public "><a href="#method___toString"
-                                              title="__toString() :: Returns the action string"><span
-                        class="description">Returns the action string</span>
-                    <pre>__toString()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_buildAttributesFromArray"
-                                              title="buildAttributesFromArray() :: Build the object's attributes from a given array"><span
-                        class="description">Build the object's attributes from a given array</span>
-                    <pre>buildAttributesFromArray()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_get" title="get() :: Get an attribute"><span
-                        class="description">Get an attribute</span>
-                    <pre>get()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_getCode" title="getCode() :: Get user function code"><span
-                        class="description">Get user function code</span>
-                    <pre>getCode()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_getName" title="getName() :: Get name value"><span
-                        class="description">Get name value</span>
-                    <pre>getName()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_getRegisteredUserFunctions"
-                                              title="getRegisteredUserFunctions() :: Get registered user functions"><span
-                        class="description">Get registered user functions</span>
-                    <pre>getRegisteredUserFunctions()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_register" title="register() :: Registers the user function"><span
-                        class="description">Registers the user function</span>
-                    <pre>register()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_set" title="set() :: Set an attribute"><span
-                        class="description">Set an attribute</span>
-                    <pre>set()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_setCode" title="setCode() :: Set user function code"><span
-                        class="description">Set user function code</span>
-                    <pre>setCode()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_setName"
-                                              title="setName() :: Set name of the user function. It must have at least one namespace, but also can have sub-namespaces."><span
-                        class="description">Set name of the user function. It must have at least one namespace, but also can have sub-namespaces.</span>
-                    <pre>setName()</pre>
-                </a></li>
-                <li class="method public "><a href="#method_unregister"
-                                              title="unregister() :: Unregister the user function"><span
-                        class="description">Unregister the user function</span>
-                    <pre>unregister()</pre>
-                </a></li>
-            </ul>
-        </li>
-        <li class="nav-header protected">» Protected
-            <ul>
-                <li class="method protected "><a href="#method_getConnection"
-                                                 title="getConnection() :: Return the connection object"><span
-                        class="description">Return the connection object</span>
-                    <pre>getConnection()</pre>
-                </a></li>
-            </ul>
-        </li>
-        <li class="nav-header">
-            <i class="icon-custom icon-property"></i> Properties
-            <ul>
-                <li class="property public "><a href="#property_" title="() :: _action"><span
-                        class="description"></span>
-                    <pre></pre>
-                </a></li>
-                <li class="property public "><a href="#property_code"
-                                                title="$code() :: - The code of the user function"><span
-                        class="description"></span>
-                    <pre>$code</pre>
-                </a></li>
-                <li class="property public "><a href="#property_name"
-                                                title="$name() :: - The name of the user function"><span
-                        class="description"></span>
-                    <pre>$name</pre>
-                </a></li>
-            </ul>
-        </li>
-        <li class="nav-header protected">» Protected
-            <ul>
-                <li class="property protected "><a href="#property__action"
-                                                   title="$_action() :: The transaction's action."><span
-                        class="description"></span>
-                    <pre>$_action</pre>
-                </a></li>
-                <li class="property protected "><a href="#property_attributes"
-                                                   title="$attributes() :: The transaction's attributes."><span
-                        class="description"></span>
-                    <pre>$attributes</pre>
-                </a></li>
-            </ul>
-        </li>
-        <li class="nav-header private">» Private
-            <ul>
-                <li class="property private "><a href="#property__connection"
-                                                 title="$_connection() :: The connection object"><span
-                        class="description"></span>
-                    <pre>$_connection</pre>
-                </a></li>
-            </ul>
-        </li>
-        <li class="nav-header">
-            <i class="icon-custom icon-constant"></i> Constants
-            <ul>
-                <li class="constant  "><a href="#constant_ENTRY_CODE" title="ENTRY_CODE() :: Action index"><span
-                        class="description">Action index</span>
-                    <pre>ENTRY_CODE</pre>
-                </a></li>
-                <li class="constant  "><a href="#constant_ENTRY_NAME" title="ENTRY_NAME() :: Collections index"><span
-                        class="description">Collections index</span>
-                    <pre>ENTRY_NAME</pre>
-                </a></li>
-            </ul>
-        </li>
-    </ul>
-</div>
-<div class="span8">
-<a id="\triagens\ArangoDb\AqlUserFunction"></a>
-<ul class="breadcrumb">
-    <li>
-        <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
-    </li>
-    <li><a href="../namespaces/triagens.html">triagens</a></li>
-    <li>
-        <span class="divider">\</span><a href="../namespaces/triagens.ArangoDb.html">ArangoDb</a>
-    </li>
-    <li class="active">
-        <span class="divider">\</span><a href="../classes/triagens.ArangoDb.AqlUserFunction.html">AqlUserFunction</a>
-    </li>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav>
+                                                <a href="../namespaces/triagens.ArangoDb.html">\triagens\ArangoDb</a> <i class="icon-level-up"></i>
+                                            </nav>
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+
+                    <h1><small>\triagens\ArangoDb</small>AqlUserFunction</h1>
+                    <p><em>Provides management of user-functions</em></p>
+                    <p>AqlUserFunction object<br>
+An AqlUserFunction is an object that is used to manage AQL User Functions.<br>
+It registers, unregisters and lists user functions on the server<br>
+<br>
+The object encapsulates:<br>
+<br></p>
+<ul>
+<li> the name of the function
+<li> the actual javascript function
 </ul>
-<div class="element class">
-<p class="short_description">Provides management of user-functions</p>
-
-<div class="details">
-<div class="long_description">AqlUserFunction object<br>
-    An AqlUserFunction is an object that is used to manage AQL User Functions.<br>
-    It registers, unregisters and lists user functions on the server<br>
-    <br>
-    The object encapsulates:<br>
-    <br>
-    <ul>
-        <li> the name of the function
-        <li> the actual javascript function
-    </ul>
-    <br>
-    The object requires the connection object and can be initialized
-    with or without initial configuration.<br>
-    <br>
-    Any configuration can be set and retrieved by the object's methods like this:<br>
-    <br>
+<p><br>
+The object requires the connection object and can be initialized
+with or without initial configuration.<br>
+<br>
+Any configuration can be set and retrieved by the object's methods like this:<br>
+<br></p>
 <pre>
 $this->setName('myFunctions:myFunction');<br>
 $this->setCode('function (){your code};');
 </pre>
-
-    <br>
-    or like this:<br>
-    <br>
+<p><br>
+or like this:<br>
+<br></p>
 <pre>
 $this->name('myFunctions:myFunction');<br>
 $this->code('function (){your code};');
 </pre>
-</div>
-<table class="table table-bordered">
-    <tr>
-        <th>package</th>
-        <td><a href="../packages/triagens.ArangoDb.html">triagens\ArangoDb</a></td>
-    </tr>
-    <tr>
-        <th>since</th>
-        <td>1.3</td>
-    </tr>
-</table>
-<h3>
-    <i class="icon-custom icon-method"></i> Methods</h3>
-<a id="method___construct"></a>
 
-<div class="element clickable method public method___construct" data-toggle="collapse"
-     data-target=".method___construct .collapse">
-    <h2>Initialise the AqlUserFunction object</h2>
-    <pre>__construct(\triagens\ArangoDb\Connection $connection, array $attributesArray) : <a
-            href="../classes/triagens.ArangoDb.AqlUserFunction.html">\triagens\ArangoDb\AqlUserFunction</a></pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description">The $attributesArray array can be used to specify the name and code for the
-                user function in form of an array.
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.AqlUserFunction.html#method___construct" class="">__construct()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.AqlUserFunction.html#method_register" class="">register()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.AqlUserFunction.html#method_unregister" class="">unregister()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.AqlUserFunction.html#method_getRegisteredUserFunctions" class="">getRegisteredUserFunctions()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.AqlUserFunction.html#method_setName" class="">setName()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.AqlUserFunction.html#method_getName" class="">getName()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.AqlUserFunction.html#method_setCode" class="">setCode()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.AqlUserFunction.html#method_getCode" class="">getCode()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.AqlUserFunction.html#method_set" class="">set()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.AqlUserFunction.html#method___set" class="">__set()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.AqlUserFunction.html#method_get" class="">get()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.AqlUserFunction.html#method___get" class="">__get()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.AqlUserFunction.html#method___toString" class="">__toString()</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.AqlUserFunction.html#method_buildAttributesFromArray" class="">buildAttributesFromArray()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.AqlUserFunction.html#property_name" class="">$name</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.AqlUserFunction.html#property_code" class="">$code</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.AqlUserFunction.html#property_" class="">$</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.AqlUserFunction.html#constant_ENTRY_NAME" class="">ENTRY_NAME</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.AqlUserFunction.html#constant_ENTRY_CODE" class="">ENTRY_CODE</a><br />
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.AqlUserFunction.html#method_getConnection" class="">getConnection()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.AqlUserFunction.html#property_attributes" class="">$attributes</a><br />
+                                                                    <a href="../classes/triagens.ArangoDb.AqlUserFunction.html#property__action" class="">$_action</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <em>No private methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/triagens.ArangoDb.AqlUserFunction.html#property__connection" class="">$_connection</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                                        
+                    
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/AqlUserFunction.html"><div class="path-wrapper">AqlUserFunction.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">\triagens\ArangoDb</div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                    <div class="namespace-wrapper">\triagens\ArangoDb\AqlUserFunction</div>
+                            </dd>
 
-                Example:
-                array(
-                'name' => 'myFunctions:myFunction',
-                'code' => 'function (){}'
-                )
+                        
+                        
+                        
+                        
+                                                                        </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                            <tr>
+                            <th>
+                                since
+                            </th>
+                            <td>
+                                                                    
+                                                            </td>
+                        </tr>
+                                        </table>
+                </aside>
             </div>
-            <h3>Parameters</h3>
 
-            <div class="subelement argument">
-                <h4>$connection</h4>
-                <code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>
+                                    <a id="constants" name="constants"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Constants</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ENTRY_NAME" name="constant_ENTRY_NAME" class="anchor"></a>
+            <article id="constant_ENTRY_NAME" class="constant">
+                <h3 class="">ENTRY_NAME</h3>
+                <pre class="signature">ENTRY_NAME</pre>
+                <p><em>Collections index</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ENTRY_CODE" name="constant_ENTRY_CODE" class="anchor"></a>
+            <article id="constant_ENTRY_CODE" class="constant">
+                <h3 class="">ENTRY_CODE</h3>
+                <pre class="signature">ENTRY_CODE</pre>
+                <p><em>Action index</em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                            
+                                    <a id="properties" name="properties"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Properties</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_name" name="property_name" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$name</h3>
+                <pre class="signature">$name : string</pre>
+                <p><em></em></p>
                 <ul>
-                    <li>the connection to be used</li>
-                </ul>
-            </div>
-            <div class="subelement argument">
-                <h4>$attributesArray</h4>
-                <code>array</code>
+<li>The name of the user function</li>
+</ul>
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_code" name="property_code" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$code</h3>
+                <pre class="signature">$code : string</pre>
+                <p><em></em></p>
                 <ul>
-                    <li>user function initialization data</li>
-                </ul>
-            </div>
-            <h3>Returns</h3>
+<li>The code of the user function</li>
+</ul>
 
-            <div class="subelement response"><code><a href="../classes/triagens.ArangoDb.AqlUserFunction.html">\triagens\ArangoDb\AqlUserFunction</a></code>
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_" name="property_" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$</h3>
+                <pre class="signature">$ : mixed</pre>
+                <p><em></em></p>
+                <p>_action</p>
+
+                                <h4>Type</h4>
+                mixed
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_attributes" name="property_attributes" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$attributes</h3>
+                <pre class="signature">$attributes : array</pre>
+                <p><em>The transaction&#039;s attributes.</em></p>
+                
+
+                                <h4>Type</h4>
+                array
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__action" name="property__action" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$_action</h3>
+                <pre class="signature">$_action : string</pre>
+                <p><em>The transaction&#039;s action.</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property__connection" name="property__connection" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$_connection</h3>
+                <pre class="signature">$_connection : \triagens\ArangoDb\Connection</pre>
+                <p><em>The connection object</em></p>
+                
+
+                                <h4>Type</h4>
+                <a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a>
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                            
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
             </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___construct" name="method___construct" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__construct()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__construct(\triagens\ArangoDb\Connection <span class="argument">$connection</span>, array <span class="argument">$attributesArray</span>) : \triagens\ArangoDb\AqlUserFunction</pre>
+                <p><em>Initialise the AqlUserFunction object</em></p>
+                <p>The $attributesArray array can be used to specify the name and code for the user function in form of an array.</p>
+<p>Example:
+array(
+'name' => 'myFunctions:myFunction',
+'code' => 'function (){}'
+)</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></td>
+                                <td>$connection </td>
+                                <td><ul>
+<li>the connection to be used</li>
+</ul></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$attributesArray </td>
+                                <td><ul>
+<li>user function initialization data</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/triagens.ArangoDb.AqlUserFunction.html">\triagens\ArangoDb\AqlUserFunction</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_register" name="method_register" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">register()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">register(null <span class="argument">$name</span>, null <span class="argument">$code</span>) : mixed</pre>
+                <p><em>Registers the user function</em></p>
+                <p>If no parameters ($name,$code) are passed, it will use the properties of the object.</p>
+<p>If $name and/or $code are passed, it will override the object's properties with the passed ones</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>null</td>
+                                <td>$name </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>null</td>
+                                <td>$code </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\Exception</dt>
+                            <dd><p>throws exception if registration failed</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <p>true if registration was successful.</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_unregister" name="method_unregister" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">unregister()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">unregister(string <span class="argument">$name</span>, boolean <span class="argument">$namespace</span>) : mixed</pre>
+                <p><em>Unregister the user function</em></p>
+                <p>If no parameter ($name) is passed, it will use the property of the object.</p>
+<p>If $name is passed, it will override the object's property with the passed one</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$name </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$namespace </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\Exception</dt>
+                            <dd><p>throw exception if the request fails</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <p>true if successful without a return value or the return value if one was set in the action</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getRegisteredUserFunctions" name="method_getRegisteredUserFunctions" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getRegisteredUserFunctions()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getRegisteredUserFunctions(null <span class="argument">$namespace</span>) : mixed</pre>
+                <p><em>Get registered user functions</em></p>
+                <p>The method can optionally be passed a $namespace parameter to narrow the results down to a specific namespace.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>null</td>
+                                <td>$namespace </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\Exception</dt>
+                            <dd><p>throw exception if the request failed</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <p>true if successful without a return value or the return value if one was set in the action</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setName" name="method_setName" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setName()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setName(string <span class="argument">$value</span>)</pre>
+                <p><em>Set name of the user function. It must have at least one namespace, but also can have sub-namespaces.</em></p>
+                <p>correct:
+'myNamespace:myFunction'
+'myRootNamespace:mySubNamespace:myFunction'</p>
+<p>wrong:
+'myFunction'</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$value </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getName" name="method_getName" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getName()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getName() : string</pre>
+                <p><em>Get name value</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>name</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setCode" name="method_setCode" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setCode()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setCode(string <span class="argument">$value</span>)</pre>
+                <p><em>Set user function code</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$value </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getCode" name="method_getCode" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getCode()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getCode() : string</pre>
+                <p><em>Get user function code</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>name</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_set" name="method_set" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">set()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">set( <span class="argument">$key</span>,  <span class="argument">$value</span>)</pre>
+                <p><em>Set an attribute</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$key </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$value </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\ClientException</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___set" name="method___set" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__set()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__set(string <span class="argument">$key</span>, mixed <span class="argument">$value</span>) : void</pre>
+                <p><em>Set an attribute, magic method</em></p>
+                <p>This is a magic method that allows the object to be used without
+declaring all attributes first.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$key </td>
+                                <td><ul>
+<li>attribute name</li>
+</ul></td>
+                            </tr>
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$value </td>
+                                <td><ul>
+<li>value for attribute</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\triagens\ArangoDb\ClientException</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get" name="method_get" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get(string <span class="argument">$key</span>) : mixed</pre>
+                <p><em>Get an attribute</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$key </td>
+                                <td><ul>
+<li>name of attribute</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <ul>
+<li>value of attribute, NULL if attribute is not set</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___get" name="method___get" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__get()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__get(string <span class="argument">$key</span>) : mixed</pre>
+                <p><em>Get an attribute, magic method</em></p>
+                <p>This function is mapped to get() internally.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$key </td>
+                                <td><ul>
+<li>name of attribute</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <ul>
+<li>value of attribute, NULL if attribute is not set</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___toString" name="method___toString" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__toString()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__toString() : string</pre>
+                <p><em>Returns the action string</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <ul>
+<li>the current action string</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_buildAttributesFromArray" name="method_buildAttributesFromArray" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">buildAttributesFromArray()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">buildAttributesFromArray( <span class="argument">$options</span>)</pre>
+                <p><em>Build the object&#039;s attributes from a given array</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$options </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getConnection" name="method_getConnection" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">getConnection()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getConnection() : \triagens\ArangoDb\Connection</pre>
+                <p><em>Return the connection object</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a>
+                                            &mdash; <ul>
+<li>the connection object</li>
+</ul>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">AqlUserFunction.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/AqlUserFunction.php.txt" class="language-php line-numbers"></pre>
         </div>
     </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                            <li><a href="../namespaces/triagens.html">\triagens</a></li>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on July 11th, 2014 at 12:23.
+                </section>
+            </section>
+        </section>
+    </footer>
 </div>
-<a id="method___get"></a>
 
-<div class="element clickable method public method___get" data-toggle="collapse" data-target=".method___get .collapse">
-    <h2>Get an attribute, magic method</h2>
-    <pre>__get(string $key) : mixed</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description">This function is mapped to get() internally.</div>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument">
-                <h4>$key</h4>
-                <code>string</code>
-                <ul>
-                    <li>name of attribute</li>
-                </ul>
-            </div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>mixed</code>- value of attribute, NULL if attribute is not set
-            </div>
-        </div>
-    </div>
-</div>
-<a id="method___set"></a>
-
-<div class="element clickable method public method___set" data-toggle="collapse" data-target=".method___set .collapse">
-    <h2>Set an attribute, magic method</h2>
-    <pre>__set(string $key, mixed $value) : void</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description">This is a magic method that allows the object to be used without
-                declaring all attributes first.
-            </div>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument">
-                <h4>$key</h4>
-                <code>string</code>
-                <ul>
-                    <li>attribute name</li>
-                </ul>
-            </div>
-            <div class="subelement argument">
-                <h4>$value</h4>
-                <code>mixed</code>
-                <ul>
-                    <li>value for attribute</li>
-                </ul>
-            </div>
-            <h3>Exceptions</h3>
-            <table class="table table-bordered">
-                <tr>
-                    <th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code>
-                    </th>
-                    <td></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-</div>
-<a id="method___toString"></a>
-
-<div class="element clickable method public method___toString" data-toggle="collapse"
-     data-target=".method___toString .collapse">
-    <h2>Returns the action string</h2>
-    <pre>__toString() : string</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>string</code>- the current action string
-            </div>
-        </div>
-    </div>
-</div>
-<a id="method_buildAttributesFromArray"></a>
-
-<div class="element clickable method public method_buildAttributesFromArray" data-toggle="collapse"
-     data-target=".method_buildAttributesFromArray .collapse">
-    <h2>Build the object's attributes from a given array</h2>
-    <pre>buildAttributesFromArray(mixed $options) </pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument"><h4>$options</h4></div>
-        </div>
-    </div>
-</div>
-<a id="method_get"></a>
-
-<div class="element clickable method public method_get" data-toggle="collapse" data-target=".method_get .collapse">
-    <h2>Get an attribute</h2>
-    <pre>get(string $key) : mixed</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument">
-                <h4>$key</h4>
-                <code>string</code>
-                <ul>
-                    <li>name of attribute</li>
-                </ul>
-            </div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>mixed</code>- value of attribute, NULL if attribute is not set
-            </div>
-        </div>
-    </div>
-</div>
-<a id="method_getCode"></a>
-
-<div class="element clickable method public method_getCode" data-toggle="collapse"
-     data-target=".method_getCode .collapse">
-    <h2>Get user function code</h2>
-    <pre>getCode() : string</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>string</code>name
-            </div>
-        </div>
-    </div>
-</div>
-<a id="method_getName"></a>
-
-<div class="element clickable method public method_getName" data-toggle="collapse"
-     data-target=".method_getName .collapse">
-    <h2>Get name value</h2>
-    <pre>getName() : string</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>string</code>name
-            </div>
-        </div>
-    </div>
-</div>
-<a id="method_getRegisteredUserFunctions"></a>
-
-<div class="element clickable method public method_getRegisteredUserFunctions" data-toggle="collapse"
-     data-target=".method_getRegisteredUserFunctions .collapse">
-    <h2>Get registered user functions</h2>
-    <pre>getRegisteredUserFunctions(null $namespace) : mixed</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description">The method can optionally be passed a $namespace parameter to narrow the
-                results down to a specific namespace.
-            </div>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument">
-                <h4>$namespace</h4>
-                <code>null</code>
-            </div>
-            <h3>Exceptions</h3>
-            <table class="table table-bordered">
-                <tr>
-                    <th><code><a
-                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
-                    </th>
-                    <td>throw exception if the request failed</td>
-                </tr>
-            </table>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>mixed</code>true if successful without a return value or the return value if one was set in the
-                action
-            </div>
-        </div>
-    </div>
-</div>
-<a id="method_register"></a>
-
-<div class="element clickable method public method_register" data-toggle="collapse"
-     data-target=".method_register .collapse">
-    <h2>Registers the user function</h2>
-    <pre>register(null $name, null $code) : mixed</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description">If no parameters ($name,$code) are passed, it will use the properties of the
-                object.
-
-                If $name and/or $code are passed, it will override the object's properties with the passed ones
-            </div>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument">
-                <h4>$name</h4>
-                <code>null</code>
-            </div>
-            <div class="subelement argument">
-                <h4>$code</h4>
-                <code>null</code>
-            </div>
-            <h3>Exceptions</h3>
-            <table class="table table-bordered">
-                <tr>
-                    <th><code><a
-                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
-                    </th>
-                    <td>throws exception if registration failed</td>
-                </tr>
-            </table>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>mixed</code>true if registration was successful.
-            </div>
-        </div>
-    </div>
-</div>
-<a id="method_set"></a>
-
-<div class="element clickable method public method_set" data-toggle="collapse" data-target=".method_set .collapse">
-    <h2>Set an attribute</h2>
-    <pre>set(mixed $key, mixed $value) </pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument"><h4>$key</h4></div>
-            <div class="subelement argument"><h4>$value</h4></div>
-            <h3>Exceptions</h3>
-            <table class="table table-bordered">
-                <tr>
-                    <th><code><a href="../classes/triagens.ArangoDb.ClientException.html">\triagens\ArangoDb\ClientException</a></code>
-                    </th>
-                    <td></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-</div>
-<a id="method_setCode"></a>
-
-<div class="element clickable method public method_setCode" data-toggle="collapse"
-     data-target=".method_setCode .collapse">
-    <h2>Set user function code</h2>
-    <pre>setCode(string $value) </pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument">
-                <h4>$value</h4>
-                <code>string</code>
-            </div>
-        </div>
-    </div>
-</div>
-<a id="method_setName"></a>
-
-<div class="element clickable method public method_setName" data-toggle="collapse"
-     data-target=".method_setName .collapse">
-    <h2>Set name of the user function. It must have at least one namespace, but also can have sub-namespaces.</h2>
-    <pre>setName(string $value) </pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description">correct:
-                'myNamespace:myFunction'
-                'myRootNamespace:mySubNamespace:myFunction'
-
-                wrong:
-                'myFunction'
-            </div>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument">
-                <h4>$value</h4>
-                <code>string</code>
-            </div>
-        </div>
-    </div>
-</div>
-<a id="method_unregister"></a>
-
-<div class="element clickable method public method_unregister" data-toggle="collapse"
-     data-target=".method_unregister .collapse">
-    <h2>Unregister the user function</h2>
-    <pre>unregister(string $name, boolean $namespace) : mixed</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description">If no parameter ($name) is passed, it will use the property of the object.
-
-                If $name is passed, it will override the object's property with the passed one
-            </div>
-            <h3>Parameters</h3>
-
-            <div class="subelement argument">
-                <h4>$name</h4>
-                <code>string</code>
-            </div>
-            <div class="subelement argument">
-                <h4>$namespace</h4>
-                <code>boolean</code>
-            </div>
-            <h3>Exceptions</h3>
-            <table class="table table-bordered">
-                <tr>
-                    <th><code><a
-                            href="../classes/triagens.ArangoDb.Exception.html">\triagens\ArangoDb\Exception</a></code>
-                    </th>
-                    <td>throw exception if the request fails</td>
-                </tr>
-            </table>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code>mixed</code>true if successful without a return value or the return value if one was set in the
-                action
-            </div>
-        </div>
-    </div>
-</div>
-<a id="method_getConnection"></a>
-
-<div class="element clickable method protected method_getConnection" data-toggle="collapse"
-     data-target=".method_getConnection .collapse">
-    <h2>Return the connection object</h2>
-    <pre>getConnection() : <a
-            href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <h3>Returns</h3>
-
-            <div class="subelement response">
-                <code><a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></code>-
-                the connection object
-            </div>
-        </div>
-    </div>
-</div>
-<h3>
-    <i class="icon-custom icon-property"></i> Properties</h3>
-<a id="property_"> </a>
-
-<div class="element clickable property public property_" data-toggle="collapse" data-target=".property_ .collapse">
-    <h2>_action</h2>
-    <pre> : mixed</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <table class="table table-bordered">
-                <tr>
-                    <th>magic</th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th>property</th>
-                    <td>_action</td>
-                </tr>
-            </table>
-        </div>
-    </div>
-</div>
-<a id="property_code"> </a>
-
-<div class="element clickable property public property_code" data-toggle="collapse"
-     data-target=".property_code .collapse">
-    <h2>- The code of the user function</h2>
-    <pre>$code : string</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <table class="table table-bordered">
-                <tr>
-                    <th>magic</th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th>property</th>
-                    <td>- The code of the user function</td>
-                </tr>
-            </table>
-        </div>
-    </div>
-</div>
-<a id="property_name"> </a>
-
-<div class="element clickable property public property_name" data-toggle="collapse"
-     data-target=".property_name .collapse">
-    <h2>- The name of the user function</h2>
-    <pre>$name : string</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-            <table class="table table-bordered">
-                <tr>
-                    <th>magic</th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th>property</th>
-                    <td>- The name of the user function</td>
-                </tr>
-            </table>
-        </div>
-    </div>
-</div>
-<a id="property__action"> </a>
-
-<div class="element clickable property protected property__action" data-toggle="collapse"
-     data-target=".property__action .collapse">
-    <h2>The transaction's action.</h2>
-    <pre>$_action : string</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
-</div>
-<a id="property_attributes"> </a>
-
-<div class="element clickable property protected property_attributes" data-toggle="collapse"
-     data-target=".property_attributes .collapse">
-    <h2>The transaction's attributes.</h2>
-    <pre>$attributes : array</pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
-</div>
-<a id="property__connection"> </a>
-
-<div class="element clickable property private property__connection" data-toggle="collapse"
-     data-target=".property__connection .collapse">
-    <h2>The connection object</h2>
-    <pre>$_connection : <a href="../classes/triagens.ArangoDb.Connection.html">\triagens\ArangoDb\Connection</a></pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
-</div>
-<h3>
-    <i class="icon-custom icon-constant"></i> Constants</h3>
-<a id="constant_ENTRY_CODE"> </a>
-
-<div class="element clickable constant  constant_ENTRY_CODE" data-toggle="collapse"
-     data-target=".constant_ENTRY_CODE .collapse">
-    <h2>Action index</h2>
-    <pre>ENTRY_CODE </pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
-</div>
-<a id="constant_ENTRY_NAME"> </a>
-
-<div class="element clickable constant  constant_ENTRY_NAME" data-toggle="collapse"
-     data-target=".constant_ENTRY_NAME .collapse">
-    <h2>Collections index</h2>
-    <pre>ENTRY_NAME </pre>
-    <div class="labels"></div>
-    <div class="row collapse">
-        <div class="detail-description">
-            <div class="long_description"></div>
-        </div>
-    </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="row">
-    <footer class="span12">
-        Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons
-        provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
-        Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.1.0
-    </a> and<br>
-        generated on 2013-11-09T09:19:51+02:00.<br></footer>
-</div>
-</div>
 </body>
 </html>

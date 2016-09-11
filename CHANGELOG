@@ -1,0 +1,161 @@
+Release notes for the ArangoDB-PHP driver 3.0
+=============================================
+
+This version of the driver is compatible with ArangoDB 3.0. 
+It is not compatible to earlier versions of ArangoDB (i.e. 2.x).
+Please use ones of the `2.x` branches of the driver for 2.x-compatibility.
+
+Changed functionality
+=====================
+
+User management
+---------------
+
+The user management APIs in class `UserHandler` have changed slightly. The methods for adding,
+replacing and updating users had an optional parameter named `$options`, which did nothing.
+This parameter has been removed.
+
+The API methods simplify to:
+
+- UserHandler::addUser($username, $passwd = null, $active = null, $extra = null, $options = array())
+- UserHandler::replaceUser($username, $passwd = null, $active = null, $extra = null, $options = array())
+- UserHandler::updateUser($username, $passwd = null, $active = null, $extra = null, $options = array())
+
+- UserHandler::addUser($username, $passwd = null, $active = null, $extra = null)
+- UserHandler::replaceUser($username, $passwd = null, $active = null, $extra = null)
+- UserHandler::updateUser($username, $passwd = null, $active = null, $extra = null)
+
+Note that when adding a new user via the `addUser()` method, the new user will now be given
+access permissions for the current database the PHP driver is connected to.
+User permissions can be adjusted manually by using the following new methods of the
+`UserHandler` class:
+
+- UserHandler::grantPermissions($username, $databaseName) 
+- UserHandler::revokePermissions($username, $databaseName) 
+
+
+Unsupported functionality
+=========================
+
+Cap constraints
+---------------
+
+Support for cap constraints has been discontinued on the 3.0 version of ArangoDB.
+Therefore, the following methods have also been removed from the PHP driver in
+the 3.0 branch:
+
+- CollectionHandler::createCapConstraint($collectionId, $size)
+- CollectionHandler::first($collectionId, $count = null)
+- CollectionHandler::last($collectionId, $count = null)
+
+Graph functions
+---------------
+
+The ArangoDB PHP driver provided PHP wrapper methods for common graph functions
+that were implemented server-side. When one of these wrapper methods was called,
+the PHP driver assembled an AQL query that called the equivalent graph AQL functions
+on the server. The driver has provided some extra post-filtering options for some
+of the graph functions, but for others it only provided a subset of the features
+available server-side.
+
+With ArangoDB 3.0, the graph functionality on the server-side has changed: the
+previously available AQL graph functions that were called by the PHP driver are 
+not available anymore in 3.0. This affects the following previously existing
+methods of the PHP driver's `GraphHandler` class, which are now gone in 3.0:
+
+- GraphHandler::getNeighborVertices($graph, $vertexExample, $options = array())
+- GraphHandler::getConnectedEdges($graph, $vertexId, $options = array())
+- GraphHandler::getVertices($graph, $options = array())
+- GraphHandler::getEdges($graph, $options = array())
+- GraphHandler::getPaths($graph, $options = array())
+- GraphHandler::getShortestPaths($graph, $startVertexExample = array(), $endVertexExample = array(), $options = array())
+- GraphHandler::getDistanceTo($graph, $startVertexExample = null, $endVertexExample = null, $options = array())
+- GraphHandler::getCommonNeighborVertices($graph, $vertex1Example = null, $vertex2Example = null, $options1 = array(),$options2 = array())
+- GraphHandler::getCommonProperties($graph, $vertex1Example= null, $vertex2Example = null, $options = array())
+- GraphHandler::getAbsoluteEccentricity($graph, $vertexExample = null, $options = array())
+- GraphHandler::getEccentricity($graph, $options = array())
+- GraphHandler::getAbsoluteCloseness($graph, $vertexExample = null, $options = array())
+- GraphHandler::getCloseness($graph, $options = array())
+- GraphHandler::getAbsoluteBetweenness($graph, $options = array())
+- GraphHandler::getBetweenness($graph, $options = array())
+- GraphHandler::getRadius($graph, $options = array())
+- GraphHandler::getDiameter($graph, $options = array())
+
+Most of these methods can be emulated by issuing an AQL query from the PHP driver.
+AQL provides provides blocks for computing the vertices, connected edges, and paths 
+in a graph or just dedicated collections. As a bonus, by using AQL queries one is
+not limited to the subset of the functionality that was available in the "old"
+graph functions' interfaces, but can use the full functionality and composability
+of AQL.
+
+Custom queues
+-------------
+
+"Custom queues" were an undocumented, experimental feature in later versions
+of the 2.x driver. Its purpose was to send requests to dedicated processing
+queues on the server. This functionality has been removed from the 3.0 ArangoDB
+server and the 3.0 driver.
+
+Due to that the following undocumented methods have been removed from the
+PHP driver:
+
+- Handler::enableCustomQueue($queueName, $count = null) 
+- Handler::disableCustomQueue() 
+- Connection::enableCustomQueue($queueName, $count = null) 
+- Connection::disableCustomQueue() 
+
+Client versioning
+-----------------
+
+The client-side versioning feature was also removed from the driver in version
+3.0. The versioning feature allowed sending the HTTP header `X-Arango-Version`
+with the desired version number for all requests made from the driver. The
+ArangoDB server interpreted the value of this HTTP header at some endpoints and
+returned result structures matching the ones from older versions of ArangoDB.
+
+This feature was abandoned on the server-side in 3.0 so the versioning was
+removed from the driver as well. This also means the following methods have
+been removed from the driver's `Connection` class.
+
+- Connection::getVersion()
+- Connection::getClientVersion()
+
+Changed functionality
+=====================
+
+When replacing edges via the `EdgeHandler::replace()` method, it is now
+required to specify both the `_from` and `_to` values of the replacing edge.
+If either attribute is missing or invalid, the replace operation will fail
+with an error `invalid edge attribute` on the server-side.
+
+That means the following may not work:
+
+```php
+$edgeHandler = new EdgeHandler($connection);
+
+$edge = new Edge();
+$edge->set("_id", $idOfExistingEdge);
+/* set some other edge attributes */
+...
+
+$result = $edgeHandler->replace($edge);
+```
+
+until at least `_from` and `_to` are also set via the `setFrom()` and `setTo()`
+methods:
+
+```php
+$edgeHandler = new EdgeHandler($connection);
+
+$edge = new Edge();
+$edge->set("_id", $idOfExistingEdge);
+/* set some other edge attributes */
+...
+$edge->setFrom($fromHandle);
+$edge->setTo($toHandle);
+
+$result = $edgeHandler->replace($edge);
+```
+
+Note that this affects only the `replace()` and `replaceById()` methods and
+not `update()` nor `updateById()`.

@@ -11,35 +11,34 @@
 namespace triagens\ArangoDb;
 
 /**
- * Container for a read-only ("select") statement
+ * Container for an AQL query
  *
- * A statement is an AQL query that can be issued to the
- * server. Optional bind parameters can be used when issuing the
- * statement to separate the statement from the values.
- * Executing a statement will result in a cursor being created.
+ * Optional bind parameters can be used when issuing thei AQL query to separate
+ * the query from the values.
+ * Executing a query will result in a cursor being created.
  *
  * There is an important distinction between two different types of statements:
  * <ul>
- * <li> statements that produce a list of documents as their result AND<br />
+ * <li> statements that produce an array of documents as their result AND<br />
  * <li> statements that do not produce documents
  * </ul>
  *
  * For example, a statement such as "FOR e IN example RETURN e" will produce
- * a list of documents as its result. The result can be treated as a list of
- * documents, and the document can be updated and sent back to the server by
+ * an array of documents as its result. The result can be treated as an array of
+ * documents, and each document can be updated and sent back to the server by
  * the client.<br />
  * <br />
- * However, the query "RETURN 1 + 1" will not produce a list of documents as
- * its result, but a list with a single scalar value (the number 2).
+ * However, the query "RETURN 1 + 1" will not produce an array of documents as
+ * its result, but an array with a single scalar value (the number 2).
  * "2" is not a valid document so creating a document from it will fail.<br />
  * <br />
  * To turn the results of this query into a document, the following needs to
  * be done:
  * <ul>
  * <li> modify the query to "RETURN { value: 1 + 1 }". The result will then be a
- *   a list of documents with a "value" attribute<br />
+ *   an array of documents with a "value" attribute<br />
  * <li> use the "_flat" option for the statement to indicate that you don't want
- *   to treat the statement result as a list of documents, but as a flat list
+ *   to treat the statement result as an array of documents, but as a flat array
  * </ul>
  *
  * <br />
@@ -105,6 +104,28 @@ class Statement
      * @var bool
      */
     private $_sanitize = false;
+    
+    /**
+     * Number of retries in case a deadlock occurs
+     *
+     * @var bool
+     */
+    private $_retries = 0;
+    
+    /**
+     * Whether or not the query cache should be consulted
+     *
+     * @var bool 
+     */
+    private $_cache = null;
+
+    /**
+     * resultType
+     *
+     * @var string
+     */
+    private $resultType;
+    
 
     /**
      * Query string index
@@ -120,6 +141,11 @@ class Statement
      * Batch size index
      */
     const ENTRY_BATCHSIZE = 'batchSize';
+    
+    /**
+     * Retries index
+     */
+    const ENTRY_RETRIES = 'retries';
 
     /**
      * Bind variables index
@@ -130,7 +156,7 @@ class Statement
      * Full count option index
      */
     const FULL_COUNT = 'fullCount';
-
+    
     /**
      * Initialise the statement
      *
@@ -156,7 +182,9 @@ class Statement
         $this->_connection = $connection;
         $this->_bindVars   = new BindVars();
 
-        $this->setQuery(@$data[self::ENTRY_QUERY]);
+        if (isset($data[self::ENTRY_QUERY])) {
+            $this->setQuery($data[self::ENTRY_QUERY]);
+        }
 
         if (isset($data[self::ENTRY_COUNT])) {
             $this->setCount($data[self::ENTRY_COUNT]);
@@ -177,9 +205,17 @@ class Statement
         if (isset($data[Cursor::ENTRY_SANITIZE])) {
             $this->_sanitize = (bool) $data[Cursor::ENTRY_SANITIZE];
         }
+        
+        if (isset($data[self::ENTRY_RETRIES])) {
+            $this->_retries = (int) $data[self::ENTRY_RETRIES];
+        }
 
         if (isset($data[Cursor::ENTRY_FLAT])) {
             $this->_flat = (bool) $data[Cursor::ENTRY_FLAT];
+        }
+        
+        if (isset($data[Cursor::ENTRY_CACHE])) {
+            $this->_cache = (bool) $data[Cursor::ENTRY_CACHE];
         }
     }
 
@@ -204,10 +240,29 @@ class Statement
      */
     public function execute()
     {
-        $data     = $this->buildData();
-        $response = $this->_connection->post(Urls::URL_CURSOR, $this->getConnection()->json_encode_wrapper($data));
+        if (!is_string($this->_query)) {
+            throw new ClientException('Query should be a string');
+        }
 
-        return new Cursor($this->_connection, $response->getJson(), $this->getCursorOptions());
+        $data     = $this->buildData();
+
+        $tries = 0;
+        while (true) {
+            try {
+                $response = $this->_connection->post(Urls::URL_CURSOR, $this->getConnection()->json_encode_wrapper($data), array());
+                return new Cursor($this->_connection, $response->getJson(), $this->getCursorOptions());
+            }
+            catch (ServerException $e) {
+                if ($tries++ >= $this->_retries) {
+                    throw $e;
+                }
+                if ($e->getServerCode() !== 29) {
+                    // 29 is "deadlock detected"
+                    throw $e;
+                }
+                // try again
+            }    
+        }
     }
 
 
@@ -222,8 +277,7 @@ class Statement
     public function explain()
     {
         $data     = $this->buildData();
-        $response = $this->_connection->post(Urls::URL_EXPLAIN, $this->getConnection()->json_encode_wrapper($data));
-
+        $response = $this->_connection->post(Urls::URL_EXPLAIN, $this->getConnection()->json_encode_wrapper($data), array());
         return $response->getJson();
     }
 
@@ -239,8 +293,7 @@ class Statement
     public function validate()
     {
         $data     = $this->buildData();
-        $response = $this->_connection->post(Urls::URL_QUERY, $this->getConnection()->json_encode_wrapper($data));
-
+        $response = $this->_connection->post(Urls::URL_QUERY, $this->getConnection()->json_encode_wrapper($data), array());
         return $response->getJson();
     }
 
@@ -331,6 +384,16 @@ class Statement
     {
         return $this->_query;
     }
+    
+    /**
+     * setResultType
+     *
+     * @return string - resultType of the query
+     */
+    public function setResultType($resultType)
+    {
+    	return $this->resultType = $resultType;
+    }
 
     /**
      * Set the count option for the statement
@@ -377,6 +440,28 @@ class Statement
     }
 
     /**
+     * Set the caching option for the statement
+     *
+     * @param bool $value - value for 'cache' option
+     *
+     * @return void
+     */
+    public function setCache($value)
+    {
+        $this->_cache = (bool) $value;
+    }
+
+    /**
+     * Get the caching option value of the statement
+     *
+     * @return bool - current value of 'cache' option
+     */
+    public function getCache()
+    {
+        return $this->_cache;
+    }
+
+    /**
      * Set the batch size for the statement
      *
      * The batch size is the number of results to be transferred
@@ -411,6 +496,7 @@ class Statement
         return $this->_batchSize;
     }
 
+
     /**
      * Build an array of data to be posted to the server when issuing the statement
      *
@@ -425,6 +511,10 @@ class Statement
                 self::FULL_COUNT => $this->_fullCount
             )
         );
+            
+        if ($this->_cache !== null) {
+            $data[Cursor::ENTRY_CACHE] = $this->_cache;
+        }
 
         if ($this->_bindVars->getCount() > 0) {
             $data[self::ENTRY_BINDVARS] = $this->_bindVars->getAll();
@@ -433,7 +523,6 @@ class Statement
         if ($this->_batchSize > 0) {
             $data[self::ENTRY_BATCHSIZE] = $this->_batchSize;
         }
-
         return $data;
     }
 
@@ -444,9 +533,14 @@ class Statement
      */
     private function getCursorOptions()
     {
-        return array(
+        $result = array(
             Cursor::ENTRY_SANITIZE => (bool) $this->_sanitize,
-            Cursor::ENTRY_FLAT     => (bool) $this->_flat
+            Cursor::ENTRY_FLAT     => (bool) $this->_flat,
+            Cursor::ENTRY_BASEURL  => Urls::URL_CURSOR
         );
+        if (isset($this->resultType)) {
+            $result[Cursor::ENTRY_TYPE]  = $this->resultType; 
+        }
+        return $result;
     }
 }

@@ -79,46 +79,40 @@ class Edge extends
      */
     public function set($key, $value)
     {
-        if (!is_string($key)) {
-            throw new ClientException('Invalid document attribute key');
+        if ($this->_doValidate) {
+            // validate the value passed
+            ValueValidator::validate($value);
         }
 
-        // validate the value passed
-        ValueValidator::validate($value);
+        if ($key[0] === '_') {
+            if ($key === self::ENTRY_ID) {
+                $this->setInternalId($value);
+                return;
+            }
 
-        if ($key === self::ENTRY_ID) {
-            $this->setInternalId($value);
+            if ($key === self::ENTRY_KEY) {
+                $this->setInternalKey($value);
+                return;
+            }
 
-            return;
+            if ($key === self::ENTRY_REV) {
+                $this->setRevision($value);
+                return;
+            }
+
+            if ($key === self::ENTRY_FROM) {
+                $this->setFrom($value);
+                return;
+            }
+
+            if ($key === self::ENTRY_TO) {
+                $this->setTo($value);
+                return;
+            }
         }
 
-        if ($key === self::ENTRY_KEY) {
-            $this->setInternalKey($value);
-
-            return;
-        }
-
-        if ($key === self::ENTRY_REV) {
-            $this->setRevision($value);
-
-            return;
-        }
-
-        if ($key === self::ENTRY_FROM) {
-            $this->setFrom($value);
-
-            return;
-        }
-
-        if ($key === self::ENTRY_TO) {
-            $this->setTo($value);
-
-            return;
-        }
-
-
-        if (!$this->_changed) {
-            if (!isset($this->_values[$key]) || $this->_values[$key] !== $value) {
+        if (! $this->_changed) {
+            if (! isset($this->_values[$key]) || $this->_values[$key] !== $value) {
                 // set changed flag
                 $this->_changed = true;
             }
@@ -176,4 +170,17 @@ class Edge extends
 
         return $this;
     }
+    
+    /**
+     * Get all document attributes for insertion/update
+     *
+     * @return mixed - associative array of all document attributes/values
+     */
+    public function getAllForInsertUpdate() {
+        $data = parent::getAllForInsertUpdate();
+        $data["_from"] = $this->_from;
+        $data["_to"] = $this->_to;
+        return $data;
+    }
+
 }

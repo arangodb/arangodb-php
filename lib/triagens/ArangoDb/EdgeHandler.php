@@ -30,6 +30,11 @@ class EdgeHandler extends
      * documents array index
      */
     const ENTRY_DOCUMENTS = 'edge';
+    
+    /**
+     * edges array index
+     */
+    const ENTRY_EDGES = 'edges';
 
     /**
      * collection parameter
@@ -81,13 +86,13 @@ class EdgeHandler extends
      * @internal
      * @throws Exception
      *
-     * @param mixed    $collectionId - collection id as string or number
-     * @param Document $document     - the document to be added
+     * @param mixed    $collection   - collection id as string or number
+     * @param Edge     $document     - the document to be added
      * @param bool     $create       - create the collection if it does not yet exist
      *
      * @return mixed|void
      */
-    public function add($collectionId, Document $document, $create = null)
+    public function add($collection, Document $document, $create = null)
     {
         throw new ClientException("Edges don't have an add() method. Please use saveEdge()");
     }
@@ -99,13 +104,13 @@ class EdgeHandler extends
      * @internal
      * @throws Exception
      *
-     * @param mixed    $collectionId - collection id as string or number
-     * @param Document $document     - the document to be added
+     * @param mixed    $collection   - collection id as string or number
+     * @param Edge     $document     - the document to be added
      * @param bool     $create       - create the collection if it does not yet exist
      *
      * @return mixed|void
      */
-    public function save($collectionId, $document, $create = null)
+    public function save($collection, $document, $create = null)
     {
         throw new ClientException("Edges don't have a save() method. Please use saveEdge()");
     }
@@ -120,7 +125,7 @@ class EdgeHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $collectionId - collection id as string or number
+     * @param mixed      $collection   - collection id as string or number
      * @param mixed      $from         - from vertex
      * @param mixed      $to           - to vertex
      * @param mixed      $document     - the edge-document to be added, can be passed as an object or an array
@@ -134,36 +139,36 @@ class EdgeHandler extends
      * @return mixed - id of document created
      * @since 1.0
      */
-    public function saveEdge($collectionId, $from, $to, $document, $options = array())
+    public function saveEdge($collection, $from, $to, $document, $options = array())
     {
+        $collection = $this->makeCollection($collection);
+        
         if (is_array($document)) {
             $document = Edge::createFromArray($document);
         }
         $document->setFrom($from);
         $document->setTo($to);
-        $params = array(
-            self::OPTION_COLLECTION => $collectionId,
-            self::OPTION_FROM       => $document->getFrom(),
-            self::OPTION_TO         => $document->getTo()
-        );
+        
         $params = $this->validateAndIncludeOldSingleParameterInParams(
                        $options,
-                       $params,
+                       array(self::OPTION_COLLECTION => $collection),
                        ConnectionOptions::OPTION_CREATE
         );
 
         $params = $this->includeOptionsInParams(
-                       $options,
                        $params,
+                       array(),
                        array(
-                            ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(
-                                                                        ConnectionOptions::OPTION_WAIT_SYNC
-                                ),
+                            'collection'  => $collection,
+                            'waitForSync' => ConnectionOptions::OPTION_WAIT_SYNC,
+                            'silent'      => false
                        )
         );
+        
+        $this->createCollectionIfOptions($collection, $params);
 
-        $data = $document->getAll();
-
+        $data = $document->getAllForInsertUpdate();
+        
         $url      = UrlHelper::appendParamsUrl(Urls::URL_EDGE, $params);
         $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
 
@@ -189,60 +194,71 @@ class EdgeHandler extends
 
 
     /**
-     * Get edges for a given vertex
+     * Get connected edges for a given vertex
      *
      * @throws Exception
      *
-     * @param mixed  $collectionId - edge-collection id as string or number
+     * @param mixed  $collection   - edge-collection id as string or number
      * @param mixed  $vertexHandle - the vertex involved
      * @param string $direction    - optional defaults to 'any'. Other possible Values 'in' & 'out'
+     * @param array $options       - optional, array of options
+     *                               <p>Options are :
+     *                               <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
+     *                               <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+     *                               </p>
      *
-     * @return array - array of cursors
+     * @return array - array of connected edges
      * @since 1.0
      */
-    public function edges($collectionId, $vertexHandle, $direction = 'any')
+    public function edges($collection, $vertexHandle, $direction = 'any', array $options = array())
     {
+        $collection = $this->makeCollection($collection);
 
         $params   = array(
-            self::OPTION_COLLECTION => $collectionId,
             self::OPTION_VERTEX     => $vertexHandle,
             self::OPTION_DIRECTION  => $direction
         );
-        $url      = UrlHelper::appendParamsUrl(Urls::URL_EDGE, $params);
+        $url      = UrlHelper::appendParamsUrl(Urls::URL_EDGES . '/' . urlencode($collection), $params);
         $response = $this->getConnection()->get($url);
         $json     = $response->getJson();
+       
+        $edges = array();
+        foreach ($json[self::ENTRY_EDGES] as $data) {
+           $edges[] = $this->createFromArrayWithContext($data, $options);
+        }
 
-        return $json;
+        return $edges;
     }
 
 
     /**
-     * Get inbound edges for a given vertex
+     * Get connected inbound edges for a given vertex
      *
      * @throws Exception
      *
-     * @param mixed $collectionId - edge-collection id as string or number
+     * @param mixed $collection   - edge-collection id as string or number
      * @param mixed $vertexHandle - the vertex involved
      *
-     * @return array - array of cursors
+     * @return array - array of connected edges
      */
-    public function inEdges($collectionId, $vertexHandle)
+    public function inEdges($collection, $vertexHandle)
     {
-        return $this->edges($collectionId, $vertexHandle, 'in');
+        return $this->edges($collection, $vertexHandle, 'in');
     }
 
     /**
-     * Get outbound edges for a given vertex
+     * Get connected outbound edges for a given vertex
      *
      * @throws Exception
      *
-     * @param mixed $collectionId - edge-collection id as string or number
+     * @param mixed $collection   - edge-collection id as string or number
      * @param mixed $vertexHandle - the vertex involved
      *
-     * @return array - array of cursors
+     * @return array - array of connected edges
      */
-    public function outEdges($collectionId, $vertexHandle)
+    public function outEdges($collection, $vertexHandle)
     {
-        return $this->edges($collectionId, $vertexHandle, 'out');
+        return $this->edges($collection, $vertexHandle, 'out');
     }
+
 }

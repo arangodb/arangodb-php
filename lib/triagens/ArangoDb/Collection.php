@@ -58,16 +58,30 @@ class Collection
     /**
      * The collection isSystem value (might be NULL for new collections)
      *
-     * @var int - isSystem value
+     * @var bool - isSystem value
      */
     private $_isSystem = null;
 
     /**
      * The collection isVolatile value (might be NULL for new collections)
      *
-     * @var int - isVolatile value
+     * @var bool - isVolatile value
      */
     private $_isVolatile = null;
+    
+    /**
+     * The collection numberOfShards value (might be NULL for new collections)
+     *
+     * @var int - numberOfShards value
+     */
+    private $_numberOfShards = null;
+    
+    /**
+     * The collection shardKeys value (might be NULL for new collections)
+     *
+     * @var array - shardKeys value
+     */
+    private $_shardKeys = null;
 
     /**
      * The collection status value
@@ -127,6 +141,16 @@ class Collection
      * Collection 'isVolatile' index
      */
     const ENTRY_IS_VOLATILE = 'isVolatile';
+    
+    /**
+     * Collection 'numberOfShards' index
+     */
+    const ENTRY_NUMBER_OF_SHARDS = 'numberOfShards';
+    
+    /**
+     * Collection 'shardKeys' index
+     */
+    const ENTRY_SHARD_KEYS = 'shardKeys';
 
     /**
      * properties option
@@ -171,10 +195,15 @@ class Collection
     /**
      * Constructs an empty collection
      *
+     * @param string $name - name for the collection
+     *
      * @return Collection
      */
-    public function __construct()
+    public function __construct($name = null)
     {
+        if ($name !== null) {
+            $this->setName($name);
+        }
     }
 
     /**
@@ -216,12 +245,14 @@ class Collection
      */
     public function __clone()
     {
-        $this->_id          = null;
-        $this->_name        = null;
-        $this->_waitForSync = null;
-        $this->_journalSize = null;
-        $this->_isSystem    = null;
-        $this->_isVolatile  = null;
+        $this->_id             = null;
+        $this->_name           = null;
+        $this->_waitForSync    = null;
+        $this->_journalSize    = null;
+        $this->_isSystem       = null;
+        $this->_isVolatile     = null;
+        $this->_numberOfShards = null;
+        $this->_shardKeys      = null;
     }
 
     /**
@@ -263,17 +294,27 @@ class Collection
      */
     public function getAll()
     {
-        return array(
-            self::ENTRY_ID           => $this->_id,
-            self::ENTRY_NAME         => $this->_name,
-            self::ENTRY_WAIT_SYNC    => $this->_waitForSync,
-            self::ENTRY_JOURNAL_SIZE => $this->_journalSize,
-            self::ENTRY_IS_SYSTEM    => $this->_isSystem,
-            self::ENTRY_IS_VOLATILE  => $this->_isVolatile,
-            self::ENTRY_TYPE         => $this->_type,
-            self::ENTRY_STATUS       => $this->_status,
-            self::ENTRY_KEY_OPTIONS  => $this->_keyOptions
+        $result = array(
+            self::ENTRY_ID               => $this->_id,
+            self::ENTRY_NAME             => $this->_name,
+            self::ENTRY_WAIT_SYNC        => $this->_waitForSync,
+            self::ENTRY_JOURNAL_SIZE     => $this->_journalSize,
+            self::ENTRY_IS_SYSTEM        => $this->_isSystem,
+            self::ENTRY_IS_VOLATILE      => $this->_isVolatile,
+            self::ENTRY_TYPE             => $this->_type,
+            self::ENTRY_STATUS           => $this->_status,
+            self::ENTRY_KEY_OPTIONS      => $this->_keyOptions
         );
+
+        if (! is_null($this->_numberOfShards)) {
+            $result[self::ENTRY_NUMBER_OF_SHARDS] = $this->_numberOfShards;
+        }
+
+        if (is_array($this->_shardKeys)) {
+            $result[self::ENTRY_SHARD_KEYS] = $this->_shardKeys;
+        }
+
+        return $result;
     }
 
     /**
@@ -347,6 +388,18 @@ class Collection
 
         if ($key === self::ENTRY_KEY_OPTIONS) {
             $this->setKeyOptions($value);
+
+            return;
+        }
+        
+        if ($key === self::ENTRY_NUMBER_OF_SHARDS) {
+            $this->setNumberOfShards($value);
+
+            return;
+        }
+        
+        if ($key === self::ENTRY_SHARD_KEYS) {
+            $this->setShardKeys($value);
 
             return;
         }
@@ -617,5 +670,51 @@ class Collection
     public function getIsVolatile()
     {
         return $this->_isVolatile;
+    }
+    
+    /**
+     * Set the numberOfShards value
+     *
+     * @param int $value - numberOfShards value
+     *
+     * @return void
+     */
+    public function setNumberOfShards($value)
+    {
+        assert(is_null($value) || is_numeric($value));
+        $this->_numberOfShards = $value;
+    }
+    
+    /**
+     * Get the numberOfShards value (if already known)
+     *
+     * @return int - numberOfShards value
+     */
+    public function getNumberOfShards()
+    {
+        return $this->_numberOfShards;
+    }
+    
+    /**
+     * Set the shardKeys value
+     *
+     * @param array $value - shardKeys value
+     *
+     * @return void
+     */
+    public function setShardKeys($value)
+    {
+        assert(is_null($value) || is_array($value));
+        $this->_shardKeys = $value;
+    }
+    
+    /**
+     * Get the shardKeys value (if already known)
+     *
+     * @return array - shardKeys value
+     */
+    public function getShardKeys()
+    {
+        return $this->_shardKeys;
     }
 }

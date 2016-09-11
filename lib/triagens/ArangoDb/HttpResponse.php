@@ -56,6 +56,13 @@ class HttpResponse
     private $_httpCode;
 
     /**
+     * Whether or not the response is for an async request without a response body
+     *
+     * @var bool
+     */
+    private $_wasAsync = false;
+
+    /**
      * HTTP location header
      */
     const HEADER_LOCATION = 'location';
@@ -66,11 +73,32 @@ class HttpResponse
      * @throws ClientException
      *
      * @param string $responseString - the complete HTTP response as supplied by the server
+     * @param string $originUrl The original URL the response is coming from
+     * @param string $originMethod The HTTP method that was used when sending data to the origin URL
+     *
+     * @throws ClientException
      */
-    public function __construct($responseString)
+    public function __construct($responseString, $originUrl = null, $originMethod = null, $wasAsync = false)
     {
-        list($this->_header, $this->_body) = HttpHelper::parseHttpMessage($responseString);
+        $this->_wasAsync = $wasAsync;
+
+        list($this->_header, $this->_body) = HttpHelper::parseHttpMessage($responseString, $originUrl, $originMethod);
         list($this->_httpCode, $this->_result, $this->_headers) = HttpHelper::parseHeaders($this->_header);
+          
+        if ((! isset($this->_body) or $this->_body === null) and
+            ($this->_httpCode !== 204 and $this->_httpCode !== 304 and !$wasAsync)) {
+            // got no response body!
+            if ($originUrl !== null && $originMethod !== null) {
+                if ($responseString === '') {
+                    throw new ClientException('Got no response from the server after request to '
+                        . $originMethod . ' ' . $originUrl . ' - Note: this may be a timeout issue');
+                }
+                throw new ClientException('Got an invalid response from the server after request to '
+                    . $originMethod . ' ' . $originUrl);
+            }
+
+            throw new ClientException('Got an invalid response from the server');
+        }
     }
 
     /**
@@ -155,6 +183,10 @@ class HttpResponse
         $json = json_decode($body, true);
 
         if (!is_array($json)) {
+            if ($this->_wasAsync) {
+                return array();
+            }
+
             // should be an array, fail otherwise
             throw new ClientException('Got a malformed result from the server');
         }

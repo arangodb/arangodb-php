@@ -42,6 +42,13 @@ class DatabaseTest extends
     {
 
         $database = 'ArangoTestSuiteDatabaseTest01';
+        
+        try {
+            $e = null;
+            Database::delete($this->connection, $database);
+        } catch (\Exception $e) {
+            // don't bother us... just give us the $e
+        }
 
         $response = Database::create($this->connection, $database);
 
@@ -58,13 +65,12 @@ class DatabaseTest extends
         );
 
         $response = Database::listDatabases($this->connection);
-
-        $this->assertCount(1, $response['result']);
+        $this->assertArrayNotHasKey($database, array_flip($response['result']));
     }
 
 
     /**
-     * Test if Databases can be created, if they can be listed and deleted again
+     * Test if Databases can be created, if they can be listed, if they can be listed for the current user and deleted again
      */
     public function testCreateDatabaseGetListOfDatabasesAndDeleteItAgain()
     {
@@ -79,9 +85,13 @@ class DatabaseTest extends
         );
 
 
-        $response = Database::listDatabases($this->connection);
+        $response = Database::databases($this->connection);
 
-        $this->assertCount(2, $response['result']);
+        $this->assertArrayHasKey($database, array_flip($response['result']));
+
+        $responseUser = Database::listUserDatabases($this->connection);
+
+        $this->assertArrayHasKey($database, array_flip($responseUser['result']));
 
 
         $response = Database::delete($this->connection, $database);
@@ -159,6 +169,13 @@ class DatabaseTest extends
 
         $database  = 'ArangoTestSuiteDatabaseTest01';
         $database2 = 'ArangoTestSuiteDatabaseTest02';
+        
+        try {
+            $e = null;
+            Database::delete($this->connection, $database);
+        } catch (\Exception $e) {
+            // don't bother us... 
+        }
 
         $response = Database::create($this->connection, $database);
 

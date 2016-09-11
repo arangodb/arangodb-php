@@ -13,7 +13,7 @@ namespace triagens\ArangoDb;
  * Class TraversalTest
  * Tests for the Traversal API implementation
  *
- * These tests are modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+ * These tests are modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
  *
  * @property Connection        $connection
  * @property Graph             $graph
@@ -155,36 +155,36 @@ class TraversalTest extends
         $this->graphHandler->getVertex($this->graphName, $this->vertex5Name);
         $this->graphHandler->saveEdge(
                            $this->graphName,
-                           $this->vertex1Name,
-                           $this->vertex2Name,
+                           $this->vertexCollectionName . "/" . $this->vertex1Name,
+                           $this->vertexCollectionName . "/" . $this->vertex2Name,
                            $this->edgeLabel1,
                            $edge1
         );
         $this->graphHandler->saveEdge(
                            $this->graphName,
-                           $this->vertex2Name,
-                           $this->vertex3Name,
+                           $this->vertexCollectionName . "/" . $this->vertex2Name,
+                           $this->vertexCollectionName . "/" . $this->vertex3Name,
                            $this->edgeLabel2,
                            $edge2
         );
         $this->graphHandler->saveEdge(
                            $this->graphName,
-                           $this->vertex2Name,
-                           $this->vertex4Name,
+                           $this->vertexCollectionName . "/" . $this->vertex2Name,
+                           $this->vertexCollectionName . "/" . $this->vertex4Name,
                            $this->edgeLabel3,
                            $edge3
         );
         $this->graphHandler->saveEdge(
                            $this->graphName,
-                           $this->vertex5Name,
-                           $this->vertex1Name,
+                           $this->vertexCollectionName . "/" . $this->vertex5Name,
+                           $this->vertexCollectionName . "/" . $this->vertex1Name,
                            $this->edgeLabel4,
                            $edge4
         );
         $this->graphHandler->saveEdge(
                            $this->graphName,
-                           $this->vertex5Name,
-                           $this->vertex2Name,
+                           $this->vertexCollectionName . "/" . $this->vertex5Name,
+                           $this->vertexCollectionName . "/" . $this->vertex2Name,
                            $this->edgeLabel5,
                            $edge5
         );
@@ -193,7 +193,7 @@ class TraversalTest extends
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Follow only outbound edges:
@@ -217,7 +217,7 @@ class TraversalTest extends
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Follow only inbound edges:
@@ -241,7 +241,7 @@ class TraversalTest extends
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Follow any direction of edges:
@@ -268,7 +268,7 @@ class TraversalTest extends
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Excluding Charlie and Bob:
@@ -295,7 +295,7 @@ class TraversalTest extends
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Do not follow edges from Bob:
@@ -322,7 +322,7 @@ class TraversalTest extends
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Visit only nodes in a depth of at least 2:
@@ -349,7 +349,7 @@ class TraversalTest extends
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Visit only nodes in a depth of at most 1:
@@ -376,7 +376,7 @@ class TraversalTest extends
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Count all visited nodes and return a list of nodes only:
@@ -405,7 +405,7 @@ class TraversalTest extends
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Expand only inbound edges of Alice and outbound edges of Eve:
@@ -432,7 +432,7 @@ class TraversalTest extends
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Follow the depthfirst strategy:
@@ -455,28 +455,23 @@ class TraversalTest extends
         // keeping test simple.
         $this->assertCount(11, $result['result']['visited']['vertices']);
         $this->assertCount(11, $result['result']['visited']['paths']);
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][0]['name'] == 'Alice',
-             'name is: ' . $result['result']['visited']['vertices'][0]['name']
-        );
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][1]['name'] == 'Eve',
-             'name is: ' . $result['result']['visited']['vertices'][1]['name']
-        );
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][3]['name'] == 'Alice',
-             'name is: ' . $result['result']['visited']['vertices'][3]['name']
-        );
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][8]['name'] == 'Alice',
-             'name is: ' . $result['result']['visited']['vertices'][8]['name']
-        );
+
+        $vertices = array();
+        foreach ($result['result']['visited']['vertices'] as $vertex) {
+             @$vertices[$vertex["name"]]++;
+        }
+
+        $this->assertEquals(3, $vertices["Alice"]);
+        $this->assertEquals(2, $vertices["Bob"]);
+        $this->assertEquals(2, $vertices["Charlie"]);
+        $this->assertEquals(2, $vertices["Dave"]);
+        $this->assertEquals(2, $vertices["Eve"]);
     }
 
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Using postorder ordering:
@@ -499,28 +494,23 @@ class TraversalTest extends
         // keeping test simple.
         $this->assertCount(11, $result['result']['visited']['vertices']);
         $this->assertCount(11, $result['result']['visited']['paths']);
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][0]['name'] == 'Alice',
-             'name is: ' . $result['result']['visited']['vertices'][0]['name']
-        );
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][1]['name'] == 'Charlie',
-             'name is: ' . $result['result']['visited']['vertices'][1]['name']
-        );
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][5]['name'] == 'Alice',
-             'name is: ' . $result['result']['visited']['vertices'][5]['name']
-        );
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][10]['name'] == 'Alice',
-             'name is: ' . $result['result']['visited']['vertices'][10]['name']
-        );
+
+        $vertices = array();
+        foreach ($result['result']['visited']['vertices'] as $vertex) {
+             @$vertices[$vertex["name"]]++;
+        }
+
+        $this->assertEquals(3, $vertices["Alice"]);
+        $this->assertEquals(2, $vertices["Bob"]);
+        $this->assertEquals(2, $vertices["Charlie"]);
+        $this->assertEquals(2, $vertices["Dave"]);
+        $this->assertEquals(2, $vertices["Eve"]);
     }
 
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Using backward item-ordering:
@@ -543,28 +533,23 @@ class TraversalTest extends
         // keeping test simple.
         $this->assertCount(11, $result['result']['visited']['vertices']);
         $this->assertCount(11, $result['result']['visited']['paths']);
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][0]['name'] == 'Alice',
-             'name is: ' . $result['result']['visited']['vertices'][0]['name']
-        );
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][1]['name'] == 'Bob',
-             'name is: ' . $result['result']['visited']['vertices'][1]['name']
-        );
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][5]['name'] == 'Alice',
-             'name is: ' . $result['result']['visited']['vertices'][5]['name']
-        );
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][10]['name'] == 'Alice',
-             'name is: ' . $result['result']['visited']['vertices'][10]['name']
-        );
+
+        $vertices = array();
+        foreach ($result['result']['visited']['vertices'] as $vertex) {
+             @$vertices[$vertex["name"]]++;
+        }
+
+        $this->assertEquals(3, $vertices["Alice"]);
+        $this->assertEquals(2, $vertices["Bob"]);
+        $this->assertEquals(2, $vertices["Charlie"]);
+        $this->assertEquals(2, $vertices["Dave"]);
+        $this->assertEquals(2, $vertices["Eve"]);
     }
 
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * Edges should only be included once globally, but nodes are included every time they are visited:
@@ -587,20 +572,23 @@ class TraversalTest extends
         // keeping test simple.
         $this->assertCount(6, $result['result']['visited']['vertices']);
         $this->assertCount(6, $result['result']['visited']['paths']);
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][0]['name'] == 'Alice',
-             'name is: ' . $result['result']['visited']['vertices'][0]['name']
-        );
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][3]['name'] == 'Alice',
-             'name is: ' . $result['result']['visited']['vertices'][3]['name']
-        );
+        
+        $vertices = array();
+        foreach ($result['result']['visited']['vertices'] as $vertex) {
+             @$vertices[$vertex["name"]]++;
+        }
+
+        $this->assertEquals(2, $vertices["Alice"]);
+        $this->assertEquals(1, $vertices["Bob"]);
+        $this->assertEquals(1, $vertices["Charlie"]);
+        $this->assertEquals(1, $vertices["Dave"]);
+        $this->assertEquals(1, $vertices["Eve"]);
     }
 
 
     /**
      * Test for creation of a graph and a traversal
-     * Modeled after: http://www.arangodb.org/manuals/1.4/HttpTraversals.html
+     * Modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
      *
      * Test:
      * If the underlying graph is cyclic, maxIterations should be set:

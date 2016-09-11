@@ -34,6 +34,12 @@ class TransactionTest extends
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
+        
+        try {
+            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_02');
+        } catch (Exception $e) {
+            //Silence the exception
+        }
 
 
         $this->collection1 = new Collection();
@@ -45,6 +51,86 @@ class TransactionTest extends
         $this->collectionHandler->add($this->collection2);
     }
 
+    /**
+     * Test if a deadlock occurs and error 29 is thrown
+     */
+    public function testDeadlockHandling()
+    {
+        $w1 = array($this->collection1->getName());
+        $action1 = '
+        try {
+          require("internal").db._executeTransaction({ collections: { write: [ "' . $this->collection2->getName() . '" ] }, action: function () {
+          require("internal").wait(7, false);
+          var db = require("internal").db;
+          db.' . $this->collection1->getName() . '.any();
+          }});
+          return { message: "ok" };
+        } catch (err) {
+          return { message: err.errorNum };
+        }
+        ';
+        
+        $result1 = $this->connection->post("/_admin/execute?returnAsJSON=true", $action1, array("X-Arango-Async" => "store"));
+        $id1 = $result1->getHeader("x-arango-async-id");
+
+        $action2 = '
+        try {
+          require("internal").db._executeTransaction({ collections: { write: [ "' . $this->collection1->getName() . '" ] }, action: function () {
+            require("internal").wait(7, false);
+            var db = require("internal").db;
+            db.' . $this->collection2->getName() . '.any();
+          }});
+          return { message: "ok" };
+        } catch (err) {
+          return { message: err.errorNum };
+        }
+        ';
+        
+        $result2 = $this->connection->post("/_admin/execute?returnAsJSON=true", $action2, array("X-Arango-Async" => "store"));
+        $id2 = $result2->getHeader("x-arango-async-id");
+
+        $tries = 0;
+        $got1 = false;
+        $got2 = false;
+        $result1 = null;
+        $result2 = null;
+        while ($tries++ < 20) {
+            if (! $got1) {
+                try {
+                    $result1 = $this->connection->put("/_api/job/" . $id1, "");
+                    if ($result1->getHeader("x-arango-async-id") !== null) {
+                        $got1 = true;
+                    }
+                }
+                catch (Exception $e) {
+                } 
+            }
+            if (! $got2) {
+                try {
+                    $result2 = $this->connection->put("/_api/job/" . $id2, "");
+                    if ($result2->getHeader("x-arango-async-id") !== null) {
+                        $got2 = true;
+                    }
+                }
+                catch (Exception $e) {
+                } 
+            }
+
+            if ($got1 && $got2) {
+                break;
+            }
+
+            sleep(1);
+        }
+
+
+        $this->assertTrue($got1);
+        $this->assertTrue($got2);
+
+        $r1 = json_decode($result1->getBody());
+        $r2 = json_decode($result2->getBody());
+        $this->assertTrue($r1->message === 29 || $r2->message === 29);
+    }
 
     /**
      * Test if we can create and execute a transaction by using array initialization at construction time
@@ -308,7 +394,7 @@ class TransactionTest extends
         $details = $e->getDetails();
 
         $this->assertTrue(
-             $e->getCode() == 500 && $details['errorMessage'] == 'doh!',
+             $e->getCode() == 500 && strpos($details['exception'], 'doh!') !== false,
              'Did not return code 500 with message doh!, instead returned: ' . $e->getCode(
              ) . ' and ' . $details['errorMessage']
         );
@@ -320,6 +406,11 @@ class TransactionTest extends
      */
     public function testCreateAndExecuteTransactionWithTransactionErrorUniqueConstraintOnSave()
     {
+        if (isCluster($this->connection)) {
+            // don't execute this test in a cluster
+            return;
+        }
+
         $writeCollections = array($this->collection1->getName());
         $readCollections  = array($this->collection2->getName());
         $action           = '
@@ -341,13 +432,9 @@ class TransactionTest extends
         }
         $details                = $e->getDetails();
         $expectedCutDownMessage = "unique constraint violated";
-        $len                    = strlen($expectedCutDownMessage);
         $this->assertTrue(
-             $e->getCode() == 400 && substr(
-                 $details['errorMessage'],
-                 0,
-                 $len
-             ) == $expectedCutDownMessage,
+             $e->getCode() == 400 && strstr($details['errorMessage'],
+                 $expectedCutDownMessage) !== false,
              'Did not return code 400 with first part of the message: "' . $expectedCutDownMessage . '", instead returned: ' . $e->getCode(
              ) . ' and "' . $details['errorMessage'] . '"'
         );

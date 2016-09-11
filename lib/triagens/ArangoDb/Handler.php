@@ -13,8 +13,6 @@ namespace triagens\ArangoDb;
 /**
  * A base class for REST-based handlers
  *
- * <br>
- *
  * @package triagens\ArangoDb
  * @since   0.2
  */
@@ -39,7 +37,6 @@ abstract class Handler
     {
         $this->_connection = $connection;
     }
-
 
     /**
      * Return the connection object
@@ -126,12 +123,10 @@ abstract class Handler
      */
     protected function validateAndIncludeOldSingleParameterInParams($options, $params, $parameter)
     {
-        $value = null;
-
         if (!is_array($options)) {
             $value = $options;
         } else {
-            $value = array_key_exists($parameter, $options) ? $options[$parameter] : $value;
+            $value = isset($options[$parameter]) ? $options[$parameter] : null;
         }
 
         if ($value === null) {
@@ -166,7 +161,6 @@ abstract class Handler
      */
     protected function includeOptionsInParams($options, $params, $includeArray = array())
     {
-        #$value = null;
         if (is_array($options)) {
             foreach ($options as $key => $value) {
                 if (array_key_exists($key, $includeArray)) {
@@ -196,7 +190,6 @@ abstract class Handler
      */
     protected function includeOptionsInBody($options, $body, $includeArray = array())
     {
-        #$value = null;
         if (is_array($options)) {
             foreach ($options as $key => $value) {
                 if (array_key_exists($key, $includeArray)) {
@@ -212,4 +205,24 @@ abstract class Handler
 
         return $body;
     }
+        
+    /**
+     * Turn a value into a collection name
+     *
+     * @throws ClientException
+     *
+     * @param mixed $value - document, collection or string
+     *
+     * @return string - collection name
+     */
+    protected function makeCollection($value) {
+        if ($value instanceof Collection) {
+            return $value->getName();
+        }
+        if ($value instanceof Document) {
+            return $value->getCollectionId();
+        }
+        return $value;
+    }
+
 }

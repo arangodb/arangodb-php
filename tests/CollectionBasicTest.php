@@ -14,7 +14,8 @@ namespace triagens\ArangoDb;
  * @property Connection             connection
  * @property Collection             collection
  * @property CollectionHandler      collectionHandler
- * @property DocumentHandler        documentHandler
+ * @property bool                   hasSparseIndexes
+ * @property bool                   hasSelectivityEstimates
  */
 class CollectionBasicTest extends
     \PHPUnit_Framework_TestCase
@@ -23,7 +24,18 @@ class CollectionBasicTest extends
     {
         $this->connection        = getConnection();
         $this->collectionHandler = new CollectionHandler($this->connection);
+        try {
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_IndexTestCollection');
+        } catch (Exception $e) {
+            //Silence the exception
+        }
         $this->collectionHandler->create('ArangoDB_PHP_TestSuite_IndexTestCollection');
+
+        $adminHandler = new AdminHandler($this->connection);
+        $version = preg_replace("/-[a-z0-9]+$/", "", $adminHandler->getServerVersion());
+
+        $this->hasSparseIndexes = (version_compare($version, '2.5.0') >= 0);
+        $this->hasSelectivityEstimates = (version_compare($version, '2.5.0') >= 0);
     }
 
 
@@ -81,8 +93,15 @@ class CollectionBasicTest extends
         $connection        = $this->connection;
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
-
+        
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
         $collection->setName($name);
         $response = $collectionHandler->add($collection);
 
@@ -106,11 +125,23 @@ class CollectionBasicTest extends
      */
     public function testCreateCollectionWithKeyOptionsAndVerifyProperties()
     {
+        if (isCluster($this->connection)) {
+            // don't execute this test in a cluster
+            return;
+        }
+        
         $connection        = $this->connection;
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
-
+   
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
         $collection->setName($name);
         $collection->setKeyOptions(
                    array("type" => "autoincrement", "allowUserKeys" => false, "increment" => 5, "offset" => 10)
@@ -143,6 +174,113 @@ class CollectionBasicTest extends
         );
         $collectionHandler->delete($collection);
     }
+    
+
+    /**
+     * Try to create a collection with keyOptions and then retrieve it to confirm.
+     */
+    public function testCreateCollectionWithKeyOptionsCluster()
+    {
+        if (! isCluster($this->connection)) {
+            // don't execute this test in a non-cluster
+            return;
+        }
+        
+        $connection        = $this->connection;
+        $collection        = new Collection();
+        $collectionHandler = new CollectionHandler($connection);
+   
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
+        $collection->setName($name);
+        $collection->setKeyOptions(
+                   array("type" => "autoincrement", "allowUserKeys" => false, "increment" => 5, "offset" => 10)
+        );
+
+        try {
+            $response = $collectionHandler->add($collection);
+        }
+        catch (\Exception $e) {
+        }
+        
+        $this->assertEquals($e->getCode() , 501);
+    }
+    
+    
+    /**
+     * Try to create a collection with number of shards
+     */
+    public function testCreateCollectionWithNumberOfShardsCluster()
+    {
+        if (! isCluster($this->connection)) {
+            // don't execute this test in a non-cluster
+            return;
+        }
+        
+        $connection        = $this->connection;
+        $collection        = new Collection();
+        $collectionHandler = new CollectionHandler($connection);
+   
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
+        $collection->setName($name);
+        $collection->setNumberOfShards(4);
+
+        $response = $collectionHandler->add($collection);
+
+        $resultingCollection = $collectionHandler->getProperties($response);
+        $properties          = $resultingCollection->getAll();
+
+        $this->assertEquals($properties[Collection::ENTRY_NUMBER_OF_SHARDS], 4, 'Number of shards does not match.');
+        $this->assertEquals($properties[Collection::ENTRY_SHARD_KEYS], array("_key"), 'Shard keys do not match.');
+    }
+   
+    
+    /**
+     * Try to create a collection with specified shard keys
+     */
+    public function testCreateCollectionWithShardKeysCluster()
+    {
+        if (! isCluster($this->connection)) {
+            // don't execute this test in a non-cluster
+            return;
+        }
+        
+        $connection        = $this->connection;
+        $collection        = new Collection();
+        $collectionHandler = new CollectionHandler($connection);
+   
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
+        $collection->setName($name);
+        $collection->setShardKeys(array("_key", "a", "b"));
+
+        $response = $collectionHandler->add($collection);
+
+        $resultingCollection = $collectionHandler->getProperties($response);
+        $properties          = $resultingCollection->getAll();
+
+        $this->assertEquals($properties[Collection::ENTRY_NUMBER_OF_SHARDS], 1, 'Number of shards does not match.');
+        $this->assertEquals($properties[Collection::ENTRY_SHARD_KEYS], array("_key", "a", "b"), 'Shard keys do not match.');
+    }
 
 
     /**
@@ -153,8 +291,15 @@ class CollectionBasicTest extends
         $connection        = $this->connection;
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
-
+        
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
         $collection->setName($name);
         $collectionHandler->add($collection);
 
@@ -180,8 +325,15 @@ class CollectionBasicTest extends
         $connection        = $this->connection;
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
-
+        
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
         $collection->setName($name);
         $collection->setType(3);
         $collectionHandler->add($collection);
@@ -209,6 +361,13 @@ class CollectionBasicTest extends
         $collectionHandler = new CollectionHandler($connection);
 
         $name    = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
         $options = array('type' => 3);
         $collectionHandler->create($name, $options);
 
@@ -235,6 +394,13 @@ class CollectionBasicTest extends
         $collectionHandler = new CollectionHandler($connection);
 
         $name    = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
         $options = array('isVolatile' => true);
         $collectionHandler->create($name, $options);
         $resultingCollection = $collectionHandler->get($name);
@@ -259,7 +425,14 @@ class CollectionBasicTest extends
         $connection        = $this->connection;
         $collectionHandler = new CollectionHandler($connection);
 
-        $name    = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        $name    = '_ArangoDB_PHP_TestSuite_TestCollection_02';
+        
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
         $options = array('isSystem' => true, 'waitForSync' => true);
         $collectionHandler->create($name, $options);
 
@@ -276,35 +449,6 @@ class CollectionBasicTest extends
 
 
         $collectionHandler->delete($name);
-    }
-
-
-    /**
-     * Create a cap constraint and verify it by getting information about the constraint from the server
-     */
-    public function testCreateCapConstraint()
-    {
-        $result = $this->collectionHandler->createCapConstraint('ArangoDB_PHP_TestSuite_IndexTestCollection', 50);
-
-        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
-
-        $indicesByIdentifiers = $indices['identifiers'];
-
-        $this->assertArrayHasKey($result['id'], $indicesByIdentifiers, 'Cap constraint was not created!');
-
-        $indexInfo = $indicesByIdentifiers[$result['id']];
-
-        $this->assertEquals(
-             CollectionHandler::OPTION_CAP_CONSTRAINT,
-             $indexInfo[CollectionHandler::OPTION_TYPE],
-             "Index type is not 'cap'!"
-        );
-
-        $this->assertEquals(
-             50,
-             $indexInfo[CollectionHandler::OPTION_SIZE],
-             'Size of the cap constrain does not match!'
-        );
     }
 
 
@@ -333,8 +477,6 @@ class CollectionBasicTest extends
         $this->assertCount(1, $indexInfo['fields'], "There should only be 1 indexed field");
         $this->assertEquals("combinedGeo", $indexInfo['fields'][0], "The indexed field is not 'combinedGeo'");
         $this->assertEquals(true, $indexInfo[CollectionHandler::OPTION_GEOJSON], 'geoJson was not set to true!');
-        $this->assertEquals(true, $indexInfo[CollectionHandler::OPTION_CONSTRAINT], 'constraint was not set to true!');
-        $this->assertEquals(true, $indexInfo[CollectionHandler::OPTION_IGNORE_NULL], 'ignoreNull was not set to true!');
     }
 
 
@@ -369,7 +511,11 @@ class CollectionBasicTest extends
              $indexInfo[CollectionHandler::OPTION_CONSTRAINT],
              'constraint was not set to false!'
         );
-        $this->assertArrayNotHasKey(CollectionHandler::OPTION_IGNORE_NULL, $indexInfo, 'ignoreNull was set!');
+
+        if (! array_key_exists(CollectionHandler::OPTION_IGNORE_NULL, $indexInfo)) {
+            // downwards-compatibility
+            $indexInfo[CollectionHandler::OPTION_IGNORE_NULL] = false;
+        }
     }
 
 
@@ -400,7 +546,53 @@ class CollectionBasicTest extends
         $this->assertCount(2, $indexInfo['fields'], "There should only be 2 indexed fields");
         $this->assertEquals("hashfield1", $indexInfo['fields'][0], "The first indexed field is not 'hashfield1'");
         $this->assertEquals("hashfield2", $indexInfo['fields'][1], "The second indexed field is not 'hashfield2'");
-        $this->assertEquals(true, $indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to true!');
+        $this->assertTrue($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to true!');
+
+        if ($this->hasSparseIndexes) {
+          $this->assertFalse($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to false!');
+        }
+        if ($this->hasSelectivityEstimates) {
+          $this->assertTrue(isset($indexInfo['selectivityEstimate']), 'selectivity estimate not present!');
+        }
+    }
+    
+    
+    /**
+     * Create a sparse hash index and verify it by getting information about the index from the server
+     */
+    public function testCreateSparseHashIndex()
+    {
+        $result = $this->collectionHandler->createHashIndex(
+                                          'ArangoDB_PHP_TestSuite_IndexTestCollection',
+                                          array('hashfield1', 'hashfield2'),
+                                          false,
+                                          array('sparse' => true)
+        );
+
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
+
+        $indicesByIdentifiers = $indices['identifiers'];
+
+        $this->assertArrayHasKey($result['id'], $indicesByIdentifiers, 'Hash index was not created!');
+
+        $indexInfo = $indicesByIdentifiers[$result['id']];
+
+        $this->assertEquals(
+             CollectionHandler::OPTION_HASH_INDEX,
+             $indexInfo[CollectionHandler::OPTION_TYPE],
+             "Index type is not 'hash'!"
+        );
+        $this->assertCount(2, $indexInfo['fields'], "There should only be 2 indexed fields");
+        $this->assertEquals("hashfield1", $indexInfo['fields'][0], "The first indexed field is not 'hashfield1'");
+        $this->assertEquals("hashfield2", $indexInfo['fields'][1], "The second indexed field is not 'hashfield2'");
+        $this->assertFalse($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to false!');
+
+        if ($this->hasSparseIndexes) {
+          $this->assertTrue($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to true!');
+        }
+        if ($this->hasSelectivityEstimates) {
+          $this->assertTrue(isset($indexInfo['selectivityEstimate']), 'selectivity estimate not present!');
+        }
     }
 
 
@@ -461,7 +653,45 @@ class CollectionBasicTest extends
         $this->assertCount(2, $indexInfo['fields'], "There should only be 2 indexed field");
         $this->assertEquals("skiplistfield1", $indexInfo['fields'][0], "The indexed field is not 'skiplistfield1'");
         $this->assertEquals("skiplistfield2", $indexInfo['fields'][1], "The indexed field is not 'skiplistfield2'");
-        $this->assertEquals(true, $indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to true!');
+        $this->assertTrue($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to true!');
+        if ($this->hasSparseIndexes) {
+          $this->assertFalse($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to false!');
+        }
+    }
+    
+    
+    /**
+     * Create a sparse skiplist index and verify it by getting information about the index from the server
+     */
+    public function testCreateSparseSkipListIndex()
+    {
+        $result = $this->collectionHandler->createSkipListIndex(
+                                          'ArangoDB_PHP_TestSuite_IndexTestCollection',
+                                          array('skiplistfield1', 'skiplistfield2'),
+                                          false,
+                                          array('sparse' => true)
+        );
+
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
+
+        $indicesByIdentifiers = $indices['identifiers'];
+
+        $this->assertArrayHasKey($result['id'], $indicesByIdentifiers, 'skip-list index was not created!');
+
+        $indexInfo = $indicesByIdentifiers[$result['id']];
+
+        $this->assertEquals(
+             CollectionHandler::OPTION_SKIPLIST_INDEX,
+             $indexInfo[CollectionHandler::OPTION_TYPE],
+             "Index type is not 'skip-list'!"
+        );
+        $this->assertCount(2, $indexInfo['fields'], "There should only be 2 indexed field");
+        $this->assertEquals("skiplistfield1", $indexInfo['fields'][0], "The indexed field is not 'skiplistfield1'");
+        $this->assertEquals("skiplistfield2", $indexInfo['fields'][1], "The indexed field is not 'skiplistfield2'");
+        $this->assertFalse($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to false!');
+        if ($this->hasSparseIndexes) {
+          $this->assertTrue($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to true!');
+        }
     }
 
 
@@ -491,10 +721,18 @@ class CollectionBasicTest extends
         $this->assertEquals(100, $indexInfo[CollectionHandler::OPTION_MIN_LENGTH], 'Min length does not match!');
     }
 
+    public function testHasCollectionReturnsFalseIfCollectionDoesNotExist()
+    {
+        $this->assertFalse($this->collectionHandler->has('just_a_stupid_collection_id_which_does_not_exist'));
+    }
+
+    public function testHasCollectionReturnsTrueIfCollectionExists()
+    {
+        $this->assertTrue($this->collectionHandler->has('ArangoDB_PHP_TestSuite_IndexTestCollection'));
+    }
 
     public function tearDown()
     {
-
         try {
             $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_IndexTestCollection');
         } catch (Exception $e) {

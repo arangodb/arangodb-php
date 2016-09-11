@@ -1,28 +1,28 @@
 {
-  "name": "triagens/ArangoDb",
+  "name": "arangodb/arangodb",
   "type": "library",
-  "description": "ArangodDb PHP client",
-  "keywords": ["database","ArangoDb","Arango","document store","NoSQL"],
-  "homepage": "https://github.com/triAGENS/ArangoDB-PHP",
+  "description": "ArangoDb PHP client",
+  "keywords": ["database","ArangoDb","Arango","document store","NoSQL","multi-model","graph database"],
+  "homepage": "https://github.com/arangodb/arangodb-php",
   "license": "Apache2",
   "authors": [
     {
       "name": "Jan Steemann",
-      "homepage": "https://github.com/triAGENS/ArangoDB-PHP",
+      "homepage": "https://github.com/arangodb/arangodb-php",
       "role": "Developer"
     },
    {
       "name": "Frank Mayer",
-      "homepage": "https://github.com/triAGENS/ArangoDB-PHP",
+      "homepage": "https://github.com/arangodb/arangodb-php",
       "role": "Developer"
     },
     {
       "name": "Contributors",
-      "homepage": "https://github.com/triAGENS/ArangoDB-PHP/graphs/contributors"
+      "homepage": "https://github.com/arangodb/arangodb-php/graphs/contributors"
     }
   ],
   "require": {
-    "php": ">=5.3.0"
+    "php": ">=5.4.0"
   },
   "autoload": {
     "psr-0": {
@@ -32,7 +32,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/triAGENS/ArangoDB-PHP"
+      "url": "https://github.com/arangodb/arangodb-php"
     }
   ]
 }
