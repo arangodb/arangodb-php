@@ -81,7 +81,7 @@ class Batch
      * To disable this, pass startCapture=>false inside the options array parameter
      *
      * @param Connection $connection that this batch class will monitor for requests in order to batch them. Connection parameter is mandatory.
-     * @param array      $options    An array of options for Batch construction. See below for options:
+     * @param array $options An array of options for Batch construction. See below for options:
      *
      * <p>Options are :
      * <li>'_sanitize' - True to remove _id and _rev attributes from result documents returned from this batch. Defaults to false.</li>
@@ -160,7 +160,8 @@ class Batch
             $this->setCapture(false);
 
             return $this;
-        } else {
+        }
+        else {
             throw new ClientException('Cannot stop capturing with this batch. Batch is not active...');
         }
     }
@@ -310,7 +311,7 @@ class Batch
     /**
      * Append the request to the batch-part
      *
-     * @param mixed $method  - The method of the request (GET, POST...)
+     * @param mixed $method - The method of the request (GET, POST...)
      * @param mixed $request - The request that will get appended to the batch
      *
      * @return HttpResponse
@@ -341,7 +342,8 @@ class Batch
         if (is_null($this->_nextBatchPartId)) {
             $nextNumeric                     = count($this->_batchParts);
             $this->_batchParts[$nextNumeric] = $batchPart;
-        } else {
+        }
+        else {
             $this->_batchParts[$this->_nextBatchPartId] = $batchPart;
             $this->_nextBatchPartId                     = null;
         }
@@ -368,7 +370,8 @@ class Batch
 
             if (!is_null($contentId)) {
                 $array[$contentId] = $value;
-            } else {
+            }
+            else {
                 $array[$key] = $value;
             }
         }
@@ -401,7 +404,8 @@ class Batch
 
             if (!is_null($partValue->getId())) {
                 $data .= 'Content-Id: ' . (string) $partValue->getId() . HttpHelper::EOL . HttpHelper::EOL;
-            } else {
+            }
+            else {
                 $data .= HttpHelper::EOL;
             }
 

@@ -29,7 +29,7 @@ abstract class Urls
      * URL base part for edge-related CRUD operations REST calls
      */
     const URL_EDGE = '/_api/document';
-    
+
     /**
      * URL base part for all retrieving connected edges
      */
@@ -104,7 +104,7 @@ abstract class Urls
      * URL remove-by-example
      */
     const URL_REMOVE_BY_EXAMPLE = '/_api/simple/remove-by-example';
-    
+
     /**
      * URL for remove-by-keys
      */
@@ -119,7 +119,7 @@ abstract class Urls
      * URL for replace-by-example
      */
     const URL_REPLACE_BY_EXAMPLE = '/_api/simple/replace-by-example';
-    
+
     /**
      * URL for lookup-by-keys
      */
@@ -134,7 +134,7 @@ abstract class Urls
      * URL for select-all
      */
     const URL_ALL = '/_api/simple/all';
-    
+
     /**
      * URL for select-all-keys
      */
@@ -149,12 +149,12 @@ abstract class Urls
      * URL for select-range
      */
     const URL_WITHIN = '/_api/simple/within';
-    
+
     /**
      * URL for document import
      */
     const URL_IMPORT = '/_api/import';
-     
+
     /**
      * URL for batch processing
      */
@@ -169,7 +169,7 @@ abstract class Urls
      * URL for admin version
      */
     const URL_ADMIN_VERSION = '/_admin/version';
-    
+
     /**
      * URL for server role
      */
@@ -224,7 +224,7 @@ abstract class Urls
      * base URL part for database management
      */
     const URL_DATABASE = '/_api/database';
-    
+
     /**
      * URL for AQL query result cache
      */

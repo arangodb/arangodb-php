@@ -26,7 +26,7 @@ class Database
      * Databases index
      */
     const ENTRY_DATABASE_NAME = 'name';
-    
+
     /**
      * Users index
      */
@@ -38,7 +38,7 @@ class Database
      * This creates a new database<br>
      *
      * @param Connection $connection - the connection to be used
-     * @param string     $name       - the database specification, for example 'myDatabase'
+     * @param string $name - the database specification, for example 'myDatabase'
      *
      * @link http://www.arangodb.com/manuals/1.4/HttpDatabase.html
      *
@@ -46,13 +46,15 @@ class Database
      */
     public static function create(Connection $connection, $name)
     {
-        $payload = array(self::ENTRY_DATABASE_NAME => $name,
-                         self::ENTRY_DATABASE_USERS => array(
-                             array(
-                                 "username" => $connection->getOption(ConnectionOptions::OPTION_AUTH_USER), 
-                                 "passwd"   => $connection->getOption(ConnectionOptions::OPTION_AUTH_PASSWD)
-                             )
-                        ));
+        $payload = array(
+            self::ENTRY_DATABASE_NAME => $name,
+            self::ENTRY_DATABASE_USERS => array(
+                array(
+                    "username" => $connection->getOption(ConnectionOptions::OPTION_AUTH_USER),
+                    "passwd" => $connection->getOption(ConnectionOptions::OPTION_AUTH_PASSWD)
+                )
+            )
+        );
 
         $response = $connection->post(Urls::URL_DATABASE, $connection->json_encode_wrapper($payload));
 
@@ -68,7 +70,7 @@ class Database
      * This will delete an existing database.
      *
      * @param Connection $connection - the connection to be used
-     * @param string     $name       - the database specification, for example 'myDatabase'
+     * @param string $name - the database specification, for example 'myDatabase'
      *
      * @link http://www.arangodb.com/manuals/1.4/HttpDatabase.html
      *
@@ -101,7 +103,7 @@ class Database
     {
         return self::databases($connection);
     }
-    
+
     /**
      * List databases
      *
@@ -137,7 +139,7 @@ class Database
     public static function listUserDatabases(Connection $connection)
     {
 
-        $url      = UrlHelper::buildUrl(Urls::URL_DATABASE, array('user'));
+        $url = UrlHelper::buildUrl(Urls::URL_DATABASE, array('user'));
 
         $response = $connection->get($url);
 

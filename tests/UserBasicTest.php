@@ -14,8 +14,8 @@ use Installer\Exception;
 /**
  * Class UserBasicTest
  *
- * @property Connection              $connection
- * @property UserHandler             userHandler
+ * @property Connection $connection
+ * @property UserHandler userHandler
  *
  * @package triagens\ArangoDb
  */
@@ -27,7 +27,7 @@ class UserBasicTest extends
         $this->connection = getConnection();
     }
 
-    
+
     /**
      * Test permission handling
      */
@@ -37,19 +37,20 @@ class UserBasicTest extends
 
         $result = $this->userHandler->addUser('testUser42', 'testPasswd', true);
         $this->assertTrue($result);
-        
+
         $result = $this->userHandler->grantPermissions('testUser42', $this->connection->getDatabase());
         $this->assertTrue($result);
-        
-        $options = $this->connection->getOptions()->getAll();
-        $options[ConnectionOptions::OPTION_AUTH_USER] = 'testUser42';
+
+        $options                                        = $this->connection->getOptions()->getAll();
+        $options[ConnectionOptions::OPTION_AUTH_USER]   = 'testUser42';
         $options[ConnectionOptions::OPTION_AUTH_PASSWD] = 'testPasswd';
-        $userConnection = new Connection($options);
+        $userConnection                                 = new Connection($options);
 
         $userHandler = new UserHandler($userConnection);
-        $result =  $userHandler->getDatabases('testUser42');
-        $this->assertEquals($result, array($this->connection->getDatabase()));
-        
+        $result      = $userHandler->getDatabases('testUser42');
+        $this->assertEquals($result, ['_system' => 'rw']);
+
+
         $this->userHandler->removeUser('testUser42');
 
         try {
@@ -60,7 +61,7 @@ class UserBasicTest extends
         }
         $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
     }
-    
+
     /**
      * Test permission handling
      */
@@ -70,29 +71,24 @@ class UserBasicTest extends
 
         $result = $this->userHandler->addUser('testUser42', 'testPasswd', true);
         $this->assertTrue($result);
-        
+
         $result = $this->userHandler->grantPermissions('testUser42', $this->connection->getDatabase());
         $this->assertTrue($result);
-        
-        $options = $this->connection->getOptions()->getAll();
-        $options[ConnectionOptions::OPTION_AUTH_USER] = 'testUser42';
+
+        $options                                        = $this->connection->getOptions()->getAll();
+        $options[ConnectionOptions::OPTION_AUTH_USER]   = 'testUser42';
         $options[ConnectionOptions::OPTION_AUTH_PASSWD] = 'testPasswd';
-        $userConnection = new Connection($options);
+        $userConnection                                 = new Connection($options);
 
         $userHandler = new UserHandler($userConnection);
-        $result = $userHandler->getDatabases('testUser42');
-        $this->assertEquals($result, array($this->connection->getDatabase()));
-        
+        $result      = $userHandler->getDatabases('testUser42');
+        $this->assertEquals($result, ['_system' => 'rw']);
+
         $result = $this->userHandler->revokePermissions('testUser42', $this->connection->getDatabase());
         $this->assertTrue($result);
 
-        try {
-            $result = $userHandler->getDatabases('testUser42');
-        } catch (\Exception $e) {
-            // Just give us the $e
-            $this->assertTrue($e->getCode() == 401);
-        }
-        $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
+        $result = $userHandler->getDatabases('testUser42');
+        $this->assertEquals($result, ['_system' => 'none']);
     }
 
 
@@ -171,8 +167,8 @@ class UserBasicTest extends
         $this->userHandler->removeUser('testUser1');
         $this->assertTrue($result);
     }
-    
-    
+
+
     // test functions on non-existent user
     public function testFunctionsOnNonExistentUser()
     {
@@ -225,7 +221,7 @@ class UserBasicTest extends
         } catch (\Exception $e) {
             // Do nothing
         }
-        
+
         try {
             $this->userHandler->removeUser('testUser42');
         } catch (\Exception $e) {

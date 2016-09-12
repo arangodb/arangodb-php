@@ -42,7 +42,7 @@ class DatabaseTest extends
     {
 
         $database = 'ArangoTestSuiteDatabaseTest01';
-        
+
         try {
             $e = null;
             Database::delete($this->connection, $database);
@@ -53,15 +53,15 @@ class DatabaseTest extends
         $response = Database::create($this->connection, $database);
 
         $this->assertTrue(
-             $response['error'] == false,
-             'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+            $response['error'] == false,
+            'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
 
         $response = Database::delete($this->connection, $database);
 
         $this->assertTrue(
-             $response['error'] == false,
-             'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+            $response['error'] == false,
+            'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
 
         $response = Database::listDatabases($this->connection);
@@ -80,8 +80,8 @@ class DatabaseTest extends
         $response = Database::create($this->connection, $database);
 
         $this->assertTrue(
-             $response['error'] == false,
-             'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+            $response['error'] == false,
+            'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
 
 
@@ -97,8 +97,8 @@ class DatabaseTest extends
         $response = Database::delete($this->connection, $database);
 
         $this->assertTrue(
-             $response['error'] == false,
-             'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+            $response['error'] == false,
+            'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
     }
 
@@ -114,8 +114,8 @@ class DatabaseTest extends
         $response = Database::create($this->connection, $database);
 
         $this->assertTrue(
-             $response['error'] == false,
-             'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+            $response['error'] == false,
+            'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
 
         $this->connection->setDatabase($database);
@@ -133,8 +133,8 @@ class DatabaseTest extends
         $response = Database::delete($this->connection, $database);
 
         $this->assertTrue(
-             $response['error'] == false,
-             'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+            $response['error'] == false,
+            'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
     }
 
@@ -169,7 +169,7 @@ class DatabaseTest extends
 
         $database  = 'ArangoTestSuiteDatabaseTest01';
         $database2 = 'ArangoTestSuiteDatabaseTest02';
-        
+
         try {
             $e = null;
             Database::delete($this->connection, $database);
@@ -180,8 +180,8 @@ class DatabaseTest extends
         $response = Database::create($this->connection, $database);
 
         $this->assertTrue(
-             $response['error'] == false,
-             'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+            $response['error'] == false,
+            'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
 
 
@@ -210,8 +210,8 @@ class DatabaseTest extends
         $response = Database::delete($this->connection, $database);
 
         $this->assertTrue(
-             $response['error'] == false,
-             'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+            $response['error'] == false,
+            'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
     }
 

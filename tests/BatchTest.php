@@ -10,11 +10,11 @@
 namespace triagens\ArangoDb;
 
 /**
- * @property Connection             connection
- * @property Collection             collection
- * @property CollectionHandler      collectionHandler
- * @property DocumentHandler        documentHandler
- * @property Collection             edgeCollection
+ * @property Connection connection
+ * @property Collection collection
+ * @property CollectionHandler collectionHandler
+ * @property DocumentHandler documentHandler
+ * @property Collection edgeCollection
  */
 class BatchTest extends
     \PHPUnit_Framework_TestCase
@@ -25,7 +25,7 @@ class BatchTest extends
 
         $this->documentHandler   = new DocumentHandler($this->connection);
         $this->collectionHandler = new CollectionHandler($this->connection);
-        
+
         try {
             $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
@@ -35,7 +35,7 @@ class BatchTest extends
         $this->collection = new Collection();
         $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
         $this->collectionHandler->add($this->collection);
-        
+
         try {
             $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestEdgeCollection01');
         } catch (\Exception $e) {
@@ -153,14 +153,14 @@ class BatchTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-                              array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
         $this->assertTrue(is_numeric($documentId), 'Did not return an id!');
 
         $document   = Document::createFromArray(
-                              array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+            array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
@@ -175,7 +175,7 @@ class BatchTest extends
     }
 
 
-    public function xtestCreateMixedBatchWithPartIds()
+    public function testCreateMixedBatchWithPartIds()
     {
         $edgeCollection = $this->edgeCollection;
 
@@ -203,8 +203,8 @@ class BatchTest extends
 
         $resultingAttribute = $resultingCollection->getName();
         $this->assertTrue(
-             $name === $resultingAttribute,
-             'The created collection name and resulting collection name do not match!'
+            $name === $resultingAttribute,
+            'The created collection name and resulting collection name do not match!'
         );
 
         $this->assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
@@ -216,7 +216,7 @@ class BatchTest extends
         $documentHandler = $this->documentHandler;
         $batch->nextBatchPartId('doc1');
         $document   = Document::createFromArray(
-                              array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
         );
         $documentId = $documentHandler->add($resultingCollectionId, $document);
 
@@ -224,10 +224,10 @@ class BatchTest extends
 
         for ($i = 0; $i <= 10; ++$i) {
             $document   = Document::createFromArray(
-                                  array(
-                                       'someAttribute'      => 'someValue' . $i,
-                                       'someOtherAttribute' => 'someOtherValue2' . $i
-                                  )
+                array(
+                    'someAttribute' => 'someValue' . $i,
+                    'someOtherAttribute' => 'someOtherValue2' . $i
+                )
             );
             $documentId = $documentHandler->add($resultingCollectionId, $document);
         }
@@ -260,10 +260,10 @@ class BatchTest extends
         $edgeDocumentHandler = new EdgeHandler($connection);
         $edgeDocument->set('label', 'knows');
         $edgeDocumentHandler->saveEdge(
-                            $edgeCollection->getName(),
-                            $document1->getHandle(),
-                            $document2->getHandle(),
-                            $edgeDocument
+            $edgeCollection->getName(),
+            $document1->getHandle(),
+            $document2->getHandle(),
+            $edgeDocument
         );
 
         $batch->process();
@@ -272,8 +272,8 @@ class BatchTest extends
 
 
         $this->assertFalse(
-             is_a($edge, 'triagens\ArangoDb\HttpResponse'),
-             'Edge batch creation did return an error: ' . print_r($edge, true)
+            is_a($edge, 'triagens\ArangoDb\HttpResponse'),
+            'Edge batch creation did return an error: ' . print_r($edge, true)
         );
         $this->assertTrue($edge == !'', 'Edge batch creation did return empty string: ' . print_r($edge, true));
 
@@ -290,19 +290,21 @@ class BatchTest extends
         $batch->nextBatchPartId('myBatchPart');
         // set cursor options for the next batchpart
         $batch->nextBatchPartCursorOptions(
-              array(
-                   "sanitize" => true,
-              )
+            array(
+                "sanitize" => true,
+            )
         );
 
 
         // set batchsize to 10, so we can test if an additional http request is done when we getAll() a bit later
-        $statement = new Statement($connection, array(
-                                                     "query"     => '',
-                                                     "count"     => true,
-                                                     "batchSize" => 10,
-                                                     "sanitize"  => true,
-                                                ));
+        $statement = new Statement(
+            $connection, array(
+            "query" => '',
+            "count" => true,
+            "batchSize" => 10,
+            "sanitize" => true,
+        )
+        );
 
         $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_02` RETURN a');
         $statement->execute();
@@ -312,17 +314,18 @@ class BatchTest extends
 
 
         $batch->nextBatchPartId('docsAfterRemoval');
-        $collectionHandler->getAllIds($resultingCollectionId);
 
         $batch->process();
+
+        $collectionHandler->getAllIds($resultingCollectionId);
 
         $stmtCursor = $batch->getProcessedPartResponse('myBatchPart');
 
         $this->assertTrue(
-             count($stmtCursor->getAll()) == 13,
-             'At the time of statement execution there should be 13 documents found! Found: ' . count(
-                 $stmtCursor->getAll()
-             )
+            count($stmtCursor->getAll()) == 13,
+            'At the time of statement execution there should be 13 documents found! Found: ' . count(
+                $stmtCursor->getAll()
+            )
         );
 
         // This fails but we'll just make a note because such a query is not needed to be batched.

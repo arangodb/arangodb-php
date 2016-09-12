@@ -26,7 +26,7 @@ class Exception extends
         if (is_string($message) && self::$enableLogging) {
             @error_log(get_class($this) . ': ' . $message);
             @error_log('Stack trace:');
-            foreach (explode(PHP_EOL, $this->getTraceAsString()) as $i => $line) { 
+            foreach (explode(PHP_EOL, $this->getTraceAsString()) as $i => $line) {
                 @error_log('   ' . $line);
             }
         }
@@ -37,18 +37,18 @@ class Exception extends
     /**
      * Turn on exception logging
      */
-    public static function enableLogging ()
+    public static function enableLogging()
     {
         self::$enableLogging = true;
     }
- 
+
     /**
      * Turn off exception logging
      */
-    public static function disableLogging ()
+    public static function disableLogging()
     {
         self::$enableLogging = false;
-    } 
+    }
 
     private static $enableLogging = false;
 }

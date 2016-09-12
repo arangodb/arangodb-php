@@ -55,11 +55,12 @@ class AdminHandler extends
 
         if ($details) {
             return $data;
-        } else {
+        }
+        else {
             return $data['version'];
         }
     }
-    
+
     /**
      * Get the server role
      *
@@ -72,7 +73,7 @@ class AdminHandler extends
      */
     public function getServerRole()
     {
-        $url = Urls::URL_ADMIN_SERVER_ROLE;
+        $url      = Urls::URL_ADMIN_SERVER_ROLE;
         $response = $this->getConnection()->get($url);
         $data     = $response->getJson();
 

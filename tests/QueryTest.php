@@ -12,8 +12,8 @@ namespace triagens\ArangoDb;
 /**
  * Class QueryTest
  *
- * @property Connection        $connection
- * @property QueryHandler      $queryHandler
+ * @property Connection $connection
+ * @property QueryHandler $queryHandler
  *
  * @package triagens\ArangoDb
  */
@@ -37,7 +37,7 @@ class QueryTest extends
         $command = 'require("internal").db._query("' . $query . '");';
 
         // executes the command on the server
-        $this->connection->post("/_admin/execute", $command, array ("X-Arango-Async" => "true"));
+        $this->connection->post("/_admin/execute", $command, array("X-Arango-Async" => "true"));
 
         // sleep a bit because we do not know when the server will start executing the query
         sleep(3);
