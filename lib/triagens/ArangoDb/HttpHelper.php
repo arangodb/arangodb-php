@@ -76,11 +76,6 @@ class HttpHelper
     const MIME_BOUNDARY = 'XXXsubpartXXX';
 
     /**
-     * HTTP Header for specifying a custom queue
-     */
-    const QUEUE_HEADER = 'X-Arango-Queue';
-    
-    /**
      * HTTP Header for making an operation asynchronous
      */
     const ASYNC_HEADER = 'X-Arango-Async';
@@ -138,7 +133,7 @@ class HttpHelper
             }
             else {
                 $contentType = "";
-            } 
+            }
         }
 
         $customHeader = "";

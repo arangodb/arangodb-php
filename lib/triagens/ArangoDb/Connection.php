@@ -24,13 +24,6 @@ namespace triagens\ArangoDb;
 class Connection
 {
     /**
-     * Api Version
-     *
-     * @var string
-     */
-    public static $_apiVersion = 20200;
-
-    /**
      * Connection options
      *
      * @var array
@@ -100,13 +93,6 @@ class Connection
     private $_batchRequest = false;
 
     /**
-     * custom queue name (leave empty if no custom queue is required)
-     *
-     * @var string
-     */
-    private $_customQueue = null;
-
-    /**
      * $_database string
      *
      * @var string
@@ -141,6 +127,16 @@ class Connection
         if ($this->_useKeepAlive && is_resource($this->_handle)) {
             @fclose($this->_handle);
         }
+    }
+
+    /**
+     * Get the options set for the connection
+     *
+     * @return ConnectionOptions
+     */
+    public function getOptions()
+    {
+        return $this->_options;
     }
 
     /**
@@ -198,40 +194,6 @@ class Connection
         $this->updateHttpHeader();
     }
 
-
-    /**
-     * Enables a custom queue name for all actions of the connection
-     *
-     * @param string $queueName - queue name
-     * @param number $count - number of requests the custom queue will be used for
-     * @internal this method is currently experimental. whether or not it will 
-     *           become part of the official API needs decision
-     */
-
-    public function enableCustomQueue($queueName, $count = null) 
-    {
-        $this->_options[ConnectionOptions::OPTION_CUSTOM_QUEUE] = $queueName;
-
-        if ($count !== null) {
-            if (! is_numeric($count) || $count <= 0) {
-                throw new ClientException('Invalid value for count value of custom queues');
-            }
-            $this->_options[ConnectionOptions::OPTION_CUSTOM_QUEUE_COUNT] = $count;
-        }
-    }
-
-    /**
-     * Disable usage of custom queue for all actions of the connection
-     *
-     * @internal this method is currently experimental. whether or not it will 
-     *           become part of the official API needs decision
-     */
-    public function disableCustomQueue() 
-    {
-        $this->_options[ConnectionOptions::OPTION_CUSTOM_QUEUE] = null;
-        $this->_options[ConnectionOptions::OPTION_CUSTOM_QUEUE_COUNT] = null;
-    }
- 
 
     /**
      * Issue an HTTP GET request
@@ -372,8 +334,6 @@ class Connection
             $this->_httpHeader .= sprintf('Connection: %s%s', $this->_options[ConnectionOptions::OPTION_CONNECTION], HttpHelper::EOL);
         }
 
-        $this->_httpHeader .= sprintf('X-Arango-Version: %s%s', self::$_apiVersion, HttpHelper::EOL);
-
         if ($this->_database === '') {
             $this->_baseUrl = '/_db/_system';
         } else {
@@ -481,27 +441,6 @@ class Connection
             $wasAsync = true;
         }
 
-        // check if a custom queue should be used
-        if (! isset($customHeaders[ConnectionOptions::OPTION_CUSTOM_QUEUE]) &&
-            $this->_options[ConnectionOptions::OPTION_CUSTOM_QUEUE] !== null) {
-
-            $customHeaders[HttpHelper::QUEUE_HEADER] = $this->_options[ConnectionOptions::OPTION_CUSTOM_QUEUE]; 
-
-            // check if a counter is set for the custom queue
-            $count = $this->_options[ConnectionOptions::OPTION_CUSTOM_QUEUE_COUNT];
-            if ($count !== null) {
-                // yes, now decrease the counter
-
-                if ($count === 1) {
-                    $this->disableCustomQueue();
-                }
-                else {
-                    $this->_options->offsetSet(ConnectionOptions::OPTION_CUSTOM_QUEUE_COUNT, $count - 1);
-                }
-            }
-        }
-        
-
         HttpHelper::validateMethod($method);
         $url = $this->_baseUrl . $url;
 
@@ -531,6 +470,7 @@ class Connection
             $this->_options->offsetSet(ConnectionOptions::OPTION_BATCH, false);
         }
 
+        $request = HttpHelper::buildRequest($this->_options, $this->_httpHeader, $method, $url, $data, $customHeaders);
 
         $traceFunc = $this->_options[ConnectionOptions::OPTION_TRACE];
         if ($traceFunc) {
@@ -591,27 +531,6 @@ class Connection
         }
 
         throw new ClientException('Whoops, this should never happen');
-    }
-
-    /**
-     * Get the client version (alias for getClientVersion)
-     *
-     * @return string
-     */
-    public static function getVersion()
-    {
-        return self::getClientVersion();
-    }
-
-
-    /**
-     * Get the client version
-     *
-     * @return string
-     */
-    public static function getClientVersion()
-    {
-        return self::$_apiVersion;
     }
 
     /**
@@ -724,7 +643,6 @@ class Connection
         # do batch processing
         return $batchPart;
     }
-
 
     /**
      * This function checks that the encoding of a string is utf.

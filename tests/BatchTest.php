@@ -313,9 +313,10 @@ class BatchTest extends
 
 
         $batch->nextBatchPartId('docsAfterRemoval');
-        $collectionHandler->getAllIds($resultingCollectionId);
 
         $batch->process();
+
+        $collectionHandler->getAllIds($resultingCollectionId);
 
         $stmtCursor = $batch->getProcessedPartResponse('myBatchPart');
 

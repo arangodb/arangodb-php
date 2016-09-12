@@ -129,7 +129,8 @@ class EdgeBasicTest extends
                                                      "sanitize"  => true,
                                                 ));
         $statement->setQuery(
-                  'FOR p IN PATHS(ArangoDBPHPTestSuiteTestCollection01, ArangoDBPHPTestSuiteTestEdgeCollection01, "outbound")  RETURN p'
+                  'FOR start IN ArangoDBPHPTestSuiteTestCollection01 FOR v, e, p IN 0..1000 OUTBOUND start ArangoDBPHPTestSuiteTestEdgeCollection01 RETURN { source: start, destination: v, edges: p.edges, vertices: p.vertices }'
+
         );
         $cursor = $statement->execute();
 

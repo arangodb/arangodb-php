@@ -46,15 +46,11 @@ function getConnectionOptions()
         // can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
         ConnectionOptions::OPTION_AUTH_TYPE     => 'Basic',
         // use basic authorization
-        /*
-        ConnectionOptions::OPTION_AUTH_USER       => '',                      // user for basic authorization
-        ConnectionOptions::OPTION_AUTH_PASSWD     => '',                      // password for basic authorization
-        ConnectionOptions::OPTION_PORT            => 8529,                    // port to connect to (deprecated, should use endpoint instead)
-        ConnectionOptions::OPTION_HOST            => "localhost",             // host to connect to (deprecated, should use endpoint instead)
-        */
+        ConnectionOptions::OPTION_AUTH_USER     => 'root',                  // user for basic authorization
+        ConnectionOptions::OPTION_AUTH_PASSWD   => '',                      // password for basic authorization
         ConnectionOptions::OPTION_TIMEOUT       => 12,
         // timeout in seconds
-        //ConnectionOptions::OPTION_TRACE           => $traceFunc,              // tracer function, can be used for debugging
+        //ConnectionOptions::OPTION_TRACE       => $traceFunc,              // tracer function, can be used for debugging
         ConnectionOptions::OPTION_CREATE        => false,
         // do not create unknown collections automatically
         ConnectionOptions::OPTION_UPDATE_POLICY => UpdatePolicy::LAST,

@@ -120,13 +120,6 @@ class Statement
     private $_cache = null;
 
     /**
-     * Custom queue name
-     *
-     * @var string 
-     */
-    private $_customQueue = null;
-    
-    /**
      * resultType
      *
      * @var string
@@ -224,10 +217,6 @@ class Statement
         if (isset($data[Cursor::ENTRY_CACHE])) {
             $this->_cache = (bool) $data[Cursor::ENTRY_CACHE];
         }
-
-        if (isset($data[Cursor::ENTRY_CUSTOM_QUEUE])) {
-            $this->_customQueue = $data[Cursor::ENTRY_CUSTOM_QUEUE];
-        }
     }
 
     /**
@@ -260,8 +249,7 @@ class Statement
         $tries = 0;
         while (true) {
             try {
-                $response = $this->_connection->post(Urls::URL_CURSOR, $this->getConnection()->json_encode_wrapper($data), $this->buildHeaders());
-        
+                $response = $this->_connection->post(Urls::URL_CURSOR, $this->getConnection()->json_encode_wrapper($data), array());
                 return new Cursor($this->_connection, $response->getJson(), $this->getCursorOptions());
             }
             catch (ServerException $e) {
@@ -289,8 +277,7 @@ class Statement
     public function explain()
     {
         $data     = $this->buildData();
-        $response = $this->_connection->post(Urls::URL_EXPLAIN, $this->getConnection()->json_encode_wrapper($data), $this->buildHeaders());
-
+        $response = $this->_connection->post(Urls::URL_EXPLAIN, $this->getConnection()->json_encode_wrapper($data), array());
         return $response->getJson();
     }
 
@@ -306,8 +293,7 @@ class Statement
     public function validate()
     {
         $data     = $this->buildData();
-        $response = $this->_connection->post(Urls::URL_QUERY, $this->getConnection()->json_encode_wrapper($data), $this->buildHeaders());
-
+        $response = $this->_connection->post(Urls::URL_QUERY, $this->getConnection()->json_encode_wrapper($data), array());
         return $response->getJson();
     }
 
@@ -512,20 +498,6 @@ class Statement
 
 
     /**
-     * Build headers for the statement requests
-     *
-     * @return array - headers used when executing the statement
-     */
-    private function buildHeaders()  
-    {
-        if ($this->_customQueue === null || $this->_customQueue === '') {
-            return array();
-        }
-
-        return array(HttpHelper::QUEUE_HEADER => $this->_customQueue);
-    }
-
-    /**
      * Build an array of data to be posted to the server when issuing the statement
      *
      * @return array - array of data to be sent to server
@@ -568,9 +540,6 @@ class Statement
         );
         if (isset($this->resultType)) {
             $result[Cursor::ENTRY_TYPE]  = $this->resultType; 
-        }
-        if ($this->_customQueue !== null && $this->_customQueue !== '') {
-            $result[Cursor::ENTRY_CUSTOM_QUEUE] = $this->_customQueue;
         }
         return $result;
     }

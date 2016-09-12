@@ -2,8 +2,6 @@ language: php
 
 matrix:
   include:
-    - php: '5.4'
-      env: PHP_VERSION_USED="5.4"
     - php: '5.5'
       env: PHP_VERSION_USED="5.5"
     - php: '5.6'
@@ -19,8 +17,7 @@ before_script:
   - chmod 777 ./tests/travis/setup_arangodb.sh
   - ./tests/travis/setup_arangodb.sh
 
-script: 
-  - if [[ "${PHP_VERSION_USED}" == "5.4" ]]; then phpunit --configuration ./tests/phpunit.xml; fi
+script:
   - if [[ "${PHP_VERSION_USED}" == "5.5" ]]; then phpunit --configuration ./tests/phpunit.xml; fi
   - if [[ "${PHP_VERSION_USED}" == "5.6" ]]; then phpunit --configuration ./tests/phpunit.xml; fi
   - if [[ "${PHP_VERSION_USED}" == "7.0" ]]; then (cd tests && ../phpunit.phar . --colors=auto --verbose --bootstrap=bootstrap.php); fi

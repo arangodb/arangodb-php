@@ -319,6 +319,9 @@ class Batch
     {
         preg_match('%/_api/simple/(?P<simple>\w*)|/_api/(?P<direct>\w*)%ix', $request, $regs);
 
+        if (!isset($regs['direct'])) {
+            $regs['direct'] = '';
+        }
         $type = $regs['direct'] != '' ? $regs['direct'] : $regs['simple'];
 
         if ($type == $regs['direct'] && $method == 'GET') {

@@ -258,21 +258,6 @@ class ConnectionTest extends
     }
 
     /**
-     * Test if we can get the api version
-     */
-    public function testGetApiVersion()
-    {
-        $connection = getConnection();
-
-        $response = $connection->getVersion();
-        $this->assertTrue($response >0, 'Version number is not correct!');
-
-        $response = $connection->getClientVersion();
-        $this->assertTrue($response >0, 'Version number is not correct!');
-    }
-
-    
-    /**
      * Test "connection: close"
      */
     public function testConnectionClose()
@@ -346,8 +331,15 @@ class ConnectionTest extends
         $connection   = new Connection($options);
         $adminHandler = new AdminHandler($connection);
 
-        $adminHandler->getServerVersion();
-        $this->assertTrue($done);
+        $excepted = false;
+        try {
+            $adminHandler->getServerVersion();
+        } catch (ServerException $exception) {
+            $excepted = true;
+            $this->assertEquals($exception->getCode(), 401);
+        }
+
+        $this->assertTrue($excepted);
     }
 
     /**

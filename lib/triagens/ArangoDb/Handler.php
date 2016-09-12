@@ -39,34 +39,6 @@ abstract class Handler
     }
 
     /**
-     * Enables a custom queue name for all actions of this handler and other actions
-     * that use the same connection
-     *
-     * @param string $queueName - queue name
-     * @param number $count - number of requests the custom queue will be used for
-     * @internal this method is currently experimental. whether or not it will 
-     *           become part of the official API needs decision
-     */
-    public function enableCustomQueue($queueName, $count = null) 
-    {
-        // pass it on to the connection
-        $this->_connection->enableCustomQueue($queueName, $count);
-    }
-
-    /**
-     * Disable usage of custom queue for this handler and other actions that use the
-     * same connection
-     *
-     * @internal this method is currently experimental. whether or not it will 
-     *           become part of the official API needs decision
-     */
-    public function disableCustomQueue() 
-    {
-        // pass it on to the connection
-        $this->_connection->disableCustomQueue();
-    }
-
-    /**
      * Return the connection object
      *
      * @return Connection - the connection object
@@ -165,9 +137,9 @@ abstract class Handler
             UpdatePolicy::validate($value);
         }
 
-        if (is_bool($value)) {
-            $value = UrlHelper::getBoolString($value);
-        }
+//        if (is_bool($value)) {
+//            $value = UrlHelper::getBoolString($value);
+//        }
 
         $params[$parameter] = $value;
 
@@ -233,4 +205,24 @@ abstract class Handler
 
         return $body;
     }
+
+    /**
+     * Turn a value into a collection name
+     *
+     * @throws ClientException
+     *
+     * @param mixed $value - document, collection or string
+     *
+     * @return string - collection name
+     */
+    protected function makeCollection($value) {
+        if ($value instanceof Collection) {
+            return $value->getName();
+        }
+        if ($value instanceof Document) {
+            return $value->getCollectionId();
+        }
+        return $value;
+    }
+
 }

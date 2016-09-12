@@ -455,22 +455,17 @@ class TraversalTest extends
         // keeping test simple.
         $this->assertCount(11, $result['result']['visited']['vertices']);
         $this->assertCount(11, $result['result']['visited']['paths']);
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][0]['name'] == 'Alice',
-             'name is: ' . $result['result']['visited']['vertices'][0]['name']
-        );
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][1]['name'] == 'Eve',
-             'name is: ' . $result['result']['visited']['vertices'][1]['name']
-        );
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][3]['name'] == 'Alice',
-             'name is: ' . $result['result']['visited']['vertices'][3]['name']
-        );
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][8]['name'] == 'Alice',
-             'name is: ' . $result['result']['visited']['vertices'][8]['name']
-        );
+
+        $vertices = array();
+        foreach ($result['result']['visited']['vertices'] as $vertex) {
+             @$vertices[$vertex["name"]]++;
+        }
+
+        $this->assertEquals(3, $vertices["Alice"]);
+        $this->assertEquals(2, $vertices["Bob"]);
+        $this->assertEquals(2, $vertices["Charlie"]);
+        $this->assertEquals(2, $vertices["Dave"]);
+        $this->assertEquals(2, $vertices["Eve"]);
     }
 
 
@@ -499,22 +494,17 @@ class TraversalTest extends
         // keeping test simple.
         $this->assertCount(11, $result['result']['visited']['vertices']);
         $this->assertCount(11, $result['result']['visited']['paths']);
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][0]['name'] == 'Alice',
-             'name is: ' . $result['result']['visited']['vertices'][0]['name']
-        );
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][1]['name'] == 'Charlie',
-             'name is: ' . $result['result']['visited']['vertices'][1]['name']
-        );
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][5]['name'] == 'Alice',
-             'name is: ' . $result['result']['visited']['vertices'][5]['name']
-        );
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][10]['name'] == 'Alice',
-             'name is: ' . $result['result']['visited']['vertices'][10]['name']
-        );
+
+        $vertices = array();
+        foreach ($result['result']['visited']['vertices'] as $vertex) {
+             @$vertices[$vertex["name"]]++;
+        }
+
+        $this->assertEquals(3, $vertices["Alice"]);
+        $this->assertEquals(2, $vertices["Bob"]);
+        $this->assertEquals(2, $vertices["Charlie"]);
+        $this->assertEquals(2, $vertices["Dave"]);
+        $this->assertEquals(2, $vertices["Eve"]);
     }
 
 
@@ -543,22 +533,17 @@ class TraversalTest extends
         // keeping test simple.
         $this->assertCount(11, $result['result']['visited']['vertices']);
         $this->assertCount(11, $result['result']['visited']['paths']);
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][0]['name'] == 'Alice',
-             'name is: ' . $result['result']['visited']['vertices'][0]['name']
-        );
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][1]['name'] == 'Bob',
-             'name is: ' . $result['result']['visited']['vertices'][1]['name']
-        );
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][5]['name'] == 'Alice',
-             'name is: ' . $result['result']['visited']['vertices'][5]['name']
-        );
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][10]['name'] == 'Alice',
-             'name is: ' . $result['result']['visited']['vertices'][10]['name']
-        );
+
+        $vertices = array();
+        foreach ($result['result']['visited']['vertices'] as $vertex) {
+             @$vertices[$vertex["name"]]++;
+        }
+
+        $this->assertEquals(3, $vertices["Alice"]);
+        $this->assertEquals(2, $vertices["Bob"]);
+        $this->assertEquals(2, $vertices["Charlie"]);
+        $this->assertEquals(2, $vertices["Dave"]);
+        $this->assertEquals(2, $vertices["Eve"]);
     }
 
 
@@ -587,14 +572,17 @@ class TraversalTest extends
         // keeping test simple.
         $this->assertCount(6, $result['result']['visited']['vertices']);
         $this->assertCount(6, $result['result']['visited']['paths']);
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][0]['name'] == 'Alice',
-             'name is: ' . $result['result']['visited']['vertices'][0]['name']
-        );
-        $this->assertTrue(
-             $result['result']['visited']['vertices'][3]['name'] == 'Alice',
-             'name is: ' . $result['result']['visited']['vertices'][3]['name']
-        );
+
+        $vertices = array();
+        foreach ($result['result']['visited']['vertices'] as $vertex) {
+             @$vertices[$vertex["name"]]++;
+        }
+
+        $this->assertEquals(2, $vertices["Alice"]);
+        $this->assertEquals(1, $vertices["Bob"]);
+        $this->assertEquals(1, $vertices["Charlie"]);
+        $this->assertEquals(1, $vertices["Dave"]);
+        $this->assertEquals(1, $vertices["Eve"]);
     }
 
 

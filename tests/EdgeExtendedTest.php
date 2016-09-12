@@ -319,6 +319,8 @@ class EdgeExtendedTest extends
         $edgePutDocument->set('_id', $edgeDocument->getHandle());
         $edgePutDocument->set('_rev', $edgeDocument->getRevision());
         $edgePutDocument->set('labels', "as");
+        $edgePutDocument->setFrom($documentHandle1);
+        $edgePutDocument->setTo($documentHandle2);
         $result = $edgeHandler->replace($edgePutDocument);
 
         $this->assertTrue($result);
