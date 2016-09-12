@@ -10,7 +10,7 @@
 namespace triagens\ArangoDb;
 
 /**
- * @property Connection   connection
+ * @property Connection connection
  * @property AdminHandler adminHandler
  */
 class AdminTest extends
@@ -40,9 +40,9 @@ class AdminTest extends
         $result = $this->adminHandler->getServerVersion(true);
         $this->assertInternalType('array', $result, "The server version details must be an array!");
         $this->assertInternalType(
-             'array',
-             $result['details'],
-             "The server version details must have a `details` array!"
+            'array',
+            $result['details'],
+            "The server version details must have a `details` array!"
         );
 
         // intentionally dumping the result, so that we have a bit more info about the Arango build we're testing in the log.

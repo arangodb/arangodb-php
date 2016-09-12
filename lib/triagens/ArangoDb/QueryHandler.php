@@ -18,7 +18,7 @@ class QueryHandler extends
      *
      * @throws Exception
      */
-    public function clearSlow() 
+    public function clearSlow()
     {
         $url = UrlHelper::buildUrl(Urls::URL_QUERY, array('slow'));
         $this->getConnection()->delete($url);
@@ -31,7 +31,7 @@ class QueryHandler extends
      *
      * @return array
      */
-    public function getSlow() 
+    public function getSlow()
     {
         $url      = UrlHelper::buildUrl(Urls::URL_QUERY, array('slow'));
         $response = $this->getConnection()->get($url);
@@ -47,7 +47,7 @@ class QueryHandler extends
      *
      * @return array
      */
-    public function getCurrent() 
+    public function getCurrent()
     {
         $url      = UrlHelper::buildUrl(Urls::URL_QUERY, array('current'));
         $response = $this->getConnection()->get($url);
@@ -67,9 +67,9 @@ class QueryHandler extends
      *
      * @return bool
      */
-    public function kill($id) 
+    public function kill($id)
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_QUERY, array($id));
+        $url = UrlHelper::buildUrl(Urls::URL_QUERY, array($id));
         $this->getConnection()->delete($url);
 
         return true;

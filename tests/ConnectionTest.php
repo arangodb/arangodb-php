@@ -12,11 +12,11 @@ namespace triagens\ArangoDb;
 /**
  * Class ConnectionTest
  *
- * @property Connection        $connection
- * @property Collection        $collection
- * @property Collection        $edgeCollection
+ * @property Connection $connection
+ * @property Collection $collection
+ * @property Collection $edgeCollection
  * @property CollectionHandler $collectionHandler
- * @property DocumentHandler   $documentHandler
+ * @property DocumentHandler $documentHandler
  *
  * @package triagens\ArangoDb
  */
@@ -65,23 +65,23 @@ class ConnectionTest extends
 
         $value = $connection->getOption(ConnectionOptions::OPTION_TIMEOUT);
         $this->assertEquals(12, $value);
-        
+
         $value = $connection->getOption(ConnectionOptions::OPTION_CONNECTION);
         $this->assertEquals('Close', $value);
-        
+
         $value = $connection->getOption(ConnectionOptions::OPTION_RECONNECT);
         $this->assertFalse($value);
 
         $value = $connection->getOption(ConnectionOptions::OPTION_DATABASE);
         $this->assertEquals("_system", $value);
-        
+
         $value = $connection->getOption(ConnectionOptions::OPTION_VERIFY_CERT);
         $this->assertFalse($value);
-        
+
         $value = $connection->getOption(ConnectionOptions::OPTION_ALLOW_SELF_SIGNED);
         $this->assertTrue($value);
     }
-    
+
     /**
      * Test set options
      */
@@ -93,22 +93,22 @@ class ConnectionTest extends
         $connection->setOption(ConnectionOptions::OPTION_TIMEOUT, 10);
         $value = $connection->getOption(ConnectionOptions::OPTION_TIMEOUT);
         $this->assertEquals(10, $value);
-        
+
         // connection
         $connection->setOption(ConnectionOptions::OPTION_CONNECTION, 'Keep-Alive');
         $value = $connection->getOption(ConnectionOptions::OPTION_CONNECTION);
         $this->assertEquals('Keep-Alive', $value);
-       
+
         // reconnect 
         $connection->setOption(ConnectionOptions::OPTION_RECONNECT, true);
         $value = $connection->getOption(ConnectionOptions::OPTION_RECONNECT);
         $this->assertTrue($value);
-        
+
         $connection->setOption(ConnectionOptions::OPTION_RECONNECT, false);
         $value = $connection->getOption(ConnectionOptions::OPTION_RECONNECT);
         $this->assertFalse($value);
     }
-    
+
     /**
      * Test set invalid options
      *
@@ -121,7 +121,7 @@ class ConnectionTest extends
         // will fail!
         $connection->setOption(ConnectionOptions::OPTION_ENDPOINT, "tcp://127.0.0.1:8529");
     }
-    
+
     /**
      * Test set invalid options
      *
@@ -134,7 +134,7 @@ class ConnectionTest extends
         // will fail!
         $connection->setOption(ConnectionOptions::OPTION_ALLOW_SELF_SIGNED, true);
     }
-    
+
     /**
      * Test set invalid options
      *
@@ -147,7 +147,7 @@ class ConnectionTest extends
         // will fail!
         $connection->setOption(ConnectionOptions::OPTION_VERIFY_CERT, true);
     }
-    
+
     /**
      * Test set invalid options
      *
@@ -160,7 +160,7 @@ class ConnectionTest extends
         // will fail!
         $connection->setOption(ConnectionOptions::OPTION_CIPHERS, "ALL");
     }
-    
+
     /**
      * Test set invalid options
      *
@@ -173,7 +173,7 @@ class ConnectionTest extends
         // will fail!
         $connection->setOption(ConnectionOptions::OPTION_HOST, "127.0.0.1");
     }
-    
+
     /**
      * Test set invalid options
      *
@@ -186,7 +186,7 @@ class ConnectionTest extends
         // will fail!
         $connection->setOption(ConnectionOptions::OPTION_PORT, "127.0.0.1");
     }
-    
+
     /**
      * Test get/set database
      */
@@ -196,29 +196,29 @@ class ConnectionTest extends
 
         $value = $connection->getOption(ConnectionOptions::OPTION_DATABASE);
         $this->assertEquals("_system", $value);
-        
+
         $value = $connection->getDatabase();
         $this->assertEquals("_system", $value);
-       
+
         // set the database to something else and re-check
         $connection->setDatabase("foobar");
-        
+
         $value = $connection->getOption(ConnectionOptions::OPTION_DATABASE);
         $this->assertEquals("foobar", $value);
-        
+
         $value = $connection->getDatabase();
         $this->assertEquals("foobar", $value);
-        
+
         // set the database back and re-check
         $connection->setOption(ConnectionOptions::OPTION_DATABASE, "_system");
-        
+
         $value = $connection->getOption(ConnectionOptions::OPTION_DATABASE);
         $this->assertEquals("_system", $value);
-        
+
         $value = $connection->getDatabase();
         $this->assertEquals("_system", $value);
     }
-    
+
     /**
      * Test timeout exception
      *
@@ -240,7 +240,7 @@ class ConnectionTest extends
             throw $exception;
         }
     }
-    
+
     /**
      * Test timeout, no exception
      */
@@ -261,9 +261,9 @@ class ConnectionTest extends
      * Test "connection: close"
      */
     public function testConnectionClose()
-    {   
-        $done = false;                                                                                            
-        $self = $this; //Hack for PHP 5.3 compatibility
+    {
+        $done   = false;
+        $self   = $this; //Hack for PHP 5.3 compatibility
         $tracer = function ($type, $data) use ($self, &$done) {
             if ($type === 'send') {
                 $self->assertTrue(stripos($data, "Connection: Close") !== false);
@@ -271,9 +271,9 @@ class ConnectionTest extends
             }
         };
 
-        $options = getConnectionOptions();
+        $options                                       = getConnectionOptions();
         $options[ConnectionOptions::OPTION_CONNECTION] = "Close";
-        $options[ConnectionOptions::OPTION_TRACE] = $tracer;
+        $options[ConnectionOptions::OPTION_TRACE]      = $tracer;
 
         $connection   = new Connection($options);
         $adminHandler = new AdminHandler($connection);
@@ -281,15 +281,15 @@ class ConnectionTest extends
         $adminHandler->getServerVersion();
         $this->assertTrue($done);
     }
-   
+
 
     /**
      * Test "connection: close"
      */
     public function testConnectionKeepAlive()
-    {   
-        $done = false;                                                                                            
-        $self = $this; //Hack for PHP 5.3 compatibility
+    {
+        $done   = false;
+        $self   = $this; //Hack for PHP 5.3 compatibility
         $tracer = function ($type, $data) use ($self, &$done) {
             if ($type === 'send') {
                 $self->assertTrue(stripos($data, "Connection: Keep-Alive") !== false);
@@ -297,9 +297,9 @@ class ConnectionTest extends
             }
         };
 
-        $options = getConnectionOptions();
+        $options                                       = getConnectionOptions();
         $options[ConnectionOptions::OPTION_CONNECTION] = "Keep-Alive";
-        $options[ConnectionOptions::OPTION_TRACE] = $tracer;
+        $options[ConnectionOptions::OPTION_TRACE]      = $tracer;
 
         $connection   = new Connection($options);
         $adminHandler = new AdminHandler($connection);
@@ -313,9 +313,9 @@ class ConnectionTest extends
      * Test the authentication
      */
     public function testAuthentication()
-    {                                                                                               
-        $done = false;
-        $self = $this; //Hack for PHP 5.3 compatibility
+    {
+        $done   = false;
+        $self   = $this; //Hack for PHP 5.3 compatibility
         $tracer = function ($type, $data) use ($self, &$done) {
             if ($type === 'send') {
                 $self->assertTrue(strpos($data, "Authorization: Basic " . base64_encode("theQuickBrownFox:jumped-over-it")) !== false);
@@ -323,10 +323,10 @@ class ConnectionTest extends
             }
         };
 
-        $options = getConnectionOptions();
-        $options[ConnectionOptions::OPTION_AUTH_USER] = "theQuickBrownFox";
+        $options                                        = getConnectionOptions();
+        $options[ConnectionOptions::OPTION_AUTH_USER]   = "theQuickBrownFox";
         $options[ConnectionOptions::OPTION_AUTH_PASSWD] = "jumped-over-it";
-        $options[ConnectionOptions::OPTION_TRACE] = $tracer;
+        $options[ConnectionOptions::OPTION_TRACE]       = $tracer;
 
         $connection   = new Connection($options);
         $adminHandler = new AdminHandler($connection);
@@ -338,7 +338,7 @@ class ConnectionTest extends
             $excepted = true;
             $this->assertEquals($exception->getCode(), 401);
         }
-        
+
         $this->assertTrue($excepted);
     }
 
@@ -351,9 +351,9 @@ class ConnectionTest extends
         $self        = $this; //Hack for PHP 5.3 compatibility
         $basicTracer = function ($type, $data) use ($self) {
             $self->assertContains(
-                 $type,
-                 array('send', 'receive'),
-                 'Basic tracer\'s type should only be \'send\' or \'receive\''
+                $type,
+                array('send', 'receive'),
+                'Basic tracer\'s type should only be \'send\' or \'receive\''
             );
             $self->assertInternalType('string', $data, 'Basic tracer data is not a string!.');
         };
@@ -384,8 +384,8 @@ class ConnectionTest extends
 
         $enhancedTracer = function ($data) use ($self) {
             $self->assertTrue(
-                 $data instanceof TraceRequest || $data instanceof TraceResponse,
-                 '$data must be instance of TraceRequest or TraceResponse.'
+                $data instanceof TraceRequest || $data instanceof TraceResponse,
+                '$data must be instance of TraceRequest or TraceResponse.'
             );
 
             $self->assertInternalType('array', $data->getHeaders(), 'Headers should be an array!');
@@ -394,16 +394,16 @@ class ConnectionTest extends
 
             if ($data instanceof TraceRequest) {
                 $self->assertContains(
-                     $data->getMethod(),
-                     array(
-                          HttpHelper::METHOD_DELETE,
-                          HttpHelper::METHOD_GET,
-                          HttpHelper::METHOD_HEAD,
-                          HttpHelper::METHOD_PATCH,
-                          HttpHelper::METHOD_POST,
-                          HttpHelper::METHOD_PUT
-                     ),
-                     'Invalid http method!'
+                    $data->getMethod(),
+                    array(
+                        HttpHelper::METHOD_DELETE,
+                        HttpHelper::METHOD_GET,
+                        HttpHelper::METHOD_HEAD,
+                        HttpHelper::METHOD_PATCH,
+                        HttpHelper::METHOD_POST,
+                        HttpHelper::METHOD_PUT
+                    ),
+                    'Invalid http method!'
                 );
 
                 $self->assertInternalType('string', $data->getRequestUrl(), 'Request url must be a string!');
@@ -413,12 +413,13 @@ class ConnectionTest extends
                     $self->assertInternalType('string', $value, "The header value should be a string");
                     $self->assertInternalType('string', $header, "The header should be a string");
                 }
-            } else {
+            }
+            else {
                 $self->assertInternalType('integer', $data->getHttpCode(), 'Http code must be an integer!');
                 $self->assertInternalType(
-                     'string',
-                     $data->getHttpCodeDefinition(),
-                     'Http code definition must be a string!'
+                    'string',
+                    $data->getHttpCodeDefinition(),
+                    'Http code definition must be a string!'
                 );
                 $self->assertEquals('response', $data->getType());
                 $self->assertInternalType('float', $data->getTimeTaken());

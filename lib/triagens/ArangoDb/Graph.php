@@ -28,47 +28,47 @@ class Graph extends
      * Graph edge definitions
      */
     const ENTRY_EDGE_DEFINITIONS = 'edgeDefinitions';
-    
+
     /**
      * Graph edge definitions from collections
      */
     const ENTRY_FROM = 'from';
-    
+
     /**
      * Graph edge definitions to collections
      */
     const ENTRY_TO = 'to';
-    
+
     /**
      * Graph edge definitions collections
      */
     const ENTRY_COLLECTION = 'collection';
-    
+
     /**
      * Graph orphan collections
      */
     const ENTRY_ORPHAN_COLLECTIONS = 'orphanCollections';
-    
+
     /**
      * The list of edge definitions defining the graph.
      *
      * @var EdgeDefinition[] list of edge definitions.
      */
     protected $_edgeDefinitions = array();
-    
+
     /**
      * The list of orphan collections defining the graph.
      * These collections are not used in any edge definition of the graph.
      *
      * @var array list of orphan collections.
-    */
+     */
     protected $_orphanCollections = array();
-    
-    
+
+
     /**
      * Constructs an empty graph
      *
-     * @param array $name    - optional, initial name for graph
+     * @param array $name - optional, initial name for graph
      * @param array $options - optional, initial options for graph
      * @since     1.2
      * @return Graph
@@ -95,14 +95,14 @@ class Graph extends
      * @deprecated to be removed in version 2.2 - Please define a graph with the edge definitions.
      */
     public function setVerticesCollection($verticesCollection)
-    {	
-    	$edgeDefinition = $this->getSingleUndirectedRelation();
-    	$edgeDefinition->clearFromCollection();
-    	$edgeDefinition->clearToCollection();
-    	$edgeDefinition->addFromCollection($verticesCollection);
-    	$edgeDefinition->addToCollection($verticesCollection);
-    	$this->addEdgeDefinition($edgeDefinition);
-        
+    {
+        $edgeDefinition = $this->getSingleUndirectedRelation();
+        $edgeDefinition->clearFromCollection();
+        $edgeDefinition->clearToCollection();
+        $edgeDefinition->addFromCollection($verticesCollection);
+        $edgeDefinition->addToCollection($verticesCollection);
+        $this->addEdgeDefinition($edgeDefinition);
+
         return $this;
     }
 
@@ -115,13 +115,13 @@ class Graph extends
      */
     public function getVerticesCollection()
     {
-    	$edgeDefinition = $this->getSingleUndirectedRelation();
-    	if (count($edgeDefinition->getFromCollections()) === 0) {
-    		return null;
-    	}
-    	$this->addEdgeDefinition($edgeDefinition);
-    	$fc = $edgeDefinition->getFromCollections();
-    	return $fc[0];
+        $edgeDefinition = $this->getSingleUndirectedRelation();
+        if (count($edgeDefinition->getFromCollections()) === 0) {
+            return null;
+        }
+        $this->addEdgeDefinition($edgeDefinition);
+        $fc = $edgeDefinition->getFromCollections();
+        return $fc[0];
     }
 
     /**
@@ -131,7 +131,7 @@ class Graph extends
      *
      * @return Graph - graph object
      * @since     1.2
-	 * @deprecated to be removed in version 2.2 - Please define a graph with the edge definitions.
+     * @deprecated to be removed in version 2.2 - Please define a graph with the edge definitions.
      */
     public function setEdgesCollection($edgesCollection)
     {
@@ -152,10 +152,10 @@ class Graph extends
     {
         $edgeDefinition = $this->getSingleUndirectedRelation();
         $this->addEdgeDefinition($edgeDefinition);
-    	return $edgeDefinition->getRelation();
+        return $edgeDefinition->getRelation();
     }
-    
-    
+
+
     /**
      * Adds an edge definition to the graph.
      *
@@ -166,11 +166,11 @@ class Graph extends
      */
     public function addEdgeDefinition(EdgeDefinition $edgeDefinition)
     {
-    	$this->_edgeDefinitions[] = $edgeDefinition;
-    
-    	return $this;
+        $this->_edgeDefinitions[] = $edgeDefinition;
+
+        return $this;
     }
-    
+
     /**
      * Get the edge definitions of the graph.
      *
@@ -179,10 +179,10 @@ class Graph extends
      */
     public function getEdgeDefinitions()
     {
-    	return $this->_edgeDefinitions;
+        return $this->_edgeDefinitions;
     }
-    
-    
+
+
     /**
      * Adds an orphan collection to the graph.
      *
@@ -193,23 +193,23 @@ class Graph extends
      */
     public function addOrphanCollection($orphanCollection)
     {
-    	$this->_orphanCollections[] = $orphanCollection;
-    
-    	return $this;
+        $this->_orphanCollections[] = $orphanCollection;
+
+        return $this;
     }
-    
+
     /**
      * Get the orphan collections of the graph.
      *
-     * @return string[] 
+     * @return string[]
      * @since     2.2
      */
     public function getOrphanCollections()
     {
-    	return $this->_orphanCollections;
+        return $this->_orphanCollections;
     }
-    
-    
+
+
     /**
      * Set a graph attribute
      *
@@ -219,8 +219,8 @@ class Graph extends
      *
      * @throws ClientException
      *
-     * @param string $key    - attribute name
-     * @param mixed  $value  - value for attribute
+     * @param string $key - attribute name
+     * @param mixed $value - value for attribute
      *
      * @return void
      */
@@ -228,67 +228,69 @@ class Graph extends
     {
         if ($key === self::ENTRY_EDGE_DEFINITIONS) {
             if ($this->_doValidate) {
-	              ValueValidator::validate($value);
+                ValueValidator::validate($value);
             }
 
-           	foreach ($value as $ed) {
-             		$edgeDefinition = new EdgeDefinition();
-            		foreach ($ed[self::ENTRY_FROM] as $from) {
-            			$edgeDefinition->addFromCollection($from);
-            		}
-            		foreach ($ed[self::ENTRY_TO] as $to) {
-            			$edgeDefinition->addToCollection($to);
-            		}
-            		$edgeDefinition->setRelation($ed[self::ENTRY_COLLECTION]);
-            		$this->addEdgeDefinition($edgeDefinition);
+            foreach ($value as $ed) {
+                $edgeDefinition = new EdgeDefinition();
+                foreach ($ed[self::ENTRY_FROM] as $from) {
+                    $edgeDefinition->addFromCollection($from);
+                }
+                foreach ($ed[self::ENTRY_TO] as $to) {
+                    $edgeDefinition->addToCollection($to);
+                }
+                $edgeDefinition->setRelation($ed[self::ENTRY_COLLECTION]);
+                $this->addEdgeDefinition($edgeDefinition);
             }
         }
         else if ($key === self::ENTRY_ORPHAN_COLLECTIONS) {
             if ($this->_doValidate) {
-	              ValueValidator::validate($value);
+                ValueValidator::validate($value);
             }
 
             foreach ($value as $o) {
-            		$this->addOrphanCollection($o);
+                $this->addOrphanCollection($o);
             }
-        } 
+        }
         else {
             parent::set($key, $value);
         }
     }
-    
+
     /**
      * returns (or creates) the edge definition for single-vertexcollection-undirected graphs, throw an exception for any other type of graph.
-     * 
+     *
      * @throws ClientException
      * @return EdgeDefinition
      */
-    private function getSingleUndirectedRelation() {
-    	$ed = $this->getEdgeDefinitions();
-    	if (count($ed) > 0) {
-    		$a = $ed[0];
-    		$b = $a->getFromCollections();
-    		$c = $a->getToCollections();
-    	}
-    	if (count($ed) > 1 || 
-        	(
-        		count($ed) === 1 && (
-        				count($a->getFromCollections()) > 1 ||
-            			count($a->getToCollections()) > 1 ||
-        				$b[0] !== $c[0]
-        			
-    			)
-        	)
+    private function getSingleUndirectedRelation()
+    {
+        $ed = $this->getEdgeDefinitions();
+        if (count($ed) > 0) {
+            $a = $ed[0];
+            $b = $a->getFromCollections();
+            $c = $a->getToCollections();
+        }
+        if (count($ed) > 1 ||
+            (
+                count($ed) === 1 && (
+                    count($a->getFromCollections()) > 1 ||
+                    count($a->getToCollections()) > 1 ||
+                    $b[0] !== $c[0]
+
+                )
+            )
         ) {
-    		throw new ClientException('This operation only supports graphs with one undirected single collection relation'); 	
-    	}
-  		if (count($ed) === 1) {
-  			$eD =  $ed[0];
-  			$this->_edgeDefinitions = array();
-  		} else {
-  			$eD = new EdgeDefinition();
-  		}
-  		return $eD;
+            throw new ClientException('This operation only supports graphs with one undirected single collection relation');
+        }
+        if (count($ed) === 1) {
+            $eD                     = $ed[0];
+            $this->_edgeDefinitions = array();
+        }
+        else {
+            $eD = new EdgeDefinition();
+        }
+        return $eD;
     }
-    
+
 }

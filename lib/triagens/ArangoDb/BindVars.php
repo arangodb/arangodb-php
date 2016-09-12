@@ -75,7 +75,7 @@ class BindVars
      *
      * @throws ClientException
      *
-     * @param mixed  $name  - name of bind variable OR an array with all bind variables
+     * @param mixed $name - name of bind variable OR an array with all bind variables
      * @param string $value - value for bind variable
      *
      * @return void
@@ -87,11 +87,13 @@ class BindVars
                 ValueValidator::validate($value);
             }
             $this->_values = $name;
-        } else {
+        }
+        else {
             if (is_int($name) || is_string($name)) {
                 $this->_values[(string) $name] = $value;
                 ValueValidator::validate($value);
-            } else {
+            }
+            else {
                 throw new ClientException('Bind variable name should be string or int');
             }
         }

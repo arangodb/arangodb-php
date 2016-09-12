@@ -63,7 +63,7 @@ class Connection
      * @var bool
      */
     private $_useKeepAlive;
-     
+
     /**
      * Batches Array
      *
@@ -128,7 +128,7 @@ class Connection
             @fclose($this->_handle);
         }
     }
-    
+
     /**
      * Get the options set for the connection
      *
@@ -163,13 +163,15 @@ class Connection
      * @param string $name - name of option
      * @param string $value - value of option
      */
-    public function setOption($name, $value) {
+    public function setOption($name, $value)
+    {
         if ($name === ConnectionOptions::OPTION_ENDPOINT ||
             $name === ConnectionOptions::OPTION_HOST ||
             $name === ConnectionOptions::OPTION_PORT ||
             $name === ConnectionOptions::OPTION_VERIFY_CERT ||
             $name === ConnectionOptions::OPTION_CIPHERS ||
-            $name === ConnectionOptions::OPTION_ALLOW_SELF_SIGNED) {
+            $name === ConnectionOptions::OPTION_ALLOW_SELF_SIGNED
+        ) {
             throw new ClientException('Must not set option ' . $value . ' after connection is created.');
         }
 
@@ -179,18 +181,18 @@ class Connection
         if ($name === ConnectionOptions::OPTION_TIMEOUT) {
             // set the timeout option: patch the stream of an existing connection
             if (is_resource($this->_handle)) {
-                stream_set_timeout($this->_handle, $value); 
+                stream_set_timeout($this->_handle, $value);
             }
         }
         else if ($name === ConnectionOptions::OPTION_CONNECTION) {
-          // set keep-alive flag
-          $this->_useKeepAlive = (strtolower($value) === 'keep-alive');
+            // set keep-alive flag
+            $this->_useKeepAlive = (strtolower($value) === 'keep-alive');
         }
         else if ($name === ConnectionOptions::OPTION_DATABASE) {
-          // set database
-          $this->setDatabase($value);
+            // set database
+            $this->setDatabase($value);
         }
-        
+
         $this->updateHttpHeader();
     }
 
@@ -201,7 +203,7 @@ class Connection
      * @throws Exception
      *
      * @param string $url - GET URL
-     * @param array  $customHeader
+     * @param array $customHeaders
      *
      * @return HttpResponse
      */
@@ -217,9 +219,9 @@ class Connection
      *
      * @throws Exception
      *
-     * @param string $url  - POST URL
+     * @param string $url - POST URL
      * @param string $data - body to post
-     * @param array  $customHeader
+     * @param array $customHeaders
      *
      * @return HttpResponse
      */
@@ -235,9 +237,9 @@ class Connection
      *
      * @throws Exception
      *
-     * @param string $url  - PUT URL
+     * @param string $url - PUT URL
      * @param string $data - body to post
-     * @param array  $customHeader
+     * @param array $customHeaders
      *
      * @return HttpResponse
      */
@@ -254,7 +256,7 @@ class Connection
      * @throws Exception
      *
      * @param string $url - PUT URL
-     * @param array  $customHeader
+     * @param array $customHeaders
      *
      * @return HttpResponse
      */
@@ -270,9 +272,9 @@ class Connection
      *
      * @throws Exception
      *
-     * @param string $url  - PATCH URL
+     * @param string $url - PATCH URL
      * @param string $data - patch body
-     * @param array  $customHeader
+     * @param array $customHeaders
      *
      * @return HttpResponse
      */
@@ -289,7 +291,7 @@ class Connection
      * @throws Exception
      *
      * @param string $url - DELETE URL
-     * @param array  $customHeader
+     * @param array $customHeaders
      *
      * @return HttpResponse
      */
@@ -313,11 +315,12 @@ class Connection
             $this->_httpHeader .= sprintf('Host: %s%s', Endpoint::getHost($endpoint), HttpHelper::EOL);
         }
 
-        if (isset($this->_options[ConnectionOptions::OPTION_AUTH_TYPE]) && 
-            isset($this->_options[ConnectionOptions::OPTION_AUTH_USER])) {
+        if (isset($this->_options[ConnectionOptions::OPTION_AUTH_TYPE]) &&
+            isset($this->_options[ConnectionOptions::OPTION_AUTH_USER])
+        ) {
             // add authorization header
             $authorizationValue = base64_encode(
-                $this->_options[ConnectionOptions::OPTION_AUTH_USER] . ':' . 
+                $this->_options[ConnectionOptions::OPTION_AUTH_USER] . ':' .
                 $this->_options[ConnectionOptions::OPTION_AUTH_PASSWD]
             );
 
@@ -336,7 +339,8 @@ class Connection
 
         if ($this->_database === '') {
             $this->_baseUrl = '/_db/_system';
-        } else {
+        }
+        else {
             $this->_baseUrl = '/_db/' . urlencode($this->_database);
         }
     }
@@ -426,10 +430,10 @@ class Connection
      *
      * @throws Exception
      *
-     * @param string $method        - HTTP request method
-     * @param string $url           - HTTP URL
-     * @param string $data          - data to post in body
-     * @param array  $customHeaders - any array containing header elements
+     * @param string $method - HTTP request method
+     * @param string $url - HTTP URL
+     * @param string $data - data to post in body
+     * @param array $customHeaders - any array containing header elements
      *
      * @return HttpResponse
      */
@@ -451,7 +455,8 @@ class Connection
                 $this->_options->offsetSet(ConnectionOptions::OPTION_BATCHPART, true);
                 $request = HttpHelper::buildRequest($this->_options, $this->_httpHeader, $method, $url, $data, $customHeaders);
                 $this->_options->offsetSet(ConnectionOptions::OPTION_BATCHPART, false);
-            } else {
+            }
+            else {
                 $request = HttpHelper::buildRequest($this->_options, $this->_httpHeader, $method, $url, $data, $customHeaders);
             }
 
@@ -461,7 +466,8 @@ class Connection
                     return $batchPart;
                 }
             }
-        } else {
+        }
+        else {
             $this->_batchRequest = false;
 
             $this->_options->offsetSet(ConnectionOptions::OPTION_BATCH, true);
@@ -479,7 +485,8 @@ class Connection
                 list($header) = HttpHelper::parseHttpMessage($request, $url, $method);
                 $headers = HttpHelper::parseHeaders($header);
                 $traceFunc(new TraceRequest($headers[2], $method, $url, $data));
-            } else {
+            }
+            else {
                 $traceFunc('send', $request);
             }
         }
@@ -519,10 +526,13 @@ class Connection
                 // call tracer func
                 if ($this->_options[ConnectionOptions::OPTION_ENHANCED_TRACE]) {
                     $traceFunc(
-                        new TraceResponse($response->getHeaders(), $response->getHttpCode(), $response->getBody(),
-                            $timeTaken)
+                        new TraceResponse(
+                            $response->getHeaders(), $response->getHttpCode(), $response->getBody(),
+                            $timeTaken
+                        )
                     );
-                } else {
+                }
+                else {
                     $traceFunc('receive', $result);
                 }
             }
@@ -619,7 +629,7 @@ class Connection
     /**
      * This is a helper function to executeRequest that captures requests if we're in batch mode
      *
-     * @param mixed  $method  - The method of the request (GET, POST...)
+     * @param mixed $method - The method of the request (GET, POST...)
      *
      * @param string $request - The request to process
      *
@@ -657,7 +667,8 @@ class Connection
     {
         if (preg_match("//u", $string)) {
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }
@@ -689,7 +700,8 @@ class Connection
                     if (is_string($value) && mb_detect_encoding($value, 'UTF-8', true) === false) {
                         throw new ClientException("Only UTF-8 encoded values allowed. Wrong encoding in value string: " . $value);
                     }
-                } else {
+                }
+                else {
                     // fallback to preg_match checking
                     if (is_string($key) && self::detect_utf($key) == false) {
                         throw new ClientException("Only UTF-8 encoded keys allowed. Wrong encoding in key string: " . $key);
@@ -698,7 +710,8 @@ class Connection
                         throw new ClientException("Only UTF-8 encoded values allowed. Wrong encoding in value string: " . $value);
                     }
                 }
-            } else {
+            }
+            else {
                 self::check_encoding($value);
             }
         }
@@ -710,7 +723,7 @@ class Connection
      * internally it calls the check_encoding() method. If that method does not throw
      * an Exception, this method will happily return the json_encoded data.
      *
-     * @param mixed $data    the data to encode
+     * @param mixed $data the data to encode
      * @param mixed $options the options for the json_encode() call
      *
      * @return string the result of the json_encode
@@ -722,7 +735,8 @@ class Connection
         }
         if (empty($data)) {
             $response = json_encode($data, $options | JSON_FORCE_OBJECT);
-        } else {
+        }
+        else {
             $response = json_encode($data, $options);
         }
 
@@ -741,7 +755,7 @@ class Connection
     public function setDatabase($database)
     {
         $this->_options[ConnectionOptions::OPTION_DATABASE] = $database;
-        $this->_database = $database;
+        $this->_database                                    = $database;
 
         $this->updateHttpHeader();
     }

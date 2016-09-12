@@ -10,10 +10,10 @@
 namespace triagens\ArangoDb;
 
 /**
- * @property Connection        $connection
- * @property Collection        $collection
+ * @property Connection $connection
+ * @property Collection $collection
  * @property CollectionHandler $collectionHandler
- * @property DocumentHandler   $documentHandler
+ * @property DocumentHandler $documentHandler
  *
  * @package triagens\ArangoDb
  */
@@ -38,8 +38,8 @@ class ExportTest extends
 
         $this->documentHandler = new DocumentHandler($this->connection);
 
-        $adminHandler = new AdminHandler($this->connection);
-        $version = preg_replace("/-[a-z0-9]+$/", "", $adminHandler->getServerVersion());
+        $adminHandler       = new AdminHandler($this->connection);
+        $version            = preg_replace("/-[a-z0-9]+$/", "", $adminHandler->getServerVersion());
         $this->hasExportApi = (version_compare($version, '2.6.0') >= 0);
     }
 
@@ -48,10 +48,10 @@ class ExportTest extends
      */
     public function testExportEmpty()
     {
-        if (! $this->hasExportApi) {
+        if (!$this->hasExportApi) {
             return;
         }
-        $connection      = $this->connection;
+        $connection = $this->connection;
 
         $export = new Export($connection, $this->collection, array());
         $cursor = $export->execute();
@@ -62,7 +62,7 @@ class ExportTest extends
         // we're not expecting any results 
         $this->assertEquals(0, $cursor->getCount());
         $this->assertEquals(1, $cursor->getFetches());
-        
+
         $this->assertFalse($cursor->getNextBatch());
     }
 
@@ -71,10 +71,10 @@ class ExportTest extends
      */
     public function testExportDocuments()
     {
-        if (! $this->hasExportApi) {
+        if (!$this->hasExportApi) {
             return;
         }
-        $connection      = $this->connection;
+        $connection = $this->connection;
         for ($i = 0; $i < 100; ++$i) {
             $this->documentHandler->save($this->collection, array("value" => $i));
         }
@@ -90,7 +90,7 @@ class ExportTest extends
 
         $all = $cursor->getNextBatch();
         $this->assertEquals(100, count($all));
-        
+
         $this->assertFalse($cursor->getNextBatch());
     }
 
@@ -99,13 +99,15 @@ class ExportTest extends
      */
     public function testExportDocumentsTwoFetches()
     {
-        if (! $this->hasExportApi) {
+        if (!$this->hasExportApi) {
             return;
         }
-        $connection      = $this->connection;
-        $statement = new Statement($connection, array(
+        $connection = $this->connection;
+        $statement  = new Statement(
+            $connection, array(
             "query" => "FOR i IN 1..1001 INSERT { _key: CONCAT('test', i), value: i } IN " . $this->collection->getName()
-        ));
+        )
+        );
         $statement->execute();
 
         $export = new Export($connection, $this->collection, array());
@@ -118,7 +120,7 @@ class ExportTest extends
 
         $all = array();
         while ($more = $cursor->getNextBatch()) {
-          $all = array_merge($all, $more);
+            $all = array_merge($all, $more);
         }
         $this->assertEquals(2, $cursor->getFetches());
         $this->assertEquals(1001, count($all));
@@ -131,13 +133,15 @@ class ExportTest extends
      */
     public function testExportDocumentsMultipleFetches()
     {
-        if (! $this->hasExportApi) {
+        if (!$this->hasExportApi) {
             return;
         }
-        $connection      = $this->connection;
-        $statement = new Statement($connection, array(
+        $connection = $this->connection;
+        $statement  = new Statement(
+            $connection, array(
             "query" => "FOR i IN 1..5000 INSERT { _key: CONCAT('test', i), value: i } IN " . $this->collection->getName()
-        ));
+        )
+        );
         $statement->execute();
 
         $export = new Export($connection, $this->collection, array());
@@ -149,7 +153,7 @@ class ExportTest extends
         $this->assertEquals(5000, $cursor->getCount());
         $all = array();
         while ($more = $cursor->getNextBatch()) {
-          $all = array_merge($all, $more);
+            $all = array_merge($all, $more);
         }
         $this->assertEquals(5, $cursor->getFetches());
         $this->assertEquals(5000, count($all));
@@ -162,25 +166,27 @@ class ExportTest extends
      */
     public function testExportDocumentsWithSmallBatchSize()
     {
-        if (! $this->hasExportApi) {
+        if (!$this->hasExportApi) {
             return;
         }
-        $connection      = $this->connection;
-        $statement = new Statement($connection, array(
+        $connection = $this->connection;
+        $statement  = new Statement(
+            $connection, array(
             "query" => "FOR i IN 1..5000 INSERT { _key: CONCAT('test', i), value: i } IN " . $this->collection->getName()
-        ));
+        )
+        );
         $statement->execute();
 
         $export = new Export($connection, $this->collection, array("batchSize" => 100));
         $cursor = $export->execute();
-        
+
         $this->assertEquals(1, $cursor->getFetches());
         $this->assertNotNull($cursor->getId());
 
         $this->assertEquals(5000, $cursor->getCount());
         $all = array();
         while ($more = $cursor->getNextBatch()) {
-          $all = array_merge($all, $more);
+            $all = array_merge($all, $more);
         }
         $this->assertEquals(50, $cursor->getFetches());
         $this->assertEquals(5000, count($all));
@@ -193,7 +199,7 @@ class ExportTest extends
      */
     public function testExportDocumentObjects()
     {
-        if (! $this->hasExportApi) {
+        if (!$this->hasExportApi) {
             return;
         }
         for ($i = 0; $i < 100; ++$i) {
@@ -215,7 +221,7 @@ class ExportTest extends
         foreach ($all as $doc) {
             $this->assertTrue($doc instanceof Document);
         }
-        
+
         $this->assertFalse($cursor->getNextBatch());
     }
 
@@ -224,7 +230,7 @@ class ExportTest extends
      */
     public function testExportEdgeObjects()
     {
-        if (! $this->hasExportApi) {
+        if (!$this->hasExportApi) {
             return;
         }
 
@@ -237,7 +243,7 @@ class ExportTest extends
         $edgeCollection->setName('ArangoDB_PHP_TestSuite_TestEdge');
         $edgeCollection->setType(Collection::TYPE_EDGE);
         $this->collectionHandler->add($edgeCollection);
-        
+
         $edgeHandler = new EdgeHandler($this->connection);
 
         $vertexCollection = $this->collection->getName();
@@ -262,7 +268,7 @@ class ExportTest extends
             $this->assertTrue($doc instanceof Document);
             $this->assertTrue($doc instanceof Edge);
         }
-        
+
         $this->assertFalse($cursor->getNextBatch());
 
         $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdge');
@@ -273,7 +279,7 @@ class ExportTest extends
      */
     public function testExportFlat()
     {
-        if (! $this->hasExportApi) {
+        if (!$this->hasExportApi) {
             return;
         }
         for ($i = 0; $i < 200; ++$i) {
@@ -291,7 +297,7 @@ class ExportTest extends
 
         $all = array();
         while ($more = $cursor->getNextBatch()) {
-          $all = array_merge($all, $more);
+            $all = array_merge($all, $more);
         }
         $this->assertEquals(200, count($all));
 
@@ -299,23 +305,29 @@ class ExportTest extends
             $this->assertFalse($doc instanceof Document);
             $this->assertTrue(is_array($doc));
         }
-        
+
         $this->assertFalse($cursor->getNextBatch());
     }
-    
+
     /**
      * Test export with limit
      */
     public function testExportLimit()
     {
-        if (! $this->hasExportApi) {
+        if (!$this->hasExportApi) {
             return;
         }
         for ($i = 0; $i < 200; ++$i) {
             $this->documentHandler->save($this->collection, array("value" => $i));
         }
 
-        $export = new Export($this->connection, $this->collection, array("batchSize" => 50, "_flat" => true, "limit" => 107));
+        $export = new Export(
+            $this->connection, $this->collection, array(
+            "batchSize" => 50,
+            "_flat" => true,
+            "limit" => 107
+        )
+        );
         $cursor = $export->execute();
 
         $this->assertEquals(1, $cursor->getFetches());
@@ -326,7 +338,7 @@ class ExportTest extends
 
         $all = array();
         while ($more = $cursor->getNextBatch()) {
-          $all = array_merge($all, $more);
+            $all = array_merge($all, $more);
         }
         $this->assertEquals(107, count($all));
 
@@ -334,27 +346,29 @@ class ExportTest extends
             $this->assertFalse($doc instanceof Document);
             $this->assertTrue(is_array($doc));
         }
-        
+
         $this->assertFalse($cursor->getNextBatch());
     }
-    
+
     /**
      * Test export with include restriction
      */
     public function testExportRestrictInclude()
     {
-        if (! $this->hasExportApi) {
+        if (!$this->hasExportApi) {
             return;
         }
         for ($i = 0; $i < 200; ++$i) {
             $this->documentHandler->save($this->collection, array("value1" => $i, "value2" => "test" . $i));
         }
 
-        $export = new Export($this->connection, $this->collection, array(
-            "batchSize" => 50, 
-            "_flat" => true, 
+        $export = new Export(
+            $this->connection, $this->collection, array(
+            "batchSize" => 50,
+            "_flat" => true,
             "restrict" => array("type" => "include", "fields" => array("_key", "value2"))
-        ));
+        )
+        );
         $cursor = $export->execute();
 
         $this->assertEquals(1, $cursor->getFetches());
@@ -365,7 +379,7 @@ class ExportTest extends
 
         $all = array();
         while ($more = $cursor->getNextBatch()) {
-          $all = array_merge($all, $more);
+            $all = array_merge($all, $more);
         }
         $this->assertEquals(200, count($all));
 
@@ -378,27 +392,29 @@ class ExportTest extends
             $this->assertFalse(isset($doc["value1"]));
             $this->assertTrue(isset($doc["value2"]));
         }
-        
+
         $this->assertFalse($cursor->getNextBatch());
     }
-    
+
     /**
      * Test export with include restriction
      */
     public function testExportRestrictIncludeNonExisting()
     {
-        if (! $this->hasExportApi) {
+        if (!$this->hasExportApi) {
             return;
         }
         for ($i = 0; $i < 200; ++$i) {
             $this->documentHandler->save($this->collection, array("value1" => $i, "value2" => "test" . $i));
         }
 
-        $export = new Export($this->connection, $this->collection, array(
-            "batchSize" => 50, 
-            "_flat" => true, 
+        $export = new Export(
+            $this->connection, $this->collection, array(
+            "batchSize" => 50,
+            "_flat" => true,
             "restrict" => array("type" => "include", "fields" => array("foobar", "baz"))
-        ));
+        )
+        );
         $cursor = $export->execute();
 
         $this->assertEquals(1, $cursor->getFetches());
@@ -409,7 +425,7 @@ class ExportTest extends
 
         $all = array();
         while ($more = $cursor->getNextBatch()) {
-          $all = array_merge($all, $more);
+            $all = array_merge($all, $more);
         }
         $this->assertEquals(200, count($all));
 
@@ -417,27 +433,29 @@ class ExportTest extends
             $this->assertTrue(is_array($doc));
             $this->assertEquals(array(), $doc);
         }
-        
+
         $this->assertFalse($cursor->getNextBatch());
     }
-    
+
     /**
      * Test export with exclude restriction
      */
     public function testExportRestrictExclude()
     {
-        if (! $this->hasExportApi) {
+        if (!$this->hasExportApi) {
             return;
         }
         for ($i = 0; $i < 200; ++$i) {
             $this->documentHandler->save($this->collection, array("value1" => $i, "value2" => "test" . $i));
         }
 
-        $export = new Export($this->connection, $this->collection, array(
-            "batchSize" => 50, 
-            "_flat" => true, 
+        $export = new Export(
+            $this->connection, $this->collection, array(
+            "batchSize" => 50,
+            "_flat" => true,
             "restrict" => array("type" => "exclude", "fields" => array("_key", "value2"))
-        ));
+        )
+        );
         $cursor = $export->execute();
 
         $this->assertEquals(1, $cursor->getFetches());
@@ -448,7 +466,7 @@ class ExportTest extends
 
         $all = array();
         while ($more = $cursor->getNextBatch()) {
-          $all = array_merge($all, $more);
+            $all = array_merge($all, $more);
         }
         $this->assertEquals(200, count($all));
 
@@ -461,27 +479,29 @@ class ExportTest extends
             $this->assertTrue(isset($doc["value1"]));
             $this->assertFalse(isset($doc["value2"]));
         }
-        
+
         $this->assertFalse($cursor->getNextBatch());
     }
-    
+
     /**
      * Test export with non-existing fields restriction
      */
     public function testExportRestrictExcludeNonExisting()
     {
-        if (! $this->hasExportApi) {
+        if (!$this->hasExportApi) {
             return;
         }
         for ($i = 0; $i < 200; ++$i) {
             $this->documentHandler->save($this->collection, array("value1" => $i, "value2" => "test" . $i));
         }
 
-        $export = new Export($this->connection, $this->collection, array(
-            "batchSize" => 50, 
-            "_flat" => true, 
+        $export = new Export(
+            $this->connection, $this->collection, array(
+            "batchSize" => 50,
+            "_flat" => true,
             "restrict" => array("type" => "include", "fields" => array("_id", "foobar", "baz"))
-        ));
+        )
+        );
         $cursor = $export->execute();
 
         $this->assertEquals(1, $cursor->getFetches());
@@ -492,7 +512,7 @@ class ExportTest extends
 
         $all = array();
         while ($more = $cursor->getNextBatch()) {
-          $all = array_merge($all, $more);
+            $all = array_merge($all, $more);
         }
         $this->assertEquals(200, count($all));
 
@@ -502,75 +522,83 @@ class ExportTest extends
             $this->assertTrue(isset($doc["_id"]));
             $this->assertFalse(isset($doc["foobar"]));
         }
-        
+
         $this->assertFalse($cursor->getNextBatch());
     }
-           
+
     /**
      * Test export with invalid restriction definition
      *
-     * @expectedException \triagens\ArangoDb\ClientException 
+     * @expectedException \triagens\ArangoDb\ClientException
      */
     public function testExportRestrictInvalidType()
     {
-        if (! $this->hasExportApi) {
+        if (!$this->hasExportApi) {
             throw new ClientException('Invalid restrictions type definition');
         }
 
-        $export = new Export($this->connection, $this->collection, array(
+        $export = new Export(
+            $this->connection, $this->collection, array(
             "restrict" => array("type" => "foo", "fields" => array("_key"))
-        ));
+        )
+        );
         $cursor = $export->execute();
     }
-    
+
     /**
      * Test export with invalid restriction definition
      *
-     * @expectedException \triagens\ArangoDb\ClientException 
+     * @expectedException \triagens\ArangoDb\ClientException
      */
     public function testExportRestrictMissingType()
     {
-        if (! $this->hasExportApi) {
+        if (!$this->hasExportApi) {
             throw new ClientException('Invalid restrictions type definition');
         }
 
-        $export = new Export($this->connection, $this->collection, array(
+        $export = new Export(
+            $this->connection, $this->collection, array(
             "restrict" => array("fields" => array("_key"))
-        ));
+        )
+        );
         $cursor = $export->execute();
     }
-    
+
     /**
      * Test export with invalid restriction definition
      *
-     * @expectedException \triagens\ArangoDb\ClientException 
+     * @expectedException \triagens\ArangoDb\ClientException
      */
     public function testExportRestrictInvalidFields()
     {
-        if (! $this->hasExportApi) {
+        if (!$this->hasExportApi) {
             throw new ClientException('Invalid restrictions fields definition');
         }
 
-        $export = new Export($this->connection, $this->collection, array(
+        $export = new Export(
+            $this->connection, $this->collection, array(
             "restrict" => array("type" => "include", "fields" => "foo")
-        ));
+        )
+        );
         $cursor = $export->execute();
     }
-    
+
     /**
      * Test export with invalid restriction definition
      *
-     * @expectedException \triagens\ArangoDb\ClientException 
+     * @expectedException \triagens\ArangoDb\ClientException
      */
     public function testExportRestrictMissingFields()
     {
-        if (! $this->hasExportApi) {
+        if (!$this->hasExportApi) {
             throw new ClientException('Invalid restrictions fields definition');
         }
 
-        $export = new Export($this->connection, $this->collection, array(
+        $export = new Export(
+            $this->connection, $this->collection, array(
             "restrict" => array("type" => "include")
-        ));
+        )
+        );
         $cursor = $export->execute();
     }
 

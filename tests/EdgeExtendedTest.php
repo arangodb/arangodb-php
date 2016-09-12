@@ -12,12 +12,12 @@ namespace triagens\ArangoDb;
 /**
  * Class EdgeExtendedTest
  *
- * @property Connection        $connection
- * @property Collection        $collection
- * @property Collection        $edgeCollection
+ * @property Connection $connection
+ * @property Collection $collection
+ * @property Collection $edgeCollection
  * @property CollectionHandler $collectionHandler
- * @property DocumentHandler   $documentHandler
- * @property EdgeHandler       $edgeHandler
+ * @property DocumentHandler $documentHandler
+ * @property EdgeHandler $edgeHandler
  *
  * @package triagens\ArangoDb
  */
@@ -31,12 +31,12 @@ class EdgeExtendedTest extends
         $this->collection        = new Collection();
         $this->collection->setName('ArangoDB_PHP_TestSuite_TestEdgeCollection_01');
         $this->collectionHandler->add($this->collection);
-        $this->edgeHandler = new EdgeHandler($this->connection);
-        $this->edgeCollection    = new Collection();
+        $this->edgeHandler    = new EdgeHandler($this->connection);
+        $this->edgeCollection = new Collection();
         $this->edgeCollection->setName('ArangoDBPHPTestSuiteTestEdgeCollection01');
         $this->edgeCollection->set('type', 3);
         $this->collectionHandler->add($this->edgeCollection);
-        $this->documentCollection    = new Collection();
+        $this->documentCollection = new Collection();
         $this->documentCollection->setName('ArangoDBPHPTestSuiteTestCollection01');
         $this->collectionHandler->add($this->documentCollection);
     }
@@ -50,11 +50,11 @@ class EdgeExtendedTest extends
         // Setup objects
         $edgeHandler = $this->edgeHandler;
         $edge        = Edge::createFromArray(
-                           array(
-                                'someAttribute'      => 'someValue',
-                                'someOtherAttribute' => 'someOtherValue',
-                                'someThirdAttribute' => 'someThirdValue'
-                           )
+            array(
+                'someAttribute' => 'someValue',
+                'someOtherAttribute' => 'someOtherValue',
+                'someThirdAttribute' => 'someThirdValue'
+            )
         );
 
 
@@ -124,7 +124,7 @@ class EdgeExtendedTest extends
      */
     public function testUpdateEdge()
     {
-        $connection      = $this->connection;
+        $connection  = $this->connection;
         $edgeHandler = new EdgeHandler($connection);
 
 
@@ -134,7 +134,7 @@ class EdgeExtendedTest extends
         $document2       = new Document();
         $documentHandler = new DocumentHandler($connection);
 
-        $edgeDocument        = new Edge();
+        $edgeDocument = new Edge();
 
         $document1->someAttribute = 'someValue1';
         $document2->someAttribute = 'someValue2';
@@ -226,7 +226,7 @@ class EdgeExtendedTest extends
      */
     public function testUpdateEdgeDoNotKeepNull()
     {
-        $connection      = $this->connection;
+        $connection  = $this->connection;
         $edgeHandler = new EdgeHandler($connection);
 
 
@@ -236,7 +236,7 @@ class EdgeExtendedTest extends
         $document2       = new Document();
         $documentHandler = new DocumentHandler($connection);
 
-        $edgeDocument        = new Edge();
+        $edgeDocument = new Edge();
 
         $document1->someAttribute = 'someValue1';
         $document2->someAttribute = 'someValue2';
@@ -283,7 +283,7 @@ class EdgeExtendedTest extends
      */
     public function testReplaceEdge()
     {
-        $connection      = $this->connection;
+        $connection  = $this->connection;
         $edgeHandler = new EdgeHandler($connection);
 
 
@@ -293,7 +293,7 @@ class EdgeExtendedTest extends
         $document2       = new Document();
         $documentHandler = new DocumentHandler($connection);
 
-        $edgeDocument        = new Edge();
+        $edgeDocument = new Edge();
 
         $document1->someAttribute = 'someValue1';
         $document2->someAttribute = 'someValue2';
@@ -315,7 +315,7 @@ class EdgeExtendedTest extends
         );
         $this->assertTrue(is_numeric($edgeId), 'Did not return an id!');
 
-        $edgePutDocument        = new Edge();
+        $edgePutDocument = new Edge();
         $edgePutDocument->set('_id', $edgeDocument->getHandle());
         $edgePutDocument->set('_rev', $edgeDocument->getRevision());
         $edgePutDocument->set('labels', "as");
@@ -386,7 +386,7 @@ class EdgeExtendedTest extends
         $response = $edgeHandler->delete($resultingEdge);
         $this->assertTrue($response, 'Delete should return true!');
     }
-    
+
 
     public function tearDown()
     {
@@ -411,7 +411,6 @@ class EdgeExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
-
 
 
         unset($this->collectionHandler);

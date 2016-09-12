@@ -5,6 +5,7 @@
  *
  * @package   triagens\ArangoDb
  * @author    Jan Steemann
+ * @author    Frank Mayer
  * @copyright Copyright 2012, triagens GmbH, Cologne, Germany
  */
 
@@ -194,7 +195,7 @@ class Document
      */
     public function __clone()
     {
-        $this->_id = null;
+        $this->_id  = null;
         $this->_key = null;
         $this->_rev = null;
         // do not change the _changed flag here
@@ -225,7 +226,7 @@ class Document
      *
      * @return string - JSON-encoded document
      */
-    public function toJson($options = array())
+    public function toJson(array $options = [])
     {
         return json_encode($this->getAll($options));
     }
@@ -241,7 +242,7 @@ class Document
      *
      * @return string - PHP serialized document
      */
-    public function toSerialized($options = array())
+    public function toSerialized(array $options = [])
     {
         return serialize($this->getAll($options));
     }
@@ -251,13 +252,14 @@ class Document
      *
      * @param array $attributes - attributes array
      *
+     * @param array $_hiddenAttributes
      * @return array - attributes array
      */
-    public function filterHiddenAttributes($attributes, $_hiddenAttributes = null)
+    public function filterHiddenAttributes($attributes, array $_hiddenAttributes = [])
     {
         $hiddenAttributes = $_hiddenAttributes !== null ? $_hiddenAttributes : $this->getHiddenAttributes();
 
-        if (is_array($hiddenAttributes)) {
+        if (count($hiddenAttributes) > 0) {
             foreach ($hiddenAttributes as $hiddenAttributeName) {
                 if (isset($attributes[$hiddenAttributeName])) {
                     unset($attributes[$hiddenAttributeName]);
@@ -374,6 +376,18 @@ class Document
     }
 
     /**
+     * Magic method to unset an attribute.
+     * Caution!!! This works only on the first array level.
+     * The preferred method to unset attributes in the database, is to set those to null and do an update() with the option: 'keepNull' => false.
+     *
+     * @param $key
+     */
+    public function __unset($key)
+    {
+        unset($this->_values[$key]);
+    }
+
+    /**
      * Get all document attributes
      *
      * @param mixed $options - optional, array of options for the getAll function, or the boolean value for $includeInternals
@@ -387,9 +401,9 @@ class Document
     public function getAll($options = array())
     {
         // This preserves compatibility for the old includeInternals parameter.
-        $includeInternals = false;
+        $includeInternals       = false;
         $ignoreHiddenAttributes = $this->{self::ENTRY_IGNOREHIDDENATTRIBUTES};
-        $_hiddenAttributes = $this->{self::ENTRY_HIDDENATTRIBUTES};
+        $_hiddenAttributes      = $this->{self::ENTRY_HIDDENATTRIBUTES};
 
         if (!is_array($options)) {
             $includeInternals = $options;
@@ -423,7 +437,7 @@ class Document
             ) ? $options[self::ENTRY_HIDDENATTRIBUTES] : $_hiddenAttributes;
         }
 
-        $data = $this->_values;
+        $data         = $this->_values;
         $nonInternals = array('_changed', '_values', self::ENTRY_HIDDENATTRIBUTES);
 
         if ($includeInternals == true) {
@@ -496,7 +510,7 @@ class Document
 
     /**
      * Set the hidden attributes
-     *$cursor
+     * $cursor
      * @param array $attributes - array of attributes
      *
      * @return void

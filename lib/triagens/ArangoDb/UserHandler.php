@@ -36,22 +36,22 @@ class UserHandler extends
      *
      * @throws Exception
      *
-     * @param string $username      - The name of the user as a string. This is mandatory.
-     * @param mixed $passwd         - The user password as a string. If no password is specified, the empty string will be used.
-     * @param mixed $active         - an optional flag that specifies whether the user is active. If not specified, this will default to true.
-     * @param array $extra          - an optional array with arbitrary extra data about the user.
+     * @param string $username - The name of the user as a string. This is mandatory.
+     * @param mixed $passwd - The user password as a string. If no password is specified, the empty string will be used.
+     * @param mixed $active - an optional flag that specifies whether the user is active. If not specified, this will default to true.
+     * @param array $extra - an optional array with arbitrary extra data about the user.
      *
      * @return boolean - true, if user could be saved
      * @since 1.2
      */
     public function addUser($username, $passwd = null, $active = null, $extra = null)
     {
-        $userDocument                 = new User();
-        $userDocument->user           = $username;
-        $userDocument->passwd         = $passwd;
-        $userDocument->active         = $active;
-        $userDocument->extra          = $extra;
-        $data                         = $userDocument->getAll();
+        $userDocument         = new User();
+        $userDocument->user   = $username;
+        $userDocument->passwd = $passwd;
+        $userDocument->active = $active;
+        $userDocument->extra  = $extra;
+        $data                 = $userDocument->getAll();
 
         $this->getConnection()->post(Urls::URL_USER, $this->json_encode_wrapper($data));
 
@@ -63,7 +63,7 @@ class UserHandler extends
 
         return true;
     }
-    
+
     /**
      * Replace an existing user, identified by its username
      *
@@ -73,21 +73,21 @@ class UserHandler extends
      *
      * @throws Exception
      *
-     * @param string $username      - The name of the user as a string, who's user-data is going to be replaced. This is mandatory.
-     * @param mixed $passwd         - The user password as a string. If no password is specified, the empty string will be used.
-     * @param mixed $active         - an optional flag that specifies whether the user is active. If not specified, this will default to true.
-     * @param array $extra          - an optional array with arbitrary extra data about the user.
+     * @param string $username - The name of the user as a string, who's user-data is going to be replaced. This is mandatory.
+     * @param mixed $passwd - The user password as a string. If no password is specified, the empty string will be used.
+     * @param mixed $active - an optional flag that specifies whether the user is active. If not specified, this will default to true.
+     * @param array $extra - an optional array with arbitrary extra data about the user.
      *
      * @return bool - always true, will throw if there is an error
      */
     public function replaceUser($username, $passwd = null, $active = null, $extra = null)
     {
-        $userDocument                 = new User();
-        $userDocument->passwd         = $passwd;
-        $userDocument->active         = $active;
-        $userDocument->extra          = $extra;
-        $data                         = $userDocument->getAll();
-        $url                          = UrlHelper::buildUrl(Urls::URL_USER, array($username));
+        $userDocument         = new User();
+        $userDocument->passwd = $passwd;
+        $userDocument->active = $active;
+        $userDocument->extra  = $extra;
+        $data                 = $userDocument->getAll();
+        $url                  = UrlHelper::buildUrl(Urls::URL_USER, array($username));
         $this->getConnection()->put($url, $this->json_encode_wrapper($data));
 
         return true;
@@ -103,10 +103,10 @@ class UserHandler extends
      *
      * @throws Exception
      *
-     * @param string $username      - The name of the user as a string, who's user-data is going to be updated. This is mandatory.
-     * @param mixed $passwd         - The user password as a string. If no password is specified, the empty string will be used.
-     * @param mixed $active         - an optional flag that specifies whether the user is active. If not specified, this will default to true.
-     * @param array $extra          - an optional array with arbitrary extra data about the user.
+     * @param string $username - The name of the user as a string, who's user-data is going to be updated. This is mandatory.
+     * @param mixed $passwd - The user password as a string. If no password is specified, the empty string will be used.
+     * @param mixed $active - an optional flag that specifies whether the user is active. If not specified, this will default to true.
+     * @param array $extra - an optional array with arbitrary extra data about the user.
      *
      * @return bool - always true, will throw if there is an error
      */
@@ -187,7 +187,7 @@ class UserHandler extends
      *
      * @return bool - always true, will throw if there is an error
      */
-    public function grantPermissions($username, $databaseName) 
+    public function grantPermissions($username, $databaseName)
     {
         $data = array(
             "grant" => "rw"
@@ -198,7 +198,7 @@ class UserHandler extends
 
         return true;
     }
-    
+
     /**
      * Revoke R/W permissions for a user, for a specific database
      *
@@ -209,15 +209,19 @@ class UserHandler extends
      *
      * @return bool - always true, will throw if there is an error
      */
-    public function revokePermissions($username, $databaseName) 
+    public function revokePermissions($username, $databaseName)
     {
-        $url = UrlHelper::buildUrl(Urls::URL_USER, array($username, "database", $databaseName));
-        $this->getConnection()->delete($url);
+        $data = array(
+            'grant' => 'none'
+        );
+
+        $url = UrlHelper::buildUrl(Urls::URL_USER, array($username, 'database', $databaseName));
+        $this->getConnection()->put($url, $this->json_encode_wrapper($data));
 
         return true;
     }
-    
-    
+
+
     /**
      * Gets the list of databases a user has access to
      *
@@ -229,12 +233,12 @@ class UserHandler extends
      */
     public function getDatabases($username)
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_DATABASE, array("user"));
+        $url      = UrlHelper::buildUrl(Urls::URL_USER, [$username, 'database']);
         $response = $this->getConnection()->get($url);
 
         $data = $response->getJson();
 
-        return $data["result"];
+        return $data['result'];
     }
 
 }

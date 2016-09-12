@@ -104,18 +104,18 @@ class Statement
      * @var bool
      */
     private $_sanitize = false;
-    
+
     /**
      * Number of retries in case a deadlock occurs
      *
      * @var bool
      */
     private $_retries = 0;
-    
+
     /**
      * Whether or not the query cache should be consulted
      *
-     * @var bool 
+     * @var bool
      */
     private $_cache = null;
 
@@ -125,7 +125,7 @@ class Statement
      * @var string
      */
     private $resultType;
-    
+
 
     /**
      * Query string index
@@ -141,7 +141,7 @@ class Statement
      * Batch size index
      */
     const ENTRY_BATCHSIZE = 'batchSize';
-    
+
     /**
      * Retries index
      */
@@ -156,7 +156,7 @@ class Statement
      * Full count option index
      */
     const FULL_COUNT = 'fullCount';
-    
+
     /**
      * Initialise the statement
      *
@@ -175,7 +175,7 @@ class Statement
      * @throws Exception
      *
      * @param Connection $connection - the connection to be used
-     * @param array      $data       - statement initialization data
+     * @param array $data - statement initialization data
      */
     public function __construct(Connection $connection, array $data)
     {
@@ -205,7 +205,7 @@ class Statement
         if (isset($data[Cursor::ENTRY_SANITIZE])) {
             $this->_sanitize = (bool) $data[Cursor::ENTRY_SANITIZE];
         }
-        
+
         if (isset($data[self::ENTRY_RETRIES])) {
             $this->_retries = (int) $data[self::ENTRY_RETRIES];
         }
@@ -213,7 +213,7 @@ class Statement
         if (isset($data[Cursor::ENTRY_FLAT])) {
             $this->_flat = (bool) $data[Cursor::ENTRY_FLAT];
         }
-        
+
         if (isset($data[Cursor::ENTRY_CACHE])) {
             $this->_cache = (bool) $data[Cursor::ENTRY_CACHE];
         }
@@ -244,15 +244,14 @@ class Statement
             throw new ClientException('Query should be a string');
         }
 
-        $data     = $this->buildData();
+        $data = $this->buildData();
 
         $tries = 0;
         while (true) {
             try {
                 $response = $this->_connection->post(Urls::URL_CURSOR, $this->getConnection()->json_encode_wrapper($data), array());
                 return new Cursor($this->_connection, $response->getJson(), $this->getCursorOptions());
-            }
-            catch (ServerException $e) {
+            } catch (ServerException $e) {
                 if ($tries++ >= $this->_retries) {
                     throw $e;
                 }
@@ -261,7 +260,7 @@ class Statement
                     throw $e;
                 }
                 // try again
-            }    
+            }
         }
     }
 
@@ -337,7 +336,7 @@ class Statement
      *
      * @throws Exception
      *
-     * @param mixed $key   - name of bind variable OR an array of all bind variables
+     * @param mixed $key - name of bind variable OR an array of all bind variables
      * @param mixed $value - value for bind variable
      *
      * @return void
@@ -384,7 +383,7 @@ class Statement
     {
         return $this->_query;
     }
-    
+
     /**
      * setResultType
      *
@@ -392,7 +391,7 @@ class Statement
      */
     public function setResultType($resultType)
     {
-    	return $this->resultType = $resultType;
+        return $this->resultType = $resultType;
     }
 
     /**
@@ -507,11 +506,11 @@ class Statement
         $data = array(
             self::ENTRY_QUERY => $this->_query,
             self::ENTRY_COUNT => $this->_doCount,
-            'options'         => array(
+            'options' => array(
                 self::FULL_COUNT => $this->_fullCount
             )
         );
-            
+
         if ($this->_cache !== null) {
             $data[Cursor::ENTRY_CACHE] = $this->_cache;
         }
@@ -535,11 +534,11 @@ class Statement
     {
         $result = array(
             Cursor::ENTRY_SANITIZE => (bool) $this->_sanitize,
-            Cursor::ENTRY_FLAT     => (bool) $this->_flat,
-            Cursor::ENTRY_BASEURL  => Urls::URL_CURSOR
+            Cursor::ENTRY_FLAT => (bool) $this->_flat,
+            Cursor::ENTRY_BASEURL => Urls::URL_CURSOR
         );
         if (isset($this->resultType)) {
-            $result[Cursor::ENTRY_TYPE]  = $this->resultType; 
+            $result[Cursor::ENTRY_TYPE] = $this->resultType;
         }
         return $result;
     }

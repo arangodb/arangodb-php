@@ -37,49 +37,49 @@ class EdgeDefinition
      * @var array names of the start vertices collection
      */
     protected $_fromCollections = array();
-    
+
     /**
      * An array containing the names of the vertices collections holding the end vertices.
      *
      * @var array names of the end vertices collection
      */
     protected $_toCollections = array();
-    
+
     /**
      * Constructs an new edge definition
      *
-     * @param string $relation	     - name of the relation (the underlying edge collection).
+     * @param string $relation - name of the relation (the underlying edge collection).
      * @param array $fromCollections - a list of collections providing the edges start vertices.
-     * @param array $toCollections   - a list of collections providing the edges end vertices.
+     * @param array $toCollections - a list of collections providing the edges end vertices.
      * @since     2.2
      * @return EdgeDefinition
      */
     public function __construct($relation = null, $fromCollections = array(), $toCollections = array())
     {
-    	$this->_relation = $relation;
-    	if (!is_array($fromCollections)) {
-    		$fromCollections = array($fromCollections);
-    	}
-    	if (!is_array($toCollections)) {
-    		$toCollections = array($toCollections);
-    	}
-    	$this->_fromCollections = $fromCollections;
-    	$this->_toCollections = $toCollections;
-    	
+        $this->_relation = $relation;
+        if (!is_array($fromCollections)) {
+            $fromCollections = array($fromCollections);
+        }
+        if (!is_array($toCollections)) {
+            $toCollections = array($toCollections);
+        }
+        $this->_fromCollections = $fromCollections;
+        $this->_toCollections   = $toCollections;
+
         return $this;
     }
-    
+
     /**
      * Set the relation of the edge definition
      *
-     * @param string $relation        - the name of the relation.
+     * @param string $relation - the name of the relation.
      * @since     2.2
      */
     public function setRelation($relation)
     {
-    	$this->_relation = $relation;
+        $this->_relation = $relation;
     }
-    
+
     /**
      * Get the relation of the edge definition.
      *
@@ -88,10 +88,10 @@ class EdgeDefinition
      */
     public function getRelation()
     {
-    	return $this->_relation;
+        return $this->_relation;
     }
-    
-    
+
+
     /**
      * Get the 'to' collections of the graph.
      *
@@ -100,9 +100,9 @@ class EdgeDefinition
      */
     public function getToCollections()
     {
-    	return $this->_toCollections;
+        return $this->_toCollections;
     }
-    
+
     /**
      * Get the 'from' collections of the graph.
      *
@@ -111,20 +111,20 @@ class EdgeDefinition
      */
     public function getFromCollections()
     {
-    	return $this->_fromCollections;
+        return $this->_fromCollections;
     }
-    
+
     /**
      * Add a 'to' collections of the graph.
-     * 
-     * @param string $toCollection - the name of the added collection. 
+     *
+     * @param string $toCollection - the name of the added collection.
      * @since     2.2
      */
     public function addToCollection($toCollection)
     {
-    	$this->_toCollections[] = $toCollection;
+        $this->_toCollections[] = $toCollection;
     }
-    
+
     /**
      * Add a 'from' collections of the graph.
      *
@@ -133,71 +133,73 @@ class EdgeDefinition
      */
     public function addFromCollection($fromCollection)
     {
-    	$this->_fromCollections[] = $fromCollection;
+        $this->_fromCollections[] = $fromCollection;
     }
-    
+
     /**
      * Resets the 'to' collections of the graph.
      * @since     2.2
      */
     public function clearToCollection()
     {
-    	$this->_toCollections = array();
+        $this->_toCollections = array();
     }
-    
+
     /**
      * Resets the 'from' collections of the graph.
      * @since     2.2
      */
     public function clearFromCollection()
     {
-    	return $this->_fromCollections = array();
+        return $this->_fromCollections = array();
     }
-    
+
     /**
-     * Transforms an edge definition to an array. 
-     * 
+     * Transforms an edge definition to an array.
+     *
      * @return array
      * @since     2.2
      */
     function transformToArray()
     {
-    	$transformedEd = array();
-    	$transformedEd["collection"] = $this->getRelation();
-    	$transformedEd["from"] = $this->getFromCollections();
-    	$transformedEd["to"] = $this->getToCollections();
-    	return $transformedEd;
+        $transformedEd               = array();
+        $transformedEd["collection"] = $this->getRelation();
+        $transformedEd["from"]       = $this->getFromCollections();
+        $transformedEd["to"]         = $this->getToCollections();
+        return $transformedEd;
     }
-    
-    
+
+
     /**
      * Constructs an undirected relation. This relation is an edge definition where the edges can start and end
      * in any vertex from the collection list.
      *
-     * @param string $relation         - name of the relation (the underlying edge collection).
+     * @param string $relation - name of the relation (the underlying edge collection).
      * @param array $vertexCollections - a list of collections providing the edges start and end vertices.
      *
      * @return EdgeDefinition
      * @since     2.2
      */
-    public static function createUndirectedRelation($relation, $vertexCollections) {
-    	return new EdgeDefinition($relation, $vertexCollections, $vertexCollections);
+    public static function createUndirectedRelation($relation, $vertexCollections)
+    {
+        return new EdgeDefinition($relation, $vertexCollections, $vertexCollections);
     }
-    
-    
+
+
     /**
      * Constructs a directed relation. This relation is an edge definition where the edges can start only in the
      * vertices defined in 'fromCollections' and end in vertices defined in 'toCollections'.
      *
-     * @param string $relation	      - name of the relation (the underlying edge collection).
-     * @param array $fromCollections  - a list of collections providing the edges start vertices.
-     * @param array $toCollections    - a list of collections providing the edges end vertices.
+     * @param string $relation - name of the relation (the underlying edge collection).
+     * @param array $fromCollections - a list of collections providing the edges start vertices.
+     * @param array $toCollections - a list of collections providing the edges end vertices.
      *
      * @return EdgeDefinition
      * @since     2.2
      */
-    public static function createDirectedRelation($relation, $fromCollections, $toCollections) {
-    	return new EdgeDefinition($relation, $fromCollections, $toCollections);
+    public static function createDirectedRelation($relation, $fromCollections, $toCollections)
+    {
+        return new EdgeDefinition($relation, $fromCollections, $toCollections);
     }
-    
+
 }

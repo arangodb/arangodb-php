@@ -72,8 +72,8 @@ class Edge extends
      *
      * @throws ClientException
      *
-     * @param string $key   - attribute name
-     * @param mixed  $value - value for attribute
+     * @param string $key - attribute name
+     * @param mixed $value - value for attribute
      *
      * @return void
      */
@@ -111,8 +111,8 @@ class Edge extends
             }
         }
 
-        if (! $this->_changed) {
-            if (! isset($this->_values[$key]) || $this->_values[$key] !== $value) {
+        if (!$this->_changed) {
+            if (!isset($this->_values[$key]) || $this->_values[$key] !== $value) {
                 // set changed flag
                 $this->_changed = true;
             }
@@ -170,16 +170,17 @@ class Edge extends
 
         return $this;
     }
-    
+
     /**
      * Get all document attributes for insertion/update
      *
      * @return mixed - associative array of all document attributes/values
      */
-    public function getAllForInsertUpdate() {
-        $data = parent::getAllForInsertUpdate();
+    public function getAllForInsertUpdate()
+    {
+        $data          = parent::getAllForInsertUpdate();
         $data["_from"] = $this->_from;
-        $data["_to"] = $this->_to;
+        $data["_to"]   = $this->_to;
         return $data;
     }
 
