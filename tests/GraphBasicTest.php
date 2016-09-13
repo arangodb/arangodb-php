@@ -28,7 +28,8 @@ class GraphBasicTest extends
 {
     public function setUp()
     {
-        $this->connection = getConnection();
+        $this->connection        = getConnection();
+        $this->collectionHandler = new CollectionHandler($this->connection);
     }
 
 
@@ -216,21 +217,21 @@ class GraphBasicTest extends
 
         static::assertSame(
             $this->graphHandler->getVertexCollections($this->graph), array(
-                0 => 'ArangoDBPHPTestSuiteTestCollection04',
-                1 => 'orphan1',
-                2 => 'orphan2',
-                3 => 'singleV'
+                                                                       0 => 'ArangoDBPHPTestSuiteTestCollection04',
+                                                                       1 => 'orphan1',
+                                                                       2 => 'orphan2',
+                                                                       3 => 'singleV'
 
-            )
+                                                                   )
         );
         $this->graph = $this->graphHandler->deleteOrphanCollection($this->graph, 'orphan2');
         static::assertSame(
             $this->graphHandler->getVertexCollections($this->graph), array(
-                0 => 'ArangoDBPHPTestSuiteTestCollection04',
-                1 => 'orphan1',
-                2 => 'singleV'
+                                                                       0 => 'ArangoDBPHPTestSuiteTestCollection04',
+                                                                       1 => 'orphan1',
+                                                                       2 => 'singleV'
 
-            )
+                                                                   )
         );
         $error = null;
         try {
@@ -282,10 +283,10 @@ class GraphBasicTest extends
 
         static::assertSame(
             $this->graphHandler->getEdgeCollections($this->graph), array(
-                0 => 'undirected',
-                1 => 'undirected2'
+                                                                     0 => 'undirected',
+                                                                     1 => 'undirected2'
 
-            )
+                                                                 )
         );
 
         $error = null;
@@ -313,9 +314,9 @@ class GraphBasicTest extends
 
         static::assertSame(
             $this->graphHandler->getEdgeCollections($this->graph), array(
-                0 => 'undirected2'
+                                                                     0 => 'undirected2'
 
-            )
+                                                                 )
         );
 
         $error = null;
@@ -370,19 +371,19 @@ class GraphBasicTest extends
         } catch (Exception $e) {
         }
         try {
-            $this->graphHandler->dropGraph('orphan');
+            $this->collectionHandler->drop('orphan');
         } catch (Exception $e) {
         }
         try {
-            $this->graphHandler->dropGraph('orphan1');
+            $this->collectionHandler->drop('orphan1');
         } catch (Exception $e) {
         }
         try {
-            $this->graphHandler->dropGraph('orphan2');
+            $this->collectionHandler->drop('orphan2');
         } catch (Exception $e) {
         }
         try {
-            $this->graphHandler->dropGraph('undirected');
+            $this->collectionHandler->drop('undirected');
         } catch (Exception $e) {
         }
         unset($this->graph, $this->graphHandler, $this->connection);
