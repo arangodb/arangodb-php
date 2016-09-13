@@ -76,8 +76,6 @@ class BatchPart
     /**
      * Constructor
      *
-     * @internal
-     *
      * @param Batch $batch the batch object, that this part belongs to
      * @param mixed $id The id of the batch part. TMust be unique and wil be passed to the server in the content-id header
      * @param mixed $type The type of the request. This is to distinguish the different request type in order to return correct results.

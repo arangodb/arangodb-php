@@ -174,6 +174,79 @@ class BatchTest extends
         $batch->getProcessedPartResponse(1);
     }
 
+    /**
+     * This tests the batch class when used with an SplFixedArray as its Array for the BatchParts
+     */
+    public function testCreateDocumentBatchWithDefinedBatchSize()
+    {
+        $batch = new Batch($this->connection, ['batchSize' => 2]);
+
+        // not needed, but just here to test if anything goes wrong if it's called again...
+        $batch->startCapture();
+
+        static::assertInstanceOf('\triagens\ArangoDb\Batch', $batch);
+        $documentHandler = $this->documentHandler;
+
+        $document   = Document::createFromArray(
+            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
+
+        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
+
+        $document   = Document::createFromArray(
+            array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+        );
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
+
+        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
+
+        $batch->process();
+
+        $batch->getPart(0)->getProcessedResponse();
+
+        // try getting it from batch
+        $batch->getProcessedPartResponse(1);
+    }
+
+
+    /**
+     * This tests the batch class when used with an SplFixedArray as its Array for the BatchParts
+     * It simulates an invalid index access, in order to check that we are really using SplFixedArray
+     */
+    public function testFailureWhenCreatingMoreDocumentsInBatchThanDefinedBatchSize()
+    {
+        $batch = new Batch($this->connection, ['batchSize' => 1]);
+
+        // not needed, but just here to test if anything goes wrong if it's called again...
+        $batch->startCapture();
+
+        static::assertInstanceOf('\triagens\ArangoDb\Batch', $batch);
+        $documentHandler = $this->documentHandler;
+
+        $document   = Document::createFromArray(
+            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+        );
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
+
+        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
+
+        $document   = Document::createFromArray(
+            array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+        );
+        try {
+            $documentId = $documentHandler->add($this->collection->getId(), $document);
+        } catch (\Exception $e) {
+            // don't bother us, just give us the $e
+        }
+        static::assertInstanceOf(
+            'RuntimeException',
+            $e,
+            'Exception thrown was not a RuntimeException!'
+        );
+        static::assertEquals('Index invalid or out of range', $e->getMessage(), 'Error code was not "Index invalid or out of range"');
+
+    }
 
     public function testCreateMixedBatchWithPartIds()
     {

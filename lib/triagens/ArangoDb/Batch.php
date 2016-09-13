@@ -75,6 +75,13 @@ class Batch
      */
     private $_sanitize = false;
 
+    /**
+     * The Batch NextId
+     *
+     * @var mixed $_nextId
+     */
+    private $_nextId = 0;
+
 
     /**
      * Constructor for Batch instance. Batch instance by default starts capturing request after initiated.
@@ -85,8 +92,10 @@ class Batch
      *
      * <p>Options are :
      * <li>'_sanitize' - True to remove _id and _rev attributes from result documents returned from this batch. Defaults to false.</li>
-     * <li>'$startCapture' - Start batch capturing immediately after batch instantiation. Defaults to true.
-     * </li>
+     * <li>'startCapture' - Start batch capturing immediately after batch instantiation. Defaults to true.</li>
+     * <li>'batchSize' - Defines a fixed array size for holding the batch parts. The id's of the batch parts can only be integers.
+     *                   When this option is defined, the batch mechanism will use an SplFixedArray instead of the normal PHP arrays.
+     *                   In most cases, this will result in increased performance of about 5% to 15%, depending on batch size and data.</li>
      * </p>
      *
      * @return Batch
@@ -95,9 +104,15 @@ class Batch
     {
         $startCapture = true;
         $sanitize     = false;
+        $batchSize    = 0;
         $options      = array_merge($options, $this->getCursorOptions($sanitize));
         extract($options, EXTR_IF_EXISTS);
         $this->_sanitize = $sanitize;
+        $this->batchSize = $batchSize;
+
+        if ($this->batchSize > 0) {
+            $this->_batchParts = new \SplFixedArray($this->batchSize);
+        }
 
         $this->setConnection($connection);
 
@@ -335,7 +350,13 @@ class Batch
         $response  = new HttpResponse($result);
         $batchPart = new BatchPart($this, $this->_nextBatchPartId, $type, $request, $response, array('cursorOptions' => $this->_batchPartCursorOptions));
         if (null === $this->_nextBatchPartId) {
-            $nextNumeric                     = count($this->_batchParts);
+            if (is_a($this->_batchParts, 'SplFixedArray')) {
+                $nextNumeric = $this->_nextId;
+                $this->_nextId++;
+            }
+            else {
+                $nextNumeric = count($this->_batchParts);
+            }
             $this->_batchParts[$nextNumeric] = $batchPart;
         }
         else {
@@ -394,17 +415,19 @@ class Batch
 
         /** @var $partValue BatchPart */
         foreach ($batchParts as $partValue) {
-            $data .= '--' . HttpHelper::MIME_BOUNDARY . HttpHelper::EOL;
-            $data .= 'Content-Type: application/x-arango-batchpart' . HttpHelper::EOL;
+            if (isset($partValue)) {
+                $data .= '--' . HttpHelper::MIME_BOUNDARY . HttpHelper::EOL;
+                $data .= 'Content-Type: application/x-arango-batchpart' . HttpHelper::EOL;
 
-            if (null !== $partValue->getId()) {
-                $data .= 'Content-Id: ' . (string) $partValue->getId() . HttpHelper::EOL . HttpHelper::EOL;
-            }
-            else {
-                $data .= HttpHelper::EOL;
-            }
+                if (null !== $partValue->getId()) {
+                    $data .= 'Content-Id: ' . (string) $partValue->getId() . HttpHelper::EOL . HttpHelper::EOL;
+                }
+                else {
+                    $data .= HttpHelper::EOL;
+                }
 
-            $data .= (string) $partValue->getRequest() . HttpHelper::EOL;
+                $data .= (string) $partValue->getRequest() . HttpHelper::EOL;
+            }
         }
         $data .= '--' . HttpHelper::MIME_BOUNDARY . '--' . HttpHelper::EOL . HttpHelper::EOL;
 
