@@ -13,11 +13,11 @@ namespace triagens\ArangoDb;
 /**
  * Class EdgeBasicTest
  *
- * @property Connection        $connection
- * @property Collection        $collection
- * @property Collection        $edgeCollection
+ * @property Connection $connection
+ * @property Collection $collection
+ * @property Collection $edgeCollection
  * @property CollectionHandler $collectionHandler
- * @property DocumentHandler   $documentHandler
+ * @property DocumentHandler $documentHandler
  *
  * @package triagens\ArangoDb
  */
@@ -34,20 +34,20 @@ class EdgeBasicTest extends
         } catch (\Exception $e) {
             #don't bother us, if it's already deleted.
         }
-        
+
         try {
             $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestCollection01');
         } catch (\Exception $e) {
             #don't bother us, if it's already deleted.
         }
 
-        $this->edgeCollection    = new Collection();
+        $this->edgeCollection = new Collection();
         $this->edgeCollection->setName('ArangoDBPHPTestSuiteTestEdgeCollection01');
         $this->edgeCollection->set('type', 3);
 
         $this->collection = new Collection();
         $this->collection->setName('ArangoDBPHPTestSuiteTestCollection01');
-        
+
         $this->collectionHandler->add($this->edgeCollection);
         $this->collectionHandler->add($this->collection);
     }
@@ -93,17 +93,17 @@ class EdgeBasicTest extends
 
         $edgeDocument->set('label', 'knows');
         $edgeDocumentId = $edgeDocumentHandler->saveEdge(
-                                              $edgeCollection->getName(),
-                                              $documentHandle1,
-                                              $documentHandle2,
-                                              $edgeDocument
+            $edgeCollection->getName(),
+            $documentHandle1,
+            $documentHandle2,
+            $edgeDocument
         );
 
         $edgeDocumentHandler->saveEdge(
-                            $edgeCollection->getName(),
-                            $documentHandle1,
-                            $documentHandle2,
-                            array('label' => 'knows (but created using an array instead of an edge object)')
+            $edgeCollection->getName(),
+            $documentHandle1,
+            $documentHandle2,
+            array('label' => 'knows (but created using an array instead of an edge object)')
         );
 
         $resultingDocument = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
@@ -113,8 +113,8 @@ class EdgeBasicTest extends
 
         $resultingAttribute = $resultingEdge->label;
         $this->assertTrue(
-             $resultingAttribute === 'knows',
-             'Attribute set on the Edge is different from the one retrieved!'
+            $resultingAttribute === 'knows',
+            'Attribute set on the Edge is different from the one retrieved!'
         );
 
 
@@ -122,23 +122,25 @@ class EdgeBasicTest extends
 
         $this->assertEquals(2, count($edgesQuery1Result));
 
-        $statement = new Statement($connection, array(
-                                                     "query"     => '',
-                                                     "count"     => true,
-                                                     "batchSize" => 1000,
-                                                     "sanitize"  => true,
-                                                ));
+        $statement = new Statement(
+            $connection, array(
+            "query" => '',
+            "count" => true,
+            "batchSize" => 1000,
+            "sanitize" => true,
+        )
+        );
         $statement->setQuery(
-                  'FOR start IN ArangoDBPHPTestSuiteTestCollection01 FOR v, e, p IN 0..1000 OUTBOUND start ArangoDBPHPTestSuiteTestEdgeCollection01 RETURN { source: start, destination: v, edges: p.edges, vertices: p.vertices }'
+            'FOR start IN ArangoDBPHPTestSuiteTestCollection01 FOR v, e, p IN 0..1000 OUTBOUND start ArangoDBPHPTestSuiteTestEdgeCollection01 RETURN { source: start, destination: v, edges: p.edges, vertices: p.vertices }'
 
         );
         $cursor = $statement->execute();
 
         $result = $cursor->current();
         $this->assertInstanceOf(
-             'triagens\ArangoDb\Document',
-             $result,
-             "IN PATHS statement did not return a document object!"
+            'triagens\ArangoDb\Document',
+            $result,
+            "IN PATHS statement did not return a document object!"
         );
         $resultingDocument->set('label', 'knows not');
 
@@ -148,8 +150,8 @@ class EdgeBasicTest extends
         $resultingEdge      = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
         $resultingAttribute = $resultingEdge->label;
         $this->assertTrue(
-             $resultingAttribute === 'knows not',
-             'Attribute "knows not" set on the Edge is different from the one retrieved (' . $resultingAttribute . ')!'
+            $resultingAttribute === 'knows not',
+            'Attribute "knows not" set on the Edge is different from the one retrieved (' . $resultingAttribute . ')!'
         );
 
 
@@ -194,10 +196,10 @@ class EdgeBasicTest extends
         $edgeDocument->set('label', $isoValue);
 
         $edgeDocumentId = $edgeDocumentHandler->saveEdge(
-                                              $edgeCollection->getId(),
-                                              $documentHandle1,
-                                              $documentHandle2,
-                                              $edgeDocument
+            $edgeCollection->getId(),
+            $documentHandle1,
+            $documentHandle2,
+            $edgeDocument
         );
 
         //        $resultingDocument = $documentHandler->get($edgeCollection->getId(), $edgeDocumentId);
@@ -206,31 +208,33 @@ class EdgeBasicTest extends
 
         $resultingAttribute = $resultingEdge->label;
         $this->assertTrue(
-             $resultingAttribute === 'knows',
-             'Attribute set on the Edge is different from the one retrieved!'
+            $resultingAttribute === 'knows',
+            'Attribute set on the Edge is different from the one retrieved!'
         );
 
 
         $edgesQuery1Result = $edgeDocumentHandler->edges($edgeCollection->getId(), $documentHandle1, 'out');
-        
+
         $this->assertEquals(2, count($edgesQuery1Result));
 
-        $statement = new Statement($connection, array(
-                                                     "query"     => '',
-                                                     "count"     => true,
-                                                     "batchSize" => 1000,
-                                                     "sanitize"  => true,
-                                                ));
+        $statement = new Statement(
+            $connection, array(
+            "query" => '',
+            "count" => true,
+            "batchSize" => 1000,
+            "sanitize" => true,
+        )
+        );
         $statement->setQuery(
-                  'FOR p IN PATHS(ArangoDBPHPTestSuiteTestCollection01, ArangoDBPHPTestSuiteTestEdgeCollection01, "outbound")  RETURN p'
+            'FOR p IN PATHS(ArangoDBPHPTestSuiteTestCollection01, ArangoDBPHPTestSuiteTestEdgeCollection01, "outbound")  RETURN p'
         );
         $cursor = $statement->execute();
 
         $result = $cursor->current();
         $this->assertInstanceOf(
-             'triagens\ArangoDb\Document',
-             $result,
-             "IN PATHS statement did not return a document object!"
+            'triagens\ArangoDb\Document',
+            $result,
+            "IN PATHS statement did not return a document object!"
         );
         $resultingEdge->set('label', 'knows not');
 
@@ -240,8 +244,8 @@ class EdgeBasicTest extends
         $resultingEdge      = $edgeDocumentHandler->get($edgeCollection->getId(), $edgeDocumentId);
         $resultingAttribute = $resultingEdge->label;
         $this->assertTrue(
-             $resultingAttribute === 'knows not',
-             'Attribute "knows not" set on the Edge is different from the one retrieved (' . $resultingAttribute . ')!'
+            $resultingAttribute === 'knows not',
+            'Attribute "knows not" set on the Edge is different from the one retrieved (' . $resultingAttribute . ')!'
         );
 
 
@@ -257,7 +261,7 @@ class EdgeBasicTest extends
      */
     public function testCreateGetAndDeleteEdgeWithRevision()
     {
-        $connection      = $this->connection;
+        $connection  = $this->connection;
         $edgeHandler = new EdgeHandler($connection);
 
 
@@ -267,7 +271,7 @@ class EdgeBasicTest extends
         $document2       = new Document();
         $documentHandler = new DocumentHandler($connection);
 
-        $edgeDocument        = new Edge();
+        $edgeDocument = new Edge();
 
         $document1->someAttribute = 'someValue1';
         $document2->someAttribute = 'someValue2';
@@ -294,13 +298,18 @@ class EdgeBasicTest extends
             $edgeHandler->get($edgeCollection->getId(), $edgeId, array("ifMatch" => true, "revision" => 12345));
         } catch (\Exception $exception412) {
         }
-        $this->assertEquals($exception412->getCode() , 412);
+        $this->assertEquals($exception412->getCode(), 412);
 
         try {
-            $edgeHandler->get($edgeCollection->getId(), $edgeId, array("ifMatch" => false, "revision" => $edgeDocument->getRevision()));
+            $edgeHandler->get(
+                $edgeCollection->getId(), $edgeId, array(
+                "ifMatch" => false,
+                "revision" => $edgeDocument->getRevision()
+            )
+            );
         } catch (\Exception $exception304) {
         }
-        $this->assertEquals($exception304->getMessage() , 'Document has not changed.');
+        $this->assertEquals($exception304->getMessage(), 'Document has not changed.');
 
         $resultingEdge = $edgeHandler->get($edgeCollection->getId(), $edgeId);
 
@@ -309,8 +318,10 @@ class EdgeBasicTest extends
         $resultingEdge->set('someOtherAttribute', 'someOtherValue2');
         $edgeHandler->replace($resultingEdge);
 
-        $oldRevision = $edgeHandler->get($edgeCollection->getId(), $edgeId,
-            array("revision" => $resultingEdge->getRevision()));
+        $oldRevision = $edgeHandler->get(
+            $edgeCollection->getId(), $edgeId,
+            array("revision" => $resultingEdge->getRevision())
+        );
         $this->assertEquals($oldRevision->getRevision(), $resultingEdge->getRevision());
         $documentHandler->delete($document1);
         $documentHandler->delete($document2);
@@ -322,7 +333,7 @@ class EdgeBasicTest extends
      */
     public function testCreateHeadAndDeleteEdgeWithRevision()
     {
-        $connection      = $this->connection;
+        $connection  = $this->connection;
         $edgeHandler = new EdgeHandler($connection);
 
 
@@ -332,7 +343,7 @@ class EdgeBasicTest extends
         $document2       = new Document();
         $documentHandler = new DocumentHandler($connection);
 
-        $edgeDocument        = new Edge();
+        $edgeDocument = new Edge();
 
         $document1->someAttribute = 'someValue1';
         $document2->someAttribute = 'someValue2';
@@ -357,30 +368,30 @@ class EdgeBasicTest extends
         } catch (\Exception $e412) {
         }
 
-        $this->assertEquals($e412->getCode() , 412);
+        $this->assertEquals($e412->getCode(), 412);
 
         try {
             $edgeHandler->getHead($edgeCollection->getId(), "notExisting");
         } catch (\Exception $e404) {
         }
 
-        $this->assertEquals($e404->getCode() , 404);
+        $this->assertEquals($e404->getCode(), 404);
 
 
-        $result304 = $edgeHandler->getHead($edgeCollection->getId(), $edgeId, $edgeDocument->getRevision() , false);
-        $this->assertEquals($result304["etag"] , '"' .$edgeDocument->getRevision().'"');
-        $this->assertEquals($result304["content-length"] , 0);
-        $this->assertEquals($result304["httpCode"] , 304);
+        $result304 = $edgeHandler->getHead($edgeCollection->getId(), $edgeId, $edgeDocument->getRevision(), false);
+        $this->assertEquals($result304["etag"], '"' . $edgeDocument->getRevision() . '"');
+        $this->assertEquals($result304["content-length"], 0);
+        $this->assertEquals($result304["httpCode"], 304);
 
-        $result200 = $edgeHandler->getHead($edgeCollection->getId(), $edgeId, $edgeDocument->getRevision() , true);
-        $this->assertEquals($result200["etag"] , '"' .$edgeDocument->getRevision().'"');
-        $this->assertNotEquals($result200["content-length"] , 0);
-        $this->assertEquals($result200["httpCode"] , 200);
+        $result200 = $edgeHandler->getHead($edgeCollection->getId(), $edgeId, $edgeDocument->getRevision(), true);
+        $this->assertEquals($result200["etag"], '"' . $edgeDocument->getRevision() . '"');
+        $this->assertNotEquals($result200["content-length"], 0);
+        $this->assertEquals($result200["httpCode"], 200);
         $documentHandler->delete($document1);
         $documentHandler->delete($document2);
         $edgeHandler->deleteById($edgeCollection->getName(), $edgeId);
     }
-    
+
     /**
      * Test collectionHandler::getAllIds on an edge collection
      */
@@ -404,24 +415,24 @@ class EdgeBasicTest extends
         $documentHandle2 = $document2->getHandle();
 
         $edgeDocument1 = $edgeDocumentHandler->saveEdge(
-                                              $edgeCollection->getName(),
-                                              $documentHandle1,
-                                              $documentHandle2,
-                                              array('value' => 1)
+            $edgeCollection->getName(),
+            $documentHandle1,
+            $documentHandle2,
+            array('value' => 1)
         );
-        
+
         $edgeDocument2 = $edgeDocumentHandler->saveEdge(
-                                              $edgeCollection->getName(),
-                                              $documentHandle2,
-                                              $documentHandle1,
-                                              array('value' => 2)
+            $edgeCollection->getName(),
+            $documentHandle2,
+            $documentHandle1,
+            array('value' => 2)
         );
-        
+
         $edgeDocument3 = $edgeDocumentHandler->saveEdge(
-                                              $edgeCollection->getName(),
-                                              $documentHandle1,
-                                              $documentHandle2,
-                                              array('value' => 3)
+            $edgeCollection->getName(),
+            $documentHandle1,
+            $documentHandle2,
+            array('value' => 3)
         );
 
         $result = $this->collectionHandler->getAllIds($edgeCollection->getName());
@@ -432,7 +443,7 @@ class EdgeBasicTest extends
         $this->assertTrue(in_array($edgeDocument2, $result));
         $this->assertTrue(in_array($edgeDocument3, $result));
     }
-    
+
     /**
      * Test edges method
      */
@@ -456,24 +467,24 @@ class EdgeBasicTest extends
         $documentHandle2 = $document2->getHandle();
 
         $edgeDocument1 = $edgeDocumentHandler->saveEdge(
-                                              $edgeCollection->getName(),
-                                              $documentHandle1,
-                                              $documentHandle2,
-                                              array('value' => 1)
+            $edgeCollection->getName(),
+            $documentHandle1,
+            $documentHandle2,
+            array('value' => 1)
         );
-        
+
         $edgeDocument2 = $edgeDocumentHandler->saveEdge(
-                                              $edgeCollection->getName(),
-                                              $documentHandle2,
-                                              $documentHandle1,
-                                              array('value' => 2)
+            $edgeCollection->getName(),
+            $documentHandle2,
+            $documentHandle1,
+            array('value' => 2)
         );
-        
+
         $edgeDocument3 = $edgeDocumentHandler->saveEdge(
-                                              $edgeCollection->getName(),
-                                              $documentHandle1,
-                                              $documentHandle2,
-                                              array('value' => 3)
+            $edgeCollection->getName(),
+            $documentHandle1,
+            $documentHandle2,
+            array('value' => 3)
         );
 
         $edgesQueryResult = $edgeDocumentHandler->edges($edgeCollection->getName(), $documentHandle1);
@@ -498,12 +509,12 @@ class EdgeBasicTest extends
                 $this->assertEquals($edgeDocument3, $edge->getId());
             }
         }
-        
+
         // test empty result
         $edgesQueryResult = $edgeDocumentHandler->edges($edgeCollection->getName(), "ArangoDBPHPTestSuiteTestCollection01/foobar");
         $this->assertEquals(0, count($edgesQueryResult));
     }
-    
+
     /**
      * Test edges method
      */
@@ -527,24 +538,24 @@ class EdgeBasicTest extends
         $documentHandle2 = $document2->getHandle();
 
         $edgeDocument1 = $edgeDocumentHandler->saveEdge(
-                                              $edgeCollection->getName(),
-                                              $documentHandle1,
-                                              $documentHandle2,
-                                              array('value' => 1)
+            $edgeCollection->getName(),
+            $documentHandle1,
+            $documentHandle2,
+            array('value' => 1)
         );
-        
+
         $edgeDocument2 = $edgeDocumentHandler->saveEdge(
-                                              $edgeCollection->getName(),
-                                              $documentHandle2,
-                                              $documentHandle1,
-                                              array('value' => 2)
+            $edgeCollection->getName(),
+            $documentHandle2,
+            $documentHandle1,
+            array('value' => 2)
         );
-        
+
         $edgeDocument3 = $edgeDocumentHandler->saveEdge(
-                                              $edgeCollection->getName(),
-                                              $documentHandle1,
-                                              $documentHandle2,
-                                              array('value' => 3)
+            $edgeCollection->getName(),
+            $documentHandle1,
+            $documentHandle2,
+            array('value' => 3)
         );
 
         $edgesQueryResult = $edgeDocumentHandler->edges($edgeCollection->getName(), $documentHandle1, "any");
@@ -569,12 +580,12 @@ class EdgeBasicTest extends
                 $this->assertEquals($edgeDocument3, $edge->getId());
             }
         }
-        
+
         // test empty result
         $edgesQueryResult = $edgeDocumentHandler->edges($edgeCollection->getName(), "ArangoDBPHPTestSuiteTestCollection01/foobar", "any");
         $this->assertEquals(0, count($edgesQueryResult));
     }
-    
+
     /**
      * Test inEdges method
      */
@@ -598,24 +609,24 @@ class EdgeBasicTest extends
         $documentHandle2 = $document2->getHandle();
 
         $edgeDocument1 = $edgeDocumentHandler->saveEdge(
-                                              $edgeCollection->getName(),
-                                              $documentHandle1,
-                                              $documentHandle2,
-                                              array('value' => 1)
+            $edgeCollection->getName(),
+            $documentHandle1,
+            $documentHandle2,
+            array('value' => 1)
         );
-        
+
         $edgeDocument2 = $edgeDocumentHandler->saveEdge(
-                                              $edgeCollection->getName(),
-                                              $documentHandle2,
-                                              $documentHandle1,
-                                              array('value' => 2)
+            $edgeCollection->getName(),
+            $documentHandle2,
+            $documentHandle1,
+            array('value' => 2)
         );
-        
+
         $edgeDocument3 = $edgeDocumentHandler->saveEdge(
-                                              $edgeCollection->getName(),
-                                              $documentHandle1,
-                                              $documentHandle2,
-                                              array('value' => 3)
+            $edgeCollection->getName(),
+            $documentHandle1,
+            $documentHandle2,
+            array('value' => 3)
         );
 
         $edgesQueryResult = $edgeDocumentHandler->inEdges($edgeCollection->getName(), $documentHandle1);
@@ -625,12 +636,12 @@ class EdgeBasicTest extends
         $this->assertEquals($documentHandle2, $edge->getFrom());
         $this->assertEquals($documentHandle1, $edge->getTo());
         $this->assertEquals($edgeDocument2, $edge->getId());
-        
+
         // test empty result
         $edgesQueryResult = $edgeDocumentHandler->inEdges($edgeCollection->getName(), "ArangoDBPHPTestSuiteTestCollection01/foobar");
         $this->assertEquals(0, count($edgesQueryResult));
     }
-    
+
     /**
      * Test outEdges method
      */
@@ -654,24 +665,24 @@ class EdgeBasicTest extends
         $documentHandle2 = $document2->getHandle();
 
         $edgeDocument1 = $edgeDocumentHandler->saveEdge(
-                                              $edgeCollection->getName(),
-                                              $documentHandle1,
-                                              $documentHandle2,
-                                              array('value' => 1)
+            $edgeCollection->getName(),
+            $documentHandle1,
+            $documentHandle2,
+            array('value' => 1)
         );
-        
+
         $edgeDocument2 = $edgeDocumentHandler->saveEdge(
-                                              $edgeCollection->getName(),
-                                              $documentHandle2,
-                                              $documentHandle1,
-                                              array('value' => 2)
+            $edgeCollection->getName(),
+            $documentHandle2,
+            $documentHandle1,
+            array('value' => 2)
         );
-        
+
         $edgeDocument3 = $edgeDocumentHandler->saveEdge(
-                                              $edgeCollection->getName(),
-                                              $documentHandle1,
-                                              $documentHandle2,
-                                              array('value' => 3)
+            $edgeCollection->getName(),
+            $documentHandle1,
+            $documentHandle2,
+            array('value' => 3)
         );
 
         $edgesQueryResult = $edgeDocumentHandler->outEdges($edgeCollection->getName(), $documentHandle1);
@@ -691,7 +702,7 @@ class EdgeBasicTest extends
                 $this->assertEquals($edgeDocument3, $edge->getId());
             }
         }
-        
+
         // test empty result
         $edgesQueryResult = $edgeDocumentHandler->outEdges($edgeCollection->getName(), "ArangoDBPHPTestSuiteTestCollection01/foobar");
         $this->assertEquals(0, count($edgesQueryResult));

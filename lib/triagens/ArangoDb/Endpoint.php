@@ -178,8 +178,8 @@ class Endpoint
      * This is an alias function to Endpoint::modify, as ArangoDB's API has one call to support both new and modify
      *
      * @param Connection $connection - the connection to be used
-     * @param string     $endpoint   - the endpoint specification, e.g. tcp://127.0.0.1:8530
-     * @param array      $databases  - a list of database names the endpoint is responsible for.
+     * @param string $endpoint - the endpoint specification, e.g. tcp://127.0.0.1:8530
+     * @param array $databases - a list of database names the endpoint is responsible for.
      *                               *
      *
      * @link http://www.arangodb.com/manuals/1.4/HttpEndpoint.html

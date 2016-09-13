@@ -68,14 +68,14 @@ class Collection
      * @var bool - isVolatile value
      */
     private $_isVolatile = null;
-    
+
     /**
      * The collection numberOfShards value (might be NULL for new collections)
      *
      * @var int - numberOfShards value
      */
     private $_numberOfShards = null;
-    
+
     /**
      * The collection shardKeys value (might be NULL for new collections)
      *
@@ -141,12 +141,12 @@ class Collection
      * Collection 'isVolatile' index
      */
     const ENTRY_IS_VOLATILE = 'isVolatile';
-    
+
     /**
      * Collection 'numberOfShards' index
      */
     const ENTRY_NUMBER_OF_SHARDS = 'numberOfShards';
-    
+
     /**
      * Collection 'shardKeys' index
      */
@@ -295,18 +295,18 @@ class Collection
     public function getAll()
     {
         $result = array(
-            self::ENTRY_ID               => $this->_id,
-            self::ENTRY_NAME             => $this->_name,
-            self::ENTRY_WAIT_SYNC        => $this->_waitForSync,
-            self::ENTRY_JOURNAL_SIZE     => $this->_journalSize,
-            self::ENTRY_IS_SYSTEM        => $this->_isSystem,
-            self::ENTRY_IS_VOLATILE      => $this->_isVolatile,
-            self::ENTRY_TYPE             => $this->_type,
-            self::ENTRY_STATUS           => $this->_status,
-            self::ENTRY_KEY_OPTIONS      => $this->_keyOptions
+            self::ENTRY_ID => $this->_id,
+            self::ENTRY_NAME => $this->_name,
+            self::ENTRY_WAIT_SYNC => $this->_waitForSync,
+            self::ENTRY_JOURNAL_SIZE => $this->_journalSize,
+            self::ENTRY_IS_SYSTEM => $this->_isSystem,
+            self::ENTRY_IS_VOLATILE => $this->_isVolatile,
+            self::ENTRY_TYPE => $this->_type,
+            self::ENTRY_STATUS => $this->_status,
+            self::ENTRY_KEY_OPTIONS => $this->_keyOptions
         );
 
-        if (! is_null($this->_numberOfShards)) {
+        if (!is_null($this->_numberOfShards)) {
             $result[self::ENTRY_NUMBER_OF_SHARDS] = $this->_numberOfShards;
         }
 
@@ -327,8 +327,8 @@ class Collection
      *
      * @throws ClientException
      *
-     * @param string $key   - attribute name
-     * @param mixed  $value - value for attribute
+     * @param string $key - attribute name
+     * @param mixed $value - value for attribute
      *
      * @return void
      */
@@ -391,13 +391,13 @@ class Collection
 
             return;
         }
-        
+
         if ($key === self::ENTRY_NUMBER_OF_SHARDS) {
             $this->setNumberOfShards($value);
 
             return;
         }
-        
+
         if ($key === self::ENTRY_SHARD_KEYS) {
             $this->setShardKeys($value);
 
@@ -530,11 +530,11 @@ class Collection
         if (!in_array(
             $status,
             array(
-                 self::STATUS_NEW_BORN,
-                 self::STATUS_UNLOADED,
-                 self::STATUS_LOADED,
-                 self::STATUS_BEING_UNLOADED,
-                 self::STATUS_DELETED
+                self::STATUS_NEW_BORN,
+                self::STATUS_UNLOADED,
+                self::STATUS_LOADED,
+                self::STATUS_BEING_UNLOADED,
+                self::STATUS_DELETED
             )
         )
         ) {
@@ -671,7 +671,7 @@ class Collection
     {
         return $this->_isVolatile;
     }
-    
+
     /**
      * Set the numberOfShards value
      *
@@ -684,7 +684,7 @@ class Collection
         assert(is_null($value) || is_numeric($value));
         $this->_numberOfShards = $value;
     }
-    
+
     /**
      * Get the numberOfShards value (if already known)
      *
@@ -694,7 +694,7 @@ class Collection
     {
         return $this->_numberOfShards;
     }
-    
+
     /**
      * Set the shardKeys value
      *
@@ -707,7 +707,7 @@ class Collection
         assert(is_null($value) || is_array($value));
         $this->_shardKeys = $value;
     }
-    
+
     /**
      * Get the shardKeys value (if already known)
      *

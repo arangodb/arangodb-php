@@ -49,19 +49,19 @@ class Export
     /**
      * Flush flag (if set, then all documents from the collection that are currently only
      * in the write-ahead log (WAL) will be moved to the collection's datafiles. This may cause
-     * an initial delay in the export, but will lead to the documents in the WAL not being 
+     * an initial delay in the export, but will lead to the documents in the WAL not being
      * excluded from the export run. If the flush flag is set to false, the documents still
      * in the WAL may be missing in the export result.
      *
      * @var bool
      */
     private $_flush = true;
-    
+
     /**
      * The underlying collection type
      */
     private $_type;
-    
+
     /**
      * export restrictions - either null for no restrictions or an array with a "type" and a "fields" index
      *
@@ -76,7 +76,7 @@ class Export
      * @var int
      */
     private $_limit = 0;
-    
+
     /**
      * Count option index
      */
@@ -96,7 +96,7 @@ class Export
      * Export restrictions
      */
     const ENTRY_RESTRICT = 'restrict';
-    
+
     /**
      * Optional limit for the number of documents
      */
@@ -108,16 +108,16 @@ class Export
      * @throws Exception
      *
      * @param Connection $connection - the connection to be used
-     * @param string     $collection - the collection to export
-     * @param array      $data       - export options
+     * @param string $collection - the collection to export
+     * @param array $data - export options
      */
     public function __construct(Connection $connection, $collection, array $data = array())
     {
         $this->_connection = $connection;
 
-        if (! ($collection instanceof Collection)) {
+        if (!($collection instanceof Collection)) {
             $collectionHandler = new CollectionHandler($this->_connection);
-            $collection = $collectionHandler->get($collection);
+            $collection        = $collectionHandler->get($collection);
         }
         $this->_collection = $collection;
 
@@ -132,27 +132,30 @@ class Export
         if (isset($data[self::ENTRY_BATCHSIZE])) {
             $this->setBatchSize($data[self::ENTRY_BATCHSIZE]);
         }
-        
+
         if (isset($data[self::ENTRY_LIMIT])) {
             $this->_limit = (int) $data[self::ENTRY_LIMIT];
         }
-        
+
         if (isset($data[self::ENTRY_RESTRICT]) &&
-            is_array($data[self::ENTRY_RESTRICT])) {
+            is_array($data[self::ENTRY_RESTRICT])
+        ) {
             $restrictions = $data[self::ENTRY_RESTRICT];
 
-            if (! isset($restrictions["type"]) || 
-                ! in_array($restrictions["type"], array("include", "exclude"), true)) {
+            if (!isset($restrictions["type"]) ||
+                !in_array($restrictions["type"], array("include", "exclude"), true)
+            ) {
                 // validate restrictions.type
                 throw new ClientException('Invalid restrictions type definition');
             }
 
-            if (! isset($restrictions["fields"]) || 
-                ! is_array($restrictions["fields"])) {
+            if (!isset($restrictions["fields"]) ||
+                !is_array($restrictions["fields"])
+            ) {
                 // validate restrictions.fields
                 throw new ClientException('Invalid restrictions fields definition');
             }
-            
+
             // all valid 
             $this->_restrictions = $restrictions;
         }
@@ -190,7 +193,7 @@ class Export
         if ($this->_batchSize > 0) {
             $data[self::ENTRY_BATCHSIZE] = $this->_batchSize;
         }
-        
+
         if ($this->_limit > 0) {
             $data[self::ENTRY_LIMIT] = $this->_limit;
         }
@@ -198,15 +201,15 @@ class Export
         if (is_array($this->_restrictions)) {
             $data[self::ENTRY_RESTRICT] = $this->_restrictions;
         }
-        
+
         $collection = $this->_collection;
         if ($collection instanceof Collection) {
             $collection = $collection->getName();
         }
-        
-        $url = UrlHelper::appendParamsUrl(Urls::URL_EXPORT, array("collection" => $collection));
+
+        $url      = UrlHelper::appendParamsUrl(Urls::URL_EXPORT, array("collection" => $collection));
         $response = $this->_connection->post($url, $this->getConnection()->json_encode_wrapper($data));
-        
+
         return new ExportCursor($this->_connection, $response->getJson(), $this->getCursorOptions());
     }
 
@@ -253,9 +256,9 @@ class Export
     private function getCursorOptions()
     {
         $result = array(
-            ExportCursor::ENTRY_FLAT     => (bool) $this->_flat,
-            ExportCursor::ENTRY_BASEURL  => Urls::URL_EXPORT,
-            ExportCursor::ENTRY_TYPE     => $this->_type
+            ExportCursor::ENTRY_FLAT => (bool) $this->_flat,
+            ExportCursor::ENTRY_BASEURL => Urls::URL_EXPORT,
+            ExportCursor::ENTRY_TYPE => $this->_type
         );
         return $result;
     }

@@ -80,7 +80,8 @@ abstract class Handler
         if (is_array($options)) {
             if (array_key_exists('_sanitize', $options)) {
                 $sanitize = $options['_sanitize'];
-            } else {
+            }
+            else {
                 // keeping the non-underscored version for backwards-compatibility
                 if (array_key_exists('sanitize', $options)) {
                     $sanitize = $options['sanitize'];
@@ -115,8 +116,8 @@ abstract class Handler
      * which was later changed to being an array of options, so more than one options can be passed easily.
      * This is only for options that are to be sent to the ArangoDB server.
      *
-     * @param array $options   - The options array that may hold the policy to include in the parameters. If it's not an array, then the value is the policy value.
-     * @param array $params    - The parameters into which the options will be included.
+     * @param array $options - The options array that may hold the policy to include in the parameters. If it's not an array, then the value is the policy value.
+     * @param array $params - The parameters into which the options will be included.
      * @param mixed $parameter - the old single parameter key to use.
      *
      * @return array $params - array of parameters for use in a url
@@ -125,7 +126,8 @@ abstract class Handler
     {
         if (!is_array($options)) {
             $value = $options;
-        } else {
+        }
+        else {
             $value = isset($options[$parameter]) ? $options[$parameter] : null;
         }
 
@@ -137,9 +139,6 @@ abstract class Handler
             UpdatePolicy::validate($value);
         }
 
-        if (is_bool($value)) {
-            $value = UrlHelper::getBoolString($value);
-        }
 
         $params[$parameter] = $value;
 
@@ -153,8 +152,8 @@ abstract class Handler
      * Only options that are set in $includeArray will be included.
      * This is only for options that are to be sent to the ArangoDB server in form of url parameters (like 'waitForSync', 'keepNull', etc...) .
      *
-     * @param array $options      - The options array that holds the options to include in the parameters
-     * @param array $params       - The parameters into which the options will be included.
+     * @param array $options - The options array that holds the options to include in the parameters
+     * @param array $params - The parameters into which the options will be included.
      * @param array $includeArray - The array that defines which options are allowed to be included, and what their default value is. for example: 'waitForSync'=>true
      *
      * @return array $params - array of parameters for use in a url
@@ -182,8 +181,8 @@ abstract class Handler
      * Only options that are set in $includeArray will be included.
      * This is only for options that are to be sent to the ArangoDB server in a json body(like 'limit', 'skip', etc...) .
      *
-     * @param array $options      - The options array that holds the options to include in the parameters
-     * @param array $body         - The array into which the options will be included.
+     * @param array $options - The options array that holds the options to include in the parameters
+     * @param array $body - The array into which the options will be included.
      * @param array $includeArray - The array that defines which options are allowed to be included, and what their default value is. for example: 'waitForSync'=>true
      *
      * @return array $params - array of parameters for use in a url
@@ -205,7 +204,7 @@ abstract class Handler
 
         return $body;
     }
-        
+
     /**
      * Turn a value into a collection name
      *
@@ -215,7 +214,8 @@ abstract class Handler
      *
      * @return string - collection name
      */
-    protected function makeCollection($value) {
+    protected function makeCollection($value)
+    {
         if ($value instanceof Collection) {
             return $value->getName();
         }

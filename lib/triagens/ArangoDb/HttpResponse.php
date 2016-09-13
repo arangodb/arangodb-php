@@ -84,17 +84,22 @@ class HttpResponse
 
         list($this->_header, $this->_body) = HttpHelper::parseHttpMessage($responseString, $originUrl, $originMethod);
         list($this->_httpCode, $this->_result, $this->_headers) = HttpHelper::parseHeaders($this->_header);
-          
-        if ((! isset($this->_body) or $this->_body === null) and
-            ($this->_httpCode !== 204 and $this->_httpCode !== 304 and !$wasAsync)) {
+
+        if ((!isset($this->_body) or $this->_body === null) and
+            ($this->_httpCode !== 204 and $this->_httpCode !== 304 and !$wasAsync)
+        ) {
             // got no response body!
             if ($originUrl !== null && $originMethod !== null) {
                 if ($responseString === '') {
-                    throw new ClientException('Got no response from the server after request to '
-                        . $originMethod . ' ' . $originUrl . ' - Note: this may be a timeout issue');
+                    throw new ClientException(
+                        'Got no response from the server after request to '
+                        . $originMethod . ' ' . $originUrl . ' - Note: this may be a timeout issue'
+                    );
                 }
-                throw new ClientException('Got an invalid response from the server after request to '
-                    . $originMethod . ' ' . $originUrl);
+                throw new ClientException(
+                    'Got an invalid response from the server after request to '
+                    . $originMethod . ' ' . $originUrl
+                );
             }
 
             throw new ClientException('Got an invalid response from the server');

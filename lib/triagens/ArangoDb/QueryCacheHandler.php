@@ -13,37 +13,37 @@ namespace triagens\ArangoDb;
 class QueryCacheHandler extends
     Handler
 {
-    
+
     /**
      * Globally turns on the AQL query result cache
      *
      * @throws Exception
      */
-    public function enable() 
+    public function enable()
     {
         $url = UrlHelper::buildUrl(Urls::URL_QUERY_CACHE, array("properties"));
         $this->getConnection()->put($url, $this->json_encode_wrapper(array("mode" => "on")));
     }
-    
-    
+
+
     /**
      * Globally turns off the AQL query result cache
      *
      * @throws Exception
      */
-    public function disable() 
+    public function disable()
     {
         $url = UrlHelper::buildUrl(Urls::URL_QUERY_CACHE, array("properties"));
         $this->getConnection()->put($url, $this->json_encode_wrapper(array("mode" => "off")));
     }
 
-    
+
     /**
      * Globally sets the AQL query result cache to demand mode
      *
      * @throws Exception
      */
-    public function enableDemandMode() 
+    public function enableDemandMode()
     {
         $url = UrlHelper::buildUrl(Urls::URL_QUERY_CACHE, array("properties"));
         $this->getConnection()->put($url, $this->json_encode_wrapper(array("mode" => "demand")));
@@ -54,7 +54,7 @@ class QueryCacheHandler extends
      *
      * @throws Exception
      */
-    public function clear() 
+    public function clear()
     {
         $url = UrlHelper::buildUrl(Urls::URL_QUERY_CACHE, array());
         $this->getConnection()->delete($url);
@@ -67,7 +67,7 @@ class QueryCacheHandler extends
      *
      * @return array
      */
-    public function getProperties() 
+    public function getProperties()
     {
         $url      = UrlHelper::buildUrl(Urls::URL_QUERY_CACHE);
         $response = $this->getConnection()->get($url);
@@ -81,7 +81,7 @@ class QueryCacheHandler extends
      *
      * @throws Exception
      *
-     * @param  array $properties - the query result cache properties. 
+     * @param  array $properties - the query result cache properties.
      *                             the following properties can be used:
      *                             - maxResults: maximum number of results
      *                               that the query result cache will hold
@@ -89,10 +89,10 @@ class QueryCacheHandler extends
      *                             - mode: turns the query result cache on or off,
      *                               or sets it to demand mode. Possible values are
      *                               "on", "off", or "demand".
-     *                               
+     *
      * @return array
      */
-    public function setProperties(array $properties) 
+    public function setProperties(array $properties)
     {
         $bodyParams = $properties;
 
