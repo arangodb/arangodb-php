@@ -22,14 +22,14 @@ class GeneralGraphExtendedTest extends
     {
         $this->connection = getConnection();
         $v                = time();
-        $this->graphName  = "graph" . $v;
-        $this->v1         = "v1" . $v;
-        $this->v2         = "v2" . $v;
-        $this->v3         = "v3" . $v;
-        $this->v4         = "v4" . $v;
-        $this->v5         = "v5" . $v;
-        $this->e1         = "e1" . $v;
-        $this->e2         = "e2" . $v;
+        $this->graphName  = 'graph' . $v;
+        $this->v1         = 'v1' . $v;
+        $this->v2         = 'v2' . $v;
+        $this->v3         = 'v3' . $v;
+        $this->v4         = 'v4' . $v;
+        $this->v5         = 'v5' . $v;
+        $this->e1         = 'e1' . $v;
+        $this->e2         = 'e2' . $v;
         $param1           = array();
         $param1[]         = $this->v1;
         $param1[]         = $this->v2;
@@ -47,76 +47,76 @@ class GeneralGraphExtendedTest extends
         $this->graph      = new Graph($this->graphName);
         $this->graph->addEdgeDefinition($ed1);
         $this->graph->addEdgeDefinition($ed2);
-        $this->graph->addOrphanCollection("orphan");
+        $this->graph->addOrphanCollection('orphan');
         $this->graphHandler = new GraphHandler($this->connection);
         $this->graphHandler->createGraph($this->graph);
         $this->graph        = $this->graphHandler->getGraph($this->graphName);
         $this->vertex1Array = array(
-            '_key' => "vertex1",
+            '_key' => 'vertex1',
             'someKey1' => 'someValue1',
             'sharedKey1' => 1
         );
         $this->vertex2Array = array(
-            '_key' => "vertex2",
+            '_key' => 'vertex2',
             'someKey2' => 'someValue2',
             'sharedKey1' => 2
         );
         $this->vertex3Array = array(
-            '_key' => "vertex3",
+            '_key' => 'vertex3',
             'someKey3' => 'someValue3',
             'sharedKey1' => 1
         );
         $this->vertex4Array = array(
-            '_key' => "vertex4",
+            '_key' => 'vertex4',
             'someKey4' => 'someValue4',
             'sharedKey1' => 2
         );
         $this->vertex5Array = array(
-            '_key' => "vertex5",
+            '_key' => 'vertex5',
             'someKey5' => 'someValue5',
             'a' => 3,
             'sharedKey1' => 1
         );
         $this->vertex6Array = array(
-            '_key' => "vertex6",
+            '_key' => 'vertex6',
             'someKey6' => 'someValue6',
             'sharedKey1' => 1
         );
         $this->vertex7Array = array(
-            '_key' => "vertex7",
+            '_key' => 'vertex7',
             'someKey7' => 'someValue7',
             'a' => 3,
             'sharedKey1' => 1
         );
         $this->edge1Array   = array(
-            '_key' => "edge1",
+            '_key' => 'edge1',
             'someEdgeKey1' => 'someEdgeValue1',
             'sharedKey1' => 1,
             'weight' => 10
         );
         $this->edge2Array   = array(
-            '_key' => "edge2",
+            '_key' => 'edge2',
             'someEdgeKey2' => 'someEdgeValue2',
             'sharedKey2' => 2,
             'weight' => 15
         );
         $this->edge3Array   = array(
-            '_key' => "edge3",
+            '_key' => 'edge3',
             'sharedKey3' => 2,
             'weight' => 12
         );
         $this->edge4Array   = array(
-            '_key' => "edge4",
+            '_key' => 'edge4',
             'sharedKey4' => 1,
             'weight' => 7
         );
         $this->edge5Array   = array(
-            '_key' => "edge5",
+            '_key' => 'edge5',
             'sharedKey5' => 1,
             'weight' => 5
         );
         $this->edge6Array   = array(
-            '_key' => "edge6",
+            '_key' => 'edge6',
             'sharedKey6' => 1,
             'weight' => 2
         );
@@ -147,41 +147,41 @@ class GeneralGraphExtendedTest extends
         $this->graphHandler->saveVertex($this->graphName, $vertex7, $this->v1);
         $this->graphHandler->saveEdge(
             $this->graphName,
-            $this->v1 . "/" . $this->vertex1Array["_key"],
-            $this->v3 . "/" . $this->vertex3Array["_key"],
-            "edgeLabel1",
+            $this->v1 . '/' . $this->vertex1Array['_key'],
+            $this->v3 . '/' . $this->vertex3Array['_key'],
+            'edgeLabel1',
             $edge1,
             $this->e1
         );
         $this->graphHandler->saveEdge(
             $this->graphName,
-            $this->v1 . "/" . $this->vertex7Array["_key"],
-            $this->v3 . "/" . $this->vertex3Array["_key"],
-            "edgeLabel2",
+            $this->v1 . '/' . $this->vertex7Array['_key'],
+            $this->v3 . '/' . $this->vertex3Array['_key'],
+            'edgeLabel2',
             $edge2,
             $this->e1
         );
         $this->graphHandler->saveEdge(
             $this->graphName,
-            $this->v1 . "/" . $this->vertex7Array["_key"],
-            $this->v4 . "/" . $this->vertex4Array["_key"],
-            "edgeLabel3",
+            $this->v1 . '/' . $this->vertex7Array['_key'],
+            $this->v4 . '/' . $this->vertex4Array['_key'],
+            'edgeLabel3',
             $edge3,
             $this->e1
         );
         $this->graphHandler->saveEdge(
             $this->graphName,
-            $this->v2 . "/" . $this->vertex2Array["_key"],
-            $this->v4 . "/" . $this->vertex4Array["_key"],
-            "edgeLabel4",
+            $this->v2 . '/' . $this->vertex2Array['_key'],
+            $this->v4 . '/' . $this->vertex4Array['_key'],
+            'edgeLabel4',
             $edge4,
             $this->e1
         );
         $this->graphHandler->saveEdge(
             $this->graphName,
-            $this->v5 . "/" . $this->vertex5Array["_key"],
-            $this->v5 . "/" . $this->vertex6Array["_key"],
-            "edgeLabel5",
+            $this->v5 . '/' . $this->vertex5Array['_key'],
+            $this->v5 . '/' . $this->vertex6Array['_key'],
+            'edgeLabel5',
             $edge5,
             $this->e2
         );
@@ -199,74 +199,74 @@ class GeneralGraphExtendedTest extends
         } catch (Exception $e) {
             $ex = $e->getMessage();
         }
-        $this->assertTrue($ex == 'A collection must be provided.');
+        static::assertEquals($ex, 'A collection must be provided.');
         $this->createGraph();
 
         $ex = null;
         try {
-            $this->graphHandler->getVertex($this->graphName, $this->vertex1Array["_key"]);
+            $this->graphHandler->getVertex($this->graphName, $this->vertex1Array['_key']);
         } catch (Exception $e) {
             $ex = $e->getMessage();
         }
-        $this->assertTrue($ex == 'A collection must be provided.');
+        static::assertEquals($ex, 'A collection must be provided.');
 
-        $v1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Array["_key"], array(), $this->v1);
-        $v2 = $this->graphHandler->getVertex($this->graphName, $this->v1 . "/" . $this->vertex1Array["_key"], array());
+        $v1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Array['_key'], array(), $this->v1);
+        $v2 = $this->graphHandler->getVertex($this->graphName, $this->v1 . '/' . $this->vertex1Array['_key'], array());
 
-        $this->assertTrue($v1->getInternalKey() == $v2->getInternalKey());
+        static::assertEquals($v1->getInternalKey(), $v2->getInternalKey());
 
-        $v1 = $this->graphHandler->getVertex($this->graphName, $this->v1 . "/" . $this->vertex1Array["_key"], array());
+        $v1 = $this->graphHandler->getVertex($this->graphName, $this->v1 . '/' . $this->vertex1Array['_key'], array());
         $v  = Vertex::createFromArray($this->vertex7Array);
         $v->setRevision($v1->getRevision());
         $ex = null;
         try {
-            $this->graphHandler->replaceVertex($this->graphName, $this->vertex1Array["_key"], $v, array());
+            $this->graphHandler->replaceVertex($this->graphName, $this->vertex1Array['_key'], $v, array());
         } catch (Exception $e) {
             $ex = $e->getMessage();
         }
-        $this->assertTrue($ex == 'A collection must be provided.');
+        static::assertEquals($ex, 'A collection must be provided.');
 
-        $v1 = $this->graphHandler->getVertex($this->graphName, $this->v1 . "/" . $this->vertex1Array["_key"], array());
+        $v1 = $this->graphHandler->getVertex($this->graphName, $this->v1 . '/' . $this->vertex1Array['_key'], array());
         $v  = Vertex::createFromArray($this->vertex7Array);
         $v->setRevision($v1->getRevision());
-        $this->assertTrue(
-            $this->graphHandler->replaceVertex($this->graphName, $this->vertex1Array["_key"], $v, array('revision' => $v1->getRevision()), $this->v1)
+        static::assertTrue(
+            $this->graphHandler->replaceVertex($this->graphName, $this->vertex1Array['_key'], $v, array('revision' => $v1->getRevision()), $this->v1)
         );
-        $v1 = $this->graphHandler->getVertex($this->graphName, $this->v1 . "/" . $this->vertex1Array["_key"], array());
+        $v1 = $this->graphHandler->getVertex($this->graphName, $this->v1 . '/' . $this->vertex1Array['_key'], array());
         $v  = Vertex::createFromArray($this->vertex7Array);
         $v->setRevision($v1->getRevision());
-        $this->assertTrue(
-            $this->graphHandler->replaceVertex($this->graphName, $this->v1 . "/" . $this->vertex1Array["_key"], $v, array('revision' => true))
+        static::assertTrue(
+            $this->graphHandler->replaceVertex($this->graphName, $this->v1 . '/' . $this->vertex1Array['_key'], $v, array('revision' => true))
         );
         $ex = null;
         try {
-            $this->graphHandler->updateVertex($this->graphName, $this->vertex1Array["_key"], $v, array());
+            $this->graphHandler->updateVertex($this->graphName, $this->vertex1Array['_key'], $v, array());
         } catch (Exception $e) {
             $ex = $e->getMessage();
         }
-        $this->assertTrue($ex == 'A collection must be provided.');
-        $v1 = $this->graphHandler->getVertex($this->graphName, $this->v1 . "/" . $this->vertex1Array["_key"], array());
+        static::assertEquals($ex, 'A collection must be provided.');
+        $v1 = $this->graphHandler->getVertex($this->graphName, $this->v1 . '/' . $this->vertex1Array['_key'], array());
         $v  = Vertex::createFromArray($this->vertex7Array);
         $v->setRevision($v1->getRevision());
-        $this->assertTrue(
-            $this->graphHandler->updateVertex($this->graphName, $this->vertex1Array["_key"], $v, array('revision' => true), $this->v1)
+        static::assertTrue(
+            $this->graphHandler->updateVertex($this->graphName, $this->vertex1Array['_key'], $v, array('revision' => true), $this->v1)
         );
-        $v1 = $this->graphHandler->getVertex($this->graphName, $this->v1 . "/" . $this->vertex1Array["_key"], array());
+        $v1 = $this->graphHandler->getVertex($this->graphName, $this->v1 . '/' . $this->vertex1Array['_key'], array());
         $v  = Vertex::createFromArray($this->vertex7Array);
         $v->setRevision($v1->getRevision());
-        $this->assertTrue(
-            $this->graphHandler->updateVertex($this->graphName, $this->v1 . "/" . $this->vertex1Array["_key"], $v, array('revision' => $v1->getRevision()))
+        static::assertTrue(
+            $this->graphHandler->updateVertex($this->graphName, $this->v1 . '/' . $this->vertex1Array['_key'], $v, array('revision' => $v1->getRevision()))
         );
         //removeVertex($graph, $vertexId, $revision = null, $options = array(), $collection = null)
         $ex = null;
         try {
-            $this->graphHandler->removeVertex($this->graphName, $this->vertex1Array["_key"], null, array());
+            $this->graphHandler->removeVertex($this->graphName, $this->vertex1Array['_key'], null, array());
         } catch (Exception $e) {
             $ex = $e->getMessage();
         }
-        $this->assertTrue($ex == 'A collection must be provided.');
-        $v1 = $this->graphHandler->getVertex($this->graphName, $this->v1 . "/" . $this->vertex1Array["_key"], array());
-        $this->assertTrue($this->graphHandler->removeVertex($this->graphName, $this->v1 . "/" . $this->vertex1Array["_key"], $v1->getRevision(), array()));
+        static::assertEquals($ex, 'A collection must be provided.');
+        $v1 = $this->graphHandler->getVertex($this->graphName, $this->v1 . '/' . $this->vertex1Array['_key'], array());
+        static::assertTrue($this->graphHandler->removeVertex($this->graphName, $this->v1 . '/' . $this->vertex1Array['_key'], $v1->getRevision(), array()));
 
 
     }
@@ -280,20 +280,20 @@ class GeneralGraphExtendedTest extends
         try {
             $this->graphHandler->saveEdge(
                 $this->graphName,
-                $this->v1 . "/" . $this->vertex1Array["_key"],
-                $this->v1 . "/" . $this->vertex1Array["_key"],
+                $this->v1 . '/' . $this->vertex1Array['_key'],
+                $this->v1 . '/' . $this->vertex1Array['_key'],
                 null,
                 $edge1
             );
         } catch (Exception $e) {
             $ex = $e->getMessage();
         }
-        $this->assertTrue($ex == 'A collection must be provided.');
+        static::assertEquals($ex, 'A collection must be provided.');
         $this->createGraph();
         $this->graphHandler->saveEdge(
             $this->graphName,
-            $this->v1 . "/" . $this->vertex1Array["_key"],
-            $this->v4 . "/" . $this->vertex4Array["_key"],
+            $this->v1 . '/' . $this->vertex1Array['_key'],
+            $this->v4 . '/' . $this->vertex4Array['_key'],
             null,
             array(),
             $this->e1
@@ -301,73 +301,73 @@ class GeneralGraphExtendedTest extends
 
         $ex = null;
         try {
-            $this->graphHandler->getEdge($this->graphName, $this->edge1Array["_key"]);
+            $this->graphHandler->getEdge($this->graphName, $this->edge1Array['_key']);
         } catch (Exception $e) {
             $ex = $e->getMessage();
         }
-        $this->assertTrue($ex == 'A collection must be provided.');
+        static::assertEquals($ex, 'A collection must be provided.');
 
-        $v1 = $this->graphHandler->getEdge($this->graphName, $this->edge1Array["_key"], array(), $this->e1);
-        $v2 = $this->graphHandler->getEdge($this->graphName, $this->e1 . "/" . $this->edge1Array["_key"], array());
+        $v1 = $this->graphHandler->getEdge($this->graphName, $this->edge1Array['_key'], array(), $this->e1);
+        $v2 = $this->graphHandler->getEdge($this->graphName, $this->e1 . '/' . $this->edge1Array['_key'], array());
 
-        $this->assertTrue($v1->getInternalKey() == $v2->getInternalKey());
+        static::assertEquals($v1->getInternalKey(), $v2->getInternalKey());
 
-        $v1 = $this->graphHandler->getEdge($this->graphName, $this->e1 . "/" . $this->edge1Array["_key"], array());
+        $v1 = $this->graphHandler->getEdge($this->graphName, $this->e1 . '/' . $this->edge1Array['_key'], array());
         $v  = Edge::createFromArray($this->edge1Array);
         $v->setRevision($v1->getRevision());
         $ex = null;
         try {
-            $this->graphHandler->replaceEdge($this->graphName, $this->edge1Array["_key"], null, $v, array());
+            $this->graphHandler->replaceEdge($this->graphName, $this->edge1Array['_key'], null, $v, array());
         } catch (Exception $e) {
             $ex = $e->getMessage();
         }
-        $this->assertTrue($ex == 'A collection must be provided.');
+        static::assertEquals($ex, 'A collection must be provided.');
 
-        $v1 = $this->graphHandler->getEdge($this->graphName, $this->e1 . "/" . $this->edge1Array["_key"], array());
+        $v1 = $this->graphHandler->getEdge($this->graphName, $this->e1 . '/' . $this->edge1Array['_key'], array());
         $v  = Edge::createFromArray($this->edge1Array);
         $v->setFrom($v1->getFrom());
         $v->setTo($v1->getTo());
         $v->setRevision($v1->getRevision());
-        $this->assertTrue(
-            $this->graphHandler->replaceEdge($this->graphName, $this->edge1Array["_key"], null, $v, array('revision' => $v1->getRevision()), $this->e1)
+        static::assertTrue(
+            $this->graphHandler->replaceEdge($this->graphName, $this->edge1Array['_key'], null, $v, array('revision' => $v1->getRevision()), $this->e1)
         );
-        $v1 = $this->graphHandler->getEdge($this->graphName, $this->e1 . "/" . $this->edge1Array["_key"], array());
+        $v1 = $this->graphHandler->getEdge($this->graphName, $this->e1 . '/' . $this->edge1Array['_key'], array());
         $v  = Edge::createFromArray($this->edge1Array);
         $v->setRevision($v1->getRevision());
         $v->setFrom($v1->getFrom());
         $v->setTo($v1->getTo());
-        $this->assertTrue(
-            $this->graphHandler->replaceEdge($this->graphName, $this->e1 . "/" . $this->edge1Array["_key"], null, $v, array('revision' => true))
+        static::assertTrue(
+            $this->graphHandler->replaceEdge($this->graphName, $this->e1 . '/' . $this->edge1Array['_key'], null, $v, array('revision' => true))
         );
         $ex = null;
         try {
-            $this->graphHandler->updateEdge($this->graphName, $this->edge1Array["_key"], null, $v, array());
+            $this->graphHandler->updateEdge($this->graphName, $this->edge1Array['_key'], null, $v, array());
         } catch (Exception $e) {
             $ex = $e->getMessage();
         }
-        $this->assertTrue($ex == 'A collection must be provided.');
-        $v1 = $this->graphHandler->getEdge($this->graphName, $this->e1 . "/" . $this->edge1Array["_key"], array());
+        static::assertEquals($ex, 'A collection must be provided.');
+        $v1 = $this->graphHandler->getEdge($this->graphName, $this->e1 . '/' . $this->edge1Array['_key'], array());
         $v  = Edge::createFromArray($this->edge1Array);
         $v->setRevision($v1->getRevision());
-        $this->assertTrue(
-            $this->graphHandler->updateEdge($this->graphName, $this->edge1Array["_key"], null, $v, array('revision' => true), $this->e1)
+        static::assertTrue(
+            $this->graphHandler->updateEdge($this->graphName, $this->edge1Array['_key'], null, $v, array('revision' => true), $this->e1)
         );
-        $v1 = $this->graphHandler->getEdge($this->graphName, $this->e1 . "/" . $this->edge1Array["_key"], array());
+        $v1 = $this->graphHandler->getEdge($this->graphName, $this->e1 . '/' . $this->edge1Array['_key'], array());
         $v  = Edge::createFromArray($this->edge1Array);
         $v->setRevision($v1->getRevision());
-        $this->assertTrue(
-            $this->graphHandler->updateEdge($this->graphName, $this->e1 . "/" . $this->edge1Array["_key"], null, $v, array('revision' => $v1->getRevision()))
+        static::assertTrue(
+            $this->graphHandler->updateEdge($this->graphName, $this->e1 . '/' . $this->edge1Array['_key'], null, $v, array('revision' => $v1->getRevision()))
         );
         //removeVertex($graph, $vertexId, $revision = null, $options = array(), $collection = null)
         $ex = null;
         try {
-            $this->graphHandler->removeEdge($this->graphName, $this->edge1Array["_key"], null, array());
+            $this->graphHandler->removeEdge($this->graphName, $this->edge1Array['_key'], null, array());
         } catch (Exception $e) {
             $ex = $e->getMessage();
         }
-        $this->assertTrue($ex == 'A collection must be provided.');
-        $v1 = $this->graphHandler->getVertex($this->graphName, $this->e1 . "/" . $this->edge1Array["_key"], array());
-        $this->assertTrue($this->graphHandler->removeEdge($this->graphName, $this->e1 . "/" . $this->edge1Array["_key"], $v1->getRevision(), array()));
+        static::assertEquals($ex, 'A collection must be provided.');
+        $v1 = $this->graphHandler->getVertex($this->graphName, $this->e1 . '/' . $this->edge1Array['_key'], array());
+        static::assertTrue($this->graphHandler->removeEdge($this->graphName, $this->e1 . '/' . $this->edge1Array['_key'], $v1->getRevision(), array()));
 
 
     }
@@ -376,13 +376,11 @@ class GeneralGraphExtendedTest extends
     {
         try {
             $result = $this->graphHandler->dropGraph($this->graphName);
-            $this->assertTrue($result, 'Did not return true!');
+            static::assertTrue($result, 'Did not return true!');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
 
-        unset($this->graph);
-        unset($this->graphHandler);
-        unset($this->connection);
+        unset($this->graph, $this->graphHandler, $this->connection);
     }
 }

@@ -32,7 +32,7 @@ class CollectionBasicTest extends
         $this->collectionHandler->create('ArangoDB_PHP_TestSuite_IndexTestCollection');
 
         $adminHandler = new AdminHandler($this->connection);
-        $version      = preg_replace("/-[a-z0-9]+$/", "", $adminHandler->getServerVersion());
+        $version      = preg_replace("/-[a-z0-9]+$/", '', $adminHandler->getServerVersion());
 
         $this->hasSparseIndexes        = (version_compare($version, '2.5.0') >= 0);
         $this->hasSelectivityEstimates = (version_compare($version, '2.5.0') >= 0);
@@ -44,7 +44,7 @@ class CollectionBasicTest extends
      */
     public function testDefaultCollectionType()
     {
-        $this->assertEquals(Collection::TYPE_DOCUMENT, Collection::getDefaultType());
+        static::assertEquals(Collection::TYPE_DOCUMENT, Collection::getDefaultType());
     }
 
 
@@ -55,9 +55,9 @@ class CollectionBasicTest extends
     {
         $connection = $this->connection;
         $collection = new Collection();
-        $this->assertInstanceOf('triagens\ArangoDb\Collection', $collection);
+        static::assertInstanceOf('triagens\ArangoDb\Collection', $collection);
         new CollectionHandler($connection);
-        $this->assertInstanceOf('triagens\ArangoDb\Collection', $collection);
+        static::assertInstanceOf('triagens\ArangoDb\Collection', $collection);
     }
 
 
@@ -69,7 +69,7 @@ class CollectionBasicTest extends
         $collection = new Collection();
         $collection->setType(Collection::TYPE_DOCUMENT);
 
-        $this->assertEquals(Collection::TYPE_DOCUMENT, $collection->getType());
+        static::assertEquals(Collection::TYPE_DOCUMENT, $collection->getType());
     }
 
 
@@ -81,7 +81,7 @@ class CollectionBasicTest extends
         $collection = new Collection();
         $collection->setType(Collection::TYPE_EDGE);
 
-        $this->assertEquals(Collection::TYPE_EDGE, $collection->getType());
+        static::assertEquals(Collection::TYPE_EDGE, $collection->getType());
     }
 
 
@@ -105,17 +105,16 @@ class CollectionBasicTest extends
         $collection->setName($name);
         $response = $collectionHandler->add($collection);
 
-        $this->assertTrue(is_numeric($response), 'Did not return a numeric id!');
+        static::assertTrue(is_numeric($response), 'Did not return a numeric id!');
 
         $resultingCollection = $collectionHandler->get($response);
 
         $resultingAttribute = $resultingCollection->getName();
-        $this->assertTrue(
-            $name === $resultingAttribute,
-            'The created collection name and resulting collection name do not match!'
+        static::assertSame(
+            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
         );
 
-        $this->assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
+        static::assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
 
         $collectionHandler->delete($collection);
     }
@@ -144,30 +143,30 @@ class CollectionBasicTest extends
 
         $collection->setName($name);
         $collection->setKeyOptions(
-            array("type" => "autoincrement", "allowUserKeys" => false, "increment" => 5, "offset" => 10)
+            array('type' => 'autoincrement', 'allowUserKeys' => false, 'increment' => 5, 'offset' => 10)
         );
         $response = $collectionHandler->add($collection);
 
         $resultingCollection = $collectionHandler->getProperties($response);
         $properties          = $resultingCollection->getAll();
 
-        $this->assertEquals($properties[Collection::ENTRY_STATUS], 3, 'Status does not match.');
-        $this->assertEquals(
+        static::assertEquals($properties[Collection::ENTRY_STATUS], 3, 'Status does not match.');
+        static::assertEquals(
             $properties[Collection::ENTRY_KEY_OPTIONS]['type'],
             'autoincrement',
             'Key options type does not match'
         );
-        $this->assertEquals(
+        static::assertEquals(
             $properties[Collection::ENTRY_KEY_OPTIONS]['allowUserKeys'],
             false,
             'Key options allowUserKeys does not match'
         );
-        $this->assertEquals(
+        static::assertEquals(
             $properties[Collection::ENTRY_KEY_OPTIONS]['increment'],
             5,
             'Key options increment does not match'
         );
-        $this->assertEquals(
+        static::assertEquals(
             $properties[Collection::ENTRY_KEY_OPTIONS]['offset'],
             10,
             'Key options offset does not match'
@@ -200,7 +199,7 @@ class CollectionBasicTest extends
 
         $collection->setName($name);
         $collection->setKeyOptions(
-            array("type" => "autoincrement", "allowUserKeys" => false, "increment" => 5, "offset" => 10)
+            array('type' => 'autoincrement', 'allowUserKeys' => false, 'increment' => 5, 'offset' => 10)
         );
 
         try {
@@ -208,7 +207,7 @@ class CollectionBasicTest extends
         } catch (\Exception $e) {
         }
 
-        $this->assertEquals($e->getCode(), 501);
+        static::assertEquals($e->getCode(), 501);
     }
 
 
@@ -242,8 +241,8 @@ class CollectionBasicTest extends
         $resultingCollection = $collectionHandler->getProperties($response);
         $properties          = $resultingCollection->getAll();
 
-        $this->assertEquals($properties[Collection::ENTRY_NUMBER_OF_SHARDS], 4, 'Number of shards does not match.');
-        $this->assertEquals($properties[Collection::ENTRY_SHARD_KEYS], array("_key"), 'Shard keys do not match.');
+        static::assertEquals($properties[Collection::ENTRY_NUMBER_OF_SHARDS], 4, 'Number of shards does not match.');
+        static::assertEquals($properties[Collection::ENTRY_SHARD_KEYS], array('_key'), 'Shard keys do not match.');
     }
 
 
@@ -270,19 +269,19 @@ class CollectionBasicTest extends
         }
 
         $collection->setName($name);
-        $collection->setShardKeys(array("_key", "a", "b"));
+        $collection->setShardKeys(array('_key', 'a', 'b'));
 
         $response = $collectionHandler->add($collection);
 
         $resultingCollection = $collectionHandler->getProperties($response);
         $properties          = $resultingCollection->getAll();
 
-        $this->assertEquals($properties[Collection::ENTRY_NUMBER_OF_SHARDS], 1, 'Number of shards does not match.');
-        $this->assertEquals(
+        static::assertEquals($properties[Collection::ENTRY_NUMBER_OF_SHARDS], 1, 'Number of shards does not match.');
+        static::assertEquals(
             $properties[Collection::ENTRY_SHARD_KEYS], array(
-            "_key",
-            "a",
-            "b"
+            '_key',
+            'a',
+            'b'
         ), 'Shard keys do not match.'
         );
     }
@@ -311,12 +310,11 @@ class CollectionBasicTest extends
         $resultingCollection = $collectionHandler->get($name);
 
         $resultingAttribute = $resultingCollection->getName();
-        $this->assertTrue(
-            $name === $resultingAttribute,
-            'The created collection name and resulting collection name do not match!'
+        static::assertSame(
+            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
         );
 
-        $this->assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
+        static::assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
 
         $collectionHandler->delete($collection);
     }
@@ -346,12 +344,11 @@ class CollectionBasicTest extends
         $resultingCollection = $collectionHandler->get($name);
 
         $resultingAttribute = $resultingCollection->getName();
-        $this->assertTrue(
-            $name === $resultingAttribute,
-            'The created collection name and resulting collection name do not match!'
+        static::assertSame(
+            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
         );
 
-        $this->assertEquals(Collection::TYPE_EDGE, $resultingCollection->getType());
+        static::assertEquals(Collection::TYPE_EDGE, $resultingCollection->getType());
 
         $collectionHandler->delete($collection);
     }
@@ -379,12 +376,11 @@ class CollectionBasicTest extends
         $resultingCollection = $collectionHandler->get($name);
 
         $resultingAttribute = $resultingCollection->getName();
-        $this->assertTrue(
-            $name === $resultingAttribute,
-            'The created collection name and resulting collection name do not match!'
+        static::assertSame(
+            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
         );
 
-        $this->assertEquals(Collection::TYPE_EDGE, $resultingCollection->getType());
+        static::assertEquals(Collection::TYPE_EDGE, $resultingCollection->getType());
 
         $collectionHandler->delete($name);
     }
@@ -411,12 +407,11 @@ class CollectionBasicTest extends
         $resultingCollection = $collectionHandler->get($name);
 
         $resultingAttribute = $resultingCollection->getName();
-        $this->assertTrue(
-            $name === $resultingAttribute,
-            'The created collection name and resulting collection name do not match!'
+        static::assertSame(
+            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
         );
         $resultingCollectionProperties = $collectionHandler->getProperties($name);
-        $this->assertTrue($resultingCollectionProperties->getIsVolatile());
+        static::assertTrue($resultingCollectionProperties->getIsVolatile());
 
         $collectionHandler->delete($name);
     }
@@ -444,13 +439,12 @@ class CollectionBasicTest extends
         $resultingCollection = $collectionHandler->get($name);
 
         $resultingAttribute = $resultingCollection->getName();
-        $this->assertTrue(
-            $name === $resultingAttribute,
-            'The created collection name and resulting collection name do not match!'
+        static::assertSame(
+            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
         );
         $resultingCollectionProperties = $collectionHandler->getProperties($name);
-        $this->assertTrue($resultingCollectionProperties->getIsSystem());
-        $this->assertTrue($resultingCollectionProperties->getWaitForSync());
+        static::assertTrue($resultingCollectionProperties->getIsSystem());
+        static::assertTrue($resultingCollectionProperties->getWaitForSync());
 
 
         $collectionHandler->delete($name);
@@ -474,14 +468,14 @@ class CollectionBasicTest extends
 
         $indicesByIdentifiers = $indices['identifiers'];
 
-        $this->assertArrayHasKey($result['id'], $indicesByIdentifiers, 'Geo index was not created!');
+        static::assertArrayHasKey($result['id'], $indicesByIdentifiers, 'Geo index was not created!');
 
         $indexInfo = $indicesByIdentifiers[$result['id']];
 
-        $this->assertEquals("geo1", $indexInfo[CollectionHandler::OPTION_TYPE], "Index type is not 'geo1'!");
-        $this->assertCount(1, $indexInfo['fields'], "There should only be 1 indexed field");
-        $this->assertEquals("combinedGeo", $indexInfo['fields'][0], "The indexed field is not 'combinedGeo'");
-        $this->assertEquals(true, $indexInfo[CollectionHandler::OPTION_GEOJSON], 'geoJson was not set to true!');
+        static::assertEquals('geo1', $indexInfo[CollectionHandler::OPTION_TYPE], "Index type is not 'geo1'!");
+        static::assertCount(1, $indexInfo['fields'], 'There should only be 1 indexed field');
+        static::assertEquals('combinedGeo', $indexInfo['fields'][0], "The indexed field is not 'combinedGeo'");
+        static::assertEquals(true, $indexInfo[CollectionHandler::OPTION_GEOJSON], 'geoJson was not set to true!');
     }
 
 
@@ -502,16 +496,16 @@ class CollectionBasicTest extends
 
         $indicesByIdentifiers = $indices['identifiers'];
 
-        $this->assertArrayHasKey($result['id'], $indicesByIdentifiers, 'Geo index was not created!');
+        static::assertArrayHasKey($result['id'], $indicesByIdentifiers, 'Geo index was not created!');
 
         $indexInfo = $indicesByIdentifiers[$result['id']];
 
-        $this->assertEquals("geo2", $indexInfo[CollectionHandler::OPTION_TYPE], "Index type is not 'geo2'!");
-        $this->assertCount(2, $indexInfo['fields'], "There should only be 2 indexed fields");
-        $this->assertEquals("lat", $indexInfo['fields'][0], "The first indexed field is not 'lat'");
-        $this->assertEquals("long", $indexInfo['fields'][1], "The second indexed field is not 'long'");
-        $this->assertArrayNotHasKey(CollectionHandler::OPTION_GEOJSON, $indexInfo, 'geoJson was set!');
-        $this->assertEquals(
+        static::assertEquals('geo2', $indexInfo[CollectionHandler::OPTION_TYPE], "Index type is not 'geo2'!");
+        static::assertCount(2, $indexInfo['fields'], 'There should only be 2 indexed fields');
+        static::assertEquals('lat', $indexInfo['fields'][0], "The first indexed field is not 'lat'");
+        static::assertEquals('long', $indexInfo['fields'][1], "The second indexed field is not 'long'");
+        static::assertArrayNotHasKey(CollectionHandler::OPTION_GEOJSON, $indexInfo, 'geoJson was set!');
+        static::assertEquals(
             false,
             $indexInfo[CollectionHandler::OPTION_CONSTRAINT],
             'constraint was not set to false!'
@@ -539,25 +533,25 @@ class CollectionBasicTest extends
 
         $indicesByIdentifiers = $indices['identifiers'];
 
-        $this->assertArrayHasKey($result['id'], $indicesByIdentifiers, 'Hash index was not created!');
+        static::assertArrayHasKey($result['id'], $indicesByIdentifiers, 'Hash index was not created!');
 
         $indexInfo = $indicesByIdentifiers[$result['id']];
 
-        $this->assertEquals(
+        static::assertEquals(
             CollectionHandler::OPTION_HASH_INDEX,
             $indexInfo[CollectionHandler::OPTION_TYPE],
             "Index type is not 'hash'!"
         );
-        $this->assertCount(2, $indexInfo['fields'], "There should only be 2 indexed fields");
-        $this->assertEquals("hashfield1", $indexInfo['fields'][0], "The first indexed field is not 'hashfield1'");
-        $this->assertEquals("hashfield2", $indexInfo['fields'][1], "The second indexed field is not 'hashfield2'");
-        $this->assertTrue($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to true!');
+        static::assertCount(2, $indexInfo['fields'], 'There should only be 2 indexed fields');
+        static::assertEquals('hashfield1', $indexInfo['fields'][0], "The first indexed field is not 'hashfield1'");
+        static::assertEquals('hashfield2', $indexInfo['fields'][1], "The second indexed field is not 'hashfield2'");
+        static::assertTrue($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to true!');
 
         if ($this->hasSparseIndexes) {
-            $this->assertFalse($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to false!');
+            static::assertFalse($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to false!');
         }
         if ($this->hasSelectivityEstimates) {
-            $this->assertTrue(isset($indexInfo['selectivityEstimate']), 'selectivity estimate not present!');
+            static::assertTrue(isset($indexInfo['selectivityEstimate']), 'selectivity estimate not present!');
         }
     }
 
@@ -578,25 +572,25 @@ class CollectionBasicTest extends
 
         $indicesByIdentifiers = $indices['identifiers'];
 
-        $this->assertArrayHasKey($result['id'], $indicesByIdentifiers, 'Hash index was not created!');
+        static::assertArrayHasKey($result['id'], $indicesByIdentifiers, 'Hash index was not created!');
 
         $indexInfo = $indicesByIdentifiers[$result['id']];
 
-        $this->assertEquals(
+        static::assertEquals(
             CollectionHandler::OPTION_HASH_INDEX,
             $indexInfo[CollectionHandler::OPTION_TYPE],
             "Index type is not 'hash'!"
         );
-        $this->assertCount(2, $indexInfo['fields'], "There should only be 2 indexed fields");
-        $this->assertEquals("hashfield1", $indexInfo['fields'][0], "The first indexed field is not 'hashfield1'");
-        $this->assertEquals("hashfield2", $indexInfo['fields'][1], "The second indexed field is not 'hashfield2'");
-        $this->assertFalse($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to false!');
+        static::assertCount(2, $indexInfo['fields'], 'There should only be 2 indexed fields');
+        static::assertEquals('hashfield1', $indexInfo['fields'][0], "The first indexed field is not 'hashfield1'");
+        static::assertEquals('hashfield2', $indexInfo['fields'][1], "The second indexed field is not 'hashfield2'");
+        static::assertFalse($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to false!');
 
         if ($this->hasSparseIndexes) {
-            $this->assertTrue($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to true!');
+            static::assertTrue($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to true!');
         }
         if ($this->hasSelectivityEstimates) {
-            $this->assertTrue(isset($indexInfo['selectivityEstimate']), 'selectivity estimate not present!');
+            static::assertTrue(isset($indexInfo['selectivityEstimate']), 'selectivity estimate not present!');
         }
     }
 
@@ -616,18 +610,18 @@ class CollectionBasicTest extends
 
         $indicesByIdentifiers = $indices['identifiers'];
 
-        $this->assertArrayHasKey($result['id'], $indicesByIdentifiers, 'fulltext index was not created!');
+        static::assertArrayHasKey($result['id'], $indicesByIdentifiers, 'fulltext index was not created!');
 
         $indexInfo = $indicesByIdentifiers[$result['id']];
 
-        $this->assertEquals(
+        static::assertEquals(
             CollectionHandler::OPTION_FULLTEXT_INDEX,
             $indexInfo[CollectionHandler::OPTION_TYPE],
             "Index type is not 'fulltext'!"
         );
-        $this->assertCount(1, $indexInfo['fields'], "There should only be 1 indexed field");
-        $this->assertEquals("fulltextfield", $indexInfo['fields'][0], "The indexed field is not 'fulltextfield'");
-        $this->assertEquals(5, $indexInfo[CollectionHandler::OPTION_MIN_LENGTH], 'minLength was not set to 5!');
+        static::assertCount(1, $indexInfo['fields'], 'There should only be 1 indexed field');
+        static::assertEquals('fulltextfield', $indexInfo['fields'][0], "The indexed field is not 'fulltextfield'");
+        static::assertEquals(5, $indexInfo[CollectionHandler::OPTION_MIN_LENGTH], 'minLength was not set to 5!');
     }
 
 
@@ -646,21 +640,21 @@ class CollectionBasicTest extends
 
         $indicesByIdentifiers = $indices['identifiers'];
 
-        $this->assertArrayHasKey($result['id'], $indicesByIdentifiers, 'skip-list index was not created!');
+        static::assertArrayHasKey($result['id'], $indicesByIdentifiers, 'skip-list index was not created!');
 
         $indexInfo = $indicesByIdentifiers[$result['id']];
 
-        $this->assertEquals(
+        static::assertEquals(
             CollectionHandler::OPTION_SKIPLIST_INDEX,
             $indexInfo[CollectionHandler::OPTION_TYPE],
             "Index type is not 'skip-list'!"
         );
-        $this->assertCount(2, $indexInfo['fields'], "There should only be 2 indexed field");
-        $this->assertEquals("skiplistfield1", $indexInfo['fields'][0], "The indexed field is not 'skiplistfield1'");
-        $this->assertEquals("skiplistfield2", $indexInfo['fields'][1], "The indexed field is not 'skiplistfield2'");
-        $this->assertTrue($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to true!');
+        static::assertCount(2, $indexInfo['fields'], 'There should only be 2 indexed field');
+        static::assertEquals('skiplistfield1', $indexInfo['fields'][0], "The indexed field is not 'skiplistfield1'");
+        static::assertEquals('skiplistfield2', $indexInfo['fields'][1], "The indexed field is not 'skiplistfield2'");
+        static::assertTrue($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to true!');
         if ($this->hasSparseIndexes) {
-            $this->assertFalse($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to false!');
+            static::assertFalse($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to false!');
         }
     }
 
@@ -681,21 +675,21 @@ class CollectionBasicTest extends
 
         $indicesByIdentifiers = $indices['identifiers'];
 
-        $this->assertArrayHasKey($result['id'], $indicesByIdentifiers, 'skip-list index was not created!');
+        static::assertArrayHasKey($result['id'], $indicesByIdentifiers, 'skip-list index was not created!');
 
         $indexInfo = $indicesByIdentifiers[$result['id']];
 
-        $this->assertEquals(
+        static::assertEquals(
             CollectionHandler::OPTION_SKIPLIST_INDEX,
             $indexInfo[CollectionHandler::OPTION_TYPE],
             "Index type is not 'skip-list'!"
         );
-        $this->assertCount(2, $indexInfo['fields'], "There should only be 2 indexed field");
-        $this->assertEquals("skiplistfield1", $indexInfo['fields'][0], "The indexed field is not 'skiplistfield1'");
-        $this->assertEquals("skiplistfield2", $indexInfo['fields'][1], "The indexed field is not 'skiplistfield2'");
-        $this->assertFalse($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to false!');
+        static::assertCount(2, $indexInfo['fields'], 'There should only be 2 indexed field');
+        static::assertEquals('skiplistfield1', $indexInfo['fields'][0], "The indexed field is not 'skiplistfield1'");
+        static::assertEquals('skiplistfield2', $indexInfo['fields'][1], "The indexed field is not 'skiplistfield2'");
+        static::assertFalse($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to false!');
         if ($this->hasSparseIndexes) {
-            $this->assertTrue($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to true!');
+            static::assertTrue($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to true!');
         }
     }
 
@@ -712,28 +706,28 @@ class CollectionBasicTest extends
         );
 
         //Parse for the index's key
-        $key = str_replace('ArangoDB_PHP_TestSuite_IndexTestCollection/', "", $result['id']);
+        $key = str_replace('ArangoDB_PHP_TestSuite_IndexTestCollection/', '', $result['id']);
 
         $indexInfo = $this->collectionHandler->getIndex('ArangoDB_PHP_TestSuite_IndexTestCollection', $key);
 
-        $this->assertEquals(
+        static::assertEquals(
             CollectionHandler::OPTION_FULLTEXT_INDEX,
             $indexInfo[CollectionHandler::OPTION_TYPE],
-            "Index type does not match!"
+            'Index type does not match!'
         );
-        $this->assertCount(1, $indexInfo['fields'], "There should only be 1 indexed field!");
-        $this->assertEquals("testGetIndexField", $indexInfo['fields'][0], "Index field does not match!");
-        $this->assertEquals(100, $indexInfo[CollectionHandler::OPTION_MIN_LENGTH], 'Min length does not match!');
+        static::assertCount(1, $indexInfo['fields'], 'There should only be 1 indexed field!');
+        static::assertEquals('testGetIndexField', $indexInfo['fields'][0], 'Index field does not match!');
+        static::assertEquals(100, $indexInfo[CollectionHandler::OPTION_MIN_LENGTH], 'Min length does not match!');
     }
 
     public function testHasCollectionReturnsFalseIfCollectionDoesNotExist()
     {
-        $this->assertFalse($this->collectionHandler->has('just_a_stupid_collection_id_which_does_not_exist'));
+        static::assertFalse($this->collectionHandler->has('just_a_stupid_collection_id_which_does_not_exist'));
     }
 
     public function testHasCollectionReturnsTrueIfCollectionExists()
     {
-        $this->assertTrue($this->collectionHandler->has('ArangoDB_PHP_TestSuite_IndexTestCollection'));
+        static::assertTrue($this->collectionHandler->has('ArangoDB_PHP_TestSuite_IndexTestCollection'));
     }
 
     public function tearDown()
@@ -743,7 +737,6 @@ class CollectionBasicTest extends
         } catch (Exception $e) {
             //Silence the exception
         }
-        unset($this->collectionHandler);
-        unset($this->connection);
+        unset($this->collectionHandler, $this->connection);
     }
 }

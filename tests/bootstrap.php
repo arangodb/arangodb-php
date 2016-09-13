@@ -35,7 +35,7 @@ function isCluster(Connection $connection)
 function getConnectionOptions()
 {
     $traceFunc = function ($type, $data) {
-        print "TRACE FOR " . $type . PHP_EOL;
+        print 'TRACE FOR ' . $type . PHP_EOL;
     };
 
     return array(
