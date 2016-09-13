@@ -112,9 +112,10 @@ class HttpHelper
      * @param string $method - HTTP method
      * @param string $url - HTTP URL
      * @param string $body - optional body to post
-     * @param array $customHeader - any arry containing header elements
-     *
+     * @param array $customHeaders - any array containing header elements
      * @return string - assembled HTTP request string
+     * @throws ClientException
+     *
      */
     public static function buildRequest(ConnectionOptions $options, $connectionHeader, $method, $url, $body, $customHeaders = array())
     {
@@ -133,13 +134,13 @@ class HttpHelper
                 $contentType = 'Content-Type: application/json' . self::EOL;
             }
             else {
-                $contentType = "";
+                $contentType = '';
             }
         }
 
-        $customHeader = "";
+        $customHeader = '';
         foreach ($customHeaders as $headerKey => $headerValue) {
-            $customHeader .= $headerKey . ": " . $headerValue . self::EOL;
+            $customHeader .= $headerKey . ': ' . $headerValue . self::EOL;
         }
 
         // finally assemble the request
@@ -204,7 +205,7 @@ class HttpHelper
 
                 // 12 = minimum offset (i.e. strlen("HTTP/1.1 xxx") - 
                 // after that we could see "content-length:"
-                $pos = stripos($result, "content-length: ", 12);
+                $pos = stripos($result, 'content-length: ', 12);
 
                 if ($pos !== false) {
                     $contentLength    = (int) substr($result, $pos + 16, 10); // 16 = strlen("content-length: ")
@@ -326,7 +327,6 @@ class HttpHelper
                     list($key, $value) = explode(':', $line, 2);
                 }
                 $processed[strtolower($key)] = $value;
-                // $processed[strtolower(rtrim($key))] = ltrim($value);
             }
         }
 

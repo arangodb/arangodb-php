@@ -87,7 +87,7 @@ class EdgeHandler extends
      * @throws Exception
      *
      * @param mixed $collection - collection id as string or number
-     * @param Edge $document - the document to be added
+     * @param Document $document - the document to be added
      * @param bool $create - create the collection if it does not yet exist
      *
      * @return mixed|void
@@ -105,7 +105,7 @@ class EdgeHandler extends
      * @throws Exception
      *
      * @param mixed $collection - collection id as string or number
-     * @param Edge $document - the document to be added
+     * @param Document $document - the document to be added
      * @param bool $create - create the collection if it does not yet exist
      *
      * @return mixed|void
@@ -183,7 +183,7 @@ class EdgeHandler extends
         $document->setInternalId($json[Edge::ENTRY_ID]);
         $document->setRevision($json[Edge::ENTRY_REV]);
 
-        if ($id != $document->getId()) {
+        if ($id !== $document->getId()) {
             throw new ClientException('Got an invalid response from the server');
         }
 

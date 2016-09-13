@@ -26,21 +26,21 @@ class Document
      *
      * @var string - document id
      */
-    protected $_id = null;
+    protected $_id;
 
     /**
      * The document key (might be NULL for new documents)
      *
      * @var string - document id
      */
-    protected $_key = null;
+    protected $_key;
 
     /**
      * The document revision (might be NULL for new documents)
      *
      * @var mixed
      */
-    protected $_rev = null;
+    protected $_rev;
 
     /**
      * The document attributes (names/values)
@@ -440,9 +440,9 @@ class Document
         $data         = $this->_values;
         $nonInternals = array('_changed', '_values', self::ENTRY_HIDDENATTRIBUTES);
 
-        if ($includeInternals == true) {
+        if ($includeInternals === true) {
             foreach ($this as $key => $value) {
-                if (substr($key, 0, 1) == '_' && substr($key, 0, 2) !== '__' && !in_array($key, $nonInternals)) {
+                if ($key[0] === '_' && substr($key, 0, 2) !== '__' && !in_array($key, $nonInternals)) {
                     $data[$key] = $value;
                 }
             }
@@ -452,7 +452,7 @@ class Document
             $data = $this->filterHiddenAttributes($data, $_hiddenAttributes);
         }
 
-        if (!is_null($this->_key)) {
+        if (null !== $this->_key) {
             $data['_key'] = $this->_key;
         }
 
@@ -468,10 +468,10 @@ class Document
     {
         $data = array();
         foreach ($this->_values as $key => $value) {
-            if ($key === "_id" || $key === "_rev") {
+            if ($key === '_id' || $key === '_rev') {
                 continue;
             }
-            else if ($key === "_key") {
+            else if ($key === '_key') {
                 if ($value === null) {
                     // key value not yet set
                     continue;
@@ -480,7 +480,7 @@ class Document
             $data[$key] = $value;
         }
         if ($this->_key !== null) {
-            $data["_key"] = $this->_key;
+            $data['_key'] = $this->_key;
         }
 
         return $data;
@@ -603,7 +603,7 @@ class Document
      */
     public function setInternalId($id)
     {
-        if ($this->_id !== null && $this->_id != $id) {
+        if ($this->_id !== null && $this->_id !== $id) {
             throw new ClientException('Should not update the id of an existing document');
         }
 
@@ -628,7 +628,7 @@ class Document
      */
     public function setInternalKey($key)
     {
-        if ($this->_key !== null && $this->_key != $key) {
+        if ($this->_key !== null && $this->_key !== $key) {
             throw new ClientException('Should not update the key of an existing document');
         }
 

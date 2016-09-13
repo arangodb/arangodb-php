@@ -50,17 +50,15 @@ class Database
             self::ENTRY_DATABASE_NAME => $name,
             self::ENTRY_DATABASE_USERS => array(
                 array(
-                    "username" => $connection->getOption(ConnectionOptions::OPTION_AUTH_USER),
-                    "passwd" => $connection->getOption(ConnectionOptions::OPTION_AUTH_PASSWD)
+                    'username' => $connection->getOption(ConnectionOptions::OPTION_AUTH_USER),
+                    'passwd' => $connection->getOption(ConnectionOptions::OPTION_AUTH_PASSWD)
                 )
             )
         );
 
         $response = $connection->post(Urls::URL_DATABASE, $connection->json_encode_wrapper($payload));
 
-        $responseArray = $response->getJson();
-
-        return $responseArray;
+        return $response->getJson();
     }
 
 
@@ -82,9 +80,7 @@ class Database
 
         $response = $connection->delete($url);
 
-        $responseArray = $response->getJson();
-
-        return $responseArray;
+        return $response->getJson();
     }
 
 
@@ -119,9 +115,7 @@ class Database
     {
         $response = $connection->get(Urls::URL_DATABASE);
 
-        $responseArray = $response->getJson();
-
-        return $responseArray;
+        return $response->getJson();
     }
 
     /**
@@ -143,9 +137,7 @@ class Database
 
         $response = $connection->get($url);
 
-        $responseArray = $response->getJson();
-
-        return $responseArray;
+        return $response->getJson();
     }
 
 
@@ -166,8 +158,6 @@ class Database
 
         $response = $connection->get($url);
 
-        $responseArray = $response->getJson();
-
-        return $responseArray;
+        return $response->getJson();
     }
 }

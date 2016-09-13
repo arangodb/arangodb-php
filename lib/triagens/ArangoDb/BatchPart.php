@@ -38,7 +38,7 @@ class BatchPart
      *
      * @var array $_batchParts
      */
-    private $_id = null;
+    private $_id;
 
 
     /**
@@ -46,7 +46,7 @@ class BatchPart
      *
      * @var array $_batchParts
      */
-    private $_type = null;
+    private $_type;
 
 
     /**
@@ -70,7 +70,7 @@ class BatchPart
      *
      * @var Batch $_batch
      */
-    private $_batch = null;
+    private $_batch;
 
 
     /**
@@ -99,8 +99,6 @@ class BatchPart
         $this->setRequest($request);
         $this->setResponse($response);
         $this->_cursorOptions[Cursor::ENTRY_SANITIZE] = $sanitize;
-
-        return $this;
     }
 
 
@@ -109,7 +107,7 @@ class BatchPart
      *
      * @param Batch $batch
      *
-     * @return Batch
+     * @return BatchPart
      */
     public function setBatch($batch)
     {
@@ -124,7 +122,7 @@ class BatchPart
      *
      * @param mixed $id
      *
-     * @return Batch
+     * @return BatchPart
      */
     public function setId($id)
     {
@@ -137,7 +135,7 @@ class BatchPart
     /**
      * Gets the id for the current batch part.
      *
-     * @return Batch
+     * @return mixed
      */
     public function getId()
     {
@@ -150,7 +148,7 @@ class BatchPart
      *
      * @param mixed $type
      *
-     * @return Batch
+     * @return BatchPart
      */
     public function setType($type)
     {
@@ -163,7 +161,7 @@ class BatchPart
     /**
      * Gets the type for the current batch part.
      *
-     * @return Batch
+     * @return mixed
      */
     public function getType()
     {
@@ -176,7 +174,7 @@ class BatchPart
      *
      * @param mixed $request
      *
-     * @return Batch
+     * @return BatchPart
      */
     public function setRequest($request)
     {
@@ -189,7 +187,7 @@ class BatchPart
     /**
      * Gets the request for the current batch part.
      *
-     * @return Batch
+     * @return array
      */
     public function getRequest()
     {
@@ -202,7 +200,7 @@ class BatchPart
      *
      * @param mixed $response
      *
-     * @return Batch
+     * @return BatchPart
      */
     public function setResponse($response)
     {
@@ -213,9 +211,9 @@ class BatchPart
 
 
     /**
-     * Gets the response for he current batch part.
+     * Gets the response for the current batch part.
      *
-     * @return HttpResponse
+     * @return array
      */
     public function getResponse()
     {
@@ -252,7 +250,7 @@ class BatchPart
                 break;
             case 'document':
                 $json = $response->getJson();
-                if (!isset($json['error']) or $json['error'] === false) {
+                if (!isset($json['error']) || $json['error'] === false) {
                     $id       = $json[Document::ENTRY_ID];
                     $response = $id;
                 }
@@ -265,7 +263,7 @@ class BatchPart
                 break;
             case 'edge':
                 $json = $response->getJson();
-                if (!isset($json['error']) or $json['error'] === false) {
+                if (!isset($json['error']) || $json['error'] === false) {
                     $id       = $json[Edge::ENTRY_ID];
                     $response = $id;
                 }
@@ -278,7 +276,7 @@ class BatchPart
                 break;
             case 'collection':
                 $json = $response->getJson();
-                if (!isset($json['error']) or $json['error'] === false) {
+                if (!isset($json['error']) || $json['error'] === false) {
                     $id       = $json[Collection::ENTRY_ID];
                     $response = $id;
                 }

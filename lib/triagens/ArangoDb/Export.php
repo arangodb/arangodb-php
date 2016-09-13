@@ -23,21 +23,21 @@ class Export
      *
      * @var Connection
      */
-    private $_connection = null;
+    private $_connection;
 
     /**
      * The collection name or collection object
      *
      * @var mixed
      */
-    private $_collection = null;
+    private $_collection;
 
     /**
      * The current batch size (number of result documents retrieved per round-trip)
      *
      * @var mixed
      */
-    private $_batchSize = null;
+    private $_batchSize;
 
     /**
      * "flat" flag (if set, the query results will be treated as a simple array, not documents)
@@ -142,15 +142,15 @@ class Export
         ) {
             $restrictions = $data[self::ENTRY_RESTRICT];
 
-            if (!isset($restrictions["type"]) ||
-                !in_array($restrictions["type"], array("include", "exclude"), true)
+            if (!isset($restrictions['type']) ||
+                !in_array($restrictions['type'], array('include', 'exclude'), true)
             ) {
                 // validate restrictions.type
                 throw new ClientException('Invalid restrictions type definition');
             }
 
-            if (!isset($restrictions["fields"]) ||
-                !is_array($restrictions["fields"])
+            if (!isset($restrictions['fields']) ||
+                !is_array($restrictions['fields'])
             ) {
                 // validate restrictions.fields
                 throw new ClientException('Invalid restrictions fields definition');
@@ -207,7 +207,7 @@ class Export
             $collection = $collection->getName();
         }
 
-        $url      = UrlHelper::appendParamsUrl(Urls::URL_EXPORT, array("collection" => $collection));
+        $url      = UrlHelper::appendParamsUrl(Urls::URL_EXPORT, array('collection' => $collection));
         $response = $this->_connection->post($url, $this->getConnection()->json_encode_wrapper($data));
 
         return new ExportCursor($this->_connection, $response->getJson(), $this->getCursorOptions());

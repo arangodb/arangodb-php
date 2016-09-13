@@ -27,9 +27,9 @@ class EdgeDefinition
     /**
      * The name of the edge collection for this relation.
      *
-     * @var string name of the edge collectio
+     * @var string name of the edge collection
      */
-    protected $_relation = null;
+    protected $_relation;
 
     /**
      * An array containing the names of the vertices collections holding the start vertices.
@@ -54,19 +54,15 @@ class EdgeDefinition
      * @since     2.2
      * @return EdgeDefinition
      */
-    public function __construct($relation = null, $fromCollections = array(), $toCollections = array())
+    public function __construct($relation = null, $fromCollections = [], $toCollections = [])
     {
         $this->_relation = $relation;
-        if (!is_array($fromCollections)) {
-            $fromCollections = array($fromCollections);
-        }
-        if (!is_array($toCollections)) {
-            $toCollections = array($toCollections);
-        }
+
+        $fromCollections = (array) $fromCollections;
+        $toCollections   = (array) $toCollections;
+
         $this->_fromCollections = $fromCollections;
         $this->_toCollections   = $toCollections;
-
-        return $this;
     }
 
     /**
@@ -160,12 +156,12 @@ class EdgeDefinition
      * @return array
      * @since     2.2
      */
-    function transformToArray()
+    public function transformToArray()
     {
         $transformedEd               = array();
-        $transformedEd["collection"] = $this->getRelation();
-        $transformedEd["from"]       = $this->getFromCollections();
-        $transformedEd["to"]         = $this->getToCollections();
+        $transformedEd['collection'] = $this->getRelation();
+        $transformedEd['from']       = $this->getFromCollections();
+        $transformedEd['to']         = $this->getToCollections();
         return $transformedEd;
     }
 

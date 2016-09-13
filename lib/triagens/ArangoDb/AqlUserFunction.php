@@ -55,7 +55,7 @@ class AqlUserFunction
      *
      * @var Connection
      */
-    private $_connection = null;
+    private $_connection;
 
     /**
      * The transaction's attributes.
@@ -139,9 +139,7 @@ class AqlUserFunction
             Urls::URL_AQL_USER_FUNCTION,
             $this->getConnection()->json_encode_wrapper($attributes)
         );
-        $responseArray = $response->getJson();
-
-        return $responseArray;
+        return $response->getJson();
     }
 
 
@@ -161,7 +159,7 @@ class AqlUserFunction
      */
     public function unregister($name = null, $namespace = false)
     {
-        if (is_null($name)) {
+        if (null === $name) {
             $name = $this->getName();
         }
 
@@ -172,9 +170,7 @@ class AqlUserFunction
         }
 
         $response      = $this->_connection->delete($url);
-        $responseArray = $response->getJson();
-
-        return $responseArray;
+        return $response->getJson();
     }
 
 
@@ -192,14 +188,12 @@ class AqlUserFunction
     public function getRegisteredUserFunctions($namespace = null)
     {
         $url = UrlHelper::buildUrl(Urls::URL_AQL_USER_FUNCTION, array());
-        if (!is_null($namespace)) {
+        if (null !== $namespace) {
             $url = UrlHelper::appendParamsUrl($url, array('namespace' => $namespace));
         }
         $response = $this->_connection->get($url);
 
-        $responseArray = $response->getJson();
-
-        return $responseArray;
+        return $response->getJson();
     }
 
 

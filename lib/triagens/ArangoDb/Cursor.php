@@ -32,13 +32,19 @@ class Cursor implements
      * @var Connection
      */
     private $_connection;
-
     /**
      * Cursor options
      *
      * @var array
      */
     private $_options;
+
+    /**
+     * Result Data
+     *
+     * @var array
+     */
+    private $data;
 
     /**
      * The result set
@@ -375,7 +381,7 @@ class Cursor implements
     private function add(array $data)
     {
         foreach ($this->sanitize($data) as $row) {
-            if ((isset($this->_options[self::ENTRY_FLAT]) && $this->_options[self::ENTRY_FLAT]) || !is_array($row)) {
+            if (!is_array($row) || (isset($this->_options[self::ENTRY_FLAT]) && $this->_options[self::ENTRY_FLAT])) {
                 $this->addFlatFromArray($row);
             }
             else {
@@ -453,16 +459,16 @@ class Cursor implements
     private function addPathsFromArray(array $data)
     {
         $entry = array(
-            "vertices" => array(),
-            "edges" => array(),
-            "source" => Document::createFromArray($data["source"], $this->_options),
-            "destination" => Document::createFromArray($data["destination"], $this->_options),
+            'vertices' => array(),
+            'edges' => array(),
+            'source' => Document::createFromArray($data['source'], $this->_options),
+            'destination' => Document::createFromArray($data['destination'], $this->_options),
         );
-        foreach ($data["vertices"] as $v) {
-            $entry["vertices"][] = Document::createFromArray($v, $this->_options);
+        foreach ($data['vertices'] as $v) {
+            $entry['vertices'][] = Document::createFromArray($v, $this->_options);
         }
-        foreach ($data["edges"] as $v) {
-            $entry["edges"][] = Edge::createFromArray($v, $this->_options);
+        foreach ($data['edges'] as $v) {
+            $entry['edges'][] = Edge::createFromArray($v, $this->_options);
         }
         $this->_result[] = $entry;
     }
@@ -476,33 +482,33 @@ class Cursor implements
      */
     private function addShortestPathFromArray(array $data)
     {
-        if (!isset($data["vertices"])) {
+        if (!isset($data['vertices'])) {
             return;
         }
 
-        $vertices    = $data["vertices"];
+        $vertices    = $data['vertices'];
         $startVertex = $vertices[0];
         $destination = $vertices[count($vertices) - 1];
 
         $entry = array(
-            "paths" => array(),
-            "source" => Document::createFromArray($startVertex, $this->_options),
-            "distance" => $data["distance"],
-            "destination" => Document::createFromArray($destination, $this->_options),
+            'paths' => array(),
+            'source' => Document::createFromArray($startVertex, $this->_options),
+            'distance' => $data['distance'],
+            'destination' => Document::createFromArray($destination, $this->_options),
         );
 
         $path = array(
-            "vertices" => array(),
-            "edges" => array()
+            'vertices' => array(),
+            'edges' => array()
         );
 
-        foreach ($data["vertices"] as $v) {
-            $path["vertices"][] = $v;
+        foreach ($data['vertices'] as $v) {
+            $path['vertices'][] = $v;
         }
-        foreach ($data["edges"] as $v) {
-            $path["edges"][] = Edge::createFromArray($v, $this->_options);
+        foreach ($data['edges'] as $v) {
+            $path['edges'][] = Edge::createFromArray($v, $this->_options);
         }
-        $entry["paths"][] = $path;
+        $entry['paths'][] = $path;
 
         $this->_result[] = $entry;
     }
@@ -518,9 +524,9 @@ class Cursor implements
     private function addDistanceToFromArray(array $data)
     {
         $entry           = array(
-            "source" => $data["startVertex"],
-            "distance" => $data["distance"],
-            "destination" => $data["vertex"]
+            'source' => $data['startVertex'],
+            'distance' => $data['distance'],
+            'destination' => $data['vertex']
         );
         $this->_result[] = $entry;
     }
@@ -534,8 +540,8 @@ class Cursor implements
      */
     private function addCommonNeighborsFromArray(array $data)
     {
-        $left  = $data["left"];
-        $right = $data["right"];
+        $left  = $data['left'];
+        $right = $data['right'];
 
         if (!isset($this->_result[$left])) {
             $this->_result[$left] = array();
@@ -544,7 +550,7 @@ class Cursor implements
             $this->_result[$left][$right] = array();
         }
 
-        foreach ($data["neighbors"] as $neighbor) {
+        foreach ($data['neighbors'] as $neighbor) {
             $this->_result[$left][$right][] = Document::createFromArray($neighbor);
         }
     }
@@ -562,8 +568,8 @@ class Cursor implements
         $k                 = $k[0];
         $this->_result[$k] = array();
         foreach ($data[$k] as $c) {
-            $id = $c["_id"];
-            unset($c["_id"]);
+            $id = $c['_id'];
+            unset($c['_id']);
             $this->_result[$k][$id] = $c;
         }
     }
@@ -618,7 +624,7 @@ class Cursor implements
      */
     private function sanitize(array $rows)
     {
-        if (isset($this->_options[self::ENTRY_SANITIZE]) and $this->_options[self::ENTRY_SANITIZE]) {
+        if (isset($this->_options[self::ENTRY_SANITIZE]) && $this->_options[self::ENTRY_SANITIZE]) {
             foreach ($rows as $key => $value) {
 
                 if (is_array($value) && isset($value[Document::ENTRY_ID])) {
@@ -644,7 +650,7 @@ class Cursor implements
     private function fetchOutstanding()
     {
         // continuation
-        $response = $this->_connection->put($this->url() . "/" . $this->_id, '', array());
+        $response = $this->_connection->put($this->url() . '/' . $this->_id, '', array());
         ++$this->_fetches;
 
         $data = $response->getJson();

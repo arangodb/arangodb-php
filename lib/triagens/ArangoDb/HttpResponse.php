@@ -70,12 +70,12 @@ class HttpResponse
     /**
      * Set up the response
      *
-     * @throws ClientException
      *
      * @param string $responseString - the complete HTTP response as supplied by the server
      * @param string $originUrl The original URL the response is coming from
      * @param string $originMethod The HTTP method that was used when sending data to the origin URL
      *
+     * @param bool $wasAsync
      * @throws ClientException
      */
     public function __construct($responseString, $originUrl = null, $originMethod = null, $wasAsync = false)

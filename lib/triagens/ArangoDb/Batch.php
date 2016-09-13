@@ -50,7 +50,7 @@ class Batch
      *
      * @var array $_batchParts
      */
-    private $_nextBatchPartId = null;
+    private $_nextBatchPartId;
 
 
     /**
@@ -66,12 +66,12 @@ class Batch
      *
      * @var Connection $_connection
      */
-    private $_connection = null;
+    private $_connection;
 
     /**
      * The sanitize default value
      *
-     * @var object $_sanitize
+     * @var bool $_sanitize
      */
     private $_sanitize = false;
 
@@ -107,8 +107,6 @@ class Batch
         if ($startCapture === true) {
             $this->startCapture();
         }
-
-        return $this;
     }
 
 
@@ -132,14 +130,13 @@ class Batch
      *
      * see triagens\ArangoDb\Batch::stopCapture()
      *
-     * @param array $options
      *
      * @return Batch
      *
      */
-    public function startCapture($options = array())
+    public function startCapture()
     {
-        $this->activate($options);
+        $this->activate();
 
         return $this;
     }
@@ -175,9 +172,7 @@ class Batch
     public function isActive()
     {
         $activeBatch = $this->getActive($this->_connection);
-        $result      = $activeBatch === $this ? true : false;
-
-        return $result;
+        return $activeBatch === $this;
     }
 
 
@@ -195,11 +190,11 @@ class Batch
     /**
      * Activates the batch. This sets the batch active in its associated connection and also starts capturing.
      *
-     * @return object $this
+     * @return Batch $this
      */
     public function activate()
     {
-        $this->setActive($this);
+        $this->setActive();
         $this->setCapture(true);
 
         return $this;
@@ -209,7 +204,7 @@ class Batch
     /**
      * Sets the batch active in its associated connection.
      *
-     * @return object $this
+     * @return Batch $this
      */
     public function setActive()
     {
@@ -224,7 +219,7 @@ class Batch
      *
      * @param boolean $state
      *
-     * @return object $this
+     * @return Batch $this
      */
     public function setCapture($state)
     {
@@ -323,9 +318,9 @@ class Batch
         if (!isset($regs['direct'])) {
             $regs['direct'] = '';
         }
-        $type = $regs['direct'] != '' ? $regs['direct'] : $regs['simple'];
+        $type = $regs['direct'] !== '' ? $regs['direct'] : $regs['simple'];
 
-        if ($type == $regs['direct'] && $method == 'GET') {
+        if ($method === 'GET' && $type === $regs['direct']) {
             $type = 'get' . $type;
         }
 
@@ -338,8 +333,8 @@ class Batch
         $result .= '{"error":false,"_id":"0/0","id":"0","_rev":0,"hasMore":1, "result":[{}], "documents":[{}]}' . HttpHelper::EOL . HttpHelper::EOL;
 
         $response  = new HttpResponse($result);
-        $batchPart = new BatchPart($this, $this->_nextBatchPartId, $type, $request, $response, array("cursorOptions" => $this->_batchPartCursorOptions));
-        if (is_null($this->_nextBatchPartId)) {
+        $batchPart = new BatchPart($this, $this->_nextBatchPartId, $type, $request, $response, array('cursorOptions' => $this->_batchPartCursorOptions));
+        if (null === $this->_nextBatchPartId) {
             $nextNumeric                     = count($this->_batchParts);
             $this->_batchParts[$nextNumeric] = $batchPart;
         }
@@ -368,7 +363,7 @@ class Batch
             $response  = new HttpResponse($value);
             $contentId = $response->getHeader('Content-Id');
 
-            if (!is_null($contentId)) {
+            if (null !== $contentId) {
                 $array[$contentId] = $value;
             }
             else {
@@ -384,7 +379,7 @@ class Batch
      * Processes this batch. This sends the captured requests to the server as one batch.
      *
      * @throws ClientException
-     * @return bool - true if processing of the batch was  or the HttpResponse object in case of a failure. A successful process just means that tha parts were processed. Each part has it's own response though and should be checked on its own.
+     * @return HttpResponse|Batch - Batch if processing of the batch was successful or the HttpResponse object in case of a failure. A successful process just means that tha parts were processed. Each part has it's own response though and should be checked on its own.
      */
     public function process()
     {
@@ -393,7 +388,7 @@ class Batch
         $data       = '';
         $batchParts = $this->getBatchParts();
 
-        if (count($batchParts) == 0) {
+        if (count($batchParts) === 0) {
             throw new ClientException('Can\'t process empty batch.');
         }
 
@@ -402,7 +397,7 @@ class Batch
             $data .= '--' . HttpHelper::MIME_BOUNDARY . HttpHelper::EOL;
             $data .= 'Content-Type: application/x-arango-batchpart' . HttpHelper::EOL;
 
-            if (!is_null($partValue->getId())) {
+            if (null !== $partValue->getId()) {
                 $data .= 'Content-Id: ' . (string) $partValue->getId() . HttpHelper::EOL . HttpHelper::EOL;
             }
             else {
@@ -442,9 +437,7 @@ class Batch
      */
     public function countParts()
     {
-        $count = count($this->_batchParts);
-
-        return $count;
+        return count($this->_batchParts);
     }
 
 
@@ -462,9 +455,7 @@ class Batch
             throw new ClientException('Request batch part does not exist.');
         }
 
-        $batchPart = $this->_batchParts[$partId];
-
-        return $batchPart;
+        return $this->_batchParts[$partId];
     }
 
 
@@ -477,9 +468,7 @@ class Batch
      */
     public function getPartResponse($partId)
     {
-        $batchPart = $this->getPart($partId)->getResponse();
-
-        return $batchPart;
+        return $this->getPart($partId)->getResponse();
     }
 
 
@@ -492,9 +481,7 @@ class Batch
      */
     public function getProcessedPartResponse($partId)
     {
-        $response = $this->getPart($partId)->getProcessedResponse();
-
-        return $response;
+        return $this->getPart($partId)->getProcessedResponse();
     }
 
 

@@ -30,7 +30,7 @@ class Traversal
      *
      * @var Connection
      */
-    private $_connection = null;
+    private $_connection;
 
     /**
      * The traversal's attributes.
