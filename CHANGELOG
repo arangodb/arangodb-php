@@ -1,3 +1,37 @@
+Release notes for the ArangoDB-PHP driver 3.0.7
+===============================================
+
+This version of the driver is compatible with ArangoDB 3.0.7
+It is not compatible to earlier versions of ArangoDB (i.e. 2.x).
+Please use ones of the `2.x` branches of the driver for 2.x-compatibility.
+
+Changed functionality
+=====================
+
+Batch processing
+----------------
+
+Added an option to pre-define a batch size for a batch.
+This results in the driver using an SplFixedArray for the storage of the batch parts,
+which in turn results to a bit (5% to 15%) more performance in batch processing.
+
+The option is called batchSize and accepts an integer.
+
+Example:
+        $batch = new Batch($this->connection, ['batchSize' => 10000]);
+
+
+Bug fixes
+=========
+
+Do to the many API changes in version 3 of ArangoDB, the driver had to go through a lot of changes too.
+This resulted in some inconsistencies in its functionality. Version 3.0.7 has hopefully dealt with them all.
+If there should be any more left, please create an issue to report it.
+
+
+============================================================================================================
+
+
 Release notes for the ArangoDB-PHP driver 3.0
 =============================================
 
