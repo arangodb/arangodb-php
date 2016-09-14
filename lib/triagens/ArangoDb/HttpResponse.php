@@ -70,12 +70,12 @@ class HttpResponse
     /**
      * Set up the response
      *
-     * @throws ClientException
      *
      * @param string $responseString - the complete HTTP response as supplied by the server
      * @param string $originUrl The original URL the response is coming from
      * @param string $originMethod The HTTP method that was used when sending data to the origin URL
      *
+     * @param bool $wasAsync
      * @throws ClientException
      */
     public function __construct($responseString, $originUrl = null, $originMethod = null, $wasAsync = false)
@@ -85,8 +85,8 @@ class HttpResponse
         list($this->_header, $this->_body) = HttpHelper::parseHttpMessage($responseString, $originUrl, $originMethod);
         list($this->_httpCode, $this->_result, $this->_headers) = HttpHelper::parseHeaders($this->_header);
 
-        if ((!isset($this->_body) or $this->_body === null) and
-            ($this->_httpCode !== 204 and $this->_httpCode !== 304 and !$wasAsync)
+        if ((!isset($this->_body) || $this->_body === null) &&
+            ($this->_httpCode !== 204 && $this->_httpCode !== 304 && !$wasAsync)
         ) {
             // got no response body!
             if ($originUrl !== null && $originMethod !== null) {

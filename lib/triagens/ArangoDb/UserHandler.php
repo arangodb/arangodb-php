@@ -114,13 +114,13 @@ class UserHandler extends
     {
         $userDocument         = new User();
         $userDocument->active = $active;
-        if (!is_null($passwd)) {
+        if (null !== $passwd) {
             $userDocument->passwd = $passwd;
         }
-        if (!is_null($active)) {
+        if (null !== $active) {
             $userDocument->active = $active;
         }
-        if (!is_null($extra)) {
+        if (null !== $extra) {
             $userDocument->extra = $extra;
         }
 
@@ -190,10 +190,10 @@ class UserHandler extends
     public function grantPermissions($username, $databaseName)
     {
         $data = array(
-            "grant" => "rw"
+            'grant' => 'rw'
         );
 
-        $url = UrlHelper::buildUrl(Urls::URL_USER, array($username, "database", $databaseName));
+        $url = UrlHelper::buildUrl(Urls::URL_USER, array($username, 'database', $databaseName));
         $this->getConnection()->put($url, $this->json_encode_wrapper($data));
 
         return true;

@@ -32,7 +32,7 @@ abstract class UrlHelper
             return null;
         }
 
-        if (substr($location, 0, 5) === '/_db/') {
+        if (0 === strpos($location, '/_db/')) {
             // /_db/<dbname>/_api/document/<collection>/<key>
             @list(, , , , , , $id) = explode('/', $location);
         }

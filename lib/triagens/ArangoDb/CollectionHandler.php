@@ -271,7 +271,7 @@ class CollectionHandler extends
 
         try {
             // will throw ServerException if entry could not be retrieved
-            $result = $this->get($collection);
+            $this->get($collection);
             return true;
         } catch (ServerException $e) {
             // we are expecting a 404 to return boolean false
@@ -282,8 +282,6 @@ class CollectionHandler extends
             // just rethrow
             throw $e;
         }
-
-        return false;
     }
 
 
@@ -389,10 +387,8 @@ class CollectionHandler extends
         $url        = UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collection, self::OPTION_FIGURES));
         $response   = $this->getConnection()->get($url);
 
-        $data    = $response->getJson();
-        $figures = $data[self::OPTION_FIGURES];
-
-        return $figures;
+        $data = $response->getJson();
+        return $data[self::OPTION_FIGURES];
     }
 
 
@@ -466,7 +462,7 @@ class CollectionHandler extends
             $collection->setIsVolatile($this->getConnectionOption(ConnectionOptions::OPTION_IS_VOLATILE));
         }
 
-        $type   = $collection->getType() ? $collection->getType() : Collection::getDefaultType();
+        $type   = $collection->getType() ?: Collection::getDefaultType();
         $params = array(
             Collection::ENTRY_NAME => $collection->getName(),
             Collection::ENTRY_TYPE => $type,
@@ -521,9 +517,7 @@ class CollectionHandler extends
         $url      = UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_CHECKSUM));
         $url      = UrlHelper::appendParamsUrl($url, array('withRevisions' => $withRevisions, 'withData' => $withData));
         $response = $this->getConnection()->get($url);
-        $data     = $response->getJson();
-
-        return $data;
+        return $response->getJson();
     }
 
     /**
@@ -543,9 +537,7 @@ class CollectionHandler extends
 
         $url      = UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_REVISION));
         $response = $this->getConnection()->get($url);
-        $data     = $response->getJson();
-
-        return $data;
+        return $response->getJson();
     }
 
     /**
@@ -677,7 +669,7 @@ class CollectionHandler extends
      *
      * @return array - server response of the created index
      */
-    public function index($collectionId, $type = "", $attributes = array(), $unique = false, $indexOptions = array())
+    public function index($collectionId, $type = '', $attributes = array(), $unique = false, $indexOptions = array())
     {
 
         $urlParams  = array(self::OPTION_COLLECTION => $collectionId);
@@ -706,9 +698,7 @@ class CollectionHandler extends
                 break;
         }
 
-        $result = $response->getJson();
-
-        return $result;
+        return $response->getJson();
     }
 
     /**
@@ -724,9 +714,7 @@ class CollectionHandler extends
         $url      = UrlHelper::buildUrl(Urls::URL_INDEX, array($collection, $indexId));
         $response = $this->getConnection()->get($url);
 
-        $data = $response->getJson();
-
-        return $data;
+        return $response->getJson();
     }
 
     /**
@@ -746,9 +734,7 @@ class CollectionHandler extends
         $url       = UrlHelper::appendParamsUrl(Urls::URL_INDEX, $urlParams);
         $response  = $this->getConnection()->get($url);
 
-        $data = $response->getJson();
-
-        return $data;
+        return $response->getJson();
     }
 
 
@@ -763,7 +749,7 @@ class CollectionHandler extends
      */
     public function dropIndex($indexHandle)
     {
-        $handle = explode("/", $indexHandle);
+        $handle = explode('/', $indexHandle);
         $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_INDEX, array($handle[0], $handle[1])));
 
         return true;
@@ -1204,9 +1190,6 @@ class CollectionHandler extends
                 self::OPTION_LIMIT => null,
             )
         );
-
-        #$url    = UrlHelper::buildUrl(Urls::URL_DOCUMENT, array($collectionId));
-        #$result = $this->getConnection()->patch($url, $this->json_encode_wrapper($body));
 
         $response = $this->getConnection()->put(Urls::URL_UPDATE_BY_EXAMPLE, $this->json_encode_wrapper($body));
 
@@ -1706,7 +1689,7 @@ class CollectionHandler extends
      */
     public function isValidCollectionId($collectionId)
     {
-        return !$collectionId || !(is_string($collectionId) || is_double($collectionId) || is_int($collectionId));
+        return !$collectionId || !(is_string($collectionId) || is_float($collectionId) || is_int($collectionId));
     }
 
     /**
@@ -1724,18 +1707,18 @@ class CollectionHandler extends
      */
     public function getAllCollections($options = array())
     {
-        $options = array_merge(array("excludeSystem" => false, 'keys' => "result"), $options);
+        $options = array_merge(array('excludeSystem' => false, 'keys' => 'result'), $options);
         $params  = array();
-        if ($options["excludeSystem"] === true) {
+        if ($options['excludeSystem'] === true) {
             $params[self::OPTION_EXCLUDE_SYSTEM] = true;
         }
         $url      = UrlHelper::appendParamsUrl(Urls::URL_COLLECTION, $params);
         $response = $this->getConnection()->get(UrlHelper::buildUrl($url, array()));
         $response = $response->getJson();
-        if (isset($response[$options["keys"]])) {
+        if (isset($response[$options['keys']])) {
             $result = array();
-            foreach ($response[$options["keys"]] as $collection) {
-                $result[$collection["name"]] = $collection;
+            foreach ($response[$options['keys']] as $collection) {
+                $result[$collection['name']] = $collection;
             }
             return $result;
         }
@@ -1825,9 +1808,7 @@ class CollectionHandler extends
             throw new ClientException('Input file "' . $importFileName . '" could not be found.');
         }
 
-        $result = $this->import($collectionId, $contents, $options);
-
-        return $result;
+        return $this->import($collectionId, $contents, $options);
     }
 
 
@@ -1836,9 +1817,8 @@ class CollectionHandler extends
      *
      * This will throw on all errors except insertion errors
      *
-     * @throws Exception
      *
-     * @param mixed $collectionId - collection id as string or number
+     * @param $collection mixed $collection - collection id as string or number
      * @param mixed $importData - The data to import. This can be a string holding the data according to the type of import, or an array of documents
      * @param array $options - optional - an array of options.
      *                            <p>Options are :<br>
@@ -1855,8 +1835,7 @@ class CollectionHandler extends
      * </li>
      * <li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
      * </p>
-     *
-     * @return int - number of documents that were deleted
+     * @return array
      */
     public function import(
         $collection,
@@ -1889,10 +1868,10 @@ class CollectionHandler extends
 
         if (array_key_exists('type', $options)) {
             switch ($options['type']) {
-                case "documents":
+                case 'documents':
                     $params[self::OPTION_TYPE] = 'documents';
                     break;
-                case "array":
+                case 'array':
                     $params[self::OPTION_TYPE] = 'array';
                     break;
             }
@@ -1902,11 +1881,13 @@ class CollectionHandler extends
 
         $response = $this->getConnection()->post($url, $importData);
 
-        $responseArray = $response->getJson();
-
-        return $responseArray;
+        return $response->getJson();
     }
 
+    /**
+     * @param $collection
+     * @param $options
+     */
     public function createCollectionIfOptions($collection, $options)
     {
         if (!array_key_exists(CollectionHandler::OPTION_CREATE_COLLECTION, $options)) {

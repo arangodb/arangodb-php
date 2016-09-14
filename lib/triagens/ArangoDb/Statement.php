@@ -53,7 +53,7 @@ class Statement
      *
      * @var Connection
      */
-    private $_connection = null;
+    private $_connection;
 
     /**
      * The bind variables and values used for the statement
@@ -67,7 +67,7 @@ class Statement
      *
      * @var mixed
      */
-    private $_batchSize = null;
+    private $_batchSize;
 
     /**
      * The count flag (should server return total number of results)
@@ -89,7 +89,7 @@ class Statement
      *
      * @var string
      */
-    private $_query = null;
+    private $_query;
 
     /**
      * "flat" flag (if set, the query results will be treated as a simple array, not documents)
@@ -117,7 +117,7 @@ class Statement
      *
      * @var bool
      */
-    private $_cache = null;
+    private $_cache;
 
     /**
      * resultType
@@ -271,7 +271,7 @@ class Statement
      * This will post the query to the server and return the execution plan as an array.
      *
      * @throws Exception
-     * @return Array
+     * @return array
      */
     public function explain()
     {
@@ -287,7 +287,7 @@ class Statement
      * This will post the query to the server for validation and return the validation result as an array.
      *
      * @throws Exception
-     * @return Array
+     * @return array
      */
     public function validate()
     {
@@ -387,6 +387,7 @@ class Statement
     /**
      * setResultType
      *
+     * @param $resultType
      * @return string - resultType of the query
      */
     public function setResultType($resultType)

@@ -33,11 +33,11 @@ class QueryTest extends
      */
     public function testCurrentAndKill()
     {
-        $query   = "RETURN SLEEP(30)";
+        $query   = 'RETURN SLEEP(30)';
         $command = 'require("internal").db._query("' . $query . '");';
 
         // executes the command on the server
-        $this->connection->post("/_admin/execute", $command, array("X-Arango-Async" => "true"));
+        $this->connection->post('/_admin/execute', $command, array('X-Arango-Async' => 'true'));
 
         // sleep a bit because we do not know when the server will start executing the query
         sleep(3);
@@ -49,11 +49,11 @@ class QueryTest extends
                 $id = $q['id'];
             }
         }
-        $this->assertEquals(1, $found);
+        static::assertEquals(1, $found);
 
         // now kill the query
         $result = $this->queryHandler->kill($id);
-        $this->assertTrue($result);
+        static::assertTrue($result);
     }
 
     /**
@@ -61,7 +61,7 @@ class QueryTest extends
      */
     public function testGetSlowEmpty()
     {
-        $this->assertEquals(array(), $this->queryHandler->getSlow());
+        static::assertEquals(array(), $this->queryHandler->getSlow());
     }
 
     /**
@@ -71,7 +71,7 @@ class QueryTest extends
     {
         $query = 'RETURN SLEEP(10)';
 
-        $statement = new Statement($this->connection, array("query" => $query));
+        $statement = new Statement($this->connection, array('query' => $query));
         $statement->execute();
 
         $found = 0;
@@ -79,10 +79,10 @@ class QueryTest extends
             if ($q['query'] === $query) {
                 ++$found;
 
-                $this->assertTrue($q['runTime'] >= 10);
+                static::assertTrue($q['runTime'] >= 10);
             }
         }
-        $this->assertEquals(1, $found);
+        static::assertEquals(1, $found);
 
         // clear slow log and check that it is empty afterwards
         $this->queryHandler->clearSlow();
@@ -93,7 +93,7 @@ class QueryTest extends
                 ++$found;
             }
         }
-        $this->assertEquals(0, $found);
+        static::assertEquals(0, $found);
     }
 
 
@@ -106,19 +106,18 @@ class QueryTest extends
     {
         $query = 'RETURN SLEEP(13)';
 
-        $statement = new Statement($this->connection, array("query" => $query));
+        $statement = new Statement($this->connection, array('query' => $query));
 
         try {
             $statement->execute();
         } catch (ClientException $exception) {
-            $this->assertEquals($exception->getCode(), 408);
+            static::assertEquals($exception->getCode(), 408);
             throw $exception;
         }
     }
 
     public function tearDown()
     {
-        unset($this->queryHandler);
-        unset($this->connection);
+        unset($this->queryHandler, $this->connection);
     }
 }

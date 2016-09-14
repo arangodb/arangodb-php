@@ -77,7 +77,7 @@ class Graph extends
     {
 
         // prevent backwards compatibility break where the first parameter is the $options array
-        if (!is_array($name) && $name != null) {
+        if (!is_array($name) && $name !== null) {
             $this->set('_key', $name);
         }
 

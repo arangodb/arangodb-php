@@ -26,14 +26,14 @@ class Edge extends
      *
      * @var mixed
      */
-    protected $_from = null;
+    protected $_from;
 
     /**
      * The edge's to (might be NULL for new documents)
      *
      * @var mixed
      */
-    protected $_to = null;
+    protected $_to;
 
     /**
      * Document _from index
@@ -179,8 +179,8 @@ class Edge extends
     public function getAllForInsertUpdate()
     {
         $data          = parent::getAllForInsertUpdate();
-        $data["_from"] = $this->_from;
-        $data["_to"]   = $this->_to;
+        $data['_from'] = $this->_from;
+        $data['_to']   = $this->_to;
         return $data;
     }
 

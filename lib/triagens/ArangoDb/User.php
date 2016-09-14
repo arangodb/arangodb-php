@@ -15,6 +15,10 @@ namespace triagens\ArangoDb;
  *
  * <br />
  *
+ * @property string user
+ * @property mixed|null passwd
+ * @property mixed|null active
+ * @property array|null extra
  * @package   triagens\ArangoDb
  * @since     1.2
  */

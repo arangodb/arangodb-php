@@ -36,8 +36,7 @@ class QueryHandler extends
         $url      = UrlHelper::buildUrl(Urls::URL_QUERY, array('slow'));
         $response = $this->getConnection()->get($url);
 
-        $result = $response->getJson();
-        return $result;
+        return $response->getJson();
     }
 
     /**
@@ -52,8 +51,7 @@ class QueryHandler extends
         $url      = UrlHelper::buildUrl(Urls::URL_QUERY, array('current'));
         $response = $this->getConnection()->get($url);
 
-        $result = $response->getJson();
-        return $result;
+        return $response->getJson();
     }
 
     /**

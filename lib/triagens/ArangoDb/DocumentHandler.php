@@ -86,7 +86,7 @@ class DocumentHandler extends
     {
         try {
             // will throw ServerException if entry could not be retrieved
-            $result = $this->get($collection, $documentId);
+            $this->get($collection, $documentId);
             return true;
         } catch (ServerException $e) {
             // we are expecting a 404 to return boolean false
@@ -98,7 +98,6 @@ class DocumentHandler extends
             throw $e;
         }
 
-        return false;
     }
 
 
@@ -152,7 +151,7 @@ class DocumentHandler extends
      *                            <li>'revision' - The document is returned if it matches/not matches revision.</li>
      *                            </p>
      *
-     * @return Document - the document fetched from the server
+     * @return array - the document fetched from the server
      */
     protected function getDocument($url, $collection, $documentId, array $options = array())
     {
@@ -160,12 +159,12 @@ class DocumentHandler extends
 
         $url            = UrlHelper::buildUrl($url, array($collection, $documentId));
         $headerElements = array();
-        if (array_key_exists("ifMatch", $options) && array_key_exists("revision", $options)) {
-            if ($options["ifMatch"] === true) {
-                $headerElements["If-Match"] = '"' . $options["revision"] . '"';
+        if (array_key_exists('ifMatch', $options) && array_key_exists('revision', $options)) {
+            if ($options['ifMatch'] === true) {
+                $headerElements['If-Match'] = '"' . $options['revision'] . '"';
             }
             else {
-                $headerElements["If-None-Match"] = '"' . $options["revision"] . '"';
+                $headerElements['If-None-Match'] = '"' . $options['revision'] . '"';
             }
         }
 
@@ -189,8 +188,8 @@ class DocumentHandler extends
      *
      * @param string $collection - collection id as a string or number.
      * @param mixed $documentId - document identifier.
-     * @param boolean ifMatch     -  boolean if given revision should match or not.
-     * @param string revision     - The document is returned if it matches/not matches revision.
+     * @param boolean $ifMatch -  boolean if given revision should match or not.
+     * @param string $revision - The document is returned if it matches/not matches revision.
      *
      * @return array - an array containing the complete header including the key httpCode.
      */
@@ -221,18 +220,18 @@ class DocumentHandler extends
 
         $url            = UrlHelper::buildUrl($url, array($collection, $documentId));
         $headerElements = array();
-        if ($revision != null && $ifMatch !== null) {
+        if ($revision !== null && $ifMatch !== null) {
             if ($ifMatch) {
-                $headerElements["If-Match"] = '"' . $revision . '"';
+                $headerElements['If-Match'] = '"' . $revision . '"';
             }
             else {
-                $headerElements["If-None-Match"] = '"' . $revision . '"';
+                $headerElements['If-None-Match'] = '"' . $revision . '"';
             }
         }
 
         $response            = $this->getConnection()->head($url, $headerElements);
         $headers             = $response->getHeaders();
-        $headers["httpCode"] = $response->getHttpCode();
+        $headers['httpCode'] = $response->getHttpCode();
         return $headers;
     }
 
@@ -365,7 +364,7 @@ class DocumentHandler extends
     {
         if ($document->getIsNew()) {
 
-            if ($collection == null) {
+            if ($collection === null) {
                 throw new ClientException('A collection id is required to store a new document.');
             }
 
@@ -453,7 +452,7 @@ class DocumentHandler extends
         $document->setInternalId($json[Document::ENTRY_ID]);
         $document->setRevision($json[Document::ENTRY_REV]);
 
-        if ($id != $document->getId()) {
+        if ($id !== $document->getId()) {
             throw new ClientException('Got an invalid response from the server');
         }
 
@@ -574,7 +573,7 @@ class DocumentHandler extends
         ) {
 
             $revision = $document->getRevision();
-            if (!is_null($revision)) {
+            if (null !== $revision) {
                 $params['ignoreRevs'] = false;
                 $headers['if-match']  = '"' . $revision . '"';
             }
@@ -695,7 +694,7 @@ class DocumentHandler extends
             $params[ConnectionOptions::OPTION_REPLACE_POLICY] === UpdatePolicy::ERROR
         ) {
 
-            if (!is_null($revision)) {
+            if (null !== $revision) {
                 $params['ignoreRevs'] = false;
                 $headers['if-match']  = '"' . $revision . '"';
             }
@@ -851,7 +850,7 @@ class DocumentHandler extends
             $params[ConnectionOptions::OPTION_DELETE_POLICY] === UpdatePolicy::ERROR
         ) {
 
-            if (!is_null($revision)) {
+            if (null !== $revision) {
                 $params['ignoreRevs'] = false;
                 $headers['if-match']  = '"' . $revision . '"';
             }
@@ -876,14 +875,12 @@ class DocumentHandler extends
      */
     private function getDocumentId($document)
     {
+        $documentId = $document;
         if ($document instanceof Document) {
             $documentId = $document->getId();
         }
-        else {
-            $documentId = $document;
-        }
 
-        if (trim($documentId) === "" || !(is_string($documentId) || is_double($documentId) || is_int($documentId))) {
+        if (!(is_int($documentId) || is_string($documentId) || is_float($documentId) || trim($documentId) === '')) {
             throw new ClientException('Cannot alter a document without a document id');
         }
 
@@ -902,11 +899,10 @@ class DocumentHandler extends
      */
     private function getRevision($document)
     {
+        $revision = null;
+
         if ($document instanceof Document) {
             $revision = $document->getRevision();
-        }
-        else {
-            $revision = null;
         }
 
         return $revision;
@@ -934,45 +930,5 @@ class DocumentHandler extends
         } catch (Exception $e) {
             // collection may have existed already
         }
-    }
-
-    /**
-     * Helper function to get a collection id from a document
-     *
-     * @throws ClientException
-     *
-     * @param Document $document - document
-     *
-     * @return mixed - collection id, will throw if there is an error
-     */
-    private function getCollectionId(Document $document)
-    {
-        $collectionId = $document->getCollectionId();
-
-        if (!$collectionId || !(is_string($collectionId) || is_double($collectionId) || is_int($collectionId))) {
-            throw new ClientException('Invalid collection value');
-        }
-
-        return $collectionId;
-    }
-
-    /**
-     * Helper function to get a collection name from a document
-     *
-     * @throws ClientException
-     *
-     * @param Document $document - document
-     *
-     * @return mixed - collection name, will throw if there is an error
-     */
-    private function getCollectionName(Document $document)
-    {
-        $collectionName = $document->getCollectionName();
-
-        if (!$collectionName || !is_string($collectionName)) {
-            throw new ClientException('Invalid collection value');
-        }
-
-        return $collectionName;
     }
 }

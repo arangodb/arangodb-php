@@ -54,7 +54,7 @@ class TraceRequest
      *
      * @var string
      */
-    private $_type = "request";
+    private $_type = 'request';
 
     /**
      * Set up the request trace

@@ -74,9 +74,9 @@ class Connection
     /**
      * $_activeBatch object
      *
-     * @var array
+     * @var Batch
      */
-    private $_activeBatch = null;
+    private $_activeBatch;
 
     /**
      * $_captureBatch boolean
@@ -315,9 +315,7 @@ class Connection
             $this->_httpHeader .= sprintf('Host: %s%s', Endpoint::getHost($endpoint), HttpHelper::EOL);
         }
 
-        if (isset($this->_options[ConnectionOptions::OPTION_AUTH_TYPE]) &&
-            isset($this->_options[ConnectionOptions::OPTION_AUTH_USER])
-        ) {
+        if (isset($this->_options[ConnectionOptions::OPTION_AUTH_TYPE], $this->_options[ConnectionOptions::OPTION_AUTH_USER])) {
             // add authorization header
             $authorizationValue = base64_encode(
                 $this->_options[ConnectionOptions::OPTION_AUTH_USER] . ':' .
@@ -402,12 +400,12 @@ class Connection
             // failure on server
 
             $body = $response->getBody();
-            if ($body != '') {
+            if ($body !== '') {
                 // check if we can find details in the response body
                 $details = json_decode($body, true);
-                if (is_array($details) && isset($details["errorMessage"])) {
+                if (is_array($details) && isset($details['errorMessage'])) {
                     // yes, we got details
-                    $exception = new ServerException($details["errorMessage"], $details["code"]);
+                    $exception = new ServerException($details['errorMessage'], $details['code']);
                     $exception->setDetails($details);
                     throw $exception;
                 }
@@ -462,7 +460,7 @@ class Connection
 
             if ($this->_captureBatch === true) {
                 $batchPart = $this->doBatch($method, $request);
-                if (!is_null($batchPart)) {
+                if (null !== $batchPart) {
                     return $batchPart;
                 }
             }
@@ -665,7 +663,7 @@ class Connection
      */
     public static function detect_utf($string)
     {
-        if (preg_match("//u", $string)) {
+        if (preg_match('//u', $string)) {
             return true;
         }
         else {
@@ -695,19 +693,19 @@ class Connection
                 if (function_exists('mb_detect_encoding')) {
                     // check with mb library
                     if (is_string($key) && mb_detect_encoding($key, 'UTF-8', true) === false) {
-                        throw new ClientException("Only UTF-8 encoded keys allowed. Wrong encoding in key string: " . $key);
+                        throw new ClientException('Only UTF-8 encoded keys allowed. Wrong encoding in key string: ' . $key);
                     }
                     if (is_string($value) && mb_detect_encoding($value, 'UTF-8', true) === false) {
-                        throw new ClientException("Only UTF-8 encoded values allowed. Wrong encoding in value string: " . $value);
+                        throw new ClientException('Only UTF-8 encoded values allowed. Wrong encoding in value string: ' . $value);
                     }
                 }
                 else {
                     // fallback to preg_match checking
                     if (is_string($key) && self::detect_utf($key) == false) {
-                        throw new ClientException("Only UTF-8 encoded keys allowed. Wrong encoding in key string: " . $key);
+                        throw new ClientException('Only UTF-8 encoded keys allowed. Wrong encoding in key string: ' . $key);
                     }
                     if (is_string($value) && self::detect_utf($value) == false) {
-                        throw new ClientException("Only UTF-8 encoded values allowed. Wrong encoding in value string: " . $value);
+                        throw new ClientException('Only UTF-8 encoded values allowed. Wrong encoding in value string: ' . $value);
                     }
                 }
             }

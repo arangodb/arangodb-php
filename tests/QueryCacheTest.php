@@ -41,7 +41,7 @@ class QueryCacheTest extends
         $this->collection = new Collection($name);
         $this->collectionHandler->add($this->collection);
 
-        $statement = new Statement($this->connection, array("_flat" => true));
+        $statement = new Statement($this->connection, array('_flat' => true));
         $statement->setQuery("FOR i IN 1..2000 INSERT { value: i, _key: CONCAT('test', i) } INTO " . $name);
 
         $statement->execute();
@@ -57,38 +57,38 @@ class QueryCacheTest extends
 
         $this->cacheHandler->enable();
 
-        $query = "FOR i IN " . $this->collection->getName() . " FILTER i.value >= 1998 SORT i.value RETURN i.value";
+        $query = 'FOR i IN ' . $this->collection->getName() . ' FILTER i.value >= 1998 SORT i.value RETURN i.value';
 
-        $statement = new Statement($this->connection, array("_flat" => true));
+        $statement = new Statement($this->connection, array('_flat' => true));
         $statement->setQuery($query);
         $cursor = $statement->execute();
 
         // re-execute same query
-        $statement = new Statement($this->connection, array("_flat" => true));
+        $statement = new Statement($this->connection, array('_flat' => true));
         $statement->setQuery($query);
         $cursor = $statement->execute();
 
-        $this->assertEquals(array(1998, 1999, 2000), $cursor->getAll());
-        $this->assertTrue($cursor->getCached()); // should be in cache now
+        static::assertEquals(array(1998, 1999, 2000), $cursor->getAll());
+        static::assertTrue($cursor->getCached()); // should be in cache now
 
         // now clear the cache
         $this->cacheHandler->clear();
 
         // re-execute same query
-        $statement = new Statement($this->connection, array("_flat" => true));
+        $statement = new Statement($this->connection, array('_flat' => true));
         $statement->setQuery($query);
         $cursor = $statement->execute();
 
-        $this->assertEquals(array(1998, 1999, 2000), $cursor->getAll());
-        $this->assertFalse($cursor->getCached()); // shouldn't be in cache because we cleared it
+        static::assertEquals(array(1998, 1999, 2000), $cursor->getAll());
+        static::assertFalse($cursor->getCached()); // shouldn't be in cache because we cleared it
 
         // re-execute same query
-        $statement = new Statement($this->connection, array("_flat" => true));
+        $statement = new Statement($this->connection, array('_flat' => true));
         $statement->setQuery($query);
         $cursor = $statement->execute();
 
-        $this->assertEquals(array(1998, 1999, 2000), $cursor->getAll());
-        $this->assertTrue($cursor->getCached()); // should be in cache again
+        static::assertEquals(array(1998, 1999, 2000), $cursor->getAll());
+        static::assertTrue($cursor->getCached()); // should be in cache again
     }
 
 
@@ -101,22 +101,22 @@ class QueryCacheTest extends
 
         $this->cacheHandler->enable();
 
-        $query = "FOR i IN " . $this->collection->getName() . " FILTER i.value >= 1998 SORT i.value RETURN i.value";
+        $query = 'FOR i IN ' . $this->collection->getName() . ' FILTER i.value >= 1998 SORT i.value RETURN i.value';
 
-        $statement = new Statement($this->connection, array("_flat" => true));
+        $statement = new Statement($this->connection, array('_flat' => true));
         $statement->setQuery($query);
         $cursor = $statement->execute();
 
-        $this->assertEquals(array(1998, 1999, 2000), $cursor->getAll());
-        $this->assertFalse($cursor->getCached()); // not in cache yet
+        static::assertEquals(array(1998, 1999, 2000), $cursor->getAll());
+        static::assertFalse($cursor->getCached()); // not in cache yet
 
         // re-execute same query
-        $statement = new Statement($this->connection, array("_flat" => true));
+        $statement = new Statement($this->connection, array('_flat' => true));
         $statement->setQuery($query);
         $cursor = $statement->execute();
 
-        $this->assertEquals(array(1998, 1999, 2000), $cursor->getAll());
-        $this->assertTrue($cursor->getCached()); // should be in cache now
+        static::assertEquals(array(1998, 1999, 2000), $cursor->getAll());
+        static::assertTrue($cursor->getCached()); // should be in cache now
     }
 
 
@@ -129,28 +129,28 @@ class QueryCacheTest extends
 
         $this->cacheHandler->enable();
 
-        $query = "FOR i IN " . $this->collection->getName() . " FILTER i.value >= 1998 SORT i.value RETURN i.value";
+        $query = 'FOR i IN ' . $this->collection->getName() . ' FILTER i.value >= 1998 SORT i.value RETURN i.value';
 
-        $statement = new Statement($this->connection, array("_flat" => true));
+        $statement = new Statement($this->connection, array('_flat' => true));
         $statement->setQuery($query);
         $cursor = $statement->execute();
 
         // re-execute same query
-        $statement = new Statement($this->connection, array("_flat" => true));
+        $statement = new Statement($this->connection, array('_flat' => true));
         $statement->setQuery($query);
         $cursor = $statement->execute();
 
-        $this->assertEquals(array(1998, 1999, 2000), $cursor->getAll());
-        $this->assertTrue($cursor->getCached()); // should be in cache now
+        static::assertEquals(array(1998, 1999, 2000), $cursor->getAll());
+        static::assertTrue($cursor->getCached()); // should be in cache now
 
         // re-execute same query, but with cache disabled
-        $statement = new Statement($this->connection, array("_flat" => true));
+        $statement = new Statement($this->connection, array('_flat' => true));
         $statement->setCache(false);
         $statement->setQuery($query);
         $cursor = $statement->execute();
 
-        $this->assertEquals(array(1998, 1999, 2000), $cursor->getAll());
-        $this->assertFalse($cursor->getCached());
+        static::assertEquals(array(1998, 1999, 2000), $cursor->getAll());
+        static::assertFalse($cursor->getCached());
     }
 
 
@@ -163,22 +163,22 @@ class QueryCacheTest extends
 
         $this->cacheHandler->disable();
 
-        $query = "FOR i IN " . $this->collection->getName() . " FILTER i.value >= 1998 SORT i.value RETURN i.value";
+        $query = 'FOR i IN ' . $this->collection->getName() . ' FILTER i.value >= 1998 SORT i.value RETURN i.value';
 
-        $statement = new Statement($this->connection, array("_flat" => true));
+        $statement = new Statement($this->connection, array('_flat' => true));
         $statement->setQuery($query);
         $cursor = $statement->execute();
 
-        $this->assertEquals(array(1998, 1999, 2000), $cursor->getAll());
-        $this->assertFalse($cursor->getCached()); // not in cache 
+        static::assertEquals(array(1998, 1999, 2000), $cursor->getAll());
+        static::assertFalse($cursor->getCached()); // not in cache
 
         // re-execute same query
-        $statement = new Statement($this->connection, array("_flat" => true));
+        $statement = new Statement($this->connection, array('_flat' => true));
         $statement->setQuery($query);
         $cursor = $statement->execute();
 
-        $this->assertEquals(array(1998, 1999, 2000), $cursor->getAll());
-        $this->assertFalse($cursor->getCached()); // still not in cache
+        static::assertEquals(array(1998, 1999, 2000), $cursor->getAll());
+        static::assertFalse($cursor->getCached()); // still not in cache
     }
 
 
@@ -191,24 +191,24 @@ class QueryCacheTest extends
 
         $this->cacheHandler->enableDemandMode();
 
-        $query = "FOR i IN " . $this->collection->getName() . " FILTER i.value >= 1998 SORT i.value RETURN i.value";
+        $query = 'FOR i IN ' . $this->collection->getName() . ' FILTER i.value >= 1998 SORT i.value RETURN i.value';
 
-        $statement = new Statement($this->connection, array("_flat" => true));
+        $statement = new Statement($this->connection, array('_flat' => true));
         $statement->setCache(true);
         $statement->setQuery($query);
         $cursor = $statement->execute();
 
-        $this->assertEquals(array(1998, 1999, 2000), $cursor->getAll());
-        $this->assertFalse($cursor->getCached()); // not in cache 
+        static::assertEquals(array(1998, 1999, 2000), $cursor->getAll());
+        static::assertFalse($cursor->getCached()); // not in cache
 
         // re-execute same query
-        $statement = new Statement($this->connection, array("_flat" => true));
+        $statement = new Statement($this->connection, array('_flat' => true));
         $statement->setCache(true);
         $statement->setQuery($query);
         $cursor = $statement->execute();
 
-        $this->assertEquals(array(1998, 1999, 2000), $cursor->getAll());
-        $this->assertTrue($cursor->getCached()); // now the query should be in the cache, because we set the cache attribute for the query
+        static::assertEquals(array(1998, 1999, 2000), $cursor->getAll());
+        static::assertTrue($cursor->getCached()); // now the query should be in the cache, because we set the cache attribute for the query
     }
 
 
@@ -221,33 +221,33 @@ class QueryCacheTest extends
 
         $this->cacheHandler->enableDemandMode();
 
-        $query = "FOR i IN " . $this->collection->getName() . " FILTER i.value >= 1998 SORT i.value RETURN i.value";
+        $query = 'FOR i IN ' . $this->collection->getName() . ' FILTER i.value >= 1998 SORT i.value RETURN i.value';
 
-        $statement = new Statement($this->connection, array("_flat" => true));
+        $statement = new Statement($this->connection, array('_flat' => true));
         $statement->setCache(true);
         $statement->setQuery($query);
         $cursor = $statement->execute();
 
-        $this->assertEquals(array(1998, 1999, 2000), $cursor->getAll());
-        $this->assertFalse($cursor->getCached()); // not in cache 
+        static::assertEquals(array(1998, 1999, 2000), $cursor->getAll());
+        static::assertFalse($cursor->getCached()); // not in cache
 
         // re-execute same query
-        $statement = new Statement($this->connection, array("_flat" => true));
+        $statement = new Statement($this->connection, array('_flat' => true));
         $statement->setCache(false);
         $statement->setQuery($query);
         $cursor = $statement->execute();
 
-        $this->assertEquals(array(1998, 1999, 2000), $cursor->getAll());
-        $this->assertFalse($cursor->getCached()); // we said we don't want to use the cache
+        static::assertEquals(array(1998, 1999, 2000), $cursor->getAll());
+        static::assertFalse($cursor->getCached()); // we said we don't want to use the cache
 
         // re-execute same query
-        $statement = new Statement($this->connection, array("_flat" => true));
+        $statement = new Statement($this->connection, array('_flat' => true));
         $statement->setCache(true);
         $statement->setQuery($query);
         $cursor = $statement->execute();
 
-        $this->assertEquals(array(1998, 1999, 2000), $cursor->getAll());
-        $this->assertTrue($cursor->getCached()); // we said we want to use the cache
+        static::assertEquals(array(1998, 1999, 2000), $cursor->getAll());
+        static::assertTrue($cursor->getCached()); // we said we want to use the cache
     }
 
 
@@ -260,22 +260,22 @@ class QueryCacheTest extends
 
         $this->cacheHandler->enableDemandMode();
 
-        $query = "FOR i IN " . $this->collection->getName() . " FILTER i.value >= 1998 SORT i.value RETURN i.value";
+        $query = 'FOR i IN ' . $this->collection->getName() . ' FILTER i.value >= 1998 SORT i.value RETURN i.value';
 
-        $statement = new Statement($this->connection, array("_flat" => true));
+        $statement = new Statement($this->connection, array('_flat' => true));
         $statement->setQuery($query);
         $cursor = $statement->execute();
 
-        $this->assertEquals(array(1998, 1999, 2000), $cursor->getAll());
-        $this->assertFalse($cursor->getCached()); // not in cache 
+        static::assertEquals(array(1998, 1999, 2000), $cursor->getAll());
+        static::assertFalse($cursor->getCached()); // not in cache
 
         // re-execute same query
-        $statement = new Statement($this->connection, array("_flat" => true));
+        $statement = new Statement($this->connection, array('_flat' => true));
         $statement->setQuery($query);
         $cursor = $statement->execute();
 
-        $this->assertEquals(array(1998, 1999, 2000), $cursor->getAll());
-        $this->assertFalse($cursor->getCached()); // still not in cache, because we didn't set cache attribute for query
+        static::assertEquals(array(1998, 1999, 2000), $cursor->getAll());
+        static::assertFalse($cursor->getCached()); // still not in cache, because we didn't set cache attribute for query
     }
 
 
@@ -289,7 +289,6 @@ class QueryCacheTest extends
 
         $this->cacheHandler->disable();
 
-        unset($this->cacheHandler);
-        unset($this->connection);
+        unset($this->cacheHandler, $this->connection);
     }
 }

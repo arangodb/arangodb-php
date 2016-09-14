@@ -21,8 +21,8 @@ class QueryCacheHandler extends
      */
     public function enable()
     {
-        $url = UrlHelper::buildUrl(Urls::URL_QUERY_CACHE, array("properties"));
-        $this->getConnection()->put($url, $this->json_encode_wrapper(array("mode" => "on")));
+        $url = UrlHelper::buildUrl(Urls::URL_QUERY_CACHE, array('properties'));
+        $this->getConnection()->put($url, $this->json_encode_wrapper(array('mode' => 'on')));
     }
 
 
@@ -33,8 +33,8 @@ class QueryCacheHandler extends
      */
     public function disable()
     {
-        $url = UrlHelper::buildUrl(Urls::URL_QUERY_CACHE, array("properties"));
-        $this->getConnection()->put($url, $this->json_encode_wrapper(array("mode" => "off")));
+        $url = UrlHelper::buildUrl(Urls::URL_QUERY_CACHE, array('properties'));
+        $this->getConnection()->put($url, $this->json_encode_wrapper(array('mode' => 'off')));
     }
 
 
@@ -45,8 +45,8 @@ class QueryCacheHandler extends
      */
     public function enableDemandMode()
     {
-        $url = UrlHelper::buildUrl(Urls::URL_QUERY_CACHE, array("properties"));
-        $this->getConnection()->put($url, $this->json_encode_wrapper(array("mode" => "demand")));
+        $url = UrlHelper::buildUrl(Urls::URL_QUERY_CACHE, array('properties'));
+        $this->getConnection()->put($url, $this->json_encode_wrapper(array('mode' => 'demand')));
     }
 
     /**
@@ -72,8 +72,7 @@ class QueryCacheHandler extends
         $url      = UrlHelper::buildUrl(Urls::URL_QUERY_CACHE);
         $response = $this->getConnection()->get($url);
 
-        $result = $response->getJson();
-        return $result;
+        return $response->getJson();
     }
 
     /**
@@ -99,7 +98,6 @@ class QueryCacheHandler extends
         $url      = UrlHelper::buildUrl(Urls::URL_QUERY_CACHE);
         $response = $this->getConnection()->put($url, $this->json_encode_wrapper($bodyParams));
 
-        $result = $response->getJson();
-        return $result;
+        return $response->getJson();
     }
 }

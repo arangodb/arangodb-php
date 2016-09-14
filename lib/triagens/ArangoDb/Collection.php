@@ -25,77 +25,77 @@ class Collection
      *
      * @var mixed - collection id
      */
-    private $_id = null;
+    private $_id;
 
     /**
      * The collection name (might be NULL for new collections)
      *
      * @var string - collection name
      */
-    private $_name = null;
+    private $_name;
 
     /**
      * The collection type (might be NULL for new collections)
      *
      * @var int - collection type
      */
-    private $_type = null;
+    private $_type;
 
     /**
      * The collection waitForSync value (might be NULL for new collections)
      *
      * @var bool - waitForSync value
      */
-    private $_waitForSync = null;
+    private $_waitForSync;
 
     /**
      * The collection journalSize value (might be NULL for new collections)
      *
      * @var int - journalSize value
      */
-    private $_journalSize = null;
+    private $_journalSize;
 
     /**
      * The collection isSystem value (might be NULL for new collections)
      *
      * @var bool - isSystem value
      */
-    private $_isSystem = null;
+    private $_isSystem;
 
     /**
      * The collection isVolatile value (might be NULL for new collections)
      *
      * @var bool - isVolatile value
      */
-    private $_isVolatile = null;
+    private $_isVolatile;
 
     /**
      * The collection numberOfShards value (might be NULL for new collections)
      *
      * @var int - numberOfShards value
      */
-    private $_numberOfShards = null;
+    private $_numberOfShards;
 
     /**
      * The collection shardKeys value (might be NULL for new collections)
      *
      * @var array - shardKeys value
      */
-    private $_shardKeys = null;
+    private $_shardKeys;
 
     /**
      * The collection status value
      *
      * @var int - status value
      */
-    private $_status = null;
+    private $_status;
 
     /**
      * The collection keyOptions value
      *
      * @var array - keyOptions value
      */
-    private $_keyOptions = null;
+    private $_keyOptions;
 
     /**
      * Collection id index
@@ -306,7 +306,7 @@ class Collection
             self::ENTRY_KEY_OPTIONS => $this->_keyOptions
         );
 
-        if (!is_null($this->_numberOfShards)) {
+        if (null !== $this->_numberOfShards) {
             $result[self::ENTRY_NUMBER_OF_SHARDS] = $this->_numberOfShards;
         }
 
@@ -419,7 +419,7 @@ class Collection
      */
     public function setId($id)
     {
-        if ($this->_id !== null && $this->_id != $id) {
+        if ($this->_id !== null && $this->_id !== $id) {
             throw new ClientException('Should not update the id of an existing collection');
         }
 
@@ -454,7 +454,7 @@ class Collection
     {
         assert(is_string($name));
 
-        if ($this->_name !== null && $this->_name != $name) {
+        if ($this->_name !== null && $this->_name !== $name) {
             throw new ClientException('Should not update the name of an existing collection');
         }
 
@@ -487,11 +487,11 @@ class Collection
     {
         assert(is_int($type));
 
-        if ($this->_type !== null && $this->_type != $type) {
+        if ($this->_type !== null && $this->_type !== $type) {
             throw new ClientException('Should not update the type of an existing collection');
         }
 
-        if ($type != self::TYPE_DOCUMENT && $type != self::TYPE_EDGE) {
+        if ($type !== self::TYPE_DOCUMENT && $type !== self::TYPE_EDGE) {
             throw new ClientException('Invalid type used for collection');
         }
 
@@ -523,7 +523,7 @@ class Collection
     {
         assert(is_int($status));
 
-        if ($this->_status !== null && $this->_status != $status) {
+        if ($this->_status !== null && $this->_status !== $status) {
             throw new ClientException('Should not update the status of an existing collection');
         }
 
@@ -589,7 +589,7 @@ class Collection
      */
     public function setWaitForSync($value)
     {
-        assert(is_null($value) || is_bool($value));
+        assert(null === $value || is_bool($value));
         $this->_waitForSync = $value;
     }
 
@@ -606,20 +606,20 @@ class Collection
     /**
      * Set the journalSize value
      *
-     * @param bool $value - journalSize value
+     * @param int $value - journalSize value
      *
      * @return void
      */
     public function setJournalSize($value)
     {
-        assert(is_int($value));
+        assert(is_numeric($value));
         $this->_journalSize = $value;
     }
 
     /**
      * Get the journalSize value (if already known)
      *
-     * @return bool - journalSize value
+     * @return int - journalSize value
      */
     public function getJournalSize()
     {
@@ -635,7 +635,7 @@ class Collection
      */
     public function setIsSystem($value)
     {
-        assert(is_null($value) || is_bool($value));
+        assert(null === $value || is_bool($value));
         $this->_isSystem = $value;
     }
 
@@ -658,7 +658,7 @@ class Collection
      */
     public function setIsVolatile($value)
     {
-        assert(is_null($value) || is_bool($value));
+        assert(null === $value || is_bool($value));
         $this->_isVolatile = $value;
     }
 
@@ -681,7 +681,7 @@ class Collection
      */
     public function setNumberOfShards($value)
     {
-        assert(is_null($value) || is_numeric($value));
+        assert(null === $value || is_numeric($value));
         $this->_numberOfShards = $value;
     }
 
@@ -704,7 +704,7 @@ class Collection
      */
     public function setShardKeys($value)
     {
-        assert(is_null($value) || is_array($value));
+        assert(null === $value || is_array($value));
         $this->_shardKeys = $value;
     }
 

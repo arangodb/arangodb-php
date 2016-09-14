@@ -198,7 +198,7 @@ class ExportCursor
      */
     private function setData(array $data)
     {
-        if ((isset($this->_options[self::ENTRY_FLAT]) && $this->_options[self::ENTRY_FLAT])) {
+        if (isset($this->_options[self::ENTRY_FLAT]) && $this->_options[self::ENTRY_FLAT]) {
             $this->_result = $data;
         }
         else {
@@ -227,7 +227,7 @@ class ExportCursor
     private function fetchOutstanding()
     {
         // continuation
-        $response = $this->_connection->put($this->url() . "/" . $this->_id, '');
+        $response = $this->_connection->put($this->url() . '/' . $this->_id, '');
         ++$this->_fetches;
 
         $data = $response->getJson();

@@ -28,7 +28,7 @@ class AdminHandler extends
     /**
      * details for server version
      */
-    const OPTION_DETAILS = "details";
+    const OPTION_DETAILS = 'details';
 
     /**
      * Get the server version
@@ -133,9 +133,7 @@ class AdminHandler extends
     {
         $url      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_LOG, $options);
         $response = $this->getConnection()->get($url);
-        $data     = $response->getJson();
-
-        return $data;
+        return $response->getJson();
     }
 
 
@@ -165,12 +163,12 @@ class AdminHandler extends
      *
      * @throws Exception
      *
-     * @return array
+     * @return bool
      * @since 1.2
      */
     public function reloadServerRouting()
     {
-        $this->getConnection()->POST(Urls::URL_ADMIN_ROUTING_RELOAD, '');
+        $this->getConnection()->post(Urls::URL_ADMIN_ROUTING_RELOAD, '');
 
         return true;
     }
@@ -202,9 +200,7 @@ class AdminHandler extends
     {
         $url      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_STATISTICS, array());
         $response = $this->getConnection()->get($url);
-        $data     = $response->getJson();
-
-        return $data;
+        return $response->getJson();
     }
 
 
@@ -237,8 +233,6 @@ class AdminHandler extends
     {
         $url      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_STATISTICS_DESCRIPTION, $options);
         $response = $this->getConnection()->get($url);
-        $data     = $response->getJson();
-
-        return $data;
+        return $response->getJson();
     }
 }
