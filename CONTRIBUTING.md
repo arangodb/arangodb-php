@@ -29,6 +29,21 @@ Please follow these guidelines if you want to contribute to ArangoDB-PHP:
 * When finished, push the changes to your GitHub repository and send a pull request from your fork to the ArangoDB-PHP repository. Please make sure to select the appropriate branches there
 * You must use the Apache License for your changes
 
+## Documentation
+
+Documentation is generated with the apigen generator with the following parameters (beside the source and destination definition):
+
+```
+--template-theme bootstrap --title "ArangoDB-PHP API Documentation" --deprecated
+```
+
+
+Example:
+```
+php -f apigen.phar generate -s ./lib/triagens/ArangoDb -d ./docs --template-theme bootstrap --title "ArangoDB-PHP API Documentation" --deprecated
+```
+
+
 ## Reporting Bugs
 
 When reporting bugs, please use our issue tracker on GitHub.
