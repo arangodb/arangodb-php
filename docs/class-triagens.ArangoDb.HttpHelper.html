@@ -41,6 +41,11 @@
 								<span>Deprecated</span>
 							</a>
 						</li>
+						<li>
+							<a href="annotation-group-todo.html" title="List of elements with todo annotation">
+								<span>Todo</span>
+							</a>
+						</li>
 
 
 				</ul>
@@ -168,45 +173,47 @@
 		<div class="panel panel-default">
 			<div class="panel-heading"><h2>Methods summary</h2></div>
 			<table class="summary table table-bordered table-striped methods" id="methods">
-		<tr data-order="validateMethod" id="_validateMethod">
+		<tr data-order="createConnection" id="_createConnection">
 
 			<td class="attributes"><code>
 				 public static
-				boolean
+				resource
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
-			<a class="anchor" href="#_validateMethod">#</a>
-			<code><a href="source-class-triagens.ArangoDb.HttpHelper.html#83-105" title="Go to source code">validateMethod</a>( <span>string <var>$method</var></span> )</code>
+			<a class="anchor" href="#_createConnection">#</a>
+			<code><a href="source-class-triagens.ArangoDb.HttpHelper.html#73-120" title="Go to source code">createConnection</a>( <span><code><a href="class-triagens.ArangoDb.ConnectionOptions.html">triagens\ArangoDb\ConnectionOptions</a></code> <var>$options</var></span> )</code>
 
 			<div class="description short">
-				<p>Validate an HTTP request method name</p>
+				<p>Create a one-time HTTP connection by opening a socket to the server</p>
 			</div>
 
 			<div class="description detailed hidden">
-				<p>Validate an HTTP request method name</p>
+				<p>Create a one-time HTTP connection by opening a socket to the server</p>
+
+<p>It is the caller's responsibility to close the socket</p>
 
 
 					<h4>Parameters</h4>
 					<div class="list"><dl>
-						<dt><var>$method</var></dt>
+						<dt><var>$options</var></dt>
 						<dd><ul>
-<li>method name</li>
+<li>connection options</li>
 </ul></dd>
 					</dl></div>
 
 					<h4>Returns</h4>
 					<div class="list">
-						boolean<br><ul>
-<li>always true, will throw if an invalid method name is supplied</li>
+						resource<br><ul>
+<li>socket with server connection, will throw when no connection can be established</li>
 </ul>
 					</div>
 
 					<h4>Throws</h4>
 					<div class="list">
-						<code><a href="class-triagens.ArangoDb.ClientException.html">triagens\ArangoDb\ClientException</a></code>
+						<code><a href="class-triagens.ArangoDb.ConnectException.html">triagens\ArangoDb\ConnectException</a></code>
 					</div>
 
 
@@ -225,7 +232,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_buildRequest">#</a>
-			<code><a href="source-class-triagens.ArangoDb.HttpHelper.html#107-155" title="Go to source code">buildRequest</a>( <span><code><a href="class-triagens.ArangoDb.ConnectionOptions.html">triagens\ArangoDb\ConnectionOptions</a></code> <var>$options</var></span>, <span>string <var>$connectionHeader</var></span>, <span>string <var>$method</var></span>, <span>string <var>$url</var></span>, <span>string <var>$body</var></span>, <span>array <var>$customHeaders</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.HttpHelper.html#132-180" title="Go to source code">buildRequest</a>( <span><code><a href="class-triagens.ArangoDb.ConnectionOptions.html">triagens\ArangoDb\ConnectionOptions</a></code> <var>$options</var></span>, <span>string <var>$connectionHeader</var></span>, <span>string <var>$method</var></span>, <span>string <var>$url</var></span>, <span>string <var>$body</var></span>, <span>array <var>$customHeaders</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 			<div class="description short">
 				<p>Create a request string (header and body)</p>
@@ -280,6 +287,52 @@
 			</div>
 			</div></td>
 		</tr>
+		<tr data-order="validateMethod" id="_validateMethod">
+
+			<td class="attributes"><code>
+				 public static
+				boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_validateMethod">#</a>
+			<code><a href="source-class-triagens.ArangoDb.HttpHelper.html#182-204" title="Go to source code">validateMethod</a>( <span>string <var>$method</var></span> )</code>
+
+			<div class="description short">
+				<p>Validate an HTTP request method name</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Validate an HTTP request method name</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$method</var></dt>
+						<dd><ul>
+<li>method name</li>
+</ul></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						boolean<br><ul>
+<li>always true, will throw if an invalid method name is supplied</li>
+</ul>
+					</div>
+
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.ClientException.html">triagens\ArangoDb\ClientException</a></code>
+					</div>
+
+
+
+			</div>
+			</div></td>
+		</tr>
 		<tr data-order="transfer" id="_transfer">
 
 			<td class="attributes"><code>
@@ -291,7 +344,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_transfer">#</a>
-			<code><a href="source-class-triagens.ArangoDb.HttpHelper.html#157-230" title="Go to source code">transfer</a>( <span>resource <var>$socket</var></span>, <span>string <var>$request</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.HttpHelper.html#206-279" title="Go to source code">transfer</a>( <span>resource <var>$socket</var></span>, <span>string <var>$request</var></span> )</code>
 
 			<div class="description short">
 				<p>Execute an HTTP request on an opened socket</p>
@@ -325,54 +378,6 @@
 					<h4>Throws</h4>
 					<div class="list">
 						<code><a href="class-triagens.ArangoDb.ClientException.html">triagens\ArangoDb\ClientException</a></code>
-					</div>
-
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="createConnection" id="_createConnection">
-
-			<td class="attributes"><code>
-				 public static
-				resource
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_createConnection">#</a>
-			<code><a href="source-class-triagens.ArangoDb.HttpHelper.html#232-279" title="Go to source code">createConnection</a>( <span><code><a href="class-triagens.ArangoDb.ConnectionOptions.html">triagens\ArangoDb\ConnectionOptions</a></code> <var>$options</var></span> )</code>
-
-			<div class="description short">
-				<p>Create a one-time HTTP connection by opening a socket to the server</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Create a one-time HTTP connection by opening a socket to the server</p>
-
-<p>It is the caller's responsibility to close the socket</p>
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$options</var></dt>
-						<dd><ul>
-<li>connection options</li>
-</ul></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						resource<br><ul>
-<li>socket with server connection, will throw when no connection can be established</li>
-</ul>
-					</div>
-
-					<h4>Throws</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.ConnectException.html">triagens\ArangoDb\ConnectException</a></code>
 					</div>
 
 
@@ -724,7 +729,7 @@
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-triagens.ArangoDb.HttpHelper.html#73-76" title="Go to source code"><b>MIME_BOUNDARY</b></a>
+						<a href="source-class-triagens.ArangoDb.HttpHelper.html#122-125" title="Go to source code"><b>MIME_BOUNDARY</b></a>
 					</code>
 
 					<div class="description short">
@@ -748,7 +753,7 @@
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-triagens.ArangoDb.HttpHelper.html#78-81" title="Go to source code"><b>ASYNC_HEADER</b></a>
+						<a href="source-class-triagens.ArangoDb.HttpHelper.html#127-130" title="Go to source code"><b>ASYNC_HEADER</b></a>
 					</code>
 
 					<div class="description short">

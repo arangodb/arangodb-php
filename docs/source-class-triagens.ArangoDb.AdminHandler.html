@@ -41,6 +41,11 @@
 								<span>Deprecated</span>
 							</a>
 						</li>
+						<li>
+							<a href="annotation-group-todo.html" title="List of elements with todo annotation">
+								<span>Todo</span>
+							</a>
+						</li>
 
 
 				</ul>
@@ -283,95 +288,97 @@
 </span></span><span id="148" class="l"><a href="#148">148 </a><span class="php-comment">     * @return bool
 </span></span><span id="149" class="l"><a href="#149">149 </a><span class="php-comment">     * @since 1.2
 </span></span><span id="150" class="l"><a href="#150">150 </a><span class="php-comment">     * @deprecated
-</span></span><span id="151" class="l"><a href="#151">151 </a><span class="php-comment">     */</span>
-</span><span id="152" class="l"><a href="#152">152 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> flushServerModuleCache()
-</span><span id="153" class="l"><a href="#153">153 </a>    {
-</span><span id="154" class="l"><a href="#154">154 </a>        <span class="php-keyword1">return</span> <span class="php-keyword1">true</span>;
-</span><span id="155" class="l"><a href="#155">155 </a>    }
-</span><span id="156" class="l"><a href="#156">156 </a>
-</span><span id="157" class="l"><a href="#157">157 </a>
-</span><span id="158" class="l"><a href="#158">158 </a>    <span class="php-comment">/**
-</span></span><span id="159" class="l"><a href="#159">159 </a><span class="php-comment">     * Reload the server's routing information
-</span></span><span id="160" class="l"><a href="#160">160 </a><span class="php-comment">     * The call triggers a reload of the routing information from the _routing collection
-</span></span><span id="161" class="l"><a href="#161">161 </a><span class="php-comment">     *
-</span></span><span id="162" class="l"><a href="#162">162 </a><span class="php-comment">     * This will throw if the routing cannot be reloaded
+</span></span><span id="151" class="l"><a href="#151">151 </a><span class="php-comment">     * @todo remove in version 3.1
+</span></span><span id="152" class="l"><a href="#152">152 </a><span class="php-comment">
+</span></span><span id="153" class="l"><a href="#153">153 </a><span class="php-comment">     */</span>
+</span><span id="154" class="l"><a href="#154">154 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> flushServerModuleCache()
+</span><span id="155" class="l"><a href="#155">155 </a>    {
+</span><span id="156" class="l"><a href="#156">156 </a>        <span class="php-keyword1">return</span> <span class="php-keyword1">true</span>;
+</span><span id="157" class="l"><a href="#157">157 </a>    }
+</span><span id="158" class="l"><a href="#158">158 </a>
+</span><span id="159" class="l"><a href="#159">159 </a>
+</span><span id="160" class="l"><a href="#160">160 </a>    <span class="php-comment">/**
+</span></span><span id="161" class="l"><a href="#161">161 </a><span class="php-comment">     * Reload the server's routing information
+</span></span><span id="162" class="l"><a href="#162">162 </a><span class="php-comment">     * The call triggers a reload of the routing information from the _routing collection
 </span></span><span id="163" class="l"><a href="#163">163 </a><span class="php-comment">     *
-</span></span><span id="164" class="l"><a href="#164">164 </a><span class="php-comment">     * @throws Exception
+</span></span><span id="164" class="l"><a href="#164">164 </a><span class="php-comment">     * This will throw if the routing cannot be reloaded
 </span></span><span id="165" class="l"><a href="#165">165 </a><span class="php-comment">     *
-</span></span><span id="166" class="l"><a href="#166">166 </a><span class="php-comment">     * @return bool
-</span></span><span id="167" class="l"><a href="#167">167 </a><span class="php-comment">     * @since 1.2
-</span></span><span id="168" class="l"><a href="#168">168 </a><span class="php-comment">     */</span>
-</span><span id="169" class="l"><a href="#169">169 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> reloadServerRouting()
-</span><span id="170" class="l"><a href="#170">170 </a>    {
-</span><span id="171" class="l"><a href="#171">171 </a>        <span class="php-var">$this</span>-&gt;getConnection()-&gt;post(Urls::URL_ADMIN_ROUTING_RELOAD, <span class="php-quote">''</span>);
-</span><span id="172" class="l"><a href="#172">172 </a>
-</span><span id="173" class="l"><a href="#173">173 </a>        <span class="php-keyword1">return</span> <span class="php-keyword1">true</span>;
-</span><span id="174" class="l"><a href="#174">174 </a>    }
-</span><span id="175" class="l"><a href="#175">175 </a>
-</span><span id="176" class="l"><a href="#176">176 </a>
-</span><span id="177" class="l"><a href="#177">177 </a>    <span class="php-comment">/**
-</span></span><span id="178" class="l"><a href="#178">178 </a><span class="php-comment">     * Get the server statistics
-</span></span><span id="179" class="l"><a href="#179">179 </a><span class="php-comment">     * Returns the statistics information. The returned objects contains the statistics figures, grouped together
-</span></span><span id="180" class="l"><a href="#180">180 </a><span class="php-comment">     * according to the description returned by _admin/statistics-description.
-</span></span><span id="181" class="l"><a href="#181">181 </a><span class="php-comment">     * For instance, to access a figure userTime from the group system, you first select the sub-object
-</span></span><span id="182" class="l"><a href="#182">182 </a><span class="php-comment">     * describing the group stored in system and in that sub-object the value for userTime is stored in the
-</span></span><span id="183" class="l"><a href="#183">183 </a><span class="php-comment">     * attribute of the same name.In case of a distribution, the returned object contains the total count in count
-</span></span><span id="184" class="l"><a href="#184">184 </a><span class="php-comment">     * and the distribution list in counts.
-</span></span><span id="185" class="l"><a href="#185">185 </a><span class="php-comment">     * For more information on the statistics returned, please lookup the statistics interface description at
-</span></span><span id="186" class="l"><a href="#186">186 </a><span class="php-comment">     *
-</span></span><span id="187" class="l"><a href="#187">187 </a><span class="php-comment">     * @link  http://www.arangodb.com/manuals/1.3.devel/HttpSystem.html#HttpSystemAdminStatistics
+</span></span><span id="166" class="l"><a href="#166">166 </a><span class="php-comment">     * @throws Exception
+</span></span><span id="167" class="l"><a href="#167">167 </a><span class="php-comment">     *
+</span></span><span id="168" class="l"><a href="#168">168 </a><span class="php-comment">     * @return bool
+</span></span><span id="169" class="l"><a href="#169">169 </a><span class="php-comment">     * @since 1.2
+</span></span><span id="170" class="l"><a href="#170">170 </a><span class="php-comment">     */</span>
+</span><span id="171" class="l"><a href="#171">171 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> reloadServerRouting()
+</span><span id="172" class="l"><a href="#172">172 </a>    {
+</span><span id="173" class="l"><a href="#173">173 </a>        <span class="php-var">$this</span>-&gt;getConnection()-&gt;post(Urls::URL_ADMIN_ROUTING_RELOAD, <span class="php-quote">''</span>);
+</span><span id="174" class="l"><a href="#174">174 </a>
+</span><span id="175" class="l"><a href="#175">175 </a>        <span class="php-keyword1">return</span> <span class="php-keyword1">true</span>;
+</span><span id="176" class="l"><a href="#176">176 </a>    }
+</span><span id="177" class="l"><a href="#177">177 </a>
+</span><span id="178" class="l"><a href="#178">178 </a>
+</span><span id="179" class="l"><a href="#179">179 </a>    <span class="php-comment">/**
+</span></span><span id="180" class="l"><a href="#180">180 </a><span class="php-comment">     * Get the server statistics
+</span></span><span id="181" class="l"><a href="#181">181 </a><span class="php-comment">     * Returns the statistics information. The returned objects contains the statistics figures, grouped together
+</span></span><span id="182" class="l"><a href="#182">182 </a><span class="php-comment">     * according to the description returned by _admin/statistics-description.
+</span></span><span id="183" class="l"><a href="#183">183 </a><span class="php-comment">     * For instance, to access a figure userTime from the group system, you first select the sub-object
+</span></span><span id="184" class="l"><a href="#184">184 </a><span class="php-comment">     * describing the group stored in system and in that sub-object the value for userTime is stored in the
+</span></span><span id="185" class="l"><a href="#185">185 </a><span class="php-comment">     * attribute of the same name.In case of a distribution, the returned object contains the total count in count
+</span></span><span id="186" class="l"><a href="#186">186 </a><span class="php-comment">     * and the distribution list in counts.
+</span></span><span id="187" class="l"><a href="#187">187 </a><span class="php-comment">     * For more information on the statistics returned, please lookup the statistics interface description at
 </span></span><span id="188" class="l"><a href="#188">188 </a><span class="php-comment">     *
-</span></span><span id="189" class="l"><a href="#189">189 </a><span class="php-comment">     * This will throw if the statistics cannot be retrieved
+</span></span><span id="189" class="l"><a href="#189">189 </a><span class="php-comment">     * @link  http://www.arangodb.com/manuals/1.3.devel/HttpSystem.html#HttpSystemAdminStatistics
 </span></span><span id="190" class="l"><a href="#190">190 </a><span class="php-comment">     *
-</span></span><span id="191" class="l"><a href="#191">191 </a><span class="php-comment">     * @throws Exception
+</span></span><span id="191" class="l"><a href="#191">191 </a><span class="php-comment">     * This will throw if the statistics cannot be retrieved
 </span></span><span id="192" class="l"><a href="#192">192 </a><span class="php-comment">     *
-</span></span><span id="193" class="l"><a href="#193">193 </a><span class="php-comment">     * @return array
+</span></span><span id="193" class="l"><a href="#193">193 </a><span class="php-comment">     * @throws Exception
 </span></span><span id="194" class="l"><a href="#194">194 </a><span class="php-comment">     *
-</span></span><span id="195" class="l"><a href="#195">195 </a><span class="php-comment">     * @see   getServerStatisticsDescription()
+</span></span><span id="195" class="l"><a href="#195">195 </a><span class="php-comment">     * @return array
 </span></span><span id="196" class="l"><a href="#196">196 </a><span class="php-comment">     *
-</span></span><span id="197" class="l"><a href="#197">197 </a><span class="php-comment">     * @since 1.3
-</span></span><span id="198" class="l"><a href="#198">198 </a><span class="php-comment">     */</span>
-</span><span id="199" class="l"><a href="#199">199 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getServerStatistics()
-</span><span id="200" class="l"><a href="#200">200 </a>    {
-</span><span id="201" class="l"><a href="#201">201 </a>        <span class="php-var">$url</span>      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_STATISTICS, <span class="php-keyword1">array</span>());
-</span><span id="202" class="l"><a href="#202">202 </a>        <span class="php-var">$response</span> = <span class="php-var">$this</span>-&gt;getConnection()-&gt;get(<span class="php-var">$url</span>);
-</span><span id="203" class="l"><a href="#203">203 </a>        <span class="php-keyword1">return</span> <span class="php-var">$response</span>-&gt;getJson();
-</span><span id="204" class="l"><a href="#204">204 </a>    }
-</span><span id="205" class="l"><a href="#205">205 </a>
-</span><span id="206" class="l"><a href="#206">206 </a>
-</span><span id="207" class="l"><a href="#207">207 </a>    <span class="php-comment">/**
-</span></span><span id="208" class="l"><a href="#208">208 </a><span class="php-comment">     * Returns a description of the statistics returned by getServerStatistics().
-</span></span><span id="209" class="l"><a href="#209">209 </a><span class="php-comment">     * The returned objects contains a list of statistics groups in the attribute groups
-</span></span><span id="210" class="l"><a href="#210">210 </a><span class="php-comment">     * and a list of statistics figures in the attribute figures.
-</span></span><span id="211" class="l"><a href="#211">211 </a><span class="php-comment">     * For more information on the statistics returned, please lookup the statistics interface description at
-</span></span><span id="212" class="l"><a href="#212">212 </a><span class="php-comment">     *
-</span></span><span id="213" class="l"><a href="#213">213 </a><span class="php-comment">     * @link  http://www.arangodb.com/manuals/1.3.devel/HttpSystem.html#HttpSystemAdminStatistics
+</span></span><span id="197" class="l"><a href="#197">197 </a><span class="php-comment">     * @see   getServerStatisticsDescription()
+</span></span><span id="198" class="l"><a href="#198">198 </a><span class="php-comment">     *
+</span></span><span id="199" class="l"><a href="#199">199 </a><span class="php-comment">     * @since 1.3
+</span></span><span id="200" class="l"><a href="#200">200 </a><span class="php-comment">     */</span>
+</span><span id="201" class="l"><a href="#201">201 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getServerStatistics()
+</span><span id="202" class="l"><a href="#202">202 </a>    {
+</span><span id="203" class="l"><a href="#203">203 </a>        <span class="php-var">$url</span>      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_STATISTICS, <span class="php-keyword1">array</span>());
+</span><span id="204" class="l"><a href="#204">204 </a>        <span class="php-var">$response</span> = <span class="php-var">$this</span>-&gt;getConnection()-&gt;get(<span class="php-var">$url</span>);
+</span><span id="205" class="l"><a href="#205">205 </a>        <span class="php-keyword1">return</span> <span class="php-var">$response</span>-&gt;getJson();
+</span><span id="206" class="l"><a href="#206">206 </a>    }
+</span><span id="207" class="l"><a href="#207">207 </a>
+</span><span id="208" class="l"><a href="#208">208 </a>
+</span><span id="209" class="l"><a href="#209">209 </a>    <span class="php-comment">/**
+</span></span><span id="210" class="l"><a href="#210">210 </a><span class="php-comment">     * Returns a description of the statistics returned by getServerStatistics().
+</span></span><span id="211" class="l"><a href="#211">211 </a><span class="php-comment">     * The returned objects contains a list of statistics groups in the attribute groups
+</span></span><span id="212" class="l"><a href="#212">212 </a><span class="php-comment">     * and a list of statistics figures in the attribute figures.
+</span></span><span id="213" class="l"><a href="#213">213 </a><span class="php-comment">     * For more information on the statistics returned, please lookup the statistics interface description at
 </span></span><span id="214" class="l"><a href="#214">214 </a><span class="php-comment">     *
-</span></span><span id="215" class="l"><a href="#215">215 </a><span class="php-comment">     * This will throw if the statistics-description cannot be retrieved
+</span></span><span id="215" class="l"><a href="#215">215 </a><span class="php-comment">     * @link  http://www.arangodb.com/manuals/1.3.devel/HttpSystem.html#HttpSystemAdminStatistics
 </span></span><span id="216" class="l"><a href="#216">216 </a><span class="php-comment">     *
-</span></span><span id="217" class="l"><a href="#217">217 </a><span class="php-comment">     * @throws Exception
+</span></span><span id="217" class="l"><a href="#217">217 </a><span class="php-comment">     * This will throw if the statistics-description cannot be retrieved
 </span></span><span id="218" class="l"><a href="#218">218 </a><span class="php-comment">     *
-</span></span><span id="219" class="l"><a href="#219">219 </a><span class="php-comment">     * @param array $options - an array of options that define the result-set:
+</span></span><span id="219" class="l"><a href="#219">219 </a><span class="php-comment">     * @throws Exception
 </span></span><span id="220" class="l"><a href="#220">220 </a><span class="php-comment">     *
-</span></span><span id="221" class="l"><a href="#221">221 </a><span class="php-comment">     * &lt;p&gt;Options are :&lt;br&gt;
-</span></span><span id="222" class="l"><a href="#222">222 </a><span class="php-comment">     * &lt;li&gt;'granularity' - use minutes for a granularity of minutes, hours for hours, and days for days. The default is minutes.&lt;/li&gt;
-</span></span><span id="223" class="l"><a href="#223">223 </a><span class="php-comment">     * &lt;li&gt;'figures' - a list of figures, comma-separated. Possible figures are httpConnections. You can use all to get all figures. The default is httpConnections.&lt;/li&gt;
-</span></span><span id="224" class="l"><a href="#224">224 </a><span class="php-comment">     * &lt;li&gt;'length' - If you want a time series, the maximal length of the series as integer. You can use all to get all available information. You can use current to get the latest interval.&lt;/li&gt;
-</span></span><span id="225" class="l"><a href="#225">225 </a><span class="php-comment">     *
-</span></span><span id="226" class="l"><a href="#226">226 </a><span class="php-comment">     * @return array
+</span></span><span id="221" class="l"><a href="#221">221 </a><span class="php-comment">     * @param array $options - an array of options that define the result-set:
+</span></span><span id="222" class="l"><a href="#222">222 </a><span class="php-comment">     *
+</span></span><span id="223" class="l"><a href="#223">223 </a><span class="php-comment">     * &lt;p&gt;Options are :&lt;br&gt;
+</span></span><span id="224" class="l"><a href="#224">224 </a><span class="php-comment">     * &lt;li&gt;'granularity' - use minutes for a granularity of minutes, hours for hours, and days for days. The default is minutes.&lt;/li&gt;
+</span></span><span id="225" class="l"><a href="#225">225 </a><span class="php-comment">     * &lt;li&gt;'figures' - a list of figures, comma-separated. Possible figures are httpConnections. You can use all to get all figures. The default is httpConnections.&lt;/li&gt;
+</span></span><span id="226" class="l"><a href="#226">226 </a><span class="php-comment">     * &lt;li&gt;'length' - If you want a time series, the maximal length of the series as integer. You can use all to get all available information. You can use current to get the latest interval.&lt;/li&gt;
 </span></span><span id="227" class="l"><a href="#227">227 </a><span class="php-comment">     *
-</span></span><span id="228" class="l"><a href="#228">228 </a><span class="php-comment">     * @see   getServerStatistics()
+</span></span><span id="228" class="l"><a href="#228">228 </a><span class="php-comment">     * @return array
 </span></span><span id="229" class="l"><a href="#229">229 </a><span class="php-comment">     *
-</span></span><span id="230" class="l"><a href="#230">230 </a><span class="php-comment">     * @since 1.3
-</span></span><span id="231" class="l"><a href="#231">231 </a><span class="php-comment">     */</span>
-</span><span id="232" class="l"><a href="#232">232 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getServerStatisticsDescription(<span class="php-var">$options</span> = <span class="php-keyword1">array</span>())
-</span><span id="233" class="l"><a href="#233">233 </a>    {
-</span><span id="234" class="l"><a href="#234">234 </a>        <span class="php-var">$url</span>      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_STATISTICS_DESCRIPTION, <span class="php-var">$options</span>);
-</span><span id="235" class="l"><a href="#235">235 </a>        <span class="php-var">$response</span> = <span class="php-var">$this</span>-&gt;getConnection()-&gt;get(<span class="php-var">$url</span>);
-</span><span id="236" class="l"><a href="#236">236 </a>        <span class="php-keyword1">return</span> <span class="php-var">$response</span>-&gt;getJson();
-</span><span id="237" class="l"><a href="#237">237 </a>    }
-</span><span id="238" class="l"><a href="#238">238 </a>}
-</span><span id="239" class="l"><a href="#239">239 </a></span></code></pre>
+</span></span><span id="230" class="l"><a href="#230">230 </a><span class="php-comment">     * @see   getServerStatistics()
+</span></span><span id="231" class="l"><a href="#231">231 </a><span class="php-comment">     *
+</span></span><span id="232" class="l"><a href="#232">232 </a><span class="php-comment">     * @since 1.3
+</span></span><span id="233" class="l"><a href="#233">233 </a><span class="php-comment">     */</span>
+</span><span id="234" class="l"><a href="#234">234 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getServerStatisticsDescription(<span class="php-var">$options</span> = <span class="php-keyword1">array</span>())
+</span><span id="235" class="l"><a href="#235">235 </a>    {
+</span><span id="236" class="l"><a href="#236">236 </a>        <span class="php-var">$url</span>      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_STATISTICS_DESCRIPTION, <span class="php-var">$options</span>);
+</span><span id="237" class="l"><a href="#237">237 </a>        <span class="php-var">$response</span> = <span class="php-var">$this</span>-&gt;getConnection()-&gt;get(<span class="php-var">$url</span>);
+</span><span id="238" class="l"><a href="#238">238 </a>        <span class="php-keyword1">return</span> <span class="php-var">$response</span>-&gt;getJson();
+</span><span id="239" class="l"><a href="#239">239 </a>    }
+</span><span id="240" class="l"><a href="#240">240 </a>}
+</span><span id="241" class="l"><a href="#241">241 </a></span></code></pre>
 	</div>
 
 	<div id="footer">

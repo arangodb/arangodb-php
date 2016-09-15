@@ -90,6 +90,10 @@ class EdgeHandler extends
      * @param Document $document - the document to be added
      * @param bool $create - create the collection if it does not yet exist
      *
+     * @see EdgeHandler::saveEdge()
+     * @deprecated to be removed in version 3.1
+     * @todo remove in version 3.1
+     *
      * @return mixed|void
      */
     public function add($collection, Document $document, $create = null)
@@ -107,6 +111,8 @@ class EdgeHandler extends
      * @param mixed $collection - collection id as string or number
      * @param Document $document - the document to be added
      * @param bool $create - create the collection if it does not yet exist
+     *
+     * @see EdgeHandler::saveEdge()
      *
      * @return mixed|void
      */

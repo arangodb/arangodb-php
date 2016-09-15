@@ -71,6 +71,55 @@ class HttpHelper
     const PROTOCOL = 'HTTP/1.1';
 
     /**
+     * Create a one-time HTTP connection by opening a socket to the server
+     *
+     * It is the caller's responsibility to close the socket
+     *
+     * @throws ConnectException
+     *
+     * @param ConnectionOptions $options - connection options
+     *
+     * @return resource - socket with server connection, will throw when no connection can be established
+     */
+    public static function createConnection(ConnectionOptions $options)
+    {
+        $endpoint = $options[ConnectionOptions::OPTION_ENDPOINT];
+
+        $context = stream_context_create();
+
+        if (Endpoint::getType($endpoint) === Endpoint::TYPE_SSL) {
+            // set further SSL options for the endpoint
+            stream_context_set_option($context, 'ssl', 'verify_peer', $options[ConnectionOptions::OPTION_VERIFY_CERT]);
+            stream_context_set_option($context, 'ssl', 'allow_self_signed', $options[ConnectionOptions::OPTION_ALLOW_SELF_SIGNED]);
+
+            if ($options[ConnectionOptions::OPTION_CIPHERS] !== null) {
+                // SSL ciphers
+                stream_context_set_option($context, 'ssl', 'ciphers', $options[ConnectionOptions::OPTION_CIPHERS]);
+            }
+        }
+
+        $fp = @stream_socket_client(
+            $endpoint,
+            $errno,
+            $message,
+            $options[ConnectionOptions::OPTION_TIMEOUT],
+            STREAM_CLIENT_CONNECT,
+            $context
+        );
+
+        if (!$fp) {
+            throw new ConnectException(
+                'cannot connect to endpoint \'' .
+                $options[ConnectionOptions::OPTION_ENDPOINT] . '\': ' . $message, $errno
+            );
+        }
+
+        stream_set_timeout($fp, $options[ConnectionOptions::OPTION_TIMEOUT]);
+
+        return $fp;
+    }
+
+    /**
      * Boundary string for batch request parts
      */
     const MIME_BOUNDARY = 'XXXsubpartXXX';
@@ -79,30 +128,6 @@ class HttpHelper
      * HTTP Header for making an operation asynchronous
      */
     const ASYNC_HEADER = 'X-Arango-Async';
-
-    /**
-     * Validate an HTTP request method name
-     *
-     * @throws ClientException
-     *
-     * @param string $method - method name
-     *
-     * @return bool - always true, will throw if an invalid method name is supplied
-     */
-    public static function validateMethod($method)
-    {
-        if ($method === self::METHOD_POST ||
-            $method === self::METHOD_PUT ||
-            $method === self::METHOD_DELETE ||
-            $method === self::METHOD_GET ||
-            $method === self::METHOD_HEAD ||
-            $method === self::METHOD_PATCH
-        ) {
-            return true;
-        }
-
-        throw new ClientException('Invalid request method \'' . $method . '\'');
-    }
 
     /**
      * Create a request string (header and body)
@@ -155,6 +180,30 @@ class HttpHelper
     }
 
     /**
+     * Validate an HTTP request method name
+     *
+     * @throws ClientException
+     *
+     * @param string $method - method name
+     *
+     * @return bool - always true, will throw if an invalid method name is supplied
+     */
+    public static function validateMethod($method)
+    {
+        if ($method === self::METHOD_POST ||
+            $method === self::METHOD_PUT ||
+            $method === self::METHOD_DELETE ||
+            $method === self::METHOD_GET ||
+            $method === self::METHOD_HEAD ||
+            $method === self::METHOD_PATCH
+        ) {
+            return true;
+        }
+
+        throw new ClientException('Invalid request method \'' . $method . '\'');
+    }
+
+    /**
      * Execute an HTTP request on an opened socket
      *
      * It is the caller's responsibility to close the socket
@@ -203,13 +252,13 @@ class HttpHelper
             if ($contentLength === null) {
                 // check if content-length header is present
 
-                // 12 = minimum offset (i.e. strlen("HTTP/1.1 xxx") - 
+                // 12 = minimum offset (i.e. strlen("HTTP/1.1 xxx") -
                 // after that we could see "content-length:"
                 $pos = stripos($result, 'content-length: ', 12);
 
                 if ($pos !== false) {
                     $contentLength    = (int) substr($result, $pos + 16, 10); // 16 = strlen("content-length: ")
-                    $contentLengthPos = $pos + 17; // 17 = 16 + 1 one digit 
+                    $contentLengthPos = $pos + 17; // 17 = 16 + 1 one digit
                 }
             }
 
@@ -227,55 +276,6 @@ class HttpHelper
         }
 
         return $result;
-    }
-
-    /**
-     * Create a one-time HTTP connection by opening a socket to the server
-     *
-     * It is the caller's responsibility to close the socket
-     *
-     * @throws ConnectException
-     *
-     * @param ConnectionOptions $options - connection options
-     *
-     * @return resource - socket with server connection, will throw when no connection can be established
-     */
-    public static function createConnection(ConnectionOptions $options)
-    {
-        $endpoint = $options[ConnectionOptions::OPTION_ENDPOINT];
-
-        $context = stream_context_create();
-
-        if (Endpoint::getType($endpoint) === Endpoint::TYPE_SSL) {
-            // set further SSL options for the endpoint
-            stream_context_set_option($context, 'ssl', 'verify_peer', $options[ConnectionOptions::OPTION_VERIFY_CERT]);
-            stream_context_set_option($context, 'ssl', 'allow_self_signed', $options[ConnectionOptions::OPTION_ALLOW_SELF_SIGNED]);
-
-            if ($options[ConnectionOptions::OPTION_CIPHERS] !== null) {
-                // SSL ciphers
-                stream_context_set_option($context, 'ssl', 'ciphers', $options[ConnectionOptions::OPTION_CIPHERS]);
-            }
-        }
-
-        $fp = @stream_socket_client(
-            $endpoint,
-            $errno,
-            $message,
-            $options[ConnectionOptions::OPTION_TIMEOUT],
-            STREAM_CLIENT_CONNECT,
-            $context
-        );
-
-        if (!$fp) {
-            throw new ConnectException(
-                'cannot connect to endpoint \'' .
-                $options[ConnectionOptions::OPTION_ENDPOINT] . '\': ' . $message, $errno
-            );
-        }
-
-        stream_set_timeout($fp, $options[ConnectionOptions::OPTION_TIMEOUT]);
-
-        return $fp;
     }
 
     /**

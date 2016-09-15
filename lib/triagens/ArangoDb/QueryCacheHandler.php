@@ -61,21 +61,6 @@ class QueryCacheHandler extends
     }
 
     /**
-     * Returns the AQL query result cache properties
-     *
-     * @throws Exception
-     *
-     * @return array
-     */
-    public function getProperties()
-    {
-        $url      = UrlHelper::buildUrl(Urls::URL_QUERY_CACHE);
-        $response = $this->getConnection()->get($url);
-
-        return $response->getJson();
-    }
-
-    /**
      * Adjusts the global AQL query result cache properties
      *
      * @throws Exception
@@ -97,6 +82,21 @@ class QueryCacheHandler extends
 
         $url      = UrlHelper::buildUrl(Urls::URL_QUERY_CACHE);
         $response = $this->getConnection()->put($url, $this->json_encode_wrapper($bodyParams));
+
+        return $response->getJson();
+    }
+
+    /**
+     * Returns the AQL query result cache properties
+     *
+     * @throws Exception
+     *
+     * @return array
+     */
+    public function getProperties()
+    {
+        $url      = UrlHelper::buildUrl(Urls::URL_QUERY_CACHE);
+        $response = $this->getConnection()->get($url);
 
         return $response->getJson();
     }

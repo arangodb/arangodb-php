@@ -41,6 +41,11 @@
 								<span>Deprecated</span>
 							</a>
 						</li>
+						<li>
+							<a href="annotation-group-todo.html" title="List of elements with todo annotation">
+								<span>Todo</span>
+							</a>
+						</li>
 
 
 				</ul>
@@ -184,7 +189,7 @@ appropriate HTTP requests to the server.<br></p>
 
 				<b>Since:</b>
 				1.0<br>
-			<b>Located at</b> <a href="source-class-triagens.ArangoDb.EdgeHandler.html#14-278" title="Go to source code">EdgeHandler.php</a>
+			<b>Located at</b> <a href="source-class-triagens.ArangoDb.EdgeHandler.html#14-284" title="Go to source code">EdgeHandler.php</a>
 		<br>
 	</div>
 
@@ -235,6 +240,136 @@ appropriate HTTP requests to the server.<br></p>
 			</div>
 			</div></td>
 		</tr>
+		<tr data-order="add" id="_add" class="deprecated">
+
+			<td class="attributes"><code>
+				 public 
+				mixed|
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_add">#</a>
+			<code><a href="source-class-triagens.ArangoDb.EdgeHandler.html#83-102" title="Go to source code">add</a>( <span>mixed <var>$collection</var></span>, <span><code><a href="class-triagens.ArangoDb.Document.html">triagens\ArangoDb\Document</a></code> <var>$document</var></span>, <span>boolean <var>$create</var> = <span class="php-keyword1">null</span></span> )</code>
+
+			<div class="description short">
+				<p>Just throw an exception if add() is called on edges.</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Just throw an exception if add() is called on edges.</p>
+
+					<h4>Deprecated</h4>
+					<div class="list">
+							to be removed in version 3.1<br>
+					</div>
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$collection</var></dt>
+						<dd><ul>
+<li>collection id as string or number</li>
+</ul></dd>
+						<dt><var>$document</var></dt>
+						<dd><ul>
+<li>the document to be added</li>
+</ul></dd>
+						<dt><var>$create</var></dt>
+						<dd><ul>
+<li>create the collection if it does not yet exist</li>
+</ul></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						mixed|
+					</div>
+
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
+					</div>
+
+					<h4>See</h4>
+					<div class="list">
+							<code><a href="class-triagens.ArangoDb.EdgeHandler.html#_saveEdge">triagens\ArangoDb\EdgeHandler::saveEdge()</a></code><br>
+					</div>
+					<h4>Internal</h4>
+					<div class="list">
+					</div>
+					<h4>Todo</h4>
+					<div class="list">
+							remove in version 3.1<br>
+					</div>
+
+					<h4>Overrides</h4>
+					<div class="list"><code><a href="class-triagens.ArangoDb.DocumentHandler.html#_add">triagens\ArangoDb\DocumentHandler::add</a></code></div>
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="save" id="_save">
+
+			<td class="attributes"><code>
+				 public 
+				mixed|
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_save">#</a>
+			<code><a href="source-class-triagens.ArangoDb.EdgeHandler.html#105-122" title="Go to source code">save</a>( <span>mixed <var>$collection</var></span>, <span><code><a href="class-triagens.ArangoDb.Document.html">triagens\ArangoDb\Document</a></code> <var>$document</var></span>, <span>boolean <var>$create</var> = <span class="php-keyword1">null</span></span> )</code>
+
+			<div class="description short">
+				<p>Just throw an exception if save() is called on edges.</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Just throw an exception if save() is called on edges.</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$collection</var></dt>
+						<dd><ul>
+<li>collection id as string or number</li>
+</ul></dd>
+						<dt><var>$document</var></dt>
+						<dd><ul>
+<li>the document to be added</li>
+</ul></dd>
+						<dt><var>$create</var></dt>
+						<dd><ul>
+<li>create the collection if it does not yet exist</li>
+</ul></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						mixed|
+					</div>
+
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
+					</div>
+
+					<h4>See</h4>
+					<div class="list">
+							<code><a href="class-triagens.ArangoDb.EdgeHandler.html#_saveEdge">triagens\ArangoDb\EdgeHandler::saveEdge()</a></code><br>
+					</div>
+					<h4>Internal</h4>
+					<div class="list">
+					</div>
+
+					<h4>Overrides</h4>
+					<div class="list"><code><a href="class-triagens.ArangoDb.DocumentHandler.html#_save">triagens\ArangoDb\DocumentHandler::save</a></code></div>
+
+			</div>
+			</div></td>
+		</tr>
 		<tr data-order="saveEdge" id="_saveEdge">
 
 			<td class="attributes"><code>
@@ -246,7 +381,7 @@ appropriate HTTP requests to the server.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_saveEdge">#</a>
-			<code><a href="source-class-triagens.ArangoDb.EdgeHandler.html#119-193" title="Go to source code">saveEdge</a>( <span>mixed <var>$collection</var></span>, <span>mixed <var>$from</var></span>, <span>mixed <var>$to</var></span>, <span>mixed <var>$document</var></span>, <span>boolean|array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.EdgeHandler.html#125-199" title="Go to source code">saveEdge</a>( <span>mixed <var>$collection</var></span>, <span>mixed <var>$from</var></span>, <span>mixed <var>$to</var></span>, <span>mixed <var>$document</var></span>, <span>boolean|array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 			<div class="description short">
 				<p>save an edge to an edge-collection</p>
@@ -322,7 +457,7 @@ appropriate HTTP requests to the server.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_edges">#</a>
-			<code><a href="source-class-triagens.ArangoDb.EdgeHandler.html#196-231" title="Go to source code">edges</a>( <span>mixed <var>$collection</var></span>, <span>mixed <var>$vertexHandle</var></span>, <span>string <var>$direction</var> = <span class="php-quote">'any'</span></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.EdgeHandler.html#202-237" title="Go to source code">edges</a>( <span>mixed <var>$collection</var></span>, <span>mixed <var>$vertexHandle</var></span>, <span>string <var>$direction</var> = <span class="php-quote">'any'</span></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 			<div class="description short">
 				<p>Get connected edges for a given vertex</p>
@@ -389,7 +524,7 @@ appropriate HTTP requests to the server.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_inEdges">#</a>
-			<code><a href="source-class-triagens.ArangoDb.EdgeHandler.html#234-247" title="Go to source code">inEdges</a>( <span>mixed <var>$collection</var></span>, <span>mixed <var>$vertexHandle</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.EdgeHandler.html#240-253" title="Go to source code">inEdges</a>( <span>mixed <var>$collection</var></span>, <span>mixed <var>$vertexHandle</var></span> )</code>
 
 			<div class="description short">
 				<p>Get connected inbound edges for a given vertex</p>
@@ -439,7 +574,7 @@ appropriate HTTP requests to the server.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_outEdges">#</a>
-			<code><a href="source-class-triagens.ArangoDb.EdgeHandler.html#249-262" title="Go to source code">outEdges</a>( <span>mixed <var>$collection</var></span>, <span>mixed <var>$vertexHandle</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.EdgeHandler.html#255-268" title="Go to source code">outEdges</a>( <span>mixed <var>$collection</var></span>, <span>mixed <var>$vertexHandle</var></span> )</code>
 
 			<div class="description short">
 				<p>Get connected outbound edges for a given vertex</p>
@@ -489,7 +624,7 @@ appropriate HTTP requests to the server.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_createCollectionIfOptions">#</a>
-			<code><a href="source-class-triagens.ArangoDb.EdgeHandler.html#264-277" title="Go to source code">createCollectionIfOptions</a>( <span> <var>$collection</var></span>, <span>array <var>$options</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.EdgeHandler.html#270-283" title="Go to source code">createCollectionIfOptions</a>( <span> <var>$collection</var></span>, <span>array <var>$options</var></span> )</code>
 
 			<div class="description short">
 				
@@ -530,7 +665,6 @@ appropriate HTTP requests to the server.<br></p>
 		<div class="panel panel-default">
 	        <div class="panel-heading"><h3>Methods inherited from <a href="class-triagens.ArangoDb.DocumentHandler.html#methods">triagens\ArangoDb\DocumentHandler</a></h3></div>
 			<p class="elementList">
-				<code><a href="class-triagens.ArangoDb.DocumentHandler.html#_add"><span class="deprecated">add()</span></a></code>, 
 				<code><a href="class-triagens.ArangoDb.DocumentHandler.html#_delete"><span class="deprecated">delete()</span></a></code>, 
 				<code><a href="class-triagens.ArangoDb.DocumentHandler.html#_deleteById"><span class="deprecated">deleteById()</span></a></code>, 
 				<code><a href="class-triagens.ArangoDb.DocumentHandler.html#_erase">erase()</a></code>, 
@@ -548,7 +682,6 @@ appropriate HTTP requests to the server.<br></p>
 				<code><a href="class-triagens.ArangoDb.DocumentHandler.html#_removeById">removeById()</a></code>, 
 				<code><a href="class-triagens.ArangoDb.DocumentHandler.html#_replace">replace()</a></code>, 
 				<code><a href="class-triagens.ArangoDb.DocumentHandler.html#_replaceById">replaceById()</a></code>, 
-				<code><a href="class-triagens.ArangoDb.DocumentHandler.html#_save">save()</a></code>, 
 				<code><a href="class-triagens.ArangoDb.DocumentHandler.html#_store">store()</a></code>, 
 				<code><a href="class-triagens.ArangoDb.DocumentHandler.html#_update">update()</a></code>, 
 				<code><a href="class-triagens.ArangoDb.DocumentHandler.html#_updateById">updateById()</a></code>

@@ -97,6 +97,7 @@ class Endpoint
 
     /**
      * Return a string representation of the endpoint
+     * @magic
      *
      * @return string - string representation of the endpoint
      */

@@ -49,22 +49,6 @@ class BindVars
     }
 
     /**
-     * Get the value of a bind variable with a specific name
-     *
-     * @param string $name - name of bind variable
-     *
-     * @return mixed - value of bind variable
-     */
-    public function get($name)
-    {
-        if (!array_key_exists($name, $this->_values)) {
-            return null;
-        }
-
-        return $this->_values[$name];
-    }
-
-    /**
      * Set the value of a single bind variable or set all bind variables at once
      *
      * This will also validate the bind values.
@@ -97,5 +81,21 @@ class BindVars
                 throw new ClientException('Bind variable name should be string or int');
             }
         }
+    }
+
+    /**
+     * Get the value of a bind variable with a specific name
+     *
+     * @param string $name - name of bind variable
+     *
+     * @return mixed - value of bind variable
+     */
+    public function get($name)
+    {
+        if (!array_key_exists($name, $this->_values)) {
+            return null;
+        }
+
+        return $this->_values[$name];
     }
 }

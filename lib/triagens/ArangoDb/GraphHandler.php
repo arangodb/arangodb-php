@@ -86,66 +86,6 @@ class GraphHandler extends
     const OPTION_EDGE_DEFINITIONS = 'edgeDefinitions';
 
     /**
-     * orphan collection parameter
-     */
-    const OPTION_ORPHAN_COLLECTIONS = 'orphanCollections';
-
-    /**
-     * drop collection
-     */
-    const OPTION_DROP_COLLECTION = 'dropCollection';
-
-    /**
-     * batchsize
-     */
-    private $batchsize;
-
-    /**
-     * count
-     */
-    private $count;
-
-    /**
-     * limit
-     */
-    private $limit;
-
-
-    /**
-     * Sets the batchsize for any method creating a cursor.
-     * Will be reseted after the cursor has been created.
-     *
-     * @param int $batchsize
-     */
-    public function setBatchsize($batchsize)
-    {
-        $this->batchsize = $batchsize;
-    }
-
-    /**
-     * Sets the count for any method creating a cursor.
-     * Will be reseted after the cursor has been created.
-     *
-     * @param int $count
-     */
-    public function setCount($count)
-    {
-        $this->count = $count;
-    }
-
-    /**
-     * Sets the limit for any method creating a cursor.
-     * Will be reseted after the cursor has been created.
-     *
-     * @param int $limit
-     */
-    public function setLimit($limit)
-    {
-        $this->limit = $limit;
-    }
-
-
-    /**
      * Create a graph
      *
      * This will create a graph using the given graph object and return an array of the created graph object's attributes.<br><br>
@@ -180,6 +120,31 @@ class GraphHandler extends
         return $graph->getAll();
     }
 
+    /**
+     * orphan collection parameter
+     */
+    const OPTION_ORPHAN_COLLECTIONS = 'orphanCollections';
+
+    /**
+     * drop collection
+     */
+    const OPTION_DROP_COLLECTION = 'dropCollection';
+
+    /**
+     * batchsize
+     */
+    private $batchsize;
+
+    /**
+     * count
+     */
+    private $count;
+
+
+    /**
+     * limit
+     */
+    private $limit;
 
     /**
      * Get a graph
@@ -211,6 +176,64 @@ class GraphHandler extends
         return $result;
     }
 
+    /**
+     * Sets the batchsize for any method creating a cursor.
+     * Will be reseted after the cursor has been created.
+     *
+     * @param int $batchsize
+     */
+    public function setBatchsize($batchsize)
+    {
+        $this->batchsize = $batchsize;
+    }
+
+
+    /**
+     * Sets the count for any method creating a cursor.
+     * Will be reseted after the cursor has been created.
+     *
+     * @param int $count
+     */
+    public function setCount($count)
+    {
+        $this->count = $count;
+    }
+
+
+    /**
+     * Sets the limit for any method creating a cursor.
+     * Will be reseted after the cursor has been created.
+     *
+     * @param int $limit
+     */
+    public function setLimit($limit)
+    {
+        $this->limit = $limit;
+    }
+
+
+    /**
+     * Get a graph's properties<br><br>
+     *
+     * @throws Exception
+     *
+     * @param mixed $graph - graph name as a string or instance of Graph
+     *
+     * @return bool - Returns an array of attributes. Will throw if there is an error
+     * @since 1.2
+     */
+    public function properties($graph)
+    {
+        if ($graph instanceof Graph) {
+            $graph = $graph->getKey();
+        }
+
+        $url = UrlHelper::buildUrl(Urls::URL_DOCUMENT . '/_graphs', array($graph));
+
+        $result = $this->getConnection()->get($url);
+        return $result->getJson();
+    }
+
 
     /**
      * Drop a graph and remove all its vertices and edges, also drops vertex and edge collections<br><br>
@@ -235,29 +258,6 @@ class GraphHandler extends
         $this->getConnection()->delete($url);
 
         return true;
-    }
-
-
-    /**
-     * Get a graph's properties<br><br>
-     *
-     * @throws Exception
-     *
-     * @param mixed $graph - graph name as a string or instance of Graph
-     *
-     * @return bool - Returns an array of attributes. Will throw if there is an error
-     * @since 1.2
-     */
-    public function properties($graph)
-    {
-        if ($graph instanceof Graph) {
-            $graph = $graph->getKey();
-        }
-
-        $url = UrlHelper::buildUrl(Urls::URL_DOCUMENT . '/_graphs', array($graph));
-
-        $result = $this->getConnection()->get($url);
-        return $result->getJson();
     }
 
     /**

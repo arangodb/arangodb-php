@@ -41,6 +41,11 @@
 								<span>Deprecated</span>
 							</a>
 						</li>
+						<li>
+							<a href="annotation-group-todo.html" title="List of elements with todo annotation">
+								<span>Todo</span>
+							</a>
+						</li>
 
 
 				</ul>
@@ -173,7 +178,7 @@
 
 				<b>Since:</b>
 				1.0<br>
-			<b>Located at</b> <a href="source-class-triagens.ArangoDb.Edge.html#13-187" title="Go to source code">Edge.php</a>
+			<b>Located at</b> <a href="source-class-triagens.ArangoDb.Edge.html#13-189" title="Go to source code">Edge.php</a>
 		<br>
 	</div>
 
@@ -193,7 +198,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#___clone">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Edge.html#50-62" title="Go to source code">__clone</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Edge.html#50-64" title="Go to source code">__clone</a>( )</code>
 
 			<div class="description short">
 				<p>Clone a document</p>
@@ -208,6 +213,9 @@
 
 
 
+					<h4>Magic</h4>
+					<div class="list">
+					</div>
 
 					<h4>Overrides</h4>
 					<div class="list"><code><a href="class-triagens.ArangoDb.Document.html#___clone">triagens\ArangoDb\Document::__clone</a></code></div>
@@ -226,7 +234,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_set">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Edge.html#65-123" title="Go to source code">set</a>( <span>string <var>$key</var></span>, <span>mixed <var>$value</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Edge.html#67-125" title="Go to source code">set</a>( <span>string <var>$key</var></span>, <span>mixed <var>$value</var></span> )</code>
 
 			<div class="description short">
 				<p>Set a document attribute</p>
@@ -266,76 +274,6 @@ exception if the value is invalid.</p>
 			</div>
 			</div></td>
 		</tr>
-		<tr data-order="getFrom" id="_getFrom">
-
-			<td class="attributes"><code>
-				 public 
-				mixed
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_getFrom">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Edge.html#126-134" title="Go to source code">getFrom</a>( )</code>
-
-			<div class="description short">
-				<p>Get the 'from' vertex document-handler (if already known)</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Get the 'from' vertex document-handler (if already known)</p>
-
-
-
-					<h4>Returns</h4>
-					<div class="list">
-						mixed<br><ul>
-<li>document-handler</li>
-</ul>
-					</div>
-
-
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="getTo" id="_getTo">
-
-			<td class="attributes"><code>
-				 public 
-				mixed
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_getTo">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Edge.html#136-144" title="Go to source code">getTo</a>( )</code>
-
-			<div class="description short">
-				<p>Get the 'to' vertex document-handler (if already known)</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Get the 'to' vertex document-handler (if already known)</p>
-
-
-
-					<h4>Returns</h4>
-					<div class="list">
-						mixed<br><ul>
-<li>document-handler</li>
-</ul>
-					</div>
-
-
-
-
-			</div>
-			</div></td>
-		</tr>
 		<tr data-order="setFrom" id="_setFrom">
 
 			<td class="attributes"><code>
@@ -347,7 +285,7 @@ exception if the value is invalid.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setFrom">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Edge.html#146-158" title="Go to source code">setFrom</a>( <span>mixed <var>$from</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Edge.html#128-140" title="Go to source code">setFrom</a>( <span>mixed <var>$from</var></span> )</code>
 
 			<div class="description short">
 				<p>Set the 'from' vertex document-handler</p>
@@ -378,6 +316,41 @@ exception if the value is invalid.</p>
 			</div>
 			</div></td>
 		</tr>
+		<tr data-order="getFrom" id="_getFrom">
+
+			<td class="attributes"><code>
+				 public 
+				mixed
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getFrom">#</a>
+			<code><a href="source-class-triagens.ArangoDb.Edge.html#142-150" title="Go to source code">getFrom</a>( )</code>
+
+			<div class="description short">
+				<p>Get the 'from' vertex document-handler (if already known)</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Get the 'from' vertex document-handler (if already known)</p>
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						mixed<br><ul>
+<li>document-handler</li>
+</ul>
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
 		<tr data-order="setTo" id="_setTo">
 
 			<td class="attributes"><code>
@@ -389,7 +362,7 @@ exception if the value is invalid.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setTo">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Edge.html#160-172" title="Go to source code">setTo</a>( <span>mixed <var>$to</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Edge.html#152-164" title="Go to source code">setTo</a>( <span>mixed <var>$to</var></span> )</code>
 
 			<div class="description short">
 				<p>Set the 'to' vertex document-handler</p>
@@ -420,6 +393,41 @@ exception if the value is invalid.</p>
 			</div>
 			</div></td>
 		</tr>
+		<tr data-order="getTo" id="_getTo">
+
+			<td class="attributes"><code>
+				 public 
+				mixed
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getTo">#</a>
+			<code><a href="source-class-triagens.ArangoDb.Edge.html#166-174" title="Go to source code">getTo</a>( )</code>
+
+			<div class="description short">
+				<p>Get the 'to' vertex document-handler (if already known)</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Get the 'to' vertex document-handler (if already known)</p>
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						mixed<br><ul>
+<li>document-handler</li>
+</ul>
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
 		<tr data-order="getAllForInsertUpdate" id="_getAllForInsertUpdate">
 
 			<td class="attributes"><code>
@@ -431,7 +439,7 @@ exception if the value is invalid.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getAllForInsertUpdate">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Edge.html#174-185" title="Go to source code">getAllForInsertUpdate</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Edge.html#176-187" title="Go to source code">getAllForInsertUpdate</a>( )</code>
 
 			<div class="description short">
 				<p>Get all document attributes for insertion/update</p>

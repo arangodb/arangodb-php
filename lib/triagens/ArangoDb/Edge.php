@@ -52,6 +52,8 @@ class Edge extends
      *
      * Returns the clone
      *
+     * @magic
+     *
      * @return void
      */
     public function __clone()
@@ -124,26 +126,6 @@ class Edge extends
 
 
     /**
-     * Get the 'from' vertex document-handler (if already known)
-     *
-     * @return mixed - document-handler
-     */
-    public function getFrom()
-    {
-        return $this->_from;
-    }
-
-    /**
-     * Get the 'to' vertex document-handler (if already known)
-     *
-     * @return mixed - document-handler
-     */
-    public function getTo()
-    {
-        return $this->_to;
-    }
-
-    /**
      * Set the 'from' vertex document-handler
      *
      * @param mixed $from - from vertex
@@ -158,6 +140,16 @@ class Edge extends
     }
 
     /**
+     * Get the 'from' vertex document-handler (if already known)
+     *
+     * @return mixed - document-handler
+     */
+    public function getFrom()
+    {
+        return $this->_from;
+    }
+
+    /**
      * Set the 'to' vertex document-handler
      *
      * @param mixed $to - to vertex
@@ -169,6 +161,16 @@ class Edge extends
         $this->_to = $to;
 
         return $this;
+    }
+
+    /**
+     * Get the 'to' vertex document-handler (if already known)
+     *
+     * @return mixed - document-handler
+     */
+    public function getTo()
+    {
+        return $this->_to;
     }
 
     /**

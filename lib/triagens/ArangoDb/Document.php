@@ -191,6 +191,8 @@ class Document
      *
      * Returns the clone
      *
+     * @magic
+     *
      * @return void
      */
     public function __clone()
@@ -207,6 +209,8 @@ class Document
      * It will not output hidden attributes.
      *
      * Returns the document as JSON-encoded string
+     *
+     * @magic
      *
      * @return string - JSON-encoded document
      */
@@ -335,6 +339,8 @@ class Document
      *
      * @throws ClientException
      *
+     * @magic
+     *
      * @param string $key - attribute name
      * @param mixed $value - value for attribute
      *
@@ -366,6 +372,8 @@ class Document
      *
      * This function is mapped to get() internally.
      *
+     * @magic
+     *
      * @param string $key - name of attribute
      *
      * @return mixed - value of attribute, NULL if attribute is not set
@@ -379,6 +387,8 @@ class Document
      * Magic method to unset an attribute.
      * Caution!!! This works only on the first array level.
      * The preferred method to unset attributes in the database, is to set those to null and do an update() with the option: 'keepNull' => false.
+     *
+     * @magic
      *
      * @param $key
      */

@@ -41,6 +41,11 @@
 								<span>Deprecated</span>
 							</a>
 						</li>
+						<li>
+							<a href="annotation-group-todo.html" title="List of elements with todo annotation">
+								<span>Todo</span>
+							</a>
+						</li>
 
 
 				</ul>
@@ -175,7 +180,7 @@ creates collections on the server.<br>
 
 				<b>Since:</b>
 				0.2<br>
-			<b>Located at</b> <a href="source-class-triagens.ArangoDb.CollectionHandler.html#13-1924" title="Go to source code">CollectionHandler.php</a>
+			<b>Located at</b> <a href="source-class-triagens.ArangoDb.CollectionHandler.html#13-1928" title="Go to source code">CollectionHandler.php</a>
 		<br>
 	</div>
 
@@ -184,403 +189,6 @@ creates collections on the server.<br>
 		<div class="panel panel-default">
 			<div class="panel-heading"><h2>Methods summary</h2></div>
 			<table class="summary table table-bordered table-striped methods" id="methods">
-		<tr data-order="get" id="_get">
-
-			<td class="attributes"><code>
-				 public 
-				<code><a href="class-triagens.ArangoDb.Collection.html">triagens\ArangoDb\Collection</a></code>
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_get">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#233-254" title="Go to source code">get</a>( <span>mixed <var>$collection</var></span> )</code>
-
-			<div class="description short">
-				<p>Get information about a collection</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Get information about a collection</p>
-
-<p>This will throw if the collection cannot be fetched from the server</p>
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$collection</var></dt>
-						<dd><ul>
-<li>collection id as a string or number</li>
-</ul></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Collection.html">triagens\ArangoDb\Collection</a></code><br><ul>
-<li>the collection fetched from the server</li>
-</ul>
-					</div>
-
-					<h4>Throws</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
-					</div>
-
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="has" id="_has">
-
-			<td class="attributes"><code>
-				 public 
-				boolean
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_has">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#257-285" title="Go to source code">has</a>( <span>mixed <var>$collection</var></span> )</code>
-
-			<div class="description short">
-				<p>Check if a collection exists</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Check if a collection exists</p>
-
-<p>This will call self::get() internally and checks if there
-was an exception thrown which represents an 404 request.</p>
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$collection</var></dt>
-						<dd><ul>
-<li>collection id as a string or number</li>
-</ul></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						boolean
-					</div>
-
-					<h4>Throws</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code><br>When any other error than a 404 occurs
-					</div>
-
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="getProperties" id="_getProperties">
-
-			<td class="attributes"><code>
-				 public 
-				<code><a href="class-triagens.ArangoDb.Collection.html">triagens\ArangoDb\Collection</a></code>
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_getProperties">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#288-308" title="Go to source code">getProperties</a>( <span>mixed <var>$collection</var></span> )</code>
-
-			<div class="description short">
-				<p>Get properties of a collection</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Get properties of a collection</p>
-
-<p>This will throw if the collection cannot be fetched from the server</p>
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$collection</var></dt>
-						<dd><ul>
-<li>collection id as a string or number</li>
-</ul></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Collection.html">triagens\ArangoDb\Collection</a></code><br><ul>
-<li>the collection fetched from the server</li>
-</ul>
-					</div>
-
-					<h4>Throws</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
-					</div>
-
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="getCount" id="_getCount" class="deprecated">
-
-			<td class="attributes"><code>
-				 public 
-				integer
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_getCount">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#311-327" title="Go to source code">getCount</a>( <span>mixed <var>$collection</var></span> )</code>
-
-			<div class="description short">
-				<p>Get the number of documents in a collection</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Get the number of documents in a collection</p>
-
-<p>This will throw if the collection cannot be fetched from the server</p>
-
-					<h4>Deprecated</h4>
-					<div class="list">
-							to be removed in version 2.0 - This function is being replaced by count()<br>
-					</div>
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$collection</var></dt>
-						<dd><ul>
-<li>collection id as a string or number</li>
-</ul></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						integer<br><ul>
-<li>the number of documents in the collection</li>
-</ul>
-					</div>
-
-					<h4>Throws</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
-					</div>
-
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="count" id="_count">
-
-			<td class="attributes"><code>
-				 public 
-				integer
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_count">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#330-351" title="Go to source code">count</a>( <span>mixed <var>$collection</var></span> )</code>
-
-			<div class="description short">
-				<p>Get the number of documents in a collection</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Get the number of documents in a collection</p>
-
-<p>This will throw if the collection cannot be fetched from the server</p>
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$collection</var></dt>
-						<dd><ul>
-<li>collection id as a string or number</li>
-</ul></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						integer<br><ul>
-<li>the number of documents in the collection</li>
-</ul>
-					</div>
-
-					<h4>Throws</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
-					</div>
-
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="getFigures" id="_getFigures" class="deprecated">
-
-			<td class="attributes"><code>
-				 public 
-				array
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_getFigures">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#354-370" title="Go to source code">getFigures</a>( <span>mixed <var>$collection</var></span> )</code>
-
-			<div class="description short">
-				<p>Get figures for a collection</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Get figures for a collection</p>
-
-<p>This will throw if the collection cannot be fetched from the server</p>
-
-					<h4>Deprecated</h4>
-					<div class="list">
-							to be removed in version 2.0 - This function is being replaced by figures()<br>
-					</div>
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$collection</var></dt>
-						<dd><ul>
-<li>collection id as a string or number</li>
-</ul></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						array<br><ul>
-<li>the figures for the collection</li>
-</ul>
-					</div>
-
-					<h4>Throws</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
-					</div>
-
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="figures" id="_figures">
-
-			<td class="attributes"><code>
-				 public 
-				array
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_figures">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#373-392" title="Go to source code">figures</a>( <span>mixed <var>$collection</var></span> )</code>
-
-			<div class="description short">
-				<p>Get figures for a collection</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Get figures for a collection</p>
-
-<p>This will throw if the collection cannot be fetched from the server</p>
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$collection</var></dt>
-						<dd><ul>
-<li>collection id as a string or number</li>
-</ul></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						array<br><ul>
-<li>the figures for the collection</li>
-</ul>
-					</div>
-
-					<h4>Throws</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
-					</div>
-
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="add" id="_add" class="deprecated">
-
-			<td class="attributes"><code>
-				 public 
-				mixed
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_add">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#395-413" title="Go to source code">add</a>( <span><code><a href="class-triagens.ArangoDb.Collection.html">triagens\ArangoDb\Collection</a></code> <var>$collection</var></span> )</code>
-
-			<div class="description short">
-				<p>Adds a new collection on the server</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Adds a new collection on the server</p>
-
-<p>This will add the collection on the server and return its id</p>
-
-<p>This will throw if the collection cannot be created</p>
-
-					<h4>Deprecated</h4>
-					<div class="list">
-							to be removed in version 2.0 - This function is being replaced by create()<br>
-					</div>
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$collection</var></dt>
-						<dd><ul>
-<li>collection object to be created on the server</li>
-</ul></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						mixed<br><ul>
-<li>id of collection created</li>
-</ul>
-					</div>
-
-					<h4>Throws</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
-					</div>
-
-
-
-			</div>
-			</div></td>
-		</tr>
 		<tr data-order="create" id="_create">
 
 			<td class="attributes"><code>
@@ -592,7 +200,7 @@ was an exception thrown which represents an 404 request.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_create">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#416-496" title="Go to source code">create</a>( <span>mixed <var>$collection</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#212-292" title="Go to source code">create</a>( <span>mixed <var>$collection</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 			<div class="description short">
 				<p>Creates a new collection on the server</p>
@@ -645,6 +253,415 @@ This will throw if the collection cannot be created</p>
 			</div>
 			</div></td>
 		</tr>
+		<tr data-order="add" id="_add" class="deprecated">
+
+			<td class="attributes"><code>
+				 public 
+				mixed
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_add">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#316-335" title="Go to source code">add</a>( <span><code><a href="class-triagens.ArangoDb.Collection.html">triagens\ArangoDb\Collection</a></code> <var>$collection</var></span> )</code>
+
+			<div class="description short">
+				<p>Adds a new collection on the server</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Adds a new collection on the server</p>
+
+<p>This will add the collection on the server and return its id</p>
+
+<p>This will throw if the collection cannot be created</p>
+
+					<h4>Deprecated</h4>
+					<div class="list">
+							to be removed in version 2.0 - This function is being replaced by create()<br>
+					</div>
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$collection</var></dt>
+						<dd><ul>
+<li>collection object to be created on the server</li>
+</ul></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						mixed<br><ul>
+<li>id of collection created</li>
+</ul>
+					</div>
+
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
+					</div>
+
+					<h4>Todo</h4>
+					<div class="list">
+							remove in version 3.1<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="has" id="_has">
+
+			<td class="attributes"><code>
+				 public 
+				boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_has">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#338-366" title="Go to source code">has</a>( <span>mixed <var>$collection</var></span> )</code>
+
+			<div class="description short">
+				<p>Check if a collection exists</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Check if a collection exists</p>
+
+<p>This will call self::get() internally and checks if there
+was an exception thrown which represents an 404 request.</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$collection</var></dt>
+						<dd><ul>
+<li>collection id as a string or number</li>
+</ul></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						boolean
+					</div>
+
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code><br>When any other error than a 404 occurs
+					</div>
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="count" id="_count">
+
+			<td class="attributes"><code>
+				 public 
+				integer
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_count">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#369-390" title="Go to source code">count</a>( <span>mixed <var>$collection</var></span> )</code>
+
+			<div class="description short">
+				<p>Get the number of documents in a collection</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Get the number of documents in a collection</p>
+
+<p>This will throw if the collection cannot be fetched from the server</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$collection</var></dt>
+						<dd><ul>
+<li>collection id as a string or number</li>
+</ul></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						integer<br><ul>
+<li>the number of documents in the collection</li>
+</ul>
+					</div>
+
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
+					</div>
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getCount" id="_getCount" class="deprecated">
+
+			<td class="attributes"><code>
+				 public 
+				integer
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getCount">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#393-410" title="Go to source code">getCount</a>( <span>mixed <var>$collection</var></span> )</code>
+
+			<div class="description short">
+				<p>Get the number of documents in a collection</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Get the number of documents in a collection</p>
+
+<p>This will throw if the collection cannot be fetched from the server</p>
+
+					<h4>Deprecated</h4>
+					<div class="list">
+							to be removed in version 2.0 - This function is being replaced by count()<br>
+					</div>
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$collection</var></dt>
+						<dd><ul>
+<li>collection id as a string or number</li>
+</ul></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						integer<br><ul>
+<li>the number of documents in the collection</li>
+</ul>
+					</div>
+
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
+					</div>
+
+					<h4>Todo</h4>
+					<div class="list">
+							remove in version 3.1<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="get" id="_get">
+
+			<td class="attributes"><code>
+				 public 
+				<code><a href="class-triagens.ArangoDb.Collection.html">triagens\ArangoDb\Collection</a></code>
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_get">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#413-434" title="Go to source code">get</a>( <span>mixed <var>$collection</var></span> )</code>
+
+			<div class="description short">
+				<p>Get information about a collection</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Get information about a collection</p>
+
+<p>This will throw if the collection cannot be fetched from the server</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$collection</var></dt>
+						<dd><ul>
+<li>collection id as a string or number</li>
+</ul></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.Collection.html">triagens\ArangoDb\Collection</a></code><br><ul>
+<li>the collection fetched from the server</li>
+</ul>
+					</div>
+
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
+					</div>
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getProperties" id="_getProperties">
+
+			<td class="attributes"><code>
+				 public 
+				<code><a href="class-triagens.ArangoDb.Collection.html">triagens\ArangoDb\Collection</a></code>
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getProperties">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#437-457" title="Go to source code">getProperties</a>( <span>mixed <var>$collection</var></span> )</code>
+
+			<div class="description short">
+				<p>Get properties of a collection</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Get properties of a collection</p>
+
+<p>This will throw if the collection cannot be fetched from the server</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$collection</var></dt>
+						<dd><ul>
+<li>collection id as a string or number</li>
+</ul></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.Collection.html">triagens\ArangoDb\Collection</a></code><br><ul>
+<li>the collection fetched from the server</li>
+</ul>
+					</div>
+
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
+					</div>
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="figures" id="_figures">
+
+			<td class="attributes"><code>
+				 public 
+				array
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_figures">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#460-479" title="Go to source code">figures</a>( <span>mixed <var>$collection</var></span> )</code>
+
+			<div class="description short">
+				<p>Get figures for a collection</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Get figures for a collection</p>
+
+<p>This will throw if the collection cannot be fetched from the server</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$collection</var></dt>
+						<dd><ul>
+<li>collection id as a string or number</li>
+</ul></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						array<br><ul>
+<li>the figures for the collection</li>
+</ul>
+					</div>
+
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
+					</div>
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getFigures" id="_getFigures" class="deprecated">
+
+			<td class="attributes"><code>
+				 public 
+				array
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getFigures">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#482-499" title="Go to source code">getFigures</a>( <span>mixed <var>$collection</var></span> )</code>
+
+			<div class="description short">
+				<p>Get figures for a collection</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Get figures for a collection</p>
+
+<p>This will throw if the collection cannot be fetched from the server</p>
+
+					<h4>Deprecated</h4>
+					<div class="list">
+							to be removed in version 2.0 - This function is being replaced by figures()<br>
+					</div>
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$collection</var></dt>
+						<dd><ul>
+<li>collection id as a string or number</li>
+</ul></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						array<br><ul>
+<li>the figures for the collection</li>
+</ul>
+					</div>
+
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
+					</div>
+
+					<h4>Todo</h4>
+					<div class="list">
+							remove in version 3.1<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
 		<tr data-order="getChecksum" id="_getChecksum">
 
 			<td class="attributes"><code>
@@ -656,7 +673,7 @@ This will throw if the collection cannot be created</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getChecksum">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#498-521" title="Go to source code">getChecksum</a>( <span>mixed <var>$collectionId</var></span>, <span>boolean <var>$withRevisions</var> = <span class="php-keyword1">false</span></span>, <span>boolean <var>$withData</var> = <span class="php-keyword1">false</span></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#501-524" title="Go to source code">getChecksum</a>( <span>mixed <var>$collectionId</var></span>, <span>boolean <var>$withRevisions</var> = <span class="php-keyword1">false</span></span>, <span>boolean <var>$withData</var> = <span class="php-keyword1">false</span></span> )</code>
 
 			<div class="description short">
 				<p>Calculate a checksum of the collection.</p>
@@ -715,7 +732,7 @@ and optionally the document data in the collection.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getRevision">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#523-541" title="Go to source code">getRevision</a>( <span>mixed <var>$collectionId</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#526-544" title="Go to source code">getRevision</a>( <span>mixed <var>$collectionId</var></span> )</code>
 
 			<div class="description short">
 				<p>Returns the Collections revision ID</p>
@@ -753,7 +770,339 @@ changed since the last revision check.</p>
 			</div>
 			</div></td>
 		</tr>
-		<tr data-order="createGeoIndex" id="_createGeoIndex">
+		<tr data-order="rename" id="_rename">
+
+			<td class="attributes"><code>
+				 public 
+				boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_rename">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#546-571" title="Go to source code">rename</a>( <span>mixed <var>$collection</var></span>, <span>string <var>$name</var></span> )</code>
+
+			<div class="description short">
+				<p>Rename a collection</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Rename a collection</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$collection</var></dt>
+						<dd><ul>
+<li>collection id as string or number or collection object</li>
+</ul></dd>
+						<dt><var>$name</var></dt>
+						<dd><ul>
+<li>new name for collection</li>
+</ul></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						boolean<br><ul>
+<li>always true, will throw if there is an error</li>
+</ul>
+					</div>
+
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
+					</div>
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="load" id="_load">
+
+			<td class="attributes"><code>
+				 public 
+				<code><a href="class-triagens.ArangoDb.HttpResponse.html">triagens\ArangoDb\HttpResponse</a></code>
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_load">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#572-597" title="Go to source code">load</a>( <span>mixed <var>$collection</var></span> )</code>
+
+			<div class="description short">
+				<p>Load a collection into the server's memory</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Load a collection into the server's memory</p>
+
+<p>This will load the given collection into the server's memory.</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$collection</var></dt>
+						<dd><ul>
+<li>collection id as string or number or collection object</li>
+</ul></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.HttpResponse.html">triagens\ArangoDb\HttpResponse</a></code><br><ul>
+<li>HTTP response object</li>
+</ul>
+					</div>
+
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
+					</div>
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="unload" id="_unload">
+
+			<td class="attributes"><code>
+				 public 
+				<code><a href="class-triagens.ArangoDb.HttpResponse.html">triagens\ArangoDb\HttpResponse</a></code>
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_unload">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#599-624" title="Go to source code">unload</a>( <span>mixed <var>$collection</var></span> )</code>
+
+			<div class="description short">
+				<p>Unload a collection from the server's memory</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Unload a collection from the server's memory</p>
+
+<p>This will unload the given collection from the server's memory.</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$collection</var></dt>
+						<dd><ul>
+<li>collection id as string or number or collection object</li>
+</ul></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.HttpResponse.html">triagens\ArangoDb\HttpResponse</a></code><br><ul>
+<li>HTTP response object</li>
+</ul>
+					</div>
+
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
+					</div>
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="truncate" id="_truncate">
+
+			<td class="attributes"><code>
+				 public 
+				boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_truncate">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#627-652" title="Go to source code">truncate</a>( <span>mixed <var>$collection</var></span> )</code>
+
+			<div class="description short">
+				<p>Truncate a collection</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Truncate a collection</p>
+
+<p>This will remove all documents from the collection but will leave the metadata and indexes intact.</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$collection</var></dt>
+						<dd><ul>
+<li>collection id as string or number or collection object</li>
+</ul></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						boolean<br><ul>
+<li>always true, will throw if there is an error</li>
+</ul>
+					</div>
+
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
+					</div>
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="drop" id="_drop">
+
+			<td class="attributes"><code>
+				 public 
+				boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_drop">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#655-675" title="Go to source code">drop</a>( <span>mixed <var>$collection</var></span> )</code>
+
+			<div class="description short">
+				<p>Drop a collection</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Drop a collection</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$collection</var></dt>
+						<dd><ul>
+<li>collection id as string or number or collection object</li>
+</ul></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						boolean<br><ul>
+<li>always true, will throw if there is an error</li>
+</ul>
+					</div>
+
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
+					</div>
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="delete" id="_delete" class="deprecated">
+
+			<td class="attributes"><code>
+				 public 
+				boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_delete">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#678-693" title="Go to source code">delete</a>( <span>mixed <var>$collection</var></span> )</code>
+
+			<div class="description short">
+				<p>Delete a collection</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Delete a collection</p>
+
+					<h4>Deprecated</h4>
+					<div class="list">
+							to be removed in version 2.0 - This function is being replaced by drop()<br>
+					</div>
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$collection</var></dt>
+						<dd><ul>
+<li>collection id as string or number or collection object</li>
+</ul></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						boolean<br><ul>
+<li>always true, will throw if there is an error</li>
+</ul>
+					</div>
+
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
+					</div>
+
+					<h4>Todo</h4>
+					<div class="list">
+							remove in version 3.1<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="isValidCollectionId" id="_isValidCollectionId">
+
+			<td class="attributes"><code>
+				 public 
+				boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_isValidCollectionId">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#698-708" title="Go to source code">isValidCollectionId</a>( <span> <var>$collectionId</var></span> )</code>
+
+			<div class="description short">
+				<p>Checks if the collectionId given, is valid. Returns true if it is, or false if it is not.</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Checks if the collectionId given, is valid. Returns true if it is, or false if it is not.</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$collectionId</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						boolean
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getAllCollections" id="_getAllCollections">
 
 			<td class="attributes"><code>
 				 public 
@@ -763,53 +1112,247 @@ changed since the last revision check.</p>
 			</td>
 
 			<td class="name"><div>
-			<a class="anchor" href="#_createGeoIndex">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#543-579" title="Go to source code">createGeoIndex</a>( <span>string <var>$collectionId</var></span>, <span>array <var>$fields</var></span>, <span>boolean <var>$geoJson</var> = <span class="php-keyword1">null</span></span>, <span>boolean <var>$constraint</var> = <span class="php-keyword1">null</span></span>, <span>boolean <var>$ignoreNull</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<a class="anchor" href="#_getAllCollections">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#710-742" title="Go to source code">getAllCollections</a>( <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 			<div class="description short">
-				<p>Create a geo index</p>
+				<p>Get list of all available collections per default with the collection names as index.
+Returns empty array if none are available.</p>
 			</div>
 
 			<div class="description detailed hidden">
-				<p>Create a geo index</p>
+				<p>Get list of all available collections per default with the collection names as index.
+Returns empty array if none are available.</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$options</var></dt>
+						<dd><ul>
+<li>optional - an array of options.</li>
+</ul>
+
+<p>Options are :<br>
+                                 <li>'excludeSystem' -   With a value of true, all system collections will be excluded from the response.</li>
+                                 <li>'keys' -  With a value of "collections", the index of the resulting array is numerical,
+                                 With a value of "names", the index of the resulting array are the collection names.</li>
+                                 </p></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						array
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getCollectionId" id="_getCollectionId">
+
+			<td class="attributes"><code>
+				 public 
+				mixed
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getCollectionId">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#745-764" title="Go to source code">getCollectionId</a>( <span>mixed <var>$collection</var></span> )</code>
+
+			<div class="description short">
+				<p>Gets the collectionId from the given collectionObject or string/integer</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Gets the collectionId from the given collectionObject or string/integer</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$collection</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						mixed
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getCollectionName" id="_getCollectionName">
+
+			<td class="attributes"><code>
+				 public 
+				mixed
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getCollectionName">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#767-786" title="Go to source code">getCollectionName</a>( <span>mixed <var>$collection</var></span> )</code>
+
+			<div class="description short">
+				<p>Gets the collectionId from the given collectionObject or string/integer</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Gets the collectionId from the given collectionObject or string/integer</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$collection</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						mixed
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="importFromFile" id="_importFromFile">
+
+			<td class="attributes"><code>
+				 public 
+				integer
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_importFromFile">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#789-827" title="Go to source code">importFromFile</a>( <span>mixed <var>$collectionId</var></span>, <span>mixed <var>$importFileName</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>(<span class="php-quote">'createCollection'</span> =&gt; <span class="php-keyword1">false</span>, <span class="php-quote">'type'</span> =&gt; <span class="php-keyword1">null</span>) </span> )</code>
+
+			<div class="description short">
+				<p>Import documents from a file</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Import documents from a file</p>
+
+<p>This will throw on all errors except insertion errors</p>
 
 
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$collectionId</var></dt>
 						<dd><ul>
-<li>the collection id</li>
+<li>collection id as string or number</li>
 </ul></dd>
-						<dt><var>$fields</var></dt>
+						<dt><var>$importFileName</var></dt>
 						<dd><ul>
-<li>an array of fields</li>
+<li>The filename that holds the import data.</li>
 </ul></dd>
-						<dt><var>$geoJson</var></dt>
+						<dt><var>$options</var></dt>
 						<dd><ul>
-<li>whether to use geoJson or not</li>
-</ul></dd>
-						<dt><var>$constraint</var></dt>
-						<dd><ul>
-<li>whether this is a constraint or not</li>
-</ul></dd>
-						<dt><var>$ignoreNull</var></dt>
-						<dd><ul>
-<li>whether to ignore null</li>
-</ul></dd>
+<li>optional - an array of options.</li>
+</ul>
+
+<p>Options are :<br>
+                             'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
+                             <p>
+                             <li>                       if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.</li>
+                             <li>                       if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.</li>
+                             <br>
+                             More info on how the import functionality works: <a href ="https://github.com/triAGENS/ArangoDB/wiki/HttpImport">https://github.com/triAGENS/ArangoDB/wiki/HttpImport</a>
+                             </p>
+                             <br>
+                             </li>
+                             <li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
+                             </p></dd>
 					</dl></div>
 
 					<h4>Returns</h4>
 					<div class="list">
-						array<br><ul>
-<li>server response of the created index</li>
+						integer<br><ul>
+<li>number of documents that were deleted</li>
 </ul>
 					</div>
 
-
-					<h4>Link</h4>
+					<h4>Throws</h4>
 					<div class="list">
-							<a href="https://docs.arangodb.com/HttpIndexes/Geo.html">https://docs.arangodb.com/HttpIndexes/Geo.html</a><br>
+						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
 					</div>
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="import" id="_import">
+
+			<td class="attributes"><code>
+				 public 
+				array
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_import">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#830-900" title="Go to source code">import</a>( <span> <var>$collection</var></span>, <span>mixed <var>$importData</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>( <span class="php-quote">'createCollection'</span> =&gt; <span class="php-keyword1">false</span>, <span class="php-quote">'createCollectionType'</span> =&gt; <span class="php-quote">'document'</span>, <span class="php-quote">'type'</span> =&gt; <span class="php-keyword1">null</span> ) </span> )</code>
+
+			<div class="description short">
+				<p>Import documents into a collection</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Import documents into a collection</p>
+
+<p>This will throw on all errors except insertion errors</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$collection</var></dt>
+						<dd>$collection - collection id as string or number</dd>
+						<dt><var>$importData</var></dt>
+						<dd><ul>
+<li>The data to import. This can be a string holding the data according to the type of import, or an array of documents</li>
+</ul></dd>
+						<dt><var>$options</var></dt>
+						<dd><ul>
+<li>optional - an array of options.</li>
+</ul>
+
+<p>Options are :<br>
+                           <li>
+                           'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
+                           <p>
+                           <li>                       if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.</li>
+                           <li>                       if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.</li>
+                           <br>
+                           More info on how the import functionality works: <a href ="https://github.com/triAGENS/ArangoDB/wiki/HttpImport">https://github.com/triAGENS/ArangoDB/wiki/HttpImport</a>
+                           </p>
+                           <br>
+
+</li>
+<li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
+</p></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						array
+					</div>
+
+
 
 
 			</div>
@@ -826,7 +1369,7 @@ changed since the last revision check.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_createHashIndex">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#581-605" title="Go to source code">createHashIndex</a>( <span>string <var>$collectionId</var></span>, <span>array <var>$fields</var></span>, <span>boolean <var>$unique</var> = <span class="php-keyword1">null</span></span>, <span>boolean <var>$sparse</var> = <span class="php-keyword1">null</span></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#903-927" title="Go to source code">createHashIndex</a>( <span>string <var>$collectionId</var></span>, <span>array <var>$fields</var></span>, <span>boolean <var>$unique</var> = <span class="php-keyword1">null</span></span>, <span>boolean <var>$sparse</var> = <span class="php-keyword1">null</span></span> )</code>
 
 			<div class="description short">
 				<p>Create a hash index</p>
@@ -884,7 +1427,7 @@ changed since the last revision check.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_createFulltextIndex">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#607-627" title="Go to source code">createFulltextIndex</a>( <span>string <var>$collectionId</var></span>, <span>array <var>$fields</var></span>, <span>integer <var>$minLength</var> = <span class="php-keyword1">null</span></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#929-949" title="Go to source code">createFulltextIndex</a>( <span>string <var>$collectionId</var></span>, <span>array <var>$fields</var></span>, <span>integer <var>$minLength</var> = <span class="php-keyword1">null</span></span> )</code>
 
 			<div class="description short">
 				<p>Create a fulltext index</p>
@@ -938,7 +1481,7 @@ changed since the last revision check.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_createSkipListIndex">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#629-653" title="Go to source code">createSkipListIndex</a>( <span>string <var>$collectionId</var></span>, <span>array <var>$fields</var></span>, <span>boolean <var>$unique</var> = <span class="php-keyword1">null</span></span>, <span>boolean <var>$sparse</var> = <span class="php-keyword1">null</span></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#951-975" title="Go to source code">createSkipListIndex</a>( <span>string <var>$collectionId</var></span>, <span>array <var>$fields</var></span>, <span>boolean <var>$unique</var> = <span class="php-keyword1">null</span></span>, <span>boolean <var>$sparse</var> = <span class="php-keyword1">null</span></span> )</code>
 
 			<div class="description short">
 				<p>Create a skip-list index</p>
@@ -985,6 +1528,68 @@ changed since the last revision check.</p>
 			</div>
 			</div></td>
 		</tr>
+		<tr data-order="createGeoIndex" id="_createGeoIndex">
+
+			<td class="attributes"><code>
+				 public 
+				array
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_createGeoIndex">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#977-1013" title="Go to source code">createGeoIndex</a>( <span>string <var>$collectionId</var></span>, <span>array <var>$fields</var></span>, <span>boolean <var>$geoJson</var> = <span class="php-keyword1">null</span></span>, <span>boolean <var>$constraint</var> = <span class="php-keyword1">null</span></span>, <span>boolean <var>$ignoreNull</var> = <span class="php-keyword1">null</span> </span> )</code>
+
+			<div class="description short">
+				<p>Create a geo index</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Create a geo index</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$collectionId</var></dt>
+						<dd><ul>
+<li>the collection id</li>
+</ul></dd>
+						<dt><var>$fields</var></dt>
+						<dd><ul>
+<li>an array of fields</li>
+</ul></dd>
+						<dt><var>$geoJson</var></dt>
+						<dd><ul>
+<li>whether to use geoJson or not</li>
+</ul></dd>
+						<dt><var>$constraint</var></dt>
+						<dd><ul>
+<li>whether this is a constraint or not</li>
+</ul></dd>
+						<dt><var>$ignoreNull</var></dt>
+						<dd><ul>
+<li>whether to ignore null</li>
+</ul></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						array<br><ul>
+<li>server response of the created index</li>
+</ul>
+					</div>
+
+
+					<h4>Link</h4>
+					<div class="list">
+							<a href="https://docs.arangodb.com/HttpIndexes/Geo.html">https://docs.arangodb.com/HttpIndexes/Geo.html</a><br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
 		<tr data-order="index" id="_index">
 
 			<td class="attributes"><code>
@@ -996,7 +1601,7 @@ changed since the last revision check.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_index">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#655-702" title="Go to source code">index</a>( <span>mixed <var>$collectionId</var></span>, <span>string <var>$type</var> = <span class="php-quote">''</span></span>, <span>array <var>$attributes</var> = <span class="php-keyword1">array</span>()</span>, <span>boolean <var>$unique</var> = <span class="php-keyword1">false</span></span>, <span>array <var>$indexOptions</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1015-1062" title="Go to source code">index</a>( <span>mixed <var>$collectionId</var></span>, <span>string <var>$type</var> = <span class="php-quote">''</span></span>, <span>array <var>$attributes</var> = <span class="php-keyword1">array</span>()</span>, <span>boolean <var>$unique</var> = <span class="php-keyword1">false</span></span>, <span>array <var>$indexOptions</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 			<div class="description short">
 				<p>Creates an index on a collection on the server</p>
@@ -1062,7 +1667,7 @@ changed since the last revision check.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getIndex">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#704-718" title="Go to source code">getIndex</a>( <span>string <var>$collection</var></span>, <span>string <var>$indexId</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1065-1079" title="Go to source code">getIndex</a>( <span>string <var>$collection</var></span>, <span>string <var>$indexId</var></span> )</code>
 
 			<div class="description short">
 				<p>Get the information about an index in a collection</p>
@@ -1106,7 +1711,7 @@ changed since the last revision check.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getIndexes">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#720-738" title="Go to source code">getIndexes</a>( <span>mixed <var>$collectionId</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1082-1100" title="Go to source code">getIndexes</a>( <span>mixed <var>$collectionId</var></span> )</code>
 
 			<div class="description short">
 				<p>Get indexes of a collection</p>
@@ -1152,7 +1757,7 @@ changed since the last revision check.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_dropIndex">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#741-756" title="Go to source code">dropIndex</a>( <span>mixed <var>$indexHandle</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1101-1116" title="Go to source code">dropIndex</a>( <span>mixed <var>$indexHandle</var></span> )</code>
 
 			<div class="description short">
 				<p>Drop an index</p>
@@ -1187,43 +1792,41 @@ changed since the last revision check.</p>
 			</div>
 			</div></td>
 		</tr>
-		<tr data-order="delete" id="_delete" class="deprecated">
+		<tr data-order="any" id="_any">
 
 			<td class="attributes"><code>
 				 public 
-				boolean
+				<code><a href="class-triagens.ArangoDb.Document.html">triagens\ArangoDb\Document</a></code>
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
-			<a class="anchor" href="#_delete">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#759-773" title="Go to source code">delete</a>( <span>mixed <var>$collection</var></span> )</code>
+			<a class="anchor" href="#_any">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1118-1147" title="Go to source code">any</a>( <span>mixed <var>$collectionId</var></span> )</code>
 
 			<div class="description short">
-				<p>Delete a collection</p>
+				<p>Get a random document from the collection.</p>
 			</div>
 
 			<div class="description detailed hidden">
-				<p>Delete a collection</p>
+				<p>Get a random document from the collection.</p>
 
-					<h4>Deprecated</h4>
-					<div class="list">
-							to be removed in version 2.0 - This function is being replaced by drop()<br>
-					</div>
+<p>This will throw if the document cannot be fetched from the server</p>
+
 
 					<h4>Parameters</h4>
 					<div class="list"><dl>
-						<dt><var>$collection</var></dt>
+						<dt><var>$collectionId</var></dt>
 						<dd><ul>
-<li>collection id as string or number or collection object</li>
+<li>collection id as string or number</li>
 </ul></dd>
 					</dl></div>
 
 					<h4>Returns</h4>
 					<div class="list">
-						boolean<br><ul>
-<li>always true, will throw if there is an error</li>
+						<code><a href="class-triagens.ArangoDb.Document.html">triagens\ArangoDb\Document</a></code><br><ul>
+<li>the document fetched from the server</li>
 </ul>
 					</div>
 
@@ -1232,238 +1835,113 @@ changed since the last revision check.</p>
 						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
 					</div>
 
+					<h4>Since</h4>
+					<div class="list">
+							1.2<br>
+					</div>
 
 
 			</div>
 			</div></td>
 		</tr>
-		<tr data-order="drop" id="_drop">
+		<tr data-order="all" id="_all">
 
 			<td class="attributes"><code>
 				 public 
-				boolean
+				<code><a href="class-triagens.ArangoDb.Cursor.html">triagens\ArangoDb\Cursor</a></code>
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
-			<a class="anchor" href="#_drop">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#776-796" title="Go to source code">drop</a>( <span>mixed <var>$collection</var></span> )</code>
+			<a class="anchor" href="#_all">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1152-1196" title="Go to source code">all</a>( <span>mixed <var>$collectionId</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 			<div class="description short">
-				<p>Drop a collection</p>
+				<p>Returns all documents of a collection</p>
 			</div>
 
 			<div class="description detailed hidden">
-				<p>Drop a collection</p>
+				<p>Returns all documents of a collection</p>
 
 
 					<h4>Parameters</h4>
 					<div class="list"><dl>
-						<dt><var>$collection</var></dt>
+						<dt><var>$collectionId</var></dt>
 						<dd><ul>
-<li>collection id as string or number or collection object</li>
+<li>collection id as string or number</li>
 </ul></dd>
+						<dt><var>$options</var></dt>
+						<dd><ul>
+<li>optional array of options.</li>
+</ul>
+
+<p>Options are :<br>
+                               <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+                               <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
+                               <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+                               <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
+                               <p>
+                               This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
+                               The difference is, that if you're returning a resultset of documents, the getAll() is already called<br>
+                               and the hidden attributes would not be applied to the attributes.<br>
+                               </p>
+
+<li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
+<li>'skip'      -  Optional, The number of documents to skip in the query.</li>
+<li>'limit'     -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
+</li>
+</p></dd>
 					</dl></div>
 
 					<h4>Returns</h4>
 					<div class="list">
-						boolean<br><ul>
-<li>always true, will throw if there is an error</li>
+						<code><a href="class-triagens.ArangoDb.Cursor.html">triagens\ArangoDb\Cursor</a></code><br><ul>
+<li>documents</li>
 </ul>
 					</div>
 
-					<h4>Throws</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
-					</div>
 
 
 
 			</div>
 			</div></td>
 		</tr>
-		<tr data-order="rename" id="_rename">
+		<tr data-order="getAllIds" id="_getAllIds">
 
 			<td class="attributes"><code>
 				 public 
-				boolean
+				array
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
-			<a class="anchor" href="#_rename">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#798-823" title="Go to source code">rename</a>( <span>mixed <var>$collection</var></span>, <span>string <var>$name</var></span> )</code>
+			<a class="anchor" href="#_getAllIds">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1199-1229" title="Go to source code">getAllIds</a>( <span>mixed <var>$collection</var></span> )</code>
 
 			<div class="description short">
-				<p>Rename a collection</p>
+				<p>Get the list of all documents' ids from a collection</p>
 			</div>
 
 			<div class="description detailed hidden">
-				<p>Rename a collection</p>
+				<p>Get the list of all documents' ids from a collection</p>
+
+<p>This will throw if the list cannot be fetched from the server</p>
 
 
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$collection</var></dt>
 						<dd><ul>
-<li>collection id as string or number or collection object</li>
-</ul></dd>
-						<dt><var>$name</var></dt>
-						<dd><ul>
-<li>new name for collection</li>
+<li>collection id as string or number</li>
 </ul></dd>
 					</dl></div>
 
 					<h4>Returns</h4>
 					<div class="list">
-						boolean<br><ul>
-<li>always true, will throw if there is an error</li>
-</ul>
-					</div>
-
-					<h4>Throws</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
-					</div>
-
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="load" id="_load">
-
-			<td class="attributes"><code>
-				 public 
-				<code><a href="class-triagens.ArangoDb.HttpResponse.html">triagens\ArangoDb\HttpResponse</a></code>
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_load">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#825-850" title="Go to source code">load</a>( <span>mixed <var>$collection</var></span> )</code>
-
-			<div class="description short">
-				<p>Load a collection into the server's memory</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Load a collection into the server's memory</p>
-
-<p>This will load the given collection into the server's memory.</p>
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$collection</var></dt>
-						<dd><ul>
-<li>collection id as string or number or collection object</li>
-</ul></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.HttpResponse.html">triagens\ArangoDb\HttpResponse</a></code><br><ul>
-<li>HTTP response object</li>
-</ul>
-					</div>
-
-					<h4>Throws</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
-					</div>
-
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="unload" id="_unload">
-
-			<td class="attributes"><code>
-				 public 
-				<code><a href="class-triagens.ArangoDb.HttpResponse.html">triagens\ArangoDb\HttpResponse</a></code>
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_unload">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#853-878" title="Go to source code">unload</a>( <span>mixed <var>$collection</var></span> )</code>
-
-			<div class="description short">
-				<p>Unload a collection from the server's memory</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Unload a collection from the server's memory</p>
-
-<p>This will unload the given collection from the server's memory.</p>
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$collection</var></dt>
-						<dd><ul>
-<li>collection id as string or number or collection object</li>
-</ul></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.HttpResponse.html">triagens\ArangoDb\HttpResponse</a></code><br><ul>
-<li>HTTP response object</li>
-</ul>
-					</div>
-
-					<h4>Throws</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
-					</div>
-
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="truncate" id="_truncate">
-
-			<td class="attributes"><code>
-				 public 
-				boolean
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_truncate">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#881-906" title="Go to source code">truncate</a>( <span>mixed <var>$collection</var></span> )</code>
-
-			<div class="description short">
-				<p>Truncate a collection</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Truncate a collection</p>
-
-<p>This will remove all documents from the collection but will leave the metadata and indexes intact.</p>
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$collection</var></dt>
-						<dd><ul>
-<li>collection id as string or number or collection object</li>
-</ul></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						boolean<br><ul>
-<li>always true, will throw if there is an error</li>
+						array<br><ul>
+<li>ids of documents in the collection</li>
 </ul>
 					</div>
 
@@ -1488,7 +1966,7 @@ changed since the last revision check.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_byExample">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#909-980" title="Go to source code">byExample</a>( <span>mixed <var>$collectionId</var></span>, <span>mixed <var>$document</var></span>, <span>boolean|array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1231-1302" title="Go to source code">byExample</a>( <span>mixed <var>$collectionId</var></span>, <span>mixed <var>$document</var></span>, <span>boolean|array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 			<div class="description short">
 				<p>Get document(s) by specifying an example</p>
@@ -1549,6 +2027,79 @@ changed since the last revision check.</p>
 			</div>
 			</div></td>
 		</tr>
+		<tr data-order="firstExample" id="_firstExample">
+
+			<td class="attributes"><code>
+				 public 
+				<code><a href="class-triagens.ArangoDb.Document.html">triagens\ArangoDb\Document</a></code>
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_firstExample">#</a>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1303-1360" title="Go to source code">firstExample</a>( <span>mixed <var>$collectionId</var></span>, <span>mixed <var>$document</var></span>, <span>boolean|array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+			<div class="description short">
+				<p>Get the first document matching a given example.</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Get the first document matching a given example.</p>
+
+<p>This will throw if the document cannot be fetched from the server</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$collectionId</var></dt>
+						<dd><ul>
+<li>collection id as string or number</li>
+</ul></dd>
+						<dt><var>$document</var></dt>
+						<dd><ul>
+<li>the example document as a Document object or an array</li>
+</ul></dd>
+						<dt><var>$options</var></dt>
+						<dd><ul>
+<li>optional, an array of options.</li>
+</ul>
+
+<p>Options are :<br>
+                                <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+                                <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
+                                <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+                                <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
+                                <p>
+                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
+                                The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
+                                and the hidden attributes would not be applied to the attributes.<br>
+                                </p>
+                                </li>
+                                </p></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.Document.html">triagens\ArangoDb\Document</a></code><br><ul>
+<li>the document fetched from the server</li>
+</ul>
+					</div>
+
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
+					</div>
+
+					<h4>Since</h4>
+					<div class="list">
+							1.2<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
 		<tr data-order="fulltext" id="_fulltext">
 
 			<td class="attributes"><code>
@@ -1560,7 +2111,7 @@ changed since the last revision check.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_fulltext">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#983-1051" title="Go to source code">fulltext</a>( <span>mixed <var>$collection</var></span>, <span>mixed <var>$attribute</var></span>, <span>mixed <var>$query</var></span>, <span>boolean|array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1363-1431" title="Go to source code">fulltext</a>( <span>mixed <var>$collection</var></span>, <span>mixed <var>$attribute</var></span>, <span>mixed <var>$query</var></span>, <span>boolean|array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 			<div class="description short">
 				<p>Get document(s) by a fulltext query</p>
@@ -1627,131 +2178,6 @@ In order to use the fulltext operator, a fulltext index must be defined for the 
 			</div>
 			</div></td>
 		</tr>
-		<tr data-order="firstExample" id="_firstExample">
-
-			<td class="attributes"><code>
-				 public 
-				<code><a href="class-triagens.ArangoDb.Document.html">triagens\ArangoDb\Document</a></code>
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_firstExample">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1054-1111" title="Go to source code">firstExample</a>( <span>mixed <var>$collectionId</var></span>, <span>mixed <var>$document</var></span>, <span>boolean|array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
-
-			<div class="description short">
-				<p>Get the first document matching a given example.</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Get the first document matching a given example.</p>
-
-<p>This will throw if the document cannot be fetched from the server</p>
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$collectionId</var></dt>
-						<dd><ul>
-<li>collection id as string or number</li>
-</ul></dd>
-						<dt><var>$document</var></dt>
-						<dd><ul>
-<li>the example document as a Document object or an array</li>
-</ul></dd>
-						<dt><var>$options</var></dt>
-						<dd><ul>
-<li>optional, an array of options.</li>
-</ul>
-
-<p>Options are :<br>
-                                <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-                                <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
-                                <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-                                <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
-                                <p>
-                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-                                The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
-                                and the hidden attributes would not be applied to the attributes.<br>
-                                </p>
-                                </li>
-                                </p></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Document.html">triagens\ArangoDb\Document</a></code><br><ul>
-<li>the document fetched from the server</li>
-</ul>
-					</div>
-
-					<h4>Throws</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
-					</div>
-
-					<h4>Since</h4>
-					<div class="list">
-							1.2<br>
-					</div>
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="any" id="_any">
-
-			<td class="attributes"><code>
-				 public 
-				<code><a href="class-triagens.ArangoDb.Document.html">triagens\ArangoDb\Document</a></code>
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_any">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1113-1142" title="Go to source code">any</a>( <span>mixed <var>$collectionId</var></span> )</code>
-
-			<div class="description short">
-				<p>Get a random document from the collection.</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Get a random document from the collection.</p>
-
-<p>This will throw if the document cannot be fetched from the server</p>
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$collectionId</var></dt>
-						<dd><ul>
-<li>collection id as string or number</li>
-</ul></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Document.html">triagens\ArangoDb\Document</a></code><br><ul>
-<li>the document fetched from the server</li>
-</ul>
-					</div>
-
-					<h4>Throws</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
-					</div>
-
-					<h4>Since</h4>
-					<div class="list">
-							1.2<br>
-					</div>
-
-
-			</div>
-			</div></td>
-		</tr>
 		<tr data-order="updateByExample" id="_updateByExample">
 
 			<td class="attributes"><code>
@@ -1763,7 +2189,7 @@ In order to use the fulltext operator, a fulltext index must be defined for the 
 
 			<td class="name"><div>
 			<a class="anchor" href="#_updateByExample">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1144-1203" title="Go to source code">updateByExample</a>( <span>mixed <var>$collectionId</var></span>, <span>mixed <var>$example</var></span>, <span>mixed <var>$newValue</var></span>, <span>mixed <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1434-1493" title="Go to source code">updateByExample</a>( <span>mixed <var>$collectionId</var></span>, <span>mixed <var>$example</var></span>, <span>mixed <var>$newValue</var></span>, <span>mixed <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 			<div class="description short">
 				<p>Update document(s) matching a given example</p>
@@ -1835,7 +2261,7 @@ In order to use the fulltext operator, a fulltext index must be defined for the 
 
 			<td class="name"><div>
 			<a class="anchor" href="#_replaceByExample">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1206-1265" title="Go to source code">replaceByExample</a>( <span>mixed <var>$collectionId</var></span>, <span>mixed <var>$example</var></span>, <span>mixed <var>$newValue</var></span>, <span>mixed <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1496-1555" title="Go to source code">replaceByExample</a>( <span>mixed <var>$collectionId</var></span>, <span>mixed <var>$example</var></span>, <span>mixed <var>$newValue</var></span>, <span>mixed <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 			<div class="description short">
 				<p>Replace document(s) matching a given example</p>
@@ -1907,7 +2333,7 @@ In order to use the fulltext operator, a fulltext index must be defined for the 
 
 			<td class="name"><div>
 			<a class="anchor" href="#_removeByExample">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1268-1325" title="Go to source code">removeByExample</a>( <span>mixed <var>$collectionId</var></span>, <span>mixed <var>$document</var></span>, <span>boolean|array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1558-1615" title="Go to source code">removeByExample</a>( <span>mixed <var>$collectionId</var></span>, <span>mixed <var>$document</var></span>, <span>boolean|array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 			<div class="description short">
 				<p>Remove document(s) by specifying an example</p>
@@ -1977,7 +2403,7 @@ In order to use the fulltext operator, a fulltext index must be defined for the 
 
 			<td class="name"><div>
 			<a class="anchor" href="#_removeByKeys">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1328-1374" title="Go to source code">removeByKeys</a>( <span>mixed <var>$collectionId</var></span>, <span>array <var>$keys</var></span>, <span>boolean|array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1617-1663" title="Go to source code">removeByKeys</a>( <span>mixed <var>$collectionId</var></span>, <span>array <var>$keys</var></span>, <span>boolean|array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 			<div class="description short">
 				<p>Remove document(s) by specifying an array of keys</p>
@@ -2044,7 +2470,7 @@ In order to use the fulltext operator, a fulltext index must be defined for the 
 
 			<td class="name"><div>
 			<a class="anchor" href="#_lookupByKeys">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1377-1414" title="Go to source code">lookupByKeys</a>( <span>mixed <var>$collectionId</var></span>, <span>array <var>$keys</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1666-1703" title="Go to source code">lookupByKeys</a>( <span>mixed <var>$collectionId</var></span>, <span>array <var>$keys</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 			<div class="description short">
 				<p>Bulk lookup documents by specifying an array of keys</p>
@@ -2110,7 +2536,7 @@ In order to use the fulltext operator, a fulltext index must be defined for the 
 
 			<td class="name"><div>
 			<a class="anchor" href="#_range">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1417-1483" title="Go to source code">range</a>( <span>mixed <var>$collectionId</var></span>, <span>string <var>$attribute</var></span>, <span>mixed <var>$left</var></span>, <span>mixed <var>$right</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1706-1772" title="Go to source code">range</a>( <span>mixed <var>$collectionId</var></span>, <span>string <var>$attribute</var></span>, <span>mixed <var>$left</var></span>, <span>mixed <var>$right</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 			<div class="description short">
 				<p>Get document(s) by specifying range</p>
@@ -2181,69 +2607,6 @@ In order to use the fulltext operator, a fulltext index must be defined for the 
 			</div>
 			</div></td>
 		</tr>
-		<tr data-order="all" id="_all">
-
-			<td class="attributes"><code>
-				 public 
-				<code><a href="class-triagens.ArangoDb.Cursor.html">triagens\ArangoDb\Cursor</a></code>
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_all">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1485-1529" title="Go to source code">all</a>( <span>mixed <var>$collectionId</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
-
-			<div class="description short">
-				<p>Returns all documents of a collection</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Returns all documents of a collection</p>
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$collectionId</var></dt>
-						<dd><ul>
-<li>collection id as string or number</li>
-</ul></dd>
-						<dt><var>$options</var></dt>
-						<dd><ul>
-<li>optional array of options.</li>
-</ul>
-
-<p>Options are :<br>
-                               <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-                               <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
-                               <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-                               <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
-                               <p>
-                               This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
-                               The difference is, that if you're returning a resultset of documents, the getAll() is already called<br>
-                               and the hidden attributes would not be applied to the attributes.<br>
-                               </p>
-
-<li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
-<li>'skip'      -  Optional, The number of documents to skip in the query.</li>
-<li>'limit'     -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
-</li>
-</p></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Cursor.html">triagens\ArangoDb\Cursor</a></code><br><ul>
-<li>documents</li>
-</ul>
-					</div>
-
-
-
-
-			</div>
-			</div></td>
-		</tr>
 		<tr data-order="near" id="_near">
 
 			<td class="attributes"><code>
@@ -2255,7 +2618,7 @@ In order to use the fulltext operator, a fulltext index must be defined for the 
 
 			<td class="name"><div>
 			<a class="anchor" href="#_near">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1532-1587" title="Go to source code">near</a>( <span>mixed <var>$collectionId</var></span>, <span>float <var>$latitude</var></span>, <span>float <var>$longitude</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1775-1830" title="Go to source code">near</a>( <span>mixed <var>$collectionId</var></span>, <span>float <var>$latitude</var></span>, <span>float <var>$longitude</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 			<div class="description short">
 				<p>Get document(s) by specifying near</p>
@@ -2333,7 +2696,7 @@ In order to use the fulltext operator, a fulltext index must be defined for the 
 
 			<td class="name"><div>
 			<a class="anchor" href="#_within">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1590-1647" title="Go to source code">within</a>( <span>mixed <var>$collectionId</var></span>, <span>float <var>$latitude</var></span>, <span>float <var>$longitude</var></span>, <span>integer <var>$radius</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1833-1890" title="Go to source code">within</a>( <span>mixed <var>$collectionId</var></span>, <span>float <var>$latitude</var></span>, <span>float <var>$longitude</var></span>, <span>integer <var>$radius</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 			<div class="description short">
 				<p>Get document(s) by specifying within</p>
@@ -2398,384 +2761,6 @@ In order to use the fulltext operator, a fulltext index must be defined for the 
 					<div class="list">
 						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
 					</div>
-
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="getAllIds" id="_getAllIds">
-
-			<td class="attributes"><code>
-				 public 
-				array
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_getAllIds">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1650-1680" title="Go to source code">getAllIds</a>( <span>mixed <var>$collection</var></span> )</code>
-
-			<div class="description short">
-				<p>Get the list of all documents' ids from a collection</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Get the list of all documents' ids from a collection</p>
-
-<p>This will throw if the list cannot be fetched from the server</p>
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$collection</var></dt>
-						<dd><ul>
-<li>collection id as string or number</li>
-</ul></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						array<br><ul>
-<li>ids of documents in the collection</li>
-</ul>
-					</div>
-
-					<h4>Throws</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
-					</div>
-
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="isValidCollectionId" id="_isValidCollectionId">
-
-			<td class="attributes"><code>
-				 public 
-				boolean
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_isValidCollectionId">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1683-1693" title="Go to source code">isValidCollectionId</a>( <span> <var>$collectionId</var></span> )</code>
-
-			<div class="description short">
-				<p>Checks if the collectionId given, is valid. Returns true if it is, or false if it is not.</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Checks if the collectionId given, is valid. Returns true if it is, or false if it is not.</p>
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$collectionId</var></dt>
-						<dd></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						boolean
-					</div>
-
-
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="getAllCollections" id="_getAllCollections">
-
-			<td class="attributes"><code>
-				 public 
-				array
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_getAllCollections">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1695-1727" title="Go to source code">getAllCollections</a>( <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
-
-			<div class="description short">
-				<p>Get list of all available collections per default with the collection names as index.
-Returns empty array if none are available.</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Get list of all available collections per default with the collection names as index.
-Returns empty array if none are available.</p>
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$options</var></dt>
-						<dd><ul>
-<li>optional - an array of options.</li>
-</ul>
-
-<p>Options are :<br>
-                                 <li>'excludeSystem' -   With a value of true, all system collections will be excluded from the response.</li>
-                                 <li>'keys' -  With a value of "collections", the index of the resulting array is numerical,
-                                 With a value of "names", the index of the resulting array are the collection names.</li>
-                                 </p></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						array
-					</div>
-
-
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="getCollectionId" id="_getCollectionId">
-
-			<td class="attributes"><code>
-				 public 
-				mixed
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_getCollectionId">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1730-1749" title="Go to source code">getCollectionId</a>( <span>mixed <var>$collection</var></span> )</code>
-
-			<div class="description short">
-				<p>Gets the collectionId from the given collectionObject or string/integer</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Gets the collectionId from the given collectionObject or string/integer</p>
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$collection</var></dt>
-						<dd></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						mixed
-					</div>
-
-
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="getCollectionName" id="_getCollectionName">
-
-			<td class="attributes"><code>
-				 public 
-				mixed
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_getCollectionName">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1752-1771" title="Go to source code">getCollectionName</a>( <span>mixed <var>$collection</var></span> )</code>
-
-			<div class="description short">
-				<p>Gets the collectionId from the given collectionObject or string/integer</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Gets the collectionId from the given collectionObject or string/integer</p>
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$collection</var></dt>
-						<dd></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						mixed
-					</div>
-
-
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="importFromFile" id="_importFromFile">
-
-			<td class="attributes"><code>
-				 public 
-				integer
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_importFromFile">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1774-1812" title="Go to source code">importFromFile</a>( <span>mixed <var>$collectionId</var></span>, <span>mixed <var>$importFileName</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>(<span class="php-quote">'createCollection'</span> =&gt; <span class="php-keyword1">false</span>, <span class="php-quote">'type'</span> =&gt; <span class="php-keyword1">null</span>) </span> )</code>
-
-			<div class="description short">
-				<p>Import documents from a file</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Import documents from a file</p>
-
-<p>This will throw on all errors except insertion errors</p>
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$collectionId</var></dt>
-						<dd><ul>
-<li>collection id as string or number</li>
-</ul></dd>
-						<dt><var>$importFileName</var></dt>
-						<dd><ul>
-<li>The filename that holds the import data.</li>
-</ul></dd>
-						<dt><var>$options</var></dt>
-						<dd><ul>
-<li>optional - an array of options.</li>
-</ul>
-
-<p>Options are :<br>
-                             'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
-                             <p>
-                             <li>                       if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.</li>
-                             <li>                       if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.</li>
-                             <br>
-                             More info on how the import functionality works: <a href ="https://github.com/triAGENS/ArangoDB/wiki/HttpImport">https://github.com/triAGENS/ArangoDB/wiki/HttpImport</a>
-                             </p>
-                             <br>
-                             </li>
-                             <li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
-                             </p></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						integer<br><ul>
-<li>number of documents that were deleted</li>
-</ul>
-					</div>
-
-					<h4>Throws</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
-					</div>
-
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="import" id="_import">
-
-			<td class="attributes"><code>
-				 public 
-				array
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_import">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1815-1885" title="Go to source code">import</a>( <span> <var>$collection</var></span>, <span>mixed <var>$importData</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>( <span class="php-quote">'createCollection'</span> =&gt; <span class="php-keyword1">false</span>, <span class="php-quote">'createCollectionType'</span> =&gt; <span class="php-quote">'document'</span>, <span class="php-quote">'type'</span> =&gt; <span class="php-keyword1">null</span> ) </span> )</code>
-
-			<div class="description short">
-				<p>Import documents into a collection</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Import documents into a collection</p>
-
-<p>This will throw on all errors except insertion errors</p>
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$collection</var></dt>
-						<dd>$collection - collection id as string or number</dd>
-						<dt><var>$importData</var></dt>
-						<dd><ul>
-<li>The data to import. This can be a string holding the data according to the type of import, or an array of documents</li>
-</ul></dd>
-						<dt><var>$options</var></dt>
-						<dd><ul>
-<li>optional - an array of options.</li>
-</ul>
-
-<p>Options are :<br>
-                           <li>
-                           'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
-                           <p>
-                           <li>                       if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.</li>
-                           <li>                       if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.</li>
-                           <br>
-                           More info on how the import functionality works: <a href ="https://github.com/triAGENS/ArangoDB/wiki/HttpImport">https://github.com/triAGENS/ArangoDB/wiki/HttpImport</a>
-                           </p>
-                           <br>
-
-</li>
-<li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
-</p></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						array
-					</div>
-
-
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="createCollectionIfOptions" id="_createCollectionIfOptions">
-
-			<td class="attributes"><code>
-				 public 
-				
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_createCollectionIfOptions">#</a>
-			<code><a href="source-class-triagens.ArangoDb.CollectionHandler.html#1887-1923" title="Go to source code">createCollectionIfOptions</a>( <span> <var>$collection</var></span>, <span> <var>$options</var></span> )</code>
-
-			<div class="description short">
-				
-			</div>
-
-			<div class="description detailed hidden">
-				
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$collection</var></dt>
-						<dd></dd>
-						<dt><var>$options</var></dt>
-						<dd></dd>
-					</dl></div>
-
-
 
 
 
@@ -3702,7 +3687,7 @@ Returns empty array if none are available.</p>
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-triagens.ArangoDb.CollectionHandler.html#212-215" title="Go to source code"><b>OPTION_UNLOAD</b></a>
+						<a href="source-class-triagens.ArangoDb.CollectionHandler.html#294-297" title="Go to source code"><b>OPTION_UNLOAD</b></a>
 					</code>
 
 					<div class="description short">
@@ -3726,7 +3711,7 @@ Returns empty array if none are available.</p>
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-triagens.ArangoDb.CollectionHandler.html#217-220" title="Go to source code"><b>OPTION_TRUNCATE</b></a>
+						<a href="source-class-triagens.ArangoDb.CollectionHandler.html#299-302" title="Go to source code"><b>OPTION_TRUNCATE</b></a>
 					</code>
 
 					<div class="description short">
@@ -3750,7 +3735,7 @@ Returns empty array if none are available.</p>
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-triagens.ArangoDb.CollectionHandler.html#222-225" title="Go to source code"><b>OPTION_RENAME</b></a>
+						<a href="source-class-triagens.ArangoDb.CollectionHandler.html#304-307" title="Go to source code"><b>OPTION_RENAME</b></a>
 					</code>
 
 					<div class="description short">
@@ -3774,7 +3759,7 @@ Returns empty array if none are available.</p>
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-triagens.ArangoDb.CollectionHandler.html#227-230" title="Go to source code"><b>OPTION_EXCLUDE_SYSTEM</b></a>
+						<a href="source-class-triagens.ArangoDb.CollectionHandler.html#310-313" title="Go to source code"><b>OPTION_EXCLUDE_SYSTEM</b></a>
 					</code>
 
 					<div class="description short">
