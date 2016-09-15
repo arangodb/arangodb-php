@@ -908,6 +908,15 @@ class DocumentHandler extends
         return $revision;
     }
 
+    /**
+     * @param $collection mixed collection name or id
+     * @param array $options - optional, array of options
+     *                            <p>Options are :
+     *                            <li>'createCollection' - true to create the collection if it doesn't exist</li>
+     *                            <li>'createCollectionType' - "document" or 2 for document collection</li>
+     *                            <li>                         "edge" or 3 for edge collection</li>
+     *                            </p>
+     */
     protected function createCollectionIfOptions($collection, $options)
     {
         if (!array_key_exists(CollectionHandler::OPTION_CREATE_COLLECTION, $options)) {
@@ -921,9 +930,12 @@ class DocumentHandler extends
         }
 
         $collectionHandler = new CollectionHandler($this->getConnection());
-        if (!array_key_exists('createCollection', $options)) {
-            return;
+
+        if (array_key_exists('createCollectionType', $options)) {
+            $options['type'] = $options['createCollectionType'];
+            unset($options['createCollectionType']);
         }
+        unset($options['createCollection']);
         try {
             // attempt to create the collection
             $collectionHandler->create($collection, $options);

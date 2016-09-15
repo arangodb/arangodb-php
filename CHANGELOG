@@ -1,3 +1,21 @@
+Release notes for the ArangoDB-PHP driver 3.0.8
+===============================================
+
+This version of the driver is compatible with ArangoDB 3.0.x
+It is not compatible to earlier versions of ArangoDB (i.e. 2.x).
+Please use ones of the `2.x` branches of the driver for 2.x-compatibility.
+
+Bug fixes
+=========
+
+Fixed bug related to creating the correct collection type.
+This was no problem for the default, which is 'document', but it was a problem
+when the option 'createCollection'=>true was passed with save_edge().
+
+
+============================================================================================================
+
+
 Release notes for the ArangoDB-PHP driver 3.0.7
 ===============================================
 

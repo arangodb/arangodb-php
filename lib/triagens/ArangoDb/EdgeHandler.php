@@ -261,4 +261,18 @@ class EdgeHandler extends
         return $this->edges($collection, $vertexHandle, 'out');
     }
 
+    /**
+     * @param $collection mixed collection name or id
+     * @param array $options - optional, array of options
+     *                            <p>Options are :
+     *                            <li>'createCollection' - true to create the collection if it doesn't exist</li>
+     *                            <li>'createCollectionType' - "document" or 2 for document collection</li>
+     *                            <li>                         "edge" or 3 for edge collection</li>
+     *                            </p>
+     */
+    protected function createCollectionIfOptions($collection, $options)
+    {
+        $options['createCollectionType'] = 3;
+        parent::createCollectionIfOptions($collection, $options);
+    }
 }
