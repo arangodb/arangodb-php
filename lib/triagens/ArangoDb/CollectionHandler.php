@@ -443,9 +443,6 @@ class CollectionHandler extends
             $collection = new Collection();
             $collection->setName($name);
             foreach ($options as $key => $value) {
-                if ($key === 'createCollection') {
-                    continue;
-                }
                 $collection->{'set' . ucfirst($key)}($value);
             }
         }
@@ -1906,7 +1903,7 @@ class CollectionHandler extends
         $collectionOptions = array();
         if (isset($options['createCollectionType'])) {
             if ($options['createCollectionType'] === 'edge' ||
-                $options['createCollectionType'] == 3
+                $options['createCollectionType'] === 3
             ) {
                 // edge collection
                 $collectionOptions['type'] = 3;
