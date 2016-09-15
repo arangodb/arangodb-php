@@ -284,6 +284,8 @@ class AqlUserFunction
      *
      * @throws ClientException
      *
+     * @magic
+     *
      * @param string $key - attribute name
      * @param mixed $value - value for attribute
      *
@@ -325,6 +327,8 @@ class AqlUserFunction
      *
      * This function is mapped to get() internally.
      *
+     * @magic
+     *
      * @param string $key - name of attribute
      *
      * @return mixed - value of attribute, NULL if attribute is not set
@@ -337,6 +341,8 @@ class AqlUserFunction
 
     /**
      * Returns the action string
+     *
+     * @magic
      *
      * @return string - the current action string
      */

@@ -150,6 +150,7 @@ class DocumentHandler extends
      *                            <li>'ifMatch' - boolean if given revision should match or not</li>
      *                            <li>'revision' - The document is returned if it matches/not matches revision.</li>
      *                            </p>
+     * @internal
      *
      * @return array - the document fetched from the server
      */
@@ -212,6 +213,8 @@ class DocumentHandler extends
      * @param mixed $revision - optional document revision
      * @param boolean ifMatch      -  boolean if given revision should match or not.
      *
+     * @internal
+     *
      * @return array - the document meta-data
      */
     protected function head($url, $collection, $documentId, $revision = null, $ifMatch = null)
@@ -262,6 +265,7 @@ class DocumentHandler extends
      * @return array - ids of documents in the collection
      *
      * @deprecated to be removed in version 2.0 - This function is being replaced by  CollectionHandler::getAllIds()
+     * @todo remove in version 3.1
      *
      */
     public function getAllIds($collection)
@@ -302,6 +306,7 @@ class DocumentHandler extends
      * @return cursor - Returns a cursor containing the result
      *
      * @deprecated to be removed in version 2.0 - This function is being replaced by CollectionHandler::byExample()
+     * @todo remove in version 3.1
      */
     public function getByExample($collection, $document, $options = false)
     {
@@ -331,6 +336,7 @@ class DocumentHandler extends
      * @return mixed - id of document created
      *
      * @deprecated to be removed in version 2.0 - This function is being replaced by save()
+     * @todo remove in version 3.1
      *
      */
 
@@ -540,6 +546,7 @@ class DocumentHandler extends
      *                               <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
      *                               <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
      *                               </p>
+     * @internal
      *
      * @return bool - always true, will throw if there is an error
      */
@@ -664,6 +671,7 @@ class DocumentHandler extends
      *                               <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
      *                               <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
      *                               </p>
+     * @internal
      *
      * @return bool - always true, will throw if there is an error
      */
@@ -726,6 +734,7 @@ class DocumentHandler extends
      * @return bool - always true, will throw if there is an error
      *
      * @deprecated to be removed in version 2.0 - This function is being replaced by remove()
+     * @todo remove in version 3.1
      *
      */
     public function delete(Document $document, $options = array())
@@ -775,6 +784,7 @@ class DocumentHandler extends
      * @return bool - always true, will throw if there is an error
      *
      * @deprecated to be removed in version 2.0 - This function is being replaced by removeById()
+     * @todo remove in version 3.1
      */
     public function deleteById($collection, $documentId, $revision = null, $options = array())
     {
@@ -820,6 +830,7 @@ class DocumentHandler extends
      *                             <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
      *                             <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
      *                             </p>
+     * @internal
      *
      * @return bool - always true, will throw if there is an error
      */
@@ -908,6 +919,15 @@ class DocumentHandler extends
         return $revision;
     }
 
+    /**
+     * @param $collection mixed collection name or id
+     * @param array $options - optional, array of options
+     *                            <p>Options are :
+     *                            <li>'createCollection' - true to create the collection if it doesn't exist</li>
+     *                            <li>'createCollectionType' - "document" or 2 for document collection</li>
+     *                            <li>                         "edge" or 3 for edge collection</li>
+     *                            </p>
+     */
     protected function createCollectionIfOptions($collection, $options)
     {
         if (!array_key_exists(CollectionHandler::OPTION_CREATE_COLLECTION, $options)) {
@@ -921,9 +941,12 @@ class DocumentHandler extends
         }
 
         $collectionHandler = new CollectionHandler($this->getConnection());
-        if (!array_key_exists('createCollection', $options)) {
-            return;
+
+        if (array_key_exists('createCollectionType', $options)) {
+            $options['type'] = $options['createCollectionType'];
+            unset($options['createCollectionType']);
         }
+        unset($options['createCollection']);
         try {
             // attempt to create the collection
             $collectionHandler->create($collection, $options);

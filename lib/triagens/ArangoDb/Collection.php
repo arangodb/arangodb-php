@@ -241,6 +241,8 @@ class Collection
      *
      * Returns the clone
      *
+     * @magic
+     *
      * @return void
      */
     public function __clone()
@@ -259,6 +261,8 @@ class Collection
      * Get a string representation of the collection
      *
      * Returns the collection as JSON-encoded string
+     *
+     * @magic
      *
      * @return string - JSON-encoded collection
      */

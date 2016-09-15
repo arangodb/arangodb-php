@@ -93,6 +93,7 @@ class Graph extends
      * @return Graph - graph object
      * @since     1.2
      * @deprecated to be removed in version 2.2 - Please define a graph with the edge definitions.
+     * @todo remove in version 3.1
      */
     public function setVerticesCollection($verticesCollection)
     {
@@ -112,6 +113,7 @@ class Graph extends
      * @return string  name of the vertices collection
      * @since     1.2
      * @deprecated to be removed in version 2.2 - Please define a graph with the edge definitions.
+     * @todo remove in version 3.1
      */
     public function getVerticesCollection()
     {
@@ -132,6 +134,7 @@ class Graph extends
      * @return Graph - graph object
      * @since     1.2
      * @deprecated to be removed in version 2.2 - Please define a graph with the edge definitions.
+     * @todo remove in version 3.1
      */
     public function setEdgesCollection($edgesCollection)
     {
@@ -147,6 +150,7 @@ class Graph extends
      * @return string - name of the edges collection
      * @since     1.2
      * @deprecated to be removed in version 2.2 - Please define a graph with the edge definitions.
+     * @todo remove in version 3.1
      */
     public function getEdgesCollection()
     {

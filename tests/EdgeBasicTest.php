@@ -162,6 +162,109 @@ class EdgeBasicTest extends
 
 
     /**
+     * Try to create and delete an edge
+     */
+    public function testCreateAndDeleteEdgeWithoutCreatedEdgeCollection()
+    {
+        $connection     = $this->connection;
+        $edgeCollection = $this->edgeCollection;
+
+        try {
+            $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestEdgeCollection01');
+        } catch (\Exception $e) {
+            #don't bother us, if it's already deleted.
+        }
+
+        $document1       = new Document();
+        $document2       = new Document();
+        $documentHandler = new DocumentHandler($connection);
+
+        $edgeDocument        = new Edge();
+        $edgeDocumentHandler = new EdgeHandler($connection);
+
+        $document1->someAttribute = 'someValue1';
+        $document2->someAttribute = 'someValue2';
+
+
+        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
+        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandle1 = $document1->getHandle();
+        $documentHandle2 = $document2->getHandle();
+
+
+        $edgeDocument->set('label', 'knows');
+        $edgeDocumentId = $edgeDocumentHandler->saveEdge(
+            $edgeCollection->getName(),
+            $documentHandle1,
+            $documentHandle2,
+            $edgeDocument,
+            ['createCollection' => true]
+
+        );
+
+        $edgeDocumentHandler->saveEdge(
+            $edgeCollection->getName(),
+            $documentHandle1,
+            $documentHandle2,
+            array('label' => 'knows (but created using an array instead of an edge object)')
+        );
+
+        $resultingDocument = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
+
+        $resultingEdge = $edgeDocumentHandler->get($edgeCollection->getName(), $edgeDocumentId);
+        static::assertInstanceOf('triagens\ArangoDb\Edge', $resultingEdge);
+
+        $resultingAttribute = $resultingEdge->label;
+        static::assertSame(
+            $resultingAttribute, 'knows', 'Attribute set on the Edge is different from the one retrieved!'
+        );
+
+
+        $edgesQuery1Result = $edgeDocumentHandler->edges($edgeCollection->getName(), $documentHandle1, 'out');
+
+        static::assertCount(2, $edgesQuery1Result);
+
+        $statement = new Statement(
+            $connection, array(
+                           'query' => '',
+                           'count' => true,
+                           'batchSize' => 1000,
+                           'sanitize' => true,
+                       )
+        );
+        $statement->setQuery(
+            'FOR start IN ArangoDBPHPTestSuiteTestCollection01 FOR v, e, p IN 0..1000 OUTBOUND start ArangoDBPHPTestSuiteTestEdgeCollection01 RETURN { source: start, destination: v, edges: p.edges, vertices: p.vertices }'
+
+        );
+        $cursor = $statement->execute();
+
+        $result = $cursor->current();
+        static::assertInstanceOf(
+            'triagens\ArangoDb\Document',
+            $result,
+            'IN PATHS statement did not return a document object!'
+        );
+        $resultingDocument->set('label', 'knows not');
+
+        $documentHandler->update($resultingDocument);
+
+
+        $resultingEdge      = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
+        $resultingAttribute = $resultingEdge->label;
+        static::assertSame(
+            $resultingAttribute, 'knows not', 'Attribute "knows not" set on the Edge is different from the one retrieved (' . $resultingAttribute . ')!'
+        );
+
+
+        $documentHandler->delete($document1);
+        $documentHandler->delete($document2);
+
+        // In ArangoDB deleting a vertex doesn't delete the associated edge, unless we're using the graph module. Caution!
+        $edgeDocumentHandler->delete($resultingEdge);
+    }
+
+
+    /**
      * Try to create and delete an edge with wrong encoding
      * We expect an exception here:
      *

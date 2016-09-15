@@ -148,6 +148,8 @@ class AdminHandler extends
      * @return bool
      * @since 1.2
      * @deprecated
+     * @todo remove in version 3.1
+
      */
     public function flushServerModuleCache()
     {

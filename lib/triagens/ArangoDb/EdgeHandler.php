@@ -90,6 +90,10 @@ class EdgeHandler extends
      * @param Document $document - the document to be added
      * @param bool $create - create the collection if it does not yet exist
      *
+     * @see EdgeHandler::saveEdge()
+     * @deprecated to be removed in version 3.1
+     * @todo remove in version 3.1
+     *
      * @return mixed|void
      */
     public function add($collection, Document $document, $create = null)
@@ -107,6 +111,8 @@ class EdgeHandler extends
      * @param mixed $collection - collection id as string or number
      * @param Document $document - the document to be added
      * @param bool $create - create the collection if it does not yet exist
+     *
+     * @see EdgeHandler::saveEdge()
      *
      * @return mixed|void
      */
@@ -261,4 +267,18 @@ class EdgeHandler extends
         return $this->edges($collection, $vertexHandle, 'out');
     }
 
+    /**
+     * @param $collection mixed collection name or id
+     * @param array $options - optional, array of options
+     *                            <p>Options are :
+     *                            <li>'createCollection' - true to create the collection if it doesn't exist</li>
+     *                            <li>'createCollectionType' - "document" or 2 for document collection</li>
+     *                            <li>                         "edge" or 3 for edge collection</li>
+     *                            </p>
+     */
+    protected function createCollectionIfOptions($collection, $options)
+    {
+        $options['createCollectionType'] = 3;
+        parent::createCollectionIfOptions($collection, $options);
+    }
 }

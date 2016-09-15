@@ -26,6 +26,8 @@ class ClientException extends
     /**
      * Return a string representation of the exception
      *
+     * @magic
+     *
      * @return string - string representation
      */
     public function __toString()

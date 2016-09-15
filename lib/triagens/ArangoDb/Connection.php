@@ -130,32 +130,6 @@ class Connection
     }
 
     /**
-     * Get the options set for the connection
-     *
-     * @return ConnectionOptions
-     */
-    public function getOptions()
-    {
-        return $this->_options;
-    }
-
-    /**
-     * Get an option set for the connection
-     *
-     * @throws ClientException
-     *
-     * @param string $name - name of option
-     *
-     * @return mixed
-     */
-    public function getOption($name)
-    {
-        assert(is_string($name));
-
-        return $this->_options[$name];
-    }
-
-    /**
      * Set an option set for the connection
      *
      * @throws ClientException
@@ -194,6 +168,32 @@ class Connection
         }
 
         $this->updateHttpHeader();
+    }
+
+    /**
+     * Get the options set for the connection
+     *
+     * @return ConnectionOptions
+     */
+    public function getOptions()
+    {
+        return $this->_options;
+    }
+
+    /**
+     * Get an option set for the connection
+     *
+     * @throws ClientException
+     *
+     * @param string $name - name of option
+     *
+     * @return mixed
+     */
+    public function getOption($name)
+    {
+        assert(is_string($name));
+
+        return $this->_options[$name];
     }
 
 
@@ -384,41 +384,6 @@ class Connection
     }
 
     /**
-     * Parse the response return the body values as an assoc array
-     *
-     * @throws Exception
-     *
-     * @param HttpResponse $response - the response as supplied by the server
-     *
-     * @return HttpResponse
-     */
-    public function parseResponse(HttpResponse $response)
-    {
-        $httpCode = $response->getHttpCode();
-
-        if ($httpCode < 200 || $httpCode >= 400) {
-            // failure on server
-
-            $body = $response->getBody();
-            if ($body !== '') {
-                // check if we can find details in the response body
-                $details = json_decode($body, true);
-                if (is_array($details) && isset($details['errorMessage'])) {
-                    // yes, we got details
-                    $exception = new ServerException($details['errorMessage'], $details['code']);
-                    $exception->setDetails($details);
-                    throw $exception;
-                }
-            }
-
-            // no details found, throw normal exception
-            throw new ServerException($response->getResult(), $httpCode);
-        }
-
-        return $response;
-    }
-
-    /**
      * Execute an HTTP request and return the results
      *
      * This function will throw if no connection to the server can be established or if
@@ -542,6 +507,41 @@ class Connection
     }
 
     /**
+     * Parse the response return the body values as an assoc array
+     *
+     * @throws Exception
+     *
+     * @param HttpResponse $response - the response as supplied by the server
+     *
+     * @return HttpResponse
+     */
+    public function parseResponse(HttpResponse $response)
+    {
+        $httpCode = $response->getHttpCode();
+
+        if ($httpCode < 200 || $httpCode >= 400) {
+            // failure on server
+
+            $body = $response->getBody();
+            if ($body !== '') {
+                // check if we can find details in the response body
+                $details = json_decode($body, true);
+                if (is_array($details) && isset($details['errorMessage'])) {
+                    // yes, we got details
+                    $exception = new ServerException($details['errorMessage'], $details['code']);
+                    $exception->setDetails($details);
+                    throw $exception;
+                }
+            }
+
+            // no details found, throw normal exception
+            throw new ServerException($response->getResult(), $httpCode);
+        }
+
+        return $response;
+    }
+
+    /**
      * Stop capturing commands
      *
      * @return Batch - Returns the active batch object
@@ -555,16 +555,6 @@ class Connection
 
 
     /**
-     * returns the active batch
-     *
-     * @return Batch active batch
-     */
-    public function getActiveBatch()
-    {
-        return $this->_activeBatch;
-    }
-
-    /**
      * Sets the active Batch for this connection
      *
      * @param Batch $batch - Sets the given batch as active
@@ -575,6 +565,16 @@ class Connection
     {
         $this->_activeBatch = $batch;
 
+        return $this->_activeBatch;
+    }
+
+    /**
+     * returns the active batch
+     *
+     * @return Batch active batch
+     */
+    public function getActiveBatch()
+    {
         return $this->_activeBatch;
     }
 

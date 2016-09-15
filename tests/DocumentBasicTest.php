@@ -74,6 +74,37 @@ class DocumentBasicTest extends
 
 
     /**
+     * Try to create and delete a document
+     */
+    public function testCreateAndDeleteDocumentWithoutCreatedCollection()
+    {
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+        $document        = new Document();
+        $documentHandler = new DocumentHandler($connection);
+
+        try {
+            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+        } catch (\Exception $e) {
+            #don't bother us, if it's already deleted.
+        }
+
+        $document->someAttribute = 'someValue';
+
+        $documentId = $documentHandler->add('ArangoDB_PHP_TestSuite_TestCollection_01', $document, ['createCollection' => true]);
+
+        $resultingDocument = $documentHandler->get('ArangoDB_PHP_TestSuite_TestCollection_01', $documentId);
+
+        $resultingAttribute = $resultingDocument->someAttribute;
+        static::assertSame(
+            $resultingAttribute, 'someValue', 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
+        );
+
+        $documentHandler->delete($document);
+    }
+
+
+    /**
      * Try to create and delete a document using a defined key
      */
     public function testCreateAndDeleteDocumentUsingDefinedKey()
