@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>ArangoDB-PHP API Documentation</title>
+	<title>Deprecated | ArangoDB-PHP API Documentation</title>
 
 	<link rel="stylesheet" href="resources/bootstrap.min.css?973e37a8502921d56bc02bb55321f45b072b6f71">
 	<link rel="stylesheet" href="resources/style.css?49f43d3208c5d7e33fa16d36107a345bf11cc00d">
@@ -22,7 +22,7 @@
                     <input type="hidden" name="cx" value="">
                     <input type="hidden" name="ie" value="UTF-8">
                     <div class="form-group">
-                        <input type="text" name="q" class="search-query form-control" placeholder="Search" autofocus>
+                        <input type="text" name="q" class="search-query form-control" placeholder="Search">
 					</div>
 				</form>
 
@@ -35,10 +35,8 @@
 					<li class="divider-vertical"></li>
 
 
-						<li>
-							<a href="annotation-group-deprecated.html" title="List of elements with deprecated annotation">
+						<li class="active">
 								<span>Deprecated</span>
-							</a>
 						</li>
 
 
@@ -133,20 +131,116 @@
 <div id="right">
 	<div id="rightInner">
 <div id="content">
-	<h1>ArangoDB-PHP API Documentation</h1>
+	<h1>Deprecated</h1>
 
 
-		<div class="panel panel-default">
-            <div class="panel-heading"><h2>Namespaces summary</h2></div>
-			<table class="summary table table-bordered table-striped" id="namespaces">
+
+
+
+			<div class="panel panel-default">
+                <div class="panel-heading"><h2>Methods summary</h2></div>
+				<table class="summary table table-bordered table-striped" id="methods">
 					<tr>
-						<td class="name"><a href="namespace-triagens.html">triagens</a></td>
+						<td class="name"><a href="class-triagens.ArangoDb.AdminHandler.html">triagens\ArangoDb\AdminHandler</a></td>
+						<td class="name"><code><a href="class-triagens.ArangoDb.AdminHandler.html#_flushServerModuleCache">flushServerModuleCache()</a></code></td>
+						<td>
+						</td>
 					</tr>
 					<tr>
-						<td class="name"><a href="namespace-triagens.ArangoDb.html">triagens\ArangoDb</a></td>
+						<td class="name"><a href="class-triagens.ArangoDb.CollectionHandler.html">triagens\ArangoDb\CollectionHandler</a></td>
+						<td class="name"><code><a href="class-triagens.ArangoDb.CollectionHandler.html#_getCount">getCount()</a></code></td>
+						<td>
+										to be removed in version 2.0 - This function is being replaced by count()<br>
+						</td>
 					</tr>
-			</table>
-		</div>
+					<tr>
+						<td class="name"><a href="class-triagens.ArangoDb.CollectionHandler.html">triagens\ArangoDb\CollectionHandler</a></td>
+						<td class="name"><code><a href="class-triagens.ArangoDb.CollectionHandler.html#_getFigures">getFigures()</a></code></td>
+						<td>
+										to be removed in version 2.0 - This function is being replaced by figures()<br>
+						</td>
+					</tr>
+					<tr>
+						<td class="name"><a href="class-triagens.ArangoDb.CollectionHandler.html">triagens\ArangoDb\CollectionHandler</a></td>
+						<td class="name"><code><a href="class-triagens.ArangoDb.CollectionHandler.html#_add">add()</a></code></td>
+						<td>
+										to be removed in version 2.0 - This function is being replaced by create()<br>
+						</td>
+					</tr>
+					<tr>
+						<td class="name"><a href="class-triagens.ArangoDb.CollectionHandler.html">triagens\ArangoDb\CollectionHandler</a></td>
+						<td class="name"><code><a href="class-triagens.ArangoDb.CollectionHandler.html#_delete">delete()</a></code></td>
+						<td>
+										to be removed in version 2.0 - This function is being replaced by drop()<br>
+						</td>
+					</tr>
+					<tr>
+						<td class="name"><a href="class-triagens.ArangoDb.DocumentHandler.html">triagens\ArangoDb\DocumentHandler</a></td>
+						<td class="name"><code><a href="class-triagens.ArangoDb.DocumentHandler.html#_getAllIds">getAllIds()</a></code></td>
+						<td>
+										to be removed in version 2.0 - This function is being replaced by  CollectionHandler::getAllIds()<br>
+						</td>
+					</tr>
+					<tr>
+						<td class="name"><a href="class-triagens.ArangoDb.DocumentHandler.html">triagens\ArangoDb\DocumentHandler</a></td>
+						<td class="name"><code><a href="class-triagens.ArangoDb.DocumentHandler.html#_getByExample">getByExample()</a></code></td>
+						<td>
+										to be removed in version 2.0 - This function is being replaced by CollectionHandler::byExample()<br>
+						</td>
+					</tr>
+					<tr>
+						<td class="name"><a href="class-triagens.ArangoDb.DocumentHandler.html">triagens\ArangoDb\DocumentHandler</a></td>
+						<td class="name"><code><a href="class-triagens.ArangoDb.DocumentHandler.html#_add">add()</a></code></td>
+						<td>
+										to be removed in version 2.0 - This function is being replaced by save()<br>
+						</td>
+					</tr>
+					<tr>
+						<td class="name"><a href="class-triagens.ArangoDb.DocumentHandler.html">triagens\ArangoDb\DocumentHandler</a></td>
+						<td class="name"><code><a href="class-triagens.ArangoDb.DocumentHandler.html#_delete">delete()</a></code></td>
+						<td>
+										to be removed in version 2.0 - This function is being replaced by remove()<br>
+						</td>
+					</tr>
+					<tr>
+						<td class="name"><a href="class-triagens.ArangoDb.DocumentHandler.html">triagens\ArangoDb\DocumentHandler</a></td>
+						<td class="name"><code><a href="class-triagens.ArangoDb.DocumentHandler.html#_deleteById">deleteById()</a></code></td>
+						<td>
+										to be removed in version 2.0 - This function is being replaced by removeById()<br>
+						</td>
+					</tr>
+					<tr>
+						<td class="name"><a href="class-triagens.ArangoDb.Graph.html">triagens\ArangoDb\Graph</a></td>
+						<td class="name"><code><a href="class-triagens.ArangoDb.Graph.html#_setVerticesCollection">setVerticesCollection()</a></code></td>
+						<td>
+										to be removed in version 2.2 - Please define a graph with the edge definitions.<br>
+						</td>
+					</tr>
+					<tr>
+						<td class="name"><a href="class-triagens.ArangoDb.Graph.html">triagens\ArangoDb\Graph</a></td>
+						<td class="name"><code><a href="class-triagens.ArangoDb.Graph.html#_getVerticesCollection">getVerticesCollection()</a></code></td>
+						<td>
+										to be removed in version 2.2 - Please define a graph with the edge definitions.<br>
+						</td>
+					</tr>
+					<tr>
+						<td class="name"><a href="class-triagens.ArangoDb.Graph.html">triagens\ArangoDb\Graph</a></td>
+						<td class="name"><code><a href="class-triagens.ArangoDb.Graph.html#_setEdgesCollection">setEdgesCollection()</a></code></td>
+						<td>
+										to be removed in version 2.2 - Please define a graph with the edge definitions.<br>
+						</td>
+					</tr>
+					<tr>
+						<td class="name"><a href="class-triagens.ArangoDb.Graph.html">triagens\ArangoDb\Graph</a></td>
+						<td class="name"><code><a href="class-triagens.ArangoDb.Graph.html#_getEdgesCollection">getEdgesCollection()</a></code></td>
+						<td>
+										to be removed in version 2.2 - Please define a graph with the edge definitions.<br>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+
 
 
 </div>
@@ -156,7 +250,7 @@
 		ArangoDB-PHP API Documentation API documentation generated by <a href="http://apigen.org">ApiGen</a>
 	</div>
 </div>
-<script src="resources/combined.js?95a4142a2c54c3c368e0b6f6374702a28f68e5f0"></script>
-<script src="elementlist.js?95a87b08c7e5fa23b550435ab9905e92c4234ee6"></script>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
 </body>
 </html>
