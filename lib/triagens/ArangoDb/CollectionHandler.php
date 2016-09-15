@@ -443,6 +443,9 @@ class CollectionHandler extends
             $collection = new Collection();
             $collection->setName($name);
             foreach ($options as $key => $value) {
+                if ($key === 'createCollection') {
+                    continue;
+                }
                 $collection->{'set' . ucfirst($key)}($value);
             }
         }
