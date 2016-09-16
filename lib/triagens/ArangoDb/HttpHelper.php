@@ -154,12 +154,11 @@ class HttpHelper
             $contentType = 'Content-Type: multipart/form-data; boundary=' . self::MIME_BOUNDARY . self::EOL;
         }
         else {
+            $contentType = '';
+
             if ($length > 0 && $options[ConnectionOptions::OPTION_BATCHPART] === false) {
                 // if body is set, we should set a content-type header
                 $contentType = 'Content-Type: application/json' . self::EOL;
-            }
-            else {
-                $contentType = '';
             }
         }
 
@@ -290,8 +289,6 @@ class HttpHelper
      */
     public static function parseHttpMessage($httpMessage, $originUrl = null, $originMethod = null)
     {
-        assert(is_string($httpMessage));
-
         return explode(self::SEPARATOR, $httpMessage, 2);
     }
 

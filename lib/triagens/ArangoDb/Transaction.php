@@ -62,7 +62,7 @@ class Transaction
      *
      * @var Connection
      */
-    private $_connection = null;
+    private $_connection;
 
     /**
      * The transaction's attributes.

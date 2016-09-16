@@ -89,7 +89,7 @@ class BatchPart
     public function __construct($batch, $id, $type, $request, $response, $options)
     {
         $sanitize = false;
-        $options  = array_merge($options, $this->getCursorOptions($sanitize));
+        $options  = array_merge($options, $this->getCursorOptions());
         extract($options, EXTR_IF_EXISTS);
         $this->setBatch($batch);
         $this->setId($id);
@@ -268,9 +268,7 @@ class BatchPart
                 break;
             case 'getcollection':
                 $json             = $response->getJson();
-                $options          = $this->getCursorOptions();
-                $options['isNew'] = false;
-                $response         = Collection::createFromArray($json, $options);
+                $response         = Collection::createFromArray($json);
                 break;
             case 'collection':
                 $json = $response->getJson();

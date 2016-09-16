@@ -164,11 +164,7 @@ class Endpoint
         }
 
         $type = self::getType($value);
-        if ($type === null) {
-            return false;
-        }
-
-        return true;
+        return !($type === null);
     }
 
 
@@ -206,8 +202,6 @@ class Endpoint
     {
         $response = $connection->get(Urls::URL_ENDPOINT);
 
-        $responseArray = $response->getJson();
-
-        return $responseArray;
+        return $response->getJson();
     }
 }

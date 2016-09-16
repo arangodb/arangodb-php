@@ -36,7 +36,7 @@ class ConnectionOptions implements
      *
      * @var Endpoint
      */
-    private $_endpoint = null;
+    private $_endpoint;
 
     /**
      * Endpoint string index constant
@@ -370,7 +370,7 @@ class ConnectionOptions implements
         }
 
         // can use either endpoint or host/port
-        if (isset($this->_values[self::OPTION_HOST]) && isset($this->_values[self::OPTION_ENDPOINT])) {
+        if (isset($this->_values[self::OPTION_HOST],$this->_values[self::OPTION_ENDPOINT])) {
             throw new ClientException('must not specify both host and endpoint');
         }
         else {
@@ -380,7 +380,6 @@ class ConnectionOptions implements
             }
         }
 
-        assert(isset($this->_values[self::OPTION_ENDPOINT]));
         // set up a new endpoint, this will also validate it
         $this->getEndpoint();
 

@@ -193,10 +193,8 @@ abstract class Handler
             foreach ($options as $key => $value) {
                 if (array_key_exists($key, $includeArray)) {
                     $body[$key] = $value;
-                    if ($value === null) {
-                        if ($includeArray[$key] !== null) {
+                    if ($value === null && $includeArray[$key] !== null) {
                             $body[$key] = $includeArray[$key];
-                        }
                     }
                 }
             }

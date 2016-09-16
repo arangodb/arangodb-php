@@ -481,11 +481,9 @@ class Document
             if ($key === '_id' || $key === '_rev') {
                 continue;
             }
-            else if ($key === '_key') {
-                if ($value === null) {
+            else if ($key === '_key' && $value === null) {
                     // key value not yet set
                     continue;
-                }
             }
             $data[$key] = $value;
         }
@@ -513,7 +511,7 @@ class Document
     {
         $result = $this->getAll($options);
         if (count($result) === 0) {
-            return new \StdClass;
+            return new \stdClass();
         }
         return $result;
     }

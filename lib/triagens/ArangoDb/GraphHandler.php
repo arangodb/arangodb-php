@@ -659,8 +659,6 @@ class GraphHandler extends
             // just rethrow
             throw $e;
         }
-
-        return false;
     }
 
 
@@ -1049,8 +1047,6 @@ class GraphHandler extends
             // just rethrow
             throw $e;
         }
-
-        return false;
     }
 
 

@@ -439,7 +439,6 @@ class Connection
             $this->_options->offsetSet(ConnectionOptions::OPTION_BATCH, false);
         }
 
-        $request = HttpHelper::buildRequest($this->_options, $this->_httpHeader, $method, $url, $data, $customHeaders);
 
         $traceFunc = $this->_options[ConnectionOptions::OPTION_TRACE];
         if ($traceFunc) {

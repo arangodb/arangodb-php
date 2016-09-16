@@ -85,7 +85,7 @@ class HttpResponse
         list($this->_header, $this->_body) = HttpHelper::parseHttpMessage($responseString, $originUrl, $originMethod);
         list($this->_httpCode, $this->_result, $this->_headers) = HttpHelper::parseHeaders($this->_header);
 
-        if ((!isset($this->_body) || $this->_body === null) &&
+        if ($this->_body === null &&
             ($this->_httpCode !== 204 && $this->_httpCode !== 304 && !$wasAsync)
         ) {
             // got no response body!

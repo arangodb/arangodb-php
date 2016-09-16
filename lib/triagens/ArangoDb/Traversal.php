@@ -92,9 +92,7 @@ class Traversal
             Urls::URL_TRAVERSAL,
             $this->getConnection()->json_encode_wrapper($bodyParams)
         );
-        $responseArray = $response->getJson();
-
-        return $responseArray;
+        return $response->getJson();
     }
 
 

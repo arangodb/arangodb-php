@@ -538,7 +538,7 @@ class Statement
             Cursor::ENTRY_FLAT => (bool) $this->_flat,
             Cursor::ENTRY_BASEURL => Urls::URL_CURSOR
         );
-        if (isset($this->resultType)) {
+        if (null!==$this->resultType) {
             $result[Cursor::ENTRY_TYPE] = $this->resultType;
         }
         return $result;

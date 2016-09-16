@@ -105,7 +105,7 @@ class Batch
         $startCapture = true;
         $sanitize     = false;
         $batchSize    = 0;
-        $options      = array_merge($options, $this->getCursorOptions($sanitize));
+        $options      = array_merge($options, $this->getCursorOptions());
         extract($options, EXTR_IF_EXISTS);
         $this->_sanitize = $sanitize;
         $this->batchSize = $batchSize;
@@ -415,7 +415,7 @@ class Batch
 
         /** @var $partValue BatchPart */
         foreach ($batchParts as $partValue) {
-            if (isset($partValue)) {
+            if (null !== $partValue) {
                 $data .= '--' . HttpHelper::MIME_BOUNDARY . HttpHelper::EOL;
                 $data .= 'Content-Type: application/x-arango-batchpart' . HttpHelper::EOL;
 
@@ -433,7 +433,7 @@ class Batch
 
         $params               = array();
         $url                  = UrlHelper::appendParamsUrl(Urls::URL_BATCH, $params);
-        $this->_batchResponse = $this->_connection->post($url, ($data));
+        $this->_batchResponse = $this->_connection->post($url, $data);
         if ($this->_batchResponse->getHttpCode() !== 200) {
             return $this->_batchResponse;
         }

@@ -211,7 +211,7 @@ class DocumentHandler extends
      * @param string $collection - collection id as a string or number
      * @param mixed $documentId - document identifier
      * @param mixed $revision - optional document revision
-     * @param boolean ifMatch      -  boolean if given revision should match or not.
+     * @param boolean $ifMatch -  boolean if given revision should match or not.
      *
      * @internal
      *
@@ -701,7 +701,7 @@ class DocumentHandler extends
         if (isset($params[ConnectionOptions::OPTION_REPLACE_POLICY]) &&
             $params[ConnectionOptions::OPTION_REPLACE_POLICY] === UpdatePolicy::ERROR
         ) {
-
+            //todo check why this variable is undefined...
             if (null !== $revision) {
                 $params['ignoreRevs'] = false;
                 $headers['if-match']  = '"' . $revision . '"';
@@ -763,7 +763,7 @@ class DocumentHandler extends
 
         $revision = $this->getRevision($document);
 
-        return $this->deleteById($document, $documentId, $revision, $options);
+        return $this->removeById($document, $documentId, $revision, $options);
     }
 
 
