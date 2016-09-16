@@ -308,7 +308,7 @@ class DocumentBasicTest extends
             $caught = false;
             try {
                 $document->set('_key', $key);
-            } catch (\triagens\ArangoDb\ClientException $exception) {
+            } catch (ClientException $exception) {
                 $caught = true;
             }
 
@@ -489,9 +489,9 @@ class DocumentBasicTest extends
         $document                = new Document();
         $document->someAttribute = 'someValue';
 
-        $documentId = $documentHandler->add($collection->getId(), $document);
+        $documentHandler->add($collection->getId(), $document);
 
-        static::assertTrue($this->collectionHandler->has($collection->getId(), $documentId));
+        static::assertTrue($this->collectionHandler->has($collection->getId()));
     }
 
 
