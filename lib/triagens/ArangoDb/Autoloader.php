@@ -65,7 +65,8 @@ class Autoloader
         $namespace = __NAMESPACE__ . '\\';
         $length    = strlen($namespace);
 
-        if (substr($className, 0, $length) !== $namespace) {
+//        if (substr($className, 0, $length) !== $namespace) {
+        if (0!==strpos($className,$namespace)) {
             return;
         }
 
