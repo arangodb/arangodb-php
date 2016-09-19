@@ -502,6 +502,20 @@ class Statement
         if ($this->_customQueue !== null && $this->_customQueue !== '') {
             $result[Cursor::ENTRY_CUSTOM_QUEUE] = $this->_customQueue;
         }
+        if ($this->_documentClass !== null && $this->_documentClass !== '') {
+            $result['_documentClass'] = $this->_documentClass;
+        }
         return $result;
+    }
+
+    protected $_documentClass;
+    /**
+     * Sets the document class to use
+     *
+     * @param string $class Document class to use
+     */
+    public function setDocumentClass($class)
+    {
+        $this->_documentClass = $class;
     }
 }
