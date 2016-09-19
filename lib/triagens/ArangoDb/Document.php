@@ -18,7 +18,7 @@ namespace triagens\ArangoDb;
  * @package   triagens\ArangoDb
  * @since     0.2
  */
-class Document
+class Document implements \JsonSerializable
 {
     /**
      * The document id (might be NULL for new documents)
@@ -637,4 +637,15 @@ class Document
     {
         return $this->_rev;
     }
+
+    /**
+     * JsonSerializable::jsonSerialize — Specify data which should be serialized to JSON
+     *
+     * @return string
+     */
+    public function jsonSerialize()
+    {
+        return $this->getAll();
+    }
+
 }
