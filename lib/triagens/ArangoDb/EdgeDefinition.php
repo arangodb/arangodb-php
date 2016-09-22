@@ -36,14 +36,14 @@ class EdgeDefinition
      *
      * @var array names of the start vertices collection
      */
-    protected $_fromCollections = array();
+    protected $_fromCollections = [];
 
     /**
      * An array containing the names of the vertices collections holding the end vertices.
      *
      * @var array names of the end vertices collection
      */
-    protected $_toCollections = array();
+    protected $_toCollections = [];
 
     /**
      * Constructs an new edge definition
@@ -138,7 +138,7 @@ class EdgeDefinition
      */
     public function clearToCollection()
     {
-        $this->_toCollections = array();
+        $this->_toCollections = [];
     }
 
     /**
@@ -147,7 +147,7 @@ class EdgeDefinition
      */
     public function clearFromCollection()
     {
-        return $this->_fromCollections = array();
+        return $this->_fromCollections = [];
     }
 
     /**
@@ -158,7 +158,7 @@ class EdgeDefinition
      */
     public function transformToArray()
     {
-        $transformedEd               = array();
+        $transformedEd               = [];
         $transformedEd['collection'] = $this->getRelation();
         $transformedEd['from']       = $this->getFromCollections();
         $transformedEd['to']         = $this->getToCollections();

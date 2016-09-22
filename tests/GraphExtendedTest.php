@@ -66,42 +66,42 @@ class GraphExtendedTest extends
         $this->edgeLabel3   = 'edgeLabel3';
 
 
-        $this->vertex1Array  = array(
+        $this->vertex1Array  = [
             '_key' => $this->vertex1Name,
             'someKey1' => 'someValue1'
-        );
-        $this->vertex2Array  = array(
+        ];
+        $this->vertex2Array  = [
             '_key' => $this->vertex2Name,
             'someKey2' => 'someValue2'
-        );
-        $this->vertex3Array  = array(
+        ];
+        $this->vertex3Array  = [
             '_key' => $this->vertex3Name,
             'someKey3' => 'someValue3'
-        );
-        $this->vertex4Array  = array(
+        ];
+        $this->vertex4Array  = [
             '_key' => $this->vertex4Name,
             'someKey4' => 'someValue4'
-        );
-        $this->vertex1aArray = array(
+        ];
+        $this->vertex1aArray = [
             'someKey1' => 'someValue1a'
-        );
-        $this->edge1Array    = array(
+        ];
+        $this->edge1Array    = [
             '_key' => $this->edge1Name,
             'someEdgeKey1' => 'someEdgeValue1'
-        );
-        $this->edge2Array    = array(
+        ];
+        $this->edge2Array    = [
             '_key' => $this->edge2Name,
             'someEdgeKey2' => 'someEdgeValue2',
             'anotherEdgeKey2' => 'anotherEdgeValue2'
-        );
-        $this->edge3Array    = array(
+        ];
+        $this->edge3Array    = [
             '_key' => $this->edge3Name,
             'someEdgeKey3' => 'someEdgeValue3'
-        );
-        $this->edge1aArray   = array(
+        ];
+        $this->edge1aArray   = [
             '_key' => $this->edge1Name,
             'someEdgeKey1' => 'someEdgeValue1a'
-        );
+        ];
 
 
         $this->graphName  = 'Graph1';
@@ -612,7 +612,7 @@ class GraphExtendedTest extends
             $this->graphName,
             $this->vertex1Name,
             $vertex1a,
-            array('revision' => $result1->getRevision())
+            ['revision' => $result1->getRevision()]
         );
         static::assertTrue($result1a, 'Did not return true!');
 
@@ -646,7 +646,7 @@ class GraphExtendedTest extends
                 $this->graphName,
                 $this->vertex1Name,
                 $vertex1,
-                array('revision' => true)
+                ['revision' => true]
             );
             static::assertTrue($result1, 'Did not return true!');
         } catch (Exception $e) {
@@ -812,7 +812,7 @@ class GraphExtendedTest extends
             $this->edge1Name,
             $this->edgeLabel1,
             $edge1a,
-            array('revision' => $result1->getRevision())
+            ['revision' => $result1->getRevision()]
         );
         static::assertTrue($result1a, 'Did not return true!');
 
@@ -827,7 +827,7 @@ class GraphExtendedTest extends
                 $this->edge1Name,
                 $this->edgeLabel1,
                 $edge1,
-                array('revision' => true)
+                ['revision' => true]
             );
         } catch (Exception $e) {
             //Just give the $e
@@ -984,10 +984,10 @@ class GraphExtendedTest extends
     {
         $this->createGraph();
         $new = Vertex::createFromArray(
-            array(
+            [
                 '_key' => 'testreplacewithgraphinstancekey',
                 'someKey' => 'someValue'
-            )
+            ]
         );
         static::assertTrue($this->graphHandler->replaceVertex($this->graph, 'vertex1', $new));
     }
@@ -999,10 +999,10 @@ class GraphExtendedTest extends
     {
         $this->createGraph();
         $new = Vertex::createFromArray(
-            array(
+            [
                 '_key' => 'vertex1',
                 'someKey' => 'foobar'
-            )
+            ]
         );
         static::assertTrue($this->graphHandler->updateVertex($this->graph, 'vertex1', $new));
     }
@@ -1024,7 +1024,7 @@ class GraphExtendedTest extends
         $this->createGraph();
         $id = $this->graphHandler->saveEdge(
             $this->graph, $this->vertexCollectionName . '/' . $this->vertex1Name,
-            $this->vertexCollectionName . '/' . $this->vertex2Name, 'foobaredge', array('_key' => 'foobaredgekey')
+            $this->vertexCollectionName . '/' . $this->vertex2Name, 'foobaredge', ['_key' => 'foobaredgekey']
         );
         static::assertEquals($this->edgeCollectionName . '/' . 'foobaredgekey', $id);
     }
@@ -1046,7 +1046,7 @@ class GraphExtendedTest extends
     {
         $this->createGraph();
         $edge    = $this->graphHandler->getEdge($this->graph, $this->edge1Name);
-        $newEdge = Edge::createFromArray(array('_key' => 'foobar'));
+        $newEdge = Edge::createFromArray(['_key' => 'foobar']);
         $newEdge->setFrom($edge->getFrom());
         $newEdge->setTo($edge->getTo());
         $result = $this->graphHandler->replaceEdge($this->graph, $this->edge1Name, '', $newEdge);
@@ -1059,7 +1059,7 @@ class GraphExtendedTest extends
     public function testUpdateEdgeWithGraphInstance()
     {
         $this->createGraph();
-        $result = $this->graphHandler->updateEdge($this->graph, $this->edge1Name, '', Edge::createFromArray(array('_key' => 'foobar')));
+        $result = $this->graphHandler->updateEdge($this->graph, $this->edge1Name, '', Edge::createFromArray(['_key' => 'foobar']));
         static::assertTrue($result);
     }
 

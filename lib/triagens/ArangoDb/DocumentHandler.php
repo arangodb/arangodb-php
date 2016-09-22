@@ -64,7 +64,7 @@ class DocumentHandler extends
      *
      * @return Document - the document fetched from the server
      */
-    public function get($collection, $documentId, array $options = array())
+    public function get($collection, $documentId, array $options = [])
     {
         return $this->getById($collection, $documentId, $options);
     }
@@ -122,7 +122,7 @@ class DocumentHandler extends
      *
      * @return Document - the document fetched from the server
      */
-    public function getById($collection, $documentId, array $options = array())
+    public function getById($collection, $documentId, array $options = [])
     {
         $data              = $this->getDocument(Urls::URL_DOCUMENT, $collection, $documentId, $options);
         $options['_isNew'] = false;
@@ -154,12 +154,12 @@ class DocumentHandler extends
      *
      * @return array - the document fetched from the server
      */
-    protected function getDocument($url, $collection, $documentId, array $options = array())
+    protected function getDocument($url, $collection, $documentId, array $options = [])
     {
         $collection = $this->makeCollection($collection);
 
         $url            = UrlHelper::buildUrl($url, array($collection, $documentId));
-        $headerElements = array();
+        $headerElements = [];
         if (array_key_exists('ifMatch', $options) && array_key_exists('revision', $options)) {
             if ($options['ifMatch'] === true) {
                 $headerElements['If-Match'] = '"' . $options['revision'] . '"';
@@ -222,7 +222,7 @@ class DocumentHandler extends
         $collection = $this->makeCollection($collection);
 
         $url            = UrlHelper::buildUrl($url, array($collection, $documentId));
-        $headerElements = array();
+        $headerElements = [];
         if ($revision !== null && $ifMatch !== null) {
             if ($ifMatch) {
                 $headerElements['If-Match'] = '"' . $revision . '"';
@@ -340,7 +340,7 @@ class DocumentHandler extends
      *
      */
 
-    public function add($collection, Document $document, $options = array())
+    public function add($collection, Document $document, $options = [])
     {
         return $this->save($collection, $document, $options);
     }
@@ -366,7 +366,7 @@ class DocumentHandler extends
      * @return mixed - id of document created
      * @since 1.0
      */
-    public function store(Document $document, $collection = null, $options = array())
+    public function store(Document $document, $collection = null, $options = [])
     {
         if ($document->getIsNew()) {
 
@@ -410,7 +410,7 @@ class DocumentHandler extends
      * @return mixed - id of document created
      * @since 1.0
      */
-    public function save($collection, $document, $options = array())
+    public function save($collection, $document, $options = [])
     {
         $collection = $this->makeCollection($collection);
 
@@ -491,7 +491,7 @@ class DocumentHandler extends
      *
      * @return bool - always true, will throw if there is an error
      */
-    public function update(Document $document, $options = array())
+    public function update(Document $document, $options = [])
     {
         $documentId = $this->getDocumentId($document);
 
@@ -525,7 +525,7 @@ class DocumentHandler extends
      *
      * @return bool - always true, will throw if there is an error
      */
-    public function updateById($collection, $documentId, Document $document, $options = array())
+    public function updateById($collection, $documentId, Document $document, $options = [])
     {
         return $this->patch(Urls::URL_DOCUMENT, $collection, $documentId, $document, $options);
     }
@@ -550,14 +550,14 @@ class DocumentHandler extends
      *
      * @return bool - always true, will throw if there is an error
      */
-    protected function patch($url, $collection, $documentId, Document $document, $options = array())
+    protected function patch($url, $collection, $documentId, Document $document, $options = [])
     {
         $collection = $this->makeCollection($collection);
 
         // This preserves compatibility for the old policy parameter.
         $params = $this->validateAndIncludeOldSingleParameterInParams(
             $options,
-            array(),
+            [],
             ConnectionOptions::OPTION_UPDATE_POLICY
         );
 
@@ -574,7 +574,7 @@ class DocumentHandler extends
         );
 
 
-        $headers = array();
+        $headers = [];
         if (isset($params[ConnectionOptions::OPTION_UPDATE_POLICY]) &&
             $params[ConnectionOptions::OPTION_UPDATE_POLICY] === UpdatePolicy::ERROR
         ) {
@@ -619,7 +619,7 @@ class DocumentHandler extends
      *
      * @return bool - always true, will throw if there is an error
      */
-    public function replace(Document $document, $options = array())
+    public function replace(Document $document, $options = [])
     {
         $documentId = $this->getDocumentId($document);
 
@@ -651,7 +651,7 @@ class DocumentHandler extends
      *
      * @return bool - always true, will throw if there is an error
      */
-    public function replaceById($collection, $documentId, Document $document, $options = array())
+    public function replaceById($collection, $documentId, Document $document, $options = [])
     {
         return $this->put(Urls::URL_DOCUMENT, $collection, $documentId, $document, $options);
     }
@@ -675,14 +675,14 @@ class DocumentHandler extends
      *
      * @return bool - always true, will throw if there is an error
      */
-    protected function put($url, $collection, $documentId, Document $document, $options = array())
+    protected function put($url, $collection, $documentId, Document $document, $options = [])
     {
         $collection = $this->makeCollection($collection);
 
         // This preserves compatibility for the old policy parameter.
         $params = $this->validateAndIncludeOldSingleParameterInParams(
             $options,
-            array(),
+            [],
             ConnectionOptions::OPTION_REPLACE_POLICY
         );
 
@@ -697,7 +697,7 @@ class DocumentHandler extends
             )
         );
 
-        $headers = array();
+        $headers = [];
         if (isset($params[ConnectionOptions::OPTION_REPLACE_POLICY]) &&
             $params[ConnectionOptions::OPTION_REPLACE_POLICY] === UpdatePolicy::ERROR
         ) {
@@ -737,7 +737,7 @@ class DocumentHandler extends
      * @todo remove in version 3.1
      *
      */
-    public function delete(Document $document, $options = array())
+    public function delete(Document $document, $options = [])
     {
         return $this->remove($document, $options);
     }
@@ -757,7 +757,7 @@ class DocumentHandler extends
      *
      * @return bool - always true, will throw if there is an error
      */
-    public function remove(Document $document, $options = array())
+    public function remove(Document $document, $options = [])
     {
         $documentId = $this->getDocumentId($document);
 
@@ -786,7 +786,7 @@ class DocumentHandler extends
      * @deprecated to be removed in version 2.0 - This function is being replaced by removeById()
      * @todo remove in version 3.1
      */
-    public function deleteById($collection, $documentId, $revision = null, $options = array())
+    public function deleteById($collection, $documentId, $revision = null, $options = [])
     {
         $this->removeById($collection, $documentId, $revision, $options);
 
@@ -810,7 +810,7 @@ class DocumentHandler extends
      *
      * @return bool - always true, will throw if there is an error
      */
-    public function removeById($collection, $documentId, $revision = null, $options = array())
+    public function removeById($collection, $documentId, $revision = null, $options = [])
     {
         return $this->erase(Urls::URL_DOCUMENT, $collection, $documentId, $revision, $options);
     }
@@ -834,14 +834,14 @@ class DocumentHandler extends
      *
      * @return bool - always true, will throw if there is an error
      */
-    protected function erase($url, $collection, $documentId, $revision = null, $options = array())
+    protected function erase($url, $collection, $documentId, $revision = null, $options = [])
     {
         $collection = $this->makeCollection($collection);
 
         // This preserves compatibility for the old policy parameter.
         $params = $this->validateAndIncludeOldSingleParameterInParams(
             $options,
-            array(),
+            [],
             ConnectionOptions::OPTION_DELETE_POLICY
         );
 
@@ -856,7 +856,7 @@ class DocumentHandler extends
             )
         );
 
-        $headers = array();
+        $headers = [];
         if (isset($params[ConnectionOptions::OPTION_DELETE_POLICY]) &&
             $params[ConnectionOptions::OPTION_DELETE_POLICY] === UpdatePolicy::ERROR
         ) {

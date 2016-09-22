@@ -54,7 +54,7 @@ class Graph extends
      *
      * @var EdgeDefinition[] list of edge definitions.
      */
-    protected $_edgeDefinitions = array();
+    protected $_edgeDefinitions = [];
 
     /**
      * The list of orphan collections defining the graph.
@@ -62,7 +62,7 @@ class Graph extends
      *
      * @var array list of orphan collections.
      */
-    protected $_orphanCollections = array();
+    protected $_orphanCollections = [];
 
 
     /**
@@ -73,7 +73,7 @@ class Graph extends
      * @since     1.2
      * @return Graph
      */
-    public function __construct($name = null, array $options = array())
+    public function __construct($name = null, array $options = [])
     {
 
         // prevent backwards compatibility break where the first parameter is the $options array
@@ -289,7 +289,7 @@ class Graph extends
         }
         if (count($ed) === 1) {
             $eD                     = $ed[0];
-            $this->_edgeDefinitions = array();
+            $this->_edgeDefinitions = [];
         }
         else {
             $eD = new EdgeDefinition();

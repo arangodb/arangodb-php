@@ -179,7 +179,7 @@ class Cursor implements
         $this->_connection = $connection;
         $this->data        = $data;
         $this->_id         = null;
-        $this->_extra      = array();
+        $this->_extra      = [];
         $this->_cached     = false;
 
         if (isset($data[self::ENTRY_ID])) {
@@ -209,7 +209,7 @@ class Cursor implements
 
         $options['isNew'] = false;
         $this->_options   = $options;
-        $this->_result    = array();
+        $this->_result    = [];
         $this->add((array) $data[self::ENTRY_RESULT]);
         $this->updateLength();
 
@@ -230,7 +230,7 @@ class Cursor implements
     {
         if ($this->_id) {
             try {
-                $this->_connection->delete($this->url() . '/' . $this->_id, array());
+                $this->_connection->delete($this->url() . '/' . $this->_id, []);
                 return true;
             } catch (Exception $e) {
             }
@@ -459,8 +459,8 @@ class Cursor implements
     private function addPathsFromArray(array $data)
     {
         $entry = array(
-            'vertices' => array(),
-            'edges' => array(),
+            'vertices' => [],
+            'edges' => [],
             'source' => Document::createFromArray($data['source'], $this->_options),
             'destination' => Document::createFromArray($data['destination'], $this->_options),
         );
@@ -491,15 +491,15 @@ class Cursor implements
         $destination = $vertices[count($vertices) - 1];
 
         $entry = array(
-            'paths' => array(),
+            'paths' => [],
             'source' => Document::createFromArray($startVertex, $this->_options),
             'distance' => $data['distance'],
             'destination' => Document::createFromArray($destination, $this->_options),
         );
 
         $path = array(
-            'vertices' => array(),
-            'edges' => array()
+            'vertices' => [],
+            'edges' => []
         );
 
         foreach ($data['vertices'] as $v) {
@@ -544,10 +544,10 @@ class Cursor implements
         $right = $data['right'];
 
         if (!isset($this->_result[$left])) {
-            $this->_result[$left] = array();
+            $this->_result[$left] = [];
         }
         if (!isset($this->_result[$left][$right])) {
-            $this->_result[$left][$right] = array();
+            $this->_result[$left][$right] = [];
         }
 
         foreach ($data['neighbors'] as $neighbor) {
@@ -566,7 +566,7 @@ class Cursor implements
     {
         $k                 = array_keys($data);
         $k                 = $k[0];
-        $this->_result[$k] = array();
+        $this->_result[$k] = [];
         foreach ($data[$k] as $c) {
             $id = $c['_id'];
             unset($c['_id']);
@@ -650,7 +650,7 @@ class Cursor implements
     private function fetchOutstanding()
     {
         // continuation
-        $response = $this->_connection->put($this->url() . '/' . $this->_id, '', array());
+        $response = $this->_connection->put($this->url() . '/' . $this->_id, '', []);
         ++$this->_fetches;
 
         $data = $response->getJson();
@@ -739,7 +739,7 @@ class Cursor implements
         if (isset($this->_extra['warnings'])) {
             return $this->_extra['warnings'];
         }
-        return array();
+        return [];
     }
 
     /**

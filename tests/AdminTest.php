@@ -79,7 +79,7 @@ class AdminTest extends
         static::assertArrayHasKey('text', $result);
         static::assertArrayHasKey('totalAmount', $result);
 
-        $options = array('upto' => 3);
+        $options = ['upto' => 3];
         $result  = $this->adminHandler->getServerLog($options);
         static::assertTrue(is_array($result), 'Should be an array');
         static::assertArrayHasKey('lid', $result);
@@ -88,7 +88,7 @@ class AdminTest extends
         static::assertArrayHasKey('text', $result);
         static::assertArrayHasKey('totalAmount', $result);
 
-        $options = array('level' => 1);
+        $options = ['level' => 1];
         $result  = $this->adminHandler->getServerLog($options);
         static::assertTrue(is_array($result), 'Should be an array');
         static::assertArrayHasKey('lid', $result);
@@ -97,7 +97,7 @@ class AdminTest extends
         static::assertArrayHasKey('text', $result);
         static::assertArrayHasKey('totalAmount', $result);
 
-        $options = array('search' => 'ArangoDB');
+        $options = ['search' => 'ArangoDB'];
         $result  = $this->adminHandler->getServerLog($options);
         static::assertTrue(is_array($result), 'Should be an array');
         static::assertArrayHasKey('lid', $result);
@@ -106,7 +106,7 @@ class AdminTest extends
         static::assertArrayHasKey('text', $result);
         static::assertArrayHasKey('totalAmount', $result);
 
-        $options = array('sort' => 'desc');
+        $options = ['sort' => 'desc'];
         $result  = $this->adminHandler->getServerLog($options);
         static::assertTrue(is_array($result), 'Should be an array');
         static::assertArrayHasKey('lid', $result);
@@ -115,7 +115,7 @@ class AdminTest extends
         static::assertArrayHasKey('text', $result);
         static::assertArrayHasKey('totalAmount', $result);
 
-        $options = array('start' => 1);
+        $options = ['start' => 1];
         $result  = $this->adminHandler->getServerLog($options);
         static::assertTrue(is_array($result), 'Should be an array');
         static::assertArrayHasKey('lid', $result);
@@ -124,7 +124,7 @@ class AdminTest extends
         static::assertArrayHasKey('text', $result);
         static::assertArrayHasKey('totalAmount', $result);
 
-        $options = array('size' => 10, 'offset' => 10);
+        $options = ['size' => 10, 'offset' => 10];
         $result  = $this->adminHandler->getServerLog($options);
         static::assertTrue(is_array($result), 'Should be an array');
         static::assertArrayHasKey('lid', $result);

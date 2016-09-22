@@ -69,7 +69,7 @@ class Transaction
      *
      * @var array
      */
-    protected $attributes = array();
+    protected $attributes = [];
 
     /**
      * Collections index

@@ -50,11 +50,11 @@ class EdgeExtendedTest extends
         // Setup objects
         $edgeHandler = $this->edgeHandler;
         $edge        = Edge::createFromArray(
-            array(
+            [
                 'someAttribute' => 'someValue',
                 'someOtherAttribute' => 'someOtherValue',
                 'someThirdAttribute' => 'someThirdValue'
-            )
+            ]
         );
 
 
@@ -185,7 +185,7 @@ class EdgeExtendedTest extends
         $edgeHandler = $this->edgeHandler;
 
         $edge   = Edge::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
         $edgeId = $edgeHandler->add($this->collection->getId(), $edge);
         $edgeHandler->get($this->collection->getId(), $edgeId);
@@ -254,7 +254,7 @@ class EdgeExtendedTest extends
         static::assertTrue(is_numeric($edgeId), 'Did not return an id!');
 
         $edgeDocument->set('labels', 'anything');
-        $result = $edgeHandler->update($edgeDocument, array('keepNull' => false));
+        $result = $edgeHandler->update($edgeDocument, ['keepNull' => false]);
 
         static::assertTrue($result);
 
@@ -347,7 +347,7 @@ class EdgeExtendedTest extends
         $edgeHandler = $this->edgeHandler;
 
         $edge   = Edge::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
         $edgeId = $edgeHandler->add($this->collection->getId(), $edge);
 

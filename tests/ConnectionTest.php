@@ -230,7 +230,7 @@ class ConnectionTest extends
         $connection->setOption(ConnectionOptions::OPTION_TIMEOUT, 3);
         $query = 'RETURN SLEEP(6)';
 
-        $statement = new Statement($connection, array('query' => $query));
+        $statement = new Statement($connection, ['query' => $query]);
 
         try {
             // this is expected to fail
@@ -250,7 +250,7 @@ class ConnectionTest extends
         $connection->setOption(ConnectionOptions::OPTION_TIMEOUT, 5);
         $query = 'RETURN SLEEP(1)';
 
-        $statement = new Statement($connection, array('query' => $query));
+        $statement = new Statement($connection, ['query' => $query]);
 
         // should work
         $cursor = $statement->execute();
@@ -348,7 +348,7 @@ class ConnectionTest extends
         $basicTracer = function ($type, $data) {
             static::assertContains(
                 $type,
-                array('send', 'receive'),
+                ['send', 'receive'],
                 'Basic tracer\'s type should only be \'send\' or \'receive\''
             );
             static::assertInternalType('string', $data, 'Basic tracer data is not a string!.');
@@ -389,14 +389,14 @@ class ConnectionTest extends
             if ($data instanceof TraceRequest) {
                 static::assertContains(
                     $data->getMethod(),
-                    array(
+                    [
                         HttpHelper::METHOD_DELETE,
                         HttpHelper::METHOD_GET,
                         HttpHelper::METHOD_HEAD,
                         HttpHelper::METHOD_PATCH,
                         HttpHelper::METHOD_POST,
                         HttpHelper::METHOD_PUT
-                    ),
+                    ],
                     'Invalid http method!'
                 );
 

@@ -111,7 +111,7 @@ class Export
      * @param string $collection - the collection to export
      * @param array $data - export options
      */
-    public function __construct(Connection $connection, $collection, array $data = array())
+    public function __construct(Connection $connection, $collection, array $data = [])
     {
         $this->_connection = $connection;
 

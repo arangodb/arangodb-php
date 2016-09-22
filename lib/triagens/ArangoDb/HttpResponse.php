@@ -39,7 +39,7 @@ class HttpResponse
      *
      * @var array
      */
-    private $_headers = array();
+    private $_headers = [];
 
     /**
      * The result status-line (first line of HTTP response header)
@@ -189,7 +189,7 @@ class HttpResponse
 
         if (!is_array($json)) {
             if ($this->_wasAsync) {
-                return array();
+                return [];
             }
 
             // should be an array, fail otherwise

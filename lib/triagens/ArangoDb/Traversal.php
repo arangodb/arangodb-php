@@ -37,7 +37,7 @@ class Traversal
      *
      * @var array
      */
-    protected $attributes = array();
+    protected $attributes = [];
 
     /**
      * count fields
@@ -88,7 +88,7 @@ class Traversal
         $bodyParams = $this->attributes;
 
 
-        $response      = $this->_connection->post(
+        $response = $this->_connection->post(
             Urls::URL_TRAVERSAL,
             $this->getConnection()->json_encode_wrapper($bodyParams)
         );

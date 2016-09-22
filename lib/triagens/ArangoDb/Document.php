@@ -47,7 +47,7 @@ class Document
      *
      * @var array
      */
-    protected $_values = array();
+    protected $_values = [];
 
     /**
      * Flag to indicate whether document was changed locally
@@ -76,7 +76,7 @@ class Document
      *
      * @var bool
      */
-    protected $_hiddenAttributes = array();
+    protected $_hiddenAttributes = [];
 
     /**
      * Flag to indicate whether document was changed locally
@@ -174,7 +174,7 @@ class Document
      *
      * @return Document|Edge
      */
-    public static function createFromArray(array $values, array $options = array())
+    public static function createFromArray(array $values, array $options = [])
     {
         $document = new static($options);
         foreach ($values as $key => $value) {
@@ -408,7 +408,7 @@ class Document
      *
      * @return array - array of all document attributes/values
      */
-    public function getAll($options = array())
+    public function getAll($options = [])
     {
         // This preserves compatibility for the old includeInternals parameter.
         $includeInternals       = false;
@@ -452,7 +452,7 @@ class Document
 
         if ($includeInternals === true) {
             foreach ($this as $key => $value) {
-                if ($key[0] === '_' && 0!== strpos($key,'__') && !in_array($key, $nonInternals)) {
+                if ($key[0] === '_' && 0 !== strpos($key, '__') && !in_array($key, $nonInternals)) {
                     $data[$key] = $value;
                 }
             }
@@ -476,14 +476,14 @@ class Document
      */
     public function getAllForInsertUpdate()
     {
-        $data = array();
+        $data = [];
         foreach ($this->_values as $key => $value) {
             if ($key === '_id' || $key === '_rev') {
                 continue;
             }
             else if ($key === '_key' && $value === null) {
-                    // key value not yet set
-                    continue;
+                // key value not yet set
+                continue;
             }
             $data[$key] = $value;
         }
@@ -507,7 +507,7 @@ class Document
      * @return mixed - associative array of all document attributes/values, or an empty StdClass if the document
      *                 does not have any
      */
-    public function getAllAsObject($options = array())
+    public function getAllAsObject($options = [])
     {
         $result = $this->getAll($options);
         if (count($result) === 0) {

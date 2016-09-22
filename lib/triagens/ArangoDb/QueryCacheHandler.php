@@ -56,7 +56,7 @@ class QueryCacheHandler extends
      */
     public function clear()
     {
-        $url = UrlHelper::buildUrl(Urls::URL_QUERY_CACHE, array());
+        $url = UrlHelper::buildUrl(Urls::URL_QUERY_CACHE, []);
         $this->getConnection()->delete($url);
     }
 

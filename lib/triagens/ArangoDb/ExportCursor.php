@@ -124,7 +124,7 @@ class ExportCursor
         $this->_hasMore = (bool) $data[self::ENTRY_HASMORE];
 
         $this->_options = $options;
-        $this->_result  = array();
+        $this->_result  = [];
         $this->setData((array) $data[self::ENTRY_RESULT]);
     }
 
@@ -174,14 +174,14 @@ class ExportCursor
      */
     public function getNextBatch()
     {
-        if ($this->_result === array() && $this->_hasMore) {
+        if ($this->_result === [] && $this->_hasMore) {
             // read more from server
             $this->fetchOutstanding();
         }
 
-        if ($this->_result !== array()) {
+        if ($this->_result !== []) {
             $result        = $this->_result;
-            $this->_result = array();
+            $this->_result = [];
             return $result;
         }
 
@@ -202,7 +202,7 @@ class ExportCursor
             $this->_result = $data;
         }
         else {
-            $this->_result = array();
+            $this->_result = [];
 
             if ($this->_options[self::ENTRY_TYPE] === Collection::TYPE_EDGE) {
                 foreach ($data as $row) {

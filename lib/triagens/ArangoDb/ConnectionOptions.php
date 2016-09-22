@@ -29,7 +29,7 @@ class ConnectionOptions implements
      *
      * @var array
      */
-    private $_values = array();
+    private $_values = [];
 
     /**
      * The connection endpoint object
@@ -370,7 +370,7 @@ class ConnectionOptions implements
         }
 
         // can use either endpoint or host/port
-        if (isset($this->_values[self::OPTION_HOST],$this->_values[self::OPTION_ENDPOINT])) {
+        if (isset($this->_values[self::OPTION_HOST], $this->_values[self::OPTION_ENDPOINT])) {
             throw new ClientException('must not specify both host and endpoint');
         }
         else {

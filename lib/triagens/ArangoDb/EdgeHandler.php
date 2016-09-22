@@ -145,7 +145,7 @@ class EdgeHandler extends
      * @return mixed - id of document created
      * @since 1.0
      */
-    public function saveEdge($collection, $from, $to, $document, $options = array())
+    public function saveEdge($collection, $from, $to, $document, $options = [])
     {
         $collection = $this->makeCollection($collection);
 
@@ -216,7 +216,7 @@ class EdgeHandler extends
      * @return array - array of connected edges
      * @since 1.0
      */
-    public function edges($collection, $vertexHandle, $direction = 'any', array $options = array())
+    public function edges($collection, $vertexHandle, $direction = 'any', array $options = [])
     {
         $collection = $this->makeCollection($collection);
 
@@ -228,7 +228,7 @@ class EdgeHandler extends
         $response = $this->getConnection()->get($url);
         $json     = $response->getJson();
 
-        $edges = array();
+        $edges = [];
         foreach ($json[self::ENTRY_EDGES] as $data) {
             $edges[] = $this->createFromArrayWithContext($data, $options);
         }

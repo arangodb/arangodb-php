@@ -46,7 +46,7 @@ class DocumentExtendedTest extends
         $isoKey          = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', 'someWrongEncododedAttribute');
         $isoValue        = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', 'someWrongEncodedValueü');
 
-        $document   = Document::createFromArray(array($isoKey => $isoValue, 'someOtherAttribute' => 'someOtherValue'));
+        $document   = Document::createFromArray([$isoKey => $isoValue, 'someOtherAttribute' => 'someOtherValue']);
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
@@ -63,14 +63,14 @@ class DocumentExtendedTest extends
 
 
     /**
-     * test for creation, get, and delete of a document given its settings through createFromArray()
+     * test for creation, get, and delete of a document given its settings through createFrom[]
      */
     public function testCreateDocumentWithCreateFromArrayGetAndDeleteDocument()
     {
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
@@ -88,14 +88,14 @@ class DocumentExtendedTest extends
 
 
     /**
-     * test for creation, get by example, and delete of a document given its settings through createFromArray()
+     * test for creation, get by example, and delete of a document given its settings through createFrom[]
      */
     public function testCreateDocumentWithCreateFromArrayGetByExampleAndDeleteDocument()
     {
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
@@ -115,33 +115,33 @@ class DocumentExtendedTest extends
 
 
     /**
-     * test for creation, get by example, and delete of a document given its settings through createFromArray()
+     * test for creation, get by example, and delete of a document given its settings through createFrom[]
      */
     public function testCreateDocumentWithCreateFromArrayGetByExampleWithOptionsAndDeleteDocument()
     {
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->add($this->collection->getId(), $document, array('waitForSync' => true));
+        $documentId = $documentHandler->add($this->collection->getId(), $document, ['waitForSync' => true]);
 
         $document2   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute2' => 'someOtherValue2')
+            ['someAttribute' => 'someValue', 'someOtherAttribute2' => 'someOtherValue2']
         );
-        $documentId2 = $documentHandler->add($this->collection->getId(), $document2, array('waitForSync' => true));
+        $documentId2 = $documentHandler->add($this->collection->getId(), $document2, ['waitForSync' => true]);
 
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
         static::assertTrue(is_numeric($documentId2), 'Did not return an id!');
 
         $exampleDocument = Document::createFromArray(
-            array('someAttribute' => 'someValue')
+            ['someAttribute' => 'someValue']
         );
 
         $cursor = $documentHandler->getByExample(
             $this->collection->getId(),
             $exampleDocument,
-            array('batchSize' => 1, 'skip' => 0, 'limit' => 2)
+            ['batchSize' => 1, 'skip' => 0, 'limit' => 2]
         );
 
         static::assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
@@ -164,7 +164,7 @@ class DocumentExtendedTest extends
         $cursor = $documentHandler->getByExample(
             $this->collection->getId(),
             $exampleDocument,
-            array('batchSize' => 1, 'skip' => 1)
+            ['batchSize' => 1, 'skip' => 1]
         );
 
         static::assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
@@ -183,7 +183,7 @@ class DocumentExtendedTest extends
         $cursor = $documentHandler->getByExample(
             $this->collection->getId(),
             $exampleDocument,
-            array('batchSize' => 1, 'limit' => 1)
+            ['batchSize' => 1, 'limit' => 1]
         );
 
         static::assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
@@ -203,14 +203,14 @@ class DocumentExtendedTest extends
 
 
     /**
-     * test for creation, get by example, and delete of a document given its settings through createFromArray()
+     * test for creation, get by example, and delete of a document given its settings through createFrom[]
      */
     public function testCreateDocumentWithCreateFromArrayGetFirstExampleAndDeleteDocument()
     {
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
@@ -235,7 +235,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
@@ -273,7 +273,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
         $documentHandler->get($this->collection->getId(), $documentId);
@@ -313,7 +313,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
@@ -323,7 +323,7 @@ class DocumentExtendedTest extends
         $patchDocument->set('_rev', $document->getRevision());
         $patchDocument->set('someAttribute', null);
         $patchDocument->set('someOtherAttribute', 'someOtherValue2');
-        $result = $documentHandler->update($patchDocument, array('keepNull' => false));
+        $result = $documentHandler->update($patchDocument, ['keepNull' => false]);
 
         static::assertTrue($result);
 
@@ -349,7 +349,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
@@ -387,7 +387,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
@@ -426,7 +426,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
@@ -457,7 +457,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
@@ -483,7 +483,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
@@ -507,7 +507,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
@@ -553,7 +553,7 @@ class DocumentExtendedTest extends
         static::assertEquals($resultingDocument1->someOtherAttribute, 'someOtherValue2');
         unset ($e);
 
-        $document = Document::createFromArray(array('someOtherAttribute' => 'someOtherValue3'));
+        $document = Document::createFromArray(['someOtherAttribute' => 'someOtherValue3']);
         $document->setInternalId($this->collection->getId() . '/' . $documentId);
         // Set some new values on the attributes and  _rev attribute to NULL
         // This should result in a successful update
@@ -605,7 +605,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
@@ -654,7 +654,7 @@ class DocumentExtendedTest extends
         unset ($e);
 
         $document = Document::createFromArray(
-            array('someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue3')
+            ['someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue3']
         );
         $document->setInternalId($this->collection->getId() . '/' . $documentId);
         // Set some new values on the attributes and  _rev attribute to NULL
@@ -708,7 +708,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
@@ -779,7 +779,7 @@ class DocumentExtendedTest extends
 
         unset ($e);
 
-        $document = Document::createFromArray(array('someOtherAttribute' => 'someOtherValue3'));
+        $document = Document::createFromArray(['someOtherAttribute' => 'someOtherValue3']);
         $document->setInternalId($this->collection->getId() . '/' . $documentId);
         // Set some new values on the attributes and  _rev attribute to NULL
         // This should result in a successful update
@@ -832,16 +832,16 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document = Document::createFromArray(
-            array(
+            [
                 'someAttribute' => 'someValue',
                 'someOtherAttribute' => 'someOtherValue',
                 'someThirdAttribute' => 'someThirdValue'
-            )
+            ]
         );
         $documentHandler->add($this->collection->getId(), $document);
 
         // set hidden fields
-        $document->setHiddenAttributes(array('someThirdAttribute'));
+        $document->setHiddenAttributes(['someThirdAttribute']);
 
         $result = $document->getAll();
 
@@ -865,28 +865,28 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document = Document::createFromArray(
-            array(
+            [
                 '_key' => 'test1',
                 'isActive' => true,
                 'password' => 'secret',
                 'name' => 'foo'
-            )
+            ]
         );
         $documentHandler->add($this->collection->getId(), $document);
 
         $document = Document::createFromArray(
-            array(
+            [
                 '_key' => 'test2',
                 'isActive' => false,
                 'password' => 'secret',
                 'name' => 'bar'
-            )
+            ]
         );
         $documentHandler->add($this->collection->getId(), $document);
 
 
         $document = $documentHandler->getById($this->collection->getId(), 'test1');
-        $document->setHiddenAttributes(array('password'));
+        $document->setHiddenAttributes(['password']);
         $result = $document->getAll();
 
         static::assertTrue($result['isActive']);
@@ -895,7 +895,7 @@ class DocumentExtendedTest extends
 
         // test with even more hidden attributes
         $document = $documentHandler->getById($this->collection->getId(), 'test1');
-        $document->setHiddenAttributes(array('isActive', 'password', 'foobar'));
+        $document->setHiddenAttributes(['isActive', 'password', 'foobar']);
         $result = $document->getAll();
 
         static::assertArrayNotHasKey('isActive', $result);
@@ -912,7 +912,7 @@ class DocumentExtendedTest extends
 
 
         $document = $documentHandler->getById($this->collection->getId(), 'test2');
-        $document->setHiddenAttributes(array('password'));
+        $document->setHiddenAttributes(['password']);
         $result = $document->getAll();
 
         static::assertFalse($result['isActive']);
@@ -921,7 +921,7 @@ class DocumentExtendedTest extends
 
         // test with even more hidden attributes
         $document = $documentHandler->getById($this->collection->getId(), 'test2');
-        $document->setHiddenAttributes(array('isActive', 'password', 'foobar'));
+        $document->setHiddenAttributes(['isActive', 'password', 'foobar']);
         $result = $document->getAll();
 
         static::assertArrayNotHasKey('isActive', $result);
@@ -946,11 +946,11 @@ class DocumentExtendedTest extends
         // Setup objects
         $documentHandler = $this->documentHandler;
         $document        = Document::createFromArray(
-            array(
+            [
                 'someAttribute' => 'someValue',
                 'someOtherAttribute' => 'someOtherValue',
                 'someThirdAttribute' => 'someThirdValue'
-            )
+            ]
         );
 
 

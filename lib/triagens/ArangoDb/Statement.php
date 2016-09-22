@@ -249,7 +249,7 @@ class Statement
         $tries = 0;
         while (true) {
             try {
-                $response = $this->_connection->post(Urls::URL_CURSOR, $this->getConnection()->json_encode_wrapper($data), array());
+                $response = $this->_connection->post(Urls::URL_CURSOR, $this->getConnection()->json_encode_wrapper($data), []);
                 return new Cursor($this->_connection, $response->getJson(), $this->getCursorOptions());
             } catch (ServerException $e) {
                 if ($tries++ >= $this->_retries) {
@@ -276,7 +276,7 @@ class Statement
     public function explain()
     {
         $data     = $this->buildData();
-        $response = $this->_connection->post(Urls::URL_EXPLAIN, $this->getConnection()->json_encode_wrapper($data), array());
+        $response = $this->_connection->post(Urls::URL_EXPLAIN, $this->getConnection()->json_encode_wrapper($data), []);
         return $response->getJson();
     }
 
@@ -292,7 +292,7 @@ class Statement
     public function validate()
     {
         $data     = $this->buildData();
-        $response = $this->_connection->post(Urls::URL_QUERY, $this->getConnection()->json_encode_wrapper($data), array());
+        $response = $this->_connection->post(Urls::URL_QUERY, $this->getConnection()->json_encode_wrapper($data), []);
         return $response->getJson();
     }
 
@@ -538,7 +538,7 @@ class Statement
             Cursor::ENTRY_FLAT => (bool) $this->_flat,
             Cursor::ENTRY_BASEURL => Urls::URL_CURSOR
         );
-        if (null!==$this->resultType) {
+        if (null !== $this->resultType) {
             $result[Cursor::ENTRY_TYPE] = $this->resultType;
         }
         return $result;

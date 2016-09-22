@@ -26,7 +26,7 @@ class BindVars
      *
      * @var array
      */
-    private $_values = array();
+    private $_values = [];
 
     /**
      * Get all registered bind variables

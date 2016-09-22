@@ -129,7 +129,7 @@ class AdminHandler extends
      * @return array - an array holding the various attributes of a log: lid, level, timestamp, text and the total amount of log entries before pagination.
      * @since 1.2
      */
-    public function getServerLog($options = array())
+    public function getServerLog($options = [])
     {
         $url      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_LOG, $options);
         $response = $this->getConnection()->get($url);
@@ -149,7 +149,6 @@ class AdminHandler extends
      * @since 1.2
      * @deprecated
      * @todo remove in version 3.1
-
      */
     public function flushServerModuleCache()
     {
@@ -200,7 +199,7 @@ class AdminHandler extends
      */
     public function getServerStatistics()
     {
-        $url      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_STATISTICS, array());
+        $url      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_STATISTICS, []);
         $response = $this->getConnection()->get($url);
         return $response->getJson();
     }
@@ -231,7 +230,7 @@ class AdminHandler extends
      *
      * @since 1.3
      */
-    public function getServerStatisticsDescription($options = array())
+    public function getServerStatisticsDescription($options = [])
     {
         $url      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_STATISTICS_DESCRIPTION, $options);
         $response = $this->getConnection()->get($url);

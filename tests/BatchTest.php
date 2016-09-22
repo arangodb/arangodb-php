@@ -53,7 +53,7 @@ class BatchTest extends
     {
         $batch = new Batch($this->connection);
         static::assertEquals(0, $batch->countParts());
-        static::assertEquals(array(), $batch->getBatchParts());
+        static::assertEquals([], $batch->getBatchParts());
 
         try {
             // should fail
@@ -78,7 +78,7 @@ class BatchTest extends
 
         for ($i = 0; $i < 10; ++$i) {
             $batch->nextBatchPartId('doc' . $i);
-            $document = Document::createFromArray(array('test1' => $i, 'test2' => $i + 1));
+            $document = Document::createFromArray(['test1' => $i, 'test2' => $i + 1]);
             $this->documentHandler->add($this->collection->getId(), $document);
         }
 
@@ -153,14 +153,14 @@ class BatchTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+            ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
@@ -188,14 +188,14 @@ class BatchTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+            ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
@@ -225,14 +225,14 @@ class BatchTest extends
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
 
-        $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+        $document = Document::createFromArray(
+            ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
         try {
             $documentId = $documentHandler->add($this->collection->getId(), $document);
@@ -288,7 +288,7 @@ class BatchTest extends
         $documentHandler = $this->documentHandler;
         $batch->nextBatchPartId('doc1');
         $document   = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
         $documentId = $documentHandler->add($resultingCollectionId, $document);
 
@@ -296,10 +296,10 @@ class BatchTest extends
 
         for ($i = 0; $i <= 10; ++$i) {
             $document   = Document::createFromArray(
-                array(
+                [
                     'someAttribute' => 'someValue' . $i,
                     'someOtherAttribute' => 'someOtherValue2' . $i
-                )
+                ]
             );
             $documentId = $documentHandler->add($resultingCollectionId, $document);
         }
@@ -362,20 +362,20 @@ class BatchTest extends
         $batch->nextBatchPartId('myBatchPart');
         // set cursor options for the next batchPart
         $batch->nextBatchPartCursorOptions(
-            array(
+            [
                 'sanitize' => true,
-            )
+            ]
         );
 
 
         // set batchsize to 10, so we can test if an additional http request is done when we getAll() a bit later
         $statement = new Statement(
-            $connection, array(
+            $connection, [
                            'query' => '',
                            'count' => true,
                            'batchSize' => 10,
                            'sanitize' => true,
-                       )
+                       ]
         );
 
         $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_02` RETURN a');

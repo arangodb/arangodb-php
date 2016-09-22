@@ -56,7 +56,7 @@ class TransactionTest extends
      */
     public function testDeadlockHandling()
     {
-        $w1      = array($this->collection1->getName());
+        $w1      = [$this->collection1->getName()];
         $action1 = '
         try {
           require("internal").db._executeTransaction({ collections: { write: [ "' . $this->collection2->getName() . '" ] }, action: function () {
@@ -70,7 +70,7 @@ class TransactionTest extends
         }
         ';
 
-        $result1 = $this->connection->post('/_admin/execute?returnAsJSON=true', $action1, array('X-Arango-Async' => 'store'));
+        $result1 = $this->connection->post('/_admin/execute?returnAsJSON=true', $action1, ['X-Arango-Async' => 'store']);
         $id1     = $result1->getHeader('x-arango-async-id');
 
         $action2 = '
@@ -86,7 +86,7 @@ class TransactionTest extends
         }
         ';
 
-        $result2 = $this->connection->post('/_admin/execute?returnAsJSON=true', $action2, array('X-Arango-Async' => 'store'));
+        $result2 = $this->connection->post('/_admin/execute?returnAsJSON=true', $action2, ['X-Arango-Async' => 'store']);
         $id2     = $result2->getHeader('x-arango-async-id');
 
         $tries   = 0;
@@ -135,8 +135,8 @@ class TransactionTest extends
      */
     public function testCreateAndExecuteTransactionWithArrayInitialization()
     {
-        $writeCollections = array($this->collection1->getName());
-        $readCollections  = array($this->collection2->getName());
+        $writeCollections = [$this->collection1->getName()];
+        $readCollections  = [$this->collection2->getName()];
         $action           = '
   function () {
     var db = require("internal").db;
@@ -145,12 +145,12 @@ class TransactionTest extends
         $waitForSync      = true;
         $lockTimeout      = 10;
 
-        $array       = array(
-            'collections' => array('read' => $readCollections, 'write' => $writeCollections),
+        $array       = [
+            'collections' => ['read' => $readCollections, 'write' => $writeCollections],
             'action' => $action,
             'waitForSync' => $waitForSync,
             'lockTimeout' => $lockTimeout
-        );
+        ];
         $transaction = new Transaction($this->connection, $array);
 
         // check if object was initialized correctly with the array
@@ -182,8 +182,8 @@ class TransactionTest extends
      */
     public function testCreateAndExecuteTransactionWithMagicGettersSetters()
     {
-        $writeCollections = array($this->collection1->getName());
-        $readCollections  = array($this->collection2->getName());
+        $writeCollections = [$this->collection1->getName()];
+        $readCollections  = [$this->collection2->getName()];
         $action           = '
   function () {
     var db = require("internal").db;
@@ -274,8 +274,8 @@ class TransactionTest extends
      */
     public function testCreateAndExecuteTransactionWithGettersSetters()
     {
-        $writeCollections = array($this->collection1->getName());
-        $readCollections  = array($this->collection2->getName());
+        $writeCollections = [$this->collection1->getName()];
+        $readCollections  = [$this->collection2->getName()];
         $action           = '
   function () {
     var db = require("internal").db;
@@ -323,8 +323,8 @@ class TransactionTest extends
      */
     public function testCreateAndExecuteTransactionWithReturnValue()
     {
-        $writeCollections = array($this->collection1->getName());
-        $readCollections  = array($this->collection2->getName());
+        $writeCollections = [$this->collection1->getName()];
+        $readCollections  = [$this->collection2->getName()];
         $action           = '
   function () {
     var db = require("internal").db;
@@ -348,8 +348,8 @@ class TransactionTest extends
      */
     public function testCreateAndExecuteTransactionWithTransactionException()
     {
-        $writeCollections = array($this->collection1->getName());
-        $readCollections  = array($this->collection2->getName());
+        $writeCollections = [$this->collection1->getName()];
+        $readCollections  = [$this->collection2->getName()];
         $action           = '
   function () {
     var db = require("internal").db;
@@ -388,8 +388,8 @@ class TransactionTest extends
             return;
         }
 
-        $writeCollections = array($this->collection1->getName());
-        $readCollections  = array($this->collection2->getName());
+        $writeCollections = [$this->collection1->getName()];
+        $readCollections  = [$this->collection2->getName()];
         $action           = '
   function () {
     var db = require("internal").db;

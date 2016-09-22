@@ -99,7 +99,7 @@ class GraphHandler extends
      */
     public function createGraph(Graph $graph)
     {
-        $edgeDefinitions = array();
+        $edgeDefinitions = [];
         foreach ($graph->getEdgeDefinitions() as $ed) {
             $edgeDefinitions[] = $ed->transformToArray();
         }
@@ -115,7 +115,6 @@ class GraphHandler extends
         $graph->setInternalId($json['graph'][Graph::ENTRY_ID]);
         $graph->set(Graph::ENTRY_KEY, $json['graph'][self::OPTION_NAME]);
         $graph->setRevision($json['graph'][Graph::ENTRY_REV]);
-
 
         return $graph->getAll();
     }
@@ -159,7 +158,7 @@ class GraphHandler extends
      * @return Graph
      * @since   1.2
      */
-    public function getGraph($graph, array $options = array())
+    public function getGraph($graph, array $options = [])
     {
         $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph));
         try {
@@ -354,7 +353,7 @@ class GraphHandler extends
      * @return array
      * @throws ClientException@since 2.2
      */
-    public function getVertexCollections($graph, $options = array())
+    public function getVertexCollections($graph, $options = [])
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
@@ -467,7 +466,7 @@ class GraphHandler extends
      *
      * @param mixed $graph - graph name as a string or instance of Graph
      *
-     * @return array()
+     * @return []
      * @since 2.2
      */
     public function getEdgeCollections($graph)
@@ -601,7 +600,7 @@ class GraphHandler extends
      * @return Document
      * @since 1.2
      */
-    public function getVertex($graph, $vertexId, array $options = array(), $collection = null)
+    public function getVertex($graph, $vertexId, array $options = [], $collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
@@ -687,7 +686,7 @@ class GraphHandler extends
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function replaceVertex($graph, $vertexId, Document $document, $options = array(), $collection = null)
+    public function replaceVertex($graph, $vertexId, Document $document, $options = [], $collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
@@ -710,7 +709,7 @@ class GraphHandler extends
         $options = array_merge(array(self::OPTION_REVISION => false), $options);
 
         // This preserves compatibility for the old policy parameter.
-        $params = array();
+        $params = [];
         $params = $this->validateAndIncludeOldSingleParameterInParams(
             $options,
             $params,
@@ -781,7 +780,7 @@ class GraphHandler extends
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function updateVertex($graph, $vertexId, Document $document, $options = array(), $collection = null)
+    public function updateVertex($graph, $vertexId, Document $document, $options = [], $collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
@@ -802,7 +801,7 @@ class GraphHandler extends
         }
         $options = array_merge(array(self::OPTION_REVISION => false), $options);
         // This preserves compatibility for the old policy parameter.
-        $params = array();
+        $params = [];
         $params = $this->validateAndIncludeOldSingleParameterInParams(
             $options,
             $params,
@@ -859,7 +858,7 @@ class GraphHandler extends
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function removeVertex($graph, $vertexId, $revision = null, $options = array(), $collection = null)
+    public function removeVertex($graph, $vertexId, $revision = null, $options = [], $collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
@@ -879,7 +878,7 @@ class GraphHandler extends
             }
         }
         // This preserves compatibility for the old policy parameter.
-        $params = array();
+        $params = [];
         $params = $this->validateAndIncludeOldSingleParameterInParams(
             $options,
             $params,
@@ -989,7 +988,7 @@ class GraphHandler extends
      * @return Document - the edge document fetched from the server
      * @since 1.2
      */
-    public function getEdge($graph, $edgeId, array $options = array(), $collection = null)
+    public function getEdge($graph, $edgeId, array $options = [], $collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
@@ -1077,7 +1076,7 @@ class GraphHandler extends
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function replaceEdge($graph, $edgeId, $label, Edge $document, $options = array(), $collection = null)
+    public function replaceEdge($graph, $edgeId, $label, Edge $document, $options = [], $collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
@@ -1101,7 +1100,7 @@ class GraphHandler extends
         // This preserves compatibility for the old policy parameter.
         $params = $this->validateAndIncludeOldSingleParameterInParams(
             $options,
-            array(),
+            [],
             ConnectionOptions::OPTION_REPLACE_POLICY
         );
         $params = $this->includeOptionsInParams(
@@ -1116,7 +1115,7 @@ class GraphHandler extends
         );
 
         //Include the revision for conditional updates if required
-        $headers = array();
+        $headers = [];
         if ($options[self::OPTION_REVISION] === true) {
             $revision = $document->getRevision();
 
@@ -1179,7 +1178,7 @@ class GraphHandler extends
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function updateEdge($graph, $edgeId, $label, Edge $document, $options = array(), $collection = null)
+    public function updateEdge($graph, $edgeId, $label, Edge $document, $options = [], $collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
@@ -1201,7 +1200,7 @@ class GraphHandler extends
         $options = array_merge(array(self::OPTION_REVISION => false), $options);
 
         // This preserves compatibility for the old policy parameter.
-        $params = array();
+        $params = [];
         $params = $this->validateAndIncludeOldSingleParameterInParams(
             $options,
             $params,
@@ -1262,7 +1261,7 @@ class GraphHandler extends
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function removeEdge($graph, $edgeId, $revision = null, $options = array(), $collection = null)
+    public function removeEdge($graph, $edgeId, $revision = null, $options = [], $collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
@@ -1282,7 +1281,7 @@ class GraphHandler extends
             }
         }
         // This preserves compatibility for the old policy parameter.
-        $params = array();
+        $params = [];
         $params = $this->validateAndIncludeOldSingleParameterInParams(
             $options,
             $params,
@@ -1306,5 +1305,4 @@ class GraphHandler extends
 
         return true;
     }
-
 }

@@ -69,7 +69,7 @@ class Connection
      *
      * @var array
      */
-    private $_batches = array();
+    private $_batches = [];
 
     /**
      * $_activeBatch object
@@ -207,7 +207,7 @@ class Connection
      *
      * @return HttpResponse
      */
-    public function get($url, array $customHeaders = array())
+    public function get($url, array $customHeaders = [])
     {
         $response = $this->executeRequest(HttpHelper::METHOD_GET, $url, '', $customHeaders);
 
@@ -225,7 +225,7 @@ class Connection
      *
      * @return HttpResponse
      */
-    public function post($url, $data, array $customHeaders = array())
+    public function post($url, $data, array $customHeaders = [])
     {
         $response = $this->executeRequest(HttpHelper::METHOD_POST, $url, $data, $customHeaders);
 
@@ -243,7 +243,7 @@ class Connection
      *
      * @return HttpResponse
      */
-    public function put($url, $data, array $customHeaders = array())
+    public function put($url, $data, array $customHeaders = [])
     {
         $response = $this->executeRequest(HttpHelper::METHOD_PUT, $url, $data, $customHeaders);
 
@@ -260,7 +260,7 @@ class Connection
      *
      * @return HttpResponse
      */
-    public function head($url, array $customHeaders = array())
+    public function head($url, array $customHeaders = [])
     {
         $response = $this->executeRequest(HttpHelper::METHOD_HEAD, $url, '', $customHeaders);
 
@@ -278,7 +278,7 @@ class Connection
      *
      * @return HttpResponse
      */
-    public function patch($url, $data, array $customHeaders = array())
+    public function patch($url, $data, array $customHeaders = [])
     {
         $response = $this->executeRequest(HttpHelper::METHOD_PATCH, $url, $data, $customHeaders);
 
@@ -295,7 +295,7 @@ class Connection
      *
      * @return HttpResponse
      */
-    public function delete($url, array $customHeaders = array())
+    public function delete($url, array $customHeaders = [])
     {
         $response = $this->executeRequest(HttpHelper::METHOD_DELETE, $url, '', $customHeaders);
 
@@ -400,7 +400,7 @@ class Connection
      *
      * @return HttpResponse
      */
-    private function executeRequest($method, $url, $data, array $customHeaders = array())
+    private function executeRequest($method, $url, $data, array $customHeaders = [])
     {
         assert($this->_httpHeader !== '');
         $wasAsync = false;

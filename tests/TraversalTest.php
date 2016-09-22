@@ -74,41 +74,41 @@ class TraversalTest extends
         $this->edgeLabel4  = 'edge_eve_alice';
         $this->edgeLabel5  = 'edge_eve_bob';
 
-        $this->vertex1Array = array(
+        $this->vertex1Array = [
             '_key' => $this->vertex1Name,
             'name' => 'Alice'
-        );
-        $this->vertex2Array = array(
+        ];
+        $this->vertex2Array = [
             '_key' => $this->vertex2Name,
             'name' => 'Bob'
-        );
-        $this->vertex3Array = array(
+        ];
+        $this->vertex3Array = [
             '_key' => $this->vertex3Name,
             'name' => 'Charlie'
-        );
-        $this->vertex4Array = array(
+        ];
+        $this->vertex4Array = [
             '_key' => $this->vertex4Name,
             'name' => 'Dave'
-        );
-        $this->vertex5Array = array(
+        ];
+        $this->vertex5Array = [
             '_key' => $this->vertex5Name,
             'name' => 'Eve'
-        );
-        $this->edge1Array   = array(
+        ];
+        $this->edge1Array   = [
             '_key' => $this->edge1Name
-        );
-        $this->edge2Array   = array(
+        ];
+        $this->edge2Array   = [
             '_key' => $this->edge2Name
-        );
-        $this->edge3Array   = array(
+        ];
+        $this->edge3Array   = [
             '_key' => $this->edge3Name
-        );
-        $this->edge4Array   = array(
+        ];
+        $this->edge4Array   = [
             '_key' => $this->edge4Name
-        );
-        $this->edge5Array   = array(
+        ];
+        $this->edge5Array   = [
             '_key' => $this->edge5Name
-        );
+        ];
 
 
         $this->graphName  = 'Graph1';
@@ -204,7 +204,7 @@ class TraversalTest extends
 
         $startVertex    = $this->vertexCollectionName . '/' . $this->vertex1Name;
         $edgeCollection = $this->edgeCollectionName;
-        $options        = array('direction' => 'outbound');
+        $options        = ['direction' => 'outbound'];
         $traversal      = new Traversal($this->connection, $startVertex, $edgeCollection, $options);
 
         $result = $traversal->getResult();
@@ -228,7 +228,7 @@ class TraversalTest extends
 
         $startVertex    = $this->vertexCollectionName . '/' . $this->vertex1Name;
         $edgeCollection = $this->edgeCollectionName;
-        $options        = array('direction' => 'inbound');
+        $options        = ['direction' => 'inbound'];
         $traversal      = new Traversal($this->connection, $startVertex, $edgeCollection, $options);
 
         $result = $traversal->getResult();
@@ -252,10 +252,10 @@ class TraversalTest extends
 
         $startVertex    = $this->vertexCollectionName . '/' . $this->vertex1Name;
         $edgeCollection = $this->edgeCollectionName;
-        $options        = array(
+        $options        = [
             'direction' => 'any',
-            'uniqueness' => array('vertices' => 'none', 'edges' => 'global')
-        );
+            'uniqueness' => ['vertices' => 'none', 'edges' => 'global']
+        ];
         $traversal      = new Traversal($this->connection, $startVertex, $edgeCollection, $options);
 
         $result = $traversal->getResult();
@@ -279,10 +279,10 @@ class TraversalTest extends
 
         $startVertex    = $this->vertexCollectionName . '/' . $this->vertex1Name;
         $edgeCollection = $this->edgeCollectionName;
-        $options        = array(
+        $options        = [
             'direction' => 'outbound',
             'filter' => 'if (vertex.name === "Bob" || vertex.name === "Charlie") {return "exclude";}return;'
-        );
+        ];
         $traversal      = new Traversal($this->connection, $startVertex, $edgeCollection, $options);
 
         $result = $traversal->getResult();
@@ -306,10 +306,10 @@ class TraversalTest extends
 
         $startVertex    = $this->vertexCollectionName . '/' . $this->vertex1Name;
         $edgeCollection = $this->edgeCollectionName;
-        $options        = array(
+        $options        = [
             'direction' => 'outbound',
             'filter' => 'if (vertex.name === "Bob") {return "prune";}return;'
-        );
+        ];
         $traversal      = new Traversal($this->connection, $startVertex, $edgeCollection, $options);
 
         $result = $traversal->getResult();
@@ -333,10 +333,10 @@ class TraversalTest extends
 
         $startVertex    = $this->vertexCollectionName . '/' . $this->vertex1Name;
         $edgeCollection = $this->edgeCollectionName;
-        $options        = array(
+        $options        = [
             'direction' => 'outbound',
             'minDepth' => 2
-        );
+        ];
         $traversal      = new Traversal($this->connection, $startVertex, $edgeCollection, $options);
 
         $result = $traversal->getResult();
@@ -360,10 +360,10 @@ class TraversalTest extends
 
         $startVertex    = $this->vertexCollectionName . '/' . $this->vertex1Name;
         $edgeCollection = $this->edgeCollectionName;
-        $options        = array(
+        $options        = [
             'direction' => 'outbound',
             'maxDepth' => 1
-        );
+        ];
         $traversal      = new Traversal($this->connection, $startVertex, $edgeCollection, $options);
 
         $result = $traversal->getResult();
@@ -387,12 +387,12 @@ class TraversalTest extends
 
         $startVertex    = $this->vertexCollectionName . '/' . $this->vertex1Name;
         $edgeCollection = $this->edgeCollectionName;
-        $options        = array(
+        $options        = [
             'direction' => 'outbound',
             'init' => 'result.visited = 0; result.myVertices = [ ];',
             'visitor' => 'result.visited++; result.myVertices.push(vertex);'
 
-        );
+        ];
         $traversal      = new Traversal($this->connection, $startVertex, $edgeCollection, $options);
 
         $result = $traversal->getResult();
@@ -416,10 +416,10 @@ class TraversalTest extends
 
         $startVertex    = $this->vertexCollectionName . '/' . $this->vertex1Name;
         $edgeCollection = $this->edgeCollectionName;
-        $options        = array(
+        $options        = [
             'expander' => "var connections = [ ];if (vertex.name === \"Alice\") {config.edgeCollection.inEdges(vertex).forEach(function (e) {connections.push({ vertex: require(\"internal\").db._document(e._from), edge: e});});}if (vertex.name === \"Eve\") {config.edgeCollection.outEdges(vertex).forEach(function (e) {connections.push({vertex: require(\"internal\").db._document(e._to), edge: e});});}return connections;"
 
-        );
+        ];
         $traversal      = new Traversal($this->connection, $startVertex, $edgeCollection, $options);
 
         $result = $traversal->getResult();
@@ -443,11 +443,11 @@ class TraversalTest extends
 
         $startVertex    = $this->vertexCollectionName . '/' . $this->vertex1Name;
         $edgeCollection = $this->edgeCollectionName;
-        $options        = array(
+        $options        = [
             'direction' => 'any',
             'strategy' => 'depthFirst'
 
-        );
+        ];
         $traversal      = new Traversal($this->connection, $startVertex, $edgeCollection, $options);
 
         $result = $traversal->getResult();
@@ -456,7 +456,7 @@ class TraversalTest extends
         static::assertCount(11, $result['result']['visited']['vertices']);
         static::assertCount(11, $result['result']['visited']['paths']);
 
-        $vertices = array();
+        $vertices = [];
         foreach ($result['result']['visited']['vertices'] as $vertex) {
             @$vertices[$vertex['name']]++;
         }
@@ -482,11 +482,11 @@ class TraversalTest extends
 
         $startVertex    = $this->vertexCollectionName . '/' . $this->vertex1Name;
         $edgeCollection = $this->edgeCollectionName;
-        $options        = array(
+        $options        = [
             'direction' => 'any',
             'order' => 'postorder'
 
-        );
+        ];
         $traversal      = new Traversal($this->connection, $startVertex, $edgeCollection, $options);
 
         $result = $traversal->getResult();
@@ -495,7 +495,7 @@ class TraversalTest extends
         static::assertCount(11, $result['result']['visited']['vertices']);
         static::assertCount(11, $result['result']['visited']['paths']);
 
-        $vertices = array();
+        $vertices = [];
         foreach ($result['result']['visited']['vertices'] as $vertex) {
             @$vertices[$vertex['name']]++;
         }
@@ -521,11 +521,11 @@ class TraversalTest extends
 
         $startVertex    = $this->vertexCollectionName . '/' . $this->vertex1Name;
         $edgeCollection = $this->edgeCollectionName;
-        $options        = array(
+        $options        = [
             'direction' => 'any',
             'itemOrder' => 'backward'
 
-        );
+        ];
         $traversal      = new Traversal($this->connection, $startVertex, $edgeCollection, $options);
 
         $result = $traversal->getResult();
@@ -534,7 +534,7 @@ class TraversalTest extends
         static::assertCount(11, $result['result']['visited']['vertices']);
         static::assertCount(11, $result['result']['visited']['paths']);
 
-        $vertices = array();
+        $vertices = [];
         foreach ($result['result']['visited']['vertices'] as $vertex) {
             @$vertices[$vertex['name']]++;
         }
@@ -560,11 +560,11 @@ class TraversalTest extends
 
         $startVertex    = $this->vertexCollectionName . '/' . $this->vertex1Name;
         $edgeCollection = $this->edgeCollectionName;
-        $options        = array(
+        $options        = [
             'direction' => 'any',
-            'uniqueness' => array('vertices' => 'none', 'edges' => 'global')
+            'uniqueness' => ['vertices' => 'none', 'edges' => 'global']
 
-        );
+        ];
         $traversal      = new Traversal($this->connection, $startVertex, $edgeCollection, $options);
 
         $result = $traversal->getResult();
@@ -573,7 +573,7 @@ class TraversalTest extends
         static::assertCount(6, $result['result']['visited']['vertices']);
         static::assertCount(6, $result['result']['visited']['paths']);
 
-        $vertices = array();
+        $vertices = [];
         foreach ($result['result']['visited']['vertices'] as $vertex) {
             @$vertices[$vertex['name']]++;
         }
@@ -601,12 +601,12 @@ class TraversalTest extends
 
         $startVertex    = $this->vertexCollectionName . '/' . $this->vertex1Name;
         $edgeCollection = $this->edgeCollectionName;
-        $options        = array(
+        $options        = [
             'direction' => 'any',
-            'uniqueness' => array('vertices' => 'none', 'edges' => 'none'),
+            'uniqueness' => ['vertices' => 'none', 'edges' => 'none'],
             'maxIterations' => 5
 
-        );
+        ];
         $traversal      = new Traversal($this->connection, $startVertex, $edgeCollection, $options);
 
 

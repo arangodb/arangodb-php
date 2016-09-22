@@ -124,12 +124,12 @@ class UserBasicTest extends
     {
         $this->userHandler = new UserHandler($this->connection);
 
-        $result = $this->userHandler->addUser('testUser1', 'testPass1', true, array('level' => 1));
+        $result = $this->userHandler->addUser('testUser1', 'testPass1', true, ['level' => 1]);
         static::assertTrue($result);
 
         $e = null;
         try {
-            $this->userHandler->addUser('testUser1', 'testPass1', true, array('level' => 1));
+            $this->userHandler->addUser('testUser1', 'testPass1', true, ['level' => 1]);
         } catch (\Exception $e) {
             // Just give us the $e
             static::assertEquals($e->getCode(), 400);
@@ -143,7 +143,7 @@ class UserBasicTest extends
         static::assertEquals($extra['level'], 1, 'Should return 1');
 
 
-        $this->userHandler->replaceUser('testUser1', 'testPass2', false, array('level' => 2));
+        $this->userHandler->replaceUser('testUser1', 'testPass2', false, ['level' => 2]);
         static::assertTrue($result);
 
 
@@ -154,7 +154,7 @@ class UserBasicTest extends
         static::assertEquals($extra['level'], 2, 'Should return 2');
 
 
-        $this->userHandler->updateUser('testUser1', null, null, array('level' => 3));
+        $this->userHandler->updateUser('testUser1', null, null, ['level' => 3]);
         static::assertTrue($result);
 
 
@@ -186,7 +186,7 @@ class UserBasicTest extends
 
         $e = null;
         try {
-            $this->userHandler->updateUser('testUser1', null, null, array('level' => 3));
+            $this->userHandler->updateUser('testUser1', null, null, ['level' => 3]);
         } catch (\Exception $e) {
             // Just give us the $e
             static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . ($e->getCode()));
@@ -196,7 +196,7 @@ class UserBasicTest extends
 
         $e = null;
         try {
-            $this->userHandler->replaceUser('testUser1', 'testPass2', false, array('level' => 2));
+            $this->userHandler->replaceUser('testUser1', 'testPass2', false, ['level' => 2]);
         } catch (\Exception $e) {
             // Just give us the $e
             static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . ($e->getCode()));

@@ -38,7 +38,7 @@ function getConnectionOptions()
         print 'TRACE FOR ' . $type . PHP_EOL;
     };
 
-    return array(
+    return [
         ConnectionOptions::OPTION_ENDPOINT => 'tcp://localhost:8529',
         // endpoint to connect to
         ConnectionOptions::OPTION_CONNECTION => 'Close',
@@ -58,7 +58,7 @@ function getConnectionOptions()
         // last update wins
         ConnectionOptions::OPTION_CHECK_UTF8_CONFORM => true
         // force UTF-8 checks for data
-    );
+    ];
 }
 
 

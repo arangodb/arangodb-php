@@ -26,7 +26,7 @@ class TraceResponse
      *
      * @var array
      */
-    private $_headers = array();
+    private $_headers = [];
 
     /**
      * The http status code

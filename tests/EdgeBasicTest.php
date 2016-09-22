@@ -103,7 +103,7 @@ class EdgeBasicTest extends
             $edgeCollection->getName(),
             $documentHandle1,
             $documentHandle2,
-            array('label' => 'knows (but created using an array instead of an edge object)')
+            ['label' => 'knows (but created using an array instead of an edge object)']
         );
 
         $resultingDocument = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
@@ -122,12 +122,12 @@ class EdgeBasicTest extends
         static::assertCount(2, $edgesQuery1Result);
 
         $statement = new Statement(
-            $connection, array(
+            $connection, [
                            'query' => '',
                            'count' => true,
                            'batchSize' => 1000,
                            'sanitize' => true,
-                       )
+                       ]
         );
         $statement->setQuery(
             'FOR start IN ArangoDBPHPTestSuiteTestCollection01 FOR v, e, p IN 0..1000 OUTBOUND start ArangoDBPHPTestSuiteTestEdgeCollection01 RETURN { source: start, destination: v, edges: p.edges, vertices: p.vertices }'
@@ -206,7 +206,7 @@ class EdgeBasicTest extends
             $edgeCollection->getName(),
             $documentHandle1,
             $documentHandle2,
-            array('label' => 'knows (but created using an array instead of an edge object)')
+            ['label' => 'knows (but created using an array instead of an edge object)']
         );
 
         $resultingDocument = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
@@ -225,12 +225,12 @@ class EdgeBasicTest extends
         static::assertCount(2, $edgesQuery1Result);
 
         $statement = new Statement(
-            $connection, array(
+            $connection, [
                            'query' => '',
                            'count' => true,
                            'batchSize' => 1000,
                            'sanitize' => true,
-                       )
+                       ]
         );
         $statement->setQuery(
             'FOR start IN ArangoDBPHPTestSuiteTestCollection01 FOR v, e, p IN 0..1000 OUTBOUND start ArangoDBPHPTestSuiteTestEdgeCollection01 RETURN { source: start, destination: v, edges: p.edges, vertices: p.vertices }'
@@ -318,12 +318,12 @@ class EdgeBasicTest extends
         static::assertCount(2, $edgesQuery1Result);
 
         $statement = new Statement(
-            $connection, array(
+            $connection, [
                            'query' => '',
                            'count' => true,
                            'batchSize' => 1000,
                            'sanitize' => true,
-                       )
+                       ]
         );
         $statement->setQuery(
             'FOR p IN PATHS(ArangoDBPHPTestSuiteTestCollection01, ArangoDBPHPTestSuiteTestEdgeCollection01, "outbound")  RETURN p'
@@ -394,17 +394,17 @@ class EdgeBasicTest extends
          * lets get the edge in a wrong revision
          */
         try {
-            $edgeHandler->get($edgeCollection->getId(), $edgeId, array('ifMatch' => true, 'revision' => 12345));
+            $edgeHandler->get($edgeCollection->getId(), $edgeId, ['ifMatch' => true, 'revision' => 12345]);
         } catch (\Exception $exception412) {
         }
         static::assertEquals($exception412->getCode(), 412);
 
         try {
             $edgeHandler->get(
-                $edgeCollection->getId(), $edgeId, array(
+                $edgeCollection->getId(), $edgeId, [
                                             'ifMatch' => false,
                                             'revision' => $edgeDocument->getRevision()
-                                        )
+                                        ]
             );
         } catch (\Exception $exception304) {
         }
@@ -419,7 +419,7 @@ class EdgeBasicTest extends
 
         $oldRevision = $edgeHandler->get(
             $edgeCollection->getId(), $edgeId,
-            array('revision' => $resultingEdge->getRevision())
+            ['revision' => $resultingEdge->getRevision()]
         );
         static::assertEquals($oldRevision->getRevision(), $resultingEdge->getRevision());
         $documentHandler->delete($document1);
@@ -517,21 +517,21 @@ class EdgeBasicTest extends
             $edgeCollection->getName(),
             $documentHandle1,
             $documentHandle2,
-            array('value' => 1)
+            ['value' => 1]
         );
 
         $edgeDocument2 = $edgeDocumentHandler->saveEdge(
             $edgeCollection->getName(),
             $documentHandle2,
             $documentHandle1,
-            array('value' => 2)
+            ['value' => 2]
         );
 
         $edgeDocument3 = $edgeDocumentHandler->saveEdge(
             $edgeCollection->getName(),
             $documentHandle1,
             $documentHandle2,
-            array('value' => 3)
+            ['value' => 3]
         );
 
         $result = $this->collectionHandler->getAllIds($edgeCollection->getName());
@@ -569,21 +569,21 @@ class EdgeBasicTest extends
             $edgeCollection->getName(),
             $documentHandle1,
             $documentHandle2,
-            array('value' => 1)
+            ['value' => 1]
         );
 
         $edgeDocument2 = $edgeDocumentHandler->saveEdge(
             $edgeCollection->getName(),
             $documentHandle2,
             $documentHandle1,
-            array('value' => 2)
+            ['value' => 2]
         );
 
         $edgeDocument3 = $edgeDocumentHandler->saveEdge(
             $edgeCollection->getName(),
             $documentHandle1,
             $documentHandle2,
-            array('value' => 3)
+            ['value' => 3]
         );
 
         $edgesQueryResult = $edgeDocumentHandler->edges($edgeCollection->getName(), $documentHandle1);
@@ -640,21 +640,21 @@ class EdgeBasicTest extends
             $edgeCollection->getName(),
             $documentHandle1,
             $documentHandle2,
-            array('value' => 1)
+            ['value' => 1]
         );
 
         $edgeDocument2 = $edgeDocumentHandler->saveEdge(
             $edgeCollection->getName(),
             $documentHandle2,
             $documentHandle1,
-            array('value' => 2)
+            ['value' => 2]
         );
 
         $edgeDocument3 = $edgeDocumentHandler->saveEdge(
             $edgeCollection->getName(),
             $documentHandle1,
             $documentHandle2,
-            array('value' => 3)
+            ['value' => 3]
         );
 
         $edgesQueryResult = $edgeDocumentHandler->edges($edgeCollection->getName(), $documentHandle1, 'any');
@@ -711,21 +711,21 @@ class EdgeBasicTest extends
             $edgeCollection->getName(),
             $documentHandle1,
             $documentHandle2,
-            array('value' => 1)
+            ['value' => 1]
         );
 
         $edgeDocument2 = $edgeDocumentHandler->saveEdge(
             $edgeCollection->getName(),
             $documentHandle2,
             $documentHandle1,
-            array('value' => 2)
+            ['value' => 2]
         );
 
         $edgeDocument3 = $edgeDocumentHandler->saveEdge(
             $edgeCollection->getName(),
             $documentHandle1,
             $documentHandle2,
-            array('value' => 3)
+            ['value' => 3]
         );
 
         $edgesQueryResult = $edgeDocumentHandler->inEdges($edgeCollection->getName(), $documentHandle1);
@@ -767,21 +767,21 @@ class EdgeBasicTest extends
             $edgeCollection->getName(),
             $documentHandle1,
             $documentHandle2,
-            array('value' => 1)
+            ['value' => 1]
         );
 
         $edgeDocument2 = $edgeDocumentHandler->saveEdge(
             $edgeCollection->getName(),
             $documentHandle2,
             $documentHandle1,
-            array('value' => 2)
+            ['value' => 2]
         );
 
         $edgeDocument3 = $edgeDocumentHandler->saveEdge(
             $edgeCollection->getName(),
             $documentHandle1,
             $documentHandle2,
-            array('value' => 3)
+            ['value' => 3]
         );
 
         $edgesQueryResult = $edgeDocumentHandler->outEdges($edgeCollection->getName(), $documentHandle1);

@@ -62,7 +62,7 @@ class AqlUserFunction
      *
      * @var array
      */
-    protected $attributes = array();
+    protected $attributes = [];
 
     /**
      * The transaction's action.
@@ -135,7 +135,7 @@ class AqlUserFunction
             $attributes['code'] = $code;
         }
 
-        $response      = $this->_connection->post(
+        $response = $this->_connection->post(
             Urls::URL_AQL_USER_FUNCTION,
             $this->getConnection()->json_encode_wrapper($attributes)
         );
@@ -169,7 +169,7 @@ class AqlUserFunction
             $url = UrlHelper::appendParamsUrl($url, array('group' => true));
         }
 
-        $response      = $this->_connection->delete($url);
+        $response = $this->_connection->delete($url);
         return $response->getJson();
     }
 
@@ -187,7 +187,7 @@ class AqlUserFunction
      */
     public function getRegisteredUserFunctions($namespace = null)
     {
-        $url = UrlHelper::buildUrl(Urls::URL_AQL_USER_FUNCTION, array());
+        $url = UrlHelper::buildUrl(Urls::URL_AQL_USER_FUNCTION, []);
         if (null !== $namespace) {
             $url = UrlHelper::appendParamsUrl($url, array('namespace' => $namespace));
         }

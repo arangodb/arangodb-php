@@ -142,7 +142,7 @@ class HttpHelper
      * @throws ClientException
      *
      */
-    public static function buildRequest(ConnectionOptions $options, $connectionHeader, $method, $url, $body, $customHeaders = array())
+    public static function buildRequest(ConnectionOptions $options, $connectionHeader, $method, $url, $body, $customHeaders = [])
     {
         if (!is_string($body)) {
             throw new ClientException('Invalid value for body. Expecting string, got ' . gettype($body));
@@ -303,7 +303,7 @@ class HttpHelper
     {
         $httpCode  = null;
         $result    = null;
-        $processed = array();
+        $processed = [];
 
         foreach (explode(HttpHelper::EOL, $headers) as $lineNumber => $line) {
             if ($lineNumber === 0) {

@@ -42,7 +42,7 @@ class Batch
      *
      * @var array $_batchParts
      */
-    private $_batchParts = array();
+    private $_batchParts = [];
 
 
     /**
@@ -58,7 +58,7 @@ class Batch
      *
      * @var array $_batchParts
      */
-    private $_batchPartCursorOptions = array();
+    private $_batchPartCursorOptions = [];
 
 
     /**
@@ -100,7 +100,7 @@ class Batch
      *
      * @return Batch
      */
-    public function __construct(Connection $connection, $options = array())
+    public function __construct(Connection $connection, $options = [])
     {
         $startCapture = true;
         $sanitize     = false;
@@ -378,7 +378,7 @@ class Batch
      */
     public function splitWithContentIdKey($pattern, $string)
     {
-        $array    = array();
+        $array    = [];
         $exploded = explode($pattern, $string);
         foreach ($exploded as $key => $value) {
             $response  = new HttpResponse($value);
@@ -431,7 +431,7 @@ class Batch
         }
         $data .= '--' . HttpHelper::MIME_BOUNDARY . '--' . HttpHelper::EOL . HttpHelper::EOL;
 
-        $params               = array();
+        $params               = [];
         $url                  = UrlHelper::appendParamsUrl(Urls::URL_BATCH, $params);
         $this->_batchResponse = $this->_connection->post($url, $data);
         if ($this->_batchResponse->getHttpCode() !== 200) {

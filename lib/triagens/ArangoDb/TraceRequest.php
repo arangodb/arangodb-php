@@ -26,7 +26,7 @@ class TraceRequest
      *
      * @var array
      */
-    private $_headers = array();
+    private $_headers = [];
 
     /**
      * Stores the http method

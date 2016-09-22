@@ -167,7 +167,7 @@ class UserHandler extends
     public function removeUser($username)
     {
         // This preserves compatibility for the old policy parameter.
-        $params = array();
+        $params = [];
 
         $url = UrlHelper::buildUrl(Urls::URL_USER, array($username));
         $url = UrlHelper::appendParamsUrl($url, $params);

@@ -143,7 +143,7 @@ class CollectionBasicTest extends
 
         $collection->setName($name);
         $collection->setKeyOptions(
-            array('type' => 'autoincrement', 'allowUserKeys' => false, 'increment' => 5, 'offset' => 10)
+            ['type' => 'autoincrement', 'allowUserKeys' => false, 'increment' => 5, 'offset' => 10]
         );
         $response = $collectionHandler->add($collection);
 
@@ -199,7 +199,7 @@ class CollectionBasicTest extends
 
         $collection->setName($name);
         $collection->setKeyOptions(
-            array('type' => 'autoincrement', 'allowUserKeys' => false, 'increment' => 5, 'offset' => 10)
+            ['type' => 'autoincrement', 'allowUserKeys' => false, 'increment' => 5, 'offset' => 10]
         );
 
         try {
@@ -242,7 +242,7 @@ class CollectionBasicTest extends
         $properties          = $resultingCollection->getAll();
 
         static::assertEquals($properties[Collection::ENTRY_NUMBER_OF_SHARDS], 4, 'Number of shards does not match.');
-        static::assertEquals($properties[Collection::ENTRY_SHARD_KEYS], array('_key'), 'Shard keys do not match.');
+        static::assertEquals($properties[Collection::ENTRY_SHARD_KEYS], ['_key'], 'Shard keys do not match.');
     }
 
 
@@ -269,7 +269,7 @@ class CollectionBasicTest extends
         }
 
         $collection->setName($name);
-        $collection->setShardKeys(array('_key', 'a', 'b'));
+        $collection->setShardKeys(['_key', 'a', 'b']);
 
         $response = $collectionHandler->add($collection);
 
@@ -278,11 +278,11 @@ class CollectionBasicTest extends
 
         static::assertEquals($properties[Collection::ENTRY_NUMBER_OF_SHARDS], 1, 'Number of shards does not match.');
         static::assertEquals(
-            $properties[Collection::ENTRY_SHARD_KEYS], array(
+            $properties[Collection::ENTRY_SHARD_KEYS], [
             '_key',
             'a',
             'b'
-        ), 'Shard keys do not match.'
+        ], 'Shard keys do not match.'
         );
     }
 
@@ -370,7 +370,7 @@ class CollectionBasicTest extends
             //Silence the exception
         }
 
-        $options = array('type' => 3);
+        $options = ['type' => 3];
         $collectionHandler->create($name, $options);
 
         $resultingCollection = $collectionHandler->get($name);
@@ -402,7 +402,7 @@ class CollectionBasicTest extends
             //Silence the exception
         }
 
-        $options = array('isVolatile' => true);
+        $options = ['isVolatile' => true];
         $collectionHandler->create($name, $options);
         $resultingCollection = $collectionHandler->get($name);
 
@@ -433,7 +433,7 @@ class CollectionBasicTest extends
             //Silence the exception
         }
 
-        $options = array('isSystem' => true, 'waitForSync' => true);
+        $options = ['isSystem' => true, 'waitForSync' => true];
         $collectionHandler->create($name, $options);
 
         $resultingCollection = $collectionHandler->get($name);
@@ -458,7 +458,7 @@ class CollectionBasicTest extends
     {
         $result = $this->collectionHandler->createGeoIndex(
             'ArangoDB_PHP_TestSuite_IndexTestCollection',
-            array('combinedGeo'),
+            ['combinedGeo'],
             true,
             true,
             true
@@ -486,7 +486,7 @@ class CollectionBasicTest extends
     {
         $result = $this->collectionHandler->createGeoIndex(
             'ArangoDB_PHP_TestSuite_IndexTestCollection',
-            array('lat', 'long'),
+            ['lat', 'long'],
             false,
             false,
             false
@@ -525,7 +525,7 @@ class CollectionBasicTest extends
     {
         $result = $this->collectionHandler->createHashIndex(
             'ArangoDB_PHP_TestSuite_IndexTestCollection',
-            array('hashfield1', 'hashfield2'),
+            ['hashfield1', 'hashfield2'],
             true
         );
 
@@ -563,9 +563,9 @@ class CollectionBasicTest extends
     {
         $result = $this->collectionHandler->createHashIndex(
             'ArangoDB_PHP_TestSuite_IndexTestCollection',
-            array('hashfield1', 'hashfield2'),
+            ['hashfield1', 'hashfield2'],
             false,
-            array('sparse' => true)
+            ['sparse' => true]
         );
 
         $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
@@ -602,7 +602,7 @@ class CollectionBasicTest extends
     {
         $result = $this->collectionHandler->createFulltextIndex(
             'ArangoDB_PHP_TestSuite_IndexTestCollection',
-            array('fulltextfield'),
+            ['fulltextfield'],
             5
         );
 
@@ -632,7 +632,7 @@ class CollectionBasicTest extends
     {
         $result = $this->collectionHandler->createSkipListIndex(
             'ArangoDB_PHP_TestSuite_IndexTestCollection',
-            array('skiplistfield1', 'skiplistfield2'),
+            ['skiplistfield1', 'skiplistfield2'],
             true
         );
 
@@ -666,9 +666,9 @@ class CollectionBasicTest extends
     {
         $result = $this->collectionHandler->createSkipListIndex(
             'ArangoDB_PHP_TestSuite_IndexTestCollection',
-            array('skiplistfield1', 'skiplistfield2'),
+            ['skiplistfield1', 'skiplistfield2'],
             false,
-            array('sparse' => true)
+            ['sparse' => true]
         );
 
         $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
@@ -701,7 +701,7 @@ class CollectionBasicTest extends
     {
         $result = $this->collectionHandler->createFulltextIndex(
             'ArangoDB_PHP_TestSuite_IndexTestCollection',
-            array('testGetIndexField'),
+            ['testGetIndexField'],
             100
         );
 

@@ -158,7 +158,7 @@ abstract class Handler
      *
      * @return array $params - array of parameters for use in a url
      */
-    protected function includeOptionsInParams($options, $params, $includeArray = array())
+    protected function includeOptionsInParams($options, $params, $includeArray = [])
     {
         if (is_array($options)) {
             foreach ($options as $key => $value) {
@@ -187,14 +187,14 @@ abstract class Handler
      *
      * @return array $params - array of parameters for use in a url
      */
-    protected function includeOptionsInBody($options, $body, $includeArray = array())
+    protected function includeOptionsInBody($options, $body, $includeArray = [])
     {
         if (is_array($options)) {
             foreach ($options as $key => $value) {
                 if (array_key_exists($key, $includeArray)) {
                     $body[$key] = $value;
                     if ($value === null && $includeArray[$key] !== null) {
-                            $body[$key] = $includeArray[$key];
+                        $body[$key] = $includeArray[$key];
                     }
                 }
             }

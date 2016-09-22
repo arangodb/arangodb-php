@@ -142,7 +142,7 @@ class DocumentBasicTest extends
         $collection      = $this->collection;
         $documentHandler = new DocumentHandler($connection);
 
-        $keys = array(
+        $keys = [
             '_',
             'foo',
             'bar',
@@ -219,7 +219,7 @@ class DocumentBasicTest extends
             '--',
             '_',
             '__'
-        );
+        ];
 
         $adminHandler = new AdminHandler($this->connection);
         $version      = preg_replace("/-[a-z0-9]+$/", '', $adminHandler->getServerVersion());
@@ -261,7 +261,7 @@ class DocumentBasicTest extends
      */
     public function testCreateDocumentWithInvalidKeys()
     {
-        $keys = array(
+        $keys = [
             '',
             ' ',
             '  ',
@@ -299,7 +299,7 @@ class DocumentBasicTest extends
             '#invalid',
             '&invalid',
             '[invalid]'
-        );
+        ];
 
         foreach ($keys as $key) {
             $document                = new Document();
@@ -350,7 +350,7 @@ class DocumentBasicTest extends
         $collection      = $this->collection;
         $documentHandler = new DocumentHandler($connection);
 
-        $documentArray = array('someAttribute' => 'someValue');
+        $documentArray = ['someAttribute' => 'someValue'];
 
         $documentId = $documentHandler->save($collection->getId(), $documentArray);
 
@@ -361,10 +361,10 @@ class DocumentBasicTest extends
          */
         try {
             $result412 = $documentHandler->get(
-                $collection->getId(), $documentId, array(
+                $collection->getId(), $documentId, [
                                         'ifMatch' => true,
                                         'revision' => 12345
-                                    )
+                                    ]
             );
         } catch (\Exception $exception412) {
         }
@@ -372,10 +372,10 @@ class DocumentBasicTest extends
 
         try {
             $result304 = $documentHandler->get(
-                $collection->getId(), $documentId, array(
+                $collection->getId(), $documentId, [
                                         'ifMatch' => false,
                                         'revision' => $document->getRevision()
-                                    )
+                                    ]
             );
         } catch (\Exception $exception304) {
         }
@@ -394,7 +394,7 @@ class DocumentBasicTest extends
 
         $oldRevision = $documentHandler->get(
             $collection->getId(), $documentId,
-            array('revision' => $resultingDocument->getRevision())
+            ['revision' => $resultingDocument->getRevision()]
         );
         static::assertEquals($oldRevision->getRevision(), $resultingDocument->getRevision());
         $documentHandler->deleteById($collection->getName(), $documentId);
@@ -409,7 +409,7 @@ class DocumentBasicTest extends
         $collection      = $this->collection;
         $documentHandler = new DocumentHandler($connection);
 
-        $documentArray = array('someAttribute' => 'someValue');
+        $documentArray = ['someAttribute' => 'someValue'];
 
         $documentId = $documentHandler->save($collection->getId(), $documentArray);
         $document   = $documentHandler->get($collection->getId(), $documentId);
@@ -452,7 +452,7 @@ class DocumentBasicTest extends
         $collection      = $this->collection;
         $documentHandler = new DocumentHandler($connection);
 
-        $documentArray = array('someAttribute' => 'someValue', '_key' => 'frank01');
+        $documentArray = ['someAttribute' => 'someValue', '_key' => 'frank01'];
         $documentId    = $documentHandler->save($collection->getName(), $documentArray);
 
         $resultingDocument  = $documentHandler->get($collection->getName(), $documentId);

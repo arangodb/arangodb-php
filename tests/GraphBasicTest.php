@@ -57,10 +57,10 @@ class GraphBasicTest extends
      */
     public function testCreateAndDeleteGraphsWithDefinitions()
     {
-        $param1      = array();
+        $param1      = [];
         $param1[]    = 'lba';
         $param1[]    = 'blub';
-        $param2      = array();
+        $param2      = [];
         $param2[]    = 'bla';
         $param2[]    = 'blob';
         $ed1         = EdgeDefinition::createDirectedRelation('directed', $param1, $param2);
@@ -216,22 +216,22 @@ class GraphBasicTest extends
         $this->graph = $this->graphHandler->addOrphanCollection($this->graph, 'orphan2');
 
         static::assertSame(
-            $this->graphHandler->getVertexCollections($this->graph), array(
+            $this->graphHandler->getVertexCollections($this->graph), [
                                                                        0 => 'ArangoDBPHPTestSuiteTestCollection04',
                                                                        1 => 'orphan1',
                                                                        2 => 'orphan2',
                                                                        3 => 'singleV'
 
-                                                                   )
+                                                                   ]
         );
         $this->graph = $this->graphHandler->deleteOrphanCollection($this->graph, 'orphan2');
         static::assertSame(
-            $this->graphHandler->getVertexCollections($this->graph), array(
+            $this->graphHandler->getVertexCollections($this->graph), [
                                                                        0 => 'ArangoDBPHPTestSuiteTestCollection04',
                                                                        1 => 'orphan1',
                                                                        2 => 'singleV'
 
-                                                                   )
+                                                                   ]
         );
         $error = null;
         try {
@@ -282,11 +282,11 @@ class GraphBasicTest extends
         );
 
         static::assertSame(
-            $this->graphHandler->getEdgeCollections($this->graph), array(
+            $this->graphHandler->getEdgeCollections($this->graph), [
                                                                      0 => 'undirected',
                                                                      1 => 'undirected2'
 
-                                                                 )
+                                                                 ]
         );
 
         $error = null;
@@ -313,10 +313,10 @@ class GraphBasicTest extends
         );
 
         static::assertSame(
-            $this->graphHandler->getEdgeCollections($this->graph), array(
+            $this->graphHandler->getEdgeCollections($this->graph), [
                                                                      0 => 'undirected2'
 
-                                                                 )
+                                                                 ]
         );
 
         $error = null;

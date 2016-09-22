@@ -34,7 +34,7 @@ class ServerException extends
      *
      * @param array
      */
-    private $_details = array();
+    private $_details = [];
 
     /**
      * Error number index

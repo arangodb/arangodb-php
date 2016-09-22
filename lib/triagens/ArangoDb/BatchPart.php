@@ -30,7 +30,7 @@ class BatchPart
      *
      * @var array $_batchParts
      */
-    private $_cursorOptions = array();
+    private $_cursorOptions = [];
 
 
     /**
@@ -54,7 +54,7 @@ class BatchPart
      *
      * @var array $_batchParts
      */
-    private $_request = array();
+    private $_request = [];
 
 
     /**
@@ -62,7 +62,7 @@ class BatchPart
      *
      * @var array $_batchParts
      */
-    private $_response = array();
+    private $_response = [];
 
 
     /**
@@ -267,8 +267,8 @@ class BatchPart
                 }
                 break;
             case 'getcollection':
-                $json             = $response->getJson();
-                $response         = Collection::createFromArray($json);
+                $json     = $response->getJson();
+                $response = Collection::createFromArray($json);
                 break;
             case 'collection':
                 $json = $response->getJson();

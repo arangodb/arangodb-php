@@ -25,7 +25,7 @@ class DatabaseTest extends
         $this->connection = getConnection();
 
         // remove existing databases to make test repeatable
-        $databases = array('ArangoTestSuiteDatabaseTest01', 'ArangoTestSuiteDatabaseTest02');
+        $databases = ['ArangoTestSuiteDatabaseTest01', 'ArangoTestSuiteDatabaseTest02'];
         foreach ($databases as $database) {
 
             try {
@@ -210,7 +210,7 @@ class DatabaseTest extends
     public function tearDown()
     {
         // clean up
-        $databases = array('ArangoTestSuiteDatabaseTest01', 'ArangoTestSuiteDatabaseTest02');
+        $databases = ['ArangoTestSuiteDatabaseTest01', 'ArangoTestSuiteDatabaseTest02'];
         foreach ($databases as $database) {
 
             try {

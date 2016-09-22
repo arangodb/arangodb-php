@@ -232,7 +232,7 @@ class CollectionHandler extends
      *
      * @return mixed - id of collection created
      */
-    public function create($collection, $options = array())
+    public function create($collection, $options = [])
     {
         if (is_string($collection)) {
             $name       = $collection;
@@ -569,6 +569,7 @@ class CollectionHandler extends
 
         return true;
     }
+
     /**
      * Load a collection into the server's memory
      *
@@ -693,8 +694,6 @@ class CollectionHandler extends
     }
 
 
-
-
     /**
      * Checks if the collectionId given, is valid. Returns true if it is, or false if it is not.
      *
@@ -720,18 +719,18 @@ class CollectionHandler extends
      *
      * @return array
      */
-    public function getAllCollections($options = array())
+    public function getAllCollections($options = [])
     {
         $options = array_merge(array('excludeSystem' => false, 'keys' => 'result'), $options);
-        $params  = array();
+        $params  = [];
         if ($options['excludeSystem'] === true) {
             $params[self::OPTION_EXCLUDE_SYSTEM] = true;
         }
         $url      = UrlHelper::appendParamsUrl(Urls::URL_COLLECTION, $params);
-        $response = $this->getConnection()->get(UrlHelper::buildUrl($url, array()));
+        $response = $this->getConnection()->get(UrlHelper::buildUrl($url, []));
         $response = $response->getJson();
         if (isset($response[$options['keys']])) {
-            $result = array();
+            $result = [];
             foreach ($response[$options['keys']] as $collection) {
                 $result[$collection['name']] = $collection;
             }
@@ -914,7 +913,7 @@ class CollectionHandler extends
      */
     public function createHashIndex($collectionId, array $fields, $unique = null, $sparse = null)
     {
-        $indexOptions = array();
+        $indexOptions = [];
 
         if ($unique) {
             $indexOptions[self::OPTION_UNIQUE] = (bool) $unique;
@@ -939,7 +938,7 @@ class CollectionHandler extends
      */
     public function createFulltextIndex($collectionId, array $fields, $minLength = null)
     {
-        $indexOptions = array();
+        $indexOptions = [];
 
         if ($minLength) {
             $indexOptions[self::OPTION_MIN_LENGTH] = $minLength;
@@ -962,7 +961,7 @@ class CollectionHandler extends
      */
     public function createSkipListIndex($collectionId, array $fields, $unique = null, $sparse = null)
     {
-        $indexOptions = array();
+        $indexOptions = [];
 
         if ($unique) {
             $indexOptions[self::OPTION_UNIQUE] = (bool) $unique;
@@ -995,7 +994,7 @@ class CollectionHandler extends
         $ignoreNull = null
     )
     {
-        $indexOptions = array();
+        $indexOptions = [];
 
         if ($geoJson) {
             $indexOptions[self::OPTION_GEOJSON] = (bool) $geoJson;
@@ -1029,7 +1028,7 @@ class CollectionHandler extends
      *
      * @return array - server response of the created index
      */
-    public function index($collectionId, $type = '', $attributes = array(), $unique = false, $indexOptions = array())
+    public function index($collectionId, $type = '', $attributes = [], $unique = false, $indexOptions = [])
     {
 
         $urlParams  = array(self::OPTION_COLLECTION => $collectionId);
@@ -1098,6 +1097,7 @@ class CollectionHandler extends
 
         return $response->getJson();
     }
+
     /**
      * Drop an index
      *
@@ -1147,8 +1147,6 @@ class CollectionHandler extends
     }
 
 
-
-
     /**
      * Returns all documents of a collection
      *
@@ -1173,7 +1171,7 @@ class CollectionHandler extends
      *
      * @return Cursor - documents
      */
-    public function all($collectionId, $options = array())
+    public function all($collectionId, $options = [])
     {
         $options = array_merge($options, $this->getCursorOptions($options));
 
@@ -1219,8 +1217,8 @@ class CollectionHandler extends
             throw new ClientException('Got an invalid document list from the server');
         }
 
-        $cursor = new Cursor($this->getConnection(), $response->getJson(), array());
-        $ids    = array();
+        $cursor = new Cursor($this->getConnection(), $response->getJson(), []);
+        $ids    = [];
         foreach ($cursor->getAll() as $location) {
             $ids[] = UrlHelper::getDocumentIdFromLocation($location);
         }
@@ -1257,12 +1255,12 @@ class CollectionHandler extends
      *
      * @return cursor - Returns a cursor containing the result
      */
-    public function byExample($collectionId, $document, $options = array())
+    public function byExample($collectionId, $document, $options = [])
     {
         // This preserves compatibility for the old sanitize parameter.
         if (!is_array($options)) {
             $sanitize = $options;
-            $options  = array();
+            $options  = [];
             $options  = array_merge($options, $this->getCursorOptions($sanitize));
         }
         else {
@@ -1300,6 +1298,7 @@ class CollectionHandler extends
 
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
+
     /**
      * Get the first document matching a given example.
      *
@@ -1327,11 +1326,11 @@ class CollectionHandler extends
      * @return Document - the document fetched from the server
      * @since 1.2
      */
-    public function firstExample($collectionId, $document, $options = array())
+    public function firstExample($collectionId, $document, $options = [])
     {
         if (!is_array($options)) {
             $sanitize = $options;
-            $options  = array();
+            $options  = [];
             $options  = array_merge($options, $this->getCursorOptions($sanitize));
         }
         else {
@@ -1392,12 +1391,12 @@ class CollectionHandler extends
      *
      * @return cursor - Returns a cursor containing the result
      */
-    public function fulltext($collection, $attribute, $query, $options = array())
+    public function fulltext($collection, $attribute, $query, $options = [])
     {
         // This preserves compatibility for the old sanitize parameter.
         if (!is_array($options)) {
             $sanitize = $options;
-            $options  = array();
+            $options  = [];
             $options  = array_merge($options, $this->getCursorOptions($sanitize));
         }
         else {
@@ -1453,7 +1452,7 @@ class CollectionHandler extends
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function updateByExample($collectionId, $example, $newValue, $options = array())
+    public function updateByExample($collectionId, $example, $newValue, $options = [])
     {
         if (is_array($example)) {
             $example = Document::createFromArray($example);
@@ -1515,7 +1514,7 @@ class CollectionHandler extends
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function replaceByExample($collectionId, $example, $newValue, $options = array())
+    public function replaceByExample($collectionId, $example, $newValue, $options = [])
     {
         if (is_array($example)) {
             $example = Document::createFromArray($example);
@@ -1577,7 +1576,7 @@ class CollectionHandler extends
      *
      * @since 1.2
      */
-    public function removeByExample($collectionId, $document, $options = array())
+    public function removeByExample($collectionId, $document, $options = [])
     {
         if (is_array($document)) {
             $document = Document::createFromArray($document, $options);
@@ -1635,7 +1634,7 @@ class CollectionHandler extends
      *
      * @since 2.6
      */
-    public function removeByKeys($collectionId, array $keys, $options = array())
+    public function removeByKeys($collectionId, array $keys, $options = [])
     {
         $body = array(
             self::OPTION_COLLECTION => $collectionId,
@@ -1683,7 +1682,7 @@ class CollectionHandler extends
      *
      * @since 2.6
      */
-    public function lookupByKeys($collectionId, array $keys, $options = array())
+    public function lookupByKeys($collectionId, array $keys, $options = [])
     {
         $body = array(
             self::OPTION_COLLECTION => $collectionId,
@@ -1694,7 +1693,7 @@ class CollectionHandler extends
 
         $responseArray = $response->getJson();
 
-        $result = array();
+        $result = [];
         foreach ($responseArray['documents'] as $document) {
             $result[] = Document::createFromArray($document, $options);
         }
@@ -1736,7 +1735,7 @@ class CollectionHandler extends
      *
      * @return Cursor - documents matching the example [0...n]
      */
-    public function range($collectionId, $attribute, $left, $right, $options = array())
+    public function range($collectionId, $attribute, $left, $right, $options = [])
     {
         $options = array_merge($options, $this->getCursorOptions($options));
 
@@ -1804,7 +1803,7 @@ class CollectionHandler extends
      *
      * @return Cursor - documents matching the example [0...n]
      */
-    public function near($collectionId, $latitude, $longitude, $options = array())
+    public function near($collectionId, $latitude, $longitude, $options = [])
     {
         $options = array_merge($options, $this->getCursorOptions($options));
 
@@ -1863,7 +1862,7 @@ class CollectionHandler extends
      *
      * @return Cursor - documents matching the example [0...n]
      */
-    public function within($collectionId, $latitude, $longitude, $radius, $options = array())
+    public function within($collectionId, $latitude, $longitude, $radius, $options = [])
     {
         $options = array_merge($options, $this->getCursorOptions($options));
 
@@ -1888,6 +1887,7 @@ class CollectionHandler extends
 
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
+
     /**
      * @param $collection
      * @param $options
@@ -1904,7 +1904,7 @@ class CollectionHandler extends
             return;
         }
 
-        $collectionOptions = array();
+        $collectionOptions = [];
         if (isset($options['createCollectionType'])) {
             if ($options['createCollectionType'] === 'edge' ||
                 $options['createCollectionType'] === 3

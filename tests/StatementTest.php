@@ -62,12 +62,12 @@ class StatementTest extends
         $documentHandler->add($collection->getId(), $document);
 
         $statement = new Statement(
-            $connection, array(
+            $connection, [
                            'query' => '',
                            'count' => true,
                            'batchSize' => 1000,
                            '_sanitize' => true,
-                       )
+                       ]
         );
         $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a');
         $cursor = $statement->execute();
@@ -87,10 +87,10 @@ class StatementTest extends
     {
         $connection = $this->connection;
         $statement  = new Statement(
-            $connection, array(
+            $connection, [
                            'query' => 'RETURN TEST_INTERNAL("DEADLOCK", null)',
                            '_sanitize' => true
-                       )
+                       ]
         );
         try {
             $cursor = $statement->execute();
@@ -108,7 +108,7 @@ class StatementTest extends
     {
         $connection = $this->connection;
 
-        $statement = new Statement($connection, array('query' => 'RETURN 1'));
+        $statement = new Statement($connection, ['query' => 'RETURN 1']);
         $cursor    = $statement->execute();
 
         static::assertCount(0, $cursor->getWarnings());
@@ -121,7 +121,7 @@ class StatementTest extends
     {
         $connection = $this->connection;
 
-        $statement = new Statement($connection, array('query' => 'RETURN 1/0'));
+        $statement = new Statement($connection, ['query' => 'RETURN 1/0']);
         $cursor    = $statement->execute();
 
         static::assertCount(1, $cursor->getWarnings());
@@ -138,23 +138,23 @@ class StatementTest extends
         $connection = $this->connection;
         $collection = $this->collection;
 
-        $statement = new Statement($connection, array());
+        $statement = new Statement($connection, []);
         $statement->setQuery('FOR i IN 1..1000 INSERT { _key: CONCAT("test", i) } IN ' . $collection->getName());
         $cursor = $statement->execute();
 
         static::assertEquals(1000, $this->collectionHandler->count($collection->getId()));
 
         $extra = $cursor->getExtra();
-        static::assertEquals(array(), $extra['warnings']);
+        static::assertEquals([], $extra['warnings']);
 
         static::assertEquals(
-            array(
+            [
                 'writesExecuted' => 1000,
                 'writesIgnored' => 0,
                 'scannedFull' => 0,
                 'scannedIndex' => 0,
                 'filtered' => 0
-            ), filtered($extra['stats'])
+            ], filtered($extra['stats'])
         );
 
         static::assertEquals(1000, $cursor->getWritesExecuted());
@@ -172,27 +172,27 @@ class StatementTest extends
         $connection = $this->connection;
         $collection = $this->collection;
 
-        $statement = new Statement($connection, array());
+        $statement = new Statement($connection, []);
         $statement->setQuery('FOR i IN 1..1000 INSERT { _key: CONCAT("test", i) } IN ' . $collection->getName());
         $statement->execute();
 
-        $statement = new Statement($connection, array());
+        $statement = new Statement($connection, []);
         $statement->setQuery('FOR i IN ' . $collection->getName() . ' FILTER i._key IN [ "test1", "test35", "test99" ] REMOVE i IN ' . $collection->getName());
         $cursor = $statement->execute();
 
         static::assertEquals(997, $this->collectionHandler->count($collection->getId()));
 
         $extra = $cursor->getExtra();
-        static::assertEquals(array(), $extra['warnings']);
+        static::assertEquals([], $extra['warnings']);
 
         static::assertEquals(
-            array(
+            [
                 'writesExecuted' => 3,
                 'writesIgnored' => 0,
                 'scannedFull' => 0,
                 'scannedIndex' => 3,
                 'filtered' => 0
-            ), filtered($extra['stats'])
+            ], filtered($extra['stats'])
         );
 
         static::assertEquals(3, $cursor->getWritesExecuted());
@@ -210,27 +210,27 @@ class StatementTest extends
         $connection = $this->connection;
         $collection = $this->collection;
 
-        $statement = new Statement($connection, array());
+        $statement = new Statement($connection, []);
         $statement->setQuery('FOR i IN 1..1000 INSERT { _key: CONCAT("test", i), value: i } IN ' . $collection->getName());
         $statement->execute();
 
-        $statement = new Statement($connection, array());
+        $statement = new Statement($connection, []);
         $statement->setQuery('FOR i IN ' . $collection->getName() . ' FILTER i.value <= 500 RETURN i');
         $cursor = $statement->execute();
 
         static::assertEquals(1000, $this->collectionHandler->count($collection->getId()));
 
         $extra = $cursor->getExtra();
-        static::assertEquals(array(), $extra['warnings']);
+        static::assertEquals([], $extra['warnings']);
 
         static::assertEquals(
-            array(
+            [
                 'writesExecuted' => 0,
                 'writesIgnored' => 0,
                 'scannedFull' => 1000,
                 'scannedIndex' => 0,
                 'filtered' => 500
-            ), filtered($extra['stats'])
+            ], filtered($extra['stats'])
         );
 
         static::assertEquals(0, $cursor->getWritesExecuted());
@@ -258,12 +258,12 @@ class StatementTest extends
         $documentHandler->add($collection->getId(), $document);
 
         $statement = new Statement(
-            $connection, array(
+            $connection, [
                            'query' => '',
                            'count' => true,
                            'batchSize' => 1000,
                            '_sanitize' => true,
-                       )
+                       ]
         );
         // inject wrong encoding
         $isoValue = iconv(
@@ -298,12 +298,12 @@ class StatementTest extends
         $documentHandler->add($collection->getId(), $document);
 
         $statement = new Statement(
-            $connection, array(
+            $connection, [
                            'query' => '',
                            'count' => true,
                            'batchSize' => 1000,
                            '_sanitize' => true,
-                       )
+                       ]
         );
         $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a');
         $result = $statement->explain();
@@ -327,12 +327,12 @@ class StatementTest extends
         $documentHandler->add($collection->getId(), $document);
 
         $statement = new Statement(
-            $connection, array(
+            $connection, [
                            'query' => '',
                            'count' => true,
                            'batchSize' => 1000,
                            '_sanitize' => true,
-                       )
+                       ]
         );
         $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a');
         $result = $statement->validate();
@@ -347,17 +347,17 @@ class StatementTest extends
         $connection = $this->connection;
 
         $statement = new Statement(
-            $connection, array(
+            $connection, [
                            'query' => 'RETURN UNIQUE([ 1, 1, 2 ])',
                            'count' => true,
                            '_sanitize' => true,
                            '_flat' => true
-                       )
+                       ]
         );
         $cursor    = $statement->execute();
         static::assertCount(0, $cursor->getWarnings());
         static::assertEquals(
-            array(array(1, 2)),
+            [[1, 2]],
             $cursor->getAll()
         );
     }
@@ -374,11 +374,11 @@ class StatementTest extends
         $documentHandler->add($collection->getId(), $document);
 
         $statement = new Statement(
-            $connection, array(
+            $connection, [
                            'query' => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a.name',
                            'count' => true,
                            '_sanitize' => true
-                       )
+                       ]
         );
 
         $cursor = $statement->execute();
@@ -410,12 +410,12 @@ class StatementTest extends
         $documentHandler->add($collection->getId(), $document);
 
         $statement = new Statement(
-            $connection, array(
+            $connection, [
                            'query' => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` LIMIT 2 RETURN a.name',
                            'count' => true,
                            'fullCount' => true,
                            '_sanitize' => true
-                       )
+                       ]
         );
 
         $cursor = $statement->execute();
@@ -438,11 +438,11 @@ class StatementTest extends
         $documentHandler->add($collection->getId(), $document);
 
         $statement = new Statement(
-            $connection, array(
+            $connection, [
                            'query' => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` FILTER a.file == @file RETURN a.file',
-                           'bindVars' => array('file' => 'testFooBar'),
+                           'bindVars' => ['file' => 'testFooBar'],
                            '_sanitize' => true
-                       )
+                       ]
         );
 
         $cursor = $statement->execute();
@@ -464,11 +464,11 @@ class StatementTest extends
         $documentHandler->add($collection->getId(), $document);
 
         $statement = new Statement(
-            $connection, array(
+            $connection, [
                            'query' => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` FILTER a.test == @test RETURN a.test',
-                           'bindVars' => array('test' => 'file'),
+                           'bindVars' => ['test' => 'file'],
                            '_sanitize' => true
-                       )
+                       ]
         );
 
         $cursor = $statement->execute();
@@ -483,7 +483,7 @@ class StatementTest extends
      */
     public function testCacheAttributeTrue()
     {
-        $statement = new Statement($this->connection, array('cache' => true, '_flat' => true));
+        $statement = new Statement($this->connection, ['cache' => true, '_flat' => true]);
         $statement->setQuery('FOR i IN 1..100 RETURN i');
 
         static::assertTrue($statement->getCache());
@@ -495,7 +495,7 @@ class StatementTest extends
      */
     public function testCacheAttributeFalse()
     {
-        $statement = new Statement($this->connection, array('cache' => false, '_flat' => true));
+        $statement = new Statement($this->connection, ['cache' => false, '_flat' => true]);
         $statement->setQuery('FOR i IN 1..100 RETURN i');
 
         static::assertFalse($statement->getCache());
@@ -507,7 +507,7 @@ class StatementTest extends
      */
     public function testCacheAttributeNull()
     {
-        $statement = new Statement($this->connection, array('cache' => null, '_flat' => true));
+        $statement = new Statement($this->connection, ['cache' => null, '_flat' => true]);
         $statement->setQuery('FOR i IN 1..100 RETURN i');
 
         static::assertNull($statement->getCache());
@@ -519,7 +519,7 @@ class StatementTest extends
      */
     public function testCacheAttributeNotSet()
     {
-        $statement = new Statement($this->connection, array('_flat' => true));
+        $statement = new Statement($this->connection, ['_flat' => true]);
         $statement->setQuery('FOR i IN 1..100 RETURN i');
 
         static::assertNull($statement->getCache());

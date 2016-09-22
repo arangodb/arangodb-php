@@ -37,7 +37,7 @@ class QueryTest extends
         $command = 'require("internal").db._query("' . $query . '");';
 
         // executes the command on the server
-        $this->connection->post('/_admin/execute', $command, array('X-Arango-Async' => 'true'));
+        $this->connection->post('/_admin/execute', $command, ['X-Arango-Async' => 'true']);
 
         // sleep a bit because we do not know when the server will start executing the query
         sleep(3);
@@ -61,7 +61,7 @@ class QueryTest extends
      */
     public function testGetSlowEmpty()
     {
-        static::assertEquals(array(), $this->queryHandler->getSlow());
+        static::assertEquals([], $this->queryHandler->getSlow());
     }
 
     /**
@@ -71,7 +71,7 @@ class QueryTest extends
     {
         $query = 'RETURN SLEEP(10)';
 
-        $statement = new Statement($this->connection, array('query' => $query));
+        $statement = new Statement($this->connection, ['query' => $query]);
         $statement->execute();
 
         $found = 0;
@@ -106,7 +106,7 @@ class QueryTest extends
     {
         $query = 'RETURN SLEEP(13)';
 
-        $statement = new Statement($this->connection, array('query' => $query));
+        $statement = new Statement($this->connection, ['query' => $query]);
 
         try {
             $statement->execute();

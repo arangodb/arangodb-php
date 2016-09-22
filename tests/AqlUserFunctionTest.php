@@ -50,7 +50,7 @@ class AqlUserFunctionTest extends
      */
     private function filter($list)
     {
-        $result = array();
+        $result = [];
         foreach ($list as $value) {
             if (strpos($value['name'], 'phpTestFunctions') === 0) {
                 $result[] = $value;
@@ -69,10 +69,10 @@ class AqlUserFunctionTest extends
         $name = 'phpTestFunctions::myFunction';
         $code = 'function (celsius) { return celsius * 1.8 + 32; }';
 
-        $array = array(
+        $array = [
             'name' => $name,
             'code' => $code
-        );
+        ];
 
         $userFunction = new AqlUserFunction($this->connection, $array);
 

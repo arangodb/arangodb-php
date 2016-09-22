@@ -53,7 +53,7 @@ class ExportTest extends
         }
         $connection = $this->connection;
 
-        $export = new Export($connection, $this->collection, array());
+        $export = new Export($connection, $this->collection, []);
         $cursor = $export->execute();
 
         static::assertEquals(1, $cursor->getFetches());
@@ -76,10 +76,10 @@ class ExportTest extends
         }
         $connection = $this->connection;
         for ($i = 0; $i < 100; ++$i) {
-            $this->documentHandler->save($this->collection, array('value' => $i));
+            $this->documentHandler->save($this->collection, ['value' => $i]);
         }
 
-        $export = new Export($connection, $this->collection, array());
+        $export = new Export($connection, $this->collection, []);
         $cursor = $export->execute();
 
         static::assertEquals(1, $cursor->getFetches());
@@ -104,13 +104,13 @@ class ExportTest extends
         }
         $connection = $this->connection;
         $statement  = new Statement(
-            $connection, array(
+            $connection, [
                            'query' => "FOR i IN 1..1001 INSERT { _key: CONCAT('test', i), value: i } IN " . $this->collection->getName()
-                       )
+                       ]
         );
         $statement->execute();
 
-        $export = new Export($connection, $this->collection, array());
+        $export = new Export($connection, $this->collection, []);
         $cursor = $export->execute();
 
         static::assertNotNull($cursor->getId());
@@ -118,7 +118,7 @@ class ExportTest extends
 
         static::assertEquals(1001, $cursor->getCount());
 
-        $all = array();
+        $all = [];
         while ($more = $cursor->getNextBatch()) {
             $all = array_merge($all, $more);
         }
@@ -138,20 +138,20 @@ class ExportTest extends
         }
         $connection = $this->connection;
         $statement  = new Statement(
-            $connection, array(
+            $connection, [
                            'query' => "FOR i IN 1..5000 INSERT { _key: CONCAT('test', i), value: i } IN " . $this->collection->getName()
-                       )
+                       ]
         );
         $statement->execute();
 
-        $export = new Export($connection, $this->collection, array());
+        $export = new Export($connection, $this->collection, []);
         $cursor = $export->execute();
 
         static::assertEquals(1, $cursor->getFetches());
         static::assertNotNull($cursor->getId());
 
         static::assertEquals(5000, $cursor->getCount());
-        $all = array();
+        $all = [];
         while ($more = $cursor->getNextBatch()) {
             $all = array_merge($all, $more);
         }
@@ -171,20 +171,20 @@ class ExportTest extends
         }
         $connection = $this->connection;
         $statement  = new Statement(
-            $connection, array(
+            $connection, [
                            'query' => "FOR i IN 1..5000 INSERT { _key: CONCAT('test', i), value: i } IN " . $this->collection->getName()
-                       )
+                       ]
         );
         $statement->execute();
 
-        $export = new Export($connection, $this->collection, array('batchSize' => 100));
+        $export = new Export($connection, $this->collection, ['batchSize' => 100]);
         $cursor = $export->execute();
 
         static::assertEquals(1, $cursor->getFetches());
         static::assertNotNull($cursor->getId());
 
         static::assertEquals(5000, $cursor->getCount());
-        $all = array();
+        $all = [];
         while ($more = $cursor->getNextBatch()) {
             $all = array_merge($all, $more);
         }
@@ -203,10 +203,10 @@ class ExportTest extends
             return;
         }
         for ($i = 0; $i < 100; ++$i) {
-            $this->documentHandler->save($this->collection, array('value' => $i));
+            $this->documentHandler->save($this->collection, ['value' => $i]);
         }
 
-        $export = new Export($this->connection, $this->collection, array('_flat' => false));
+        $export = new Export($this->connection, $this->collection, ['_flat' => false]);
         $cursor = $export->execute();
 
         static::assertEquals(1, $cursor->getFetches());
@@ -249,10 +249,10 @@ class ExportTest extends
         $vertexCollection = $this->collection->getName();
 
         for ($i = 0; $i < 100; ++$i) {
-            $edgeHandler->saveEdge($edgeCollection, $vertexCollection . '/1', $vertexCollection . '/2', array('value' => $i));
+            $edgeHandler->saveEdge($edgeCollection, $vertexCollection . '/1', $vertexCollection . '/2', ['value' => $i]);
         }
 
-        $export = new Export($this->connection, $edgeCollection, array('_flat' => false));
+        $export = new Export($this->connection, $edgeCollection, ['_flat' => false]);
         $cursor = $export->execute();
 
         static::assertEquals(1, $cursor->getFetches());
@@ -283,10 +283,10 @@ class ExportTest extends
             return;
         }
         for ($i = 0; $i < 200; ++$i) {
-            $this->documentHandler->save($this->collection, array('value' => $i));
+            $this->documentHandler->save($this->collection, ['value' => $i]);
         }
 
-        $export = new Export($this->connection, $this->collection, array('batchSize' => 50, '_flat' => true));
+        $export = new Export($this->connection, $this->collection, ['batchSize' => 50, '_flat' => true]);
         $cursor = $export->execute();
 
         static::assertEquals(1, $cursor->getFetches());
@@ -295,7 +295,7 @@ class ExportTest extends
         static::assertEquals(200, $cursor->getCount());
         static::assertEquals(1, $cursor->getFetches());
 
-        $all = array();
+        $all = [];
         while ($more = $cursor->getNextBatch()) {
             $all = array_merge($all, $more);
         }
@@ -318,15 +318,15 @@ class ExportTest extends
             return;
         }
         for ($i = 0; $i < 200; ++$i) {
-            $this->documentHandler->save($this->collection, array('value' => $i));
+            $this->documentHandler->save($this->collection, ['value' => $i]);
         }
 
         $export = new Export(
-            $this->connection, $this->collection, array(
+            $this->connection, $this->collection, [
                                  'batchSize' => 50,
                                  '_flat' => true,
                                  'limit' => 107
-                             )
+                             ]
         );
         $cursor = $export->execute();
 
@@ -336,7 +336,7 @@ class ExportTest extends
         static::assertEquals(107, $cursor->getCount());
         static::assertEquals(1, $cursor->getFetches());
 
-        $all = array();
+        $all = [];
         while ($more = $cursor->getNextBatch()) {
             $all = array_merge($all, $more);
         }
@@ -359,15 +359,15 @@ class ExportTest extends
             return;
         }
         for ($i = 0; $i < 200; ++$i) {
-            $this->documentHandler->save($this->collection, array('value1' => $i, 'value2' => 'test' . $i));
+            $this->documentHandler->save($this->collection, ['value1' => $i, 'value2' => 'test' . $i]);
         }
 
         $export = new Export(
-            $this->connection, $this->collection, array(
+            $this->connection, $this->collection, [
                                  'batchSize' => 50,
                                  '_flat' => true,
-                                 'restrict' => array('type' => 'include', 'fields' => array('_key', 'value2'))
-                             )
+                                 'restrict' => ['type' => 'include', 'fields' => ['_key', 'value2']]
+                             ]
         );
         $cursor = $export->execute();
 
@@ -377,7 +377,7 @@ class ExportTest extends
         static::assertEquals(200, $cursor->getCount());
         static::assertEquals(1, $cursor->getFetches());
 
-        $all = array();
+        $all = [];
         while ($more = $cursor->getNextBatch()) {
             $all = array_merge($all, $more);
         }
@@ -405,15 +405,15 @@ class ExportTest extends
             return;
         }
         for ($i = 0; $i < 200; ++$i) {
-            $this->documentHandler->save($this->collection, array('value1' => $i, 'value2' => 'test' . $i));
+            $this->documentHandler->save($this->collection, ['value1' => $i, 'value2' => 'test' . $i]);
         }
 
         $export = new Export(
-            $this->connection, $this->collection, array(
+            $this->connection, $this->collection, [
                                  'batchSize' => 50,
                                  '_flat' => true,
-                                 'restrict' => array('type' => 'include', 'fields' => array('foobar', 'baz'))
-                             )
+                                 'restrict' => ['type' => 'include', 'fields' => ['foobar', 'baz']]
+                             ]
         );
         $cursor = $export->execute();
 
@@ -423,7 +423,7 @@ class ExportTest extends
         static::assertEquals(200, $cursor->getCount());
         static::assertEquals(1, $cursor->getFetches());
 
-        $all = array();
+        $all = [];
         while ($more = $cursor->getNextBatch()) {
             $all = array_merge($all, $more);
         }
@@ -431,7 +431,7 @@ class ExportTest extends
 
         foreach ($all as $doc) {
             static::assertTrue(is_array($doc));
-            static::assertEquals(array(), $doc);
+            static::assertEquals([], $doc);
         }
 
         static::assertFalse($cursor->getNextBatch());
@@ -446,15 +446,15 @@ class ExportTest extends
             return;
         }
         for ($i = 0; $i < 200; ++$i) {
-            $this->documentHandler->save($this->collection, array('value1' => $i, 'value2' => 'test' . $i));
+            $this->documentHandler->save($this->collection, ['value1' => $i, 'value2' => 'test' . $i]);
         }
 
         $export = new Export(
-            $this->connection, $this->collection, array(
+            $this->connection, $this->collection, [
                                  'batchSize' => 50,
                                  '_flat' => true,
-                                 'restrict' => array('type' => 'exclude', 'fields' => array('_key', 'value2'))
-                             )
+                                 'restrict' => ['type' => 'exclude', 'fields' => ['_key', 'value2']]
+                             ]
         );
         $cursor = $export->execute();
 
@@ -464,7 +464,7 @@ class ExportTest extends
         static::assertEquals(200, $cursor->getCount());
         static::assertEquals(1, $cursor->getFetches());
 
-        $all = array();
+        $all = [];
         while ($more = $cursor->getNextBatch()) {
             $all = array_merge($all, $more);
         }
@@ -492,15 +492,15 @@ class ExportTest extends
             return;
         }
         for ($i = 0; $i < 200; ++$i) {
-            $this->documentHandler->save($this->collection, array('value1' => $i, 'value2' => 'test' . $i));
+            $this->documentHandler->save($this->collection, ['value1' => $i, 'value2' => 'test' . $i]);
         }
 
         $export = new Export(
-            $this->connection, $this->collection, array(
+            $this->connection, $this->collection, [
                                  'batchSize' => 50,
                                  '_flat' => true,
-                                 'restrict' => array('type' => 'include', 'fields' => array('_id', 'foobar', 'baz'))
-                             )
+                                 'restrict' => ['type' => 'include', 'fields' => ['_id', 'foobar', 'baz']]
+                             ]
         );
         $cursor = $export->execute();
 
@@ -510,7 +510,7 @@ class ExportTest extends
         static::assertEquals(200, $cursor->getCount());
         static::assertEquals(1, $cursor->getFetches());
 
-        $all = array();
+        $all = [];
         while ($more = $cursor->getNextBatch()) {
             $all = array_merge($all, $more);
         }
@@ -538,9 +538,9 @@ class ExportTest extends
         }
 
         $export = new Export(
-            $this->connection, $this->collection, array(
-                                 'restrict' => array('type' => 'foo', 'fields' => array('_key'))
-                             )
+            $this->connection, $this->collection, [
+                                 'restrict' => ['type' => 'foo', 'fields' => ['_key']]
+                             ]
         );
         $cursor = $export->execute();
     }
@@ -557,9 +557,9 @@ class ExportTest extends
         }
 
         $export = new Export(
-            $this->connection, $this->collection, array(
-                                 'restrict' => array('fields' => array('_key'))
-                             )
+            $this->connection, $this->collection, [
+                                 'restrict' => ['fields' => ['_key']]
+                             ]
         );
         $cursor = $export->execute();
     }
@@ -576,9 +576,9 @@ class ExportTest extends
         }
 
         $export = new Export(
-            $this->connection, $this->collection, array(
-                                 'restrict' => array('type' => 'include', 'fields' => 'foo')
-                             )
+            $this->connection, $this->collection, [
+                                 'restrict' => ['type' => 'include', 'fields' => 'foo']
+                             ]
         );
         $cursor = $export->execute();
     }
@@ -595,9 +595,9 @@ class ExportTest extends
         }
 
         $export = new Export(
-            $this->connection, $this->collection, array(
-                                 'restrict' => array('type' => 'include')
-                             )
+            $this->connection, $this->collection, [
+                                 'restrict' => ['type' => 'include']
+                             ]
         );
         $cursor = $export->execute();
     }
