@@ -302,7 +302,7 @@ class ExportTest extends
         static::assertCount(200, $all);
 
         foreach ($all as $doc) {
-            static::assertFalse($doc instanceof Document);
+            static::assertNotInstanceOf(Document::class, $doc);
             static::assertTrue(is_array($doc));
         }
 
@@ -343,7 +343,7 @@ class ExportTest extends
         static::assertCount(107, $all);
 
         foreach ($all as $doc) {
-            static::assertFalse($doc instanceof Document);
+            static::assertNotInstanceOf(Document::class, $doc);
             static::assertTrue(is_array($doc));
         }
 
