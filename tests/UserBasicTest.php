@@ -179,7 +179,7 @@ class UserBasicTest extends
             $this->userHandler->removeUser('testUser1');
         } catch (\Exception $e) {
             // Just give us the $e
-            static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . ($e->getCode()));
+            static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . $e->getCode());
         }
         static::assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
 
@@ -189,7 +189,7 @@ class UserBasicTest extends
             $this->userHandler->updateUser('testUser1', null, null, ['level' => 3]);
         } catch (\Exception $e) {
             // Just give us the $e
-            static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . ($e->getCode()));
+            static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . $e->getCode());
         }
         static::assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
 
@@ -199,7 +199,7 @@ class UserBasicTest extends
             $this->userHandler->replaceUser('testUser1', 'testPass2', false, ['level' => 2]);
         } catch (\Exception $e) {
             // Just give us the $e
-            static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . ($e->getCode()));
+            static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . $e->getCode());
         }
         static::assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
 
@@ -209,7 +209,7 @@ class UserBasicTest extends
             $this->userHandler->get('testUser1');
         } catch (\Exception $e) {
             // Just give us the $e
-            static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . ($e->getCode()));
+            static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . $e->getCode());
         }
         static::assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
     }
