@@ -619,11 +619,9 @@ class TraversalTest extends
         $expectedCutDownMessage = 'too many iterations';
         $len                    = strlen($expectedCutDownMessage);
         static::assertTrue(
-            $e->getCode() == 500 && substr(
+            $e->getCode() == 500 && strpos(
                 $details['errorMessage'],
-                0,
-                $len
-            ) == $expectedCutDownMessage,
+             $expectedCutDownMessage) === 0 ,
             'Did not return code 500 with first part of the message: "' . $expectedCutDownMessage . '", instead returned: ' . $e->getCode() . ' and "' . $details['errorMessage'] . '"'
         );
     }
