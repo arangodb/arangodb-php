@@ -58,7 +58,7 @@ abstract class UrlHelper
      *
      * @return string - assembled URL
      */
-    public static function buildUrl($baseUrl, array $parts)
+    public static function buildUrl($baseUrl, array $parts = [])
     {
         $url = $baseUrl;
 
