@@ -2,6 +2,6 @@
 
 namespace triagens\ArangoDb;
 
-require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'triagens' . DIRECTORY_SEPARATOR . 'ArangoDb' . DIRECTORY_SEPARATOR . 'Autoloader.php';
+require __DIR__ . '/lib/triagens/ArangoDb/Autoloader.php';
 
 Autoloader::init();

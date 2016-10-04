@@ -2,7 +2,7 @@
 
 namespace triagens\ArangoDb;
 
-require dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'autoload.php';
+require __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 /* set up a trace function that will be called for each communication with the server */
 $traceFunc = function($type, $data) {

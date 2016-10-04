@@ -2,7 +2,7 @@
 
 namespace triagens\ArangoDb;
 
-require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'init.php';
+require __DIR__ . '/init.php';
 
 $n = 100 * 1000; // number of documents
 

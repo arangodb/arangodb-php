@@ -2,7 +2,7 @@
 namespace triagens\ArangoDb;
 
 // get connection options from a helper file
-require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'init.php';
+require __DIR__ . '/init.php';
 
 
 try {

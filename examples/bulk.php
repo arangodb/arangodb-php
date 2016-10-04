@@ -2,7 +2,7 @@
 
 namespace triagens\ArangoDb;
 
-require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'init.php';
+require __DIR__ . '/init.php';
 
 try {
     $connection = new Connection($connectionOptions);
