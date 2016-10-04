@@ -444,6 +444,13 @@ class DocumentHandler extends
         $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
         $json     = $response->getJson();
 
+	    // This makes sure that if we're in batch mode, it will not go further and choke on the checks below.
+	    // Todo: Think of a more elegant solution and generic (also for other methods with the same issue) solution to deal with it.
+
+	    if ($response->getHttpCode()===202){
+	    	return null;
+	    }
+
         if (is_array($document)) {
             return $json[Document::ENTRY_KEY];
         }
