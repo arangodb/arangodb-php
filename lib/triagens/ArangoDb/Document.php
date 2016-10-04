@@ -174,7 +174,7 @@ class Document
      *
      * @return Document|Edge|Graph
      */
-    public static function createFromArray(array $values, array $options = [])
+    public static function createFromArray($values, $options = [])
     {
         $document = new static($options);
         foreach ($values as $key => $value) {

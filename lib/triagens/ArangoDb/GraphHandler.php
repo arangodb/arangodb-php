@@ -150,19 +150,21 @@ class GraphHandler extends
      *
      * This will get a graph.<br><br>
      *
-     * @throws Exception
-     *
      * @param String $graph - The name of the graph
      * @param array $options - Options to pass to the method
      *
-     * @return Graph
+     * @return Graph|false
      * @since   1.2
      */
     public function getGraph($graph, array $options = [])
     {
         $url = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph]);
 
-	    $response = $this->getConnection()->get($url);
+	    try {
+		    $response = $this->getConnection()->get($url);
+	    } catch (Exception $e) {
+		    return false;
+	    }
 
         $data = $response->getJson();
 

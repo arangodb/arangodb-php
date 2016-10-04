@@ -400,7 +400,7 @@ class Connection
      *
      * @return HttpResponse
      */
-    private function executeRequest($method, $url, $data, array $customHeaders = [])
+    private function executeRequest($method, $url, $data, $customHeaders = [])
     {
         assert($this->_httpHeader !== '');
         $wasAsync = false;
