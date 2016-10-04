@@ -700,10 +700,10 @@ class Connection
                 }
                 else {
                     // fallback to preg_match checking
-                    if (is_string($key) && self::detect_utf($key) == false) {
+                    if (is_string($key) && self::detect_utf($key) === false) {
                         throw new ClientException('Only UTF-8 encoded keys allowed. Wrong encoding in key string: ' . $key);
                     }
-                    if (is_string($value) && self::detect_utf($value) == false) {
+                    if (is_string($value) && self::detect_utf($value) === false) {
                         throw new ClientException('Only UTF-8 encoded values allowed. Wrong encoding in value string: ' . $value);
                     }
                 }
