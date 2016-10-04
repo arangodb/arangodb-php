@@ -145,7 +145,7 @@ class EdgeHandler extends
      * @return mixed - id of document created
      * @since 1.0
      */
-    public function saveEdge($collection, $from, $to, $document, $options = [])
+    public function saveEdge($collection, $from, $to, $document, array $options = [])
     {
         $collection = $this->makeCollection($collection);
 
@@ -162,13 +162,13 @@ class EdgeHandler extends
         );
 
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            array(
+	        $options,
+	        $params,
+	        [
                 ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(
                     ConnectionOptions::OPTION_WAIT_SYNC
                 ),
-            )
+	        ]
         );
 
         $this->createCollectionIfOptions($collection, $params);
@@ -220,10 +220,10 @@ class EdgeHandler extends
     {
         $collection = $this->makeCollection($collection);
 
-        $params   = array(
+        $params   = [
             self::OPTION_VERTEX => $vertexHandle,
             self::OPTION_DIRECTION => $direction
-        );
+        ];
         $url      = UrlHelper::appendParamsUrl(Urls::URL_EDGES . '/' . urlencode($collection), $params);
         $response = $this->getConnection()->get($url);
         $json     = $response->getJson();

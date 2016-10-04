@@ -34,7 +34,7 @@ try {
     // this issues lots of HTTP requests to the server so we
     // can test the HTTP layer
     for ($i = 0; $i < $n; ++$i) {
-      $document = new Document(array('value' => 'test' . $i));
+      $document = new Document(['value' => 'test' . $i]);
 
       $handler->save('test', $document);
     }

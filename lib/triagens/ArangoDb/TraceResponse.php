@@ -61,7 +61,7 @@ class TraceResponse
      *
      * @var array
      */
-    private $_httpCodeDefinitions = array(
+    private $_httpCodeDefinitions = [
         100 => 'Continue',
         101 => 'Switching Protocols',
         200 => 'OK',
@@ -103,7 +103,7 @@ class TraceResponse
         503 => 'Service Unavailable',
         504 => 'Gateway Timeout',
         505 => 'HTTP Version Not Supported',
-    );
+    ];
 
     /**
      * Set up the response trace

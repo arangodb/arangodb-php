@@ -143,7 +143,7 @@ class Export
             $restrictions = $data[self::ENTRY_RESTRICT];
 
             if (!isset($restrictions['type']) ||
-                !in_array($restrictions['type'], array('include', 'exclude'), true)
+                !in_array($restrictions['type'], ['include', 'exclude'], true)
             ) {
                 // validate restrictions.type
                 throw new ClientException('Invalid restrictions type definition');
@@ -185,10 +185,10 @@ class Export
      */
     public function execute()
     {
-        $data = array(
+        $data = [
             self::ENTRY_FLUSH => $this->_flush,
             self::ENTRY_COUNT => true
-        );
+        ];
 
         if ($this->_batchSize > 0) {
             $data[self::ENTRY_BATCHSIZE] = $this->_batchSize;
@@ -207,7 +207,7 @@ class Export
             $collection = $collection->getName();
         }
 
-        $url      = UrlHelper::appendParamsUrl(Urls::URL_EXPORT, array('collection' => $collection));
+        $url      = UrlHelper::appendParamsUrl(Urls::URL_EXPORT, ['collection' => $collection]);
         $response = $this->_connection->post($url, $this->getConnection()->json_encode_wrapper($data));
 
         return new ExportCursor($this->_connection, $response->getJson(), $this->getCursorOptions());
@@ -255,11 +255,11 @@ class Export
      */
     private function getCursorOptions()
     {
-        $result = array(
+        $result = [
             ExportCursor::ENTRY_FLAT => (bool) $this->_flat,
             ExportCursor::ENTRY_BASEURL => Urls::URL_EXPORT,
             ExportCursor::ENTRY_TYPE => $this->_type
-        );
+        ];
         return $result;
     }
 }

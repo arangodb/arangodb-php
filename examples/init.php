@@ -11,7 +11,7 @@ $traceFunc = function($type, $data) {
 };
 
 /* set up connection options */
-$connectionOptions = array(
+$connectionOptions = [
   ConnectionOptions::OPTION_DATABASE        => '_system',               // database name
 
   // normal unencrypted connection via TCP/IP
@@ -37,4 +37,4 @@ $connectionOptions = array(
   ConnectionOptions::OPTION_TRACE           => $traceFunc,              // tracer function, can be used for debugging
   ConnectionOptions::OPTION_CREATE          => false,                   // do not create unknown collections automatically
   ConnectionOptions::OPTION_UPDATE_POLICY   => UpdatePolicy::LAST,      // last update wins
-);
+];

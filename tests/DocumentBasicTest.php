@@ -326,7 +326,7 @@ class DocumentBasicTest extends
         $collection      = $this->collection;
         $documentHandler = new DocumentHandler($connection);
 
-        $documentArray = array('someAttribute' => 'someValue');
+        $documentArray = ['someAttribute' => 'someValue'];
 
         $documentId = $documentHandler->save($collection->getId(), $documentArray);
 

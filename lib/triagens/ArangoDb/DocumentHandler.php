@@ -158,7 +158,7 @@ class DocumentHandler extends
     {
         $collection = $this->makeCollection($collection);
 
-        $url            = UrlHelper::buildUrl($url, array($collection, $documentId));
+        $url            = UrlHelper::buildUrl($url, [$collection, $documentId]);
         $headerElements = [];
         if (array_key_exists('ifMatch', $options) && array_key_exists('revision', $options)) {
             if ($options['ifMatch'] === true) {
@@ -221,7 +221,7 @@ class DocumentHandler extends
     {
         $collection = $this->makeCollection($collection);
 
-        $url            = UrlHelper::buildUrl($url, array($collection, $documentId));
+        $url            = UrlHelper::buildUrl($url, [$collection, $documentId]);
         $headerElements = [];
         if ($revision !== null && $ifMatch !== null) {
             if ($ifMatch) {
@@ -308,7 +308,7 @@ class DocumentHandler extends
      * @deprecated to be removed in version 2.0 - This function is being replaced by CollectionHandler::byExample()
      * @todo remove in version 3.1
      */
-    public function getByExample($collection, $document, $options = false)
+    public function getByExample($collection, $document, $options = [])
     {
         $collectionHandler = new CollectionHandler($this->getConnection());
 
@@ -366,7 +366,7 @@ class DocumentHandler extends
      * @return mixed - id of document created
      * @since 1.0
      */
-    public function store(Document $document, $collection = null, $options = [])
+    public function store(Document $document, $collection = null, array $options = [])
     {
         if ($document->getIsNew()) {
 
@@ -422,12 +422,12 @@ class DocumentHandler extends
         );
 
         $params = $this->includeOptionsInParams(
-            $params,
-            $options,
-            array(
+	        $params,
+	        $options,
+	        [
                 'waitForSync' => ConnectionOptions::OPTION_WAIT_SYNC,
                 'silent' => false
-            )
+	        ]
         );
 
         $this->createCollectionIfOptions($collection, $params);
@@ -562,15 +562,15 @@ class DocumentHandler extends
         );
 
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            array(
+	        $options,
+	        $params,
+	        [
                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
                 'keepNull' => true,
                 'silent' => false,
                 'ignoreRevs' => true,
                 'policy' => ''
-            )
+	        ]
         );
 
 
@@ -586,7 +586,7 @@ class DocumentHandler extends
             }
         }
 
-        $url = UrlHelper::buildUrl($url, array($collection, $documentId));
+        $url = UrlHelper::buildUrl($url, [$collection, $documentId]);
         $url = UrlHelper::appendParamsUrl($url, $params);
 
         $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAllForInsertUpdate()), $headers);
@@ -619,7 +619,7 @@ class DocumentHandler extends
      *
      * @return bool - always true, will throw if there is an error
      */
-    public function replace(Document $document, $options = [])
+    public function replace(Document $document, array $options = [])
     {
         $documentId = $this->getDocumentId($document);
 
@@ -651,7 +651,7 @@ class DocumentHandler extends
      *
      * @return bool - always true, will throw if there is an error
      */
-    public function replaceById($collection, $documentId, Document $document, $options = [])
+    public function replaceById($collection, $documentId, Document $document, array $options = [])
     {
         return $this->put(Urls::URL_DOCUMENT, $collection, $documentId, $document, $options);
     }
@@ -675,7 +675,7 @@ class DocumentHandler extends
      *
      * @return bool - always true, will throw if there is an error
      */
-    protected function put($url, $collection, $documentId, Document $document, $options = [])
+    protected function put($url, $collection, $documentId, Document $document, array $options = [])
     {
         $collection = $this->makeCollection($collection);
 
@@ -687,14 +687,14 @@ class DocumentHandler extends
         );
 
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            array(
+	        $options,
+	        $params,
+	        [
                 'waitForSync' => ConnectionOptions::OPTION_WAIT_SYNC,
                 'silent' => false,
                 'ignoreRevs' => true,
                 'policy' => ''
-            )
+	        ]
         );
 
         $headers = [];
@@ -710,7 +710,7 @@ class DocumentHandler extends
 
         $data = $document->getAllForInsertUpdate();
 
-        $url    = UrlHelper::buildUrl($url, array($collection, $documentId));
+        $url    = UrlHelper::buildUrl($url, [$collection, $documentId]);
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->put($url, $this->json_encode_wrapper($data), $headers);
         $json   = $result->getJson();
@@ -846,14 +846,14 @@ class DocumentHandler extends
         );
 
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            array(
+	        $options,
+	        $params,
+	        [
                 'waitForSync' => ConnectionOptions::OPTION_WAIT_SYNC,
                 'silent' => false,
                 'ignoreRevs' => true,
                 'policy' => ''
-            )
+	        ]
         );
 
         $headers = [];
@@ -867,7 +867,7 @@ class DocumentHandler extends
             }
         }
 
-        $url = UrlHelper::buildUrl($url, array($collection, $documentId));
+        $url = UrlHelper::buildUrl($url, [$collection, $documentId]);
         $url = UrlHelper::appendParamsUrl($url, $params);
         $this->getConnection()->delete($url, $headers);
 

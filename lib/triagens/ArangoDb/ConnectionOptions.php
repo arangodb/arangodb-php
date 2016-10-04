@@ -301,7 +301,7 @@ class ConnectionOptions implements
      */
     private static function getDefaults()
     {
-        return array(
+        return [
             self::OPTION_ENDPOINT => null,
             self::OPTION_HOST => null,
             self::OPTION_PORT => DefaultValues::DEFAULT_PORT,
@@ -330,7 +330,7 @@ class ConnectionOptions implements
             self::OPTION_BATCHPART => false,
             self::OPTION_DATABASE => '_system',
             self::OPTION_CHECK_UTF8_CONFORM => DefaultValues::DEFAULT_CHECK_UTF8_CONFORM
-        );
+        ];
     }
 
     /**
@@ -340,7 +340,7 @@ class ConnectionOptions implements
      */
     private static function getSupportedAuthTypes()
     {
-        return array('Basic');
+        return ['Basic'];
     }
 
     /**
@@ -350,7 +350,7 @@ class ConnectionOptions implements
      */
     private static function getSupportedConnectionTypes()
     {
-        return array('Close', 'Keep-Alive');
+        return ['Close', 'Keep-Alive'];
     }
 
     /**

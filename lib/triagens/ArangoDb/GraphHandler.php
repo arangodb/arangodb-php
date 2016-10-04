@@ -104,11 +104,11 @@ class GraphHandler extends
             $edgeDefinitions[] = $ed->transformToArray();
         }
 
-        $params   = array(
+        $params   = [
             self::OPTION_NAME => $graph->getKey(),
             self::OPTION_EDGE_DEFINITIONS => $edgeDefinitions,
             self::OPTION_ORPHAN_COLLECTIONS => $graph->getOrphanCollections()
-        );
+        ];
         $url      = Urls::URL_GRAPH;
         $response = $this->getConnection()->post($url, $this->json_encode_wrapper($params));
         $json     = $response->getJson();
@@ -160,12 +160,10 @@ class GraphHandler extends
      */
     public function getGraph($graph, array $options = [])
     {
-        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph));
-        try {
-            $response = $this->getConnection()->get($url);
-        } catch (Exception $e) {
-            return false;
-        }
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph]);
+
+	    $response = $this->getConnection()->get($url);
+
         $data = $response->getJson();
 
         $options['_isNew'] = false;
@@ -227,7 +225,7 @@ class GraphHandler extends
             $graph = $graph->getKey();
         }
 
-        $url = UrlHelper::buildUrl(Urls::URL_DOCUMENT . '/_graphs', array($graph));
+        $url = UrlHelper::buildUrl(Urls::URL_DOCUMENT . '/_graphs', [$graph]);
 
         $result = $this->getConnection()->get($url);
         return $result->getJson();
@@ -252,8 +250,8 @@ class GraphHandler extends
         }
 
 
-        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph));
-        $url = UrlHelper::appendParamsUrl($url, array('dropCollections' => $dropCollections));
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph]);
+        $url = UrlHelper::appendParamsUrl($url, ['dropCollections' => $dropCollections]);
         $this->getConnection()->delete($url);
 
         return true;
@@ -279,10 +277,10 @@ class GraphHandler extends
             $graph = $graph->getKey();
         }
 
-        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX));
-        $data = array(
+        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_VERTEX]);
+        $data = [
             self::OPTION_COLLECTION => $orphanCollection
-        );
+        ];
 
         try {
             $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
@@ -320,10 +318,10 @@ class GraphHandler extends
             $graph = $graph->getKey();
         }
 
-        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX, $orphanCollection));
-        $data = array(
+        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_VERTEX, $orphanCollection]);
+        $data = [
             self::OPTION_DROP_COLLECTION => $dropCollection
-        );
+        ];
         $url  = UrlHelper::appendParamsUrl($url, $data);
 
         try {
@@ -353,16 +351,16 @@ class GraphHandler extends
      * @return array
      * @throws ClientException@since 2.2
      */
-    public function getVertexCollections($graph, $options = [])
+    public function getVertexCollections($graph, array $options = [])
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
         }
 
-        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX));
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_VERTEX]);
 
         if (is_array($options) && isset($options['excludeOrphans'])) {
-            $url = UrlHelper::appendParamsUrl($url, array('excludeOrphans' => UrlHelper::getBoolString($options['excludeOrphans'])));
+            $url = UrlHelper::appendParamsUrl($url, ['excludeOrphans' => UrlHelper::getBoolString($options['excludeOrphans'])]);
         }
 
         try {
@@ -396,7 +394,7 @@ class GraphHandler extends
             $graph = $graph->getKey();
         }
 
-        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE));
+        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_EDGE]);
         $data = $edgeDefinition->transformToArray();
 
         try {
@@ -436,10 +434,10 @@ class GraphHandler extends
             $graph = $graph->getKey();
         }
 
-        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $edgeDefinition));
-        $data = array(
+        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_EDGE, $edgeDefinition]);
+        $data = [
             self::OPTION_DROP_COLLECTION => $dropCollection
-        );
+        ];
         $url  = UrlHelper::appendParamsUrl($url, $data);
         try {
             $response = $this->getConnection()->delete($url);
@@ -475,7 +473,7 @@ class GraphHandler extends
             $graph = $graph->getKey();
         }
 
-        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE));
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_EDGE]);
 
         try {
             $response = $this->getConnection()->get($url);
@@ -508,7 +506,7 @@ class GraphHandler extends
             $graph = $graph->getKey();
         }
 
-        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $edgeDefinition->getRelation()));
+        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_EDGE, $edgeDefinition->getRelation()]);
         $data = $edgeDefinition->transformToArray();
 
         try {
@@ -562,7 +560,7 @@ class GraphHandler extends
             }
         }
         $data = $document->getAll();
-        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX, $collection));
+        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_VERTEX, $collection]);
 
         $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
 
@@ -619,7 +617,7 @@ class GraphHandler extends
                 $collection = $collection[0];
             }
         }
-        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX, $collection, $vertexId));
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_VERTEX, $collection, $vertexId]);
         $response = $this->getConnection()->get($url);
 
         $jsonArray = $response->getJson();
@@ -686,7 +684,7 @@ class GraphHandler extends
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function replaceVertex($graph, $vertexId, Document $document, $options = [], $collection = null)
+    public function replaceVertex($graph, $vertexId, Document $document, array $options = [], $collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
@@ -706,7 +704,7 @@ class GraphHandler extends
                 $collection = $collection[0];
             }
         }
-        $options = array_merge(array(self::OPTION_REVISION => false), $options);
+        $options = array_merge([self::OPTION_REVISION => false], $options);
 
         // This preserves compatibility for the old policy parameter.
         $params = [];
@@ -716,11 +714,11 @@ class GraphHandler extends
             ConnectionOptions::OPTION_REPLACE_POLICY
         );
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            array(
+	        $options,
+	        $params,
+	        [
                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC)
-            )
+	        ]
         );
 
         //Include the revision for conditional updates if required
@@ -737,7 +735,7 @@ class GraphHandler extends
         }
 
         $data = $document->getAll();
-        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX, $collection, $vertexId));
+        $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_VERTEX, $collection, $vertexId]);
         $url  = UrlHelper::appendParamsUrl($url, $params);
 
         $response = $this->getConnection()->put($url, $this->json_encode_wrapper($data));
@@ -780,7 +778,7 @@ class GraphHandler extends
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function updateVertex($graph, $vertexId, Document $document, $options = [], $collection = null)
+    public function updateVertex($graph, $vertexId, Document $document, array $options = [], $collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
@@ -799,7 +797,7 @@ class GraphHandler extends
                 $collection = $collection[0];
             }
         }
-        $options = array_merge(array(self::OPTION_REVISION => false), $options);
+        $options = array_merge([self::OPTION_REVISION => false], $options);
         // This preserves compatibility for the old policy parameter.
         $params = [];
         $params = $this->validateAndIncludeOldSingleParameterInParams(
@@ -808,12 +806,12 @@ class GraphHandler extends
             ConnectionOptions::OPTION_UPDATE_POLICY
         );
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            array(
+	        $options,
+	        $params,
+	        [
                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
                 'keepNull' => true,
-            )
+	        ]
         );
 
         //Include the revision for conditional updates if required
@@ -829,7 +827,7 @@ class GraphHandler extends
             $params[ConnectionOptions::OPTION_REVISION] = $options[self::OPTION_REVISION];
         }
 
-        $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX, $collection, $vertexId));
+        $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_VERTEX, $collection, $vertexId]);
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAll()));
         $json   = $result->getJson();
@@ -858,7 +856,7 @@ class GraphHandler extends
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function removeVertex($graph, $vertexId, $revision = null, $options = [], $collection = null)
+    public function removeVertex($graph, $vertexId, $revision = null, array $options = [], $collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
@@ -885,19 +883,19 @@ class GraphHandler extends
             ConnectionOptions::OPTION_DELETE_POLICY
         );
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            array(
+	        $options,
+	        $params,
+	        [
                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
                 'keepNull' => true,
-            )
+	        ]
         );
 
         if (null !== $revision) {
             $params[ConnectionOptions::OPTION_REVISION] = $revision;
         }
 
-        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_VERTEX, $collection, $vertexId));
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_VERTEX, $collection, $vertexId]);
         $url = UrlHelper::appendParamsUrl($url, $params);
         $this->getConnection()->delete($url);
 
@@ -951,7 +949,7 @@ class GraphHandler extends
         $data[self::KEY_FROM] = $from;
         $data[self::KEY_TO]   = $to;
 
-        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $collection));
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_EDGE, $collection]);
 
         $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
 
@@ -1007,7 +1005,7 @@ class GraphHandler extends
                 $collection = $collection[0];
             }
         }
-        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $collection, $edgeId));
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_EDGE, $collection, $edgeId]);
         $response = $this->getConnection()->get($url);
 
         $jsonArray = $response->getJson();
@@ -1076,7 +1074,7 @@ class GraphHandler extends
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function replaceEdge($graph, $edgeId, $label, Edge $document, $options = [], $collection = null)
+    public function replaceEdge($graph, $edgeId, $label, Edge $document, array $options = [], $collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
@@ -1095,7 +1093,7 @@ class GraphHandler extends
                 $collection = $collection[0];
             }
         }
-        $options = array_merge(array(self::OPTION_REVISION => false), $options);
+        $options = array_merge([self::OPTION_REVISION => false], $options);
 
         // This preserves compatibility for the old policy parameter.
         $params = $this->validateAndIncludeOldSingleParameterInParams(
@@ -1104,14 +1102,14 @@ class GraphHandler extends
             ConnectionOptions::OPTION_REPLACE_POLICY
         );
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            array(
+	        $options,
+	        $params,
+	        [
                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
                 'silent' => false,
                 'ignoreRevs' => true,
                 'policy' => ''
-            )
+	        ]
         );
 
         //Include the revision for conditional updates if required
@@ -1135,7 +1133,7 @@ class GraphHandler extends
             $document->set('$label', $label);
         }
 
-        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $collection, $edgeId));
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_EDGE, $collection, $edgeId]);
         $url = UrlHelper::appendParamsUrl($url, $params);
 
         $response = $this->getConnection()->put($url, $this->json_encode_wrapper($data), $headers);
@@ -1178,7 +1176,7 @@ class GraphHandler extends
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function updateEdge($graph, $edgeId, $label, Edge $document, $options = [], $collection = null)
+    public function updateEdge($graph, $edgeId, $label, Edge $document, array $options = [], $collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
@@ -1197,7 +1195,7 @@ class GraphHandler extends
                 $collection = $collection[0];
             }
         }
-        $options = array_merge(array(self::OPTION_REVISION => false), $options);
+        $options = array_merge([self::OPTION_REVISION => false], $options);
 
         // This preserves compatibility for the old policy parameter.
         $params = [];
@@ -1207,12 +1205,12 @@ class GraphHandler extends
             ConnectionOptions::OPTION_UPDATE_POLICY
         );
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            array(
+	        $options,
+	        $params,
+	        [
                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
                 'keepNull' => true,
-            )
+	        ]
         );
 
         //Include the revision for conditional updates if required
@@ -1232,7 +1230,7 @@ class GraphHandler extends
             $document->set('$label', $label);
         }
 
-        $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $collection, $edgeId));
+        $url    = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_EDGE, $collection, $edgeId]);
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAll()));
         $json   = $result->getJson();
@@ -1261,7 +1259,7 @@ class GraphHandler extends
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function removeEdge($graph, $edgeId, $revision = null, $options = [], $collection = null)
+    public function removeEdge($graph, $edgeId, $revision = null, array $options = [], $collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
@@ -1288,18 +1286,18 @@ class GraphHandler extends
             ConnectionOptions::OPTION_DELETE_POLICY
         );
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            array(
+	        $options,
+	        $params,
+	        [
                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
                 'keepNull' => true,
-            )
+	        ]
         );
         if (null !== $revision) {
             $params[ConnectionOptions::OPTION_REVISION] = $revision;
         }
 
-        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, array($graph, Urls::URLPART_EDGE, $collection, $edgeId));
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_EDGE, $collection, $edgeId]);
         $url = UrlHelper::appendParamsUrl($url, $params);
         $this->getConnection()->delete($url);
 

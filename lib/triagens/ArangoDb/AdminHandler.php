@@ -47,7 +47,7 @@ class AdminHandler extends
         $url = Urls::URL_ADMIN_VERSION;
 
         if ($details) {
-            $url = UrlHelper::appendParamsUrl($url, array('details' => true));
+            $url = UrlHelper::appendParamsUrl($url, ['details' => true]);
         }
 
         $response = $this->getConnection()->get($url);

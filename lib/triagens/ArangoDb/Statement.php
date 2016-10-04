@@ -504,13 +504,13 @@ class Statement
      */
     private function buildData()
     {
-        $data = array(
+        $data = [
             self::ENTRY_QUERY => $this->_query,
             self::ENTRY_COUNT => $this->_doCount,
-            'options' => array(
+            'options' => [
                 self::FULL_COUNT => $this->_fullCount
-            )
-        );
+            ]
+        ];
 
         if ($this->_cache !== null) {
             $data[Cursor::ENTRY_CACHE] = $this->_cache;
@@ -533,11 +533,11 @@ class Statement
      */
     private function getCursorOptions()
     {
-        $result = array(
+        $result = [
             Cursor::ENTRY_SANITIZE => (bool) $this->_sanitize,
             Cursor::ENTRY_FLAT => (bool) $this->_flat,
             Cursor::ENTRY_BASEURL => Urls::URL_CURSOR
-        );
+        ];
         if (null !== $this->resultType) {
             $result[Cursor::ENTRY_TYPE] = $this->resultType;
         }

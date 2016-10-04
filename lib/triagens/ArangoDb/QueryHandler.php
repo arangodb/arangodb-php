@@ -20,7 +20,7 @@ class QueryHandler extends
      */
     public function clearSlow()
     {
-        $url = UrlHelper::buildUrl(Urls::URL_QUERY, array('slow'));
+        $url = UrlHelper::buildUrl(Urls::URL_QUERY, ['slow']);
         $this->getConnection()->delete($url);
     }
 
@@ -33,7 +33,7 @@ class QueryHandler extends
      */
     public function getSlow()
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_QUERY, array('slow'));
+        $url      = UrlHelper::buildUrl(Urls::URL_QUERY, ['slow']);
         $response = $this->getConnection()->get($url);
 
         return $response->getJson();
@@ -48,7 +48,7 @@ class QueryHandler extends
      */
     public function getCurrent()
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_QUERY, array('current'));
+        $url      = UrlHelper::buildUrl(Urls::URL_QUERY, ['current']);
         $response = $this->getConnection()->get($url);
 
         return $response->getJson();
@@ -67,7 +67,7 @@ class QueryHandler extends
      */
     public function kill($id)
     {
-        $url = UrlHelper::buildUrl(Urls::URL_QUERY, array($id));
+        $url = UrlHelper::buildUrl(Urls::URL_QUERY, [$id]);
         $this->getConnection()->delete($url);
 
         return true;

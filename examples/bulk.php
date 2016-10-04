@@ -17,16 +17,17 @@ try {
     $result = $handler->add($col);
 
     // create a statement to insert 100 example documents
-    $statement = new Statement($connection, array(
+    $statement = new Statement($connection, [
         'query' => 'FOR i IN 1..100 INSERT { _key: CONCAT("example", i) } IN example'
-    ));
+    ]
+    );
     $statement->execute();
     
     // print number of documents
     var_dump($handler->getCount('example'));
 
     // later on, we can assemble a list of document keys
-    $keys = array();
+    $keys = '/init.php';
     for ($i = 1; $i <= 100; ++$i) {
       $keys[] = 'example' . $i;
     }

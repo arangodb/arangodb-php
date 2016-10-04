@@ -46,15 +46,15 @@ class Database
      */
     public static function create(Connection $connection, $name)
     {
-        $payload = array(
+        $payload = [
             self::ENTRY_DATABASE_NAME => $name,
-            self::ENTRY_DATABASE_USERS => array(
-                array(
+            self::ENTRY_DATABASE_USERS => [
+	            [
                     'username' => $connection->getOption(ConnectionOptions::OPTION_AUTH_USER),
                     'passwd' => $connection->getOption(ConnectionOptions::OPTION_AUTH_PASSWD)
-                )
-            )
-        );
+	            ]
+            ]
+        ];
 
         $response = $connection->post(Urls::URL_DATABASE, $connection->json_encode_wrapper($payload));
 
@@ -76,7 +76,7 @@ class Database
      */
     public static function delete(Connection $connection, $name)
     {
-        $url = UrlHelper::buildUrl(Urls::URL_DATABASE, array($name));
+        $url = UrlHelper::buildUrl(Urls::URL_DATABASE, [$name]);
 
         $response = $connection->delete($url);
 
@@ -133,7 +133,7 @@ class Database
     public static function listUserDatabases(Connection $connection)
     {
 
-        $url = UrlHelper::buildUrl(Urls::URL_DATABASE, array('user'));
+        $url = UrlHelper::buildUrl(Urls::URL_DATABASE, ['user']);
 
         $response = $connection->get($url);
 
@@ -154,7 +154,7 @@ class Database
      */
     public static function getInfo(Connection $connection)
     {
-        $url = UrlHelper::buildUrl(Urls::URL_DATABASE, array('current'));
+        $url = UrlHelper::buildUrl(Urls::URL_DATABASE, ['current']);
 
         $response = $connection->get($url);
 

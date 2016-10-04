@@ -87,7 +87,7 @@ class UserHandler extends
         $userDocument->active = $active;
         $userDocument->extra  = $extra;
         $data                 = $userDocument->getAll();
-        $url                  = UrlHelper::buildUrl(Urls::URL_USER, array($username));
+        $url                  = UrlHelper::buildUrl(Urls::URL_USER, [$username]);
         $this->getConnection()->put($url, $this->json_encode_wrapper($data));
 
         return true;
@@ -124,7 +124,7 @@ class UserHandler extends
             $userDocument->extra = $extra;
         }
 
-        $url = UrlHelper::buildUrl(Urls::URL_USER, array($username));
+        $url = UrlHelper::buildUrl(Urls::URL_USER, [$username]);
         $this->getConnection()->patch($url, $this->json_encode_wrapper($userDocument->getAll()));
 
         return true;
@@ -144,12 +144,12 @@ class UserHandler extends
      */
     public function get($username)
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_USER, array($username));
+        $url      = UrlHelper::buildUrl(Urls::URL_USER, [$username]);
         $response = $this->getConnection()->get($url);
 
         $data = $response->getJson();
 
-        $options = array('_isNew' => false);
+        $options = ['_isNew' => false];
 
         return User::createFromArray($data, $options);
     }
@@ -169,7 +169,7 @@ class UserHandler extends
         // This preserves compatibility for the old policy parameter.
         $params = [];
 
-        $url = UrlHelper::buildUrl(Urls::URL_USER, array($username));
+        $url = UrlHelper::buildUrl(Urls::URL_USER, [$username]);
         $url = UrlHelper::appendParamsUrl($url, $params);
         $this->getConnection()->delete($url);
 
@@ -189,11 +189,11 @@ class UserHandler extends
      */
     public function grantPermissions($username, $databaseName)
     {
-        $data = array(
+        $data = [
             'grant' => 'rw'
-        );
+        ];
 
-        $url = UrlHelper::buildUrl(Urls::URL_USER, array($username, 'database', $databaseName));
+        $url = UrlHelper::buildUrl(Urls::URL_USER, [$username, 'database', $databaseName]);
         $this->getConnection()->put($url, $this->json_encode_wrapper($data));
 
         return true;
@@ -211,11 +211,11 @@ class UserHandler extends
      */
     public function revokePermissions($username, $databaseName)
     {
-        $data = array(
+        $data = [
             'grant' => 'none'
-        );
+        ];
 
-        $url = UrlHelper::buildUrl(Urls::URL_USER, array($username, 'database', $databaseName));
+        $url = UrlHelper::buildUrl(Urls::URL_USER, [$username, 'database', $databaseName]);
         $this->getConnection()->put($url, $this->json_encode_wrapper($data));
 
         return true;

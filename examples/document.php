@@ -27,7 +27,7 @@ try {
     $id = $handler->save('users', $user);
 
     // get documents by example
-    $cursor = $collectionHandler->byExample('users', array('name' => 'John', 'age' => 19));
+    $cursor = $collectionHandler->byExample('users', ['name' => 'John', 'age' => 19]);
     var_dump($cursor->getAll());
 
     // get the ids of all documents in the collection
@@ -38,7 +38,7 @@ try {
     $user = new Document();
     $user->set('name', 'j-lo');
     $user->level = 1;
-    $user->vists = array(1, 2, 3);
+    $user->vists = [1, 2, 3];
 
     $id = $handler->save('users', $user);
     var_dump('CREATED A NEW DOCUMENT WITH ID: ', $id);

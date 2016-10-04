@@ -24,18 +24,18 @@ try {
     $graphHandler->createGraph($graph);
 
     // Define some arrays to build the content of the vertices and edges
-    $vertex1Array = array(
+    $vertex1Array = [
         '_key'     => 'vertex1',
         'someKey1' => 'someValue1'
-    );
-    $vertex2Array = array(
+    ];
+    $vertex2Array = [
         '_key'     => 'vertex2',
         'someKey2' => 'someValue2'
-    );
-    $edge1Array   = array(
+    ];
+    $edge1Array   = [
         '_key'         => 'edge1',
         'someEdgeKey1' => 'someEdgeValue1'
-    );
+    ];
 
     // Create documents for 2 vertices and a connecting edge
     $vertex1 = Vertex::createFromArray($vertex1Array);

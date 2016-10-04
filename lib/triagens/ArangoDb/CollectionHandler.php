@@ -232,7 +232,7 @@ class CollectionHandler extends
      *
      * @return mixed - id of collection created
      */
-    public function create($collection, $options = [])
+    public function create($collection, array $options = [])
     {
         if (is_string($collection)) {
             $name       = $collection;
@@ -259,7 +259,7 @@ class CollectionHandler extends
         }
 
         $type   = $collection->getType() ?: Collection::getDefaultType();
-        $params = array(
+        $params = [
             Collection::ENTRY_NAME => $collection->getName(),
             Collection::ENTRY_TYPE => $type,
             Collection::ENTRY_WAIT_SYNC => $collection->getWaitForSync(),
@@ -267,7 +267,7 @@ class CollectionHandler extends
             Collection::ENTRY_IS_SYSTEM => $collection->getIsSystem(),
             Collection::ENTRY_IS_VOLATILE => $collection->getIsVolatile(),
             Collection::ENTRY_KEY_OPTIONS => $collection->getKeyOptions(),
-        );
+        ];
 
         // set extra cluster attributes
         if ($collection->getNumberOfShards() !== null) {
@@ -380,7 +380,7 @@ class CollectionHandler extends
     public function count($collection)
     {
         $collection = $this->makeCollection($collection);
-        $url        = UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collection, self::OPTION_COUNT));
+        $url        = UrlHelper::buildUrl(Urls::URL_COLLECTION, [$collection, self::OPTION_COUNT]);
         $response   = $this->getConnection()->get($url);
 
         $data  = $response->getJson();
@@ -425,7 +425,7 @@ class CollectionHandler extends
     {
         $collection = $this->makeCollection($collection);
 
-        $url      = UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collection));
+        $url      = UrlHelper::buildUrl(Urls::URL_COLLECTION, [$collection]);
         $response = $this->getConnection()->get($url);
 
         $data = $response->getJson();
@@ -448,7 +448,7 @@ class CollectionHandler extends
     public function getProperties($collection)
     {
         $collection = $this->makeCollection($collection);
-        $url        = UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collection, self::OPTION_PROPERTIES));
+        $url        = UrlHelper::buildUrl(Urls::URL_COLLECTION, [$collection, self::OPTION_PROPERTIES]);
         $response   = $this->getConnection()->get($url);
 
         $data = $response->getJson();
@@ -471,7 +471,7 @@ class CollectionHandler extends
     public function figures($collection)
     {
         $collection = $this->makeCollection($collection);
-        $url        = UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collection, self::OPTION_FIGURES));
+        $url        = UrlHelper::buildUrl(Urls::URL_COLLECTION, [$collection, self::OPTION_FIGURES]);
         $response   = $this->getConnection()->get($url);
 
         $data = $response->getJson();
@@ -517,8 +517,8 @@ class CollectionHandler extends
     public function getChecksum($collectionId, $withRevisions = false, $withData = false)
     {
 
-        $url      = UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_CHECKSUM));
-        $url      = UrlHelper::appendParamsUrl($url, array('withRevisions' => $withRevisions, 'withData' => $withData));
+        $url      = UrlHelper::buildUrl(Urls::URL_COLLECTION, [$collectionId, self::OPTION_CHECKSUM]);
+        $url      = UrlHelper::appendParamsUrl($url, ['withRevisions' => $withRevisions, 'withData' => $withData]);
         $response = $this->getConnection()->get($url);
         return $response->getJson();
     }
@@ -538,7 +538,7 @@ class CollectionHandler extends
     public function getRevision($collectionId)
     {
 
-        $url      = UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_REVISION));
+        $url      = UrlHelper::buildUrl(Urls::URL_COLLECTION, [$collectionId, self::OPTION_REVISION]);
         $response = $this->getConnection()->get($url);
         return $response->getJson();
     }
@@ -561,9 +561,9 @@ class CollectionHandler extends
             throw new ClientException('Cannot alter a collection without a collection id');
         }
 
-        $params = array(Collection::ENTRY_NAME => $name);
+        $params = [Collection::ENTRY_NAME => $name];
         $this->getConnection()->put(
-            UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_RENAME)),
+            UrlHelper::buildUrl(Urls::URL_COLLECTION, [$collectionId, self::OPTION_RENAME]),
             $this->json_encode_wrapper($params)
         );
 
@@ -590,7 +590,7 @@ class CollectionHandler extends
         }
 
         $result = $this->getConnection()->put(
-            UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_LOAD)),
+            UrlHelper::buildUrl(Urls::URL_COLLECTION, [$collectionId, self::OPTION_LOAD]),
             ''
         );
 
@@ -617,7 +617,7 @@ class CollectionHandler extends
         }
 
         $result = $this->getConnection()->put(
-            UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_UNLOAD)),
+            UrlHelper::buildUrl(Urls::URL_COLLECTION, [$collectionId, self::OPTION_UNLOAD]),
             ''
         );
 
@@ -645,7 +645,7 @@ class CollectionHandler extends
         }
 
         $this->getConnection()->put(
-            UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionId, self::OPTION_TRUNCATE)),
+            UrlHelper::buildUrl(Urls::URL_COLLECTION, [$collectionId, self::OPTION_TRUNCATE]),
             ''
         );
 
@@ -670,7 +670,7 @@ class CollectionHandler extends
             throw new ClientException('Cannot alter a collection without a collection id');
         }
 
-        $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_COLLECTION, array($collectionName)));
+        $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_COLLECTION, [$collectionName]));
 
         return true;
     }
@@ -719,9 +719,9 @@ class CollectionHandler extends
      *
      * @return array
      */
-    public function getAllCollections($options = [])
+    public function getAllCollections(array $options = [])
     {
-        $options = array_merge(array('excludeSystem' => false, 'keys' => 'result'), $options);
+        $options = array_merge(['excludeSystem' => false, 'keys' => 'result'], $options);
         $params  = [];
         if ($options['excludeSystem'] === true) {
             $params[self::OPTION_EXCLUDE_SYSTEM] = true;
@@ -813,7 +813,7 @@ class CollectionHandler extends
     public function importFromFile(
         $collectionId,
         $importFileName,
-        $options = array('createCollection' => false, 'type' => null)
+        array $options = []
     )
     {
 
@@ -854,11 +854,7 @@ class CollectionHandler extends
     public function import(
         $collection,
         $importData,
-        $options = array(
-            'createCollection' => false,
-            'createCollectionType' => 'document',
-            'type' => null
-        )
+        array $options = []
     )
     {
         $collection = $this->makeCollection($collection);
@@ -876,9 +872,9 @@ class CollectionHandler extends
 
         $this->createCollectionIfOptions($collection, $options);
 
-        $params = array(
+        $params = [
             self::OPTION_COLLECTION => $collection
-        );
+        ];
 
         if (array_key_exists('type', $options)) {
             switch ($options['type']) {
@@ -1028,14 +1024,14 @@ class CollectionHandler extends
      *
      * @return array - server response of the created index
      */
-    public function index($collectionId, $type = '', $attributes = [], $unique = false, $indexOptions = [])
+    public function index($collectionId, $type = '', array $attributes = [], $unique = false, $indexOptions = [])
     {
 
-        $urlParams  = array(self::OPTION_COLLECTION => $collectionId);
-        $bodyParams = array(
+        $urlParams  = [self::OPTION_COLLECTION => $collectionId];
+        $bodyParams = [
             self::OPTION_TYPE => $type,
             self::OPTION_FIELDS => $attributes,
-        );
+        ];
 
         if ($unique !== null) {
             $bodyParams[self::OPTION_UNIQUE] = (bool) $unique;
@@ -1071,7 +1067,7 @@ class CollectionHandler extends
      */
     public function getIndex($collection, $indexId)
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_INDEX, array($collection, $indexId));
+        $url      = UrlHelper::buildUrl(Urls::URL_INDEX, [$collection, $indexId]);
         $response = $this->getConnection()->get($url);
 
         return $response->getJson();
@@ -1091,7 +1087,7 @@ class CollectionHandler extends
      */
     public function getIndexes($collectionId)
     {
-        $urlParams = array(self::OPTION_COLLECTION => $collectionId);
+        $urlParams = [self::OPTION_COLLECTION => $collectionId];
         $url       = UrlHelper::appendParamsUrl(Urls::URL_INDEX, $urlParams);
         $response  = $this->getConnection()->get($url);
 
@@ -1110,7 +1106,7 @@ class CollectionHandler extends
     public function dropIndex($indexHandle)
     {
         $handle = explode('/', $indexHandle);
-        $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_INDEX, array($handle[0], $handle[1])));
+        $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_INDEX, [$handle[0], $handle[1]]));
 
         return true;
     }
@@ -1131,9 +1127,9 @@ class CollectionHandler extends
     public function any($collectionId)
     {
 
-        $data = array(
+        $data = [
             self::OPTION_COLLECTION => $collectionId,
-        );
+        ];
 
         $response = $this->getConnection()->put(Urls::URL_ANY, $this->json_encode_wrapper($data));
         $data     = $response->getJson();
@@ -1171,21 +1167,21 @@ class CollectionHandler extends
      *
      * @return Cursor - documents
      */
-    public function all($collectionId, $options = [])
+    public function all($collectionId, array $options = [])
     {
         $options = array_merge($options, $this->getCursorOptions($options));
 
-        $body = array(
+        $body = [
             self::OPTION_COLLECTION => $collectionId,
-        );
+        ];
 
         $body = $this->includeOptionsInBody(
-            $options,
-            $body,
-            array(
+	        $options,
+	        $body,
+	        [
                 self::OPTION_LIMIT => null,
                 self::OPTION_SKIP => null,
-            )
+	        ]
         );
 
         $response = $this->getConnection()->put(Urls::URL_ALL, $this->json_encode_wrapper($body));
@@ -1207,9 +1203,9 @@ class CollectionHandler extends
      */
     public function getAllIds($collection)
     {
-        $params   = array(
+        $params   = [
             self::OPTION_COLLECTION => $this->makeCollection($collection)
-        );
+        ];
         $response = $this->getConnection()->put(Urls::URL_ALL_KEYS, $this->json_encode_wrapper($params));
 
         $data = $response->getJson();
@@ -1255,7 +1251,7 @@ class CollectionHandler extends
      *
      * @return cursor - Returns a cursor containing the result
      */
-    public function byExample($collectionId, $document, $options = [])
+    public function byExample($collectionId, $document, array $options = [])
     {
         // This preserves compatibility for the old sanitize parameter.
         if (!is_array($options)) {
@@ -1275,21 +1271,21 @@ class CollectionHandler extends
             throw new ClientException('Invalid example document specification');
         }
 
-        $body = array(
+        $body = [
             self::OPTION_COLLECTION => $collectionId,
-            self::OPTION_EXAMPLE => $document->getAllAsObject(array('_ignoreHiddenAttributes' => true))
-        );
+            self::OPTION_EXAMPLE => $document->getAllAsObject(['_ignoreHiddenAttributes' => true])
+        ];
 
         $body = $this->includeOptionsInBody(
-            $options,
-            $body,
-            array(
+	        $options,
+	        $body,
+	        [
                 ConnectionOptions::OPTION_BATCHSIZE => $this->getConnectionOption(
                     ConnectionOptions::OPTION_BATCHSIZE
                 ),
                 self::OPTION_LIMIT => null,
                 self::OPTION_SKIP => null,
-            )
+	        ]
         );
 
         $response = $this->getConnection()->put(Urls::URL_EXAMPLE, $this->json_encode_wrapper($body));
@@ -1326,7 +1322,7 @@ class CollectionHandler extends
      * @return Document - the document fetched from the server
      * @since 1.2
      */
-    public function firstExample($collectionId, $document, $options = [])
+    public function firstExample($collectionId, $document, array $options = [])
     {
         if (!is_array($options)) {
             $sanitize = $options;
@@ -1345,10 +1341,10 @@ class CollectionHandler extends
             throw new ClientException('Invalid example document specification');
         }
 
-        $data = array(
+        $data = [
             self::OPTION_COLLECTION => $collectionId,
-            self::OPTION_EXAMPLE => $document->getAll(array('_ignoreHiddenAttributes' => true))
-        );
+            self::OPTION_EXAMPLE => $document->getAll(['_ignoreHiddenAttributes' => true])
+        ];
 
         $response = $this->getConnection()->put(Urls::URL_FIRST_EXAMPLE, $this->json_encode_wrapper($data));
         $data     = $response->getJson();
@@ -1391,7 +1387,7 @@ class CollectionHandler extends
      *
      * @return cursor - Returns a cursor containing the result
      */
-    public function fulltext($collection, $attribute, $query, $options = [])
+    public function fulltext($collection, $attribute, $query, array $options = [])
     {
         // This preserves compatibility for the old sanitize parameter.
         if (!is_array($options)) {
@@ -1403,23 +1399,23 @@ class CollectionHandler extends
             $options = array_merge($options, $this->getCursorOptions($options));
         }
 
-        $body = array(
+        $body = [
             self::OPTION_COLLECTION => $collection,
             self::OPTION_ATTRIBUTE => $attribute,
             self::OPTION_QUERY => $query,
-        );
+        ];
 
         $body = $this->includeOptionsInBody(
-            $options,
-            $body,
-            array(
+	        $options,
+	        $body,
+	        [
                 ConnectionOptions::OPTION_BATCHSIZE => $this->getConnectionOption(
                     ConnectionOptions::OPTION_BATCHSIZE
                 ),
                 self::OPTION_LIMIT => null,
                 self::OPTION_SKIP => null,
                 self::OPTION_INDEX => null,
-            )
+	        ]
         );
 
         $response = $this->getConnection()->put(Urls::URL_FULLTEXT, $this->json_encode_wrapper($body));
@@ -1452,7 +1448,7 @@ class CollectionHandler extends
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function updateByExample($collectionId, $example, $newValue, $options = [])
+    public function updateByExample($collectionId, $example, $newValue, array $options = [])
     {
         if (is_array($example)) {
             $example = Document::createFromArray($example);
@@ -1462,22 +1458,22 @@ class CollectionHandler extends
             $newValue = Document::createFromArray($newValue);
         }
 
-        $body = array(
-            self::OPTION_COLLECTION => $collectionId,
-            self::OPTION_EXAMPLE => $example->getAllAsObject(array('_ignoreHiddenAttributes' => true)),
-            self::OPTION_NEW_VALUE => $newValue->getAllAsObject(array('_ignoreHiddenAttributes' => true))
-        );
+        $body = [
+	        self::OPTION_COLLECTION => $collectionId,
+	        self::OPTION_EXAMPLE => $example->getAllAsObject(['_ignoreHiddenAttributes' => true]),
+	        self::OPTION_NEW_VALUE => $newValue->getAllAsObject(['_ignoreHiddenAttributes' => true])
+        ];
 
         $body = $this->includeOptionsInBody(
-            $options,
-            $body,
-            array(
+	        $options,
+	        $body,
+	        [
                 ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(
                     ConnectionOptions::OPTION_WAIT_SYNC
                 ),
                 'keepNull' => true,
                 self::OPTION_LIMIT => null,
-            )
+	        ]
         );
 
         $response = $this->getConnection()->put(Urls::URL_UPDATE_BY_EXAMPLE, $this->json_encode_wrapper($body));
@@ -1514,7 +1510,7 @@ class CollectionHandler extends
      * @return bool - always true, will throw if there is an error
      * @since 1.2
      */
-    public function replaceByExample($collectionId, $example, $newValue, $options = [])
+    public function replaceByExample($collectionId, $example, $newValue, array $options = [])
     {
         if (is_array($example)) {
             $example = Document::createFromArray($example);
@@ -1524,22 +1520,22 @@ class CollectionHandler extends
             $newValue = Document::createFromArray($newValue);
         }
 
-        $body = array(
-            self::OPTION_COLLECTION => $collectionId,
-            self::OPTION_EXAMPLE => $example->getAllAsObject(array('_ignoreHiddenAttributes' => true)),
-            self::OPTION_NEW_VALUE => $newValue->getAllAsObject(array('_ignoreHiddenAttributes' => true))
-        );
+        $body = [
+	        self::OPTION_COLLECTION => $collectionId,
+	        self::OPTION_EXAMPLE => $example->getAllAsObject(['_ignoreHiddenAttributes' => true]),
+	        self::OPTION_NEW_VALUE => $newValue->getAllAsObject(['_ignoreHiddenAttributes' => true])
+        ];
 
         $body = $this->includeOptionsInBody(
-            $options,
-            $body,
-            array(
+	        $options,
+	        $body,
+	        [
                 ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(
                     ConnectionOptions::OPTION_WAIT_SYNC
                 ),
                 'keepNull' => true,
                 self::OPTION_LIMIT => null,
-            )
+	        ]
         );
 
         $response = $this->getConnection()->put(Urls::URL_REPLACE_BY_EXAMPLE, $this->json_encode_wrapper($body));
@@ -1576,7 +1572,7 @@ class CollectionHandler extends
      *
      * @since 1.2
      */
-    public function removeByExample($collectionId, $document, $options = [])
+    public function removeByExample($collectionId, $document, array $options = [])
     {
         if (is_array($document)) {
             $document = Document::createFromArray($document, $options);
@@ -1586,20 +1582,20 @@ class CollectionHandler extends
             throw new ClientException('Invalid example document specification');
         }
 
-        $body = array(
+        $body = [
             self::OPTION_COLLECTION => $collectionId,
-            self::OPTION_EXAMPLE => $document->getAllAsObject(array('_ignoreHiddenAttributes' => true))
-        );
+            self::OPTION_EXAMPLE => $document->getAllAsObject(['_ignoreHiddenAttributes' => true])
+        ];
 
         $body = $this->includeOptionsInBody(
-            $options,
-            $body,
-            array(
+	        $options,
+	        $body,
+	        [
                 ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(
                     ConnectionOptions::OPTION_WAIT_SYNC
                 ),
                 self::OPTION_LIMIT => null,
-            )
+	        ]
         );
 
         $response = $this->getConnection()->put(Urls::URL_REMOVE_BY_EXAMPLE, $this->json_encode_wrapper($body));
@@ -1634,31 +1630,31 @@ class CollectionHandler extends
      *
      * @since 2.6
      */
-    public function removeByKeys($collectionId, array $keys, $options = [])
+    public function removeByKeys($collectionId, array $keys, array $options = [])
     {
-        $body = array(
+        $body = [
             self::OPTION_COLLECTION => $collectionId,
             self::OPTION_KEYS => $keys
-        );
+        ];
 
         $body = $this->includeOptionsInBody(
-            $options,
-            $body,
-            array(
+	        $options,
+	        $body,
+	        [
                 ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(
                     ConnectionOptions::OPTION_WAIT_SYNC
                 )
-            )
+	        ]
         );
 
         $response = $this->getConnection()->put(Urls::URL_REMOVE_BY_KEYS, $this->json_encode_wrapper($body));
 
         $responseArray = $response->getJson();
 
-        return array(
+        return [
             'removed' => $responseArray['removed'],
             'ignored' => $responseArray['ignored']
-        );
+        ];
     }
 
 
@@ -1682,12 +1678,12 @@ class CollectionHandler extends
      *
      * @since 2.6
      */
-    public function lookupByKeys($collectionId, array $keys, $options = [])
+    public function lookupByKeys($collectionId, array $keys, array $options = [])
     {
-        $body = array(
+        $body = [
             self::OPTION_COLLECTION => $collectionId,
             self::OPTION_KEYS => $keys
-        );
+        ];
 
         $response = $this->getConnection()->put(Urls::URL_LOOKUP_BY_KEYS, $this->json_encode_wrapper($body));
 
@@ -1735,7 +1731,7 @@ class CollectionHandler extends
      *
      * @return Cursor - documents matching the example [0...n]
      */
-    public function range($collectionId, $attribute, $left, $right, $options = [])
+    public function range($collectionId, $attribute, $left, $right, array $options = [])
     {
         $options = array_merge($options, $this->getCursorOptions($options));
 
@@ -1748,21 +1744,21 @@ class CollectionHandler extends
             $attribute = explode('.', $attribute);
         }
 
-        $body = array(
+        $body = [
             self::OPTION_COLLECTION => $collectionId,
             self::OPTION_ATTRIBUTE => $attribute,
             self::OPTION_LEFT => $left,
             self::OPTION_RIGHT => $right
-        );
+        ];
 
         $body = $this->includeOptionsInBody(
-            $options,
-            $body,
-            array(
+	        $options,
+	        $body,
+	        [
                 self::OPTION_CLOSED => null,
                 self::OPTION_LIMIT => null,
                 self::OPTION_SKIP => null,
-            )
+	        ]
         );
 
         $response = $this->getConnection()->put(Urls::URL_RANGE, $this->json_encode_wrapper($body));
@@ -1803,24 +1799,24 @@ class CollectionHandler extends
      *
      * @return Cursor - documents matching the example [0...n]
      */
-    public function near($collectionId, $latitude, $longitude, $options = [])
+    public function near($collectionId, $latitude, $longitude, array $options = [])
     {
         $options = array_merge($options, $this->getCursorOptions($options));
 
-        $body = array(
+        $body = [
             self::OPTION_COLLECTION => $collectionId,
             self::OPTION_LATITUDE => $latitude,
             self::OPTION_LONGITUDE => $longitude
-        );
+        ];
 
         $body = $this->includeOptionsInBody(
-            $options,
-            $body,
-            array(
+	        $options,
+	        $body,
+	        [
                 self::OPTION_DISTANCE => null,
                 self::OPTION_LIMIT => null,
                 self::OPTION_SKIP => null,
-            )
+	        ]
         );
 
         $response = $this->getConnection()->put(Urls::URL_NEAR, $this->json_encode_wrapper($body));
@@ -1862,25 +1858,25 @@ class CollectionHandler extends
      *
      * @return Cursor - documents matching the example [0...n]
      */
-    public function within($collectionId, $latitude, $longitude, $radius, $options = [])
+    public function within($collectionId, $latitude, $longitude, $radius, array $options = [])
     {
         $options = array_merge($options, $this->getCursorOptions($options));
 
-        $body = array(
+        $body = [
             self::OPTION_COLLECTION => $collectionId,
             self::OPTION_LATITUDE => $latitude,
             self::OPTION_LONGITUDE => $longitude,
             self::OPTION_RADIUS => $radius
-        );
+        ];
 
         $body = $this->includeOptionsInBody(
-            $options,
-            $body,
-            array(
+	        $options,
+	        $body,
+	        [
                 self::OPTION_DISTANCE => null,
                 self::OPTION_LIMIT => null,
                 self::OPTION_SKIP => null,
-            )
+	        ]
         );
 
         $response = $this->getConnection()->put(Urls::URL_WITHIN, $this->json_encode_wrapper($body));

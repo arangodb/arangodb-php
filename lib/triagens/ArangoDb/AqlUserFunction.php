@@ -163,10 +163,10 @@ class AqlUserFunction
             $name = $this->getName();
         }
 
-        $url = UrlHelper::buildUrl(Urls::URL_AQL_USER_FUNCTION, array($name));
+        $url = UrlHelper::buildUrl(Urls::URL_AQL_USER_FUNCTION, [$name]);
 
         if ($namespace) {
-            $url = UrlHelper::appendParamsUrl($url, array('group' => true));
+            $url = UrlHelper::appendParamsUrl($url, ['group' => true]);
         }
 
         $response = $this->_connection->delete($url);
@@ -189,7 +189,7 @@ class AqlUserFunction
     {
         $url = UrlHelper::buildUrl(Urls::URL_AQL_USER_FUNCTION, []);
         if (null !== $namespace) {
-            $url = UrlHelper::appendParamsUrl($url, array('namespace' => $namespace));
+            $url = UrlHelper::appendParamsUrl($url, ['namespace' => $namespace]);
         }
         $response = $this->_connection->get($url);
 

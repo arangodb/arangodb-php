@@ -1530,18 +1530,18 @@ class CollectionExtendedTest extends
     {
         $collectionHandler = $this->collectionHandler;
 
-        $collection = Collection::createFromArray(array('name' => 'ArangoDB_PHP_TestSuite_TestCollection_01'));
+        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01']);
         $collectionHandler->add($collection);
 
         $documentHandler = $this->documentHandler;
 
         $document = Document::createFromArray(
-            array('someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue')
+	        ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
         $documentHandler->add($collection->getId(), $document);
 
         $document = Document::createFromArray(
-            array('someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2')
+	        ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
         $documentHandler->add($collection->getId(), $document);
 

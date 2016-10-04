@@ -142,7 +142,7 @@ class HttpHelper
      * @throws ClientException
      *
      */
-    public static function buildRequest(ConnectionOptions $options, $connectionHeader, $method, $url, $body, $customHeaders = [])
+    public static function buildRequest(ConnectionOptions $options, $connectionHeader, $method, $url, $body, array $customHeaders = [])
     {
         if (!is_string($body)) {
             throw new ClientException('Invalid value for body. Expecting string, got ' . gettype($body));
@@ -327,6 +327,6 @@ class HttpHelper
             }
         }
 
-        return array($httpCode, $result, $processed);
+        return [$httpCode, $result, $processed];
     }
 }

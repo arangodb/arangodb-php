@@ -458,12 +458,12 @@ class Cursor implements
      */
     private function addPathsFromArray(array $data)
     {
-        $entry = array(
+        $entry = [
             'vertices' => [],
             'edges' => [],
             'source' => Document::createFromArray($data['source'], $this->_options),
             'destination' => Document::createFromArray($data['destination'], $this->_options),
-        );
+        ];
         foreach ($data['vertices'] as $v) {
             $entry['vertices'][] = Document::createFromArray($v, $this->_options);
         }
@@ -490,17 +490,17 @@ class Cursor implements
         $startVertex = $vertices[0];
         $destination = $vertices[count($vertices) - 1];
 
-        $entry = array(
+        $entry = [
             'paths' => [],
             'source' => Document::createFromArray($startVertex, $this->_options),
             'distance' => $data['distance'],
             'destination' => Document::createFromArray($destination, $this->_options),
-        );
+        ];
 
-        $path = array(
+        $path = [
             'vertices' => [],
             'edges' => []
-        );
+        ];
 
         foreach ($data['vertices'] as $v) {
             $path['vertices'][] = $v;
@@ -523,11 +523,11 @@ class Cursor implements
      */
     private function addDistanceToFromArray(array $data)
     {
-        $entry           = array(
+        $entry           = [
             'source' => $data['startVertex'],
             'distance' => $data['distance'],
             'destination' => $data['vertex']
-        );
+        ];
         $this->_result[] = $entry;
     }
 

@@ -100,7 +100,7 @@ class Batch
      *
      * @return Batch
      */
-    public function __construct(Connection $connection, $options = [])
+    public function __construct(Connection $connection, array $options = [])
     {
         $startCapture = true;
         $sanitize     = false;
@@ -117,7 +117,7 @@ class Batch
         $this->setConnection($connection);
 
         // set default cursor options. Sanitize is currently the only local one.
-        $this->_batchPartCursorOptions = array(Cursor::ENTRY_SANITIZE => (bool) $this->_sanitize);
+        $this->_batchPartCursorOptions = [Cursor::ENTRY_SANITIZE => (bool) $this->_sanitize];
 
         if ($startCapture === true) {
             $this->startCapture();
@@ -348,7 +348,7 @@ class Batch
         $result .= '{"error":false,"_id":"0/0","id":"0","_rev":0,"hasMore":1, "result":[{}], "documents":[{}]}' . HttpHelper::EOL . HttpHelper::EOL;
 
         $response  = new HttpResponse($result);
-        $batchPart = new BatchPart($this, $this->_nextBatchPartId, $type, $request, $response, array('cursorOptions' => $this->_batchPartCursorOptions));
+        $batchPart = new BatchPart($this, $this->_nextBatchPartId, $type, $request, $response, ['cursorOptions' => $this->_batchPartCursorOptions]);
         if (null === $this->_nextBatchPartId) {
             if (is_a($this->_batchParts, 'SplFixedArray')) {
                 $nextNumeric = $this->_nextId;

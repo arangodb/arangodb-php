@@ -79,7 +79,7 @@ abstract class UrlHelper
      *
      * @return string - the assembled URL
      */
-    public static function appendParamsUrl($baseUrl, array $params)
+    public static function appendParamsUrl($baseUrl, $params)
     {
         foreach ($params as $key => &$value) {
             if (is_bool($value)) {

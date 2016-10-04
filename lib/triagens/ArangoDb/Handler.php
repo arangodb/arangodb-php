@@ -90,9 +90,9 @@ abstract class Handler
         }
 
 
-        return array(
+        return [
             Cursor::ENTRY_SANITIZE => $sanitize,
-        );
+        ];
     }
 
     /**
@@ -158,7 +158,7 @@ abstract class Handler
      *
      * @return array $params - array of parameters for use in a url
      */
-    protected function includeOptionsInParams($options, $params, $includeArray = [])
+    protected function includeOptionsInParams($options, $params, array $includeArray = [])
     {
         if (is_array($options)) {
             foreach ($options as $key => $value) {
@@ -187,7 +187,7 @@ abstract class Handler
      *
      * @return array $params - array of parameters for use in a url
      */
-    protected function includeOptionsInBody($options, $body, $includeArray = [])
+    protected function includeOptionsInBody($options, $body, array $includeArray = [])
     {
         if (is_array($options)) {
             foreach ($options as $key => $value) {

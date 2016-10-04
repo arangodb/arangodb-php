@@ -172,7 +172,7 @@ class Document
      * @param array $values - initial values for document
      * @param array $options - optional, initial options for document
      *
-     * @return Document|Edge
+     * @return Document|Edge|Graph
      */
     public static function createFromArray(array $values, array $options = [])
     {
@@ -448,7 +448,7 @@ class Document
         }
 
         $data         = $this->_values;
-        $nonInternals = array('_changed', '_values', self::ENTRY_HIDDENATTRIBUTES);
+        $nonInternals = ['_changed', '_values', self::ENTRY_HIDDENATTRIBUTES];
 
         if ($includeInternals === true) {
             foreach ($this as $key => $value) {
@@ -507,7 +507,7 @@ class Document
      * @return mixed - associative array of all document attributes/values, or an empty StdClass if the document
      *                 does not have any
      */
-    public function getAllAsObject($options = [])
+    public function getAllAsObject(array $options = [])
     {
         $result = $this->getAll($options);
         if (count($result) === 0) {

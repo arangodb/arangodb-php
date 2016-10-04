@@ -298,7 +298,7 @@ class Collection
      */
     public function getAll()
     {
-        $result = array(
+        $result = [
             self::ENTRY_ID => $this->_id,
             self::ENTRY_NAME => $this->_name,
             self::ENTRY_WAIT_SYNC => $this->_waitForSync,
@@ -308,7 +308,7 @@ class Collection
             self::ENTRY_TYPE => $this->_type,
             self::ENTRY_STATUS => $this->_status,
             self::ENTRY_KEY_OPTIONS => $this->_keyOptions
-        );
+        ];
 
         if (null !== $this->_numberOfShards) {
             $result[self::ENTRY_NUMBER_OF_SHARDS] = $this->_numberOfShards;
@@ -532,14 +532,14 @@ class Collection
         }
 
         if (!in_array(
-            $status,
-            array(
+	        $status,
+	        [
                 self::STATUS_NEW_BORN,
                 self::STATUS_UNLOADED,
                 self::STATUS_LOADED,
                 self::STATUS_BEING_UNLOADED,
                 self::STATUS_DELETED
-            )
+	        ]
         )
         ) {
             throw new ClientException('Invalid status used for collection');
