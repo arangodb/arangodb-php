@@ -10,32 +10,32 @@ try {
 
     // create a new collection
     $col = new Collection();
-    $col->setName("hihi");
+    $col->setName('hihi');
     $result = $handler->add($col);
     var_dump($result);
 
     // check if a collection exists
-    $result = $handler->has("foobar");
+    $result = $handler->has('foobar');
     var_dump($result);
 
     // get an existing collection
-    $result = $handler->get("hihi");
+    $result = $handler->get('hihi');
     var_dump($result);
 
     // get an existing collection
-    $result = $handler->get("hihi");
+    $result = $handler->get('hihi');
     var_dump($result);
 
     // get number of documents from an existing collection
-    $result = $handler->getCount("hihi");
+    $result = $handler->getCount('hihi');
     var_dump($result);
 
     // get figures for an existing collection
-    $result = $handler->getFigures("hihi");
+    $result = $handler->getFigures('hihi');
     var_dump($result);
 
     // delete the collection
-    $result = $handler->delete("hihi");
+    $result = $handler->delete('hihi');
     var_dump($result);
     // rename a collection
     // $handler->rename($col, "hihi30");

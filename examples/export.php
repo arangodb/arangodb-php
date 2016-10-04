@@ -9,12 +9,12 @@ try {
 
     // creates an export object for collection 'users'
     $export = new Export($connection, 'users', array(
-        "batchSize" => 5000,
-        "_flat" => true,
-        "flush" => true,
-        "restrict" => array(
-            "type" => "include",
-            "fields" => array("_key", "_rev")
+	    'batchSize' => 5000,
+	    '_flat'     => true,
+	    'flush'     => true,
+	    'restrict'  => array(
+	        'type'   => 'include',
+	        'fields' => array('_key', '_rev')
         )
     ));
 
@@ -24,7 +24,7 @@ try {
     // now we can fetch the documents from the collection in blocks
     while ($docs = $cursor->getNextBatch()) {
         // do something with $docs
-        print sprintf("retrieved %d documents", count($docs)) . PHP_EOL;
+        print sprintf('retrieved %d documents', count($docs)) . PHP_EOL;
     }
 
 } catch (ConnectException $e) {

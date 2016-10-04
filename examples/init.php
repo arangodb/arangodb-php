@@ -6,7 +6,7 @@ require __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'autoload.p
 
 /* set up a trace function that will be called for each communication with the server */
 $traceFunc = function($type, $data) {
-  print "TRACE FOR ". $type . PHP_EOL;
+  print 'TRACE FOR ' . $type . PHP_EOL;
   var_dump($data);
 };
 
