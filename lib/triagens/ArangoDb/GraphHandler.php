@@ -85,7 +85,12 @@ class GraphHandler extends
      */
     const OPTION_EDGE_DEFINITIONS = 'edgeDefinitions';
 
-    /**
+	/**
+	 * GraphHandler cache store
+	 */
+	protected $cache;
+
+	/**
      * Create a graph
      *
      * This will create a graph using the given graph object and return an array of the created graph object's attributes.<br><br>
@@ -348,7 +353,14 @@ class GraphHandler extends
      *
      *
      * @param mixed $graph - graph name as a string or instance of Graph
-     * @param array $options
+     * @param array $options - optional, an array of options
+     *                                 <p>Options are :<br>
+     *                                 <li>'excludeOrphans' - boolean value:    true to exclude the orphans or false to include orphans in the result.<br>
+     *                                                                          Defaults to false</li>
+     *                                 <li>'_noCache' -  boolean:   true to not use the handler's cache for looking up prior fetched results.<br>
+     *                                                              This will also not store the result of this call to the cache.<br>
+     *                                                              or false to use the cache.</li>
+     *                                 </p>
      *
      * @return array
      * @throws ClientException@since 2.2
@@ -359,11 +371,32 @@ class GraphHandler extends
             $graph = $graph->getKey();
         }
 
+	    $excludeOrphans = false;
+	    $_noCache       = false;
+
+	    if ((bool) $options){
+		    if (isset($options['excludeOrphans']) && !is_bool($options['excludeOrphans'])){
+			    $excludeOrphans = UrlHelper::getBoolString($options['excludeOrphans']);
+		    }
+
+		    if (isset($options['_noCache'])){
+			    $_noCache = $options['_noCache'];
+		    }
+	    }
+
+        if ($_noCache === false){
+	        if ($excludeOrphans===true && !empty($this->cache[$graph]['excludeOrphans']['result'])){
+		        return $this->cache[$graph]['excludeOrphans']['result'];
+	        }else if (!empty($this->cache[$graph]['result'])) {
+		        return $this->cache[$graph]['result'];
+	        }
+        }
+
         $url = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_VERTEX]);
 
-        if (is_array($options) && isset($options['excludeOrphans'])) {
-            $url = UrlHelper::appendParamsUrl($url, ['excludeOrphans' => UrlHelper::getBoolString($options['excludeOrphans'])]);
-        }
+	    if ($excludeOrphans===true){
+		    $url = UrlHelper::appendParamsUrl($url, ['excludeOrphans' => $excludeOrphans]);
+	    }
 
         try {
             $response = $this->getConnection()->get($url);
@@ -373,7 +406,16 @@ class GraphHandler extends
 
         $data = $response->getJson();
         sort($data[self::OPTION_COLLECTIONS]);
-        return $data[self::OPTION_COLLECTIONS];
+		$data = $data[self::OPTION_COLLECTIONS];
+
+	    if (!empty($this->cache[$graph]) && (!isset($options['_noCache']) || isset($options['_noCache']) && $options['_noCache'] === false)){
+		    if ($excludeOrphans===true){
+			    $this->cache[$graph]['excludeOrphans']['result'] = $data;
+		    }else{
+			    $this->cache[$graph]['result'] = $data;
+		    }
+	    }
+	    return $data;
     }
 
     /**
