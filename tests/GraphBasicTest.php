@@ -262,7 +262,83 @@ class GraphBasicTest extends
         static::assertTrue($result, 'Did not return true!');
     }
 
-    /**
+	/**
+	 * Test adding, getting and deleting of collections
+	 */
+	public function testAddGetDeleteCollectionsWithCache()
+	{
+		$this->graph = new Graph('Graph1');
+		$ed1         = EdgeDefinition::createUndirectedRelation('undirected', 'singleV');
+		$this->graph->addOrphanCollection('ArangoDBPHPTestSuiteTestCollection04');
+		$this->graph->addEdgeDefinition($ed1);
+		$this->graphHandler = new GraphHandler($this->connection);
+
+		$result = $this->graphHandler->createGraph($this->graph);
+		static::assertEquals($result['_key'], 'Graph1', 'Did not return Graph1!');
+
+		$this->graph = $this->graphHandler->addOrphanCollection($this->graph, 'orphan1');
+		$this->graph = $this->graphHandler->addOrphanCollection($this->graph, 'orphan2');
+
+		static::assertSame(
+			$this->graphHandler->getVertexCollections($this->graph, ['_useCache' => true]), [
+				                                                       0 => 'ArangoDBPHPTestSuiteTestCollection04',
+				                                                       1 => 'orphan1',
+				                                                       2 => 'orphan2',
+				                                                       3 => 'singleV'
+
+			                                                       ]
+		);
+
+		$this->graph = $this->graphHandler->deleteOrphanCollection($this->graph, 'orphan2');
+		static::assertSame(
+			$this->graphHandler->getVertexCollections($this->graph, ['_useCache' => true]), [
+				                                                       0 => 'ArangoDBPHPTestSuiteTestCollection04',
+				                                                       1 => 'orphan1',
+				                                                       2 => 'orphan2',
+				                                                       3 => 'singleV'
+
+			                                                       ]
+		);
+
+		static::assertSame(
+			$this->graphHandler->getVertexCollections($this->graph), [
+				                                                       0 => 'ArangoDBPHPTestSuiteTestCollection04',
+				                                                       1 => 'orphan1',
+				                                                       2 => 'singleV'
+
+			                                                       ]
+		);
+		$error = null;
+		try {
+			$this->graph = $this->graphHandler->deleteOrphanCollection($this->graph, 'singleV');
+		} catch (\Exception $e) {
+			$error = $e->getMessage();
+		}
+		static::assertSame($error, 'not in orphan collection');
+
+		$error = null;
+		try {
+			$this->graph = $this->graphHandler->addOrphanCollection($this->graph, 'undirected');
+		} catch (\Exception $e) {
+			$error = $e->getMessage();
+		}
+
+		static::assertSame($error, 'not a vertex collection');
+
+		$error = null;
+		try {
+			$this->graph = $this->graphHandler->getVertexCollections('notExisting');
+		} catch (\Exception $e) {
+			$error = $e->getMessage();
+		}
+		static::assertSame($error, 'graph not found');
+
+		$result = $this->graphHandler->dropGraph($this->graph);
+		static::assertTrue($result, 'Did not return true!');
+	}
+
+
+	/**
      * Test adding, getting and deleting of edgecollections
      */
     public function testAddGetDeleteEdgeCollections()

@@ -357,9 +357,9 @@ class GraphHandler extends
      *                                 <p>Options are :<br>
      *                                 <li>'excludeOrphans' - boolean value:    true to exclude the orphans or false to include orphans in the result.<br>
      *                                                                          Defaults to false</li>
-     *                                 <li>'_noCache' -  boolean:   true to not use the handler's cache for looking up prior fetched results.<br>
-     *                                                              This will also not store the result of this call to the cache.<br>
-     *                                                              or false to use the cache.</li>
+     *                                 <li>'_useCache' -  boolean:  true to use the handler's cache for looking up prior fetched results.<br>
+     *                                                              or false to not use the cache. This will also not store the result of this call to the cache.<br>
+     *                                                              Defaults to false.</li>
      *                                 </p>
      *
      * @return array
@@ -372,23 +372,23 @@ class GraphHandler extends
         }
 
 	    $excludeOrphans = false;
-	    $_noCache       = false;
+	    $_useCache       = false;
 
 	    if ((bool) $options){
 		    if (isset($options['excludeOrphans']) && !is_bool($options['excludeOrphans'])){
 			    $excludeOrphans = UrlHelper::getBoolString($options['excludeOrphans']);
 		    }
 
-		    if (isset($options['_noCache'])){
-			    $_noCache = $options['_noCache'];
+		    if (isset($options['_useCache'])){
+			    $_useCache = $options['_useCache'];
 		    }
 	    }
 
-        if ($_noCache === false){
+        if ($_useCache === true){
 	        if ($excludeOrphans===true && !empty($this->cache[$graph]['excludeOrphans']['result'])){
-		        return $this->cache[$graph]['excludeOrphans']['result'];
-	        }else if (!empty($this->cache[$graph]['result'])) {
-		        return $this->cache[$graph]['result'];
+		        return $this->cache[$graph]['excludeOrphans']['vertexCollections'];
+	        }else if (!empty($this->cache[$graph]['vertexCollections'])) {
+		        return $this->cache[$graph]['vertexCollections'];
 	        }
         }
 
@@ -408,11 +408,11 @@ class GraphHandler extends
         sort($data[self::OPTION_COLLECTIONS]);
 		$data = $data[self::OPTION_COLLECTIONS];
 
-	    if (!empty($this->cache[$graph]) && (!isset($options['_noCache']) || isset($options['_noCache']) && $options['_noCache'] === false)){
-		    if ($excludeOrphans===true){
-			    $this->cache[$graph]['excludeOrphans']['result'] = $data;
+	    if ($_useCache === true){
+		    if ($excludeOrphans===true  && !empty($this->cache[$graph]['excludeOrphans']['vertexCollections'])){
+			    $this->cache[$graph]['excludeOrphans']['vertexCollections'] = $data;
 		    }else{
-			    $this->cache[$graph]['result'] = $data;
+			    $this->cache[$graph]['vertexCollections'] = $data;
 		    }
 	    }
 	    return $data;
@@ -507,17 +507,33 @@ class GraphHandler extends
      * @throws Exception
      *
      * @param mixed $graph - graph name as a string or instance of Graph
+     * @param array $options - optional, an array of options
+     *                                 <p>Options are :<br>
+     *                                 <li>'_useCache' -  boolean:  true to use the handler's cache for looking up prior fetched results.<br>
+     *                                                              or false to not use the cache. This will also not store the result of this call to the cache.<br>
+     *                                                              Defaults to false.</li>
+     *                                 </p>
      *
      * @return []
      * @since 2.2
      */
-    public function getEdgeCollections($graph)
+    public function getEdgeCollections($graph, array $options = [])
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
         }
 
-        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_EDGE]);
+	    $_useCache       = false;
+
+	    if ((bool) $options && isset($options['_useCache'])){
+			    $_useCache = $options['_useCache'];
+	    }
+
+	    if ($_useCache === true && !empty($this->cache[$graph]['edgeCollections'])){
+			    return $this->cache[$graph]['edgeCollections'];
+	    }
+
+	    $url = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_EDGE]);
 
         try {
             $response = $this->getConnection()->get($url);
@@ -526,7 +542,12 @@ class GraphHandler extends
         }
         $data = $response->getJson();
         sort($data[self::OPTION_COLLECTIONS]);
-        return $data[self::OPTION_COLLECTIONS];
+
+	    if ($_useCache === true && !empty($this->cache[$graph]['edgeCollections'])){
+			    $this->cache[$graph]['edgeCollections'] = $data;
+	    }
+
+	    return $data[self::OPTION_COLLECTIONS];
     }
 
 
@@ -605,6 +626,7 @@ class GraphHandler extends
                 $collection = $vertexCollections[0];
             }
         }
+
         $data = $document->getAll();
         $url  = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_VERTEX, $collection]);
 
@@ -663,16 +685,19 @@ class GraphHandler extends
             $vertexId   = $parts[1];
             $collection = $parts[0];
         }
-        if ($collection === null) {
-            if (count($this->getVertexCollections($graph)) !== 1) {
-                throw new ClientException('A collection must be provided.');
-            }
-            else if (count($this->getVertexCollections($graph)) === 1) {
-                $collection = $this->getVertexCollections($graph);
-                $collection = $collection[0];
-            }
-        }
-        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_VERTEX, $collection, $vertexId]);
+
+	    $vertexCollections = $this->getVertexCollections($graph);
+	    $vertexCollectionsCount = count($vertexCollections);
+	    if ($collection === null) {
+		    if ($vertexCollectionsCount !== 1) {
+			    throw new ClientException('A collection must be provided.');
+		    }
+		    else if ($vertexCollectionsCount === 1) {
+			    $collection = $vertexCollections[0];
+		    }
+	    }
+
+	    $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_VERTEX, $collection, $vertexId]);
         $response = $this->getConnection()->get($url);
 
         $jsonArray = $response->getJson();
@@ -750,16 +775,19 @@ class GraphHandler extends
             $vertexId   = $parts[1];
             $collection = $parts[0];
         }
-        if ($collection === null) {
-            if (count($this->getVertexCollections($graph)) !== 1) {
-                throw new ClientException('A collection must be provided.');
-            }
-            else if (count($this->getVertexCollections($graph)) === 1) {
-                $collection = $this->getVertexCollections($graph);
-                $collection = $collection[0];
-            }
-        }
-        $options = array_merge([self::OPTION_REVISION => false], $options);
+
+	    $vertexCollections = $this->getVertexCollections($graph);
+	    $vertexCollectionsCount = count($vertexCollections);
+	    if ($collection === null) {
+		    if ($vertexCollectionsCount !== 1) {
+			    throw new ClientException('A collection must be provided.');
+		    }
+		    else if ($vertexCollectionsCount === 1) {
+			    $collection = $vertexCollections[0];
+		    }
+	    }
+
+	    $options = array_merge([self::OPTION_REVISION => false], $options);
 
         // This preserves compatibility for the old policy parameter.
         $params = [];
@@ -843,16 +871,19 @@ class GraphHandler extends
             $vertexId   = $parts[1];
             $collection = $parts[0];
         }
-        if ($collection === null) {
-            if (count($this->getVertexCollections($graph)) !== 1) {
-                throw new ClientException('A collection must be provided.');
-            }
-            else if (count($this->getVertexCollections($graph)) === 1) {
-                $collection = $this->getVertexCollections($graph);
-                $collection = $collection[0];
-            }
-        }
-        $options = array_merge([self::OPTION_REVISION => false], $options);
+
+	    $vertexCollections = $this->getVertexCollections($graph);
+	    $vertexCollectionsCount = count($vertexCollections);
+	    if ($collection === null) {
+		    if ($vertexCollectionsCount !== 1) {
+			    throw new ClientException('A collection must be provided.');
+		    }
+		    else if ($vertexCollectionsCount === 1) {
+			    $collection = $vertexCollections[0];
+		    }
+	    }
+
+	    $options = array_merge([self::OPTION_REVISION => false], $options);
         // This preserves compatibility for the old policy parameter.
         $params = [];
         $params = $this->validateAndIncludeOldSingleParameterInParams(
@@ -921,16 +952,19 @@ class GraphHandler extends
             $vertexId   = $parts[1];
             $collection = $parts[0];
         }
-        if ($collection === null) {
-            if (count($this->getVertexCollections($graph)) !== 1) {
-                throw new ClientException('A collection must be provided.');
-            }
-            else if (count($this->getVertexCollections($graph)) === 1) {
-                $collection = $this->getVertexCollections($graph);
-                $collection = $collection[0];
-            }
-        }
-        // This preserves compatibility for the old policy parameter.
+
+	    $vertexCollections = $this->getVertexCollections($graph);
+	    $vertexCollectionsCount = count($vertexCollections);
+	    if ($collection === null) {
+		    if ($vertexCollectionsCount !== 1) {
+			    throw new ClientException('A collection must be provided.');
+		    }
+		    else if ($vertexCollectionsCount === 1) {
+			    $collection = $vertexCollections[0];
+		    }
+	    }
+
+	    // This preserves compatibility for the old policy parameter.
         $params = [];
         $params = $this->validateAndIncludeOldSingleParameterInParams(
             $options,
