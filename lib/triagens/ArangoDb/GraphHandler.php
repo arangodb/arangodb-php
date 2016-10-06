@@ -594,13 +594,15 @@ class GraphHandler extends
         if (is_array($document)) {
             $document = Vertex::createFromArray($document);
         }
+
+	    $vertexCollections = $this->getVertexCollections($graph);
+	    $vertexCollectionsCount = count($vertexCollections);
         if ($collection === null) {
-            if (count($this->getVertexCollections($graph)) !== 1) {
+            if ($vertexCollectionsCount !== 1) {
                 throw new ClientException('A collection must be provided.');
             }
-            else if (count($this->getVertexCollections($graph)) === 1) {
-                $collection = $this->getVertexCollections($graph);
-                $collection = $collection[0];
+            else if ($vertexCollectionsCount === 1) {
+                $collection = $vertexCollections[0];
             }
         }
         $data = $document->getAll();
@@ -608,7 +610,16 @@ class GraphHandler extends
 
         $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
 
-        $jsonArray = $response->getJson();
+	    // This makes sure that if we're in batch mode, it will not go further and choke on the checks below.
+	    // Caution: Instead of a document ID, we are returning the batchpart object.
+	    // The Id of the BatchPart can be retrieved by calling getId() on it.
+	    // We're basically returning an object here, in order not to accidentally use the batch part id as the document id
+	    if ($batchPart = $response->getBatchPart())
+	    {
+		    return $batchPart;
+	    }
+
+	    $jsonArray = $response->getJson();
         $vertex    = $jsonArray['vertex'];
 
         $document->setInternalId($vertex[Vertex::ENTRY_ID]);
