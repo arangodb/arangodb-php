@@ -280,7 +280,7 @@ class GraphExtendedTest extends
         $vertex2 = Vertex::createFromArray($this->vertex2Array);
         $edge1   = Edge::createFromArray($this->edge1Array);
 
-		$this->graphHandler->useCache(true);
+		$this->graphHandler->setCacheEnabled(true);
         // Save vertices
         $result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
         static::assertEquals($result1, 'ArangoDBPHPTestSuiteVertexTestCollection01/vertex1', 'Did not return vertex1!');

@@ -91,9 +91,9 @@ class GraphHandler extends
 	protected $cache;
 
 	/**
-	 * @var $_useCache boolean GraphHandler use cache store
+	 * @var $cacheEnabled boolean GraphHandler use cache store
 	 */
-	protected $_useCache = false;
+	protected $cacheEnabled = false;
 
 	/**
      * Create a graph
@@ -356,16 +356,16 @@ class GraphHandler extends
      *
      * This will get all vertex collection (orphans and used in edge definitions) from the graph.<br><br>
      *
+     * If this method or any method that calls this method is used in batch mode and caching is off,<br>
+     * then for each call, this method will make an out of batch API call to the db in order to get the appropriate collections.<br><br>
+     *
+     * If caching is on, then the GraphHandler will only call the DB API once for the chosen graph, and return data from cache for the following calls.<br>
      *
      * @param mixed $graph - graph name as a string or instance of Graph
      * @param array $options - optional, an array of options
      *                                 <p>Options are :<br>
      *                                 <li>'excludeOrphans' - boolean value:    true to exclude the orphans or false to include orphans in the result.<br>
      *                                                                          Defaults to false</li>
-     *                                 <li>'_useCache' -  boolean:  true to use the handler's cache for looking up prior fetched results.<br>
-     *                                                              or false to not use the cache. This will also not store the result of this call to the cache.<br>
-     *                                                              Defaults to false.</li>
-     *                                 </p>
      *
      * @return array
      * @throws ClientException@since 2.2
@@ -377,12 +377,10 @@ class GraphHandler extends
         }
 
 	    $excludeOrphans = false;
-	    $_useCache      = $this->_useCache;
+	    $_useCache      = $this->cacheEnabled;
 
-	    if ((bool) $options){
-		    if (isset($options['excludeOrphans']) && !is_bool($options['excludeOrphans'])){
+	    if ((bool) $options && isset($options['excludeOrphans']) && !is_bool($options['excludeOrphans'])){
 			    $excludeOrphans = UrlHelper::getBoolString($options['excludeOrphans']);
-		    }
 	    }
 
 	    if ($_useCache === true){
@@ -515,18 +513,17 @@ class GraphHandler extends
      *
      * This will get all edge collections from the graph.<br><br>
      *
+     * If this method or any method that calls this method is used in batch mode and caching is off,<br>
+     * then for each call, this method will make an out of batch API call to the db in order to get the appropriate collections.<br><br>
      *
+     * If caching is on, then the GraphHandler will only call the DB API once for the chosen graph, and return data from cache for the following calls.<br>
+
      * @throws Exception
      *
      * @param mixed $graph - graph name as a string or instance of Graph
-     * @param array $options - optional, an array of options
-     *                                 <p>Options are :<br>
-     *                                 <li>'_useCache' -  boolean:  true to use the handler's cache for looking up prior fetched results.<br>
-     *                                                              or false to not use the cache. This will also not store the result of this call to the cache.<br>
-     *                                                              Defaults to false.</li>
-     *                                 </p>
      *
-     * @return []
+     * @return array
+     *
      * @since 2.2
      */
     public function getEdgeCollections($graph)
@@ -535,7 +532,7 @@ class GraphHandler extends
             $graph = $graph->getKey();
         }
 
-	    $_useCache       = $this->_useCache;
+	    $_useCache       = $this->cacheEnabled;
 
 	    if ($_useCache === true && !empty($this->cache[$graph]['edgeCollections'])){
 			    return $this->cache[$graph]['edgeCollections'];
@@ -1430,7 +1427,7 @@ class GraphHandler extends
     }
 
 	/**
-	 * Clears this handler's cache
+	 * Clears the GraphHandler's cache
 	 *
 	 * @return $this
 	 */
@@ -1441,11 +1438,13 @@ class GraphHandler extends
 	}
 
 	/**
+	 * Checks if caching in enabled
+	 *
 	 * @return boolean
 	 */
-	public function isCacheActive()
+	public function getCacheEnabled()
 	{
-		return $this->_useCache;
+		return $this->cacheEnabled;
 	}
 
 	/**
@@ -1453,9 +1452,9 @@ class GraphHandler extends
 	 *
 	 * @return $this
 	 */
-	public function useCache($useCache)
+	public function setCacheEnabled($useCache)
 	{
-		$this->_useCache = $useCache;
+		$this->cacheEnabled = $useCache;
 		return $this;
 	}
 }
