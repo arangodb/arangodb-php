@@ -279,8 +279,9 @@ class GraphBasicTest extends
 		$this->graph = $this->graphHandler->addOrphanCollection($this->graph, 'orphan1');
 		$this->graph = $this->graphHandler->addOrphanCollection($this->graph, 'orphan2');
 
+		$this->graphHandler->useCache(true);
 		static::assertSame(
-			$this->graphHandler->getVertexCollections($this->graph, ['_useCache' => true]), [
+			$this->graphHandler->getVertexCollections($this->graph), [
 				                                                       0 => 'ArangoDBPHPTestSuiteTestCollection04',
 				                                                       1 => 'orphan1',
 				                                                       2 => 'orphan2',
@@ -291,7 +292,7 @@ class GraphBasicTest extends
 
 		$this->graph = $this->graphHandler->deleteOrphanCollection($this->graph, 'orphan2');
 		static::assertSame(
-			$this->graphHandler->getVertexCollections($this->graph, ['_useCache' => true]), [
+			$this->graphHandler->getVertexCollections($this->graph), [
 				                                                       0 => 'ArangoDBPHPTestSuiteTestCollection04',
 				                                                       1 => 'orphan1',
 				                                                       2 => 'orphan2',
@@ -300,6 +301,7 @@ class GraphBasicTest extends
 			                                                       ]
 		);
 
+		$this->graphHandler->useCache(false);
 		static::assertSame(
 			$this->graphHandler->getVertexCollections($this->graph), [
 				                                                       0 => 'ArangoDBPHPTestSuiteTestCollection04',

@@ -269,6 +269,107 @@ class GraphExtendedTest extends
     }
 
 
+   /**
+     * Test if 2 Vertices can be saved and an edge can be saved connecting them
+     * Then remove in this order Edge, Vertex1, Vertex2
+     */
+    public function testSaveVerticesAndEdgeBetweenThemAndRemoveOneByOneWithCache()
+    {
+        // Setup Objects
+        $vertex1 = Vertex::createFromArray($this->vertex1Array);
+        $vertex2 = Vertex::createFromArray($this->vertex2Array);
+        $edge1   = Edge::createFromArray($this->edge1Array);
+
+		$this->graphHandler->useCache(true);
+        // Save vertices
+        $result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
+        static::assertEquals($result1, 'ArangoDBPHPTestSuiteVertexTestCollection01/vertex1', 'Did not return vertex1!');
+
+        $result2 = $this->graphHandler->saveVertex($this->graphName, $vertex2);
+        static::assertEquals($result2, 'ArangoDBPHPTestSuiteVertexTestCollection01/vertex2', 'Did not return vertex2!');
+
+
+        // Get vertices
+        $result1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
+        static::assertEquals($result1->getKey(), 'vertex1', 'Did not return vertex1!');
+
+        $result2 = $this->graphHandler->getVertex($this->graphName, $this->vertex2Name);
+        static::assertEquals($result2->getKey(), 'vertex2', 'Did not return vertex2!');
+
+
+        // Save edge
+        $resultE = $this->graphHandler->saveEdge(
+            $this->graphName,
+            $result1->getInternalId(),
+            $result2->getInternalId(),
+            $this->edgeLabel1,
+            $edge1
+        );
+        static::assertEquals($resultE, 'ArangoDBPHPTestSuiteTestEdgeCollection01/edge1', 'Did not return edge1!');
+
+
+        // Get edge
+        $resultE = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
+        static::assertEquals($resultE->getKey(), 'edge1', 'Did not return edge1!');
+
+
+        // Try to get the edge using GraphHandler
+        $resultE = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
+        static::assertInstanceOf('triagens\ArangoDb\Edge', $resultE);
+
+
+        // Remove the edge
+        $resultE = $this->graphHandler->removeEdge($this->graphName, $this->edge1Name);
+        static::assertTrue($resultE, 'Did not return true!');
+
+
+        // Remove one vertex using GraphHandler
+        $result1 = $this->graphHandler->removeVertex($this->graphName, $this->vertex1Name);
+        static::assertTrue($result1, 'Did not return true!');
+
+
+        // Remove one vertex using GraphHandler | Testing
+        // This should cause an exception with a code of 404
+        try {
+            $e = null;
+            $this->graphHandler->removeVertex($this->graphName, $this->vertex1Name);
+        } catch (\Exception $e) {
+            // don't bother us... just give us the $e
+        }
+        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+
+
+        // Try to get vertex using GraphHandler
+        // This should cause an exception with a code of 404
+        try {
+            $e = null;
+            $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
+        } catch (\Exception $e) {
+            // don't bother us... just give us the $e
+        }
+        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+
+
+        // Remove the other vertex using GraphHandler
+        $result2 = $this->graphHandler->removeVertex($this->graphName, $this->vertex2Name);
+        static::assertTrue($result2, 'Did not return true!');
+
+
+        // Try to get vertex using GraphHandler
+        // This should cause an exception with a code of 404
+        try {
+            $e = null;
+            $this->graphHandler->getVertex($this->graphName, $this->vertex2Name);
+        } catch (\Exception $e) {
+            // don't bother us... just give us the $e
+        }
+        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+    }
+
+
     /**
      * Test if 2 Vertices can be saved and an edge can be saved connecting them, but remove the first vertex first
      * This should throw an exception on removing the edge, because it will be removed with

@@ -76,12 +76,12 @@ class GraphHandler extends
     const OPTION_NAME = 'name';
 
     /**
-     * edge defintion parameter
+     * edge definition parameter
      */
     const OPTION_EDGE_DEFINITION = 'edgeDefinition';
 
     /**
-     * edge defintions parameter
+     * edge definitions parameter
      */
     const OPTION_EDGE_DEFINITIONS = 'edgeDefinitions';
 
@@ -89,6 +89,11 @@ class GraphHandler extends
 	 * GraphHandler cache store
 	 */
 	protected $cache;
+
+	/**
+	 * @var $_useCache boolean GraphHandler use cache store
+	 */
+	protected $_useCache = false;
 
 	/**
      * Create a graph
@@ -372,41 +377,48 @@ class GraphHandler extends
         }
 
 	    $excludeOrphans = false;
-	    $_useCache       = false;
+	    $_useCache      = $this->_useCache;
 
 	    if ((bool) $options){
 		    if (isset($options['excludeOrphans']) && !is_bool($options['excludeOrphans'])){
 			    $excludeOrphans = UrlHelper::getBoolString($options['excludeOrphans']);
 		    }
-
-		    if (isset($options['_useCache'])){
-			    $_useCache = $options['_useCache'];
-		    }
 	    }
 
-        if ($_useCache === true){
+	    if ($_useCache === true){
 	        if ($excludeOrphans===true && !empty($this->cache[$graph]['excludeOrphans']['result'])){
 		        return $this->cache[$graph]['excludeOrphans']['vertexCollections'];
 	        }else if (!empty($this->cache[$graph]['vertexCollections'])) {
 		        return $this->cache[$graph]['vertexCollections'];
 	        }
         }
-
         $url = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_VERTEX]);
 
 	    if ($excludeOrphans===true){
 		    $url = UrlHelper::appendParamsUrl($url, ['excludeOrphans' => $excludeOrphans]);
 	    }
 
-        try {
+		$connection = $this->getConnection();
+	    $batchCaptureMode = $connection->isInBatchCaptureMode();
+
+	    if ($batchCaptureMode === true){
+	        $this->getConnection()->setBatchRequest(false);
+		}
+
+	    try {
             $response = $this->getConnection()->get($url);
         } catch (Exception $e) {
             throw new ClientException($e->getMessage());
         }
 
+        if ($batchCaptureMode === true){
+		    $this->getConnection()->setBatchRequest(true);
+	    }
+
         $data = $response->getJson();
-        sort($data[self::OPTION_COLLECTIONS]);
-		$data = $data[self::OPTION_COLLECTIONS];
+	    $data = $data[self::OPTION_COLLECTIONS];
+
+	    sort($data);
 
 	    if ($_useCache === true){
 		    if ($excludeOrphans===true  && !empty($this->cache[$graph]['excludeOrphans']['vertexCollections'])){
@@ -517,17 +529,13 @@ class GraphHandler extends
      * @return []
      * @since 2.2
      */
-    public function getEdgeCollections($graph, array $options = [])
+    public function getEdgeCollections($graph)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
         }
 
-	    $_useCache       = false;
-
-	    if ((bool) $options && isset($options['_useCache'])){
-			    $_useCache = $options['_useCache'];
-	    }
+	    $_useCache       = $this->_useCache;
 
 	    if ($_useCache === true && !empty($this->cache[$graph]['edgeCollections'])){
 			    return $this->cache[$graph]['edgeCollections'];
@@ -535,19 +543,33 @@ class GraphHandler extends
 
 	    $url = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_EDGE]);
 
-        try {
-            $response = $this->getConnection()->get($url);
-        } catch (Exception $e) {
-            throw new ClientException($e->getMessage());
-        }
-        $data = $response->getJson();
-        sort($data[self::OPTION_COLLECTIONS]);
+	    $connection = $this->getConnection();
+	    $batchCaptureMode = $connection->isInBatchCaptureMode();
+
+	    if ($batchCaptureMode === true){
+		    $this->getConnection()->setBatchRequest(false);
+	    }
+
+	    try {
+		    $response = $this->getConnection()->get($url);
+	    } catch (Exception $e) {
+		    throw new ClientException($e->getMessage());
+	    }
+
+	    if ($batchCaptureMode === true){
+		    $this->getConnection()->setBatchRequest(true);
+	    }
+
+	    $data = $response->getJson();
+	    $data = $data[self::OPTION_COLLECTIONS];
+
+	    sort($data);
 
 	    if ($_useCache === true && !empty($this->cache[$graph]['edgeCollections'])){
 			    $this->cache[$graph]['edgeCollections'] = $data;
 	    }
 
-	    return $data[self::OPTION_COLLECTIONS];
+	    return $data;
     }
 
 
@@ -1020,7 +1042,7 @@ class GraphHandler extends
 	    if ($collection === null) {
 		    $edgeCollections = $this->getEdgeCollections($graph);
 		    $edgeCollectionsCount = count($edgeCollections);
-		    if ($edgeCollections !== 1) {
+		    if ($edgeCollectionsCount !== 1) {
 			    throw new ClientException('A collection must be provided.');
 		    }
 		    else if ($edgeCollectionsCount === 1) {
@@ -1091,7 +1113,7 @@ class GraphHandler extends
 	    if ($collection === null) {
 		    $edgeCollections = $this->getEdgeCollections($graph);
 		    $edgeCollectionsCount = count($edgeCollections);
-		    if ($edgeCollections !== 1) {
+		    if ($edgeCollectionsCount !== 1) {
 			    throw new ClientException('A collection must be provided.');
 		    }
 		    else if ($edgeCollectionsCount === 1) {
@@ -1182,7 +1204,7 @@ class GraphHandler extends
 	    if ($collection === null) {
 		    $edgeCollections = $this->getEdgeCollections($graph);
 		    $edgeCollectionsCount = count($edgeCollections);
-		    if ($edgeCollections !== 1) {
+		    if ($edgeCollectionsCount !== 1) {
 			    throw new ClientException('A collection must be provided.');
 		    }
 		    else if ($edgeCollectionsCount === 1) {
@@ -1287,7 +1309,7 @@ class GraphHandler extends
 	    if ($collection === null) {
 		    $edgeCollections = $this->getEdgeCollections($graph);
 		    $edgeCollectionsCount = count($edgeCollections);
-		    if ($edgeCollections !== 1) {
+		    if ($edgeCollectionsCount !== 1) {
 			    throw new ClientException('A collection must be provided.');
 		    }
 		    else if ($edgeCollectionsCount === 1) {
@@ -1373,7 +1395,7 @@ class GraphHandler extends
 	    if ($collection === null) {
 		    $edgeCollections = $this->getEdgeCollections($graph);
 		    $edgeCollectionsCount = count($edgeCollections);
-		    if ($edgeCollections !== 1) {
+		    if ($edgeCollectionsCount !== 1) {
 			    throw new ClientException('A collection must be provided.');
 		    }
 		    else if ($edgeCollectionsCount === 1) {
@@ -1406,4 +1428,34 @@ class GraphHandler extends
 
         return true;
     }
+
+	/**
+	 * Clears this handler's cache
+	 *
+	 * @return $this
+	 */
+	public function clearCache()
+	{
+		$this->cache = null;
+		return $this;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isCacheActive()
+	{
+		return $this->_useCache;
+	}
+
+	/**
+	 * @param boolean $useCache
+	 *
+	 * @return $this
+	 */
+	public function useCache($useCache)
+	{
+		$this->_useCache = $useCache;
+		return $this;
+	}
 }
