@@ -31,7 +31,6 @@ abstract class Handler
      *
      * @param Connection $connection - connection to be used
      *
-     * @return Handler
      */
     public function __construct(Connection $connection)
     {

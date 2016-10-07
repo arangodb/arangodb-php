@@ -139,8 +139,7 @@ class Document
      *                                 <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
      *                                 <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
      *                                 <p>
-     *     *
-     * @return Document
+     *
      */
     public function __construct(array $options = null)
     {

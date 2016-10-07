@@ -199,7 +199,6 @@ class ConnectionOptions implements
 	 *
 	 * @param array $options - initial options
 	 *
-	 * @return \triagens\ArangoDb\ConnectionOptions
 	 */
 	public function __construct(array $options)
 	{

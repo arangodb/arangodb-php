@@ -84,7 +84,7 @@ class Endpoint
      * @param string $value - endpoint specification
      *
      * @throws ClientException
-     * @return \triagens\ArangoDb\Endpoint
+     *
      */
     public function __construct($value)
     {

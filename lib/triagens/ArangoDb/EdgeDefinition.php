@@ -52,7 +52,7 @@ class EdgeDefinition
      * @param array $fromCollections - a list of collections providing the edges start vertices.
      * @param array $toCollections - a list of collections providing the edges end vertices.
      * @since     2.2
-     * @return EdgeDefinition
+     *
      */
     public function __construct($relation = null, $fromCollections = [], $toCollections = [])
     {

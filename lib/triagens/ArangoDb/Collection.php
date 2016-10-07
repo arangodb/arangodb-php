@@ -197,7 +197,6 @@ class Collection
      *
      * @param string $name - name for the collection
      *
-     * @return Collection
      */
     public function __construct($name = null)
     {

@@ -106,7 +106,6 @@ class Connection
 	 *
 	 * @param array $options - initial connection options
 	 *
-	 * @return Connection
 	 */
 	public function __construct(array $options)
 	{

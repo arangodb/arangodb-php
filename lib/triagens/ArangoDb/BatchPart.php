@@ -83,7 +83,6 @@ class BatchPart
      * @param mixed $response The response string
      * @param mixed $options optional, options like sanitize, that can be passed to the request/response handler.
      *
-     * @return BatchPart
      */
 
     public function __construct($batch, $id, $type, $request, $response, $options)
