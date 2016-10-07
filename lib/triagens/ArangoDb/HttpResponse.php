@@ -62,6 +62,13 @@ class HttpResponse
      */
     private $_wasAsync = false;
 
+   /**
+     * Whether or not the response is for an async request without a response body
+     *
+     * @var Batchpart
+     */
+    private $batchPart;
+
     /**
      * HTTP location header
      */
@@ -198,4 +205,25 @@ class HttpResponse
 
         return $json;
     }
+
+	/**
+	 * @param Batchpart $batchPart
+	 *
+	 * @return HttpResponse
+	 */
+	public function setBatchPart($batchPart)
+	{
+		$this->batchPart = $batchPart;
+
+		return $this;
+	}
+
+	/**
+	 * @return Batchpart
+	 */
+	public function getBatchPart()
+	{
+		return $this->batchPart;
+	}
+
 }

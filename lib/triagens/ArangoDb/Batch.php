@@ -46,9 +46,9 @@ class Batch
 
 
     /**
-     * The array of BatchPart objects
+     * The next batch part id
      *
-     * @var array $_batchParts
+     * @var integer|string $_nextBatchPartId
      */
     private $_nextBatchPartId;
 
@@ -78,7 +78,7 @@ class Batch
     /**
      * The Batch NextId
      *
-     * @var mixed $_nextId
+     * @var integer|string $_nextId
      */
     private $_nextId = 0;
 
@@ -97,8 +97,6 @@ class Batch
      *                   When this option is defined, the batch mechanism will use an SplFixedArray instead of the normal PHP arrays.
      *                   In most cases, this will result in increased performance of about 5% to 15%, depending on batch size and data.</li>
      * </p>
-     *
-     * @return Batch
      */
     public function __construct(Connection $connection, array $options = [])
     {
@@ -318,14 +316,16 @@ class Batch
     }
 
 
-    /**
-     * Append the request to the batch-part
-     *
-     * @param mixed $method - The method of the request (GET, POST...)
-     * @param mixed $request - The request that will get appended to the batch
-     *
-     * @return HttpResponse
-     */
+	/**
+	 * Append the request to the batch-part
+	 *
+	 * @param mixed $method  - The method of the request (GET, POST...)
+	 * @param mixed $request - The request that will get appended to the batch
+	 *
+	 * @return HttpResponse
+	 *
+	 * @throws \triagens\ArangoDb\ClientException
+	 */
     public function append($method, $request)
     {
         preg_match('%/_api/simple/(?P<simple>\w*)|/_api/(?P<direct>\w*)%ix', $request, $regs);
@@ -339,43 +339,56 @@ class Batch
             $type = 'get' . $type;
         }
 
-        $result = 'HTTP/1.1 202 Accepted' . HttpHelper::EOL;
-        $result .= 'location: /_db/_system/_api/document/0/0' . HttpHelper::EOL;
-        $result .= 'server: triagens GmbH High-Performance HTTP Server' . HttpHelper::EOL;
-        $result .= 'content-type: application/json; charset=utf-8' . HttpHelper::EOL;
-        $result .= 'etag: "0"' . HttpHelper::EOL;
-        $result .= 'connection: Close' . HttpHelper::EOL . HttpHelper::EOL;
-        $result .= '{"error":false,"_id":"0/0","id":"0","_rev":0,"hasMore":1, "result":[{}], "documents":[{}]}' . HttpHelper::EOL . HttpHelper::EOL;
+	    if (null === $this->_nextBatchPartId)
+	    {
+		    if (is_a($this->_batchParts, 'SplFixedArray'))
+		    {
+			    $nextNumeric = $this->_nextId;
+			    $this->_nextId++;
+		    }
+		    else
+		    {
+			    $nextNumeric = count($this->_batchParts);
+		    }
+		    $batchPartId = $nextNumeric;
+	    }
+	    else
+	    {
+		    $batchPartId            = $this->_nextBatchPartId;
+		    $this->_nextBatchPartId = null;
+	    }
+
+	    $eol = HttpHelper::EOL;
+
+	    $result = 'HTTP/1.1 202 Accepted' . $eol;
+        $result .= 'location: /_db/_system/_api/document/0/0' . $eol;
+        $result .= 'server: triagens GmbH High-Performance HTTP Server' . $eol;
+        $result .= 'content-type: application/json; charset=utf-8' . $eol;
+        $result .= 'etag: "0"' . $eol;
+        $result .= 'connection: Close' . $eol . $eol;
+	    $result .= '{"error":false,"_id":"0/0","id":"0","_rev":0,"hasMore":1, "result":[{}], "documents":[{}]}' . $eol . $eol;
 
         $response  = new HttpResponse($result);
-        $batchPart = new BatchPart($this, $this->_nextBatchPartId, $type, $request, $response, ['cursorOptions' => $this->_batchPartCursorOptions]);
-        if (null === $this->_nextBatchPartId) {
-            if (is_a($this->_batchParts, 'SplFixedArray')) {
-                $nextNumeric = $this->_nextId;
-                $this->_nextId++;
-            }
-            else {
-                $nextNumeric = count($this->_batchParts);
-            }
-            $this->_batchParts[$nextNumeric] = $batchPart;
-        }
-        else {
-            $this->_batchParts[$this->_nextBatchPartId] = $batchPart;
-            $this->_nextBatchPartId                     = null;
-        }
+        $batchPart = new BatchPart($this, $batchPartId, $type, $request, $response, ['cursorOptions' => $this->_batchPartCursorOptions]);
 
-        return $response;
+	    $this->_batchParts[$batchPartId] = $batchPart;
+
+	    $response->setBatchPart($batchPart);
+
+	    return $response;
     }
 
 
-    /**
-     * Split batch request and use ContentId as array key
-     *
-     * @param mixed $pattern
-     * @param mixed $string
-     *
-     * @return array $array - Array of batch-parts
-     */
+	/**
+	 * Split batch request and use ContentId as array key
+	 *
+	 * @param mixed $pattern
+	 * @param mixed $string
+	 *
+	 * @return array $array - Array of batch-parts
+	 *
+	 * @throws \triagens\ArangoDb\ClientException
+	 */
     public function splitWithContentIdKey($pattern, $string)
     {
         $array    = [];
@@ -396,64 +409,66 @@ class Batch
     }
 
 
-    /**
-     * Processes this batch. This sends the captured requests to the server as one batch.
-     *
-     * @throws ClientException
-     * @return HttpResponse|Batch - Batch if processing of the batch was successful or the HttpResponse object in case of a failure. A successful process just means that tha parts were processed. Each part has it's own response though and should be checked on its own.
-     */
-    public function process()
-    {
-        $this->stopCapture();
-        $this->setBatchRequest(true);
-        $data       = '';
-        $batchParts = $this->getBatchParts();
+	/**
+	 * Processes this batch. This sends the captured requests to the server as one batch.
+	 *
+	 * @return HttpResponse|Batch - Batch if processing of the batch was successful or the HttpResponse object in case of a failure. A successful process just means that tha parts were processed. Each part has it's own response though and should be checked on its own.
+	 *
+	 * @throws ClientException
+	 * @throws \triagens\ArangoDb\Exception
+	 */
+	public function process()
+	{
+		$this->stopCapture();
+		$this->setBatchRequest(true);
+		$data       = '';
+		$batchParts = $this->getBatchParts();
 
-        if (count($batchParts) === 0) {
-            throw new ClientException('Can\'t process empty batch.');
-        }
+		if (count($batchParts) === 0) {
+			throw new ClientException('Can\'t process empty batch.');
+		}
 
-        /** @var $partValue BatchPart */
-        foreach ($batchParts as $partValue) {
-            if (null !== $partValue) {
-                $data .= '--' . HttpHelper::MIME_BOUNDARY . HttpHelper::EOL;
-                $data .= 'Content-Type: application/x-arango-batchpart' . HttpHelper::EOL;
+		/** @var $partValue BatchPart */
+		foreach ($batchParts as $partValue) {
+			if (null !== $partValue) {
+				$data .= '--' . HttpHelper::MIME_BOUNDARY . HttpHelper::EOL;
+				$data .= 'Content-Type: application/x-arango-batchpart' . HttpHelper::EOL;
 
-                if (null !== $partValue->getId()) {
-                    $data .= 'Content-Id: ' . (string) $partValue->getId() . HttpHelper::EOL . HttpHelper::EOL;
-                }
-                else {
-                    $data .= HttpHelper::EOL;
-                }
+				if (null !== $partValue->getId()) {
+					$data .= 'Content-Id: ' . (string) $partValue->getId() . HttpHelper::EOL . HttpHelper::EOL;
+				}
+				else {
+					$data .= HttpHelper::EOL;
+				}
 
-                $data .= (string) $partValue->getRequest() . HttpHelper::EOL;
-            }
-        }
-        $data .= '--' . HttpHelper::MIME_BOUNDARY . '--' . HttpHelper::EOL . HttpHelper::EOL;
+				$data .= (string) $partValue->getRequest() . HttpHelper::EOL;
+			}
+		}
+		$data .= '--' . HttpHelper::MIME_BOUNDARY . '--' . HttpHelper::EOL . HttpHelper::EOL;
 
-        $params               = [];
-        $url                  = UrlHelper::appendParamsUrl(Urls::URL_BATCH, $params);
-        $this->_batchResponse = $this->_connection->post($url, $data);
-        if ($this->_batchResponse->getHttpCode() !== 200) {
-            return $this->_batchResponse;
-        }
-        $body       = $this->_batchResponse->getBody();
-        $body       = trim($body, '--' . HttpHelper::MIME_BOUNDARY . '--');
-        $batchParts = $this->splitWithContentIdKey('--' . HttpHelper::MIME_BOUNDARY . HttpHelper::EOL, $body);
+		$params               = [];
+		$url                  = UrlHelper::appendParamsUrl(Urls::URL_BATCH, $params);
+		$this->_batchResponse = $this->_connection->post($url, $data);
+		if ($this->_batchResponse->getHttpCode() !== 200) {
+			return $this->_batchResponse;
+		}
+		$body       = $this->_batchResponse->getBody();
+		$body       = trim($body, '--' . HttpHelper::MIME_BOUNDARY . '--');
+		$batchParts = $this->splitWithContentIdKey('--' . HttpHelper::MIME_BOUNDARY . HttpHelper::EOL, $body);
 
-        foreach ($batchParts as $partKey => $partValue) {
-            $response                     = new HttpResponse($partValue);
-            $body                         = $response->getBody();
-            $response                     = new HttpResponse($body);
-            $batchPartResponses[$partKey] = $response;
-            $this->getPart($partKey)->setResponse($batchPartResponses[$partKey]);
-        }
+		foreach ($batchParts as $partKey => $partValue) {
+			$response                     = new HttpResponse($partValue);
+			$body                         = $response->getBody();
+			$response                     = new HttpResponse($body);
+			$batchPartResponses[$partKey] = $response;
+			$this->getPart($partKey)->setResponse($batchPartResponses[$partKey]);
+		}
 
-        return $this;
-    }
+		return $this;
+	}
 
 
-    /**
+	/**
      * Get the total count of the batch parts
      *
      * @return integer $count
@@ -464,13 +479,14 @@ class Batch
     }
 
 
-    /**
+	/**
      * Get the batch part identified by the array key (0...n) or its id (if it was set with nextBatchPartId($id) )
      *
      * @param mixed $partId the batch part id. Either it's numeric key or a given name.
      *
-     * @throws ClientException
      * @return mixed $batchPart
+	 *
+	 * @throws ClientException
      */
     public function getPart($partId)
     {
@@ -482,26 +498,30 @@ class Batch
     }
 
 
-    /**
-     * Get the batch part identified by the array key (0...n) or its id (if it was set with nextBatchPartId($id) )
-     *
-     * @param mixed $partId the batch part id. Either it's numeric key or a given name.
-     *
-     * @return mixed $partId
-     */
+	/**
+	 * Get the batch part identified by the array key (0...n) or its id (if it was set with nextBatchPartId($id) )
+	 *
+	 * @param mixed $partId the batch part id. Either it's numeric key or a given name.
+	 *
+	 * @return mixed $partId
+	 *
+	 * @throws \triagens\ArangoDb\ClientException
+	 */
     public function getPartResponse($partId)
     {
         return $this->getPart($partId)->getResponse();
     }
 
 
-    /**
-     * Get the batch part identified by the array key (0...n) or its id (if it was set with nextBatchPartId($id) )
-     *
-     * @param mixed $partId the batch part id. Either it's numeric key or a given name.
-     *
-     * @return mixed $partId
-     */
+	/**
+	 * Get the batch part identified by the array key (0...n) or its id (if it was set with nextBatchPartId($id) )
+	 *
+	 * @param mixed $partId the batch part id. Either it's numeric key or a given name.
+	 *
+	 * @return mixed $partId
+	 *
+	 * @throws \triagens\ArangoDb\ClientException
+	 */
     public function getProcessedPartResponse($partId)
     {
         return $this->getPart($partId)->getProcessedResponse();

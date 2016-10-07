@@ -157,14 +157,16 @@ class BatchTest extends
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
-        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
+        static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId , 'Did not return a BatchPart Object!');
+
+	    $batchPartId = $documentId->getId();
 
         $document   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
-        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
+	    static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId , 'Did not return a BatchPart Object!');
 
         $batch->process();
 
@@ -192,14 +194,14 @@ class BatchTest extends
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
-        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
+	    static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId , 'Did not return a BatchPart Object!');
 
         $document   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
-        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
+	    static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId , 'Did not return a BatchPart Object!');
 
         $batch->process();
 
@@ -229,7 +231,7 @@ class BatchTest extends
         );
         $documentId = $documentHandler->add($this->collection->getId(), $document);
 
-        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
+	    static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId , 'Did not return a BatchPart Object!');
 
         $document = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
@@ -292,7 +294,7 @@ class BatchTest extends
         );
         $documentId = $documentHandler->add($resultingCollectionId, $document);
 
-        static::assertTrue(is_numeric($documentId), 'Did not return a fake numeric id!');
+	    static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId , 'Did not return a BatchPart Object!');
 
         for ($i = 0; $i <= 10; ++$i) {
             $document   = Document::createFromArray(
@@ -303,7 +305,7 @@ class BatchTest extends
             );
             $documentId = $documentHandler->add($resultingCollectionId, $document);
         }
-        static::assertTrue(is_numeric($documentId), 'Did not return a fake numeric id!');
+	    static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId , 'Did not return a BatchPart Object!');
 
         $batch->process();
 

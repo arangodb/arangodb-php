@@ -400,7 +400,7 @@ class DocumentHandler extends
      * @throws Exception
      *
      * @param mixed $collection - collection id as string or number
-     * @param mixed $document - the document to be added, can be passed as a document or an array
+     * @param Document|array $document - the document to be added, can be passed as a document or an array
      * @param bool|array $options - optional, prior to v1.2.0 this was a boolean value for create. Since v1.0.0 it's an array of options.
      *                                 <p>Options are :<br>
      *                                 <li>'create' - create the collection if it does not yet exist.</li>
@@ -445,10 +445,12 @@ class DocumentHandler extends
         $json     = $response->getJson();
 
 	    // This makes sure that if we're in batch mode, it will not go further and choke on the checks below.
-	    // Todo: Think of a more elegant solution and generic (also for other methods with the same issue) solution to deal with it.
-
-	    if ($response->getHttpCode()===202){
-	    	return null;
+	    // Caution: Instead of a document ID, we are returning the batchpart object
+	    // The Id of the BatchPart can be retrieved by calling getId() on it.
+	    // We're basically returning an object here, in order not to accidentally use the batch part id as the document id
+	    if ($batchPart = $response->getBatchPart())
+	    {
+		    return $batchPart;
 	    }
 
         if (is_array($document)) {

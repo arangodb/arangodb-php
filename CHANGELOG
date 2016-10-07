@@ -1,4 +1,4 @@
-Release notes for the ArangoDB-PHP driver 3.0.9
+Release notes for the ArangoDB-PHP driver 3.0.x
 ===============================================
 
 This version of the driver is compatible with ArangoDB 3.0.x
@@ -9,14 +9,18 @@ Please use ones of the `2.x` branches of the driver for 2.x-compatibility.
 
 Caution!!!
 
-There are still deprecated functions in the code, which should have been removed in the 2.x series of the driver.
-These will now be removed with the 3.1 version of the driver, in order to clean up the codebase. Please check and change your code accordingly.
+There are still deprecated functions in the code, which should have been removed in the first 3.0 version of the driver, however, we missed this opportunity.
+These will now finally be removed with the 3.1 version of the driver, in order to clean up the codebase. Please check and change your code accordingly.
 All deprecated functions can now also be found in the docs inside the "Deprecated" view.
 
 Changes
 =======
 
-- This version is mainly a cleanup of code in order to produce a nicer documentation for the driver.
+- GraphHandler: Optimized code to do less work when not necessary
+- GraphHandler: Implemented optional cache that caches the Vertex/Edge-Collections instead of making expensive calls to the DB.
+- GraphHandler: Is now batch-able. However, if any collections need to be fetched, they will be done out-of-batch.
+				If a lot of calls to the GraphHandler are being made, the use of the new caching functionality is encouraged.
+- Batches: Some work has been done, to optimize batches. This is still in development.
 - Switched from phpDocumentor to apigen
 - New Docs were generated
 
