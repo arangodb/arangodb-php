@@ -714,7 +714,7 @@ class EdgeBasicTest extends
             ['value' => 1]
         );
 
-        $edgeDocumentHandler->saveEdge(
+	    $edgeDocument2 = $edgeDocumentHandler->saveEdge(
             $edgeCollection->getName(),
             $documentHandle2,
             $documentHandle1,
