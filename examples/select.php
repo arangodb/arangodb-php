@@ -7,7 +7,6 @@ require __DIR__ . '/init.php';
 /* set up some example statements */
 $statements = [
 	'for u in users return u'                                       => '/init.php',
-	'for u in users return u'                                       => null,
 	'for u in users filter u.id == @id return u'                    => ['id' => 6],
 	'for u in users filter u.id == @id && u.name != @name return u' => ['id' => 1, 'name' => 'fox'],
 ];

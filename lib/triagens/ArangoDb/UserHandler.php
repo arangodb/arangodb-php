@@ -57,7 +57,7 @@ class UserHandler extends
 
         try {
             // additionally set user permissions in the current databases
-            $this->grantPermissions($username, $this->connection->getDatabase());
+            $this->grantPermissions($username, $this->getConnection()->getDatabase());
         } catch (\Exception $e) {
         }
 

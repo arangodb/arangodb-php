@@ -707,21 +707,21 @@ class EdgeBasicTest extends
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
-        $edgeDocument1 = $edgeDocumentHandler->saveEdge(
+        $edgeDocumentHandler->saveEdge(
             $edgeCollection->getName(),
             $documentHandle1,
             $documentHandle2,
             ['value' => 1]
         );
 
-        $edgeDocument2 = $edgeDocumentHandler->saveEdge(
+        $edgeDocumentHandler->saveEdge(
             $edgeCollection->getName(),
             $documentHandle2,
             $documentHandle1,
             ['value' => 2]
         );
 
-        $edgeDocument3 = $edgeDocumentHandler->saveEdge(
+        $edgeDocumentHandler->saveEdge(
             $edgeCollection->getName(),
             $documentHandle1,
             $documentHandle2,
@@ -770,7 +770,7 @@ class EdgeBasicTest extends
             ['value' => 1]
         );
 
-        $edgeDocument2 = $edgeDocumentHandler->saveEdge(
+        $edgeDocumentHandler->saveEdge(
             $edgeCollection->getName(),
             $documentHandle2,
             $documentHandle1,

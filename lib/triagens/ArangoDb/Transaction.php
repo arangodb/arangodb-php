@@ -106,6 +106,10 @@ class Transaction
      */
     const ENTRY_WRITE = 'write';
 
+	/**
+	 * @var $_action string The action property of the transaction.
+	 */
+	protected $_action;
 
     /**
      * Initialise the transaction object

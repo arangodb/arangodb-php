@@ -43,28 +43,28 @@ try {
     $edge1   = Edge::createFromArray($edge1Array);
 
     // Save the vertices
-    $saveResult1 = $graphHandler->saveVertex('Graph', $vertex1);
-    $saveResult2 = $graphHandler->saveVertex('Graph', $vertex2);
+    $graphHandler->saveVertex('Graph', $vertex1);
+    $graphHandler->saveVertex('Graph', $vertex2);
 
     // Get the vertices
-    $getResult1 = $graphHandler->getVertex('Graph', 'vertex1');
-    $getResult2 = $graphHandler->getVertex('Graph', 'vertex2');
+    $graphHandler->getVertex('Graph', 'vertex1');
+    $graphHandler->getVertex('Graph', 'vertex2');
 
     // check if vertex exists
     var_dump($graphHandler->hasVertex('Graph', 'vertex1'));
 
     // Save the connecting edge
-    $saveEdgeResult1 = $graphHandler->saveEdge('Graph', $vertex1->getHandle(), $vertex2->getHandle(), 'somelabelValue', $edge1);
+    $graphHandler->saveEdge('Graph', $vertex1->getHandle(), $vertex2->getHandle(), 'somelabelValue', $edge1);
 
     // check if edge exists
     var_dump($graphHandler->hasEdge('Graph', 'edge1'));
 
     // Get the connecting edge
-    $getEdgeResult1 = $graphHandler->getEdge('Graph', 'edge1');
+    $graphHandler->getEdge('Graph', 'edge1');
 
     // Remove vertices and edges
-    $result1 = $graphHandler->removeVertex('Graph', 'vertex1');
-    $result1 = $graphHandler->removeVertex('Graph', 'vertex2');
+    $graphHandler->removeVertex('Graph', 'vertex1');
+    $graphHandler->removeVertex('Graph', 'vertex2');
 
     // the connecting edge will be deleted automatically
 } catch (ConnectException $e) {

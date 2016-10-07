@@ -542,7 +542,7 @@ class ExportTest extends
                                  'restrict' => ['type' => 'foo', 'fields' => ['_key']]
                              ]
         );
-        $cursor = $export->execute();
+        $export->execute();
     }
 
     /**
@@ -561,7 +561,7 @@ class ExportTest extends
                                  'restrict' => ['fields' => ['_key']]
                              ]
         );
-        $cursor = $export->execute();
+        $export->execute();
     }
 
     /**
@@ -580,7 +580,7 @@ class ExportTest extends
                                  'restrict' => ['type' => 'include', 'fields' => 'foo']
                              ]
         );
-        $cursor = $export->execute();
+        $export->execute();
     }
 
     /**
@@ -599,7 +599,7 @@ class ExportTest extends
                                  'restrict' => ['type' => 'include']
                              ]
         );
-        $cursor = $export->execute();
+        $export->execute();
     }
 
     public function tearDown()

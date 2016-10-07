@@ -203,7 +203,7 @@ class CollectionBasicTest extends
         );
 
         try {
-            $response = $collectionHandler->add($collection);
+            $collectionHandler->add($collection);
         } catch (\Exception $e) {
         }
 

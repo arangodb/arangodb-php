@@ -54,6 +54,10 @@ class Traversal
      */
     const ENTRY_EDGECOLLECTION = 'edgeCollection';
 
+	/**
+	 * @var $_action string The action property of the traversal.
+	 */
+	protected $_action;
 
     /**
      * Initialise the Traversal object

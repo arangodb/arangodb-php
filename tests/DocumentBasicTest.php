@@ -79,7 +79,6 @@ class DocumentBasicTest extends
     public function testCreateAndDeleteDocumentWithoutCreatedCollection()
     {
         $connection      = $this->connection;
-        $collection      = $this->collection;
         $document        = new Document();
         $documentHandler = new DocumentHandler($connection);
 
@@ -360,7 +359,7 @@ class DocumentBasicTest extends
          * lets get the document in a wrong revision
          */
         try {
-            $result412 = $documentHandler->get(
+            $documentHandler->get(
                 $collection->getId(), $documentId, [
                                         'ifMatch' => true,
                                         'revision' => 12345
@@ -371,7 +370,7 @@ class DocumentBasicTest extends
         static::assertEquals($exception412->getCode(), 412);
 
         try {
-            $result304 = $documentHandler->get(
+            $documentHandler->get(
                 $collection->getId(), $documentId, [
                                         'ifMatch' => false,
                                         'revision' => $document->getRevision()

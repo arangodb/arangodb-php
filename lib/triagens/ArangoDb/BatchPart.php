@@ -60,7 +60,7 @@ class BatchPart
     /**
      * An array of BatchPartCursor options
      *
-     * @var array $_batchParts
+     * @var HttpResponse $_response
      */
     private $_response = [];
 
@@ -211,7 +211,7 @@ class BatchPart
     /**
      * Gets the response for the current batch part.
      *
-     * @return array
+     * @return HttpResponse
      */
     public function getResponse()
     {
@@ -220,7 +220,7 @@ class BatchPart
 
 
     /**
-     * Gets the HttpCode for he current batch part.
+     * Gets the HttpCode for the current batch part.
      *
      * @return int
      */

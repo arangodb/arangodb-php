@@ -491,7 +491,7 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
         $keys   = ['foo'];
-        $result = $collectionHandler->removeByKeys('ThisDoesNotExist', $keys);
+        $collectionHandler->removeByKeys('ThisDoesNotExist', $keys);
     }
 
 
@@ -2491,18 +2491,18 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId  = $documentHandler->add($collection->getId(), $document);
+        $documentHandler->add($collection->getId(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentId2 = $documentHandler->add($collection->getId(), $document2);
+        $documentHandler->add($collection->getId(), $document2);
         $document3   = Document::createFromArray(
             ['someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId3 = $documentHandler->add($collection->getId(), $document3);
+        $documentHandler->add($collection->getId(), $document3);
         // First we test without a fulltext index and expect a 400
         try {
-            $result = $collectionHandler->fulltext(
+            $collectionHandler->fulltext(
                 $collection->getName(),
                 'someOtherAttribute',
                 'someOtherValue'
@@ -2632,7 +2632,7 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
         $keys   = ['foo'];
-        $result = $collectionHandler->lookupByKeys('ThisDoesNotExist', $keys);
+        $collectionHandler->lookupByKeys('ThisDoesNotExist', $keys);
     }
 
     /**

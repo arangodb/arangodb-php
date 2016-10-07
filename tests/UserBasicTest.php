@@ -54,7 +54,7 @@ class UserBasicTest extends
         $this->userHandler->removeUser('testUser42');
 
         try {
-            $result = $userHandler->getDatabases('testUser42');
+            $userHandler->getDatabases('testUser42');
         } catch (\Exception $e) {
             // Just give us the $e
             static::assertEquals($e->getCode(), 401);

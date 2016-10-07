@@ -93,7 +93,7 @@ class StatementTest extends
                        ]
         );
         try {
-            $cursor = $statement->execute();
+            $statement->execute();
         } catch (ServerException $e) {
         }
 

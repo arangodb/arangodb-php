@@ -13,6 +13,9 @@ namespace triagens\ArangoDb;
  * Class GraphExtendedTest
  * Extended Tests for the Graph API implementation
  *
+ * @property GraphHandler graphHandler
+ * @property Connection   connection
+ * @property string       graphName
  * @package triagens\ArangoDb
  */
 class GeneralGraphExtendedTest extends

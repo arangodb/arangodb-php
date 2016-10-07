@@ -14,7 +14,7 @@ try {
     
     $col = new Collection();
     $col->setName('example');
-    $result = $handler->add($col);
+    $handler->add($col);
 
     // create a statement to insert 100 example documents
     $statement = new Statement($connection, [

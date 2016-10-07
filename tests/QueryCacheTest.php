@@ -61,7 +61,7 @@ class QueryCacheTest extends
 
         $statement = new Statement($this->connection, ['_flat' => true]);
         $statement->setQuery($query);
-        $cursor = $statement->execute();
+        $statement->execute();
 
         // re-execute same query
         $statement = new Statement($this->connection, ['_flat' => true]);
@@ -133,7 +133,7 @@ class QueryCacheTest extends
 
         $statement = new Statement($this->connection, ['_flat' => true]);
         $statement->setQuery($query);
-        $cursor = $statement->execute();
+        $statement->execute();
 
         // re-execute same query
         $statement = new Statement($this->connection, ['_flat' => true]);
