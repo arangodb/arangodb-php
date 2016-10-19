@@ -12,12 +12,12 @@ namespace triagens\ArangoDb;
 /**
  * Class EdgeExtendedTest
  *
- * @property Connection        $connection
- * @property Collection        $collection
- * @property Collection        $edgeCollection
+ * @property Connection $connection
+ * @property Collection $collection
+ * @property Collection $edgeCollection
  * @property CollectionHandler $collectionHandler
- * @property DocumentHandler   $documentHandler
- * @property EdgeHandler       $edgeHandler
+ * @property DocumentHandler $documentHandler
+ * @property EdgeHandler $edgeHandler
  *
  * @package triagens\ArangoDb
  */
@@ -31,12 +31,12 @@ class EdgeExtendedTest extends
         $this->collection        = new Collection();
         $this->collection->setName('ArangoDB_PHP_TestSuite_TestEdgeCollection_01');
         $this->collectionHandler->add($this->collection);
-        $this->edgeHandler = new EdgeHandler($this->connection);
-        $this->edgeCollection    = new Collection();
+        $this->edgeHandler    = new EdgeHandler($this->connection);
+        $this->edgeCollection = new Collection();
         $this->edgeCollection->setName('ArangoDBPHPTestSuiteTestEdgeCollection01');
         $this->edgeCollection->set('type', 3);
         $this->collectionHandler->add($this->edgeCollection);
-        $this->documentCollection    = new Collection();
+        $this->documentCollection = new Collection();
         $this->documentCollection->setName('ArangoDBPHPTestSuiteTestCollection01');
         $this->collectionHandler->add($this->documentCollection);
     }
@@ -50,11 +50,11 @@ class EdgeExtendedTest extends
         // Setup objects
         $edgeHandler = $this->edgeHandler;
         $edge        = Edge::createFromArray(
-                           array(
-                                'someAttribute'      => 'someValue',
-                                'someOtherAttribute' => 'someOtherValue',
-                                'someThirdAttribute' => 'someThirdValue'
-                           )
+            array(
+                'someAttribute' => 'someValue',
+                'someOtherAttribute' => 'someOtherValue',
+                'someThirdAttribute' => 'someThirdValue'
+            )
         );
 
 
@@ -66,8 +66,8 @@ class EdgeExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to get a non-existent edge out of an existent collection
@@ -78,8 +78,8 @@ class EdgeExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to update a non-existent edge
@@ -90,8 +90,8 @@ class EdgeExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to replace a non-existent edge
@@ -102,8 +102,8 @@ class EdgeExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to remove a non-existent edge
@@ -114,8 +114,8 @@ class EdgeExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
     }
 
 
@@ -124,7 +124,7 @@ class EdgeExtendedTest extends
      */
     public function testUpdateEdge()
     {
-        $connection      = $this->connection;
+        $connection  = $this->connection;
         $edgeHandler = new EdgeHandler($connection);
 
 
@@ -134,7 +134,7 @@ class EdgeExtendedTest extends
         $document2       = new Document();
         $documentHandler = new DocumentHandler($connection);
 
-        $edgeDocument        = new Edge();
+        $edgeDocument = new Edge();
 
         $document1->someAttribute = 'someValue1';
         $document2->someAttribute = 'someValue2';
@@ -153,26 +153,24 @@ class EdgeExtendedTest extends
             $documentHandle2,
             $edgeDocument
         );
-        $this->assertTrue(is_numeric($edgeId), 'Did not return an id!');
+        static::assertTrue(is_numeric($edgeId), 'Did not return an id!');
 
         $edgeDocument->set('labels', 'anything');
         $result = $edgeHandler->update($edgeDocument);
 
-        $this->assertTrue($result);
+        static::assertTrue($result);
 
         $resultingEdge = $edgeHandler->get($edgeCollection->getId(), $edgeId);
-        $this->assertObjectHasAttribute('_id', $resultingEdge, '_id field should exist, empty or with an id');
+        static::assertObjectHasAttribute('_id', $resultingEdge, '_id field should exist, empty or with an id');
 
-        $this->assertTrue(
-            ($resultingEdge->labels == 'anything'),
-            'Should be :anything, is: ' . $resultingEdge->labels
+        static::assertEquals(
+            $resultingEdge->labels, 'anything', 'Should be :anything, is: ' . $resultingEdge->labels
         );
-        $this->assertTrue(
-            ($resultingEdge->label == 'knows'),
-            'Should be :knows, is: ' . $resultingEdge->label
+        static::assertEquals(
+            $resultingEdge->label, 'knows', 'Should be :knows, is: ' . $resultingEdge->label
         );
         $response = $edgeHandler->delete($resultingEdge);
-        $this->assertTrue($response, 'Delete should return true!');
+        static::assertTrue($response, 'Delete should return true!');
     }
 
 
@@ -191,33 +189,31 @@ class EdgeExtendedTest extends
         );
         $edgeId = $edgeHandler->add($this->collection->getId(), $edge);
         $edgeHandler->get($this->collection->getId(), $edgeId);
-        $this->assertTrue(is_numeric($edgeId), 'Did not return an id!');
+        static::assertTrue(is_numeric($edgeId), 'Did not return an id!');
 
         $patchEdge = new Edge();
         $patchEdge->set('_id', $edge->getHandle());
         $patchEdge->set('_rev', $edge->getRevision());
 
         // inject wrong encoding
-        $isoValue = iconv("UTF-8", "ISO-8859-1//TRANSLIT", "someWrongEncodedValueü");
+        $isoValue = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', 'someWrongEncodedValueü');
 
         $patchEdge->set('someOtherAttribute', $isoValue);
         $result = $edgeHandler->update($patchEdge);
 
-        $this->assertTrue($result);
+        static::assertTrue($result);
 
         $resultingEdge = $edgeHandler->get($this->collection->getId(), $edgeId);
-        $this->assertObjectHasAttribute('_id', $resultingEdge, '_id field should exist, empty or with an id');
+        static::assertObjectHasAttribute('_id', $resultingEdge, '_id field should exist, empty or with an id');
 
-        $this->assertTrue(
-            ($resultingEdge->someAttribute == 'someValue'),
-            'Should be :someValue, is: ' . $resultingEdge->someAttribute
+        static::assertEquals(
+            $resultingEdge->someAttribute, 'someValue', 'Should be :someValue, is: ' . $resultingEdge->someAttribute
         );
-        $this->assertTrue(
-            ($resultingEdge->someOtherAttribute == 'someOtherValue2'),
-            'Should be :someOtherValue2, is: ' . $resultingEdge->someOtherAttribute
+        static::assertEquals(
+            $resultingEdge->someOtherAttribute, 'someOtherValue2', 'Should be :someOtherValue2, is: ' . $resultingEdge->someOtherAttribute
         );
         $response = $edgeHandler->delete($resultingEdge);
-        $this->assertTrue($response, 'Delete should return true!');
+        static::assertTrue($response, 'Delete should return true!');
     }
 
 
@@ -226,7 +222,7 @@ class EdgeExtendedTest extends
      */
     public function testUpdateEdgeDoNotKeepNull()
     {
-        $connection      = $this->connection;
+        $connection  = $this->connection;
         $edgeHandler = new EdgeHandler($connection);
 
 
@@ -236,7 +232,7 @@ class EdgeExtendedTest extends
         $document2       = new Document();
         $documentHandler = new DocumentHandler($connection);
 
-        $edgeDocument        = new Edge();
+        $edgeDocument = new Edge();
 
         $document1->someAttribute = 'someValue1';
         $document2->someAttribute = 'someValue2';
@@ -255,26 +251,24 @@ class EdgeExtendedTest extends
             $documentHandle2,
             $edgeDocument
         );
-        $this->assertTrue(is_numeric($edgeId), 'Did not return an id!');
+        static::assertTrue(is_numeric($edgeId), 'Did not return an id!');
 
         $edgeDocument->set('labels', 'anything');
-        $result = $edgeHandler->update($edgeDocument, array("keepNull" => false));
+        $result = $edgeHandler->update($edgeDocument, array('keepNull' => false));
 
-        $this->assertTrue($result);
+        static::assertTrue($result);
 
         $resultingEdge = $edgeHandler->get($edgeCollection->getId(), $edgeId);
-        $this->assertObjectHasAttribute('_id', $resultingEdge, '_id field should exist, empty or with an id');
+        static::assertObjectHasAttribute('_id', $resultingEdge, '_id field should exist, empty or with an id');
 
-        $this->assertTrue(
-            ($resultingEdge->label == null),
-            'Should be : null, is: ' . $resultingEdge->label
+        static::assertEquals(
+            $resultingEdge->label, null, 'Should be : null, is: ' . $resultingEdge->label
         );
-        $this->assertTrue(
-            ($resultingEdge->labels == 'anything'),
-            'Should be :anything, is: ' . $resultingEdge->labels
+        static::assertEquals(
+            $resultingEdge->labels, 'anything', 'Should be :anything, is: ' . $resultingEdge->labels
         );
         $response = $edgeHandler->delete($resultingEdge);
-        $this->assertTrue($response, 'Delete should return true!');
+        static::assertTrue($response, 'Delete should return true!');
     }
 
 
@@ -283,7 +277,7 @@ class EdgeExtendedTest extends
      */
     public function testReplaceEdge()
     {
-        $connection      = $this->connection;
+        $connection  = $this->connection;
         $edgeHandler = new EdgeHandler($connection);
 
 
@@ -293,7 +287,7 @@ class EdgeExtendedTest extends
         $document2       = new Document();
         $documentHandler = new DocumentHandler($connection);
 
-        $edgeDocument        = new Edge();
+        $edgeDocument = new Edge();
 
         $document1->someAttribute = 'someValue1';
         $document2->someAttribute = 'someValue2';
@@ -306,39 +300,39 @@ class EdgeExtendedTest extends
 
 
         $edgeDocument->set('label', null);
-        $edgeDocument->set('labelt', "as");
+        $edgeDocument->set('labelt', 'as');
         $edgeId = $edgeHandler->saveEdge(
             $edgeCollection->getName(),
             $documentHandle1,
             $documentHandle2,
             $edgeDocument
         );
-        $this->assertTrue(is_numeric($edgeId), 'Did not return an id!');
+        static::assertTrue(is_numeric($edgeId), 'Did not return an id!');
 
-        $edgePutDocument        = new Edge();
+        $edgePutDocument = new Edge();
         $edgePutDocument->set('_id', $edgeDocument->getHandle());
         $edgePutDocument->set('_rev', $edgeDocument->getRevision());
-        $edgePutDocument->set('labels', "as");
+        $edgePutDocument->set('labels', 'as');
+        $edgePutDocument->setFrom($documentHandle1);
+        $edgePutDocument->setTo($documentHandle2);
         $result = $edgeHandler->replace($edgePutDocument);
 
-        $this->assertTrue($result);
+        static::assertTrue($result);
         $resultingEdge = $edgeHandler->get($edgeCollection->getId(), $edgeId);
 
-        $this->assertObjectHasAttribute('_id', $resultingEdge, '_id field should exist, empty or with an id');
+        static::assertObjectHasAttribute('_id', $resultingEdge, '_id field should exist, empty or with an id');
 
-        $this->assertTrue(
-            ($resultingEdge->label == null),
-            'Should be :null, is: ' . $resultingEdge->label
+        static::assertEquals(
+            $resultingEdge->label, null, 'Should be :null, is: ' . $resultingEdge->label
         );
-        $this->assertTrue(
-            ($resultingEdge->labelt == null),
-            'Should be :null, is: ' . $resultingEdge->labelt
+        static::assertEquals(
+            $resultingEdge->labelt, null, 'Should be :null, is: ' . $resultingEdge->labelt
         );
 
-        $this->assertTrue($resultingEdge->labels == "as");
+        static::assertEquals($resultingEdge->labels, 'as');
 
         $response = $edgeHandler->delete($resultingEdge);
-        $this->assertTrue($response, 'Delete should return true!');
+        static::assertTrue($response, 'Delete should return true!');
     }
 
 
@@ -357,34 +351,32 @@ class EdgeExtendedTest extends
         );
         $edgeId = $edgeHandler->add($this->collection->getId(), $edge);
 
-        $this->assertTrue(is_numeric($edgeId), 'Did not return an id!');
+        static::assertTrue(is_numeric($edgeId), 'Did not return an id!');
 
         // inject wrong encoding
-        $isoKey   = iconv("UTF-8", "ISO-8859-1//TRANSLIT", "someWrongEncododedAttribute");
-        $isoValue = iconv("UTF-8", "ISO-8859-1//TRANSLIT", "someWrongEncodedValueü");
+        $isoKey   = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', 'someWrongEncododedAttribute');
+        $isoValue = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', 'someWrongEncodedValueü');
 
         $edge->set($isoKey, $isoValue);
         $edge->set('someOtherAttribute', 'someOtherValue2');
         $result = $edgeHandler->replace($edge);
 
-        $this->assertTrue($result);
+        static::assertTrue($result);
         $resultingEdge = $edgeHandler->get($this->collection->getId(), $edgeId);
 
-        $this->assertObjectHasAttribute('_id', $resultingEdge, '_id field should exist, empty or with an id');
+        static::assertObjectHasAttribute('_id', $resultingEdge, '_id field should exist, empty or with an id');
 
-        $this->assertTrue(
-            ($resultingEdge->someAttribute == 'someValue2'),
-            'Should be :someValue2, is: ' . $resultingEdge->someAttribute
+        static::assertEquals(
+            $resultingEdge->someAttribute, 'someValue2', 'Should be :someValue2, is: ' . $resultingEdge->someAttribute
         );
-        $this->assertTrue(
-            ($resultingEdge->someOtherAttribute == 'someOtherValue2'),
-            'Should be :someOtherValue2, is: ' . $resultingEdge->someOtherAttribute
+        static::assertEquals(
+            $resultingEdge->someOtherAttribute, 'someOtherValue2', 'Should be :someOtherValue2, is: ' . $resultingEdge->someOtherAttribute
         );
 
         $response = $edgeHandler->delete($resultingEdge);
-        $this->assertTrue($response, 'Delete should return true!');
+        static::assertTrue($response, 'Delete should return true!');
     }
-    
+
 
     public function tearDown()
     {
@@ -411,12 +403,6 @@ class EdgeExtendedTest extends
         }
 
 
-
-        unset($this->collectionHandler);
-        unset($this->collection);
-        unset($this->connection);
-        unset($this->edgeHandler);
-        unset($this->edgeCollection);
-        unset($this->documentCollection);
+        unset($this->collectionHandler, $this->collection, $this->connection, $this->edgeHandler, $this->edgeCollection, $this->documentCollection);
     }
 }

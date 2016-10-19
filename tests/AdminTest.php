@@ -10,7 +10,7 @@
 namespace triagens\ArangoDb;
 
 /**
- * @property Connection   connection
+ * @property Connection connection
  * @property AdminHandler adminHandler
  */
 class AdminTest extends
@@ -29,7 +29,7 @@ class AdminTest extends
     public function testGetServerVersion()
     {
         $result = $this->adminHandler->getServerVersion();
-        $this->assertTrue(is_string($result), 'Version must be a string!');
+        static::assertTrue(is_string($result), 'Version must be a string!');
     }
 
     /**
@@ -38,24 +38,21 @@ class AdminTest extends
     public function testGetServerVersionWithDetails()
     {
         $result = $this->adminHandler->getServerVersion(true);
-        $this->assertInternalType('array', $result, "The server version details must be an array!");
-        $this->assertInternalType(
-             'array',
-             $result['details'],
-             "The server version details must have a `details` array!"
+        static::assertInternalType('array', $result, 'The server version details must be an array!');
+        static::assertInternalType(
+            'array',
+            $result['details'],
+            'The server version details must have a `details` array!'
         );
 
         // intentionally dumping the result, so that we have a bit more info about the Arango build we're testing in the log.
-        var_dump($result);
 
         $details = $result['details'];
-        $this->assertArrayHasKey('build-date', $details);
-        $this->assertArrayHasKey('configure', $details);
-        $this->assertArrayHasKey('icu-version', $details);
-        //        $this->assertArrayHasKey('libev-version', $details);
-        $this->assertArrayHasKey('openssl-version', $details);
-        $this->assertArrayHasKey('server-version', $details);
-        $this->assertArrayHasKey('v8-version', $details);
+        static::assertArrayHasKey('build-date', $details);
+        static::assertArrayHasKey('icu-version', $details);
+        static::assertArrayHasKey('openssl-version', $details);
+        static::assertArrayHasKey('server-version', $details);
+        static::assertArrayHasKey('v8-version', $details);
     }
 
     /**
@@ -64,7 +61,7 @@ class AdminTest extends
     public function testGetServerTime()
     {
         $result = $this->adminHandler->getServerTime();
-        $this->assertTrue(is_double($result), 'Time must be a double!');
+        static::assertTrue(is_float($result), 'Time must be a double (float)!');
     }
 
 
@@ -75,66 +72,66 @@ class AdminTest extends
     public function testGetServerLog()
     {
         $result = $this->adminHandler->getServerLog();
-        $this->assertTrue(is_array($result), 'Should be an array');
-        $this->assertArrayHasKey('lid', $result);
-        $this->assertArrayHasKey('level', $result);
-        $this->assertArrayHasKey('timestamp', $result);
-        $this->assertArrayHasKey('text', $result);
-        $this->assertArrayHasKey('totalAmount', $result);
+        static::assertTrue(is_array($result), 'Should be an array');
+        static::assertArrayHasKey('lid', $result);
+        static::assertArrayHasKey('level', $result);
+        static::assertArrayHasKey('timestamp', $result);
+        static::assertArrayHasKey('text', $result);
+        static::assertArrayHasKey('totalAmount', $result);
 
         $options = array('upto' => 3);
         $result  = $this->adminHandler->getServerLog($options);
-        $this->assertTrue(is_array($result), 'Should be an array');
-        $this->assertArrayHasKey('lid', $result);
-        $this->assertArrayHasKey('level', $result);
-        $this->assertArrayHasKey('timestamp', $result);
-        $this->assertArrayHasKey('text', $result);
-        $this->assertArrayHasKey('totalAmount', $result);
+        static::assertTrue(is_array($result), 'Should be an array');
+        static::assertArrayHasKey('lid', $result);
+        static::assertArrayHasKey('level', $result);
+        static::assertArrayHasKey('timestamp', $result);
+        static::assertArrayHasKey('text', $result);
+        static::assertArrayHasKey('totalAmount', $result);
 
         $options = array('level' => 1);
         $result  = $this->adminHandler->getServerLog($options);
-        $this->assertTrue(is_array($result), 'Should be an array');
-        $this->assertArrayHasKey('lid', $result);
-        $this->assertArrayHasKey('level', $result);
-        $this->assertArrayHasKey('timestamp', $result);
-        $this->assertArrayHasKey('text', $result);
-        $this->assertArrayHasKey('totalAmount', $result);
+        static::assertTrue(is_array($result), 'Should be an array');
+        static::assertArrayHasKey('lid', $result);
+        static::assertArrayHasKey('level', $result);
+        static::assertArrayHasKey('timestamp', $result);
+        static::assertArrayHasKey('text', $result);
+        static::assertArrayHasKey('totalAmount', $result);
 
         $options = array('search' => 'ArangoDB');
         $result  = $this->adminHandler->getServerLog($options);
-        $this->assertTrue(is_array($result), 'Should be an array');
-        $this->assertArrayHasKey('lid', $result);
-        $this->assertArrayHasKey('level', $result);
-        $this->assertArrayHasKey('timestamp', $result);
-        $this->assertArrayHasKey('text', $result);
-        $this->assertArrayHasKey('totalAmount', $result);
+        static::assertTrue(is_array($result), 'Should be an array');
+        static::assertArrayHasKey('lid', $result);
+        static::assertArrayHasKey('level', $result);
+        static::assertArrayHasKey('timestamp', $result);
+        static::assertArrayHasKey('text', $result);
+        static::assertArrayHasKey('totalAmount', $result);
 
         $options = array('sort' => 'desc');
         $result  = $this->adminHandler->getServerLog($options);
-        $this->assertTrue(is_array($result), 'Should be an array');
-        $this->assertArrayHasKey('lid', $result);
-        $this->assertArrayHasKey('level', $result);
-        $this->assertArrayHasKey('timestamp', $result);
-        $this->assertArrayHasKey('text', $result);
-        $this->assertArrayHasKey('totalAmount', $result);
+        static::assertTrue(is_array($result), 'Should be an array');
+        static::assertArrayHasKey('lid', $result);
+        static::assertArrayHasKey('level', $result);
+        static::assertArrayHasKey('timestamp', $result);
+        static::assertArrayHasKey('text', $result);
+        static::assertArrayHasKey('totalAmount', $result);
 
         $options = array('start' => 1);
         $result  = $this->adminHandler->getServerLog($options);
-        $this->assertTrue(is_array($result), 'Should be an array');
-        $this->assertArrayHasKey('lid', $result);
-        $this->assertArrayHasKey('level', $result);
-        $this->assertArrayHasKey('timestamp', $result);
-        $this->assertArrayHasKey('text', $result);
-        $this->assertArrayHasKey('totalAmount', $result);
+        static::assertTrue(is_array($result), 'Should be an array');
+        static::assertArrayHasKey('lid', $result);
+        static::assertArrayHasKey('level', $result);
+        static::assertArrayHasKey('timestamp', $result);
+        static::assertArrayHasKey('text', $result);
+        static::assertArrayHasKey('totalAmount', $result);
 
         $options = array('size' => 10, 'offset' => 10);
         $result  = $this->adminHandler->getServerLog($options);
-        $this->assertTrue(is_array($result), 'Should be an array');
-        $this->assertArrayHasKey('lid', $result);
-        $this->assertArrayHasKey('level', $result);
-        $this->assertArrayHasKey('timestamp', $result);
-        $this->assertArrayHasKey('text', $result);
-        $this->assertArrayHasKey('totalAmount', $result);
+        static::assertTrue(is_array($result), 'Should be an array');
+        static::assertArrayHasKey('lid', $result);
+        static::assertArrayHasKey('level', $result);
+        static::assertArrayHasKey('timestamp', $result);
+        static::assertArrayHasKey('text', $result);
+        static::assertArrayHasKey('totalAmount', $result);
     }
 
 
@@ -144,7 +141,7 @@ class AdminTest extends
     public function testReloadServerRouting()
     {
         $result = $this->adminHandler->reloadServerRouting();
-        $this->assertTrue($result, 'Should be true!');
+        static::assertTrue($result, 'Should be true!');
     }
 
 
@@ -154,19 +151,19 @@ class AdminTest extends
     public function testGetServerStatistics()
     {
         $result = $this->adminHandler->getServerStatistics();
-        $this->assertTrue(is_array($result), 'Should be an array');
-        $this->assertArrayHasKey('system', $result);
+        static::assertTrue(is_array($result), 'Should be an array');
+        static::assertArrayHasKey('system', $result);
         $system = $result['system'];
-        $this->assertArrayHasKey('minorPageFaults', $system);
-        $this->assertArrayHasKey('majorPageFaults', $system);
-        $this->assertArrayHasKey('userTime', $system);
-        $this->assertArrayHasKey('systemTime', $system);
-        $this->assertArrayHasKey('numberOfThreads', $system);
-        $this->assertArrayHasKey('residentSize', $system);
-        $this->assertArrayHasKey('virtualSize', $system);
-        $this->assertArrayHasKey('client', $result);
-        $this->assertArrayHasKey('error', $result);
-        $this->assertArrayHasKey('code', $result);
+        static::assertArrayHasKey('minorPageFaults', $system);
+        static::assertArrayHasKey('majorPageFaults', $system);
+        static::assertArrayHasKey('userTime', $system);
+        static::assertArrayHasKey('systemTime', $system);
+        static::assertArrayHasKey('numberOfThreads', $system);
+        static::assertArrayHasKey('residentSize', $system);
+        static::assertArrayHasKey('virtualSize', $system);
+        static::assertArrayHasKey('client', $result);
+        static::assertArrayHasKey('error', $result);
+        static::assertArrayHasKey('code', $result);
     }
 
 
@@ -176,17 +173,16 @@ class AdminTest extends
     public function testGetServerStatisticsDescription()
     {
         $result = $this->adminHandler->getServerStatisticsDescription();
-        $this->assertTrue(is_array($result), 'Should be an array');
-        $this->assertArrayHasKey('groups', $result);
-        $this->assertArrayHasKey('figures', $result);
-        $this->assertArrayHasKey('error', $result);
-        $this->assertArrayHasKey('code', $result);
+        static::assertTrue(is_array($result), 'Should be an array');
+        static::assertArrayHasKey('groups', $result);
+        static::assertArrayHasKey('figures', $result);
+        static::assertArrayHasKey('error', $result);
+        static::assertArrayHasKey('code', $result);
     }
 
 
     public function tearDown()
     {
-        unset($this->adminHandler);
-        unset($this->connection);
+        unset($this->adminHandler, $this->connection);
     }
 }

@@ -64,6 +64,21 @@ class ConnectionOptions implements
     const OPTION_TRACE = 'trace';
 
     /**
+     * "verify certificates" index constant
+     */
+    const OPTION_VERIFY_CERT = 'verifyCert';
+
+    /**
+     * "allow self-signed" index constant
+     */
+    const OPTION_ALLOW_SELF_SIGNED = 'allowSelfSigned';
+
+    /**
+     * ciphers allowed to be used in SSL
+     */
+    const OPTION_CIPHERS = 'ciphers';
+
+    /**
      * Enhanced trace
      */
     const OPTION_ENHANCED_TRACE = 'enhancedTrace';
@@ -179,16 +194,6 @@ class ConnectionOptions implements
     const OPTION_CHECK_UTF8_CONFORM = 'CheckUtf8Conform';
 
     /**
-     * custom queue name
-     */
-    const OPTION_CUSTOM_QUEUE = 'customQueue';
-    
-    /**
-     * custom queue count
-     */
-    const OPTION_CUSTOM_QUEUE_COUNT = 'customQueueCount';
-
-    /**
      * Set defaults, use options provided by client and validate them
      *
      *
@@ -218,7 +223,7 @@ class ConnectionOptions implements
      * @throws Exception
      *
      * @param string $offset - name of option
-     * @param mixed  $value  - value for option
+     * @param mixed $value - value for option
      *
      * @return void
      */
@@ -297,33 +302,34 @@ class ConnectionOptions implements
     private static function getDefaults()
     {
         return array(
-            self::OPTION_ENDPOINT           => null,
-            self::OPTION_HOST               => null,
-            self::OPTION_PORT               => DefaultValues::DEFAULT_PORT,
-            self::OPTION_TIMEOUT            => DefaultValues::DEFAULT_TIMEOUT,
-            self::OPTION_CREATE             => DefaultValues::DEFAULT_CREATE,
-            self::OPTION_UPDATE_POLICY      => DefaultValues::DEFAULT_UPDATE_POLICY,
-            self::OPTION_REPLACE_POLICY     => DefaultValues::DEFAULT_REPLACE_POLICY,
-            self::OPTION_DELETE_POLICY      => DefaultValues::DEFAULT_DELETE_POLICY,
-            self::OPTION_REVISION           => null,
-            self::OPTION_WAIT_SYNC          => DefaultValues::DEFAULT_WAIT_SYNC,
-            self::OPTION_BATCHSIZE          => null,
-            self::OPTION_JOURNAL_SIZE       => DefaultValues::DEFAULT_JOURNAL_SIZE,
-            self::OPTION_IS_SYSTEM          => false,
-            self::OPTION_IS_VOLATILE        => DefaultValues::DEFAULT_IS_VOLATILE,
-            self::OPTION_CONNECTION         => DefaultValues::DEFAULT_CONNECTION,
-            self::OPTION_TRACE              => null,
-            self::OPTION_ENHANCED_TRACE     => false,
-            self::OPTION_AUTH_USER          => null,
-            self::OPTION_AUTH_PASSWD        => null,
-            self::OPTION_AUTH_TYPE          => null,
-            self::OPTION_RECONNECT          => false,
-            self::OPTION_BATCH              => false,
-            self::OPTION_BATCHPART          => false,
-            self::OPTION_DATABASE           => '_system',
-            self::OPTION_CHECK_UTF8_CONFORM => DefaultValues::DEFAULT_CHECK_UTF8_CONFORM,
-            self::OPTION_CUSTOM_QUEUE       => null,
-            self::OPTION_CUSTOM_QUEUE_COUNT => null
+            self::OPTION_ENDPOINT => null,
+            self::OPTION_HOST => null,
+            self::OPTION_PORT => DefaultValues::DEFAULT_PORT,
+            self::OPTION_TIMEOUT => DefaultValues::DEFAULT_TIMEOUT,
+            self::OPTION_CREATE => DefaultValues::DEFAULT_CREATE,
+            self::OPTION_UPDATE_POLICY => DefaultValues::DEFAULT_UPDATE_POLICY,
+            self::OPTION_REPLACE_POLICY => DefaultValues::DEFAULT_REPLACE_POLICY,
+            self::OPTION_DELETE_POLICY => DefaultValues::DEFAULT_DELETE_POLICY,
+            self::OPTION_REVISION => null,
+            self::OPTION_WAIT_SYNC => DefaultValues::DEFAULT_WAIT_SYNC,
+            self::OPTION_BATCHSIZE => null,
+            self::OPTION_JOURNAL_SIZE => DefaultValues::DEFAULT_JOURNAL_SIZE,
+            self::OPTION_IS_SYSTEM => false,
+            self::OPTION_IS_VOLATILE => DefaultValues::DEFAULT_IS_VOLATILE,
+            self::OPTION_CONNECTION => DefaultValues::DEFAULT_CONNECTION,
+            self::OPTION_TRACE => null,
+            self::OPTION_ENHANCED_TRACE => false,
+            self::OPTION_VERIFY_CERT => DefaultValues::DEFAULT_VERIFY_CERT,
+            self::OPTION_ALLOW_SELF_SIGNED => DefaultValues::DEFAULT_ALLOW_SELF_SIGNED,
+            self::OPTION_CIPHERS => DefaultValues::DEFAULT_CIPHERS,
+            self::OPTION_AUTH_USER => null,
+            self::OPTION_AUTH_PASSWD => null,
+            self::OPTION_AUTH_TYPE => null,
+            self::OPTION_RECONNECT => false,
+            self::OPTION_BATCH => false,
+            self::OPTION_BATCHPART => false,
+            self::OPTION_DATABASE => '_system',
+            self::OPTION_CHECK_UTF8_CONFORM => DefaultValues::DEFAULT_CHECK_UTF8_CONFORM
         );
     }
 
@@ -364,20 +370,22 @@ class ConnectionOptions implements
         }
 
         // can use either endpoint or host/port
-        if (isset($this->_values[self::OPTION_HOST]) && isset($this->_values[self::OPTION_ENDPOINT])) {
-            throw new ClientException('must not specify both host and endpoint');
-        } else {
-            if (isset($this->_values[self::OPTION_HOST]) && !isset($this->_values[self::OPTION_ENDPOINT])) {
-                // upgrade host/port to an endpoint
-                $this->_values[self::OPTION_ENDPOINT] = 'tcp://' . $this->_values[self::OPTION_HOST] . ':' . $this->_values[self::OPTION_PORT];
-            }
+        if (isset($this->_values[self::OPTION_HOST]) && !isset($this->_values[self::OPTION_ENDPOINT])) {
+            // upgrade host/port to an endpoint
+            $this->_values[self::OPTION_ENDPOINT] = 'tcp://' . $this->_values[self::OPTION_HOST] . ':' . $this->_values[self::OPTION_PORT];
         }
 
         assert(isset($this->_values[self::OPTION_ENDPOINT]));
         // set up a new endpoint, this will also validate it
         $this->getEndpoint();
-        if (Endpoint::getType($this->_values[self::OPTION_ENDPOINT]) === Endpoint::TYPE_UNIX) {
-            // must set port to 0 for UNIX sockets
+
+        $type = Endpoint::getType($this->_values[self::OPTION_ENDPOINT]);
+        if ($type === Endpoint::TYPE_UNIX) {
+            // must set port to 0 for UNIX domain sockets
+            $this->_values[self::OPTION_PORT] = 0;
+        }
+        elseif ($type === Endpoint::TYPE_SSL) {
+            // must set port to 0 for SSL connections
             $this->_values[self::OPTION_PORT] = 0;
         }
 
@@ -394,10 +402,12 @@ class ConnectionOptions implements
                 self::getSupportedConnectionTypes()
             )
         ) {
-            throw new ClientException(sprintf(
-                                          "unsupported connection value '%s'",
-                                          $this->_values[self::OPTION_CONNECTION]
-                                      ));
+            throw new ClientException(
+                sprintf(
+                    "unsupported connection value '%s'",
+                    $this->_values[self::OPTION_CONNECTION]
+                )
+            );
         }
 
         UpdatePolicy::validate($this->_values[self::OPTION_UPDATE_POLICY]);

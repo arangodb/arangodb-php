@@ -43,7 +43,7 @@ namespace triagens\ArangoDb;
  *
  * @property string $name - The name of the user function
  * @property string $code - The code of the user function
- * @property mixed  _action
+ * @property mixed _action
  *
  * @package   triagens\ArangoDb
  * @since     1.3
@@ -55,7 +55,7 @@ class AqlUserFunction
      *
      * @var Connection
      */
-    private $_connection = null;
+    private $_connection;
 
     /**
      * The transaction's attributes.
@@ -94,8 +94,8 @@ class AqlUserFunction
      * )
      *
      *
-     * @param Connection $connection      - the connection to be used
-     * @param array      $attributesArray - user function initialization data
+     * @param Connection $connection - the connection to be used
+     * @param array $attributesArray - user function initialization data
      *
      * @return \triagens\ArangoDb\AqlUserFunction
      */
@@ -136,12 +136,10 @@ class AqlUserFunction
         }
 
         $response      = $this->_connection->post(
-                                           Urls::URL_AQL_USER_FUNCTION,
-                                           $this->getConnection()->json_encode_wrapper($attributes)
+            Urls::URL_AQL_USER_FUNCTION,
+            $this->getConnection()->json_encode_wrapper($attributes)
         );
-        $responseArray = $response->getJson();
-
-        return $responseArray;
+        return $response->getJson();
     }
 
 
@@ -152,7 +150,7 @@ class AqlUserFunction
      *
      * If $name is passed, it will override the object's property with the passed one
      *
-     * @param string  $name
+     * @param string $name
      * @param boolean $namespace
      *
      * @throws Exception throw exception if the request fails
@@ -161,7 +159,7 @@ class AqlUserFunction
      */
     public function unregister($name = null, $namespace = false)
     {
-        if (is_null($name)) {
+        if (null === $name) {
             $name = $this->getName();
         }
 
@@ -172,9 +170,7 @@ class AqlUserFunction
         }
 
         $response      = $this->_connection->delete($url);
-        $responseArray = $response->getJson();
-
-        return $responseArray;
+        return $response->getJson();
     }
 
 
@@ -192,14 +188,12 @@ class AqlUserFunction
     public function getRegisteredUserFunctions($namespace = null)
     {
         $url = UrlHelper::buildUrl(Urls::URL_AQL_USER_FUNCTION, array());
-        if (!is_null($namespace)) {
+        if (null !== $namespace) {
             $url = UrlHelper::appendParamsUrl($url, array('namespace' => $namespace));
         }
         $response = $this->_connection->get($url);
 
-        $responseArray = $response->getJson();
-
-        return $responseArray;
+        return $response->getJson();
     }
 
 
@@ -290,8 +284,10 @@ class AqlUserFunction
      *
      * @throws ClientException
      *
-     * @param string $key   - attribute name
-     * @param mixed  $value - value for attribute
+     * @magic
+     *
+     * @param string $key - attribute name
+     * @param mixed $value - value for attribute
      *
      * @return void
      */
@@ -331,6 +327,8 @@ class AqlUserFunction
      *
      * This function is mapped to get() internally.
      *
+     * @magic
+     *
      * @param string $key - name of attribute
      *
      * @return mixed - value of attribute, NULL if attribute is not set
@@ -343,6 +341,8 @@ class AqlUserFunction
 
     /**
      * Returns the action string
+     *
+     * @magic
      *
      * @return string - the current action string
      */

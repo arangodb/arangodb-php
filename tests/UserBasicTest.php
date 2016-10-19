@@ -14,8 +14,8 @@ use Installer\Exception;
 /**
  * Class UserBasicTest
  *
- * @property Connection              $connection
- * @property UserHandler             userHandler
+ * @property Connection $connection
+ * @property UserHandler userHandler
  *
  * @package triagens\ArangoDb
  */
@@ -29,6 +29,70 @@ class UserBasicTest extends
 
 
     /**
+     * Test permission handling
+     */
+    public function testGrantPermission()
+    {
+        $this->userHandler = new UserHandler($this->connection);
+
+        $result = $this->userHandler->addUser('testUser42', 'testPasswd', true);
+        static::assertTrue($result);
+
+        $result = $this->userHandler->grantPermissions('testUser42', $this->connection->getDatabase());
+        static::assertTrue($result);
+
+        $options                                        = $this->connection->getOptions()->getAll();
+        $options[ConnectionOptions::OPTION_AUTH_USER]   = 'testUser42';
+        $options[ConnectionOptions::OPTION_AUTH_PASSWD] = 'testPasswd';
+        $userConnection                                 = new Connection($options);
+
+        $userHandler = new UserHandler($userConnection);
+        $result      = $userHandler->getDatabases('testUser42');
+        static::assertEquals($result, ['_system' => 'rw']);
+
+
+        $this->userHandler->removeUser('testUser42');
+
+        try {
+            $result = $userHandler->getDatabases('testUser42');
+        } catch (\Exception $e) {
+            // Just give us the $e
+            static::assertEquals($e->getCode(), 401);
+        }
+        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
+    }
+
+    /**
+     * Test permission handling
+     */
+    public function testGrantAndRevokePermissions()
+    {
+        $this->userHandler = new UserHandler($this->connection);
+
+        $result = $this->userHandler->addUser('testUser42', 'testPasswd', true);
+        static::assertTrue($result);
+
+        $result = $this->userHandler->grantPermissions('testUser42', $this->connection->getDatabase());
+        static::assertTrue($result);
+
+        $options                                        = $this->connection->getOptions()->getAll();
+        $options[ConnectionOptions::OPTION_AUTH_USER]   = 'testUser42';
+        $options[ConnectionOptions::OPTION_AUTH_PASSWD] = 'testPasswd';
+        $userConnection                                 = new Connection($options);
+
+        $userHandler = new UserHandler($userConnection);
+        $result      = $userHandler->getDatabases('testUser42');
+        static::assertEquals($result, ['_system' => 'rw']);
+
+        $result = $this->userHandler->revokePermissions('testUser42', $this->connection->getDatabase());
+        static::assertTrue($result);
+
+        $result = $userHandler->getDatabases('testUser42');
+        static::assertEquals($result, ['_system' => 'none']);
+    }
+
+
+    /**
      * Test if Document and DocumentHandler instances can be initialized
      */
     public function testAddReplaceUpdateGetAndDeleteUserWithNullValues()
@@ -37,21 +101,19 @@ class UserBasicTest extends
 
 
         $result = $this->userHandler->addUser('testUser1', null, null, null);
-        $this->assertTrue($result);
+        static::assertTrue($result);
 
 
         $this->userHandler->replaceUser('testUser1', null, null, null);
-        $this->assertTrue($result);
+        static::assertTrue($result);
 
 
         $this->userHandler->updateUser('testUser1', null, null, null);
-        $this->assertTrue($result);
+        static::assertTrue($result);
 
 
         $this->userHandler->removeUser('testUser1');
-        $this->assertTrue($result);
-
-        unset ($document);
+        static::assertTrue($result);
     }
 
 
@@ -63,52 +125,47 @@ class UserBasicTest extends
         $this->userHandler = new UserHandler($this->connection);
 
         $result = $this->userHandler->addUser('testUser1', 'testPass1', true, array('level' => 1));
-        $this->assertTrue($result);
+        static::assertTrue($result);
 
         $e = null;
         try {
             $this->userHandler->addUser('testUser1', 'testPass1', true, array('level' => 1));
         } catch (\Exception $e) {
             // Just give us the $e
-            $this->assertTrue($e->getCode() == 400);
+            static::assertEquals($e->getCode(), 400);
         }
-        $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
+        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
 
 
         $response = $this->userHandler->get('testUser1');
         $extra    = $response->extra;
-        $this->assertTrue($response->active, 'Should be true');
-        $this->assertTrue($extra['level'] == 1, 'Should return 1');
+        static::assertTrue($response->active);
+        static::assertEquals($extra['level'], 1, 'Should return 1');
 
 
         $this->userHandler->replaceUser('testUser1', 'testPass2', false, array('level' => 2));
-        $this->assertTrue($result);
+        static::assertTrue($result);
 
 
         $response = $this->userHandler->get('testUser1');
         $extra    = $response->extra;
-        $this->assertFalse($response->active, 'Should be false');
+        static::assertFalse($response->active);
 
-        $this->assertTrue($extra['level'] == 2, 'Should return 2');
+        static::assertEquals($extra['level'], 2, 'Should return 2');
 
 
         $this->userHandler->updateUser('testUser1', null, null, array('level' => 3));
-        $this->assertTrue($result);
+        static::assertTrue($result);
 
 
         $response = $this->userHandler->get('testUser1');
         $extra    = $response->extra;
-        $this->assertFalse($response->active, 'Should be false');
+        static::assertFalse($response->active);
 
-
-        $this->assertTrue($extra['level'] == 3, 'Should return 3');
-        $this->assertFalse($response->active, 'Should be false');
-
+        static::assertEquals($extra['level'], 3, 'Should return 3');
 
         $this->userHandler->removeUser('testUser1');
-        $this->assertTrue($result);
-
-        unset ($document);
+        static::assertTrue($result);
     }
 
 
@@ -122,9 +179,9 @@ class UserBasicTest extends
             $this->userHandler->removeUser('testUser1');
         } catch (\Exception $e) {
             // Just give us the $e
-            $this->assertTrue($e->getCode() == 404, 'Should get 404, instead got: ' . ($e->getCode()));
+            static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . ($e->getCode()));
         }
-        $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
+        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
 
 
         $e = null;
@@ -132,9 +189,9 @@ class UserBasicTest extends
             $this->userHandler->updateUser('testUser1', null, null, array('level' => 3));
         } catch (\Exception $e) {
             // Just give us the $e
-            $this->assertTrue($e->getCode() == 404, 'Should get 404, instead got: ' . ($e->getCode()));
+            static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . ($e->getCode()));
         }
-        $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
+        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
 
 
         $e = null;
@@ -142,9 +199,9 @@ class UserBasicTest extends
             $this->userHandler->replaceUser('testUser1', 'testPass2', false, array('level' => 2));
         } catch (\Exception $e) {
             // Just give us the $e
-            $this->assertTrue($e->getCode() == 404, 'Should get 404, instead got: ' . ($e->getCode()));
+            static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . ($e->getCode()));
         }
-        $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
+        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
 
 
         $e = null;
@@ -152,9 +209,9 @@ class UserBasicTest extends
             $this->userHandler->get('testUser1');
         } catch (\Exception $e) {
             // Just give us the $e
-            $this->assertTrue($e->getCode() == 404, 'Should get 404, instead got: ' . ($e->getCode()));
+            static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . ($e->getCode()));
         }
-        $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
+        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
     }
 
     public function tearDown()
@@ -165,7 +222,12 @@ class UserBasicTest extends
             // Do nothing
         }
 
-        unset($this->userHandler);
-        unset($this->connection);
+        try {
+            $this->userHandler->removeUser('testUser42');
+        } catch (\Exception $e) {
+            // Do nothing
+        }
+
+        unset($this->userHandler, $this->connection);
     }
 }

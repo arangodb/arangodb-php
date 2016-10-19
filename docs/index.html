@@ -1,270 +1,167 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-    <meta charset="utf-8"/>
-    <title>ArangoDB PHP client API</title>
-    <meta name="author" content=""/>
-    <meta name="description" content=""/>
+	<meta charset="utf-8">
 
-    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-    <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
-    <link href="css/prism.css" rel="stylesheet" media="all"/>
-    <link href="css/template.css" rel="stylesheet" media="all"/>
-    
-    <!--[if lt IE 9]>
-    <script src="https://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
-    <![endif]-->
-    <script src="https://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript"></script>
-    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-    <script src="js/jquery.smooth-scroll.js"></script>
-    <script src="js/prism.min.js"></script>
-    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
-    
-    <link rel="shortcut icon" href="images/favicon.ico"/>
-    <link rel="apple-touch-icon" href="images/apple-touch-icon.png"/>
-    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png"/>
-    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png"/>
+	<title>ArangoDB-PHP API Documentation</title>
+
+	<link rel="stylesheet" href="resources/bootstrap.min.css?973e37a8502921d56bc02bb55321f45b072b6f71">
+	<link rel="stylesheet" href="resources/style.css?49f43d3208c5d7e33fa16d36107a345bf11cc00d">
+
 </head>
+
 <body>
+	<nav id="navigation" class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a href="index.html" class="navbar-brand">ArangoDB-PHP API Documentation</a>
+			</div>
+			<div class="collapse navbar-collapse">
 
-<div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-        <div class="container">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <i class="icon-ellipsis-vertical"></i>
-            </a>
-            <a class="brand" href="index.html">ArangoDB PHP client API</a>
+                <form id="search" class="navbar-form navbar-left" role="search">
+                    <input type="hidden" name="cx" value="">
+                    <input type="hidden" name="ie" value="UTF-8">
+                    <div class="form-group">
+                        <input type="text" name="q" class="search-query form-control" placeholder="Search" autofocus>
+					</div>
+				</form>
 
-            <div class="nav-collapse">
-                <ul class="nav pull-right">
-                                        <li class="dropdown">
-                        <a href="index.html" class="dropdown-toggle" data-toggle="dropdown">
-                            API Documentation <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                                                        <li><a href="namespaces/triagens.html">\triagens</a></li>
-                                                    </ul>
-                    </li>
-                                        <li class="dropdown" id="charts-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Charts <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="graphs/class.html">
-                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown" id="reports-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Reports <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">39</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="reports/markers.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="reports/deprecated.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">13</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <!--<div class="go_to_top">-->
-    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
-    <!--</div>-->
+				<ul class="nav navbar-nav">
+					<li>
+<span>Namespace</span>					</li>
+					<li>
+<span>Class</span>					</li>
+
+					<li class="divider-vertical"></li>
+
+
+						<li>
+							<a href="annotation-group-deprecated.html" title="List of elements with deprecated annotation">
+								<span>Deprecated</span>
+							</a>
+						</li>
+						<li>
+							<a href="annotation-group-todo.html" title="List of elements with todo annotation">
+								<span>Todo</span>
+							</a>
+						</li>
+
+
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div id="left">
+	<div id="menu">
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+					<li>
+						<a href="namespace-triagens.html">
+							triagens<span></span>
+						</a>
+							<ul>
+					<li>
+						<a href="namespace-triagens.ArangoDb.html">
+							ArangoDb						</a>
+							</li>
+								</ul></li>
+			</ul>
+		</div>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-triagens.ArangoDb.AdminHandler.html">triagens\ArangoDb\AdminHandler</a></li>
+				<li><a href="class-triagens.ArangoDb.AqlUserFunction.html">triagens\ArangoDb\AqlUserFunction</a></li>
+				<li><a href="class-triagens.ArangoDb.Autoloader.html">triagens\ArangoDb\Autoloader</a></li>
+				<li><a href="class-triagens.ArangoDb.Batch.html">triagens\ArangoDb\Batch</a></li>
+				<li><a href="class-triagens.ArangoDb.BatchPart.html">triagens\ArangoDb\BatchPart</a></li>
+				<li><a href="class-triagens.ArangoDb.BindVars.html">triagens\ArangoDb\BindVars</a></li>
+				<li><a href="class-triagens.ArangoDb.Collection.html">triagens\ArangoDb\Collection</a></li>
+				<li><a href="class-triagens.ArangoDb.CollectionHandler.html">triagens\ArangoDb\CollectionHandler</a></li>
+				<li><a href="class-triagens.ArangoDb.Connection.html">triagens\ArangoDb\Connection</a></li>
+				<li><a href="class-triagens.ArangoDb.ConnectionOptions.html">triagens\ArangoDb\ConnectionOptions</a></li>
+				<li><a href="class-triagens.ArangoDb.Cursor.html">triagens\ArangoDb\Cursor</a></li>
+				<li><a href="class-triagens.ArangoDb.Database.html">triagens\ArangoDb\Database</a></li>
+				<li><a href="class-triagens.ArangoDb.DefaultValues.html">triagens\ArangoDb\DefaultValues</a></li>
+				<li><a href="class-triagens.ArangoDb.Document.html">triagens\ArangoDb\Document</a></li>
+				<li><a href="class-triagens.ArangoDb.DocumentHandler.html">triagens\ArangoDb\DocumentHandler</a></li>
+				<li><a href="class-triagens.ArangoDb.Edge.html">triagens\ArangoDb\Edge</a></li>
+				<li><a href="class-triagens.ArangoDb.EdgeDefinition.html">triagens\ArangoDb\EdgeDefinition</a></li>
+				<li><a href="class-triagens.ArangoDb.EdgeHandler.html">triagens\ArangoDb\EdgeHandler</a></li>
+				<li><a href="class-triagens.ArangoDb.Endpoint.html">triagens\ArangoDb\Endpoint</a></li>
+				<li><a href="class-triagens.ArangoDb.Export.html">triagens\ArangoDb\Export</a></li>
+				<li><a href="class-triagens.ArangoDb.ExportCursor.html">triagens\ArangoDb\ExportCursor</a></li>
+				<li><a href="class-triagens.ArangoDb.Graph.html">triagens\ArangoDb\Graph</a></li>
+				<li><a href="class-triagens.ArangoDb.GraphHandler.html">triagens\ArangoDb\GraphHandler</a></li>
+				<li><a href="class-triagens.ArangoDb.Handler.html">triagens\ArangoDb\Handler</a></li>
+				<li><a href="class-triagens.ArangoDb.HttpHelper.html">triagens\ArangoDb\HttpHelper</a></li>
+				<li><a href="class-triagens.ArangoDb.HttpResponse.html">triagens\ArangoDb\HttpResponse</a></li>
+				<li><a href="class-triagens.ArangoDb.QueryCacheHandler.html">triagens\ArangoDb\QueryCacheHandler</a></li>
+				<li><a href="class-triagens.ArangoDb.QueryHandler.html">triagens\ArangoDb\QueryHandler</a></li>
+				<li><a href="class-triagens.ArangoDb.Statement.html">triagens\ArangoDb\Statement</a></li>
+				<li><a href="class-triagens.ArangoDb.TraceRequest.html">triagens\ArangoDb\TraceRequest</a></li>
+				<li><a href="class-triagens.ArangoDb.TraceResponse.html">triagens\ArangoDb\TraceResponse</a></li>
+				<li><a href="class-triagens.ArangoDb.Transaction.html">triagens\ArangoDb\Transaction</a></li>
+				<li><a href="class-triagens.ArangoDb.Traversal.html">triagens\ArangoDb\Traversal</a></li>
+				<li><a href="class-triagens.ArangoDb.UpdatePolicy.html">triagens\ArangoDb\UpdatePolicy</a></li>
+				<li><a href="class-triagens.ArangoDb.UrlHelper.html">triagens\ArangoDb\UrlHelper</a></li>
+				<li><a href="class-triagens.ArangoDb.Urls.html">triagens\ArangoDb\Urls</a></li>
+				<li><a href="class-triagens.ArangoDb.User.html">triagens\ArangoDb\User</a></li>
+				<li><a href="class-triagens.ArangoDb.UserHandler.html">triagens\ArangoDb\UserHandler</a></li>
+				<li><a href="class-triagens.ArangoDb.ValueValidator.html">triagens\ArangoDb\ValueValidator</a></li>
+				<li><a href="class-triagens.ArangoDb.Vertex.html">triagens\ArangoDb\Vertex</a></li>
+				<li><a href="class-triagens.ArangoDb.VertexHandler.html">triagens\ArangoDb\VertexHandler</a></li>
+			</ul>
+
+
+
+			<h3>Exceptions</h3>
+			<ul>
+				<li><a href="class-triagens.ArangoDb.ClientException.html">triagens\ArangoDb\ClientException</a></li>
+				<li><a href="class-triagens.ArangoDb.ConnectException.html">triagens\ArangoDb\ConnectException</a></li>
+				<li><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></li>
+				<li><a href="class-triagens.ArangoDb.ServerException.html">triagens\ArangoDb\ServerException</a></li>
+			</ul>
+
+
+		</div>
+	</div>
 </div>
 
-<div id="___" class="container-fluid">
-        <section class="row-fluid">
-        <div class="span2 sidebar">
-                                <div class="accordion" style="margin-bottom: 0">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1597834172"></a>
-                                <a href="namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
-            </div>
-            <div id="namespace-1597834172" class="accordion-body collapse in">
-                <div class="accordion-inner">
+<div id="splitter"></div>
 
-                                                    <div class="accordion" style="margin-bottom: 0">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1836245317"></a>
-                                <a href="namespaces/triagens.html" style="margin-left: 30px; padding-left: 0">triagens</a>
-            </div>
-            <div id="namespace-1836245317" class="accordion-body collapse ">
-                <div class="accordion-inner">
+<div id="right">
+	<div id="rightInner">
+<div id="content">
+	<h1>ArangoDB-PHP API Documentation</h1>
 
-                                                    <div class="accordion" style="margin-bottom: 0">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1942040294"></a>
-                                <a href="namespaces/triagens.ArangoDb.html" style="margin-left: 30px; padding-left: 0">ArangoDb</a>
-            </div>
-            <div id="namespace-1942040294" class="accordion-body collapse ">
-                <div class="accordion-inner">
 
-                    
-                    <ul>
-                                                                                                    <li class="class"><a href="classes/triagens.ArangoDb.AdminHandler.html">AdminHandler</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.AqlUserFunction.html">AqlUserFunction</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.Autoloader.html">Autoloader</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.Batch.html">Batch</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.BatchPart.html">BatchPart</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.BindVars.html">BindVars</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.ClientException.html">ClientException</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.Collection.html">Collection</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.CollectionHandler.html">CollectionHandler</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.ConnectException.html">ConnectException</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.Connection.html">Connection</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.ConnectionOptions.html">ConnectionOptions</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.Cursor.html">Cursor</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.Database.html">Database</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.DefaultValues.html">DefaultValues</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.Document.html">Document</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.DocumentHandler.html">DocumentHandler</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.Edge.html">Edge</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.EdgeDefinition.html">EdgeDefinition</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.EdgeHandler.html">EdgeHandler</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.Endpoint.html">Endpoint</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.Exception.html">Exception</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.Graph.html">Graph</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.GraphHandler.html">GraphHandler</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.Handler.html">Handler</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.HttpHelper.html">HttpHelper</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.HttpResponse.html">HttpResponse</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.ServerException.html">ServerException</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.Statement.html">Statement</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.TraceRequest.html">TraceRequest</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.TraceResponse.html">TraceResponse</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.Transaction.html">Transaction</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.Traversal.html">Traversal</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.UpdatePolicy.html">UpdatePolicy</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.UrlHelper.html">UrlHelper</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.Urls.html">Urls</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.User.html">User</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.UserHandler.html">UserHandler</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.ValueValidator.html">ValueValidator</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.Vertex.html">Vertex</a></li>
-                                                    <li class="class"><a href="classes/triagens.ArangoDb.VertexHandler.html">VertexHandler</a></li>
-                                            </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+		<div class="panel panel-default">
+            <div class="panel-heading"><h2>Namespaces summary</h2></div>
+			<table class="summary table table-bordered table-striped" id="namespaces">
+					<tr>
+						<td class="name"><a href="namespace-triagens.html">triagens</a></td>
+					</tr>
+					<tr>
+						<td class="name"><a href="namespace-triagens.ArangoDb.html">triagens\ArangoDb</a></td>
+					</tr>
+			</table>
+		</div>
 
-                    
-                    <ul>
-                                                                                            </ul>
-                </div>
-            </div>
-        </div>
-    </div>
 
-                    
-                    <ul>
-                                                                                            </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-        </div>
-    </section>
-    <section class="row-fluid">
-        <div class="span10 offset2">
-            <div class="row-fluid">
-                <div class="span8 content namespace">
-                    <nav>
-                                                
-                                            </nav>
-                    <h1><small></small>\</h1>
-
-                                        <h2>Namespaces</h2>
-                    <table class="table table-hover">
-                                                    <tr>
-                                <td><a href="namespaces/triagens.html">triagens</a></td>
-                            </tr>
-                                            </table>
-                    
-                    
-                    
-                                    </div>
-
-                <aside class="span4 detailsbar">
-                    <dl>
-                        <dt>Namespace hierarchy</dt>
-                        <dd class="hierarchy">
-                                                                                                                                                <div class="namespace-wrapper">\</div>
-                        </dd>
-                    </dl>
-                </aside>
-            </div>
-
-            
-            
-        </div>
-    </section>
-
-    <footer class="row-fluid">
-        <section class="span10 offset2">
-            <section class="row-fluid">
-                <section class="span10 offset1">
-                    <section class="row-fluid footer-sections">
-                        <section class="span4">
-                                                        <h1><i class="icon-code"></i></h1>
-                            <div>
-                                <ul>
-                                                                            <li><a href="namespaces/triagens.html">\triagens</a></li>
-                                                                    </ul>
-                            </div>
-                        </section>
-                        <section class="span4">
-                                                        <h1><i class="icon-bar-chart"></i></h1>
-                            <div>
-                                <ul>
-                                    <li><a href="graphs/class.html">Class Hierarchy Diagram</a></li>
-                                </ul>
-                            </div>
-                        </section>
-                        <section class="span4">
-                                                        <h1><i class="icon-pushpin"></i></h1>
-                            <div>
-                                <ul>
-                                    <li><a href="reports/errors.html">Errors</a></li>
-                                    <li><a href="reports/markers.html">Markers</a></li>
-                                </ul>
-                            </div>
-                        </section>
-                    </section>
-                </section>
-            </section>
-            <section class="row-fluid">
-                <section class="span10 offset1">
-                    <hr />
-                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on July 11th, 2014 at 12:23.
-                </section>
-            </section>
-        </section>
-    </footer>
 </div>
+	</div>
 
+	<div id="footer">
+		ArangoDB-PHP API Documentation API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+<script src="resources/combined.js?95a4142a2c54c3c368e0b6f6374702a28f68e5f0"></script>
+<script src="elementlist.js?95a87b08c7e5fa23b550435ab9905e92c4234ee6"></script>
 </body>
 </html>

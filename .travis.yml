@@ -1,15 +1,24 @@
 language: php
 
-php: 
-  - 5.3
-  - 5.4
-  - 5.5
-  - 5.6
-  - 7
-  - hhvm
+matrix:
+  include:
+    - php: '5.5'
+      env: PHP_VERSION_USED="5.5"
+    - php: '5.6'
+      env: PHP_VERSION_USED="5.6"
+    - php: '7.0'
+      env: PHP_VERSION_USED="7.0"
+    - php: hhvm
+      env: PHP_VERSION_USED="hhvm"
 
 before_script:
+  - wget https://phar.phpunit.de/phpunit.phar
+  - chmod a+x phpunit.phar
   - chmod 777 ./tests/travis/setup_arangodb.sh
   - ./tests/travis/setup_arangodb.sh
 
-script: phpunit --configuration ./tests/phpunit.xml
+script: 
+  - if [[ "${PHP_VERSION_USED}" == "5.5" ]]; then phpunit --configuration ./tests/phpunit.xml; fi
+  - if [[ "${PHP_VERSION_USED}" == "5.6" ]]; then phpunit --configuration ./tests/phpunit.xml; fi
+  - if [[ "${PHP_VERSION_USED}" == "7.0" ]]; then (cd tests && ../phpunit.phar . --colors=auto --verbose --bootstrap=bootstrap.php); fi
+  - if [[ "${PHP_VERSION_USED}" == "hhvm" ]]; then phpunit --configuration ./tests/phpunit.xml; fi

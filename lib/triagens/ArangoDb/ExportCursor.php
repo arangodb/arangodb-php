@@ -94,7 +94,7 @@ class ExportCursor
      * "type" option entry (is used when converting the result into documents or edges objects)
      */
     const ENTRY_TYPE = 'type';
-    
+
     /**
      * "baseurl" option entry.
      */
@@ -104,8 +104,8 @@ class ExportCursor
      * Initialize the cursor with the first results and some metadata
      *
      * @param Connection $connection - connection to be used
-     * @param array      $data       - initial result data as returned by the server
-     * @param array      $options    - cursor options
+     * @param array $data - initial result data as returned by the server
+     * @param array $options - cursor options
      *
      * @return Cursor
      */
@@ -118,13 +118,13 @@ class ExportCursor
         if (isset($data[self::ENTRY_ID])) {
             $this->_id = $data[self::ENTRY_ID];
         }
-          
+
         // attribute must be there
         assert(isset($data[self::ENTRY_HASMORE]));
         $this->_hasMore = (bool) $data[self::ENTRY_HASMORE];
 
-        $this->_options   = $options;
-        $this->_result    = array();
+        $this->_options = $options;
+        $this->_result  = array();
         $this->setData((array) $data[self::ENTRY_RESULT]);
     }
 
@@ -180,7 +180,7 @@ class ExportCursor
         }
 
         if ($this->_result !== array()) {
-            $result = $this->_result;
+            $result        = $this->_result;
             $this->_result = array();
             return $result;
         }
@@ -197,8 +197,8 @@ class ExportCursor
      * @return void
      */
     private function setData(array $data)
-    {	
-        if ((isset($this->_options[self::ENTRY_FLAT]) && $this->_options[self::ENTRY_FLAT])) {
+    {
+        if (isset($this->_options[self::ENTRY_FLAT]) && $this->_options[self::ENTRY_FLAT]) {
             $this->_result = $data;
         }
         else {
@@ -227,10 +227,10 @@ class ExportCursor
     private function fetchOutstanding()
     {
         // continuation
-        $response = $this->_connection->put($this->url() . "/" . $this->_id, '');
+        $response = $this->_connection->put($this->url() . '/' . $this->_id, '');
         ++$this->_fetches;
 
-        $data     = $response->getJson();
+        $data = $response->getJson();
 
         $this->_hasMore = (bool) $data[self::ENTRY_HASMORE];
         $this->setData($data[self::ENTRY_RESULT]);
@@ -242,11 +242,12 @@ class ExportCursor
     }
 
     /**
-     * Return the base URL for the cursor 
+     * Return the base URL for the cursor
      *
      * @return string
      */
-    private function url() {
+    private function url()
+    {
         if (isset($this->_options[self::ENTRY_BASEURL])) {
             return $this->_options[self::ENTRY_BASEURL];
         }

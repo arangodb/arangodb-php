@@ -53,7 +53,22 @@ abstract class DefaultValues
     /**
      * Default value for HTTP Connection header
      */
-    const DEFAULT_CONNECTION = "Close";
+    const DEFAULT_CONNECTION = 'Close';
+
+    /**
+     * Default value for SSL certificate verification
+     */
+    const DEFAULT_VERIFY_CERT = false;
+
+    /**
+     * Default value for accepting self-signed SSL certificates
+     */
+    const DEFAULT_ALLOW_SELF_SIGNED = true;
+
+    /**
+     * Default value for ciphers to be used in SSL
+     */
+    const DEFAULT_CIPHERS = null;
 
     /**
      * Default update policy
@@ -73,5 +88,5 @@ abstract class DefaultValues
     /**
      * Default value for checking if data is UTF-8 conform
      */
-    const DEFAULT_CHECK_UTF8_CONFORM = true;
+    const DEFAULT_CHECK_UTF8_CONFORM = false;
 }

@@ -30,7 +30,7 @@ class Traversal
      *
      * @var Connection
      */
-    private $_connection = null;
+    private $_connection;
 
     /**
      * The traversal's attributes.
@@ -58,10 +58,10 @@ class Traversal
     /**
      * Initialise the Traversal object
      *
-     * @param Connection $connection     - the connection to be used
-     * @param string     $startVertex    - user function initialization data
-     * @param string     $edgeCollection - user function initialization data
-     * @param array      $options
+     * @param Connection $connection - the connection to be used
+     * @param string $startVertex - user function initialization data
+     * @param string $edgeCollection - user function initialization data
+     * @param array $options
      *
      * @return \triagens\ArangoDb\Traversal
      */
@@ -89,8 +89,8 @@ class Traversal
 
 
         $response      = $this->_connection->post(
-                                           Urls::URL_TRAVERSAL,
-                                           $this->getConnection()->json_encode_wrapper($bodyParams)
+            Urls::URL_TRAVERSAL,
+            $this->getConnection()->json_encode_wrapper($bodyParams)
         );
         $responseArray = $response->getJson();
 
@@ -185,8 +185,10 @@ class Traversal
      *
      * @throws ClientException
      *
-     * @param string $key   - attribute name
-     * @param mixed  $value - value for attribute
+     * @param string $key - attribute name
+     * @param mixed $value - value for attribute
+     *
+     * @magic
      *
      * @return void
      */
@@ -208,6 +210,8 @@ class Traversal
     /**
      * Get an attribute
      *
+     * @magic
+     *
      * @param string $key - name of attribute
      *
      * @return mixed - value of attribute, NULL if attribute is not set
@@ -226,6 +230,8 @@ class Traversal
      *
      * This function is mapped to get() internally.
      *
+     * @magic
+     *
      * @param string $key - name of attribute
      *
      * @return mixed - value of attribute, NULL if attribute is not set
@@ -238,6 +244,8 @@ class Traversal
 
     /**
      * Returns the action string
+     *
+     * @magic
      *
      * @return string - the current action string
      */

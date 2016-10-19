@@ -28,7 +28,7 @@ class AdminHandler extends
     /**
      * details for server version
      */
-    const OPTION_DETAILS = "details";
+    const OPTION_DETAILS = 'details';
 
     /**
      * Get the server version
@@ -55,11 +55,12 @@ class AdminHandler extends
 
         if ($details) {
             return $data;
-        } else {
+        }
+        else {
             return $data['version'];
         }
     }
-    
+
     /**
      * Get the server role
      *
@@ -72,7 +73,7 @@ class AdminHandler extends
      */
     public function getServerRole()
     {
-        $url = Urls::URL_ADMIN_SERVER_ROLE;
+        $url      = Urls::URL_ADMIN_SERVER_ROLE;
         $response = $this->getConnection()->get($url);
         $data     = $response->getJson();
 
@@ -132,9 +133,7 @@ class AdminHandler extends
     {
         $url      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_LOG, $options);
         $response = $this->getConnection()->get($url);
-        $data     = $response->getJson();
-
-        return $data;
+        return $response->getJson();
     }
 
 
@@ -149,6 +148,8 @@ class AdminHandler extends
      * @return bool
      * @since 1.2
      * @deprecated
+     * @todo remove in version 3.1
+
      */
     public function flushServerModuleCache()
     {
@@ -164,12 +165,12 @@ class AdminHandler extends
      *
      * @throws Exception
      *
-     * @return array
+     * @return bool
      * @since 1.2
      */
     public function reloadServerRouting()
     {
-        $this->getConnection()->POST(Urls::URL_ADMIN_ROUTING_RELOAD, '');
+        $this->getConnection()->post(Urls::URL_ADMIN_ROUTING_RELOAD, '');
 
         return true;
     }
@@ -201,9 +202,7 @@ class AdminHandler extends
     {
         $url      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_STATISTICS, array());
         $response = $this->getConnection()->get($url);
-        $data     = $response->getJson();
-
-        return $data;
+        return $response->getJson();
     }
 
 
@@ -236,8 +235,6 @@ class AdminHandler extends
     {
         $url      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_STATISTICS_DESCRIPTION, $options);
         $response = $this->getConnection()->get($url);
-        $data     = $response->getJson();
-
-        return $data;
+        return $response->getJson();
     }
 }

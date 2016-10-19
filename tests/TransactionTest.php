@@ -14,10 +14,10 @@ namespace triagens\ArangoDb;
  *
  * Basic Tests for the Transaction API implementation
  *
- * @property Connection        $connection
+ * @property Connection $connection
  * @property CollectionHandler $collectionHandler
- * @property Collection        $collection1
- * @property Collection        $collection2
+ * @property Collection $collection1
+ * @property Collection $collection2
  * @package triagens\ArangoDb
  */
 class TransactionTest extends
@@ -34,7 +34,7 @@ class TransactionTest extends
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
-        
+
         try {
             $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_02');
         } catch (Exception $e) {
@@ -51,6 +51,84 @@ class TransactionTest extends
         $this->collectionHandler->add($this->collection2);
     }
 
+    /**
+     * Test if a deadlock occurs and error 29 is thrown
+     */
+    public function testDeadlockHandling()
+    {
+        $w1      = array($this->collection1->getName());
+        $action1 = '
+        try {
+          require("internal").db._executeTransaction({ collections: { write: [ "' . $this->collection2->getName() . '" ] }, action: function () {
+          require("internal").wait(7, false);
+          var db = require("internal").db;
+          db.' . $this->collection1->getName() . '.any();
+          }});
+          return { message: "ok" };
+        } catch (err) {
+          return { message: err.errorNum };
+        }
+        ';
+
+        $result1 = $this->connection->post('/_admin/execute?returnAsJSON=true', $action1, array('X-Arango-Async' => 'store'));
+        $id1     = $result1->getHeader('x-arango-async-id');
+
+        $action2 = '
+        try {
+          require("internal").db._executeTransaction({ collections: { write: [ "' . $this->collection1->getName() . '" ] }, action: function () {
+            require("internal").wait(7, false);
+            var db = require("internal").db;
+            db.' . $this->collection2->getName() . '.any();
+          }});
+          return { message: "ok" };
+        } catch (err) {
+          return { message: err.errorNum };
+        }
+        ';
+
+        $result2 = $this->connection->post('/_admin/execute?returnAsJSON=true', $action2, array('X-Arango-Async' => 'store'));
+        $id2     = $result2->getHeader('x-arango-async-id');
+
+        $tries   = 0;
+        $got1    = false;
+        $got2    = false;
+        $result1 = null;
+        $result2 = null;
+        while ($tries++ < 20) {
+            if (!$got1) {
+                try {
+                    $result1 = $this->connection->put('/_api/job/' . $id1, '');
+                    if ($result1->getHeader('x-arango-async-id') !== null) {
+                        $got1 = true;
+                    }
+                } catch (Exception $e) {
+                }
+            }
+            if (!$got2) {
+                try {
+                    $result2 = $this->connection->put('/_api/job/' . $id2, '');
+                    if ($result2->getHeader('x-arango-async-id') !== null) {
+                        $got2 = true;
+                    }
+                } catch (Exception $e) {
+                }
+            }
+
+            if ($got1 && $got2) {
+                break;
+            }
+
+            sleep(1);
+        }
+
+
+        static::assertTrue($got1);
+        static::assertTrue($got2);
+
+        $r1 = json_decode($result1->getBody());
+        $r2 = json_decode($result2->getBody());
+        static::assertTrue($r1->message === 29 || $r2->message === 29);
+    }
 
     /**
      * Test if we can create and execute a transaction by using array initialization at construction time
@@ -69,7 +147,7 @@ class TransactionTest extends
 
         $array       = array(
             'collections' => array('read' => $readCollections, 'write' => $writeCollections),
-            'action'      => $action,
+            'action' => $action,
             'waitForSync' => $waitForSync,
             'lockTimeout' => $lockTimeout
         );
@@ -77,30 +155,25 @@ class TransactionTest extends
 
         // check if object was initialized correctly with the array
 
-        $this->assertTrue(
-             $transaction->getWriteCollections() == $writeCollections,
-             'Did not return writeCollections, instead returned: ' . print_r($transaction->getWriteCollections(), 1)
+        static::assertEquals(
+            $transaction->getWriteCollections(), $writeCollections, 'Did not return writeCollections, instead returned: ' . print_r($transaction->getWriteCollections(), 1)
         );
-        $this->assertTrue(
-             $transaction->getReadCollections() == $readCollections,
-             'Did not return readCollections, instead returned: ' . print_r($transaction->getReadCollections(), 1)
+        static::assertEquals(
+            $transaction->getReadCollections(), $readCollections, 'Did not return readCollections, instead returned: ' . print_r($transaction->getReadCollections(), 1)
         );
-        $this->assertTrue(
-             $transaction->getAction() == $action,
-             'Did not return action, instead returned: ' . $transaction->getAction()
+        static::assertEquals(
+            $transaction->getAction(), $action, 'Did not return action, instead returned: ' . $transaction->getAction()
         );
-        $this->assertTrue(
-             $transaction->getWaitForSync() == $waitForSync,
-             'Did not return waitForSync, instead returned: ' . $transaction->getWaitForSync()
+        static::assertEquals(
+            $transaction->getWaitForSync(), $waitForSync, 'Did not return waitForSync, instead returned: ' . $transaction->getWaitForSync()
         );
-        $this->assertTrue(
-             $transaction->getLockTimeout() == $lockTimeout,
-             'Did not return lockTimeout, instead returned: ' . $transaction->getLockTimeout()
+        static::assertEquals(
+            $transaction->getLockTimeout(), $lockTimeout, 'Did not return lockTimeout, instead returned: ' . $transaction->getLockTimeout()
         );
 
 
         $result = $transaction->execute();
-        $this->assertTrue($result, 'Did not return true, instead returned: ' . $result);
+        static::assertTrue($result, 'Did not return true, instead returned: ' . $result);
     }
 
 
@@ -129,29 +202,24 @@ class TransactionTest extends
 
         // check if getters work fine
 
-        $this->assertTrue(
-             $transaction->writeCollections == $writeCollections,
-             'Did not return writeCollections, instead returned: ' . print_r($transaction->writeCollections, 1)
+        static::assertEquals(
+            $transaction->writeCollections, $writeCollections, 'Did not return writeCollections, instead returned: ' . print_r($transaction->writeCollections, 1)
         );
-        $this->assertTrue(
-             $transaction->readCollections == $readCollections,
-             'Did not return readCollections, instead returned: ' . print_r($transaction->readCollections, 1)
+        static::assertEquals(
+            $transaction->readCollections, $readCollections, 'Did not return readCollections, instead returned: ' . print_r($transaction->readCollections, 1)
         );
-        $this->assertTrue(
-             $transaction->action == $action,
-             'Did not return action, instead returned: ' . $transaction->action
+        static::assertEquals(
+            $transaction->action, $action, 'Did not return action, instead returned: ' . $transaction->action
         );
-        $this->assertTrue(
-             $transaction->waitForSync == $waitForSync,
-             'Did not return waitForSync, instead returned: ' . $transaction->waitForSync
+        static::assertEquals(
+            $transaction->waitForSync, $waitForSync, 'Did not return waitForSync, instead returned: ' . $transaction->waitForSync
         );
-        $this->assertTrue(
-             $transaction->lockTimeout == $lockTimeout,
-             'Did not return lockTimeout, instead returned: ' . $transaction->lockTimeout
+        static::assertEquals(
+            $transaction->lockTimeout, $lockTimeout, 'Did not return lockTimeout, instead returned: ' . $transaction->lockTimeout
         );
 
         $result = $transaction->execute();
-        $this->assertTrue($result, 'Did not return true, instead returned: ' . $result);
+        static::assertTrue($result, 'Did not return true, instead returned: ' . $result);
     }
 
 
@@ -180,29 +248,24 @@ class TransactionTest extends
 
         // check if getters work fine
 
-        $this->assertTrue(
-             $transaction->writeCollections == $writeCollections,
-             'Did not return writeCollections, instead returned: ' . print_r($transaction->writeCollections, 1)
+        static::assertEquals(
+            $transaction->writeCollections, $writeCollections, 'Did not return writeCollections, instead returned: ' . print_r($transaction->writeCollections, 1)
         );
-        $this->assertTrue(
-             $transaction->readCollections == $readCollections,
-             'Did not return readCollections, instead returned: ' . print_r($transaction->readCollections, 1)
+        static::assertEquals(
+            $transaction->readCollections, $readCollections, 'Did not return readCollections, instead returned: ' . print_r($transaction->readCollections, 1)
         );
-        $this->assertTrue(
-             $transaction->action == $action,
-             'Did not return action, instead returned: ' . $transaction->action
+        static::assertEquals(
+            $transaction->action, $action, 'Did not return action, instead returned: ' . $transaction->action
         );
-        $this->assertTrue(
-             $transaction->waitForSync == $waitForSync,
-             'Did not return waitForSync, instead returned: ' . $transaction->waitForSync
+        static::assertEquals(
+            $transaction->waitForSync, $waitForSync, 'Did not return waitForSync, instead returned: ' . $transaction->waitForSync
         );
-        $this->assertTrue(
-             $transaction->lockTimeout == $lockTimeout,
-             'Did not return lockTimeout, instead returned: ' . $transaction->lockTimeout
+        static::assertEquals(
+            $transaction->lockTimeout, $lockTimeout, 'Did not return lockTimeout, instead returned: ' . $transaction->lockTimeout
         );
 
         $result = $transaction->execute();
-        $this->assertTrue($result, 'Did not return true, instead returned: ' . $result);
+        static::assertTrue($result, 'Did not return true, instead returned: ' . $result);
     }
 
 
@@ -233,30 +296,25 @@ class TransactionTest extends
 
         // check if getters work fine
 
-        $this->assertTrue(
-             $transaction->getWriteCollections() == $writeCollections,
-             'Did not return writeCollections, instead returned: ' . print_r($transaction->getWriteCollections(), 1)
+        static::assertEquals(
+            $transaction->getWriteCollections(), $writeCollections, 'Did not return writeCollections, instead returned: ' . print_r($transaction->getWriteCollections(), 1)
         );
-        $this->assertTrue(
-             $transaction->getReadCollections() == $readCollections,
-             'Did not return readCollections, instead returned: ' . print_r($transaction->getReadCollections(), 1)
+        static::assertEquals(
+            $transaction->getReadCollections(), $readCollections, 'Did not return readCollections, instead returned: ' . print_r($transaction->getReadCollections(), 1)
         );
-        $this->assertTrue(
-             $transaction->getAction() == $action,
-             'Did not return action, instead returned: ' . $transaction->getAction()
+        static::assertEquals(
+            $transaction->getAction(), $action, 'Did not return action, instead returned: ' . $transaction->getAction()
         );
-        $this->assertTrue(
-             $transaction->getWaitForSync() == $waitForSync,
-             'Did not return waitForSync, instead returned: ' . $transaction->getWaitForSync()
+        static::assertEquals(
+            $transaction->getWaitForSync(), $waitForSync, 'Did not return waitForSync, instead returned: ' . $transaction->getWaitForSync()
         );
-        $this->assertTrue(
-             $transaction->getLockTimeout() == $lockTimeout,
-             'Did not return lockTimeout, instead returned: ' . $transaction->getLockTimeout()
+        static::assertEquals(
+            $transaction->getLockTimeout(), $lockTimeout, 'Did not return lockTimeout, instead returned: ' . $transaction->getLockTimeout()
         );
 
 
         $result = $transaction->execute();
-        $this->assertTrue($result, 'Did not return true, instead returned: ' . $result);
+        static::assertTrue($result, 'Did not return true, instead returned: ' . $result);
     }
 
 
@@ -281,7 +339,7 @@ class TransactionTest extends
         $transaction->setAction($action);
 
         $result = $transaction->execute();
-        $this->assertTrue($result == 'hello!!!', 'Did not return hello!!!, instead returned: ' . $result);
+        static::assertEquals($result, 'hello!!!', 'Did not return hello!!!, instead returned: ' . $result);
     }
 
 
@@ -313,10 +371,9 @@ class TransactionTest extends
         }
         $details = $e->getDetails();
 
-        $this->assertTrue(
-             $e->getCode() == 500 && strpos($details['exception'], 'doh!') !== false,
-             'Did not return code 500 with message doh!, instead returned: ' . $e->getCode(
-             ) . ' and ' . $details['errorMessage']
+        static::assertTrue(
+            $e->getCode() === 500 && strpos($details['exception'], 'doh!') !== false,
+            'Did not return code 500 with message doh!, instead returned: ' . $e->getCode() . ' and ' . $details['errorMessage']
         );
     }
 
@@ -351,12 +408,13 @@ class TransactionTest extends
         } catch (ServerException $e) {
         }
         $details                = $e->getDetails();
-        $expectedCutDownMessage = "unique constraint violated";
-        $this->assertTrue(
-             $e->getCode() == 400 && strstr($details['errorMessage'],
-                 $expectedCutDownMessage) !== false,
-             'Did not return code 400 with first part of the message: "' . $expectedCutDownMessage . '", instead returned: ' . $e->getCode(
-             ) . ' and "' . $details['errorMessage'] . '"'
+        $expectedCutDownMessage = 'unique constraint violated';
+        static::assertTrue(
+            $e->getCode() === 400 && strstr(
+                $details['errorMessage'],
+                $expectedCutDownMessage
+            ) !== false,
+            'Did not return code 400 with first part of the message: "' . $expectedCutDownMessage . '", instead returned: ' . $e->getCode() . ' and "' . $details['errorMessage'] . '"'
         );
     }
 
@@ -374,9 +432,6 @@ class TransactionTest extends
             // don't bother us, if it's already deleted.
         }
 
-        unset($this->collectionHandler);
-        unset($this->collection1);
-        unset($this->collection2);
-        unset($this->connection);
+        unset($this->collectionHandler, $this->collection1, $this->collection2, $this->connection);
     }
 }

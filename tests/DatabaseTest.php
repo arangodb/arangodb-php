@@ -25,7 +25,7 @@ class DatabaseTest extends
         $this->connection = getConnection();
 
         // remove existing databases to make test repeatable
-        $databases = array("ArangoTestSuiteDatabaseTest01", "ArangoTestSuiteDatabaseTest02");
+        $databases = array('ArangoTestSuiteDatabaseTest01', 'ArangoTestSuiteDatabaseTest02');
         foreach ($databases as $database) {
 
             try {
@@ -42,7 +42,7 @@ class DatabaseTest extends
     {
 
         $database = 'ArangoTestSuiteDatabaseTest01';
-        
+
         try {
             $e = null;
             Database::delete($this->connection, $database);
@@ -52,20 +52,18 @@ class DatabaseTest extends
 
         $response = Database::create($this->connection, $database);
 
-        $this->assertTrue(
-             $response['error'] == false,
-             'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+        static::assertEquals(
+            $response['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
 
         $response = Database::delete($this->connection, $database);
 
-        $this->assertTrue(
-             $response['error'] == false,
-             'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+        static::assertEquals(
+            $response['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
 
         $response = Database::listDatabases($this->connection);
-        $this->assertArrayNotHasKey($database, array_flip($response['result']));
+        static::assertArrayNotHasKey($database, array_flip($response['result']));
     }
 
 
@@ -79,26 +77,24 @@ class DatabaseTest extends
 
         $response = Database::create($this->connection, $database);
 
-        $this->assertTrue(
-             $response['error'] == false,
-             'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+        static::assertEquals(
+            $response['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
 
 
-        $response = Database::listDatabases($this->connection);
+        $response = Database::databases($this->connection);
 
-        $this->assertArrayHasKey($database, array_flip($response['result']));
+        static::assertArrayHasKey($database, array_flip($response['result']));
 
         $responseUser = Database::listUserDatabases($this->connection);
 
-        $this->assertArrayHasKey($database, array_flip($responseUser['result']));
+        static::assertArrayHasKey($database, array_flip($responseUser['result']));
 
 
         $response = Database::delete($this->connection, $database);
 
-        $this->assertTrue(
-             $response['error'] == false,
-             'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+        static::assertEquals(
+            $response['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
     }
 
@@ -113,28 +109,26 @@ class DatabaseTest extends
 
         $response = Database::create($this->connection, $database);
 
-        $this->assertTrue(
-             $response['error'] == false,
-             'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+        static::assertEquals(
+            $response['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
 
         $this->connection->setDatabase($database);
 
         $response = Database::getInfo($this->connection);
 
-        $this->assertTrue($response['result']['name'] == $database);
+        static::assertEquals($response['result']['name'], $database);
 
 
         $this->connection->setDatabase('_system');
 
         $response = Database::getInfo($this->connection);
-        $this->assertTrue($response['result']['name'] == '_system');
+        static::assertEquals($response['result']['name'], '_system');
 
         $response = Database::delete($this->connection, $database);
 
-        $this->assertTrue(
-             $response['error'] == false,
-             'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+        static::assertEquals(
+            $response['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
     }
 
@@ -156,8 +150,8 @@ class DatabaseTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
     }
 
 
@@ -169,7 +163,7 @@ class DatabaseTest extends
 
         $database  = 'ArangoTestSuiteDatabaseTest01';
         $database2 = 'ArangoTestSuiteDatabaseTest02';
-        
+
         try {
             $e = null;
             Database::delete($this->connection, $database);
@@ -179,9 +173,8 @@ class DatabaseTest extends
 
         $response = Database::create($this->connection, $database);
 
-        $this->assertTrue(
-             $response['error'] == false,
-             'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+        static::assertEquals(
+            $response['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
 
 
@@ -190,35 +183,34 @@ class DatabaseTest extends
         $this->connection->setDatabase($database);
 
         $response = Database::getInfo($this->connection);
-        $this->assertTrue($response['result']['name'] == $database);
+        static::assertEquals($response['result']['name'], $database);
 
         try {
-            $e        = null;
-            $response = Database::create($this->connection, $database2);
+            $e = null;
+            Database::create($this->connection, $database2);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        $this->assertInstanceOf('triagens\ArangoDb\ServerException', $e);
-        $this->assertTrue($e->getCode() == 403, 'Should be 403, instead got: ' . $e->getCode());
+        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertEquals($e->getCode(), 403, 'Should be 403, instead got: ' . $e->getCode());
 
 
         $this->connection->setDatabase('_system');
 
         $response = Database::getInfo($this->connection);
-        $this->assertTrue($response['result']['name'] == '_system');
+        static::assertEquals($response['result']['name'], '_system');
 
         $response = Database::delete($this->connection, $database);
 
-        $this->assertTrue(
-             $response['error'] == false,
-             'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+        static::assertEquals(
+            $response['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
     }
 
     public function tearDown()
     {
         // clean up
-        $databases = array("ArangoTestSuiteDatabaseTest01", "ArangoTestSuiteDatabaseTest02");
+        $databases = array('ArangoTestSuiteDatabaseTest01', 'ArangoTestSuiteDatabaseTest02');
         foreach ($databases as $database) {
 
             try {
