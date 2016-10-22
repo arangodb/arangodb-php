@@ -65,14 +65,16 @@ class Graph extends
     protected $_orphanCollections = [];
 
 
-    /**
-     * Constructs an empty graph
-     *
-     * @param array $name - optional, initial name for graph
-     * @param array $options - optional, initial options for graph
-     * @since     1.2
-     *
-     */
+	/**
+	 * Constructs an empty graph
+	 *
+	 * @param array $name    - optional, initial name for graph
+	 * @param array $options - optional, initial options for graph
+	 *
+	 * @since     1.2
+	 *
+	 * @throws \triagens\ArangoDb\ClientException
+	 */
     public function __construct($name = null, array $options = [])
     {
 
@@ -85,16 +87,17 @@ class Graph extends
         parent::__construct($options);
     }
 
-    /**
-     * Set the vertices collection of the graph
-     *
-     * @param string $verticesCollection - the name of the vertices-collection
-     *
-     * @return Graph - graph object
-     * @since     1.2
-     * @deprecated to be removed in version 2.2 - Please define a graph with the edge definitions.
-     * @todo remove in version 3.1
-     */
+	/**
+	 * Set the vertices collection of the graph
+	 *
+	 * @param string $verticesCollection - the name of the vertices-collection
+	 *
+	 * @return Graph - graph object
+	 * @throws \triagens\ArangoDb\ClientException
+	 * @since      1.2
+	 * @deprecated to be removed in version 2.2 - Please define a graph with the edge definitions.
+	 * @todo       remove in version 3.1
+	 */
     public function setVerticesCollection($verticesCollection)
     {
         $edgeDefinition = $this->getSingleUndirectedRelation();
@@ -107,14 +110,15 @@ class Graph extends
         return $this;
     }
 
-    /**
-     * Get the vertices collection of the graph
-     *
-     * @return string  name of the vertices collection
-     * @since     1.2
-     * @deprecated to be removed in version 2.2 - Please define a graph with the edge definitions.
-     * @todo remove in version 3.1
-     */
+	/**
+	 * Get the vertices collection of the graph
+	 *
+	 * @return string  name of the vertices collection
+	 * @throws \triagens\ArangoDb\ClientException
+	 * @since      1.2
+	 * @deprecated to be removed in version 2.2 - Please define a graph with the edge definitions.
+	 * @todo       remove in version 3.1
+	 */
     public function getVerticesCollection()
     {
         $edgeDefinition = $this->getSingleUndirectedRelation();
@@ -126,16 +130,17 @@ class Graph extends
         return $fc[0];
     }
 
-    /**
-     * Set the edges collection of the graph
-     *
-     * @param mixed $edgesCollection - the name of the edges collection
-     *
-     * @return Graph - graph object
-     * @since     1.2
-     * @deprecated to be removed in version 2.2 - Please define a graph with the edge definitions.
-     * @todo remove in version 3.1
-     */
+	/**
+	 * Set the edges collection of the graph
+	 *
+	 * @param mixed $edgesCollection - the name of the edges collection
+	 *
+	 * @return Graph - graph object
+	 * @throws \triagens\ArangoDb\ClientException
+	 * @since      1.2
+	 * @deprecated to be removed in version 2.2 - Please define a graph with the edge definitions.
+	 * @todo       remove in version 3.1
+	 */
     public function setEdgesCollection($edgesCollection)
     {
         $edgeDefinition = $this->getSingleUndirectedRelation();
@@ -144,14 +149,15 @@ class Graph extends
         return $this;
     }
 
-    /**
-     * Get the edges collection of the graph
-     *
-     * @return string - name of the edges collection
-     * @since     1.2
-     * @deprecated to be removed in version 2.2 - Please define a graph with the edge definitions.
-     * @todo remove in version 3.1
-     */
+	/**
+	 * Get the edges collection of the graph
+	 *
+	 * @return string - name of the edges collection
+	 * @throws \triagens\ArangoDb\ClientException
+	 * @since      1.2
+	 * @deprecated to be removed in version 2.2 - Please define a graph with the edge definitions.
+	 * @todo       remove in version 3.1
+	 */
     public function getEdgesCollection()
     {
         $edgeDefinition = $this->getSingleUndirectedRelation();

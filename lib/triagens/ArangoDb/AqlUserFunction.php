@@ -207,18 +207,20 @@ class AqlUserFunction
     }
 
 
-    /**
-     * Set name of the user function. It must have at least one namespace, but also can have sub-namespaces.
-     * correct:
-     * 'myNamespace:myFunction'
-     * 'myRootNamespace:mySubNamespace:myFunction'
-     *
-     * wrong:
-     * 'myFunction'
-     *
-     *
-     * @param string $value
-     */
+	/**
+	 * Set name of the user function. It must have at least one namespace, but also can have sub-namespaces.
+	 * correct:
+	 * 'myNamespace:myFunction'
+	 * 'myRootNamespace:mySubNamespace:myFunction'
+	 *
+	 * wrong:
+	 * 'myFunction'
+	 *
+	 *
+	 * @param string $value
+	 *
+	 * @throws \triagens\ArangoDb\ClientException
+	 */
     public function setName($value)
     {
         $this->set(self::ENTRY_NAME, (string) $value);
@@ -235,11 +237,13 @@ class AqlUserFunction
         return $this->get(self::ENTRY_NAME);
     }
 
-    /**
-     * Set user function code
-     *
-     * @param string $value
-     */
+	/**
+	 * Set user function code
+	 *
+	 * @param string $value
+	 *
+	 * @throws \triagens\ArangoDb\ClientException
+	 */
     public function setCode($value)
     {
         $this->set(self::ENTRY_CODE, (string) $value);

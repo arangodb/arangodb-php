@@ -66,14 +66,15 @@ class EdgeHandler extends
      */
     const OPTION_DIRECTION = 'direction';
 
-    /**
-     * Intermediate function to call the createFromArray function from the right context
-     *
-     * @param $data
-     * @param $options
-     *
-     * @return Edge
-     */
+	/**
+	 * Intermediate function to call the createFromArray function from the right context
+	 *
+	 * @param $data
+	 * @param $options
+	 *
+	 * @return Edge
+	 * @throws \triagens\ArangoDb\ClientException
+	 */
     public function createFromArrayWithContext($data, $options)
     {
         return Edge::createFromArray($data, $options);

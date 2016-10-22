@@ -209,11 +209,13 @@ class Transaction
     }
 
 
-    /**
-     * set action value
-     *
-     * @param string $value
-     */
+	/**
+	 * set action value
+	 *
+	 * @param string $value
+	 *
+	 * @throws \triagens\ArangoDb\ClientException
+	 */
     public function setAction($value)
     {
         $this->set(self::ENTRY_ACTION, (string) $value);
@@ -231,11 +233,13 @@ class Transaction
     }
 
 
-    /**
-     * set waitForSync value
-     *
-     * @param bool $value
-     */
+	/**
+	 * set waitForSync value
+	 *
+	 * @param bool $value
+	 *
+	 * @throws \triagens\ArangoDb\ClientException
+	 */
     public function setWaitForSync($value)
     {
         $this->set(self::ENTRY_WAIT_FOR_SYNC, (bool) $value);
@@ -253,11 +257,13 @@ class Transaction
     }
 
 
-    /**
-     * Set lockTimeout value
-     *
-     * @param int $value
-     */
+	/**
+	 * Set lockTimeout value
+	 *
+	 * @param int $value
+	 *
+	 * @throws \triagens\ArangoDb\ClientException
+	 */
     public function setLockTimeout($value)
     {
         $this->set(self::ENTRY_LOCK_TIMEOUT, (int) $value);
@@ -275,11 +281,13 @@ class Transaction
     }
 
 
-    /**
-     * Set params value
-     *
-     * @param array $value
-     */
+	/**
+	 * Set params value
+	 *
+	 * @param array $value
+	 *
+	 * @throws \triagens\ArangoDb\ClientException
+	 */
     public function setParams(array $value)
     {
         $this->set(self::ENTRY_PARAMS, (array) $value);

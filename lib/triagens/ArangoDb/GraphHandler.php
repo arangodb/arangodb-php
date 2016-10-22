@@ -155,17 +155,18 @@ class GraphHandler extends
      */
     private $limit;
 
-    /**
-     * Get a graph
-     *
-     * This will get a graph.<br><br>
-     *
-     * @param String $graph - The name of the graph
-     * @param array $options - Options to pass to the method
-     *
-     * @return Graph|false
-     * @since   1.2
-     */
+	/**
+	 * Get a graph
+	 *
+	 * This will get a graph.<br><br>
+	 *
+	 * @param String $graph   - The name of the graph
+	 * @param array  $options - Options to pass to the method
+	 *
+	 * @return Graph|false
+	 * @throws \triagens\ArangoDb\ClientException
+	 * @since   1.2
+	 */
     public function getGraph($graph, array $options = [])
     {
         $url = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph]);

@@ -188,13 +188,14 @@ class ExportCursor
         return false;
     }
 
-    /**
-     * Create an array of results from the input array
-     *
-     * @param array $data - incoming result
-     *
-     * @return void
-     */
+	/**
+	 * Create an array of results from the input array
+	 *
+	 * @param array $data - incoming result
+	 *
+	 * @return void
+	 * @throws \triagens\ArangoDb\ClientException
+	 */
     private function setData(array $data)
     {
         if (isset($this->_options[self::ENTRY_FLAT]) && $this->_options[self::ENTRY_FLAT]) {

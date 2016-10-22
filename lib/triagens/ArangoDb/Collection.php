@@ -192,12 +192,13 @@ class Collection
      */
     const STATUS_DELETED = 5;
 
-    /**
-     * Constructs an empty collection
-     *
-     * @param string $name - name for the collection
-     *
-     */
+	/**
+	 * Constructs an empty collection
+	 *
+	 * @param string $name - name for the collection
+	 *
+	 * @throws \triagens\ArangoDb\ClientException
+	 */
     public function __construct($name = null)
     {
         if ($name !== null) {

@@ -706,19 +706,21 @@ class CollectionHandler extends
         return !$collectionId || !(is_string($collectionId) || is_float($collectionId) || is_int($collectionId));
     }
 
-    /**
-     * Get list of all available collections per default with the collection names as index.
-     * Returns empty array if none are available.
-     *
-     * @param array $options - optional - an array of options.
-     *                                  <p>Options are :<br>
-     *                                  <li>'excludeSystem' -   With a value of true, all system collections will be excluded from the response.</li>
-     *                                  <li>'keys' -  With a value of "collections", the index of the resulting array is numerical,
-     *                                  With a value of "names", the index of the resulting array are the collection names.</li>
-     *                                  </p>
-     *
-     * @return array
-     */
+	/**
+	 * Get list of all available collections per default with the collection names as index.
+	 * Returns empty array if none are available.
+	 *
+	 * @param array $options            - optional - an array of options.
+	 *                                  <p>Options are :<br>
+	 *                                  <li>'excludeSystem' -   With a value of true, all system collections will be excluded from the response.</li>
+	 *                                  <li>'keys' -  With a value of "collections", the index of the resulting array is numerical,
+	 *                                  With a value of "names", the index of the resulting array are the collection names.</li>
+	 *                                  </p>
+	 *
+	 * @return array
+	 * @throws \triagens\ArangoDb\Exception
+	 * @throws \triagens\ArangoDb\ClientException
+	 */
     public function getAllCollections(array $options = [])
     {
         $options = array_merge(['excludeSystem' => false, 'keys' => 'result'], $options);
@@ -898,18 +900,19 @@ class CollectionHandler extends
     }
 
 
-    /**
-     * Create a hash index
-     *
-     * @param string $collectionId - the collection id
-     * @param array $fields - an array of fields
-     * @param boolean $unique - whether the values in the index should be unique or not
-     * @param boolean $sparse - whether the index should be sparse
-     *
-     * @link https://docs.arangodb.com/HttpIndexes/Hash.html
-     *
-     * @return array - server response of the created index
-     */
+	/**
+	 * Create a hash index
+	 *
+	 * @param string  $collectionId - the collection id
+	 * @param array   $fields       - an array of fields
+	 * @param boolean $unique       - whether the values in the index should be unique or not
+	 * @param boolean $sparse       - whether the index should be sparse
+	 *
+	 * @link https://docs.arangodb.com/HttpIndexes/Hash.html
+	 *
+	 * @return array - server response of the created index
+	 * @throws \triagens\ArangoDb\Exception
+	 */
     public function createHashIndex($collectionId, array $fields, $unique = null, $sparse = null)
     {
         $indexOptions = [];
@@ -924,17 +927,18 @@ class CollectionHandler extends
         return $this->index($collectionId, self::OPTION_HASH_INDEX, $fields, null, $indexOptions);
     }
 
-    /**
-     * Create a fulltext index
-     *
-     * @param string $collectionId - the collection id
-     * @param array $fields - an array of fields
-     * @param int $minLength - the minimum length of words to index
-     *
-     * @link https://docs.arangodb.com/HttpIndexes/Fulltext.html
-     *
-     * @return array - server response of the created index
-     */
+	/**
+	 * Create a fulltext index
+	 *
+	 * @param string $collectionId - the collection id
+	 * @param array  $fields       - an array of fields
+	 * @param int    $minLength    - the minimum length of words to index
+	 *
+	 * @link https://docs.arangodb.com/HttpIndexes/Fulltext.html
+	 *
+	 * @return array - server response of the created index
+	 * @throws \triagens\ArangoDb\Exception
+	 */
     public function createFulltextIndex($collectionId, array $fields, $minLength = null)
     {
         $indexOptions = [];
@@ -946,18 +950,19 @@ class CollectionHandler extends
         return $this->index($collectionId, self::OPTION_FULLTEXT_INDEX, $fields, null, $indexOptions);
     }
 
-    /**
-     * Create a skip-list index
-     *
-     * @param string $collectionId - the collection id
-     * @param array $fields - an array of fields
-     * @param bool $unique - whether the index is unique or not
-     * @param bool $sparse - whether the index should be sparse
-     *
-     * @link https://docs.arangodb.com/HttpIndexes/Skiplist.html
-     *
-     * @return array - server response of the created index
-     */
+	/**
+	 * Create a skip-list index
+	 *
+	 * @param string $collectionId - the collection id
+	 * @param array  $fields       - an array of fields
+	 * @param bool   $unique       - whether the index is unique or not
+	 * @param bool   $sparse       - whether the index should be sparse
+	 *
+	 * @link https://docs.arangodb.com/HttpIndexes/Skiplist.html
+	 *
+	 * @return array - server response of the created index
+	 * @throws \triagens\ArangoDb\Exception
+	 */
     public function createSkipListIndex($collectionId, array $fields, $unique = null, $sparse = null)
     {
         $indexOptions = [];
@@ -972,19 +977,20 @@ class CollectionHandler extends
         return $this->index($collectionId, self::OPTION_SKIPLIST_INDEX, $fields, null, $indexOptions);
     }
 
-    /**
-     * Create a geo index
-     *
-     * @param string $collectionId - the collection id
-     * @param array $fields - an array of fields
-     * @param boolean $geoJson - whether to use geoJson or not
-     * @param boolean $constraint - whether this is a constraint or not
-     * @param boolean $ignoreNull - whether to ignore null
-     *
-     * @link https://docs.arangodb.com/HttpIndexes/Geo.html
-     *
-     * @return array - server response of the created index
-     */
+	/**
+	 * Create a geo index
+	 *
+	 * @param string  $collectionId - the collection id
+	 * @param array   $fields       - an array of fields
+	 * @param boolean $geoJson      - whether to use geoJson or not
+	 * @param boolean $constraint   - whether this is a constraint or not
+	 * @param boolean $ignoreNull   - whether to ignore null
+	 *
+	 * @link https://docs.arangodb.com/HttpIndexes/Geo.html
+	 *
+	 * @return array - server response of the created index
+	 * @throws \triagens\ArangoDb\Exception
+	 */
     public function createGeoIndex(
         $collectionId,
         array $fields,
@@ -1060,14 +1066,16 @@ class CollectionHandler extends
     }
 
 
-    /**
-     * Get the information about an index in a collection
-     *
-     * @param string $collection - the id of the collection
-     * @param string $indexId - the id of the index
-     *
-     * @return array
-     */
+	/**
+	 * Get the information about an index in a collection
+	 *
+	 * @param string $collection - the id of the collection
+	 * @param string $indexId    - the id of the index
+	 *
+	 * @return array
+	 * @throws \triagens\ArangoDb\Exception
+	 * @throws \triagens\ArangoDb\ClientException
+	 */
     public function getIndex($collection, $indexId)
     {
         $url      = UrlHelper::buildUrl(Urls::URL_INDEX, [$collection, $indexId]);
@@ -1146,30 +1154,32 @@ class CollectionHandler extends
     }
 
 
-    /**
-     * Returns all documents of a collection
-     *
-     * @param mixed $collectionId - collection id as string or number
-     * @param array $options - optional array of options.
-     *                                <p>Options are :<br>
-     *                                <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     *                                <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
-     *                                <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     *                                <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
-     *                                <p>
-     *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
-     *                                The difference is, that if you're returning a resultset of documents, the getAll() is already called<br>
-     *                                and the hidden attributes would not be applied to the attributes.<br>
-     *                                </p>
-     *
-     * <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
-     * <li>'skip'      -  Optional, The number of documents to skip in the query.</li>
-     * <li>'limit'     -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
-     * </li>
-     * </p>
-     *
-     * @return Cursor - documents
-     */
+	/**
+	 * Returns all documents of a collection
+	 *
+	 * @param mixed $collectionId     - collection id as string or number
+	 * @param array $options          - optional array of options.
+	 *                                <p>Options are :<br>
+	 *                                <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+	 *                                <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
+	 *                                <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+	 *                                <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
+	 *                                <p>
+	 *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
+	 *                                The difference is, that if you're returning a resultset of documents, the getAll() is already called<br>
+	 *                                and the hidden attributes would not be applied to the attributes.<br>
+	 *                                </p>
+	 *
+	 * <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
+	 * <li>'skip'      -  Optional, The number of documents to skip in the query.</li>
+	 * <li>'limit'     -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
+	 * </li>
+	 * </p>
+	 *
+	 * @return Cursor - documents
+	 * @throws \triagens\ArangoDb\Exception
+	 * @throws \triagens\ArangoDb\ClientException
+	 */
     public function all($collectionId, array $options = [])
     {
         $options = array_merge($options, $this->getCursorOptions($options));

@@ -357,6 +357,7 @@ class Connection
 	 *
 	 * @throws ClientException
 	 * @return resource - connection handle
+	 * @throws \triagens\ArangoDb\ConnectException
 	 */
 	private function getHandle()
 	{
@@ -662,6 +663,7 @@ class Connection
 	 * if we're not in batch mode it doesn't return anything, and
 	 *
 	 * @return mixed Batchpart or null if not in batch capturing mode
+	 * @throws \triagens\ArangoDb\ClientException
 	 */
 	private function doBatch($method, $request)
 	{
@@ -764,6 +766,7 @@ class Connection
 	 * @param mixed $options the options for the json_encode() call
 	 *
 	 * @return string the result of the json_encode
+	 * @throws \triagens\ArangoDb\ClientException
 	 */
 	public function json_encode_wrapper($data, $options = null)
 	{

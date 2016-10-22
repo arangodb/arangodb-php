@@ -48,14 +48,15 @@ abstract class Handler
     }
 
 
-    /**
-     * Return a connection option
-     * This is a convenience function that calls json_encode_wrapper on the connection
-     *
-     * @param $optionName - The option to return a value for
-     *
-     * @return mixed - the option's value
-     */
+	/**
+	 * Return a connection option
+	 * This is a convenience function that calls json_encode_wrapper on the connection
+	 *
+	 * @param $optionName - The option to return a value for
+	 *
+	 * @return mixed - the option's value
+	 * @throws \triagens\ArangoDb\ClientException
+	 */
     protected function getConnectionOption($optionName)
     {
         return $this->getConnection()->getOption($optionName);
@@ -109,18 +110,19 @@ abstract class Handler
 
 
     //todo: (@frankmayer) check if refactoring a bit more if it makes sense...
-    /**
-     * Helper function that validates and includes an old single method parameter setting into the parameters array given.
-     * This is only for keeping backwards-compatibility where methods had for example a parameter which was called 'policy' and
-     * which was later changed to being an array of options, so more than one options can be passed easily.
-     * This is only for options that are to be sent to the ArangoDB server.
-     *
-     * @param array $options - The options array that may hold the policy to include in the parameters. If it's not an array, then the value is the policy value.
-     * @param array $params - The parameters into which the options will be included.
-     * @param mixed $parameter - the old single parameter key to use.
-     *
-     * @return array $params - array of parameters for use in a url
-     */
+	/**
+	 * Helper function that validates and includes an old single method parameter setting into the parameters array given.
+	 * This is only for keeping backwards-compatibility where methods had for example a parameter which was called 'policy' and
+	 * which was later changed to being an array of options, so more than one options can be passed easily.
+	 * This is only for options that are to be sent to the ArangoDB server.
+	 *
+	 * @param array $options   - The options array that may hold the policy to include in the parameters. If it's not an array, then the value is the policy value.
+	 * @param array $params    - The parameters into which the options will be included.
+	 * @param mixed $parameter - the old single parameter key to use.
+	 *
+	 * @return array $params - array of parameters for use in a url
+	 * @throws \triagens\ArangoDb\ClientException
+	 */
     protected function validateAndIncludeOldSingleParameterInParams($options, $params, $parameter)
     {
         if (!is_array($options)) {

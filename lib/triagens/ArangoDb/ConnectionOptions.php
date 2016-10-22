@@ -199,6 +199,7 @@ class ConnectionOptions implements
 	 *
 	 * @param array $options - initial options
 	 *
+	 * @throws \triagens\ArangoDb\ClientException
 	 */
 	public function __construct(array $options)
 	{
