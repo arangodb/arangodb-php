@@ -43,7 +43,7 @@ namespace triagens\ArangoDb;
  *
  * @property string $name - The name of the user function
  * @property string $code - The code of the user function
- * @property mixed _action
+ * @property string _action
  *
  * @package   triagens\ArangoDb
  * @since     1.3

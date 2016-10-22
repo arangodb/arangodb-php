@@ -168,36 +168,17 @@ class Endpoint
     }
 
 
-    /**
-     * creates an endpoint
-     *
-     * This creates a new endpoint<br>
-     * This is an alias function to Endpoint::modify, as ArangoDB's API has one call to support both new and modify
-     *
-     * @param Connection $connection - the connection to be used
-     * @param string $endpoint - the endpoint specification, e.g. tcp://127.0.0.1:8530
-     * @param array $databases - a list of database names the endpoint is responsible for.
-     *                               *
-     *
-     * @link http://www.arangodb.com/manuals/1.4/HttpEndpoint.html
-     * @return array $responseArray - The response array.
-     */
-    public static function create(Connection $connection, $endpoint, array $databases)
-    {
-        return self::modify($connection, $endpoint, $databases);
-    }
-
-
-    /**
-     * List endpoints
-     *
-     * This will list the endpoints that are configured on the server
-     *
-     * @param Connection $connection - the connection to be used
-     *
-     * @link                         http://www.arangodb.com/manuals/1.4/HttpEndpoint.html
-     * @return array $responseArray - The response array.
-     */
+	/**
+	 * List endpoints
+	 *
+	 * This will list the endpoints that are configured on the server
+	 *
+	 * @param Connection $connection - the connection to be used
+	 *
+	 * @link                         https://docs.arangodb.com/3.0/HTTP/Endpoints/index.html
+	 * @return array $responseArray - The response array.
+	 * @throws \triagens\ArangoDb\Exception
+	 */
     public static function listEndpoints(Connection $connection)
     {
         $response = $connection->get(Urls::URL_ENDPOINT);

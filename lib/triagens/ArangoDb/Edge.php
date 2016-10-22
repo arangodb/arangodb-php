@@ -48,23 +48,6 @@ class Edge extends
 
 
     /**
-     * Clone a document
-     *
-     * Returns the clone
-     *
-     * @magic
-     *
-     * @return void
-     */
-    public function __clone()
-    {
-        $this->_id  = null;
-        $this->_rev = null;
-        // do not change the _changed flag here
-    }
-
-
-    /**
      * Set a document attribute
      *
      * The key (attribute name) must be a string.

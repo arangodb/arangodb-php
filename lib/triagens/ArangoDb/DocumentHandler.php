@@ -239,14 +239,15 @@ class DocumentHandler extends
     }
 
 
-    /**
-     * Intermediate function to call the createFromArray function from the right context
-     *
-     * @param $data
-     * @param $options
-     *
-     * @return Document
-     */
+	/**
+	 * Intermediate function to call the createFromArray function from the right context
+	 *
+	 * @param $data
+	 * @param $options
+	 *
+	 * @return Document
+	 * @throws \triagens\ArangoDb\ClientException
+	 */
     protected function createFromArrayWithContext($data, $options)
     {
         return Document::createFromArray($data, $options);
@@ -679,7 +680,9 @@ class DocumentHandler extends
      *                               <p>Options are :
      *                               <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
      *                               <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     *                               </p>
+     *                               <li>'ifMatch' - boolean if given revision should match or not</li>
+     *                               <li>'revision' - The document is returned if it matches/not matches revision.</li>
+    </p>
      * @internal
      *
      * @return bool - always true, will throw if there is an error
@@ -710,10 +713,9 @@ class DocumentHandler extends
         if (isset($params[ConnectionOptions::OPTION_REPLACE_POLICY]) &&
             $params[ConnectionOptions::OPTION_REPLACE_POLICY] === UpdatePolicy::ERROR
         ) {
-            //todo check why this variable is undefined...
-            if (null !== $revision) {
+            if (null !== $options['revision']) {
                 $params['ignoreRevs'] = false;
-                $headers['if-match']  = '"' . $revision . '"';
+                $headers['if-match']  = '"' . $options['revision'] . '"';
             }
         }
 
