@@ -261,14 +261,15 @@ class AqlUserFunction
     }
 
 
-    /**
-     * Set an attribute
-     *
-     * @param $key
-     * @param $value
-     *
-     * @throws ClientException
-     */
+	/**
+	 * Set an attribute
+	 *
+	 * @param $key
+	 * @param $value
+	 *
+	 * @return $this
+	 * @throws ClientException
+	 */
     public function set($key, $value)
     {
         if (!is_string($key)) {
@@ -276,6 +277,7 @@ class AqlUserFunction
         }
 
         $this->attributes[$key] = $value;
+        return $this;
     }
 
 
@@ -291,8 +293,6 @@ class AqlUserFunction
      *
      * @param string $key - attribute name
      * @param mixed $value - value for attribute
-     *
-     * @return void
      */
     public function __set($key, $value)
     {
@@ -321,7 +321,6 @@ class AqlUserFunction
         if (isset($this->attributes[$key])) {
             return $this->attributes[$key];
         }
-
         return null;
     }
 
