@@ -577,7 +577,7 @@ class Connection
 	{
 		$this->_captureBatch = false;
 
-		return $this->getActiveBatch();
+		return $this->_activeBatch;
 	}
 
 
@@ -632,8 +632,6 @@ class Connection
 	 * Returns true if this connection is in Batch-Capture mode
 	 *
 	 * @return bool
-	 *
-	 * returns the active batch
 	 */
 	public function isInBatchCaptureMode()
 	{
@@ -643,7 +641,6 @@ class Connection
 
 	/**
 	 * returns the active batch
-	 *
 	 */
 	public function getBatches()
 	{
