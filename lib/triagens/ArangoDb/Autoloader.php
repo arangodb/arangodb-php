@@ -89,8 +89,8 @@ class Autoloader
     {
         list($major, $minor) = explode('.', phpversion());
 
-        if ((int) $major < 5 || ((int) $major === 5 && (int) $minor < 3)) {
-            throw new ClientException('Incompatible PHP environment. Expecting PHP 5.3 or higher');
+        if ((int) $major < 5 || ((int) $major === 5 && (int) $minor < 5)) {
+            throw new ClientException('Incompatible PHP environment. Expecting PHP 5.5 or higher');
         }
     }
 }
