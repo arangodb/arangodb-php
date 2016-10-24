@@ -1182,6 +1182,7 @@ class CollectionHandler extends
 	 */
     public function all($collectionId, array $options = [])
     {
+    	//todo: remove this line in 3.1
         $options = array_merge($options, $this->getCursorOptions($options));
 
         $body = [
@@ -1266,7 +1267,8 @@ class CollectionHandler extends
      */
     public function byExample($collectionId, $document, array $options = [])
     {
-        // This preserves compatibility for the old sanitize parameter.
+	    //todo: remove the following one if/else part in 3.1
+	    // This preserves compatibility for the old sanitize parameter.
         if (!is_array($options)) {
             $sanitize = $options;
             $options  = [];
@@ -1337,6 +1339,7 @@ class CollectionHandler extends
      */
     public function firstExample($collectionId, $document, array $options = [])
     {
+	    //todo: remove the following one if/else part in 3.1
         if (!is_array($options)) {
             $sanitize = $options;
             $options  = [];
@@ -1402,7 +1405,8 @@ class CollectionHandler extends
      */
     public function fulltext($collection, $attribute, $query, array $options = [])
     {
-        // This preserves compatibility for the old sanitize parameter.
+	    //todo: remove the following one if/else part in 3.1
+	    // This preserves compatibility for the old sanitize parameter.
         if (!is_array($options)) {
             $sanitize = $options;
             $options  = [];
@@ -1746,7 +1750,8 @@ class CollectionHandler extends
      */
     public function range($collectionId, $attribute, $left, $right, array $options = [])
     {
-        $options = array_merge($options, $this->getCursorOptions($options));
+	    //todo: remove this line in 3.1
+	    $options = array_merge($options, $this->getCursorOptions($options));
 
         if ($attribute === '') {
             throw new ClientException('Invalid attribute specification');
@@ -1814,7 +1819,8 @@ class CollectionHandler extends
      */
     public function near($collectionId, $latitude, $longitude, array $options = [])
     {
-        $options = array_merge($options, $this->getCursorOptions($options));
+	    //todo: remove this line in 3.1
+	    $options = array_merge($options, $this->getCursorOptions($options));
 
         $body = [
             self::OPTION_COLLECTION => $collectionId,
@@ -1873,7 +1879,8 @@ class CollectionHandler extends
      */
     public function within($collectionId, $latitude, $longitude, $radius, array $options = [])
     {
-        $options = array_merge($options, $this->getCursorOptions($options));
+	    //todo: remove this line in 3.1
+	    $options = array_merge($options, $this->getCursorOptions($options));
 
         $body = [
             self::OPTION_COLLECTION => $collectionId,
