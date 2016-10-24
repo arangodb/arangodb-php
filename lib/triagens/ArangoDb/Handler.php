@@ -92,6 +92,7 @@ abstract class Handler
 
         return array(
             Cursor::ENTRY_SANITIZE => $sanitize,
+            '_documentClass' => $this->_documentClass,
         );
     }
 
@@ -223,6 +224,21 @@ abstract class Handler
             return $value->getCollectionId();
         }
         return $value;
+    }
+
+    /**
+     * @var string Document class to use
+     */
+    protected $_documentClass = '\triagens\ArangoDb\Document';
+
+    /**
+     * Sets the document class to use
+     *
+     * @param string $class Document class to use
+     */
+    public function setDocumentClass($class)
+    {
+        $this->_documentClass = $class;
     }
 
 }

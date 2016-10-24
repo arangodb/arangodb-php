@@ -541,6 +541,20 @@ class Statement
         if (isset($this->resultType)) {
             $result[Cursor::ENTRY_TYPE] = $this->resultType;
         }
+        if ($this->_documentClass !== null && $this->_documentClass !== '') {
+            $result['_documentClass'] = $this->_documentClass;
+        }
         return $result;
+    }
+
+    protected $_documentClass;
+    /**
+     * Sets the document class to use
+     *
+     * @param string $class Document class to use
+     */
+    public function setDocumentClass($class)
+    {
+        $this->_documentClass = $class;
     }
 }

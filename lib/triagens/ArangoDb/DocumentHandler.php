@@ -249,7 +249,8 @@ class DocumentHandler extends
      */
     protected function createFromArrayWithContext($data, $options)
     {
-        return Document::createFromArray($data, $options);
+        $_documentClass =  $this->_documentClass;
+        return $_documentClass::createFromArray($data, $options);
     }
 
 
@@ -701,7 +702,7 @@ class DocumentHandler extends
         if (isset($params[ConnectionOptions::OPTION_REPLACE_POLICY]) &&
             $params[ConnectionOptions::OPTION_REPLACE_POLICY] === UpdatePolicy::ERROR
         ) {
-
+            $revision = $document->getRevision();
             if (null !== $revision) {
                 $params['ignoreRevs'] = false;
                 $headers['if-match']  = '"' . $revision . '"';

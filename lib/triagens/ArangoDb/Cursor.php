@@ -207,6 +207,10 @@ class Cursor implements
         assert(isset($data[self::ENTRY_HASMORE]));
         $this->_hasMore = (bool) $data[self::ENTRY_HASMORE];
 
+        if (isset($options['_documentClass'])) {
+            $this->setDocumentClass($options['_documentClass']);
+        }
+
         $options['isNew'] = false;
         $this->_options   = $options;
         $this->_result    = array();
@@ -446,7 +450,8 @@ class Cursor implements
      */
     private function addDocumentsFromArray(array $data)
     {
-        $this->_result[] = Document::createFromArray($data, $this->_options);
+        $_documentClass =  $this->_documentClass;
+        $this->_result[] = $_documentClass::createFromArray($data, $this->_options);
     }
 
     /**
@@ -458,14 +463,15 @@ class Cursor implements
      */
     private function addPathsFromArray(array $data)
     {
+        $_documentClass =  $this->_documentClass;
         $entry = array(
             'vertices' => array(),
             'edges' => array(),
-            'source' => Document::createFromArray($data['source'], $this->_options),
-            'destination' => Document::createFromArray($data['destination'], $this->_options),
+            'source' => $_documentClass::createFromArray($data['source'], $this->_options),
+            'destination' => $_documentClass::createFromArray($data['destination'], $this->_options),
         );
         foreach ($data['vertices'] as $v) {
-            $entry['vertices'][] = Document::createFromArray($v, $this->_options);
+            $entry['vertices'][] = $_documentClass::createFromArray($v, $this->_options);
         }
         foreach ($data['edges'] as $v) {
             $entry['edges'][] = Edge::createFromArray($v, $this->_options);
@@ -482,6 +488,8 @@ class Cursor implements
      */
     private function addShortestPathFromArray(array $data)
     {
+        $_documentClass =  $this->_documentClass;
+
         if (!isset($data['vertices'])) {
             return;
         }
@@ -492,9 +500,9 @@ class Cursor implements
 
         $entry = array(
             'paths' => array(),
-            'source' => Document::createFromArray($startVertex, $this->_options),
+            'source' => $_documentClass::createFromArray($startVertex, $this->_options),
             'distance' => $data['distance'],
-            'destination' => Document::createFromArray($destination, $this->_options),
+            'destination' => $_documentClass::createFromArray($destination, $this->_options),
         );
 
         $path = array(
@@ -540,6 +548,8 @@ class Cursor implements
      */
     private function addCommonNeighborsFromArray(array $data)
     {
+        $_documentClass =  $this->_documentClass;
+
         $left  = $data['left'];
         $right = $data['right'];
 
@@ -551,7 +561,7 @@ class Cursor implements
         }
 
         foreach ($data['neighbors'] as $neighbor) {
-            $this->_result[$left][$right][] = Document::createFromArray($neighbor);
+            $this->_result[$left][$right][] = $_documentClass::createFromArray($neighbor);
         }
     }
 
@@ -810,6 +820,21 @@ class Cursor implements
     public function getId()
     {
         return $this->_id;
+    }
+
+    /**
+     * @var string Document class to use
+     */
+    protected $_documentClass = '\triagens\ArangoDb\Document';
+
+    /**
+     * Sets the document class to use
+     *
+     * @param string $class Document class to use
+     */
+    public function setDocumentClass($class)
+    {
+        $this->_documentClass = $class;
     }
 
 }

@@ -1130,7 +1130,7 @@ class CollectionHandler extends
      */
     public function any($collectionId)
     {
-
+        $_documentClass =  $this->_documentClass;
         $data = array(
             self::OPTION_COLLECTION => $collectionId,
         );
@@ -1139,7 +1139,7 @@ class CollectionHandler extends
         $data     = $response->getJson();
 
         if ($data['document']) {
-            return Document::createFromArray($data['document']);
+            return $_documentClass::createFromArray($data['document']);
         }
         else {
             return null;
@@ -1270,7 +1270,8 @@ class CollectionHandler extends
         }
 
         if (is_array($document)) {
-            $document = Document::createFromArray($document, $options);
+            $_documentClass =  $this->_documentClass;
+            $document = $_documentClass::createFromArray($document, $options);
         }
 
         if (!($document instanceof Document)) {
@@ -1329,6 +1330,7 @@ class CollectionHandler extends
      */
     public function firstExample($collectionId, $document, $options = array())
     {
+        $_documentClass =  $this->_documentClass;
         if (!is_array($options)) {
             $sanitize = $options;
             $options  = array();
@@ -1339,7 +1341,7 @@ class CollectionHandler extends
         }
 
         if (is_array($document)) {
-            $document = Document::createFromArray($document, $options);
+            $document = $_documentClass::createFromArray($document, $options);
         }
 
         if (!($document instanceof Document)) {
@@ -1356,7 +1358,7 @@ class CollectionHandler extends
 
         $options['_isNew'] = false;
 
-        return Document::createFromArray($data['document'], $options);
+        return $_documentClass::createFromArray($data['document'], $options);
     }
 
 
@@ -1455,12 +1457,14 @@ class CollectionHandler extends
      */
     public function updateByExample($collectionId, $example, $newValue, $options = array())
     {
+        $_documentClass =  $this->_documentClass;
+
         if (is_array($example)) {
-            $example = Document::createFromArray($example);
+            $example = $_documentClass::createFromArray($example);
         }
 
         if (is_array($newValue)) {
-            $newValue = Document::createFromArray($newValue);
+            $newValue = $_documentClass::createFromArray($newValue);
         }
 
         $body = array(
@@ -1517,12 +1521,14 @@ class CollectionHandler extends
      */
     public function replaceByExample($collectionId, $example, $newValue, $options = array())
     {
+        $_documentClass =  $this->_documentClass;
+
         if (is_array($example)) {
-            $example = Document::createFromArray($example);
+            $example = $_documentClass::createFromArray($example);
         }
 
         if (is_array($newValue)) {
-            $newValue = Document::createFromArray($newValue);
+            $newValue = $_documentClass::createFromArray($newValue);
         }
 
         $body = array(
@@ -1579,8 +1585,10 @@ class CollectionHandler extends
      */
     public function removeByExample($collectionId, $document, $options = array())
     {
+        $_documentClass =  $this->_documentClass;
+
         if (is_array($document)) {
-            $document = Document::createFromArray($document, $options);
+            $document = $_documentClass::createFromArray($document, $options);
         }
 
         if (!($document instanceof Document)) {
@@ -1685,6 +1693,8 @@ class CollectionHandler extends
      */
     public function lookupByKeys($collectionId, array $keys, $options = array())
     {
+        $_documentClass =  $this->_documentClass;
+
         $body = array(
             self::OPTION_COLLECTION => $collectionId,
             self::OPTION_KEYS => $keys
@@ -1696,7 +1706,7 @@ class CollectionHandler extends
 
         $result = array();
         foreach ($responseArray['documents'] as $document) {
-            $result[] = Document::createFromArray($document, $options);
+            $result[] = $_documentClass::createFromArray($document, $options);
         }
 
         return $result;
