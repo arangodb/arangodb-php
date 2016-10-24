@@ -68,6 +68,7 @@ abstract class Handler
      *
      * @param mixed $options - $options might be a boolean sanitize value, or an array of options, with or without a '_sanitize' key.
      *
+     * @deprecated To be removed in a future version (probably even in some 3.x version). It's used up until now because of usage of old deprecated options, which will be removed in 3.1.
      * @return array - array of options
      */
     protected function getCursorOptions($options)
@@ -109,7 +110,7 @@ abstract class Handler
     }
 
 
-    //todo: (@frankmayer) check if refactoring a bit more if it makes sense...
+    //todo: (@frankmayer) check if refactoring a bit more makes sense...
 	/**
 	 * Helper function that validates and includes an old single method parameter setting into the parameters array given.
 	 * This is only for keeping backwards-compatibility where methods had for example a parameter which was called 'policy' and
@@ -147,7 +148,7 @@ abstract class Handler
     }
 
 
-    //todo: (@frankmayer) check if refactoring a bit more if it makes sense...
+    //todo: (@frankmayer) check if refactoring a bit more makes sense...
     /**
      * Helper function that runs through the options given and includes them into the parameters array given.
      * Only options that are set in $includeArray will be included.
@@ -176,7 +177,7 @@ abstract class Handler
     }
 
 
-    //todo: (@frankmayer) check if refactoring a bit more if it makes sense...
+    //todo: (@frankmayer) check if refactoring a bit more makes sense...
     /**
      * Helper function that runs through the options given and includes them into the parameters array given.
      * Only options that are set in $includeArray will be included.
