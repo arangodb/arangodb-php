@@ -369,7 +369,6 @@ class Batch
 
 		$result = 'HTTP/1.1 202 Accepted' . $eol;
 		$result .= 'location: /_db/_system/_api/document/0/0' . $eol;
-		$result .= 'server: triagens GmbH High-Performance HTTP Server' . $eol;
 		$result .= 'content-type: application/json; charset=utf-8' . $eol;
 		$result .= 'etag: "0"' . $eol;
 		$result .= 'connection: Close' . $eol . $eol;
