@@ -428,7 +428,7 @@ class CollectionBasicTest extends
         $name = '_ArangoDB_PHP_TestSuite_TestCollection_02';
 
         try {
-            $collectionHandler->drop($name);
+            $collectionHandler->drop($name, [ 'isSystem' => true ]);
         } catch (Exception $e) {
             //Silence the exception
         }
@@ -447,7 +447,7 @@ class CollectionBasicTest extends
         static::assertTrue($resultingCollectionProperties->getWaitForSync());
 
 
-        $collectionHandler->delete($name);
+        $collectionHandler->drop($name, [ 'isSystem' => true ]);
     }
 
 

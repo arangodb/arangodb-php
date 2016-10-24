@@ -33,7 +33,7 @@ class CollectionExtendedTest extends
         $this->documentHandler   = new DocumentHandler($this->connection);
 
         try {
-            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
@@ -112,6 +112,11 @@ class CollectionExtendedTest extends
         $collection->setName($name);
         $collection->setIsSystem(true);
 
+         try {
+            $collectionHandler->drop($name, [ 'isSystem' => true ]);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
 
         $response = $collectionHandler->add($collection);
 
@@ -122,7 +127,7 @@ class CollectionExtendedTest extends
         $properties = $collectionHandler->getProperties($name);
         static::assertTrue($properties->getIsSystem(), '"isSystem" should be true!');
 
-        $response = $collectionHandler->delete($collection);
+        $response = $collectionHandler->drop($collection, [ 'isSystem' => true ]);
         static::assertTrue($response, 'Delete should return true!');
     }
 
