@@ -48,9 +48,9 @@ class EdgeDefinition
     /**
      * Constructs an new edge definition
      *
-     * @param string $relation        - name of the relation (the underlying edge collection).
-     * @param array  $fromCollections - a list of collections providing the edges start vertices.
-     * @param array  $toCollections   - a list of collections providing the edges end vertices.
+     * @param string       $relation        - name of the relation (the underlying edge collection).
+     * @param array|string $fromCollections - a list of collections providing the edges start vertices or a string holding a single collection name.
+     * @param array|string $toCollections   - a list of collections providing the edges end vertices or a string holding a single collection name.
      *
      * @since     2.2
      *
@@ -193,9 +193,9 @@ class EdgeDefinition
      * Constructs a directed relation. This relation is an edge definition where the edges can start only in the
      * vertices defined in 'fromCollections' and end in vertices defined in 'toCollections'.
      *
-     * @param string $relation        - name of the relation (the underlying edge collection).
-     * @param array  $fromCollections - a list of collections providing the edges start vertices.
-     * @param array  $toCollections   - a list of collections providing the edges end vertices.
+     * @param string       $relation        - name of the relation (the underlying edge collection).
+     * @param array|string $fromCollections - a list of collections providing the edges start vertices or a string holding a single collection name.
+     * @param array|string $toCollections   - a list of collections providing the edges end vertices or a string holding a single collection name.
      *
      * @return EdgeDefinition
      * @since     2.2

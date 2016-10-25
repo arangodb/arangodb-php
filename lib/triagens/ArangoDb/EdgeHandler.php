@@ -85,17 +85,18 @@ class EdgeHandler extends
      * Just throw an exception if save() is called on edges.
      *
      * @internal
-     * @throws Exception
      *
      * @param mixed    $collection - collection id as string or number
      * @param Document $document   - the document to be added
-     * @param bool     $create     - create the collection if it does not yet exist
-     *
-     * @see EdgeHandler::saveEdge()
+     * @param array    $options
      *
      * @return mixed|void
+     * @throws ClientException
+     *
+     * @see      EdgeHandler::saveEdge()
+     *
      */
-    public function save($collection, $document, $create = null)
+    public function save($collection, $document, array $options = [])
     {
         throw new ClientException("Edges don't have a save() method. Please use saveEdge()");
     }

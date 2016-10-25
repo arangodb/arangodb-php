@@ -172,6 +172,7 @@ class Cursor implements
      * @param array      $data       - initial result data as returned by the server
      * @param array      $options    - cursor options
      *
+     * @throws \triagens\ArangoDb\ClientException
      */
     public function __construct(Connection $connection, array $data, array $options)
     {

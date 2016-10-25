@@ -314,7 +314,7 @@ class DocumentHandler extends
      * @return mixed - id of document created
      * @since 1.0
      */
-    public function save($collection, $document, $options = [])
+    public function save($collection, $document, array $options = [])
     {
         $collection = $this->makeCollection($collection);
 

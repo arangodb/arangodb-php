@@ -132,6 +132,7 @@ class Transaction
      * @param Connection $connection       - the connection to be used
      * @param array      $transactionArray - transaction initialization data
      *
+     * @throws \triagens\ArangoDb\ClientException
      */
     public function __construct(Connection $connection, array $transactionArray = null)
     {

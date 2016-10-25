@@ -88,6 +88,7 @@ abstract class Handler
      * @param array $includeArray - The array that defines which options are allowed to be included, and what their default value is. for example: 'waitForSync'=>true
      *
      * @return array $params - array of parameters for use in a url
+     * @throws \triagens\ArangoDb\ClientException
      * @internal param array $params - The parameters into which the options will be included.
      */
     protected function includeOptionsInParams($options, array $includeArray = [])

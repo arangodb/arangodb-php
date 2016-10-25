@@ -97,6 +97,7 @@ class AqlUserFunction
      * @param Connection $connection      - the connection to be used
      * @param array      $attributesArray - user function initialization data
      *
+     * @throws \triagens\ArangoDb\ClientException
      */
     public function __construct(Connection $connection, array $attributesArray = null)
     {
