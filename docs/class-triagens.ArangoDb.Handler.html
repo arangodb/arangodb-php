@@ -41,11 +41,6 @@
 								<span>Deprecated</span>
 							</a>
 						</li>
-						<li>
-							<a href="annotation-group-todo.html" title="List of elements with todo annotation">
-								<span>Todo</span>
-							</a>
-						</li>
 
 
 				</ul>
@@ -181,7 +176,7 @@
 
 				<b>Since:</b>
 				0.2<br>
-			<b>Located at</b> <a href="source-class-triagens.ArangoDb.Handler.html#13-228" title="Go to source code">Handler.php</a>
+			<b>Located at</b> <a href="source-class-triagens.ArangoDb.Handler.html#13-160" title="Go to source code">Handler.php</a>
 		<br>
 	</div>
 
@@ -194,14 +189,14 @@
 
 			<td class="attributes"><code>
 				 public 
-				<code><a href="class-triagens.ArangoDb.Handler.html">triagens\ArangoDb\Handler</a></code>
+				
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Handler.html#29-39" title="Go to source code">__construct</a>( <span><code><a href="class-triagens.ArangoDb.Connection.html">triagens\ArangoDb\Connection</a></code> <var>$connection</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Handler.html#29-38" title="Go to source code">__construct</a>( <span><code><a href="class-triagens.ArangoDb.Connection.html">triagens\ArangoDb\Connection</a></code> <var>$connection</var></span> )</code>
 
 			<div class="description short">
 				<p>Construct a new handler</p>
@@ -219,10 +214,6 @@
 </ul></dd>
 					</dl></div>
 
-					<h4>Returns</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Handler.html">triagens\ArangoDb\Handler</a></code>
-					</div>
 
 
 
@@ -241,7 +232,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getConnection">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Handler.html#41-49" title="Go to source code">getConnection</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Handler.html#40-48" title="Go to source code">getConnection</a>( )</code>
 
 			<div class="description short">
 				<p>Return the connection object</p>
@@ -276,7 +267,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getConnectionOption">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Handler.html#52-63" title="Go to source code">getConnectionOption</a>( <span> <var>$optionName</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Handler.html#51-63" title="Go to source code">getConnectionOption</a>( <span> <var>$optionName</var></span> )</code>
 
 			<div class="description short">
 				<p>Return a connection option
@@ -301,48 +292,10 @@ This is a convenience function that calls json_encode_wrapper on the connection<
 </ul>
 					</div>
 
-
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="getCursorOptions" id="_getCursorOptions">
-
-			<td class="attributes"><code>
-				 protected 
-				array
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_getCursorOptions">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Handler.html#66-96" title="Go to source code">getCursorOptions</a>( <span>mixed <var>$options</var></span> )</code>
-
-			<div class="description short">
-				<p>Return an array of cursor options</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Return an array of cursor options</p>
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$options</var></dt>
-						<dd><ul>
-<li>$options might be a boolean sanitize value, or an array of options, with or without a '_sanitize' key.</li>
-</ul></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
+					<h4>Throws</h4>
 					<div class="list">
-						array<br><ul>
-<li>array of options</li>
-</ul>
+						<code><a href="class-triagens.ArangoDb.ClientException.html">triagens\ArangoDb\ClientException</a></code>
 					</div>
-
 
 
 
@@ -360,7 +313,7 @@ This is a convenience function that calls json_encode_wrapper on the connection<
 
 			<td class="name"><div>
 			<a class="anchor" href="#_json_encode_wrapper">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Handler.html#98-109" title="Go to source code">json_encode_wrapper</a>( <span>array <var>$body</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Handler.html#66-78" title="Go to source code">json_encode_wrapper</a>( <span>array <var>$body</var></span> )</code>
 
 			<div class="description short">
 				<p>Return a json encoded string for the array passed.
@@ -387,60 +340,10 @@ This is a convenience function that calls json_encode_wrapper on the connection<
 </ul>
 					</div>
 
-
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="validateAndIncludeOldSingleParameterInParams" id="_validateAndIncludeOldSingleParameterInParams">
-
-			<td class="attributes"><code>
-				 protected 
-				array
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_validateAndIncludeOldSingleParameterInParams">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Handler.html#113-146" title="Go to source code">validateAndIncludeOldSingleParameterInParams</a>( <span>array <var>$options</var></span>, <span>array <var>$params</var></span>, <span>mixed <var>$parameter</var></span> )</code>
-
-			<div class="description short">
-				<p>Helper function that validates and includes an old single method parameter setting into the parameters array given.
-This is only for keeping backwards-compatibility where methods had for example a parameter which was called 'policy' and
-which was later changed to being an array of options, so more than one options can be passed easily.
-This is only for options that are to be sent to the ArangoDB server.</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Helper function that validates and includes an old single method parameter setting into the parameters array given.
-This is only for keeping backwards-compatibility where methods had for example a parameter which was called 'policy' and
-which was later changed to being an array of options, so more than one options can be passed easily.
-This is only for options that are to be sent to the ArangoDB server.</p>
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$options</var></dt>
-						<dd><ul>
-<li>The options array that may hold the policy to include in the parameters. If it's not an array, then the value is the policy value.</li>
-</ul></dd>
-						<dt><var>$params</var></dt>
-						<dd><ul>
-<li>The parameters into which the options will be included.</li>
-</ul></dd>
-						<dt><var>$parameter</var></dt>
-						<dd><ul>
-<li>the old single parameter key to use.</li>
-</ul></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
+					<h4>Throws</h4>
 					<div class="list">
-						array<br>$params - array of parameters for use in a url
+						<code><a href="class-triagens.ArangoDb.ClientException.html">triagens\ArangoDb\ClientException</a></code>
 					</div>
-
 
 
 
@@ -458,7 +361,7 @@ This is only for options that are to be sent to the ArangoDB server.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_includeOptionsInParams">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Handler.html#150-175" title="Go to source code">includeOptionsInParams</a>( <span>array <var>$options</var></span>, <span>array <var>$params</var></span>, <span>array <var>$includeArray</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Handler.html#82-110" title="Go to source code">includeOptionsInParams</a>( <span>array <var>$options</var></span>, <span>array <var>$includeArray</var> = []</span> )</code>
 
 			<div class="description short">
 				<p>Helper function that runs through the options given and includes them into the parameters array given.
@@ -478,10 +381,6 @@ This is only for options that are to be sent to the ArangoDB server in form of u
 						<dd><ul>
 <li>The options array that holds the options to include in the parameters</li>
 </ul></dd>
-						<dt><var>$params</var></dt>
-						<dd><ul>
-<li>The parameters into which the options will be included.</li>
-</ul></dd>
 						<dt><var>$includeArray</var></dt>
 						<dd><ul>
 <li>The array that defines which options are allowed to be included, and what their default value is. for example: 'waitForSync'=>true</li>
@@ -493,6 +392,10 @@ This is only for options that are to be sent to the ArangoDB server in form of u
 						array<br>$params - array of parameters for use in a url
 					</div>
 
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.ClientException.html">triagens\ArangoDb\ClientException</a></code>
+					</div>
 
 
 
@@ -510,7 +413,7 @@ This is only for options that are to be sent to the ArangoDB server in form of u
 
 			<td class="name"><div>
 			<a class="anchor" href="#_includeOptionsInBody">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Handler.html#179-206" title="Go to source code">includeOptionsInBody</a>( <span>array <var>$options</var></span>, <span>array <var>$body</var></span>, <span>array <var>$includeArray</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Handler.html#114-137" title="Go to source code">includeOptionsInBody</a>( <span>array <var>$options</var></span>, <span>array <var>$body</var></span>, <span>array <var>$includeArray</var> = []</span> )</code>
 
 			<div class="description short">
 				<p>Helper function that runs through the options given and includes them into the parameters array given.
@@ -562,7 +465,7 @@ This is only for options that are to be sent to the ArangoDB server in a json bo
 
 			<td class="name"><div>
 			<a class="anchor" href="#_makeCollection">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Handler.html#208-226" title="Go to source code">makeCollection</a>( <span>mixed <var>$value</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Handler.html#139-158" title="Go to source code">makeCollection</a>( <span>mixed <var>$value</var></span> )</code>
 
 			<div class="description short">
 				<p>Turn a value into a collection name</p>

@@ -41,11 +41,6 @@
 								<span>Deprecated</span>
 							</a>
 						</li>
-						<li>
-							<a href="annotation-group-todo.html" title="List of elements with todo annotation">
-								<span>Todo</span>
-							</a>
-						</li>
 
 
 				</ul>
@@ -337,7 +332,7 @@
 </span></span><span id="197" class="l"><a href="#197">197 </a><span class="php-comment">     *
 </span></span><span id="198" class="l"><a href="#198">198 </a><span class="php-comment">     * @param string $name - name for the collection
 </span></span><span id="199" class="l"><a href="#199">199 </a><span class="php-comment">     *
-</span></span><span id="200" class="l"><a href="#200">200 </a><span class="php-comment">     * @return Collection
+</span></span><span id="200" class="l"><a href="#200">200 </a><span class="php-comment">     * @throws \triagens\ArangoDb\ClientException
 </span></span><span id="201" class="l"><a href="#201">201 </a><span class="php-comment">     */</span>
 </span><span id="202" class="l"><a href="#202">202 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> __construct(<span class="php-var">$name</span> = <span class="php-keyword1">null</span>)
 </span><span id="203" class="l"><a href="#203">203 </a>    {
@@ -438,17 +433,17 @@
 </span></span><span id="298" class="l"><a href="#298">298 </a><span class="php-comment">     */</span>
 </span><span id="299" class="l"><a href="#299">299 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getAll()
 </span><span id="300" class="l"><a href="#300">300 </a>    {
-</span><span id="301" class="l"><a href="#301">301 </a>        <span class="php-var">$result</span> = <span class="php-keyword1">array</span>(
-</span><span id="302" class="l"><a href="#302">302 </a>            self::ENTRY_ID =&gt; <span class="php-var">$this</span>-&gt;_id,
-</span><span id="303" class="l"><a href="#303">303 </a>            self::ENTRY_NAME =&gt; <span class="php-var">$this</span>-&gt;_name,
-</span><span id="304" class="l"><a href="#304">304 </a>            self::ENTRY_WAIT_SYNC =&gt; <span class="php-var">$this</span>-&gt;_waitForSync,
+</span><span id="301" class="l"><a href="#301">301 </a>        <span class="php-var">$result</span> = [
+</span><span id="302" class="l"><a href="#302">302 </a>            self::ENTRY_ID           =&gt; <span class="php-var">$this</span>-&gt;_id,
+</span><span id="303" class="l"><a href="#303">303 </a>            self::ENTRY_NAME         =&gt; <span class="php-var">$this</span>-&gt;_name,
+</span><span id="304" class="l"><a href="#304">304 </a>            self::ENTRY_WAIT_SYNC    =&gt; <span class="php-var">$this</span>-&gt;_waitForSync,
 </span><span id="305" class="l"><a href="#305">305 </a>            self::ENTRY_JOURNAL_SIZE =&gt; <span class="php-var">$this</span>-&gt;_journalSize,
-</span><span id="306" class="l"><a href="#306">306 </a>            self::ENTRY_IS_SYSTEM =&gt; <span class="php-var">$this</span>-&gt;_isSystem,
-</span><span id="307" class="l"><a href="#307">307 </a>            self::ENTRY_IS_VOLATILE =&gt; <span class="php-var">$this</span>-&gt;_isVolatile,
-</span><span id="308" class="l"><a href="#308">308 </a>            self::ENTRY_TYPE =&gt; <span class="php-var">$this</span>-&gt;_type,
-</span><span id="309" class="l"><a href="#309">309 </a>            self::ENTRY_STATUS =&gt; <span class="php-var">$this</span>-&gt;_status,
-</span><span id="310" class="l"><a href="#310">310 </a>            self::ENTRY_KEY_OPTIONS =&gt; <span class="php-var">$this</span>-&gt;_keyOptions
-</span><span id="311" class="l"><a href="#311">311 </a>        );
+</span><span id="306" class="l"><a href="#306">306 </a>            self::ENTRY_IS_SYSTEM    =&gt; <span class="php-var">$this</span>-&gt;_isSystem,
+</span><span id="307" class="l"><a href="#307">307 </a>            self::ENTRY_IS_VOLATILE  =&gt; <span class="php-var">$this</span>-&gt;_isVolatile,
+</span><span id="308" class="l"><a href="#308">308 </a>            self::ENTRY_TYPE         =&gt; <span class="php-var">$this</span>-&gt;_type,
+</span><span id="309" class="l"><a href="#309">309 </a>            self::ENTRY_STATUS       =&gt; <span class="php-var">$this</span>-&gt;_status,
+</span><span id="310" class="l"><a href="#310">310 </a>            self::ENTRY_KEY_OPTIONS  =&gt; <span class="php-var">$this</span>-&gt;_keyOptions
+</span><span id="311" class="l"><a href="#311">311 </a>        ];
 </span><span id="312" class="l"><a href="#312">312 </a>
 </span><span id="313" class="l"><a href="#313">313 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">null</span> !== <span class="php-var">$this</span>-&gt;_numberOfShards) {
 </span><span id="314" class="l"><a href="#314">314 </a>            <span class="php-var">$result</span>[self::ENTRY_NUMBER_OF_SHARDS] = <span class="php-var">$this</span>-&gt;_numberOfShards;
@@ -471,8 +466,8 @@
 </span></span><span id="331" class="l"><a href="#331">331 </a><span class="php-comment">     *
 </span></span><span id="332" class="l"><a href="#332">332 </a><span class="php-comment">     * @throws ClientException
 </span></span><span id="333" class="l"><a href="#333">333 </a><span class="php-comment">     *
-</span></span><span id="334" class="l"><a href="#334">334 </a><span class="php-comment">     * @param string $key - attribute name
-</span></span><span id="335" class="l"><a href="#335">335 </a><span class="php-comment">     * @param mixed $value - value for attribute
+</span></span><span id="334" class="l"><a href="#334">334 </a><span class="php-comment">     * @param string $key   - attribute name
+</span></span><span id="335" class="l"><a href="#335">335 </a><span class="php-comment">     * @param mixed  $value - value for attribute
 </span></span><span id="336" class="l"><a href="#336">336 </a><span class="php-comment">     *
 </span></span><span id="337" class="l"><a href="#337">337 </a><span class="php-comment">     * @return void
 </span></span><span id="338" class="l"><a href="#338">338 </a><span class="php-comment">     */</span>
@@ -673,13 +668,13 @@
 </span><span id="533" class="l"><a href="#533">533 </a>
 </span><span id="534" class="l"><a href="#534">534 </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword2">in_array</span>(
 </span><span id="535" class="l"><a href="#535">535 </a>            <span class="php-var">$status</span>,
-</span><span id="536" class="l"><a href="#536">536 </a>            <span class="php-keyword1">array</span>(
+</span><span id="536" class="l"><a href="#536">536 </a>            [
 </span><span id="537" class="l"><a href="#537">537 </a>                self::STATUS_NEW_BORN,
 </span><span id="538" class="l"><a href="#538">538 </a>                self::STATUS_UNLOADED,
 </span><span id="539" class="l"><a href="#539">539 </a>                self::STATUS_LOADED,
 </span><span id="540" class="l"><a href="#540">540 </a>                self::STATUS_BEING_UNLOADED,
 </span><span id="541" class="l"><a href="#541">541 </a>                self::STATUS_DELETED
-</span><span id="542" class="l"><a href="#542">542 </a>            )
+</span><span id="542" class="l"><a href="#542">542 </a>            ], <span class="php-keyword1">true</span>
 </span><span id="543" class="l"><a href="#543">543 </a>        )
 </span><span id="544" class="l"><a href="#544">544 </a>        ) {
 </span><span id="545" class="l"><a href="#545">545 </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> ClientException(<span class="php-quote">'Invalid status used for collection'</span>);

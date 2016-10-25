@@ -41,11 +41,6 @@
 								<span>Deprecated</span>
 							</a>
 						</li>
-						<li>
-							<a href="annotation-group-todo.html" title="List of elements with todo annotation">
-								<span>Todo</span>
-							</a>
-						</li>
 
 
 				</ul>
@@ -248,10 +243,10 @@
 </span></span><span id="108" class="l"><a href="#108">108 </a><span class="php-comment">     * @throws Exception
 </span></span><span id="109" class="l"><a href="#109">109 </a><span class="php-comment">     *
 </span></span><span id="110" class="l"><a href="#110">110 </a><span class="php-comment">     * @param Connection $connection - the connection to be used
-</span></span><span id="111" class="l"><a href="#111">111 </a><span class="php-comment">     * @param string $collection - the collection to export
-</span></span><span id="112" class="l"><a href="#112">112 </a><span class="php-comment">     * @param array $data - export options
+</span></span><span id="111" class="l"><a href="#111">111 </a><span class="php-comment">     * @param string     $collection - the collection to export
+</span></span><span id="112" class="l"><a href="#112">112 </a><span class="php-comment">     * @param array      $data       - export options
 </span></span><span id="113" class="l"><a href="#113">113 </a><span class="php-comment">     */</span>
-</span><span id="114" class="l"><a href="#114">114 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> __construct(Connection <span class="php-var">$connection</span>, <span class="php-var">$collection</span>, <span class="php-keyword1">array</span> <span class="php-var">$data</span> = <span class="php-keyword1">array</span>())
+</span><span id="114" class="l"><a href="#114">114 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> __construct(Connection <span class="php-var">$connection</span>, <span class="php-var">$collection</span>, <span class="php-keyword1">array</span> <span class="php-var">$data</span> = [])
 </span><span id="115" class="l"><a href="#115">115 </a>    {
 </span><span id="116" class="l"><a href="#116">116 </a>        <span class="php-var">$this</span>-&gt;_connection = <span class="php-var">$connection</span>;
 </span><span id="117" class="l"><a href="#117">117 </a>
@@ -283,7 +278,7 @@
 </span><span id="143" class="l"><a href="#143">143 </a>            <span class="php-var">$restrictions</span> = <span class="php-var">$data</span>[self::ENTRY_RESTRICT];
 </span><span id="144" class="l"><a href="#144">144 </a>
 </span><span id="145" class="l"><a href="#145">145 </a>            <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$restrictions</span>[<span class="php-quote">'type'</span>]) ||
-</span><span id="146" class="l"><a href="#146">146 </a>                !<span class="php-keyword2">in_array</span>(<span class="php-var">$restrictions</span>[<span class="php-quote">'type'</span>], <span class="php-keyword1">array</span>(<span class="php-quote">'include'</span>, <span class="php-quote">'exclude'</span>), <span class="php-keyword1">true</span>)
+</span><span id="146" class="l"><a href="#146">146 </a>                !<span class="php-keyword2">in_array</span>(<span class="php-var">$restrictions</span>[<span class="php-quote">'type'</span>], [<span class="php-quote">'include'</span>, <span class="php-quote">'exclude'</span>], <span class="php-keyword1">true</span>)
 </span><span id="147" class="l"><a href="#147">147 </a>            ) {
 </span><span id="148" class="l"><a href="#148">148 </a>                <span class="php-comment">// validate restrictions.type</span>
 </span><span id="149" class="l"><a href="#149">149 </a>                <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> ClientException(<span class="php-quote">'Invalid restrictions type definition'</span>);
@@ -325,10 +320,10 @@
 </span></span><span id="185" class="l"><a href="#185">185 </a><span class="php-comment">     */</span>
 </span><span id="186" class="l"><a href="#186">186 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> execute()
 </span><span id="187" class="l"><a href="#187">187 </a>    {
-</span><span id="188" class="l"><a href="#188">188 </a>        <span class="php-var">$data</span> = <span class="php-keyword1">array</span>(
+</span><span id="188" class="l"><a href="#188">188 </a>        <span class="php-var">$data</span> = [
 </span><span id="189" class="l"><a href="#189">189 </a>            self::ENTRY_FLUSH =&gt; <span class="php-var">$this</span>-&gt;_flush,
 </span><span id="190" class="l"><a href="#190">190 </a>            self::ENTRY_COUNT =&gt; <span class="php-keyword1">true</span>
-</span><span id="191" class="l"><a href="#191">191 </a>        );
+</span><span id="191" class="l"><a href="#191">191 </a>        ];
 </span><span id="192" class="l"><a href="#192">192 </a>
 </span><span id="193" class="l"><a href="#193">193 </a>        <span class="php-keyword1">if</span> (<span class="php-var">$this</span>-&gt;_batchSize &gt; <span class="php-num">0</span>) {
 </span><span id="194" class="l"><a href="#194">194 </a>            <span class="php-var">$data</span>[self::ENTRY_BATCHSIZE] = <span class="php-var">$this</span>-&gt;_batchSize;
@@ -347,7 +342,7 @@
 </span><span id="207" class="l"><a href="#207">207 </a>            <span class="php-var">$collection</span> = <span class="php-var">$collection</span>-&gt;getName();
 </span><span id="208" class="l"><a href="#208">208 </a>        }
 </span><span id="209" class="l"><a href="#209">209 </a>
-</span><span id="210" class="l"><a href="#210">210 </a>        <span class="php-var">$url</span>      = UrlHelper::appendParamsUrl(Urls::URL_EXPORT, <span class="php-keyword1">array</span>(<span class="php-quote">'collection'</span> =&gt; <span class="php-var">$collection</span>));
+</span><span id="210" class="l"><a href="#210">210 </a>        <span class="php-var">$url</span>      = UrlHelper::appendParamsUrl(Urls::URL_EXPORT, [<span class="php-quote">'collection'</span> =&gt; <span class="php-var">$collection</span>]);
 </span><span id="211" class="l"><a href="#211">211 </a>        <span class="php-var">$response</span> = <span class="php-var">$this</span>-&gt;_connection-&gt;post(<span class="php-var">$url</span>, <span class="php-var">$this</span>-&gt;getConnection()-&gt;json_encode_wrapper(<span class="php-var">$data</span>));
 </span><span id="212" class="l"><a href="#212">212 </a>
 </span><span id="213" class="l"><a href="#213">213 </a>        <span class="php-keyword1">return</span> <span class="php-keyword1">new</span> ExportCursor(<span class="php-var">$this</span>-&gt;_connection, <span class="php-var">$response</span>-&gt;getJson(), <span class="php-var">$this</span>-&gt;getCursorOptions());
@@ -395,15 +390,16 @@
 </span></span><span id="255" class="l"><a href="#255">255 </a><span class="php-comment">     */</span>
 </span><span id="256" class="l"><a href="#256">256 </a>    <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> getCursorOptions()
 </span><span id="257" class="l"><a href="#257">257 </a>    {
-</span><span id="258" class="l"><a href="#258">258 </a>        <span class="php-var">$result</span> = <span class="php-keyword1">array</span>(
-</span><span id="259" class="l"><a href="#259">259 </a>            ExportCursor::ENTRY_FLAT =&gt; (bool) <span class="php-var">$this</span>-&gt;_flat,
+</span><span id="258" class="l"><a href="#258">258 </a>        <span class="php-var">$result</span> = [
+</span><span id="259" class="l"><a href="#259">259 </a>            ExportCursor::ENTRY_FLAT    =&gt; (bool) <span class="php-var">$this</span>-&gt;_flat,
 </span><span id="260" class="l"><a href="#260">260 </a>            ExportCursor::ENTRY_BASEURL =&gt; Urls::URL_EXPORT,
-</span><span id="261" class="l"><a href="#261">261 </a>            ExportCursor::ENTRY_TYPE =&gt; <span class="php-var">$this</span>-&gt;_type
-</span><span id="262" class="l"><a href="#262">262 </a>        );
-</span><span id="263" class="l"><a href="#263">263 </a>        <span class="php-keyword1">return</span> <span class="php-var">$result</span>;
-</span><span id="264" class="l"><a href="#264">264 </a>    }
-</span><span id="265" class="l"><a href="#265">265 </a>}
-</span><span id="266" class="l"><a href="#266">266 </a></span></code></pre>
+</span><span id="261" class="l"><a href="#261">261 </a>            ExportCursor::ENTRY_TYPE    =&gt; <span class="php-var">$this</span>-&gt;_type
+</span><span id="262" class="l"><a href="#262">262 </a>        ];
+</span><span id="263" class="l"><a href="#263">263 </a>
+</span><span id="264" class="l"><a href="#264">264 </a>        <span class="php-keyword1">return</span> <span class="php-var">$result</span>;
+</span><span id="265" class="l"><a href="#265">265 </a>    }
+</span><span id="266" class="l"><a href="#266">266 </a>}
+</span><span id="267" class="l"><a href="#267">267 </a></span></code></pre>
 	</div>
 
 	<div id="footer">

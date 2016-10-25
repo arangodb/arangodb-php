@@ -41,11 +41,6 @@
 								<span>Deprecated</span>
 							</a>
 						</li>
-						<li>
-							<a href="annotation-group-todo.html" title="List of elements with todo annotation">
-								<span>Todo</span>
-							</a>
-						</li>
 
 
 				</ul>
@@ -178,7 +173,7 @@
 
 				<b>Since:</b>
 				1.2<br>
-			<b>Located at</b> <a href="source-class-triagens.ArangoDb.Graph.html#16-300" title="Go to source code">Graph.php</a>
+			<b>Located at</b> <a href="source-class-triagens.ArangoDb.Graph.html#16-226" title="Go to source code">Graph.php</a>
 		<br>
 	</div>
 
@@ -191,14 +186,14 @@
 
 			<td class="attributes"><code>
 				 public 
-				<code><a href="class-triagens.ArangoDb.Graph.html">triagens\ArangoDb\Graph</a></code>
+				
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Graph.html#68-86" title="Go to source code">__construct</a>( <span>array <var>$name</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Graph.html#68-88" title="Go to source code">__construct</a>( <span>array <var>$name</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$options</var> = []</span> )</code>
 
 			<div class="description short">
 				<p>Constructs an empty graph</p>
@@ -220,11 +215,11 @@
 </ul></dd>
 					</dl></div>
 
-					<h4>Returns</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Graph.html">triagens\ArangoDb\Graph</a></code>
-					</div>
 
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.ClientException.html">triagens\ArangoDb\ClientException</a></code>
+					</div>
 
 					<h4>Since</h4>
 					<div class="list">
@@ -233,206 +228,6 @@
 
 					<h4>Overrides</h4>
 					<div class="list"><code><a href="class-triagens.ArangoDb.Document.html#___construct">triagens\ArangoDb\Document::__construct</a></code></div>
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="setVerticesCollection" id="_setVerticesCollection" class="deprecated">
-
-			<td class="attributes"><code>
-				 public 
-				<code><a href="class-triagens.ArangoDb.Graph.html">triagens\ArangoDb\Graph</a></code>
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_setVerticesCollection">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Graph.html#88-108" title="Go to source code">setVerticesCollection</a>( <span>string <var>$verticesCollection</var></span> )</code>
-
-			<div class="description short">
-				<p>Set the vertices collection of the graph</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Set the vertices collection of the graph</p>
-
-					<h4>Deprecated</h4>
-					<div class="list">
-							to be removed in version 2.2 - Please define a graph with the edge definitions.<br>
-					</div>
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$verticesCollection</var></dt>
-						<dd><ul>
-<li>the name of the vertices-collection</li>
-</ul></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Graph.html">triagens\ArangoDb\Graph</a></code><br><ul>
-<li>graph object</li>
-</ul>
-					</div>
-
-
-					<h4>Since</h4>
-					<div class="list">
-							1.2<br>
-					</div>
-					<h4>Todo</h4>
-					<div class="list">
-							remove in version 3.1<br>
-					</div>
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="getVerticesCollection" id="_getVerticesCollection" class="deprecated">
-
-			<td class="attributes"><code>
-				 public 
-				string
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_getVerticesCollection">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Graph.html#110-127" title="Go to source code">getVerticesCollection</a>( )</code>
-
-			<div class="description short">
-				<p>Get the vertices collection of the graph</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Get the vertices collection of the graph</p>
-
-					<h4>Deprecated</h4>
-					<div class="list">
-							to be removed in version 2.2 - Please define a graph with the edge definitions.<br>
-					</div>
-
-
-					<h4>Returns</h4>
-					<div class="list">
-						string<br>name of the vertices collection
-					</div>
-
-
-					<h4>Since</h4>
-					<div class="list">
-							1.2<br>
-					</div>
-					<h4>Todo</h4>
-					<div class="list">
-							remove in version 3.1<br>
-					</div>
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="setEdgesCollection" id="_setEdgesCollection" class="deprecated">
-
-			<td class="attributes"><code>
-				 public 
-				<code><a href="class-triagens.ArangoDb.Graph.html">triagens\ArangoDb\Graph</a></code>
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_setEdgesCollection">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Graph.html#129-145" title="Go to source code">setEdgesCollection</a>( <span>mixed <var>$edgesCollection</var></span> )</code>
-
-			<div class="description short">
-				<p>Set the edges collection of the graph</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Set the edges collection of the graph</p>
-
-					<h4>Deprecated</h4>
-					<div class="list">
-							to be removed in version 2.2 - Please define a graph with the edge definitions.<br>
-					</div>
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$edgesCollection</var></dt>
-						<dd><ul>
-<li>the name of the edges collection</li>
-</ul></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Graph.html">triagens\ArangoDb\Graph</a></code><br><ul>
-<li>graph object</li>
-</ul>
-					</div>
-
-
-					<h4>Since</h4>
-					<div class="list">
-							1.2<br>
-					</div>
-					<h4>Todo</h4>
-					<div class="list">
-							remove in version 3.1<br>
-					</div>
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="getEdgesCollection" id="_getEdgesCollection" class="deprecated">
-
-			<td class="attributes"><code>
-				 public 
-				string
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_getEdgesCollection">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Graph.html#147-160" title="Go to source code">getEdgesCollection</a>( )</code>
-
-			<div class="description short">
-				<p>Get the edges collection of the graph</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Get the edges collection of the graph</p>
-
-					<h4>Deprecated</h4>
-					<div class="list">
-							to be removed in version 2.2 - Please define a graph with the edge definitions.<br>
-					</div>
-
-
-					<h4>Returns</h4>
-					<div class="list">
-						string<br><ul>
-<li>name of the edges collection</li>
-</ul>
-					</div>
-
-
-					<h4>Since</h4>
-					<div class="list">
-							1.2<br>
-					</div>
-					<h4>Todo</h4>
-					<div class="list">
-							remove in version 3.1<br>
-					</div>
-
 
 			</div>
 			</div></td>
@@ -448,7 +243,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addEdgeDefinition">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Graph.html#163-176" title="Go to source code">addEdgeDefinition</a>( <span><code><a href="class-triagens.ArangoDb.EdgeDefinition.html">triagens\ArangoDb\EdgeDefinition</a></code> <var>$edgeDefinition</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Graph.html#91-104" title="Go to source code">addEdgeDefinition</a>( <span><code><a href="class-triagens.ArangoDb.EdgeDefinition.html">triagens\ArangoDb\EdgeDefinition</a></code> <var>$edgeDefinition</var></span> )</code>
 
 			<div class="description short">
 				<p>Adds an edge definition to the graph.</p>
@@ -492,7 +287,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getEdgeDefinitions">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Graph.html#178-187" title="Go to source code">getEdgeDefinitions</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Graph.html#106-115" title="Go to source code">getEdgeDefinitions</a>( )</code>
 
 			<div class="description short">
 				<p>Get the edge definitions of the graph.</p>
@@ -529,7 +324,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addOrphanCollection">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Graph.html#190-203" title="Go to source code">addOrphanCollection</a>( <span>string <var>$orphanCollection</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Graph.html#118-131" title="Go to source code">addOrphanCollection</a>( <span>string <var>$orphanCollection</var></span> )</code>
 
 			<div class="description short">
 				<p>Adds an orphan collection to the graph.</p>
@@ -573,7 +368,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getOrphanCollections">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Graph.html#205-214" title="Go to source code">getOrphanCollections</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Graph.html#133-142" title="Go to source code">getOrphanCollections</a>( )</code>
 
 			<div class="description short">
 				<p>Get the orphan collections of the graph.</p>
@@ -610,7 +405,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_set">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Graph.html#217-262" title="Go to source code">set</a>( <span>string <var>$key</var></span>, <span>mixed <var>$value</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Graph.html#145-188" title="Go to source code">set</a>( <span>string <var>$key</var></span>, <span>mixed <var>$value</var></span> )</code>
 
 			<div class="description short">
 				<p>Set a graph attribute</p>
@@ -862,7 +657,7 @@ exception if the value is invalid.</p>
 			<td class="value">
 				<div>
 					<a href="#$_edgeDefinitions" class="anchor">#</a>
-					<code><span class="php-keyword1">array</span>()</code>
+					<code>[]</code>
 				</div>
 			</td>
 		</tr>
@@ -889,7 +684,7 @@ These collections are not used in any edge definition of the graph.</p>
 			<td class="value">
 				<div>
 					<a href="#$_orphanCollections" class="anchor">#</a>
-					<code><span class="php-keyword1">array</span>()</code>
+					<code>[]</code>
 				</div>
 			</td>
 		</tr>

@@ -41,11 +41,6 @@
 								<span>Deprecated</span>
 							</a>
 						</li>
-						<li>
-							<a href="annotation-group-todo.html" title="List of elements with todo annotation">
-								<span>Todo</span>
-							</a>
-						</li>
 
 
 				</ul>
@@ -178,7 +173,7 @@ remaining results from the server.<br>
 
 				<b>Since:</b>
 				0.2<br>
-			<b>Located at</b> <a href="source-class-triagens.ArangoDb.Cursor.html#13-815" title="Go to source code">Cursor.php</a>
+			<b>Located at</b> <a href="source-class-triagens.ArangoDb.Cursor.html#13-822" title="Go to source code">Cursor.php</a>
 		<br>
 	</div>
 
@@ -191,14 +186,14 @@ remaining results from the server.<br>
 
 			<td class="attributes"><code>
 				 public 
-				<code><a href="class-triagens.ArangoDb.Cursor.html">triagens\ArangoDb\Cursor</a></code>
+				
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Cursor.html#168-217" title="Go to source code">__construct</a>( <span><code><a href="class-triagens.ArangoDb.Connection.html">triagens\ArangoDb\Connection</a></code> <var>$connection</var></span>, <span>array <var>$data</var></span>, <span>array <var>$options</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Cursor.html#168-216" title="Go to source code">__construct</a>( <span><code><a href="class-triagens.ArangoDb.Connection.html">triagens\ArangoDb\Connection</a></code> <var>$connection</var></span>, <span>array <var>$data</var></span>, <span>array <var>$options</var></span> )</code>
 
 			<div class="description short">
 				<p>Initialise the cursor with the first results and some metadata</p>
@@ -224,11 +219,11 @@ remaining results from the server.<br>
 </ul></dd>
 					</dl></div>
 
-					<h4>Returns</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Cursor.html">triagens\ArangoDb\Cursor</a></code>
-					</div>
 
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.ClientException.html">triagens\ArangoDb\ClientException</a></code>
+					</div>
 
 
 
@@ -246,7 +241,7 @@ remaining results from the server.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_delete">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Cursor.html#220-240" title="Go to source code">delete</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Cursor.html#219-240" title="Go to source code">delete</a>( )</code>
 
 			<div class="description short">
 				<p>Explicitly delete the cursor</p>
@@ -622,7 +617,7 @@ results from the server</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getMetadata">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Cursor.html#711-719" title="Go to source code">getMetadata</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Cursor.html#717-725" title="Go to source code">getMetadata</a>( )</code>
 
 			<div class="description short">
 				<p>Get MetaData of the current cursor</p>
@@ -655,7 +650,7 @@ results from the server</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getExtra">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Cursor.html#721-730" title="Go to source code">getExtra</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Cursor.html#727-736" title="Go to source code">getExtra</a>( )</code>
 
 			<div class="description short">
 				<p>Return the extra data of the query (statistics etc.). Contents of the result array
@@ -690,7 +685,7 @@ depend on the type of query executed</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getWarnings">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Cursor.html#732-743" title="Go to source code">getWarnings</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Cursor.html#738-750" title="Go to source code">getWarnings</a>( )</code>
 
 			<div class="description short">
 				<p>Return the warnings issued during query execution</p>
@@ -723,7 +718,7 @@ depend on the type of query executed</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getWritesExecuted">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Cursor.html#745-753" title="Go to source code">getWritesExecuted</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Cursor.html#752-760" title="Go to source code">getWritesExecuted</a>( )</code>
 
 			<div class="description short">
 				<p>Return the number of writes executed by the query</p>
@@ -756,7 +751,7 @@ depend on the type of query executed</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getWritesIgnored">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Cursor.html#755-763" title="Go to source code">getWritesIgnored</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Cursor.html#762-770" title="Go to source code">getWritesIgnored</a>( )</code>
 
 			<div class="description short">
 				<p>Return the number of ignored write operations from the query</p>
@@ -789,7 +784,7 @@ depend on the type of query executed</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getScannedFull">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Cursor.html#765-773" title="Go to source code">getScannedFull</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Cursor.html#772-780" title="Go to source code">getScannedFull</a>( )</code>
 
 			<div class="description short">
 				<p>Return the number of documents iterated over in full scans</p>
@@ -822,7 +817,7 @@ depend on the type of query executed</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getScannedIndex">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Cursor.html#775-783" title="Go to source code">getScannedIndex</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Cursor.html#782-790" title="Go to source code">getScannedIndex</a>( )</code>
 
 			<div class="description short">
 				<p>Return the number of documents iterated over in index scans</p>
@@ -855,7 +850,7 @@ depend on the type of query executed</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getFiltered">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Cursor.html#785-793" title="Go to source code">getFiltered</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Cursor.html#792-800" title="Go to source code">getFiltered</a>( )</code>
 
 			<div class="description short">
 				<p>Return the number of documents filtered by the query</p>
@@ -888,7 +883,7 @@ depend on the type of query executed</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getFetches">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Cursor.html#795-803" title="Go to source code">getFetches</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Cursor.html#802-810" title="Go to source code">getFetches</a>( )</code>
 
 			<div class="description short">
 				<p>Return the number of HTTP calls that were made to build the cursor result</p>
@@ -921,7 +916,7 @@ depend on the type of query executed</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getId">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Cursor.html#805-813" title="Go to source code">getId</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Cursor.html#812-820" title="Go to source code">getId</a>( )</code>
 
 			<div class="description short">
 				<p>Return the cursor id, if any</p>

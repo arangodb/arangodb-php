@@ -41,11 +41,6 @@
 								<span>Deprecated</span>
 							</a>
 						</li>
-						<li>
-							<a href="annotation-group-todo.html" title="List of elements with todo annotation">
-								<span>Todo</span>
-							</a>
-						</li>
 
 
 				</ul>
@@ -167,7 +162,7 @@ and are destroyed afterwards.<br></p>
 
 				<b>Since:</b>
 				0.2<br>
-			<b>Located at</b> <a href="source-class-triagens.ArangoDb.Connection.html#13-772" title="Go to source code">Connection.php</a>
+			<b>Located at</b> <a href="source-class-triagens.ArangoDb.Connection.html#13-758" title="Go to source code">Connection.php</a>
 		<br>
 	</div>
 
@@ -180,14 +175,14 @@ and are destroyed afterwards.<br></p>
 
 			<td class="attributes"><code>
 				 public 
-				<code><a href="class-triagens.ArangoDb.Connection.html">triagens\ArangoDb\Connection</a></code>
+				
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Connection.html#102-118" title="Go to source code">__construct</a>( <span>array <var>$options</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Connection.html#102-117" title="Go to source code">__construct</a>( <span>array <var>$options</var></span> )</code>
 
 			<div class="description short">
 				<p>Set up the connection object, validate the options provided</p>
@@ -205,10 +200,6 @@ and are destroyed afterwards.<br></p>
 </ul></dd>
 					</dl></div>
 
-					<h4>Returns</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Connection.html">triagens\ArangoDb\Connection</a></code>
-					</div>
 
 					<h4>Throws</h4>
 					<div class="list">
@@ -231,7 +222,7 @@ and are destroyed afterwards.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#___destruct">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Connection.html#120-130" title="Go to source code">__destruct</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Connection.html#119-129" title="Go to source code">__destruct</a>( )</code>
 
 			<div class="description short">
 				<p>Close existing connection handle if a keep-alive connection was used</p>
@@ -260,7 +251,7 @@ and are destroyed afterwards.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setOption">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Connection.html#132-171" title="Go to source code">setOption</a>( <span>string <var>$name</var></span>, <span>string <var>$value</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Connection.html#131-168" title="Go to source code">setOption</a>( <span>string <var>$name</var></span>, <span>string <var>$value</var></span> )</code>
 
 			<div class="description short">
 				<p>Set an option set for the connection</p>
@@ -304,7 +295,7 @@ and are destroyed afterwards.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getOptions">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Connection.html#173-181" title="Go to source code">getOptions</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Connection.html#170-178" title="Go to source code">getOptions</a>( )</code>
 
 			<div class="description short">
 				<p>Get the options set for the connection</p>
@@ -337,7 +328,7 @@ and are destroyed afterwards.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getOption">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Connection.html#183-197" title="Go to source code">getOption</a>( <span>string <var>$name</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Connection.html#180-194" title="Go to source code">getOption</a>( <span>string <var>$name</var></span> )</code>
 
 			<div class="description short">
 				<p>Get an option set for the connection</p>
@@ -381,7 +372,7 @@ and are destroyed afterwards.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_get">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Connection.html#200-215" title="Go to source code">get</a>( <span>string <var>$url</var></span>, <span>array <var>$customHeaders</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Connection.html#197-212" title="Go to source code">get</a>( <span>string <var>$url</var></span>, <span>array <var>$customHeaders</var> = []</span> )</code>
 
 			<div class="description short">
 				<p>Issue an HTTP GET request</p>
@@ -427,7 +418,7 @@ and are destroyed afterwards.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_post">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Connection.html#217-233" title="Go to source code">post</a>( <span>string <var>$url</var></span>, <span>string <var>$data</var></span>, <span>array <var>$customHeaders</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Connection.html#214-230" title="Go to source code">post</a>( <span>string <var>$url</var></span>, <span>string <var>$data</var></span>, <span>array <var>$customHeaders</var> = []</span> )</code>
 
 			<div class="description short">
 				<p>Issue an HTTP POST request with the data provided</p>
@@ -477,7 +468,7 @@ and are destroyed afterwards.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_put">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Connection.html#235-251" title="Go to source code">put</a>( <span>string <var>$url</var></span>, <span>string <var>$data</var></span>, <span>array <var>$customHeaders</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Connection.html#232-248" title="Go to source code">put</a>( <span>string <var>$url</var></span>, <span>string <var>$data</var></span>, <span>array <var>$customHeaders</var> = []</span> )</code>
 
 			<div class="description short">
 				<p>Issue an HTTP PUT request with the data provided</p>
@@ -527,7 +518,7 @@ and are destroyed afterwards.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_head">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Connection.html#253-268" title="Go to source code">head</a>( <span>string <var>$url</var></span>, <span>array <var>$customHeaders</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Connection.html#250-265" title="Go to source code">head</a>( <span>string <var>$url</var></span>, <span>array <var>$customHeaders</var> = []</span> )</code>
 
 			<div class="description short">
 				<p>Issue an HTTP Head request with the data provided</p>
@@ -573,7 +564,7 @@ and are destroyed afterwards.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_patch">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Connection.html#270-286" title="Go to source code">patch</a>( <span>string <var>$url</var></span>, <span>string <var>$data</var></span>, <span>array <var>$customHeaders</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Connection.html#267-283" title="Go to source code">patch</a>( <span>string <var>$url</var></span>, <span>string <var>$data</var></span>, <span>array <var>$customHeaders</var> = []</span> )</code>
 
 			<div class="description short">
 				<p>Issue an HTTP PATCH request with the data provided</p>
@@ -623,7 +614,7 @@ and are destroyed afterwards.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_delete">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Connection.html#288-303" title="Go to source code">delete</a>( <span>string <var>$url</var></span>, <span>array <var>$customHeaders</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Connection.html#285-300" title="Go to source code">delete</a>( <span>string <var>$url</var></span>, <span>array <var>$customHeaders</var> = []</span> )</code>
 
 			<div class="description short">
 				<p>Issue an HTTP DELETE request with the data provided</p>
@@ -669,7 +660,7 @@ and are destroyed afterwards.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_parseResponse">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Connection.html#509-542" title="Go to source code">parseResponse</a>( <span><code><a href="class-triagens.ArangoDb.HttpResponse.html">triagens\ArangoDb\HttpResponse</a></code> <var>$response</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Connection.html#500-533" title="Go to source code">parseResponse</a>( <span><code><a href="class-triagens.ArangoDb.HttpResponse.html">triagens\ArangoDb\HttpResponse</a></code> <var>$response</var></span> )</code>
 
 			<div class="description short">
 				<p>Parse the response return the body values as an assoc array</p>
@@ -713,7 +704,7 @@ and are destroyed afterwards.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_stopCaptureBatch">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Connection.html#544-554" title="Go to source code">stopCaptureBatch</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Connection.html#535-545" title="Go to source code">stopCaptureBatch</a>( )</code>
 
 			<div class="description short">
 				<p>Stop capturing commands</p>
@@ -748,7 +739,7 @@ and are destroyed afterwards.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setActiveBatch">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Connection.html#557-569" title="Go to source code">setActiveBatch</a>( <span><code><a href="class-triagens.ArangoDb.Batch.html">triagens\ArangoDb\Batch</a></code> <var>$batch</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Connection.html#548-560" title="Go to source code">setActiveBatch</a>( <span><code><a href="class-triagens.ArangoDb.Batch.html">triagens\ArangoDb\Batch</a></code> <var>$batch</var></span> )</code>
 
 			<div class="description short">
 				<p>Sets the active Batch for this connection</p>
@@ -788,7 +779,7 @@ and are destroyed afterwards.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getActiveBatch">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Connection.html#571-579" title="Go to source code">getActiveBatch</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Connection.html#562-570" title="Go to source code">getActiveBatch</a>( )</code>
 
 			<div class="description short">
 				<p>returns the active batch</p>
@@ -821,7 +812,7 @@ and are destroyed afterwards.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setCaptureBatch">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Connection.html#582-590" title="Go to source code">setCaptureBatch</a>( <span>boolean <var>$state</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Connection.html#573-581" title="Go to source code">setCaptureBatch</a>( <span>boolean <var>$state</var></span> )</code>
 
 			<div class="description short">
 				<p>Sets the batch capture state (true, if capturing)</p>
@@ -855,7 +846,7 @@ and are destroyed afterwards.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setBatchRequest">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Connection.html#593-601" title="Go to source code">setBatchRequest</a>( <span>boolean <var>$state</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Connection.html#584-592" title="Go to source code">setBatchRequest</a>( <span>boolean <var>$state</var></span> )</code>
 
 			<div class="description short">
 				<p>Sets connection into Batch-request mode. This is needed for some operations to act differently when in this mode.</p>
@@ -889,7 +880,7 @@ and are destroyed afterwards.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_isInBatchCaptureMode">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Connection.html#604-614" title="Go to source code">isInBatchCaptureMode</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Connection.html#595-603" title="Go to source code">isInBatchCaptureMode</a>( )</code>
 
 			<div class="description short">
 				<p>Returns true if this connection is in Batch-Capture mode</p>
@@ -902,7 +893,7 @@ and are destroyed afterwards.<br></p>
 
 					<h4>Returns</h4>
 					<div class="list">
-						boolean<br>returns the active batch
+						boolean
 					</div>
 
 
@@ -922,7 +913,7 @@ and are destroyed afterwards.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getBatches">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Connection.html#617-624" title="Go to source code">getBatches</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Connection.html#606-612" title="Go to source code">getBatches</a>( )</code>
 
 			<div class="description short">
 				<p>returns the active batch</p>
@@ -951,7 +942,7 @@ and are destroyed afterwards.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_detect_utf">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Connection.html#655-672" title="Go to source code">detect_utf</a>( <span>array <var>$string</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Connection.html#644-660" title="Go to source code">detect_utf</a>( <span>array <var>$string</var></span> )</code>
 
 			<div class="description short">
 				<p>This function checks that the encoding of a string is utf.
@@ -991,7 +982,7 @@ It only checks for printable characters.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_check_encoding">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Connection.html#675-716" title="Go to source code">check_encoding</a>( <span>array <var>$data</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Connection.html#663-702" title="Go to source code">check_encoding</a>( <span>array <var>$data</var></span> )</code>
 
 			<div class="description short">
 				<p>This function checks that the encoding of the keys and
@@ -1033,7 +1024,7 @@ It will raise an exception if it encounters wrong encoded strings.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_json_encode_wrapper">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Connection.html#719-742" title="Go to source code">json_encode_wrapper</a>( <span>mixed <var>$data</var></span>, <span>mixed <var>$options</var> = <span class="php-keyword1">null</span></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Connection.html#705-728" title="Go to source code">json_encode_wrapper</a>( <span>mixed <var>$data</var></span>, <span>mixed <var>$options</var> = <span class="php-keyword1">null</span></span> )</code>
 
 			<div class="description short">
 				<p>This is a json_encode() wrapper that also checks if the data is utf-8 conform.
@@ -1060,6 +1051,10 @@ an Exception, this method will happily return the json_encoded data.</p>
 						string<br>the result of the json_encode
 					</div>
 
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.ClientException.html">triagens\ArangoDb\ClientException</a></code>
+					</div>
 
 
 
@@ -1077,7 +1072,7 @@ an Exception, this method will happily return the json_encoded data.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setDatabase">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Connection.html#745-759" title="Go to source code">setDatabase</a>( <span>string <var>$database</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Connection.html#731-745" title="Go to source code">setDatabase</a>( <span>string <var>$database</var></span> )</code>
 
 			<div class="description short">
 				<p>Set the database to use with this connection</p>
@@ -1114,7 +1109,7 @@ Further calls to the database will be addressed to the given database.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getDatabase">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Connection.html#761-771" title="Go to source code">getDatabase</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Connection.html#747-757" title="Go to source code">getDatabase</a>( )</code>
 
 			<div class="description short">
 				<p>Get the database that is currently used with this connection</p>

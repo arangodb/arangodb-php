@@ -41,11 +41,6 @@
 								<span>Deprecated</span>
 							</a>
 						</li>
-						<li>
-							<a href="annotation-group-todo.html" title="List of elements with todo annotation">
-								<span>Todo</span>
-							</a>
-						</li>
 
 
 				</ul>
@@ -178,7 +173,7 @@
 
 				<b>Since:</b>
 				1.2<br>
-			<b>Located at</b> <a href="source-class-triagens.ArangoDb.GraphHandler.html#17-1314" title="Go to source code">GraphHandler.php</a>
+			<b>Located at</b> <a href="source-class-triagens.ArangoDb.GraphHandler.html#17-1405" title="Go to source code">GraphHandler.php</a>
 		<br>
 	</div>
 
@@ -198,7 +193,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_createGraph">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#88-121" title="Go to source code">createGraph</a>( <span><code><a href="class-triagens.ArangoDb.Graph.html">triagens\ArangoDb\Graph</a></code> <var>$graph</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#98-130" title="Go to source code">createGraph</a>( <span><code><a href="class-triagens.ArangoDb.Graph.html">triagens\ArangoDb\Graph</a></code> <var>$graph</var></span> )</code>
 
 			<div class="description short">
 				<p>Create a graph</p>
@@ -241,14 +236,14 @@
 
 			<td class="attributes"><code>
 				 public 
-				<code><a href="class-triagens.ArangoDb.Graph.html">triagens\ArangoDb\Graph</a></code>
+				<code><a href="class-triagens.ArangoDb.Graph.html">triagens\ArangoDb\Graph</a></code>|false
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getGraph">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#149-177" title="Go to source code">getGraph</a>( <span>String <var>$graph</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#158-188" title="Go to source code">getGraph</a>( <span>String <var>$graph</var></span>, <span>array <var>$options</var> = []</span> )</code>
 
 			<div class="description short">
 				<p>Get a graph</p>
@@ -274,12 +269,12 @@
 
 					<h4>Returns</h4>
 					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Graph.html">triagens\ArangoDb\Graph</a></code>
+						<code><a href="class-triagens.ArangoDb.Graph.html">triagens\ArangoDb\Graph</a></code>|false
 					</div>
 
 					<h4>Throws</h4>
 					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
+						<code><a href="class-triagens.ArangoDb.ClientException.html">triagens\ArangoDb\ClientException</a></code>
 					</div>
 
 					<h4>Since</h4>
@@ -302,7 +297,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setBatchsize">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#179-188" title="Go to source code">setBatchsize</a>( <span>integer <var>$batchsize</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#190-199" title="Go to source code">setBatchsize</a>( <span>integer <var>$batchsize</var></span> )</code>
 
 			<div class="description short">
 				<p>Sets the batchsize for any method creating a cursor.
@@ -338,7 +333,7 @@ Will be reseted after the cursor has been created.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setCount">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#191-200" title="Go to source code">setCount</a>( <span>integer <var>$count</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#202-211" title="Go to source code">setCount</a>( <span>integer <var>$count</var></span> )</code>
 
 			<div class="description short">
 				<p>Sets the count for any method creating a cursor.
@@ -374,7 +369,7 @@ Will be reseted after the cursor has been created.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setLimit">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#203-212" title="Go to source code">setLimit</a>( <span>integer <var>$limit</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#214-223" title="Go to source code">setLimit</a>( <span>integer <var>$limit</var></span> )</code>
 
 			<div class="description short">
 				<p>Sets the limit for any method creating a cursor.
@@ -410,7 +405,7 @@ Will be reseted after the cursor has been created.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_properties">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#215-235" title="Go to source code">properties</a>( <span>mixed <var>$graph</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#226-247" title="Go to source code">properties</a>( <span>mixed <var>$graph</var></span> )</code>
 
 			<div class="description short">
 				<p>Get a graph's properties<br><br></p>
@@ -460,7 +455,7 @@ Will be reseted after the cursor has been created.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_dropGraph">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#238-261" title="Go to source code">dropGraph</a>( <span>mixed <var>$graph</var></span>, <span>boolean <var>$dropCollections</var> = <span class="php-keyword1">true</span></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#250-273" title="Go to source code">dropGraph</a>( <span>mixed <var>$graph</var></span>, <span>boolean <var>$dropCollections</var> = <span class="php-keyword1">true</span></span> )</code>
 
 			<div class="description short">
 				<p>Drop a graph and remove all its vertices and edges, also drops vertex and edge collections<br><br></p>
@@ -514,7 +509,7 @@ Will be reseted after the cursor has been created.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addOrphanCollection">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#263-301" title="Go to source code">addOrphanCollection</a>( <span>mixed <var>$graph</var></span>, <span>string <var>$orphanCollection</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#275-314" title="Go to source code">addOrphanCollection</a>( <span>mixed <var>$graph</var></span>, <span>string <var>$orphanCollection</var></span> )</code>
 
 			<div class="description short">
 				<p>add an orphan collection to the graph.</p>
@@ -568,7 +563,7 @@ Will be reseted after the cursor has been created.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_deleteOrphanCollection">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#303-343" title="Go to source code">deleteOrphanCollection</a>( <span>mixed <var>$graph</var></span>, <span>string <var>$orphanCollection</var></span>, <span>boolean <var>$dropCollection</var> = <span class="php-keyword1">false</span></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#316-357" title="Go to source code">deleteOrphanCollection</a>( <span>mixed <var>$graph</var></span>, <span>string <var>$orphanCollection</var></span>, <span>boolean <var>$dropCollection</var> = <span class="php-keyword1">false</span></span> )</code>
 
 			<div class="description short">
 				<p>deletes an orphan collection from the graph.</p>
@@ -626,7 +621,7 @@ Will be reseted after the cursor has been created.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getVertexCollections">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#345-378" title="Go to source code">getVertexCollections</a>( <span>mixed <var>$graph</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#359-435" title="Go to source code">getVertexCollections</a>( <span>mixed <var>$graph</var></span>, <span>array <var>$options</var> = []</span> )</code>
 
 			<div class="description short">
 				<p>gets all vertex collection from the graph.</p>
@@ -637,6 +632,11 @@ Will be reseted after the cursor has been created.</p>
 
 <p>This will get all vertex collection (orphans and used in edge definitions) from the graph.<br><br></p>
 
+<p>If this method or any method that calls this method is used in batch mode and caching is off,<br>
+then for each call, this method will make an out of batch API call to the db in order to get the appropriate collections.<br><br></p>
+
+<p>If caching is on, then the GraphHandler will only call the DB API once for the chosen graph, and return data from cache for the following calls.<br></p>
+
 
 					<h4>Parameters</h4>
 					<div class="list"><dl>
@@ -645,7 +645,15 @@ Will be reseted after the cursor has been created.</p>
 <li>graph name as a string or instance of Graph</li>
 </ul></dd>
 						<dt><var>$options</var></dt>
-						<dd></dd>
+						<dd><ul>
+<li>optional, an array of options</li>
+</ul>
+
+<p>&lt;</p>
+
+<p>p>Options are :<br>
+                                                                         <li>'excludeOrphans' - boolean value:    true to exclude the orphans or false to include orphans in the result.<br>
+                                                                         Defaults to false</li></p></dd>
 					</dl></div>
 
 					<h4>Returns</h4>
@@ -674,7 +682,7 @@ Will be reseted after the cursor has been created.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addEdgeDefinition">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#380-417" title="Go to source code">addEdgeDefinition</a>( <span>mixed <var>$graph</var></span>, <span><code><a href="class-triagens.ArangoDb.EdgeDefinition.html">triagens\ArangoDb\EdgeDefinition</a></code> <var>$edgeDefinition</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#437-475" title="Go to source code">addEdgeDefinition</a>( <span>mixed <var>$graph</var></span>, <span><code><a href="class-triagens.ArangoDb.EdgeDefinition.html">triagens\ArangoDb\EdgeDefinition</a></code> <var>$edgeDefinition</var></span> )</code>
 
 			<div class="description short">
 				<p>adds an edge definition to the graph.</p>
@@ -728,7 +736,7 @@ Will be reseted after the cursor has been created.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_deleteEdgeDefinition">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#419-458" title="Go to source code">deleteEdgeDefinition</a>( <span>mixed <var>$graph</var></span>, <span>string <var>$edgeDefinition</var></span>, <span>boolean <var>$dropCollection</var> = <span class="php-keyword1">false</span></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#477-517" title="Go to source code">deleteEdgeDefinition</a>( <span>mixed <var>$graph</var></span>, <span>string <var>$edgeDefinition</var></span>, <span>boolean <var>$dropCollection</var> = <span class="php-keyword1">false</span></span> )</code>
 
 			<div class="description short">
 				<p>deletes an edge definition from the graph.</p>
@@ -779,14 +787,14 @@ Will be reseted after the cursor has been created.</p>
 
 			<td class="attributes"><code>
 				 public 
-				array()
+				array
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getEdgeCollections">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#460-489" title="Go to source code">getEdgeCollections</a>( <span>mixed <var>$graph</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#519-578" title="Go to source code">getEdgeCollections</a>( <span>mixed <var>$graph</var></span> )</code>
 
 			<div class="description short">
 				<p>gets all edge collections from the graph.</p>
@@ -796,6 +804,11 @@ Will be reseted after the cursor has been created.</p>
 				<p>gets all edge collections from the graph.</p>
 
 <p>This will get all edge collections from the graph.<br><br></p>
+
+<p>If this method or any method that calls this method is used in batch mode and caching is off,<br>
+then for each call, this method will make an out of batch API call to the db in order to get the appropriate collections.<br><br></p>
+
+<p>If caching is on, then the GraphHandler will only call the DB API once for the chosen graph, and return data from cache for the following calls.<br></p>
 
 
 					<h4>Parameters</h4>
@@ -808,7 +821,7 @@ Will be reseted after the cursor has been created.</p>
 
 					<h4>Returns</h4>
 					<div class="list">
-						array()
+						array
 					</div>
 
 					<h4>Throws</h4>
@@ -836,7 +849,7 @@ Will be reseted after the cursor has been created.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_replaceEdgeDefinition">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#492-528" title="Go to source code">replaceEdgeDefinition</a>( <span>mixed <var>$graph</var></span>, <span><code><a href="class-triagens.ArangoDb.EdgeDefinition.html">triagens\ArangoDb\EdgeDefinition</a></code> <var>$edgeDefinition</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#581-618" title="Go to source code">replaceEdgeDefinition</a>( <span>mixed <var>$graph</var></span>, <span><code><a href="class-triagens.ArangoDb.EdgeDefinition.html">triagens\ArangoDb\EdgeDefinition</a></code> <var>$edgeDefinition</var></span> )</code>
 
 			<div class="description short">
 				<p>replaces an edge definition of the graph.</p>
@@ -890,7 +903,7 @@ Will be reseted after the cursor has been created.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_saveVertex">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#530-579" title="Go to source code">saveVertex</a>( <span>mixed <var>$graph</var></span>, <span>mixed <var>$document</var></span>, <span>string <var>$collection</var> = <span class="php-keyword1">null</span></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#620-679" title="Go to source code">saveVertex</a>( <span>mixed <var>$graph</var></span>, <span>mixed <var>$document</var></span>, <span>string <var>$collection</var> = <span class="php-keyword1">null</span></span> )</code>
 
 			<div class="description short">
 				<p>save a vertex to a graph</p>
@@ -917,7 +930,7 @@ Will be reseted after the cursor has been created.</p>
 						<dt><var>$collection</var></dt>
 						<dd><ul>
 <li>if one uses a graph with more than one vertex collection one must provide
-the collection to store the vertex.</li>
+                      the collection to store the vertex.</li>
 </ul></dd>
 					</dl></div>
 
@@ -953,7 +966,7 @@ the collection to store the vertex.</li>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getVertex">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#582-632" title="Go to source code">getVertex</a>( <span>mixed <var>$graph</var></span>, <span>mixed <var>$vertexId</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span>, <span>string <var>$collection</var> = <span class="php-keyword1">null</span></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#682-731" title="Go to source code">getVertex</a>( <span>mixed <var>$graph</var></span>, <span>mixed <var>$vertexId</var></span>, <span>array <var>$options</var> = []</span>, <span>string <var>$collection</var> = <span class="php-keyword1">null</span></span> )</code>
 
 			<div class="description short">
 				<p>Get a single vertex from a graph</p>
@@ -979,15 +992,13 @@ the collection to store the vertex.</li>
 						<dd><p>optional, an array of options:</p>
 
 <p>
-<li><b>_includeInternals</b> - true to include the internal attributes. Defaults to false</li>
-<li><b>includeInternals</b> - Deprecated, please use '_includeInternals'.</li>
-<li><b>_ignoreHiddenAttributes</b> - true to show hidden attributes. Defaults to false</li>
-<li><b>ignoreHiddenAttributes</b> - Deprecated, please use '_ignoreHiddenAttributes'.</li>
-</p></dd>
+                          <li><b>_includeInternals</b> - true to include the internal attributes. Defaults to false</li>
+                          <li><b>_ignoreHiddenAttributes</b> - true to show hidden attributes. Defaults to false</li>
+                          </p></dd>
 						<dt><var>$collection</var></dt>
 						<dd><ul>
 <li>if one uses a graph with more than one vertex collection one must provide the collection
-to load the vertex.</li>
+                      to load the vertex.</li>
 </ul></dd>
 					</dl></div>
 
@@ -1021,7 +1032,7 @@ to load the vertex.</li>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_hasVertex">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#635-664" title="Go to source code">hasVertex</a>( <span>mixed <var>$graph</var></span>, <span>mixed <var>$vertexId</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#734-763" title="Go to source code">hasVertex</a>( <span>mixed <var>$graph</var></span>, <span>mixed <var>$vertexId</var></span> )</code>
 
 			<div class="description short">
 				<p>Check if a vertex exists</p>
@@ -1072,7 +1083,7 @@ was an exception thrown which represents an 404 request.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_replaceVertex">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#667-756" title="Go to source code">replaceVertex</a>( <span>mixed <var>$graph</var></span>, <span>mixed <var>$vertexId</var></span>, <span><code><a href="class-triagens.ArangoDb.Document.html">triagens\ArangoDb\Document</a></code> <var>$document</var></span>, <span>mixed <var>$options</var> = <span class="php-keyword1">array</span>()</span>, <span>string <var>$collection</var> = <span class="php-keyword1">null</span></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#766-848" title="Go to source code">replaceVertex</a>( <span>mixed <var>$graph</var></span>, <span>mixed <var>$vertexId</var></span>, <span><code><a href="class-triagens.ArangoDb.Document.html">triagens\ArangoDb\Document</a></code> <var>$document</var></span>, <span>array <var>$options</var> = []</span>, <span>string <var>$collection</var> = <span class="php-keyword1">null</span></span> )</code>
 
 			<div class="description short">
 				<p>Replace an existing vertex in a graph, identified graph name and vertex id</p>
@@ -1106,10 +1117,10 @@ that the revision of the to-be-replaced vertex is the same as the one given.<br>
 						<dd><p>optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method):</p>
 
 <p>
-<li><b>revision</b> - revision for conditional updates ('some-revision-id' [use the passed in revision id], false or true [use document's revision])</li>
-<li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-<li><b>waitForSync</b> - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-</p></dd>
+                            <li><b>revision</b> - revision for conditional updates ('some-revision-id' [use the passed in revision id], false or true [use document's revision])</li>
+                            <li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+                            <li><b>waitForSync</b> - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+                            </p></dd>
 						<dt><var>$collection</var></dt>
 						<dd><ul>
 <li>if one uses a graph with more than one vertex collection one must provide the collection</li>
@@ -1148,7 +1159,7 @@ that the revision of the to-be-replaced vertex is the same as the one given.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_updateVertex">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#759-843" title="Go to source code">updateVertex</a>( <span>mixed <var>$graph</var></span>, <span>mixed <var>$vertexId</var></span>, <span><code><a href="class-triagens.ArangoDb.Document.html">triagens\ArangoDb\Document</a></code> <var>$document</var></span>, <span>mixed <var>$options</var> = <span class="php-keyword1">array</span>()</span>, <span>string <var>$collection</var> = <span class="php-keyword1">null</span></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#851-929" title="Go to source code">updateVertex</a>( <span>mixed <var>$graph</var></span>, <span>mixed <var>$vertexId</var></span>, <span><code><a href="class-triagens.ArangoDb.Document.html">triagens\ArangoDb\Document</a></code> <var>$document</var></span>, <span>array <var>$options</var> = []</span>, <span>string <var>$collection</var> = <span class="php-keyword1">null</span></span> )</code>
 
 			<div class="description short">
 				<p>Update an existing vertex in a graph, identified by graph name and vertex id</p>
@@ -1184,10 +1195,10 @@ that the revision of the to-be-replaced document is the same as the one given.<b
 						<dd><p>optional, an array of options (see below)</p>
 
 <p>
-<li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-<li><b>keepNull</b> - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
-<li><b>waitForSync</b> - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-</p></dd>
+                            <li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+                            <li><b>keepNull</b> - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+                            <li><b>waitForSync</b> - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+                            </p></dd>
 						<dt><var>$collection</var></dt>
 						<dd><ul>
 <li>if one uses a graph with more than one vertex collection one must provide the collection</li>
@@ -1226,7 +1237,7 @@ that the revision of the to-be-replaced document is the same as the one given.<b
 
 			<td class="name"><div>
 			<a class="anchor" href="#_removeVertex">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#846-908" title="Go to source code">removeVertex</a>( <span>mixed <var>$graph</var></span>, <span>mixed <var>$vertexId</var></span>, <span>mixed <var>$revision</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$options</var> = <span class="php-keyword1">array</span>()</span>, <span>string <var>$collection</var> = <span class="php-keyword1">null</span></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#932-989" title="Go to source code">removeVertex</a>( <span>mixed <var>$graph</var></span>, <span>mixed <var>$vertexId</var></span>, <span>mixed <var>$revision</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$options</var> = []</span>, <span>string <var>$collection</var> = <span class="php-keyword1">null</span></span> )</code>
 
 			<div class="description short">
 				<p>Remove a vertex from a graph, identified by the graph name and vertex id<br><br></p>
@@ -1254,9 +1265,9 @@ that the revision of the to-be-replaced document is the same as the one given.<b
 						<dd><p>optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)</p>
 
 <p>
-<li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-<li><b>waitForSync</b> - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-</p></dd>
+                          <li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+                          <li><b>waitForSync</b> - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+                          </p></dd>
 						<dt><var>$collection</var></dt>
 						<dd><ul>
 <li>if one uses a graph with more than one vertex collection one must provide the collection</li>
@@ -1295,7 +1306,7 @@ that the revision of the to-be-replaced document is the same as the one given.<b
 
 			<td class="name"><div>
 			<a class="anchor" href="#_saveEdge">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#911-970" title="Go to source code">saveEdge</a>( <span>mixed <var>$graph</var></span>, <span>mixed <var>$from</var></span>, <span>mixed <var>$to</var></span>, <span>mixed <var>$label</var></span>, <span>mixed <var>$document</var></span>, <span>string <var>$collection</var> = <span class="php-keyword1">null</span></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#992-1052" title="Go to source code">saveEdge</a>( <span>mixed <var>$graph</var></span>, <span>mixed <var>$from</var></span>, <span>mixed <var>$to</var></span>, <span>mixed <var>$label</var></span>, <span>mixed <var>$document</var></span>, <span>string <var>$collection</var> = <span class="php-keyword1">null</span></span> )</code>
 
 			<div class="description short">
 				<p>save an edge to a graph</p>
@@ -1369,7 +1380,7 @@ that the revision of the to-be-replaced document is the same as the one given.<b
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getEdge">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#973-1022" title="Go to source code">getEdge</a>( <span>mixed <var>$graph</var></span>, <span>mixed <var>$edgeId</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span>, <span>string <var>$collection</var> = <span class="php-keyword1">null</span></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#1055-1103" title="Go to source code">getEdge</a>( <span>mixed <var>$graph</var></span>, <span>mixed <var>$edgeId</var></span>, <span>array <var>$options</var> = []</span>, <span>string <var>$collection</var> = <span class="php-keyword1">null</span></span> )</code>
 
 			<div class="description short">
 				<p>Get a single edge from a graph</p>
@@ -1395,11 +1406,9 @@ that the revision of the to-be-replaced document is the same as the one given.<b
 						<dd><p>optional, array of options</p>
 
 <p>
-<li><b>_includeInternals</b> - true to include the internal attributes. Defaults to false</li>
-<li><b>includeInternals</b> - Deprecated, please use '_includeInternals'.</li>
-<li><b>_ignoreHiddenAttributes</b> - true to show hidden attributes. Defaults to false</li>
-<li><b>ignoreHiddenAttributes</b> - Deprecated, please use '_ignoreHiddenAttributes'.</li>
-</p></dd>
+                          <li><b>_includeInternals</b> - true to include the internal attributes. Defaults to false</li>
+                          <li><b>_ignoreHiddenAttributes</b> - true to show hidden attributes. Defaults to false</li>
+                          </p></dd>
 						<dt><var>$collection</var></dt>
 						<dd><ul>
 <li>if one uses a graph with more than one vertex collection one must provide the collection</li>
@@ -1438,7 +1447,7 @@ that the revision of the to-be-replaced document is the same as the one given.<b
 
 			<td class="name"><div>
 			<a class="anchor" href="#_hasEdge">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#1025-1054" title="Go to source code">hasEdge</a>( <span>mixed <var>$graph</var></span>, <span>mixed <var>$edgeId</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#1106-1135" title="Go to source code">hasEdge</a>( <span>mixed <var>$graph</var></span>, <span>mixed <var>$edgeId</var></span> )</code>
 
 			<div class="description short">
 				<p>Check if an edge exists</p>
@@ -1489,7 +1498,7 @@ was an exception thrown which represents an 404 request.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_replaceEdge">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#1057-1155" title="Go to source code">replaceEdge</a>( <span>mixed <var>$graph</var></span>, <span>mixed <var>$edgeId</var></span>, <span>mixed <var>$label</var></span>, <span><code><a href="class-triagens.ArangoDb.Edge.html">triagens\ArangoDb\Edge</a></code> <var>$document</var></span>, <span>mixed <var>$options</var> = <span class="php-keyword1">array</span>()</span>, <span>string <var>$collection</var> = <span class="php-keyword1">null</span></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#1138-1228" title="Go to source code">replaceEdge</a>( <span>mixed <var>$graph</var></span>, <span>mixed <var>$edgeId</var></span>, <span>mixed <var>$label</var></span>, <span><code><a href="class-triagens.ArangoDb.Edge.html">triagens\ArangoDb\Edge</a></code> <var>$document</var></span>, <span>array <var>$options</var> = []</span>, <span>string <var>$collection</var> = <span class="php-keyword1">null</span></span> )</code>
 
 			<div class="description short">
 				<p>Replace an existing edge in a graph, identified graph name and edge id</p>
@@ -1529,9 +1538,9 @@ that the revision of the to-be-replaced edge is the same as the one given.<br><b
 						<dd><p>optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)</p>
 
 <p>
-<li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-<li><b>waitForSync</b> - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-</p></dd>
+                          <li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+                          <li><b>waitForSync</b> - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+                          </p></dd>
 						<dt><var>$collection</var></dt>
 						<dd><ul>
 <li>if one uses a graph with more than one vertex collection one must provide the collection</li>
@@ -1570,7 +1579,7 @@ that the revision of the to-be-replaced edge is the same as the one given.<br><b
 
 			<td class="name"><div>
 			<a class="anchor" href="#_updateEdge">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#1158-1248" title="Go to source code">updateEdge</a>( <span>mixed <var>$graph</var></span>, <span>mixed <var>$edgeId</var></span>, <span>mixed <var>$label</var></span>, <span><code><a href="class-triagens.ArangoDb.Edge.html">triagens\ArangoDb\Edge</a></code> <var>$document</var></span>, <span>mixed <var>$options</var> = <span class="php-keyword1">array</span>()</span>, <span>string <var>$collection</var> = <span class="php-keyword1">null</span></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#1231-1313" title="Go to source code">updateEdge</a>( <span>mixed <var>$graph</var></span>, <span>mixed <var>$edgeId</var></span>, <span>mixed <var>$label</var></span>, <span><code><a href="class-triagens.ArangoDb.Edge.html">triagens\ArangoDb\Edge</a></code> <var>$document</var></span>, <span>array <var>$options</var> = []</span>, <span>string <var>$collection</var> = <span class="php-keyword1">null</span></span> )</code>
 
 			<div class="description short">
 				<p>Update an existing edge in a graph, identified by graph name and edge id</p>
@@ -1610,10 +1619,10 @@ that the revision of the to-be-replaced document is the same as the one given.<b
 						<dd><p>optional, array of options (see below)</p>
 
 <p>
-<li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-<li><b>keepNull</b> - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
-<li><b>waitForSync</b> - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-</p></dd>
+                          <li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+                          <li><b>keepNull</b> - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+                          <li><b>waitForSync</b> - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+                          </p></dd>
 						<dt><var>$collection</var></dt>
 						<dd><ul>
 <li>if one uses a graph with more than one vertex collection one must provide the collection</li>
@@ -1652,7 +1661,7 @@ that the revision of the to-be-replaced document is the same as the one given.<b
 
 			<td class="name"><div>
 			<a class="anchor" href="#_removeEdge">#</a>
-			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#1251-1312" title="Go to source code">removeEdge</a>( <span>mixed <var>$graph</var></span>, <span>mixed <var>$edgeId</var></span>, <span>mixed <var>$revision</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$options</var> = <span class="php-keyword1">array</span>()</span>, <span>string <var>$collection</var> = <span class="php-keyword1">null</span></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#1316-1370" title="Go to source code">removeEdge</a>( <span>mixed <var>$graph</var></span>, <span>mixed <var>$edgeId</var></span>, <span>mixed <var>$revision</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$options</var> = []</span>, <span>string <var>$collection</var> = <span class="php-keyword1">null</span></span> )</code>
 
 			<div class="description short">
 				<p>Remove a edge from a graph, identified by the graph name and edge id<br><br></p>
@@ -1680,9 +1689,9 @@ that the revision of the to-be-replaced document is the same as the one given.<b
 						<dd><p>optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)</p>
 
 <p>
-<li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-<li><b>waitForSync</b> - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-</p></dd>
+                          <li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+                          <li><b>waitForSync</b> - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+                          </p></dd>
 						<dt><var>$collection</var></dt>
 						<dd><ul>
 <li>if one uses a graph with more than one vertex collection one must provide the collection</li>
@@ -1710,6 +1719,110 @@ that the revision of the to-be-replaced document is the same as the one given.<b
 			</div>
 			</div></td>
 		</tr>
+		<tr data-order="clearCache" id="_clearCache">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_clearCache">#</a>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#1372-1382" title="Go to source code">clearCache</a>( )</code>
+
+			<div class="description short">
+				<p>Clears the GraphHandler's cache</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Clears the GraphHandler's cache</p>
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						<br>$this
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getCacheEnabled" id="_getCacheEnabled">
+
+			<td class="attributes"><code>
+				 public 
+				boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getCacheEnabled">#</a>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#1384-1392" title="Go to source code">getCacheEnabled</a>( )</code>
+
+			<div class="description short">
+				<p>Checks if caching in enabled</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Checks if caching in enabled</p>
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						boolean
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setCacheEnabled" id="_setCacheEnabled">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setCacheEnabled">#</a>
+			<code><a href="source-class-triagens.ArangoDb.GraphHandler.html#1394-1404" title="Go to source code">setCacheEnabled</a>( <span>boolean <var>$useCache</var></span> )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$useCache</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<br>$this
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
 			</table>
 		</div>
 
@@ -1719,12 +1832,10 @@ that the revision of the to-be-replaced document is the same as the one given.<b
 				<code><a href="class-triagens.ArangoDb.Handler.html#___construct">__construct()</a></code>, 
 				<code><a href="class-triagens.ArangoDb.Handler.html#_getConnection">getConnection()</a></code>, 
 				<code><a href="class-triagens.ArangoDb.Handler.html#_getConnectionOption">getConnectionOption()</a></code>, 
-				<code><a href="class-triagens.ArangoDb.Handler.html#_getCursorOptions">getCursorOptions()</a></code>, 
 				<code><a href="class-triagens.ArangoDb.Handler.html#_includeOptionsInBody">includeOptionsInBody()</a></code>, 
 				<code><a href="class-triagens.ArangoDb.Handler.html#_includeOptionsInParams">includeOptionsInParams()</a></code>, 
 				<code><a href="class-triagens.ArangoDb.Handler.html#_json_encode_wrapper">json_encode_wrapper()</a></code>, 
-				<code><a href="class-triagens.ArangoDb.Handler.html#_makeCollection">makeCollection()</a></code>, 
-				<code><a href="class-triagens.ArangoDb.Handler.html#_validateAndIncludeOldSingleParameterInParams">validateAndIncludeOldSingleParameterInParams()</a></code>
+				<code><a href="class-triagens.ArangoDb.Handler.html#_makeCollection">makeCollection()</a></code>
 			</p>
 		</div>
 
@@ -1986,11 +2097,11 @@ that the revision of the to-be-replaced document is the same as the one given.<b
 					</code>
 
 					<div class="description short">
-						<p>edge defintion parameter</p>
+						<p>edge definition parameter</p>
 					</div>
 
 					<div class="description detailed hidden">
-						<p>edge defintion parameter</p>
+						<p>edge definition parameter</p>
 
 					</div>
 				</td>
@@ -2010,11 +2121,11 @@ that the revision of the to-be-replaced document is the same as the one given.<b
 					</code>
 
 					<div class="description short">
-						<p>edge defintions parameter</p>
+						<p>edge definitions parameter</p>
 					</div>
 
 					<div class="description detailed hidden">
-						<p>edge defintions parameter</p>
+						<p>edge definitions parameter</p>
 
 					</div>
 				</td>
@@ -2030,7 +2141,7 @@ that the revision of the to-be-replaced document is the same as the one given.<b
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-triagens.ArangoDb.GraphHandler.html#123-126" title="Go to source code"><b>OPTION_ORPHAN_COLLECTIONS</b></a>
+						<a href="source-class-triagens.ArangoDb.GraphHandler.html#132-135" title="Go to source code"><b>OPTION_ORPHAN_COLLECTIONS</b></a>
 					</code>
 
 					<div class="description short">
@@ -2054,7 +2165,7 @@ that the revision of the to-be-replaced document is the same as the one given.<b
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-triagens.ArangoDb.GraphHandler.html#128-131" title="Go to source code"><b>OPTION_DROP_COLLECTION</b></a>
+						<a href="source-class-triagens.ArangoDb.GraphHandler.html#137-140" title="Go to source code"><b>OPTION_DROP_COLLECTION</b></a>
 					</code>
 
 					<div class="description short">
@@ -2075,6 +2186,67 @@ that the revision of the to-be-replaced document is the same as the one given.<b
 			</tr>
 			</table>
 		</div>
+
+
+
+
+		<div class="panel panel-default">
+            <div class="panel-heading"><h2>Properties summary</h2></div>
+			<table class="summary table table-bordered table-striped properties" id="properties">
+		<tr data-order="cache" id="$cache">
+			<td class="attributes"><code>
+				protected  
+				
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-triagens.ArangoDb.GraphHandler.html#88-91" title="Go to source code"><var>$cache</var></a>
+
+				<div class="description short">
+					<p>GraphHandler cache store</p>
+				</div>
+
+				<div class="description detailed hidden">
+					<p>GraphHandler cache store</p>
+
+				</div>
+			</td>
+			<td class="value">
+				<div>
+					<a href="#$cache" class="anchor">#</a>
+					<code></code>
+				</div>
+			</td>
+		</tr>
+		<tr data-order="cacheEnabled" id="$cacheEnabled">
+			<td class="attributes"><code>
+				protected  
+				boolean
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-triagens.ArangoDb.GraphHandler.html#93-96" title="Go to source code"><var>$cacheEnabled</var></a>
+
+				<div class="description short">
+					<p>boolean GraphHandler use cache store</p>
+				</div>
+
+				<div class="description detailed hidden">
+					<p>boolean GraphHandler use cache store</p>
+
+				</div>
+			</td>
+			<td class="value">
+				<div>
+					<a href="#$cacheEnabled" class="anchor">#</a>
+					<code><span class="php-keyword1">false</span></code>
+				</div>
+			</td>
+		</tr>
+			</table>
+		</div>
+
+
 
 
 

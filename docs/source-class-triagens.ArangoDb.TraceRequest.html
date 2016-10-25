@@ -41,11 +41,6 @@
 								<span>Deprecated</span>
 							</a>
 						</li>
-						<li>
-							<a href="annotation-group-todo.html" title="List of elements with todo annotation">
-								<span>Todo</span>
-							</a>
-						</li>
 
 
 				</ul>
@@ -166,7 +161,7 @@
 </span></span><span id="26" class="l"><a href="#26"> 26 </a><span class="php-comment">     *
 </span></span><span id="27" class="l"><a href="#27"> 27 </a><span class="php-comment">     * @var array
 </span></span><span id="28" class="l"><a href="#28"> 28 </a><span class="php-comment">     */</span>
-</span><span id="29" class="l"><a href="#29"> 29 </a>    <span class="php-keyword1">private</span> <span class="php-var">$_headers</span> = <span class="php-keyword1">array</span>();
+</span><span id="29" class="l"><a href="#29"> 29 </a>    <span class="php-keyword1">private</span> <span class="php-var">$_headers</span> = [];
 </span><span id="30" class="l"><a href="#30"> 30 </a>
 </span><span id="31" class="l"><a href="#31"> 31 </a>    <span class="php-comment">/**
 </span></span><span id="32" class="l"><a href="#32"> 32 </a><span class="php-comment">     * Stores the http method
@@ -199,10 +194,10 @@
 </span><span id="59" class="l"><a href="#59"> 59 </a>    <span class="php-comment">/**
 </span></span><span id="60" class="l"><a href="#60"> 60 </a><span class="php-comment">     * Set up the request trace
 </span></span><span id="61" class="l"><a href="#61"> 61 </a><span class="php-comment">     *
-</span></span><span id="62" class="l"><a href="#62"> 62 </a><span class="php-comment">     * @param array $headers - the array of http headers
-</span></span><span id="63" class="l"><a href="#63"> 63 </a><span class="php-comment">     * @param string $method - the request method
+</span></span><span id="62" class="l"><a href="#62"> 62 </a><span class="php-comment">     * @param array  $headers    - the array of http headers
+</span></span><span id="63" class="l"><a href="#63"> 63 </a><span class="php-comment">     * @param string $method     - the request method
 </span></span><span id="64" class="l"><a href="#64"> 64 </a><span class="php-comment">     * @param string $requestUrl - the request url
-</span></span><span id="65" class="l"><a href="#65"> 65 </a><span class="php-comment">     * @param string $body - the string of http body
+</span></span><span id="65" class="l"><a href="#65"> 65 </a><span class="php-comment">     * @param string $body       - the string of http body
 </span></span><span id="66" class="l"><a href="#66"> 66 </a><span class="php-comment">     */</span>
 </span><span id="67" class="l"><a href="#67"> 67 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> __construct(<span class="php-var">$headers</span>, <span class="php-var">$method</span>, <span class="php-var">$requestUrl</span>, <span class="php-var">$body</span>)
 </span><span id="68" class="l"><a href="#68"> 68 </a>    {

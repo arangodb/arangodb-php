@@ -41,11 +41,6 @@
 								<span>Deprecated</span>
 							</a>
 						</li>
-						<li>
-							<a href="annotation-group-todo.html" title="List of elements with todo annotation">
-								<span>Todo</span>
-							</a>
-						</li>
 
 
 				</ul>
@@ -164,7 +159,7 @@
 
 				<b>Since:</b>
 				0.2<br>
-			<b>Located at</b> <a href="source-class-triagens.ArangoDb.HttpResponse.html#13-201" title="Go to source code">HttpResponse.php</a>
+			<b>Located at</b> <a href="source-class-triagens.ArangoDb.HttpResponse.html#13-230" title="Go to source code">HttpResponse.php</a>
 		<br>
 	</div>
 
@@ -184,7 +179,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-triagens.ArangoDb.HttpResponse.html#70-107" title="Go to source code">__construct</a>( <span>string <var>$responseString</var></span>, <span>string <var>$originUrl</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$originMethod</var> = <span class="php-keyword1">null</span></span>, <span>boolean <var>$wasAsync</var> = <span class="php-keyword1">false</span></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.HttpResponse.html#77-115" title="Go to source code">__construct</a>( <span>string <var>$responseString</var></span>, <span>string <var>$originUrl</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$originMethod</var> = <span class="php-keyword1">null</span></span>, <span>boolean <var>$wasAsync</var> = <span class="php-keyword1">false</span></span> )</code>
 
 			<div class="description short">
 				<p>Set up the response</p>
@@ -230,7 +225,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getHttpCode">#</a>
-			<code><a href="source-class-triagens.ArangoDb.HttpResponse.html#109-117" title="Go to source code">getHttpCode</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.HttpResponse.html#117-125" title="Go to source code">getHttpCode</a>( )</code>
 
 			<div class="description short">
 				<p>Return the HTTP status code of the response</p>
@@ -265,7 +260,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getHeader">#</a>
-			<code><a href="source-class-triagens.ArangoDb.HttpResponse.html#119-137" title="Go to source code">getHeader</a>( <span>string <var>$name</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.HttpResponse.html#127-145" title="Go to source code">getHeader</a>( <span>string <var>$name</var></span> )</code>
 
 			<div class="description short">
 				<p>Return an individual HTTP headers of the response</p>
@@ -307,7 +302,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getHeaders">#</a>
-			<code><a href="source-class-triagens.ArangoDb.HttpResponse.html#139-147" title="Go to source code">getHeaders</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.HttpResponse.html#147-155" title="Go to source code">getHeaders</a>( )</code>
 
 			<div class="description short">
 				<p>Return the HTTP headers of the response</p>
@@ -342,7 +337,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getLocationHeader">#</a>
-			<code><a href="source-class-triagens.ArangoDb.HttpResponse.html#149-157" title="Go to source code">getLocationHeader</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.HttpResponse.html#157-165" title="Go to source code">getLocationHeader</a>( )</code>
 
 			<div class="description short">
 				<p>Return the location HTTP header of the response</p>
@@ -377,7 +372,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getBody">#</a>
-			<code><a href="source-class-triagens.ArangoDb.HttpResponse.html#159-167" title="Go to source code">getBody</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.HttpResponse.html#167-175" title="Go to source code">getBody</a>( )</code>
 
 			<div class="description short">
 				<p>Return the body of the response</p>
@@ -412,7 +407,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getResult">#</a>
-			<code><a href="source-class-triagens.ArangoDb.HttpResponse.html#169-177" title="Go to source code">getResult</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.HttpResponse.html#177-185" title="Go to source code">getResult</a>( )</code>
 
 			<div class="description short">
 				<p>Return the result line (first header line) of the response</p>
@@ -447,7 +442,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getJson">#</a>
-			<code><a href="source-class-triagens.ArangoDb.HttpResponse.html#179-200" title="Go to source code">getJson</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.HttpResponse.html#187-208" title="Go to source code">getJson</a>( )</code>
 
 			<div class="description short">
 				<p>Return the data from the JSON-encoded body</p>
@@ -475,6 +470,77 @@
 			</div>
 			</div></td>
 		</tr>
+		<tr data-order="setBatchPart" id="_setBatchPart">
+
+			<td class="attributes"><code>
+				 public 
+				<code><a href="class-triagens.ArangoDb.HttpResponse.html">triagens\ArangoDb\HttpResponse</a></code>
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setBatchPart">#</a>
+			<code><a href="source-class-triagens.ArangoDb.HttpResponse.html#210-220" title="Go to source code">setBatchPart</a>( <span>Batchpart <var>$batchPart</var></span> )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$batchPart</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.HttpResponse.html">triagens\ArangoDb\HttpResponse</a></code>
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getBatchPart" id="_getBatchPart">
+
+			<td class="attributes"><code>
+				 public 
+				Batchpart
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getBatchPart">#</a>
+			<code><a href="source-class-triagens.ArangoDb.HttpResponse.html#222-228" title="Go to source code">getBatchPart</a>( )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						Batchpart
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
 			</table>
 		</div>
 
@@ -493,7 +559,7 @@
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-triagens.ArangoDb.HttpResponse.html#65-68" title="Go to source code"><b>HEADER_LOCATION</b></a>
+						<a href="source-class-triagens.ArangoDb.HttpResponse.html#72-75" title="Go to source code"><b>HEADER_LOCATION</b></a>
 					</code>
 
 					<div class="description short">

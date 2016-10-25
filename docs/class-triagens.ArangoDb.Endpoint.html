@@ -41,11 +41,6 @@
 								<span>Deprecated</span>
 							</a>
 						</li>
-						<li>
-							<a href="annotation-group-todo.html" title="List of elements with todo annotation">
-								<span>Todo</span>
-							</a>
-						</li>
 
 
 				</ul>
@@ -175,7 +170,7 @@ the following endpoint types are currently supported (more to be added later):</
 
 				<b>Since:</b>
 				0.2<br>
-			<b>Located at</b> <a href="source-class-triagens.ArangoDb.Endpoint.html#13-213" title="Go to source code">Endpoint.php</a>
+			<b>Located at</b> <a href="source-class-triagens.ArangoDb.Endpoint.html#13-190" title="Go to source code">Endpoint.php</a>
 		<br>
 	</div>
 
@@ -188,7 +183,7 @@ the following endpoint types are currently supported (more to be added later):</
 
 			<td class="attributes"><code>
 				 public 
-				<code><a href="class-triagens.ArangoDb.Endpoint.html">triagens\ArangoDb\Endpoint</a></code>
+				
 				
 				</code>
 			</td>
@@ -213,10 +208,6 @@ the following endpoint types are currently supported (more to be added later):</
 </ul></dd>
 					</dl></div>
 
-					<h4>Returns</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Endpoint.html">triagens\ArangoDb\Endpoint</a></code>
-					</div>
 
 					<h4>Throws</h4>
 					<div class="list">
@@ -239,7 +230,7 @@ the following endpoint types are currently supported (more to be added later):</
 
 			<td class="name"><div>
 			<a class="anchor" href="#___toString">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Endpoint.html#98-107" title="Go to source code">__toString</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Endpoint.html#98-108" title="Go to source code">__toString</a>( )</code>
 
 			<div class="description short">
 				<p>Return a string representation of the endpoint</p>
@@ -277,7 +268,7 @@ the following endpoint types are currently supported (more to be added later):</
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getType">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Endpoint.html#109-131" title="Go to source code">getType</a>( <span>string <var>$value</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Endpoint.html#110-132" title="Go to source code">getType</a>( <span>string <var>$value</var></span> )</code>
 
 			<div class="description short">
 				<p>Return the type of an endpoint</p>
@@ -319,7 +310,7 @@ the following endpoint types are currently supported (more to be added later):</
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getHost">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Endpoint.html#133-151" title="Go to source code">getHost</a>( <span>string <var>$value</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Endpoint.html#134-152" title="Go to source code">getHost</a>( <span>string <var>$value</var></span> )</code>
 
 			<div class="description short">
 				<p>Return the host name of an endpoint</p>
@@ -361,7 +352,7 @@ the following endpoint types are currently supported (more to be added later):</
 
 			<td class="name"><div>
 			<a class="anchor" href="#_isValid">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Endpoint.html#153-172" title="Go to source code">isValid</a>( <span>string <var>$value</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Endpoint.html#154-170" title="Go to source code">isValid</a>( <span>string <var>$value</var></span> )</code>
 
 			<div class="description short">
 				<p>check whether an endpoint specification is valid</p>
@@ -392,62 +383,6 @@ the following endpoint types are currently supported (more to be added later):</
 			</div>
 			</div></td>
 		</tr>
-		<tr data-order="create" id="_create">
-
-			<td class="attributes"><code>
-				 public static
-				array
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_create">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Endpoint.html#175-192" title="Go to source code">create</a>( <span><code><a href="class-triagens.ArangoDb.Connection.html">triagens\ArangoDb\Connection</a></code> <var>$connection</var></span>, <span>string <var>$endpoint</var></span>, <span>array <var>$databases</var></span> )</code>
-
-			<div class="description short">
-				<p>creates an endpoint</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>creates an endpoint</p>
-
-<p>This creates a new endpoint<br>
-This is an alias function to Endpoint::modify, as ArangoDB's API has one call to support both new and modify</p>
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$connection</var></dt>
-						<dd><ul>
-<li>the connection to be used</li>
-</ul></dd>
-						<dt><var>$endpoint</var></dt>
-						<dd><ul>
-<li>the endpoint specification, e.g. tcp://127.0.0.1:8530</li>
-</ul></dd>
-						<dt><var>$databases</var></dt>
-						<dd><ul>
-<li>a list of database names the endpoint is responsible for.
-                          *</li>
-</ul></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						array<br>$responseArray - The response array.
-					</div>
-
-
-					<h4>Link</h4>
-					<div class="list">
-							<a href="http://www.arangodb.com/manuals/1.4/HttpEndpoint.html">http://www.arangodb.com/manuals/1.4/HttpEndpoint.html</a><br>
-					</div>
-
-
-			</div>
-			</div></td>
-		</tr>
 		<tr data-order="listEndpoints" id="_listEndpoints">
 
 			<td class="attributes"><code>
@@ -459,7 +394,7 @@ This is an alias function to Endpoint::modify, as ArangoDB's API has one call to
 
 			<td class="name"><div>
 			<a class="anchor" href="#_listEndpoints">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Endpoint.html#195-212" title="Go to source code">listEndpoints</a>( <span><code><a href="class-triagens.ArangoDb.Connection.html">triagens\ArangoDb\Connection</a></code> <var>$connection</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Endpoint.html#173-189" title="Go to source code">listEndpoints</a>( <span><code><a href="class-triagens.ArangoDb.Connection.html">triagens\ArangoDb\Connection</a></code> <var>$connection</var></span> )</code>
 
 			<div class="description short">
 				<p>List endpoints</p>
@@ -484,10 +419,14 @@ This is an alias function to Endpoint::modify, as ArangoDB's API has one call to
 						array<br>$responseArray - The response array.
 					</div>
 
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
+					</div>
 
 					<h4>Link</h4>
 					<div class="list">
-							<a href="http://www.arangodb.com/manuals/1.4/HttpEndpoint.html">http://www.arangodb.com/manuals/1.4/HttpEndpoint.html</a><br>
+							<a href="https://docs.arangodb.com/3.0/HTTP/Endpoints/index.html">https://docs.arangodb.com/3.0/HTTP/Endpoints/index.html</a><br>
 					</div>
 
 

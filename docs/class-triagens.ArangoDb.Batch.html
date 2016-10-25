@@ -41,11 +41,6 @@
 								<span>Deprecated</span>
 							</a>
 						</li>
-						<li>
-							<a href="annotation-group-todo.html" title="List of elements with todo annotation">
-								<span>Todo</span>
-							</a>
-						</li>
 
 
 				</ul>
@@ -164,7 +159,7 @@
 
 				<b>Since:</b>
 				1.1<br>
-			<b>Located at</b> <a href="source-class-triagens.ArangoDb.Batch.html#14-542" title="Go to source code">Batch.php</a>
+			<b>Located at</b> <a href="source-class-triagens.ArangoDb.Batch.html#14-555" title="Go to source code">Batch.php</a>
 		<br>
 	</div>
 
@@ -177,14 +172,14 @@
 
 			<td class="attributes"><code>
 				 public 
-				<code><a href="class-triagens.ArangoDb.Batch.html">triagens\ArangoDb\Batch</a></code>
+				
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Batch.html#86-125" title="Go to source code">__construct</a>( <span><code><a href="class-triagens.ArangoDb.Connection.html">triagens\ArangoDb\Connection</a></code> <var>$connection</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Batch.html#86-123" title="Go to source code">__construct</a>( <span><code><a href="class-triagens.ArangoDb.Connection.html">triagens\ArangoDb\Connection</a></code> <var>$connection</var></span>, <span>array <var>$options</var> = []</span> )</code>
 
 			<div class="description short">
 				<p>Constructor for Batch instance. Batch instance by default starts capturing request after initiated.
@@ -212,10 +207,6 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 </p></dd>
 					</dl></div>
 
-					<h4>Returns</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Batch.html">triagens\ArangoDb\Batch</a></code>
-					</div>
 
 
 
@@ -234,7 +225,7 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setConnection">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Batch.html#128-140" title="Go to source code">setConnection</a>( <span><code><a href="class-triagens.ArangoDb.Connection.html">triagens\ArangoDb\Connection</a></code> <var>$connection</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Batch.html#126-138" title="Go to source code">setConnection</a>( <span><code><a href="class-triagens.ArangoDb.Connection.html">triagens\ArangoDb\Connection</a></code> <var>$connection</var></span> )</code>
 
 			<div class="description short">
 				<p>Sets the connection for he current batch. (mostly internal function)</p>
@@ -272,7 +263,7 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_startCapture">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Batch.html#143-157" title="Go to source code">startCapture</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Batch.html#141-155" title="Go to source code">startCapture</a>( )</code>
 
 			<div class="description short">
 				<p>Start capturing requests. To stop capturing, use stopCapture()</p>
@@ -307,7 +298,7 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_stopCapture">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Batch.html#160-179" title="Go to source code">stopCapture</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Batch.html#158-176" title="Go to source code">stopCapture</a>( )</code>
 
 			<div class="description short">
 				<p>Stop capturing requests. If the batch has not been processed yet, more requests can be appended by calling startCapture() again.</p>
@@ -346,7 +337,7 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_isActive">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Batch.html#182-191" title="Go to source code">isActive</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Batch.html#179-189" title="Go to source code">isActive</a>( )</code>
 
 			<div class="description short">
 				<p>Returns true, if this batch is active in its associated connection.</p>
@@ -379,7 +370,7 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_isCapturing">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Batch.html#194-202" title="Go to source code">isCapturing</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Batch.html#192-200" title="Go to source code">isCapturing</a>( )</code>
 
 			<div class="description short">
 				<p>Returns true, if this batch is capturing requests.</p>
@@ -412,7 +403,7 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_activate">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Batch.html#205-216" title="Go to source code">activate</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Batch.html#203-214" title="Go to source code">activate</a>( )</code>
 
 			<div class="description short">
 				<p>Activates the batch. This sets the batch active in its associated connection and also starts capturing.</p>
@@ -445,7 +436,7 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setActive">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Batch.html#219-229" title="Go to source code">setActive</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Batch.html#217-227" title="Go to source code">setActive</a>( )</code>
 
 			<div class="description short">
 				<p>Sets the batch active in its associated connection.</p>
@@ -478,7 +469,7 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setCapture">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Batch.html#232-244" title="Go to source code">setCapture</a>( <span>boolean <var>$state</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Batch.html#230-242" title="Go to source code">setCapture</a>( <span>boolean <var>$state</var></span> )</code>
 
 			<div class="description short">
 				<p>Sets the batch's associated connection into capture mode.</p>
@@ -516,7 +507,7 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getActive">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Batch.html#247-259" title="Go to source code">getActive</a>( <span><code><a href="class-triagens.ArangoDb.Connection.html">triagens\ArangoDb\Connection</a></code> <var>$connection</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Batch.html#245-257" title="Go to source code">getActive</a>( <span><code><a href="class-triagens.ArangoDb.Connection.html">triagens\ArangoDb\Connection</a></code> <var>$connection</var></span> )</code>
 
 			<div class="description short">
 				<p>Gets active batch in given connection.</p>
@@ -554,7 +545,7 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getConnectionCaptureMode">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Batch.html#262-272" title="Go to source code">getConnectionCaptureMode</a>( <span><code><a href="class-triagens.ArangoDb.Connection.html">triagens\ArangoDb\Connection</a></code> <var>$connection</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Batch.html#260-270" title="Go to source code">getConnectionCaptureMode</a>( <span><code><a href="class-triagens.ArangoDb.Connection.html">triagens\ArangoDb\Connection</a></code> <var>$connection</var></span> )</code>
 
 			<div class="description short">
 				<p>Returns true, if given connection is in batch-capture mode.</p>
@@ -592,7 +583,7 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_nextBatchPartId">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Batch.html#291-303" title="Go to source code">nextBatchPartId</a>( <span>mixed <var>$batchPartId</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Batch.html#289-301" title="Go to source code">nextBatchPartId</a>( <span>mixed <var>$batchPartId</var></span> )</code>
 
 			<div class="description short">
 				<p>Sets the id of the next batch-part. The id can later be used to retrieve the batch-part.</p>
@@ -630,7 +621,7 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_nextBatchPartCursorOptions">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Batch.html#306-318" title="Go to source code">nextBatchPartCursorOptions</a>( <span>mixed <var>$batchPartCursorOptions</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Batch.html#304-316" title="Go to source code">nextBatchPartCursorOptions</a>( <span>mixed <var>$batchPartCursorOptions</var></span> )</code>
 
 			<div class="description short">
 				<p>Set client side cursor options (for example: sanitize) for the next batch part.</p>
@@ -668,7 +659,7 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_append">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Batch.html#321-368" title="Go to source code">append</a>( <span>mixed <var>$method</var></span>, <span>mixed <var>$request</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Batch.html#319-372" title="Go to source code">append</a>( <span>mixed <var>$method</var></span>, <span>mixed <var>$request</var></span> )</code>
 
 			<div class="description short">
 				<p>Append the request to the batch-part</p>
@@ -695,6 +686,10 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 						<code><a href="class-triagens.ArangoDb.HttpResponse.html">triagens\ArangoDb\HttpResponse</a></code>
 					</div>
 
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.ClientException.html">triagens\ArangoDb\ClientException</a></code>
+					</div>
 
 
 
@@ -712,7 +707,7 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_splitWithContentIdKey">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Batch.html#371-396" title="Go to source code">splitWithContentIdKey</a>( <span>mixed <var>$pattern</var></span>, <span>mixed <var>$string</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Batch.html#375-401" title="Go to source code">splitWithContentIdKey</a>( <span>mixed <var>$pattern</var></span>, <span>mixed <var>$string</var></span> )</code>
 
 			<div class="description short">
 				<p>Split batch request and use ContentId as array key</p>
@@ -735,6 +730,10 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 						array<br>$array - Array of batch-parts
 					</div>
 
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.ClientException.html">triagens\ArangoDb\ClientException</a></code>
+					</div>
 
 
 
@@ -752,7 +751,7 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_process">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Batch.html#399-453" title="Go to source code">process</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Batch.html#404-461" title="Go to source code">process</a>( )</code>
 
 			<div class="description short">
 				<p>Processes this batch. This sends the captured requests to the server as one batch.</p>
@@ -772,7 +771,8 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 
 					<h4>Throws</h4>
 					<div class="list">
-						<code><a href="class-triagens.ArangoDb.ClientException.html">triagens\ArangoDb\ClientException</a></code>
+						<code><a href="class-triagens.ArangoDb.ClientException.html">triagens\ArangoDb\ClientException</a></code><br>
+						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code>
 					</div>
 
 
@@ -791,7 +791,7 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_countParts">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Batch.html#456-464" title="Go to source code">countParts</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Batch.html#464-472" title="Go to source code">countParts</a>( )</code>
 
 			<div class="description short">
 				<p>Get the total count of the batch parts</p>
@@ -824,7 +824,7 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getPart">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Batch.html#467-482" title="Go to source code">getPart</a>( <span>mixed <var>$partId</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Batch.html#475-491" title="Go to source code">getPart</a>( <span>mixed <var>$partId</var></span> )</code>
 
 			<div class="description short">
 				<p>Get the batch part identified by the array key (0...n) or its id (if it was set with nextBatchPartId($id) )</p>
@@ -866,7 +866,7 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getPartResponse">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Batch.html#485-495" title="Go to source code">getPartResponse</a>( <span>mixed <var>$partId</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Batch.html#494-506" title="Go to source code">getPartResponse</a>( <span>mixed <var>$partId</var></span> )</code>
 
 			<div class="description short">
 				<p>Get the batch part identified by the array key (0...n) or its id (if it was set with nextBatchPartId($id) )</p>
@@ -887,6 +887,10 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 						mixed<br>$partId
 					</div>
 
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.ClientException.html">triagens\ArangoDb\ClientException</a></code>
+					</div>
 
 
 
@@ -904,7 +908,7 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getProcessedPartResponse">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Batch.html#498-508" title="Go to source code">getProcessedPartResponse</a>( <span>mixed <var>$partId</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Batch.html#509-521" title="Go to source code">getProcessedPartResponse</a>( <span>mixed <var>$partId</var></span> )</code>
 
 			<div class="description short">
 				<p>Get the batch part identified by the array key (0...n) or its id (if it was set with nextBatchPartId($id) )</p>
@@ -925,6 +929,10 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 						mixed<br>$partId
 					</div>
 
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.ClientException.html">triagens\ArangoDb\ClientException</a></code>
+					</div>
 
 
 
@@ -942,7 +950,7 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getBatchParts">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Batch.html#511-519" title="Go to source code">getBatchParts</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Batch.html#524-532" title="Go to source code">getBatchParts</a>( )</code>
 
 			<div class="description short">
 				<p>Returns the array of batch-parts</p>
@@ -975,7 +983,7 @@ To disable this, pass startCapture=>false inside the options array parameter</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getConnection">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Batch.html#533-541" title="Go to source code">getConnection</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Batch.html#546-554" title="Go to source code">getConnection</a>( )</code>
 
 			<div class="description short">
 				<p>Return this batch's connection</p>

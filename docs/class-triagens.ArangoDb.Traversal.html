@@ -41,11 +41,6 @@
 								<span>Deprecated</span>
 							</a>
 						</li>
-						<li>
-							<a href="annotation-group-todo.html" title="List of elements with todo annotation">
-								<span>Todo</span>
-							</a>
-						</li>
 
 
 				</ul>
@@ -170,7 +165,7 @@
 				1.4<br>
 				<b>Link:</b>
 				<a href="http://www.arangodb.com/manuals/1.4/HttpTraversals.html">http://www.arangodb.com/manuals/1.4/HttpTraversals.html</a><br>
-			<b>Located at</b> <a href="source-class-triagens.ArangoDb.Traversal.html#12-256" title="Go to source code">Traversal.php</a>
+			<b>Located at</b> <a href="source-class-triagens.ArangoDb.Traversal.html#12-265" title="Go to source code">Traversal.php</a>
 		<br>
 	</div>
 
@@ -183,14 +178,14 @@
 
 			<td class="attributes"><code>
 				 public 
-				<code><a href="class-triagens.ArangoDb.Traversal.html">triagens\ArangoDb\Traversal</a></code>
+				
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Traversal.html#58-77" title="Go to source code">__construct</a>( <span><code><a href="class-triagens.ArangoDb.Connection.html">triagens\ArangoDb\Connection</a></code> <var>$connection</var></span>, <span>string <var>$startVertex</var></span>, <span>string <var>$edgeCollection</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">null</span></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Traversal.html#62-81" title="Go to source code">__construct</a>( <span><code><a href="class-triagens.ArangoDb.Connection.html">triagens\ArangoDb\Connection</a></code> <var>$connection</var></span>, <span>string <var>$startVertex</var></span>, <span>string <var>$edgeCollection</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">null</span></span> )</code>
 
 			<div class="description short">
 				<p>Initialise the Traversal object</p>
@@ -218,11 +213,11 @@
 						<dd></dd>
 					</dl></div>
 
-					<h4>Returns</h4>
-					<div class="list">
-						<code><a href="class-triagens.ArangoDb.Traversal.html">triagens\ArangoDb\Traversal</a></code>
-					</div>
 
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.ClientException.html">triagens\ArangoDb\ClientException</a></code>
+					</div>
 
 
 
@@ -240,7 +235,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getResult">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Traversal.html#80-98" title="Go to source code">getResult</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Traversal.html#84-103" title="Go to source code">getResult</a>( )</code>
 
 			<div class="description short">
 				<p>Execute and get the traversal result</p>
@@ -256,6 +251,11 @@
 						array<br>$responseArray
 					</div>
 
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.Exception.html">triagens\ArangoDb\Exception</a></code><br>
+						<code><a href="class-triagens.ArangoDb.ClientException.html">triagens\ArangoDb\ClientException</a></code>
+					</div>
 
 
 
@@ -273,7 +273,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getConnection">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Traversal.html#101-109" title="Go to source code">getConnection</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Traversal.html#106-114" title="Go to source code">getConnection</a>( )</code>
 
 			<div class="description short">
 				<p>Return the connection object</p>
@@ -308,7 +308,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setStartVertex">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Traversal.html#112-127" title="Go to source code">setStartVertex</a>( <span>string <var>$value</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Traversal.html#117-134" title="Go to source code">setStartVertex</a>( <span>string <var>$value</var></span> )</code>
 
 			<div class="description short">
 				<p>Set name of the user function. It must have at least one namespace, but also can have sub-namespaces.
@@ -334,6 +334,10 @@ correct:
 					</dl></div>
 
 
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.ClientException.html">triagens\ArangoDb\ClientException</a></code>
+					</div>
 
 
 
@@ -351,7 +355,7 @@ correct:
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getStartVertex">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Traversal.html#130-138" title="Go to source code">getStartVertex</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Traversal.html#137-145" title="Go to source code">getStartVertex</a>( )</code>
 
 			<div class="description short">
 				<p>Get name value</p>
@@ -384,7 +388,7 @@ correct:
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setEdgeCollection">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Traversal.html#140-148" title="Go to source code">setEdgeCollection</a>( <span>string <var>$value</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Traversal.html#147-157" title="Go to source code">setEdgeCollection</a>( <span>string <var>$value</var></span> )</code>
 
 			<div class="description short">
 				<p>Set user function code</p>
@@ -401,6 +405,10 @@ correct:
 					</dl></div>
 
 
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-triagens.ArangoDb.ClientException.html">triagens\ArangoDb\ClientException</a></code>
+					</div>
 
 
 
@@ -418,7 +426,7 @@ correct:
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getEdgeCollection">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Traversal.html#151-159" title="Go to source code">getEdgeCollection</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Traversal.html#160-168" title="Go to source code">getEdgeCollection</a>( )</code>
 
 			<div class="description short">
 				<p>Get user function code</p>
@@ -451,7 +459,7 @@ correct:
 
 			<td class="name"><div>
 			<a class="anchor" href="#_set">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Traversal.html#162-177" title="Go to source code">set</a>( <span> <var>$key</var></span>, <span> <var>$value</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Traversal.html#171-186" title="Go to source code">set</a>( <span> <var>$key</var></span>, <span> <var>$value</var></span> )</code>
 
 			<div class="description short">
 				<p>Set an attribute</p>
@@ -491,7 +499,7 @@ correct:
 
 			<td class="name"><div>
 			<a class="anchor" href="#___set">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Traversal.html#180-208" title="Go to source code">__set</a>( <span>string <var>$key</var></span>, <span>mixed <var>$value</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Traversal.html#189-217" title="Go to source code">__set</a>( <span>string <var>$key</var></span>, <span>mixed <var>$value</var></span> )</code>
 
 			<div class="description short">
 				<p>Set an attribute, magic method</p>
@@ -541,7 +549,7 @@ declaring all attributes first.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_get">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Traversal.html#210-226" title="Go to source code">get</a>( <span>string <var>$key</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Traversal.html#219-235" title="Go to source code">get</a>( <span>string <var>$key</var></span> )</code>
 
 			<div class="description short">
 				<p>Get an attribute</p>
@@ -586,7 +594,7 @@ declaring all attributes first.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#___get">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Traversal.html#228-242" title="Go to source code">__get</a>( <span>string <var>$key</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Traversal.html#237-251" title="Go to source code">__get</a>( <span>string <var>$key</var></span> )</code>
 
 			<div class="description short">
 				<p>Get an attribute, magic method</p>
@@ -633,7 +641,7 @@ declaring all attributes first.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#___toString">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Traversal.html#245-255" title="Go to source code">__toString</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Traversal.html#254-264" title="Go to source code">__toString</a>( )</code>
 
 			<div class="description short">
 				<p>Returns the action string</p>
@@ -775,7 +783,32 @@ declaring all attributes first.</p>
 			<td class="value">
 				<div>
 					<a href="#$attributes" class="anchor">#</a>
-					<code><span class="php-keyword1">array</span>()</code>
+					<code>[]</code>
+				</div>
+			</td>
+		</tr>
+		<tr data-order="_action" id="$_action">
+			<td class="attributes"><code>
+				protected  
+				
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-triagens.ArangoDb.Traversal.html#57-60" title="Go to source code"><var>$_action</var></a>
+
+				<div class="description short">
+					<p>string The action property of the traversal.</p>
+				</div>
+
+				<div class="description detailed hidden">
+					<p>string The action property of the traversal.</p>
+
+				</div>
+			</td>
+			<td class="value">
+				<div>
+					<a href="#$_action" class="anchor">#</a>
+					<code></code>
 				</div>
 			</td>
 		</tr>

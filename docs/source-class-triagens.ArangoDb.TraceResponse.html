@@ -41,11 +41,6 @@
 								<span>Deprecated</span>
 							</a>
 						</li>
-						<li>
-							<a href="annotation-group-todo.html" title="List of elements with todo annotation">
-								<span>Todo</span>
-							</a>
-						</li>
 
 
 				</ul>
@@ -166,7 +161,7 @@
 </span></span><span id="26" class="l"><a href="#26"> 26 </a><span class="php-comment">     *
 </span></span><span id="27" class="l"><a href="#27"> 27 </a><span class="php-comment">     * @var array
 </span></span><span id="28" class="l"><a href="#28"> 28 </a><span class="php-comment">     */</span>
-</span><span id="29" class="l"><a href="#29"> 29 </a>    <span class="php-keyword1">private</span> <span class="php-var">$_headers</span> = <span class="php-keyword1">array</span>();
+</span><span id="29" class="l"><a href="#29"> 29 </a>    <span class="php-keyword1">private</span> <span class="php-var">$_headers</span> = [];
 </span><span id="30" class="l"><a href="#30"> 30 </a>
 </span><span id="31" class="l"><a href="#31"> 31 </a>    <span class="php-comment">/**
 </span></span><span id="32" class="l"><a href="#32"> 32 </a><span class="php-comment">     * The http status code
@@ -201,7 +196,7 @@
 </span></span><span id="61" class="l"><a href="#61"> 61 </a><span class="php-comment">     *
 </span></span><span id="62" class="l"><a href="#62"> 62 </a><span class="php-comment">     * @var array
 </span></span><span id="63" class="l"><a href="#63"> 63 </a><span class="php-comment">     */</span>
-</span><span id="64" class="l"><a href="#64"> 64 </a>    <span class="php-keyword1">private</span> <span class="php-var">$_httpCodeDefinitions</span> = <span class="php-keyword1">array</span>(
+</span><span id="64" class="l"><a href="#64"> 64 </a>    <span class="php-keyword1">private</span> <span class="php-var">$_httpCodeDefinitions</span> = [
 </span><span id="65" class="l"><a href="#65"> 65 </a>        <span class="php-num">100</span> =&gt; <span class="php-quote">'Continue'</span>,
 </span><span id="66" class="l"><a href="#66"> 66 </a>        <span class="php-num">101</span> =&gt; <span class="php-quote">'Switching Protocols'</span>,
 </span><span id="67" class="l"><a href="#67"> 67 </a>        <span class="php-num">200</span> =&gt; <span class="php-quote">'OK'</span>,
@@ -243,14 +238,14 @@
 </span><span id="103" class="l"><a href="#103">103 </a>        <span class="php-num">503</span> =&gt; <span class="php-quote">'Service Unavailable'</span>,
 </span><span id="104" class="l"><a href="#104">104 </a>        <span class="php-num">504</span> =&gt; <span class="php-quote">'Gateway Timeout'</span>,
 </span><span id="105" class="l"><a href="#105">105 </a>        <span class="php-num">505</span> =&gt; <span class="php-quote">'HTTP Version Not Supported'</span>,
-</span><span id="106" class="l"><a href="#106">106 </a>    );
+</span><span id="106" class="l"><a href="#106">106 </a>    ];
 </span><span id="107" class="l"><a href="#107">107 </a>
 </span><span id="108" class="l"><a href="#108">108 </a>    <span class="php-comment">/**
 </span></span><span id="109" class="l"><a href="#109">109 </a><span class="php-comment">     * Set up the response trace
 </span></span><span id="110" class="l"><a href="#110">110 </a><span class="php-comment">     *
-</span></span><span id="111" class="l"><a href="#111">111 </a><span class="php-comment">     * @param array $headers - the array of http headers
-</span></span><span id="112" class="l"><a href="#112">112 </a><span class="php-comment">     * @param int $httpCode - the http code
-</span></span><span id="113" class="l"><a href="#113">113 </a><span class="php-comment">     * @param string $body - the string of http body
+</span></span><span id="111" class="l"><a href="#111">111 </a><span class="php-comment">     * @param array  $headers  - the array of http headers
+</span></span><span id="112" class="l"><a href="#112">112 </a><span class="php-comment">     * @param int    $httpCode - the http code
+</span></span><span id="113" class="l"><a href="#113">113 </a><span class="php-comment">     * @param string $body     - the string of http body
 </span></span><span id="114" class="l"><a href="#114">114 </a><span class="php-comment">     * @param        $timeTaken
 </span></span><span id="115" class="l"><a href="#115">115 </a><span class="php-comment">     */</span>
 </span><span id="116" class="l"><a href="#116">116 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> __construct(<span class="php-var">$headers</span>, <span class="php-var">$httpCode</span>, <span class="php-var">$body</span>, <span class="php-var">$timeTaken</span>)
