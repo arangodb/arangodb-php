@@ -80,62 +80,27 @@ abstract class Handler
 
     //todo: (@frankmayer) check if refactoring a bit more makes sense...
     /**
-     * Helper function that validates and includes an old single method parameter setting into the parameters array given.
-     * This is only for keeping backwards-compatibility where methods had for example a parameter which was called 'policy' and
-     * which was later changed to being an array of options, so more than one options can be passed easily.
-     * This is only for options that are to be sent to the ArangoDB server.
-     *
-     * @param array $options   - The options array that may hold the policy to include in the parameters. If it's not an array, then the value is the policy value.
-     * @param array $params    - The parameters into which the options will be included.
-     * @param mixed $parameter - the old single parameter key to use.
-     *
-     * @return array $params - array of parameters for use in a url
-     * @throws \triagens\ArangoDb\ClientException
-     */
-    protected function validateAndIncludeOldSingleParameterInParams($options, $params, $parameter)
-    {
-        if (!is_array($options)) {
-            $value = $options;
-        } else {
-            $value = isset($options[$parameter]) ? $options[$parameter] : null;
-        }
-
-        if ($value === null) {
-            $value = $this->getConnection()->getOption($parameter);
-        }
-
-        if ($parameter === ConnectionOptions::OPTION_UPDATE_POLICY) {
-            UpdatePolicy::validate($value);
-        }
-
-
-        $params[$parameter] = $value;
-
-        return $params;
-    }
-
-
-    //todo: (@frankmayer) check if refactoring a bit more makes sense...
-    /**
      * Helper function that runs through the options given and includes them into the parameters array given.
      * Only options that are set in $includeArray will be included.
      * This is only for options that are to be sent to the ArangoDB server in form of url parameters (like 'waitForSync', 'keepNull', etc...) .
      *
      * @param array $options      - The options array that holds the options to include in the parameters
-     * @param array $params       - The parameters into which the options will be included.
      * @param array $includeArray - The array that defines which options are allowed to be included, and what their default value is. for example: 'waitForSync'=>true
      *
      * @return array $params - array of parameters for use in a url
+     * @internal param array $params - The parameters into which the options will be included.
      */
-    protected function includeOptionsInParams($options, $params, array $includeArray = [])
+    protected function includeOptionsInParams($options, array $includeArray = [])
     {
-        if (is_array($options)) {
-            foreach ($options as $key => $value) {
-                if (array_key_exists($key, $includeArray)) {
-                    $params[$key] = $value;
-                    if ($value === null) {
-                        $params[$key] = $includeArray[$key];
-                    }
+        $params = [];
+        foreach ($options as $key => $value) {
+            if (array_key_exists($key, $includeArray)) {
+                if ($key === ConnectionOptions::OPTION_UPDATE_POLICY) {
+                    UpdatePolicy::validate($value);
+                }
+                $params[$key] = $value;
+                if ($value === null) {
+                    $params[$key] = $includeArray[$key];
                 }
             }
         }
@@ -158,13 +123,11 @@ abstract class Handler
      */
     protected function includeOptionsInBody($options, $body, array $includeArray = [])
     {
-        if (is_array($options)) {
-            foreach ($options as $key => $value) {
-                if (array_key_exists($key, $includeArray)) {
-                    $body[$key] = $value;
-                    if ($value === null && $includeArray[$key] !== null) {
-                        $body[$key] = $includeArray[$key];
-                    }
+        foreach ($options as $key => $value) {
+            if (array_key_exists($key, $includeArray)) {
+                $body[$key] = $value;
+                if ($value === null && $includeArray[$key] !== null) {
+                    $body[$key] = $includeArray[$key];
                 }
             }
         }

@@ -264,7 +264,7 @@ class DocumentHandler extends
      * @param mixed    $collection     - collection id as string or number
      * @param array    $options        - optional, array of options
      *                                 <p>Options are :<br>
-     *                                 <li>'create' - create the collection if it does not yet exist.</li>
+     *                                 <li>'createCollection' - create the collection if it does not yet exist.</li>
      *                                 <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
      *                                 </p>
      *
@@ -307,7 +307,7 @@ class DocumentHandler extends
      * @param Document|array $document   - the document to be added, can be passed as a document or an array
      * @param array          $options    - optional, array of options
      *                                   <p>Options are :<br>
-     *                                   <li>'create' - create the collection if it does not yet exist.</li>
+     *                                   <li>'createCollection' - create the collection if it does not yet exist.</li>
      *                                   <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
      *                                   </p>
      *
@@ -318,19 +318,11 @@ class DocumentHandler extends
     {
         $collection = $this->makeCollection($collection);
 
-        // This preserves compatibility for the old create parameter.
-        $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            [],
-            ConnectionOptions::OPTION_CREATE
-        );
-
         $params = $this->includeOptionsInParams(
-            $params,
-            $options,
-            [
-                'waitForSync' => ConnectionOptions::OPTION_WAIT_SYNC,
-                'silent'      => false
+            $options, [
+                'waitForSync'      => null,
+                'silent'           => false,
+                'createCollection' => $this->getConnection()->getOption(ConnectionOptions::OPTION_CREATE)
             ]
         );
 
@@ -466,22 +458,13 @@ class DocumentHandler extends
     {
         $collection = $this->makeCollection($collection);
 
-        // This preserves compatibility for the old policy parameter.
-        $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            [],
-            ConnectionOptions::OPTION_UPDATE_POLICY
-        );
-
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            [
+            $options, [
                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
                 'keepNull'    => true,
                 'silent'      => false,
                 'ignoreRevs'  => true,
-                'policy'      => ''
+                'policy'      => $this->getConnectionOption(ConnectionOptions::OPTION_UPDATE_POLICY)
             ]
         );
 
@@ -593,21 +576,12 @@ class DocumentHandler extends
     {
         $collection = $this->makeCollection($collection);
 
-        // This preserves compatibility for the old policy parameter.
-        $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            [],
-            ConnectionOptions::OPTION_REPLACE_POLICY
-        );
-
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            [
-                'waitForSync' => ConnectionOptions::OPTION_WAIT_SYNC,
+            $options, [
+                'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
                 'silent'      => false,
                 'ignoreRevs'  => true,
-                'policy'      => ''
+                'policy'      => $this->getConnectionOption(ConnectionOptions::OPTION_REPLACE_POLICY)
             ]
         );
 
@@ -702,21 +676,12 @@ class DocumentHandler extends
     {
         $collection = $this->makeCollection($collection);
 
-        // This preserves compatibility for the old policy parameter.
-        $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            [],
-            ConnectionOptions::OPTION_DELETE_POLICY
-        );
-
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            [
-                'waitForSync' => ConnectionOptions::OPTION_WAIT_SYNC,
+            $options, [
+                'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
                 'silent'      => false,
                 'ignoreRevs'  => true,
-                'policy'      => ''
+                'policy'      => $this->getConnectionOption(ConnectionOptions::OPTION_DELETE_POLICY)
             ]
         );
 

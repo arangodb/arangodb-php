@@ -1461,9 +1461,9 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $collectionId - collection id as string or number
-     * @param mixed      $document     - the example document as a Document object or an array
-     * @param bool|array $options      - optional - an array of options.
+     * @param mixed $collectionId      - collection id as string or number
+     * @param mixed $document          - the example document as a Document object or an array
+     * @param array $options           - optional - an array of options.
      *                                 <p>Options are :<br>
      *                                 <li>
      *                                 'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk.<br>
@@ -1520,9 +1520,9 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $collectionId - collection id as string or number
-     * @param array      $keys         - array of document keys
-     * @param bool|array $options      - optional - an array of options.
+     * @param mixed $collectionId      - collection id as string or number
+     * @param array $keys              - array of document keys
+     * @param array $options           - optional - an array of options.
      *                                 <p>Options are :<br>
      *                                 <li>
      *                                 'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk.<br>

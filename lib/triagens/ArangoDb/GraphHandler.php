@@ -811,18 +811,11 @@ class GraphHandler extends
 
         $options = array_merge([self::OPTION_REVISION => false], $options);
 
-        // This preserves compatibility for the old policy parameter.
-        $params = [];
-        $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            $params,
-            ConnectionOptions::OPTION_REPLACE_POLICY
-        );
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            [
-                'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC)
+            $options, [
+                'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
+                'policy'      => $this->getConnectionOption(ConnectionOptions::OPTION_REPLACE_POLICY)
+
             ]
         );
 
@@ -903,19 +896,13 @@ class GraphHandler extends
         }
 
         $options = array_merge([self::OPTION_REVISION => false], $options);
-        // This preserves compatibility for the old policy parameter.
-        $params = [];
-        $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            $params,
-            ConnectionOptions::OPTION_UPDATE_POLICY
-        );
+
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            [
+            $options, [
                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
                 'keepNull'    => true,
+                'policy'      => $this->getConnectionOption(ConnectionOptions::OPTION_UPDATE_POLICY)
+
             ]
         );
 
@@ -980,19 +967,13 @@ class GraphHandler extends
             }
         }
 
-        // This preserves compatibility for the old policy parameter.
-        $params = [];
-        $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            $params,
-            ConnectionOptions::OPTION_DELETE_POLICY
-        );
+
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            [
+            $options, [
                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
                 'keepNull'    => true,
+                'policy'      => $this->getConnectionOption(ConnectionOptions::OPTION_DELETE_POLICY)
+
             ]
         );
 
@@ -1203,20 +1184,12 @@ class GraphHandler extends
 
         $options = array_merge([self::OPTION_REVISION => false], $options);
 
-        // This preserves compatibility for the old policy parameter.
-        $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            [],
-            ConnectionOptions::OPTION_REPLACE_POLICY
-        );
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            [
+            $options, [
                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
                 'silent'      => false,
                 'ignoreRevs'  => true,
-                'policy'      => ''
+                'policy'      => $this->getConnectionOption(ConnectionOptions::OPTION_REPLACE_POLICY),
             ]
         );
 
@@ -1305,19 +1278,11 @@ class GraphHandler extends
 
         $options = array_merge([self::OPTION_REVISION => false], $options);
 
-        // This preserves compatibility for the old policy parameter.
-        $params = [];
-        $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            $params,
-            ConnectionOptions::OPTION_UPDATE_POLICY
-        );
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            [
+            $options, [
                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
                 'keepNull'    => true,
+                'policy'      => $this->getConnectionOption(ConnectionOptions::OPTION_UPDATE_POLICY),
             ]
         );
 
@@ -1386,19 +1351,11 @@ class GraphHandler extends
             }
         }
 
-        // This preserves compatibility for the old policy parameter.
-        $params = [];
-        $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            $params,
-            ConnectionOptions::OPTION_DELETE_POLICY
-        );
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            [
+            $options, [
                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
                 'keepNull'    => true,
+                'policy'      => $this->getConnectionOption(ConnectionOptions::OPTION_DELETE_POLICY),
             ]
         );
         if (null !== $revision) {

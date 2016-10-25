@@ -110,13 +110,13 @@ class EdgeHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $collection   - collection id as string or number
-     * @param mixed      $from         - from vertex
-     * @param mixed      $to           - to vertex
-     * @param mixed      $document     - the edge-document to be added, can be passed as an object or an array
-     * @param bool|array $options      - optional, prior to v1.2.0 this was a boolean value for create. Since v1.0.0 it's an array of options.
+     * @param mixed $collection        - collection id as string or number
+     * @param mixed $from              - from vertex
+     * @param mixed $to                - to vertex
+     * @param mixed $document          - the edge-document to be added, can be passed as an object or an array
+     * @param array $options           - optional, array of options.
      *                                 <p>Options are :<br>
-     *                                 <li>'create' - create the collection if it does not yet exist.</li>
+     *                                 <li>'createCollection' - create the collection if it does not yet exist.</li>
      *                                 <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk.<br>
      *                                 If this is not specified, then the collection's default sync behavior will be applied.</li>
      *                                 </p>
@@ -134,19 +134,10 @@ class EdgeHandler extends
         $document->setFrom($from);
         $document->setTo($to);
 
-        $params = $this->validateAndIncludeOldSingleParameterInParams(
-            $options,
-            [],
-            ConnectionOptions::OPTION_CREATE
-        );
-
         $params = $this->includeOptionsInParams(
-            $options,
-            $params,
-            [
-                ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(
-                    ConnectionOptions::OPTION_WAIT_SYNC
-                ),
+            $options, [
+                'waitForSync'      => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
+                'createCollection' => $this->getConnectionOption(ConnectionOptions::OPTION_CREATE)
             ]
         );
 
