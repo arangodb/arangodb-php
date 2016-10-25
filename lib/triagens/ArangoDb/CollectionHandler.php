@@ -1745,12 +1745,12 @@ class CollectionHandler extends
      *                                and the hidden attributes would not be applied to the attributes.<br>
      *                                </p>
      *
-     * <li>'closed'    - If true, use interval including left and right, otherwise exclude right, but include left.
-     * <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
-     * <li>'skip'      -  Optional, The number of documents to skip in the query.</li>
-     * <li>'limit'     -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
-     * </li>
-     * </p>
+     *                                <li>'closed'    - If true, use interval including left and right, otherwise exclude right, but include left.
+     *                                <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
+     *                                <li>'skip'      -  Optional, The number of documents to skip in the query.</li>
+     *                                <li>'limit'     -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
+     *                                </li>
+     *                                </p>
      *
      * @return Cursor - documents matching the example [0...n]
      */
@@ -1814,12 +1814,12 @@ class CollectionHandler extends
      *                                and the hidden attributes would not be applied to the attributes.<br>
      *                                </p>
      *
-     * <li>'distance'  - If given, the attribute key used to store the distance. (optional)
-     * <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
-     * <li>'skip'      -  Optional, The number of documents to skip in the query.</li>
-     * <li>'limit'     -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
-     * </li>
-     * </p>
+     *                                <li>'distance'  - If given, the attribute key used to store the distance. (optional)
+     *                                <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
+     *                                <li>'skip'      -  Optional, The number of documents to skip in the query.</li>
+     *                                <li>'limit'     -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
+     *                                </li>
+     *                                </p>
      *
      * @return Cursor - documents matching the example [0...n]
      */
@@ -1874,12 +1874,12 @@ class CollectionHandler extends
      *                                and the hidden attributes would not be applied to the attributes.<br>
      *                                </p>
      *
-     * <li>'distance'  - If given, the attribute key used to store the distance. (optional)
-     * <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
-     * <li>'skip'      -  Optional, The number of documents to skip in the query.</li>
-     * <li>'limit'     -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
-     * </li>
-     * </p>
+     *                                <li>'distance'  - If given, the attribute key used to store the distance. (optional)
+     *                                <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
+     *                                <li>'skip'      -  Optional, The number of documents to skip in the query.</li>
+     *                                <li>'limit'     -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
+     *                                </li>
+     *                                </p>
      *
      * @return Cursor - documents matching the example [0...n]
      */
