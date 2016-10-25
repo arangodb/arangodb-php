@@ -663,7 +663,7 @@ class CollectionHandler extends
      *
      * @return bool - always true, will throw if there is an error
      */
-    public function drop($collection, $options = array())
+    public function drop($collection, $options = [])
     {
         $collectionName = $this->getCollectionName($collection);
 
