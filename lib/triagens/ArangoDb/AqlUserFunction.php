@@ -94,8 +94,8 @@ class AqlUserFunction
      * )
      *
      *
-     * @param Connection $connection - the connection to be used
-     * @param array $attributesArray - user function initialization data
+     * @param Connection $connection      - the connection to be used
+     * @param array      $attributesArray - user function initialization data
      *
      */
     public function __construct(Connection $connection, array $attributesArray = null)
@@ -138,6 +138,7 @@ class AqlUserFunction
             Urls::URL_AQL_USER_FUNCTION,
             $this->getConnection()->json_encode_wrapper($attributes)
         );
+
         return $response->getJson();
     }
 
@@ -149,7 +150,7 @@ class AqlUserFunction
      *
      * If $name is passed, it will override the object's property with the passed one
      *
-     * @param string $name
+     * @param string  $name
      * @param boolean $namespace
      *
      * @throws Exception throw exception if the request fails
@@ -169,6 +170,7 @@ class AqlUserFunction
         }
 
         $response = $this->_connection->delete($url);
+
         return $response->getJson();
     }
 
@@ -207,20 +209,20 @@ class AqlUserFunction
     }
 
 
-	/**
-	 * Set name of the user function. It must have at least one namespace, but also can have sub-namespaces.
-	 * correct:
-	 * 'myNamespace:myFunction'
-	 * 'myRootNamespace:mySubNamespace:myFunction'
-	 *
-	 * wrong:
-	 * 'myFunction'
-	 *
-	 *
-	 * @param string $value
-	 *
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * Set name of the user function. It must have at least one namespace, but also can have sub-namespaces.
+     * correct:
+     * 'myNamespace:myFunction'
+     * 'myRootNamespace:mySubNamespace:myFunction'
+     *
+     * wrong:
+     * 'myFunction'
+     *
+     *
+     * @param string $value
+     *
+     * @throws \triagens\ArangoDb\ClientException
+     */
     public function setName($value)
     {
         $this->set(self::ENTRY_NAME, (string) $value);
@@ -237,13 +239,13 @@ class AqlUserFunction
         return $this->get(self::ENTRY_NAME);
     }
 
-	/**
-	 * Set user function code
-	 *
-	 * @param string $value
-	 *
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * Set user function code
+     *
+     * @param string $value
+     *
+     * @throws \triagens\ArangoDb\ClientException
+     */
     public function setCode($value)
     {
         $this->set(self::ENTRY_CODE, (string) $value);
@@ -261,15 +263,15 @@ class AqlUserFunction
     }
 
 
-	/**
-	 * Set an attribute
-	 *
-	 * @param $key
-	 * @param $value
-	 *
-	 * @return $this
-	 * @throws ClientException
-	 */
+    /**
+     * Set an attribute
+     *
+     * @param $key
+     * @param $value
+     *
+     * @return $this
+     * @throws ClientException
+     */
     public function set($key, $value)
     {
         if (!is_string($key)) {
@@ -277,6 +279,7 @@ class AqlUserFunction
         }
 
         $this->attributes[$key] = $value;
+
         return $this;
     }
 
@@ -291,8 +294,8 @@ class AqlUserFunction
      *
      * @magic
      *
-     * @param string $key - attribute name
-     * @param mixed $value - value for attribute
+     * @param string $key   - attribute name
+     * @param mixed  $value - value for attribute
      */
     public function __set($key, $value)
     {
@@ -321,6 +324,7 @@ class AqlUserFunction
         if (isset($this->attributes[$key])) {
             return $this->attributes[$key];
         }
+
         return null;
     }
 

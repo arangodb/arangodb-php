@@ -104,8 +104,8 @@ class ExportCursor
      * Initialize the cursor with the first results and some metadata
      *
      * @param Connection $connection - connection to be used
-     * @param array $data - initial result data as returned by the server
-     * @param array $options - cursor options
+     * @param array      $data       - initial result data as returned by the server
+     * @param array      $options    - cursor options
      *
      */
     public function __construct(Connection $connection, array $data, array $options)
@@ -181,6 +181,7 @@ class ExportCursor
         if ($this->_result !== []) {
             $result        = $this->_result;
             $this->_result = [];
+
             return $result;
         }
 
@@ -188,28 +189,26 @@ class ExportCursor
         return false;
     }
 
-	/**
-	 * Create an array of results from the input array
-	 *
-	 * @param array $data - incoming result
-	 *
-	 * @return void
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * Create an array of results from the input array
+     *
+     * @param array $data - incoming result
+     *
+     * @return void
+     * @throws \triagens\ArangoDb\ClientException
+     */
     private function setData(array $data)
     {
         if (isset($this->_options[self::ENTRY_FLAT]) && $this->_options[self::ENTRY_FLAT]) {
             $this->_result = $data;
-        }
-        else {
+        } else {
             $this->_result = [];
 
             if ($this->_options[self::ENTRY_TYPE] === Collection::TYPE_EDGE) {
                 foreach ($data as $row) {
                     $this->_result[] = Edge::createFromArray($row, $this->_options);
                 }
-            }
-            else {
+            } else {
                 foreach ($data as $row) {
                     $this->_result[] = Document::createFromArray($row, $this->_options);
                 }

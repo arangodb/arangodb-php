@@ -66,15 +66,15 @@ class EdgeHandler extends
      */
     const OPTION_DIRECTION = 'direction';
 
-	/**
-	 * Intermediate function to call the createFromArray function from the right context
-	 *
-	 * @param $data
-	 * @param $options
-	 *
-	 * @return Edge
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * Intermediate function to call the createFromArray function from the right context
+     *
+     * @param $data
+     * @param $options
+     *
+     * @return Edge
+     * @throws \triagens\ArangoDb\ClientException
+     */
     public function createFromArrayWithContext($data, $options)
     {
         return Edge::createFromArray($data, $options);
@@ -87,13 +87,13 @@ class EdgeHandler extends
      * @internal
      * @throws Exception
      *
-     * @param mixed $collection - collection id as string or number
-     * @param Document $document - the document to be added
-     * @param bool $create - create the collection if it does not yet exist
+     * @param mixed    $collection - collection id as string or number
+     * @param Document $document   - the document to be added
+     * @param bool     $create     - create the collection if it does not yet exist
      *
-     * @see EdgeHandler::saveEdge()
+     * @see        EdgeHandler::saveEdge()
      * @deprecated to be removed in version 3.1
-     * @todo remove in version 3.1
+     * @todo       remove in version 3.1
      *
      * @return mixed|void
      */
@@ -109,9 +109,9 @@ class EdgeHandler extends
      * @internal
      * @throws Exception
      *
-     * @param mixed $collection - collection id as string or number
-     * @param Document $document - the document to be added
-     * @param bool $create - create the collection if it does not yet exist
+     * @param mixed    $collection - collection id as string or number
+     * @param Document $document   - the document to be added
+     * @param bool     $create     - create the collection if it does not yet exist
      *
      * @see EdgeHandler::saveEdge()
      *
@@ -132,11 +132,11 @@ class EdgeHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collection - collection id as string or number
-     * @param mixed $from - from vertex
-     * @param mixed $to - to vertex
-     * @param mixed $document - the edge-document to be added, can be passed as an object or an array
-     * @param bool|array $options - optional, prior to v1.2.0 this was a boolean value for create. Since v1.0.0 it's an array of options.
+     * @param mixed      $collection   - collection id as string or number
+     * @param mixed      $from         - from vertex
+     * @param mixed      $to           - to vertex
+     * @param mixed      $document     - the edge-document to be added, can be passed as an object or an array
+     * @param bool|array $options      - optional, prior to v1.2.0 this was a boolean value for create. Since v1.0.0 it's an array of options.
      *                                 <p>Options are :<br>
      *                                 <li>'create' - create the collection if it does not yet exist.</li>
      *                                 <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk.<br>
@@ -163,13 +163,13 @@ class EdgeHandler extends
         );
 
         $params = $this->includeOptionsInParams(
-	        $options,
-	        $params,
-	        [
+            $options,
+            $params,
+            [
                 ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(
                     ConnectionOptions::OPTION_WAIT_SYNC
                 ),
-	        ]
+            ]
         );
 
         $this->createCollectionIfOptions($collection, $params);
@@ -205,10 +205,10 @@ class EdgeHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collection - edge-collection id as string or number
-     * @param mixed $vertexHandle - the vertex involved
-     * @param string $direction - optional defaults to 'any'. Other possible Values 'in' & 'out'
-     * @param array $options - optional, array of options
+     * @param mixed  $collection     - edge-collection id as string or number
+     * @param mixed  $vertexHandle   - the vertex involved
+     * @param string $direction      - optional defaults to 'any'. Other possible Values 'in' & 'out'
+     * @param array  $options        - optional, array of options
      *                               <p>Options are :
      *                               <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
      *                               <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
@@ -222,7 +222,7 @@ class EdgeHandler extends
         $collection = $this->makeCollection($collection);
 
         $params   = [
-            self::OPTION_VERTEX => $vertexHandle,
+            self::OPTION_VERTEX    => $vertexHandle,
             self::OPTION_DIRECTION => $direction
         ];
         $url      = UrlHelper::appendParamsUrl(Urls::URL_EDGES . '/' . urlencode($collection), $params);
@@ -243,7 +243,7 @@ class EdgeHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collection - edge-collection id as string or number
+     * @param mixed $collection   - edge-collection id as string or number
      * @param mixed $vertexHandle - the vertex involved
      *
      * @return array - array of connected edges
@@ -258,7 +258,7 @@ class EdgeHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collection - edge-collection id as string or number
+     * @param mixed $collection   - edge-collection id as string or number
      * @param mixed $vertexHandle - the vertex involved
      *
      * @return array - array of connected edges
@@ -269,8 +269,8 @@ class EdgeHandler extends
     }
 
     /**
-     * @param $collection mixed collection name or id
-     * @param array $options - optional, array of options
+     * @param       $collection   mixed collection name or id
+     * @param array $options      - optional, array of options
      *                            <p>Options are :
      *                            <li>'createCollection' - true to create the collection if it doesn't exist</li>
      *                            <li>'createCollectionType' - "document" or 2 for document collection</li>

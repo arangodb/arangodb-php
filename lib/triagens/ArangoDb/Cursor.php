@@ -169,8 +169,8 @@ class Cursor implements
      * Initialise the cursor with the first results and some metadata
      *
      * @param Connection $connection - connection to be used
-     * @param array $data - initial result data as returned by the server
-     * @param array $options - cursor options
+     * @param array      $data       - initial result data as returned by the server
+     * @param array      $options    - cursor options
      *
      */
     public function __construct(Connection $connection, array $data, array $options)
@@ -192,8 +192,7 @@ class Cursor implements
             if (isset($this->_extra[self::ENTRY_STATS][self::FULL_COUNT])) {
                 $this->_fullCount = $this->_extra[self::ENTRY_STATS][self::FULL_COUNT];
             }
-        }
-        else if (isset($data[self::ENTRY_EXTRA][self::FULL_COUNT])) {
+        } else if (isset($data[self::ENTRY_EXTRA][self::FULL_COUNT])) {
             // pre-ArangoDB 2.3 return value struct
             $this->_fullCount = $data[self::ENTRY_EXTRA][self::FULL_COUNT];
         }
@@ -230,6 +229,7 @@ class Cursor implements
         if ($this->_id) {
             try {
                 $this->_connection->delete($this->url() . '/' . $this->_id, []);
+
                 return true;
             } catch (Exception $e) {
             }
@@ -382,12 +382,10 @@ class Cursor implements
         foreach ($this->sanitize($data) as $row) {
             if (!is_array($row) || (isset($this->_options[self::ENTRY_FLAT]) && $this->_options[self::ENTRY_FLAT])) {
                 $this->addFlatFromArray($row);
-            }
-            else {
+            } else {
                 if (!isset($this->_options['objectType'])) {
                     $this->addDocumentsFromArray($row);
-                }
-                else {
+                } else {
                     switch ($this->_options['objectType']) {
                         case 'edge' :
                             $this->addEdgesFromArray($row);
@@ -436,33 +434,33 @@ class Cursor implements
     }
 
 
-	/**
-	 * Create an array of documents from the input array
-	 *
-	 * @param array $data - array of incoming "document" arrays
-	 *
-	 * @return void
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * Create an array of documents from the input array
+     *
+     * @param array $data - array of incoming "document" arrays
+     *
+     * @return void
+     * @throws \triagens\ArangoDb\ClientException
+     */
     private function addDocumentsFromArray(array $data)
     {
         $this->_result[] = Document::createFromArray($data, $this->_options);
     }
 
-	/**
-	 * Create an array of paths from the input array
-	 *
-	 * @param array $data - array of incoming "paths" arrays
-	 *
-	 * @return void
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * Create an array of paths from the input array
+     *
+     * @param array $data - array of incoming "paths" arrays
+     *
+     * @return void
+     * @throws \triagens\ArangoDb\ClientException
+     */
     private function addPathsFromArray(array $data)
     {
         $entry = [
-            'vertices' => [],
-            'edges' => [],
-            'source' => Document::createFromArray($data['source'], $this->_options),
+            'vertices'    => [],
+            'edges'       => [],
+            'source'      => Document::createFromArray($data['source'], $this->_options),
             'destination' => Document::createFromArray($data['destination'], $this->_options),
         ];
         foreach ($data['vertices'] as $v) {
@@ -474,14 +472,14 @@ class Cursor implements
         $this->_result[] = $entry;
     }
 
-	/**
-	 * Create an array of shortest paths from the input array
-	 *
-	 * @param array $data - array of incoming "paths" arrays
-	 *
-	 * @return void
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * Create an array of shortest paths from the input array
+     *
+     * @param array $data - array of incoming "paths" arrays
+     *
+     * @return void
+     * @throws \triagens\ArangoDb\ClientException
+     */
     private function addShortestPathFromArray(array $data)
     {
         if (!isset($data['vertices'])) {
@@ -493,15 +491,15 @@ class Cursor implements
         $destination = $vertices[count($vertices) - 1];
 
         $entry = [
-            'paths' => [],
-            'source' => Document::createFromArray($startVertex, $this->_options),
-            'distance' => $data['distance'],
+            'paths'       => [],
+            'source'      => Document::createFromArray($startVertex, $this->_options),
+            'distance'    => $data['distance'],
             'destination' => Document::createFromArray($destination, $this->_options),
         ];
 
         $path = [
             'vertices' => [],
-            'edges' => []
+            'edges'    => []
         ];
 
         foreach ($data['vertices'] as $v) {
@@ -526,21 +524,21 @@ class Cursor implements
     private function addDistanceToFromArray(array $data)
     {
         $entry           = [
-            'source' => $data['startVertex'],
-            'distance' => $data['distance'],
+            'source'      => $data['startVertex'],
+            'distance'    => $data['distance'],
             'destination' => $data['vertex']
         ];
         $this->_result[] = $entry;
     }
 
-	/**
-	 * Create an array of common neighbors from the input array
-	 *
-	 * @param array $data - array of incoming "paths" arrays
-	 *
-	 * @return void
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * Create an array of common neighbors from the input array
+     *
+     * @param array $data - array of incoming "paths" arrays
+     *
+     * @return void
+     * @throws \triagens\ArangoDb\ClientException
+     */
     private function addCommonNeighborsFromArray(array $data)
     {
         $left  = $data['left'];
@@ -589,28 +587,28 @@ class Cursor implements
         $this->_result = $data;
     }
 
-	/**
-	 * Create an array of Edges from the input array
-	 *
-	 * @param array $data - array of incoming "edge" arrays
-	 *
-	 * @return void
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * Create an array of Edges from the input array
+     *
+     * @param array $data - array of incoming "edge" arrays
+     *
+     * @return void
+     * @throws \triagens\ArangoDb\ClientException
+     */
     private function addEdgesFromArray(array $data)
     {
         $this->_result[] = Edge::createFromArray($data, $this->_options);
     }
 
 
-	/**
-	 * Create an array of Vertex from the input array
-	 *
-	 * @param array $data - array of incoming "vertex" arrays
-	 *
-	 * @return void
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * Create an array of Vertex from the input array
+     *
+     * @param array $data - array of incoming "vertex" arrays
+     *
+     * @return void
+     * @throws \triagens\ArangoDb\ClientException
+     */
     private function addVerticesFromArray(array $data)
     {
         $this->_result[] = Vertex::createFromArray($data, $this->_options);
@@ -710,6 +708,7 @@ class Cursor implements
         if (isset($this->_extra[self::ENTRY_STATS][$name])) {
             return $this->_extra[self::ENTRY_STATS][$name];
         }
+
         return 0;
     }
 
@@ -744,6 +743,7 @@ class Cursor implements
         if (isset($this->_extra['warnings'])) {
             return $this->_extra['warnings'];
         }
+
         return [];
     }
 

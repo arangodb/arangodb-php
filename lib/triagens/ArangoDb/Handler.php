@@ -48,15 +48,15 @@ abstract class Handler
     }
 
 
-	/**
-	 * Return a connection option
-	 * This is a convenience function that calls json_encode_wrapper on the connection
-	 *
-	 * @param $optionName - The option to return a value for
-	 *
-	 * @return mixed - the option's value
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * Return a connection option
+     * This is a convenience function that calls json_encode_wrapper on the connection
+     *
+     * @param $optionName - The option to return a value for
+     *
+     * @return mixed - the option's value
+     * @throws \triagens\ArangoDb\ClientException
+     */
     protected function getConnectionOption($optionName)
     {
         return $this->getConnection()->getOption($optionName);
@@ -81,8 +81,7 @@ abstract class Handler
         if (is_array($options)) {
             if (array_key_exists('_sanitize', $options)) {
                 $sanitize = $options['_sanitize'];
-            }
-            else {
+            } else {
                 // keeping the non-underscored version for backwards-compatibility
                 if (array_key_exists('sanitize', $options)) {
                     $sanitize = $options['sanitize'];
@@ -111,25 +110,24 @@ abstract class Handler
 
 
     //todo: (@frankmayer) check if refactoring a bit more makes sense...
-	/**
-	 * Helper function that validates and includes an old single method parameter setting into the parameters array given.
-	 * This is only for keeping backwards-compatibility where methods had for example a parameter which was called 'policy' and
-	 * which was later changed to being an array of options, so more than one options can be passed easily.
-	 * This is only for options that are to be sent to the ArangoDB server.
-	 *
-	 * @param array $options   - The options array that may hold the policy to include in the parameters. If it's not an array, then the value is the policy value.
-	 * @param array $params    - The parameters into which the options will be included.
-	 * @param mixed $parameter - the old single parameter key to use.
-	 *
-	 * @return array $params - array of parameters for use in a url
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * Helper function that validates and includes an old single method parameter setting into the parameters array given.
+     * This is only for keeping backwards-compatibility where methods had for example a parameter which was called 'policy' and
+     * which was later changed to being an array of options, so more than one options can be passed easily.
+     * This is only for options that are to be sent to the ArangoDB server.
+     *
+     * @param array $options   - The options array that may hold the policy to include in the parameters. If it's not an array, then the value is the policy value.
+     * @param array $params    - The parameters into which the options will be included.
+     * @param mixed $parameter - the old single parameter key to use.
+     *
+     * @return array $params - array of parameters for use in a url
+     * @throws \triagens\ArangoDb\ClientException
+     */
     protected function validateAndIncludeOldSingleParameterInParams($options, $params, $parameter)
     {
         if (!is_array($options)) {
             $value = $options;
-        }
-        else {
+        } else {
             $value = isset($options[$parameter]) ? $options[$parameter] : null;
         }
 
@@ -154,8 +152,8 @@ abstract class Handler
      * Only options that are set in $includeArray will be included.
      * This is only for options that are to be sent to the ArangoDB server in form of url parameters (like 'waitForSync', 'keepNull', etc...) .
      *
-     * @param array $options - The options array that holds the options to include in the parameters
-     * @param array $params - The parameters into which the options will be included.
+     * @param array $options      - The options array that holds the options to include in the parameters
+     * @param array $params       - The parameters into which the options will be included.
      * @param array $includeArray - The array that defines which options are allowed to be included, and what their default value is. for example: 'waitForSync'=>true
      *
      * @return array $params - array of parameters for use in a url
@@ -183,8 +181,8 @@ abstract class Handler
      * Only options that are set in $includeArray will be included.
      * This is only for options that are to be sent to the ArangoDB server in a json body(like 'limit', 'skip', etc...) .
      *
-     * @param array $options - The options array that holds the options to include in the parameters
-     * @param array $body - The array into which the options will be included.
+     * @param array $options      - The options array that holds the options to include in the parameters
+     * @param array $body         - The array into which the options will be included.
      * @param array $includeArray - The array that defines which options are allowed to be included, and what their default value is. for example: 'waitForSync'=>true
      *
      * @return array $params - array of parameters for use in a url
@@ -222,6 +220,7 @@ abstract class Handler
         if ($value instanceof Document) {
             return $value->getCollectionId();
         }
+
         return $value;
     }
 

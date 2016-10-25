@@ -12,11 +12,11 @@ namespace triagens\ArangoDb;
 /**
  * Class ConnectionTest
  *
- * @property Connection $connection
- * @property Collection $collection
- * @property Collection $edgeCollection
+ * @property Connection        $connection
+ * @property Collection        $collection
+ * @property Collection        $edgeCollection
  * @property CollectionHandler $collectionHandler
- * @property DocumentHandler $documentHandler
+ * @property DocumentHandler   $documentHandler
  *
  * @package triagens\ArangoDb
  */
@@ -407,8 +407,7 @@ class ConnectionTest extends
                     static::assertInternalType('string', $value, 'The header value should be a string');
                     static::assertInternalType('string', $header, 'The header should be a string');
                 }
-            }
-            else {
+            } else {
                 static::assertInternalType('integer', $data->getHttpCode(), 'Http code must be an integer!');
                 static::assertInternalType(
                     'string',

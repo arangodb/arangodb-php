@@ -32,29 +32,29 @@ class Database
      */
     const ENTRY_DATABASE_USERS = 'users';
 
-	/**
-	 * creates a database
-	 *
-	 * This creates a new database<br>
-	 *
-	 * @param Connection $connection - the connection to be used
-	 * @param string     $name       - the database specification, for example 'myDatabase'
-	 *
-	 * @link http://www.arangodb.com/manuals/1.4/HttpDatabase.html
-	 *
-	 * @return array $responseArray - The response array.
-	 * @throws \triagens\ArangoDb\Exception
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * creates a database
+     *
+     * This creates a new database<br>
+     *
+     * @param Connection $connection - the connection to be used
+     * @param string     $name       - the database specification, for example 'myDatabase'
+     *
+     * @link http://www.arangodb.com/manuals/1.4/HttpDatabase.html
+     *
+     * @return array $responseArray - The response array.
+     * @throws \triagens\ArangoDb\Exception
+     * @throws \triagens\ArangoDb\ClientException
+     */
     public static function create(Connection $connection, $name)
     {
         $payload = [
-            self::ENTRY_DATABASE_NAME => $name,
+            self::ENTRY_DATABASE_NAME  => $name,
             self::ENTRY_DATABASE_USERS => [
-	            [
+                [
                     'username' => $connection->getOption(ConnectionOptions::OPTION_AUTH_USER),
-                    'passwd' => $connection->getOption(ConnectionOptions::OPTION_AUTH_PASSWD)
-	            ]
+                    'passwd'   => $connection->getOption(ConnectionOptions::OPTION_AUTH_PASSWD)
+                ]
             ]
         ];
 
@@ -64,20 +64,20 @@ class Database
     }
 
 
-	/**
-	 * Deletes a database
-	 *
-	 * This will delete an existing database.
-	 *
-	 * @param Connection $connection - the connection to be used
-	 * @param string     $name       - the database specification, for example 'myDatabase'
-	 *
-	 * @link http://www.arangodb.com/manuals/1.4/HttpDatabase.html
-	 *
-	 * @return array $responseArray - The response array.
-	 * @throws \triagens\ArangoDb\Exception
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * Deletes a database
+     *
+     * This will delete an existing database.
+     *
+     * @param Connection $connection - the connection to be used
+     * @param string     $name       - the database specification, for example 'myDatabase'
+     *
+     * @link http://www.arangodb.com/manuals/1.4/HttpDatabase.html
+     *
+     * @return array $responseArray - The response array.
+     * @throws \triagens\ArangoDb\Exception
+     * @throws \triagens\ArangoDb\ClientException
+     */
     public static function delete(Connection $connection, $name)
     {
         $url = UrlHelper::buildUrl(Urls::URL_DATABASE, [$name]);
@@ -104,19 +104,19 @@ class Database
         return self::databases($connection);
     }
 
-	/**
-	 * List databases
-	 *
-	 * This will list the databases that exist on the server
-	 *
-	 * @param Connection $connection - the connection to be used
-	 *
-	 * @link http://www.arangodb.com/manuals/1.4/HttpDatabase.html
-	 *
-	 * @return array $responseArray - The response array.
-	 * @throws \triagens\ArangoDb\Exception
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * List databases
+     *
+     * This will list the databases that exist on the server
+     *
+     * @param Connection $connection - the connection to be used
+     *
+     * @link http://www.arangodb.com/manuals/1.4/HttpDatabase.html
+     *
+     * @return array $responseArray - The response array.
+     * @throws \triagens\ArangoDb\Exception
+     * @throws \triagens\ArangoDb\ClientException
+     */
     public static function databases(Connection $connection)
     {
         $response = $connection->get(Urls::URL_DATABASE);
@@ -124,20 +124,20 @@ class Database
         return $response->getJson();
     }
 
-	/**
-	 * List user databases
-	 *
-	 * Retrieves the list of all databases the current user can access without
-	 * specifying a different username or password.
-	 *
-	 * @param Connection $connection - the connection to be used
-	 *
-	 * @link http://www.arangodb.com/manuals/1.4/HttpDatabase.html
-	 *
-	 * @return array $responseArray - The response array.
-	 * @throws \triagens\ArangoDb\Exception
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * List user databases
+     *
+     * Retrieves the list of all databases the current user can access without
+     * specifying a different username or password.
+     *
+     * @param Connection $connection - the connection to be used
+     *
+     * @link http://www.arangodb.com/manuals/1.4/HttpDatabase.html
+     *
+     * @return array $responseArray - The response array.
+     * @throws \triagens\ArangoDb\Exception
+     * @throws \triagens\ArangoDb\ClientException
+     */
     public static function listUserDatabases(Connection $connection)
     {
 
@@ -149,19 +149,19 @@ class Database
     }
 
 
-	/**
-	 * Retrieves information about the current database
-	 *
-	 * This will get information about the currently used database from the server
-	 *
-	 * @param Connection $connection - the connection to be used
-	 *
-	 * @link http://www.arangodb.com/manuals/1.4/HttpDatabase.html
-	 *
-	 * @return array $responseArray - The response array.
-	 * @throws \triagens\ArangoDb\Exception
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * Retrieves information about the current database
+     *
+     * This will get information about the currently used database from the server
+     *
+     * @param Connection $connection - the connection to be used
+     *
+     * @link http://www.arangodb.com/manuals/1.4/HttpDatabase.html
+     *
+     * @return array $responseArray - The response array.
+     * @throws \triagens\ArangoDb\Exception
+     * @throws \triagens\ArangoDb\ClientException
+     */
     public static function getInfo(Connection $connection)
     {
         $url = UrlHelper::buildUrl(Urls::URL_DATABASE, ['current']);

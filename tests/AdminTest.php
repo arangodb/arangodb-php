@@ -10,7 +10,7 @@
 namespace triagens\ArangoDb;
 
 /**
- * @property Connection connection
+ * @property Connection   connection
  * @property AdminHandler adminHandler
  */
 class AdminTest extends

@@ -39,22 +39,22 @@ function getConnectionOptions()
     };
 
     return [
-        ConnectionOptions::OPTION_ENDPOINT => 'tcp://localhost:8529',
+        ConnectionOptions::OPTION_ENDPOINT           => 'tcp://localhost:8529',
         // endpoint to connect to
-        ConnectionOptions::OPTION_CONNECTION => 'Close',
+        ConnectionOptions::OPTION_CONNECTION         => 'Close',
         // can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
-        ConnectionOptions::OPTION_AUTH_TYPE => 'Basic',
+        ConnectionOptions::OPTION_AUTH_TYPE          => 'Basic',
         // use basic authorization
-        ConnectionOptions::OPTION_AUTH_USER => 'root',
+        ConnectionOptions::OPTION_AUTH_USER          => 'root',
         // user for basic authorization
-        ConnectionOptions::OPTION_AUTH_PASSWD => '',
+        ConnectionOptions::OPTION_AUTH_PASSWD        => '',
         // password for basic authorization
-        ConnectionOptions::OPTION_TIMEOUT => 12,
+        ConnectionOptions::OPTION_TIMEOUT            => 12,
         // timeout in seconds
         //ConnectionOptions::OPTION_TRACE       => $traceFunc,              // tracer function, can be used for debugging
-        ConnectionOptions::OPTION_CREATE => false,
+        ConnectionOptions::OPTION_CREATE             => false,
         // do not create unknown collections automatically
-        ConnectionOptions::OPTION_UPDATE_POLICY => UpdatePolicy::LAST,
+        ConnectionOptions::OPTION_UPDATE_POLICY      => UpdatePolicy::LAST,
         // last update wins
         ConnectionOptions::OPTION_CHECK_UTF8_CONFORM => true
         // force UTF-8 checks for data

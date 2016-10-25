@@ -12,10 +12,10 @@ namespace triagens\ArangoDb;
 /**
  * Class CollectionExtendedTest
  *
- * @property Connection $connection
- * @property Collection $collection
+ * @property Connection        $connection
+ * @property Collection        $collection
  * @property CollectionHandler $collectionHandler
- * @property DocumentHandler $documentHandler
+ * @property DocumentHandler   $documentHandler
  *
  * @package triagens\ArangoDb
  */
@@ -112,8 +112,8 @@ class CollectionExtendedTest extends
         $collection->setName($name);
         $collection->setIsSystem(true);
 
-         try {
-            $collectionHandler->drop($name, [ 'isSystem' => true ]);
+        try {
+            $collectionHandler->drop($name, ['isSystem' => true]);
         } catch (Exception $e) {
             //Silence the exception
         }
@@ -127,7 +127,7 @@ class CollectionExtendedTest extends
         $properties = $collectionHandler->getProperties($name);
         static::assertTrue($properties->getIsSystem(), '"isSystem" should be true!');
 
-        $response = $collectionHandler->drop($collection, [ 'isSystem' => true ]);
+        $response = $collectionHandler->drop($collection, ['isSystem' => true]);
         static::assertTrue($response, 'Delete should return true!');
     }
 
@@ -489,13 +489,14 @@ class CollectionExtendedTest extends
 
     /**
      * test for removal by keys with unknown collection
+     *
      * @expectedException \triagens\ArangoDb\ServerException
      */
     public function testRemoveByKeysCollectionNotFound()
     {
         $collectionHandler = $this->collectionHandler;
 
-        $keys   = ['foo'];
+        $keys = ['foo'];
         $collectionHandler->removeByKeys('ThisDoesNotExist', $keys);
     }
 
@@ -814,7 +815,7 @@ class CollectionExtendedTest extends
         $exampleDocument = Document::createFromArray(['someAttribute' => 'someValue2']);
         $replaceDocument = Document::createFromArray(
             [
-                'someAttribute' => 'someValue2replaced',
+                'someAttribute'      => 'someValue2replaced',
                 'someOtherAttribute' => 'someOtherValue2replaced'
             ]
         );
@@ -933,7 +934,7 @@ class CollectionExtendedTest extends
         $exampleDocument = Document::createFromArray(['someAttribute' => 'someValue2']);
         $replaceDocument = Document::createFromArray(
             [
-                'someAttribute' => 'someValue2replaced',
+                'someAttribute'      => 'someValue2replaced',
                 'someOtherAttribute' => 'someOtherValue2replaced'
             ]
         );
@@ -999,7 +1000,7 @@ class CollectionExtendedTest extends
         $exampleDocument = Document::createFromArray(['someAttribute' => 'someValue2']);
         $replaceDocument = Document::createFromArray(
             [
-                'someAttribute' => 'someValue2replaced',
+                'someAttribute'      => 'someValue2replaced',
                 'someOtherAttribute' => 'someOtherValue2replaced'
             ]
         );
@@ -1142,11 +1143,11 @@ class CollectionExtendedTest extends
 
         $statement = new Statement(
             $this->connection, [
-                                 'query' => '',
-                                 'count' => true,
-                                 'batchSize' => 1,
-                                 'sanitize' => true,
-                             ]
+                'query'     => '',
+                'count'     => true,
+                'batchSize' => 1,
+                'sanitize'  => true,
+            ]
         );
         $query     = 'FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
 
@@ -1194,11 +1195,11 @@ class CollectionExtendedTest extends
 
         $statement = new Statement(
             $this->connection, [
-                                 'query' => '',
-                                 'count' => true,
-                                 'batchSize' => 2,
-                                 'sanitize' => true,
-                             ]
+                'query'     => '',
+                'count'     => true,
+                'batchSize' => 2,
+                'sanitize'  => true,
+            ]
         );
         $query     = 'FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
 
@@ -1246,11 +1247,11 @@ class CollectionExtendedTest extends
 
         $statement = new Statement(
             $this->connection, [
-                                 'query' => '',
-                                 'count' => true,
-                                 'batchSize' => 3,
-                                 'sanitize' => true,
-                             ]
+                'query'     => '',
+                'count'     => true,
+                'batchSize' => 3,
+                'sanitize'  => true,
+            ]
         );
         $query     = 'FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
 
@@ -1297,19 +1298,19 @@ class CollectionExtendedTest extends
         $document1 = Document::createFromArray(
             [
                 'firstName' => 'Joe',
-                'lastName' => 'Public',
-                'age' => 42,
-                'gender' => 'male',
-                '_key' => 'test1'
+                'lastName'  => 'Public',
+                'age'       => 42,
+                'gender'    => 'male',
+                '_key'      => 'test1'
             ]
         );
         $document2 = Document::createFromArray(
             [
                 'firstName' => 'Jane',
-                'lastName' => 'Doe',
-                'age' => 31,
-                'gender' => 'female',
-                '_key' => 'test2'
+                'lastName'  => 'Doe',
+                'age'       => 31,
+                'gender'    => 'female',
+                '_key'      => 'test2'
             ]
         );
 
@@ -1324,11 +1325,11 @@ class CollectionExtendedTest extends
 
         $statement = new Statement(
             $this->connection, [
-                                 'query' => '',
-                                 'count' => true,
-                                 'batchSize' => 4,
-                                 'sanitize' => true,
-                             ]
+                'query'     => '',
+                'count'     => true,
+                'batchSize' => 4,
+                'sanitize'  => true,
+            ]
         );
         $query     = 'FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
 
@@ -1382,11 +1383,11 @@ class CollectionExtendedTest extends
 
         $statement = new Statement(
             $this->connection, [
-                                 'query' => '',
-                                 'count' => true,
-                                 'batchSize' => 5,
-                                 'sanitize' => true,
-                             ]
+                'query'     => '',
+                'count'     => true,
+                'batchSize' => 5,
+                'sanitize'  => true,
+            ]
         );
         $query     = 'FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
 
@@ -1439,11 +1440,11 @@ class CollectionExtendedTest extends
 
         $statement = new Statement(
             $this->connection, [
-                                 'query' => '',
-                                 'count' => true,
-                                 'batchSize' => 100,
-                                 'sanitize' => true,
-                             ]
+                'query'     => '',
+                'count'     => true,
+                'batchSize' => 100,
+                'sanitize'  => true,
+            ]
         );
         $query     = 'FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
 
@@ -1496,11 +1497,11 @@ class CollectionExtendedTest extends
 
         $statement = new Statement(
             $this->connection, [
-                                 'query' => '',
-                                 'count' => true,
-                                 'batchSize' => 1000,
-                                 'sanitize' => true,
-                             ]
+                'query'     => '',
+                'count'     => true,
+                'batchSize' => 1000,
+                'sanitize'  => true,
+            ]
         );
         $query     = 'FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
 
@@ -1541,12 +1542,12 @@ class CollectionExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document = Document::createFromArray(
-	        ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
         $documentHandler->add($collection->getId(), $document);
 
         $document = Document::createFromArray(
-	        ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
+            ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
         $documentHandler->add($collection->getId(), $document);
 
@@ -1623,9 +1624,9 @@ class CollectionExtendedTest extends
 
         $cursor = $collectionHandler->all(
             $collection->getId(), [
-                                    '_ignoreHiddenAttributes' => false,
-                                    '_hiddenAttributes' => ['someOtherAttribute']
-                                ]
+                '_ignoreHiddenAttributes' => false,
+                '_hiddenAttributes'       => ['someOtherAttribute']
+            ]
         );
 
         $resultingDocument = null;
@@ -1638,9 +1639,9 @@ class CollectionExtendedTest extends
 
         $cursor = $collectionHandler->all(
             $collection->getId(), [
-                                    '_ignoreHiddenAttributes' => true,
-                                    '_hiddenAttributes' => ['someOtherAttribute']
-                                ]
+                '_ignoreHiddenAttributes' => true,
+                '_hiddenAttributes'       => ['someOtherAttribute']
+            ]
         );
 
         $resultingDocument = null;
@@ -1680,9 +1681,9 @@ class CollectionExtendedTest extends
 
         $cursor = $collectionHandler->all(
             $collection->getId(), [
-                                    '_ignoreHiddenAttributes' => false,
-                                    '_hiddenAttributes' => ['someOtherAttribute']
-                                ]
+                '_ignoreHiddenAttributes' => false,
+                '_hiddenAttributes'       => ['someOtherAttribute']
+            ]
         );
 
         $resultingDocument = null;
@@ -1695,9 +1696,9 @@ class CollectionExtendedTest extends
 
         $cursor = $collectionHandler->all(
             $collection->getId(), [
-                                    '_ignoreHiddenAttributes' => false,
-                                    '_hiddenAttributes' => ['someOtherAttribute']
-                                ]
+                '_ignoreHiddenAttributes' => false,
+                '_hiddenAttributes'       => ['someOtherAttribute']
+            ]
         );
 
         $resultingDocument = null;
@@ -1714,9 +1715,9 @@ class CollectionExtendedTest extends
 
         $cursor = $collectionHandler->all(
             $collection->getId(), [
-                                    '_ignoreHiddenAttributes' => false,
-                                    '_hiddenAttributes' => ['someOtherAttribute']
-                                ]
+                '_ignoreHiddenAttributes' => false,
+                '_hiddenAttributes'       => ['someOtherAttribute']
+            ]
         );
 
         $resultingDocument = null;
@@ -1733,9 +1734,9 @@ class CollectionExtendedTest extends
 
         $cursor = $collectionHandler->all(
             $collection->getId(), [
-                                    '_ignoreHiddenAttributes' => true,
-                                    '_hiddenAttributes' => ['someOtherAttribute']
-                                ]
+                '_ignoreHiddenAttributes' => true,
+                '_hiddenAttributes'       => ['someOtherAttribute']
+            ]
         );
 
         $resultingDocument = null;
@@ -1748,9 +1749,9 @@ class CollectionExtendedTest extends
 
         $cursor = $collectionHandler->all(
             $collection->getId(), [
-                                    '_ignoreHiddenAttributes' => true,
-                                    '_hiddenAttributes' => []
-                                ]
+                '_ignoreHiddenAttributes' => true,
+                '_hiddenAttributes'       => []
+            ]
         );
 
         $resultingDocument = null;
@@ -1760,7 +1761,7 @@ class CollectionExtendedTest extends
             $doc                     = $resultingDocument[$key]->getAll(
                 [
                     '_ignoreHiddenAttributes' => false,
-                    '_hiddenAttributes' => ['someOtherAttribute']
+                    '_hiddenAttributes'       => ['someOtherAttribute']
                 ]
             );
             static::assertArrayNotHasKey('someOtherAttribute', $doc);
@@ -1768,8 +1769,8 @@ class CollectionExtendedTest extends
 
         $cursor = $collectionHandler->all(
             $collection->getId(), [
-                                    '_ignoreHiddenAttributes' => true
-                                ]
+                '_ignoreHiddenAttributes' => true
+            ]
         );
 
         $resultingDocument = null;
@@ -1779,7 +1780,7 @@ class CollectionExtendedTest extends
             $doc                     = $resultingDocument[$key]->getAll(
                 [
                     '_ignoreHiddenAttributes' => false,
-                    '_hiddenAttributes' => ['someOtherAttribute']
+                    '_hiddenAttributes'       => ['someOtherAttribute']
                 ]
             );
 
@@ -1972,10 +1973,10 @@ class CollectionExtendedTest extends
 
         $document1 = Document::createFromArray(
             [
-                'index' => 2,
+                'index'              => 2,
                 'someOtherAttribute' => 'someValue2',
-                'nested' => [
-                    'index' => 3,
+                'nested'             => [
+                    'index'                => 3,
                     'someNestedAttribute3' => 'someNestedValue3'
                 ]
             ]
@@ -1983,10 +1984,10 @@ class CollectionExtendedTest extends
         $documentHandler->add($collection->getId(), $document1);
         $document2 = Document::createFromArray(
             [
-                'index' => 1,
+                'index'              => 1,
                 'someOtherAttribute' => 'someValue1',
-                'nested' => [
-                    'index' => 2,
+                'nested'             => [
+                    'index'                => 2,
                     'someNestedAttribute3' => 'someNestedValue2'
                 ]
             ]
@@ -1995,10 +1996,10 @@ class CollectionExtendedTest extends
 
         $document3 = Document::createFromArray(
             [
-                'index' => 3,
+                'index'              => 3,
                 'someOtherAttribute' => 'someValue3',
-                'nested' => [
-                    'index' => 1,
+                'nested'             => [
+                    'index'                => 1,
                     'someNestedAttribute3' => 'someNestedValue1'
                 ]
             ]
@@ -2493,15 +2494,15 @@ class CollectionExtendedTest extends
             ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true]
         );
         $collectionHandler->add($collection);
-        $document    = Document::createFromArray(
+        $document = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
         $documentHandler->add($collection->getId(), $document);
-        $document2   = Document::createFromArray(
+        $document2 = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
         $documentHandler->add($collection->getId(), $document2);
-        $document3   = Document::createFromArray(
+        $document3 = Document::createFromArray(
             ['someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue']
         );
         $documentHandler->add($collection->getId(), $document3);
@@ -2630,13 +2631,14 @@ class CollectionExtendedTest extends
 
     /**
      * test for lookup by keys with unknown collection
+     *
      * @expectedException \triagens\ArangoDb\ServerException
      */
     public function testLookupByCollectionNotFound()
     {
         $collectionHandler = $this->collectionHandler;
 
-        $keys   = ['foo'];
+        $keys = ['foo'];
         $collectionHandler->lookupByKeys('ThisDoesNotExist', $keys);
     }
 

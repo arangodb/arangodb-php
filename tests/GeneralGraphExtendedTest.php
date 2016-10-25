@@ -55,73 +55,73 @@ class GeneralGraphExtendedTest extends
         $this->graphHandler->createGraph($this->graph);
         $this->graph        = $this->graphHandler->getGraph($this->graphName);
         $this->vertex1Array = [
-            '_key' => 'vertex1',
-            'someKey1' => 'someValue1',
+            '_key'       => 'vertex1',
+            'someKey1'   => 'someValue1',
             'sharedKey1' => 1
         ];
         $this->vertex2Array = [
-            '_key' => 'vertex2',
-            'someKey2' => 'someValue2',
+            '_key'       => 'vertex2',
+            'someKey2'   => 'someValue2',
             'sharedKey1' => 2
         ];
         $this->vertex3Array = [
-            '_key' => 'vertex3',
-            'someKey3' => 'someValue3',
+            '_key'       => 'vertex3',
+            'someKey3'   => 'someValue3',
             'sharedKey1' => 1
         ];
         $this->vertex4Array = [
-            '_key' => 'vertex4',
-            'someKey4' => 'someValue4',
+            '_key'       => 'vertex4',
+            'someKey4'   => 'someValue4',
             'sharedKey1' => 2
         ];
         $this->vertex5Array = [
-            '_key' => 'vertex5',
-            'someKey5' => 'someValue5',
-            'a' => 3,
+            '_key'       => 'vertex5',
+            'someKey5'   => 'someValue5',
+            'a'          => 3,
             'sharedKey1' => 1
         ];
         $this->vertex6Array = [
-            '_key' => 'vertex6',
-            'someKey6' => 'someValue6',
+            '_key'       => 'vertex6',
+            'someKey6'   => 'someValue6',
             'sharedKey1' => 1
         ];
         $this->vertex7Array = [
-            '_key' => 'vertex7',
-            'someKey7' => 'someValue7',
-            'a' => 3,
+            '_key'       => 'vertex7',
+            'someKey7'   => 'someValue7',
+            'a'          => 3,
             'sharedKey1' => 1
         ];
         $this->edge1Array   = [
-            '_key' => 'edge1',
+            '_key'         => 'edge1',
             'someEdgeKey1' => 'someEdgeValue1',
-            'sharedKey1' => 1,
-            'weight' => 10
+            'sharedKey1'   => 1,
+            'weight'       => 10
         ];
         $this->edge2Array   = [
-            '_key' => 'edge2',
+            '_key'         => 'edge2',
             'someEdgeKey2' => 'someEdgeValue2',
-            'sharedKey2' => 2,
-            'weight' => 15
+            'sharedKey2'   => 2,
+            'weight'       => 15
         ];
         $this->edge3Array   = [
-            '_key' => 'edge3',
+            '_key'       => 'edge3',
             'sharedKey3' => 2,
-            'weight' => 12
+            'weight'     => 12
         ];
         $this->edge4Array   = [
-            '_key' => 'edge4',
+            '_key'       => 'edge4',
             'sharedKey4' => 1,
-            'weight' => 7
+            'weight'     => 7
         ];
         $this->edge5Array   = [
-            '_key' => 'edge5',
+            '_key'       => 'edge5',
             'sharedKey5' => 1,
-            'weight' => 5
+            'weight'     => 5
         ];
         $this->edge6Array   = [
-            '_key' => 'edge6',
+            '_key'       => 'edge6',
             'sharedKey6' => 1,
-            'weight' => 2
+            'weight'     => 2
         ];
     }
 

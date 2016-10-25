@@ -133,7 +133,7 @@ class Document
     /**
      * Constructs an empty document
      *
-     * @param array $options - optional, initial $options for document
+     * @param array $options           - optional, initial $options for document
      *                                 <p>Options are :<br>
      *                                 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
      *                                 <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
@@ -168,7 +168,7 @@ class Document
      *
      * @throws ClientException
      *
-     * @param array $values - initial values for document
+     * @param array $values  - initial values for document
      * @param array $options - optional, initial options for document
      *
      * @return Document|Edge|Graph
@@ -256,6 +256,7 @@ class Document
      * @param array $attributes - attributes array
      *
      * @param array $_hiddenAttributes
+     *
      * @return array - attributes array
      */
     public function filterHiddenAttributes($attributes, array $_hiddenAttributes = [])
@@ -284,8 +285,8 @@ class Document
      *
      * @throws ClientException
      *
-     * @param string $key - attribute name
-     * @param mixed $value - value for attribute
+     * @param string $key   - attribute name
+     * @param mixed  $value - value for attribute
      *
      * @return void
      */
@@ -299,21 +300,25 @@ class Document
         if ($key[0] === '_') {
             if ($key === self::ENTRY_ID) {
                 $this->setInternalId($value);
+
                 return;
             }
 
             if ($key === self::ENTRY_KEY) {
                 $this->setInternalKey($value);
+
                 return;
             }
 
             if ($key === self::ENTRY_REV) {
                 $this->setRevision($value);
+
                 return;
             }
 
             if ($key === self::ENTRY_ISNEW) {
                 $this->setIsNew($value);
+
                 return;
             }
         }
@@ -340,8 +345,8 @@ class Document
      *
      * @magic
      *
-     * @param string $key - attribute name
-     * @param mixed $value - value for attribute
+     * @param string $key   - attribute name
+     * @param mixed  $value - value for attribute
      *
      * @return void
      */
@@ -416,8 +421,7 @@ class Document
 
         if (!is_array($options)) {
             $includeInternals = $options;
-        }
-        else {
+        } else {
             // keeping the non-underscored version for backwards-compatibility
             $includeInternals = array_key_exists(
                 'includeInternals',
@@ -479,8 +483,7 @@ class Document
         foreach ($this->_values as $key => $value) {
             if ($key === '_id' || $key === '_rev') {
                 continue;
-            }
-            else if ($key === '_key' && $value === null) {
+            } else if ($key === '_key' && $value === null) {
                 // key value not yet set
                 continue;
             }
@@ -512,12 +515,14 @@ class Document
         if (count($result) === 0) {
             return new \stdClass();
         }
+
         return $result;
     }
 
     /**
      * Set the hidden attributes
      * $cursor
+     *
      * @param array $attributes - array of attributes
      *
      * @return void

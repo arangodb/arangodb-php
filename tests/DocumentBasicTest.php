@@ -13,11 +13,11 @@ namespace triagens\ArangoDb;
 /**
  * Class DocumentBasicTest
  *
- * @property Connection $connection
- * @property Collection $collection
- * @property Collection $edgeCollection
+ * @property Connection        $connection
+ * @property Collection        $collection
+ * @property Collection        $edgeCollection
  * @property CollectionHandler $collectionHandler
- * @property DocumentHandler $documentHandler
+ * @property DocumentHandler   $documentHandler
  *
  * @package triagens\ArangoDb
  */
@@ -361,9 +361,9 @@ class DocumentBasicTest extends
         try {
             $documentHandler->get(
                 $collection->getId(), $documentId, [
-                                        'ifMatch' => true,
-                                        'revision' => 12345
-                                    ]
+                    'ifMatch'  => true,
+                    'revision' => 12345
+                ]
             );
         } catch (\Exception $exception412) {
         }
@@ -372,9 +372,9 @@ class DocumentBasicTest extends
         try {
             $documentHandler->get(
                 $collection->getId(), $documentId, [
-                                        'ifMatch' => false,
-                                        'revision' => $document->getRevision()
-                                    ]
+                    'ifMatch'  => false,
+                    'revision' => $document->getRevision()
+                ]
             );
         } catch (\Exception $exception304) {
         }

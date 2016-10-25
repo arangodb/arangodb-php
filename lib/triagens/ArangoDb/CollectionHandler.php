@@ -219,7 +219,7 @@ class CollectionHandler extends
      * @throws Exception
      *
      * @param mixed $collection - collection object to be created on the server or a string with the name
-     * @param array $options - an array of options.
+     * @param array $options    - an array of options.
      *                          <p>Options are :<br>
      *                          <li>'type'            - 2 -> normal collection, 3 -> edge-collection</li>
      *                          <li>'waitForSync'     -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
@@ -260,13 +260,13 @@ class CollectionHandler extends
 
         $type   = $collection->getType() ?: Collection::getDefaultType();
         $params = [
-            Collection::ENTRY_NAME => $collection->getName(),
-            Collection::ENTRY_TYPE => $type,
-            Collection::ENTRY_WAIT_SYNC => $collection->getWaitForSync(),
+            Collection::ENTRY_NAME         => $collection->getName(),
+            Collection::ENTRY_TYPE         => $type,
+            Collection::ENTRY_WAIT_SYNC    => $collection->getWaitForSync(),
             Collection::ENTRY_JOURNAL_SIZE => $collection->getJournalSize(),
-            Collection::ENTRY_IS_SYSTEM => $collection->getIsSystem(),
-            Collection::ENTRY_IS_VOLATILE => $collection->getIsVolatile(),
-            Collection::ENTRY_KEY_OPTIONS => $collection->getKeyOptions(),
+            Collection::ENTRY_IS_SYSTEM    => $collection->getIsSystem(),
+            Collection::ENTRY_IS_VOLATILE  => $collection->getIsVolatile(),
+            Collection::ENTRY_KEY_OPTIONS  => $collection->getKeyOptions(),
         ];
 
         // set extra cluster attributes
@@ -327,7 +327,7 @@ class CollectionHandler extends
      * @return mixed - id of collection created
      *
      * @deprecated to be removed in version 2.0 - This function is being replaced by create()
-     * @todo remove in version 3.1
+     * @todo       remove in version 3.1
      */
     public function add(Collection $collection)
     {
@@ -344,6 +344,7 @@ class CollectionHandler extends
      * @throws Exception When any other error than a 404 occurs
      *
      * @param  mixed $collection - collection id as a string or number
+     *
      * @return boolean
      */
     public function has($collection)
@@ -353,6 +354,7 @@ class CollectionHandler extends
         try {
             // will throw ServerException if entry could not be retrieved
             $this->get($collection);
+
             return true;
         } catch (ServerException $e) {
             // we are expecting a 404 to return boolean false
@@ -402,7 +404,7 @@ class CollectionHandler extends
      * @return int - the number of documents in the collection
      *
      * @deprecated to be removed in version 2.0 - This function is being replaced by count()
-     * @todo remove in version 3.1
+     * @todo       remove in version 3.1
      */
     public function getCount($collection)
     {
@@ -475,6 +477,7 @@ class CollectionHandler extends
         $response   = $this->getConnection()->get($url);
 
         $data = $response->getJson();
+
         return $data[self::OPTION_FIGURES];
     }
 
@@ -491,7 +494,7 @@ class CollectionHandler extends
      * @return array - the figures for the collection
      *
      * @deprecated to be removed in version 2.0 - This function is being replaced by figures()
-     * @todo remove in version 3.1
+     * @todo       remove in version 3.1
      */
     public function getFigures($collection)
     {
@@ -506,10 +509,10 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collectionId - collection id as a string or number
-     * @param boolean $withRevisions - optional boolean whether or not to include document revision ids
-     *                                 in the checksum calculation.
-     * @param boolean $withData - optional boolean whether or not to include document body data in the
+     * @param mixed   $collectionId         - collection id as a string or number
+     * @param boolean $withRevisions        - optional boolean whether or not to include document revision ids
+     *                                      in the checksum calculation.
+     * @param boolean $withData             - optional boolean whether or not to include document body data in the
      *                                      checksum calculation.
      *
      * @return array - array containing keys "checksum" and "revision"
@@ -520,6 +523,7 @@ class CollectionHandler extends
         $url      = UrlHelper::buildUrl(Urls::URL_COLLECTION, [$collectionId, self::OPTION_CHECKSUM]);
         $url      = UrlHelper::appendParamsUrl($url, ['withRevisions' => $withRevisions, 'withData' => $withData]);
         $response = $this->getConnection()->get($url);
+
         return $response->getJson();
     }
 
@@ -540,6 +544,7 @@ class CollectionHandler extends
 
         $url      = UrlHelper::buildUrl(Urls::URL_COLLECTION, [$collectionId, self::OPTION_REVISION]);
         $response = $this->getConnection()->get($url);
+
         return $response->getJson();
     }
 
@@ -548,8 +553,8 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collection - collection id as string or number or collection object
-     * @param string $name - new name for collection
+     * @param mixed  $collection - collection id as string or number or collection object
+     * @param string $name       - new name for collection
      *
      * @return bool - always true, will throw if there is an error
      */
@@ -659,7 +664,7 @@ class CollectionHandler extends
      * @throws Exception
      *
      * @param mixed $collection - collection id as string or number or collection object
-     * @param array $options - an array of options for the drop operation
+     * @param array $options    - an array of options for the drop operation
      *
      * @return bool - always true, will throw if there is an error
      */
@@ -692,7 +697,7 @@ class CollectionHandler extends
      * @return bool - always true, will throw if there is an error
      *
      * @deprecated to be removed in version 2.0 - This function is being replaced by drop()
-     * @todo remove in version 3.1
+     * @todo       remove in version 3.1
      */
     public function delete($collection)
     {
@@ -712,21 +717,21 @@ class CollectionHandler extends
         return !$collectionId || !(is_string($collectionId) || is_float($collectionId) || is_int($collectionId));
     }
 
-	/**
-	 * Get list of all available collections per default with the collection names as index.
-	 * Returns empty array if none are available.
-	 *
-	 * @param array $options            - optional - an array of options.
-	 *                                  <p>Options are :<br>
-	 *                                  <li>'excludeSystem' -   With a value of true, all system collections will be excluded from the response.</li>
-	 *                                  <li>'keys' -  With a value of "collections", the index of the resulting array is numerical,
-	 *                                  With a value of "names", the index of the resulting array are the collection names.</li>
-	 *                                  </p>
-	 *
-	 * @return array
-	 * @throws \triagens\ArangoDb\Exception
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * Get list of all available collections per default with the collection names as index.
+     * Returns empty array if none are available.
+     *
+     * @param array $options            - optional - an array of options.
+     *                                  <p>Options are :<br>
+     *                                  <li>'excludeSystem' -   With a value of true, all system collections will be excluded from the response.</li>
+     *                                  <li>'keys' -  With a value of "collections", the index of the resulting array is numerical,
+     *                                  With a value of "names", the index of the resulting array are the collection names.</li>
+     *                                  </p>
+     *
+     * @return array
+     * @throws \triagens\ArangoDb\Exception
+     * @throws \triagens\ArangoDb\ClientException
+     */
     public function getAllCollections(array $options = [])
     {
         $options = array_merge(['excludeSystem' => false, 'keys' => 'result'], $options);
@@ -742,6 +747,7 @@ class CollectionHandler extends
             foreach ($response[$options['keys']] as $collection) {
                 $result[$collection['name']] = $collection;
             }
+
             return $result;
         }
 
@@ -762,8 +768,7 @@ class CollectionHandler extends
             $collectionId = $collection->getId();
 
             return $collectionId;
-        }
-        else {
+        } else {
             $collectionId = $collection;
 
             return $collectionId;
@@ -784,8 +789,7 @@ class CollectionHandler extends
             $collectionId = $collection->getName();
 
             return $collectionId;
-        }
-        else {
+        } else {
             $collectionId = $collection;
 
             return $collectionId;
@@ -800,9 +804,9 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collectionId - collection id as string or number
+     * @param mixed $collectionId   - collection id as string or number
      * @param mixed $importFileName - The filename that holds the import data.
-     * @param array $options - optional - an array of options.
+     * @param array $options        - optional - an array of options.
      *                              <p>Options are :<br>
      *                              'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
      *                              <p>
@@ -834,34 +838,34 @@ class CollectionHandler extends
     }
 
 
-	/**
-	 * Import documents into a collection
-	 *
-	 * This will throw on all errors except insertion errors
-	 *
-	 *
-	 * @param       $collection   mixed $collection - collection id as string or number
-	 * @param mixed $importData   - The data to import. This can be a string holding the data according to the type of import, or an array of documents
-	 * @param array $options      - optional - an array of options.
-	 *                            <p>Options are :<br>
-	 *                            <li>
-	 *                            'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
-	 *                            <p>
-	 *                            <li>                       if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.</li>
-	 *                            <li>                       if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.</li>
-	 *                            <br>
-	 *                            More info on how the import functionality works: <a href ="https://github.com/triAGENS/ArangoDB/wiki/HttpImport">https://github.com/triAGENS/ArangoDB/wiki/HttpImport</a>
-	 *                            </p>
-	 *                            <br>
-	 *
-	 * </li>
-	 * <li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
-	 * </p>
-	 *
-	 * @return array
-	 * @throws \triagens\ArangoDb\Exception
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * Import documents into a collection
+     *
+     * This will throw on all errors except insertion errors
+     *
+     *
+     * @param       $collection   mixed $collection - collection id as string or number
+     * @param mixed $importData   - The data to import. This can be a string holding the data according to the type of import, or an array of documents
+     * @param array $options      - optional - an array of options.
+     *                            <p>Options are :<br>
+     *                            <li>
+     *                            'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
+     *                            <p>
+     *                            <li>                       if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.</li>
+     *                            <li>                       if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.</li>
+     *                            <br>
+     *                            More info on how the import functionality works: <a href ="https://github.com/triAGENS/ArangoDB/wiki/HttpImport">https://github.com/triAGENS/ArangoDB/wiki/HttpImport</a>
+     *                            </p>
+     *                            <br>
+     *
+     * </li>
+     * <li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
+     * </p>
+     *
+     * @return array
+     * @throws \triagens\ArangoDb\Exception
+     * @throws \triagens\ArangoDb\ClientException
+     */
     public function import(
         $collection,
         $importData,
@@ -906,19 +910,19 @@ class CollectionHandler extends
     }
 
 
-	/**
-	 * Create a hash index
-	 *
-	 * @param string  $collectionId - the collection id
-	 * @param array   $fields       - an array of fields
-	 * @param boolean $unique       - whether the values in the index should be unique or not
-	 * @param boolean $sparse       - whether the index should be sparse
-	 *
-	 * @link https://docs.arangodb.com/HttpIndexes/Hash.html
-	 *
-	 * @return array - server response of the created index
-	 * @throws \triagens\ArangoDb\Exception
-	 */
+    /**
+     * Create a hash index
+     *
+     * @param string  $collectionId - the collection id
+     * @param array   $fields       - an array of fields
+     * @param boolean $unique       - whether the values in the index should be unique or not
+     * @param boolean $sparse       - whether the index should be sparse
+     *
+     * @link https://docs.arangodb.com/HttpIndexes/Hash.html
+     *
+     * @return array - server response of the created index
+     * @throws \triagens\ArangoDb\Exception
+     */
     public function createHashIndex($collectionId, array $fields, $unique = null, $sparse = null)
     {
         $indexOptions = [];
@@ -933,18 +937,18 @@ class CollectionHandler extends
         return $this->index($collectionId, self::OPTION_HASH_INDEX, $fields, null, $indexOptions);
     }
 
-	/**
-	 * Create a fulltext index
-	 *
-	 * @param string $collectionId - the collection id
-	 * @param array  $fields       - an array of fields
-	 * @param int    $minLength    - the minimum length of words to index
-	 *
-	 * @link https://docs.arangodb.com/HttpIndexes/Fulltext.html
-	 *
-	 * @return array - server response of the created index
-	 * @throws \triagens\ArangoDb\Exception
-	 */
+    /**
+     * Create a fulltext index
+     *
+     * @param string $collectionId - the collection id
+     * @param array  $fields       - an array of fields
+     * @param int    $minLength    - the minimum length of words to index
+     *
+     * @link https://docs.arangodb.com/HttpIndexes/Fulltext.html
+     *
+     * @return array - server response of the created index
+     * @throws \triagens\ArangoDb\Exception
+     */
     public function createFulltextIndex($collectionId, array $fields, $minLength = null)
     {
         $indexOptions = [];
@@ -956,19 +960,19 @@ class CollectionHandler extends
         return $this->index($collectionId, self::OPTION_FULLTEXT_INDEX, $fields, null, $indexOptions);
     }
 
-	/**
-	 * Create a skip-list index
-	 *
-	 * @param string $collectionId - the collection id
-	 * @param array  $fields       - an array of fields
-	 * @param bool   $unique       - whether the index is unique or not
-	 * @param bool   $sparse       - whether the index should be sparse
-	 *
-	 * @link https://docs.arangodb.com/HttpIndexes/Skiplist.html
-	 *
-	 * @return array - server response of the created index
-	 * @throws \triagens\ArangoDb\Exception
-	 */
+    /**
+     * Create a skip-list index
+     *
+     * @param string $collectionId - the collection id
+     * @param array  $fields       - an array of fields
+     * @param bool   $unique       - whether the index is unique or not
+     * @param bool   $sparse       - whether the index should be sparse
+     *
+     * @link https://docs.arangodb.com/HttpIndexes/Skiplist.html
+     *
+     * @return array - server response of the created index
+     * @throws \triagens\ArangoDb\Exception
+     */
     public function createSkipListIndex($collectionId, array $fields, $unique = null, $sparse = null)
     {
         $indexOptions = [];
@@ -983,20 +987,20 @@ class CollectionHandler extends
         return $this->index($collectionId, self::OPTION_SKIPLIST_INDEX, $fields, null, $indexOptions);
     }
 
-	/**
-	 * Create a geo index
-	 *
-	 * @param string  $collectionId - the collection id
-	 * @param array   $fields       - an array of fields
-	 * @param boolean $geoJson      - whether to use geoJson or not
-	 * @param boolean $constraint   - whether this is a constraint or not
-	 * @param boolean $ignoreNull   - whether to ignore null
-	 *
-	 * @link https://docs.arangodb.com/HttpIndexes/Geo.html
-	 *
-	 * @return array - server response of the created index
-	 * @throws \triagens\ArangoDb\Exception
-	 */
+    /**
+     * Create a geo index
+     *
+     * @param string  $collectionId - the collection id
+     * @param array   $fields       - an array of fields
+     * @param boolean $geoJson      - whether to use geoJson or not
+     * @param boolean $constraint   - whether this is a constraint or not
+     * @param boolean $ignoreNull   - whether to ignore null
+     *
+     * @link https://docs.arangodb.com/HttpIndexes/Geo.html
+     *
+     * @return array - server response of the created index
+     * @throws \triagens\ArangoDb\Exception
+     */
     public function createGeoIndex(
         $collectionId,
         array $fields,
@@ -1031,11 +1035,11 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collectionId - The id of the collection where the index is to be created
-     * @param string $type - index type: hash, skiplist or geo
-     * @param array $attributes - an array of attributes that can be defined like array('a') or array('a', 'b.c')
-     * @param bool $unique - true/false to create a unique index
-     * @param array $indexOptions - an associative array of options for the index like array('geoJson' => true, 'sparse' => false)
+     * @param mixed  $collectionId - The id of the collection where the index is to be created
+     * @param string $type         - index type: hash, skiplist or geo
+     * @param array  $attributes   - an array of attributes that can be defined like array('a') or array('a', 'b.c')
+     * @param bool   $unique       - true/false to create a unique index
+     * @param array  $indexOptions - an associative array of options for the index like array('geoJson' => true, 'sparse' => false)
      *
      * @return array - server response of the created index
      */
@@ -1044,7 +1048,7 @@ class CollectionHandler extends
 
         $urlParams  = [self::OPTION_COLLECTION => $collectionId];
         $bodyParams = [
-            self::OPTION_TYPE => $type,
+            self::OPTION_TYPE   => $type,
             self::OPTION_FIELDS => $attributes,
         ];
 
@@ -1072,16 +1076,16 @@ class CollectionHandler extends
     }
 
 
-	/**
-	 * Get the information about an index in a collection
-	 *
-	 * @param string $collection - the id of the collection
-	 * @param string $indexId    - the id of the index
-	 *
-	 * @return array
-	 * @throws \triagens\ArangoDb\Exception
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * Get the information about an index in a collection
+     *
+     * @param string $collection - the id of the collection
+     * @param string $indexId    - the id of the index
+     *
+     * @return array
+     * @throws \triagens\ArangoDb\Exception
+     * @throws \triagens\ArangoDb\ClientException
+     */
     public function getIndex($collection, $indexId)
     {
         $url      = UrlHelper::buildUrl(Urls::URL_INDEX, [$collection, $indexId]);
@@ -1153,42 +1157,41 @@ class CollectionHandler extends
 
         if ($data['document']) {
             return Document::createFromArray($data['document']);
-        }
-        else {
+        } else {
             return null;
         }
     }
 
 
-	/**
-	 * Returns all documents of a collection
-	 *
-	 * @param mixed $collectionId     - collection id as string or number
-	 * @param array $options          - optional array of options.
-	 *                                <p>Options are :<br>
-	 *                                <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-	 *                                <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
-	 *                                <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-	 *                                <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
-	 *                                <p>
-	 *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
-	 *                                The difference is, that if you're returning a resultset of documents, the getAll() is already called<br>
-	 *                                and the hidden attributes would not be applied to the attributes.<br>
-	 *                                </p>
-	 *
-	 * <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
-	 * <li>'skip'      -  Optional, The number of documents to skip in the query.</li>
-	 * <li>'limit'     -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
-	 * </li>
-	 * </p>
-	 *
-	 * @return Cursor - documents
-	 * @throws \triagens\ArangoDb\Exception
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * Returns all documents of a collection
+     *
+     * @param mixed $collectionId     - collection id as string or number
+     * @param array $options          - optional array of options.
+     *                                <p>Options are :<br>
+     *                                <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
+     *                                <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
+     *                                <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
+     *                                <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
+     *                                <p>
+     *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
+     *                                The difference is, that if you're returning a resultset of documents, the getAll() is already called<br>
+     *                                and the hidden attributes would not be applied to the attributes.<br>
+     *                                </p>
+     *
+     * <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
+     * <li>'skip'      -  Optional, The number of documents to skip in the query.</li>
+     * <li>'limit'     -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
+     * </li>
+     * </p>
+     *
+     * @return Cursor - documents
+     * @throws \triagens\ArangoDb\Exception
+     * @throws \triagens\ArangoDb\ClientException
+     */
     public function all($collectionId, array $options = [])
     {
-    	//todo: remove this line in 3.1
+        //todo: remove this line in 3.1
         $options = array_merge($options, $this->getCursorOptions($options));
 
         $body = [
@@ -1196,12 +1199,12 @@ class CollectionHandler extends
         ];
 
         $body = $this->includeOptionsInBody(
-	        $options,
-	        $body,
-	        [
+            $options,
+            $body,
+            [
                 self::OPTION_LIMIT => null,
-                self::OPTION_SKIP => null,
-	        ]
+                self::OPTION_SKIP  => null,
+            ]
         );
 
         $response = $this->getConnection()->put(Urls::URL_ALL, $this->json_encode_wrapper($body));
@@ -1250,9 +1253,9 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collectionId - collection id as string or number
-     * @param mixed $document - the example document as a Document object or an array
-     * @param bool|array $options - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
+     * @param mixed      $collectionId - collection id as string or number
+     * @param mixed      $document     - the example document as a Document object or an array
+     * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
      *                                 <p>Options are :<br>
      *                                 <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
      *                                 <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
@@ -1273,14 +1276,13 @@ class CollectionHandler extends
      */
     public function byExample($collectionId, $document, array $options = [])
     {
-	    //todo: remove the following one if/else part in 3.1
-	    // This preserves compatibility for the old sanitize parameter.
+        //todo: remove the following one if/else part in 3.1
+        // This preserves compatibility for the old sanitize parameter.
         if (!is_array($options)) {
             $sanitize = $options;
             $options  = [];
             $options  = array_merge($options, $this->getCursorOptions($sanitize));
-        }
-        else {
+        } else {
             $options = array_merge($options, $this->getCursorOptions($options));
         }
 
@@ -1294,19 +1296,19 @@ class CollectionHandler extends
 
         $body = [
             self::OPTION_COLLECTION => $collectionId,
-            self::OPTION_EXAMPLE => $document->getAllAsObject(['_ignoreHiddenAttributes' => true])
+            self::OPTION_EXAMPLE    => $document->getAllAsObject(['_ignoreHiddenAttributes' => true])
         ];
 
         $body = $this->includeOptionsInBody(
-	        $options,
-	        $body,
-	        [
+            $options,
+            $body,
+            [
                 ConnectionOptions::OPTION_BATCHSIZE => $this->getConnectionOption(
                     ConnectionOptions::OPTION_BATCHSIZE
                 ),
-                self::OPTION_LIMIT => null,
-                self::OPTION_SKIP => null,
-	        ]
+                self::OPTION_LIMIT                  => null,
+                self::OPTION_SKIP                   => null,
+            ]
         );
 
         $response = $this->getConnection()->put(Urls::URL_EXAMPLE, $this->json_encode_wrapper($body));
@@ -1324,9 +1326,9 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collectionId - collection id as string or number
-     * @param mixed $document - the example document as a Document object or an array
-     * @param bool|array $options - optional, an array of options.
+     * @param mixed      $collectionId - collection id as string or number
+     * @param mixed      $document     - the example document as a Document object or an array
+     * @param bool|array $options      - optional, an array of options.
      *                                 <p>Options are :<br>
      *                                 <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
      *                                 <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
@@ -1345,13 +1347,12 @@ class CollectionHandler extends
      */
     public function firstExample($collectionId, $document, array $options = [])
     {
-	    //todo: remove the following one if/else part in 3.1
+        //todo: remove the following one if/else part in 3.1
         if (!is_array($options)) {
             $sanitize = $options;
             $options  = [];
             $options  = array_merge($options, $this->getCursorOptions($sanitize));
-        }
-        else {
+        } else {
             $options = array_merge($options, $this->getCursorOptions($options));
         }
 
@@ -1365,7 +1366,7 @@ class CollectionHandler extends
 
         $data = [
             self::OPTION_COLLECTION => $collectionId,
-            self::OPTION_EXAMPLE => $document->getAll(['_ignoreHiddenAttributes' => true])
+            self::OPTION_EXAMPLE    => $document->getAll(['_ignoreHiddenAttributes' => true])
         ];
 
         $response = $this->getConnection()->put(Urls::URL_FIRST_EXAMPLE, $this->json_encode_wrapper($data));
@@ -1386,10 +1387,10 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collection - collection id as string or number
-     * @param mixed $attribute - The attribute that contains the texts.
-     * @param mixed $query - The fulltext query.
-     * @param bool|array $options - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
+     * @param mixed      $collection   - collection id as string or number
+     * @param mixed      $attribute    - The attribute that contains the texts.
+     * @param mixed      $query        - The fulltext query.
+     * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
      *                                 <p>Options are :<br>
      *                                 <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
      *                                 <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
@@ -1411,34 +1412,33 @@ class CollectionHandler extends
      */
     public function fulltext($collection, $attribute, $query, array $options = [])
     {
-	    //todo: remove the following one if/else part in 3.1
-	    // This preserves compatibility for the old sanitize parameter.
+        //todo: remove the following one if/else part in 3.1
+        // This preserves compatibility for the old sanitize parameter.
         if (!is_array($options)) {
             $sanitize = $options;
             $options  = [];
             $options  = array_merge($options, $this->getCursorOptions($sanitize));
-        }
-        else {
+        } else {
             $options = array_merge($options, $this->getCursorOptions($options));
         }
 
         $body = [
             self::OPTION_COLLECTION => $collection,
-            self::OPTION_ATTRIBUTE => $attribute,
-            self::OPTION_QUERY => $query,
+            self::OPTION_ATTRIBUTE  => $attribute,
+            self::OPTION_QUERY      => $query,
         ];
 
         $body = $this->includeOptionsInBody(
-	        $options,
-	        $body,
-	        [
+            $options,
+            $body,
+            [
                 ConnectionOptions::OPTION_BATCHSIZE => $this->getConnectionOption(
                     ConnectionOptions::OPTION_BATCHSIZE
                 ),
-                self::OPTION_LIMIT => null,
-                self::OPTION_SKIP => null,
-                self::OPTION_INDEX => null,
-	        ]
+                self::OPTION_LIMIT                  => null,
+                self::OPTION_SKIP                   => null,
+                self::OPTION_INDEX                  => null,
+            ]
         );
 
         $response = $this->getConnection()->put(Urls::URL_FULLTEXT, $this->json_encode_wrapper($body));
@@ -1459,9 +1459,9 @@ class CollectionHandler extends
      * @throws Exception
      *
      * @param mixed $collectionId - collection id as string or number
-     * @param mixed $example - the example document as a Document object or an array
-     * @param mixed $newValue - patch document or array which contains the attributes and values to be updated
-     * @param mixed $options - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     * @param mixed $example      - the example document as a Document object or an array
+     * @param mixed $newValue     - patch document or array which contains the attributes and values to be updated
+     * @param mixed $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
      *                            <p>Options are :
      *                            <li>'keepNull'    - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
      *                            <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
@@ -1482,21 +1482,21 @@ class CollectionHandler extends
         }
 
         $body = [
-	        self::OPTION_COLLECTION => $collectionId,
-	        self::OPTION_EXAMPLE => $example->getAllAsObject(['_ignoreHiddenAttributes' => true]),
-	        self::OPTION_NEW_VALUE => $newValue->getAllAsObject(['_ignoreHiddenAttributes' => true])
+            self::OPTION_COLLECTION => $collectionId,
+            self::OPTION_EXAMPLE    => $example->getAllAsObject(['_ignoreHiddenAttributes' => true]),
+            self::OPTION_NEW_VALUE  => $newValue->getAllAsObject(['_ignoreHiddenAttributes' => true])
         ];
 
         $body = $this->includeOptionsInBody(
-	        $options,
-	        $body,
-	        [
+            $options,
+            $body,
+            [
                 ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(
                     ConnectionOptions::OPTION_WAIT_SYNC
                 ),
-                'keepNull' => true,
-                self::OPTION_LIMIT => null,
-	        ]
+                'keepNull'                          => true,
+                self::OPTION_LIMIT                  => null,
+            ]
         );
 
         $response = $this->getConnection()->put(Urls::URL_UPDATE_BY_EXAMPLE, $this->json_encode_wrapper($body));
@@ -1521,9 +1521,9 @@ class CollectionHandler extends
      * @throws Exception
      *
      * @param mixed $collectionId - collection id as string or number
-     * @param mixed $example - the example document as a Document object or an array
-     * @param mixed $newValue - patch document or array which contains the attributes and values to be replaced
-     * @param mixed $options - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     * @param mixed $example      - the example document as a Document object or an array
+     * @param mixed $newValue     - patch document or array which contains the attributes and values to be replaced
+     * @param mixed $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
      *                            <p>Options are :
      *                            <li>'keepNull'    - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
      *                            <li>'waitForSync' - can be used to force synchronisation of the document replace operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
@@ -1544,21 +1544,21 @@ class CollectionHandler extends
         }
 
         $body = [
-	        self::OPTION_COLLECTION => $collectionId,
-	        self::OPTION_EXAMPLE => $example->getAllAsObject(['_ignoreHiddenAttributes' => true]),
-	        self::OPTION_NEW_VALUE => $newValue->getAllAsObject(['_ignoreHiddenAttributes' => true])
+            self::OPTION_COLLECTION => $collectionId,
+            self::OPTION_EXAMPLE    => $example->getAllAsObject(['_ignoreHiddenAttributes' => true]),
+            self::OPTION_NEW_VALUE  => $newValue->getAllAsObject(['_ignoreHiddenAttributes' => true])
         ];
 
         $body = $this->includeOptionsInBody(
-	        $options,
-	        $body,
-	        [
+            $options,
+            $body,
+            [
                 ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(
                     ConnectionOptions::OPTION_WAIT_SYNC
                 ),
-                'keepNull' => true,
-                self::OPTION_LIMIT => null,
-	        ]
+                'keepNull'                          => true,
+                self::OPTION_LIMIT                  => null,
+            ]
         );
 
         $response = $this->getConnection()->put(Urls::URL_REPLACE_BY_EXAMPLE, $this->json_encode_wrapper($body));
@@ -1580,9 +1580,9 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collectionId - collection id as string or number
-     * @param mixed $document - the example document as a Document object or an array
-     * @param bool|array $options - optional - an array of options.
+     * @param mixed      $collectionId - collection id as string or number
+     * @param mixed      $document     - the example document as a Document object or an array
+     * @param bool|array $options      - optional - an array of options.
      *                                 <p>Options are :<br>
      *                                 <li>
      *                                 'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk.<br>
@@ -1607,18 +1607,18 @@ class CollectionHandler extends
 
         $body = [
             self::OPTION_COLLECTION => $collectionId,
-            self::OPTION_EXAMPLE => $document->getAllAsObject(['_ignoreHiddenAttributes' => true])
+            self::OPTION_EXAMPLE    => $document->getAllAsObject(['_ignoreHiddenAttributes' => true])
         ];
 
         $body = $this->includeOptionsInBody(
-	        $options,
-	        $body,
-	        [
+            $options,
+            $body,
+            [
                 ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(
                     ConnectionOptions::OPTION_WAIT_SYNC
                 ),
-                self::OPTION_LIMIT => null,
-	        ]
+                self::OPTION_LIMIT                  => null,
+            ]
         );
 
         $response = $this->getConnection()->put(Urls::URL_REMOVE_BY_EXAMPLE, $this->json_encode_wrapper($body));
@@ -1639,9 +1639,9 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collectionId - collection id as string or number
-     * @param array $keys - array of document keys
-     * @param bool|array $options - optional - an array of options.
+     * @param mixed      $collectionId - collection id as string or number
+     * @param array      $keys         - array of document keys
+     * @param bool|array $options      - optional - an array of options.
      *                                 <p>Options are :<br>
      *                                 <li>
      *                                 'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk.<br>
@@ -1657,17 +1657,17 @@ class CollectionHandler extends
     {
         $body = [
             self::OPTION_COLLECTION => $collectionId,
-            self::OPTION_KEYS => $keys
+            self::OPTION_KEYS       => $keys
         ];
 
         $body = $this->includeOptionsInBody(
-	        $options,
-	        $body,
-	        [
+            $options,
+            $body,
+            [
                 ConnectionOptions::OPTION_WAIT_SYNC => $this->getConnectionOption(
                     ConnectionOptions::OPTION_WAIT_SYNC
                 )
-	        ]
+            ]
         );
 
         $response = $this->getConnection()->put(Urls::URL_REMOVE_BY_KEYS, $this->json_encode_wrapper($body));
@@ -1688,9 +1688,9 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collectionId - collection id as string or number
-     * @param array $keys - array of document keys
-     * @param array $options - optional array of options.
+     * @param mixed $collectionId        - collection id as string or number
+     * @param array $keys                - array of document keys
+     * @param array $options             - optional array of options.
      *                                   <p>Options are :<br>
      *                                   <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
      *                                   <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
@@ -1705,7 +1705,7 @@ class CollectionHandler extends
     {
         $body = [
             self::OPTION_COLLECTION => $collectionId,
-            self::OPTION_KEYS => $keys
+            self::OPTION_KEYS       => $keys
         ];
 
         $response = $this->getConnection()->put(Urls::URL_LOOKUP_BY_KEYS, $this->json_encode_wrapper($body));
@@ -1729,11 +1729,11 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collectionId - collection id as string or number
-     * @param string $attribute - the attribute path , like 'a', 'a.b', etc...
-     * @param mixed $left - The lower bound.
-     * @param mixed $right - The upper bound.
-     * @param array $options - optional array of options.
+     * @param mixed  $collectionId    - collection id as string or number
+     * @param string $attribute       - the attribute path , like 'a', 'a.b', etc...
+     * @param mixed  $left            - The lower bound.
+     * @param mixed  $right           - The upper bound.
+     * @param array  $options         - optional array of options.
      *                                <p>Options are :<br>
      *                                <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
      *                                <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
@@ -1756,8 +1756,8 @@ class CollectionHandler extends
      */
     public function range($collectionId, $attribute, $left, $right, array $options = [])
     {
-	    //todo: remove this line in 3.1
-	    $options = array_merge($options, $this->getCursorOptions($options));
+        //todo: remove this line in 3.1
+        $options = array_merge($options, $this->getCursorOptions($options));
 
         if ($attribute === '') {
             throw new ClientException('Invalid attribute specification');
@@ -1770,19 +1770,19 @@ class CollectionHandler extends
 
         $body = [
             self::OPTION_COLLECTION => $collectionId,
-            self::OPTION_ATTRIBUTE => $attribute,
-            self::OPTION_LEFT => $left,
-            self::OPTION_RIGHT => $right
+            self::OPTION_ATTRIBUTE  => $attribute,
+            self::OPTION_LEFT       => $left,
+            self::OPTION_RIGHT      => $right
         ];
 
         $body = $this->includeOptionsInBody(
-	        $options,
-	        $body,
-	        [
+            $options,
+            $body,
+            [
                 self::OPTION_CLOSED => null,
-                self::OPTION_LIMIT => null,
-                self::OPTION_SKIP => null,
-	        ]
+                self::OPTION_LIMIT  => null,
+                self::OPTION_SKIP   => null,
+            ]
         );
 
         $response = $this->getConnection()->put(Urls::URL_RANGE, $this->json_encode_wrapper($body));
@@ -1799,10 +1799,10 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collectionId - collection id as string or number
-     * @param double $latitude - The latitude of the coordinate.
-     * @param double $longitude - The longitude of the coordinate.
-     * @param array $options - optional array of options.
+     * @param mixed  $collectionId    - collection id as string or number
+     * @param double $latitude        - The latitude of the coordinate.
+     * @param double $longitude       - The longitude of the coordinate.
+     * @param array  $options         - optional array of options.
      *                                <p>Options are :<br>
      *                                <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
      *                                <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
@@ -1825,23 +1825,23 @@ class CollectionHandler extends
      */
     public function near($collectionId, $latitude, $longitude, array $options = [])
     {
-	    //todo: remove this line in 3.1
-	    $options = array_merge($options, $this->getCursorOptions($options));
+        //todo: remove this line in 3.1
+        $options = array_merge($options, $this->getCursorOptions($options));
 
         $body = [
             self::OPTION_COLLECTION => $collectionId,
-            self::OPTION_LATITUDE => $latitude,
-            self::OPTION_LONGITUDE => $longitude
+            self::OPTION_LATITUDE   => $latitude,
+            self::OPTION_LONGITUDE  => $longitude
         ];
 
         $body = $this->includeOptionsInBody(
-	        $options,
-	        $body,
-	        [
+            $options,
+            $body,
+            [
                 self::OPTION_DISTANCE => null,
-                self::OPTION_LIMIT => null,
-                self::OPTION_SKIP => null,
-	        ]
+                self::OPTION_LIMIT    => null,
+                self::OPTION_SKIP     => null,
+            ]
         );
 
         $response = $this->getConnection()->put(Urls::URL_NEAR, $this->json_encode_wrapper($body));
@@ -1858,11 +1858,11 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $collectionId - collection id as string or number
-     * @param double $latitude - The latitude of the coordinate.
-     * @param double $longitude - The longitude of the coordinate.
-     * @param int $radius - The maximal radius (in meters).
-     * @param array $options - optional array of options.
+     * @param mixed  $collectionId    - collection id as string or number
+     * @param double $latitude        - The latitude of the coordinate.
+     * @param double $longitude       - The longitude of the coordinate.
+     * @param int    $radius          - The maximal radius (in meters).
+     * @param array  $options         - optional array of options.
      *                                <p>Options are :<br>
      *                                <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
      *                                <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
@@ -1885,24 +1885,24 @@ class CollectionHandler extends
      */
     public function within($collectionId, $latitude, $longitude, $radius, array $options = [])
     {
-	    //todo: remove this line in 3.1
-	    $options = array_merge($options, $this->getCursorOptions($options));
+        //todo: remove this line in 3.1
+        $options = array_merge($options, $this->getCursorOptions($options));
 
         $body = [
             self::OPTION_COLLECTION => $collectionId,
-            self::OPTION_LATITUDE => $latitude,
-            self::OPTION_LONGITUDE => $longitude,
-            self::OPTION_RADIUS => $radius
+            self::OPTION_LATITUDE   => $latitude,
+            self::OPTION_LONGITUDE  => $longitude,
+            self::OPTION_RADIUS     => $radius
         ];
 
         $body = $this->includeOptionsInBody(
-	        $options,
-	        $body,
-	        [
+            $options,
+            $body,
+            [
                 self::OPTION_DISTANCE => null,
-                self::OPTION_LIMIT => null,
-                self::OPTION_SKIP => null,
-	        ]
+                self::OPTION_LIMIT    => null,
+                self::OPTION_SKIP     => null,
+            ]
         );
 
         $response = $this->getConnection()->put(Urls::URL_WITHIN, $this->json_encode_wrapper($body));
@@ -1933,8 +1933,7 @@ class CollectionHandler extends
             ) {
                 // edge collection
                 $collectionOptions['type'] = 3;
-            }
-            else {
+            } else {
                 // document collection
                 $collectionOptions['type'] = 2;
             }

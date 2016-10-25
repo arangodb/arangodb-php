@@ -14,7 +14,7 @@ use Installer\Exception;
 /**
  * Class UserBasicTest
  *
- * @property Connection $connection
+ * @property Connection  $connection
  * @property UserHandler userHandler
  *
  * @package triagens\ArangoDb

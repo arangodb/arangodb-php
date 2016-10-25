@@ -108,9 +108,9 @@ class TraceResponse
     /**
      * Set up the response trace
      *
-     * @param array $headers - the array of http headers
-     * @param int $httpCode - the http code
-     * @param string $body - the string of http body
+     * @param array  $headers  - the array of http headers
+     * @param int    $httpCode - the http code
+     * @param string $body     - the string of http body
      * @param        $timeTaken
      */
     public function __construct($headers, $httpCode, $body, $timeTaken)

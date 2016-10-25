@@ -13,11 +13,11 @@ namespace triagens\ArangoDb;
 /**
  * Class EdgeBasicTest
  *
- * @property Connection $connection
- * @property Collection $collection
- * @property Collection $edgeCollection
+ * @property Connection        $connection
+ * @property Collection        $collection
+ * @property Collection        $edgeCollection
  * @property CollectionHandler $collectionHandler
- * @property DocumentHandler $documentHandler
+ * @property DocumentHandler   $documentHandler
  *
  * @package triagens\ArangoDb
  */
@@ -123,11 +123,11 @@ class EdgeBasicTest extends
 
         $statement = new Statement(
             $connection, [
-                           'query' => '',
-                           'count' => true,
-                           'batchSize' => 1000,
-                           'sanitize' => true,
-                       ]
+                'query'     => '',
+                'count'     => true,
+                'batchSize' => 1000,
+                'sanitize'  => true,
+            ]
         );
         $statement->setQuery(
             'FOR start IN ArangoDBPHPTestSuiteTestCollection01 FOR v, e, p IN 0..1000 OUTBOUND start ArangoDBPHPTestSuiteTestEdgeCollection01 RETURN { source: start, destination: v, edges: p.edges, vertices: p.vertices }'
@@ -226,11 +226,11 @@ class EdgeBasicTest extends
 
         $statement = new Statement(
             $connection, [
-                           'query' => '',
-                           'count' => true,
-                           'batchSize' => 1000,
-                           'sanitize' => true,
-                       ]
+                'query'     => '',
+                'count'     => true,
+                'batchSize' => 1000,
+                'sanitize'  => true,
+            ]
         );
         $statement->setQuery(
             'FOR start IN ArangoDBPHPTestSuiteTestCollection01 FOR v, e, p IN 0..1000 OUTBOUND start ArangoDBPHPTestSuiteTestEdgeCollection01 RETURN { source: start, destination: v, edges: p.edges, vertices: p.vertices }'
@@ -319,11 +319,11 @@ class EdgeBasicTest extends
 
         $statement = new Statement(
             $connection, [
-                           'query' => '',
-                           'count' => true,
-                           'batchSize' => 1000,
-                           'sanitize' => true,
-                       ]
+                'query'     => '',
+                'count'     => true,
+                'batchSize' => 1000,
+                'sanitize'  => true,
+            ]
         );
         $statement->setQuery(
             'FOR p IN PATHS(ArangoDBPHPTestSuiteTestCollection01, ArangoDBPHPTestSuiteTestEdgeCollection01, "outbound")  RETURN p'
@@ -402,9 +402,9 @@ class EdgeBasicTest extends
         try {
             $edgeHandler->get(
                 $edgeCollection->getId(), $edgeId, [
-                                            'ifMatch' => false,
-                                            'revision' => $edgeDocument->getRevision()
-                                        ]
+                    'ifMatch'  => false,
+                    'revision' => $edgeDocument->getRevision()
+                ]
             );
         } catch (\Exception $exception304) {
         }
@@ -596,13 +596,11 @@ class EdgeBasicTest extends
                 static::assertEquals($documentHandle1, $edge->getFrom());
                 static::assertEquals($documentHandle2, $edge->getTo());
                 static::assertEquals($edgeDocument1, $edge->getId());
-            }
-            else if ($edge->value === 2) {
+            } else if ($edge->value === 2) {
                 static::assertEquals($documentHandle2, $edge->getFrom());
                 static::assertEquals($documentHandle1, $edge->getTo());
                 static::assertEquals($edgeDocument2, $edge->getId());
-            }
-            else {
+            } else {
                 static::assertEquals($documentHandle1, $edge->getFrom());
                 static::assertEquals($documentHandle2, $edge->getTo());
                 static::assertEquals($edgeDocument3, $edge->getId());
@@ -667,13 +665,11 @@ class EdgeBasicTest extends
                 static::assertEquals($documentHandle1, $edge->getFrom());
                 static::assertEquals($documentHandle2, $edge->getTo());
                 static::assertEquals($edgeDocument1, $edge->getId());
-            }
-            else if ($edge->value === 2) {
+            } else if ($edge->value === 2) {
                 static::assertEquals($documentHandle2, $edge->getFrom());
                 static::assertEquals($documentHandle1, $edge->getTo());
                 static::assertEquals($edgeDocument2, $edge->getId());
-            }
-            else {
+            } else {
                 static::assertEquals($documentHandle1, $edge->getFrom());
                 static::assertEquals($documentHandle2, $edge->getTo());
                 static::assertEquals($edgeDocument3, $edge->getId());
@@ -714,7 +710,7 @@ class EdgeBasicTest extends
             ['value' => 1]
         );
 
-	    $edgeDocument2 = $edgeDocumentHandler->saveEdge(
+        $edgeDocument2 = $edgeDocumentHandler->saveEdge(
             $edgeCollection->getName(),
             $documentHandle2,
             $documentHandle1,
@@ -794,8 +790,7 @@ class EdgeBasicTest extends
                 static::assertEquals($documentHandle1, $edge->getFrom());
                 static::assertEquals($documentHandle2, $edge->getTo());
                 static::assertEquals($edgeDocument1, $edge->getId());
-            }
-            else {
+            } else {
                 static::assertEquals($documentHandle1, $edge->getFrom());
                 static::assertEquals($documentHandle2, $edge->getTo());
                 static::assertEquals($edgeDocument3, $edge->getId());

@@ -175,7 +175,7 @@ class Statement
      * @throws Exception
      *
      * @param Connection $connection - the connection to be used
-     * @param array $data - statement initialization data
+     * @param array      $data       - statement initialization data
      */
     public function __construct(Connection $connection, array $data)
     {
@@ -250,6 +250,7 @@ class Statement
         while (true) {
             try {
                 $response = $this->_connection->post(Urls::URL_CURSOR, $this->getConnection()->json_encode_wrapper($data), []);
+
                 return new Cursor($this->_connection, $response->getJson(), $this->getCursorOptions());
             } catch (ServerException $e) {
                 if ($tries++ >= $this->_retries) {
@@ -277,6 +278,7 @@ class Statement
     {
         $data     = $this->buildData();
         $response = $this->_connection->post(Urls::URL_EXPLAIN, $this->getConnection()->json_encode_wrapper($data), []);
+
         return $response->getJson();
     }
 
@@ -293,6 +295,7 @@ class Statement
     {
         $data     = $this->buildData();
         $response = $this->_connection->post(Urls::URL_QUERY, $this->getConnection()->json_encode_wrapper($data), []);
+
         return $response->getJson();
     }
 
@@ -336,7 +339,7 @@ class Statement
      *
      * @throws Exception
      *
-     * @param mixed $key - name of bind variable OR an array of all bind variables
+     * @param mixed $key   - name of bind variable OR an array of all bind variables
      * @param mixed $value - value for bind variable
      *
      * @return void
@@ -388,6 +391,7 @@ class Statement
      * setResultType
      *
      * @param $resultType
+     *
      * @return string - resultType of the query
      */
     public function setResultType($resultType)
@@ -507,7 +511,7 @@ class Statement
         $data = [
             self::ENTRY_QUERY => $this->_query,
             self::ENTRY_COUNT => $this->_doCount,
-            'options' => [
+            'options'         => [
                 self::FULL_COUNT => $this->_fullCount
             ]
         ];
@@ -523,6 +527,7 @@ class Statement
         if ($this->_batchSize > 0) {
             $data[self::ENTRY_BATCHSIZE] = $this->_batchSize;
         }
+
         return $data;
     }
 
@@ -535,12 +540,13 @@ class Statement
     {
         $result = [
             Cursor::ENTRY_SANITIZE => (bool) $this->_sanitize,
-            Cursor::ENTRY_FLAT => (bool) $this->_flat,
-            Cursor::ENTRY_BASEURL => Urls::URL_CURSOR
+            Cursor::ENTRY_FLAT     => (bool) $this->_flat,
+            Cursor::ENTRY_BASEURL  => Urls::URL_CURSOR
         ];
         if (null !== $this->resultType) {
             $result[Cursor::ENTRY_TYPE] = $this->resultType;
         }
+
         return $result;
     }
 }

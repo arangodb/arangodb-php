@@ -55,8 +55,7 @@ class AdminHandler extends
 
         if ($details) {
             return $data;
-        }
-        else {
+        } else {
             return $data['version'];
         }
     }
@@ -133,6 +132,7 @@ class AdminHandler extends
     {
         $url      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_LOG, $options);
         $response = $this->getConnection()->get($url);
+
         return $response->getJson();
     }
 
@@ -148,7 +148,7 @@ class AdminHandler extends
      * @return bool
      * @since 1.2
      * @deprecated
-     * @todo remove in version 3.1
+     * @todo  remove in version 3.1
      */
     public function flushServerModuleCache()
     {
@@ -201,6 +201,7 @@ class AdminHandler extends
     {
         $url      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_STATISTICS, []);
         $response = $this->getConnection()->get($url);
+
         return $response->getJson();
     }
 
@@ -234,6 +235,7 @@ class AdminHandler extends
     {
         $url      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_STATISTICS_DESCRIPTION, $options);
         $response = $this->getConnection()->get($url);
+
         return $response->getJson();
     }
 }

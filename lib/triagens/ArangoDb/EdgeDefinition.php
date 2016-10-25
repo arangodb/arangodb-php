@@ -48,9 +48,10 @@ class EdgeDefinition
     /**
      * Constructs an new edge definition
      *
-     * @param string $relation - name of the relation (the underlying edge collection).
-     * @param array $fromCollections - a list of collections providing the edges start vertices.
-     * @param array $toCollections - a list of collections providing the edges end vertices.
+     * @param string $relation        - name of the relation (the underlying edge collection).
+     * @param array  $fromCollections - a list of collections providing the edges start vertices.
+     * @param array  $toCollections   - a list of collections providing the edges end vertices.
+     *
      * @since     2.2
      *
      */
@@ -69,6 +70,7 @@ class EdgeDefinition
      * Set the relation of the edge definition
      *
      * @param string $relation - the name of the relation.
+     *
      * @since     2.2
      */
     public function setRelation($relation)
@@ -114,6 +116,7 @@ class EdgeDefinition
      * Add a 'to' collections of the graph.
      *
      * @param string $toCollection - the name of the added collection.
+     *
      * @since     2.2
      */
     public function addToCollection($toCollection)
@@ -125,6 +128,7 @@ class EdgeDefinition
      * Add a 'from' collections of the graph.
      *
      * @param string $fromCollection - the name of the added collection.
+     *
      * @since     2.2
      */
     public function addFromCollection($fromCollection)
@@ -134,6 +138,7 @@ class EdgeDefinition
 
     /**
      * Resets the 'to' collections of the graph.
+     *
      * @since     2.2
      */
     public function clearToCollection()
@@ -143,6 +148,7 @@ class EdgeDefinition
 
     /**
      * Resets the 'from' collections of the graph.
+     *
      * @since     2.2
      */
     public function clearFromCollection()
@@ -162,6 +168,7 @@ class EdgeDefinition
         $transformedEd['collection'] = $this->getRelation();
         $transformedEd['from']       = $this->getFromCollections();
         $transformedEd['to']         = $this->getToCollections();
+
         return $transformedEd;
     }
 
@@ -170,8 +177,8 @@ class EdgeDefinition
      * Constructs an undirected relation. This relation is an edge definition where the edges can start and end
      * in any vertex from the collection list.
      *
-     * @param string $relation - name of the relation (the underlying edge collection).
-     * @param array $vertexCollections - a list of collections providing the edges start and end vertices.
+     * @param string $relation          - name of the relation (the underlying edge collection).
+     * @param array  $vertexCollections - a list of collections providing the edges start and end vertices.
      *
      * @return EdgeDefinition
      * @since     2.2
@@ -186,9 +193,9 @@ class EdgeDefinition
      * Constructs a directed relation. This relation is an edge definition where the edges can start only in the
      * vertices defined in 'fromCollections' and end in vertices defined in 'toCollections'.
      *
-     * @param string $relation - name of the relation (the underlying edge collection).
-     * @param array $fromCollections - a list of collections providing the edges start vertices.
-     * @param array $toCollections - a list of collections providing the edges end vertices.
+     * @param string $relation        - name of the relation (the underlying edge collection).
+     * @param array  $fromCollections - a list of collections providing the edges start vertices.
+     * @param array  $toCollections   - a list of collections providing the edges end vertices.
      *
      * @return EdgeDefinition
      * @since     2.2

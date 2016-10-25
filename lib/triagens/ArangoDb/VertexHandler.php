@@ -26,15 +26,15 @@ namespace triagens\ArangoDb;
 class VertexHandler extends
     DocumentHandler
 {
-	/**
-	 * Intermediate function to call the createFromArray function from the right context
-	 *
-	 * @param $data
-	 * @param $options
-	 *
-	 * @return Document
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * Intermediate function to call the createFromArray function from the right context
+     *
+     * @param $data
+     * @param $options
+     *
+     * @return Document
+     * @throws \triagens\ArangoDb\ClientException
+     */
     public function createFromArrayWithContext($data, $options)
     {
         return Vertex::createFromArray($data, $options);

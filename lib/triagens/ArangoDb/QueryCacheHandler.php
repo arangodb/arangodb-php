@@ -65,12 +65,12 @@ class QueryCacheHandler extends
      *
      * @throws Exception
      *
-     * @param  array $properties - the query result cache properties.
-     *                             the following properties can be used:
-     *                             - maxResults: maximum number of results
+     * @param  array $properties     - the query result cache properties.
+     *                               the following properties can be used:
+     *                               - maxResults: maximum number of results
      *                               that the query result cache will hold
      *                               per database
-     *                             - mode: turns the query result cache on or off,
+     *                               - mode: turns the query result cache on or off,
      *                               or sets it to demand mode. Possible values are
      *                               "on", "off", or "demand".
      *

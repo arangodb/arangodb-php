@@ -62,7 +62,7 @@ class HttpResponse
      */
     private $_wasAsync = false;
 
-   /**
+    /**
      * Whether or not the response is for an async request without a response body
      *
      * @var Batchpart
@@ -79,10 +79,11 @@ class HttpResponse
      *
      *
      * @param string $responseString - the complete HTTP response as supplied by the server
-     * @param string $originUrl The original URL the response is coming from
-     * @param string $originMethod The HTTP method that was used when sending data to the origin URL
+     * @param string $originUrl      The original URL the response is coming from
+     * @param string $originMethod   The HTTP method that was used when sending data to the origin URL
      *
-     * @param bool $wasAsync
+     * @param bool   $wasAsync
+     *
      * @throws ClientException
      */
     public function __construct($responseString, $originUrl = null, $originMethod = null, $wasAsync = false)
@@ -206,24 +207,24 @@ class HttpResponse
         return $json;
     }
 
-	/**
-	 * @param Batchpart $batchPart
-	 *
-	 * @return HttpResponse
-	 */
-	public function setBatchPart($batchPart)
-	{
-		$this->batchPart = $batchPart;
+    /**
+     * @param Batchpart $batchPart
+     *
+     * @return HttpResponse
+     */
+    public function setBatchPart($batchPart)
+    {
+        $this->batchPart = $batchPart;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @return Batchpart
-	 */
-	public function getBatchPart()
-	{
-		return $this->batchPart;
-	}
+    /**
+     * @return Batchpart
+     */
+    public function getBatchPart()
+    {
+        return $this->batchPart;
+    }
 
 }

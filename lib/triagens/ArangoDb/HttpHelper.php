@@ -132,12 +132,13 @@ class HttpHelper
     /**
      * Create a request string (header and body)
      *
-     * @param ConnectionOptions $options - connection options
-     * @param string $connectionHeader - preassembled header string for connection
-     * @param string $method - HTTP method
-     * @param string $url - HTTP URL
-     * @param string $body - optional body to post
-     * @param array $customHeaders - any array containing header elements
+     * @param ConnectionOptions $options          - connection options
+     * @param string            $connectionHeader - preassembled header string for connection
+     * @param string            $method           - HTTP method
+     * @param string            $url              - HTTP URL
+     * @param string            $body             - optional body to post
+     * @param array             $customHeaders    - any array containing header elements
+     *
      * @return string - assembled HTTP request string
      * @throws ClientException
      *
@@ -152,8 +153,7 @@ class HttpHelper
 
         if ($options[ConnectionOptions::OPTION_BATCH] === true) {
             $contentType = 'Content-Type: multipart/form-data; boundary=' . self::MIME_BOUNDARY . self::EOL;
-        }
-        else {
+        } else {
             $contentType = '';
 
             if ($length > 0 && $options[ConnectionOptions::OPTION_BATCHPART] === false) {
@@ -207,8 +207,8 @@ class HttpHelper
      *
      * It is the caller's responsibility to close the socket
      *
-     * @param resource $socket - connection socket (must be open)
-     * @param string $request - complete HTTP request as a string
+     * @param resource $socket  - connection socket (must be open)
+     * @param string   $request - complete HTTP request as a string
      *
      * @throws ClientException
      * @return string - HTTP response string as provided by the server
@@ -243,8 +243,7 @@ class HttpHelper
             if ($first) {
                 $result = $read;
                 $first  = false;
-            }
-            else {
+            } else {
                 $result .= $read;
             }
 
@@ -280,8 +279,8 @@ class HttpHelper
     /**
      * Splits a http message into its header and body.
      *
-     * @param string $httpMessage The http message string.
-     * @param string $originUrl The original URL the response is coming from
+     * @param string $httpMessage  The http message string.
+     * @param string $originUrl    The original URL the response is coming from
      * @param string $originMethod The HTTP method that was used when sending data to the origin URL
      *
      * @throws ClientException
@@ -312,15 +311,13 @@ class HttpHelper
                     $httpCode = (int) $matches[1];
                 }
                 $result = $line;
-            }
-            else {
+            } else {
                 // other lines contain key:value-like headers
                 // the following is a performance optimization to get rid of
                 // the two trims (which are expensive as they are executed over and over) 
                 if (strpos($line, ': ') !== false) {
                     list($key, $value) = explode(': ', $line, 2);
-                }
-                else {
+                } else {
                     list($key, $value) = explode(':', $line, 2);
                 }
                 $processed[strtolower($key)] = $value;

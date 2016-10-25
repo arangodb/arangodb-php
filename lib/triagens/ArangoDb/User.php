@@ -15,7 +15,7 @@ namespace triagens\ArangoDb;
  *
  * <br />
  *
- * @property string user
+ * @property string     user
  * @property mixed|null passwd
  * @property mixed|null active
  * @property array|null extra

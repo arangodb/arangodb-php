@@ -59,10 +59,10 @@ class TraceRequest
     /**
      * Set up the request trace
      *
-     * @param array $headers - the array of http headers
-     * @param string $method - the request method
+     * @param array  $headers    - the array of http headers
+     * @param string $method     - the request method
      * @param string $requestUrl - the request url
-     * @param string $body - the string of http body
+     * @param string $body       - the string of http body
      */
     public function __construct($headers, $method, $requestUrl, $body)
     {

@@ -12,6 +12,7 @@ namespace triagens\ArangoDb;
 function filtered(array $values)
 {
     unset($values['executionTime']);
+
     return $values;
 }
 
@@ -19,10 +20,10 @@ function filtered(array $values)
 /**
  * Class StatementTest
  *
- * @property Connection $connection
- * @property Collection $collection
+ * @property Connection        $connection
+ * @property Collection        $collection
  * @property CollectionHandler $collectionHandler
- * @property DocumentHandler $documentHandler
+ * @property DocumentHandler   $documentHandler
  *
  * @package triagens\ArangoDb
  */
@@ -63,11 +64,11 @@ class StatementTest extends
 
         $statement = new Statement(
             $connection, [
-                           'query' => '',
-                           'count' => true,
-                           'batchSize' => 1000,
-                           '_sanitize' => true,
-                       ]
+                'query'     => '',
+                'count'     => true,
+                'batchSize' => 1000,
+                '_sanitize' => true,
+            ]
         );
         $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a');
         $cursor = $statement->execute();
@@ -88,9 +89,9 @@ class StatementTest extends
         $connection = $this->connection;
         $statement  = new Statement(
             $connection, [
-                           'query' => 'RETURN TEST_INTERNAL("DEADLOCK", null)',
-                           '_sanitize' => true
-                       ]
+                'query'     => 'RETURN TEST_INTERNAL("DEADLOCK", null)',
+                '_sanitize' => true
+            ]
         );
         try {
             $statement->execute();
@@ -150,10 +151,10 @@ class StatementTest extends
         static::assertEquals(
             [
                 'writesExecuted' => 1000,
-                'writesIgnored' => 0,
-                'scannedFull' => 0,
-                'scannedIndex' => 0,
-                'filtered' => 0
+                'writesIgnored'  => 0,
+                'scannedFull'    => 0,
+                'scannedIndex'   => 0,
+                'filtered'       => 0
             ], filtered($extra['stats'])
         );
 
@@ -188,10 +189,10 @@ class StatementTest extends
         static::assertEquals(
             [
                 'writesExecuted' => 3,
-                'writesIgnored' => 0,
-                'scannedFull' => 0,
-                'scannedIndex' => 3,
-                'filtered' => 0
+                'writesIgnored'  => 0,
+                'scannedFull'    => 0,
+                'scannedIndex'   => 3,
+                'filtered'       => 0
             ], filtered($extra['stats'])
         );
 
@@ -226,10 +227,10 @@ class StatementTest extends
         static::assertEquals(
             [
                 'writesExecuted' => 0,
-                'writesIgnored' => 0,
-                'scannedFull' => 1000,
-                'scannedIndex' => 0,
-                'filtered' => 500
+                'writesIgnored'  => 0,
+                'scannedFull'    => 1000,
+                'scannedIndex'   => 0,
+                'filtered'       => 500
             ], filtered($extra['stats'])
         );
 
@@ -259,11 +260,11 @@ class StatementTest extends
 
         $statement = new Statement(
             $connection, [
-                           'query' => '',
-                           'count' => true,
-                           'batchSize' => 1000,
-                           '_sanitize' => true,
-                       ]
+                'query'     => '',
+                'count'     => true,
+                'batchSize' => 1000,
+                '_sanitize' => true,
+            ]
         );
         // inject wrong encoding
         $isoValue = iconv(
@@ -299,11 +300,11 @@ class StatementTest extends
 
         $statement = new Statement(
             $connection, [
-                           'query' => '',
-                           'count' => true,
-                           'batchSize' => 1000,
-                           '_sanitize' => true,
-                       ]
+                'query'     => '',
+                'count'     => true,
+                'batchSize' => 1000,
+                '_sanitize' => true,
+            ]
         );
         $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a');
         $result = $statement->explain();
@@ -328,11 +329,11 @@ class StatementTest extends
 
         $statement = new Statement(
             $connection, [
-                           'query' => '',
-                           'count' => true,
-                           'batchSize' => 1000,
-                           '_sanitize' => true,
-                       ]
+                'query'     => '',
+                'count'     => true,
+                'batchSize' => 1000,
+                '_sanitize' => true,
+            ]
         );
         $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a');
         $result = $statement->validate();
@@ -348,11 +349,11 @@ class StatementTest extends
 
         $statement = new Statement(
             $connection, [
-                           'query' => 'RETURN UNIQUE([ 1, 1, 2 ])',
-                           'count' => true,
-                           '_sanitize' => true,
-                           '_flat' => true
-                       ]
+                'query'     => 'RETURN UNIQUE([ 1, 1, 2 ])',
+                'count'     => true,
+                '_sanitize' => true,
+                '_flat'     => true
+            ]
         );
         $cursor    = $statement->execute();
         static::assertCount(0, $cursor->getWarnings());
@@ -375,10 +376,10 @@ class StatementTest extends
 
         $statement = new Statement(
             $connection, [
-                           'query' => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a.name',
-                           'count' => true,
-                           '_sanitize' => true
-                       ]
+                'query'     => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a.name',
+                'count'     => true,
+                '_sanitize' => true
+            ]
         );
 
         $cursor = $statement->execute();
@@ -411,11 +412,11 @@ class StatementTest extends
 
         $statement = new Statement(
             $connection, [
-                           'query' => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` LIMIT 2 RETURN a.name',
-                           'count' => true,
-                           'fullCount' => true,
-                           '_sanitize' => true
-                       ]
+                'query'     => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` LIMIT 2 RETURN a.name',
+                'count'     => true,
+                'fullCount' => true,
+                '_sanitize' => true
+            ]
         );
 
         $cursor = $statement->execute();
@@ -439,10 +440,10 @@ class StatementTest extends
 
         $statement = new Statement(
             $connection, [
-                           'query' => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` FILTER a.file == @file RETURN a.file',
-                           'bindVars' => ['file' => 'testFooBar'],
-                           '_sanitize' => true
-                       ]
+                'query'     => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` FILTER a.file == @file RETURN a.file',
+                'bindVars'  => ['file' => 'testFooBar'],
+                '_sanitize' => true
+            ]
         );
 
         $cursor = $statement->execute();
@@ -465,10 +466,10 @@ class StatementTest extends
 
         $statement = new Statement(
             $connection, [
-                           'query' => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` FILTER a.test == @test RETURN a.test',
-                           'bindVars' => ['test' => 'file'],
-                           '_sanitize' => true
-                       ]
+                'query'     => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` FILTER a.test == @test RETURN a.test',
+                'bindVars'  => ['test' => 'file'],
+                '_sanitize' => true
+            ]
         );
 
         $cursor = $statement->execute();

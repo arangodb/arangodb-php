@@ -12,11 +12,11 @@ namespace triagens\ArangoDb;
 /**
  * Class DocumentExtendedTest
  *
- * @property Connection $connection
- * @property Collection $collection
- * @property Collection $edgeCollection
+ * @property Connection        $connection
+ * @property Collection        $collection
+ * @property Collection        $edgeCollection
  * @property CollectionHandler $collectionHandler
- * @property DocumentHandler $documentHandler
+ * @property DocumentHandler   $documentHandler
  *
  * @package triagens\ArangoDb
  */
@@ -833,7 +833,7 @@ class DocumentExtendedTest extends
 
         $document = Document::createFromArray(
             [
-                'someAttribute' => 'someValue',
+                'someAttribute'      => 'someValue',
                 'someOtherAttribute' => 'someOtherValue',
                 'someThirdAttribute' => 'someThirdValue'
             ]
@@ -866,20 +866,20 @@ class DocumentExtendedTest extends
 
         $document = Document::createFromArray(
             [
-                '_key' => 'test1',
+                '_key'     => 'test1',
                 'isActive' => true,
                 'password' => 'secret',
-                'name' => 'foo'
+                'name'     => 'foo'
             ]
         );
         $documentHandler->add($this->collection->getId(), $document);
 
         $document = Document::createFromArray(
             [
-                '_key' => 'test2',
+                '_key'     => 'test2',
                 'isActive' => false,
                 'password' => 'secret',
-                'name' => 'bar'
+                'name'     => 'bar'
             ]
         );
         $documentHandler->add($this->collection->getId(), $document);
@@ -947,7 +947,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
         $document        = Document::createFromArray(
             [
-                'someAttribute' => 'someValue',
+                'someAttribute'      => 'someValue',
                 'someOtherAttribute' => 'someOtherValue',
                 'someThirdAttribute' => 'someThirdValue'
             ]

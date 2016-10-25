@@ -12,7 +12,7 @@ namespace triagens\ArangoDb;
 /**
  * Class QueryTest
  *
- * @property Connection $connection
+ * @property Connection   $connection
  * @property QueryHandler $queryHandler
  *
  * @package triagens\ArangoDb

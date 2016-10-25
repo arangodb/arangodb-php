@@ -11,11 +11,11 @@
 namespace triagens\ArangoDb;
 
 /**
- * @property Connection connection
- * @property Collection collection
+ * @property Connection        connection
+ * @property Collection        collection
  * @property CollectionHandler collectionHandler
- * @property bool hasSparseIndexes
- * @property bool hasSelectivityEstimates
+ * @property bool              hasSparseIndexes
+ * @property bool              hasSelectivityEstimates
  */
 class CollectionBasicTest extends
     \PHPUnit_Framework_TestCase
@@ -428,7 +428,7 @@ class CollectionBasicTest extends
         $name = '_ArangoDB_PHP_TestSuite_TestCollection_02';
 
         try {
-            $collectionHandler->drop($name, [ 'isSystem' => true ]);
+            $collectionHandler->drop($name, ['isSystem' => true]);
         } catch (Exception $e) {
             //Silence the exception
         }
@@ -447,7 +447,7 @@ class CollectionBasicTest extends
         static::assertTrue($resultingCollectionProperties->getWaitForSync());
 
 
-        $collectionHandler->drop($name, [ 'isSystem' => true ]);
+        $collectionHandler->drop($name, ['isSystem' => true]);
     }
 
 

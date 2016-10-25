@@ -108,8 +108,8 @@ class Export
      * @throws Exception
      *
      * @param Connection $connection - the connection to be used
-     * @param string $collection - the collection to export
-     * @param array $data - export options
+     * @param string     $collection - the collection to export
+     * @param array      $data       - export options
      */
     public function __construct(Connection $connection, $collection, array $data = [])
     {
@@ -256,10 +256,11 @@ class Export
     private function getCursorOptions()
     {
         $result = [
-            ExportCursor::ENTRY_FLAT => (bool) $this->_flat,
+            ExportCursor::ENTRY_FLAT    => (bool) $this->_flat,
             ExportCursor::ENTRY_BASEURL => Urls::URL_EXPORT,
-            ExportCursor::ENTRY_TYPE => $this->_type
+            ExportCursor::ENTRY_TYPE    => $this->_type
         ];
+
         return $result;
     }
 }

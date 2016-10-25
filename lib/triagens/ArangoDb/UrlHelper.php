@@ -35,8 +35,7 @@ abstract class UrlHelper
         if (0 === strpos($location, '/_db/')) {
             // /_db/<dbname>/_api/document/<collection>/<key>
             @list(, , , , , , $id) = explode('/', $location);
-        }
-        else {
+        } else {
             // /_api/document/<collection>/<key>
             @list(, , , , $id) = explode('/', $location);
         }
@@ -54,7 +53,7 @@ abstract class UrlHelper
      * This function accepts variable arguments.
      *
      * @param string $baseUrl - base URL
-     * @param array $parts - URL parts to append
+     * @param array  $parts   - URL parts to append
      *
      * @return string - assembled URL
      */
@@ -75,7 +74,7 @@ abstract class UrlHelper
      * Parameter values will be URL-encoded
      *
      * @param string $baseUrl - base URL
-     * @param array $params - an array of parameters
+     * @param array  $params  - an array of parameters
      *
      * @return string - the assembled URL
      */
@@ -86,6 +85,7 @@ abstract class UrlHelper
                 $value = self::getBoolString($value);
             }
         }
+
         return $baseUrl . '?' . http_build_query($params);
     }
 

@@ -57,8 +57,8 @@ class Edge extends
      *
      * @throws ClientException
      *
-     * @param string $key - attribute name
-     * @param mixed $value - value for attribute
+     * @param string $key   - attribute name
+     * @param mixed  $value - value for attribute
      *
      * @return void
      */
@@ -72,26 +72,31 @@ class Edge extends
         if ($key[0] === '_') {
             if ($key === self::ENTRY_ID) {
                 $this->setInternalId($value);
+
                 return;
             }
 
             if ($key === self::ENTRY_KEY) {
                 $this->setInternalKey($value);
+
                 return;
             }
 
             if ($key === self::ENTRY_REV) {
                 $this->setRevision($value);
+
                 return;
             }
 
             if ($key === self::ENTRY_FROM) {
                 $this->setFrom($value);
+
                 return;
             }
 
             if ($key === self::ENTRY_TO) {
                 $this->setTo($value);
+
                 return;
             }
         }
@@ -166,6 +171,7 @@ class Edge extends
         $data          = parent::getAllForInsertUpdate();
         $data['_from'] = $this->_from;
         $data['_to']   = $this->_to;
+
         return $data;
     }
 

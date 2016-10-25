@@ -97,6 +97,7 @@ class Endpoint
 
     /**
      * Return a string representation of the endpoint
+     *
      * @magic
      *
      * @return string - string representation of the endpoint
@@ -164,21 +165,22 @@ class Endpoint
         }
 
         $type = self::getType($value);
+
         return !($type === null);
     }
 
 
-	/**
-	 * List endpoints
-	 *
-	 * This will list the endpoints that are configured on the server
-	 *
-	 * @param Connection $connection - the connection to be used
-	 *
-	 * @link                         https://docs.arangodb.com/3.0/HTTP/Endpoints/index.html
-	 * @return array $responseArray - The response array.
-	 * @throws \triagens\ArangoDb\Exception
-	 */
+    /**
+     * List endpoints
+     *
+     * This will list the endpoints that are configured on the server
+     *
+     * @param Connection $connection - the connection to be used
+     *
+     * @link                         https://docs.arangodb.com/3.0/HTTP/Endpoints/index.html
+     * @return array $responseArray - The response array.
+     * @throws \triagens\ArangoDb\Exception
+     */
     public static function listEndpoints(Connection $connection)
     {
         $response = $connection->get(Urls::URL_ENDPOINT);

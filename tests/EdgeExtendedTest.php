@@ -12,12 +12,12 @@ namespace triagens\ArangoDb;
 /**
  * Class EdgeExtendedTest
  *
- * @property Connection $connection
- * @property Collection $collection
- * @property Collection $edgeCollection
+ * @property Connection        $connection
+ * @property Collection        $collection
+ * @property Collection        $edgeCollection
  * @property CollectionHandler $collectionHandler
- * @property DocumentHandler $documentHandler
- * @property EdgeHandler $edgeHandler
+ * @property DocumentHandler   $documentHandler
+ * @property EdgeHandler       $edgeHandler
  *
  * @package triagens\ArangoDb
  */
@@ -37,7 +37,7 @@ class EdgeExtendedTest extends
         } catch (Exception $e) {
             //Silence the exception
         }
-        
+
         try {
             $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_Collection_01');
         } catch (Exception $e) {
@@ -64,7 +64,7 @@ class EdgeExtendedTest extends
         $edgeHandler = $this->edgeHandler;
         $edge        = Edge::createFromArray(
             [
-                'someAttribute' => 'someValue',
+                'someAttribute'      => 'someValue',
                 'someOtherAttribute' => 'someOtherValue',
                 'someThirdAttribute' => 'someThirdValue'
             ]

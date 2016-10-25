@@ -54,18 +54,18 @@ class Traversal
      */
     const ENTRY_EDGECOLLECTION = 'edgeCollection';
 
-	/**
-	 * @var $_action string The action property of the traversal.
-	 */
-	protected $_action;
+    /**
+     * @var $_action string The action property of the traversal.
+     */
+    protected $_action;
 
     /**
      * Initialise the Traversal object
      *
-     * @param Connection $connection - the connection to be used
-     * @param string $startVertex - user function initialization data
-     * @param string $edgeCollection - user function initialization data
-     * @param array $options
+     * @param Connection $connection     - the connection to be used
+     * @param string     $startVertex    - user function initialization data
+     * @param string     $edgeCollection - user function initialization data
+     * @param array      $options
      *
      */
     public function __construct(Connection $connection, $startVertex, $edgeCollection, array $options = null)
@@ -80,13 +80,13 @@ class Traversal
     }
 
 
-	/**
-	 * Execute and get the traversal result
-	 *
-	 * @return array $responseArray
-	 * @throws \triagens\ArangoDb\Exception
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * Execute and get the traversal result
+     *
+     * @return array $responseArray
+     * @throws \triagens\ArangoDb\Exception
+     * @throws \triagens\ArangoDb\ClientException
+     */
     public function getResult()
 
     {
@@ -97,6 +97,7 @@ class Traversal
             Urls::URL_TRAVERSAL,
             $this->getConnection()->json_encode_wrapper($bodyParams)
         );
+
         return $response->getJson();
     }
 
@@ -112,20 +113,20 @@ class Traversal
     }
 
 
-	/**
-	 * Set name of the user function. It must have at least one namespace, but also can have sub-namespaces.
-	 * correct:
-	 * 'myNamespace:myFunction'
-	 * 'myRootNamespace:mySubNamespace:myFunction'
-	 *
-	 * wrong:
-	 * 'myFunction'
-	 *
-	 *
-	 * @param string $value
-	 *
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * Set name of the user function. It must have at least one namespace, but also can have sub-namespaces.
+     * correct:
+     * 'myNamespace:myFunction'
+     * 'myRootNamespace:mySubNamespace:myFunction'
+     *
+     * wrong:
+     * 'myFunction'
+     *
+     *
+     * @param string $value
+     *
+     * @throws \triagens\ArangoDb\ClientException
+     */
     public function setStartVertex($value)
     {
         $this->set(self::ENTRY_STARTVERTEX, (string) $value);
@@ -142,13 +143,13 @@ class Traversal
         return $this->get(self::ENTRY_STARTVERTEX);
     }
 
-	/**
-	 * Set user function code
-	 *
-	 * @param string $value
-	 *
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * Set user function code
+     *
+     * @param string $value
+     *
+     * @throws \triagens\ArangoDb\ClientException
+     */
     public function setEdgeCollection($value)
     {
         $this->set(self::ENTRY_EDGECOLLECTION, (string) $value);
@@ -192,8 +193,8 @@ class Traversal
      *
      * @throws ClientException
      *
-     * @param string $key - attribute name
-     * @param mixed $value - value for attribute
+     * @param string $key   - attribute name
+     * @param mixed  $value - value for attribute
      *
      * @magic
      *

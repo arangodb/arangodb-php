@@ -10,10 +10,10 @@
 namespace triagens\ArangoDb;
 
 /**
- * @property Connection $connection
- * @property Collection $collection
+ * @property Connection        $connection
+ * @property Collection        $collection
  * @property CollectionHandler $collectionHandler
- * @property DocumentHandler $documentHandler
+ * @property DocumentHandler   $documentHandler
  *
  * @package triagens\ArangoDb
  */
@@ -105,8 +105,8 @@ class ExportTest extends
         $connection = $this->connection;
         $statement  = new Statement(
             $connection, [
-                           'query' => "FOR i IN 1..1001 INSERT { _key: CONCAT('test', i), value: i } IN " . $this->collection->getName()
-                       ]
+                'query' => "FOR i IN 1..1001 INSERT { _key: CONCAT('test', i), value: i } IN " . $this->collection->getName()
+            ]
         );
         $statement->execute();
 
@@ -139,8 +139,8 @@ class ExportTest extends
         $connection = $this->connection;
         $statement  = new Statement(
             $connection, [
-                           'query' => "FOR i IN 1..5000 INSERT { _key: CONCAT('test', i), value: i } IN " . $this->collection->getName()
-                       ]
+                'query' => "FOR i IN 1..5000 INSERT { _key: CONCAT('test', i), value: i } IN " . $this->collection->getName()
+            ]
         );
         $statement->execute();
 
@@ -172,8 +172,8 @@ class ExportTest extends
         $connection = $this->connection;
         $statement  = new Statement(
             $connection, [
-                           'query' => "FOR i IN 1..5000 INSERT { _key: CONCAT('test', i), value: i } IN " . $this->collection->getName()
-                       ]
+                'query' => "FOR i IN 1..5000 INSERT { _key: CONCAT('test', i), value: i } IN " . $this->collection->getName()
+            ]
         );
         $statement->execute();
 
@@ -323,10 +323,10 @@ class ExportTest extends
 
         $export = new Export(
             $this->connection, $this->collection, [
-                                 'batchSize' => 50,
-                                 '_flat' => true,
-                                 'limit' => 107
-                             ]
+                'batchSize' => 50,
+                '_flat'     => true,
+                'limit'     => 107
+            ]
         );
         $cursor = $export->execute();
 
@@ -364,10 +364,10 @@ class ExportTest extends
 
         $export = new Export(
             $this->connection, $this->collection, [
-                                 'batchSize' => 50,
-                                 '_flat' => true,
-                                 'restrict' => ['type' => 'include', 'fields' => ['_key', 'value2']]
-                             ]
+                'batchSize' => 50,
+                '_flat'     => true,
+                'restrict'  => ['type' => 'include', 'fields' => ['_key', 'value2']]
+            ]
         );
         $cursor = $export->execute();
 
@@ -410,10 +410,10 @@ class ExportTest extends
 
         $export = new Export(
             $this->connection, $this->collection, [
-                                 'batchSize' => 50,
-                                 '_flat' => true,
-                                 'restrict' => ['type' => 'include', 'fields' => ['foobar', 'baz']]
-                             ]
+                'batchSize' => 50,
+                '_flat'     => true,
+                'restrict'  => ['type' => 'include', 'fields' => ['foobar', 'baz']]
+            ]
         );
         $cursor = $export->execute();
 
@@ -451,10 +451,10 @@ class ExportTest extends
 
         $export = new Export(
             $this->connection, $this->collection, [
-                                 'batchSize' => 50,
-                                 '_flat' => true,
-                                 'restrict' => ['type' => 'exclude', 'fields' => ['_key', 'value2']]
-                             ]
+                'batchSize' => 50,
+                '_flat'     => true,
+                'restrict'  => ['type' => 'exclude', 'fields' => ['_key', 'value2']]
+            ]
         );
         $cursor = $export->execute();
 
@@ -497,10 +497,10 @@ class ExportTest extends
 
         $export = new Export(
             $this->connection, $this->collection, [
-                                 'batchSize' => 50,
-                                 '_flat' => true,
-                                 'restrict' => ['type' => 'include', 'fields' => ['_id', 'foobar', 'baz']]
-                             ]
+                'batchSize' => 50,
+                '_flat'     => true,
+                'restrict'  => ['type' => 'include', 'fields' => ['_id', 'foobar', 'baz']]
+            ]
         );
         $cursor = $export->execute();
 
@@ -539,8 +539,8 @@ class ExportTest extends
 
         $export = new Export(
             $this->connection, $this->collection, [
-                                 'restrict' => ['type' => 'foo', 'fields' => ['_key']]
-                             ]
+                'restrict' => ['type' => 'foo', 'fields' => ['_key']]
+            ]
         );
         $export->execute();
     }
@@ -558,8 +558,8 @@ class ExportTest extends
 
         $export = new Export(
             $this->connection, $this->collection, [
-                                 'restrict' => ['fields' => ['_key']]
-                             ]
+                'restrict' => ['fields' => ['_key']]
+            ]
         );
         $export->execute();
     }
@@ -577,8 +577,8 @@ class ExportTest extends
 
         $export = new Export(
             $this->connection, $this->collection, [
-                                 'restrict' => ['type' => 'include', 'fields' => 'foo']
-                             ]
+                'restrict' => ['type' => 'include', 'fields' => 'foo']
+            ]
         );
         $export->execute();
     }
@@ -596,8 +596,8 @@ class ExportTest extends
 
         $export = new Export(
             $this->connection, $this->collection, [
-                                 'restrict' => ['type' => 'include']
-                             ]
+                'restrict' => ['type' => 'include']
+            ]
         );
         $export->execute();
     }

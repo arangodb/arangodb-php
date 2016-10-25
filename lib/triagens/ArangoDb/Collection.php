@@ -192,13 +192,13 @@ class Collection
      */
     const STATUS_DELETED = 5;
 
-	/**
-	 * Constructs an empty collection
-	 *
-	 * @param string $name - name for the collection
-	 *
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * Constructs an empty collection
+     *
+     * @param string $name - name for the collection
+     *
+     * @throws \triagens\ArangoDb\ClientException
+     */
     public function __construct($name = null)
     {
         if ($name !== null) {
@@ -299,15 +299,15 @@ class Collection
     public function getAll()
     {
         $result = [
-            self::ENTRY_ID => $this->_id,
-            self::ENTRY_NAME => $this->_name,
-            self::ENTRY_WAIT_SYNC => $this->_waitForSync,
+            self::ENTRY_ID           => $this->_id,
+            self::ENTRY_NAME         => $this->_name,
+            self::ENTRY_WAIT_SYNC    => $this->_waitForSync,
             self::ENTRY_JOURNAL_SIZE => $this->_journalSize,
-            self::ENTRY_IS_SYSTEM => $this->_isSystem,
-            self::ENTRY_IS_VOLATILE => $this->_isVolatile,
-            self::ENTRY_TYPE => $this->_type,
-            self::ENTRY_STATUS => $this->_status,
-            self::ENTRY_KEY_OPTIONS => $this->_keyOptions
+            self::ENTRY_IS_SYSTEM    => $this->_isSystem,
+            self::ENTRY_IS_VOLATILE  => $this->_isVolatile,
+            self::ENTRY_TYPE         => $this->_type,
+            self::ENTRY_STATUS       => $this->_status,
+            self::ENTRY_KEY_OPTIONS  => $this->_keyOptions
         ];
 
         if (null !== $this->_numberOfShards) {
@@ -331,8 +331,8 @@ class Collection
      *
      * @throws ClientException
      *
-     * @param string $key - attribute name
-     * @param mixed $value - value for attribute
+     * @param string $key   - attribute name
+     * @param mixed  $value - value for attribute
      *
      * @return void
      */
@@ -532,14 +532,14 @@ class Collection
         }
 
         if (!in_array(
-	        $status,
-	        [
+            $status,
+            [
                 self::STATUS_NEW_BORN,
                 self::STATUS_UNLOADED,
                 self::STATUS_LOADED,
                 self::STATUS_BEING_UNLOADED,
                 self::STATUS_DELETED
-	        ]
+            ]
         )
         ) {
             throw new ClientException('Invalid status used for collection');

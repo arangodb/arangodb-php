@@ -13,37 +13,37 @@ namespace triagens\ArangoDb;
  * Class GraphExtendedTest
  * Extended Tests for the Graph API implementation
  *
- * @property Connection $connection
- * @property Graph $graph
- * @property Collection $edgeCollection
+ * @property Connection        $connection
+ * @property Graph             $graph
+ * @property Collection        $edgeCollection
  * @property CollectionHandler $collectionHandler
- * @property GraphHandler $graphHandler
- * @property DocumentHandler $documentHandler
- * @property EdgeHandler $edgeHandler
- * @property string vertex1Name
- * @property string vertex2Name
- * @property string vertex3Name
- * @property string vertex4Name
- * @property string vertex1aName
- * @property string edge1Name
- * @property string edge2Name
- * @property string edge3Name
- * @property string edge1aName
- * @property string edgeLabel1
- * @property string edgeLabel2
- * @property string edgeLabel3
- * @property mixed vertex1Array
- * @property mixed vertex2Array
- * @property mixed vertex3Array
- * @property mixed vertex4Array
- * @property mixed vertex1aArray
- * @property mixed edge1Array
- * @property mixed edge2Array
- * @property mixed edge3Array
- * @property mixed edge1aArray
- * @property string graphName
- * @property string vertexCollectionName
- * @property string edgeCollectionName
+ * @property GraphHandler      $graphHandler
+ * @property DocumentHandler   $documentHandler
+ * @property EdgeHandler       $edgeHandler
+ * @property string            vertex1Name
+ * @property string            vertex2Name
+ * @property string            vertex3Name
+ * @property string            vertex4Name
+ * @property string            vertex1aName
+ * @property string            edge1Name
+ * @property string            edge2Name
+ * @property string            edge3Name
+ * @property string            edge1aName
+ * @property string            edgeLabel1
+ * @property string            edgeLabel2
+ * @property string            edgeLabel3
+ * @property mixed             vertex1Array
+ * @property mixed             vertex2Array
+ * @property mixed             vertex3Array
+ * @property mixed             vertex4Array
+ * @property mixed             vertex1aArray
+ * @property mixed             edge1Array
+ * @property mixed             edge2Array
+ * @property mixed             edge3Array
+ * @property mixed             edge1aArray
+ * @property string            graphName
+ * @property string            vertexCollectionName
+ * @property string            edgeCollectionName
  *
  * @package triagens\ArangoDb
  */
@@ -67,39 +67,39 @@ class GraphExtendedTest extends
 
 
         $this->vertex1Array  = [
-            '_key' => $this->vertex1Name,
+            '_key'     => $this->vertex1Name,
             'someKey1' => 'someValue1'
         ];
         $this->vertex2Array  = [
-            '_key' => $this->vertex2Name,
+            '_key'     => $this->vertex2Name,
             'someKey2' => 'someValue2'
         ];
         $this->vertex3Array  = [
-            '_key' => $this->vertex3Name,
+            '_key'     => $this->vertex3Name,
             'someKey3' => 'someValue3'
         ];
         $this->vertex4Array  = [
-            '_key' => $this->vertex4Name,
+            '_key'     => $this->vertex4Name,
             'someKey4' => 'someValue4'
         ];
         $this->vertex1aArray = [
             'someKey1' => 'someValue1a'
         ];
         $this->edge1Array    = [
-            '_key' => $this->edge1Name,
+            '_key'         => $this->edge1Name,
             'someEdgeKey1' => 'someEdgeValue1'
         ];
         $this->edge2Array    = [
-            '_key' => $this->edge2Name,
-            'someEdgeKey2' => 'someEdgeValue2',
+            '_key'            => $this->edge2Name,
+            'someEdgeKey2'    => 'someEdgeValue2',
             'anotherEdgeKey2' => 'anotherEdgeValue2'
         ];
         $this->edge3Array    = [
-            '_key' => $this->edge3Name,
+            '_key'         => $this->edge3Name,
             'someEdgeKey3' => 'someEdgeValue3'
         ];
         $this->edge1aArray   = [
-            '_key' => $this->edge1Name,
+            '_key'         => $this->edge1Name,
             'someEdgeKey1' => 'someEdgeValue1a'
         ];
 
@@ -269,7 +269,7 @@ class GraphExtendedTest extends
     }
 
 
-   /**
+    /**
      * Test if 2 Vertices can be saved and an edge can be saved connecting them
      * Then remove in this order Edge, Vertex1, Vertex2
      */
@@ -280,7 +280,7 @@ class GraphExtendedTest extends
         $vertex2 = Vertex::createFromArray($this->vertex2Array);
         $edge1   = Edge::createFromArray($this->edge1Array);
 
-		$this->graphHandler->setCacheEnabled(true);
+        $this->graphHandler->setCacheEnabled(true);
         // Save vertices
         $result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
         static::assertEquals($result1, 'ArangoDBPHPTestSuiteVertexTestCollection01/vertex1', 'Did not return vertex1!');
@@ -1086,7 +1086,7 @@ class GraphExtendedTest extends
         $this->createGraph();
         $new = Vertex::createFromArray(
             [
-                '_key' => 'testreplacewithgraphinstancekey',
+                '_key'    => 'testreplacewithgraphinstancekey',
                 'someKey' => 'someValue'
             ]
         );
@@ -1101,7 +1101,7 @@ class GraphExtendedTest extends
         $this->createGraph();
         $new = Vertex::createFromArray(
             [
-                '_key' => 'vertex1',
+                '_key'    => 'vertex1',
                 'someKey' => 'foobar'
             ]
         );

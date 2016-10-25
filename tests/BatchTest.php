@@ -17,471 +17,435 @@ namespace triagens\ArangoDb;
  * @property Collection        edgeCollection
  */
 class BatchTest extends
-	\PHPUnit_Framework_TestCase
+    \PHPUnit_Framework_TestCase
 {
-	public function setUp()
-	{
-		$this->connection = getConnection();
-
-		$this->documentHandler   = new DocumentHandler($this->connection);
-		$this->collectionHandler = new CollectionHandler($this->connection);
-
-		try
-		{
-			$this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
-		}
-		catch (\Exception $e)
-		{
-			// don't bother us, if it's already deleted.
-		}
-
-		$this->collection = new Collection();
-		$this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
-		$this->collectionHandler->add($this->collection);
-
-		try
-		{
-			$this->collectionHandler->delete('ArangoDBPHPTestSuiteTestEdgeCollection01');
-		}
-		catch (\Exception $e)
-		{
-			#don't bother us, if it's already deleted.
-		}
-
-		$this->edgeCollection = new Collection();
-		$this->edgeCollection->setName('ArangoDBPHPTestSuiteTestEdgeCollection01');
-		$this->edgeCollection->set('type', 3);
-		$this->collectionHandler->add($this->edgeCollection);
-	}
-
-
-	public function testEmptyBatch()
-	{
-		$batch = new Batch($this->connection);
-		static::assertEquals(0, $batch->countParts());
-		static::assertEquals([], $batch->getBatchParts());
-
-		try
-		{
-			// should fail
-			static::assertEquals(null, $batch->getPart('foo'));
-			static::fail('we should have got an exception');
-		}
-		catch (ClientException $e)
-		{
-		}
-
-		try
-		{
-			// should fail on client, too
-			$batch->process();
-			static::fail('we should have got an exception');
-		}
-		catch (ClientException $e)
-		{
-		}
-	}
-
-
-	public function testPartIds()
-	{
-		$batch = new Batch($this->connection);
-		static::assertEquals(0, $batch->countParts());
-
-		for ($i = 0; $i < 10; ++$i)
-		{
-			$batch->nextBatchPartId('doc' . $i);
-			$document = Document::createFromArray(['test1' => $i, 'test2' => $i + 1]);
-			$this->documentHandler->add($this->collection->getId(), $document);
-		}
-
-		static::assertEquals(10, $batch->countParts());
-
-		$batch->process();
-
-		for ($i = 0; $i < 10; ++$i)
-		{
-			$part = $batch->getPart('doc' . $i);
-			static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $part);
-
-			static::assertEquals('doc' . $i, $part->getId());
-			static::assertEquals(202, $part->getHttpCode());
-
-			$response = $batch->getPartResponse('doc' . $i);
-			static::assertEquals(202, $response->getHttpCode());
-		}
-
-		try
-		{
-			// should fail
-			static::assertEquals(null, $batch->getPart('foo'));
-			static::fail('we should have got an exception');
-		}
-		catch (ClientException $e)
-		{
-		}
-	}
+    public function setUp()
+    {
+        $this->connection = getConnection();
+
+        $this->documentHandler   = new DocumentHandler($this->connection);
+        $this->collectionHandler = new CollectionHandler($this->connection);
+
+        try {
+            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+        } catch (\Exception $e) {
+            // don't bother us, if it's already deleted.
+        }
+
+        $this->collection = new Collection();
+        $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
+        $this->collectionHandler->add($this->collection);
+
+        try {
+            $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestEdgeCollection01');
+        } catch (\Exception $e) {
+            #don't bother us, if it's already deleted.
+        }
+
+        $this->edgeCollection = new Collection();
+        $this->edgeCollection->setName('ArangoDBPHPTestSuiteTestEdgeCollection01');
+        $this->edgeCollection->set('type', 3);
+        $this->collectionHandler->add($this->edgeCollection);
+    }
+
+
+    public function testEmptyBatch()
+    {
+        $batch = new Batch($this->connection);
+        static::assertEquals(0, $batch->countParts());
+        static::assertEquals([], $batch->getBatchParts());
+
+        try {
+            // should fail
+            static::assertEquals(null, $batch->getPart('foo'));
+            static::fail('we should have got an exception');
+        } catch (ClientException $e) {
+        }
+
+        try {
+            // should fail on client, too
+            $batch->process();
+            static::fail('we should have got an exception');
+        } catch (ClientException $e) {
+        }
+    }
+
 
+    public function testPartIds()
+    {
+        $batch = new Batch($this->connection);
+        static::assertEquals(0, $batch->countParts());
 
-	public function testProcessProcess()
-	{
-		try
-		{
-			// clean up first
-			$this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_02');
-		}
-		catch (Exception $e)
-		{
-		}
+        for ($i = 0; $i < 10; ++$i) {
+            $batch->nextBatchPartId('doc' . $i);
+            $document = Document::createFromArray(['test1' => $i, 'test2' => $i + 1]);
+            $this->documentHandler->add($this->collection->getId(), $document);
+        }
+
+        static::assertEquals(10, $batch->countParts());
 
-		$batch = new Batch($this->connection);
-		static::assertEquals(0, $batch->countParts());
+        $batch->process();
+
+        for ($i = 0; $i < 10; ++$i) {
+            $part = $batch->getPart('doc' . $i);
+            static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $part);
 
-		$collection = new Collection();
-		$name       = 'ArangoDB_PHP_TestSuite_TestCollection_02';
-		$collection->setName($name);
-		$this->collectionHandler->add($collection);
+            static::assertEquals('doc' . $i, $part->getId());
+            static::assertEquals(202, $part->getHttpCode());
+
+            $response = $batch->getPartResponse('doc' . $i);
+            static::assertEquals(202, $response->getHttpCode());
+        }
 
-		$part = $batch->getPart(0);
-		static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $part);
-		static::assertEquals(202, $part->getHttpCode());
+        try {
+            // should fail
+            static::assertEquals(null, $batch->getPart('foo'));
+            static::fail('we should have got an exception');
+        } catch (ClientException $e) {
+        }
+    }
 
-		// call process once (this does not clear the batch)
-		$batch->process();
-		static::assertEquals(200, $part->getHttpCode());
 
-		$response = $batch->getPartResponse(0);
-		static::assertEquals(200, $response->getHttpCode());
+    public function testProcessProcess()
+    {
+        try {
+            // clean up first
+            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_02');
+        } catch (Exception $e) {
+        }
 
-		// this will process the same batch again
-		$batch->process();
-		$response = $batch->getPartResponse(0);
+        $batch = new Batch($this->connection);
+        static::assertEquals(0, $batch->countParts());
 
-		// should return 409 conflict, because collection already exists
-		static::assertEquals(409, $response->getHttpCode());
-	}
+        $collection = new Collection();
+        $name       = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        $collection->setName($name);
+        $this->collectionHandler->add($collection);
 
+        $part = $batch->getPart(0);
+        static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $part);
+        static::assertEquals(202, $part->getHttpCode());
 
-	public function testCreateDocumentBatch()
-	{
-		$batch = new Batch($this->connection);
+        // call process once (this does not clear the batch)
+        $batch->process();
+        static::assertEquals(200, $part->getHttpCode());
 
-		// not needed, but just here to test if anything goes wrong if it's called again...
-		$batch->startCapture();
+        $response = $batch->getPartResponse(0);
+        static::assertEquals(200, $response->getHttpCode());
 
-		static::assertInstanceOf('\triagens\ArangoDb\Batch', $batch);
-		$documentHandler = $this->documentHandler;
+        // this will process the same batch again
+        $batch->process();
+        $response = $batch->getPartResponse(0);
 
-		$document   = Document::createFromArray(
-			['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
-		);
-		$documentId = $documentHandler->add($this->collection->getId(), $document);
+        // should return 409 conflict, because collection already exists
+        static::assertEquals(409, $response->getHttpCode());
+    }
 
-		static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId, 'Did not return a BatchPart Object!');
 
-		$batchPartId = $documentId->getId();
+    public function testCreateDocumentBatch()
+    {
+        $batch = new Batch($this->connection);
 
-		$document   = Document::createFromArray(
-			['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
-		);
-		$documentId = $documentHandler->add($this->collection->getId(), $document);
+        // not needed, but just here to test if anything goes wrong if it's called again...
+        $batch->startCapture();
 
-		static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId, 'Did not return a BatchPart Object!');
+        static::assertInstanceOf('\triagens\ArangoDb\Batch', $batch);
+        $documentHandler = $this->documentHandler;
 
-		$batch->process();
+        $document   = Document::createFromArray(
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
+        );
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
 
-		$batch->getPart(0)->getProcessedResponse();
+        static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId, 'Did not return a BatchPart Object!');
 
-		// try getting it from batch
-		$batch->getProcessedPartResponse(1);
-	}
+        $batchPartId = $documentId->getId();
 
-	/**
-	 * This tests the batch class when used with an SplFixedArray as its Array for the BatchParts
-	 */
-	public function testCreateDocumentBatchWithDefinedBatchSize()
-	{
-		$batch = new Batch($this->connection, ['batchSize' => 2]);
+        $document   = Document::createFromArray(
+            ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
+        );
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
 
-		// not needed, but just here to test if anything goes wrong if it's called again...
-		$batch->startCapture();
+        static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId, 'Did not return a BatchPart Object!');
 
-		static::assertInstanceOf('\triagens\ArangoDb\Batch', $batch);
-		$documentHandler = $this->documentHandler;
+        $batch->process();
 
-		$document   = Document::createFromArray(
-			['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
-		);
-		$documentId = $documentHandler->add($this->collection->getId(), $document);
+        $batch->getPart(0)->getProcessedResponse();
 
-		static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId, 'Did not return a BatchPart Object!');
+        // try getting it from batch
+        $batch->getProcessedPartResponse(1);
+    }
 
-		$document   = Document::createFromArray(
-			['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
-		);
-		$documentId = $documentHandler->add($this->collection->getId(), $document);
+    /**
+     * This tests the batch class when used with an SplFixedArray as its Array for the BatchParts
+     */
+    public function testCreateDocumentBatchWithDefinedBatchSize()
+    {
+        $batch = new Batch($this->connection, ['batchSize' => 2]);
 
-		static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId, 'Did not return a BatchPart Object!');
+        // not needed, but just here to test if anything goes wrong if it's called again...
+        $batch->startCapture();
 
-		static::assertEquals($batch->getConnectionCaptureMode($this->connection), true);
+        static::assertInstanceOf('\triagens\ArangoDb\Batch', $batch);
+        $documentHandler = $this->documentHandler;
 
-		$batch->stopCapture();
+        $document   = Document::createFromArray(
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
+        );
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
 
-		// Check giving the set method a non-string key
-		try
-		{
-			$batch->stopCapture();
-		}
-		catch (ClientException $e)
-		{
-			echo 'Caught expected exception';
-		}
+        static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId, 'Did not return a BatchPart Object!');
 
+        $document   = Document::createFromArray(
+            ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
+        );
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
 
-		$batch->process();
+        static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId, 'Did not return a BatchPart Object!');
 
-		$batch->getPart(0)->getProcessedResponse();
+        static::assertEquals($batch->getConnectionCaptureMode($this->connection), true);
 
-		// try getting it from batch
-		$batch->getProcessedPartResponse(1);
-	}
+        $batch->stopCapture();
 
+        // Check giving the set method a non-string key
+        try {
+            $batch->stopCapture();
+        } catch (ClientException $e) {
+            echo 'Caught expected exception';
+        }
 
-	/**
-	 * This tests the batch class when used with an SplFixedArray as its Array for the BatchParts
-	 * It simulates an invalid index access, in order to check that we are really using SplFixedArray
-	 */
-	public function testFailureWhenCreatingMoreDocumentsInBatchThanDefinedBatchSize()
-	{
-		$batch = new Batch($this->connection, ['batchSize' => 1]);
 
-		// not needed, but just here to test if anything goes wrong if it's called again...
-		$batch->startCapture();
+        $batch->process();
 
-		static::assertInstanceOf('\triagens\ArangoDb\Batch', $batch);
-		$documentHandler = $this->documentHandler;
+        $batch->getPart(0)->getProcessedResponse();
 
-		$document   = Document::createFromArray(
-			['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
-		);
-		$documentId = $documentHandler->add($this->collection->getId(), $document);
+        // try getting it from batch
+        $batch->getProcessedPartResponse(1);
+    }
 
-		static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId, 'Did not return a BatchPart Object!');
 
-		$document = Document::createFromArray(
-			['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
-		);
-		try
-		{
-			$documentId = $documentHandler->add($this->collection->getId(), $document);
-		}
-		catch (\Exception $e)
-		{
-			// don't bother us, just give us the $e
-		}
-		static::assertInstanceOf(
-			'RuntimeException',
-			$e,
-			'Exception thrown was not a RuntimeException!'
-		);
-		static::assertEquals('Index invalid or out of range', $e->getMessage(), 'Error code was not "Index invalid or out of range"');
+    /**
+     * This tests the batch class when used with an SplFixedArray as its Array for the BatchParts
+     * It simulates an invalid index access, in order to check that we are really using SplFixedArray
+     */
+    public function testFailureWhenCreatingMoreDocumentsInBatchThanDefinedBatchSize()
+    {
+        $batch = new Batch($this->connection, ['batchSize' => 1]);
 
-	}
+        // not needed, but just here to test if anything goes wrong if it's called again...
+        $batch->startCapture();
 
-	public function testCreateMixedBatchWithPartIds()
-	{
-		$edgeCollection = $this->edgeCollection;
+        static::assertInstanceOf('\triagens\ArangoDb\Batch', $batch);
+        $documentHandler = $this->documentHandler;
 
-		$batch = new Batch($this->connection);
-		static::assertInstanceOf('\triagens\ArangoDb\Batch', $batch);
+        $document   = Document::createFromArray(
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
+        );
+        $documentId = $documentHandler->add($this->collection->getId(), $document);
 
-		// Create collection
-		$connection        = $this->connection;
-		$collection        = new Collection();
-		$collectionHandler = new CollectionHandler($connection);
+        static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId, 'Did not return a BatchPart Object!');
 
-		$name = 'ArangoDB_PHP_TestSuite_TestCollection_02';
-		$collection->setName($name);
+        $document = Document::createFromArray(
+            ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
+        );
+        try {
+            $documentId = $documentHandler->add($this->collection->getId(), $document);
+        } catch (\Exception $e) {
+            // don't bother us, just give us the $e
+        }
+        static::assertInstanceOf(
+            'RuntimeException',
+            $e,
+            'Exception thrown was not a RuntimeException!'
+        );
+        static::assertEquals('Index invalid or out of range', $e->getMessage(), 'Error code was not "Index invalid or out of range"');
 
-		$batch->nextBatchPartId('testCollection1');
-		$response = $collectionHandler->add($collection);
+    }
 
-		static::assertTrue(is_numeric($response), 'Did not return a fake numeric id!');
-		$batch->process();
+    public function testCreateMixedBatchWithPartIds()
+    {
+        $edgeCollection = $this->edgeCollection;
 
-		$resultingCollectionId = $batch->getProcessedPartResponse('testCollection1');
-		$testCollection1Part   = $batch->getPart('testCollection1');
-		static::assertEquals($testCollection1Part->getHttpCode(), 200, 'Did not return an HttpCode 200!');
-		$resultingCollection = $collectionHandler->get($batch->getProcessedPartResponse('testCollection1'));
+        $batch = new Batch($this->connection);
+        static::assertInstanceOf('\triagens\ArangoDb\Batch', $batch);
 
-		$resultingAttribute = $resultingCollection->getName();
-		static::assertSame(
-			$name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
-		);
+        // Create collection
+        $connection        = $this->connection;
+        $collection        = new Collection();
+        $collectionHandler = new CollectionHandler($connection);
 
-		static::assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        $collection->setName($name);
 
+        $batch->nextBatchPartId('testCollection1');
+        $response = $collectionHandler->add($collection);
 
-		$batch = new Batch($this->connection);
+        static::assertTrue(is_numeric($response), 'Did not return a fake numeric id!');
+        $batch->process();
 
-		// Create documents
-		$documentHandler = $this->documentHandler;
-		$batch->nextBatchPartId('doc1');
-		$document   = Document::createFromArray(
-			['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
-		);
-		$documentBatchPart = $documentHandler->add($resultingCollectionId, $document);
+        $resultingCollectionId = $batch->getProcessedPartResponse('testCollection1');
+        $testCollection1Part   = $batch->getPart('testCollection1');
+        static::assertEquals($testCollection1Part->getHttpCode(), 200, 'Did not return an HttpCode 200!');
+        $resultingCollection = $collectionHandler->get($batch->getProcessedPartResponse('testCollection1'));
 
-		static::assertEquals($documentBatchPart->getType(), 'document');
+        $resultingAttribute = $resultingCollection->getName();
+        static::assertSame(
+            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
+        );
 
-		static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentBatchPart, 'Did not return a BatchPart Object!');
+        static::assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
 
-		for ($i = 0; $i <= 10; ++$i)
-		{
-			$document   = Document::createFromArray(
-				[
-					'someAttribute'      => 'someValue' . $i,
-					'someOtherAttribute' => 'someOtherValue2' . $i
-				]
-			);
-			$documentBatchPart = $documentHandler->add($resultingCollectionId, $document);
-		}
-		static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentBatchPart, 'Did not return a BatchPart Object!');
 
-		$batch->process();
+        $batch = new Batch($this->connection);
 
-		// try getting processed response through batchPart
-		$testDocument1PartResponse = $batch->getPart('doc1')->getProcessedResponse();
+        // Create documents
+        $documentHandler = $this->documentHandler;
+        $batch->nextBatchPartId('doc1');
+        $document          = Document::createFromArray(
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
+        );
+        $documentBatchPart = $documentHandler->add($resultingCollectionId, $document);
 
-		// try getting it from batch
-		$testDocument2PartResponse = $batch->getProcessedPartResponse(1);
+        static::assertEquals($documentBatchPart->getType(), 'document');
 
+        static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentBatchPart, 'Did not return a BatchPart Object!');
 
-		$batch = new Batch($this->connection);
+        for ($i = 0; $i <= 10; ++$i) {
+            $document          = Document::createFromArray(
+                [
+                    'someAttribute'      => 'someValue' . $i,
+                    'someOtherAttribute' => 'someOtherValue2' . $i
+                ]
+            );
+            $documentBatchPart = $documentHandler->add($resultingCollectionId, $document);
+        }
+        static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentBatchPart, 'Did not return a BatchPart Object!');
 
-		$docId1 = explode('/', $testDocument1PartResponse);
-		$docId2 = explode('/', $testDocument2PartResponse);
-		$documentHandler->getById($resultingCollectionId, $docId1[1]);
-		$documentHandler->getById($resultingCollectionId, $docId2[1]);
+        $batch->process();
 
-		$batch->process();
+        // try getting processed response through batchPart
+        $testDocument1PartResponse = $batch->getPart('doc1')->getProcessedResponse();
 
-		$document1 = $batch->getProcessedPartResponse(0);
-		$document2 = $batch->getProcessedPartResponse(1);
+        // try getting it from batch
+        $testDocument2PartResponse = $batch->getProcessedPartResponse(1);
 
-		$batch = new Batch($this->connection);
-		// test edge creation
-		$edgeDocument        = new Edge();
-		$edgeDocumentHandler = new EdgeHandler($connection);
-		$edgeDocument->set('label', 'knows');
-		$edgeDocumentHandler->saveEdge(
-			$edgeCollection->getName(),
-			$document1->getHandle(),
-			$document2->getHandle(),
-			$edgeDocument
-		);
 
-		$batch->process();
+        $batch = new Batch($this->connection);
 
-		$edge = $batch->getProcessedPartResponse(0);
+        $docId1 = explode('/', $testDocument1PartResponse);
+        $docId2 = explode('/', $testDocument2PartResponse);
+        $documentHandler->getById($resultingCollectionId, $docId1[1]);
+        $documentHandler->getById($resultingCollectionId, $docId2[1]);
 
+        $batch->process();
 
-		static::assertFalse(
-			is_a($edge, 'triagens\ArangoDb\HttpResponse'),
-			'Edge batch creation did return an error: ' . print_r($edge, true)
-		);
-		static::assertNotSame($edge, '', 'Edge batch creation did return empty string: ' . print_r($edge, true));
+        $document1 = $batch->getProcessedPartResponse(0);
+        $document2 = $batch->getProcessedPartResponse(1);
 
+        $batch = new Batch($this->connection);
+        // test edge creation
+        $edgeDocument        = new Edge();
+        $edgeDocumentHandler = new EdgeHandler($connection);
+        $edgeDocument->set('label', 'knows');
+        $edgeDocumentHandler->saveEdge(
+            $edgeCollection->getName(),
+            $document1->getHandle(),
+            $document2->getHandle(),
+            $edgeDocument
+        );
 
-		$batch = new Batch($this->connection);
+        $batch->process();
 
-		$document        = new Document();
-		$documentHandler = new DocumentHandler($connection);
+        $edge = $batch->getProcessedPartResponse(0);
 
-		$document->someAttribute = 'someValue';
-		$documentHandler->add($resultingCollection->getId(), $document);
 
-		// set the next batchPart id
-		$batch->nextBatchPartId('myBatchPart');
-		// set cursor options for the next batchPart
-		$batch->nextBatchPartCursorOptions(
-			[
-				'sanitize' => true,
-			]
-		);
+        static::assertFalse(
+            is_a($edge, 'triagens\ArangoDb\HttpResponse'),
+            'Edge batch creation did return an error: ' . print_r($edge, true)
+        );
+        static::assertNotSame($edge, '', 'Edge batch creation did return empty string: ' . print_r($edge, true));
 
 
-		// set batchsize to 10, so we can test if an additional http request is done when we getAll() a bit later
-		$statement = new Statement(
-			$connection, [
-				           'query'     => '',
-				           'count'     => true,
-				           'batchSize' => 10,
-				           'sanitize'  => true,
-			           ]
-		);
+        $batch = new Batch($this->connection);
 
-		$statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_02` RETURN a');
-		$statement->execute();
+        $document        = new Document();
+        $documentHandler = new DocumentHandler($connection);
 
-		$documentHandler->removeById($resultingCollectionId, $docId1[1]);
-		$documentHandler->removeById($resultingCollectionId, $docId2[1]);
+        $document->someAttribute = 'someValue';
+        $documentHandler->add($resultingCollection->getId(), $document);
 
+        // set the next batchPart id
+        $batch->nextBatchPartId('myBatchPart');
+        // set cursor options for the next batchPart
+        $batch->nextBatchPartCursorOptions(
+            [
+                'sanitize' => true,
+            ]
+        );
 
-		$batch->nextBatchPartId('docsAfterRemoval');
 
-		$batch->process();
+        // set batchsize to 10, so we can test if an additional http request is done when we getAll() a bit later
+        $statement = new Statement(
+            $connection, [
+                'query'     => '',
+                'count'     => true,
+                'batchSize' => 10,
+                'sanitize'  => true,
+            ]
+        );
 
-		$collectionHandler->getAllIds($resultingCollectionId);
+        $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_02` RETURN a');
+        $statement->execute();
 
-		$stmtCursor = $batch->getProcessedPartResponse('myBatchPart');
+        $documentHandler->removeById($resultingCollectionId, $docId1[1]);
+        $documentHandler->removeById($resultingCollectionId, $docId2[1]);
 
-		static::assertCount(
-			13, $stmtCursor->getAll(), 'At the time of statement execution there should be 13 documents found! Found: ' . count(
-				  $stmtCursor->getAll()
-			  )
-		);
 
-		// This fails but we'll just make a note because such a query is not needed to be batched.
-		// $docsAfterRemoval=$batch->getProcessedPartResponse('docsAfterRemoval');
-		// $this->assertTrue(count($docsAfterRemoval) == 1, 'At the time of statement execution there should be 3 documents found! Found: '.count($stmtCursor->getAll()));
+        $batch->nextBatchPartId('docsAfterRemoval');
 
-		// Get previously created collection and delete it, from inside a batch
-		$batch = new Batch($this->connection);
+        $batch->process();
 
-		$collectionHandler->delete($resultingCollectionId);
+        $collectionHandler->getAllIds($resultingCollectionId);
 
-		$batch->process();
-	}
+        $stmtCursor = $batch->getProcessedPartResponse('myBatchPart');
 
+        static::assertCount(
+            13, $stmtCursor->getAll(), 'At the time of statement execution there should be 13 documents found! Found: ' . count(
+                $stmtCursor->getAll()
+            )
+        );
 
-	public function tearDown()
-	{
-		try
-		{
-			$this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
-		}
-		catch (\Exception $e)
-		{
-			// don't bother us, if it's already deleted.
-		}
-		try
-		{
-			$this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_02');
-		}
-		catch (\Exception $e)
-		{
-			// don't bother us, if it's already deleted.
-		}
-		try
-		{
-			$this->collectionHandler->delete('ArangoDBPHPTestSuiteTestEdgeCollection01');
-		}
-		catch (\Exception $e)
-		{
-			#don't bother us, if it's already deleted.
-		}
+        // This fails but we'll just make a note because such a query is not needed to be batched.
+        // $docsAfterRemoval=$batch->getProcessedPartResponse('docsAfterRemoval');
+        // $this->assertTrue(count($docsAfterRemoval) == 1, 'At the time of statement execution there should be 3 documents found! Found: '.count($stmtCursor->getAll()));
 
-		unset($this->collectionHandlerm, $this->collection, $this->connection);
-	}
+        // Get previously created collection and delete it, from inside a batch
+        $batch = new Batch($this->connection);
+
+        $collectionHandler->delete($resultingCollectionId);
+
+        $batch->process();
+    }
+
+
+    public function tearDown()
+    {
+        try {
+            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+        } catch (\Exception $e) {
+            // don't bother us, if it's already deleted.
+        }
+        try {
+            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_02');
+        } catch (\Exception $e) {
+            // don't bother us, if it's already deleted.
+        }
+        try {
+            $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestEdgeCollection01');
+        } catch (\Exception $e) {
+            #don't bother us, if it's already deleted.
+        }
+
+        unset($this->collectionHandlerm, $this->collection, $this->connection);
+    }
 }

@@ -14,10 +14,10 @@ namespace triagens\ArangoDb;
  *
  * Basic Tests for the Transaction API implementation
  *
- * @property Connection $connection
+ * @property Connection        $connection
  * @property CollectionHandler $collectionHandler
- * @property Collection $collection1
- * @property Collection $collection2
+ * @property Collection        $collection1
+ * @property Collection        $collection2
  * @package triagens\ArangoDb
  */
 class TransactionTest extends
@@ -147,7 +147,7 @@ class TransactionTest extends
 
         $array       = [
             'collections' => ['read' => $readCollections, 'write' => $writeCollections],
-            'action' => $action,
+            'action'      => $action,
             'waitForSync' => $waitForSync,
             'lockTimeout' => $lockTimeout
         ];

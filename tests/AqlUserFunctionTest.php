@@ -13,7 +13,7 @@ namespace triagens\ArangoDb;
  * Class AqlUserFunctionTest
  * Basic Tests for the Graph API implementation
  *
- * @property Connection $connection
+ * @property Connection        $connection
  *
  * @property CollectionHandler collectionHandler
  *
@@ -45,7 +45,9 @@ class AqlUserFunctionTest extends
 
     /**
      * Filters a list of functions. only functions in namespace "phpTestFunctions::" will be returned
+     *
      * @param $list
+     *
      * @return array
      */
     private function filter($list)
@@ -149,29 +151,29 @@ class AqlUserFunctionTest extends
             $userFunction->getCode(), $code, 'Did not return code, instead returned: ' . $userFunction->getCode()
         );
 
-	    // also check setters/getters if wrong/no attribute is given
+        // also check setters/getters if wrong/no attribute is given
         static::assertEquals(
-		    $userFunction->getFakeAttributeName, null, 'Getter with unknown attribute did not return null, instead returned: ' . $userFunction->getFakeAttributeName
-	    );
+            $userFunction->getFakeAttributeName, null, 'Getter with unknown attribute did not return null, instead returned: ' . $userFunction->getFakeAttributeName
+        );
 
         static::assertEquals(
-		    $userFunction->setFakeAttributeName, null, 'Setter with unknown attribute did not return chainable object, instead returned..: ' . $userFunction->setFakeAttributeName
-	    );
+            $userFunction->setFakeAttributeName, null, 'Setter with unknown attribute did not return chainable object, instead returned..: ' . $userFunction->setFakeAttributeName
+        );
 
         // Check setting/getting class properties via set/get methods
-	    static::assertSame(
-		    $userFunction->set('FakeAttributeName', 1), $userFunction, 'Set-method did not return chainable object'
-	    );
-	    static::assertSame(
-		    $userFunction->get('FakeAttributeName'), 1, 'Get-method did not return previously set property'
-	    );
+        static::assertSame(
+            $userFunction->set('FakeAttributeName', 1), $userFunction, 'Set-method did not return chainable object'
+        );
+        static::assertSame(
+            $userFunction->get('FakeAttributeName'), 1, 'Get-method did not return previously set property'
+        );
 
-	    // Check giving the set method a non-string key
-	    try {
-		    $userFunction->set(1,1);
-	    } catch (ClientException $e) {
-	    	echo 'Caught expected exception';
-	    }
+        // Check giving the set method a non-string key
+        try {
+            $userFunction->set(1, 1);
+        } catch (ClientException $e) {
+            echo 'Caught expected exception';
+        }
 
 
         $result = $userFunction->register();

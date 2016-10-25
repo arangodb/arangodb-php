@@ -37,9 +37,9 @@ class UserHandler extends
      * @throws Exception
      *
      * @param string $username - The name of the user as a string. This is mandatory.
-     * @param mixed $passwd - The user password as a string. If no password is specified, the empty string will be used.
-     * @param mixed $active - an optional flag that specifies whether the user is active. If not specified, this will default to true.
-     * @param array $extra - an optional array with arbitrary extra data about the user.
+     * @param mixed  $passwd   - The user password as a string. If no password is specified, the empty string will be used.
+     * @param mixed  $active   - an optional flag that specifies whether the user is active. If not specified, this will default to true.
+     * @param array  $extra    - an optional array with arbitrary extra data about the user.
      *
      * @return boolean - true, if user could be saved
      * @since 1.2
@@ -74,9 +74,9 @@ class UserHandler extends
      * @throws Exception
      *
      * @param string $username - The name of the user as a string, who's user-data is going to be replaced. This is mandatory.
-     * @param mixed $passwd - The user password as a string. If no password is specified, the empty string will be used.
-     * @param mixed $active - an optional flag that specifies whether the user is active. If not specified, this will default to true.
-     * @param array $extra - an optional array with arbitrary extra data about the user.
+     * @param mixed  $passwd   - The user password as a string. If no password is specified, the empty string will be used.
+     * @param mixed  $active   - an optional flag that specifies whether the user is active. If not specified, this will default to true.
+     * @param array  $extra    - an optional array with arbitrary extra data about the user.
      *
      * @return bool - always true, will throw if there is an error
      */
@@ -104,9 +104,9 @@ class UserHandler extends
      * @throws Exception
      *
      * @param string $username - The name of the user as a string, who's user-data is going to be updated. This is mandatory.
-     * @param mixed $passwd - The user password as a string. If no password is specified, the empty string will be used.
-     * @param mixed $active - an optional flag that specifies whether the user is active. If not specified, this will default to true.
-     * @param array $extra - an optional array with arbitrary extra data about the user.
+     * @param mixed  $passwd   - The user password as a string. If no password is specified, the empty string will be used.
+     * @param mixed  $active   - an optional flag that specifies whether the user is active. If not specified, this will default to true.
+     * @param array  $extra    - an optional array with arbitrary extra data about the user.
      *
      * @return bool - always true, will throw if there is an error
      */
@@ -182,7 +182,7 @@ class UserHandler extends
      *
      * @throws Exception
      *
-     * @param string $username - username as a string
+     * @param string $username     - username as a string
      * @param string $databaseName - name of database as a string
      *
      * @return bool - always true, will throw if there is an error
@@ -204,7 +204,7 @@ class UserHandler extends
      *
      * @throws Exception
      *
-     * @param string $username - username as a string
+     * @param string $username     - username as a string
      * @param string $databaseName - name of database as a string
      *
      * @return bool - always true, will throw if there is an error

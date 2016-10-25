@@ -65,16 +65,16 @@ class Graph extends
     protected $_orphanCollections = [];
 
 
-	/**
-	 * Constructs an empty graph
-	 *
-	 * @param array $name    - optional, initial name for graph
-	 * @param array $options - optional, initial options for graph
-	 *
-	 * @since     1.2
-	 *
-	 * @throws \triagens\ArangoDb\ClientException
-	 */
+    /**
+     * Constructs an empty graph
+     *
+     * @param array $name    - optional, initial name for graph
+     * @param array $options - optional, initial options for graph
+     *
+     * @since     1.2
+     *
+     * @throws \triagens\ArangoDb\ClientException
+     */
     public function __construct($name = null, array $options = [])
     {
 
@@ -87,17 +87,17 @@ class Graph extends
         parent::__construct($options);
     }
 
-	/**
-	 * Set the vertices collection of the graph
-	 *
-	 * @param string $verticesCollection - the name of the vertices-collection
-	 *
-	 * @return Graph - graph object
-	 * @throws \triagens\ArangoDb\ClientException
-	 * @since      1.2
-	 * @deprecated to be removed in version 2.2 - Please define a graph with the edge definitions.
-	 * @todo       remove in version 3.1
-	 */
+    /**
+     * Set the vertices collection of the graph
+     *
+     * @param string $verticesCollection - the name of the vertices-collection
+     *
+     * @return Graph - graph object
+     * @throws \triagens\ArangoDb\ClientException
+     * @since      1.2
+     * @deprecated to be removed in version 2.2 - Please define a graph with the edge definitions.
+     * @todo       remove in version 3.1
+     */
     public function setVerticesCollection($verticesCollection)
     {
         $edgeDefinition = $this->getSingleUndirectedRelation();
@@ -110,15 +110,15 @@ class Graph extends
         return $this;
     }
 
-	/**
-	 * Get the vertices collection of the graph
-	 *
-	 * @return string  name of the vertices collection
-	 * @throws \triagens\ArangoDb\ClientException
-	 * @since      1.2
-	 * @deprecated to be removed in version 2.2 - Please define a graph with the edge definitions.
-	 * @todo       remove in version 3.1
-	 */
+    /**
+     * Get the vertices collection of the graph
+     *
+     * @return string  name of the vertices collection
+     * @throws \triagens\ArangoDb\ClientException
+     * @since      1.2
+     * @deprecated to be removed in version 2.2 - Please define a graph with the edge definitions.
+     * @todo       remove in version 3.1
+     */
     public function getVerticesCollection()
     {
         $edgeDefinition = $this->getSingleUndirectedRelation();
@@ -127,41 +127,44 @@ class Graph extends
         }
         $this->addEdgeDefinition($edgeDefinition);
         $fc = $edgeDefinition->getFromCollections();
+
         return $fc[0];
     }
 
-	/**
-	 * Set the edges collection of the graph
-	 *
-	 * @param mixed $edgesCollection - the name of the edges collection
-	 *
-	 * @return Graph - graph object
-	 * @throws \triagens\ArangoDb\ClientException
-	 * @since      1.2
-	 * @deprecated to be removed in version 2.2 - Please define a graph with the edge definitions.
-	 * @todo       remove in version 3.1
-	 */
+    /**
+     * Set the edges collection of the graph
+     *
+     * @param mixed $edgesCollection - the name of the edges collection
+     *
+     * @return Graph - graph object
+     * @throws \triagens\ArangoDb\ClientException
+     * @since      1.2
+     * @deprecated to be removed in version 2.2 - Please define a graph with the edge definitions.
+     * @todo       remove in version 3.1
+     */
     public function setEdgesCollection($edgesCollection)
     {
         $edgeDefinition = $this->getSingleUndirectedRelation();
         $edgeDefinition->setRelation($edgesCollection);
         $this->addEdgeDefinition($edgeDefinition);
+
         return $this;
     }
 
-	/**
-	 * Get the edges collection of the graph
-	 *
-	 * @return string - name of the edges collection
-	 * @throws \triagens\ArangoDb\ClientException
-	 * @since      1.2
-	 * @deprecated to be removed in version 2.2 - Please define a graph with the edge definitions.
-	 * @todo       remove in version 3.1
-	 */
+    /**
+     * Get the edges collection of the graph
+     *
+     * @return string - name of the edges collection
+     * @throws \triagens\ArangoDb\ClientException
+     * @since      1.2
+     * @deprecated to be removed in version 2.2 - Please define a graph with the edge definitions.
+     * @todo       remove in version 3.1
+     */
     public function getEdgesCollection()
     {
         $edgeDefinition = $this->getSingleUndirectedRelation();
         $this->addEdgeDefinition($edgeDefinition);
+
         return $edgeDefinition->getRelation();
     }
 
@@ -229,8 +232,8 @@ class Graph extends
      *
      * @throws ClientException
      *
-     * @param string $key - attribute name
-     * @param mixed $value - value for attribute
+     * @param string $key   - attribute name
+     * @param mixed  $value - value for attribute
      *
      * @return void
      */
@@ -252,8 +255,7 @@ class Graph extends
                 $edgeDefinition->setRelation($ed[self::ENTRY_COLLECTION]);
                 $this->addEdgeDefinition($edgeDefinition);
             }
-        }
-        else if ($key === self::ENTRY_ORPHAN_COLLECTIONS) {
+        } else if ($key === self::ENTRY_ORPHAN_COLLECTIONS) {
             if ($this->_doValidate) {
                 ValueValidator::validate($value);
             }
@@ -261,8 +263,7 @@ class Graph extends
             foreach ($value as $o) {
                 $this->addOrphanCollection($o);
             }
-        }
-        else {
+        } else {
             parent::set($key, $value);
         }
     }
@@ -296,10 +297,10 @@ class Graph extends
         if (count($ed) === 1) {
             $eD                     = $ed[0];
             $this->_edgeDefinitions = [];
-        }
-        else {
+        } else {
             $eD = new EdgeDefinition();
         }
+
         return $eD;
     }
 

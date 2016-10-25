@@ -85,17 +85,17 @@ class GraphHandler extends
      */
     const OPTION_EDGE_DEFINITIONS = 'edgeDefinitions';
 
-	/**
-	 * GraphHandler cache store
-	 */
-	protected $cache;
+    /**
+     * GraphHandler cache store
+     */
+    protected $cache;
 
-	/**
-	 * @var $cacheEnabled boolean GraphHandler use cache store
-	 */
-	protected $cacheEnabled = false;
+    /**
+     * @var $cacheEnabled boolean GraphHandler use cache store
+     */
+    protected $cacheEnabled = false;
 
-	/**
+    /**
      * Create a graph
      *
      * This will create a graph using the given graph object and return an array of the created graph object's attributes.<br><br>
@@ -115,8 +115,8 @@ class GraphHandler extends
         }
 
         $params   = [
-            self::OPTION_NAME => $graph->getKey(),
-            self::OPTION_EDGE_DEFINITIONS => $edgeDefinitions,
+            self::OPTION_NAME               => $graph->getKey(),
+            self::OPTION_EDGE_DEFINITIONS   => $edgeDefinitions,
             self::OPTION_ORPHAN_COLLECTIONS => $graph->getOrphanCollections()
         ];
         $url      = Urls::URL_GRAPH;
@@ -155,27 +155,27 @@ class GraphHandler extends
      */
     private $limit;
 
-	/**
-	 * Get a graph
-	 *
-	 * This will get a graph.<br><br>
-	 *
-	 * @param String $graph   - The name of the graph
-	 * @param array  $options - Options to pass to the method
-	 *
-	 * @return Graph|false
-	 * @throws \triagens\ArangoDb\ClientException
-	 * @since   1.2
-	 */
+    /**
+     * Get a graph
+     *
+     * This will get a graph.<br><br>
+     *
+     * @param String $graph   - The name of the graph
+     * @param array  $options - Options to pass to the method
+     *
+     * @return Graph|false
+     * @throws \triagens\ArangoDb\ClientException
+     * @since   1.2
+     */
     public function getGraph($graph, array $options = [])
     {
         $url = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph]);
 
-	    try {
-		    $response = $this->getConnection()->get($url);
-	    } catch (Exception $e) {
-		    return false;
-	    }
+        try {
+            $response = $this->getConnection()->get($url);
+        } catch (Exception $e) {
+            return false;
+        }
 
         $data = $response->getJson();
 
@@ -183,6 +183,7 @@ class GraphHandler extends
 
         $result = Graph::createFromArray($data['graph'], $options);
         $result->set(Graph::ENTRY_KEY, $data['graph'][self::OPTION_NAME]);
+
         return $result;
     }
 
@@ -241,6 +242,7 @@ class GraphHandler extends
         $url = UrlHelper::buildUrl(Urls::URL_DOCUMENT . '/_graphs', [$graph]);
 
         $result = $this->getConnection()->get($url);
+
         return $result->getJson();
     }
 
@@ -250,8 +252,8 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $graph - graph name as a string or instance of Graph
-     * @param bool $dropCollections - if set to false the graphs collections will not be droped.
+     * @param mixed $graph           - graph name as a string or instance of Graph
+     * @param bool  $dropCollections - if set to false the graphs collections will not be droped.
      *
      * @return bool - always true, will throw if there is an error
      * @since 1.2
@@ -278,7 +280,7 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $graph - graph name as a string or instance of Graph
+     * @param mixed  $graph            - graph name as a string or instance of Graph
      * @param string $orphanCollection - the orphan collection to be added as string.
      *
      * @return Graph
@@ -307,6 +309,7 @@ class GraphHandler extends
 
         $result = Graph::createFromArray($data['graph'], $options);
         $result->set(Graph::ENTRY_KEY, $data['graph'][self::OPTION_NAME]);
+
         return $result;
     }
 
@@ -318,9 +321,9 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $graph - graph name as a string or instance of Graph
-     * @param string $orphanCollection - the orphan collection to be removed as string.
-     * @param boolean $dropCollection - if set to true the collection is deleted, not just removed from the graph.
+     * @param mixed   $graph            - graph name as a string or instance of Graph
+     * @param string  $orphanCollection - the orphan collection to be removed as string.
+     * @param boolean $dropCollection   - if set to true the collection is deleted, not just removed from the graph.
      *
      * @return Graph
      * @since 2.2
@@ -349,6 +352,7 @@ class GraphHandler extends
 
         $result = Graph::createFromArray($data['graph'], $options);
         $result->set(Graph::ENTRY_KEY, $data['graph'][self::OPTION_NAME]);
+
         return $result;
     }
 
@@ -362,10 +366,10 @@ class GraphHandler extends
      *
      * If caching is on, then the GraphHandler will only call the DB API once for the chosen graph, and return data from cache for the following calls.<br>
      *
-     * @param mixed $graph - graph name as a string or instance of Graph
-     * @param array $options - optional, an array of options
-     *                                 <p>Options are :<br>
-     *                                 <li>'excludeOrphans' - boolean value:    true to exclude the orphans or false to include orphans in the result.<br>
+     * @param mixed $graph                                                      - graph name as a string or instance of Graph
+     * @param array $options                                                    - optional, an array of options
+     *                                                                          <p>Options are :<br>
+     *                                                                          <li>'excludeOrphans' - boolean value:    true to exclude the orphans or false to include orphans in the result.<br>
      *                                                                          Defaults to false</li>
      *
      * @return array
@@ -377,56 +381,57 @@ class GraphHandler extends
             $graph = $graph->getKey();
         }
 
-	    $excludeOrphans = false;
-	    $_useCache      = $this->cacheEnabled;
+        $excludeOrphans = false;
+        $_useCache      = $this->cacheEnabled;
 
-	    if ((bool) $options && isset($options['excludeOrphans']) && !is_bool($options['excludeOrphans'])){
-			    $excludeOrphans = UrlHelper::getBoolString($options['excludeOrphans']);
-	    }
+        if ((bool) $options && isset($options['excludeOrphans']) && !is_bool($options['excludeOrphans'])) {
+            $excludeOrphans = UrlHelper::getBoolString($options['excludeOrphans']);
+        }
 
-	    if ($_useCache === true){
-	        if ($excludeOrphans===true && !empty($this->cache[$graph]['excludeOrphans']['result'])){
-		        return $this->cache[$graph]['excludeOrphans']['vertexCollections'];
-	        }else if (!empty($this->cache[$graph]['vertexCollections'])) {
-		        return $this->cache[$graph]['vertexCollections'];
-	        }
+        if ($_useCache === true) {
+            if ($excludeOrphans === true && !empty($this->cache[$graph]['excludeOrphans']['result'])) {
+                return $this->cache[$graph]['excludeOrphans']['vertexCollections'];
+            } else if (!empty($this->cache[$graph]['vertexCollections'])) {
+                return $this->cache[$graph]['vertexCollections'];
+            }
         }
         $url = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_VERTEX]);
 
-	    if ($excludeOrphans===true){
-		    $url = UrlHelper::appendParamsUrl($url, ['excludeOrphans' => $excludeOrphans]);
-	    }
+        if ($excludeOrphans === true) {
+            $url = UrlHelper::appendParamsUrl($url, ['excludeOrphans' => $excludeOrphans]);
+        }
 
-		$connection = $this->getConnection();
-	    $batchCaptureMode = $connection->isInBatchCaptureMode();
+        $connection       = $this->getConnection();
+        $batchCaptureMode = $connection->isInBatchCaptureMode();
 
-	    if ($batchCaptureMode === true){
-	        $this->getConnection()->setBatchRequest(false);
-		}
+        if ($batchCaptureMode === true) {
+            $this->getConnection()->setBatchRequest(false);
+        }
 
-	    try {
+        try {
             $response = $this->getConnection()->get($url);
         } catch (Exception $e) {
             throw new ClientException($e->getMessage());
         }
 
-        if ($batchCaptureMode === true){
-		    $this->getConnection()->setBatchRequest(true);
-	    }
+        if ($batchCaptureMode === true) {
+            $this->getConnection()->setBatchRequest(true);
+        }
 
         $data = $response->getJson();
-	    $data = $data[self::OPTION_COLLECTIONS];
+        $data = $data[self::OPTION_COLLECTIONS];
 
-	    sort($data);
+        sort($data);
 
-	    if ($_useCache === true){
-		    if ($excludeOrphans===true  && !empty($this->cache[$graph]['excludeOrphans']['vertexCollections'])){
-			    $this->cache[$graph]['excludeOrphans']['vertexCollections'] = $data;
-		    }else{
-			    $this->cache[$graph]['vertexCollections'] = $data;
-		    }
-	    }
-	    return $data;
+        if ($_useCache === true) {
+            if ($excludeOrphans === true && !empty($this->cache[$graph]['excludeOrphans']['vertexCollections'])) {
+                $this->cache[$graph]['excludeOrphans']['vertexCollections'] = $data;
+            } else {
+                $this->cache[$graph]['vertexCollections'] = $data;
+            }
+        }
+
+        return $data;
     }
 
     /**
@@ -437,7 +442,7 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $graph - graph name as a string or instance of Graph
+     * @param mixed          $graph          - graph name as a string or instance of Graph
      * @param EdgeDefinition $edgeDefinition - the new edge definition.
      *
      * @return Graph
@@ -465,6 +470,7 @@ class GraphHandler extends
 
         $result = Graph::createFromArray($data['graph'], $options);
         $result->set(Graph::ENTRY_KEY, $data['graph'][self::OPTION_NAME]);
+
         return $result;
     }
 
@@ -476,8 +482,8 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $graph - graph name as a string or instance of Graph
-     * @param string $edgeDefinition - the name of the edge definitions relation.
+     * @param mixed   $graph          - graph name as a string or instance of Graph
+     * @param string  $edgeDefinition - the name of the edge definitions relation.
      * @param boolean $dropCollection - if set to true the edge definitions collections are deleted.
      *
      * @return Graph
@@ -506,6 +512,7 @@ class GraphHandler extends
 
         $result = Graph::createFromArray($data['graph'], $options);
         $result->set(Graph::ENTRY_KEY, $data['graph'][self::OPTION_NAME]);
+
         return $result;
     }
 
@@ -518,7 +525,7 @@ class GraphHandler extends
      * then for each call, this method will make an out of batch API call to the db in order to get the appropriate collections.<br><br>
      *
      * If caching is on, then the GraphHandler will only call the DB API once for the chosen graph, and return data from cache for the following calls.<br>
-
+     *
      * @throws Exception
      *
      * @param mixed $graph - graph name as a string or instance of Graph
@@ -533,41 +540,41 @@ class GraphHandler extends
             $graph = $graph->getKey();
         }
 
-	    $_useCache       = $this->cacheEnabled;
+        $_useCache = $this->cacheEnabled;
 
-	    if ($_useCache === true && !empty($this->cache[$graph]['edgeCollections'])){
-			    return $this->cache[$graph]['edgeCollections'];
-	    }
+        if ($_useCache === true && !empty($this->cache[$graph]['edgeCollections'])) {
+            return $this->cache[$graph]['edgeCollections'];
+        }
 
-	    $url = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_EDGE]);
+        $url = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_EDGE]);
 
-	    $connection = $this->getConnection();
-	    $batchCaptureMode = $connection->isInBatchCaptureMode();
+        $connection       = $this->getConnection();
+        $batchCaptureMode = $connection->isInBatchCaptureMode();
 
-	    if ($batchCaptureMode === true){
-		    $this->getConnection()->setBatchRequest(false);
-	    }
+        if ($batchCaptureMode === true) {
+            $this->getConnection()->setBatchRequest(false);
+        }
 
-	    try {
-		    $response = $this->getConnection()->get($url);
-	    } catch (Exception $e) {
-		    throw new ClientException($e->getMessage());
-	    }
+        try {
+            $response = $this->getConnection()->get($url);
+        } catch (Exception $e) {
+            throw new ClientException($e->getMessage());
+        }
 
-	    if ($batchCaptureMode === true){
-		    $this->getConnection()->setBatchRequest(true);
-	    }
+        if ($batchCaptureMode === true) {
+            $this->getConnection()->setBatchRequest(true);
+        }
 
-	    $data = $response->getJson();
-	    $data = $data[self::OPTION_COLLECTIONS];
+        $data = $response->getJson();
+        $data = $data[self::OPTION_COLLECTIONS];
 
-	    sort($data);
+        sort($data);
 
-	    if ($_useCache === true && !empty($this->cache[$graph]['edgeCollections'])){
-			    $this->cache[$graph]['edgeCollections'] = $data;
-	    }
+        if ($_useCache === true && !empty($this->cache[$graph]['edgeCollections'])) {
+            $this->cache[$graph]['edgeCollections'] = $data;
+        }
 
-	    return $data;
+        return $data;
     }
 
 
@@ -579,7 +586,7 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $graph - graph name as a string or instance of Graph
+     * @param mixed          $graph          - graph name as a string or instance of Graph
      * @param EdgeDefinition $edgeDefinition - the edge definition.
      *
      * @return Graph
@@ -606,6 +613,7 @@ class GraphHandler extends
 
         $result = Graph::createFromArray($data['graph'], $options);
         $result->set(Graph::ENTRY_KEY, $data['graph'][self::OPTION_NAME]);
+
         return $result;
     }
 
@@ -618,10 +626,10 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $graph - graph name as a string or instance of Graph
-     * @param mixed $document - the vertex to be added, can be passed as a vertex object or an array
+     * @param mixed  $graph      - graph name as a string or instance of Graph
+     * @param mixed  $document   - the vertex to be added, can be passed as a vertex object or an array
      * @param string $collection - if one uses a graph with more than one vertex collection one must provide
-     * the collection to store the vertex.
+     *                           the collection to store the vertex.
      *
      * @return string - id of vertex created
      * @since 1.2
@@ -636,13 +644,12 @@ class GraphHandler extends
             $document = Vertex::createFromArray($document);
         }
 
-	    if ($collection === null) {
-	        $vertexCollections = $this->getVertexCollections($graph);
-	        $vertexCollectionsCount = count($vertexCollections);
-	        if ($vertexCollectionsCount !== 1) {
+        if ($collection === null) {
+            $vertexCollections      = $this->getVertexCollections($graph);
+            $vertexCollectionsCount = count($vertexCollections);
+            if ($vertexCollectionsCount !== 1) {
                 throw new ClientException('A collection must be provided.');
-            }
-            else if ($vertexCollectionsCount === 1) {
+            } else if ($vertexCollectionsCount === 1) {
                 $collection = $vertexCollections[0];
             }
         }
@@ -652,16 +659,15 @@ class GraphHandler extends
 
         $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
 
-	    // This makes sure that if we're in batch mode, it will not go further and choke on the checks below.
-	    // Caution: Instead of a document ID, we are returning the batchpart object.
-	    // The Id of the BatchPart can be retrieved by calling getId() on it.
-	    // We're basically returning an object here, in order not to accidentally use the batch part id as the document id
-	    if ($batchPart = $response->getBatchPart())
-	    {
-		    return $batchPart;
-	    }
+        // This makes sure that if we're in batch mode, it will not go further and choke on the checks below.
+        // Caution: Instead of a document ID, we are returning the batchpart object.
+        // The Id of the BatchPart can be retrieved by calling getId() on it.
+        // We're basically returning an object here, in order not to accidentally use the batch part id as the document id
+        if ($batchPart = $response->getBatchPart()) {
+            return $batchPart;
+        }
 
-	    $jsonArray = $response->getJson();
+        $jsonArray = $response->getJson();
         $vertex    = $jsonArray['vertex'];
 
         $document->setInternalId($vertex[Vertex::ENTRY_ID]);
@@ -680,17 +686,17 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $graph - graph name as a string or instance of Graph
-     * @param mixed $vertexId - the vertex identifier
-     * @param array $options optional, an array of options:
-     * <p>
-     * <li><b>_includeInternals</b> - true to include the internal attributes. Defaults to false</li>
-     * <li><b>includeInternals</b> - Deprecated, please use '_includeInternals'.</li>
-     * <li><b>_ignoreHiddenAttributes</b> - true to show hidden attributes. Defaults to false</li>
-     * <li><b>ignoreHiddenAttributes</b> - Deprecated, please use '_ignoreHiddenAttributes'.</li>
-     * </p>
+     * @param mixed  $graph      - graph name as a string or instance of Graph
+     * @param mixed  $vertexId   - the vertex identifier
+     * @param array  $options    optional, an array of options:
+     *                           <p>
+     *                           <li><b>_includeInternals</b> - true to include the internal attributes. Defaults to false</li>
+     *                           <li><b>includeInternals</b> - Deprecated, please use '_includeInternals'.</li>
+     *                           <li><b>_ignoreHiddenAttributes</b> - true to show hidden attributes. Defaults to false</li>
+     *                           <li><b>ignoreHiddenAttributes</b> - Deprecated, please use '_ignoreHiddenAttributes'.</li>
+     *                           </p>
      * @param string $collection - if one uses a graph with more than one vertex collection one must provide the collection
-     *  to load the vertex.
+     *                           to load the vertex.
      *
      * @return Document
      * @since 1.2
@@ -706,18 +712,17 @@ class GraphHandler extends
             $collection = $parts[0];
         }
 
-	    if ($collection === null) {
-		    $vertexCollections = $this->getVertexCollections($graph);
-		    $vertexCollectionsCount = count($vertexCollections);
-		    if ($vertexCollectionsCount !== 1) {
-			    throw new ClientException('A collection must be provided.');
-		    }
-		    else if ($vertexCollectionsCount === 1) {
-			    $collection = $vertexCollections[0];
-		    }
-	    }
+        if ($collection === null) {
+            $vertexCollections      = $this->getVertexCollections($graph);
+            $vertexCollectionsCount = count($vertexCollections);
+            if ($vertexCollectionsCount !== 1) {
+                throw new ClientException('A collection must be provided.');
+            } else if ($vertexCollectionsCount === 1) {
+                $collection = $vertexCollections[0];
+            }
+        }
 
-	    $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_VERTEX, $collection, $vertexId]);
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_VERTEX, $collection, $vertexId]);
         $response = $this->getConnection()->get($url);
 
         $jsonArray = $response->getJson();
@@ -737,8 +742,9 @@ class GraphHandler extends
      *
      * @throws Exception When any other error than a 404 occurs
      *
-     * @param mixed $graph - graph name as a string or instance of Graph
+     * @param mixed $graph    - graph name as a string or instance of Graph
      * @param mixed $vertexId - the vertex identifier
+     *
      * @return boolean
      */
     public function hasVertex($graph, $vertexId)
@@ -746,6 +752,7 @@ class GraphHandler extends
         try {
             // will throw ServerException if entry could not be retrieved
             $this->getVertex($graph, $vertexId);
+
             return true;
         } catch (ServerException $e) {
             // we are expecting a 404 to return boolean false
@@ -770,16 +777,16 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $graph - graph name as a string or instance of Graph
-     * @param mixed $vertexId - the vertex id as string or number
-     * @param Document $document - the vertex-document to be updated
-     * @param mixed $options optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method):
-     * <p>
-     * <li><b>revision</b> - revision for conditional updates ('some-revision-id' [use the passed in revision id], false or true [use document's revision])</li>
-     * <li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     * <li><b>waitForSync</b> - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     * </p>
-     * @param string $collection - if one uses a graph with more than one vertex collection one must provide the collection
+     * @param mixed    $graph      - graph name as a string or instance of Graph
+     * @param mixed    $vertexId   - the vertex id as string or number
+     * @param Document $document   - the vertex-document to be updated
+     * @param mixed    $options    optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method):
+     *                             <p>
+     *                             <li><b>revision</b> - revision for conditional updates ('some-revision-id' [use the passed in revision id], false or true [use document's revision])</li>
+     *                             <li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                             <li><b>waitForSync</b> - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                             </p>
+     * @param string   $collection - if one uses a graph with more than one vertex collection one must provide the collection
      *
      * @return bool - always true, will throw if there is an error
      * @since 1.2
@@ -796,18 +803,17 @@ class GraphHandler extends
             $collection = $parts[0];
         }
 
-	    if ($collection === null) {
-		    $vertexCollections = $this->getVertexCollections($graph);
-		    $vertexCollectionsCount = count($vertexCollections);
-		    if ($vertexCollectionsCount !== 1) {
-			    throw new ClientException('A collection must be provided.');
-		    }
-		    else if ($vertexCollectionsCount === 1) {
-			    $collection = $vertexCollections[0];
-		    }
-	    }
+        if ($collection === null) {
+            $vertexCollections      = $this->getVertexCollections($graph);
+            $vertexCollectionsCount = count($vertexCollections);
+            if ($vertexCollectionsCount !== 1) {
+                throw new ClientException('A collection must be provided.');
+            } else if ($vertexCollectionsCount === 1) {
+                $collection = $vertexCollections[0];
+            }
+        }
 
-	    $options = array_merge([self::OPTION_REVISION => false], $options);
+        $options = array_merge([self::OPTION_REVISION => false], $options);
 
         // This preserves compatibility for the old policy parameter.
         $params = [];
@@ -817,11 +823,11 @@ class GraphHandler extends
             ConnectionOptions::OPTION_REPLACE_POLICY
         );
         $params = $this->includeOptionsInParams(
-	        $options,
-	        $params,
-	        [
+            $options,
+            $params,
+            [
                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC)
-	        ]
+            ]
         );
 
         //Include the revision for conditional updates if required
@@ -832,8 +838,7 @@ class GraphHandler extends
             if (null !== $revision) {
                 $params[ConnectionOptions::OPTION_REVISION] = $revision;
             }
-        }
-        elseif ($options[self::OPTION_REVISION]) {
+        } elseif ($options[self::OPTION_REVISION]) {
             $params[ConnectionOptions::OPTION_REVISION] = $options[self::OPTION_REVISION];
         }
 
@@ -867,16 +872,16 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $graph - graph name as a string or instance of Graph
-     * @param mixed $vertexId - the vertex id as string or number
-     * @param Document $document - the patch vertex-document which contains the attributes and values to be updated
-     * @param mixed $options optional, an array of options (see below)
-     * <p>
-     * <li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     * <li><b>keepNull</b> - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
-     * <li><b>waitForSync</b> - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     * </p>
-     * @param string $collection - if one uses a graph with more than one vertex collection one must provide the collection
+     * @param mixed    $graph      - graph name as a string or instance of Graph
+     * @param mixed    $vertexId   - the vertex id as string or number
+     * @param Document $document   - the patch vertex-document which contains the attributes and values to be updated
+     * @param mixed    $options    optional, an array of options (see below)
+     *                             <p>
+     *                             <li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                             <li><b>keepNull</b> - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+     *                             <li><b>waitForSync</b> - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                             </p>
+     * @param string   $collection - if one uses a graph with more than one vertex collection one must provide the collection
      *
      * @return bool - always true, will throw if there is an error
      * @since 1.2
@@ -892,18 +897,17 @@ class GraphHandler extends
             $collection = $parts[0];
         }
 
-	    if ($collection === null) {
-		    $vertexCollections = $this->getVertexCollections($graph);
-		    $vertexCollectionsCount = count($vertexCollections);
-		    if ($vertexCollectionsCount !== 1) {
-			    throw new ClientException('A collection must be provided.');
-		    }
-		    else if ($vertexCollectionsCount === 1) {
-			    $collection = $vertexCollections[0];
-		    }
-	    }
+        if ($collection === null) {
+            $vertexCollections      = $this->getVertexCollections($graph);
+            $vertexCollectionsCount = count($vertexCollections);
+            if ($vertexCollectionsCount !== 1) {
+                throw new ClientException('A collection must be provided.');
+            } else if ($vertexCollectionsCount === 1) {
+                $collection = $vertexCollections[0];
+            }
+        }
 
-	    $options = array_merge([self::OPTION_REVISION => false], $options);
+        $options = array_merge([self::OPTION_REVISION => false], $options);
         // This preserves compatibility for the old policy parameter.
         $params = [];
         $params = $this->validateAndIncludeOldSingleParameterInParams(
@@ -912,12 +916,12 @@ class GraphHandler extends
             ConnectionOptions::OPTION_UPDATE_POLICY
         );
         $params = $this->includeOptionsInParams(
-	        $options,
-	        $params,
-	        [
+            $options,
+            $params,
+            [
                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
-                'keepNull' => true,
-	        ]
+                'keepNull'    => true,
+            ]
         );
 
         //Include the revision for conditional updates if required
@@ -928,8 +932,7 @@ class GraphHandler extends
             if (null !== $revision) {
                 $params[ConnectionOptions::OPTION_REVISION] = $revision;
             }
-        }
-        elseif ($options[self::OPTION_REVISION]) {
+        } elseif ($options[self::OPTION_REVISION]) {
             $params[ConnectionOptions::OPTION_REVISION] = $options[self::OPTION_REVISION];
         }
 
@@ -949,14 +952,14 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $graph - graph name as a string or instance of Graph
-     * @param mixed $vertexId - the vertex id as string or number
-     * @param mixed $revision - optional, the revision of the vertex to be deleted
-     * @param mixed $options optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     * <p>
-     * <li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     * <li><b>waitForSync</b> - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     * </p>
+     * @param mixed  $graph      - graph name as a string or instance of Graph
+     * @param mixed  $vertexId   - the vertex id as string or number
+     * @param mixed  $revision   - optional, the revision of the vertex to be deleted
+     * @param mixed  $options    optional, an array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     *                           <p>
+     *                           <li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                           <li><b>waitForSync</b> - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                           </p>
      * @param string $collection - if one uses a graph with more than one vertex collection one must provide the collection
      *
      * @return bool - always true, will throw if there is an error
@@ -973,18 +976,17 @@ class GraphHandler extends
             $collection = $parts[0];
         }
 
-	    if ($collection === null) {
-		    $vertexCollections = $this->getVertexCollections($graph);
-		    $vertexCollectionsCount = count($vertexCollections);
-		    if ($vertexCollectionsCount !== 1) {
-			    throw new ClientException('A collection must be provided.');
-		    }
-		    else if ($vertexCollectionsCount === 1) {
-			    $collection = $vertexCollections[0];
-		    }
-	    }
+        if ($collection === null) {
+            $vertexCollections      = $this->getVertexCollections($graph);
+            $vertexCollectionsCount = count($vertexCollections);
+            if ($vertexCollectionsCount !== 1) {
+                throw new ClientException('A collection must be provided.');
+            } else if ($vertexCollectionsCount === 1) {
+                $collection = $vertexCollections[0];
+            }
+        }
 
-	    // This preserves compatibility for the old policy parameter.
+        // This preserves compatibility for the old policy parameter.
         $params = [];
         $params = $this->validateAndIncludeOldSingleParameterInParams(
             $options,
@@ -992,12 +994,12 @@ class GraphHandler extends
             ConnectionOptions::OPTION_DELETE_POLICY
         );
         $params = $this->includeOptionsInParams(
-	        $options,
-	        $params,
-	        [
+            $options,
+            $params,
+            [
                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
-                'keepNull' => true,
-	        ]
+                'keepNull'    => true,
+            ]
         );
 
         if (null !== $revision) {
@@ -1021,11 +1023,11 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $graph - graph name as a string or instance of Graph
-     * @param mixed $from - the 'from' vertex
-     * @param mixed $to - the 'to' vertex
-     * @param mixed $label - (optional) a label for the edge
-     * @param mixed $document - the edge-document to be added, can be passed as an edge object or an array
+     * @param mixed  $graph      - graph name as a string or instance of Graph
+     * @param mixed  $from       - the 'from' vertex
+     * @param mixed  $to         - the 'to' vertex
+     * @param mixed  $label      - (optional) a label for the edge
+     * @param mixed  $document   - the edge-document to be added, can be passed as an edge object or an array
      * @param string $collection - if one uses a graph with more than one vertex collection one must provide the collection
      *
      * @return mixed - id of edge created
@@ -1037,18 +1039,17 @@ class GraphHandler extends
             $graph = $graph->getKey();
         }
 
-	    if ($collection === null) {
-		    $edgeCollections = $this->getEdgeCollections($graph);
-		    $edgeCollectionsCount = count($edgeCollections);
-		    if ($edgeCollectionsCount !== 1) {
-			    throw new ClientException('A collection must be provided.');
-		    }
-		    else if ($edgeCollectionsCount === 1) {
-			    $collection = $edgeCollections[0];
-		    }
-	    }
+        if ($collection === null) {
+            $edgeCollections      = $this->getEdgeCollections($graph);
+            $edgeCollectionsCount = count($edgeCollections);
+            if ($edgeCollectionsCount !== 1) {
+                throw new ClientException('A collection must be provided.');
+            } else if ($edgeCollectionsCount === 1) {
+                $collection = $edgeCollections[0];
+            }
+        }
 
-	    if (is_array($document)) {
+        if (is_array($document)) {
             $document = Edge::createFromArray($document);
         }
         if (null !== $label) {
@@ -1083,15 +1084,15 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $graph - graph name as a string or instance of Graph
-     * @param mixed $edgeId - edge identifier
-     * @param array $options optional, array of options
-     * <p>
-     * <li><b>_includeInternals</b> - true to include the internal attributes. Defaults to false</li>
-     * <li><b>includeInternals</b> - Deprecated, please use '_includeInternals'.</li>
-     * <li><b>_ignoreHiddenAttributes</b> - true to show hidden attributes. Defaults to false</li>
-     * <li><b>ignoreHiddenAttributes</b> - Deprecated, please use '_ignoreHiddenAttributes'.</li>
-     * </p>
+     * @param mixed  $graph      - graph name as a string or instance of Graph
+     * @param mixed  $edgeId     - edge identifier
+     * @param array  $options    optional, array of options
+     *                           <p>
+     *                           <li><b>_includeInternals</b> - true to include the internal attributes. Defaults to false</li>
+     *                           <li><b>includeInternals</b> - Deprecated, please use '_includeInternals'.</li>
+     *                           <li><b>_ignoreHiddenAttributes</b> - true to show hidden attributes. Defaults to false</li>
+     *                           <li><b>ignoreHiddenAttributes</b> - Deprecated, please use '_ignoreHiddenAttributes'.</li>
+     *                           </p>
      * @param string $collection - if one uses a graph with more than one vertex collection one must provide the collection
      *
      * @return Document - the edge document fetched from the server
@@ -1108,18 +1109,17 @@ class GraphHandler extends
             $collection = $parts[0];
         }
 
-	    if ($collection === null) {
-		    $edgeCollections = $this->getEdgeCollections($graph);
-		    $edgeCollectionsCount = count($edgeCollections);
-		    if ($edgeCollectionsCount !== 1) {
-			    throw new ClientException('A collection must be provided.');
-		    }
-		    else if ($edgeCollectionsCount === 1) {
-			    $collection = $edgeCollections[0];
-		    }
-	    }
+        if ($collection === null) {
+            $edgeCollections      = $this->getEdgeCollections($graph);
+            $edgeCollectionsCount = count($edgeCollections);
+            if ($edgeCollectionsCount !== 1) {
+                throw new ClientException('A collection must be provided.');
+            } else if ($edgeCollectionsCount === 1) {
+                $collection = $edgeCollections[0];
+            }
+        }
 
-	    $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_EDGE, $collection, $edgeId]);
+        $url      = UrlHelper::buildUrl(Urls::URL_GRAPH, [$graph, Urls::URLPART_EDGE, $collection, $edgeId]);
         $response = $this->getConnection()->get($url);
 
         $jsonArray = $response->getJson();
@@ -1139,8 +1139,9 @@ class GraphHandler extends
      *
      * @throws Exception When any other error than a 404 occurs
      *
-     * @param mixed $graph - graph name as a string or instance of Graph
+     * @param mixed $graph  - graph name as a string or instance of Graph
      * @param mixed $edgeId - the vertex identifier
+     *
      * @return boolean
      */
     public function hasEdge($graph, $edgeId)
@@ -1148,6 +1149,7 @@ class GraphHandler extends
         try {
             // will throw ServerException if entry could not be retrieved
             $this->getEdge($graph, $edgeId);
+
             return true;
         } catch (ServerException $e) {
             // we are expecting a 404 to return boolean false
@@ -1174,15 +1176,15 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $graph - graph name as a string or instance of Graph
-     * @param mixed $edgeId - edge id as string or number
-     * @param mixed $label - label for the edge or ''
-     * @param Edge $document - edge document to be updated
-     * @param mixed $options optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     * <p>
-     * <li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     * <li><b>waitForSync</b> - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     * </p>
+     * @param mixed  $graph      - graph name as a string or instance of Graph
+     * @param mixed  $edgeId     - edge id as string or number
+     * @param mixed  $label      - label for the edge or ''
+     * @param Edge   $document   - edge document to be updated
+     * @param mixed  $options    optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     *                           <p>
+     *                           <li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                           <li><b>waitForSync</b> - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                           </p>
      * @param string $collection - if one uses a graph with more than one vertex collection one must provide the collection
      *
      * @return bool - always true, will throw if there is an error
@@ -1199,18 +1201,17 @@ class GraphHandler extends
             $collection = $parts[0];
         }
 
-	    if ($collection === null) {
-		    $edgeCollections = $this->getEdgeCollections($graph);
-		    $edgeCollectionsCount = count($edgeCollections);
-		    if ($edgeCollectionsCount !== 1) {
-			    throw new ClientException('A collection must be provided.');
-		    }
-		    else if ($edgeCollectionsCount === 1) {
-			    $collection = $edgeCollections[0];
-		    }
-	    }
+        if ($collection === null) {
+            $edgeCollections      = $this->getEdgeCollections($graph);
+            $edgeCollectionsCount = count($edgeCollections);
+            if ($edgeCollectionsCount !== 1) {
+                throw new ClientException('A collection must be provided.');
+            } else if ($edgeCollectionsCount === 1) {
+                $collection = $edgeCollections[0];
+            }
+        }
 
-	    $options = array_merge([self::OPTION_REVISION => false], $options);
+        $options = array_merge([self::OPTION_REVISION => false], $options);
 
         // This preserves compatibility for the old policy parameter.
         $params = $this->validateAndIncludeOldSingleParameterInParams(
@@ -1219,14 +1220,14 @@ class GraphHandler extends
             ConnectionOptions::OPTION_REPLACE_POLICY
         );
         $params = $this->includeOptionsInParams(
-	        $options,
-	        $params,
-	        [
+            $options,
+            $params,
+            [
                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
-                'silent' => false,
-                'ignoreRevs' => true,
-                'policy' => ''
-	        ]
+                'silent'      => false,
+                'ignoreRevs'  => true,
+                'policy'      => ''
+            ]
         );
 
         //Include the revision for conditional updates if required
@@ -1238,8 +1239,7 @@ class GraphHandler extends
                 $params['ignoreRevs'] = false;
                 $headers['if-match']  = '"' . $revision . '"';
             }
-        }
-        elseif ($options[self::OPTION_REVISION]) {
+        } elseif ($options[self::OPTION_REVISION]) {
             $revision             = $options[self::OPTION_REVISION];
             $params['ignoreRevs'] = false;
             $headers['if-match']  = '"' . $revision . '"';
@@ -1278,16 +1278,16 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $graph - graph name as a string or instance of Graph
-     * @param mixed $edgeId - edge id as string or number
-     * @param mixed $label - label for the edge or ''
-     * @param Edge $document - patch edge-document which contains the attributes and values to be updated
-     * @param mixed $options optional, array of options (see below)
-     * <p>
-     * <li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     * <li><b>keepNull</b> - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
-     * <li><b>waitForSync</b> - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     * </p>
+     * @param mixed  $graph      - graph name as a string or instance of Graph
+     * @param mixed  $edgeId     - edge id as string or number
+     * @param mixed  $label      - label for the edge or ''
+     * @param Edge   $document   - patch edge-document which contains the attributes and values to be updated
+     * @param mixed  $options    optional, array of options (see below)
+     *                           <p>
+     *                           <li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                           <li><b>keepNull</b> - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+     *                           <li><b>waitForSync</b> - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                           </p>
      * @param string $collection - if one uses a graph with more than one vertex collection one must provide the collection
      *
      * @return bool - always true, will throw if there is an error
@@ -1304,18 +1304,17 @@ class GraphHandler extends
             $collection = $parts[0];
         }
 
-	    if ($collection === null) {
-		    $edgeCollections = $this->getEdgeCollections($graph);
-		    $edgeCollectionsCount = count($edgeCollections);
-		    if ($edgeCollectionsCount !== 1) {
-			    throw new ClientException('A collection must be provided.');
-		    }
-		    else if ($edgeCollectionsCount === 1) {
-			    $collection = $edgeCollections[0];
-		    }
-	    }
+        if ($collection === null) {
+            $edgeCollections      = $this->getEdgeCollections($graph);
+            $edgeCollectionsCount = count($edgeCollections);
+            if ($edgeCollectionsCount !== 1) {
+                throw new ClientException('A collection must be provided.');
+            } else if ($edgeCollectionsCount === 1) {
+                $collection = $edgeCollections[0];
+            }
+        }
 
-	    $options = array_merge([self::OPTION_REVISION => false], $options);
+        $options = array_merge([self::OPTION_REVISION => false], $options);
 
         // This preserves compatibility for the old policy parameter.
         $params = [];
@@ -1325,12 +1324,12 @@ class GraphHandler extends
             ConnectionOptions::OPTION_UPDATE_POLICY
         );
         $params = $this->includeOptionsInParams(
-	        $options,
-	        $params,
-	        [
+            $options,
+            $params,
+            [
                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
-                'keepNull' => true,
-	        ]
+                'keepNull'    => true,
+            ]
         );
 
         //Include the revision for conditional updates if required
@@ -1341,8 +1340,7 @@ class GraphHandler extends
             if (null !== $revision) {
                 $params[ConnectionOptions::OPTION_REVISION] = $revision;
             }
-        }
-        elseif ($options[self::OPTION_REVISION]) {
+        } elseif ($options[self::OPTION_REVISION]) {
             $params[ConnectionOptions::OPTION_REVISION] = $options[self::OPTION_REVISION];
         }
 
@@ -1366,14 +1364,14 @@ class GraphHandler extends
      *
      * @throws Exception
      *
-     * @param mixed $graph - graph name as a string or instance of Graph
-     * @param mixed $edgeId - edge id as string or number
-     * @param mixed $revision - optional revision of the edge to be deleted
-     * @param mixed $options optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     * <p>
-     * <li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     * <li><b>waitForSync</b> - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     * </p>
+     * @param mixed  $graph      - graph name as a string or instance of Graph
+     * @param mixed  $edgeId     - edge id as string or number
+     * @param mixed  $revision   - optional revision of the edge to be deleted
+     * @param mixed  $options    optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
+     *                           <p>
+     *                           <li><b>policy</b> - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                           <li><b>waitForSync</b> - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                           </p>
      * @param string $collection - if one uses a graph with more than one vertex collection one must provide the collection
      *
      * @return bool - always true, will throw if there is an error
@@ -1390,18 +1388,17 @@ class GraphHandler extends
             $collection = $parts[0];
         }
 
-	    if ($collection === null) {
-		    $edgeCollections = $this->getEdgeCollections($graph);
-		    $edgeCollectionsCount = count($edgeCollections);
-		    if ($edgeCollectionsCount !== 1) {
-			    throw new ClientException('A collection must be provided.');
-		    }
-		    else if ($edgeCollectionsCount === 1) {
-			    $collection = $edgeCollections[0];
-		    }
-	    }
+        if ($collection === null) {
+            $edgeCollections      = $this->getEdgeCollections($graph);
+            $edgeCollectionsCount = count($edgeCollections);
+            if ($edgeCollectionsCount !== 1) {
+                throw new ClientException('A collection must be provided.');
+            } else if ($edgeCollectionsCount === 1) {
+                $collection = $edgeCollections[0];
+            }
+        }
 
-	    // This preserves compatibility for the old policy parameter.
+        // This preserves compatibility for the old policy parameter.
         $params = [];
         $params = $this->validateAndIncludeOldSingleParameterInParams(
             $options,
@@ -1409,12 +1406,12 @@ class GraphHandler extends
             ConnectionOptions::OPTION_DELETE_POLICY
         );
         $params = $this->includeOptionsInParams(
-	        $options,
-	        $params,
-	        [
+            $options,
+            $params,
+            [
                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
-                'keepNull' => true,
-	        ]
+                'keepNull'    => true,
+            ]
         );
         if (null !== $revision) {
             $params[ConnectionOptions::OPTION_REVISION] = $revision;
@@ -1427,35 +1424,37 @@ class GraphHandler extends
         return true;
     }
 
-	/**
-	 * Clears the GraphHandler's cache
-	 *
-	 * @return $this
-	 */
-	public function clearCache()
-	{
-		$this->cache = null;
-		return $this;
-	}
+    /**
+     * Clears the GraphHandler's cache
+     *
+     * @return $this
+     */
+    public function clearCache()
+    {
+        $this->cache = null;
 
-	/**
-	 * Checks if caching in enabled
-	 *
-	 * @return boolean
-	 */
-	public function getCacheEnabled()
-	{
-		return $this->cacheEnabled;
-	}
+        return $this;
+    }
 
-	/**
-	 * @param boolean $useCache
-	 *
-	 * @return $this
-	 */
-	public function setCacheEnabled($useCache)
-	{
-		$this->cacheEnabled = $useCache;
-		return $this;
-	}
+    /**
+     * Checks if caching in enabled
+     *
+     * @return boolean
+     */
+    public function getCacheEnabled()
+    {
+        return $this->cacheEnabled;
+    }
+
+    /**
+     * @param boolean $useCache
+     *
+     * @return $this
+     */
+    public function setCacheEnabled($useCache)
+    {
+        $this->cacheEnabled = $useCache;
+
+        return $this;
+    }
 }

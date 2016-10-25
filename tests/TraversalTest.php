@@ -15,41 +15,41 @@ namespace triagens\ArangoDb;
  *
  * These tests are modeled after: http://www.arangodb.com/manuals/1.4/HttpTraversals.html
  *
- * @property Connection $connection
- * @property Graph $graph
- * @property Collection $edgeCollection
+ * @property Connection        $connection
+ * @property Graph             $graph
+ * @property Collection        $edgeCollection
  * @property CollectionHandler $collectionHandler
- * @property GraphHandler $graphHandler
- * @property DocumentHandler $documentHandler
- * @property EdgeHandler $edgeHandler
- * @property string vertex1Name
- * @property string vertex2Name
- * @property string vertex3Name
- * @property string vertex4Name
- * @property string vertex5Name
- * @property string edge1Name
- * @property string edge2Name
- * @property string edge3Name
- * @property string edge4Name
- * @property string edge5Name
- * @property string edgeLabel1
- * @property string edgeLabel2
- * @property string edgeLabel3
- * @property string edgeLabel4
- * @property string edgeLabel5
- * @property mixed vertex1Array
- * @property mixed vertex2Array
- * @property mixed vertex3Array
- * @property mixed vertex4Array
- * @property mixed vertex5Array
- * @property mixed edge1Array
- * @property mixed edge2Array
- * @property mixed edge3Array
- * @property mixed edge4Array
- * @property mixed edge5Array
- * @property string graphName
- * @property string vertexCollectionName
- * @property string edgeCollectionName
+ * @property GraphHandler      $graphHandler
+ * @property DocumentHandler   $documentHandler
+ * @property EdgeHandler       $edgeHandler
+ * @property string            vertex1Name
+ * @property string            vertex2Name
+ * @property string            vertex3Name
+ * @property string            vertex4Name
+ * @property string            vertex5Name
+ * @property string            edge1Name
+ * @property string            edge2Name
+ * @property string            edge3Name
+ * @property string            edge4Name
+ * @property string            edge5Name
+ * @property string            edgeLabel1
+ * @property string            edgeLabel2
+ * @property string            edgeLabel3
+ * @property string            edgeLabel4
+ * @property string            edgeLabel5
+ * @property mixed             vertex1Array
+ * @property mixed             vertex2Array
+ * @property mixed             vertex3Array
+ * @property mixed             vertex4Array
+ * @property mixed             vertex5Array
+ * @property mixed             edge1Array
+ * @property mixed             edge2Array
+ * @property mixed             edge3Array
+ * @property mixed             edge4Array
+ * @property mixed             edge5Array
+ * @property string            graphName
+ * @property string            vertexCollectionName
+ * @property string            edgeCollectionName
  *
  * @package triagens\ArangoDb
  */
@@ -253,7 +253,7 @@ class TraversalTest extends
         $startVertex    = $this->vertexCollectionName . '/' . $this->vertex1Name;
         $edgeCollection = $this->edgeCollectionName;
         $options        = [
-            'direction' => 'any',
+            'direction'  => 'any',
             'uniqueness' => ['vertices' => 'none', 'edges' => 'global']
         ];
         $traversal      = new Traversal($this->connection, $startVertex, $edgeCollection, $options);
@@ -281,7 +281,7 @@ class TraversalTest extends
         $edgeCollection = $this->edgeCollectionName;
         $options        = [
             'direction' => 'outbound',
-            'filter' => 'if (vertex.name === "Bob" || vertex.name === "Charlie") {return "exclude";}return;'
+            'filter'    => 'if (vertex.name === "Bob" || vertex.name === "Charlie") {return "exclude";}return;'
         ];
         $traversal      = new Traversal($this->connection, $startVertex, $edgeCollection, $options);
 
@@ -308,7 +308,7 @@ class TraversalTest extends
         $edgeCollection = $this->edgeCollectionName;
         $options        = [
             'direction' => 'outbound',
-            'filter' => 'if (vertex.name === "Bob") {return "prune";}return;'
+            'filter'    => 'if (vertex.name === "Bob") {return "prune";}return;'
         ];
         $traversal      = new Traversal($this->connection, $startVertex, $edgeCollection, $options);
 
@@ -335,7 +335,7 @@ class TraversalTest extends
         $edgeCollection = $this->edgeCollectionName;
         $options        = [
             'direction' => 'outbound',
-            'minDepth' => 2
+            'minDepth'  => 2
         ];
         $traversal      = new Traversal($this->connection, $startVertex, $edgeCollection, $options);
 
@@ -362,7 +362,7 @@ class TraversalTest extends
         $edgeCollection = $this->edgeCollectionName;
         $options        = [
             'direction' => 'outbound',
-            'maxDepth' => 1
+            'maxDepth'  => 1
         ];
         $traversal      = new Traversal($this->connection, $startVertex, $edgeCollection, $options);
 
@@ -389,8 +389,8 @@ class TraversalTest extends
         $edgeCollection = $this->edgeCollectionName;
         $options        = [
             'direction' => 'outbound',
-            'init' => 'result.visited = 0; result.myVertices = [ ];',
-            'visitor' => 'result.visited++; result.myVertices.push(vertex);'
+            'init'      => 'result.visited = 0; result.myVertices = [ ];',
+            'visitor'   => 'result.visited++; result.myVertices.push(vertex);'
 
         ];
         $traversal      = new Traversal($this->connection, $startVertex, $edgeCollection, $options);
@@ -445,7 +445,7 @@ class TraversalTest extends
         $edgeCollection = $this->edgeCollectionName;
         $options        = [
             'direction' => 'any',
-            'strategy' => 'depthFirst'
+            'strategy'  => 'depthFirst'
 
         ];
         $traversal      = new Traversal($this->connection, $startVertex, $edgeCollection, $options);
@@ -484,7 +484,7 @@ class TraversalTest extends
         $edgeCollection = $this->edgeCollectionName;
         $options        = [
             'direction' => 'any',
-            'order' => 'postorder'
+            'order'     => 'postorder'
 
         ];
         $traversal      = new Traversal($this->connection, $startVertex, $edgeCollection, $options);
@@ -561,7 +561,7 @@ class TraversalTest extends
         $startVertex    = $this->vertexCollectionName . '/' . $this->vertex1Name;
         $edgeCollection = $this->edgeCollectionName;
         $options        = [
-            'direction' => 'any',
+            'direction'  => 'any',
             'uniqueness' => ['vertices' => 'none', 'edges' => 'global']
 
         ];
@@ -602,8 +602,8 @@ class TraversalTest extends
         $startVertex    = $this->vertexCollectionName . '/' . $this->vertex1Name;
         $edgeCollection = $this->edgeCollectionName;
         $options        = [
-            'direction' => 'any',
-            'uniqueness' => ['vertices' => 'none', 'edges' => 'none'],
+            'direction'     => 'any',
+            'uniqueness'    => ['vertices' => 'none', 'edges' => 'none'],
             'maxIterations' => 5
 
         ];
@@ -619,9 +619,9 @@ class TraversalTest extends
         $expectedCutDownMessage = 'too many iterations';
         $len                    = strlen($expectedCutDownMessage);
         static::assertTrue(
-	        (int) $e->getCode() === 500 && strpos(
+            (int) $e->getCode() === 500 && strpos(
                 $details['errorMessage'],
-             $expectedCutDownMessage) === 0 ,
+                $expectedCutDownMessage) === 0,
             'Did not return code 500 with first part of the message: "' . $expectedCutDownMessage . '", instead returned: ' . $e->getCode() . ' and "' . $details['errorMessage'] . '"'
         );
     }
