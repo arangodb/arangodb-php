@@ -708,8 +708,7 @@ class GraphHandler extends
         }
         $parts = explode('/', $vertexId);
         if (count($parts) === 2) {
-            $vertexId   = $parts[1];
-            $collection = $parts[0];
+            list($collection, $vertexId) = $parts;
         }
 
         if ($collection === null) {
@@ -799,8 +798,7 @@ class GraphHandler extends
 
         $parts = explode('/', $vertexId);
         if (count($parts) === 2) {
-            $vertexId   = $parts[1];
-            $collection = $parts[0];
+            list($collection, $vertexId) = $parts;
         }
 
         if ($collection === null) {
@@ -893,8 +891,7 @@ class GraphHandler extends
         }
         $parts = explode('/', $vertexId);
         if (count($parts) === 2) {
-            $vertexId   = $parts[1];
-            $collection = $parts[0];
+            list($collection, $vertexId) = $parts;
         }
 
         if ($collection === null) {
@@ -972,8 +969,7 @@ class GraphHandler extends
         }
         $parts = explode('/', $vertexId);
         if (count($parts) === 2) {
-            $vertexId   = $parts[1];
-            $collection = $parts[0];
+            list($collection, $vertexId) = $parts;
         }
 
         if ($collection === null) {
@@ -1105,8 +1101,7 @@ class GraphHandler extends
         }
         $parts = explode('/', $edgeId);
         if (count($parts) === 2) {
-            $edgeId     = $parts[1];
-            $collection = $parts[0];
+            list($collection, $edgeId) = $parts;
         }
 
         if ($collection === null) {
@@ -1197,8 +1192,7 @@ class GraphHandler extends
         }
         $parts = explode('/', $edgeId);
         if (count($parts) === 2) {
-            $edgeId     = $parts[1];
-            $collection = $parts[0];
+            list($collection, $edgeId) = $parts;
         }
 
         if ($collection === null) {
@@ -1300,8 +1294,7 @@ class GraphHandler extends
         }
         $parts = explode('/', $edgeId);
         if (count($parts) === 2) {
-            $edgeId     = $parts[1];
-            $collection = $parts[0];
+            list($collection, $edgeId) = $parts;
         }
 
         if ($collection === null) {
@@ -1384,8 +1377,7 @@ class GraphHandler extends
         }
         $parts = explode('/', $edgeId);
         if (count($parts) === 2) {
-            $edgeId     = $parts[1];
-            $collection = $parts[0];
+            list($collection, $edgeId) = $parts;
         }
 
         if ($collection === null) {
