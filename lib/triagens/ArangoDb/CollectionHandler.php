@@ -659,10 +659,11 @@ class CollectionHandler extends
      * @throws Exception
      *
      * @param mixed $collection - collection id as string or number or collection object
+     * @param array $options - an array of options for the drop operation
      *
      * @return bool - always true, will throw if there is an error
      */
-    public function drop($collection)
+    public function drop($collection, $options = array())
     {
         $collectionName = $this->getCollectionName($collection);
 
@@ -670,7 +671,12 @@ class CollectionHandler extends
             throw new ClientException('Cannot alter a collection without a collection id');
         }
 
-        $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_COLLECTION, [$collectionName]));
+        $appendix = '';
+        if (is_array($options) && isset($options['isSystem'])) {
+            $appendix = '?isSystem=' . UrlHelper::getBoolString($options['isSystem']);
+        }
+
+        $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_COLLECTION, [$collectionName]) . $appendix);
 
         return true;
     }

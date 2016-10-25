@@ -729,8 +729,8 @@ class Document
      *
      * Revision ids are generated on the server only.
      *
-     * Document ids are numeric but might be bigger than PHP_INT_MAX.
-     * To reliably store a document id elsewhere, a PHP string should be used
+     * Document ids are strings, even if they look "numeric"
+     * To reliably store a document id elsewhere, a PHP string must be used
      *
      * @param mixed $rev - revision id
      *

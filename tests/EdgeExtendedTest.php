@@ -31,6 +31,19 @@ class EdgeExtendedTest extends
         $this->collection        = new Collection();
         $this->collection->setName('ArangoDB_PHP_TestSuite_TestEdgeCollection_01');
         $this->collectionHandler->add($this->collection);
+
+        try {
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_EdgeCollection_01');
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+        
+        try {
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_Collection_01');
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
         $this->edgeHandler    = new EdgeHandler($this->connection);
         $this->edgeCollection = new Collection();
         $this->edgeCollection->setName('ArangoDBPHPTestSuiteTestEdgeCollection01');
