@@ -376,6 +376,7 @@ class Cursor implements
      * @param array $data - incoming result
      *
      * @return void
+     * @throws \triagens\ArangoDb\ClientException
      */
     private function add(array $data)
     {

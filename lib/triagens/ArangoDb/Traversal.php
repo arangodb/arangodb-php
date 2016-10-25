@@ -67,6 +67,7 @@ class Traversal
      * @param string     $edgeCollection - user function initialization data
      * @param array      $options
      *
+     * @throws \triagens\ArangoDb\ClientException
      */
     public function __construct(Connection $connection, $startVertex, $edgeCollection, array $options = null)
     {

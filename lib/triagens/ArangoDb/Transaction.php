@@ -479,6 +479,8 @@ class Transaction
      * Build the object's attributes from a given array
      *
      * @param $options
+     *
+     * @throws \triagens\ArangoDb\ClientException
      */
     public function buildTransactionAttributesFromArray($options)
     {

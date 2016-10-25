@@ -102,6 +102,7 @@ abstract class Handler
      * @param array $body - The body to encode into json
      *
      * @return string - json string of the body that was passed
+     * @throws \triagens\ArangoDb\ClientException
      */
     protected function json_encode_wrapper($body)
     {

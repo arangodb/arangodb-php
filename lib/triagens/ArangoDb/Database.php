@@ -98,6 +98,8 @@ class Database
      * @link http://www.arangodb.com/manuals/1.4/HttpDatabase.html
      *
      * @return array $responseArray - The response array.
+     * @throws \triagens\ArangoDb\Exception
+     * @throws \triagens\ArangoDb\ClientException
      */
     public static function listDatabases(Connection $connection)
     {
