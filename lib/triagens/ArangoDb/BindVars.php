@@ -59,8 +59,8 @@ class BindVars
      *
      * @throws ClientException
      *
-     * @param mixed  $name  - name of bind variable OR an array with all bind variables
-     * @param string $value - value for bind variable
+     * @param string|int|array $name  - name of bind variable OR an array with all bind variables
+     * @param string           $value - value for bind variable
      *
      * @return void
      */

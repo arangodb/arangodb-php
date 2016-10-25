@@ -844,23 +844,23 @@ class CollectionHandler extends
      * This will throw on all errors except insertion errors
      *
      *
-     * @param       $collection   mixed $collection - collection id as string or number
-     * @param mixed $importData   - The data to import. This can be a string holding the data according to the type of import, or an array of documents
-     * @param array $options      - optional - an array of options.
-     *                            <p>Options are :<br>
-     *                            <li>
-     *                            'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
-     *                            <p>
-     *                            <li>                       if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.</li>
-     *                            <li>                       if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.</li>
-     *                            <br>
-     *                            More info on how the import functionality works: <a href ="https://github.com/triAGENS/ArangoDB/wiki/HttpImport">https://github.com/triAGENS/ArangoDB/wiki/HttpImport</a>
-     *                            </p>
-     *                            <br>
+     * @param              $collection   mixed $collection - collection id as string or number
+     * @param string|array $importData   - The data to import. This can be a string holding the data according to the type of import, or an array of documents
+     * @param array        $options      - optional - an array of options.
+     *                                   <p>Options are :<br>
+     *                                   <li>
+     *                                   'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.<br>
+     *                                   <p>
+     *                                   <li>                       if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.</li>
+     *                                   <li>                       if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.</li>
+     *                                   <br>
+     *                                   More info on how the import functionality works: <a href ="https://github.com/triAGENS/ArangoDB/wiki/HttpImport">https://github.com/triAGENS/ArangoDB/wiki/HttpImport</a>
+     *                                   </p>
+     *                                   <br>
      *
-     * </li>
-     * <li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
-     * </p>
+     *                                   </li>
+     *                                   <li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
+     *                                   </p>
      *
      * @return array
      * @throws \triagens\ArangoDb\Exception
