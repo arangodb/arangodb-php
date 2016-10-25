@@ -34,7 +34,7 @@ class ExportTest extends
 
         $this->collection = new Collection();
         $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection');
-        $this->collectionHandler->add($this->collection);
+        $this->collectionHandler->create($this->collection);
 
         $this->documentHandler = new DocumentHandler($this->connection);
 
@@ -242,7 +242,7 @@ class ExportTest extends
         $edgeCollection = new Collection();
         $edgeCollection->setName('ArangoDB_PHP_TestSuite_TestEdge');
         $edgeCollection->setType(Collection::TYPE_EDGE);
-        $this->collectionHandler->add($edgeCollection);
+        $this->collectionHandler->create($edgeCollection);
 
         $edgeHandler = new EdgeHandler($this->connection);
 

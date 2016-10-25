@@ -30,7 +30,7 @@ class EdgeExtendedTest extends
         $this->collectionHandler = new CollectionHandler($this->connection);
         $this->collection        = new Collection();
         $this->collection->setName('ArangoDB_PHP_TestSuite_TestEdgeCollection_01');
-        $this->collectionHandler->add($this->collection);
+        $this->collectionHandler->create($this->collection);
 
         try {
             $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_EdgeCollection_01');
@@ -48,10 +48,10 @@ class EdgeExtendedTest extends
         $this->edgeCollection = new Collection();
         $this->edgeCollection->setName('ArangoDBPHPTestSuiteTestEdgeCollection01');
         $this->edgeCollection->set('type', 3);
-        $this->collectionHandler->add($this->edgeCollection);
+        $this->collectionHandler->create($this->edgeCollection);
         $this->documentCollection = new Collection();
         $this->documentCollection->setName('ArangoDBPHPTestSuiteTestCollection01');
-        $this->collectionHandler->add($this->documentCollection);
+        $this->collectionHandler->create($this->documentCollection);
     }
 
 
@@ -153,8 +153,8 @@ class EdgeExtendedTest extends
         $document2->someAttribute = 'someValue2';
 
 
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -182,7 +182,7 @@ class EdgeExtendedTest extends
         static::assertEquals(
             $resultingEdge->label, 'knows', 'Should be :knows, is: ' . $resultingEdge->label
         );
-        $response = $edgeHandler->delete($resultingEdge);
+        $response = $edgeHandler->remove($resultingEdge);
         static::assertTrue($response, 'Delete should return true!');
     }
 
@@ -200,7 +200,7 @@ class EdgeExtendedTest extends
         $edge   = Edge::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $edgeId = $edgeHandler->add($this->collection->getId(), $edge);
+        $edgeId = $edgeHandler->save($this->collection->getId(), $edge);
         $edgeHandler->get($this->collection->getId(), $edgeId);
         static::assertTrue(is_numeric($edgeId), 'Did not return an id!');
 
@@ -225,7 +225,7 @@ class EdgeExtendedTest extends
         static::assertEquals(
             $resultingEdge->someOtherAttribute, 'someOtherValue2', 'Should be :someOtherValue2, is: ' . $resultingEdge->someOtherAttribute
         );
-        $response = $edgeHandler->delete($resultingEdge);
+        $response = $edgeHandler->remove($resultingEdge);
         static::assertTrue($response, 'Delete should return true!');
     }
 
@@ -251,8 +251,8 @@ class EdgeExtendedTest extends
         $document2->someAttribute = 'someValue2';
 
 
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -280,7 +280,7 @@ class EdgeExtendedTest extends
         static::assertEquals(
             $resultingEdge->labels, 'anything', 'Should be :anything, is: ' . $resultingEdge->labels
         );
-        $response = $edgeHandler->delete($resultingEdge);
+        $response = $edgeHandler->remove($resultingEdge);
         static::assertTrue($response, 'Delete should return true!');
     }
 
@@ -306,8 +306,8 @@ class EdgeExtendedTest extends
         $document2->someAttribute = 'someValue2';
 
 
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -344,7 +344,7 @@ class EdgeExtendedTest extends
 
         static::assertEquals($resultingEdge->labels, 'as');
 
-        $response = $edgeHandler->delete($resultingEdge);
+        $response = $edgeHandler->remove($resultingEdge);
         static::assertTrue($response, 'Delete should return true!');
     }
 
@@ -362,7 +362,7 @@ class EdgeExtendedTest extends
         $edge   = Edge::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $edgeId = $edgeHandler->add($this->collection->getId(), $edge);
+        $edgeId = $edgeHandler->save($this->collection->getId(), $edge);
 
         static::assertTrue(is_numeric($edgeId), 'Did not return an id!');
 
@@ -386,7 +386,7 @@ class EdgeExtendedTest extends
             $resultingEdge->someOtherAttribute, 'someOtherValue2', 'Should be :someOtherValue2, is: ' . $resultingEdge->someOtherAttribute
         );
 
-        $response = $edgeHandler->delete($resultingEdge);
+        $response = $edgeHandler->remove($resultingEdge);
         static::assertTrue($response, 'Delete should return true!');
     }
 
@@ -394,23 +394,23 @@ class EdgeExtendedTest extends
     public function tearDown()
     {
         try {
-            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestEdgeCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdgeCollection_01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
 
         try {
-            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestEdgeCollection_02');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdgeCollection_02');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
         try {
-            $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestEdgeCollection01');
+            $this->collectionHandler->drop('ArangoDBPHPTestSuiteTestEdgeCollection01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
         try {
-            $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestCollection01');
+            $this->collectionHandler->drop('ArangoDBPHPTestSuiteTestCollection01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }

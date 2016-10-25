@@ -30,13 +30,13 @@ class TransactionTest extends
 
         // clean up first
         try {
-            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
 
         try {
-            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_02');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_02');
         } catch (Exception $e) {
             //Silence the exception
         }
@@ -44,11 +44,11 @@ class TransactionTest extends
 
         $this->collection1 = new Collection();
         $this->collection1->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
-        $this->collectionHandler->add($this->collection1);
+        $this->collectionHandler->create($this->collection1);
 
         $this->collection2 = new Collection();
         $this->collection2->setName('ArangoDB_PHP_TestSuite_TestCollection_02');
-        $this->collectionHandler->add($this->collection2);
+        $this->collectionHandler->create($this->collection2);
     }
 
     /**
@@ -422,12 +422,12 @@ class TransactionTest extends
     public function tearDown()
     {
         try {
-            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
         try {
-            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_02');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_02');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }

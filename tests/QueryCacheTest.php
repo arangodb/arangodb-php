@@ -27,7 +27,7 @@ class QueryCacheTest extends
         $this->collectionHandler = new CollectionHandler($this->connection);
 
         try {
-            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
@@ -39,7 +39,7 @@ class QueryCacheTest extends
     {
         $name             = 'ArangoDB_PHP_TestSuite_TestCollection';
         $this->collection = new Collection($name);
-        $this->collectionHandler->add($this->collection);
+        $this->collectionHandler->create($this->collection);
 
         $statement = new Statement($this->connection, ['_flat' => true]);
         $statement->setQuery("FOR i IN 1..2000 INSERT { value: i, _key: CONCAT('test', i) } INTO " . $name);
@@ -282,7 +282,7 @@ class QueryCacheTest extends
     public function tearDown()
     {
         try {
-            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }

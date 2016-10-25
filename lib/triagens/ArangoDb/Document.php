@@ -136,7 +136,6 @@ class Document
      * @param array $options           - optional, initial $options for document
      *                                 <p>Options are :<br>
      *                                 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     *                                 <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
      *                                 <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
      *                                 <p>
      *
@@ -173,7 +172,7 @@ class Document
      *
      * @return Document|Edge|Graph
      */
-    public static function createFromArray($values, $options = [])
+    public static function createFromArray($values, array $options = [])
     {
         $document = new static($options);
         foreach ($values as $key => $value) {
@@ -412,7 +411,7 @@ class Document
      *
      * @return array - array of all document attributes/values
      */
-    public function getAll($options = [])
+    public function getAll(array $options = [])
     {
         // This preserves compatibility for the old includeInternals parameter.
         $includeInternals       = false;

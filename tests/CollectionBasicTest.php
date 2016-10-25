@@ -103,7 +103,7 @@ class CollectionBasicTest extends
         }
 
         $collection->setName($name);
-        $response = $collectionHandler->add($collection);
+        $response = $collectionHandler->create($collection);
 
         static::assertTrue(is_numeric($response), 'Did not return a numeric id!');
 
@@ -116,7 +116,7 @@ class CollectionBasicTest extends
 
         static::assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
 
-        $collectionHandler->delete($collection);
+        $collectionHandler->drop($collection);
     }
 
     /**
@@ -145,7 +145,7 @@ class CollectionBasicTest extends
         $collection->setKeyOptions(
             ['type' => 'autoincrement', 'allowUserKeys' => false, 'increment' => 5, 'offset' => 10]
         );
-        $response = $collectionHandler->add($collection);
+        $response = $collectionHandler->create($collection);
 
         $resultingCollection = $collectionHandler->getProperties($response);
         $properties          = $resultingCollection->getAll();
@@ -171,7 +171,7 @@ class CollectionBasicTest extends
             10,
             'Key options offset does not match'
         );
-        $collectionHandler->delete($collection);
+        $collectionHandler->drop($collection);
     }
 
 
@@ -203,7 +203,7 @@ class CollectionBasicTest extends
         );
 
         try {
-            $collectionHandler->add($collection);
+            $collectionHandler->create($collection);
         } catch (\Exception $e) {
         }
 
@@ -236,7 +236,7 @@ class CollectionBasicTest extends
         $collection->setName($name);
         $collection->setNumberOfShards(4);
 
-        $response = $collectionHandler->add($collection);
+        $response = $collectionHandler->create($collection);
 
         $resultingCollection = $collectionHandler->getProperties($response);
         $properties          = $resultingCollection->getAll();
@@ -271,7 +271,7 @@ class CollectionBasicTest extends
         $collection->setName($name);
         $collection->setShardKeys(['_key', 'a', 'b']);
 
-        $response = $collectionHandler->add($collection);
+        $response = $collectionHandler->create($collection);
 
         $resultingCollection = $collectionHandler->getProperties($response);
         $properties          = $resultingCollection->getAll();
@@ -305,7 +305,7 @@ class CollectionBasicTest extends
         }
 
         $collection->setName($name);
-        $collectionHandler->add($collection);
+        $collectionHandler->create($collection);
 
         $resultingCollection = $collectionHandler->get($name);
 
@@ -316,7 +316,7 @@ class CollectionBasicTest extends
 
         static::assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
 
-        $collectionHandler->delete($collection);
+        $collectionHandler->drop($collection);
     }
 
 
@@ -339,7 +339,7 @@ class CollectionBasicTest extends
 
         $collection->setName($name);
         $collection->setType(3);
-        $collectionHandler->add($collection);
+        $collectionHandler->create($collection);
 
         $resultingCollection = $collectionHandler->get($name);
 
@@ -350,7 +350,7 @@ class CollectionBasicTest extends
 
         static::assertEquals(Collection::TYPE_EDGE, $resultingCollection->getType());
 
-        $collectionHandler->delete($collection);
+        $collectionHandler->drop($collection);
     }
 
 
@@ -382,7 +382,7 @@ class CollectionBasicTest extends
 
         static::assertEquals(Collection::TYPE_EDGE, $resultingCollection->getType());
 
-        $collectionHandler->delete($name);
+        $collectionHandler->drop($name);
     }
 
 
@@ -413,7 +413,7 @@ class CollectionBasicTest extends
         $resultingCollectionProperties = $collectionHandler->getProperties($name);
         static::assertTrue($resultingCollectionProperties->getIsVolatile());
 
-        $collectionHandler->delete($name);
+        $collectionHandler->drop($name);
     }
 
 

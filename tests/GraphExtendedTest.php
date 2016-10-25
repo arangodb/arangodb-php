@@ -66,54 +66,52 @@ class GraphExtendedTest extends
         $this->edgeLabel3   = 'edgeLabel3';
 
 
-        $this->vertex1Array  = [
+        $this->vertex1Array         = [
             '_key'     => $this->vertex1Name,
             'someKey1' => 'someValue1'
         ];
-        $this->vertex2Array  = [
+        $this->vertex2Array         = [
             '_key'     => $this->vertex2Name,
             'someKey2' => 'someValue2'
         ];
-        $this->vertex3Array  = [
+        $this->vertex3Array         = [
             '_key'     => $this->vertex3Name,
             'someKey3' => 'someValue3'
         ];
-        $this->vertex4Array  = [
+        $this->vertex4Array         = [
             '_key'     => $this->vertex4Name,
             'someKey4' => 'someValue4'
         ];
-        $this->vertex1aArray = [
+        $this->vertex1aArray        = [
             'someKey1' => 'someValue1a'
         ];
-        $this->edge1Array    = [
+        $this->edge1Array           = [
             '_key'         => $this->edge1Name,
             'someEdgeKey1' => 'someEdgeValue1'
         ];
-        $this->edge2Array    = [
+        $this->edge2Array           = [
             '_key'            => $this->edge2Name,
             'someEdgeKey2'    => 'someEdgeValue2',
             'anotherEdgeKey2' => 'anotherEdgeValue2'
         ];
-        $this->edge3Array    = [
+        $this->edge3Array           = [
             '_key'         => $this->edge3Name,
             'someEdgeKey3' => 'someEdgeValue3'
         ];
-        $this->edge1aArray   = [
+        $this->edge1aArray          = [
             '_key'         => $this->edge1Name,
             'someEdgeKey1' => 'someEdgeValue1a'
         ];
+        $this->vertexCollectionName = 'ArangoDBPHPTestSuiteVertexTestCollection01';
+        $this->edgeCollectionName   = 'ArangoDBPHPTestSuiteTestEdgeCollection01';
 
+        $ed1 = EdgeDefinition::createUndirectedRelation($this->edgeCollectionName, [$this->vertexCollectionName]);
 
         $this->graphName  = 'Graph1';
         $this->connection = getConnection();
         $this->graph      = new Graph();
         $this->graph->set('_key', $this->graphName);
-
-
-        $this->vertexCollectionName = 'ArangoDBPHPTestSuiteVertexTestCollection01';
-        $this->edgeCollectionName   = 'ArangoDBPHPTestSuiteTestEdgeCollection01';
-        $this->graph->setVerticesCollection($this->vertexCollectionName);
-        $this->graph->setEdgesCollection($this->edgeCollectionName);
+        $this->graph->addEdgeDefinition($ed1);
         $this->graphHandler = new GraphHandler($this->connection);
         $this->graphHandler->createGraph($this->graph);
     }

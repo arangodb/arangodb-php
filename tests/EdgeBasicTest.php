@@ -30,13 +30,13 @@ class EdgeBasicTest extends
         $this->collectionHandler = new CollectionHandler($this->connection);
 
         try {
-            $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestEdgeCollection01');
+            $this->collectionHandler->drop('ArangoDBPHPTestSuiteTestEdgeCollection01');
         } catch (\Exception $e) {
             #don't bother us, if it's already deleted.
         }
 
         try {
-            $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestCollection01');
+            $this->collectionHandler->drop('ArangoDBPHPTestSuiteTestCollection01');
         } catch (\Exception $e) {
             #don't bother us, if it's already deleted.
         }
@@ -48,8 +48,8 @@ class EdgeBasicTest extends
         $this->collection = new Collection();
         $this->collection->setName('ArangoDBPHPTestSuiteTestCollection01');
 
-        $this->collectionHandler->add($this->edgeCollection);
-        $this->collectionHandler->add($this->collection);
+        $this->collectionHandler->create($this->edgeCollection);
+        $this->collectionHandler->create($this->collection);
     }
 
 
@@ -85,8 +85,8 @@ class EdgeBasicTest extends
         $document2->someAttribute = 'someValue2';
 
 
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -153,11 +153,11 @@ class EdgeBasicTest extends
         );
 
 
-        $documentHandler->delete($document1);
-        $documentHandler->delete($document2);
+        $documentHandler->remove($document1);
+        $documentHandler->remove($document2);
 
         // In ArangoDB deleting a vertex doesn't delete the associated edge, unless we're using the graph module. Caution!
-        $edgeDocumentHandler->delete($resultingEdge);
+        $edgeDocumentHandler->remove($resultingEdge);
     }
 
 
@@ -170,7 +170,7 @@ class EdgeBasicTest extends
         $edgeCollection = $this->edgeCollection;
 
         try {
-            $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestEdgeCollection01');
+            $this->collectionHandler->drop('ArangoDBPHPTestSuiteTestEdgeCollection01');
         } catch (\Exception $e) {
             #don't bother us, if it's already deleted.
         }
@@ -186,8 +186,8 @@ class EdgeBasicTest extends
         $document2->someAttribute = 'someValue2';
 
 
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -256,11 +256,11 @@ class EdgeBasicTest extends
         );
 
 
-        $documentHandler->delete($document1);
-        $documentHandler->delete($document2);
+        $documentHandler->remove($document1);
+        $documentHandler->remove($document2);
 
         // In ArangoDB deleting a vertex doesn't delete the associated edge, unless we're using the graph module. Caution!
-        $edgeDocumentHandler->delete($resultingEdge);
+        $edgeDocumentHandler->remove($resultingEdge);
     }
 
 
@@ -288,8 +288,8 @@ class EdgeBasicTest extends
         $document2->someAttribute = 'someValue2';
 
 
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -348,11 +348,11 @@ class EdgeBasicTest extends
         );
 
 
-        $documentHandler->delete($document1);
-        $documentHandler->delete($document2);
+        $documentHandler->remove($document1);
+        $documentHandler->remove($document2);
 
         // On ArangoDB 1.0 deleting a vertex doesn't delete the associated edge. Caution!
-        $edgeDocumentHandler->delete($resultingEdge);
+        $edgeDocumentHandler->remove($resultingEdge);
     }
 
     /**
@@ -376,8 +376,8 @@ class EdgeBasicTest extends
         $document2->someAttribute = 'someValue2';
 
 
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -422,9 +422,9 @@ class EdgeBasicTest extends
             ['revision' => $resultingEdge->getRevision()]
         );
         static::assertEquals($oldRevision->getRevision(), $resultingEdge->getRevision());
-        $documentHandler->delete($document1);
-        $documentHandler->delete($document2);
-        $edgeHandler->deleteById($edgeCollection->getName(), $edgeId);
+        $documentHandler->remove($document1);
+        $documentHandler->remove($document2);
+        $edgeHandler->removeById($edgeCollection->getName(), $edgeId);
     }
 
     /**
@@ -448,8 +448,8 @@ class EdgeBasicTest extends
         $document2->someAttribute = 'someValue2';
 
 
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -486,9 +486,9 @@ class EdgeBasicTest extends
         static::assertEquals($result200['etag'], '"' . $edgeDocument->getRevision() . '"');
         static::assertNotEquals($result200['content-length'], 0);
         static::assertEquals($result200['httpCode'], 200);
-        $documentHandler->delete($document1);
-        $documentHandler->delete($document2);
-        $edgeHandler->deleteById($edgeCollection->getName(), $edgeId);
+        $documentHandler->remove($document1);
+        $documentHandler->remove($document2);
+        $edgeHandler->removeById($edgeCollection->getName(), $edgeId);
     }
 
     /**
@@ -508,8 +508,8 @@ class EdgeBasicTest extends
         $document1->someAttribute = 'someValue1';
         $document2->someAttribute = 'someValue2';
 
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -560,8 +560,8 @@ class EdgeBasicTest extends
         $document1->someAttribute = 'someValue1';
         $document2->someAttribute = 'someValue2';
 
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -629,8 +629,8 @@ class EdgeBasicTest extends
         $document1->someAttribute = 'someValue1';
         $document2->someAttribute = 'someValue2';
 
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -698,8 +698,8 @@ class EdgeBasicTest extends
         $document1->someAttribute = 'someValue1';
         $document2->someAttribute = 'someValue2';
 
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -754,8 +754,8 @@ class EdgeBasicTest extends
         $document1->someAttribute = 'someValue1';
         $document2->someAttribute = 'someValue2';
 
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->add('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
+        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -805,12 +805,12 @@ class EdgeBasicTest extends
     public function tearDown()
     {
         try {
-            $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestEdgeCollection01');
+            $this->collectionHandler->drop('ArangoDBPHPTestSuiteTestEdgeCollection01');
         } catch (\Exception $e) {
             #don't bother us, if it's already deleted.
         }
         try {
-            $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestCollection01');
+            $this->collectionHandler->drop('ArangoDBPHPTestSuiteTestCollection01');
         } catch (\Exception $e) {
             #don't bother us, if it's already deleted.
         }

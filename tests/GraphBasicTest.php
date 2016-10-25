@@ -34,25 +34,6 @@ class GraphBasicTest extends
 
 
     /**
-     * Test if Edge and EdgeHandler instances can be initialized
-     */
-    public function testCreateAndDeleteGraphs()
-    {
-        $this->graph = new Graph();
-        $this->graph->set('_key', 'Graph1');
-        $this->graph->setVerticesCollection('ArangoDBPHPTestSuiteTestCollection01');
-        $this->graph->setEdgesCollection('ArangoDBPHPTestSuiteTestEdgeCollection01');
-        $this->graphHandler = new GraphHandler($this->connection);
-        $result             = $this->graphHandler->createGraph($this->graph);
-        static::assertEquals($result['_key'], 'Graph1', 'Did not return Graph1!');
-        $properties = $this->graphHandler->properties('Graph1');
-        static::assertEquals($properties['_key'], 'Graph1', 'Did not return Graph1!');
-
-        $result = $this->graphHandler->dropGraph('Graph1');
-        static::assertTrue($result, 'Did not return true!');
-    }
-
-    /**
      * Test creation of graph with definitions
      */
     public function testCreateAndDeleteGraphsWithDefinitions()
@@ -86,12 +67,10 @@ class GraphBasicTest extends
     public function testCreationOfGraphObject()
     {
 
+        $ed1         = EdgeDefinition::createUndirectedRelation('ArangoDBPHPTestSuiteTestEdgeCollection01', ['ArangoDBPHPTestSuiteTestCollection01']);
         $this->graph = new Graph('Graph1');
-        static::assertNull($this->graph->getVerticesCollection());
-        $this->graph->setVerticesCollection('ArangoDBPHPTestSuiteTestCollection01');
-        $this->graph->setEdgesCollection('ArangoDBPHPTestSuiteTestEdgeCollection01');
-        static::assertSame($this->graph->getEdgesCollection(), 'ArangoDBPHPTestSuiteTestEdgeCollection01');
-        static::assertSame($this->graph->getVerticesCollection(), 'ArangoDBPHPTestSuiteTestCollection01');
+        static::assertCount(0, $this->graph->getEdgeDefinitions());
+        $this->graph->addEdgeDefinition($ed1);
         static::assertCount(1, $this->graph->getEdgeDefinitions());
         $ed = $this->graph->getEdgeDefinitions();
         $ed = $ed[0];
@@ -108,21 +87,6 @@ class GraphBasicTest extends
         static::assertCount(2, $ed->getFromCollections());
         static::assertCount(2, $ed->getToCollections());
 
-        $exception = null;
-        try {
-            $this->graph->getVerticesCollection();
-        } catch (Exception $e) {
-            $exception = $e->getMessage();
-        }
-        static::assertSame('This operation only supports graphs with one undirected single collection relation', $exception);
-        $exception = null;
-        try {
-            $this->graph->getEdgesCollection();
-        } catch (Exception $e) {
-            $exception = $e->getMessage();
-        }
-        static::assertSame('This operation only supports graphs with one undirected single collection relation', $exception);
-
         $this->graph->addOrphanCollection('o1');
         $this->graph->addOrphanCollection('o2');
         static::assertCount(2, $this->graph->getOrphanCollections());
@@ -130,13 +94,13 @@ class GraphBasicTest extends
     }
 
     /**
-     * Test if Edge and EdgeHandler instances can be initialized when we directly set the graph name in the constructor
+     * Test if Graph and GraphHandler instances can be initialized when we directly set the graph name in the constructor
      */
     public function testCreateAndDeleteGraphByName()
     {
+        $ed1         = EdgeDefinition::createUndirectedRelation('ArangoDBPHPTestSuiteTestEdgeCollection02', ['ArangoDBPHPTestSuiteTestCollection02']);
         $this->graph = new Graph('Graph2');
-        $this->graph->setVerticesCollection('ArangoDBPHPTestSuiteTestCollection02');
-        $this->graph->setEdgesCollection('ArangoDBPHPTestSuiteTestEdgeCollection02');
+        $this->graph->addEdgeDefinition($ed1);
         $this->graphHandler = new GraphHandler($this->connection);
 
         $result = $this->graphHandler->createGraph($this->graph);
@@ -154,9 +118,9 @@ class GraphBasicTest extends
      */
     public function testCreateRetrieveAndDeleteGraph1()
     {
+        $ed1         = EdgeDefinition::createUndirectedRelation('ArangoDBPHPTestSuiteTestEdgeCollection03', ['ArangoDBPHPTestSuiteTestCollection03']);
         $this->graph = new Graph('Graph3');
-        $this->graph->setVerticesCollection('ArangoDBPHPTestSuiteTestCollection03');
-        $this->graph->setEdgesCollection('ArangoDBPHPTestSuiteTestEdgeCollection03');
+        $this->graph->addEdgeDefinition($ed1);
         $this->graph->addOrphanCollection('orphan');
         $this->graphHandler = new GraphHandler($this->connection);
         $this->graphHandler->createGraph($this->graph);
@@ -172,9 +136,9 @@ class GraphBasicTest extends
      */
     public function testGetPropertiesAndDeleteGraphByInstance()
     {
+        $ed1         = EdgeDefinition::createUndirectedRelation('ArangoDBPHPTestSuiteTestEdgeCollection04', ['ArangoDBPHPTestSuiteTestCollection04']);
         $this->graph = new Graph('Graph4');
-        $this->graph->setVerticesCollection('ArangoDBPHPTestSuiteTestCollection04');
-        $this->graph->setEdgesCollection('ArangoDBPHPTestSuiteTestEdgeCollection04');
+        $this->graph->addEdgeDefinition($ed1);
         $this->graphHandler = new GraphHandler($this->connection);
 
         $result = $this->graphHandler->createGraph($this->graph);

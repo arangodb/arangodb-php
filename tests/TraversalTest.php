@@ -119,8 +119,10 @@ class TraversalTest extends
 
         $this->vertexCollectionName = 'ArangoDBPHPTestSuiteVertexTestCollection01';
         $this->edgeCollectionName   = 'ArangoDBPHPTestSuiteTestEdgeCollection01';
-        $this->graph->setVerticesCollection($this->vertexCollectionName);
-        $this->graph->setEdgesCollection($this->edgeCollectionName);
+
+        $ed1                = EdgeDefinition::createUndirectedRelation($this->edgeCollectionName, [$this->vertexCollectionName]);
+
+        $this->graph->addEdgeDefinition($ed1);
         $this->graphHandler = new GraphHandler($this->connection);
         $this->graphHandler->createGraph($this->graph);
     }

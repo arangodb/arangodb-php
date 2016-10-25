@@ -397,7 +397,7 @@ class Connection
      *
      * @return HttpResponse
      */
-    private function executeRequest($method, $url, $data, $customHeaders = [])
+    private function executeRequest($method, $url, $data, array $customHeaders = [])
     {
         assert($this->_httpHeader !== '');
         $wasAsync = false;

@@ -27,25 +27,25 @@ class BatchTest extends
         $this->collectionHandler = new CollectionHandler($this->connection);
 
         try {
-            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
-            // don't bother us, if it's already deleted.
+            // don't bother us, if it's already dropd.
         }
 
         $this->collection = new Collection();
         $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
-        $this->collectionHandler->add($this->collection);
+        $this->collectionHandler->create($this->collection);
 
         try {
-            $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestEdgeCollection01');
+            $this->collectionHandler->drop('ArangoDBPHPTestSuiteTestEdgeCollection01');
         } catch (\Exception $e) {
-            #don't bother us, if it's already deleted.
+            #don't bother us, if it's already dropd.
         }
 
         $this->edgeCollection = new Collection();
         $this->edgeCollection->setName('ArangoDBPHPTestSuiteTestEdgeCollection01');
         $this->edgeCollection->set('type', 3);
-        $this->collectionHandler->add($this->edgeCollection);
+        $this->collectionHandler->create($this->edgeCollection);
     }
 
 
@@ -79,7 +79,7 @@ class BatchTest extends
         for ($i = 0; $i < 10; ++$i) {
             $batch->nextBatchPartId('doc' . $i);
             $document = Document::createFromArray(['test1' => $i, 'test2' => $i + 1]);
-            $this->documentHandler->add($this->collection->getId(), $document);
+            $this->documentHandler->save($this->collection->getId(), $document);
         }
 
         static::assertEquals(10, $batch->countParts());
@@ -110,7 +110,7 @@ class BatchTest extends
     {
         try {
             // clean up first
-            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_02');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_02');
         } catch (Exception $e) {
         }
 
@@ -120,7 +120,7 @@ class BatchTest extends
         $collection = new Collection();
         $name       = 'ArangoDB_PHP_TestSuite_TestCollection_02';
         $collection->setName($name);
-        $this->collectionHandler->add($collection);
+        $this->collectionHandler->create($collection);
 
         $part = $batch->getPart(0);
         static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $part);
@@ -155,7 +155,7 @@ class BatchTest extends
         $document   = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->add($this->collection->getId(), $document);
+        $documentId = $documentHandler->save($this->collection->getId(), $document);
 
         static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId, 'Did not return a BatchPart Object!');
 
@@ -164,7 +164,7 @@ class BatchTest extends
         $document   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentId = $documentHandler->add($this->collection->getId(), $document);
+        $documentId = $documentHandler->save($this->collection->getId(), $document);
 
         static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId, 'Did not return a BatchPart Object!');
 
@@ -192,14 +192,14 @@ class BatchTest extends
         $document   = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->add($this->collection->getId(), $document);
+        $documentId = $documentHandler->save($this->collection->getId(), $document);
 
         static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId, 'Did not return a BatchPart Object!');
 
         $document   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentId = $documentHandler->add($this->collection->getId(), $document);
+        $documentId = $documentHandler->save($this->collection->getId(), $document);
 
         static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId, 'Did not return a BatchPart Object!');
 
@@ -241,7 +241,7 @@ class BatchTest extends
         $document   = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->add($this->collection->getId(), $document);
+        $documentId = $documentHandler->save($this->collection->getId(), $document);
 
         static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId, 'Did not return a BatchPart Object!');
 
@@ -249,7 +249,7 @@ class BatchTest extends
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
         try {
-            $documentId = $documentHandler->add($this->collection->getId(), $document);
+            $documentId = $documentHandler->save($this->collection->getId(), $document);
         } catch (\Exception $e) {
             // don't bother us, just give us the $e
         }
@@ -278,7 +278,7 @@ class BatchTest extends
         $collection->setName($name);
 
         $batch->nextBatchPartId('testCollection1');
-        $response = $collectionHandler->add($collection);
+        $response              = $collectionHandler->create($collection);
 
         static::assertTrue(is_numeric($response), 'Did not return a fake numeric id!');
         $batch->process();
@@ -304,7 +304,7 @@ class BatchTest extends
         $document          = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentBatchPart = $documentHandler->add($resultingCollectionId, $document);
+        $documentBatchPart     = $documentHandler->save($resultingCollectionId, $document);
 
         static::assertEquals($documentBatchPart->getType(), 'document');
 
@@ -317,7 +317,7 @@ class BatchTest extends
                     'someOtherAttribute' => 'someOtherValue2' . $i
                 ]
             );
-            $documentBatchPart = $documentHandler->add($resultingCollectionId, $document);
+            $documentBatchPart = $documentHandler->save($resultingCollectionId, $document);
         }
         static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentBatchPart, 'Did not return a BatchPart Object!');
 
@@ -372,7 +372,7 @@ class BatchTest extends
         $documentHandler = new DocumentHandler($connection);
 
         $document->someAttribute = 'someValue';
-        $documentHandler->add($resultingCollection->getId(), $document);
+        $documentHandler->save($resultingCollection->getId(), $document);
 
         // set the next batchPart id
         $batch->nextBatchPartId('myBatchPart');
@@ -419,10 +419,10 @@ class BatchTest extends
         // $docsAfterRemoval=$batch->getProcessedPartResponse('docsAfterRemoval');
         // $this->assertTrue(count($docsAfterRemoval) == 1, 'At the time of statement execution there should be 3 documents found! Found: '.count($stmtCursor->getAll()));
 
-        // Get previously created collection and delete it, from inside a batch
+        // Get previously created collection and drop it, from inside a batch
         $batch = new Batch($this->connection);
 
-        $collectionHandler->delete($resultingCollectionId);
+        $collectionHandler->drop($resultingCollectionId);
 
         $batch->process();
     }
@@ -431,19 +431,19 @@ class BatchTest extends
     public function tearDown()
     {
         try {
-            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
-            // don't bother us, if it's already deleted.
+            // don't bother us, if it's already dropd.
         }
         try {
-            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_02');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_02');
         } catch (\Exception $e) {
-            // don't bother us, if it's already deleted.
+            // don't bother us, if it's already dropd.
         }
         try {
-            $this->collectionHandler->delete('ArangoDBPHPTestSuiteTestEdgeCollection01');
+            $this->collectionHandler->drop('ArangoDBPHPTestSuiteTestEdgeCollection01');
         } catch (\Exception $e) {
-            #don't bother us, if it's already deleted.
+            #don't bother us, if it's already dropd.
         }
 
         unset($this->collectionHandlerm, $this->collection, $this->connection);

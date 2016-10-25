@@ -37,14 +37,14 @@ class StatementTest extends
 
         // clean up first
         try {
-            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
 
         $this->collection = new Collection();
         $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
-        $this->collectionHandler->add($this->collection);
+        $this->collectionHandler->create($this->collection);
     }
 
 
@@ -60,7 +60,7 @@ class StatementTest extends
 
         $document->someAttribute = 'someValue';
 
-        $documentHandler->add($collection->getId(), $document);
+        $documentHandler->save($collection->getId(), $document);
 
         $statement = new Statement(
             $connection, [
@@ -256,7 +256,7 @@ class StatementTest extends
 
         $document->someAttribute = 'someValue';
 
-        $documentHandler->add($collection->getId(), $document);
+        $documentHandler->save($collection->getId(), $document);
 
         $statement = new Statement(
             $connection, [
@@ -296,7 +296,7 @@ class StatementTest extends
 
         $document->someAttribute = 'someValue';
 
-        $documentHandler->add($collection->getId(), $document);
+        $documentHandler->save($collection->getId(), $document);
 
         $statement = new Statement(
             $connection, [
@@ -325,7 +325,7 @@ class StatementTest extends
 
         $document->someAttribute = 'someValue';
 
-        $documentHandler->add($collection->getId(), $document);
+        $documentHandler->save($collection->getId(), $document);
 
         $statement = new Statement(
             $connection, [
@@ -372,7 +372,7 @@ class StatementTest extends
 
         $document->name = 'john';
 
-        $documentHandler->add($collection->getId(), $document);
+        $documentHandler->save($collection->getId(), $document);
 
         $statement = new Statement(
             $connection, [
@@ -400,15 +400,15 @@ class StatementTest extends
 
         $document       = new Document();
         $document->name = 'john';
-        $documentHandler->add($collection->getId(), $document);
+        $documentHandler->save($collection->getId(), $document);
 
         $document       = new Document();
         $document->name = 'peter';
-        $documentHandler->add($collection->getId(), $document);
+        $documentHandler->save($collection->getId(), $document);
 
         $document       = new Document();
         $document->name = 'jane';
-        $documentHandler->add($collection->getId(), $document);
+        $documentHandler->save($collection->getId(), $document);
 
         $statement = new Statement(
             $connection, [
@@ -436,7 +436,7 @@ class StatementTest extends
 
         $document       = new Document();
         $document->file = 'testFooBar';
-        $documentHandler->add($collection->getId(), $document);
+        $documentHandler->save($collection->getId(), $document);
 
         $statement = new Statement(
             $connection, [
@@ -462,7 +462,7 @@ class StatementTest extends
 
         $document       = new Document();
         $document->test = 'file';
-        $documentHandler->add($collection->getId(), $document);
+        $documentHandler->save($collection->getId(), $document);
 
         $statement = new Statement(
             $connection, [
@@ -530,7 +530,7 @@ class StatementTest extends
     public function tearDown()
     {
         try {
-            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }

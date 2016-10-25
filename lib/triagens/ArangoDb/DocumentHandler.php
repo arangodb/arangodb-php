@@ -55,9 +55,7 @@ class DocumentHandler extends
      * @param array  $options     - optional, array of options
      *                            <p>Options are :
      *                            <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
-     *                            <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
      *                            <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
-     *                            <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
      *                            <li>'revision' - the documents revision</li>
      *                            <li>'ifMatch' - boolean if given revision should match or not</li>
      *                            </p>
@@ -115,9 +113,7 @@ class DocumentHandler extends
      * @param array  $options     - optional, array of options
      *                            <p>Options are :
      *                            <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
-     *                            <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
      *                            <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
-     *                            <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
      *                            <li>'ifMatch' - boolean if given revision should match or not</li>
      *                            <li>'revision' - The document is returned if it matches/not matches revision.</li>
      *                            </p>
@@ -146,9 +142,7 @@ class DocumentHandler extends
      * @param array  $options     - optional, array of options
      *                            <p>Options are :
      *                            <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
-     *                            <li>'includeInternals' - Deprecated, please use '_includeInternals'.</li>
      *                            <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
-     *                            <li>'ignoreHiddenAttributes' - Deprecated, please use '_ignoreHiddenAttributes'.</li>
      *                            <li>'ifMatch' - boolean if given revision should match or not</li>
      *                            <li>'revision' - The document is returned if it matches/not matches revision.</li>
      *                            </p>
@@ -255,98 +249,6 @@ class DocumentHandler extends
         return Document::createFromArray($data, $options);
     }
 
-
-    /**
-     * Get the list of all documents' ids from a collection
-     *
-     * This will throw if the list cannot be fetched from the server
-     *
-     * @throws Exception
-     *
-     * @param mixed $collection - collection id as string or number
-     *
-     * @return array - ids of documents in the collection
-     *
-     * @deprecated to be removed in version 2.0 - This function is being replaced by  CollectionHandler::getAllIds()
-     * @todo       remove in version 3.1
-     *
-     */
-    public function getAllIds($collection)
-    {
-        $collectionHandler = new CollectionHandler($this->getConnection());
-
-        return $collectionHandler->getAllIds($collection);
-    }
-
-
-    /**
-     * Get document(s) by specifying an example
-     *
-     * This will throw if the list cannot be fetched from the server
-     *
-     *
-     * @throws Exception
-     *
-     * @param mixed $collection        - collection id as string or number
-     * @param mixed $document          - the example document as a Document object or an array
-     * @param array $options           - optional, array of options
-     *                                 <p>Options are :<br>
-     *                                 <li>'_sanitize' - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     *                                 <li>'sanitize' - Deprecated, please use '_sanitize'.</li>
-     *                                 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     *                                 <li>'hiddenAttributes' - Deprecated, please use '_hiddenAttributes'.</li>
-     *                                 <p>
-     *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-     *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
-     *                                 and the hidden attributes would not be applied to the attributes.<br>
-     *                                 </p>
-     *                                 </li>
-     *                                 <li>'batchSize' - can optionally be used to tell the server to limit the number of results to be transferred in one batch</li>
-     *                                 <li>'skip' -  Optional, The number of documents to skip in the query.</li>
-     *                                 <li>'limit' -  Optional, The maximal amount of documents to return. 'skip' is applied before the limit restriction.</li>
-     *                                 </p>
-     *
-     * @return cursor - Returns a cursor containing the result
-     *
-     * @deprecated to be removed in version 2.0 - This function is being replaced by CollectionHandler::byExample()
-     * @todo       remove in version 3.1
-     */
-    public function getByExample($collection, $document, $options = [])
-    {
-        $collectionHandler = new CollectionHandler($this->getConnection());
-
-        return $collectionHandler->byExample($collection, $document, $options);
-    }
-
-
-    /**
-     * Add a document to a collection
-     *
-     * This will add the document to the collection and return the document's id
-     *
-     * This will throw if the document cannot be created
-     *
-     * @throws Exception
-     *
-     * @param mixed    $collection     - collection id as string or number
-     * @param Document $document       - the document to be added
-     * @param array    $options        - optional, array of options
-     *                                 <p>Options are :<br>
-     *                                 <li>'create' - create the collection if it does not yet exist.</li>
-     *                                 <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
-     *                                 </p>
-     *
-     * @return mixed - id of document created
-     *
-     * @deprecated to be removed in version 2.0 - This function is being replaced by save()
-     * @todo       remove in version 3.1
-     *
-     */
-
-    public function add($collection, Document $document, $options = [])
-    {
-        return $this->save($collection, $document, $options);
-    }
 
     /**
      * Store a document to a collection
@@ -500,7 +402,7 @@ class DocumentHandler extends
      *
      * @return bool - always true, will throw if there is an error
      */
-    public function update(Document $document, $options = [])
+    public function update(Document $document, array $options = [])
     {
         $documentId = $this->getDocumentId($document);
 
@@ -534,7 +436,7 @@ class DocumentHandler extends
      *
      * @return bool - always true, will throw if there is an error
      */
-    public function updateById($collection, $documentId, Document $document, $options = [])
+    public function updateById($collection, $documentId, Document $document, array $options = [])
     {
         return $this->patch(Urls::URL_DOCUMENT, $collection, $documentId, $document, $options);
     }
@@ -560,7 +462,7 @@ class DocumentHandler extends
      *
      * @return bool - always true, will throw if there is an error
      */
-    protected function patch($url, $collection, $documentId, Document $document, $options = [])
+    protected function patch($url, $collection, $documentId, Document $document, array $options = [])
     {
         $collection = $this->makeCollection($collection);
 
@@ -730,29 +632,6 @@ class DocumentHandler extends
         return true;
     }
 
-    /**
-     * Delete a document from a collection, identified by the document itself
-     *
-     * @throws Exception
-     *
-     * @param Document $document - document to be updated
-     * @param mixed    $options  - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     *                           <p>Options are :
-     *                           <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     *                           <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     *                           </p>
-     *
-     * @return bool - always true, will throw if there is an error
-     *
-     * @deprecated to be removed in version 2.0 - This function is being replaced by remove()
-     * @todo       remove in version 3.1
-     *
-     */
-    public function delete(Document $document, $options = [])
-    {
-        return $this->remove($document, $options);
-    }
-
 
     /**
      * Remove a document from a collection, identified by the document itself
@@ -768,40 +647,13 @@ class DocumentHandler extends
      *
      * @return bool - always true, will throw if there is an error
      */
-    public function remove(Document $document, $options = [])
+    public function remove(Document $document, array $options = [])
     {
         $documentId = $this->getDocumentId($document);
 
         $revision = $this->getRevision($document);
 
         return $this->removeById($document, $documentId, $revision, $options);
-    }
-
-
-    /**
-     * Delete a document from a collection, identified by the collection id and document id
-     *
-     * @throws Exception
-     *
-     * @param string $collection   - collection id as string or number
-     * @param mixed  $documentId   - document id as string or number
-     * @param mixed  $revision     - optional revision of the document to be deleted
-     * @param mixed  $options      - optional, array of options (see below) or the boolean value for $policy (for compatibility prior to version 1.1 of this method)
-     *                             <p>Options are :
-     *                             <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     *                             <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     *                             </p>
-     *
-     * @return bool - always true, will throw if there is an error
-     *
-     * @deprecated to be removed in version 2.0 - This function is being replaced by removeById()
-     * @todo       remove in version 3.1
-     */
-    public function deleteById($collection, $documentId, $revision = null, $options = [])
-    {
-        $this->removeById($collection, $documentId, $revision, $options);
-
-        return true;
     }
 
 
@@ -821,7 +673,7 @@ class DocumentHandler extends
      *
      * @return bool - always true, will throw if there is an error
      */
-    public function removeById($collection, $documentId, $revision = null, $options = [])
+    public function removeById($collection, $documentId, $revision = null, array $options = [])
     {
         return $this->erase(Urls::URL_DOCUMENT, $collection, $documentId, $revision, $options);
     }
@@ -846,7 +698,7 @@ class DocumentHandler extends
      *
      * @return bool - always true, will throw if there is an error
      */
-    protected function erase($url, $collection, $documentId, $revision = null, $options = [])
+    protected function erase($url, $collection, $documentId, $revision = null, array $options = [])
     {
         $collection = $this->makeCollection($collection);
 

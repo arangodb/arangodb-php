@@ -30,7 +30,7 @@ class DocumentBasicTest extends
         $this->collectionHandler = new CollectionHandler($this->connection);
         $this->collection        = new Collection();
         $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
-        $this->collectionHandler->add($this->collection);
+        $this->collectionHandler->create($this->collection);
     }
 
 
@@ -60,7 +60,7 @@ class DocumentBasicTest extends
 
         $document->someAttribute = 'someValue';
 
-        $documentId = $documentHandler->add($collection->getId(), $document);
+        $documentId = $documentHandler->save($collection->getId(), $document);
 
         $resultingDocument = $documentHandler->get($collection->getId(), $documentId);
 
@@ -69,7 +69,7 @@ class DocumentBasicTest extends
             $resultingAttribute, 'someValue', 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
         );
 
-        $documentHandler->delete($document);
+        $documentHandler->remove($document);
     }
 
 
@@ -83,14 +83,14 @@ class DocumentBasicTest extends
         $documentHandler = new DocumentHandler($connection);
 
         try {
-            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
             #don't bother us, if it's already deleted.
         }
 
         $document->someAttribute = 'someValue';
 
-        $documentId = $documentHandler->add('ArangoDB_PHP_TestSuite_TestCollection_01', $document, ['createCollection' => true]);
+        $documentId = $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01', $document, ['createCollection' => true]);
 
         $resultingDocument = $documentHandler->get('ArangoDB_PHP_TestSuite_TestCollection_01', $documentId);
 
@@ -99,7 +99,7 @@ class DocumentBasicTest extends
             $resultingAttribute, 'someValue', 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
         );
 
-        $documentHandler->delete($document);
+        $documentHandler->remove($document);
     }
 
 
@@ -115,7 +115,7 @@ class DocumentBasicTest extends
 
         $document->someAttribute = 'someValue';
         $document->set('_key', 'frank01');
-        $documentId = $documentHandler->add($collection->getName(), $document);
+        $documentId = $documentHandler->save($collection->getName(), $document);
 
         $resultingDocument = $documentHandler->get($collection->getName(), $documentId);
 
@@ -129,7 +129,7 @@ class DocumentBasicTest extends
         );
 
 
-        $documentHandler->delete($document);
+        $documentHandler->remove($document);
     }
 
     /**
@@ -237,7 +237,7 @@ class DocumentBasicTest extends
             $document                = new Document();
             $document->someAttribute = 'someValue';
             $document->set('_key', $key);
-            $documentId = $documentHandler->add($collection->getName(), $document);
+            $documentId = $documentHandler->save($collection->getName(), $document);
 
             $resultingDocument = $documentHandler->get($collection->getName(), $documentId);
 
@@ -250,7 +250,7 @@ class DocumentBasicTest extends
                 $resultingKey, $key, 'Resulting Attribute should be "someValue". It\'s :' . $resultingKey
             );
 
-            $documentHandler->delete($document);
+            $documentHandler->remove($document);
         }
     }
 
@@ -336,7 +336,7 @@ class DocumentBasicTest extends
             $resultingAttribute, 'someValue', 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
         );
 
-        $documentHandler->deleteById($collection->getName(), $documentId);
+        $documentHandler->removeById($collection->getName(), $documentId);
     }
 
 
@@ -396,7 +396,7 @@ class DocumentBasicTest extends
             ['revision' => $resultingDocument->getRevision()]
         );
         static::assertEquals($oldRevision->getRevision(), $resultingDocument->getRevision());
-        $documentHandler->deleteById($collection->getName(), $documentId);
+        $documentHandler->removeById($collection->getName(), $documentId);
     }
 
     /**
@@ -438,7 +438,7 @@ class DocumentBasicTest extends
         static::assertNotEquals($result200['content-length'], 0);
         static::assertEquals($result200['httpCode'], 200);
 
-        $documentHandler->deleteById($collection->getName(), $documentId);
+        $documentHandler->removeById($collection->getName(), $documentId);
     }
 
 
@@ -465,7 +465,7 @@ class DocumentBasicTest extends
         );
 
 
-        $documentHandler->deleteById($collection->getName(), $documentId);
+        $documentHandler->removeById($collection->getName(), $documentId);
     }
 
 
@@ -488,7 +488,7 @@ class DocumentBasicTest extends
         $document                = new Document();
         $document->someAttribute = 'someValue';
 
-        $documentHandler->add($collection->getId(), $document);
+        $documentHandler->save($collection->getId(), $document);
 
         static::assertTrue($this->collectionHandler->has($collection->getId()));
     }
@@ -497,7 +497,7 @@ class DocumentBasicTest extends
     public function tearDown()
     {
         try {
-            $this->collectionHandler->delete('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }

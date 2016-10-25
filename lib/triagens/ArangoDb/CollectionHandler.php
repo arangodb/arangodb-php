@@ -314,28 +314,6 @@ class CollectionHandler extends
 
 
     /**
-     * Adds a new collection on the server
-     *
-     * This will add the collection on the server and return its id
-     *
-     * This will throw if the collection cannot be created
-     *
-     * @throws Exception
-     *
-     * @param Collection $collection - collection object to be created on the server
-     *
-     * @return mixed - id of collection created
-     *
-     * @deprecated to be removed in version 2.0 - This function is being replaced by create()
-     * @todo       remove in version 3.1
-     */
-    public function add(Collection $collection)
-    {
-        return $this->create($collection);
-    }
-
-
-    /**
      * Check if a collection exists
      *
      * This will call self::get() internally and checks if there
@@ -389,26 +367,6 @@ class CollectionHandler extends
         $count = $data[self::OPTION_COUNT];
 
         return (int) $count;
-    }
-
-
-    /**
-     * Get the number of documents in a collection
-     *
-     * This will throw if the collection cannot be fetched from the server
-     *
-     * @throws Exception
-     *
-     * @param mixed $collection - collection id as a string or number
-     *
-     * @return int - the number of documents in the collection
-     *
-     * @deprecated to be removed in version 2.0 - This function is being replaced by count()
-     * @todo       remove in version 3.1
-     */
-    public function getCount($collection)
-    {
-        return $this->count($collection);
     }
 
 
@@ -481,25 +439,6 @@ class CollectionHandler extends
         return $data[self::OPTION_FIGURES];
     }
 
-
-    /**
-     * Get figures for a collection
-     *
-     * This will throw if the collection cannot be fetched from the server
-     *
-     * @throws Exception
-     *
-     * @param mixed $collection - collection id as a string or number
-     *
-     * @return array - the figures for the collection
-     *
-     * @deprecated to be removed in version 2.0 - This function is being replaced by figures()
-     * @todo       remove in version 3.1
-     */
-    public function getFigures($collection)
-    {
-        return $this->figures($collection);
-    }
 
     /**
      * Calculate a checksum of the collection.
@@ -668,7 +607,7 @@ class CollectionHandler extends
      *
      * @return bool - always true, will throw if there is an error
      */
-    public function drop($collection, $options = [])
+    public function drop($collection, array $options = [])
     {
         $collectionName = $this->getCollectionName($collection);
 
@@ -684,24 +623,6 @@ class CollectionHandler extends
         $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_COLLECTION, [$collectionName]) . $appendix);
 
         return true;
-    }
-
-
-    /**
-     * Delete a collection
-     *
-     * @throws Exception
-     *
-     * @param mixed $collection - collection id as string or number or collection object
-     *
-     * @return bool - always true, will throw if there is an error
-     *
-     * @deprecated to be removed in version 2.0 - This function is being replaced by drop()
-     * @todo       remove in version 3.1
-     */
-    public function delete($collection)
-    {
-        return $this->drop($collection);
     }
 
 
@@ -1043,7 +964,7 @@ class CollectionHandler extends
      *
      * @return array - server response of the created index
      */
-    public function index($collectionId, $type = '', array $attributes = [], $unique = false, $indexOptions = [])
+    public function index($collectionId, $type = '', array $attributes = [], $unique = false, array $indexOptions = [])
     {
 
         $urlParams  = [self::OPTION_COLLECTION => $collectionId];
@@ -1170,9 +1091,7 @@ class CollectionHandler extends
      * @param array $options          - optional array of options.
      *                                <p>Options are :<br>
      *                                <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     *                                <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
      *                                <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     *                                <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
      *                                <p>
      *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
      *                                The difference is, that if you're returning a resultset of documents, the getAll() is already called<br>
@@ -1191,9 +1110,6 @@ class CollectionHandler extends
      */
     public function all($collectionId, array $options = [])
     {
-        //todo: remove this line in 3.1
-        $options = array_merge($options, $this->getCursorOptions($options));
-
         $body = [
             self::OPTION_COLLECTION => $collectionId,
         ];
@@ -1253,14 +1169,12 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $collectionId - collection id as string or number
-     * @param mixed      $document     - the example document as a Document object or an array
-     * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
+     * @param mixed $collectionId      - collection id as string or number
+     * @param mixed $document          - the example document as a Document object or an array
+     * @param array $options           - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
      *                                 <p>Options are :<br>
      *                                 <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     *                                 <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
      *                                 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     *                                 <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
      *                                 <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
@@ -1276,16 +1190,6 @@ class CollectionHandler extends
      */
     public function byExample($collectionId, $document, array $options = [])
     {
-        //todo: remove the following one if/else part in 3.1
-        // This preserves compatibility for the old sanitize parameter.
-        if (!is_array($options)) {
-            $sanitize = $options;
-            $options  = [];
-            $options  = array_merge($options, $this->getCursorOptions($sanitize));
-        } else {
-            $options = array_merge($options, $this->getCursorOptions($options));
-        }
-
         if (is_array($document)) {
             $document = Document::createFromArray($document, $options);
         }
@@ -1326,14 +1230,12 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $collectionId - collection id as string or number
-     * @param mixed      $document     - the example document as a Document object or an array
-     * @param bool|array $options      - optional, an array of options.
+     * @param mixed $collectionId      - collection id as string or number
+     * @param mixed $document          - the example document as a Document object or an array
+     * @param array $options           - optional, an array of options.
      *                                 <p>Options are :<br>
      *                                 <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     *                                 <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
      *                                 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     *                                 <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
      *                                 <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
@@ -1347,15 +1249,6 @@ class CollectionHandler extends
      */
     public function firstExample($collectionId, $document, array $options = [])
     {
-        //todo: remove the following one if/else part in 3.1
-        if (!is_array($options)) {
-            $sanitize = $options;
-            $options  = [];
-            $options  = array_merge($options, $this->getCursorOptions($sanitize));
-        } else {
-            $options = array_merge($options, $this->getCursorOptions($options));
-        }
-
         if (is_array($document)) {
             $document = Document::createFromArray($document, $options);
         }
@@ -1387,15 +1280,13 @@ class CollectionHandler extends
      *
      * @throws Exception
      *
-     * @param mixed      $collection   - collection id as string or number
-     * @param mixed      $attribute    - The attribute that contains the texts.
-     * @param mixed      $query        - The fulltext query.
-     * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
+     * @param mixed $collection        - collection id as string or number
+     * @param mixed $attribute         - The attribute that contains the texts.
+     * @param mixed $query             - The fulltext query.
+     * @param array $options           - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
      *                                 <p>Options are :<br>
      *                                 <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     *                                 <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
      *                                 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     *                                 <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
      *                                 <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
      *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
@@ -1412,16 +1303,6 @@ class CollectionHandler extends
      */
     public function fulltext($collection, $attribute, $query, array $options = [])
     {
-        //todo: remove the following one if/else part in 3.1
-        // This preserves compatibility for the old sanitize parameter.
-        if (!is_array($options)) {
-            $sanitize = $options;
-            $options  = [];
-            $options  = array_merge($options, $this->getCursorOptions($sanitize));
-        } else {
-            $options = array_merge($options, $this->getCursorOptions($options));
-        }
-
         $body = [
             self::OPTION_COLLECTION => $collection,
             self::OPTION_ATTRIBUTE  => $attribute,
@@ -1736,9 +1617,7 @@ class CollectionHandler extends
      * @param array  $options         - optional array of options.
      *                                <p>Options are :<br>
      *                                <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     *                                <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
      *                                <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     *                                <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
      *                                <p>
      *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
      *                                The difference is, that if you're returning a resultset of documents, the getAll() is already called<br>
@@ -1756,9 +1635,6 @@ class CollectionHandler extends
      */
     public function range($collectionId, $attribute, $left, $right, array $options = [])
     {
-        //todo: remove this line in 3.1
-        $options = array_merge($options, $this->getCursorOptions($options));
-
         if ($attribute === '') {
             throw new ClientException('Invalid attribute specification');
         }
@@ -1805,9 +1681,7 @@ class CollectionHandler extends
      * @param array  $options         - optional array of options.
      *                                <p>Options are :<br>
      *                                <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     *                                <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
      *                                <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     *                                <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
      *                                <p>
      *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
      *                                The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
@@ -1825,9 +1699,6 @@ class CollectionHandler extends
      */
     public function near($collectionId, $latitude, $longitude, array $options = [])
     {
-        //todo: remove this line in 3.1
-        $options = array_merge($options, $this->getCursorOptions($options));
-
         $body = [
             self::OPTION_COLLECTION => $collectionId,
             self::OPTION_LATITUDE   => $latitude,
@@ -1865,9 +1736,7 @@ class CollectionHandler extends
      * @param array  $options         - optional array of options.
      *                                <p>Options are :<br>
      *                                <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
-     *                                <li>'sanitize'          - Deprecated, please use '_sanitize'.</li>
      *                                <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
-     *                                <li>'hiddenAttributes'  - Deprecated, please use '_hiddenAttributes'.</li>
      *                                <p>
      *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
      *                                The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
@@ -1885,9 +1754,6 @@ class CollectionHandler extends
      */
     public function within($collectionId, $latitude, $longitude, $radius, array $options = [])
     {
-        //todo: remove this line in 3.1
-        $options = array_merge($options, $this->getCursorOptions($options));
-
         $body = [
             self::OPTION_COLLECTION => $collectionId,
             self::OPTION_LATITUDE   => $latitude,

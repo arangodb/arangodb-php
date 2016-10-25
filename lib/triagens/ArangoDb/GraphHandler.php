@@ -691,9 +691,7 @@ class GraphHandler extends
      * @param array  $options    optional, an array of options:
      *                           <p>
      *                           <li><b>_includeInternals</b> - true to include the internal attributes. Defaults to false</li>
-     *                           <li><b>includeInternals</b> - Deprecated, please use '_includeInternals'.</li>
      *                           <li><b>_ignoreHiddenAttributes</b> - true to show hidden attributes. Defaults to false</li>
-     *                           <li><b>ignoreHiddenAttributes</b> - Deprecated, please use '_ignoreHiddenAttributes'.</li>
      *                           </p>
      * @param string $collection - if one uses a graph with more than one vertex collection one must provide the collection
      *                           to load the vertex.
@@ -1085,9 +1083,7 @@ class GraphHandler extends
      * @param array  $options    optional, array of options
      *                           <p>
      *                           <li><b>_includeInternals</b> - true to include the internal attributes. Defaults to false</li>
-     *                           <li><b>includeInternals</b> - Deprecated, please use '_includeInternals'.</li>
      *                           <li><b>_ignoreHiddenAttributes</b> - true to show hidden attributes. Defaults to false</li>
-     *                           <li><b>ignoreHiddenAttributes</b> - Deprecated, please use '_ignoreHiddenAttributes'.</li>
      *                           </p>
      * @param string $collection - if one uses a graph with more than one vertex collection one must provide the collection
      *

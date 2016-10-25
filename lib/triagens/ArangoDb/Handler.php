@@ -64,38 +64,6 @@ abstract class Handler
 
 
     /**
-     * Return an array of cursor options
-     *
-     * @param mixed $options - $options might be a boolean sanitize value, or an array of options, with or without a '_sanitize' key.
-     *
-     * @deprecated To be removed in a future version (probably even in some 3.x version). It's used up until now because of usage of old deprecated options, which will be removed in 3.1.
-     * @return array - array of options
-     */
-    protected function getCursorOptions($options)
-    {
-        $sanitize = false;
-
-        if (is_bool($options)) {
-            $sanitize = $options;
-        }
-        if (is_array($options)) {
-            if (array_key_exists('_sanitize', $options)) {
-                $sanitize = $options['_sanitize'];
-            } else {
-                // keeping the non-underscored version for backwards-compatibility
-                if (array_key_exists('sanitize', $options)) {
-                    $sanitize = $options['sanitize'];
-                }
-            }
-        }
-
-
-        return [
-            Cursor::ENTRY_SANITIZE => $sanitize,
-        ];
-    }
-
-    /**
      * Return a json encoded string for the array passed.
      * This is a convenience function that calls json_encode_wrapper on the connection
      *
