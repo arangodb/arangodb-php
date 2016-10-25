@@ -539,7 +539,7 @@ class Collection
                 self::STATUS_LOADED,
                 self::STATUS_BEING_UNLOADED,
                 self::STATUS_DELETED
-            ]
+            ], true
         )
         ) {
             throw new ClientException('Invalid status used for collection');

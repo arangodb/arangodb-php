@@ -455,7 +455,7 @@ class Document
 
         if ($includeInternals === true) {
             foreach ($this as $key => $value) {
-                if ($key[0] === '_' && 0 !== strpos($key, '__') && !in_array($key, $nonInternals)) {
+                if ($key[0] === '_' && 0 !== strpos($key, '__') && !in_array($key, $nonInternals, true)) {
                     $data[$key] = $value;
                 }
             }

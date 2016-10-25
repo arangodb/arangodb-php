@@ -393,7 +393,7 @@ class ConnectionOptions implements
 
         if (isset($this->_values[self::OPTION_AUTH_TYPE]) && !in_array(
                 $this->_values[self::OPTION_AUTH_TYPE],
-                self::getSupportedAuthTypes()
+                self::getSupportedAuthTypes(), true
             )
         ) {
             throw new ClientException('unsupported authorization method');
@@ -401,7 +401,7 @@ class ConnectionOptions implements
 
         if (isset($this->_values[self::OPTION_CONNECTION]) && !in_array(
                 $this->_values[self::OPTION_CONNECTION],
-                self::getSupportedConnectionTypes()
+                self::getSupportedConnectionTypes(), true
             )
         ) {
             throw new ClientException(
