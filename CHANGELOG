@@ -12,7 +12,7 @@ Caution!!!
 
 - Up until the 3.0.x Versions of this driver, there were still deprecated methods and parameter compatibility functions in the code, which unfortunately were not removed according to their deprecation annotations.
 That deprecated code was now finally removed with this version (3.1.0) of the driver, in order to clean up the codebase.
-- With this version of the driver, the method signature that used to accept an $options array or another non-array type, in it's place, has been changed and will now only accept the options as an array. The specific compatibility layer was deprecated a long time and has now been removed.  
+- With this version of the driver, the method signature that used to accept $options either as an array or a non-array type has been removed. The specific compatibility layer was deprecated a long time ago and did not provide any benefits apart from compatibility. Starting with this version of the driver, there is now only one method signature that will require $options to be an array. 
  
 **Please check and change your code accordingly!**
 
@@ -39,7 +39,7 @@ Changes
   - Handler::getCursorOptions()
   
 - Removed the old-style compatibility layer for parameter-passing in various methods that was used prior to switching to the $options parameter.
-  This means, that wherever an $option array is passed to methods and a non-array type was also allowed (bool, string), the $options parameter **must** now be an array - it will not accept bool values or string values like for example a policy definition, anymore.
+  This means, that wherever an $option array is passed to methods and a non-array type was also allowed (bool, string) for $options, the $options parameter **must** now be an array - it will not accept bool values or string values anymore, like for example a policy definition.
   
 - Performance might be a bit better due to the removal of the compatibility layer for $options.
   
