@@ -1,20 +1,51 @@
-Release notes for the ArangoDB-PHP driver 3.0.x
+Release notes for the ArangoDB-PHP driver 3.1.0
 ===============================================
 
-This version of the driver is compatible with ArangoDB 3.0.x
+This version of the driver is compatible with ArangoDB 3.1.x
 It is not compatible to earlier versions of ArangoDB (i.e. 2.x).
 Please use ones of the `2.x` branches of the driver for 2.x-compatibility.
 
 
 
 Caution!!!
+==========
 
-There are still deprecated functions in the code, which should have been removed in the first 3.0 version of the driver, however, we missed this opportunity.
-These will now finally be removed with the 3.1 version of the driver, in order to clean up the codebase. Please check and change your code accordingly.
-All deprecated functions can now also be found in the docs inside the "Deprecated" view.
+- Up until the 3.0.x Versions of this driver, there were still deprecated methods and parameter compatibility functions in the code, which unfortunately were not removed according to their deprecation annotations.
+That deprecated code was now finally removed with this version (3.1.0) of the driver, in order to clean up the codebase.
+- With this version of the driver, the method signature that used to accept an $options array or another non-array type, in it's place, has been changed and will now only accept the options as an array. The specific compatibility layer was deprecated a long time and has now been removed.  
+ 
+**Please check and change your code accordingly!**
+
 
 Changes
 =======
+
+- Removed old deprecated methods:
+  - AdminHandler::flushServerModuleCache()
+  - CollectionHandler::add()
+  - CollectionHandler::getCount()
+  - CollectionHandler::getFigures()
+  - CollectionHandler::delete()
+  - DocumentHandler::getAllIds()
+  - DocumentHandler::getByExample()
+  - DocumentHandler::add()
+  - DocumentHandler::delete()
+  - DocumentHandler::deleteById()
+  - EdgeHandler::add()
+  - Graph::setVerticesCollection()
+  - Graph::getVerticesCollection()
+  - Graph::setEdgesCollection()
+  - Graph::getEdgesCollection()
+  - Handler::getCursorOptions()
+  
+- Removed the old-style compatibility layer for parameter-passing in various methods that was used prior to switching to the $options parameter.
+  This means, that wherever an $option array is passed to methods and a non-array type was also allowed (bool, string), the $options parameter **must** now be an array - it will not accept bool values or string values like for example a policy definition, anymore.
+  
+- Performance might be a bit better due to the removal of the compatibility layer for $options.
+  
+- Cleaned up and enriched annotations
+
+- Applied various smaller bug fixes
 
 - GraphHandler: Optimized code to do less work when not necessary
 - GraphHandler: Implemented optional cache that caches the Vertex/Edge-Collections instead of making expensive calls to the DB.
@@ -26,8 +57,6 @@ Changes
 
 
 
-Bug fixes
-=========
 
 
 ============================================================================================================
