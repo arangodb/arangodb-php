@@ -208,11 +208,14 @@ class BatchTest extends
         $batch->stopCapture();
 
         // Check giving the set method a non-string key
+        $caught = false;
         try {
             $batch->stopCapture();
         } catch (ClientException $e) {
-            echo 'Caught expected exception';
+            $caught = true;
         }
+
+        static::assertTrue($caught);
 
 
         $batch->process();

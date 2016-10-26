@@ -169,11 +169,14 @@ class AqlUserFunctionTest extends
         );
 
         // Check giving the set method a non-string key
+        $caught = false;
         try {
             $userFunction->set(1, 1);
         } catch (ClientException $e) {
-            echo 'Caught expected exception';
+            $caught = true;
         }
+        
+        static::assertTrue($caught);
 
 
         $result = $userFunction->register();
