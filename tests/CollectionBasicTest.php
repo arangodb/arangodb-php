@@ -692,6 +692,75 @@ class CollectionBasicTest extends
             static::assertTrue($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to true!');
         }
     }
+    
+    
+    /**
+     * Create a persistent index and verify it by getting information about the index from the server
+     */
+    public function testCreatePersistentIndex()
+    {
+        $result = $this->collectionHandler->createPersistentIndex(
+            'ArangoDB_PHP_TestSuite_IndexTestCollection',
+            ['field1', 'field2'],
+            true
+        );
+
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
+
+        $indicesByIdentifiers = $indices['identifiers'];
+
+        static::assertArrayHasKey($result['id'], $indicesByIdentifiers, 'persistent index was not created!');
+
+        $indexInfo = $indicesByIdentifiers[$result['id']];
+
+        static::assertEquals(
+            CollectionHandler::OPTION_PERSISTENT_INDEX,
+            $indexInfo[CollectionHandler::OPTION_TYPE],
+            "Index type is not 'persistent'!"
+        );
+        static::assertCount(2, $indexInfo['fields'], 'There should only be 2 indexed fields');
+        static::assertEquals('field1', $indexInfo['fields'][0], "The indexed field is not 'field1'");
+        static::assertEquals('field2', $indexInfo['fields'][1], "The indexed field is not 'field2'");
+        static::assertTrue($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to true!');
+        if ($this->hasSparseIndexes) {
+            static::assertFalse($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to false!');
+        }
+    }
+
+
+    /**
+     * Create a sparse persistent index and verify it by getting information about the index from the server
+     */
+    public function testCreateSparsePersistentIndex()
+    {
+        $result = $this->collectionHandler->createPersistentIndex(
+            'ArangoDB_PHP_TestSuite_IndexTestCollection',
+            ['field1', 'field2'],
+            false,
+            ['sparse' => true]
+        );
+
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
+
+        $indicesByIdentifiers = $indices['identifiers'];
+
+        static::assertArrayHasKey($result['id'], $indicesByIdentifiers, 'persistent index was not created!');
+
+        $indexInfo = $indicesByIdentifiers[$result['id']];
+
+        static::assertEquals(
+            CollectionHandler::OPTION_PERSISTENT_INDEX,
+            $indexInfo[CollectionHandler::OPTION_TYPE],
+            "Index type is not 'persistent'!"
+        );
+        static::assertCount(2, $indexInfo['fields'], 'There should only be 2 indexed fields');
+        static::assertEquals('field1', $indexInfo['fields'][0], "The indexed field is not 'field1'");
+        static::assertEquals('field2', $indexInfo['fields'][1], "The indexed field is not 'field2'");
+        static::assertFalse($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to false!');
+        if ($this->hasSparseIndexes) {
+            static::assertTrue($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to true!');
+        }
+    }
 
 
     /**
