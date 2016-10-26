@@ -168,6 +168,11 @@ class CollectionHandler extends
      * skiplist index option
      */
     const OPTION_SKIPLIST_INDEX = 'skiplist';
+    
+    /**
+     * persistent index option
+     */
+    const OPTION_PERSISTENT_INDEX = 'persistent';
 
     /**
      * sparse index option
@@ -907,6 +912,33 @@ class CollectionHandler extends
 
         return $this->index($collectionId, self::OPTION_SKIPLIST_INDEX, $fields, null, $indexOptions);
     }
+    
+    /**
+     * Create a persistent index
+     *
+     * @param string $collectionId - the collection id
+     * @param array  $fields       - an array of fields
+     * @param bool   $unique       - whether the index is unique or not
+     * @param bool   $sparse       - whether the index should be sparse
+     *
+     * @link https://docs.arangodb.com/HttpIndexes/Skiplist.html
+     *
+     * @return array - server response of the created index
+     * @throws \triagens\ArangoDb\Exception
+     */
+    public function createPersistentIndex($collectionId, array $fields, $unique = null, $sparse = null)
+    {
+        $indexOptions = [];
+
+        if ($unique) {
+            $indexOptions[self::OPTION_UNIQUE] = (bool) $unique;
+        }
+        if ($sparse) {
+            $indexOptions[self::OPTION_SPARSE] = (bool) $sparse;
+        }
+
+        return $this->index($collectionId, self::OPTION_PERSISTENT_INDEX, $fields, null, $indexOptions);
+    }
 
     /**
      * Create a geo index
@@ -957,7 +989,7 @@ class CollectionHandler extends
      * @throws Exception
      *
      * @param mixed  $collectionId - The id of the collection where the index is to be created
-     * @param string $type         - index type: hash, skiplist or geo
+     * @param string $type         - index type: hash, skiplist, geo, fulltext, or persistent
      * @param array  $attributes   - an array of attributes that can be defined like array('a') or array('a', 'b.c')
      * @param bool   $unique       - true/false to create a unique index
      * @param array  $indexOptions - an associative array of options for the index like array('geoJson' => true, 'sparse' => false)
