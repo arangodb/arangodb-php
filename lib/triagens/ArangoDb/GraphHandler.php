@@ -17,8 +17,6 @@ namespace triagens\ArangoDb;
 /**
  * A handler that manages graphs.
  *
- * <br>
- *
  * @package triagens\ArangoDb
  * @since   1.2
  */

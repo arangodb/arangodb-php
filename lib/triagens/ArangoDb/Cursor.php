@@ -17,8 +17,7 @@ namespace triagens\ArangoDb;
  *
  * If the result set is too big to be transferred in one go, the
  * cursor might issue additional HTTP requests to fetch the
- * remaining results from the server.<br>
- * <br>
+ * remaining results from the server.
  *
  * @package   triagens\ArangoDb
  * @since     0.2

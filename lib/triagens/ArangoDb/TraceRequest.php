@@ -13,8 +13,6 @@ namespace triagens\ArangoDb;
 /**
  * Class TraceRequest
  *
- * <br />
- *
  * @author    Francis Chuang
  * @package   triagens\ArangoDb
  * @since     1.3

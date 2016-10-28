@@ -17,8 +17,6 @@ namespace triagens\ArangoDb;
  * persists them on the server. It does so by issuing the
  * appropriate HTTP requests to the server.
  *
- * <br />
- *
  * @package   triagens\ArangoDb
  * @since     1.2
  */

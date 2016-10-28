@@ -13,8 +13,6 @@ namespace triagens\ArangoDb;
 /**
  * A simple validator for values to be stored in the database
  *
- * <br />
- *
  * @package triagens\ArangoDb
  * @since   0.2
  */
