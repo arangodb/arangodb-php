@@ -16,9 +16,7 @@ namespace triagens\ArangoDb;
  *
  * An edge-document handler that fetches edges from the server and
  * persists them on the server. It does so by issuing the
- * appropriate HTTP requests to the server.<br>
- *
- * <br>
+ * appropriate HTTP requests to the server.
  *
  * @package   triagens\ArangoDb
  * @since     1.0

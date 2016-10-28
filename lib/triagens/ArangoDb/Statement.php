@@ -41,8 +41,6 @@ namespace triagens\ArangoDb;
  *   to treat the statement result as an array of documents, but as a flat array
  * </ul>
  *
- * <br />
- *
  * @package triagens\ArangoDb
  * @since   0.2
  */
