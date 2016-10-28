@@ -100,7 +100,7 @@ class HttpHelper
 
         $fp = @stream_socket_client(
             $endpoint,
-            $errno,
+            $errNo,
             $message,
             $options[ConnectionOptions::OPTION_TIMEOUT],
             STREAM_CLIENT_CONNECT,
@@ -110,7 +110,7 @@ class HttpHelper
         if (!$fp) {
             throw new ConnectException(
                 'cannot connect to endpoint \'' .
-                $options[ConnectionOptions::OPTION_ENDPOINT] . '\': ' . $message, $errno
+                $options[ConnectionOptions::OPTION_ENDPOINT] . '\': ' . $message, $errNo
             );
         }
 
@@ -133,7 +133,7 @@ class HttpHelper
      * Create a request string (header and body)
      *
      * @param ConnectionOptions $options          - connection options
-     * @param string            $connectionHeader - preassembled header string for connection
+     * @param string            $connectionHeader - pre-assembled header string for connection
      * @param string            $method           - HTTP method
      * @param string            $url              - HTTP URL
      * @param string            $body             - optional body to post

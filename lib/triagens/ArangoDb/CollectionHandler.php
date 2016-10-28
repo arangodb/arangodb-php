@@ -785,7 +785,7 @@ class CollectionHandler extends
      *                                   <br>
      *
      *                                   </li>
-     *                                   <li>'createCollection' - If true, create the collection if it doesn't exist. Defaults to false </li>
+     *                                   <li>'createCollection' - If true, create the collection if it does not exist. Defaults to false </li>
      *                                   </p>
      *
      * @return array
@@ -1126,7 +1126,7 @@ class CollectionHandler extends
      *                                <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
      *                                <p>
      *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
-     *                                The difference is, that if you're returning a resultset of documents, the getAll() is already called<br>
+     *                                The difference is, that if you're returning a result set of documents, the getAll() is already called<br>
      *                                and the hidden attributes would not be applied to the attributes.<br>
      *                                </p>
      *
@@ -1209,7 +1209,7 @@ class CollectionHandler extends
      *                                 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
      *                                 <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-     *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
+     *                                 The difference is, that if you're returning a result set of documents, the getAll() is already called <br>
      *                                 and the hidden attributes would not be applied to the attributes.<br>
      *                                 </p>
      *                                 </li>
@@ -1270,7 +1270,7 @@ class CollectionHandler extends
      *                                 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
      *                                 <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-     *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
+     *                                 The difference is, that if you're returning a result set of documents, the getAll() is already called <br>
      *                                 and the hidden attributes would not be applied to the attributes.<br>
      *                                 </p>
      *                                 </li>
@@ -1321,7 +1321,7 @@ class CollectionHandler extends
      *                                 <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
      *                                 <p>
      *                                 This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-     *                                 The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
+     *                                 The difference is, that if you're returning a result set of documents, the getAll() is already called <br>
      *                                 and the hidden attributes would not be applied to the attributes.<br>
      *                                 </p>
      *                                 </li>
@@ -1652,7 +1652,7 @@ class CollectionHandler extends
      *                                <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
      *                                <p>
      *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
-     *                                The difference is, that if you're returning a resultset of documents, the getAll() is already called<br>
+     *                                The difference is, that if you're returning a result set of documents, the getAll() is already called<br>
      *                                and the hidden attributes would not be applied to the attributes.<br>
      *                                </p>
      *
@@ -1716,7 +1716,7 @@ class CollectionHandler extends
      *                                <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
      *                                <p>
      *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document. <br>
-     *                                The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
+     *                                The difference is, that if you're returning a result set of documents, the getAll() is already called <br>
      *                                and the hidden attributes would not be applied to the attributes.<br>
      *                                </p>
      *
@@ -1771,7 +1771,7 @@ class CollectionHandler extends
      *                                <li>'_hiddenAttributes' - Set an array of hidden attributes for created documents.
      *                                <p>
      *                                This is actually the same as setting hidden attributes using setHiddenAttributes() on a document.<br>
-     *                                The difference is, that if you're returning a resultset of documents, the getAll() is already called <br>
+     *                                The difference is, that if you're returning a result set of documents, the getAll() is already called <br>
      *                                and the hidden attributes would not be applied to the attributes.<br>
      *                                </p>
      *

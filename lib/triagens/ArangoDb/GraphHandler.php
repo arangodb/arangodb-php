@@ -189,7 +189,7 @@ class GraphHandler extends
 
     /**
      * Sets the batchsize for any method creating a cursor.
-     * Will be reseted after the cursor has been created.
+     * Will be reset after the cursor has been created.
      *
      * @param int $batchsize
      */
@@ -201,7 +201,7 @@ class GraphHandler extends
 
     /**
      * Sets the count for any method creating a cursor.
-     * Will be reseted after the cursor has been created.
+     * Will be reset after the cursor has been created.
      *
      * @param int $count
      */
@@ -213,7 +213,7 @@ class GraphHandler extends
 
     /**
      * Sets the limit for any method creating a cursor.
-     * Will be reseted after the cursor has been created.
+     * Will be reset after the cursor has been created.
      *
      * @param int $limit
      */

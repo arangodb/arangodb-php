@@ -14,7 +14,7 @@ namespace triagens\ArangoDb;
  *
  * AqlUserFunction object<br>
  * An AqlUserFunction is an object that is used to manage AQL User Functions.<br>
- * It registers, unregisters and lists user functions on the server<br>
+ * It registers, un-registers and lists user functions on the server<br>
  * <br>
  * The object encapsulates:<br>
  * <br>
@@ -145,7 +145,7 @@ class AqlUserFunction
 
 
     /**
-     * Unregister the user function
+     * Un-register the user function
      *
      * If no parameter ($name) is passed, it will use the property of the object.
      *
