@@ -13,7 +13,7 @@ namespace triagens\ArangoDb;
 /**
  * Container for an AQL query
  *
- * Optional bind parameters can be used when issuing thei AQL query to separate
+ * Optional bind parameters can be used when issuing the AQL query to separate
  * the query from the values.
  * Executing a query will result in a cursor being created.
  *

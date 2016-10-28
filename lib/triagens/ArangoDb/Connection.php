@@ -32,7 +32,7 @@ class Connection
 
     /**
      * Pre-assembled HTTP headers string for connection
-     * This is precalculated when connection options are set/changed, to avoid
+     * This is pre-calculated when connection options are set/changed, to avoid
      * calculation of the same HTTP header values in each request done via the
      * connection
      *
@@ -42,7 +42,7 @@ class Connection
 
     /**
      * Pre-assembled base URL for the current database
-     * This is precalculated when connection options are set/changed, to avoid
+     * This is pre-calculated when connection options are set/changed, to avoid
      * calculation of the same base URL in each request done via the
      * connection
      *
@@ -621,7 +621,7 @@ class Connection
      *
      * This checks if we're in batch mode and returns a placeholder object,
      * since we need to return some object that is expected by the caller.
-     * if we're not in batch mode it doesn't return anything, and
+     * if we're not in batch mode it does not return anything, and
      *
      * @return mixed Batchpart or null if not in batch capturing mode
      * @throws \triagens\ArangoDb\ClientException

@@ -752,7 +752,7 @@ class DocumentHandler extends
      * @param       $collection   mixed collection name or id
      * @param array $options      - optional, array of options
      *                            <p>Options are :
-     *                            <li>'createCollection' - true to create the collection if it doesn't exist</li>
+     *                            <li>'createCollection' - true to create the collection if it does not exist</li>
      *                            <li>'createCollectionType' - "document" or 2 for document collection</li>
      *                            <li>                         "edge" or 3 for edge collection</li>
      *                            </p>
