@@ -464,6 +464,23 @@ class Transaction
 
 
     /**
+     * Is triggered by calling isset() or empty() on inaccessible properties.
+     *
+     * @param string $key - name of attribute
+     *
+     * @return boolean returns true or false (set or not set)
+     */
+    public function __isset($key)
+    {
+        if (isset($this->attributes[$key])) {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
      * Returns the action string
      *
      * @magic

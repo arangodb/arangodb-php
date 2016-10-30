@@ -153,8 +153,9 @@ class TransactionTest extends
         ];
         $transaction = new Transaction($this->connection, $array);
 
-        // check if object was initialized correctly with the array
+        static::assertTrue(isset($transaction->action), 'Should return true, as the attribute was set, before.');
 
+        // check if object was initialized correctly with the array
         static::assertEquals(
             $transaction->getWriteCollections(), $writeCollections, 'Did not return writeCollections, instead returned: ' . print_r($transaction->getWriteCollections(), 1)
         );

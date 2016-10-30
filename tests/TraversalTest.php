@@ -209,6 +209,8 @@ class TraversalTest extends
         $options        = ['direction' => 'outbound'];
         $traversal      = new Traversal($this->connection, $startVertex, $edgeCollection, $options);
 
+        static::assertTrue(isset($traversal->startVertex), 'Should return true, as the attribute was set, before.');
+
         $result = $traversal->getResult();
 
         // keeping test simple. Only assert result counts.
