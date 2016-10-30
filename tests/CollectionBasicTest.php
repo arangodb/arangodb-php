@@ -692,8 +692,8 @@ class CollectionBasicTest extends
             static::assertTrue($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to true!');
         }
     }
-    
-    
+
+
     /**
      * Create a persistent index and verify it by getting information about the index from the server
      */

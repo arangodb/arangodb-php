@@ -281,7 +281,7 @@ class BatchTest extends
         $collection->setName($name);
 
         $batch->nextBatchPartId('testCollection1');
-        $response              = $collectionHandler->create($collection);
+        $response = $collectionHandler->create($collection);
 
         static::assertTrue(is_numeric($response), 'Did not return a fake numeric id!');
         $batch->process();
@@ -307,7 +307,7 @@ class BatchTest extends
         $document          = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentBatchPart     = $documentHandler->save($resultingCollectionId, $document);
+        $documentBatchPart = $documentHandler->save($resultingCollectionId, $document);
 
         static::assertEquals($documentBatchPart->getType(), 'document');
 
