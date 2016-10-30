@@ -386,6 +386,23 @@ class Document
         return $this->get($key);
     }
 
+
+    /**
+     * Is triggered by calling isset() or empty() on inaccessible properties.
+     *
+     * @param string $key - name of attribute
+     *
+     * @return boolean returns true or false (set or not set)
+     */
+    public function __isset($key)
+    {
+        if (isset($this->_values[$key])) {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * Magic method to unset an attribute.
      * Caution!!! This works only on the first array level.

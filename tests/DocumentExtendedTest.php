@@ -69,9 +69,12 @@ class DocumentExtendedTest extends
     {
         $documentHandler = $this->documentHandler;
 
-        $document   = Document::createFromArray(
+        $document = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
+
+        static::assertTrue(isset($document->someAttribute), 'Should return true, as the attribute was set, before.');
+
         $documentId = $documentHandler->save($this->collection->getId(), $document);
 
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');

@@ -142,14 +142,16 @@ class AqlUserFunctionTest extends
         $userFunction->setName($name);
         $userFunction->setCode($code);
 
-        // check if getters work fine
+        static::assertTrue(isset($userFunction->name), 'Should return true, as the attribute was set, before.');
 
+        // check if getters work fine
         static::assertEquals(
             $userFunction->getName(), $name, 'Did not return name, instead returned: ' . $userFunction->getName()
         );
         static::assertEquals(
             $userFunction->getCode(), $code, 'Did not return code, instead returned: ' . $userFunction->getCode()
         );
+
 
         // also check setters/getters if wrong/no attribute is given
         static::assertEquals(
@@ -175,7 +177,7 @@ class AqlUserFunctionTest extends
         } catch (ClientException $e) {
             $caught = true;
         }
-        
+
         static::assertTrue($caught);
 
 
