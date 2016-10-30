@@ -440,7 +440,7 @@ class CollectionExtendedTest extends
         $collection = Collection::createFromArray(
             ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true]
         );
-        $response = $collectionHandler->create($collection);
+        $response   = $collectionHandler->create($collection);
 
         $collectionHandler->get($response);
 
@@ -467,7 +467,7 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getId(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
@@ -516,7 +516,7 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getId(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
@@ -551,7 +551,7 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getId(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
@@ -585,7 +585,7 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getId(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
@@ -619,7 +619,7 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getId(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
@@ -653,7 +653,7 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getId(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
@@ -686,7 +686,7 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getId(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
@@ -720,7 +720,7 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getId(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
@@ -756,7 +756,7 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getId(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
@@ -792,7 +792,7 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getId(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
@@ -906,7 +906,7 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getId(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
@@ -972,7 +972,7 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getId(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
@@ -1038,7 +1038,7 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getId(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
@@ -1098,7 +1098,7 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getId(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
@@ -2574,7 +2574,7 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getId(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
