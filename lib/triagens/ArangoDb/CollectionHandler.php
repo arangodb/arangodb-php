@@ -167,7 +167,7 @@ class CollectionHandler extends
      * skiplist index option
      */
     const OPTION_SKIPLIST_INDEX = 'skiplist';
-    
+
     /**
      * persistent index option
      */
@@ -843,7 +843,7 @@ class CollectionHandler extends
      * @param boolean $unique       - whether the values in the index should be unique or not
      * @param boolean $sparse       - whether the index should be sparse
      *
-     * @link https://docs.arangodb.com/HttpIndexes/Hash.html
+     * @link https://docs.arangodb.com/HTTP/Indexes/Hash.html
      *
      * @return array - server response of the created index
      * @throws \triagens\ArangoDb\Exception
@@ -869,7 +869,7 @@ class CollectionHandler extends
      * @param array  $fields       - an array of fields
      * @param int    $minLength    - the minimum length of words to index
      *
-     * @link https://docs.arangodb.com/HttpIndexes/Fulltext.html
+     * @link https://docs.arangodb.com/HTTP/Indexes/Fulltext.html
      *
      * @return array - server response of the created index
      * @throws \triagens\ArangoDb\Exception
@@ -893,7 +893,7 @@ class CollectionHandler extends
      * @param bool   $unique       - whether the index is unique or not
      * @param bool   $sparse       - whether the index should be sparse
      *
-     * @link https://docs.arangodb.com/HttpIndexes/Skiplist.html
+     * @link https://docs.arangodb.com/HTTP/Indexes/Skiplist.html
      *
      * @return array - server response of the created index
      * @throws \triagens\ArangoDb\Exception
@@ -911,7 +911,7 @@ class CollectionHandler extends
 
         return $this->index($collectionId, self::OPTION_SKIPLIST_INDEX, $fields, null, $indexOptions);
     }
-    
+
     /**
      * Create a persistent index
      *
@@ -920,7 +920,7 @@ class CollectionHandler extends
      * @param bool   $unique       - whether the index is unique or not
      * @param bool   $sparse       - whether the index should be sparse
      *
-     * @link https://docs.arangodb.com/HttpIndexes/Skiplist.html
+     * @link https://docs.arangodb.com/HTTP/Indexes/Persistent.html
      *
      * @return array - server response of the created index
      * @throws \triagens\ArangoDb\Exception
@@ -948,18 +948,12 @@ class CollectionHandler extends
      * @param boolean $constraint   - whether this is a constraint or not
      * @param boolean $ignoreNull   - whether to ignore null
      *
-     * @link https://docs.arangodb.com/HttpIndexes/Geo.html
+     * @link https://docs.arangodb.com/HTTP/Indexes/Geo.html
      *
      * @return array - server response of the created index
      * @throws \triagens\ArangoDb\Exception
      */
-    public function createGeoIndex(
-        $collectionId,
-        array $fields,
-        $geoJson = null,
-        $constraint = null,
-        $ignoreNull = null
-    )
+    public function createGeoIndex($collectionId, array $fields, $geoJson = null, $constraint = null, $ignoreNull = null)
     {
         $indexOptions = [];
 

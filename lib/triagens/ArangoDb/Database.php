@@ -15,7 +15,7 @@ namespace triagens\ArangoDb;
  *
  * This class provides functions to manage Databases through ArangoDB's Database API<br>
  *
- * @link      http://www.arangodb.com/manuals/1.4/HttpDatabase.html
+ * @link      https://docs.arangodb.com/HTTP/Database/index.html
  *
  * @package   triagens\ArangoDb
  * @since     1.4
@@ -40,7 +40,7 @@ class Database
      * @param Connection $connection - the connection to be used
      * @param string     $name       - the database specification, for example 'myDatabase'
      *
-     * @link http://www.arangodb.com/manuals/1.4/HttpDatabase.html
+     * @link https://docs.arangodb.com/HTTP/Database/index.html
      *
      * @return array $responseArray - The response array.
      * @throws \triagens\ArangoDb\Exception
@@ -72,7 +72,7 @@ class Database
      * @param Connection $connection - the connection to be used
      * @param string     $name       - the database specification, for example 'myDatabase'
      *
-     * @link http://www.arangodb.com/manuals/1.4/HttpDatabase.html
+     * @link https://docs.arangodb.com/HTTP/Database/index.html
      *
      * @return array $responseArray - The response array.
      * @throws \triagens\ArangoDb\Exception
@@ -95,7 +95,7 @@ class Database
      *
      * @param Connection $connection - the connection to be used
      *
-     * @link http://www.arangodb.com/manuals/1.4/HttpDatabase.html
+     * @link https://docs.arangodb.com/HTTP/Database/index.html
      *
      * @return array $responseArray - The response array.
      * @throws \triagens\ArangoDb\Exception
@@ -113,7 +113,7 @@ class Database
      *
      * @param Connection $connection - the connection to be used
      *
-     * @link http://www.arangodb.com/manuals/1.4/HttpDatabase.html
+     * @link https://docs.arangodb.com/HTTP/Database/index.html
      *
      * @return array $responseArray - The response array.
      * @throws \triagens\ArangoDb\Exception
@@ -134,7 +134,7 @@ class Database
      *
      * @param Connection $connection - the connection to be used
      *
-     * @link http://www.arangodb.com/manuals/1.4/HttpDatabase.html
+     * @link https://docs.arangodb.com/HTTP/Database/index.html
      *
      * @return array $responseArray - The response array.
      * @throws \triagens\ArangoDb\Exception
@@ -158,7 +158,7 @@ class Database
      *
      * @param Connection $connection - the connection to be used
      *
-     * @link http://www.arangodb.com/manuals/1.4/HttpDatabase.html
+     * @link https://docs.arangodb.com/HTTP/Database/index.html
      *
      * @return array $responseArray - The response array.
      * @throws \triagens\ArangoDb\Exception
