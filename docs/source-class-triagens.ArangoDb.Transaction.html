@@ -599,49 +599,66 @@
 </span><span id="464" class="l"><a href="#464">464 </a>
 </span><span id="465" class="l"><a href="#465">465 </a>
 </span><span id="466" class="l"><a href="#466">466 </a>    <span class="php-comment">/**
-</span></span><span id="467" class="l"><a href="#467">467 </a><span class="php-comment">     * Returns the action string
+</span></span><span id="467" class="l"><a href="#467">467 </a><span class="php-comment">     * Is triggered by calling isset() or empty() on inaccessible properties.
 </span></span><span id="468" class="l"><a href="#468">468 </a><span class="php-comment">     *
-</span></span><span id="469" class="l"><a href="#469">469 </a><span class="php-comment">     * @magic
+</span></span><span id="469" class="l"><a href="#469">469 </a><span class="php-comment">     * @param string $key - name of attribute
 </span></span><span id="470" class="l"><a href="#470">470 </a><span class="php-comment">     *
-</span></span><span id="471" class="l"><a href="#471">471 </a><span class="php-comment">     * @return string - the current action string
+</span></span><span id="471" class="l"><a href="#471">471 </a><span class="php-comment">     * @return boolean returns true or false (set or not set)
 </span></span><span id="472" class="l"><a href="#472">472 </a><span class="php-comment">     */</span>
-</span><span id="473" class="l"><a href="#473">473 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> __toString()
+</span><span id="473" class="l"><a href="#473">473 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> __isset(<span class="php-var">$key</span>)
 </span><span id="474" class="l"><a href="#474">474 </a>    {
-</span><span id="475" class="l"><a href="#475">475 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;_action;
-</span><span id="476" class="l"><a href="#476">476 </a>    }
-</span><span id="477" class="l"><a href="#477">477 </a>
+</span><span id="475" class="l"><a href="#475">475 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$this</span>-&gt;attributes[<span class="php-var">$key</span>])) {
+</span><span id="476" class="l"><a href="#476">476 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">true</span>;
+</span><span id="477" class="l"><a href="#477">477 </a>        }
 </span><span id="478" class="l"><a href="#478">478 </a>
-</span><span id="479" class="l"><a href="#479">479 </a>    <span class="php-comment">/**
-</span></span><span id="480" class="l"><a href="#480">480 </a><span class="php-comment">     * Build the object's attributes from a given array
-</span></span><span id="481" class="l"><a href="#481">481 </a><span class="php-comment">     *
-</span></span><span id="482" class="l"><a href="#482">482 </a><span class="php-comment">     * @param $options
-</span></span><span id="483" class="l"><a href="#483">483 </a><span class="php-comment">     *
-</span></span><span id="484" class="l"><a href="#484">484 </a><span class="php-comment">     * @throws \triagens\ArangoDb\ClientException
-</span></span><span id="485" class="l"><a href="#485">485 </a><span class="php-comment">     */</span>
-</span><span id="486" class="l"><a href="#486">486 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> buildTransactionAttributesFromArray(<span class="php-var">$options</span>)
-</span><span id="487" class="l"><a href="#487">487 </a>    {
-</span><span id="488" class="l"><a href="#488">488 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$options</span>[self::ENTRY_COLLECTIONS])) {
-</span><span id="489" class="l"><a href="#489">489 </a>            <span class="php-var">$this</span>-&gt;setCollections(<span class="php-var">$options</span>[self::ENTRY_COLLECTIONS]);
-</span><span id="490" class="l"><a href="#490">490 </a>        }
-</span><span id="491" class="l"><a href="#491">491 </a>
-</span><span id="492" class="l"><a href="#492">492 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$options</span>[self::ENTRY_ACTION])) {
-</span><span id="493" class="l"><a href="#493">493 </a>            <span class="php-var">$this</span>-&gt;setAction(<span class="php-var">$options</span>[self::ENTRY_ACTION]);
-</span><span id="494" class="l"><a href="#494">494 </a>        }
+</span><span id="479" class="l"><a href="#479">479 </a>        <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
+</span><span id="480" class="l"><a href="#480">480 </a>    }
+</span><span id="481" class="l"><a href="#481">481 </a>
+</span><span id="482" class="l"><a href="#482">482 </a>
+</span><span id="483" class="l"><a href="#483">483 </a>    <span class="php-comment">/**
+</span></span><span id="484" class="l"><a href="#484">484 </a><span class="php-comment">     * Returns the action string
+</span></span><span id="485" class="l"><a href="#485">485 </a><span class="php-comment">     *
+</span></span><span id="486" class="l"><a href="#486">486 </a><span class="php-comment">     * @magic
+</span></span><span id="487" class="l"><a href="#487">487 </a><span class="php-comment">     *
+</span></span><span id="488" class="l"><a href="#488">488 </a><span class="php-comment">     * @return string - the current action string
+</span></span><span id="489" class="l"><a href="#489">489 </a><span class="php-comment">     */</span>
+</span><span id="490" class="l"><a href="#490">490 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> __toString()
+</span><span id="491" class="l"><a href="#491">491 </a>    {
+</span><span id="492" class="l"><a href="#492">492 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;_action;
+</span><span id="493" class="l"><a href="#493">493 </a>    }
+</span><span id="494" class="l"><a href="#494">494 </a>
 </span><span id="495" class="l"><a href="#495">495 </a>
-</span><span id="496" class="l"><a href="#496">496 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$options</span>[self::ENTRY_WAIT_FOR_SYNC])) {
-</span><span id="497" class="l"><a href="#497">497 </a>            <span class="php-var">$this</span>-&gt;setWaitForSync(<span class="php-var">$options</span>[self::ENTRY_WAIT_FOR_SYNC]);
-</span><span id="498" class="l"><a href="#498">498 </a>        }
-</span><span id="499" class="l"><a href="#499">499 </a>
-</span><span id="500" class="l"><a href="#500">500 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$options</span>[self::ENTRY_LOCK_TIMEOUT])) {
-</span><span id="501" class="l"><a href="#501">501 </a>            <span class="php-var">$this</span>-&gt;setLockTimeout(<span class="php-var">$options</span>[self::ENTRY_LOCK_TIMEOUT]);
-</span><span id="502" class="l"><a href="#502">502 </a>        }
-</span><span id="503" class="l"><a href="#503">503 </a>
-</span><span id="504" class="l"><a href="#504">504 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$options</span>[self::ENTRY_PARAMS])) {
-</span><span id="505" class="l"><a href="#505">505 </a>            <span class="php-var">$this</span>-&gt;setParams(<span class="php-var">$options</span>[self::ENTRY_PARAMS]);
-</span><span id="506" class="l"><a href="#506">506 </a>        }
-</span><span id="507" class="l"><a href="#507">507 </a>    }
-</span><span id="508" class="l"><a href="#508">508 </a>}
-</span><span id="509" class="l"><a href="#509">509 </a></span></code></pre>
+</span><span id="496" class="l"><a href="#496">496 </a>    <span class="php-comment">/**
+</span></span><span id="497" class="l"><a href="#497">497 </a><span class="php-comment">     * Build the object's attributes from a given array
+</span></span><span id="498" class="l"><a href="#498">498 </a><span class="php-comment">     *
+</span></span><span id="499" class="l"><a href="#499">499 </a><span class="php-comment">     * @param $options
+</span></span><span id="500" class="l"><a href="#500">500 </a><span class="php-comment">     *
+</span></span><span id="501" class="l"><a href="#501">501 </a><span class="php-comment">     * @throws \triagens\ArangoDb\ClientException
+</span></span><span id="502" class="l"><a href="#502">502 </a><span class="php-comment">     */</span>
+</span><span id="503" class="l"><a href="#503">503 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> buildTransactionAttributesFromArray(<span class="php-var">$options</span>)
+</span><span id="504" class="l"><a href="#504">504 </a>    {
+</span><span id="505" class="l"><a href="#505">505 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$options</span>[self::ENTRY_COLLECTIONS])) {
+</span><span id="506" class="l"><a href="#506">506 </a>            <span class="php-var">$this</span>-&gt;setCollections(<span class="php-var">$options</span>[self::ENTRY_COLLECTIONS]);
+</span><span id="507" class="l"><a href="#507">507 </a>        }
+</span><span id="508" class="l"><a href="#508">508 </a>
+</span><span id="509" class="l"><a href="#509">509 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$options</span>[self::ENTRY_ACTION])) {
+</span><span id="510" class="l"><a href="#510">510 </a>            <span class="php-var">$this</span>-&gt;setAction(<span class="php-var">$options</span>[self::ENTRY_ACTION]);
+</span><span id="511" class="l"><a href="#511">511 </a>        }
+</span><span id="512" class="l"><a href="#512">512 </a>
+</span><span id="513" class="l"><a href="#513">513 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$options</span>[self::ENTRY_WAIT_FOR_SYNC])) {
+</span><span id="514" class="l"><a href="#514">514 </a>            <span class="php-var">$this</span>-&gt;setWaitForSync(<span class="php-var">$options</span>[self::ENTRY_WAIT_FOR_SYNC]);
+</span><span id="515" class="l"><a href="#515">515 </a>        }
+</span><span id="516" class="l"><a href="#516">516 </a>
+</span><span id="517" class="l"><a href="#517">517 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$options</span>[self::ENTRY_LOCK_TIMEOUT])) {
+</span><span id="518" class="l"><a href="#518">518 </a>            <span class="php-var">$this</span>-&gt;setLockTimeout(<span class="php-var">$options</span>[self::ENTRY_LOCK_TIMEOUT]);
+</span><span id="519" class="l"><a href="#519">519 </a>        }
+</span><span id="520" class="l"><a href="#520">520 </a>
+</span><span id="521" class="l"><a href="#521">521 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$options</span>[self::ENTRY_PARAMS])) {
+</span><span id="522" class="l"><a href="#522">522 </a>            <span class="php-var">$this</span>-&gt;setParams(<span class="php-var">$options</span>[self::ENTRY_PARAMS]);
+</span><span id="523" class="l"><a href="#523">523 </a>        }
+</span><span id="524" class="l"><a href="#524">524 </a>    }
+</span><span id="525" class="l"><a href="#525">525 </a>}
+</span><span id="526" class="l"><a href="#526">526 </a></span></code></pre>
 	</div>
 
 	<div id="footer">
