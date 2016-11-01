@@ -18,7 +18,7 @@ namespace triagens\ArangoDb;
  * The object requires the connection object, the startVertex, the edgeCollection and the optional parameters.<br>
  * <br>
  *
- * @link      http://www.arangodb.com/manuals/1.4/HttpTraversals.html
+ * @link      https://docs.arangodb.com/HTTP/Traversal/index.html
  *
  * @package   triagens\ArangoDb
  * @since     1.4
