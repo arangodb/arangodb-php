@@ -142,9 +142,7 @@
 
 <p>An edge-document handler that fetches edges from the server and
 persists them on the server. It does so by issuing the
-appropriate HTTP requests to the server.<br></p>
-
-<p><br></p>
+appropriate HTTP requests to the server.</p>
 	</div>
 
 	<dl class="tree well">
@@ -184,7 +182,7 @@ appropriate HTTP requests to the server.<br></p>
 
 				<b>Since:</b>
 				1.0<br>
-			<b>Located at</b> <a href="source-class-triagens.ArangoDb.EdgeHandler.html#14-255" title="Go to source code">EdgeHandler.php</a>
+			<b>Located at</b> <a href="source-class-triagens.ArangoDb.EdgeHandler.html#14-253" title="Go to source code">EdgeHandler.php</a>
 		<br>
 	</div>
 
@@ -204,7 +202,7 @@ appropriate HTTP requests to the server.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_createFromArrayWithContext">#</a>
-			<code><a href="source-class-triagens.ArangoDb.EdgeHandler.html#69-81" title="Go to source code">createFromArrayWithContext</a>( <span> <var>$data</var></span>, <span> <var>$options</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.EdgeHandler.html#67-79" title="Go to source code">createFromArrayWithContext</a>( <span> <var>$data</var></span>, <span> <var>$options</var></span> )</code>
 
 			<div class="description short">
 				<p>Intermediate function to call the createFromArray function from the right context</p>
@@ -250,7 +248,7 @@ appropriate HTTP requests to the server.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_saveEdge">#</a>
-			<code><a href="source-class-triagens.ArangoDb.EdgeHandler.html#105-170" title="Go to source code">saveEdge</a>( <span>mixed <var>$collection</var></span>, <span>mixed <var>$from</var></span>, <span>mixed <var>$to</var></span>, <span>mixed <var>$document</var></span>, <span>array <var>$options</var> = []</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.EdgeHandler.html#103-168" title="Go to source code">saveEdge</a>( <span>mixed <var>$collection</var></span>, <span>mixed <var>$from</var></span>, <span>mixed <var>$to</var></span>, <span>mixed <var>$document</var></span>, <span>array <var>$options</var> = []</span> )</code>
 
 			<div class="description short">
 				<p>save an edge to an edge-collection</p>
@@ -326,7 +324,7 @@ appropriate HTTP requests to the server.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_edges">#</a>
-			<code><a href="source-class-triagens.ArangoDb.EdgeHandler.html#173-208" title="Go to source code">edges</a>( <span>mixed <var>$collection</var></span>, <span>mixed <var>$vertexHandle</var></span>, <span>string <var>$direction</var> = <span class="php-quote">'any'</span></span>, <span>array <var>$options</var> = []</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.EdgeHandler.html#171-206" title="Go to source code">edges</a>( <span>mixed <var>$collection</var></span>, <span>mixed <var>$vertexHandle</var></span>, <span>string <var>$direction</var> = <span class="php-quote">'any'</span></span>, <span>array <var>$options</var> = []</span> )</code>
 
 			<div class="description short">
 				<p>Get connected edges for a given vertex</p>
@@ -393,7 +391,7 @@ appropriate HTTP requests to the server.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_inEdges">#</a>
-			<code><a href="source-class-triagens.ArangoDb.EdgeHandler.html#211-224" title="Go to source code">inEdges</a>( <span>mixed <var>$collection</var></span>, <span>mixed <var>$vertexHandle</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.EdgeHandler.html#209-222" title="Go to source code">inEdges</a>( <span>mixed <var>$collection</var></span>, <span>mixed <var>$vertexHandle</var></span> )</code>
 
 			<div class="description short">
 				<p>Get connected inbound edges for a given vertex</p>
@@ -443,7 +441,7 @@ appropriate HTTP requests to the server.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_outEdges">#</a>
-			<code><a href="source-class-triagens.ArangoDb.EdgeHandler.html#226-239" title="Go to source code">outEdges</a>( <span>mixed <var>$collection</var></span>, <span>mixed <var>$vertexHandle</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.EdgeHandler.html#224-237" title="Go to source code">outEdges</a>( <span>mixed <var>$collection</var></span>, <span>mixed <var>$vertexHandle</var></span> )</code>
 
 			<div class="description short">
 				<p>Get connected outbound edges for a given vertex</p>
@@ -493,7 +491,7 @@ appropriate HTTP requests to the server.<br></p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_createCollectionIfOptions">#</a>
-			<code><a href="source-class-triagens.ArangoDb.EdgeHandler.html#241-254" title="Go to source code">createCollectionIfOptions</a>( <span> <var>$collection</var></span>, <span>array <var>$options</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.EdgeHandler.html#239-252" title="Go to source code">createCollectionIfOptions</a>( <span> <var>$collection</var></span>, <span>array <var>$options</var></span> )</code>
 
 			<div class="description short">
 				
@@ -513,7 +511,7 @@ appropriate HTTP requests to the server.<br></p>
 </ul>
 
 <p>Options are :
-                           <li>'createCollection' - true to create the collection if it doesn't exist</li>
+                           <li>'createCollection' - true to create the collection if it does not exist</li>
                            <li>'createCollectionType' - "document" or 2 for document collection</li>
                            <li>                         "edge" or 3 for edge collection</li>
                            </p></dd>
@@ -575,7 +573,7 @@ appropriate HTTP requests to the server.<br></p>
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-triagens.ArangoDb.EdgeHandler.html#34-37" title="Go to source code"><b>ENTRY_EDGES</b></a>
+						<a href="source-class-triagens.ArangoDb.EdgeHandler.html#32-35" title="Go to source code"><b>ENTRY_EDGES</b></a>
 					</code>
 
 					<div class="description short">
@@ -599,7 +597,7 @@ appropriate HTTP requests to the server.<br></p>
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-triagens.ArangoDb.EdgeHandler.html#49-52" title="Go to source code"><b>OPTION_FROM</b></a>
+						<a href="source-class-triagens.ArangoDb.EdgeHandler.html#47-50" title="Go to source code"><b>OPTION_FROM</b></a>
 					</code>
 
 					<div class="description short">
@@ -623,7 +621,7 @@ appropriate HTTP requests to the server.<br></p>
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-triagens.ArangoDb.EdgeHandler.html#54-57" title="Go to source code"><b>OPTION_TO</b></a>
+						<a href="source-class-triagens.ArangoDb.EdgeHandler.html#52-55" title="Go to source code"><b>OPTION_TO</b></a>
 					</code>
 
 					<div class="description short">
@@ -647,7 +645,7 @@ appropriate HTTP requests to the server.<br></p>
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-triagens.ArangoDb.EdgeHandler.html#59-62" title="Go to source code"><b>OPTION_VERTEX</b></a>
+						<a href="source-class-triagens.ArangoDb.EdgeHandler.html#57-60" title="Go to source code"><b>OPTION_VERTEX</b></a>
 					</code>
 
 					<div class="description short">
@@ -671,7 +669,7 @@ appropriate HTTP requests to the server.<br></p>
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-triagens.ArangoDb.EdgeHandler.html#64-67" title="Go to source code"><b>OPTION_DIRECTION</b></a>
+						<a href="source-class-triagens.ArangoDb.EdgeHandler.html#62-65" title="Go to source code"><b>OPTION_DIRECTION</b></a>
 					</code>
 
 					<div class="description short">

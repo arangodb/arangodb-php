@@ -140,7 +140,7 @@
 	<div class="description">
 	<p>Container for an AQL query</p>
 
-<p>Optional bind parameters can be used when issuing thei AQL query to separate
+<p>Optional bind parameters can be used when issuing the AQL query to separate
 the query from the values.
 Executing a query will result in a cursor being created.</p>
 
@@ -167,8 +167,6 @@ be done:</p>
 <li> modify the query to "RETURN { value: 1 + 1 }". The result will then be a an array of documents with a "value" attribute<br />
 <li> use the "_flat" option for the statement to indicate that you don't want to treat the statement result as an array of documents, but as a flat array
 </ul>
-
-<p><br /></p>
 	</div>
 
 
@@ -187,7 +185,7 @@ be done:</p>
 
 				<b>Since:</b>
 				0.2<br>
-			<b>Located at</b> <a href="source-class-triagens.ArangoDb.Statement.html#13-552" title="Go to source code">Statement.php</a>
+			<b>Located at</b> <a href="source-class-triagens.ArangoDb.Statement.html#13-550" title="Go to source code">Statement.php</a>
 		<br>
 	</div>
 
@@ -207,7 +205,7 @@ be done:</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Statement.html#160-220" title="Go to source code">__construct</a>( <span><code><a href="class-triagens.ArangoDb.Connection.html">triagens\ArangoDb\Connection</a></code> <var>$connection</var></span>, <span>array <var>$data</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Statement.html#158-218" title="Go to source code">__construct</a>( <span><code><a href="class-triagens.ArangoDb.Connection.html">triagens\ArangoDb\Connection</a></code> <var>$connection</var></span>, <span>array <var>$data</var></span> )</code>
 
 			<div class="description short">
 				<p>Initialise the statement</p>
@@ -263,7 +261,7 @@ option should be specified in $data.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getConnection">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Statement.html#222-230" title="Go to source code">getConnection</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Statement.html#220-228" title="Go to source code">getConnection</a>( )</code>
 
 			<div class="description short">
 				<p>Return the connection object</p>
@@ -298,7 +296,7 @@ option should be specified in $data.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_execute">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Statement.html#232-266" title="Go to source code">execute</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Statement.html#230-264" title="Go to source code">execute</a>( )</code>
 
 			<div class="description short">
 				<p>Execute the statement</p>
@@ -338,7 +336,7 @@ a Cursor. The cursor can then be used to iterate the results.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_explain">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Statement.html#269-283" title="Go to source code">explain</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Statement.html#267-281" title="Go to source code">explain</a>( )</code>
 
 			<div class="description short">
 				<p>Explain the statement's execution plan</p>
@@ -377,7 +375,7 @@ a Cursor. The cursor can then be used to iterate the results.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_validate">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Statement.html#286-300" title="Go to source code">validate</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Statement.html#284-298" title="Go to source code">validate</a>( )</code>
 
 			<div class="description short">
 				<p>Validates the statement</p>
@@ -416,7 +414,7 @@ a Cursor. The cursor can then be used to iterate the results.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#___invoke">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Statement.html#303-317" title="Go to source code">__invoke</a>( <span>mixed <var>$args</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Statement.html#301-315" title="Go to source code">__invoke</a>( <span>mixed <var>$args</var></span> )</code>
 
 			<div class="description short">
 				<p>Invoke the statement</p>
@@ -464,7 +462,7 @@ a Cursor. The cursor can then be used to iterate the results.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#___toString">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Statement.html#319-327" title="Go to source code">__toString</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Statement.html#317-325" title="Go to source code">__toString</a>( )</code>
 
 			<div class="description short">
 				<p>Return a string representation of the statement</p>
@@ -499,7 +497,7 @@ a Cursor. The cursor can then be used to iterate the results.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_bind">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Statement.html#329-350" title="Go to source code">bind</a>( <span>mixed <var>$key</var></span>, <span>mixed <var>$value</var> = <span class="php-keyword1">null</span></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Statement.html#327-348" title="Go to source code">bind</a>( <span>mixed <var>$key</var></span>, <span>mixed <var>$value</var> = <span class="php-keyword1">null</span></span> )</code>
 
 			<div class="description short">
 				<p>Bind a parameter to the statement</p>
@@ -551,7 +549,7 @@ than these types.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getBindVars">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Statement.html#352-360" title="Go to source code">getBindVars</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Statement.html#350-358" title="Go to source code">getBindVars</a>( )</code>
 
 			<div class="description short">
 				<p>Get all bind parameters as an array</p>
@@ -586,7 +584,7 @@ than these types.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setQuery">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Statement.html#362-378" title="Go to source code">setQuery</a>( <span>string <var>$query</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Statement.html#360-376" title="Go to source code">setQuery</a>( <span>string <var>$query</var></span> )</code>
 
 			<div class="description short">
 				<p>Set the query string</p>
@@ -626,7 +624,7 @@ than these types.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getQuery">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Statement.html#380-388" title="Go to source code">getQuery</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Statement.html#378-386" title="Go to source code">getQuery</a>( )</code>
 
 			<div class="description short">
 				<p>Get the query string</p>
@@ -661,7 +659,7 @@ than these types.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setResultType">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Statement.html#390-400" title="Go to source code">setResultType</a>( <span> <var>$resultType</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Statement.html#388-398" title="Go to source code">setResultType</a>( <span> <var>$resultType</var></span> )</code>
 
 			<div class="description short">
 				<p>setResultType</p>
@@ -701,7 +699,7 @@ than these types.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setCount">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Statement.html#402-412" title="Go to source code">setCount</a>( <span>boolean <var>$value</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Statement.html#400-410" title="Go to source code">setCount</a>( <span>boolean <var>$value</var></span> )</code>
 
 			<div class="description short">
 				<p>Set the count option for the statement</p>
@@ -737,7 +735,7 @@ than these types.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getCount">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Statement.html#414-422" title="Go to source code">getCount</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Statement.html#412-420" title="Go to source code">getCount</a>( )</code>
 
 			<div class="description short">
 				<p>Get the count option value of the statement</p>
@@ -772,7 +770,7 @@ than these types.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setFullCount">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Statement.html#424-434" title="Go to source code">setFullCount</a>( <span>boolean <var>$value</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Statement.html#422-432" title="Go to source code">setFullCount</a>( <span>boolean <var>$value</var></span> )</code>
 
 			<div class="description short">
 				<p>Set the full count option for the statement</p>
@@ -808,7 +806,7 @@ than these types.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getFullCount">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Statement.html#436-444" title="Go to source code">getFullCount</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Statement.html#434-442" title="Go to source code">getFullCount</a>( )</code>
 
 			<div class="description short">
 				<p>Get the full count option value of the statement</p>
@@ -843,7 +841,7 @@ than these types.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setCache">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Statement.html#446-456" title="Go to source code">setCache</a>( <span>boolean <var>$value</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Statement.html#444-454" title="Go to source code">setCache</a>( <span>boolean <var>$value</var></span> )</code>
 
 			<div class="description short">
 				<p>Set the caching option for the statement</p>
@@ -879,7 +877,7 @@ than these types.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getCache">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Statement.html#458-466" title="Go to source code">getCache</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Statement.html#456-464" title="Go to source code">getCache</a>( )</code>
 
 			<div class="description short">
 				<p>Get the caching option value of the statement</p>
@@ -914,7 +912,7 @@ than these types.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setBatchSize">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Statement.html#468-491" title="Go to source code">setBatchSize</a>( <span>integer <var>$value</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Statement.html#466-489" title="Go to source code">setBatchSize</a>( <span>integer <var>$value</var></span> )</code>
 
 			<div class="description short">
 				<p>Set the batch size for the statement</p>
@@ -961,7 +959,7 @@ provides the additional results.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getBatchSize">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Statement.html#493-501" title="Go to source code">getBatchSize</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Statement.html#491-499" title="Go to source code">getBatchSize</a>( )</code>
 
 			<div class="description short">
 				<p>Get the batch size for the statement</p>
@@ -1003,7 +1001,7 @@ provides the additional results.</p>
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-triagens.ArangoDb.Statement.html#130-133" title="Go to source code"><b>ENTRY_QUERY</b></a>
+						<a href="source-class-triagens.ArangoDb.Statement.html#128-131" title="Go to source code"><b>ENTRY_QUERY</b></a>
 					</code>
 
 					<div class="description short">
@@ -1027,7 +1025,7 @@ provides the additional results.</p>
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-triagens.ArangoDb.Statement.html#135-138" title="Go to source code"><b>ENTRY_COUNT</b></a>
+						<a href="source-class-triagens.ArangoDb.Statement.html#133-136" title="Go to source code"><b>ENTRY_COUNT</b></a>
 					</code>
 
 					<div class="description short">
@@ -1051,7 +1049,7 @@ provides the additional results.</p>
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-triagens.ArangoDb.Statement.html#140-143" title="Go to source code"><b>ENTRY_BATCHSIZE</b></a>
+						<a href="source-class-triagens.ArangoDb.Statement.html#138-141" title="Go to source code"><b>ENTRY_BATCHSIZE</b></a>
 					</code>
 
 					<div class="description short">
@@ -1075,7 +1073,7 @@ provides the additional results.</p>
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-triagens.ArangoDb.Statement.html#145-148" title="Go to source code"><b>ENTRY_RETRIES</b></a>
+						<a href="source-class-triagens.ArangoDb.Statement.html#143-146" title="Go to source code"><b>ENTRY_RETRIES</b></a>
 					</code>
 
 					<div class="description short">
@@ -1099,7 +1097,7 @@ provides the additional results.</p>
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-triagens.ArangoDb.Statement.html#150-153" title="Go to source code"><b>ENTRY_BINDVARS</b></a>
+						<a href="source-class-triagens.ArangoDb.Statement.html#148-151" title="Go to source code"><b>ENTRY_BINDVARS</b></a>
 					</code>
 
 					<div class="description short">
@@ -1123,7 +1121,7 @@ provides the additional results.</p>
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-triagens.ArangoDb.Statement.html#155-158" title="Go to source code"><b>FULL_COUNT</b></a>
+						<a href="source-class-triagens.ArangoDb.Statement.html#153-156" title="Go to source code"><b>FULL_COUNT</b></a>
 					</code>
 
 					<div class="description short">

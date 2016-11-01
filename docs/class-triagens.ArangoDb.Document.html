@@ -168,7 +168,7 @@
 
 				<b>Since:</b>
 				0.2<br>
-			<b>Located at</b> <a href="source-class-triagens.ArangoDb.Document.html#14-757" title="Go to source code">Document.php</a>
+			<b>Located at</b> <a href="source-class-triagens.ArangoDb.Document.html#14-774" title="Go to source code">Document.php</a>
 		<br>
 	</div>
 
@@ -670,6 +670,46 @@ This function is mapped to set() internally.</p>
 			</div>
 			</div></td>
 		</tr>
+		<tr data-order="__isset" id="___isset">
+
+			<td class="attributes"><code>
+				 public 
+				boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#___isset">#</a>
+			<code><a href="source-class-triagens.ArangoDb.Document.html#390-404" title="Go to source code">__isset</a>( <span>string <var>$key</var></span> )</code>
+
+			<div class="description short">
+				<p>Is triggered by calling isset() or empty() on inaccessible properties.</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Is triggered by calling isset() or empty() on inaccessible properties.</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$key</var></dt>
+						<dd><ul>
+<li>name of attribute</li>
+</ul></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						boolean<br>returns true or false (set or not set)
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
 		<tr data-order="__unset" id="___unset">
 
 			<td class="attributes"><code>
@@ -681,7 +721,7 @@ This function is mapped to set() internally.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#___unset">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Document.html#389-401" title="Go to source code">__unset</a>( <span> <var>$key</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Document.html#406-418" title="Go to source code">__unset</a>( <span> <var>$key</var></span> )</code>
 
 			<div class="description short">
 				<p>Magic method to unset an attribute.
@@ -722,7 +762,7 @@ The preferred method to unset attributes in the database, is to set those to nul
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getAll">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Document.html#403-472" title="Go to source code">getAll</a>( <span>array <var>$options</var> = []</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Document.html#420-489" title="Go to source code">getAll</a>( <span>array <var>$options</var> = []</span> )</code>
 
 			<div class="description short">
 				<p>Get all document attributes</p>
@@ -769,7 +809,7 @@ The preferred method to unset attributes in the database, is to set those to nul
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getAllForInsertUpdate">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Document.html#474-496" title="Go to source code">getAllForInsertUpdate</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Document.html#491-513" title="Go to source code">getAllForInsertUpdate</a>( )</code>
 
 			<div class="description short">
 				<p>Get all document attributes for insertion/update</p>
@@ -804,7 +844,7 @@ The preferred method to unset attributes in the database, is to set those to nul
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getAllAsObject">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Document.html#499-519" title="Go to source code">getAllAsObject</a>( <span>array <var>$options</var> = []</span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Document.html#516-536" title="Go to source code">getAllAsObject</a>( <span>array <var>$options</var> = []</span> )</code>
 
 			<div class="description short">
 				<p>Get all document attributes, and return an empty object if the documentapped into a DocumentWrapper class</p>
@@ -852,7 +892,7 @@ The preferred method to unset attributes in the database, is to set those to nul
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setHiddenAttributes">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Document.html#521-532" title="Go to source code">setHiddenAttributes</a>( <span>array <var>$attributes</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Document.html#538-549" title="Go to source code">setHiddenAttributes</a>( <span>array <var>$attributes</var></span> )</code>
 
 			<div class="description short">
 				<p>Set the hidden attributes
@@ -890,7 +930,7 @@ $cursor</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getHiddenAttributes">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Document.html#534-542" title="Go to source code">getHiddenAttributes</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Document.html#551-559" title="Go to source code">getHiddenAttributes</a>( )</code>
 
 			<div class="description short">
 				<p>Get the hidden attributes</p>
@@ -923,7 +963,7 @@ $cursor</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_isIgnoreHiddenAttributes">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Document.html#544-550" title="Go to source code">isIgnoreHiddenAttributes</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Document.html#561-567" title="Go to source code">isIgnoreHiddenAttributes</a>( )</code>
 
 			<div class="description short">
 				
@@ -956,7 +996,7 @@ $cursor</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setIgnoreHiddenAttributes">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Document.html#552-558" title="Go to source code">setIgnoreHiddenAttributes</a>( <span>boolean <var>$ignoreHiddenAttributes</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Document.html#569-575" title="Go to source code">setIgnoreHiddenAttributes</a>( <span>boolean <var>$ignoreHiddenAttributes</var></span> )</code>
 
 			<div class="description short">
 				
@@ -990,7 +1030,7 @@ $cursor</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setChanged">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Document.html#560-570" title="Go to source code">setChanged</a>( <span>boolean <var>$value</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Document.html#577-587" title="Go to source code">setChanged</a>( <span>boolean <var>$value</var></span> )</code>
 
 			<div class="description short">
 				<p>Set the changed flag</p>
@@ -1030,7 +1070,7 @@ $cursor</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getChanged">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Document.html#572-580" title="Go to source code">getChanged</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Document.html#589-597" title="Go to source code">getChanged</a>( )</code>
 
 			<div class="description short">
 				<p>Get the changed flag</p>
@@ -1065,7 +1105,7 @@ $cursor</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setIsNew">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Document.html#582-592" title="Go to source code">setIsNew</a>( <span>boolean <var>$isNew</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Document.html#599-609" title="Go to source code">setIsNew</a>( <span>boolean <var>$isNew</var></span> )</code>
 
 			<div class="description short">
 				<p>Set the isNew flag</p>
@@ -1101,7 +1141,7 @@ $cursor</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getIsNew">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Document.html#594-602" title="Go to source code">getIsNew</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Document.html#611-619" title="Go to source code">getIsNew</a>( )</code>
 
 			<div class="description short">
 				<p>Get the isNew flag</p>
@@ -1134,7 +1174,7 @@ $cursor</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setInternalId">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Document.html#604-627" title="Go to source code">setInternalId</a>( <span>string <var>$id</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Document.html#621-644" title="Go to source code">setInternalId</a>( <span>string <var>$id</var></span> )</code>
 
 			<div class="description short">
 				<p>Set the internal document id</p>
@@ -1176,7 +1216,7 @@ $cursor</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setInternalKey">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Document.html#629-651" title="Go to source code">setInternalKey</a>( <span>string <var>$key</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Document.html#646-668" title="Go to source code">setInternalKey</a>( <span>string <var>$key</var></span> )</code>
 
 			<div class="description short">
 				<p>Set the internal document key</p>
@@ -1218,7 +1258,7 @@ $cursor</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getInternalId">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Document.html#653-664" title="Go to source code">getInternalId</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Document.html#670-681" title="Go to source code">getInternalId</a>( )</code>
 
 			<div class="description short">
 				<p>Get the internal document id (if already known)</p>
@@ -1256,7 +1296,7 @@ document id, in the format collectionId/documentId</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getInternalKey">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Document.html#666-674" title="Go to source code">getInternalKey</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Document.html#683-691" title="Go to source code">getInternalKey</a>( )</code>
 
 			<div class="description short">
 				<p>Get the internal document key (if already known)</p>
@@ -1291,7 +1331,7 @@ document id, in the format collectionId/documentId</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getHandle">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Document.html#676-687" title="Go to source code">getHandle</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Document.html#693-704" title="Go to source code">getHandle</a>( )</code>
 
 			<div class="description short">
 				<p>Convenience function to get the document handle (if already known) - is an alias to getInternalId()</p>
@@ -1329,7 +1369,7 @@ document id, in the format collectionId/documentId</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getId">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Document.html#689-702" title="Go to source code">getId</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Document.html#706-719" title="Go to source code">getId</a>( )</code>
 
 			<div class="description short">
 				<p>Get the document id (if already known)</p>
@@ -1367,7 +1407,7 @@ bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getKey">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Document.html#704-714" title="Go to source code">getKey</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Document.html#721-731" title="Go to source code">getKey</a>( )</code>
 
 			<div class="description short">
 				<p>Get the document key (if already known).
@@ -1404,7 +1444,7 @@ Alias function for getInternalKey()</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getCollectionId">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Document.html#716-729" title="Go to source code">getCollectionId</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Document.html#733-746" title="Go to source code">getCollectionId</a>( )</code>
 
 			<div class="description short">
 				<p>Get the collection id (if already known)</p>
@@ -1442,7 +1482,7 @@ bigger than PHP_INT_MAX. To reliably store a collection id elsewhere, a PHP stri
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setRevision">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Document.html#731-746" title="Go to source code">setRevision</a>( <span>mixed <var>$rev</var></span> )</code>
+			<code><a href="source-class-triagens.ArangoDb.Document.html#748-763" title="Go to source code">setRevision</a>( <span>mixed <var>$rev</var></span> )</code>
 
 			<div class="description short">
 				<p>Set the document revision</p>
@@ -1483,7 +1523,7 @@ To reliably store a document id elsewhere, a PHP string must be used</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getRevision">#</a>
-			<code><a href="source-class-triagens.ArangoDb.Document.html#748-756" title="Go to source code">getRevision</a>( )</code>
+			<code><a href="source-class-triagens.ArangoDb.Document.html#765-773" title="Go to source code">getRevision</a>( )</code>
 
 			<div class="description short">
 				<p>Get the document revision (if already known)</p>
