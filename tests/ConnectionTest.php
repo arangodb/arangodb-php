@@ -3,11 +3,11 @@
  * ArangoDB PHP client testsuite
  * File: ConnectionTest.php
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  * @author  Frank Mayer
  */
 
-namespace triagens\ArangoDb;
+namespace ArangoDBClient;
 
 /**
  * Class ConnectionTest
@@ -18,7 +18,7 @@ namespace triagens\ArangoDb;
  * @property CollectionHandler $collectionHandler
  * @property DocumentHandler   $documentHandler
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  */
 class ConnectionTest extends
     \PHPUnit_Framework_TestCase
@@ -42,7 +42,7 @@ class ConnectionTest extends
     public function testInitializeConnection()
     {
         $connection = getConnection();
-        static::assertInstanceOf('triagens\ArangoDb\Connection', $connection);
+        static::assertInstanceOf('ArangoDBClient\Connection', $connection);
     }
 
 
@@ -112,7 +112,7 @@ class ConnectionTest extends
     /**
      * Test set invalid options
      *
-     * @expectedException \triagens\ArangoDb\ClientException
+     * @expectedException \ArangoDBClient\ClientException
      */
     public function testSetEndpointOption()
     {
@@ -125,7 +125,7 @@ class ConnectionTest extends
     /**
      * Test set invalid options
      *
-     * @expectedException \triagens\ArangoDb\ClientException
+     * @expectedException \ArangoDBClient\ClientException
      */
     public function testSetAllowSelfSignedOption()
     {
@@ -138,7 +138,7 @@ class ConnectionTest extends
     /**
      * Test set invalid options
      *
-     * @expectedException \triagens\ArangoDb\ClientException
+     * @expectedException \ArangoDBClient\ClientException
      */
     public function testSetVerifyCert()
     {
@@ -151,7 +151,7 @@ class ConnectionTest extends
     /**
      * Test set invalid options
      *
-     * @expectedException \triagens\ArangoDb\ClientException
+     * @expectedException \ArangoDBClient\ClientException
      */
     public function testSetCiphers()
     {
@@ -164,7 +164,7 @@ class ConnectionTest extends
     /**
      * Test set invalid options
      *
-     * @expectedException \triagens\ArangoDb\ClientException
+     * @expectedException \ArangoDBClient\ClientException
      */
     public function testSetHostOption()
     {
@@ -177,7 +177,7 @@ class ConnectionTest extends
     /**
      * Test set invalid options
      *
-     * @expectedException \triagens\ArangoDb\ClientException
+     * @expectedException \ArangoDBClient\ClientException
      */
     public function testSetPortOption()
     {
@@ -222,7 +222,7 @@ class ConnectionTest extends
     /**
      * Test timeout exception
      *
-     * @expectedException \triagens\ArangoDb\ClientException
+     * @expectedException \ArangoDBClient\ClientException
      */
     public function testSetTimeoutException()
     {

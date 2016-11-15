@@ -3,11 +3,11 @@
  * ArangoDB PHP client testsuite
  * File: AqlUserFunction.php
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  * @author  Frank Mayer
  */
 
-namespace triagens\ArangoDb;
+namespace ArangoDBClient;
 
 /**
  * Class AqlUserFunctionTest
@@ -17,7 +17,7 @@ namespace triagens\ArangoDb;
  *
  * @property CollectionHandler collectionHandler
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  */
 class AqlUserFunctionTest extends
     \PHPUnit_Framework_TestCase

@@ -3,11 +3,11 @@
  * ArangoDB PHP client testsuite
  * File: Database.php
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  * @author  Frank Mayer
  */
 
-namespace triagens\ArangoDb;
+namespace ArangoDBClient;
 
 /**
  * Class DatabaseTest
@@ -15,7 +15,7 @@ namespace triagens\ArangoDb;
  *
  * @property Connection $connection
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  */
 class DatabaseTest extends
     \PHPUnit_Framework_TestCase
@@ -150,7 +150,7 @@ class DatabaseTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
     }
 
@@ -191,7 +191,7 @@ class DatabaseTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 403, 'Should be 403, instead got: ' . $e->getCode());
 
 

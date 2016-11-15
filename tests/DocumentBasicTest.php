@@ -3,12 +3,11 @@
  * ArangoDB PHP client testsuite
  * File: DocumentBasicTest.php
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  * @author  Frank Mayer
  */
 
-namespace triagens\ArangoDb;
-
+namespace ArangoDBClient;
 
 /**
  * Class DocumentBasicTest
@@ -19,7 +18,7 @@ namespace triagens\ArangoDb;
  * @property CollectionHandler $collectionHandler
  * @property DocumentHandler   $documentHandler
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  */
 class DocumentBasicTest extends
     \PHPUnit_Framework_TestCase
@@ -42,8 +41,8 @@ class DocumentBasicTest extends
         $this->collection        = new Collection();
         $this->collectionHandler = new CollectionHandler($this->connection);
         $document                = new Document();
-        static::assertInstanceOf('triagens\ArangoDb\Document', $document);
-        static::assertInstanceOf('triagens\ArangoDb\Document', $document);
+        static::assertInstanceOf('ArangoDBClient\Document', $document);
+        static::assertInstanceOf('ArangoDBClient\Document', $document);
         unset ($document);
     }
 

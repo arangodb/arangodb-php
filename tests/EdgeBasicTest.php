@@ -3,12 +3,11 @@
  * ArangoDB PHP client testsuite
  * File: EdgeBasicTest.php
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  * @author  Frank Mayer
  */
 
-namespace triagens\ArangoDb;
-
+namespace ArangoDBClient;
 
 /**
  * Class EdgeBasicTest
@@ -19,7 +18,7 @@ namespace triagens\ArangoDb;
  * @property CollectionHandler $collectionHandler
  * @property DocumentHandler   $documentHandler
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  */
 class EdgeBasicTest extends
     \PHPUnit_Framework_TestCase
@@ -61,7 +60,7 @@ class EdgeBasicTest extends
         $this->collection        = new Collection();
         $this->collectionHandler = new CollectionHandler($this->connection);
         $document                = new Edge();
-        static::assertInstanceOf('triagens\ArangoDb\Edge', $document);
+        static::assertInstanceOf('ArangoDBClient\Edge', $document);
         unset ($document);
     }
 
@@ -109,7 +108,7 @@ class EdgeBasicTest extends
         $resultingDocument = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
 
         $resultingEdge = $edgeDocumentHandler->get($edgeCollection->getName(), $edgeDocumentId);
-        static::assertInstanceOf('triagens\ArangoDb\Edge', $resultingEdge);
+        static::assertInstanceOf('ArangoDBClient\Edge', $resultingEdge);
 
         $resultingAttribute = $resultingEdge->label;
         static::assertSame(
@@ -137,7 +136,7 @@ class EdgeBasicTest extends
 
         $result = $cursor->current();
         static::assertInstanceOf(
-            'triagens\ArangoDb\Document',
+            'ArangoDBClient\Document',
             $result,
             'IN PATHS statement did not return a document object!'
         );
@@ -212,7 +211,7 @@ class EdgeBasicTest extends
         $resultingDocument = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
 
         $resultingEdge = $edgeDocumentHandler->get($edgeCollection->getName(), $edgeDocumentId);
-        static::assertInstanceOf('triagens\ArangoDb\Edge', $resultingEdge);
+        static::assertInstanceOf('ArangoDBClient\Edge', $resultingEdge);
 
         $resultingAttribute = $resultingEdge->label;
         static::assertSame(
@@ -240,7 +239,7 @@ class EdgeBasicTest extends
 
         $result = $cursor->current();
         static::assertInstanceOf(
-            'triagens\ArangoDb\Document',
+            'ArangoDBClient\Document',
             $result,
             'IN PATHS statement did not return a document object!'
         );
@@ -268,7 +267,7 @@ class EdgeBasicTest extends
      * Try to create and delete an edge with wrong encoding
      * We expect an exception here:
      *
-     * @expectedException \triagens\ArangoDb\ClientException
+     * @expectedException \ArangoDBClient\ClientException
      */
     public function testCreateAndDeleteEdgeWithWrongEncoding()
     {
@@ -332,7 +331,7 @@ class EdgeBasicTest extends
 
         $result = $cursor->current();
         static::assertInstanceOf(
-            'triagens\ArangoDb\Document',
+            'ArangoDBClient\Document',
             $result,
             'IN PATHS statement did not return a document object!'
         );
@@ -590,7 +589,7 @@ class EdgeBasicTest extends
 
         static::assertCount(3, $edgesQueryResult);
         foreach ($edgesQueryResult as $edge) {
-            static::assertInstanceOf('triagens\ArangoDb\Edge', $edge);
+            static::assertInstanceOf('ArangoDBClient\Edge', $edge);
 
             if ($edge->value === 1) {
                 static::assertEquals($documentHandle1, $edge->getFrom());
@@ -659,7 +658,7 @@ class EdgeBasicTest extends
 
         static::assertCount(3, $edgesQueryResult);
         foreach ($edgesQueryResult as $edge) {
-            static::assertInstanceOf('triagens\ArangoDb\Edge', $edge);
+            static::assertInstanceOf('ArangoDBClient\Edge', $edge);
 
             if ($edge->value === 1) {
                 static::assertEquals($documentHandle1, $edge->getFrom());
@@ -784,7 +783,7 @@ class EdgeBasicTest extends
 
         static::assertCount(2, $edgesQueryResult);
         foreach ($edgesQueryResult as $edge) {
-            static::assertInstanceOf('triagens\ArangoDb\Edge', $edge);
+            static::assertInstanceOf('ArangoDBClient\Edge', $edge);
 
             if ($edge->value === 1) {
                 static::assertEquals($documentHandle1, $edge->getFrom());

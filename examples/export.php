@@ -1,6 +1,6 @@
 <?php
 
-namespace triagens\ArangoDb;
+namespace ArangoDBClient;
 
 require __DIR__ . '/init.php';
 

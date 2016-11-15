@@ -42,7 +42,7 @@ Documentation is generated with the apigen generator with the following paramete
 
 Example:
 ```
-php -f apigen.phar generate -s ./lib/triagens/ArangoDb -d ./docs --template-theme bootstrap --title "ArangoDB-PHP API Documentation" --deprecated
+php -f apigen.phar generate -s ./lib/ArangoDBClient -d ./docs --template-theme bootstrap --title "ArangoDB-PHP API Documentation" --deprecated
 ```
 
 

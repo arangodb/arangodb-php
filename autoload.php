@@ -1,7 +1,7 @@
 <?php
 
-namespace triagens\ArangoDb;
+namespace ArangoDBClient;
 
-require __DIR__ . '/lib/triagens/ArangoDb/Autoloader.php';
+require __DIR__ . '/lib/ArangoDBClient/Autoloader.php';
 
 Autoloader::init();

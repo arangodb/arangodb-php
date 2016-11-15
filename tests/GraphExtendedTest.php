@@ -3,11 +3,11 @@
  * ArangoDB PHP client testsuite
  * File: GraphExtendedTest.php
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  * @author  Frank Mayer
  */
 
-namespace triagens\ArangoDb;
+namespace ArangoDBClient;
 
 /**
  * Class GraphExtendedTest
@@ -45,7 +45,7 @@ namespace triagens\ArangoDb;
  * @property string            vertexCollectionName
  * @property string            edgeCollectionName
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  */
 class GraphExtendedTest extends
     \PHPUnit_Framework_TestCase
@@ -212,7 +212,7 @@ class GraphExtendedTest extends
 
         // Try to get the edge using GraphHandler
         $resultE = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
-        static::assertInstanceOf('triagens\ArangoDb\Edge', $resultE);
+        static::assertInstanceOf('ArangoDBClient\Edge', $resultE);
 
 
         // Remove the edge
@@ -233,7 +233,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -245,7 +245,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -262,7 +262,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
     }
 
@@ -313,7 +313,7 @@ class GraphExtendedTest extends
 
         // Try to get the edge using GraphHandler
         $resultE = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
-        static::assertInstanceOf('triagens\ArangoDb\Edge', $resultE);
+        static::assertInstanceOf('ArangoDBClient\Edge', $resultE);
 
 
         // Remove the edge
@@ -334,7 +334,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -346,7 +346,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -363,7 +363,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
     }
 
@@ -425,7 +425,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -437,7 +437,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -449,7 +449,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -461,7 +461,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -478,7 +478,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
     }
 
@@ -501,7 +501,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -513,7 +513,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -525,7 +525,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -537,7 +537,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -549,7 +549,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -561,7 +561,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -573,7 +573,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -585,7 +585,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
     }
 
@@ -663,7 +663,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
 
 
         $result2 = $this->graphHandler->removeVertex($this->graphName, $this->vertex2Name);
@@ -676,7 +676,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
     }
 
     /**
@@ -752,7 +752,7 @@ class GraphExtendedTest extends
             //just give us the $e
         }
         static::assertInstanceOf(
-            'triagens\ArangoDb\ServerException',
+            'ArangoDBClient\ServerException',
             $e,
             'An exception should be thrown by the mis-matching revision!'
         );
@@ -833,7 +833,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
 
 
         $result1a = $this->graphHandler->removeVertex($this->graphName, $this->vertex1Name);
@@ -846,7 +846,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
 
 
         $result2 = $this->graphHandler->removeVertex($this->graphName, $this->vertex2Name);
@@ -859,7 +859,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
     }
 
     /**
@@ -933,7 +933,7 @@ class GraphExtendedTest extends
         }
 
         static::assertInstanceOf(
-            'triagens\ArangoDb\ServerException',
+            'ArangoDBClient\ServerException',
             $e,
             'An exception should be thrown by the mis-matching revision!'
         );
@@ -1006,7 +1006,7 @@ class GraphExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
 
 
         // Try to get the edge using EdgeHandler
@@ -1015,7 +1015,7 @@ class GraphExtendedTest extends
         try {
             $edgeHandler->getById($this->edgeCollectionName, $this->edge1Name);
         } catch (\Exception $e) {
-            static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+            static::assertInstanceOf('ArangoDBClient\ServerException', $e);
             static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
         }
 
@@ -1036,7 +1036,7 @@ class GraphExtendedTest extends
         try {
             $edgeHandler->removeById($this->edgeCollectionName, $this->edge1Name);
         } catch (\Exception $e) {
-            static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+            static::assertInstanceOf('ArangoDBClient\ServerException', $e);
             static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
         }
 
@@ -1052,7 +1052,7 @@ class GraphExtendedTest extends
         try {
             $vertexHandler->getById($this->vertexCollectionName, $this->vertex2Name);
         } catch (\Exception $e) {
-            static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+            static::assertInstanceOf('ArangoDBClient\ServerException', $e);
             static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
         }
     }

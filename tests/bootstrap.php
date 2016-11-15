@@ -3,14 +3,13 @@
  * ArangoDB PHP client testsuite
  * File: bootstrap.php
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  * @author  Frank Mayer
  */
 
-namespace triagens\ArangoDb;
+namespace ArangoDBClient;
 
-
-require __DIR__ . '/..' . '/autoload.php';
+require __DIR__ . '/../autoload.php';
 
 /* set up a trace function that will be called for each communication with the server */
 

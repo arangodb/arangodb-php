@@ -3,11 +3,11 @@
  * ArangoDB PHP client testsuite
  * File: AdminTest.php
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  * @author  Frank Mayer
  */
 
-namespace triagens\ArangoDb;
+namespace ArangoDBClient;
 
 /**
  * @property Connection   connection

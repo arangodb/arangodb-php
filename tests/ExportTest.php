@@ -3,11 +3,11 @@
  * ArangoDB PHP client testsuite
  * File: ExportTest.php
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  * @author  Jan Steemann
  */
 
-namespace triagens\ArangoDb;
+namespace ArangoDBClient;
 
 /**
  * @property Connection        $connection
@@ -15,7 +15,7 @@ namespace triagens\ArangoDb;
  * @property CollectionHandler $collectionHandler
  * @property DocumentHandler   $documentHandler
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  */
 class ExportTest extends
     \PHPUnit_Framework_TestCase
@@ -529,7 +529,7 @@ class ExportTest extends
     /**
      * Test export with invalid restriction definition
      *
-     * @expectedException \triagens\ArangoDb\ClientException
+     * @expectedException \ArangoDBClient\ClientException
      */
     public function testExportRestrictInvalidType()
     {
@@ -548,7 +548,7 @@ class ExportTest extends
     /**
      * Test export with invalid restriction definition
      *
-     * @expectedException \triagens\ArangoDb\ClientException
+     * @expectedException \ArangoDBClient\ClientException
      */
     public function testExportRestrictMissingType()
     {
@@ -567,7 +567,7 @@ class ExportTest extends
     /**
      * Test export with invalid restriction definition
      *
-     * @expectedException \triagens\ArangoDb\ClientException
+     * @expectedException \ArangoDBClient\ClientException
      */
     public function testExportRestrictInvalidFields()
     {
@@ -586,7 +586,7 @@ class ExportTest extends
     /**
      * Test export with invalid restriction definition
      *
-     * @expectedException \triagens\ArangoDb\ClientException
+     * @expectedException \ArangoDBClient\ClientException
      */
     public function testExportRestrictMissingFields()
     {

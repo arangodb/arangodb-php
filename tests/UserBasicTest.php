@@ -3,11 +3,11 @@
  * ArangoDB PHP client testsuite
  * File: UserBasicTest.php
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  * @author  Frank Mayer
  */
 
-namespace triagens\ArangoDb;
+namespace ArangoDBClient;
 
 use Installer\Exception;
 
@@ -17,7 +17,7 @@ use Installer\Exception;
  * @property Connection  $connection
  * @property UserHandler userHandler
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  */
 class UserBasicTest extends
     \PHPUnit_Framework_TestCase
@@ -59,7 +59,7 @@ class UserBasicTest extends
             // Just give us the $e
             static::assertEquals($e->getCode(), 401);
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e, 'should have gotten an exception');
     }
 
     /**
@@ -134,7 +134,7 @@ class UserBasicTest extends
             // Just give us the $e
             static::assertEquals($e->getCode(), 400);
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e, 'should have gotten an exception');
 
 
         $response = $this->userHandler->get('testUser1');
@@ -181,7 +181,7 @@ class UserBasicTest extends
             // Just give us the $e
             static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . $e->getCode());
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e, 'should have gotten an exception');
 
 
         $e = null;
@@ -191,7 +191,7 @@ class UserBasicTest extends
             // Just give us the $e
             static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . $e->getCode());
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e, 'should have gotten an exception');
 
 
         $e = null;
@@ -201,7 +201,7 @@ class UserBasicTest extends
             // Just give us the $e
             static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . $e->getCode());
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e, 'should have gotten an exception');
 
 
         $e = null;
@@ -211,7 +211,7 @@ class UserBasicTest extends
             // Just give us the $e
             static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . $e->getCode());
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e, 'should have gotten an exception');
     }
 
     public function tearDown()

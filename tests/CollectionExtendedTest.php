@@ -3,11 +3,11 @@
  * ArangoDB PHP client testsuite
  * File: CollectionExtendedTest.php
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  * @author  Frank Mayer
  */
 
-namespace triagens\ArangoDb;
+namespace ArangoDBClient;
 
 /**
  * Class CollectionExtendedTest
@@ -17,7 +17,7 @@ namespace triagens\ArangoDb;
  * @property CollectionHandler $collectionHandler
  * @property DocumentHandler   $documentHandler
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  */
 class CollectionExtendedTest extends
     \PHPUnit_Framework_TestCase
@@ -317,7 +317,7 @@ class CollectionExtendedTest extends
      *
      * We expect an exception here:
      *
-     * @expectedException \triagens\ArangoDb\ClientException
+     * @expectedException \ArangoDBClient\ClientException
      *
      */
     public function testCreateRenameAndDeleteCollectionWithWrongEncoding()
@@ -490,7 +490,7 @@ class CollectionExtendedTest extends
     /**
      * test for removal by keys with unknown collection
      *
-     * @expectedException \triagens\ArangoDb\ServerException
+     * @expectedException \ArangoDBClient\ServerException
      */
     public function testRemoveByKeysCollectionNotFound()
     {
@@ -2448,7 +2448,7 @@ class CollectionExtendedTest extends
             $collectionHandler->any('collection_that_does_not_exist');
         } catch (ServerException $e) {
             static::assertInstanceOf(
-                '\triagens\ArangoDb\ServerException',
+                '\ArangoDBClient\ServerException',
                 $e,
                 'Exception thrown was not a ServerException!'
             );
@@ -2594,7 +2594,7 @@ class CollectionExtendedTest extends
 
         $document = $result[0];
         static::assertInstanceOf(
-            '\triagens\ArangoDb\Document',
+            '\ArangoDBClient\Document',
             $document,
             'Object was not a Document!'
         );
@@ -2606,7 +2606,7 @@ class CollectionExtendedTest extends
 
         $document = $result[1];
         static::assertInstanceOf(
-            '\triagens\ArangoDb\Document',
+            '\ArangoDBClient\Document',
             $document,
             'Object was not a Document!'
         );
@@ -2618,7 +2618,7 @@ class CollectionExtendedTest extends
 
         $document = $result[2];
         static::assertInstanceOf(
-            '\triagens\ArangoDb\Document',
+            '\ArangoDBClient\Document',
             $document,
             'Object was not a Document!'
         );
@@ -2632,7 +2632,7 @@ class CollectionExtendedTest extends
     /**
      * test for lookup by keys with unknown collection
      *
-     * @expectedException \triagens\ArangoDb\ServerException
+     * @expectedException \ArangoDBClient\ServerException
      */
     public function testLookupByCollectionNotFound()
     {

@@ -3,11 +3,11 @@
  * ArangoDB PHP client testsuite
  * File: GraphExtendedTest.php
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  * @author  Frank Mayer
  */
 
-namespace triagens\ArangoDb;
+namespace ArangoDBClient;
 
 /**
  * Class GraphExtendedTest
@@ -16,7 +16,7 @@ namespace triagens\ArangoDb;
  * @property GraphHandler graphHandler
  * @property Connection   connection
  * @property string       graphName
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  */
 class GeneralGraphExtendedTest extends
     \PHPUnit_Framework_TestCase

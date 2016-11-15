@@ -3,11 +3,11 @@
  * ArangoDB PHP client testsuite
  * File: DocumentExtendedTest.php
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  * @author  Frank Mayer
  */
 
-namespace triagens\ArangoDb;
+namespace ArangoDBClient;
 
 /**
  * Class DocumentExtendedTest
@@ -18,7 +18,7 @@ namespace triagens\ArangoDb;
  * @property CollectionHandler $collectionHandler
  * @property DocumentHandler   $documentHandler
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  */
 class DocumentExtendedTest extends
     \PHPUnit_Framework_TestCase
@@ -38,7 +38,7 @@ class DocumentExtendedTest extends
      * test for creation of document with non utf encoding. This tests for failure of such an action.
      * We expect an exception here:
      *
-     * @expectedException \triagens\ArangoDb\ClientException
+     * @expectedException \ArangoDBClient\ClientException
      */
     public function testCreateDocumentWithWrongEncoding()
     {
@@ -106,7 +106,7 @@ class DocumentExtendedTest extends
 
         $cursor = $this->collectionHandler->byExample($this->collection->getId(), $document);
 
-        static::assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+        static::assertInstanceOf('ArangoDBClient\Cursor', $cursor);
         $resultingDocument = $cursor->current();
 
         static::assertEquals($resultingDocument->someAttribute, 'someValue');
@@ -147,7 +147,7 @@ class DocumentExtendedTest extends
             ['batchSize' => 1, 'skip' => 0, 'limit' => 2]
         );
 
-        static::assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+        static::assertInstanceOf('ArangoDBClient\Cursor', $cursor);
         $resultingDocument = null;
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
@@ -169,7 +169,7 @@ class DocumentExtendedTest extends
             ['batchSize' => 1, 'skip' => 1]
         );
 
-        static::assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+        static::assertInstanceOf('ArangoDBClient\Cursor', $cursor);
         $resultingDocument = null;
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
@@ -188,7 +188,7 @@ class DocumentExtendedTest extends
             ['batchSize' => 1, 'limit' => 1]
         );
 
-        static::assertInstanceOf('triagens\ArangoDb\Cursor', $cursor);
+        static::assertInstanceOf('ArangoDBClient\Cursor', $cursor);
         $resultingDocument = null;
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
@@ -219,7 +219,7 @@ class DocumentExtendedTest extends
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
 
         $resultingDocument = $this->collectionHandler->firstExample($this->collection->getId(), $document);
-        static::assertInstanceOf('triagens\ArangoDb\Document', $resultingDocument);
+        static::assertInstanceOf('ArangoDBClient\Document', $resultingDocument);
 
         static::assertEquals($resultingDocument->someAttribute, 'someValue');
         static::assertEquals($resultingDocument->someOtherAttribute, 'someOtherValue');
@@ -268,7 +268,7 @@ class DocumentExtendedTest extends
      * test for updating a document using update() with wrong encoding
      * We expect an exception here:
      *
-     * @expectedException \triagens\ArangoDb\ClientException
+     * @expectedException \ArangoDBClient\ClientException
      */
     public function testUpdateDocumentWithWrongEncoding()
     {
@@ -382,7 +382,7 @@ class DocumentExtendedTest extends
      * test for replacing a document using replace() with wrong encoding
      * We expect an exception here:
      *
-     * @expectedException \triagens\ArangoDb\ClientException
+     * @expectedException \ArangoDBClient\ClientException
      */
     public function testReplaceDocumentWithWrongEncoding()
     {
@@ -964,7 +964,7 @@ class DocumentExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -976,7 +976,7 @@ class DocumentExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -988,7 +988,7 @@ class DocumentExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -1000,7 +1000,7 @@ class DocumentExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -1012,7 +1012,7 @@ class DocumentExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
     }
 

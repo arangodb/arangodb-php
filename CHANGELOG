@@ -1,3 +1,11 @@
+Release notes for the ArangoDB-PHP driver 3.2.0 (currently in development)
+==========================================================================
+
+The namespace `\triagens\ArangoDb` was replaced with `\ArangoDBClient`.
+For each class in the old namespace there is now a class alias that points
+from the new namespace to the old namespace, so existing applications can
+still use the class names from the `\triagens\ArangoDb` namespace
+
 Release notes for the ArangoDB-PHP driver 3.1.0
 ===============================================
 

@@ -4,11 +4,11 @@
  * ArangoDB PHP client testsuite
  * File: CollectionBasicTest.php
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  * @author  Frank Mayer
  */
 
-namespace triagens\ArangoDb;
+namespace ArangoDBClient;
 
 /**
  * @property Connection        connection
@@ -55,9 +55,9 @@ class CollectionBasicTest extends
     {
         $connection = $this->connection;
         $collection = new Collection();
-        static::assertInstanceOf('triagens\ArangoDb\Collection', $collection);
+        static::assertInstanceOf('ArangoDBClient\Collection', $collection);
         new CollectionHandler($connection);
-        static::assertInstanceOf('triagens\ArangoDb\Collection', $collection);
+        static::assertInstanceOf('ArangoDBClient\Collection', $collection);
     }
 
 

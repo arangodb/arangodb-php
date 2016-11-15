@@ -1,6 +1,6 @@
 <?php
 
-namespace triagens\ArangoDb;
+namespace ArangoDBClient;
 
 require __DIR__ . '/init.php';
 
@@ -9,12 +9,12 @@ try {
     $handler    = new CollectionHandler($connection);
     
     if ($handler->has('example')) {
-        $handler->delete('example');
+        $handler->drop('example');
     }
     
     $col = new Collection();
     $col->setName('example');
-    $handler->add($col);
+    $handler->create($col);
 
     // create a statement to insert 100 example documents
     $statement = new Statement($connection, [
@@ -24,10 +24,10 @@ try {
     $statement->execute();
     
     // print number of documents
-    var_dump($handler->getCount('example'));
+    var_dump($handler->count('example'));
 
     // later on, we can assemble a list of document keys
-    $keys = '/init.php';
+    $keys = [];
     for ($i = 1; $i <= 100; ++$i) {
       $keys[] = 'example' . $i;
     }
@@ -42,7 +42,7 @@ try {
     var_dump($result);
     
     // print number of documents after bulk removal
-    var_dump($handler->getCount('example'));
+    var_dump($handler->count('example'));
 
 } catch (ConnectException $e) {
     print $e . PHP_EOL;

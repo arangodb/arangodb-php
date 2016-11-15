@@ -3,11 +3,11 @@
  * ArangoDB PHP client testsuite
  * File: TraversalTest.php
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  * @author  Frank Mayer
  */
 
-namespace triagens\ArangoDb;
+namespace ArangoDBClient;
 
 /**
  * Class TraversalTest
@@ -51,7 +51,7 @@ namespace triagens\ArangoDb;
  * @property string            vertexCollectionName
  * @property string            edgeCollectionName
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  */
 class TraversalTest extends
     \PHPUnit_Framework_TestCase

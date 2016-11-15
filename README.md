@@ -183,8 +183,8 @@ The ArangoDB PHP client's autoloader will only care about its own class files an
 If you do not wish to include autoload.php to load and setup the autoloader, you can invoke the autoloader directly:
 
 ```php
-require 'arangodb-php/lib/triagens/ArangoDb/autoloader.php';
-\triagens\ArangoDb\Autoloader::init();
+require 'arangodb-php/lib/ArangoDBClient/autoloader.php';
+\ArangoDBClient\Autoloader::init();
 ```
 
 <br>
@@ -205,19 +205,19 @@ In order to use ArangoDB, you need to specify the connection options. We do so b
 require __DIR__ . '/arangodb-php/autoload.php';
 
 // set up some aliases for less typing later
-use triagens\ArangoDb\Collection as ArangoCollection;
-use triagens\ArangoDb\CollectionHandler as ArangoCollectionHandler;
-use triagens\ArangoDb\Connection as ArangoConnection;
-use triagens\ArangoDb\ConnectionOptions as ArangoConnectionOptions;
-use triagens\ArangoDb\DocumentHandler as ArangoDocumentHandler;
-use triagens\ArangoDb\Document as ArangoDocument;
-use triagens\ArangoDb\Exception as ArangoException;
-use triagens\ArangoDb\Export as ArangoExport;
-use triagens\ArangoDb\ConnectException as ArangoConnectException;
-use triagens\ArangoDb\ClientException as ArangoClientException;
-use triagens\ArangoDb\ServerException as ArangoServerException;
-use triagens\ArangoDb\Statement as ArangoStatement;
-use triagens\ArangoDb\UpdatePolicy as ArangoUpdatePolicy;
+use ArangoDBClient\Collection as ArangoCollection;
+use ArangoDBClient\CollectionHandler as ArangoCollectionHandler;
+use ArangoDBClient\Connection as ArangoConnection;
+use ArangoDBClient\ConnectionOptions as ArangoConnectionOptions;
+use ArangoDBClient\DocumentHandler as ArangoDocumentHandler;
+use ArangoDBClient\Document as ArangoDocument;
+use ArangoDBClient\Exception as ArangoException;
+use ArangoDBClient\Export as ArangoExport;
+use ArangoDBClient\ConnectException as ArangoConnectException;
+use ArangoDBClient\ClientException as ArangoClientException;
+use ArangoDBClient\ServerException as ArangoServerException;
+use ArangoDBClient\Statement as ArangoStatement;
+use ArangoDBClient\UpdatePolicy as ArangoUpdatePolicy;
 
 // set up some basic connection options
 $connectionOptions = [
@@ -392,12 +392,12 @@ To retrieve a document from the server, the get() method of the *DocumentHandler
 /*
 The result of the get() method is a Document object that you can use in an OO fashion:
 
-object(triagens\ArangoDb\Document)##6 (4) {
-    ["_id":"triagens\ArangoDb\Document":private]=>
+object(ArangoDBClient\Document)##6 (4) {
+    ["_id":"ArangoDBClient\Document":private]=>
     string(15) "2377907/4818344"
-    ["_rev":"triagens\ArangoDb\Document":private]=>
+    ["_rev":"ArangoDBClient\Document":private]=>
     int(4818344)
-    ["_values":"triagens\ArangoDb\Document":private]=>
+    ["_values":"ArangoDBClient\Document":private]=>
     array(3) {
         ["age"]=>
         int(25)
@@ -413,7 +413,7 @@ object(triagens\ArangoDb\Document)##6 (4) {
             string(8) "swimming"
         }
     }
-    ["_changed":"triagens\ArangoDb\Document":private]=>
+    ["_changed":"ArangoDBClient\Document":private]=>
     bool(false)
 }
 */
@@ -528,7 +528,7 @@ Note that the document must have been fetched from the server before. If you hav
 
     try {
         $result = $handler->removeById('users', $userFromServer->getId());
-    } catch (\triagens\ArangoDb\ServerException $e) {
+    } catch (\ArangoDBClient\ServerException $e) {
         $e->getMessage();
     }
 ```
@@ -688,7 +688,7 @@ To turn on exception logging in the driver, set a flag on the driver's Exception
 driver exceptions are subclassed:
 
 ```php
-use triagens\ArangoDb\Exception as ArangoException;
+use ArangoDBClient\Exception as ArangoException;
 
 ArangoException::enableLogging();
 ```
@@ -696,7 +696,7 @@ ArangoException::enableLogging();
 To turn logging off, call its `disableLogging` method: 
 
 ```php
-use triagens\ArangoDb\Exception as ArangoException;
+use ArangoDBClient\Exception as ArangoException;
 
 ArangoException::disableLogging();
 ```
@@ -714,19 +714,19 @@ Here's the full code that combines all the pieces outlined above:
 require __DIR__ . '/autoload.php';
 
 // set up some aliases for less typing later
-use triagens\ArangoDb\Collection as ArangoCollection;
-use triagens\ArangoDb\CollectionHandler as ArangoCollectionHandler;
-use triagens\ArangoDb\Connection as ArangoConnection;
-use triagens\ArangoDb\ConnectionOptions as ArangoConnectionOptions;
-use triagens\ArangoDb\DocumentHandler as ArangoDocumentHandler;
-use triagens\ArangoDb\Document as ArangoDocument;
-use triagens\ArangoDb\Exception as ArangoException;
-use triagens\ArangoDb\Export as ArangoExport;
-use triagens\ArangoDb\ConnectException as ArangoConnectException;
-use triagens\ArangoDb\ClientException as ArangoClientException;
-use triagens\ArangoDb\ServerException as ArangoServerException;
-use triagens\ArangoDb\Statement as ArangoStatement;
-use triagens\ArangoDb\UpdatePolicy as ArangoUpdatePolicy;
+use ArangoDBClient\Collection as ArangoCollection;
+use ArangoDBClient\CollectionHandler as ArangoCollectionHandler;
+use ArangoDBClient\Connection as ArangoConnection;
+use ArangoDBClient\ConnectionOptions as ArangoConnectionOptions;
+use ArangoDBClient\DocumentHandler as ArangoDocumentHandler;
+use ArangoDBClient\Document as ArangoDocument;
+use ArangoDBClient\Exception as ArangoException;
+use ArangoDBClient\Export as ArangoExport;
+use ArangoDBClient\ConnectException as ArangoConnectException;
+use ArangoDBClient\ClientException as ArangoClientException;
+use ArangoDBClient\ServerException as ArangoServerException;
+use ArangoDBClient\Statement as ArangoStatement;
+use ArangoDBClient\UpdatePolicy as ArangoUpdatePolicy;
 
 // set up some basic connection options
 $connectionOptions = [
@@ -879,7 +879,7 @@ try {
 
     try {
         $result = $handler->removeById('users', $userFromServer->getId());
-    } catch (\triagens\ArangoDb\ServerException $e) {
+    } catch (\ArangoDBClient\ServerException $e) {
         $e->getMessage();
     }
 

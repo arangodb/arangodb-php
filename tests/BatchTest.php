@@ -3,11 +3,11 @@
  * ArangoDB PHP client testsuite
  * File: BatchTest.php
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  * @author  Frank Mayer
  */
 
-namespace triagens\ArangoDb;
+namespace ArangoDBClient;
 
 /**
  * @property Connection        connection
@@ -88,7 +88,7 @@ class BatchTest extends
 
         for ($i = 0; $i < 10; ++$i) {
             $part = $batch->getPart('doc' . $i);
-            static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $part);
+            static::assertInstanceOf('\ArangoDBClient\BatchPart', $part);
 
             static::assertEquals('doc' . $i, $part->getId());
             static::assertEquals(202, $part->getHttpCode());
@@ -123,7 +123,7 @@ class BatchTest extends
         $this->collectionHandler->create($collection);
 
         $part = $batch->getPart(0);
-        static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $part);
+        static::assertInstanceOf('\ArangoDBClient\BatchPart', $part);
         static::assertEquals(202, $part->getHttpCode());
 
         // call process once (this does not clear the batch)
@@ -149,7 +149,7 @@ class BatchTest extends
         // not needed, but just here to test if anything goes wrong if it's called again...
         $batch->startCapture();
 
-        static::assertInstanceOf('\triagens\ArangoDb\Batch', $batch);
+        static::assertInstanceOf('\ArangoDBClient\Batch', $batch);
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
@@ -157,7 +157,7 @@ class BatchTest extends
         );
         $documentId = $documentHandler->save($this->collection->getId(), $document);
 
-        static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId, 'Did not return a BatchPart Object!');
+        static::assertInstanceOf('\ArangoDBClient\BatchPart', $documentId, 'Did not return a BatchPart Object!');
 
         $batchPartId = $documentId->getId();
 
@@ -166,7 +166,7 @@ class BatchTest extends
         );
         $documentId = $documentHandler->save($this->collection->getId(), $document);
 
-        static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId, 'Did not return a BatchPart Object!');
+        static::assertInstanceOf('\ArangoDBClient\BatchPart', $documentId, 'Did not return a BatchPart Object!');
 
         $batch->process();
 
@@ -186,7 +186,7 @@ class BatchTest extends
         // not needed, but just here to test if anything goes wrong if it's called again...
         $batch->startCapture();
 
-        static::assertInstanceOf('\triagens\ArangoDb\Batch', $batch);
+        static::assertInstanceOf('\ArangoDBClient\Batch', $batch);
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
@@ -194,14 +194,14 @@ class BatchTest extends
         );
         $documentId = $documentHandler->save($this->collection->getId(), $document);
 
-        static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId, 'Did not return a BatchPart Object!');
+        static::assertInstanceOf('\ArangoDBClient\BatchPart', $documentId, 'Did not return a BatchPart Object!');
 
         $document   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
         $documentId = $documentHandler->save($this->collection->getId(), $document);
 
-        static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId, 'Did not return a BatchPart Object!');
+        static::assertInstanceOf('\ArangoDBClient\BatchPart', $documentId, 'Did not return a BatchPart Object!');
 
         static::assertEquals($batch->getConnectionCaptureMode($this->connection), true);
 
@@ -238,7 +238,7 @@ class BatchTest extends
         // not needed, but just here to test if anything goes wrong if it's called again...
         $batch->startCapture();
 
-        static::assertInstanceOf('\triagens\ArangoDb\Batch', $batch);
+        static::assertInstanceOf('\ArangoDBClient\Batch', $batch);
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
@@ -246,7 +246,7 @@ class BatchTest extends
         );
         $documentId = $documentHandler->save($this->collection->getId(), $document);
 
-        static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentId, 'Did not return a BatchPart Object!');
+        static::assertInstanceOf('\ArangoDBClient\BatchPart', $documentId, 'Did not return a BatchPart Object!');
 
         $document = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
@@ -270,7 +270,7 @@ class BatchTest extends
         $edgeCollection = $this->edgeCollection;
 
         $batch = new Batch($this->connection);
-        static::assertInstanceOf('\triagens\ArangoDb\Batch', $batch);
+        static::assertInstanceOf('\ArangoDBClient\Batch', $batch);
 
         // Create collection
         $connection        = $this->connection;
@@ -311,7 +311,7 @@ class BatchTest extends
 
         static::assertEquals($documentBatchPart->getType(), 'document');
 
-        static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentBatchPart, 'Did not return a BatchPart Object!');
+        static::assertInstanceOf('\ArangoDBClient\BatchPart', $documentBatchPart, 'Did not return a BatchPart Object!');
 
         for ($i = 0; $i <= 10; ++$i) {
             $document          = Document::createFromArray(
@@ -322,7 +322,7 @@ class BatchTest extends
             );
             $documentBatchPart = $documentHandler->save($resultingCollectionId, $document);
         }
-        static::assertInstanceOf('\triagens\ArangoDb\BatchPart', $documentBatchPart, 'Did not return a BatchPart Object!');
+        static::assertInstanceOf('\ArangoDBClient\BatchPart', $documentBatchPart, 'Did not return a BatchPart Object!');
 
         $batch->process();
 
@@ -363,7 +363,7 @@ class BatchTest extends
 
 
         static::assertFalse(
-            is_a($edge, 'triagens\ArangoDb\HttpResponse'),
+            is_a($edge, 'ArangoDBClient\HttpResponse'),
             'Edge batch creation did return an error: ' . print_r($edge, true)
         );
         static::assertNotSame($edge, '', 'Edge batch creation did return empty string: ' . print_r($edge, true));

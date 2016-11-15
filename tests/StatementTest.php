@@ -3,11 +3,11 @@
  * ArangoDB PHP client testsuite
  * File: StatementTest.php
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  * @author  Frank Mayer
  */
 
-namespace triagens\ArangoDb;
+namespace ArangoDBClient;
 
 function filtered(array $values)
 {
@@ -25,7 +25,7 @@ function filtered(array $values)
  * @property CollectionHandler $collectionHandler
  * @property DocumentHandler   $documentHandler
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  */
 class StatementTest extends
     \PHPUnit_Framework_TestCase
@@ -245,7 +245,7 @@ class StatementTest extends
      * This is just a test to really test connectivity with the server before moving on to further tests.
      * We expect an exception here:
      *
-     * @expectedException \triagens\ArangoDb\ClientException
+     * @expectedException \ArangoDBClient\ClientException
      */
     public function testExecuteStatementWithWrongEncoding()
     {
@@ -387,7 +387,7 @@ class StatementTest extends
         static::assertCount(0, $cursor->getWarnings());
 
         foreach ($cursor->getAll() as $row) {
-            static::assertNotInstanceOf('\triagens\ArangoDb\Document', $row, 'A document object was in the result set!');
+            static::assertNotInstanceOf('\ArangoDBClient\Document', $row, 'A document object was in the result set!');
         }
     }
 

@@ -3,11 +3,11 @@
  * ArangoDB PHP client testsuite
  * File: TransactionTest.php
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  * @author  Frank Mayer
  */
 
-namespace triagens\ArangoDb;
+namespace ArangoDBClient;
 
 /**
  * Class TransactionTest
@@ -18,7 +18,7 @@ namespace triagens\ArangoDb;
  * @property CollectionHandler $collectionHandler
  * @property Collection        $collection1
  * @property Collection        $collection2
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  */
 class TransactionTest extends
     \PHPUnit_Framework_TestCase

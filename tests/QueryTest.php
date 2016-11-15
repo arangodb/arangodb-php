@@ -3,11 +3,11 @@
  * ArangoDB PHP client testsuite
  * File: QueryTest.php
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  * @author  Jan Steemann
  */
 
-namespace triagens\ArangoDb;
+namespace ArangoDBClient;
 
 /**
  * Class QueryTest
@@ -15,7 +15,7 @@ namespace triagens\ArangoDb;
  * @property Connection   $connection
  * @property QueryHandler $queryHandler
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  */
 class QueryTest extends
     \PHPUnit_Framework_TestCase
@@ -100,7 +100,7 @@ class QueryTest extends
     /**
      * Test getting correct Timeout Exception
      *
-     * @expectedException \triagens\ArangoDb\ClientException
+     * @expectedException \ArangoDBClient\ClientException
      */
     public function testTimeoutException()
     {

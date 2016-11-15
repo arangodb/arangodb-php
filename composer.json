@@ -26,7 +26,7 @@
   },
   "autoload": {
     "psr-0": {
-      "triagens\\ArangoDb": "lib/"
+      "ArangoDBClient": "lib/"
     }
   },
   "repositories": [

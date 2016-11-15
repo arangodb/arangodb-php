@@ -1,9 +1,8 @@
 <?php
 
-namespace triagens\ArangoDb;
+namespace ArangoDBClient;
 
 require __DIR__ . '/init.php';
-
 
 try {
     $connection        = new Connection($connectionOptions);
@@ -14,7 +13,7 @@ try {
     // set up two document collections
     $collection        = new Collection('employees');
     try {
-        $collectionHandler->add($collection);
+        $collectionHandler->create($collection);
     }
     catch (\Exception $e) {
         // collection may already exist - ignore this error for now
@@ -22,7 +21,7 @@ try {
     
     $collection        = new Collection('departments');
     try {
-        $collectionHandler->add($collection);
+        $collectionHandler->create($collection);
     }
     catch (\Exception $e) {
         // collection may already exist - ignore this error for now
@@ -33,7 +32,7 @@ try {
     $collection->setType(3);
     
     try {
-        $collectionHandler->add($collection);
+        $collectionHandler->create($collection);
     }
     catch (\Exception $e) {
         // collection may already exist - ignore this error for now

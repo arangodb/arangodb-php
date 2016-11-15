@@ -1,5 +1,6 @@
 <?php
-namespace triagens\ArangoDb;
+
+namespace ArangoDBClient;
 
 // get connection options from a helper file
 require __DIR__ . '/init.php';
@@ -11,8 +12,7 @@ try {
     $graphHandler = new GraphHandler($connection);
     $graph        = new Graph();
     $graph->set('_key', 'Graph');
-    $graph->setVerticesCollection('VertexCollection');
-    $graph->setEdgesCollection('EdgeCollection');
+    $graph->addEdgeDefinition(EdgeDefinition::createUndirectedRelation('EdgeCollection', 'VertexCollection'));
 
     try {
         $graphHandler->dropGraph($graph);
@@ -45,7 +45,7 @@ try {
     // Save the vertices
     $graphHandler->saveVertex('Graph', $vertex1);
     $graphHandler->saveVertex('Graph', $vertex2);
-
+    
     // Get the vertices
     $graphHandler->getVertex('Graph', 'vertex1');
     $graphHandler->getVertex('Graph', 'vertex2');
@@ -65,7 +65,7 @@ try {
     // Remove vertices and edges
     $graphHandler->removeVertex('Graph', 'vertex1');
     $graphHandler->removeVertex('Graph', 'vertex2');
-
+    
     // the connecting edge will be deleted automatically
 } catch (ConnectException $e) {
     print $e . PHP_EOL;

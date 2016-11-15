@@ -3,11 +3,11 @@
  * ArangoDB PHP client testsuite
  * File: EdgeExtendedTest.php
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  * @author  Frank Mayer
  */
 
-namespace triagens\ArangoDb;
+namespace ArangoDBClient;
 
 /**
  * Class EdgeExtendedTest
@@ -19,7 +19,7 @@ namespace triagens\ArangoDb;
  * @property DocumentHandler   $documentHandler
  * @property EdgeHandler       $edgeHandler
  *
- * @package triagens\ArangoDb
+ * @package ArangoDBClient
  */
 class EdgeExtendedTest extends
     \PHPUnit_Framework_TestCase
@@ -79,7 +79,7 @@ class EdgeExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -91,7 +91,7 @@ class EdgeExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -103,7 +103,7 @@ class EdgeExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -115,7 +115,7 @@ class EdgeExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -127,7 +127,7 @@ class EdgeExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('triagens\ArangoDb\ServerException', $e);
+        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
     }
 
@@ -191,7 +191,7 @@ class EdgeExtendedTest extends
      * test for updating a edge using update() with wrong encoding
      * We expect an exception here:
      *
-     * @expectedException \triagens\ArangoDb\ClientException
+     * @expectedException \ArangoDBClient\ClientException
      */
     public function testUpdateEdgeWithWrongEncoding()
     {
@@ -353,7 +353,7 @@ class EdgeExtendedTest extends
      * test for replacing a edge using replace() with wrong encoding
      * We expect an exception here:
      *
-     * @expectedException \triagens\ArangoDb\ClientException
+     * @expectedException \ArangoDBClient\ClientException
      */
     public function testReplaceEdgeWithWrongEncoding()
     {
