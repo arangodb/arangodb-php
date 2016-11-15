@@ -11,7 +11,7 @@ try {
     // create a new collection
     $col = new Collection();
     $col->setName('hihi');
-    $result = $handler->add($col);
+    $result = $handler->create($col);
     var_dump($result);
 
     // check if a collection exists
@@ -27,15 +27,15 @@ try {
     var_dump($result);
 
     // get number of documents from an existing collection
-    $result = $handler->getCount('hihi');
+    $result = $handler->count('hihi');
     var_dump($result);
 
     // get figures for an existing collection
-    $result = $handler->getFigures('hihi');
+    $result = $handler->figures('hihi');
     var_dump($result);
 
     // delete the collection
-    $result = $handler->delete('hihi');
+    $result = $handler->drop('hihi');
     var_dump($result);
     // rename a collection
     // $handler->rename($col, "hihi30");

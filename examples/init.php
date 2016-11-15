@@ -30,8 +30,8 @@ $connectionOptions = [
   ConnectionOptions::OPTION_AUTH_TYPE       => 'Basic',                 // use basic authorization
 
   // authentication parameters (note: must also start server with option `--server.disable-authentication false`)
-  // ConnectionOptions::OPTION_AUTH_USER       => '',                      // user for basic authorization
-  // ConnectionOptions::OPTION_AUTH_PASSWD     => '',                      // password for basic authorization
+  ConnectionOptions::OPTION_AUTH_USER       => 'root',                  // user for basic authorization
+  ConnectionOptions::OPTION_AUTH_PASSWD     => '',                      // password for basic authorization
 
   ConnectionOptions::OPTION_TIMEOUT         => 30,                      // timeout in seconds
   ConnectionOptions::OPTION_TRACE           => $traceFunc,              // tracer function, can be used for debugging

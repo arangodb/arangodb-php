@@ -13,7 +13,7 @@ try {
     // set up a document collection "users"
     $collection        = new Collection('users');
     try {
-        $collectionHandler->add($collection);
+        $collectionHandler->create($collection);
     }
     catch (\Exception $e) {
         // collection may already exist - ignore this error for now
@@ -31,7 +31,7 @@ try {
     var_dump($cursor->getAll());
 
     // get the ids of all documents in the collection
-    $result = $handler->getAllIds('users');
+    $result = $collectionHandler->getAllIds('users');
     var_dump($result);
 
     // create another new document
@@ -58,7 +58,7 @@ try {
     var_dump($result);
 
     // delete the document
-    $result = $handler->deleteById('users', $id);
+    $result = $handler->removeById('users', $id);
     var_dump($result);
 
     // check if a document exists

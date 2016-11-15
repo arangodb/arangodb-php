@@ -25,7 +25,7 @@ try {
     
     // now create the collection
     $collection = new Collection('test');
-    $collectionHandler->add($collection);
+    $collectionHandler->create($collection);
 
     echo "creating $n documents" . PHP_EOL;
     $time = microtime(true);

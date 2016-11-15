@@ -11,8 +11,7 @@ try {
     $graphHandler = new GraphHandler($connection);
     $graph        = new Graph();
     $graph->set('_key', 'Graph');
-    $graph->setVerticesCollection('VertexCollection');
-    $graph->setEdgesCollection('EdgeCollection');
+    $graph->addEdgeDefinition(EdgeDefinition::createUndirectedRelation('EdgeCollection', 'VertexCollection'));
 
     try {
         $graphHandler->dropGraph($graph);
