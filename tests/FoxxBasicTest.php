@@ -42,7 +42,7 @@ class FoxxBasicTest extends
 
     /**
      * Try to upload and install a non-existing app
-     * @expectedException ClientException
+     * @expectedException \triagens\ArangoDb\ClientException
      */
     public function testUploadAndInstallNonExistingFoxxApp()
     {
