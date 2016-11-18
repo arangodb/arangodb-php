@@ -230,7 +230,6 @@ abstract class Urls
      */
     const URL_QUERY_CACHE = '/_api/query-cache';
 
-}
     /**
      * URL for file uploads
      */
@@ -240,3 +239,9 @@ abstract class Urls
      * URL for foxx-app installations
      */
     const URL_FOXX_INSTALL = '/_admin/foxx/install';
+
+    /**
+     * URL for foxx-app deinstallation
+     */
+    const URL_FOXX_UNINSTALL = '/_admin/foxx/uninstall';
+}

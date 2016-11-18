@@ -21,7 +21,7 @@ class FoxxHandler extends Handler
     /**
      * Upload and install a foxx app.
      *
-     * @throws Exception
+     * @throws ClientException
      *
      * @param string $localZip          - the path to the local foxx-app zip-archive to upload/install
      * @param string mountPoint         - the mountpoint for the app, must begin with a '/'
@@ -51,5 +51,31 @@ class FoxxHandler extends Handler
         }
     }
 
-    
+    /**
+     * Remove a foxx-app.
+     *
+     * @throws ClientException
+     *
+     * @param string mountPoint         - the mountpoint for the app, must begin with a '/'
+     * @param array $options            - for future usage
+     * @return array - the server response
+     * 
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function removeFoxxApp($mountPoint, $options = array())
+    {
+        try {
+            $response = $this->getConnection()->put(Urls::URL_FOXX_UNINSTALL, json_encode(array('mount' => $mountPoint)));
+            if ($response->getHttpCode() < 400) {
+                return $response->getJson();
+            } else { 
+                throw new ClientException(sprintf('Foxx uninstall failed (Code: %d)', $response->getHttpCode()));
+            }
+        } catch(ServerException $e) {
+            if ($e->getMessage() === 'Service not found') {
+                throw new ClientException(sprintf('Mount point %s not present.', $mountPoint));
+            }
+            throw new ClientException($e->getMessage());
+        }
+    }
 }
