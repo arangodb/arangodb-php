@@ -47,7 +47,7 @@ class FoxxBasicTest extends
     {
         $foxxHandler      = $this->foxxHandler;
         $zip = __DIR__ . '/files_for_tests/move_along.zip';
-        static::expectException(ClientException::class);
+        $this->expectException(ClientException::class);
         $foxxHandler->installFoxxZip($zip, '/move_along');
     }
 
