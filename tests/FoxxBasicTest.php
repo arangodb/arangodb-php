@@ -42,12 +42,12 @@ class FoxxBasicTest extends
 
     /**
      * Try to upload and install a non-existing app
+     * @expectedException ClientException
      */
     public function testUploadAndInstallNonExistingFoxxApp()
     {
         $foxxHandler      = $this->foxxHandler;
         $zip = __DIR__ . '/files_for_tests/move_along.zip';
-        $this->expectException(ClientException::class);
         $foxxHandler->installFoxxZip($zip, '/move_along');
     }
 
