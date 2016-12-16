@@ -163,8 +163,11 @@ class Graph extends
                 ValueValidator::validate($value);
             }
 
+            $edgeDefinitionBaseObject = new EdgeDefinition();
+
             foreach ($value as $ed) {
-                $edgeDefinition = new EdgeDefinition();
+                $edgeDefinition = clone $edgeDefinitionBaseObject;
+
                 foreach ($ed[self::ENTRY_FROM] as $from) {
                     $edgeDefinition->addFromCollection($from);
                 }
