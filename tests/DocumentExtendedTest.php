@@ -546,7 +546,7 @@ class DocumentExtendedTest extends
         }
 
         static::assertInstanceOf('Exception', $e);
-        static::assertEquals($e->getMessage(), 'precondition failed');
+        static::assertEquals($e->getMessage(), 'invalid revision number');
         $resultingDocument1 = $documentHandler->get($this->collection->getId(), $documentId);
 
         static::assertEquals(
@@ -649,7 +649,7 @@ class DocumentExtendedTest extends
         }
 
         static::assertInstanceOf('Exception', $e);
-        static::assertEquals($e->getMessage(), 'precondition failed');
+        static::assertEquals($e->getMessage(), 'invalid revision number');
         $resultingDocument1 = $documentHandler->get($this->collection->getId(), $documentId);
 
         static::assertEquals($resultingDocument1->someAttribute, 'someValue2');
