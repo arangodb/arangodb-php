@@ -7,7 +7,7 @@ Please follow these guidelines if you want to contribute to ArangoDB-PHP:
 ## Reporting Bugs
 
 When reporting bugs, please use our issue tracker on GitHub.
-Please make sure to include the version number of ArangoDB and ArangoDB-PHP in your bug report, along with the platform you are using (e.g. `Linux OpenSuSE x86_64`, `PHP 5.4.15`).
+Please make sure to include the version number of ArangoDB and ArangoDB-PHP in your bug report, along with the platform you are using (e.g. `Linux OpenSuSE x86_64`, `PHP 7.0.14`).
 Please also include any special configuration.
 This will help us reproducing and finding bugs.
 

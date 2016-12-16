@@ -8,6 +8,8 @@ matrix:
       env: PHP_VERSION_USED="5.6"
     - php: '7.0'
       env: PHP_VERSION_USED="7.0"
+    - php: '7.1'
+      env: PHP_VERSION_USED="7.1"
     - php: hhvm
       env: PHP_VERSION_USED="hhvm"
 
