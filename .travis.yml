@@ -23,4 +23,5 @@ script:
   - if [[ "${PHP_VERSION_USED}" == "5.5" ]]; then phpunit --configuration ./tests/phpunit.xml; fi
   - if [[ "${PHP_VERSION_USED}" == "5.6" ]]; then phpunit --configuration ./tests/phpunit.xml; fi
   - if [[ "${PHP_VERSION_USED}" == "7.0" ]]; then (cd tests && ../phpunit.phar . --colors=auto --verbose --bootstrap=bootstrap.php); fi
+  - if [[ "${PHP_VERSION_USED}" == "7.1" ]]; then (cd tests && ../phpunit.phar . --colors=auto --verbose --bootstrap=bootstrap.php); fi
   - if [[ "${PHP_VERSION_USED}" == "hhvm" ]]; then phpunit --configuration ./tests/phpunit.xml; fi
