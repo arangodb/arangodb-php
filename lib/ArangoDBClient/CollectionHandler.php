@@ -1839,4 +1839,4 @@ class CollectionHandler extends
     }
 }
 
-class_alias('\ArangoDBClient\CollectionHandler', '\triagens\ArangoDb\CollectionHandler');
+class_alias(CollectionHandler::class, '\triagens\ArangoDb\CollectionHandler');

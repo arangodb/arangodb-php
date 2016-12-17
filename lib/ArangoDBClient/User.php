@@ -26,4 +26,4 @@ class User extends
 
 }
 
-class_alias('\ArangoDBClient\User', '\triagens\ArangoDb\User');
+class_alias(User::class, '\triagens\ArangoDb\User');

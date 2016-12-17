@@ -553,4 +553,4 @@ class Batch
     }
 }
 
-class_alias('\ArangoDBClient\Batch', '\triagens\ArangoDb\Batch');
+class_alias(Batch::class, '\triagens\ArangoDb\Batch');

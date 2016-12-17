@@ -24,4 +24,4 @@ class Vertex extends
 
 }
 
-class_alias('\ArangoDBClient\Vertex', '\triagens\ArangoDb\Vertex');
+class_alias(Vertex::class, '\triagens\ArangoDb\Vertex');

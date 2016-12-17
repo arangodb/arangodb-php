@@ -265,4 +265,4 @@ class Export
     }
 }
 
-class_alias('\ArangoDBClient\Export', '\triagens\ArangoDb\Export');
+class_alias(Export::class, '\triagens\ArangoDb\Export');

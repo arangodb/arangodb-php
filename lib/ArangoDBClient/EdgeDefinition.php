@@ -207,4 +207,4 @@ class EdgeDefinition
 
 }
 
-class_alias('\ArangoDBClient\EdgeDefinition', '\triagens\ArangoDb\EdgeDefinition');
+class_alias(EdgeDefinition::class, '\triagens\ArangoDb\EdgeDefinition');

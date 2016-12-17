@@ -1402,4 +1402,4 @@ class GraphHandler extends
     }
 }
 
-class_alias('\ArangoDBClient\GraphHandler', '\triagens\ArangoDb\GraphHandler');
+class_alias(GraphHandler::class, '\triagens\ArangoDb\GraphHandler');

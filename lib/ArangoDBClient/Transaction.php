@@ -524,4 +524,4 @@ class Transaction
     }
 }
 
-class_alias('\ArangoDBClient\Transaction', '\triagens\ArangoDb\Transaction');
+class_alias(Transaction::class, '\triagens\ArangoDb\Transaction');

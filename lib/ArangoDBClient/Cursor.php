@@ -820,4 +820,4 @@ class Cursor implements
 
 }
 
-class_alias('\ArangoDBClient\Cursor', '\triagens\ArangoDb\Cursor');
+class_alias(Cursor::class, '\triagens\ArangoDb\Cursor');

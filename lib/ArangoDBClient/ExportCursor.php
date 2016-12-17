@@ -277,4 +277,4 @@ class ExportCursor
 
 }
 
-class_alias('\ArangoDBClient\ExportCursor', '\triagens\ArangoDb\ExportCursor');
+class_alias(ExportCursor::class, '\triagens\ArangoDb\ExportCursor');

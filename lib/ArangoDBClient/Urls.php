@@ -230,4 +230,4 @@ abstract class Urls
 
 }
 
-class_alias('\ArangoDBClient\Urls', '\triagens\ArangoDb\Urls');
+class_alias(Urls::class, '\triagens\ArangoDb\Urls');

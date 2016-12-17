@@ -119,4 +119,4 @@ class ServerException extends
     }
 }
 
-class_alias('\ArangoDBClient\ServerException', '\triagens\ArangoDb\ServerException');
+class_alias(ServerException::class, '\triagens\ArangoDb\ServerException');

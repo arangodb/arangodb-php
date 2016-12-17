@@ -121,4 +121,4 @@ class TraceRequest
     }
 }
 
-class_alias('\ArangoDBClient\TraceRequest', '\triagens\ArangoDb\TraceRequest');
+class_alias(TraceRequest::class, '\triagens\ArangoDb\TraceRequest');

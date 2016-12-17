@@ -102,4 +102,4 @@ abstract class UrlHelper
     }
 }
 
-class_alias('\ArangoDBClient\UrlHelper', '\triagens\ArangoDb\UrlHelper');
+class_alias(UrlHelper::class, '\triagens\ArangoDb\UrlHelper');

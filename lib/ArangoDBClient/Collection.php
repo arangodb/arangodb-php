@@ -723,4 +723,4 @@ class Collection
     }
 }
 
-class_alias('\ArangoDBClient\Collection', '\triagens\ArangoDb\Collection');
+class_alias(Collection::class, '\triagens\ArangoDb\Collection');

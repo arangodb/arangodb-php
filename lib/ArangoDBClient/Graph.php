@@ -228,4 +228,4 @@ class Graph extends
 
 }
 
-class_alias('\ArangoDBClient\Graph', '\triagens\ArangoDb\Graph');
+class_alias(Graph::class, '\triagens\ArangoDb\Graph');

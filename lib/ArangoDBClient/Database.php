@@ -174,4 +174,4 @@ class Database
     }
 }
 
-class_alias('\ArangoDBClient\Database', '\triagens\ArangoDb\Database');
+class_alias(Database::class, '\triagens\ArangoDb\Database');

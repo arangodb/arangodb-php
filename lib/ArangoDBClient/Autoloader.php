@@ -95,4 +95,4 @@ class Autoloader
     }
 }
 
-class_alias('\ArangoDBClient\Autoloader', '\triagens\ArangoDb\Autoloader');
+class_alias(Autoloader::class, '\triagens\ArangoDb\Autoloader');

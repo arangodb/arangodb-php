@@ -301,4 +301,4 @@ class BatchPart
     }
 }
 
-class_alias('\ArangoDBClient\BatchPart', '\triagens\ArangoDb\BatchPart');
+class_alias(BatchPart::class, '\triagens\ArangoDb\BatchPart');

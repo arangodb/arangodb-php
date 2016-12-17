@@ -177,4 +177,4 @@ class Edge extends
 
 }
 
-class_alias('\ArangoDBClient\Edge', '\triagens\ArangoDb\Edge');
+class_alias(Edge::class, '\triagens\ArangoDb\Edge');

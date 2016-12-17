@@ -60,4 +60,4 @@ class Exception extends
     private static $enableLogging = false;
 }
 
-class_alias('\ArangoDBClient\Exception', '\triagens\ArangoDb\Exception');
+class_alias(Exception::class, '\triagens\ArangoDb\Exception');

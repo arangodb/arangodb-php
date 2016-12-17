@@ -757,4 +757,4 @@ class Connection
     }
 }
 
-class_alias('\ArangoDBClient\Connection', '\triagens\ArangoDb\Connection');
+class_alias(Connection::class, '\triagens\ArangoDb\Connection');

@@ -98,4 +98,4 @@ class BindVars
     }
 }
 
-class_alias('\ArangoDBClient\BindVars', '\triagens\ArangoDb\BindVars');
+class_alias(BindVars::class, '\triagens\ArangoDb\BindVars');

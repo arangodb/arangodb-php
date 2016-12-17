@@ -229,4 +229,4 @@ class HttpResponse
 
 }
 
-class_alias('\ArangoDBClient\HttpResponse', '\triagens\ArangoDb\HttpResponse');
+class_alias(HttpResponse::class, '\triagens\ArangoDb\HttpResponse');

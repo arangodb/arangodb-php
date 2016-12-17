@@ -75,4 +75,4 @@ class QueryHandler extends
 
 }
 
-class_alias('\ArangoDBClient\QueryHandler', '\triagens\ArangoDb\QueryHandler');
+class_alias(QueryHandler::class, '\triagens\ArangoDb\QueryHandler');

@@ -47,4 +47,4 @@ class UpdatePolicy
     }
 }
 
-class_alias('\ArangoDBClient\UpdatePolicy', '\triagens\ArangoDb\UpdatePolicy');
+class_alias(UpdatePolicy::class, '\triagens\ArangoDb\UpdatePolicy');

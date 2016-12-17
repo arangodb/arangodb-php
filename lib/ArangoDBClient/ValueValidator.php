@@ -50,4 +50,4 @@ class ValueValidator
     }
 }
 
-class_alias('\ArangoDBClient\ValueValidator', '\triagens\ArangoDb\ValueValidator');
+class_alias(ValueValidator::class, '\triagens\ArangoDb\ValueValidator');

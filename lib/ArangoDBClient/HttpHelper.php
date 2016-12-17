@@ -326,4 +326,4 @@ class HttpHelper
     }
 }
 
-class_alias('\ArangoDBClient\HttpHelper', '\triagens\ArangoDb\HttpHelper');
+class_alias(HttpHelper::class, '\triagens\ArangoDb\HttpHelper');

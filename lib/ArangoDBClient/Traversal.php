@@ -281,4 +281,4 @@ class Traversal
     }
 }
 
-class_alias('\ArangoDBClient\Traversal', '\triagens\ArangoDb\Traversal');
+class_alias(Traversal::class, '\triagens\ArangoDb\Traversal');

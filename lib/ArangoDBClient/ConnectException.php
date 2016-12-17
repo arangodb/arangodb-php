@@ -34,4 +34,4 @@ class ConnectException extends
     }
 }
 
-class_alias('\ArangoDBClient\ConnectException', '\triagens\ArangoDb\ConnectException');
+class_alias(ConnectException::class, '\triagens\ArangoDb\ConnectException');

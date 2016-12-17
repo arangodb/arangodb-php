@@ -159,4 +159,4 @@ abstract class Handler
 
 }
 
-class_alias('\ArangoDBClient\Handler', '\triagens\ArangoDb\Handler');
+class_alias(Handler::class, '\triagens\ArangoDb\Handler');

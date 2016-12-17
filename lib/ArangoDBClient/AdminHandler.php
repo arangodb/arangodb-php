@@ -220,4 +220,4 @@ class AdminHandler extends
     }
 }
 
-class_alias('\ArangoDBClient\AdminHandler', '\triagens\ArangoDb\AdminHandler');
+class_alias(AdminHandler::class, '\triagens\ArangoDb\AdminHandler');

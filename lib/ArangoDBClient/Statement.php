@@ -549,4 +549,4 @@ class Statement
     }
 }
 
-class_alias('\ArangoDBClient\Statement', '\triagens\ArangoDb\Statement');
+class_alias(Statement::class, '\triagens\ArangoDb\Statement');

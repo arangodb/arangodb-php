@@ -189,4 +189,4 @@ class Endpoint
     }
 }
 
-class_alias('\ArangoDBClient\Endpoint', '\triagens\ArangoDb\Endpoint');
+class_alias(Endpoint::class, '\triagens\ArangoDb\Endpoint');

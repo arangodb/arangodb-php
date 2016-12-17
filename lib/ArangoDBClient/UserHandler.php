@@ -241,4 +241,4 @@ class UserHandler extends
 
 }
 
-class_alias('\ArangoDBClient\UserHandler', '\triagens\ArangoDb\UserHandler');
+class_alias(UserHandler::class, '\triagens\ArangoDb\UserHandler');

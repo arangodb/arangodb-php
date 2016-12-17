@@ -91,4 +91,4 @@ abstract class DefaultValues
     const DEFAULT_CHECK_UTF8_CONFORM = false;
 }
 
-class_alias('\ArangoDBClient\DefaultValues', '\triagens\ArangoDb\DefaultValues');
+class_alias(DefaultValues::class, '\triagens\ArangoDb\DefaultValues');

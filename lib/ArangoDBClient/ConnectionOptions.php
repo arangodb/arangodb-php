@@ -418,4 +418,4 @@ class ConnectionOptions implements
     }
 }
 
-class_alias('\ArangoDBClient\ConnectionOptions', '\triagens\ArangoDb\ConnectionOptions');
+class_alias(ConnectionOptions::class, '\triagens\ArangoDb\ConnectionOptions');

@@ -102,4 +102,4 @@ class QueryCacheHandler extends
     }
 }
 
-class_alias('\ArangoDBClient\QueryCacheHandler', '\triagens\ArangoDb\QueryCacheHandler');
+class_alias(QueryCacheHandler::class, '\triagens\ArangoDb\QueryCacheHandler');

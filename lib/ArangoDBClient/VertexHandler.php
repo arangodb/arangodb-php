@@ -39,4 +39,4 @@ class VertexHandler extends
     }
 }
 
-class_alias('\ArangoDBClient\VertexHandler', '\triagens\ArangoDb\VertexHandler');
+class_alias(VertexHandler::class, '\triagens\ArangoDb\VertexHandler');

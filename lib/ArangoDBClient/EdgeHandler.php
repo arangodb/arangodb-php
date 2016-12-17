@@ -252,4 +252,4 @@ class EdgeHandler extends
     }
 }
 
-class_alias('\ArangoDBClient\EdgeHandler', '\triagens\ArangoDb\EdgeHandler');
+class_alias(EdgeHandler::class, '\triagens\ArangoDb\EdgeHandler');

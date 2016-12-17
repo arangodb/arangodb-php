@@ -773,4 +773,4 @@ class Document
     }
 }
 
-class_alias('\ArangoDBClient\Document', '\triagens\ArangoDb\Document');
+class_alias(Document::class, '\triagens\ArangoDb\Document');

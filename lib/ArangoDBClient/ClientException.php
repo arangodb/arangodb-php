@@ -36,4 +36,4 @@ class ClientException extends
     }
 }
 
-class_alias('\ArangoDBClient\ClientException', '\triagens\ArangoDb\ClientException');
+class_alias(ClientException::class, '\triagens\ArangoDb\ClientException');
