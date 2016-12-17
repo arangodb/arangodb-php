@@ -467,7 +467,7 @@ class DocumentExtendedTest extends
 
         $revision = $document->getRevision();
         try {
-            $documentHandler->removeById($this->collection->getId(), $documentId, "a$revision", ['policy' => 'error']);
+            $documentHandler->removeById($this->collection->getId(), $documentId, '_UOarUR----', ['policy' => 'error']);
         } catch (ServerException $e) {
             static::assertTrue(true);
         }
@@ -493,7 +493,7 @@ class DocumentExtendedTest extends
 
         $revision = $document->getRevision();
 
-        $response = $documentHandler->removeById($this->collection->getId(), $documentId, "a$revision", ['policy' => 'last']);
+        $response = $documentHandler->removeById($this->collection->getId(), $documentId, '_UOarUR----', ['policy' => 'last']);
         static::assertTrue(
             $response,
             'deleteById() should return true! (because policy  is "last write wins")'
@@ -537,7 +537,7 @@ class DocumentExtendedTest extends
         // Set some new values on the attributes and include a fake revision in the _rev attribute
         // This should result in a failure to update
         $document->set('someOtherAttribute', 'someOtherValue3');
-        $document->setRevision('a' . $resultingDocument->getRevision());
+        $document->setRevision('_UOarUR----');
         $e = null;
         try {
             $documentHandler->update($document, ['policy' => 'error']);
@@ -546,7 +546,7 @@ class DocumentExtendedTest extends
         }
 
         static::assertInstanceOf('Exception', $e);
-        static::assertEquals($e->getMessage(), 'invalid revision number');
+        static::assertEquals($e->getMessage(), 'precondition failed');
         $resultingDocument1 = $documentHandler->get($this->collection->getId(), $documentId);
 
         static::assertEquals(
@@ -638,7 +638,7 @@ class DocumentExtendedTest extends
         // This should result in a failure to update
         $document->set('someAttribute', 'someValue3');
         $document->set('someOtherAttribute', 'someOtherValue3');
-        $document->set('_rev', 'a' . $resultingDocument->getRevision());
+        $document->set('_rev', '_UOarUR----');
 
         $e = null;
 
@@ -649,7 +649,7 @@ class DocumentExtendedTest extends
         }
 
         static::assertInstanceOf('Exception', $e);
-        static::assertEquals($e->getMessage(), 'invalid revision number');
+        static::assertEquals($e->getMessage(), 'precondition failed');
         $resultingDocument1 = $documentHandler->get($this->collection->getId(), $documentId);
 
         static::assertEquals($resultingDocument1->someAttribute, 'someValue2');
