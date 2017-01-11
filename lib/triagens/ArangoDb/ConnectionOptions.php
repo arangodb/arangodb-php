@@ -44,6 +44,11 @@ class ConnectionOptions implements
     const OPTION_ENDPOINT = 'endpoint';
 
     /**
+     * Database name string index constant
+     */
+    const OPTION_DBNAME = 'dbname';
+
+    /**
      * Host name string index constant (deprecated, use endpoint instead)
      */
     const OPTION_HOST = 'host';
@@ -317,6 +322,7 @@ class ConnectionOptions implements
             self::OPTION_IS_SYSTEM          => false,
             self::OPTION_IS_VOLATILE        => DefaultValues::DEFAULT_IS_VOLATILE,
             self::OPTION_CONNECTION         => DefaultValues::DEFAULT_CONNECTION,
+            self::OPTION_DBNAME             => DefaultValues::DEFAULT_DBNAME,
             self::OPTION_TRACE              => null,
             self::OPTION_ENHANCED_TRACE     => false,
             self::OPTION_VERIFY_CERT        => DefaultValues::DEFAULT_VERIFY_CERT,

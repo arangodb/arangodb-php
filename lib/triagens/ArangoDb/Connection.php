@@ -408,6 +408,8 @@ class Connection
         HttpHelper::validateMethod($method);
         $url = $this->_baseUrl . $url;
 
+        $url = Urls::URL_DB.'/'.$this->_options[ConnectionOptions::OPTION_DBNAME].$url;
+
         // create request data
         if ($this->_batchRequest === false) {
 
