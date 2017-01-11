@@ -186,15 +186,11 @@ class Cursor implements
         }
 
         if (isset($data[self::ENTRY_EXTRA])) {
-            // ArangoDB 2.3+ return value struct
             $this->_extra = $data[self::ENTRY_EXTRA];
 
             if (isset($this->_extra[self::ENTRY_STATS][self::FULL_COUNT])) {
                 $this->_fullCount = $this->_extra[self::ENTRY_STATS][self::FULL_COUNT];
             }
-        } else if (isset($data[self::ENTRY_EXTRA][self::FULL_COUNT])) {
-            // pre-ArangoDB 2.3 return value struct
-            $this->_fullCount = $data[self::ENTRY_EXTRA][self::FULL_COUNT];
         }
 
         if (isset($data[self::ENTRY_CACHED])) {
