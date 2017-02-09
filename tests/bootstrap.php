@@ -11,7 +11,7 @@ namespace ArangoDBClient;
 
 require __DIR__ . '/../autoload.php';
 
-if (version_compare(PHP_VERSION, '7.0.0', '>=')) {
+if (class_exists('\PHPUnit\Framework\TestCase')) {
   class_alias(\PHPUnit\Framework\TestCase::class, 'PHPUnit_Framework_TestCase');
 }
 
