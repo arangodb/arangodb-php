@@ -13,4 +13,4 @@ before_script:
   - ./tests/travis/setup_arangodb.sh
 
 script: 
-phpunit --configuration ./tests/phpunit.xml
+  - phpunit --configuration ./tests/phpunit.xml
