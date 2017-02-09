@@ -3,23 +3,14 @@ language: php
 matrix:
   include:
     - php: '5.5'
-      env: PHP_VERSION_USED="5.5"
     - php: '5.6'
-      env: PHP_VERSION_USED="5.6"
     - php: '7.0'
-      env: PHP_VERSION_USED="7.0"
     - php: '7.1'
-      env: PHP_VERSION_USED="7.1"
     - php: hhvm
-      env: PHP_VERSION_USED="hhvm"
 
 before_script:
   - chmod 777 ./tests/travis/setup_arangodb.sh
   - ./tests/travis/setup_arangodb.sh
 
 script: 
-  - if [[ "${PHP_VERSION_USED}" == "5.5" ]]; then phpunit --configuration ./tests/phpunit.xml; fi
-  - if [[ "${PHP_VERSION_USED}" == "5.6" ]]; then phpunit --configuration ./tests/phpunit.xml; fi
-  - if [[ "${PHP_VERSION_USED}" == "7.0" ]]; then phpunit --configuration ./tests/phpunit.xml; fi
-  - if [[ "${PHP_VERSION_USED}" == "7.1" ]]; then phpunit --configuration ./tests/phpunit.xml; fi
-  - if [[ "${PHP_VERSION_USED}" == "hhvm" ]]; then phpunit --configuration ./tests/phpunit.xml; fi
+phpunit --configuration ./tests/phpunit.xml
