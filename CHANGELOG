@@ -11,14 +11,14 @@ Release notes for the ArangoDB-PHP driver 3.1.0
 
 This version of the driver is compatible with ArangoDB 3.1.x
 It is not compatible to earlier versions of ArangoDB (i.e. 2.x).
-Please use ones of the `2.x` branches of the driver for 2.x-compatibility.
+Please use one of the `2.x` branches of the driver for 2.x-compatibility.
 
 
 
 Caution!!!
 ==========
 
-- Up until the 3.0.x Versions of this driver, there were still deprecated methods and parameter compatibility functions in the code, which unfortunately were not removed according to their deprecation annotations.
+- Up until the 3.0.x versions of this driver, there were still deprecated methods and parameter compatibility functions in the code, which unfortunately were not removed according to their deprecation annotations.
 That deprecated code was now finally removed with this version (3.1.0) of the driver, in order to clean up the codebase.
 - With this version of the driver, the method signature that used to accept $options either as an array or a non-array type has been removed. The specific compatibility layer was deprecated a long time ago and did not provide any benefits apart from compatibility. Starting with this version of the driver, there is now only one method signature that will require $options to be an array. 
  
