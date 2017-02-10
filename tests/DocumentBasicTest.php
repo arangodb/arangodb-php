@@ -468,9 +468,9 @@ class DocumentBasicTest extends
     }
 
    /**
-     * Try to create a document and get valid JSON when casted to string.
+     * Try to create a document and get valid JSON when cast to string.
      */
-    public function testCreateAndVerifyValidJsonIsReturnedWhenCastedToString()
+    public function testCreateAndVerifyValidJsonIsReturnedWhenCastToString()
     {
         $document   = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
