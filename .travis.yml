@@ -14,3 +14,6 @@ before_script:
 
 script: 
   - phpunit --configuration ./tests/phpunit.xml
+
+after_script:
+  - killall -9 arangod || true
