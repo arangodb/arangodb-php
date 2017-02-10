@@ -467,6 +467,23 @@ class DocumentBasicTest extends
         $documentHandler->removeById($collection->getName(), $documentId);
     }
 
+   /**
+     * Try to create a document and get valid JSON when casted to string.
+     */
+    public function testCreateAndVerifyValidJsonIsReturnedWhenCastedToString()
+    {
+        $document   = Document::createFromArray(
+            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
+        );
+
+        $stringDocument = (string) $document;
+
+        static::assertSame(
+            $stringDocument, '{"someAttribute":"someValue","someOtherAttribute":"someOtherValue"}', 'Resulting Attribute should be {"someAttribute":"someValue","someOtherAttribute":"someOtherValue"}. It\'s :' . $stringDocument
+        );
+
+    }
+
 
     public function testHasDocumentReturnsFalseIfDocumentDoesNotExist()
     {
