@@ -16,4 +16,4 @@ script:
   - phpunit --configuration ./tests/phpunit.xml
 
 after_script:
-  - killall -9 arangod || true
+  - ./tests/travis/teardown_arangodb.sh
