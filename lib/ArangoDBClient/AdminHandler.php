@@ -21,8 +21,7 @@ namespace ArangoDBClient;
  * @since     1.2
  */
 
-class AdminHandler extends
-    Handler
+class AdminHandler extends Handler
 {
     /**
      * details for server version

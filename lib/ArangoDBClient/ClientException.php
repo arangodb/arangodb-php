@@ -20,8 +20,7 @@ namespace ArangoDBClient;
  * @package   ArangoDBClient
  * @since     0.2
  */
-class ClientException extends
-    Exception
+class ClientException extends Exception
 {
     /**
      * Return a string representation of the exception

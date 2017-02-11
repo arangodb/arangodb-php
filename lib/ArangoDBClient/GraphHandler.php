@@ -20,8 +20,7 @@ namespace ArangoDBClient;
  * @package ArangoDBClient
  * @since   1.2
  */
-class GraphHandler extends
-    Handler
+class GraphHandler extends Handler
 {
     /**
      * documents array index

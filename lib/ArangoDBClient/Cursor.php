@@ -22,8 +22,7 @@ namespace ArangoDBClient;
  * @package   ArangoDBClient
  * @since     0.2
  */
-class Cursor implements
-    \Iterator
+class Cursor implements \Iterator
 {
     /**
      * The connection object

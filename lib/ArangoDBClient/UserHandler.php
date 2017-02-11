@@ -20,8 +20,7 @@ namespace ArangoDBClient;
  * @package   ArangoDBClient
  * @since     1.2
  */
-class UserHandler extends
-    Handler
+class UserHandler extends Handler
 {
 
     /**

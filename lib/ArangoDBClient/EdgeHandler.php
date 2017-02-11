@@ -21,8 +21,7 @@ namespace ArangoDBClient;
  * @package   ArangoDBClient
  * @since     1.0
  */
-class EdgeHandler extends
-    DocumentHandler
+class EdgeHandler extends DocumentHandler
 {
     /**
      * documents array index

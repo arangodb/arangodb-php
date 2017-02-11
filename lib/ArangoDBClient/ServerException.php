@@ -26,8 +26,7 @@ namespace ArangoDBClient;
  * @package ArangoDBClient
  * @since   0.2
  */
-class ServerException extends
-    Exception
+class ServerException extends Exception
 {
     /**
      * Optional details for the exception
