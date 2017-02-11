@@ -143,7 +143,7 @@ class StatementTest extends
         $statement->setQuery('FOR i IN 1..1000 INSERT { _key: CONCAT("test", i) } IN ' . $collection->getName());
         $cursor = $statement->execute();
 
-        static::assertCount(1000, $collection->getId());
+        static::assertEquals(1000, $this->collectionHandler->count($collection->getId()));
 
         $extra = $cursor->getExtra();
         static::assertEquals([], $extra['warnings']);
@@ -182,7 +182,7 @@ class StatementTest extends
         $statement->setQuery('FOR i IN ' . $collection->getName() . ' FILTER i._key IN [ "test1", "test35", "test99" ] REMOVE i IN ' . $collection->getName());
         $cursor = $statement->execute();
 
-        static::assertCount(997, $collection->getId());
+        static::assertEquals(997, $this->collectionHandler->count($collection->getId()));
 
         $extra = $cursor->getExtra();
         static::assertEquals([], $extra['warnings']);
@@ -221,7 +221,7 @@ class StatementTest extends
         $statement->setQuery('FOR i IN ' . $collection->getName() . ' FILTER i.value <= 500 RETURN i');
         $cursor = $statement->execute();
 
-        static::assertCount(1000, $collection->getId());
+        static::assertEquals(1000, $this->collectionHandler->count($collection->getId()));
 
         $extra = $cursor->getExtra();
         static::assertEquals([], $extra['warnings']);
