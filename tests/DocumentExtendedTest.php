@@ -106,7 +106,7 @@ class DocumentExtendedTest extends
 
         $cursor = $this->collectionHandler->byExample($this->collection->getId(), $document);
 
-        static::assertInstanceOf('ArangoDBClient\Cursor', $cursor);
+        static::assertInstanceOf(Cursor::class, $cursor);
         $resultingDocument = $cursor->current();
 
         static::assertEquals($resultingDocument->someAttribute, 'someValue');
@@ -147,7 +147,7 @@ class DocumentExtendedTest extends
             ['batchSize' => 1, 'skip' => 0, 'limit' => 2]
         );
 
-        static::assertInstanceOf('ArangoDBClient\Cursor', $cursor);
+        static::assertInstanceOf(Cursor::class, $cursor);
         $resultingDocument = null;
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
@@ -169,7 +169,7 @@ class DocumentExtendedTest extends
             ['batchSize' => 1, 'skip' => 1]
         );
 
-        static::assertInstanceOf('ArangoDBClient\Cursor', $cursor);
+        static::assertInstanceOf(Cursor::class, $cursor);
         $resultingDocument = null;
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
@@ -188,7 +188,7 @@ class DocumentExtendedTest extends
             ['batchSize' => 1, 'limit' => 1]
         );
 
-        static::assertInstanceOf('ArangoDBClient\Cursor', $cursor);
+        static::assertInstanceOf(Cursor::class, $cursor);
         $resultingDocument = null;
         foreach ($cursor as $key => $value) {
             $resultingDocument[$key] = $value;
@@ -219,7 +219,7 @@ class DocumentExtendedTest extends
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
 
         $resultingDocument = $this->collectionHandler->firstExample($this->collection->getId(), $document);
-        static::assertInstanceOf('ArangoDBClient\Document', $resultingDocument);
+        static::assertInstanceOf(Document::class, $resultingDocument);
 
         static::assertEquals($resultingDocument->someAttribute, 'someValue');
         static::assertEquals($resultingDocument->someOtherAttribute, 'someOtherValue');
@@ -545,7 +545,7 @@ class DocumentExtendedTest extends
             // don't bother us... just give us the $e
         }
 
-        static::assertInstanceOf('Exception', $e);
+        static::assertInstanceOf(\Exception::class, $e);
         static::assertEquals($e->getMessage(), 'precondition failed');
         $resultingDocument1 = $documentHandler->get($this->collection->getId(), $documentId);
 
@@ -590,7 +590,7 @@ class DocumentExtendedTest extends
             // don't bother us... just give us the $e
         }
 
-        static::assertInstanceOf('Exception', $e, 'Delete should have raised an exception here');
+        static::assertInstanceOf(\Exception::class, $e, 'Delete should have raised an exception here');
         static::assertEquals($e->getMessage(), 'precondition failed');
         unset ($e);
 
@@ -648,7 +648,7 @@ class DocumentExtendedTest extends
             // don't bother us... just give us the $e
         }
 
-        static::assertInstanceOf('Exception', $e);
+        static::assertInstanceOf(\Exception::class, $e);
         static::assertEquals($e->getMessage(), 'precondition failed');
         $resultingDocument1 = $documentHandler->get($this->collection->getId(), $documentId);
 
@@ -693,7 +693,7 @@ class DocumentExtendedTest extends
             // don't bother us... just give us the $e
         }
 
-        static::assertInstanceOf('Exception', $e, 'Delete should have raised an exception here');
+        static::assertInstanceOf(\Exception::class, $e, 'Delete should have raised an exception here');
         static::assertEquals($e->getMessage(), 'precondition failed');
         unset ($e);
 
@@ -816,7 +816,7 @@ class DocumentExtendedTest extends
             // don't bother us... just give us the $e
         }
 
-        static::assertInstanceOf('Exception', $e, 'Delete should have raised an exception here');
+        static::assertInstanceOf(\Exception::class, $e, 'Delete should have raised an exception here');
         static::assertEquals($e->getMessage(), 'precondition failed');
         unset ($e);
 
@@ -964,7 +964,7 @@ class DocumentExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
+        static::assertInstanceOf(ServerException::class, $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -976,7 +976,7 @@ class DocumentExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
+        static::assertInstanceOf(ServerException::class, $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -988,7 +988,7 @@ class DocumentExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
+        static::assertInstanceOf(ServerException::class, $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -1000,7 +1000,7 @@ class DocumentExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
+        static::assertInstanceOf(ServerException::class, $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
 
 
@@ -1012,7 +1012,7 @@ class DocumentExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
+        static::assertInstanceOf(ServerException::class, $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
     }
 

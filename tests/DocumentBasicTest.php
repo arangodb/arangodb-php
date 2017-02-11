@@ -41,8 +41,8 @@ class DocumentBasicTest extends
         $this->collection        = new Collection();
         $this->collectionHandler = new CollectionHandler($this->connection);
         $document                = new Document();
-        static::assertInstanceOf('ArangoDBClient\Document', $document);
-        static::assertInstanceOf('ArangoDBClient\Document', $document);
+        static::assertInstanceOf(Document::class, $document);
+        static::assertInstanceOf(Document::class, $document);
         unset ($document);
     }
 
@@ -181,10 +181,10 @@ class DocumentBasicTest extends
             '@foobar',
             '(valid)',
             '%valid',
-            "\$valid",
+            '$valid',
             "$\$bill,y'all",
-            "'valid",
-            "'a-key-is-a-key-is-a-key'",
+            '\'valid',
+            '\'a-key-is-a-key-is-a-key\'',
             'm+ller',
             ';valid',
             ',valid',
@@ -202,8 +202,8 @@ class DocumentBasicTest extends
             ':-)',
             '!',
             '!!!!',
-            "'",
-            "''''",
+            '\'',
+            '\'\'\'\'',
             "this-key's-valid.",
             '=',
             '==================================================',
@@ -220,7 +220,7 @@ class DocumentBasicTest extends
         ];
 
         $adminHandler = new AdminHandler($this->connection);
-        $version      = preg_replace("/-[a-z0-9]+$/", '', $adminHandler->getServerVersion());
+        $version      = preg_replace('/-[a-z0-9]+$/', '', $adminHandler->getServerVersion());
 
         if (version_compare($version, '2.6.0') >= 0) {
             // 2.6 will also allow the following document keys, while 2.5 will not
@@ -467,12 +467,12 @@ class DocumentBasicTest extends
         $documentHandler->removeById($collection->getName(), $documentId);
     }
 
-   /**
+    /**
      * Try to create a document and get valid JSON when cast to string.
      */
     public function testCreateAndVerifyValidJsonIsReturnedWhenCastToString()
     {
-        $document   = Document::createFromArray(
+        $document = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
 

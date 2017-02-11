@@ -150,7 +150,7 @@ class DatabaseTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
+        static::assertInstanceOf(ServerException::class, $e);
         static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
     }
 
@@ -191,7 +191,7 @@ class DatabaseTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
+        static::assertInstanceOf(ServerException::class, $e);
         static::assertEquals($e->getCode(), 403, 'Should be 403, instead got: ' . $e->getCode());
 
 

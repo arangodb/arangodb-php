@@ -421,7 +421,7 @@ class TraversalTest extends
         $startVertex    = $this->vertexCollectionName . '/' . $this->vertex1Name;
         $edgeCollection = $this->edgeCollectionName;
         $options        = [
-            'expander' => "var connections = [ ];if (vertex.name === \"Alice\") {config.edgeCollection.inEdges(vertex).forEach(function (e) {connections.push({ vertex: require(\"internal\").db._document(e._from), edge: e});});}if (vertex.name === \"Eve\") {config.edgeCollection.outEdges(vertex).forEach(function (e) {connections.push({vertex: require(\"internal\").db._document(e._to), edge: e});});}return connections;"
+            'expander' => 'var connections = [ ];if (vertex.name === "Alice") {config.edgeCollection.inEdges(vertex).forEach(function (e) {connections.push({ vertex: require("internal").db._document(e._from), edge: e});});}if (vertex.name === "Eve") {config.edgeCollection.outEdges(vertex).forEach(function (e) {connections.push({vertex: require("internal").db._document(e._to), edge: e});});}return connections;'
 
         ];
         $traversal      = new Traversal($this->connection, $startVertex, $edgeCollection, $options);

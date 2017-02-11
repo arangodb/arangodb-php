@@ -2480,7 +2480,7 @@ class CollectionExtendedTest extends
             $collectionHandler->any('collection_that_does_not_exist');
         } catch (ServerException $e) {
             static::assertInstanceOf(
-                '\ArangoDBClient\ServerException',
+                ServerException::class,
                 $e,
                 'Exception thrown was not a ServerException!'
             );
@@ -2626,7 +2626,7 @@ class CollectionExtendedTest extends
 
         $document = $result[0];
         static::assertInstanceOf(
-            '\ArangoDBClient\Document',
+            Document::class,
             $document,
             'Object was not a Document!'
         );
@@ -2638,7 +2638,7 @@ class CollectionExtendedTest extends
 
         $document = $result[1];
         static::assertInstanceOf(
-            '\ArangoDBClient\Document',
+            Document::class,
             $document,
             'Object was not a Document!'
         );
@@ -2650,7 +2650,7 @@ class CollectionExtendedTest extends
 
         $document = $result[2];
         static::assertInstanceOf(
-            '\ArangoDBClient\Document',
+            Document::class,
             $document,
             'Object was not a Document!'
         );

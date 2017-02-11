@@ -60,7 +60,7 @@ class EdgeBasicTest extends
         $this->collection        = new Collection();
         $this->collectionHandler = new CollectionHandler($this->connection);
         $document                = new Edge();
-        static::assertInstanceOf('ArangoDBClient\Edge', $document);
+        static::assertInstanceOf(Edge::class, $document);
         unset ($document);
     }
 
@@ -108,7 +108,7 @@ class EdgeBasicTest extends
         $resultingDocument = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
 
         $resultingEdge = $edgeDocumentHandler->get($edgeCollection->getName(), $edgeDocumentId);
-        static::assertInstanceOf('ArangoDBClient\Edge', $resultingEdge);
+        static::assertInstanceOf(Edge::class, $resultingEdge);
 
         $resultingAttribute = $resultingEdge->label;
         static::assertSame(
@@ -136,7 +136,7 @@ class EdgeBasicTest extends
 
         $result = $cursor->current();
         static::assertInstanceOf(
-            'ArangoDBClient\Document',
+            Document::class,
             $result,
             'IN PATHS statement did not return a document object!'
         );
@@ -211,7 +211,7 @@ class EdgeBasicTest extends
         $resultingDocument = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
 
         $resultingEdge = $edgeDocumentHandler->get($edgeCollection->getName(), $edgeDocumentId);
-        static::assertInstanceOf('ArangoDBClient\Edge', $resultingEdge);
+        static::assertInstanceOf(Edge::class, $resultingEdge);
 
         $resultingAttribute = $resultingEdge->label;
         static::assertSame(
@@ -239,7 +239,7 @@ class EdgeBasicTest extends
 
         $result = $cursor->current();
         static::assertInstanceOf(
-            'ArangoDBClient\Document',
+            Document::class,
             $result,
             'IN PATHS statement did not return a document object!'
         );
@@ -331,7 +331,7 @@ class EdgeBasicTest extends
 
         $result = $cursor->current();
         static::assertInstanceOf(
-            'ArangoDBClient\Document',
+            Document::class,
             $result,
             'IN PATHS statement did not return a document object!'
         );
@@ -589,7 +589,7 @@ class EdgeBasicTest extends
 
         static::assertCount(3, $edgesQueryResult);
         foreach ($edgesQueryResult as $edge) {
-            static::assertInstanceOf('ArangoDBClient\Edge', $edge);
+            static::assertInstanceOf(Edge::class, $edge);
 
             if ($edge->value === 1) {
                 static::assertEquals($documentHandle1, $edge->getFrom());
@@ -658,7 +658,7 @@ class EdgeBasicTest extends
 
         static::assertCount(3, $edgesQueryResult);
         foreach ($edgesQueryResult as $edge) {
-            static::assertInstanceOf('ArangoDBClient\Edge', $edge);
+            static::assertInstanceOf(Edge::class, $edge);
 
             if ($edge->value === 1) {
                 static::assertEquals($documentHandle1, $edge->getFrom());
@@ -783,7 +783,7 @@ class EdgeBasicTest extends
 
         static::assertCount(2, $edgesQueryResult);
         foreach ($edgesQueryResult as $edge) {
-            static::assertInstanceOf('ArangoDBClient\Edge', $edge);
+            static::assertInstanceOf(Edge::class, $edge);
 
             if ($edge->value === 1) {
                 static::assertEquals($documentHandle1, $edge->getFrom());

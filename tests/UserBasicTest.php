@@ -59,7 +59,7 @@ class UserBasicTest extends
             // Just give us the $e
             static::assertEquals($e->getCode(), 401);
         }
-        static::assertInstanceOf('ArangoDBClient\ServerException', $e, 'should have gotten an exception');
+        static::assertInstanceOf(ServerException::class, $e, 'should have gotten an exception');
     }
 
     /**
@@ -134,7 +134,7 @@ class UserBasicTest extends
             // Just give us the $e
             static::assertEquals($e->getCode(), 400);
         }
-        static::assertInstanceOf('ArangoDBClient\ServerException', $e, 'should have gotten an exception');
+        static::assertInstanceOf(ServerException::class, $e, 'should have gotten an exception');
 
 
         $response = $this->userHandler->get('testUser1');
@@ -181,7 +181,7 @@ class UserBasicTest extends
             // Just give us the $e
             static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . $e->getCode());
         }
-        static::assertInstanceOf('ArangoDBClient\ServerException', $e, 'should have gotten an exception');
+        static::assertInstanceOf(ServerException::class, $e, 'should have gotten an exception');
 
 
         $e = null;
@@ -191,7 +191,7 @@ class UserBasicTest extends
             // Just give us the $e
             static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . $e->getCode());
         }
-        static::assertInstanceOf('ArangoDBClient\ServerException', $e, 'should have gotten an exception');
+        static::assertInstanceOf(ServerException::class, $e, 'should have gotten an exception');
 
 
         $e = null;
@@ -201,7 +201,7 @@ class UserBasicTest extends
             // Just give us the $e
             static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . $e->getCode());
         }
-        static::assertInstanceOf('ArangoDBClient\ServerException', $e, 'should have gotten an exception');
+        static::assertInstanceOf(ServerException::class, $e, 'should have gotten an exception');
 
 
         $e = null;
@@ -211,7 +211,7 @@ class UserBasicTest extends
             // Just give us the $e
             static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . $e->getCode());
         }
-        static::assertInstanceOf('ArangoDBClient\ServerException', $e, 'should have gotten an exception');
+        static::assertInstanceOf(ServerException::class, $e, 'should have gotten an exception');
     }
 
     public function tearDown()

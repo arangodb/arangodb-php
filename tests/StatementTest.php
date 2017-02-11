@@ -143,7 +143,7 @@ class StatementTest extends
         $statement->setQuery('FOR i IN 1..1000 INSERT { _key: CONCAT("test", i) } IN ' . $collection->getName());
         $cursor = $statement->execute();
 
-        static::assertEquals(1000, $this->collectionHandler->count($collection->getId()));
+        static::assertCount(1000, $collection->getId());
 
         $extra = $cursor->getExtra();
         static::assertEquals([], $extra['warnings']);
@@ -182,7 +182,7 @@ class StatementTest extends
         $statement->setQuery('FOR i IN ' . $collection->getName() . ' FILTER i._key IN [ "test1", "test35", "test99" ] REMOVE i IN ' . $collection->getName());
         $cursor = $statement->execute();
 
-        static::assertEquals(997, $this->collectionHandler->count($collection->getId()));
+        static::assertCount(997, $collection->getId());
 
         $extra = $cursor->getExtra();
         static::assertEquals([], $extra['warnings']);
@@ -221,7 +221,7 @@ class StatementTest extends
         $statement->setQuery('FOR i IN ' . $collection->getName() . ' FILTER i.value <= 500 RETURN i');
         $cursor = $statement->execute();
 
-        static::assertEquals(1000, $this->collectionHandler->count($collection->getId()));
+        static::assertCount(1000, $collection->getId());
 
         $extra = $cursor->getExtra();
         static::assertEquals([], $extra['warnings']);
@@ -273,7 +273,7 @@ class StatementTest extends
         $isoValue = iconv(
             'UTF-8',
             'ISO-8859-1//TRANSLIT',
-            "'FOR ü IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN ü"
+            '\'FOR ü IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN ü'
         );
 
         $statement->setQuery($isoValue);
@@ -390,7 +390,7 @@ class StatementTest extends
         static::assertCount(0, $cursor->getWarnings());
 
         foreach ($cursor->getAll() as $row) {
-            static::assertNotInstanceOf('\ArangoDBClient\Document', $row, 'A document object was in the result set!');
+            static::assertNotInstanceOf(Document::class, $row, 'A document object was in the result set!');
         }
     }
 

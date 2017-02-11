@@ -42,7 +42,7 @@ class ConnectionTest extends
     public function testInitializeConnection()
     {
         $connection = getConnection();
-        static::assertInstanceOf('ArangoDBClient\Connection', $connection);
+        static::assertInstanceOf(Connection::class, $connection);
     }
 
 

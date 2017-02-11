@@ -32,7 +32,7 @@ class CollectionBasicTest extends
         $this->collectionHandler->create('ArangoDB_PHP_TestSuite_IndexTestCollection');
 
         $adminHandler = new AdminHandler($this->connection);
-        $version      = preg_replace("/-[a-z0-9]+$/", '', $adminHandler->getServerVersion());
+        $version      = preg_replace('/-[a-z0-9]+$/', '', $adminHandler->getServerVersion());
 
         $this->hasSparseIndexes        = (version_compare($version, '2.5.0') >= 0);
         $this->hasSelectivityEstimates = (version_compare($version, '2.5.0') >= 0);
@@ -55,9 +55,9 @@ class CollectionBasicTest extends
     {
         $connection = $this->connection;
         $collection = new Collection();
-        static::assertInstanceOf('ArangoDBClient\Collection', $collection);
+        static::assertInstanceOf(Collection::class, $collection);
         new CollectionHandler($connection);
-        static::assertInstanceOf('ArangoDBClient\Collection', $collection);
+        static::assertInstanceOf(Collection::class, $collection);
     }
 
 

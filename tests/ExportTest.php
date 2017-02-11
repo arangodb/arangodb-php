@@ -39,7 +39,7 @@ class ExportTest extends
         $this->documentHandler = new DocumentHandler($this->connection);
 
         $adminHandler       = new AdminHandler($this->connection);
-        $version            = preg_replace("/-[a-z0-9]+$/", '', $adminHandler->getServerVersion());
+        $version            = preg_replace('/-[a-z0-9]+$/', '', $adminHandler->getServerVersion());
         $this->hasExportApi = (version_compare($version, '2.6.0') >= 0);
     }
 
