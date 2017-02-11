@@ -24,14 +24,14 @@ class FoxxHandler extends Handler
      * @throws ClientException
      *
      * @param string $localZip   - the path to the local foxx-app zip-archive to upload/install
-     * @param string $mountPoint - the mountpoint for the app, must begin with a '/'
+     * @param string $mountPoint - the mount-point for the app, must begin with a '/'
      * @param array  $options    - for future usage
      *
      * @return array - the server response
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function installFoxxZip($localZip, $mountPoint, $options = [])
+    public function installFoxxZip($localZip, $mountPoint, array $options = [])
     {
         if (!file_exists($localZip)) {
             throw new ClientException("Foxx-Zip {$localZip} does not exist (or file is unreadable).");
@@ -68,7 +68,7 @@ class FoxxHandler extends Handler
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function removeFoxxApp($mountPoint, $options = [])
+    public function removeFoxxApp($mountPoint, array $options = [])
     {
         try {
             $response = $this->getConnection()->put(Urls::URL_FOXX_UNINSTALL, json_encode(['mount' => $mountPoint]));

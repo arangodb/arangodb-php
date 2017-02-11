@@ -339,7 +339,7 @@ class Batch
         }
 
         if (null === $this->_nextBatchPartId) {
-            if (is_a($this->_batchParts, 'SplFixedArray')) {
+            if (is_a($this->_batchParts, \SplFixedArray::class)) {
                 $nextNumeric = $this->_nextId;
                 $this->_nextId++;
             } else {
