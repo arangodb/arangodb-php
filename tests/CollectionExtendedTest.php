@@ -775,6 +775,38 @@ class CollectionExtendedTest extends
         static::assertSame($result, 2);
     }
 
+    /**
+     * test for creation of documents, and removal by example
+     */
+    public function testCreateDocumentsWithCreateFromArrayGetAsArrayAndRemoveByExample()
+    {
+        $documentHandler   = $this->documentHandler;
+        $collectionHandler = $this->collectionHandler;
+
+        $collection = Collection::createFromArray(
+            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true]
+        );
+        $collectionHandler->create($collection);
+        $document      = Document::createFromArray(
+            ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
+        );
+        $documentId    = $documentHandler->save($collection->getId(), $document);
+        $documentArray = $document->getAll(['_includeInternals' => false]);
+
+        $exampleDocument = Document::createFromArray(['someOtherAttribute' => 'someOtherValue']);
+        $cursor          = $collectionHandler->byExample($collection->getId(), $exampleDocument, ['_flat' => true]);
+
+        $array = $cursor->getAll();
+
+        static::assertArrayHasKey('_key', $array[0]);
+        static::assertArrayHasKey('_id', $array[0]);
+        static::assertArrayHasKey('_rev', $array[0]);
+
+        unset($array[0]['_key'], $array[0]['_id'], $array[0]['_rev']);
+
+        static::assertSame($array[0], $documentArray);
+    }
+
 
     /**
      * test for creation of documents, and update and replace by example and finally removal by example
