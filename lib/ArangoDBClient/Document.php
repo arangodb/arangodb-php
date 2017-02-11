@@ -72,14 +72,14 @@ class Document
     protected $_doValidate = false;
 
     /**
-     * Flag to indicate whether document was changed locally
+     * An array, that defines which attributes should be treated as hidden.
      *
-     * @var bool
+     * @var array
      */
     protected $_hiddenAttributes = [];
 
     /**
-     * Flag to indicate whether document was changed locally
+     * Flag to indicate whether hidden attributes should be ignored or included in returned data-sets
      *
      * @var bool
      */
