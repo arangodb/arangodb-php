@@ -24,13 +24,22 @@ class ConnectionTest extends
     \PHPUnit_Framework_TestCase
 {
 
+    protected static $testsTimestamp;
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        static::$testsTimestamp = str_replace('.', '_', (string) microtime(true));
+    }
+
+
     public function setUp()
     {
         $this->connection        = getConnection();
         $this->collectionHandler = new CollectionHandler($this->connection);
 
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestTracer');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestTracer' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             //Silence the exception
         }
@@ -361,11 +370,11 @@ class ConnectionTest extends
         $collectionHandler = new CollectionHandler($connection);
 
         //Try creating a collection
-        $collectionHandler->create('ArangoDB_PHP_TestSuite_TestTracer');
+        $collectionHandler->create('ArangoDB_PHP_TestSuite_TestTracer' . '_' . static::$testsTimestamp);
 
         //Delete the collection
         try {
-            $collectionHandler->drop('ArangoDB_PHP_TestSuite_TestTracer');
+            $collectionHandler->drop('ArangoDB_PHP_TestSuite_TestTracer' . '_' . static::$testsTimestamp);
         } catch (Exception $e) {
         }
     }
@@ -427,11 +436,11 @@ class ConnectionTest extends
         $collectionHandler = new CollectionHandler($connection);
 
         //Try creating a collection
-        $collectionHandler->create('ArangoDB_PHP_TestSuite_TestTracer');
+        $collectionHandler->create('ArangoDB_PHP_TestSuite_TestTracer' . '_' . static::$testsTimestamp);
 
         //Delete the collection
         try {
-            $collectionHandler->drop('ArangoDB_PHP_TestSuite_TestTracer');
+            $collectionHandler->drop('ArangoDB_PHP_TestSuite_TestTracer' . '_' . static::$testsTimestamp);
         } catch (Exception $e) {
         }
     }
@@ -441,7 +450,7 @@ class ConnectionTest extends
         unset($this->connection);
 
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestTracer');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestTracer' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             //Silence the exception
         }

@@ -23,12 +23,21 @@ namespace ArangoDBClient;
 class DocumentBasicTest extends
     \PHPUnit_Framework_TestCase
 {
+    protected static $testsTimestamp;
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        static::$testsTimestamp = str_replace('.', '_', (string) microtime(true));
+    }
+
+
     public function setUp()
     {
         $this->connection        = getConnection();
         $this->collectionHandler = new CollectionHandler($this->connection);
         $this->collection        = new Collection();
-        $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
+        $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         $this->collectionHandler->create($this->collection);
     }
 
@@ -82,16 +91,16 @@ class DocumentBasicTest extends
         $documentHandler = new DocumentHandler($connection);
 
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             #don't bother us, if it's already deleted.
         }
 
         $document->someAttribute = 'someValue';
 
-        $documentId = $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01', $document, ['createCollection' => true]);
+        $documentId = $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document, ['createCollection' => true]);
 
-        $resultingDocument = $documentHandler->get('ArangoDB_PHP_TestSuite_TestCollection_01', $documentId);
+        $resultingDocument = $documentHandler->get('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $documentId);
 
         $resultingAttribute = $resultingDocument->someAttribute;
         static::assertSame(
@@ -513,7 +522,7 @@ class DocumentBasicTest extends
     public function tearDown()
     {
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }

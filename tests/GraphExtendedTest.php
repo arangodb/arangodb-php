@@ -50,6 +50,15 @@ namespace ArangoDBClient;
 class GraphExtendedTest extends
     \PHPUnit_Framework_TestCase
 {
+    protected static $testsTimestamp;
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        static::$testsTimestamp = str_replace('.', '_', (string) microtime(true));
+    }
+
+
     public function setUp()
     {
         $this->vertex1Name  = 'vertex1';
@@ -102,8 +111,8 @@ class GraphExtendedTest extends
             '_key'         => $this->edge1Name,
             'someEdgeKey1' => 'someEdgeValue1a'
         ];
-        $this->vertexCollectionName = 'ArangoDBPHPTestSuiteVertexTestCollection01';
-        $this->edgeCollectionName   = 'ArangoDBPHPTestSuiteTestEdgeCollection01';
+        $this->vertexCollectionName = 'ArangoDB_PHP_TestSuite_VertexTestCollection_01';
+        $this->edgeCollectionName   = 'ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp;
 
         $ed1 = EdgeDefinition::createUndirectedRelation($this->edgeCollectionName, [$this->vertexCollectionName]);
 
@@ -180,10 +189,10 @@ class GraphExtendedTest extends
 
         // Save vertices
         $result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
-        static::assertEquals($result1, 'ArangoDBPHPTestSuiteVertexTestCollection01/vertex1', 'Did not return vertex1!');
+        static::assertEquals($result1, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex1', 'Did not return vertex1!');
 
         $result2 = $this->graphHandler->saveVertex($this->graphName, $vertex2);
-        static::assertEquals($result2, 'ArangoDBPHPTestSuiteVertexTestCollection01/vertex2', 'Did not return vertex2!');
+        static::assertEquals($result2, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex2', 'Did not return vertex2!');
 
 
         // Get vertices
@@ -202,7 +211,7 @@ class GraphExtendedTest extends
             $this->edgeLabel1,
             $edge1
         );
-        static::assertEquals($resultE, 'ArangoDBPHPTestSuiteTestEdgeCollection01/edge1', 'Did not return edge1!');
+        static::assertEquals($resultE, 'ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp . '/edge1', 'Did not return edge1!');
 
 
         // Get edge
@@ -281,10 +290,10 @@ class GraphExtendedTest extends
         $this->graphHandler->setCacheEnabled(true);
         // Save vertices
         $result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
-        static::assertEquals($result1, 'ArangoDBPHPTestSuiteVertexTestCollection01/vertex1', 'Did not return vertex1!');
+        static::assertEquals($result1, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex1', 'Did not return vertex1!');
 
         $result2 = $this->graphHandler->saveVertex($this->graphName, $vertex2);
-        static::assertEquals($result2, 'ArangoDBPHPTestSuiteVertexTestCollection01/vertex2', 'Did not return vertex2!');
+        static::assertEquals($result2, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex2', 'Did not return vertex2!');
 
 
         // Get vertices
@@ -303,7 +312,7 @@ class GraphExtendedTest extends
             $this->edgeLabel1,
             $edge1
         );
-        static::assertEquals($resultE, 'ArangoDBPHPTestSuiteTestEdgeCollection01/edge1', 'Did not return edge1!');
+        static::assertEquals($resultE, 'ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp . '/edge1', 'Did not return edge1!');
 
 
         // Get edge
@@ -382,10 +391,10 @@ class GraphExtendedTest extends
 
         // Save vertices
         $result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
-        static::assertEquals($result1, 'ArangoDBPHPTestSuiteVertexTestCollection01/vertex1', 'Did not return vertex1!');
+        static::assertEquals($result1, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex1', 'Did not return vertex1!');
 
         $result2 = $this->graphHandler->saveVertex($this->graphName, $vertex2);
-        static::assertEquals($result2, 'ArangoDBPHPTestSuiteVertexTestCollection01/vertex2', 'Did not return vertex2!');
+        static::assertEquals($result2, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex2', 'Did not return vertex2!');
 
 
         // Get vertices
@@ -404,7 +413,7 @@ class GraphExtendedTest extends
             $this->edgeLabel1,
             $edge1
         );
-        static::assertEquals($result1, 'ArangoDBPHPTestSuiteTestEdgeCollection01/edge1', 'Did not return edge1!');
+        static::assertEquals($result1, 'ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp . '/edge1', 'Did not return edge1!');
 
 
         // Get edge
@@ -603,10 +612,10 @@ class GraphExtendedTest extends
 
         // Save vertices
         $result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
-        static::assertEquals($result1, 'ArangoDBPHPTestSuiteVertexTestCollection01/vertex1', 'Did not return vertex1!');
+        static::assertEquals($result1, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex1', 'Did not return vertex1!');
 
         $result2 = $this->graphHandler->saveVertex($this->graphName, $vertex2);
-        static::assertEquals($result2, 'ArangoDBPHPTestSuiteVertexTestCollection01/vertex2', 'Did not return vertex2!');
+        static::assertEquals($result2, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex2', 'Did not return vertex2!');
 
 
         // Get vertices
@@ -692,10 +701,10 @@ class GraphExtendedTest extends
 
         // Save vertices
         $result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
-        static::assertEquals($result1, 'ArangoDBPHPTestSuiteVertexTestCollection01/vertex1', 'Did not return vertex1!');
+        static::assertEquals($result1, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex1', 'Did not return vertex1!');
 
         $result2 = $this->graphHandler->saveVertex($this->graphName, $vertex2);
-        static::assertEquals($result2, 'ArangoDBPHPTestSuiteVertexTestCollection01/vertex2', 'Did not return vertex2!');
+        static::assertEquals($result2, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex2', 'Did not return vertex2!');
 
 
         // Get vertices
@@ -777,11 +786,11 @@ class GraphExtendedTest extends
 
 
         $result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
-        static::assertEquals($result1, 'ArangoDBPHPTestSuiteVertexTestCollection01/vertex1', 'Did not return vertex1!');
+        static::assertEquals($result1, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex1', 'Did not return vertex1!');
 
 
         $result2 = $this->graphHandler->saveVertex($this->graphName, $vertex2);
-        static::assertEquals($result2, 'ArangoDBPHPTestSuiteVertexTestCollection01/vertex2', 'Did not return vertex2!');
+        static::assertEquals($result2, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex2', 'Did not return vertex2!');
 
 
         $result1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
@@ -874,11 +883,11 @@ class GraphExtendedTest extends
 
 
         $result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
-        static::assertEquals($result1, 'ArangoDBPHPTestSuiteVertexTestCollection01/vertex1', 'Did not return vertex1!');
+        static::assertEquals($result1, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex1', 'Did not return vertex1!');
 
 
         $result2 = $this->graphHandler->saveVertex($this->graphName, $vertex2);
-        static::assertEquals($result2, 'ArangoDBPHPTestSuiteVertexTestCollection01/vertex2', 'Did not return vertex2!');
+        static::assertEquals($result2, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex2', 'Did not return vertex2!');
 
 
         $result1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
@@ -896,7 +905,7 @@ class GraphExtendedTest extends
             $this->edgeLabel1,
             $edge1
         );
-        static::assertEquals($result1, 'ArangoDBPHPTestSuiteTestEdgeCollection01/edge1', 'Did not return edge1!');
+        static::assertEquals($result1, 'ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp . '/edge1', 'Did not return edge1!');
 
 
         $result1 = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);

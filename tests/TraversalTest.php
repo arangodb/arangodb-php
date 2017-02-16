@@ -56,6 +56,15 @@ namespace ArangoDBClient;
 class TraversalTest extends
     \PHPUnit_Framework_TestCase
 {
+    protected static $testsTimestamp;
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        static::$testsTimestamp = str_replace('.', '_', (string) microtime(true));
+    }
+
+
     public function setUp()
     {
         $this->vertex1Name = 'vertex_alice';
@@ -117,8 +126,8 @@ class TraversalTest extends
         $this->graph->set('_key', $this->graphName);
 
 
-        $this->vertexCollectionName = 'ArangoDBPHPTestSuiteVertexTestCollection01';
-        $this->edgeCollectionName   = 'ArangoDBPHPTestSuiteTestEdgeCollection01';
+        $this->vertexCollectionName = 'ArangoDB_PHP_TestSuite_VertexTestCollection_01';
+        $this->edgeCollectionName   = 'ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp;
 
         $ed1 = EdgeDefinition::createUndirectedRelation($this->edgeCollectionName, [$this->vertexCollectionName]);
 

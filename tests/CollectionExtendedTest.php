@@ -22,6 +22,15 @@ namespace ArangoDBClient;
 class CollectionExtendedTest extends
     \PHPUnit_Framework_TestCase
 {
+    protected static $testsTimestamp;
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        static::$testsTimestamp = str_replace('.', '_', (string) microtime(true));
+    }
+
+
     /**
      * Test set-up
      */
@@ -33,7 +42,7 @@ class CollectionExtendedTest extends
         $this->documentHandler   = new DocumentHandler($this->connection);
 
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
@@ -51,7 +60,7 @@ class CollectionExtendedTest extends
         $resultingAttribute = $collection->getWaitForSync();
         static::assertNull($resultingAttribute, 'Default waitForSync in collection should be NULL!');
 
-        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
         $collection->setName($name);
 
 
@@ -77,7 +86,7 @@ class CollectionExtendedTest extends
         $resultingAttribute = $collection->getIsVolatile();
         static::assertNull($resultingAttribute, 'Default waitForSync in API should be NULL!');
 
-        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
         $collection->setName($name);
         $collection->setIsVolatile(true);
 
@@ -140,8 +149,8 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
         $collections = [
-            'ArangoDB_PHP_TestSuite_TestCollection_01',
-            'ArangoDB_PHP_TestSuite_TestCollection_02'
+            'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp,
+            'ArangoDB_PHP_TestSuite_TestCollection_02' . '_' . static::$testsTimestamp
         ];
 
         foreach ($collections as $col) {
@@ -181,7 +190,7 @@ class CollectionExtendedTest extends
         $documentHandler   = $this->documentHandler;
 
         $collection = new Collection();
-        $collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
+        $collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
 
         $collection->setId($collectionHandler->create($collection));
 
@@ -240,7 +249,7 @@ class CollectionExtendedTest extends
         $documentHandler   = $this->documentHandler;
 
         $collection = new Collection();
-        $collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
+        $collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
 
         $collection->setId($collectionHandler->create($collection));
         $revision = $collectionHandler->getRevision($collection->getName());
@@ -287,7 +296,7 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
 
-        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
         $collection->setName($name);
 
         $response = $collectionHandler->create($collection);
@@ -326,7 +335,7 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
 
-        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
         $collection->setName($name);
 
         $response = $collectionHandler->create($collection);
@@ -362,7 +371,7 @@ class CollectionExtendedTest extends
         static::assertTrue($resultingWaitForSyncAttribute, 'WaitForSync should be true!');
         static::assertEquals($resultingJournalSizeAttribute, 1024 * 1024 * 2, 'JournalSize should be 2MB!');
 
-        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
         $collection->setName($name);
 
         $collectionHandler->create($collection);
@@ -438,7 +447,7 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
         $collection = Collection::createFromArray(
-            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true]
+            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, 'waitForSync' => true]
         );
         $response   = $collectionHandler->create($collection);
 
@@ -461,7 +470,7 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
         $collection = Collection::createFromArray(
-            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => false]
+            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, 'waitForSync' => false]
         );
         $collectionHandler->create($collection);
         $document    = Document::createFromArray(
@@ -510,7 +519,7 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
         $collection = Collection::createFromArray(
-            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => false]
+            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, 'waitForSync' => false]
         );
         $collectionHandler->create($collection);
         $document    = Document::createFromArray(
@@ -545,7 +554,7 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
         $collection = Collection::createFromArray(
-            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01']
+            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]
         );
         $collectionHandler->create($collection);
         $document    = Document::createFromArray(
@@ -579,7 +588,7 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
         $collection = Collection::createFromArray(
-            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01']
+            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]
         );
         $collectionHandler->create($collection);
         $document    = Document::createFromArray(
@@ -613,7 +622,7 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
         $collection = Collection::createFromArray(
-            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01']
+            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]
         );
         $collectionHandler->create($collection);
         $document    = Document::createFromArray(
@@ -647,7 +656,7 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
         $collection = Collection::createFromArray(
-            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01']
+            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]
         );
         $collectionHandler->create($collection);
         $document    = Document::createFromArray(
@@ -680,7 +689,7 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
         $collection = Collection::createFromArray(
-            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01']
+            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]
         );
         $collectionHandler->create($collection);
         $document    = Document::createFromArray(
@@ -714,7 +723,7 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
         $collection = Collection::createFromArray(
-            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01']
+            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]
         );
         $collectionHandler->create($collection);
         $document    = Document::createFromArray(
@@ -750,7 +759,7 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
         $collection = Collection::createFromArray(
-            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true]
+            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, 'waitForSync' => true]
         );
         $collectionHandler->create($collection);
         $document    = Document::createFromArray(
@@ -784,7 +793,7 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
         $collection = Collection::createFromArray(
-            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true]
+            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, 'waitForSync' => true]
         );
         $collectionHandler->create($collection);
         $document      = Document::createFromArray(
@@ -818,7 +827,7 @@ class CollectionExtendedTest extends
         $collectionHandler       = $this->collectionHandler;
 
         $collection = Collection::createFromArray(
-            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true]
+            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, 'waitForSync' => true]
         );
         $collectionHandler->create($collection);
         $document    = Document::createFromArray(
@@ -875,7 +884,7 @@ class CollectionExtendedTest extends
 
 
         $collection = Collection::createFromArray(
-            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true]
+            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, 'waitForSync' => true]
         );
         $collectionHandler->create($collection);
         $document = ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue'];
@@ -932,7 +941,7 @@ class CollectionExtendedTest extends
         $collectionHandler       = $this->collectionHandler;
 
         $collection = Collection::createFromArray(
-            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true]
+            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, 'waitForSync' => true]
         );
         $collectionHandler->create($collection);
         $document    = Document::createFromArray(
@@ -998,7 +1007,7 @@ class CollectionExtendedTest extends
         $collectionHandler       = $this->collectionHandler;
 
         $collection = Collection::createFromArray(
-            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true]
+            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, 'waitForSync' => true]
         );
         $collectionHandler->create($collection);
         $document    = Document::createFromArray(
@@ -1064,7 +1073,7 @@ class CollectionExtendedTest extends
         $collectionHandler       = $this->collectionHandler;
 
         $collection = Collection::createFromArray(
-            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true]
+            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, 'waitForSync' => true]
         );
         $collectionHandler->create($collection);
         $document    = Document::createFromArray(
@@ -1124,7 +1133,7 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
         $collection = Collection::createFromArray(
-            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true]
+            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, 'waitForSync' => true]
         );
         $collectionHandler->create($collection);
         $document    = Document::createFromArray(
@@ -1166,7 +1175,7 @@ class CollectionExtendedTest extends
 
         $collectionHandler = $this->collectionHandler;
         $result            = $collectionHandler->importFromFile(
-            'importCollection_01_arango_unittests',
+            'ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp,
             __DIR__ . '/files_for_tests/import_file_header_values.txt',
             $options = ['createCollection' => true]
         );
@@ -1181,7 +1190,7 @@ class CollectionExtendedTest extends
                 'sanitize'  => true,
             ]
         );
-        $query     = 'FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
+        $query     = 'FOR u IN `ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp.'` SORT u._id ASC RETURN u';
 
         $statement->setQuery($query);
 
@@ -1219,7 +1228,7 @@ class CollectionExtendedTest extends
 
         $collectionHandler = $this->collectionHandler;
         $result            = $collectionHandler->importFromFile(
-            'importCollection_01_arango_unittests',
+            'ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp,
             __DIR__ . '/files_for_tests/import_file_line_by_line.txt',
             $options = ['createCollection' => true, 'type' => 'documents']
         );
@@ -1233,7 +1242,7 @@ class CollectionExtendedTest extends
                 'sanitize'  => true,
             ]
         );
-        $query     = 'FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
+        $query     = 'FOR u IN `ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp.'` SORT u._id ASC RETURN u';
 
         $statement->setQuery($query);
 
@@ -1271,7 +1280,7 @@ class CollectionExtendedTest extends
 
         $collectionHandler = $this->collectionHandler;
         $result            = $collectionHandler->importFromFile(
-            'importCollection_01_arango_unittests',
+            'ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp,
             __DIR__ . '/files_for_tests/import_file_resultset.txt',
             $options = ['createCollection' => true, 'type' => 'array']
         );
@@ -1285,7 +1294,7 @@ class CollectionExtendedTest extends
                 'sanitize'  => true,
             ]
         );
-        $query     = 'FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
+        $query     = 'FOR u IN `ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp.'` SORT u._id ASC RETURN u';
 
         $statement->setQuery($query);
 
@@ -1348,7 +1357,7 @@ class CollectionExtendedTest extends
 
         $data   = [$document1, $document2];
         $result = $collectionHandler->import(
-            'importCollection_01_arango_unittests',
+            'ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp,
             $data,
             $options = ['createCollection' => true]
         );
@@ -1363,7 +1372,7 @@ class CollectionExtendedTest extends
                 'sanitize'  => true,
             ]
         );
-        $query     = 'FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
+        $query     = 'FOR u IN `ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp.'` SORT u._id ASC RETURN u';
 
         $statement->setQuery($query);
 
@@ -1406,7 +1415,7 @@ class CollectionExtendedTest extends
                [ "Jane", "Doe", 31, "female", "test2" ]';
 
         $result = $collectionHandler->import(
-            'importCollection_01_arango_unittests',
+            'ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp,
             $data,
             $options = ['createCollection' => true]
         );
@@ -1421,7 +1430,7 @@ class CollectionExtendedTest extends
                 'sanitize'  => true,
             ]
         );
-        $query     = 'FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
+        $query     = 'FOR u IN `ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp.'` SORT u._id ASC RETURN u';
 
         $statement->setQuery($query);
 
@@ -1463,7 +1472,7 @@ class CollectionExtendedTest extends
                { "firstName" : "Jane", "lastName" : "Doe", "age" : 31, "gender" : "female", "_key" : "test2"}';
 
         $result = $collectionHandler->import(
-            'importCollection_01_arango_unittests',
+            'ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp,
             $data,
             $options = ['createCollection' => true, 'type' => 'documents']
         );
@@ -1478,7 +1487,7 @@ class CollectionExtendedTest extends
                 'sanitize'  => true,
             ]
         );
-        $query     = 'FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
+        $query     = 'FOR u IN `ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp.'` SORT u._id ASC RETURN u';
 
         $statement->setQuery($query);
 
@@ -1520,7 +1529,7 @@ class CollectionExtendedTest extends
 { "firstName" : "Jane", "lastName" : "Doe", "age" : 31, "gender" : "female", "_key" : "test2"}]';
 
         $result = $collectionHandler->import(
-            'importCollection_01_arango_unittests',
+            'ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp,
             $data,
             $options = ['createCollection' => true, 'type' => 'array']
         );
@@ -1535,7 +1544,7 @@ class CollectionExtendedTest extends
                 'sanitize'  => true,
             ]
         );
-        $query     = 'FOR u IN `importCollection_01_arango_unittests` SORT u._id ASC RETURN u';
+        $query     = 'FOR u IN `ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp.'` SORT u._id ASC RETURN u';
 
         $statement->setQuery($query);
 
@@ -1568,7 +1577,7 @@ class CollectionExtendedTest extends
     {
         $collectionHandler = $this->collectionHandler;
 
-        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01']);
+        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]);
         $collectionHandler->create($collection);
 
         $documentHandler = $this->documentHandler;
@@ -1602,7 +1611,7 @@ class CollectionExtendedTest extends
     {
         $collectionHandler = $this->collectionHandler;
 
-        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01']);
+        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]);
         $collectionHandler->create($collection);
 
         $documentHandler = $this->documentHandler;
@@ -1639,7 +1648,7 @@ class CollectionExtendedTest extends
     {
         $collectionHandler = $this->collectionHandler;
 
-        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01']);
+        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]);
         $collectionHandler->create($collection);
 
         $documentHandler = $this->documentHandler;
@@ -1696,7 +1705,7 @@ class CollectionExtendedTest extends
     {
         $collectionHandler = $this->collectionHandler;
 
-        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01']);
+        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]);
         $collectionHandler->create($collection);
 
         $documentHandler = $this->documentHandler;
@@ -1832,7 +1841,7 @@ class CollectionExtendedTest extends
     {
         $collectionHandler = $this->collectionHandler;
 
-        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01']);
+        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]);
         $collectionHandler->create($collection);
 
         $documentHandler = $this->documentHandler;
@@ -1870,7 +1879,7 @@ class CollectionExtendedTest extends
     {
         $collectionHandler = $this->collectionHandler;
 
-        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01']);
+        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]);
         $collectionHandler->create($collection);
 
         $documentHandler = $this->documentHandler;
@@ -1905,7 +1914,7 @@ class CollectionExtendedTest extends
     {
         $collectionHandler = $this->collectionHandler;
 
-        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01']);
+        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]);
         $collectionHandler->create($collection);
 
         $documentHandler = $this->documentHandler;
@@ -1963,13 +1972,13 @@ class CollectionExtendedTest extends
     public function testGetAll()
     {
         $collection = Collection::createFromArray(
-            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true]
+            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, 'waitForSync' => true]
         );
         $result     = $collection->getAll();
 
         static::assertArrayHasKey('id', $result, 'Id field should exist, empty or with an id');
         static::assertEquals(
-            $result['name'], 'ArangoDB_PHP_TestSuite_TestCollection_01', 'name should return ArangoDB_PHP_TestSuite_TestCollection_01!'
+            $result['name'], 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, 'name should return ArangoDB_PHP_TestSuite_TestCollection_01!'
         );
         static::assertTrue($result['waitForSync'], 'waitForSync should return true!');
     }
@@ -1984,7 +1993,7 @@ class CollectionExtendedTest extends
         // set up collections, indexes and test-documents
         $collectionHandler = $this->collectionHandler;
 
-        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01']);
+        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]);
         $collectionHandler->create($collection);
 
         $indexRes       = $collectionHandler->index($collection->getId(), 'skiplist', ['index']);
@@ -2127,7 +2136,7 @@ class CollectionExtendedTest extends
         // set up collections, indexes and test-documents
         $collectionHandler = $this->collectionHandler;
 
-        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01']);
+        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]);
         $collectionHandler->create($collection);
 
         $indexRes = $collectionHandler->index($collection->getId(), 'geo', ['loc']);
@@ -2232,7 +2241,7 @@ class CollectionExtendedTest extends
         // set up collections, indexes and test-documents
         $collectionHandler = $this->collectionHandler;
 
-        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01']);
+        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]);
         $collectionHandler->create($collection);
 
         $indexRes = $collectionHandler->index($collection->getId(), 'geo', ['loc']);
@@ -2336,7 +2345,7 @@ class CollectionExtendedTest extends
         // set up collections and index
         $collectionHandler = $this->collectionHandler;
 
-        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01']);
+        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]);
         $collectionHandler->create($collection);
 
         $indexRes = $collectionHandler->index($collection->getName(), 'fulltext', ['name']);
@@ -2371,7 +2380,7 @@ class CollectionExtendedTest extends
         // set up collections and index
         $collectionHandler = $this->collectionHandler;
 
-        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01']);
+        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]);
         $collectionHandler->create($collection);
 
         $indexRes = $collectionHandler->index(
@@ -2422,7 +2431,7 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
         $documentHandler   = $this->documentHandler;
 
-        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_Any']);
+        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_Any' . '_' . static::$testsTimestamp]);
         $collectionHandler->create($collection);
 
         $document1 = new Document();
@@ -2523,7 +2532,7 @@ class CollectionExtendedTest extends
         $collectionHandler       = $this->collectionHandler;
 
         $collection = Collection::createFromArray(
-            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => true]
+            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, 'waitForSync' => true]
         );
         $collectionHandler->create($collection);
         $document = Document::createFromArray(
@@ -2600,7 +2609,7 @@ class CollectionExtendedTest extends
         $collectionHandler = $this->collectionHandler;
 
         $collection = Collection::createFromArray(
-            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01', 'waitForSync' => false]
+            ['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, 'waitForSync' => false]
         );
         $collectionHandler->create($collection);
         $document    = Document::createFromArray(
@@ -2680,17 +2689,17 @@ class CollectionExtendedTest extends
     public function tearDown()
     {
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_02');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_02' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
         try {
-            $this->collectionHandler->drop('importCollection_01_arango_unittests');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }

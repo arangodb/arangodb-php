@@ -19,6 +19,15 @@ namespace ArangoDBClient;
 class BatchTest extends
     \PHPUnit_Framework_TestCase
 {
+    protected static $testsTimestamp;
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        static::$testsTimestamp = str_replace('.', '_', (string) microtime(true));
+    }
+
+
     public function setUp()
     {
         $this->connection = getConnection();
@@ -27,23 +36,23 @@ class BatchTest extends
         $this->collectionHandler = new CollectionHandler($this->connection);
 
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             // don't bother us, if it's already dropped.
         }
 
         $this->collection = new Collection();
-        $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
+        $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         $this->collectionHandler->create($this->collection);
 
         try {
-            $this->collectionHandler->drop('ArangoDBPHPTestSuiteTestEdgeCollection01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             //don't bother us, if it's already dropped.
         }
 
         $this->edgeCollection = new Collection();
-        $this->edgeCollection->setName('ArangoDBPHPTestSuiteTestEdgeCollection01');
+        $this->edgeCollection->setName('ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp);
         $this->edgeCollection->set('type', 3);
         $this->collectionHandler->create($this->edgeCollection);
     }
@@ -110,7 +119,7 @@ class BatchTest extends
     {
         try {
             // clean up first
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_02');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_02' . '_' . static::$testsTimestamp);
         } catch (Exception $e) {
         }
 
@@ -118,7 +127,7 @@ class BatchTest extends
         static::assertEquals(0, $batch->countParts());
 
         $collection = new Collection();
-        $name       = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        $name       = 'ArangoDB_PHP_TestSuite_TestCollection_02' . '_' . static::$testsTimestamp;
         $collection->setName($name);
         $this->collectionHandler->create($collection);
 
@@ -277,7 +286,7 @@ class BatchTest extends
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
 
-        $name = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_02' . '_' . static::$testsTimestamp;
         $collection->setName($name);
 
         $batch->nextBatchPartId('testCollection1');
@@ -397,7 +406,7 @@ class BatchTest extends
             ]
         );
 
-        $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_02` RETURN a');
+        $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_02' . '_' . static::$testsTimestamp.'` RETURN a');
         $statement->execute();
 
         $documentHandler->removeById($resultingCollectionId, $docId1[1]);
@@ -434,17 +443,17 @@ class BatchTest extends
     public function tearDown()
     {
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             // don't bother us, if it's already dropped.
         }
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_02');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_02' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             // don't bother us, if it's already dropped.
         }
         try {
-            $this->collectionHandler->drop('ArangoDBPHPTestSuiteTestEdgeCollection01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             //don't bother us, if it's already dropped.
         }

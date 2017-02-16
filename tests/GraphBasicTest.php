@@ -26,6 +26,15 @@ namespace ArangoDBClient;
 class GraphBasicTest extends
     \PHPUnit_Framework_TestCase
 {
+    protected static $testsTimestamp;
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        static::$testsTimestamp = str_replace('.', '_', (string) microtime(true));
+    }
+
+
     public function setUp()
     {
         $this->connection        = getConnection();
@@ -67,7 +76,7 @@ class GraphBasicTest extends
     public function testCreationOfGraphObject()
     {
 
-        $ed1         = EdgeDefinition::createUndirectedRelation('ArangoDBPHPTestSuiteTestEdgeCollection01', ['ArangoDBPHPTestSuiteTestCollection01']);
+        $ed1         = EdgeDefinition::createUndirectedRelation('ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp, ['ArangoDB_PHP_TestSuite_TestCollection_01']);
         $this->graph = new Graph('Graph1');
         static::assertCount(0, $this->graph->getEdgeDefinitions());
         $this->graph->addEdgeDefinition($ed1);
@@ -76,9 +85,9 @@ class GraphBasicTest extends
         $ed = $ed[0];
         $a  = $ed->getToCollections();
         $b  = $ed->getFromCollections();
-        static::assertSame($ed->getRelation(), 'ArangoDBPHPTestSuiteTestEdgeCollection01');
-        static::assertSame($a[0], 'ArangoDBPHPTestSuiteTestCollection01');
-        static::assertSame($b[0], 'ArangoDBPHPTestSuiteTestCollection01');
+        static::assertSame($ed->getRelation(), 'ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp);
+        static::assertSame($a[0], 'ArangoDB_PHP_TestSuite_TestCollection_01');
+        static::assertSame($b[0], 'ArangoDB_PHP_TestSuite_TestCollection_01');
         $ed = $this->graph->getEdgeDefinitions();
         $ed = $ed[0];
         $ed->addFromCollection('newFrom');
@@ -98,7 +107,7 @@ class GraphBasicTest extends
      */
     public function testCreateAndDeleteGraphByName()
     {
-        $ed1         = EdgeDefinition::createUndirectedRelation('ArangoDBPHPTestSuiteTestEdgeCollection02', ['ArangoDBPHPTestSuiteTestCollection02']);
+        $ed1         = EdgeDefinition::createUndirectedRelation('ArangoDB_PHP_TestSuite_TestEdgeCollection_02' . '_' . static::$testsTimestamp, ['ArangoDB_PHP_TestSuite_TestCollection_02']);
         $this->graph = new Graph('Graph2');
         $this->graph->addEdgeDefinition($ed1);
         $this->graphHandler = new GraphHandler($this->connection);
@@ -118,7 +127,7 @@ class GraphBasicTest extends
      */
     public function testCreateRetrieveAndDeleteGraph1()
     {
-        $ed1         = EdgeDefinition::createUndirectedRelation('ArangoDBPHPTestSuiteTestEdgeCollection03', ['ArangoDBPHPTestSuiteTestCollection03']);
+        $ed1         = EdgeDefinition::createUndirectedRelation('ArangoDB_PHP_TestSuite_TestEdge_Collection_03' . '_' . static::$testsTimestamp, ['ArangoDB_PHP_TestSuite_TestCollection_03']);
         $this->graph = new Graph('Graph3');
         $this->graph->addEdgeDefinition($ed1);
         $this->graph->addOrphanCollection('orphan');
@@ -136,7 +145,7 @@ class GraphBasicTest extends
      */
     public function testGetPropertiesAndDeleteGraphByInstance()
     {
-        $ed1         = EdgeDefinition::createUndirectedRelation('ArangoDBPHPTestSuiteTestEdgeCollection04', ['ArangoDBPHPTestSuiteTestCollection04']);
+        $ed1         = EdgeDefinition::createUndirectedRelation('ArangoDB_PHP_TestSuite_TestEdge_Collection_04' . '_' . static::$testsTimestamp, ['ArangoDB_PHP_TestSuite_TestCollection_04']);
         $this->graph = new Graph('Graph4');
         $this->graph->addEdgeDefinition($ed1);
         $this->graphHandler = new GraphHandler($this->connection);
@@ -169,7 +178,7 @@ class GraphBasicTest extends
     {
         $this->graph = new Graph('Graph1');
         $ed1         = EdgeDefinition::createUndirectedRelation('undirected', 'singleV');
-        $this->graph->addOrphanCollection('ArangoDBPHPTestSuiteTestCollection04');
+        $this->graph->addOrphanCollection('ArangoDB_PHP_TestSuite_TestCollection_04');
         $this->graph->addEdgeDefinition($ed1);
         $this->graphHandler = new GraphHandler($this->connection);
 
@@ -181,7 +190,7 @@ class GraphBasicTest extends
 
         static::assertSame(
             $this->graphHandler->getVertexCollections($this->graph), [
-                0 => 'ArangoDBPHPTestSuiteTestCollection04',
+                0 => 'ArangoDB_PHP_TestSuite_TestCollection_04',
                 1 => 'orphan1',
                 2 => 'orphan2',
                 3 => 'singleV'
@@ -191,7 +200,7 @@ class GraphBasicTest extends
         $this->graph = $this->graphHandler->deleteOrphanCollection($this->graph, 'orphan2');
         static::assertSame(
             $this->graphHandler->getVertexCollections($this->graph), [
-                0 => 'ArangoDBPHPTestSuiteTestCollection04',
+                0 => 'ArangoDB_PHP_TestSuite_TestCollection_04',
                 1 => 'orphan1',
                 2 => 'singleV'
 
@@ -233,7 +242,7 @@ class GraphBasicTest extends
     {
         $this->graph = new Graph('Graph1');
         $ed1         = EdgeDefinition::createUndirectedRelation('undirected', 'singleV');
-        $this->graph->addOrphanCollection('ArangoDBPHPTestSuiteTestCollection04');
+        $this->graph->addOrphanCollection('ArangoDB_PHP_TestSuite_TestCollection_04');
         $this->graph->addEdgeDefinition($ed1);
         $this->graphHandler = new GraphHandler($this->connection);
 
@@ -246,7 +255,7 @@ class GraphBasicTest extends
         $this->graphHandler->setCacheEnabled(true);
         static::assertSame(
             $this->graphHandler->getVertexCollections($this->graph), [
-                0 => 'ArangoDBPHPTestSuiteTestCollection04',
+                0 => 'ArangoDB_PHP_TestSuite_TestCollection_04',
                 1 => 'orphan1',
                 2 => 'orphan2',
                 3 => 'singleV'
@@ -257,7 +266,7 @@ class GraphBasicTest extends
         $this->graph = $this->graphHandler->deleteOrphanCollection($this->graph, 'orphan2');
         static::assertSame(
             $this->graphHandler->getVertexCollections($this->graph), [
-                0 => 'ArangoDBPHPTestSuiteTestCollection04',
+                0 => 'ArangoDB_PHP_TestSuite_TestCollection_04',
                 1 => 'orphan1',
                 2 => 'orphan2',
                 3 => 'singleV'
@@ -268,7 +277,7 @@ class GraphBasicTest extends
         $this->graphHandler->setCacheEnabled(false);
         static::assertSame(
             $this->graphHandler->getVertexCollections($this->graph), [
-                0 => 'ArangoDBPHPTestSuiteTestCollection04',
+                0 => 'ArangoDB_PHP_TestSuite_TestCollection_04',
                 1 => 'orphan1',
                 2 => 'singleV'
 

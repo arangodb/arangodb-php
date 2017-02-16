@@ -30,6 +30,15 @@ function filtered(array $values)
 class StatementTest extends
     \PHPUnit_Framework_TestCase
 {
+    protected static $testsTimestamp;
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        static::$testsTimestamp = str_replace('.', '_', (string) microtime(true));
+    }
+
+
     public function setUp()
     {
         $this->connection        = getConnection();
@@ -37,13 +46,13 @@ class StatementTest extends
 
         // clean up first
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
 
         $this->collection = new Collection();
-        $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
+        $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         $this->collectionHandler->create($this->collection);
     }
 
@@ -70,7 +79,7 @@ class StatementTest extends
                 '_sanitize' => true,
             ]
         );
-        $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a');
+        $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp . '` RETURN a');
         $cursor = $statement->execute();
 
         $result = $cursor->current();
@@ -273,7 +282,7 @@ class StatementTest extends
         $isoValue = iconv(
             'UTF-8',
             'ISO-8859-1//TRANSLIT',
-            '\'FOR ü IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN ü'
+            '\'FOR ü IN `ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp . '` RETURN ü'
         );
 
         $statement->setQuery($isoValue);
@@ -309,7 +318,7 @@ class StatementTest extends
                 '_sanitize' => true,
             ]
         );
-        $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a');
+        $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp . '` RETURN a');
         $result = $statement->explain();
 
         static::assertArrayHasKey('plan', $result, 'result-array does not contain plan !');
@@ -338,7 +347,7 @@ class StatementTest extends
                 '_sanitize' => true,
             ]
         );
-        $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a');
+        $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp . '` RETURN a');
         $result = $statement->validate();
         static::assertArrayHasKey('bindVars', $result, 'result-array does not contain plan !');
     }
@@ -379,7 +388,7 @@ class StatementTest extends
 
         $statement = new Statement(
             $connection, [
-                'query'     => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` RETURN a.name',
+                'query'     => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp . '` RETURN a.name',
                 'count'     => true,
                 '_sanitize' => true
             ]
@@ -415,7 +424,7 @@ class StatementTest extends
 
         $statement = new Statement(
             $connection, [
-                'query'     => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` LIMIT 2 RETURN a.name',
+                'query'     => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp . '` LIMIT 2 RETURN a.name',
                 'count'     => true,
                 'fullCount' => true,
                 '_sanitize' => true
@@ -443,7 +452,7 @@ class StatementTest extends
 
         $statement = new Statement(
             $connection, [
-                'query'     => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` FILTER a.file == @file RETURN a.file',
+                'query'     => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp . '` FILTER a.file == @file RETURN a.file',
                 'bindVars'  => ['file' => 'testFooBar'],
                 '_sanitize' => true
             ]
@@ -469,7 +478,7 @@ class StatementTest extends
 
         $statement = new Statement(
             $connection, [
-                'query'     => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01` FILTER a.test == @test RETURN a.test',
+                'query'     => 'FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp . '` FILTER a.test == @test RETURN a.test',
                 'bindVars'  => ['test' => 'file'],
                 '_sanitize' => true
             ]
@@ -533,7 +542,7 @@ class StatementTest extends
     public function tearDown()
     {
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }

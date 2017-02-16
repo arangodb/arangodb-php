@@ -20,6 +20,15 @@ namespace ArangoDBClient;
 class QueryCacheTest extends
     \PHPUnit_Framework_TestCase
 {
+    protected static $testsTimestamp;
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        static::$testsTimestamp = str_replace('.', '_', (string) microtime(true));
+    }
+
+
     public function setUp()
     {
         $this->connection        = getConnection();
@@ -27,7 +36,7 @@ class QueryCacheTest extends
         $this->collectionHandler = new CollectionHandler($this->connection);
 
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
@@ -37,7 +46,7 @@ class QueryCacheTest extends
 
     private function setupCollection()
     {
-        $name             = 'ArangoDB_PHP_TestSuite_TestCollection';
+        $name             = 'ArangoDB_PHP_TestSuite_TestCollection' . '_' . static::$testsTimestamp;
         $this->collection = new Collection($name);
         $this->collectionHandler->create($this->collection);
 
@@ -282,7 +291,7 @@ class QueryCacheTest extends
     public function tearDown()
     {
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }

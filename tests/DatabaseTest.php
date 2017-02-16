@@ -20,12 +20,21 @@ namespace ArangoDBClient;
 class DatabaseTest extends
     \PHPUnit_Framework_TestCase
 {
+    protected static $testsTimestamp;
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        static::$testsTimestamp = str_replace('.', '_', (string) microtime(true));
+    }
+
+
     public function setUp()
     {
         $this->connection = getConnection();
 
         // remove existing databases to make test repeatable
-        $databases = ['ArangoTestSuiteDatabaseTest01', 'ArangoTestSuiteDatabaseTest02'];
+        $databases = ['ArangoTestSuiteDatabaseTest01' . '_' . static::$testsTimestamp, 'ArangoTestSuiteDatabaseTest02' . '_' . static::$testsTimestamp];
         foreach ($databases as $database) {
 
             try {
@@ -41,7 +50,7 @@ class DatabaseTest extends
     public function testCreateDatabaseDeleteIt()
     {
 
-        $database = 'ArangoTestSuiteDatabaseTest01';
+        $database = 'ArangoTestSuiteDatabaseTest01' . '_' . static::$testsTimestamp;
 
         try {
             $e = null;
@@ -73,7 +82,7 @@ class DatabaseTest extends
     public function testCreateDatabaseGetListOfDatabasesAndDeleteItAgain()
     {
 
-        $database = 'ArangoTestSuiteDatabaseTest01';
+        $database = 'ArangoTestSuiteDatabaseTest01' . '_' . static::$testsTimestamp;
 
         $response = Database::create($this->connection, $database);
 
@@ -105,7 +114,7 @@ class DatabaseTest extends
     public function testCreateDatabaseGetInfoOfDatabasesAndDeleteItAgain()
     {
 
-        $database = 'ArangoTestSuiteDatabaseTest01';
+        $database = 'ArangoTestSuiteDatabaseTest01' . '_' . static::$testsTimestamp;
 
         $response = Database::create($this->connection, $database);
 
@@ -139,7 +148,7 @@ class DatabaseTest extends
     public function testDeleteNonExistentDatabase()
     {
 
-        $database = 'ArangoTestSuiteDatabaseTest01';
+        $database = 'ArangoTestSuiteDatabaseTest01' . '_' . static::$testsTimestamp;
 
 
         // Try to get a non-existent document out of a nonexistent collection
@@ -161,8 +170,8 @@ class DatabaseTest extends
     public function testCreateDatabaseSwitchToItAndCreateAnotherOne()
     {
 
-        $database  = 'ArangoTestSuiteDatabaseTest01';
-        $database2 = 'ArangoTestSuiteDatabaseTest02';
+        $database  = 'ArangoTestSuiteDatabaseTest01' . '_' . static::$testsTimestamp;
+        $database2 = 'ArangoTestSuiteDatabaseTest02' . '_' . static::$testsTimestamp;
 
         try {
             $e = null;
@@ -210,7 +219,7 @@ class DatabaseTest extends
     public function tearDown()
     {
         // clean up
-        $databases = ['ArangoTestSuiteDatabaseTest01', 'ArangoTestSuiteDatabaseTest02'];
+        $databases = ['ArangoTestSuiteDatabaseTest01' . '_' . static::$testsTimestamp, 'ArangoTestSuiteDatabaseTest02' . '_' . static::$testsTimestamp];
         foreach ($databases as $database) {
 
             try {

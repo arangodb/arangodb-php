@@ -20,6 +20,15 @@ namespace ArangoDBClient;
 class ExportTest extends
     \PHPUnit_Framework_TestCase
 {
+    protected static $testsTimestamp;
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        static::$testsTimestamp = str_replace('.', '_', (string) microtime(true));
+    }
+
+
     public function setUp()
     {
         $this->connection        = getConnection();
@@ -27,13 +36,13 @@ class ExportTest extends
 
         // clean up first
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
 
         $this->collection = new Collection();
-        $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection');
+        $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection' . '_' . static::$testsTimestamp);
         $this->collectionHandler->create($this->collection);
 
         $this->documentHandler = new DocumentHandler($this->connection);
@@ -605,7 +614,7 @@ class ExportTest extends
     public function tearDown()
     {
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
