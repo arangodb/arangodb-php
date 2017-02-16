@@ -155,6 +155,7 @@ class StatementTest extends
                 'scannedFull'    => 0,
                 'scannedIndex'   => 0,
                 'filtered'       => 0,
+                'httpRequests'   => 0
             ], filtered($extra['stats'])
         );
 
@@ -193,6 +194,7 @@ class StatementTest extends
                 'scannedFull'    => 0,
                 'scannedIndex'   => 3,
                 'filtered'       => 0,
+                'httpRequests'   => 0
             ], filtered($extra['stats'])
         );
 
@@ -231,6 +233,7 @@ class StatementTest extends
                 'scannedFull'    => 1000,
                 'scannedIndex'   => 0,
                 'filtered'       => 500,
+                'httpRequests'   => 0
             ], filtered($extra['stats'])
         );
 
