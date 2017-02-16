@@ -90,7 +90,7 @@ class HttpResponse
     {
         $this->_wasAsync = $wasAsync;
 
-        list($this->_header, $this->_body) = HttpHelper::parseHttpMessage($responseString, $originUrl, $originMethod);
+        @list($this->_header, $this->_body) = HttpHelper::parseHttpMessage($responseString, $originUrl, $originMethod);
         list($this->_httpCode, $this->_result, $this->_headers) = HttpHelper::parseHeaders($this->_header);
 
         if ($this->_body === null &&
