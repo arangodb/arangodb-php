@@ -275,7 +275,7 @@ class HttpHelper
     }
 
     /**
-     * Splits a http message into its header and body.
+     * Splits an http message into its header and body.
      *
      * @param string $httpMessage  The http message string.
      * @param string $originUrl    The original URL the response is coming from
