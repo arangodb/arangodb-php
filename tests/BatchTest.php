@@ -29,7 +29,7 @@ class BatchTest extends
         try {
             $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
-            // don't bother us, if it's already dropd.
+            // don't bother us, if it's already dropped.
         }
 
         $this->collection = new Collection();
@@ -39,7 +39,7 @@ class BatchTest extends
         try {
             $this->collectionHandler->drop('ArangoDBPHPTestSuiteTestEdgeCollection01');
         } catch (\Exception $e) {
-            #don't bother us, if it's already dropd.
+            //don't bother us, if it's already dropped.
         }
 
         $this->edgeCollection = new Collection();
@@ -436,17 +436,17 @@ class BatchTest extends
         try {
             $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
         } catch (\Exception $e) {
-            // don't bother us, if it's already dropd.
+            // don't bother us, if it's already dropped.
         }
         try {
             $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_02');
         } catch (\Exception $e) {
-            // don't bother us, if it's already dropd.
+            // don't bother us, if it's already dropped.
         }
         try {
             $this->collectionHandler->drop('ArangoDBPHPTestSuiteTestEdgeCollection01');
         } catch (\Exception $e) {
-            #don't bother us, if it's already dropd.
+            //don't bother us, if it's already dropped.
         }
 
         unset($this->collectionHandlerm, $this->collection, $this->connection);

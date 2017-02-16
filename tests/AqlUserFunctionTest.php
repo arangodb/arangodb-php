@@ -66,7 +66,7 @@ class AqlUserFunctionTest extends
     /**
      * Test if AqlUserFunctions can be registered, listed and unregistered
      */
-    public function testRegisterListAndUnregisterAqlUserFunctionWithInitialConfig()
+    public function testRegisterListAndUnRegisterAqlUserFunctionWithInitialConfig()
     {
         $name = 'phpTestFunctions::myFunction';
         $code = 'function (celsius) { return celsius * 1.8 + 32; }';
@@ -102,7 +102,7 @@ class AqlUserFunctionTest extends
     /**
      * Test if AqlUserFunctions can be registered, listed and unregistered using the register() shortcut method
      */
-    public function testRegisterListAndUnregisterAqlUserFunctionUsingShortcut()
+    public function testRegisterListAndUnRegisterAqlUserFunctionUsingShortcut()
     {
 
         $name = 'phpTestFunctions::myFunction';
@@ -204,7 +204,7 @@ class AqlUserFunctionTest extends
     /**
      * Test if AqlUserFunctions can be registered, listed and unregistered
      */
-    public function testRegisterListAndUnregisterAqlUserFunctionWithWithMagicSettersAndGetters()
+    public function testRegisterListAndUnRegisterAqlUserFunctionWithWithMagicSettersAndGetters()
     {
 
         $name = 'phpTestFunctions::myFunction';
@@ -248,7 +248,7 @@ class AqlUserFunctionTest extends
      * Test if AqlUserFunctions can be registered, listed and unregistered
      *
      */
-    public function testReRegisterListAndUnregisterAqlUserFunctionTwice()
+    public function testReRegisterListAndUnRegisterAqlUserFunctionTwice()
     {
 
         $name = 'phpTestFunctions::myFunction';
