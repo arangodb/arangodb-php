@@ -1,7 +1,7 @@
 <?php
 /**
  * ArangoDB PHP client testsuite
- * File: bootstrap.php
+ * File: bootstrap-connection-close.php
  *
  * @package ArangoDBClient
  * @author  Frank Mayer
