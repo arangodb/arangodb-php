@@ -347,7 +347,7 @@ class CollectionExtendedTest extends
         // inject wrong encoding
         $isoValue = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', 'ArangoDB_PHP_TestSuite_TestCollection_01_renamedü');
 
-        $collectionHandler->rename($resultingCollection, $isoValue);
+        static::assertTrue($collectionHandler->rename($resultingCollection, $isoValue));
 
 
         $response = $collectionHandler->drop($resultingCollection);
