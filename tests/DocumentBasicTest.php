@@ -27,6 +27,13 @@ class DocumentBasicTest extends
     {
         $this->connection        = getConnection();
         $this->collectionHandler = new CollectionHandler($this->connection);
+        
+        try {
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
+        } catch (\Exception $e) {
+            // don't bother us, if it's already deleted.
+        }
+
         $this->collection        = new Collection();
         $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
         $this->collectionHandler->create($this->collection);
