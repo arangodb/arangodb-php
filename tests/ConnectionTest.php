@@ -67,7 +67,7 @@ class ConnectionTest extends
         static::assertEquals(12, $value);
 
         $value = $connection->getOption(ConnectionOptions::OPTION_CONNECTION);
-        static::assertEquals('Close', $value);
+        static::assertTrue($value === 'Close' || $value === 'Keep-Alive');
 
         $value = $connection->getOption(ConnectionOptions::OPTION_RECONNECT);
         static::assertFalse($value);
