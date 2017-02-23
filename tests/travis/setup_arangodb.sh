@@ -11,7 +11,7 @@ if [ ! -d "$DIR/$NAME" ]; then
   echo "wget --no-check-certificate http://www.arangodb.com/repositories/nightly/travisCI/$NAME.tar.gz"
   wget --no-check-certificate http://www.arangodb.com/repositories/nightly/travisCI/$NAME.tar.gz
   echo "tar zxf $NAME.tar.gz"
-  tar zvxf $NAME.tar.gz
+  tar zxf $NAME.tar.gz
 fi
 
 ARCH=$(arch)
