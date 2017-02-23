@@ -207,11 +207,12 @@ class HttpHelper
      *
      * @param resource $socket  - connection socket (must be open)
      * @param string   $request - complete HTTP request as a string
+     * @param string   $method - HTTP method used (e.g. "HEAD")
      *
      * @throws ClientException
      * @return string - HTTP response string as provided by the server
      */
-    public static function transfer($socket, $request)
+    public static function transfer($socket, $request, $method)
     {
         if (!is_resource($socket)) {
             throw new ClientException('Invalid socket used');
@@ -255,6 +256,13 @@ class HttpHelper
                 if ($pos !== false) {
                     $contentLength    = (int) substr($result, $pos + 16, 10); // 16 = strlen("content-length: ")
                     $contentLengthPos = $pos + 17; // 17 = 16 + 1 one digit
+
+                    if ($method === "HEAD") {
+                        // for HTTP HEAD requests, the server will respond
+                        // with the proper Content-Length value, but will
+                        // NOT return the body.
+                        $contentLength = 0;
+                    }
                 }
             }
 
