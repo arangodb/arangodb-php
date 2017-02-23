@@ -81,7 +81,7 @@ class DocumentBasicTest extends
 
         $resultingAttribute = $resultingDocument->someAttribute;
         static::assertSame(
-            $resultingAttribute, 'someValue', 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
+            'someValue', $resultingAttribute, 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
         );
 
         $documentHandler->remove($document);
@@ -111,7 +111,7 @@ class DocumentBasicTest extends
 
         $resultingAttribute = $resultingDocument->someAttribute;
         static::assertSame(
-            $resultingAttribute, 'someValue', 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
+            'someValue', $resultingAttribute, 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
         );
 
         $documentHandler->remove($document);
@@ -129,7 +129,7 @@ class DocumentBasicTest extends
         $documentHandler = new DocumentHandler($connection);
 
         $document->someAttribute = 'someValue';
-        $document->set('_key', 'frank01');
+        $document->set('_key', 'somevalue01');
         $documentId = $documentHandler->save($collection->getName(), $document);
 
         $resultingDocument = $documentHandler->get($collection->getName(), $documentId);
@@ -137,10 +137,10 @@ class DocumentBasicTest extends
         $resultingAttribute = $resultingDocument->someAttribute;
         $resultingKey       = $resultingDocument->getKey();
         static::assertSame(
-            $resultingAttribute, 'someValue', 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
+            'someValue', $resultingAttribute, 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
         );
         static::assertSame(
-            $resultingKey, 'frank01', 'Resulting Attribute should be "someValue". It\'s :' . $resultingKey
+            'somevalue01', $resultingKey, 'Resulting Attribute should be "someValue". It\'s :' . $resultingKey
         );
 
 
@@ -259,10 +259,10 @@ class DocumentBasicTest extends
             $resultingAttribute = $resultingDocument->someAttribute;
             $resultingKey       = $resultingDocument->getKey();
             static::assertSame(
-                $resultingAttribute, 'someValue', 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
+                'someValue', $resultingAttribute, 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
             );
             static::assertSame(
-                $resultingKey, $key, 'Resulting Attribute should be "someValue". It\'s :' . $resultingKey
+                $key, $resultingKey, 'Resulting Attribute should be "someValue". It\'s :' . $resultingKey
             );
 
             $documentHandler->remove($document);
@@ -348,7 +348,7 @@ class DocumentBasicTest extends
 
         $resultingAttribute = $resultingDocument->someAttribute;
         static::assertSame(
-            $resultingAttribute, 'someValue', 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
+            'someValue', $resultingAttribute, 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
         );
 
         $documentHandler->removeById($collection->getName(), $documentId);
@@ -382,7 +382,7 @@ class DocumentBasicTest extends
             );
         } catch (\Exception $exception412) {
         }
-        static::assertEquals($exception412->getCode(), 412);
+        static::assertEquals(412, $exception412->getCode());
 
         try {
             $documentHandler->get(
@@ -393,13 +393,13 @@ class DocumentBasicTest extends
             );
         } catch (\Exception $exception304) {
         }
-        static::assertEquals($exception304->getMessage(), 'Document has not changed.');
+        static::assertEquals('Document has not changed.', $exception304->getMessage());
 
         $resultingDocument = $documentHandler->get($collection->getId(), $documentId);
 
         $resultingAttribute = $resultingDocument->someAttribute;
         static::assertSame(
-            $resultingAttribute, 'someValue', 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
+            'someValue', $resultingAttribute, 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
         );
 
         $resultingDocument->set('someAttribute', 'someValue2');
@@ -433,25 +433,25 @@ class DocumentBasicTest extends
         } catch (\Exception $e412) {
         }
 
-        static::assertEquals($e412->getCode(), 412);
+        static::assertEquals(412, $e412->getCode());
 
         try {
             $documentHandler->getHead($collection->getId(), 'notExisting');
         } catch (\Exception $e404) {
         }
 
-        static::assertEquals($e404->getCode(), 404);
+        static::assertEquals(404, $e404->getCode());
 
 
         $result304 = $documentHandler->getHead($collection->getId(), $documentId, $document->getRevision(), false);
-        static::assertEquals($result304['etag'], '"' . $document->getRevision() . '"');
-        static::assertEquals($result304['content-length'], 0);
-        static::assertEquals($result304['httpCode'], 304);
+        static::assertEquals('"' . $document->getRevision() . '"', $result304['etag']);
+        static::assertEquals(0, $result304['content-length']);
+        static::assertEquals(304, $result304['httpCode']);
 
         $result200 = $documentHandler->getHead($collection->getId(), $documentId, $document->getRevision(), true);
-        static::assertEquals($result200['etag'], '"' . $document->getRevision() . '"');
-        static::assertNotEquals($result200['content-length'], 0);
-        static::assertEquals($result200['httpCode'], 200);
+        static::assertEquals('"' . $document->getRevision() . '"', $result200['etag']);
+        static::assertNotEquals(0, $result200['content-length']);
+        static::assertEquals(200, $result200['httpCode']);
 
         $documentHandler->removeById($collection->getName(), $documentId);
     }
@@ -466,17 +466,17 @@ class DocumentBasicTest extends
         $collection      = $this->collection;
         $documentHandler = new DocumentHandler($connection);
 
-        $documentArray = ['someAttribute' => 'someValue', '_key' => 'frank01'];
+        $documentArray = ['someAttribute' => 'someValue', '_key' => 'somevalue01'];
         $documentId    = $documentHandler->save($collection->getName(), $documentArray);
 
         $resultingDocument  = $documentHandler->get($collection->getName(), $documentId);
         $resultingAttribute = $resultingDocument->someAttribute;
         $resultingKey       = $resultingDocument->getKey();
         static::assertSame(
-            $resultingAttribute, 'someValue', 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
+            'someValue', $resultingAttribute, 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
         );
         static::assertSame(
-            $resultingKey, 'frank01', 'Resulting Attribute should be "someValue". It\'s :' . $resultingKey
+            'somevalue01', $resultingKey, 'Resulting Attribute should be "someValue". It\'s :' . $resultingKey
         );
 
 
@@ -495,7 +495,7 @@ class DocumentBasicTest extends
         $stringDocument = (string) $document;
 
         static::assertSame(
-            $stringDocument, '{"someAttribute":"someValue","someOtherAttribute":"someOtherValue"}', 'Resulting Attribute should be {"someAttribute":"someValue","someOtherAttribute":"someOtherValue"}. It\'s :' . $stringDocument
+            '{"someAttribute":"someValue","someOtherAttribute":"someOtherValue"}', $stringDocument, 'Resulting Attribute should be {"someAttribute":"someValue","someOtherAttribute":"someOtherValue"}. It\'s :' . $stringDocument
         );
 
     }

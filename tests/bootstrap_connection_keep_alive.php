@@ -1,7 +1,7 @@
 <?php
 /**
- * ArangoDB PHP client testsuite
- * File: bootstrap.php
+ * ArangoDB PHP client
+ * File: bootstrap_connection_keep_alive.php
  *
  * @package ArangoDBClient
  * @author  Frank Mayer
@@ -44,7 +44,7 @@ function getConnectionOptions()
     return [
         ConnectionOptions::OPTION_ENDPOINT           => 'tcp://localhost:8529',
         // endpoint to connect to
-        ConnectionOptions::OPTION_CONNECTION         => 'Close',
+        ConnectionOptions::OPTION_CONNECTION         => 'Keep-Alive',
         // can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
         ConnectionOptions::OPTION_AUTH_TYPE          => 'Basic',
         // use basic authorization

@@ -63,8 +63,8 @@ class DocumentExtendedTest extends
         $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
 
         static::assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
-        static::assertEquals($resultingDocument->someAttribute, 'someValue');
-        static::assertEquals($resultingDocument->someOtherAttribute, 'someOtherValue');
+        static::assertEquals('someValue', $resultingDocument->someAttribute);
+        static::assertEquals('someOtherValue', $resultingDocument->someOtherAttribute);
 
         $response = $documentHandler->remove($document);
         static::assertTrue($response, 'Delete should return true!');
@@ -91,8 +91,8 @@ class DocumentExtendedTest extends
         $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
 
         static::assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
-        static::assertEquals($resultingDocument->someAttribute, 'someValue');
-        static::assertEquals($resultingDocument->someOtherAttribute, 'someOtherValue');
+        static::assertEquals('someValue', $resultingDocument->someAttribute);
+        static::assertEquals('someOtherValue', $resultingDocument->someOtherAttribute);
 
         $response = $documentHandler->remove($document);
         static::assertTrue($response, 'Delete should return true!');
@@ -118,8 +118,8 @@ class DocumentExtendedTest extends
         static::assertInstanceOf(Cursor::class, $cursor);
         $resultingDocument = $cursor->current();
 
-        static::assertEquals($resultingDocument->someAttribute, 'someValue');
-        static::assertEquals($resultingDocument->someOtherAttribute, 'someOtherValue');
+        static::assertEquals('someValue', $resultingDocument->someAttribute);
+        static::assertEquals('someOtherValue', $resultingDocument->someOtherAttribute);
 
         $response = $documentHandler->remove($document);
         static::assertTrue($response, 'Delete should return true!');
@@ -163,11 +163,11 @@ class DocumentExtendedTest extends
         }
 
         static::assertEquals(
-            $resultingDocument[0]->someAttribute, 'someValue', 'Document returned did not contain expected data.'
+            'someValue', $resultingDocument[0]->someAttribute, 'Document returned did not contain expected data.'
         );
 
         static::assertEquals(
-            $resultingDocument[1]->someAttribute, 'someValue', 'Document returned did not contain expected data.'
+            'someValue', $resultingDocument[1]->someAttribute, 'Document returned did not contain expected data.'
         );
 
         static::assertCount(2, $resultingDocument, 'Should be 2, was: ' . count($resultingDocument));
@@ -185,7 +185,7 @@ class DocumentExtendedTest extends
         }
 
         static::assertEquals(
-            $resultingDocument[0]->someAttribute, 'someValue', 'Document returned did not contain expected data.'
+            'someValue', $resultingDocument[0]->someAttribute, 'Document returned did not contain expected data.'
         );
 
         static::assertCount(1, $resultingDocument, 'Should be 1, was: ' . count($resultingDocument));
@@ -203,7 +203,7 @@ class DocumentExtendedTest extends
             $resultingDocument[$key] = $value;
         }
         static::assertEquals(
-            $resultingDocument[0]->someAttribute, 'someValue', 'Document returned did not contain expected data.'
+            'someValue', $resultingDocument[0]->someAttribute, 'Document returned did not contain expected data.'
         );
         static::assertCount(1, $resultingDocument, 'Should be 1, was: ' . count($resultingDocument));
 
@@ -230,8 +230,8 @@ class DocumentExtendedTest extends
         $resultingDocument = $this->collectionHandler->firstExample($this->collection->getId(), $document);
         static::assertInstanceOf(Document::class, $resultingDocument);
 
-        static::assertEquals($resultingDocument->someAttribute, 'someValue');
-        static::assertEquals($resultingDocument->someOtherAttribute, 'someOtherValue');
+        static::assertEquals('someValue', $resultingDocument->someAttribute);
+        static::assertEquals('someOtherValue', $resultingDocument->someOtherAttribute);
 
         $response = $documentHandler->remove($document);
         static::assertTrue($response, 'Delete should return true!');
@@ -263,10 +263,10 @@ class DocumentExtendedTest extends
         static::assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
         static::assertEquals(
-            $resultingDocument->someAttribute, 'someValue', 'Should be :someValue, is: ' . $resultingDocument->someAttribute
+            'someValue', $resultingDocument->someAttribute, 'Should be :someValue, is: ' . $resultingDocument->someAttribute
         );
         static::assertEquals(
-            $resultingDocument->someOtherAttribute, 'someOtherValue2', 'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
+            'someOtherValue2', $resultingDocument->someOtherAttribute, 'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
         );
         $response = $documentHandler->remove($resultingDocument);
         static::assertTrue($response, 'Delete should return true!');
@@ -306,10 +306,10 @@ class DocumentExtendedTest extends
         static::assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
         static::assertEquals(
-            $resultingDocument->someAttribute, 'someValue', 'Should be :someValue, is: ' . $resultingDocument->someAttribute
+            'someValue', $resultingDocument->someAttribute, 'Should be :someValue, is: ' . $resultingDocument->someAttribute
         );
         static::assertEquals(
-            $resultingDocument->someOtherAttribute, 'someOtherValue2', 'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
+            'someOtherValue2', $resultingDocument->someOtherAttribute, 'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
         );
         $response = $documentHandler->remove($resultingDocument);
         static::assertTrue($response, 'Delete should return true!');
@@ -342,10 +342,10 @@ class DocumentExtendedTest extends
         static::assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
         static::assertEquals(
-            $resultingDocument->someAttribute, null, 'Should be : null, is: ' . $resultingDocument->someAttribute
+            null, $resultingDocument->someAttribute, 'Should be : null, is: ' . $resultingDocument->someAttribute
         );
         static::assertEquals(
-            $resultingDocument->someOtherAttribute, 'someOtherValue2', 'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
+            'someOtherValue2', $resultingDocument->someOtherAttribute, 'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
         );
         $response = $documentHandler->remove($resultingDocument);
         static::assertTrue($response, 'Delete should return true!');
@@ -376,10 +376,10 @@ class DocumentExtendedTest extends
         static::assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
         static::assertEquals(
-            $resultingDocument->someAttribute, 'someValue2', 'Should be :someValue2, is: ' . $resultingDocument->someAttribute
+            'someValue2', $resultingDocument->someAttribute, 'Should be :someValue2, is: ' . $resultingDocument->someAttribute
         );
         static::assertEquals(
-            $resultingDocument->someOtherAttribute, 'someOtherValue2', 'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
+            'someOtherValue2', $resultingDocument->someOtherAttribute, 'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
         );
 
         $response = $documentHandler->remove($resultingDocument);
@@ -418,10 +418,10 @@ class DocumentExtendedTest extends
         static::assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
         static::assertEquals(
-            $resultingDocument->someAttribute, 'someValue2', 'Should be :someValue2, is: ' . $resultingDocument->someAttribute
+            'someValue2', $resultingDocument->someAttribute, 'Should be :someValue2, is: ' . $resultingDocument->someAttribute
         );
         static::assertEquals(
-            $resultingDocument->someOtherAttribute, 'someOtherValue2', 'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
+            'someOtherValue2', $resultingDocument->someOtherAttribute, 'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
         );
 
         $response = $documentHandler->remove($resultingDocument);
@@ -452,8 +452,8 @@ class DocumentExtendedTest extends
 
         static::assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
-        static::assertEquals($resultingDocument->someAttribute, 'someValue2');
-        static::assertEquals($resultingDocument->someOtherAttribute, 'someOtherValue2');
+        static::assertEquals('someValue2', $resultingDocument->someAttribute);
+        static::assertEquals('someOtherValue2', $resultingDocument->someOtherAttribute);
 
         $response = $documentHandler->removeById($this->collection->getId(), $documentId);
         static::assertTrue($response, 'Delete should return true!');
@@ -540,8 +540,8 @@ class DocumentExtendedTest extends
         static::assertTrue($result);
         $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
 
-        static::assertEquals($resultingDocument->someAttribute, 'someValue2');
-        static::assertEquals($resultingDocument->someOtherAttribute, 'someOtherValue2');
+        static::assertEquals('someValue2', $resultingDocument->someAttribute);
+        static::assertEquals('someOtherValue2', $resultingDocument->someOtherAttribute);
 
         // Set some new values on the attributes and include a fake revision in the _rev attribute
         // This should result in a failure to update
@@ -555,13 +555,13 @@ class DocumentExtendedTest extends
         }
 
         static::assertInstanceOf(\Exception::class, $e);
-        static::assertEquals($e->getMessage(), 'precondition failed');
+        static::assertEquals('precondition failed', $e->getMessage());
         $resultingDocument1 = $documentHandler->get($this->collection->getId(), $documentId);
 
         static::assertEquals(
-            $resultingDocument1->someAttribute, 'someValue2', 'This value should not have changed using UPDATE() - this is the behavior of REPLACE()'
+            'someValue2', $resultingDocument1->someAttribute, 'This value should not have changed using UPDATE() - this is the behavior of REPLACE()'
         );
-        static::assertEquals($resultingDocument1->someOtherAttribute, 'someOtherValue2');
+        static::assertEquals('someOtherValue2', $resultingDocument1->someOtherAttribute);
         unset ($e);
 
         $document = Document::createFromArray(['someOtherAttribute' => 'someOtherValue3']);
@@ -575,7 +575,7 @@ class DocumentExtendedTest extends
         }
         $resultingDocument2 = $documentHandler->get($this->collection->getId(), $documentId);
 
-        static::assertEquals($resultingDocument2->someOtherAttribute, 'someOtherValue3');
+        static::assertEquals('someOtherValue3', $resultingDocument2->someOtherAttribute);
 
         // Set some new values on the attributes and include the revision in the _rev attribute
         // this is only to update the doc and get a new revision for testing the delete method below
@@ -600,7 +600,7 @@ class DocumentExtendedTest extends
         }
 
         static::assertInstanceOf(\Exception::class, $e, 'Delete should have raised an exception here');
-        static::assertEquals($e->getMessage(), 'precondition failed');
+        static::assertEquals('precondition failed', $e->getMessage());
         unset ($e);
 
         $response = $documentHandler->remove($resultingDocument3, ['policy' => 'error']);
@@ -658,7 +658,7 @@ class DocumentExtendedTest extends
         }
 
         static::assertInstanceOf(\Exception::class, $e);
-        static::assertEquals($e->getMessage(), 'precondition failed');
+        static::assertEquals('precondition failed', $e->getMessage());
         $resultingDocument1 = $documentHandler->get($this->collection->getId(), $documentId);
 
         static::assertEquals($resultingDocument1->someAttribute, 'someValue2');
@@ -678,7 +678,7 @@ class DocumentExtendedTest extends
         $resultingDocument2 = $documentHandler->get($this->collection->getId(), $documentId);
 
         static::assertEquals($resultingDocument2->someAttribute, 'someValue3');
-        static::assertEquals($resultingDocument2->someOtherAttribute, 'someOtherValue3');
+        static::assertEquals('someOtherValue3', $resultingDocument2->someOtherAttribute);
 
         // Set some new values on the attributes and include the revision in the _rev attribute
         // this is only to update the doc and get a new revision for testing the delete method below
@@ -703,7 +703,7 @@ class DocumentExtendedTest extends
         }
 
         static::assertInstanceOf(\Exception::class, $e, 'Delete should have raised an exception here');
-        static::assertEquals($e->getMessage(), 'precondition failed');
+        static::assertEquals('precondition failed', $e->getMessage());
         unset ($e);
 
         $response = $documentHandler->remove($resultingDocument3, ['policy' => 'error']);
@@ -741,8 +741,8 @@ class DocumentExtendedTest extends
         static::assertTrue($result);
         $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
 
-        static::assertEquals($resultingDocument->someAttribute, 'someValue2');
-        static::assertEquals($resultingDocument->someOtherAttribute, 'someOtherValue2');
+        static::assertEquals('someValue2', $resultingDocument->someAttribute);
+        static::assertEquals('someOtherValue2', $resultingDocument->someOtherAttribute);
 
 
         // Set an attribute to null and use the keepNull default, which should be true
@@ -801,7 +801,7 @@ class DocumentExtendedTest extends
         }
         $resultingDocument2 = $documentHandler->get($this->collection->getId(), $documentId);
 
-        static::assertEquals($resultingDocument2->someOtherAttribute, 'someOtherValue3');
+        static::assertEquals('someOtherValue3', $resultingDocument2->someOtherAttribute);
 
         // Set some new values on the attributes and include the revision in the _rev attribute
         // this is only to update the doc and get a new revision for testing the delete method below
@@ -826,7 +826,7 @@ class DocumentExtendedTest extends
         }
 
         static::assertInstanceOf(\Exception::class, $e, 'Delete should have raised an exception here');
-        static::assertEquals($e->getMessage(), 'precondition failed');
+        static::assertEquals('precondition failed', $e->getMessage());
         unset ($e);
 
         $response = $documentHandler->remove($resultingDocument3, ['policy' => 'error']);
@@ -1072,7 +1072,7 @@ class DocumentExtendedTest extends
         //Assert new data has been saved
         static::assertEquals($document->get('favorite_sport'), 'hockey', 'Retrieved data does not match.');
 
-        static::assertNotEquals($document->getRevision(), $rev, 'Revision matches when it is not suppose to.');
+        static::assertNotEquals($rev, $document->getRevision(), 'Revision matches when it is not suppose to.');
     }
 
     public function tearDown()

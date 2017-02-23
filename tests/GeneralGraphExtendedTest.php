@@ -202,7 +202,7 @@ class GeneralGraphExtendedTest extends
         } catch (Exception $e) {
             $ex = $e->getMessage();
         }
-        static::assertEquals($ex, 'A collection must be provided.');
+        static::assertEquals('A collection must be provided.', $ex);
         $this->createGraph();
 
         $ex = null;
@@ -211,7 +211,7 @@ class GeneralGraphExtendedTest extends
         } catch (Exception $e) {
             $ex = $e->getMessage();
         }
-        static::assertEquals($ex, 'A collection must be provided.');
+        static::assertEquals('A collection must be provided.', $ex);
 
         $v1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Array['_key'], [], $this->v1);
         $v2 = $this->graphHandler->getVertex($this->graphName, $this->v1 . '/' . $this->vertex1Array['_key'], []);
@@ -227,7 +227,7 @@ class GeneralGraphExtendedTest extends
         } catch (Exception $e) {
             $ex = $e->getMessage();
         }
-        static::assertEquals($ex, 'A collection must be provided.');
+        static::assertEquals('A collection must be provided.', $ex);
 
         $v1 = $this->graphHandler->getVertex($this->graphName, $this->v1 . '/' . $this->vertex1Array['_key'], []);
         $v  = Vertex::createFromArray($this->vertex7Array);
@@ -247,7 +247,7 @@ class GeneralGraphExtendedTest extends
         } catch (Exception $e) {
             $ex = $e->getMessage();
         }
-        static::assertEquals($ex, 'A collection must be provided.');
+        static::assertEquals('A collection must be provided.', $ex);
         $v1 = $this->graphHandler->getVertex($this->graphName, $this->v1 . '/' . $this->vertex1Array['_key'], []);
         $v  = Vertex::createFromArray($this->vertex7Array);
         $v->setRevision($v1->getRevision());
@@ -267,7 +267,7 @@ class GeneralGraphExtendedTest extends
         } catch (Exception $e) {
             $ex = $e->getMessage();
         }
-        static::assertEquals($ex, 'A collection must be provided.');
+        static::assertEquals('A collection must be provided.', $ex);
         $v1 = $this->graphHandler->getVertex($this->graphName, $this->v1 . '/' . $this->vertex1Array['_key'], []);
         static::assertTrue($this->graphHandler->removeVertex($this->graphName, $this->v1 . '/' . $this->vertex1Array['_key'], $v1->getRevision(), []));
 
@@ -291,7 +291,7 @@ class GeneralGraphExtendedTest extends
         } catch (Exception $e) {
             $ex = $e->getMessage();
         }
-        static::assertEquals($ex, 'A collection must be provided.');
+        static::assertEquals('A collection must be provided.', $ex);
         $this->createGraph();
         $this->graphHandler->saveEdge(
             $this->graphName,
@@ -308,7 +308,7 @@ class GeneralGraphExtendedTest extends
         } catch (Exception $e) {
             $ex = $e->getMessage();
         }
-        static::assertEquals($ex, 'A collection must be provided.');
+        static::assertEquals('A collection must be provided.', $ex);
 
         $v1 = $this->graphHandler->getEdge($this->graphName, $this->edge1Array['_key'], [], $this->e1);
         $v2 = $this->graphHandler->getEdge($this->graphName, $this->e1 . '/' . $this->edge1Array['_key'], []);
@@ -324,7 +324,7 @@ class GeneralGraphExtendedTest extends
         } catch (Exception $e) {
             $ex = $e->getMessage();
         }
-        static::assertEquals($ex, 'A collection must be provided.');
+        static::assertEquals('A collection must be provided.', $ex);
 
         $v1 = $this->graphHandler->getEdge($this->graphName, $this->e1 . '/' . $this->edge1Array['_key'], []);
         $v  = Edge::createFromArray($this->edge1Array);
@@ -348,7 +348,7 @@ class GeneralGraphExtendedTest extends
         } catch (Exception $e) {
             $ex = $e->getMessage();
         }
-        static::assertEquals($ex, 'A collection must be provided.');
+        static::assertEquals('A collection must be provided.', $ex);
         $v1 = $this->graphHandler->getEdge($this->graphName, $this->e1 . '/' . $this->edge1Array['_key'], []);
         $v  = Edge::createFromArray($this->edge1Array);
         $v->setRevision($v1->getRevision());
@@ -368,7 +368,7 @@ class GeneralGraphExtendedTest extends
         } catch (Exception $e) {
             $ex = $e->getMessage();
         }
-        static::assertEquals($ex, 'A collection must be provided.');
+        static::assertEquals('A collection must be provided.', $ex);
         $v1 = $this->graphHandler->getVertex($this->graphName, $this->e1 . '/' . $this->edge1Array['_key'], []);
         static::assertTrue($this->graphHandler->removeEdge($this->graphName, $this->e1 . '/' . $this->edge1Array['_key'], $v1->getRevision(), []));
 

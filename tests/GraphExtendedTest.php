@@ -189,18 +189,18 @@ class GraphExtendedTest extends
 
         // Save vertices
         $result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
-        static::assertEquals($result1, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex1', 'Did not return vertex1!');
+        static::assertEquals('ArangoDBPHPTestSuiteVertexTestCollection01/vertex1', $result1, 'Did not return vertex1!');
 
         $result2 = $this->graphHandler->saveVertex($this->graphName, $vertex2);
-        static::assertEquals($result2, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex2', 'Did not return vertex2!');
+        static::assertEquals('ArangoDBPHPTestSuiteVertexTestCollection01/vertex2', $result2, 'Did not return vertex2!');
 
 
         // Get vertices
         $result1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
-        static::assertEquals($result1->getKey(), 'vertex1', 'Did not return vertex1!');
+        static::assertEquals('vertex1', $result1->getKey(), 'Did not return vertex1!');
 
         $result2 = $this->graphHandler->getVertex($this->graphName, $this->vertex2Name);
-        static::assertEquals($result2->getKey(), 'vertex2', 'Did not return vertex2!');
+        static::assertEquals('vertex2', $result2->getKey(), 'Did not return vertex2!');
 
 
         // Save edge
@@ -211,12 +211,12 @@ class GraphExtendedTest extends
             $this->edgeLabel1,
             $edge1
         );
-        static::assertEquals($resultE, 'ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp . '/edge1', 'Did not return edge1!');
+        static::assertEquals('ArangoDBPHPTestSuiteTestEdgeCollection01/edge1', $resultE, 'Did not return edge1!');
 
 
         // Get edge
         $resultE = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
-        static::assertEquals($resultE->getKey(), 'edge1', 'Did not return edge1!');
+        static::assertEquals('edge1', $resultE->getKey(), 'Did not return edge1!');
 
 
         // Try to get the edge using GraphHandler
@@ -243,7 +243,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to get vertex using GraphHandler
@@ -255,7 +255,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Remove the other vertex using GraphHandler
@@ -272,7 +272,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
     }
 
 
@@ -290,18 +290,18 @@ class GraphExtendedTest extends
         $this->graphHandler->setCacheEnabled(true);
         // Save vertices
         $result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
-        static::assertEquals($result1, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex1', 'Did not return vertex1!');
+        static::assertEquals('ArangoDBPHPTestSuiteVertexTestCollection01/vertex1', $result1, 'Did not return vertex1!');
 
         $result2 = $this->graphHandler->saveVertex($this->graphName, $vertex2);
-        static::assertEquals($result2, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex2', 'Did not return vertex2!');
+        static::assertEquals('ArangoDBPHPTestSuiteVertexTestCollection01/vertex2', $result2, 'Did not return vertex2!');
 
 
         // Get vertices
         $result1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
-        static::assertEquals($result1->getKey(), 'vertex1', 'Did not return vertex1!');
+        static::assertEquals('vertex1', $result1->getKey(), 'Did not return vertex1!');
 
         $result2 = $this->graphHandler->getVertex($this->graphName, $this->vertex2Name);
-        static::assertEquals($result2->getKey(), 'vertex2', 'Did not return vertex2!');
+        static::assertEquals('vertex2', $result2->getKey(), 'Did not return vertex2!');
 
 
         // Save edge
@@ -312,12 +312,12 @@ class GraphExtendedTest extends
             $this->edgeLabel1,
             $edge1
         );
-        static::assertEquals($resultE, 'ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp . '/edge1', 'Did not return edge1!');
+        static::assertEquals('ArangoDBPHPTestSuiteTestEdgeCollection01/edge1', $resultE, 'Did not return edge1!');
 
 
         // Get edge
         $resultE = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
-        static::assertEquals($resultE->getKey(), 'edge1', 'Did not return edge1!');
+        static::assertEquals('edge1', $resultE->getKey(), 'Did not return edge1!');
 
 
         // Try to get the edge using GraphHandler
@@ -344,7 +344,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to get vertex using GraphHandler
@@ -356,7 +356,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Remove the other vertex using GraphHandler
@@ -373,7 +373,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
     }
 
 
@@ -391,18 +391,18 @@ class GraphExtendedTest extends
 
         // Save vertices
         $result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
-        static::assertEquals($result1, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex1', 'Did not return vertex1!');
+        static::assertEquals('ArangoDBPHPTestSuiteVertexTestCollection01/vertex1', $result1, 'Did not return vertex1!');
 
         $result2 = $this->graphHandler->saveVertex($this->graphName, $vertex2);
-        static::assertEquals($result2, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex2', 'Did not return vertex2!');
+        static::assertEquals('ArangoDBPHPTestSuiteVertexTestCollection01/vertex2', $result2, 'Did not return vertex2!');
 
 
         // Get vertices
         $result1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
-        static::assertEquals($result1->getKey(), 'vertex1', 'Did not return vertex1!');
+        static::assertEquals('vertex1', $result1->getKey(), 'Did not return vertex1!');
 
         $result2 = $this->graphHandler->getVertex($this->graphName, $this->vertex2Name);
-        static::assertEquals($result2->getKey(), 'vertex2', 'Did not return vertex2!');
+        static::assertEquals('vertex2', $result2->getKey(), 'Did not return vertex2!');
 
 
         // Save edge
@@ -418,7 +418,7 @@ class GraphExtendedTest extends
 
         // Get edge
         $result1 = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
-        static::assertEquals($result1->getKey(), 'edge1', 'Did not return edge1!');
+        static::assertEquals('edge1', $result1->getKey(), 'Did not return edge1!');
 
 
         // Remove one vertex using GraphHandler
@@ -435,7 +435,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to get vertex using GraphHandler
@@ -447,7 +447,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to get the edge using GraphHandler
@@ -459,7 +459,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to remove the edge using GraphHandler
@@ -471,7 +471,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Remove the other vertex using GraphHandler
@@ -488,7 +488,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
     }
 
 
@@ -511,7 +511,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to update vertex using GraphHandler
@@ -523,7 +523,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to replace vertex using GraphHandler
@@ -535,7 +535,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Remove a vertex using GraphHandler
@@ -547,7 +547,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to get the edge using GraphHandler
@@ -559,7 +559,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to update edge using GraphHandler
@@ -571,7 +571,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to replace edge using GraphHandler
@@ -583,7 +583,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to remove the edge using GraphHandler
@@ -595,7 +595,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
     }
 
 
@@ -612,18 +612,18 @@ class GraphExtendedTest extends
 
         // Save vertices
         $result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
-        static::assertEquals($result1, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex1', 'Did not return vertex1!');
+        static::assertEquals('ArangoDBPHPTestSuiteVertexTestCollection01/vertex1', $result1, 'Did not return vertex1!');
 
         $result2 = $this->graphHandler->saveVertex($this->graphName, $vertex2);
-        static::assertEquals($result2, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex2', 'Did not return vertex2!');
+        static::assertEquals('ArangoDBPHPTestSuiteVertexTestCollection01/vertex2', $result2, 'Did not return vertex2!');
 
 
         // Get vertices
         $result1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
-        static::assertEquals($result1->getKey(), 'vertex1', 'Did not return vertex1!');
+        static::assertEquals('vertex1', $result1->getKey(), 'Did not return vertex1!');
 
         $result2 = $this->graphHandler->getVertex($this->graphName, $this->vertex2Name);
-        static::assertEquals($result2->getKey(), 'vertex2', 'Did not return vertex2!');
+        static::assertEquals('vertex2', $result2->getKey(), 'Did not return vertex2!');
 
 
         // Replace vertex
@@ -633,7 +633,7 @@ class GraphExtendedTest extends
 
         // Get vertex
         $result1a = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
-        static::assertEquals($result1a->someKey1, 'someValue1a', 'Did not return someValue1a!');
+        static::assertEquals('someValue1a', $result1a->someKey1, 'Did not return someValue1a!');
 
 
         // Replace vertex
@@ -643,7 +643,7 @@ class GraphExtendedTest extends
 
         // Get vertex
         $result1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
-        static::assertEquals($result1->someKey1, 'someValue1', 'Did not return someValue1!');
+        static::assertEquals('someValue1', $result1->someKey1, 'Did not return someValue1!');
 
 
         $result1a = $this->graphHandler->updateVertex($this->graphName, $this->vertex1Name, $vertex1a);
@@ -651,7 +651,7 @@ class GraphExtendedTest extends
 
 
         $result1a = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
-        static::assertEquals($result1a->someKey1, 'someValue1a', 'Did not return someValue1a!');
+        static::assertEquals('someValue1a', $result1a->someKey1, 'Did not return someValue1a!');
 
 
         $result1 = $this->graphHandler->updateVertex($this->graphName, $this->vertex1Name, $vertex1);
@@ -659,7 +659,7 @@ class GraphExtendedTest extends
 
 
         $result1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
-        static::assertEquals($result1->someKey1, 'someValue1', 'Did not return someValue1!');
+        static::assertEquals('someValue1', $result1->someKey1, 'Did not return someValue1!');
 
 
         $result1a = $this->graphHandler->removeVertex($this->graphName, $this->vertex1Name);
@@ -701,18 +701,18 @@ class GraphExtendedTest extends
 
         // Save vertices
         $result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
-        static::assertEquals($result1, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex1', 'Did not return vertex1!');
+        static::assertEquals('ArangoDBPHPTestSuiteVertexTestCollection01/vertex1', $result1, 'Did not return vertex1!');
 
         $result2 = $this->graphHandler->saveVertex($this->graphName, $vertex2);
-        static::assertEquals($result2, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex2', 'Did not return vertex2!');
+        static::assertEquals('ArangoDBPHPTestSuiteVertexTestCollection01/vertex2', $result2, 'Did not return vertex2!');
 
 
         // Get vertices
         $result1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
-        static::assertEquals($result1->getKey(), 'vertex1', 'Did not return vertex1!');
+        static::assertEquals('vertex1', $result1->getKey(), 'Did not return vertex1!');
 
         $result2 = $this->graphHandler->getVertex($this->graphName, $this->vertex2Name);
-        static::assertEquals($result2->getKey(), 'vertex2', 'Did not return vertex2!');
+        static::assertEquals('vertex2', $result2->getKey(), 'Did not return vertex2!');
 
 
         // Replace vertex
@@ -727,7 +727,7 @@ class GraphExtendedTest extends
 
         // Get vertex
         $result1a = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
-        static::assertEquals($result1a->someKey1, 'someValue1a', 'Did not return someValue1a!');
+        static::assertEquals('someValue1a', $result1a->someKey1, 'Did not return someValue1a!');
 
 
         // Replace vertex
@@ -737,7 +737,7 @@ class GraphExtendedTest extends
 
         // Get vertex
         $result1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
-        static::assertEquals($result1->someKey1, 'someValue1', 'Did not return someValue1!');
+        static::assertEquals('someValue1', $result1->someKey1, 'Did not return someValue1!');
 
 
         $result1a = $this->graphHandler->updateVertex($this->graphName, $this->vertex1Name, $vertex1a);
@@ -745,7 +745,7 @@ class GraphExtendedTest extends
 
 
         $result1a = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
-        static::assertEquals($result1a->someKey1, 'someValue1a', 'Did not return someValue1a!');
+        static::assertEquals('someValue1a', $result1a->someKey1, 'Did not return someValue1a!');
 
         $e = null;
 
@@ -786,19 +786,19 @@ class GraphExtendedTest extends
 
 
         $result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
-        static::assertEquals($result1, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex1', 'Did not return vertex1!');
+        static::assertEquals('ArangoDBPHPTestSuiteVertexTestCollection01/vertex1', $result1, 'Did not return vertex1!');
 
 
         $result2 = $this->graphHandler->saveVertex($this->graphName, $vertex2);
-        static::assertEquals($result2, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex2', 'Did not return vertex2!');
+        static::assertEquals('ArangoDBPHPTestSuiteVertexTestCollection01/vertex2', $result2, 'Did not return vertex2!');
 
 
         $result1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
-        static::assertEquals($result1->getKey(), 'vertex1', 'Did not return vertex1!');
+        static::assertEquals('vertex1', $result1->getKey(), 'Did not return vertex1!');
 
 
         $result2 = $this->graphHandler->getVertex($this->graphName, $this->vertex2Name);
-        static::assertEquals($result2->getKey(), 'vertex2', 'Did not return vertex2!');
+        static::assertEquals('vertex2', $result2->getKey(), 'Did not return vertex2!');
 
 
         $result1 = $this->graphHandler->saveEdge(
@@ -808,11 +808,11 @@ class GraphExtendedTest extends
             $this->edgeLabel1,
             $edge1
         );
-        static::assertEquals($result1, $this->edgeCollectionName . '/edge1', 'Did not return edge1!');
+        static::assertEquals($this->edgeCollectionName . '/edge1', $result1, 'Did not return edge1!');
 
 
         $result1 = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
-        static::assertEquals($result1->getKey(), 'edge1', 'Did not return edge1!');
+        static::assertEquals('edge1', $result1->getKey(), 'Did not return edge1!');
 
         $edge1a->setFrom($result1->getInternalId());
         $edge1a->setTo($result2->getInternalId());
@@ -822,7 +822,7 @@ class GraphExtendedTest extends
 
 
         $result1a = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
-        static::assertEquals($result1a->someEdgeKey1, 'someEdgeValue1a', 'Did not return someEdgeValue1a!');
+        static::assertEquals('someEdgeValue1a', $result1a->someEdgeKey1, 'Did not return someEdgeValue1a!');
 
 
         $result1a = $this->graphHandler->updateEdge($this->graphName, $this->edge1Name, $this->edgeLabel1, $edge1);
@@ -830,7 +830,7 @@ class GraphExtendedTest extends
 
 
         $result1 = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
-        static::assertEquals($result1->someEdgeKey1, 'someEdgeValue1', 'Did not return someEdgeValue1!');
+        static::assertEquals('someEdgeValue1', $result1->someEdgeKey1, 'Did not return someEdgeValue1!');
 
 
         $result1a = $this->graphHandler->removeEdge($this->graphName, $this->edge1Name);
@@ -883,19 +883,19 @@ class GraphExtendedTest extends
 
 
         $result1 = $this->graphHandler->saveVertex($this->graphName, $vertex1);
-        static::assertEquals($result1, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex1', 'Did not return vertex1!');
+        static::assertEquals('ArangoDBPHPTestSuiteVertexTestCollection01/vertex1', $result1, 'Did not return vertex1!');
 
 
         $result2 = $this->graphHandler->saveVertex($this->graphName, $vertex2);
-        static::assertEquals($result2, 'ArangoDB_PHP_TestSuite_VertexTestCollection_01/vertex2', 'Did not return vertex2!');
+        static::assertEquals('ArangoDBPHPTestSuiteVertexTestCollection01/vertex2', $result2, 'Did not return vertex2!');
 
 
         $result1 = $this->graphHandler->getVertex($this->graphName, $this->vertex1Name);
-        static::assertEquals($result1->getKey(), 'vertex1', 'Did not return vertex1!');
+        static::assertEquals('vertex1', $result1->getKey(), 'Did not return vertex1!');
 
 
         $result2 = $this->graphHandler->getVertex($this->graphName, $this->vertex2Name);
-        static::assertEquals($result2->getKey(), 'vertex2', 'Did not return vertex2!');
+        static::assertEquals('vertex2', $result2->getKey(), 'Did not return vertex2!');
 
 
         $result1 = $this->graphHandler->saveEdge(
@@ -905,11 +905,11 @@ class GraphExtendedTest extends
             $this->edgeLabel1,
             $edge1
         );
-        static::assertEquals($result1, 'ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp . '/edge1', 'Did not return edge1!');
+        static::assertEquals('ArangoDBPHPTestSuiteTestEdgeCollection01/edge1', $result1, 'Did not return edge1!');
 
 
         $result1 = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
-        static::assertEquals($result1->getKey(), 'edge1', 'Did not return edge1!');
+        static::assertEquals('edge1', $result1->getKey(), 'Did not return edge1!');
 
         $edge1a->setFrom($result1->getInternalId());
         $edge1a->setTo($result2->getInternalId());
@@ -926,7 +926,7 @@ class GraphExtendedTest extends
 
 
         $result1a = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
-        static::assertEquals($result1a->someEdgeKey1, 'someEdgeValue1a', 'Did not return someEdgeValue1a!');
+        static::assertEquals('someEdgeValue1a', $result1a->someEdgeKey1, 'Did not return someEdgeValue1a!');
 
         $e = null;
         try {
@@ -970,20 +970,20 @@ class GraphExtendedTest extends
 
         // Save vertices using VertexHandler
         $result1 = $vertexHandler->save($this->vertexCollectionName, $vertex1);
-        static::assertEquals($result1, 'vertex1', 'Did not return vertex1!');
+        static::assertEquals('vertex1', $result1, 'Did not return vertex1!');
 
 
         $result2 = $vertexHandler->save($this->vertexCollectionName, $vertex2);
-        static::assertEquals($result2, 'vertex2', 'Did not return vertex2!');
+        static::assertEquals('vertex2', $result2, 'Did not return vertex2!');
 
 
         // Get vertices using VertexHandler
         $result1 = $vertexHandler->getById($this->vertexCollectionName, $this->vertex1Name);
-        static::assertEquals($result1->getKey(), 'vertex1', 'Did not return vertex1!');
+        static::assertEquals('vertex1', $result1->getKey(), 'Did not return vertex1!');
 
 
         $result2 = $vertexHandler->getById($this->vertexCollectionName, $this->vertex2Name);
-        static::assertEquals($result2->getKey(), 'vertex2', 'Did not return vertex2!');
+        static::assertEquals('vertex2', $result2->getKey(), 'Did not return vertex2!');
 
 
         // Save edge using EdgeHandler
@@ -994,12 +994,12 @@ class GraphExtendedTest extends
             $this->vertexCollectionName . '/' . $this->vertex2Name,
             $edge1
         );
-        static::assertEquals($result1, 'edge1', 'Did not return edge1!');
+        static::assertEquals('edge1', $result1, 'Did not return edge1!');
 
 
         // Get edge using EdgeHandler
         $result1 = $edgeHandler->getById($this->edgeCollectionName, $this->edge1Name);
-        static::assertEquals($result1->getKey(), 'edge1', 'Did not return edge1!');
+        static::assertEquals('edge1', $result1->getKey(), 'Did not return edge1!');
 
 
         // Remove one vertex using VertexHandler
@@ -1025,7 +1025,7 @@ class GraphExtendedTest extends
             $edgeHandler->getById($this->edgeCollectionName, $this->edge1Name);
         } catch (\Exception $e) {
             static::assertInstanceOf(ServerException::class, $e);
-            static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+            static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
         }
 
 
@@ -1046,7 +1046,7 @@ class GraphExtendedTest extends
             $edgeHandler->removeById($this->edgeCollectionName, $this->edge1Name);
         } catch (\Exception $e) {
             static::assertInstanceOf(ServerException::class, $e);
-            static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+            static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
         }
 
 
@@ -1062,7 +1062,7 @@ class GraphExtendedTest extends
             $vertexHandler->getById($this->vertexCollectionName, $this->vertex2Name);
         } catch (\Exception $e) {
             static::assertInstanceOf(ServerException::class, $e);
-            static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+            static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
         }
     }
 

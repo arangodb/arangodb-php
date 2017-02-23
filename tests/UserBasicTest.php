@@ -48,7 +48,7 @@ class UserBasicTest extends
 
         $userHandler = new UserHandler($userConnection);
         $result      = $userHandler->getDatabases('testUser42');
-        static::assertEquals($result, ['_system' => 'rw']);
+        static::assertEquals(['_system' => 'rw'], $result);
 
 
         $this->userHandler->removeUser('testUser42');
@@ -57,7 +57,7 @@ class UserBasicTest extends
             $userHandler->getDatabases('testUser42');
         } catch (\Exception $e) {
             // Just give us the $e
-            static::assertEquals($e->getCode(), 401);
+            static::assertEquals(401, $e->getCode());
         }
         static::assertInstanceOf(ServerException::class, $e, 'should have gotten an exception');
     }
@@ -82,13 +82,13 @@ class UserBasicTest extends
 
         $userHandler = new UserHandler($userConnection);
         $result      = $userHandler->getDatabases('testUser42');
-        static::assertEquals($result, ['_system' => 'rw']);
+        static::assertEquals(['_system' => 'rw'], $result);
 
         $result = $this->userHandler->revokePermissions('testUser42', $this->connection->getDatabase());
         static::assertTrue($result);
 
         $result = $userHandler->getDatabases('testUser42');
-        static::assertEquals($result, ['_system' => 'none']);
+        static::assertEquals(['_system' => 'none'], $result);
     }
 
 
@@ -132,7 +132,7 @@ class UserBasicTest extends
             $this->userHandler->addUser('testUser1', 'testPass1', true, ['level' => 1]);
         } catch (\Exception $e) {
             // Just give us the $e
-            static::assertEquals($e->getCode(), 400);
+            static::assertEquals(400, $e->getCode());
         }
         static::assertInstanceOf(ServerException::class, $e, 'should have gotten an exception');
 
@@ -140,7 +140,7 @@ class UserBasicTest extends
         $response = $this->userHandler->get('testUser1');
         $extra    = $response->extra;
         static::assertTrue($response->active);
-        static::assertEquals($extra['level'], 1, 'Should return 1');
+        static::assertEquals(1, $extra['level'], 'Should return 1');
 
 
         $this->userHandler->replaceUser('testUser1', 'testPass2', false, ['level' => 2]);
@@ -151,7 +151,7 @@ class UserBasicTest extends
         $extra    = $response->extra;
         static::assertFalse($response->active);
 
-        static::assertEquals($extra['level'], 2, 'Should return 2');
+        static::assertEquals(2, $extra['level'], 'Should return 2');
 
 
         $this->userHandler->updateUser('testUser1', null, null, ['level' => 3]);
@@ -162,7 +162,7 @@ class UserBasicTest extends
         $extra    = $response->extra;
         static::assertFalse($response->active);
 
-        static::assertEquals($extra['level'], 3, 'Should return 3');
+        static::assertEquals(3, $extra['level'], 'Should return 3');
 
         $this->userHandler->removeUser('testUser1');
         static::assertTrue($result);
@@ -179,7 +179,7 @@ class UserBasicTest extends
             $this->userHandler->removeUser('testUser1');
         } catch (\Exception $e) {
             // Just give us the $e
-            static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . $e->getCode());
+            static::assertEquals(404, $e->getCode(), 'Should get 404, instead got: ' . $e->getCode());
         }
         static::assertInstanceOf(ServerException::class, $e, 'should have gotten an exception');
 
@@ -189,7 +189,7 @@ class UserBasicTest extends
             $this->userHandler->updateUser('testUser1', null, null, ['level' => 3]);
         } catch (\Exception $e) {
             // Just give us the $e
-            static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . $e->getCode());
+            static::assertEquals(404, $e->getCode(), 'Should get 404, instead got: ' . $e->getCode());
         }
         static::assertInstanceOf(ServerException::class, $e, 'should have gotten an exception');
 
@@ -199,7 +199,7 @@ class UserBasicTest extends
             $this->userHandler->replaceUser('testUser1', 'testPass2', false, ['level' => 2]);
         } catch (\Exception $e) {
             // Just give us the $e
-            static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . $e->getCode());
+            static::assertEquals(404, $e->getCode(), 'Should get 404, instead got: ' . $e->getCode());
         }
         static::assertInstanceOf(ServerException::class, $e, 'should have gotten an exception');
 
@@ -209,7 +209,7 @@ class UserBasicTest extends
             $this->userHandler->get('testUser1');
         } catch (\Exception $e) {
             // Just give us the $e
-            static::assertEquals($e->getCode(), 404, 'Should get 404, instead got: ' . $e->getCode());
+            static::assertEquals(404, $e->getCode(), 'Should get 404, instead got: ' . $e->getCode());
         }
         static::assertInstanceOf(ServerException::class, $e, 'should have gotten an exception');
     }

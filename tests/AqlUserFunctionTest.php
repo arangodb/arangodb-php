@@ -81,7 +81,7 @@ class AqlUserFunctionTest extends
         $result = $userFunction->register();
 
         static::assertEquals(
-            $result['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+            false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
         $list = $this->filter($userFunction->getRegisteredUserFunctions());
 
@@ -95,7 +95,7 @@ class AqlUserFunctionTest extends
         $result = $userFunction->unregister();
 
         static::assertEquals(
-            $result['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+            false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
     }
 
@@ -113,7 +113,7 @@ class AqlUserFunctionTest extends
         $result = $userFunction->register($name, $code);
 
         static::assertEquals(
-            $result['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+            false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
         $list = $this->filter($userFunction->getRegisteredUserFunctions());
 
@@ -126,7 +126,7 @@ class AqlUserFunctionTest extends
         $result = $userFunction->unregister($name);
 
         static::assertEquals(
-            $result['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+            false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
     }
 
@@ -146,28 +146,28 @@ class AqlUserFunctionTest extends
 
         // check if getters work fine
         static::assertEquals(
-            $userFunction->getName(), $name, 'Did not return name, instead returned: ' . $userFunction->getName()
+            $name, $userFunction->getName(), 'Did not return name, instead returned: ' . $userFunction->getName()
         );
         static::assertEquals(
-            $userFunction->getCode(), $code, 'Did not return code, instead returned: ' . $userFunction->getCode()
+            $code, $userFunction->getCode(), 'Did not return code, instead returned: ' . $userFunction->getCode()
         );
 
 
         // also check setters/getters if wrong/no attribute is given
         static::assertEquals(
-            $userFunction->getFakeAttributeName, null, 'Getter with unknown attribute did not return null, instead returned: ' . $userFunction->getFakeAttributeName
+            null, $userFunction->getFakeAttributeName, 'Getter with unknown attribute did not return null, instead returned: ' . $userFunction->getFakeAttributeName
         );
 
         static::assertEquals(
-            $userFunction->setFakeAttributeName, null, 'Setter with unknown attribute did not return chainable object, instead returned..: ' . $userFunction->setFakeAttributeName
+            null, $userFunction->setFakeAttributeName, 'Setter with unknown attribute did not return chainable object, instead returned..: ' . $userFunction->setFakeAttributeName
         );
 
         // Check setting/getting class properties via set/get methods
         static::assertSame(
-            $userFunction->set('FakeAttributeName', 1), $userFunction, 'Set-method did not return chainable object'
+            $userFunction, $userFunction->set('FakeAttributeName', 1), 'Set-method did not return chainable object'
         );
         static::assertSame(
-            $userFunction->get('FakeAttributeName'), 1, 'Get-method did not return previously set property'
+            1, $userFunction->get('FakeAttributeName'), 'Get-method did not return previously set property'
         );
 
         // Check giving the set method a non-string key
@@ -184,7 +184,7 @@ class AqlUserFunctionTest extends
         $result = $userFunction->register();
 
         static::assertEquals(
-            $result['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+            false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
         $list = $this->filter($userFunction->getRegisteredUserFunctions());
         static::assertCount(1, $list, 'List returned did not return expected 1 attribute');
@@ -196,7 +196,7 @@ class AqlUserFunctionTest extends
         $result = $userFunction->unregister();
 
         static::assertEquals(
-            $result['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+            false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
     }
 
@@ -218,16 +218,16 @@ class AqlUserFunctionTest extends
 
         // check if getters work fine
         static::assertEquals(
-            $userFunction->name, $name, 'Did not return name, instead returned: ' . $userFunction->name
+            $name, $userFunction->name, 'Did not return name, instead returned: ' . $userFunction->name
         );
         static::assertEquals(
-            $userFunction->code, $code, 'Did not return code, instead returned: ' . $userFunction->code
+            $code, $userFunction->code, 'Did not return code, instead returned: ' . $userFunction->code
         );
 
         $result = $userFunction->register();
 
         static::assertEquals(
-            $result['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+            false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
         $list = $this->filter($userFunction->getRegisteredUserFunctions());
         static::assertCount(1, $list, 'List returned did not return expected 1 attribute');
@@ -239,7 +239,7 @@ class AqlUserFunctionTest extends
         $result = $userFunction->unregister();
 
         static::assertEquals(
-            $result['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+            false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
     }
 
@@ -263,13 +263,13 @@ class AqlUserFunctionTest extends
         $result = $userFunction->register();
 
         static::assertEquals(
-            $result['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+            false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
 
         $result = $userFunction->register();
 
         static::assertEquals(
-            $result['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+            false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
 
         $list = $this->filter($userFunction->getRegisteredUserFunctions());
@@ -282,7 +282,7 @@ class AqlUserFunctionTest extends
         $result = $userFunction->unregister();
 
         static::assertEquals(
-            $result['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+            false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
 
         $e = null;
@@ -292,7 +292,7 @@ class AqlUserFunctionTest extends
         }
 
         static::assertEquals(
-            $e->getCode(), 404, 'Did not return code 404, instead returned: ' . $e->getCode()
+            404, $e->getCode(), 'Did not return code 404, instead returned: ' . $e->getCode()
         );
     }
 
