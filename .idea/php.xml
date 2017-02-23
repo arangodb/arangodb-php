@@ -2,7 +2,7 @@
 <project version="4">
   <component name="PhpUnit">
     <phpunit_settings>
-      <PhpUnitSettings />
+      <PhpUnitSettings load_method="PHPUNIT_PHAR" custom_loader_path="" phpunit_phar_path="$PROJECT_DIR$/phpunit-5.7.phar" />
     </phpunit_settings>
   </component>
 </project>

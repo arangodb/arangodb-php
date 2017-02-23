@@ -53,9 +53,9 @@ class GraphBasicTest extends
         $this->graph->addOrphanCollection('orphan');
         $this->graphHandler = new GraphHandler($this->connection);
         $result             = $this->graphHandler->createGraph($this->graph);
-        static::assertEquals($result['_key'], 'Graph1', 'Did not return Graph1!');
+        static::assertEquals('Graph1', $result['_key'], 'Did not return Graph1!');
         $properties = $this->graphHandler->properties('Graph1');
-        static::assertEquals($properties['_key'], 'Graph1', 'Did not return Graph1!');
+        static::assertEquals('Graph1', $properties['_key'], 'Did not return Graph1!');
 
         $result = $this->graphHandler->dropGraph('Graph1');
         static::assertTrue($result, 'Did not return true!');
@@ -76,9 +76,9 @@ class GraphBasicTest extends
         $ed = $ed[0];
         $a  = $ed->getToCollections();
         $b  = $ed->getFromCollections();
-        static::assertSame($ed->getRelation(), 'ArangoDBPHPTestSuiteTestEdgeCollection01');
-        static::assertSame($a[0], 'ArangoDBPHPTestSuiteTestCollection01');
-        static::assertSame($b[0], 'ArangoDBPHPTestSuiteTestCollection01');
+        static::assertSame('ArangoDBPHPTestSuiteTestEdgeCollection01', $ed->getRelation());
+        static::assertSame('ArangoDBPHPTestSuiteTestCollection01', $a[0]);
+        static::assertSame('ArangoDBPHPTestSuiteTestCollection01', $b[0]);
         $ed = $this->graph->getEdgeDefinitions();
         $ed = $ed[0];
         $ed->addFromCollection('newFrom');
@@ -104,10 +104,10 @@ class GraphBasicTest extends
         $this->graphHandler = new GraphHandler($this->connection);
 
         $result = $this->graphHandler->createGraph($this->graph);
-        static::assertEquals($result['_key'], 'Graph2', 'Did not return Graph2!');
+        static::assertEquals('Graph2', $result['_key'], 'Did not return Graph2!');
 
         $properties = $this->graphHandler->properties('Graph2');
-        static::assertEquals($properties['_key'], 'Graph2', 'Did not return Graph2!');
+        static::assertEquals('Graph2', $properties['_key'], 'Did not return Graph2!');
 
         $result = $this->graphHandler->dropGraph('Graph2');
         static::assertTrue($result, 'Did not return true!');
@@ -125,7 +125,7 @@ class GraphBasicTest extends
         $this->graphHandler = new GraphHandler($this->connection);
         $this->graphHandler->createGraph($this->graph);
         $graph = $this->graphHandler->getGraph('Graph3');
-        static::assertEquals($graph->getKey(), 'Graph3', 'Did not return Graph3!');
+        static::assertEquals('Graph3', $graph->getKey(), 'Did not return Graph3!');
         $result = $this->graphHandler->dropGraph('Graph3');
         static::assertTrue($result, 'Did not return true!');
     }
@@ -142,10 +142,10 @@ class GraphBasicTest extends
         $this->graphHandler = new GraphHandler($this->connection);
 
         $result = $this->graphHandler->createGraph($this->graph);
-        static::assertEquals($result['_key'], 'Graph4', 'Did not return Graph4!');
+        static::assertEquals('Graph4', $result['_key'], 'Did not return Graph4!');
 
         $properties = $this->graphHandler->properties($this->graph);
-        static::assertEquals($properties['_key'], 'Graph4', 'Did not return Graph4!');
+        static::assertEquals('Graph4', $properties['_key'], 'Did not return Graph4!');
 
         $result = $this->graphHandler->dropGraph($this->graph);
         static::assertTrue($result, 'Did not return true!');
@@ -174,28 +174,28 @@ class GraphBasicTest extends
         $this->graphHandler = new GraphHandler($this->connection);
 
         $result = $this->graphHandler->createGraph($this->graph);
-        static::assertEquals($result['_key'], 'Graph1', 'Did not return Graph1!');
+        static::assertEquals('Graph1', $result['_key'], 'Did not return Graph1!');
 
         $this->graph = $this->graphHandler->addOrphanCollection($this->graph, 'orphan1');
         $this->graph = $this->graphHandler->addOrphanCollection($this->graph, 'orphan2');
 
         static::assertSame(
-            $this->graphHandler->getVertexCollections($this->graph), [
+            [
                 0 => 'ArangoDBPHPTestSuiteTestCollection04',
                 1 => 'orphan1',
                 2 => 'orphan2',
                 3 => 'singleV'
-
-            ]
+            ],
+            $this->graphHandler->getVertexCollections($this->graph)
         );
         $this->graph = $this->graphHandler->deleteOrphanCollection($this->graph, 'orphan2');
         static::assertSame(
-            $this->graphHandler->getVertexCollections($this->graph), [
+            [
                 0 => 'ArangoDBPHPTestSuiteTestCollection04',
                 1 => 'orphan1',
                 2 => 'singleV'
-
-            ]
+            ],
+            $this->graphHandler->getVertexCollections($this->graph)
         );
         $error = null;
         try {
@@ -203,7 +203,7 @@ class GraphBasicTest extends
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }
-        static::assertSame($error, 'not in orphan collection');
+        static::assertSame('not in orphan collection', $error);
 
         $error = null;
         try {
@@ -212,7 +212,7 @@ class GraphBasicTest extends
             $error = $e->getMessage();
         }
 
-        static::assertSame($error, 'not a vertex collection');
+        static::assertSame('not a vertex collection', $error);
 
         $error = null;
         try {
@@ -220,7 +220,7 @@ class GraphBasicTest extends
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }
-        static::assertSame($error, 'graph not found');
+        static::assertSame('graph not found', $error);
 
         $result = $this->graphHandler->dropGraph($this->graph);
         static::assertTrue($result, 'Did not return true!');
@@ -238,41 +238,44 @@ class GraphBasicTest extends
         $this->graphHandler = new GraphHandler($this->connection);
 
         $result = $this->graphHandler->createGraph($this->graph);
-        static::assertEquals($result['_key'], 'Graph1', 'Did not return Graph1!');
+        static::assertEquals('Graph1', $result['_key'], 'Did not return Graph1!');
 
         $this->graph = $this->graphHandler->addOrphanCollection($this->graph, 'orphan1');
         $this->graph = $this->graphHandler->addOrphanCollection($this->graph, 'orphan2');
 
         $this->graphHandler->setCacheEnabled(true);
         static::assertSame(
-            $this->graphHandler->getVertexCollections($this->graph), [
+            [
                 0 => 'ArangoDBPHPTestSuiteTestCollection04',
                 1 => 'orphan1',
                 2 => 'orphan2',
                 3 => 'singleV'
 
-            ]
+            ],
+            $this->graphHandler->getVertexCollections($this->graph)
         );
 
         $this->graph = $this->graphHandler->deleteOrphanCollection($this->graph, 'orphan2');
         static::assertSame(
-            $this->graphHandler->getVertexCollections($this->graph), [
+            [
                 0 => 'ArangoDBPHPTestSuiteTestCollection04',
                 1 => 'orphan1',
                 2 => 'orphan2',
                 3 => 'singleV'
 
-            ]
+            ],
+            $this->graphHandler->getVertexCollections($this->graph)
         );
 
         $this->graphHandler->setCacheEnabled(false);
         static::assertSame(
-            $this->graphHandler->getVertexCollections($this->graph), [
+            [
                 0 => 'ArangoDBPHPTestSuiteTestCollection04',
                 1 => 'orphan1',
                 2 => 'singleV'
 
-            ]
+            ],
+            $this->graphHandler->getVertexCollections($this->graph)
         );
         $error = null;
         try {
@@ -280,7 +283,7 @@ class GraphBasicTest extends
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }
-        static::assertSame($error, 'not in orphan collection');
+        static::assertSame('not in orphan collection', $error);
 
         $error = null;
         try {
@@ -289,7 +292,7 @@ class GraphBasicTest extends
             $error = $e->getMessage();
         }
 
-        static::assertSame($error, 'not a vertex collection');
+        static::assertSame('not a vertex collection', $error);
 
         $error = null;
         try {
@@ -297,7 +300,7 @@ class GraphBasicTest extends
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }
-        static::assertSame($error, 'graph not found');
+        static::assertSame('graph not found', $error);
 
         $result = $this->graphHandler->dropGraph($this->graph);
         static::assertTrue($result, 'Did not return true!');
@@ -315,7 +318,7 @@ class GraphBasicTest extends
         $this->graphHandler = new GraphHandler($this->connection);
 
         $result = $this->graphHandler->createGraph($this->graph);
-        static::assertEquals($result['_key'], 'Graph1', 'Did not return Graph1!');
+        static::assertEquals('Graph1', $result['_key'], 'Did not return Graph1!');
 
 
         $this->graph = $this->graphHandler->addEdgeDefinition(
@@ -324,11 +327,12 @@ class GraphBasicTest extends
         );
 
         static::assertSame(
-            $this->graphHandler->getEdgeCollections($this->graph), [
+            [
                 0 => 'undirected',
                 1 => 'undirected2'
 
-            ]
+            ],
+            $this->graphHandler->getEdgeCollections($this->graph)
         );
 
         $error = null;
@@ -340,14 +344,14 @@ class GraphBasicTest extends
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }
-        static::assertSame($error, 'multi use of edge collection in edge def');
+        static::assertSame('multi use of edge collection in edge def', $error);
         $error = null;
         try {
             $this->graph = $this->graphHandler->getEdgeCollections('bla');
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }
-        static::assertSame($error, 'graph not found');
+        static::assertSame('graph not found', $error);
 
         $this->graph = $this->graphHandler->deleteEdgeDefinition(
             $this->graph,
@@ -355,10 +359,11 @@ class GraphBasicTest extends
         );
 
         static::assertSame(
-            $this->graphHandler->getEdgeCollections($this->graph), [
+            [
                 0 => 'undirected2'
 
-            ]
+            ],
+            $this->graphHandler->getEdgeCollections($this->graph)
         );
 
         $error = null;
@@ -367,7 +372,7 @@ class GraphBasicTest extends
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }
-        static::assertSame($error, 'graph not found');
+        static::assertSame('graph not found', $error);
 
         $this->graph = $this->graphHandler->replaceEdgeDefinition(
             $this->graph,
@@ -377,7 +382,7 @@ class GraphBasicTest extends
         $ed = $this->graph->getEdgeDefinitions();
         $ed = $ed[0];
         $ed = $ed->getToCollections();
-        static::assertSame($ed[0], 'singleV3');
+        static::assertSame('singleV3', $ed[0]);
 
         $error = null;
         try {
@@ -388,7 +393,7 @@ class GraphBasicTest extends
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }
-        static::assertSame($error, 'edge collection not used in graph');
+        static::assertSame('edge collection not used in graph', $error);
 
     }
 

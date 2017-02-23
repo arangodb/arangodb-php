@@ -203,7 +203,7 @@ class BatchTest extends
 
         static::assertInstanceOf(BatchPart::class, $documentId, 'Did not return a BatchPart Object!');
 
-        static::assertEquals($batch->getConnectionCaptureMode($this->connection), true);
+        static::assertEquals(true, $batch->getConnectionCaptureMode($this->connection));
 
         $batch->stopCapture();
 
@@ -288,12 +288,12 @@ class BatchTest extends
 
         $resultingCollectionId = $batch->getProcessedPartResponse('testCollection1');
         $testCollection1Part   = $batch->getPart('testCollection1');
-        static::assertEquals($testCollection1Part->getHttpCode(), 200, 'Did not return an HttpCode 200!');
+        static::assertEquals(200, $testCollection1Part->getHttpCode(), 'Did not return an HttpCode 200!');
         $resultingCollection = $collectionHandler->get($batch->getProcessedPartResponse('testCollection1'));
 
         $resultingAttribute = $resultingCollection->getName();
         static::assertSame(
-            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
+            $resultingAttribute, $name, 'The created collection name and resulting collection name do not match!'
         );
 
         static::assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
@@ -309,7 +309,7 @@ class BatchTest extends
         );
         $documentBatchPart = $documentHandler->save($resultingCollectionId, $document);
 
-        static::assertEquals($documentBatchPart->getType(), 'document');
+        static::assertEquals('document', $documentBatchPart->getType());
 
         static::assertInstanceOf(BatchPart::class, $documentBatchPart, 'Did not return a BatchPart Object!');
 
@@ -366,7 +366,7 @@ class BatchTest extends
             is_a($edge, HttpResponse::class),
             'Edge batch creation did return an error: ' . print_r($edge, true)
         );
-        static::assertNotSame($edge, '', 'Edge batch creation did return empty string: ' . print_r($edge, true));
+        static::assertNotSame('', $edge, 'Edge batch creation did return empty string: ' . print_r($edge, true));
 
 
         $batch = new Batch($this->connection);

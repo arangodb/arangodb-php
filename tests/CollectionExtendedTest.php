@@ -227,7 +227,7 @@ class CollectionExtendedTest extends
         try {
             $collectionHandler->getChecksum('nonExisting', true, true);
         } catch (\Exception $e) {
-            static::assertEquals($e->getCode(), 404);
+            static::assertEquals(404, $e->getCode());
         }
     }
 
@@ -268,7 +268,7 @@ class CollectionExtendedTest extends
         try {
             $collectionHandler->getRevision('nonExisting');
         } catch (\Exception $e) {
-            static::assertEquals($e->getCode(), 404);
+            static::assertEquals(404, $e->getCode());
         }
     }
 
@@ -305,7 +305,7 @@ class CollectionExtendedTest extends
         $newName                    = $resultingCollectionRenamed->getName();
 
         static::assertEquals(
-            $newName, 'ArangoDB_PHP_TestSuite_TestCollection_01_renamed', 'Collection was not renamed!'
+            'ArangoDB_PHP_TestSuite_TestCollection_01_renamed', $newName, 'Collection was not renamed!'
         );
         $response = $collectionHandler->drop($resultingCollectionRenamed);
         static::assertTrue($response, 'Delete should return true!');
@@ -360,7 +360,7 @@ class CollectionExtendedTest extends
 
 
         static::assertTrue($resultingWaitForSyncAttribute, 'WaitForSync should be true!');
-        static::assertEquals($resultingJournalSizeAttribute, 1024 * 1024 * 2, 'JournalSize should be 2MB!');
+        static::assertEquals(1024 * 1024 * 2, $resultingJournalSizeAttribute, 'JournalSize should be 2MB!');
 
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
         $collection->setName($name);
@@ -416,14 +416,14 @@ class CollectionExtendedTest extends
         $loadResult = $loadResult->getJson();
         static::assertArrayHasKey('status', $loadResult, 'status field should exist');
         static::assertEquals(
-            $loadResult['status'], 3, 'Collection status should be 3(loaded). Found: ' . $unloadResult['status'] . '!'
+            3, $loadResult['status'], 'Collection status should be 3(loaded). Found: ' . $unloadResult['status'] . '!'
         );
 
 
         $resultingWaitForSyncAttribute = $collection->getWaitForSync();
         $resultingJournalSizeAttribute = $collection->getJournalSize();
         static::assertTrue($resultingWaitForSyncAttribute, 'Server waitForSync should return true!');
-        static::assertEquals($resultingJournalSizeAttribute, 1024 * 1024 * 2, 'JournalSize should be 2MB!');
+        static::assertEquals(1024 * 1024 * 2, $resultingJournalSizeAttribute, 'JournalSize should be 2MB!');
 
         $response = $collectionHandler->drop($collection);
         static::assertTrue($response, 'Delete should return true!');
@@ -736,7 +736,7 @@ class CollectionExtendedTest extends
 
         $cursor = $collectionHandler->byExample($collection->getId(), []);
         static::assertEquals(
-            $cursor->getCount(), 3, 'should return 3.'
+            3, $cursor->getCount(), 'should return 3.'
         );
     }
 
@@ -772,7 +772,7 @@ class CollectionExtendedTest extends
 
         $exampleDocument = Document::createFromArray(['someOtherAttribute' => 'someOtherValue']);
         $result          = $collectionHandler->removeByExample($collection->getId(), $exampleDocument);
-        static::assertSame($result, 2);
+        static::assertSame(2, $result);
     }
 
     /**
@@ -804,7 +804,7 @@ class CollectionExtendedTest extends
 
         unset($array[0]['_key'], $array[0]['_id'], $array[0]['_rev']);
 
-        static::assertSame($array[0], $documentArray);
+        static::assertSame($documentArray, $array[0]);
     }
 
 
@@ -842,7 +842,7 @@ class CollectionExtendedTest extends
         $updateDocument  = Document::createFromArray(['someNewAttribute' => 'someNewValue']);
 
         $result = $collectionHandler->updateByExample($collection->getId(), $exampleDocument, $updateDocument);
-        static::assertSame($result, 2);
+        static::assertSame(2, $result);
 
         $exampleDocument = Document::createFromArray(['someAttribute' => 'someValue2']);
         $replaceDocument = Document::createFromArray(
@@ -856,11 +856,11 @@ class CollectionExtendedTest extends
             $exampleDocument,
             $replaceDocument
         );
-        static::assertSame($result, 1);
+        static::assertSame(1, $result);
 
         $exampleDocument = Document::createFromArray(['someOtherAttribute' => 'someOtherValue']);
         $result          = $collectionHandler->removeByExample($collection->getId(), $exampleDocument);
-        static::assertSame($result, 2);
+        static::assertSame(2, $result);
     }
 
 
@@ -901,7 +901,7 @@ class CollectionExtendedTest extends
         $updateDocument  = ['someNewAttribute' => 'someNewValue'];
 
         $result = $collectionHandler->updateByExample($collection->getId(), $exampleDocument, $updateDocument);
-        static::assertSame($result, 2);
+        static::assertSame(2, $result);
 
 
         $exampleDocument = ['someAttribute' => 'someValue2'];
@@ -913,12 +913,12 @@ class CollectionExtendedTest extends
             $exampleDocument,
             $replaceDocument
         );
-        static::assertSame($result, 1);
+        static::assertSame(1, $result);
 
 
         $exampleDocument = ['someOtherAttribute' => 'someOtherValue'];
         $result          = $collectionHandler->removeByExample($collection->getId(), $exampleDocument);
-        static::assertSame($result, 2);
+        static::assertSame(2, $result);
     }
 
 
@@ -961,7 +961,7 @@ class CollectionExtendedTest extends
             $updateDocument,
             ['limit' => 1]
         );
-        static::assertSame($result, 1);
+        static::assertSame(1, $result);
 
         $exampleDocument = Document::createFromArray(['someAttribute' => 'someValue2']);
         $replaceDocument = Document::createFromArray(
@@ -976,7 +976,7 @@ class CollectionExtendedTest extends
             $replaceDocument,
             ['limit' => 2]
         );
-        static::assertSame($result, 1);
+        static::assertSame(1, $result);
 
         $exampleDocument = Document::createFromArray(['someOtherAttribute' => 'someOtherValue']);
         $result          = $collectionHandler->removeByExample(
@@ -984,7 +984,7 @@ class CollectionExtendedTest extends
             $exampleDocument,
             ['limit' => 1]
         );
-        static::assertSame($result, 1);
+        static::assertSame(1, $result);
     }
 
 
@@ -1027,7 +1027,7 @@ class CollectionExtendedTest extends
             $updateDocument,
             ['waitForSync' => true]
         );
-        static::assertSame($result, 2);
+        static::assertSame(2, $result);
 
         $exampleDocument = Document::createFromArray(['someAttribute' => 'someValue2']);
         $replaceDocument = Document::createFromArray(
@@ -1042,7 +1042,7 @@ class CollectionExtendedTest extends
             $replaceDocument,
             ['waitForSync' => true]
         );
-        static::assertSame($result, 1);
+        static::assertSame(1, $result);
 
         $exampleDocument = Document::createFromArray(['someOtherAttribute' => 'someOtherValue']);
         $result          = $collectionHandler->removeByExample(
@@ -1050,7 +1050,7 @@ class CollectionExtendedTest extends
             $exampleDocument,
             ['waitForSync' => true]
         );
-        static::assertSame($result, 2);
+        static::assertSame(2, $result);
     }
 
 
@@ -1096,13 +1096,13 @@ class CollectionExtendedTest extends
             $updateDocument,
             ['keepNull' => false]
         );
-        static::assertSame($result, 1);
+        static::assertSame(1, $result);
 
 
         $exampleDocument = Document::createFromArray(['someNewAttribute' => 'someNewValue']);
         $cursor          = $collectionHandler->byExample($collection->getId(), $exampleDocument);
         static::assertEquals(
-            $cursor->getCount(), 1, 'should return 1.'
+            1, $cursor->getCount(), 'should return 1.'
         );
 
         $exampleDocument = Document::createFromArray(['someOtherAttribute' => 'someOtherValue']);
@@ -1111,7 +1111,7 @@ class CollectionExtendedTest extends
             $exampleDocument,
             ['waitForSync' => true]
         );
-        static::assertSame($result, 2);
+        static::assertSame(2, $result);
     }
 
 
@@ -1150,7 +1150,7 @@ class CollectionExtendedTest extends
             $exampleDocument,
             ['limit' => 1]
         );
-        static::assertSame($result, 1);
+        static::assertSame(1, $result);
     }
 
 
@@ -1298,7 +1298,7 @@ class CollectionExtendedTest extends
         }
 
         static::assertEquals(
-            $cursor->getCount(), 2, 'should return 2.'
+            2, $cursor->getCount(), 'should return 2.'
         );
 
         static::assertTrue(
@@ -1969,7 +1969,7 @@ class CollectionExtendedTest extends
 
         static::assertArrayHasKey('id', $result, 'Id field should exist, empty or with an id');
         static::assertEquals(
-            $result['name'], 'ArangoDB_PHP_TestSuite_TestCollection_01', 'name should return ArangoDB_PHP_TestSuite_TestCollection_01!'
+            'ArangoDB_PHP_TestSuite_TestCollection_01', $result['name'], 'name should return ArangoDB_PHP_TestSuite_TestCollection_01!'
         );
         static::assertTrue($result['waitForSync'], 'waitForSync should return true!');
     }
@@ -2042,14 +2042,14 @@ class CollectionExtendedTest extends
         // first level attribute range test
         $rangeResult = $collectionHandler->range($collection->getId(), 'index', 1, 2, ['closed' => false]);
         $resultArray = $rangeResult->getAll();
-        static::assertSame($resultArray[0]->index, 1, 'This value should be 1 !');
+        static::assertSame(1, $resultArray[0]->index, 'This value should be 1 !');
         static::assertArrayNotHasKey(1, $resultArray, 'Should not have a second key !');
 
 
         $rangeResult = $collectionHandler->range($collection->getId(), 'index', 2, 3, ['closed' => true]);
         $resultArray = $rangeResult->getAll();
-        static::assertSame($resultArray[0]->index, 2, 'This value should be 2 !');
-        static::assertSame($resultArray[1]->index, 3, 'This value should be 3 !');
+        static::assertSame(2, $resultArray[0]->index, 'This value should be 2 !');
+        static::assertSame(3, $resultArray[1]->index, 'This value should be 3 !');
 
 
         $rangeResult = $collectionHandler->range(
@@ -2060,7 +2060,7 @@ class CollectionExtendedTest extends
             ['closed' => true, 'limit' => 1]
         );
         $resultArray = $rangeResult->getAll();
-        static::assertSame($resultArray[0]->index, 2, 'This value should be 2 !');
+        static::assertSame(2, $resultArray[0]->index, 'This value should be 2 !');
         static::assertArrayNotHasKey(1, $resultArray, 'Should not have a second key !');
 
 
@@ -2072,21 +2072,21 @@ class CollectionExtendedTest extends
             ['closed' => true, 'skip' => 1]
         );
         $resultArray = $rangeResult->getAll();
-        static::assertSame($resultArray[0]->index, 3, 'This value should be 3 !');
+        static::assertSame(3, $resultArray[0]->index, 'This value should be 3 !');
         static::assertArrayNotHasKey(1, $resultArray, 'Should not have a second key !');
 
 
         // nested attribute range test
         $rangeResult = $collectionHandler->range($collection->getId(), 'nested.index', 1, 2, ['closed' => false]);
         $resultArray = $rangeResult->getAll();
-        static::assertSame($resultArray[0]->nested['index'], 1, 'This value should be 1 !');
+        static::assertSame(1, $resultArray[0]->nested['index'], 'This value should be 1 !');
         static::assertArrayNotHasKey(1, $resultArray, 'Should not have a second key !');
 
 
         $rangeResult = $collectionHandler->range($collection->getId(), 'nested.index', 2, 3, ['closed' => true]);
         $resultArray = $rangeResult->getAll();
-        static::assertSame($resultArray[0]->nested['index'], 2, 'This value should be 2 !');
-        static::assertSame($resultArray[1]->nested['index'], 3, 'This value should be 3 !');
+        static::assertSame(2, $resultArray[0]->nested['index'], 'This value should be 2 !');
+        static::assertSame(3, $resultArray[1]->nested['index'], 'This value should be 3 !');
 
 
         $rangeResult = $collectionHandler->range(
@@ -2097,7 +2097,7 @@ class CollectionExtendedTest extends
             ['closed' => true, 'limit' => 1]
         );
         $resultArray = $rangeResult->getAll();
-        static::assertSame($resultArray[0]->nested['index'], 2, 'This value should be 2 !');
+        static::assertSame(2, $resultArray[0]->nested['index'], 'This value should be 2 !');
         static::assertArrayNotHasKey(1, $resultArray, 'Should not have a second key !');
 
 
@@ -2109,7 +2109,7 @@ class CollectionExtendedTest extends
             ['closed' => true, 'skip' => 1]
         );
         $resultArray = $rangeResult->getAll();
-        static::assertSame($resultArray[0]->nested['index'], 3, 'This value should be 3 !');
+        static::assertSame(3, $resultArray[0]->nested['index'], 'This value should be 3 !');
         static::assertArrayNotHasKey(1, $resultArray, 'Should not have a second key !');
 
 
@@ -2176,7 +2176,7 @@ class CollectionExtendedTest extends
             'This value should be 30 30!, is :' . $resultArray[0]->loc[0] . ' ' . $resultArray[0]->loc[1]
         );
         static::assertSame(
-            $resultArray[0]->distance, 0, 'This value should be 0 ! It is :' . $resultArray[0]->distance
+            0, $resultArray[0]->distance, 'This value should be 0 ! It is :' . $resultArray[0]->distance
         );
 
 
@@ -2280,7 +2280,7 @@ class CollectionExtendedTest extends
         );
         static::assertArrayNotHasKey(2, $resultArray, 'Should not have a third key !');
         static::assertSame(
-            $resultArray[0]->distance, 0, 'This value should be 0 ! It is :' . $resultArray[0]->distance
+            0, $resultArray[0]->distance,'This value should be 0 ! It is :' . $resultArray[0]->distance
         );
 
 
@@ -2348,7 +2348,7 @@ class CollectionExtendedTest extends
 
         // Check if the index is returned in the indexes of the collection
         $indexes = $collectionHandler->getIndexes($collection->getName());
-        static::assertSame($indexes['indexes'][1]['fields'][0], 'name', 'The index should be on field "name"!');
+        static::assertSame('name', $indexes['indexes'][1]['fields'][0], 'The index should be on field "name"!');
 
         // Drop the index
         $collectionHandler->dropIndex($indexes['indexes'][1]['id']);
@@ -2398,7 +2398,7 @@ class CollectionExtendedTest extends
 
         // Check if the index is returned in the indexes of the collection
         $indexes = $collectionHandler->getIndexes($collection->getName());
-        static::assertSame($indexes['indexes'][1]['fields'][0], 'name', 'The index should be on field "name"!');
+        static::assertSame('name', $indexes['indexes'][1]['fields'][0], 'The index should be on field "name"!');
 
         // Drop the index
         $collectionHandler->dropIndex($indexes['indexes'][1]['id']);
@@ -2548,7 +2548,7 @@ class CollectionExtendedTest extends
         } catch (Exception $e) {
 
         }
-        static::assertSame($e->getCode(), 400);
+        static::assertSame(400, $e->getCode());
 
         // Now we create an index
         $fulltextIndexId = $collectionHandler->createFulltextIndex($collection->getId(), ['someOtherAttribute']);
@@ -2561,8 +2561,8 @@ class CollectionExtendedTest extends
         );
 
         $m = $cursor->getMetadata();
-        static::assertEquals($m['count'], 2);
-        static::assertEquals($m['hasMore'], false);
+        static::assertEquals(2, $m['count']);
+        static::assertEquals(false, $m['hasMore']);
 
         // Now we pass some options
         $cursor = $collectionHandler->fulltext(
@@ -2573,8 +2573,8 @@ class CollectionExtendedTest extends
         );
 
         $m = $cursor->getMetadata();
-        static::assertEquals($m['count'], 1);
-        static::assertEquals($m['hasMore'], false);
+        static::assertEquals(1, $m['count']);
+        static::assertEquals(false, $m['hasMore']);
 
         $cursor = $collectionHandler->fulltext(
             $collection->getName(),
@@ -2584,9 +2584,9 @@ class CollectionExtendedTest extends
         );
 
         $m = $cursor->getMetadata();
-        static::assertEquals($m['count'], 2);
+        static::assertEquals(2, $m['count']);
         static::assertCount(1, $m['result']);
-        static::assertEquals($m['hasMore'], true);
+        static::assertEquals(true, $m['hasMore']);
 
     }
 

@@ -53,7 +53,7 @@ class ConnectionTest extends
     {
         $connection = getConnection();
         $response   = $connection->get('/_admin/statistics');
-        static::assertEquals($response->getHttpCode(), 200, 'Did not return http code 200');
+        static::assertEquals(200, $response->getHttpCode(), 'Did not return http code 200');
     }
 
     /**
@@ -236,7 +236,7 @@ class ConnectionTest extends
             // this is expected to fail
             $statement->execute();
         } catch (ClientException $exception) {
-            static::assertEquals($exception->getCode(), 408);
+            static::assertEquals(408, $exception->getCode());
             throw $exception;
         }
     }
@@ -333,7 +333,7 @@ class ConnectionTest extends
             $adminHandler->getServerVersion();
         } catch (ServerException $exception) {
             $excepted = true;
-            static::assertEquals($exception->getCode(), 401);
+            static::assertEquals(401, $exception->getCode());
         }
 
         static::assertTrue($excepted);

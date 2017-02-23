@@ -53,13 +53,17 @@ class DatabaseTest extends
         $response = Database::create($this->connection, $database);
 
         static::assertEquals(
-            $response['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+            false,
+            $response['error'],
+            'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
 
         $response = Database::delete($this->connection, $database);
 
         static::assertEquals(
-            $response['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+            false,
+            $response['error'],
+            'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
 
         $response = Database::listDatabases($this->connection);
@@ -78,7 +82,9 @@ class DatabaseTest extends
         $response = Database::create($this->connection, $database);
 
         static::assertEquals(
-            $response['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+            false,
+            $response['error'],
+            'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
 
 
@@ -94,7 +100,9 @@ class DatabaseTest extends
         $response = Database::delete($this->connection, $database);
 
         static::assertEquals(
-            $response['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+            false,
+            $response['error'],
+            'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
     }
 
@@ -110,25 +118,33 @@ class DatabaseTest extends
         $response = Database::create($this->connection, $database);
 
         static::assertEquals(
-            $response['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+            false,
+            $response['error'],
+            'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
 
         $this->connection->setDatabase($database);
 
         $response = Database::getInfo($this->connection);
 
-        static::assertEquals($response['result']['name'], $database);
+        static::assertEquals(
+            $database,
+            $response['result']['name']
+        );
 
 
         $this->connection->setDatabase('_system');
 
         $response = Database::getInfo($this->connection);
-        static::assertEquals($response['result']['name'], '_system');
+        static::assertEquals(
+            '_system',
+            $response['result']['name']
+        );
 
         $response = Database::delete($this->connection, $database);
 
         static::assertEquals(
-            $response['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+            false, $response['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
     }
 
@@ -151,7 +167,11 @@ class DatabaseTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(
+            404,
+            $e->getCode(),
+            'Should be 404, instead got: ' . $e->getCode()
+        );
     }
 
 
@@ -174,7 +194,9 @@ class DatabaseTest extends
         $response = Database::create($this->connection, $database);
 
         static::assertEquals(
-            $response['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+            false,
+            $response['error'],
+            'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
 
 
@@ -183,7 +205,10 @@ class DatabaseTest extends
         $this->connection->setDatabase($database);
 
         $response = Database::getInfo($this->connection);
-        static::assertEquals($response['result']['name'], $database);
+        static::assertEquals(
+            $database,
+            $response['result']['name']
+        );
 
         try {
             $e = null;
@@ -192,18 +217,24 @@ class DatabaseTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 403, 'Should be 403, instead got: ' . $e->getCode());
+        static::assertEquals(
+            403,
+            $e->getCode(),
+            'Should be 403, instead got: ' . $e->getCode()
+        );
 
 
         $this->connection->setDatabase('_system');
 
         $response = Database::getInfo($this->connection);
-        static::assertEquals($response['result']['name'], '_system');
+        static::assertEquals('_system', $response['result']['name']);
 
         $response = Database::delete($this->connection, $database);
 
         static::assertEquals(
-            $response['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+            false,
+            $response['error'],
+            'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
     }
 

@@ -111,7 +111,7 @@ class CollectionBasicTest extends
 
         $resultingAttribute = $resultingCollection->getName();
         static::assertSame(
-            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
+            $resultingAttribute, $name, 'The created collection name and resulting collection name do not match!'
         );
 
         static::assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
@@ -150,25 +150,25 @@ class CollectionBasicTest extends
         $resultingCollection = $collectionHandler->getProperties($response);
         $properties          = $resultingCollection->getAll();
 
-        static::assertEquals($properties[Collection::ENTRY_STATUS], 3, 'Status does not match.');
+        static::assertEquals(3, $properties[Collection::ENTRY_STATUS], 'Status does not match.');
         static::assertEquals(
-            $properties[Collection::ENTRY_KEY_OPTIONS]['type'],
             'autoincrement',
+            $properties[Collection::ENTRY_KEY_OPTIONS]['type'],
             'Key options type does not match'
         );
         static::assertEquals(
-            $properties[Collection::ENTRY_KEY_OPTIONS]['allowUserKeys'],
             false,
+            $properties[Collection::ENTRY_KEY_OPTIONS]['allowUserKeys'],
             'Key options allowUserKeys does not match'
         );
         static::assertEquals(
-            $properties[Collection::ENTRY_KEY_OPTIONS]['increment'],
             5,
+            $properties[Collection::ENTRY_KEY_OPTIONS]['increment'],
             'Key options increment does not match'
         );
         static::assertEquals(
-            $properties[Collection::ENTRY_KEY_OPTIONS]['offset'],
             10,
+            $properties[Collection::ENTRY_KEY_OPTIONS]['offset'],
             'Key options offset does not match'
         );
         $collectionHandler->drop($collection);
@@ -207,7 +207,7 @@ class CollectionBasicTest extends
         } catch (\Exception $e) {
         }
 
-        static::assertEquals($e->getCode(), 501);
+        static::assertEquals(501, $e->getCode());
     }
 
 
@@ -241,8 +241,8 @@ class CollectionBasicTest extends
         $resultingCollection = $collectionHandler->getProperties($response);
         $properties          = $resultingCollection->getAll();
 
-        static::assertEquals($properties[Collection::ENTRY_NUMBER_OF_SHARDS], 4, 'Number of shards does not match.');
-        static::assertEquals($properties[Collection::ENTRY_SHARD_KEYS], ['_key'], 'Shard keys do not match.');
+        static::assertEquals(4, $properties[Collection::ENTRY_NUMBER_OF_SHARDS], 'Number of shards does not match.');
+        static::assertEquals(['_key'], $properties[Collection::ENTRY_SHARD_KEYS], 'Shard keys do not match.');
     }
 
 
@@ -276,13 +276,15 @@ class CollectionBasicTest extends
         $resultingCollection = $collectionHandler->getProperties($response);
         $properties          = $resultingCollection->getAll();
 
-        static::assertEquals($properties[Collection::ENTRY_NUMBER_OF_SHARDS], 1, 'Number of shards does not match.');
+        static::assertEquals(1, $properties[Collection::ENTRY_NUMBER_OF_SHARDS], 'Number of shards does not match.');
         static::assertEquals(
-            $properties[Collection::ENTRY_SHARD_KEYS], [
-            '_key',
-            'a',
-            'b'
-        ], 'Shard keys do not match.'
+            [
+                '_key',
+                'a',
+                'b'
+            ],
+            $properties[Collection::ENTRY_SHARD_KEYS],
+            'Shard keys do not match.'
         );
     }
 
@@ -311,7 +313,7 @@ class CollectionBasicTest extends
 
         $resultingAttribute = $resultingCollection->getName();
         static::assertSame(
-            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
+            $resultingAttribute, $name, 'The created collection name and resulting collection name do not match!'
         );
 
         static::assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
@@ -345,7 +347,7 @@ class CollectionBasicTest extends
 
         $resultingAttribute = $resultingCollection->getName();
         static::assertSame(
-            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
+            $resultingAttribute, $name, 'The created collection name and resulting collection name do not match!'
         );
 
         static::assertEquals(Collection::TYPE_EDGE, $resultingCollection->getType());
@@ -377,7 +379,7 @@ class CollectionBasicTest extends
 
         $resultingAttribute = $resultingCollection->getName();
         static::assertSame(
-            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
+            $resultingAttribute, $name, 'The created collection name and resulting collection name do not match!'
         );
 
         static::assertEquals(Collection::TYPE_EDGE, $resultingCollection->getType());
@@ -408,7 +410,7 @@ class CollectionBasicTest extends
 
         $resultingAttribute = $resultingCollection->getName();
         static::assertSame(
-            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
+            $resultingAttribute, $name, 'The created collection name and resulting collection name do not match!'
         );
         $resultingCollectionProperties = $collectionHandler->getProperties($name);
         static::assertTrue($resultingCollectionProperties->getIsVolatile());
@@ -440,7 +442,7 @@ class CollectionBasicTest extends
 
         $resultingAttribute = $resultingCollection->getName();
         static::assertSame(
-            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
+            $resultingAttribute, $name, 'The created collection name and resulting collection name do not match!'
         );
         $resultingCollectionProperties = $collectionHandler->getProperties($name);
         static::assertTrue($resultingCollectionProperties->getIsSystem());

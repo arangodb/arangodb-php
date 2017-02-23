@@ -80,7 +80,7 @@ class EdgeExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to get a non-existent edge out of an existent collection
@@ -92,7 +92,7 @@ class EdgeExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to update a non-existent edge
@@ -104,7 +104,7 @@ class EdgeExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to replace a non-existent edge
@@ -116,7 +116,7 @@ class EdgeExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to remove a non-existent edge
@@ -128,7 +128,7 @@ class EdgeExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
     }
 
 
@@ -177,10 +177,10 @@ class EdgeExtendedTest extends
         static::assertObjectHasAttribute('_id', $resultingEdge, '_id field should exist, empty or with an id');
 
         static::assertEquals(
-            $resultingEdge->labels, 'anything', 'Should be :anything, is: ' . $resultingEdge->labels
+            'anything', $resultingEdge->labels, 'Should be :anything, is: ' . $resultingEdge->labels
         );
         static::assertEquals(
-            $resultingEdge->label, 'knows', 'Should be :knows, is: ' . $resultingEdge->label
+            'knows', $resultingEdge->label, 'Should be :knows, is: ' . $resultingEdge->label
         );
         $response = $edgeHandler->remove($resultingEdge);
         static::assertTrue($response, 'Delete should return true!');
@@ -220,10 +220,10 @@ class EdgeExtendedTest extends
         static::assertObjectHasAttribute('_id', $resultingEdge, '_id field should exist, empty or with an id');
 
         static::assertEquals(
-            $resultingEdge->someAttribute, 'someValue', 'Should be :someValue, is: ' . $resultingEdge->someAttribute
+            'someValue', $resultingEdge->someAttribute, 'Should be :someValue, is: ' . $resultingEdge->someAttribute
         );
         static::assertEquals(
-            $resultingEdge->someOtherAttribute, 'someOtherValue2', 'Should be :someOtherValue2, is: ' . $resultingEdge->someOtherAttribute
+            'someOtherValue2', $resultingEdge->someOtherAttribute, 'Should be :someOtherValue2, is: ' . $resultingEdge->someOtherAttribute
         );
         $response = $edgeHandler->remove($resultingEdge);
         static::assertTrue($response, 'Delete should return true!');
@@ -275,10 +275,10 @@ class EdgeExtendedTest extends
         static::assertObjectHasAttribute('_id', $resultingEdge, '_id field should exist, empty or with an id');
 
         static::assertEquals(
-            $resultingEdge->label, null, 'Should be : null, is: ' . $resultingEdge->label
+            null, $resultingEdge->label, 'Should be : null, is: ' . $resultingEdge->label
         );
         static::assertEquals(
-            $resultingEdge->labels, 'anything', 'Should be :anything, is: ' . $resultingEdge->labels
+            'anything', $resultingEdge->labels, 'Should be :anything, is: ' . $resultingEdge->labels
         );
         $response = $edgeHandler->remove($resultingEdge);
         static::assertTrue($response, 'Delete should return true!');
@@ -336,13 +336,13 @@ class EdgeExtendedTest extends
         static::assertObjectHasAttribute('_id', $resultingEdge, '_id field should exist, empty or with an id');
 
         static::assertEquals(
-            $resultingEdge->label, null, 'Should be :null, is: ' . $resultingEdge->label
+            null, $resultingEdge->label, 'Should be :null, is: ' . $resultingEdge->label
         );
         static::assertEquals(
-            $resultingEdge->labelt, null, 'Should be :null, is: ' . $resultingEdge->labelt
+            null, $resultingEdge->labelt, 'Should be :null, is: ' . $resultingEdge->labelt
         );
 
-        static::assertEquals($resultingEdge->labels, 'as');
+        static::assertEquals('as', $resultingEdge->labels);
 
         $response = $edgeHandler->remove($resultingEdge);
         static::assertTrue($response, 'Delete should return true!');
@@ -380,10 +380,10 @@ class EdgeExtendedTest extends
         static::assertObjectHasAttribute('_id', $resultingEdge, '_id field should exist, empty or with an id');
 
         static::assertEquals(
-            $resultingEdge->someAttribute, 'someValue2', 'Should be :someValue2, is: ' . $resultingEdge->someAttribute
+            'someValue2', $resultingEdge->someAttribute, 'Should be :someValue2, is: ' . $resultingEdge->someAttribute
         );
         static::assertEquals(
-            $resultingEdge->someOtherAttribute, 'someOtherValue2', 'Should be :someOtherValue2, is: ' . $resultingEdge->someOtherAttribute
+            'someOtherValue2', $resultingEdge->someOtherAttribute, 'Should be :someOtherValue2, is: ' . $resultingEdge->someOtherAttribute
         );
 
         $response = $edgeHandler->remove($resultingEdge);

@@ -112,7 +112,7 @@ class EdgeBasicTest extends
 
         $resultingAttribute = $resultingEdge->label;
         static::assertSame(
-            $resultingAttribute, 'knows', 'Attribute set on the Edge is different from the one retrieved!'
+            'knows', $resultingAttribute, 'Attribute set on the Edge is different from the one retrieved!'
         );
 
 
@@ -148,7 +148,7 @@ class EdgeBasicTest extends
         $resultingEdge      = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
         $resultingAttribute = $resultingEdge->label;
         static::assertSame(
-            $resultingAttribute, 'knows not', 'Attribute "knows not" set on the Edge is different from the one retrieved (' . $resultingAttribute . ')!'
+            'knows not', $resultingAttribute, 'Attribute "knows not" set on the Edge is different from the one retrieved (' . $resultingAttribute . ')!'
         );
 
 
@@ -215,7 +215,7 @@ class EdgeBasicTest extends
 
         $resultingAttribute = $resultingEdge->label;
         static::assertSame(
-            $resultingAttribute, 'knows', 'Attribute set on the Edge is different from the one retrieved!'
+            'knows', $resultingAttribute, 'Attribute set on the Edge is different from the one retrieved!'
         );
 
 
@@ -251,7 +251,7 @@ class EdgeBasicTest extends
         $resultingEdge      = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
         $resultingAttribute = $resultingEdge->label;
         static::assertSame(
-            $resultingAttribute, 'knows not', 'Attribute "knows not" set on the Edge is different from the one retrieved (' . $resultingAttribute . ')!'
+            'knows not', $resultingAttribute, 'Attribute "knows not" set on the Edge is different from the one retrieved (' . $resultingAttribute . ')!'
         );
 
 
@@ -308,7 +308,7 @@ class EdgeBasicTest extends
 
         $resultingAttribute = $resultingEdge->label;
         static::assertSame(
-            $resultingAttribute, 'knows', 'Attribute set on the Edge is different from the one retrieved!'
+            'knows', $resultingAttribute, 'Attribute set on the Edge is different from the one retrieved!'
         );
 
 
@@ -343,7 +343,7 @@ class EdgeBasicTest extends
         $resultingEdge      = $edgeDocumentHandler->get($edgeCollection->getId(), $edgeDocumentId);
         $resultingAttribute = $resultingEdge->label;
         static::assertSame(
-            $resultingAttribute, 'knows not', 'Attribute "knows not" set on the Edge is different from the one retrieved (' . $resultingAttribute . ')!'
+            'knows not', $resultingAttribute, 'Attribute "knows not" set on the Edge is different from the one retrieved (' . $resultingAttribute . ')!'
         );
 
 
@@ -396,7 +396,7 @@ class EdgeBasicTest extends
             $edgeHandler->get($edgeCollection->getId(), $edgeId, ['ifMatch' => true, 'revision' => 12345]);
         } catch (\Exception $exception412) {
         }
-        static::assertEquals($exception412->getCode(), 412);
+        static::assertEquals(412, $exception412->getCode());
 
         try {
             $edgeHandler->get(
@@ -407,7 +407,7 @@ class EdgeBasicTest extends
             );
         } catch (\Exception $exception304) {
         }
-        static::assertEquals($exception304->getMessage(), 'Document has not changed.');
+        static::assertEquals('Document has not changed.', $exception304->getMessage());
 
         $resultingEdge = $edgeHandler->get($edgeCollection->getId(), $edgeId);
 
@@ -466,25 +466,25 @@ class EdgeBasicTest extends
         } catch (\Exception $e412) {
         }
 
-        static::assertEquals($e412->getCode(), 412);
+        static::assertEquals(412, $e412->getCode());
 
         try {
             $edgeHandler->getHead($edgeCollection->getId(), 'notExisting');
         } catch (\Exception $e404) {
         }
 
-        static::assertEquals($e404->getCode(), 404);
+        static::assertEquals(404, $e404->getCode());
 
 
         $result304 = $edgeHandler->getHead($edgeCollection->getId(), $edgeId, $edgeDocument->getRevision(), false);
-        static::assertEquals($result304['etag'], '"' . $edgeDocument->getRevision() . '"');
-        static::assertEquals($result304['content-length'], 0);
-        static::assertEquals($result304['httpCode'], 304);
+        static::assertEquals('"' . $edgeDocument->getRevision() . '"',$result304['etag']);
+        static::assertEquals(0, $result304['content-length']);
+        static::assertEquals(304, $result304['httpCode']);
 
         $result200 = $edgeHandler->getHead($edgeCollection->getId(), $edgeId, $edgeDocument->getRevision(), true);
-        static::assertEquals($result200['etag'], '"' . $edgeDocument->getRevision() . '"');
-        static::assertNotEquals($result200['content-length'], 0);
-        static::assertEquals($result200['httpCode'], 200);
+        static::assertEquals('"' . $edgeDocument->getRevision() . '"', $result200['etag']);
+        static::assertNotEquals(0, $result200['content-length']);
+        static::assertEquals(200, $result200['httpCode']);
         $documentHandler->remove($document1);
         $documentHandler->remove($document2);
         $edgeHandler->removeById($edgeCollection->getName(), $edgeId);

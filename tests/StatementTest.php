@@ -76,7 +76,7 @@ class StatementTest extends
         $result = $cursor->current();
 
         static::assertSame(
-            $result->someAttribute, 'someValue', 'Expected value someValue, found :' . $result->someAttribute
+            'someValue', $result->someAttribute, 'Expected value someValue, found :' . $result->someAttribute
         );
     }
 
@@ -282,7 +282,7 @@ class StatementTest extends
         $result = $cursor->current();
 
         static::assertSame(
-            $result->someAttribute, 'someValue', 'Expected value someValue, found :' . $result->someAttribute
+            'someValue', $result->someAttribute, 'Expected value someValue, found :' . $result->someAttribute
         );
     }
 
