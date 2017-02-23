@@ -458,7 +458,7 @@ class Connection
                 $startTime = microtime(true);
             }
 
-            $result = HttpHelper::transfer($handle, $request);
+            $result = HttpHelper::transfer($handle, $request, $method);
 
             if ($traceFunc) {
                 // only issue syscall if we need it
