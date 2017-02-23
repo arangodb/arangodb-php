@@ -12,6 +12,10 @@ namespace triagens\ArangoDb;
 
 require __DIR__ . '/..' . '/autoload.php';
 
+if (class_exists('\PHPUnit\Framework\TestCase')) {
+    class_alias(\PHPUnit\Framework\TestCase::class, 'PHPUnit_Framework_TestCase');
+}
+
 /* set up a trace function that will be called for each communication with the server */
 
 function isCluster(Connection $connection)
