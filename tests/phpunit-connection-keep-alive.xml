@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<phpunit bootstrap="bootstrap_connection_keep_alive.php" colors="true" verbose="true" backupGlobals="false">
+<phpunit bootstrap="bootstrap-connection-keep-alive.php" colors="true" verbose="true" backupGlobals="false">
     <testsuites>
         <testsuite name="ArangoDB-PHP-Connection-Keep-Alive">
             <directory>.</directory>
