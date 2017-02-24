@@ -21,11 +21,19 @@ namespace ArangoDBClient;
 class GeneralGraphExtendedTest extends
     \PHPUnit_Framework_TestCase
 {
+    protected static $testsTimestamp;
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        static::$testsTimestamp = str_replace('.', '_', (string) microtime(true));
+    }
+
     public function setUp()
     {
         $this->connection = getConnection();
         $v                = time();
-        $this->graphName  = 'graph' . $v;
+        $this->graphName  = 'graph' . $v . '_' . static::$testsTimestamp;
         $this->v1         = 'v1' . $v;
         $this->v2         = 'v2' . $v;
         $this->v3         = 'v3' . $v;
@@ -50,7 +58,7 @@ class GeneralGraphExtendedTest extends
         $this->graph      = new Graph($this->graphName);
         $this->graph->addEdgeDefinition($ed1);
         $this->graph->addEdgeDefinition($ed2);
-        $this->graph->addOrphanCollection('orphan');
+        $this->graph->addOrphanCollection('orphan' . '_' . static::$testsTimestamp);
         $this->graphHandler = new GraphHandler($this->connection);
         $this->graphHandler->createGraph($this->graph);
         $this->graph        = $this->graphHandler->getGraph($this->graphName);

@@ -244,12 +244,12 @@ class ExportTest extends
         }
 
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdge');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdge' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
         }
 
         $edgeCollection = new Collection();
-        $edgeCollection->setName('ArangoDB_PHP_TestSuite_TestEdge');
+        $edgeCollection->setName('ArangoDB_PHP_TestSuite_TestEdge' . '_' . static::$testsTimestamp);
         $edgeCollection->setType(Collection::TYPE_EDGE);
         $this->collectionHandler->create($edgeCollection);
 
@@ -280,7 +280,7 @@ class ExportTest extends
 
         static::assertFalse($cursor->getNextBatch());
 
-        $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdge');
+        $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdge' . '_' . static::$testsTimestamp);
     }
 
     /**

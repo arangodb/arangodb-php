@@ -20,6 +20,15 @@ namespace ArangoDBClient;
 class QueryTest extends
     \PHPUnit_Framework_TestCase
 {
+    protected static $testsTimestamp;
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        static::$testsTimestamp = str_replace('.', '_', (string) microtime(true));
+    }
+
+
     public function setUp()
     {
         $this->connection   = getConnection();
@@ -49,7 +58,7 @@ class QueryTest extends
                 $id = $q['id'];
             }
         }
-        static::assertEquals(1, $found);
+        static::assertGreaterThanOrEqual(1, $found);
 
         // now kill the query
         $result = $this->queryHandler->kill($id);

@@ -406,7 +406,7 @@ class BatchTest extends
             ]
         );
 
-        $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_02' . '_' . static::$testsTimestamp.'` RETURN a');
+        $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_02' . '_' . static::$testsTimestamp . '` RETURN a');
         $statement->execute();
 
         $documentHandler->removeById($resultingCollectionId, $docId1[1]);

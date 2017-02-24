@@ -38,17 +38,17 @@ class EdgeExtendedTest extends
         $this->connection        = getConnection();
         $this->collectionHandler = new CollectionHandler($this->connection);
         $this->collection        = new Collection();
-        $this->collection->setName('ArangoDB_PHP_TestSuite_TestEdgeCollection_01');
+        $this->collection->setName('ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp);
         $this->collectionHandler->create($this->collection);
 
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_EdgeCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp);
         } catch (Exception $e) {
             //Silence the exception
         }
 
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_Collection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         } catch (Exception $e) {
             //Silence the exception
         }
@@ -59,7 +59,7 @@ class EdgeExtendedTest extends
         $this->edgeCollection->set('type', 3);
         $this->collectionHandler->create($this->edgeCollection);
         $this->documentCollection = new Collection();
-        $this->documentCollection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
+        $this->documentCollection->setName('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         $this->collectionHandler->create($this->documentCollection);
     }
 
@@ -162,8 +162,8 @@ class EdgeExtendedTest extends
         $document2->someAttribute = 'someValue2';
 
 
-        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01', $document1);
-        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01', $document2);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document1);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -260,8 +260,8 @@ class EdgeExtendedTest extends
         $document2->someAttribute = 'someValue2';
 
 
-        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01', $document1);
-        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01', $document2);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document1);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -315,8 +315,8 @@ class EdgeExtendedTest extends
         $document2->someAttribute = 'someValue2';
 
 
-        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01', $document1);
-        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01', $document2);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document1);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -403,13 +403,13 @@ class EdgeExtendedTest extends
     public function tearDown()
     {
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdgeCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
 
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdgeCollection_02');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdgeCollection_02' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
@@ -419,7 +419,7 @@ class EdgeExtendedTest extends
             // don't bother us, if it's already deleted.
         }
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }

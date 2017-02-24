@@ -120,7 +120,7 @@ class TraversalTest extends
         ];
 
 
-        $this->graphName  = 'Graph1';
+        $this->graphName  = 'Graph1' . '_' . static::$testsTimestamp;
         $this->connection = getConnection();
         $this->graph      = new Graph();
         $this->graph->set('_key', $this->graphName);

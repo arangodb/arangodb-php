@@ -436,7 +436,7 @@ class CollectionBasicTest extends
         $connection        = $this->connection;
         $collectionHandler = new CollectionHandler($connection);
 
-        $name = '_ArangoDB_PHP_TestSuite_TestCollection_02';
+        $name = '_ArangoDB_PHP_TestSuite_TestCollection_02' . '_' . static::$testsTimestamp;
 
         try {
             $collectionHandler->drop($name, ['isSystem' => true]);

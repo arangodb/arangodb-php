@@ -117,7 +117,7 @@ class CollectionExtendedTest extends
         $resultingAttribute = $collection->getIsSystem();
         static::assertNull($resultingAttribute, 'Default isSystem in API should be NULL!');
 
-        $name = '_ArangoDB_PHP_TestSuite_TestCollection_01';
+        $name = '_ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
         $collection->setName($name);
         $collection->setIsSystem(true);
 
@@ -307,14 +307,14 @@ class CollectionExtendedTest extends
 
         $collectionHandler->rename(
             $resultingCollection,
-            'ArangoDB_PHP_TestSuite_TestCollection_01_renamed'
+            'ArangoDB_PHP_TestSuite_TestCollection_01_renamed' . '_' . static::$testsTimestamp
         );
 
-        $resultingCollectionRenamed = $collectionHandler->get('ArangoDB_PHP_TestSuite_TestCollection_01_renamed');
+        $resultingCollectionRenamed = $collectionHandler->get('ArangoDB_PHP_TestSuite_TestCollection_01_renamed' . '_' . static::$testsTimestamp);
         $newName                    = $resultingCollectionRenamed->getName();
 
         static::assertEquals(
-            'ArangoDB_PHP_TestSuite_TestCollection_01_renamed', $newName, 'Collection was not renamed!'
+            'ArangoDB_PHP_TestSuite_TestCollection_01_renamed' . '_' . static::$testsTimestamp, $newName, 'Collection was not renamed!'
         );
         $response = $collectionHandler->drop($resultingCollectionRenamed);
         static::assertTrue($response, 'Delete should return true!');
@@ -1190,7 +1190,7 @@ class CollectionExtendedTest extends
                 'sanitize'  => true,
             ]
         );
-        $query     = 'FOR u IN `ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp.'` SORT u._id ASC RETURN u';
+        $query     = 'FOR u IN `ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp . '` SORT u._id ASC RETURN u';
 
         $statement->setQuery($query);
 
@@ -1242,7 +1242,7 @@ class CollectionExtendedTest extends
                 'sanitize'  => true,
             ]
         );
-        $query     = 'FOR u IN `ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp.'` SORT u._id ASC RETURN u';
+        $query     = 'FOR u IN `ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp . '` SORT u._id ASC RETURN u';
 
         $statement->setQuery($query);
 
@@ -1294,7 +1294,7 @@ class CollectionExtendedTest extends
                 'sanitize'  => true,
             ]
         );
-        $query     = 'FOR u IN `ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp.'` SORT u._id ASC RETURN u';
+        $query     = 'FOR u IN `ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp . '` SORT u._id ASC RETURN u';
 
         $statement->setQuery($query);
 
@@ -1372,7 +1372,7 @@ class CollectionExtendedTest extends
                 'sanitize'  => true,
             ]
         );
-        $query     = 'FOR u IN `ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp.'` SORT u._id ASC RETURN u';
+        $query     = 'FOR u IN `ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp . '` SORT u._id ASC RETURN u';
 
         $statement->setQuery($query);
 
@@ -1430,7 +1430,7 @@ class CollectionExtendedTest extends
                 'sanitize'  => true,
             ]
         );
-        $query     = 'FOR u IN `ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp.'` SORT u._id ASC RETURN u';
+        $query     = 'FOR u IN `ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp . '` SORT u._id ASC RETURN u';
 
         $statement->setQuery($query);
 
@@ -1487,7 +1487,7 @@ class CollectionExtendedTest extends
                 'sanitize'  => true,
             ]
         );
-        $query     = 'FOR u IN `ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp.'` SORT u._id ASC RETURN u';
+        $query     = 'FOR u IN `ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp . '` SORT u._id ASC RETURN u';
 
         $statement->setQuery($query);
 
@@ -1544,7 +1544,7 @@ class CollectionExtendedTest extends
                 'sanitize'  => true,
             ]
         );
-        $query     = 'FOR u IN `ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp.'` SORT u._id ASC RETURN u';
+        $query     = 'FOR u IN `ArangoDB_PHP_TestSuite_ImportCollection_01' . '_' . static::$testsTimestamp . '` SORT u._id ASC RETURN u';
 
         $statement->setQuery($query);
 
@@ -1978,7 +1978,7 @@ class CollectionExtendedTest extends
 
         static::assertArrayHasKey('id', $result, 'Id field should exist, empty or with an id');
         static::assertEquals(
-            'ArangoDB_PHP_TestSuite_TestCollection_01', $result['name'], 'name should return ArangoDB_PHP_TestSuite_TestCollection_01!'
+            'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $result['name'], 'name should return ArangoDB_PHP_TestSuite_TestCollection_01!'
         );
         static::assertTrue($result['waitForSync'], 'waitForSync should return true!');
     }
@@ -2289,7 +2289,7 @@ class CollectionExtendedTest extends
         );
         static::assertArrayNotHasKey(2, $resultArray, 'Should not have a third key !');
         static::assertSame(
-            0, $resultArray[0]->distance,'This value should be 0 ! It is :' . $resultArray[0]->distance
+            0, $resultArray[0]->distance, 'This value should be 0 ! It is :' . $resultArray[0]->distance
         );
 
 

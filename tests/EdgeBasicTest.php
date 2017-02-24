@@ -334,7 +334,7 @@ class EdgeBasicTest extends
             ]
         );
         $statement->setQuery(
-            'FOR p IN PATHS(ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp.', ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp.', "outbound")  RETURN p'
+            'FOR p IN PATHS(ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp . ', ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp . ', "outbound")  RETURN p'
         );
         $cursor = $statement->execute();
 
@@ -486,7 +486,7 @@ class EdgeBasicTest extends
 
 
         $result304 = $edgeHandler->getHead($edgeCollection->getId(), $edgeId, $edgeDocument->getRevision(), false);
-        static::assertEquals('"' . $edgeDocument->getRevision() . '"',$result304['etag']);
+        static::assertEquals('"' . $edgeDocument->getRevision() . '"', $result304['etag']);
         static::assertEquals(0, $result304['content-length']);
         static::assertEquals(304, $result304['httpCode']);
 
