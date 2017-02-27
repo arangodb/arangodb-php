@@ -199,6 +199,8 @@ class ExportCursor
      */
     private function setData(array $data)
     {
+        $_documentClass = $this->_documentClass;
+
         if (isset($this->_options[self::ENTRY_FLAT]) && $this->_options[self::ENTRY_FLAT]) {
             $this->_result = $data;
         } else {
@@ -210,7 +212,7 @@ class ExportCursor
                 }
             } else {
                 foreach ($data as $row) {
-                    $this->_result[] = Document::createFromArray($row, $this->_options);
+                    $this->_result[] = $_documentClass::createFromArray($row, $this->_options);
                 }
             }
         }
@@ -275,6 +277,20 @@ class ExportCursor
         return $this->_id;
     }
 
+    /**
+     * @var string Document class to use
+     */
+    protected $_documentClass = '\ArangoDBClient\Document';
+
+    /**
+     * Sets the document class to use
+     *
+     * @param string $class Document class to use
+     */
+    public function setDocumentClass($class)
+    {
+        $this->_documentClass = $class;
+    }
 }
 
 class_alias(ExportCursor::class, '\triagens\ArangoDb\ExportCursor');

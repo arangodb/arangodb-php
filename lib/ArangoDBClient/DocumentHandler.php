@@ -246,7 +246,9 @@ class DocumentHandler extends
      */
     protected function createFromArrayWithContext($data, $options)
     {
-        return Document::createFromArray($data, $options);
+        $_documentClass =  $this->_documentClass;
+
+        return $_documentClass::createFromArray($data, $options);
     }
 
 
@@ -317,6 +319,7 @@ class DocumentHandler extends
     public function save($collection, $document, array $options = [])
     {
         $collection = $this->makeCollection($collection);
+        $_documentClass =  $this->_documentClass;
 
         $params = $this->includeOptionsInParams(
             $options, [
@@ -348,7 +351,7 @@ class DocumentHandler extends
         }
 
         if (is_array($document)) {
-            return $json[Document::ENTRY_KEY];
+            return $json[$_documentClass::ENTRY_KEY];
         }
 
         $location = $response->getLocationHeader();
@@ -358,8 +361,8 @@ class DocumentHandler extends
 
         $id = UrlHelper::getDocumentIdFromLocation($location);
 
-        $document->setInternalId($json[Document::ENTRY_ID]);
-        $document->setRevision($json[Document::ENTRY_REV]);
+        $document->setInternalId($json[$_documentClass::ENTRY_ID]);
+        $document->setRevision($json[$_documentClass::ENTRY_REV]);
 
         if ($id !== $document->getId()) {
             throw new ClientException('Got an invalid response from the server');
@@ -457,6 +460,7 @@ class DocumentHandler extends
     protected function patch($url, $collection, $documentId, Document $document, array $options = [])
     {
         $collection = $this->makeCollection($collection);
+        $_documentClass =  $this->_documentClass;
 
         $params = $this->includeOptionsInParams(
             $options, [
@@ -486,7 +490,7 @@ class DocumentHandler extends
 
         $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAllForInsertUpdate()), $headers);
         $json   = $result->getJson();
-        $document->setRevision($json[Document::ENTRY_REV]);
+        $document->setRevision($json[$_documentClass::ENTRY_REV]);
 
         return true;
     }
@@ -575,6 +579,7 @@ class DocumentHandler extends
     protected function put($url, $collection, $documentId, Document $document, array $options = [])
     {
         $collection = $this->makeCollection($collection);
+        $_documentClass =  $this->_documentClass;
 
         $params = $this->includeOptionsInParams(
             $options, [
@@ -601,7 +606,7 @@ class DocumentHandler extends
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->put($url, $this->json_encode_wrapper($data), $headers);
         $json   = $result->getJson();
-        $document->setRevision($json[Document::ENTRY_REV]);
+        $document->setRevision($json[$_documentClass::ENTRY_REV]);
 
         return true;
     }

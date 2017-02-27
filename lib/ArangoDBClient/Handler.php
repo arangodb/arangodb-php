@@ -157,6 +157,21 @@ abstract class Handler
         return $value;
     }
 
+    /**
+     * @var string Document class to use
+     */
+    protected $_documentClass = '\ArangoDBClient\Document';
+
+    /**
+     * Sets the document class to use
+     *
+     * @param string $class Document class to use
+     */
+    public function setDocumentClass($class)
+    {
+        $this->_documentClass = $class;
+    }
+
 }
 
 class_alias(Handler::class, '\triagens\ArangoDb\Handler');
