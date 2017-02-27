@@ -339,7 +339,7 @@ class Batch
         }
 
         if (null === $this->_nextBatchPartId) {
-            if (is_a($this->_batchParts, 'SplFixedArray')) {
+            if (is_a($this->_batchParts, \SplFixedArray::class)) {
                 $nextNumeric = $this->_nextId;
                 $this->_nextId++;
             } else {
@@ -421,14 +421,16 @@ class Batch
             throw new ClientException('Can\'t process empty batch.');
         }
 
+        $combinedDataHeader = '--' . HttpHelper::MIME_BOUNDARY . HttpHelper::EOL;
+        $combinedDataHeader .= 'Content-Type: application/x-arango-batchpart' . HttpHelper::EOL;
+
         /** @var $partValue BatchPart */
         foreach ($batchParts as $partValue) {
             if (null !== $partValue) {
-                $data .= '--' . HttpHelper::MIME_BOUNDARY . HttpHelper::EOL;
-                $data .= 'Content-Type: application/x-arango-batchpart' . HttpHelper::EOL;
 
-                if (null !== $partValue->getId()) {
-                    $data .= 'Content-Id: ' . (string) $partValue->getId() . HttpHelper::EOL . HttpHelper::EOL;
+                $data .= $combinedDataHeader;
+                if (null !== $partValueId = $partValue->getId()) {
+                    $data .= 'Content-Id: ' . (string) $partValueId . HttpHelper::SEPARATOR;
                 } else {
                     $data .= HttpHelper::EOL;
                 }
@@ -436,14 +438,17 @@ class Batch
                 $data .= (string) $partValue->getRequest() . HttpHelper::EOL;
             }
         }
-        $data .= '--' . HttpHelper::MIME_BOUNDARY . '--' . HttpHelper::EOL . HttpHelper::EOL;
+
+        $data .= '--' . HttpHelper::MIME_BOUNDARY . '--' . HttpHelper::SEPARATOR;
 
         $params               = [];
         $url                  = UrlHelper::appendParamsUrl(Urls::URL_BATCH, $params);
         $this->_batchResponse = $this->_connection->post($url, $data);
+
         if ($this->_batchResponse->getHttpCode() !== 200) {
             return $this->_batchResponse;
         }
+
         $body       = $this->_batchResponse->getBody();
         $body       = trim($body, '--' . HttpHelper::MIME_BOUNDARY . '--');
         $batchParts = $this->splitWithContentIdKey('--' . HttpHelper::MIME_BOUNDARY . HttpHelper::EOL, $body);

@@ -18,8 +18,7 @@ namespace ArangoDBClient;
  * @package   ArangoDBClient
  * @since     0.2
  */
-class Exception extends
-    \Exception
+class Exception extends \Exception
 {
     /**
      * Exception constructor.

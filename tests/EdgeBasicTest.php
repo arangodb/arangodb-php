@@ -23,29 +23,38 @@ namespace ArangoDBClient;
 class EdgeBasicTest extends
     \PHPUnit_Framework_TestCase
 {
+    protected static $testsTimestamp;
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        static::$testsTimestamp = str_replace('.', '_', (string) microtime(true));
+    }
+
+
     public function setUp()
     {
         $this->connection        = getConnection();
         $this->collectionHandler = new CollectionHandler($this->connection);
 
         try {
-            $this->collectionHandler->drop('ArangoDBPHPTestSuiteTestEdgeCollection01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             #don't bother us, if it's already deleted.
         }
 
         try {
-            $this->collectionHandler->drop('ArangoDBPHPTestSuiteTestCollection01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             #don't bother us, if it's already deleted.
         }
 
         $this->edgeCollection = new Collection();
-        $this->edgeCollection->setName('ArangoDBPHPTestSuiteTestEdgeCollection01');
+        $this->edgeCollection->setName('ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp);
         $this->edgeCollection->set('type', 3);
 
         $this->collection = new Collection();
-        $this->collection->setName('ArangoDBPHPTestSuiteTestCollection01');
+        $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
 
         $this->collectionHandler->create($this->edgeCollection);
         $this->collectionHandler->create($this->collection);
@@ -60,7 +69,7 @@ class EdgeBasicTest extends
         $this->collection        = new Collection();
         $this->collectionHandler = new CollectionHandler($this->connection);
         $document                = new Edge();
-        static::assertInstanceOf('ArangoDBClient\Edge', $document);
+        static::assertInstanceOf(Edge::class, $document);
         unset ($document);
     }
 
@@ -84,8 +93,8 @@ class EdgeBasicTest extends
         $document2->someAttribute = 'someValue2';
 
 
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document1);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -108,11 +117,11 @@ class EdgeBasicTest extends
         $resultingDocument = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
 
         $resultingEdge = $edgeDocumentHandler->get($edgeCollection->getName(), $edgeDocumentId);
-        static::assertInstanceOf('ArangoDBClient\Edge', $resultingEdge);
+        static::assertInstanceOf(Edge::class, $resultingEdge);
 
         $resultingAttribute = $resultingEdge->label;
         static::assertSame(
-            $resultingAttribute, 'knows', 'Attribute set on the Edge is different from the one retrieved!'
+            'knows', $resultingAttribute, 'Attribute set on the Edge is different from the one retrieved!'
         );
 
 
@@ -129,14 +138,14 @@ class EdgeBasicTest extends
             ]
         );
         $statement->setQuery(
-            'FOR start IN ArangoDBPHPTestSuiteTestCollection01 FOR v, e, p IN 0..1000 OUTBOUND start ArangoDBPHPTestSuiteTestEdgeCollection01 RETURN { source: start, destination: v, edges: p.edges, vertices: p.vertices }'
+            'FOR start IN ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp . ' FOR v, e, p IN 0..1000 OUTBOUND start ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp . ' RETURN { source: start, destination: v, edges: p.edges, vertices: p.vertices }'
 
         );
         $cursor = $statement->execute();
 
         $result = $cursor->current();
         static::assertInstanceOf(
-            'ArangoDBClient\Document',
+            Document::class,
             $result,
             'IN PATHS statement did not return a document object!'
         );
@@ -148,7 +157,7 @@ class EdgeBasicTest extends
         $resultingEdge      = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
         $resultingAttribute = $resultingEdge->label;
         static::assertSame(
-            $resultingAttribute, 'knows not', 'Attribute "knows not" set on the Edge is different from the one retrieved (' . $resultingAttribute . ')!'
+            'knows not', $resultingAttribute, 'Attribute "knows not" set on the Edge is different from the one retrieved (' . $resultingAttribute . ')!'
         );
 
 
@@ -169,7 +178,7 @@ class EdgeBasicTest extends
         $edgeCollection = $this->edgeCollection;
 
         try {
-            $this->collectionHandler->drop('ArangoDBPHPTestSuiteTestEdgeCollection01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             #don't bother us, if it's already deleted.
         }
@@ -185,8 +194,8 @@ class EdgeBasicTest extends
         $document2->someAttribute = 'someValue2';
 
 
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document1);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -211,11 +220,11 @@ class EdgeBasicTest extends
         $resultingDocument = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
 
         $resultingEdge = $edgeDocumentHandler->get($edgeCollection->getName(), $edgeDocumentId);
-        static::assertInstanceOf('ArangoDBClient\Edge', $resultingEdge);
+        static::assertInstanceOf(Edge::class, $resultingEdge);
 
         $resultingAttribute = $resultingEdge->label;
         static::assertSame(
-            $resultingAttribute, 'knows', 'Attribute set on the Edge is different from the one retrieved!'
+            'knows', $resultingAttribute, 'Attribute set on the Edge is different from the one retrieved!'
         );
 
 
@@ -232,14 +241,14 @@ class EdgeBasicTest extends
             ]
         );
         $statement->setQuery(
-            'FOR start IN ArangoDBPHPTestSuiteTestCollection01 FOR v, e, p IN 0..1000 OUTBOUND start ArangoDBPHPTestSuiteTestEdgeCollection01 RETURN { source: start, destination: v, edges: p.edges, vertices: p.vertices }'
+            'FOR start IN ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp . ' FOR v, e, p IN 0..1000 OUTBOUND start ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp . ' RETURN { source: start, destination: v, edges: p.edges, vertices: p.vertices }'
 
         );
         $cursor = $statement->execute();
 
         $result = $cursor->current();
         static::assertInstanceOf(
-            'ArangoDBClient\Document',
+            Document::class,
             $result,
             'IN PATHS statement did not return a document object!'
         );
@@ -251,7 +260,7 @@ class EdgeBasicTest extends
         $resultingEdge      = $documentHandler->get($edgeCollection->getName(), $edgeDocumentId);
         $resultingAttribute = $resultingEdge->label;
         static::assertSame(
-            $resultingAttribute, 'knows not', 'Attribute "knows not" set on the Edge is different from the one retrieved (' . $resultingAttribute . ')!'
+            'knows not', $resultingAttribute, 'Attribute "knows not" set on the Edge is different from the one retrieved (' . $resultingAttribute . ')!'
         );
 
 
@@ -287,8 +296,8 @@ class EdgeBasicTest extends
         $document2->someAttribute = 'someValue2';
 
 
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document1);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -308,7 +317,7 @@ class EdgeBasicTest extends
 
         $resultingAttribute = $resultingEdge->label;
         static::assertSame(
-            $resultingAttribute, 'knows', 'Attribute set on the Edge is different from the one retrieved!'
+            'knows', $resultingAttribute, 'Attribute set on the Edge is different from the one retrieved!'
         );
 
 
@@ -325,13 +334,13 @@ class EdgeBasicTest extends
             ]
         );
         $statement->setQuery(
-            'FOR p IN PATHS(ArangoDBPHPTestSuiteTestCollection01, ArangoDBPHPTestSuiteTestEdgeCollection01, "outbound")  RETURN p'
+            'FOR p IN PATHS(ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp . ', ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp . ', "outbound")  RETURN p'
         );
         $cursor = $statement->execute();
 
         $result = $cursor->current();
         static::assertInstanceOf(
-            'ArangoDBClient\Document',
+            Document::class,
             $result,
             'IN PATHS statement did not return a document object!'
         );
@@ -343,7 +352,7 @@ class EdgeBasicTest extends
         $resultingEdge      = $edgeDocumentHandler->get($edgeCollection->getId(), $edgeDocumentId);
         $resultingAttribute = $resultingEdge->label;
         static::assertSame(
-            $resultingAttribute, 'knows not', 'Attribute "knows not" set on the Edge is different from the one retrieved (' . $resultingAttribute . ')!'
+            'knows not', $resultingAttribute, 'Attribute "knows not" set on the Edge is different from the one retrieved (' . $resultingAttribute . ')!'
         );
 
 
@@ -375,8 +384,8 @@ class EdgeBasicTest extends
         $document2->someAttribute = 'someValue2';
 
 
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document1);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -396,7 +405,7 @@ class EdgeBasicTest extends
             $edgeHandler->get($edgeCollection->getId(), $edgeId, ['ifMatch' => true, 'revision' => 12345]);
         } catch (\Exception $exception412) {
         }
-        static::assertEquals($exception412->getCode(), 412);
+        static::assertEquals(412, $exception412->getCode());
 
         try {
             $edgeHandler->get(
@@ -407,7 +416,7 @@ class EdgeBasicTest extends
             );
         } catch (\Exception $exception304) {
         }
-        static::assertEquals($exception304->getMessage(), 'Document has not changed.');
+        static::assertEquals('Document has not changed.', $exception304->getMessage());
 
         $resultingEdge = $edgeHandler->get($edgeCollection->getId(), $edgeId);
 
@@ -447,8 +456,8 @@ class EdgeBasicTest extends
         $document2->someAttribute = 'someValue2';
 
 
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document1);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -466,25 +475,25 @@ class EdgeBasicTest extends
         } catch (\Exception $e412) {
         }
 
-        static::assertEquals($e412->getCode(), 412);
+        static::assertEquals(412, $e412->getCode());
 
         try {
             $edgeHandler->getHead($edgeCollection->getId(), 'notExisting');
         } catch (\Exception $e404) {
         }
 
-        static::assertEquals($e404->getCode(), 404);
+        static::assertEquals(404, $e404->getCode());
 
 
         $result304 = $edgeHandler->getHead($edgeCollection->getId(), $edgeId, $edgeDocument->getRevision(), false);
-        static::assertEquals($result304['etag'], '"' . $edgeDocument->getRevision() . '"');
-        static::assertEquals($result304['content-length'], 0);
-        static::assertEquals($result304['httpCode'], 304);
+        static::assertEquals('"' . $edgeDocument->getRevision() . '"', $result304['etag']);
+        static::assertEquals(0, $result304['content-length']);
+        static::assertEquals(304, $result304['httpCode']);
 
         $result200 = $edgeHandler->getHead($edgeCollection->getId(), $edgeId, $edgeDocument->getRevision(), true);
-        static::assertEquals($result200['etag'], '"' . $edgeDocument->getRevision() . '"');
-        static::assertNotEquals($result200['content-length'], 0);
-        static::assertEquals($result200['httpCode'], 200);
+        static::assertEquals('"' . $edgeDocument->getRevision() . '"', $result200['etag']);
+        static::assertNotEquals(0, $result200['content-length']);
+        static::assertEquals(200, $result200['httpCode']);
         $documentHandler->remove($document1);
         $documentHandler->remove($document2);
         $edgeHandler->removeById($edgeCollection->getName(), $edgeId);
@@ -507,8 +516,8 @@ class EdgeBasicTest extends
         $document1->someAttribute = 'someValue1';
         $document2->someAttribute = 'someValue2';
 
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document1);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -559,8 +568,8 @@ class EdgeBasicTest extends
         $document1->someAttribute = 'someValue1';
         $document2->someAttribute = 'someValue2';
 
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document1);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -589,7 +598,7 @@ class EdgeBasicTest extends
 
         static::assertCount(3, $edgesQueryResult);
         foreach ($edgesQueryResult as $edge) {
-            static::assertInstanceOf('ArangoDBClient\Edge', $edge);
+            static::assertInstanceOf(Edge::class, $edge);
 
             if ($edge->value === 1) {
                 static::assertEquals($documentHandle1, $edge->getFrom());
@@ -607,7 +616,7 @@ class EdgeBasicTest extends
         }
 
         // test empty result
-        $edgesQueryResult = $edgeDocumentHandler->edges($edgeCollection->getName(), 'ArangoDBPHPTestSuiteTestCollection01/foobar');
+        $edgesQueryResult = $edgeDocumentHandler->edges($edgeCollection->getName(), 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp . '/foobar');
         static::assertCount(0, $edgesQueryResult);
     }
 
@@ -628,8 +637,8 @@ class EdgeBasicTest extends
         $document1->someAttribute = 'someValue1';
         $document2->someAttribute = 'someValue2';
 
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document1);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -658,7 +667,7 @@ class EdgeBasicTest extends
 
         static::assertCount(3, $edgesQueryResult);
         foreach ($edgesQueryResult as $edge) {
-            static::assertInstanceOf('ArangoDBClient\Edge', $edge);
+            static::assertInstanceOf(Edge::class, $edge);
 
             if ($edge->value === 1) {
                 static::assertEquals($documentHandle1, $edge->getFrom());
@@ -676,7 +685,7 @@ class EdgeBasicTest extends
         }
 
         // test empty result
-        $edgesQueryResult = $edgeDocumentHandler->edges($edgeCollection->getName(), 'ArangoDBPHPTestSuiteTestCollection01/foobar', 'any');
+        $edgesQueryResult = $edgeDocumentHandler->edges($edgeCollection->getName(), 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp . '/foobar', 'any');
         static::assertCount(0, $edgesQueryResult);
     }
 
@@ -697,8 +706,8 @@ class EdgeBasicTest extends
         $document1->someAttribute = 'someValue1';
         $document2->someAttribute = 'someValue2';
 
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document1);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -732,7 +741,7 @@ class EdgeBasicTest extends
         static::assertEquals($edgeDocument2, $edge->getId());
 
         // test empty result
-        $edgesQueryResult = $edgeDocumentHandler->inEdges($edgeCollection->getName(), 'ArangoDBPHPTestSuiteTestCollection01/foobar');
+        $edgesQueryResult = $edgeDocumentHandler->inEdges($edgeCollection->getName(), 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp . '/foobar');
         static::assertCount(0, $edgesQueryResult);
     }
 
@@ -753,8 +762,8 @@ class EdgeBasicTest extends
         $document1->someAttribute = 'someValue1';
         $document2->someAttribute = 'someValue2';
 
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document1);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -783,7 +792,7 @@ class EdgeBasicTest extends
 
         static::assertCount(2, $edgesQueryResult);
         foreach ($edgesQueryResult as $edge) {
-            static::assertInstanceOf('ArangoDBClient\Edge', $edge);
+            static::assertInstanceOf(Edge::class, $edge);
 
             if ($edge->value === 1) {
                 static::assertEquals($documentHandle1, $edge->getFrom());
@@ -797,19 +806,19 @@ class EdgeBasicTest extends
         }
 
         // test empty result
-        $edgesQueryResult = $edgeDocumentHandler->outEdges($edgeCollection->getName(), 'ArangoDBPHPTestSuiteTestCollection01/foobar');
+        $edgesQueryResult = $edgeDocumentHandler->outEdges($edgeCollection->getName(), 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp . '/foobar');
         static::assertCount(0, $edgesQueryResult);
     }
 
     public function tearDown()
     {
         try {
-            $this->collectionHandler->drop('ArangoDBPHPTestSuiteTestEdgeCollection01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             #don't bother us, if it's already deleted.
         }
         try {
-            $this->collectionHandler->drop('ArangoDBPHPTestSuiteTestCollection01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             #don't bother us, if it's already deleted.
         }

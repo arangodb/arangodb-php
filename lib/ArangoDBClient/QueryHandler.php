@@ -10,8 +10,7 @@
 
 namespace ArangoDBClient;
 
-class QueryHandler extends
-    Handler
+class QueryHandler extends Handler
 {
     /**
      * Clears the list of slow queries

@@ -18,8 +18,7 @@ namespace ArangoDBClient;
  * @package   ArangoDBClient
  * @since     1.2
  */
-class Vertex extends
-    Document
+class Vertex extends Document
 {
 
 }

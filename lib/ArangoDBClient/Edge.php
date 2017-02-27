@@ -18,8 +18,7 @@ namespace ArangoDBClient;
  * @package   ArangoDBClient
  * @since     1.0
  */
-class Edge extends
-    Document
+class Edge extends Document
 {
     /**
      * The edge's from (might be NULL for new documents)

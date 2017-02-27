@@ -20,12 +20,21 @@ namespace ArangoDBClient;
 class DatabaseTest extends
     \PHPUnit_Framework_TestCase
 {
+    protected static $testsTimestamp;
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        static::$testsTimestamp = str_replace('.', '_', (string) microtime(true));
+    }
+
+
     public function setUp()
     {
         $this->connection = getConnection();
 
         // remove existing databases to make test repeatable
-        $databases = ['ArangoTestSuiteDatabaseTest01', 'ArangoTestSuiteDatabaseTest02'];
+        $databases = ['ArangoTestSuiteDatabaseTest01' . '_' . static::$testsTimestamp, 'ArangoTestSuiteDatabaseTest02' . '_' . static::$testsTimestamp];
         foreach ($databases as $database) {
 
             try {
@@ -41,7 +50,7 @@ class DatabaseTest extends
     public function testCreateDatabaseDeleteIt()
     {
 
-        $database = 'ArangoTestSuiteDatabaseTest01';
+        $database = 'ArangoTestSuiteDatabaseTest01' . '_' . static::$testsTimestamp;
 
         try {
             $e = null;
@@ -53,13 +62,17 @@ class DatabaseTest extends
         $response = Database::create($this->connection, $database);
 
         static::assertEquals(
-            $response['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+            false,
+            $response['error'],
+            'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
 
         $response = Database::delete($this->connection, $database);
 
         static::assertEquals(
-            $response['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+            false,
+            $response['error'],
+            'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
 
         $response = Database::listDatabases($this->connection);
@@ -73,12 +86,14 @@ class DatabaseTest extends
     public function testCreateDatabaseGetListOfDatabasesAndDeleteItAgain()
     {
 
-        $database = 'ArangoTestSuiteDatabaseTest01';
+        $database = 'ArangoTestSuiteDatabaseTest01' . '_' . static::$testsTimestamp;
 
         $response = Database::create($this->connection, $database);
 
         static::assertEquals(
-            $response['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+            false,
+            $response['error'],
+            'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
 
 
@@ -94,7 +109,9 @@ class DatabaseTest extends
         $response = Database::delete($this->connection, $database);
 
         static::assertEquals(
-            $response['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+            false,
+            $response['error'],
+            'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
     }
 
@@ -105,30 +122,38 @@ class DatabaseTest extends
     public function testCreateDatabaseGetInfoOfDatabasesAndDeleteItAgain()
     {
 
-        $database = 'ArangoTestSuiteDatabaseTest01';
+        $database = 'ArangoTestSuiteDatabaseTest01' . '_' . static::$testsTimestamp;
 
         $response = Database::create($this->connection, $database);
 
         static::assertEquals(
-            $response['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+            false,
+            $response['error'],
+            'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
 
         $this->connection->setDatabase($database);
 
         $response = Database::getInfo($this->connection);
 
-        static::assertEquals($response['result']['name'], $database);
+        static::assertEquals(
+            $database,
+            $response['result']['name']
+        );
 
 
         $this->connection->setDatabase('_system');
 
         $response = Database::getInfo($this->connection);
-        static::assertEquals($response['result']['name'], '_system');
+        static::assertEquals(
+            '_system',
+            $response['result']['name']
+        );
 
         $response = Database::delete($this->connection, $database);
 
         static::assertEquals(
-            $response['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+            false, $response['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
     }
 
@@ -139,7 +164,7 @@ class DatabaseTest extends
     public function testDeleteNonExistentDatabase()
     {
 
-        $database = 'ArangoTestSuiteDatabaseTest01';
+        $database = 'ArangoTestSuiteDatabaseTest01' . '_' . static::$testsTimestamp;
 
 
         // Try to get a non-existent document out of a nonexistent collection
@@ -150,8 +175,12 @@ class DatabaseTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertInstanceOf(ServerException::class, $e);
+        static::assertEquals(
+            404,
+            $e->getCode(),
+            'Should be 404, instead got: ' . $e->getCode()
+        );
     }
 
 
@@ -161,8 +190,8 @@ class DatabaseTest extends
     public function testCreateDatabaseSwitchToItAndCreateAnotherOne()
     {
 
-        $database  = 'ArangoTestSuiteDatabaseTest01';
-        $database2 = 'ArangoTestSuiteDatabaseTest02';
+        $database  = 'ArangoTestSuiteDatabaseTest01' . '_' . static::$testsTimestamp;
+        $database2 = 'ArangoTestSuiteDatabaseTest02' . '_' . static::$testsTimestamp;
 
         try {
             $e = null;
@@ -174,7 +203,9 @@ class DatabaseTest extends
         $response = Database::create($this->connection, $database);
 
         static::assertEquals(
-            $response['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+            false,
+            $response['error'],
+            'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
 
 
@@ -183,7 +214,10 @@ class DatabaseTest extends
         $this->connection->setDatabase($database);
 
         $response = Database::getInfo($this->connection);
-        static::assertEquals($response['result']['name'], $database);
+        static::assertEquals(
+            $database,
+            $response['result']['name']
+        );
 
         try {
             $e = null;
@@ -191,26 +225,32 @@ class DatabaseTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
-        static::assertEquals($e->getCode(), 403, 'Should be 403, instead got: ' . $e->getCode());
+        static::assertInstanceOf(ServerException::class, $e);
+        static::assertEquals(
+            403,
+            $e->getCode(),
+            'Should be 403, instead got: ' . $e->getCode()
+        );
 
 
         $this->connection->setDatabase('_system');
 
         $response = Database::getInfo($this->connection);
-        static::assertEquals($response['result']['name'], '_system');
+        static::assertEquals('_system', $response['result']['name']);
 
         $response = Database::delete($this->connection, $database);
 
         static::assertEquals(
-            $response['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+            false,
+            $response['error'],
+            'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
     }
 
     public function tearDown()
     {
         // clean up
-        $databases = ['ArangoTestSuiteDatabaseTest01', 'ArangoTestSuiteDatabaseTest02'];
+        $databases = ['ArangoTestSuiteDatabaseTest01' . '_' . static::$testsTimestamp, 'ArangoTestSuiteDatabaseTest02' . '_' . static::$testsTimestamp];
         foreach ($databases as $database) {
 
             try {

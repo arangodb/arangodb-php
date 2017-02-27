@@ -20,8 +20,7 @@ namespace ArangoDBClient;
  * @package   ArangoDBClient
  * @since     1.2
  */
-class User extends
-    Document
+class User extends Document
 {
 
 }

@@ -72,14 +72,14 @@ class Document implements \JsonSerializable
     protected $_doValidate = false;
 
     /**
-     * Flag to indicate whether document was changed locally
+     * An array, that defines which attributes should be treated as hidden.
      *
-     * @var bool
+     * @var array
      */
     protected $_hiddenAttributes = [];
 
     /**
-     * Flag to indicate whether document was changed locally
+     * Flag to indicate whether hidden attributes should be ignored or included in returned data-sets
      *
      * @var bool
      */
@@ -636,7 +636,7 @@ class Document implements \JsonSerializable
         }
 
 
-        if (!preg_match('/^[a-zA-Z0-9_-]{1,64}\/[a-zA-Z0-9_:\.@\-()+,=;$!*\'%]{1,254}$/', $id)) {
+        if (!preg_match('/^[a-zA-Z0-9_-]{1,64}\/[a-zA-Z0-9_:.@\-()+,=;$!*\'%]{1,254}$/', $id)) {
             throw new ClientException('Invalid format for document id');
         }
 
@@ -660,7 +660,7 @@ class Document implements \JsonSerializable
             throw new ClientException('Should not update the key of an existing document');
         }
 
-        if (!preg_match('/^[a-zA-Z0-9_:\.@\-()+,=;$!*\'%]{1,254}$/', $key)) {
+        if (!preg_match('/^[a-zA-Z0-9_:.@\-()+,=;$!*\'%]{1,254}$/', $key)) {
             throw new ClientException('Invalid format for document key');
         }
 

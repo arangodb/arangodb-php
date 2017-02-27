@@ -24,13 +24,22 @@ class ConnectionTest extends
     \PHPUnit_Framework_TestCase
 {
 
+    protected static $testsTimestamp;
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        static::$testsTimestamp = str_replace('.', '_', (string) microtime(true));
+    }
+
+
     public function setUp()
     {
         $this->connection        = getConnection();
         $this->collectionHandler = new CollectionHandler($this->connection);
 
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestTracer');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestTracer' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             //Silence the exception
         }
@@ -42,7 +51,7 @@ class ConnectionTest extends
     public function testInitializeConnection()
     {
         $connection = getConnection();
-        static::assertInstanceOf('ArangoDBClient\Connection', $connection);
+        static::assertInstanceOf(Connection::class, $connection);
     }
 
 
@@ -53,7 +62,7 @@ class ConnectionTest extends
     {
         $connection = getConnection();
         $response   = $connection->get('/_admin/statistics');
-        static::assertEquals($response->getHttpCode(), 200, 'Did not return http code 200');
+        static::assertEquals(200, $response->getHttpCode(), 'Did not return http code 200');
     }
 
     /**
@@ -67,7 +76,7 @@ class ConnectionTest extends
         static::assertEquals(12, $value);
 
         $value = $connection->getOption(ConnectionOptions::OPTION_CONNECTION);
-        static::assertEquals('Close', $value);
+        static::assertEquals(getenv('ArangoDB-PHP-Connection'), $value);
 
         $value = $connection->getOption(ConnectionOptions::OPTION_RECONNECT);
         static::assertFalse($value);
@@ -236,7 +245,7 @@ class ConnectionTest extends
             // this is expected to fail
             $statement->execute();
         } catch (ClientException $exception) {
-            static::assertEquals($exception->getCode(), 408);
+            static::assertEquals(408, $exception->getCode());
             throw $exception;
         }
     }
@@ -333,7 +342,7 @@ class ConnectionTest extends
             $adminHandler->getServerVersion();
         } catch (ServerException $exception) {
             $excepted = true;
-            static::assertEquals($exception->getCode(), 401);
+            static::assertEquals(401, $exception->getCode());
         }
 
         static::assertTrue($excepted);
@@ -361,11 +370,11 @@ class ConnectionTest extends
         $collectionHandler = new CollectionHandler($connection);
 
         //Try creating a collection
-        $collectionHandler->create('ArangoDB_PHP_TestSuite_TestTracer');
+        $collectionHandler->create('ArangoDB_PHP_TestSuite_TestTracer' . '_' . static::$testsTimestamp);
 
         //Delete the collection
         try {
-            $collectionHandler->drop('ArangoDB_PHP_TestSuite_TestTracer');
+            $collectionHandler->drop('ArangoDB_PHP_TestSuite_TestTracer' . '_' . static::$testsTimestamp);
         } catch (Exception $e) {
         }
     }
@@ -427,11 +436,11 @@ class ConnectionTest extends
         $collectionHandler = new CollectionHandler($connection);
 
         //Try creating a collection
-        $collectionHandler->create('ArangoDB_PHP_TestSuite_TestTracer');
+        $collectionHandler->create('ArangoDB_PHP_TestSuite_TestTracer' . '_' . static::$testsTimestamp);
 
         //Delete the collection
         try {
-            $collectionHandler->drop('ArangoDB_PHP_TestSuite_TestTracer');
+            $collectionHandler->drop('ArangoDB_PHP_TestSuite_TestTracer' . '_' . static::$testsTimestamp);
         } catch (Exception $e) {
         }
     }
@@ -441,7 +450,7 @@ class ConnectionTest extends
         unset($this->connection);
 
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestTracer');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestTracer' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             //Silence the exception
         }

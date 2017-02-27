@@ -24,33 +24,42 @@ namespace ArangoDBClient;
 class EdgeExtendedTest extends
     \PHPUnit_Framework_TestCase
 {
+    protected static $testsTimestamp;
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        static::$testsTimestamp = str_replace('.', '_', (string) microtime(true));
+    }
+
+
     public function setUp()
     {
         $this->connection        = getConnection();
         $this->collectionHandler = new CollectionHandler($this->connection);
         $this->collection        = new Collection();
-        $this->collection->setName('ArangoDB_PHP_TestSuite_TestEdgeCollection_01');
+        $this->collection->setName('ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp);
         $this->collectionHandler->create($this->collection);
 
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_EdgeCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp);
         } catch (Exception $e) {
             //Silence the exception
         }
 
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_Collection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         } catch (Exception $e) {
             //Silence the exception
         }
 
         $this->edgeHandler    = new EdgeHandler($this->connection);
         $this->edgeCollection = new Collection();
-        $this->edgeCollection->setName('ArangoDBPHPTestSuiteTestEdgeCollection01');
+        $this->edgeCollection->setName('ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp);
         $this->edgeCollection->set('type', 3);
         $this->collectionHandler->create($this->edgeCollection);
         $this->documentCollection = new Collection();
-        $this->documentCollection->setName('ArangoDBPHPTestSuiteTestCollection01');
+        $this->documentCollection->setName('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         $this->collectionHandler->create($this->documentCollection);
     }
 
@@ -79,8 +88,8 @@ class EdgeExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertInstanceOf(ServerException::class, $e);
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to get a non-existent edge out of an existent collection
@@ -91,8 +100,8 @@ class EdgeExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertInstanceOf(ServerException::class, $e);
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to update a non-existent edge
@@ -103,8 +112,8 @@ class EdgeExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertInstanceOf(ServerException::class, $e);
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to replace a non-existent edge
@@ -115,8 +124,8 @@ class EdgeExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertInstanceOf(ServerException::class, $e);
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to remove a non-existent edge
@@ -127,8 +136,8 @@ class EdgeExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        static::assertInstanceOf('ArangoDBClient\ServerException', $e);
-        static::assertEquals($e->getCode(), 404, 'Should be 404, instead got: ' . $e->getCode());
+        static::assertInstanceOf(ServerException::class, $e);
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
     }
 
 
@@ -153,8 +162,8 @@ class EdgeExtendedTest extends
         $document2->someAttribute = 'someValue2';
 
 
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document1);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -177,10 +186,10 @@ class EdgeExtendedTest extends
         static::assertObjectHasAttribute('_id', $resultingEdge, '_id field should exist, empty or with an id');
 
         static::assertEquals(
-            $resultingEdge->labels, 'anything', 'Should be :anything, is: ' . $resultingEdge->labels
+            'anything', $resultingEdge->labels, 'Should be :anything, is: ' . $resultingEdge->labels
         );
         static::assertEquals(
-            $resultingEdge->label, 'knows', 'Should be :knows, is: ' . $resultingEdge->label
+            'knows', $resultingEdge->label, 'Should be :knows, is: ' . $resultingEdge->label
         );
         $response = $edgeHandler->remove($resultingEdge);
         static::assertTrue($response, 'Delete should return true!');
@@ -220,10 +229,10 @@ class EdgeExtendedTest extends
         static::assertObjectHasAttribute('_id', $resultingEdge, '_id field should exist, empty or with an id');
 
         static::assertEquals(
-            $resultingEdge->someAttribute, 'someValue', 'Should be :someValue, is: ' . $resultingEdge->someAttribute
+            'someValue', $resultingEdge->someAttribute, 'Should be :someValue, is: ' . $resultingEdge->someAttribute
         );
         static::assertEquals(
-            $resultingEdge->someOtherAttribute, 'someOtherValue2', 'Should be :someOtherValue2, is: ' . $resultingEdge->someOtherAttribute
+            'someOtherValue2', $resultingEdge->someOtherAttribute, 'Should be :someOtherValue2, is: ' . $resultingEdge->someOtherAttribute
         );
         $response = $edgeHandler->remove($resultingEdge);
         static::assertTrue($response, 'Delete should return true!');
@@ -251,8 +260,8 @@ class EdgeExtendedTest extends
         $document2->someAttribute = 'someValue2';
 
 
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document1);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -275,10 +284,10 @@ class EdgeExtendedTest extends
         static::assertObjectHasAttribute('_id', $resultingEdge, '_id field should exist, empty or with an id');
 
         static::assertEquals(
-            $resultingEdge->label, null, 'Should be : null, is: ' . $resultingEdge->label
+            null, $resultingEdge->label, 'Should be : null, is: ' . $resultingEdge->label
         );
         static::assertEquals(
-            $resultingEdge->labels, 'anything', 'Should be :anything, is: ' . $resultingEdge->labels
+            'anything', $resultingEdge->labels, 'Should be :anything, is: ' . $resultingEdge->labels
         );
         $response = $edgeHandler->remove($resultingEdge);
         static::assertTrue($response, 'Delete should return true!');
@@ -306,8 +315,8 @@ class EdgeExtendedTest extends
         $document2->someAttribute = 'someValue2';
 
 
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document1);
-        $documentHandler->save('ArangoDBPHPTestSuiteTestCollection01', $document2);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document1);
+        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document2);
         $documentHandle1 = $document1->getHandle();
         $documentHandle2 = $document2->getHandle();
 
@@ -336,13 +345,13 @@ class EdgeExtendedTest extends
         static::assertObjectHasAttribute('_id', $resultingEdge, '_id field should exist, empty or with an id');
 
         static::assertEquals(
-            $resultingEdge->label, null, 'Should be :null, is: ' . $resultingEdge->label
+            null, $resultingEdge->label, 'Should be :null, is: ' . $resultingEdge->label
         );
         static::assertEquals(
-            $resultingEdge->labelt, null, 'Should be :null, is: ' . $resultingEdge->labelt
+            null, $resultingEdge->labelt, 'Should be :null, is: ' . $resultingEdge->labelt
         );
 
-        static::assertEquals($resultingEdge->labels, 'as');
+        static::assertEquals('as', $resultingEdge->labels);
 
         $response = $edgeHandler->remove($resultingEdge);
         static::assertTrue($response, 'Delete should return true!');
@@ -380,10 +389,10 @@ class EdgeExtendedTest extends
         static::assertObjectHasAttribute('_id', $resultingEdge, '_id field should exist, empty or with an id');
 
         static::assertEquals(
-            $resultingEdge->someAttribute, 'someValue2', 'Should be :someValue2, is: ' . $resultingEdge->someAttribute
+            'someValue2', $resultingEdge->someAttribute, 'Should be :someValue2, is: ' . $resultingEdge->someAttribute
         );
         static::assertEquals(
-            $resultingEdge->someOtherAttribute, 'someOtherValue2', 'Should be :someOtherValue2, is: ' . $resultingEdge->someOtherAttribute
+            'someOtherValue2', $resultingEdge->someOtherAttribute, 'Should be :someOtherValue2, is: ' . $resultingEdge->someOtherAttribute
         );
 
         $response = $edgeHandler->remove($resultingEdge);
@@ -394,23 +403,23 @@ class EdgeExtendedTest extends
     public function tearDown()
     {
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdgeCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
 
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdgeCollection_02');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdgeCollection_02' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
         try {
-            $this->collectionHandler->drop('ArangoDBPHPTestSuiteTestEdgeCollection01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
         try {
-            $this->collectionHandler->drop('ArangoDBPHPTestSuiteTestCollection01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }

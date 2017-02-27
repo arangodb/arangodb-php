@@ -20,19 +20,28 @@ namespace ArangoDBClient;
 class CollectionBasicTest extends
     \PHPUnit_Framework_TestCase
 {
+    protected static $testsTimestamp;
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        static::$testsTimestamp = str_replace('.', '_', (string) microtime(true));
+    }
+
+
     public function setUp()
     {
         $this->connection        = getConnection();
         $this->collectionHandler = new CollectionHandler($this->connection);
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_IndexTestCollection');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp);
         } catch (Exception $e) {
             //Silence the exception
         }
-        $this->collectionHandler->create('ArangoDB_PHP_TestSuite_IndexTestCollection');
+        $this->collectionHandler->create('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp);
 
         $adminHandler = new AdminHandler($this->connection);
-        $version      = preg_replace("/-[a-z0-9]+$/", '', $adminHandler->getServerVersion());
+        $version      = preg_replace('/-[a-z0-9]+$/', '', $adminHandler->getServerVersion());
 
         $this->hasSparseIndexes        = (version_compare($version, '2.5.0') >= 0);
         $this->hasSelectivityEstimates = (version_compare($version, '2.5.0') >= 0);
@@ -55,9 +64,9 @@ class CollectionBasicTest extends
     {
         $connection = $this->connection;
         $collection = new Collection();
-        static::assertInstanceOf('ArangoDBClient\Collection', $collection);
+        static::assertInstanceOf(Collection::class, $collection);
         new CollectionHandler($connection);
-        static::assertInstanceOf('ArangoDBClient\Collection', $collection);
+        static::assertInstanceOf(Collection::class, $collection);
     }
 
 
@@ -94,7 +103,7 @@ class CollectionBasicTest extends
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
 
-        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
 
         try {
             $collectionHandler->drop($name);
@@ -111,7 +120,7 @@ class CollectionBasicTest extends
 
         $resultingAttribute = $resultingCollection->getName();
         static::assertSame(
-            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
+            $resultingAttribute, $name, 'The created collection name and resulting collection name do not match!'
         );
 
         static::assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
@@ -133,7 +142,7 @@ class CollectionBasicTest extends
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
 
-        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
 
         try {
             $collectionHandler->drop($name);
@@ -150,25 +159,25 @@ class CollectionBasicTest extends
         $resultingCollection = $collectionHandler->getProperties($response);
         $properties          = $resultingCollection->getAll();
 
-        static::assertEquals($properties[Collection::ENTRY_STATUS], 3, 'Status does not match.');
+        static::assertEquals(3, $properties[Collection::ENTRY_STATUS], 'Status does not match.');
         static::assertEquals(
-            $properties[Collection::ENTRY_KEY_OPTIONS]['type'],
             'autoincrement',
+            $properties[Collection::ENTRY_KEY_OPTIONS]['type'],
             'Key options type does not match'
         );
         static::assertEquals(
-            $properties[Collection::ENTRY_KEY_OPTIONS]['allowUserKeys'],
             false,
+            $properties[Collection::ENTRY_KEY_OPTIONS]['allowUserKeys'],
             'Key options allowUserKeys does not match'
         );
         static::assertEquals(
-            $properties[Collection::ENTRY_KEY_OPTIONS]['increment'],
             5,
+            $properties[Collection::ENTRY_KEY_OPTIONS]['increment'],
             'Key options increment does not match'
         );
         static::assertEquals(
-            $properties[Collection::ENTRY_KEY_OPTIONS]['offset'],
             10,
+            $properties[Collection::ENTRY_KEY_OPTIONS]['offset'],
             'Key options offset does not match'
         );
         $collectionHandler->drop($collection);
@@ -189,7 +198,7 @@ class CollectionBasicTest extends
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
 
-        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
 
         try {
             $collectionHandler->drop($name);
@@ -207,7 +216,7 @@ class CollectionBasicTest extends
         } catch (\Exception $e) {
         }
 
-        static::assertEquals($e->getCode(), 501);
+        static::assertEquals(501, $e->getCode());
     }
 
 
@@ -225,7 +234,7 @@ class CollectionBasicTest extends
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
 
-        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
 
         try {
             $collectionHandler->drop($name);
@@ -241,8 +250,8 @@ class CollectionBasicTest extends
         $resultingCollection = $collectionHandler->getProperties($response);
         $properties          = $resultingCollection->getAll();
 
-        static::assertEquals($properties[Collection::ENTRY_NUMBER_OF_SHARDS], 4, 'Number of shards does not match.');
-        static::assertEquals($properties[Collection::ENTRY_SHARD_KEYS], ['_key'], 'Shard keys do not match.');
+        static::assertEquals(4, $properties[Collection::ENTRY_NUMBER_OF_SHARDS], 'Number of shards does not match.');
+        static::assertEquals(['_key'], $properties[Collection::ENTRY_SHARD_KEYS], 'Shard keys do not match.');
     }
 
 
@@ -260,7 +269,7 @@ class CollectionBasicTest extends
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
 
-        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
 
         try {
             $collectionHandler->drop($name);
@@ -276,13 +285,15 @@ class CollectionBasicTest extends
         $resultingCollection = $collectionHandler->getProperties($response);
         $properties          = $resultingCollection->getAll();
 
-        static::assertEquals($properties[Collection::ENTRY_NUMBER_OF_SHARDS], 1, 'Number of shards does not match.');
+        static::assertEquals(1, $properties[Collection::ENTRY_NUMBER_OF_SHARDS], 'Number of shards does not match.');
         static::assertEquals(
-            $properties[Collection::ENTRY_SHARD_KEYS], [
-            '_key',
-            'a',
-            'b'
-        ], 'Shard keys do not match.'
+            [
+                '_key',
+                'a',
+                'b'
+            ],
+            $properties[Collection::ENTRY_SHARD_KEYS],
+            'Shard keys do not match.'
         );
     }
 
@@ -296,7 +307,7 @@ class CollectionBasicTest extends
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
 
-        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01';
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
 
         try {
             $collectionHandler->drop($name);
@@ -311,7 +322,7 @@ class CollectionBasicTest extends
 
         $resultingAttribute = $resultingCollection->getName();
         static::assertSame(
-            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
+            $resultingAttribute, $name, 'The created collection name and resulting collection name do not match!'
         );
 
         static::assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
@@ -329,7 +340,7 @@ class CollectionBasicTest extends
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
 
-        $name = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_02' . '_' . static::$testsTimestamp;
 
         try {
             $collectionHandler->drop($name);
@@ -345,7 +356,7 @@ class CollectionBasicTest extends
 
         $resultingAttribute = $resultingCollection->getName();
         static::assertSame(
-            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
+            $resultingAttribute, $name, 'The created collection name and resulting collection name do not match!'
         );
 
         static::assertEquals(Collection::TYPE_EDGE, $resultingCollection->getType());
@@ -362,7 +373,7 @@ class CollectionBasicTest extends
         $connection        = $this->connection;
         $collectionHandler = new CollectionHandler($connection);
 
-        $name = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_02' . '_' . static::$testsTimestamp;
 
         try {
             $collectionHandler->drop($name);
@@ -377,7 +388,7 @@ class CollectionBasicTest extends
 
         $resultingAttribute = $resultingCollection->getName();
         static::assertSame(
-            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
+            $resultingAttribute, $name, 'The created collection name and resulting collection name do not match!'
         );
 
         static::assertEquals(Collection::TYPE_EDGE, $resultingCollection->getType());
@@ -394,7 +405,7 @@ class CollectionBasicTest extends
         $connection        = $this->connection;
         $collectionHandler = new CollectionHandler($connection);
 
-        $name = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_02' . '_' . static::$testsTimestamp;
 
         try {
             $collectionHandler->drop($name);
@@ -408,7 +419,7 @@ class CollectionBasicTest extends
 
         $resultingAttribute = $resultingCollection->getName();
         static::assertSame(
-            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
+            $resultingAttribute, $name, 'The created collection name and resulting collection name do not match!'
         );
         $resultingCollectionProperties = $collectionHandler->getProperties($name);
         static::assertTrue($resultingCollectionProperties->getIsVolatile());
@@ -425,7 +436,7 @@ class CollectionBasicTest extends
         $connection        = $this->connection;
         $collectionHandler = new CollectionHandler($connection);
 
-        $name = '_ArangoDB_PHP_TestSuite_TestCollection_02';
+        $name = '_ArangoDB_PHP_TestSuite_TestCollection_02' . '_' . static::$testsTimestamp;
 
         try {
             $collectionHandler->drop($name, ['isSystem' => true]);
@@ -440,7 +451,7 @@ class CollectionBasicTest extends
 
         $resultingAttribute = $resultingCollection->getName();
         static::assertSame(
-            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
+            $resultingAttribute, $name, 'The created collection name and resulting collection name do not match!'
         );
         $resultingCollectionProperties = $collectionHandler->getProperties($name);
         static::assertTrue($resultingCollectionProperties->getIsSystem());
@@ -457,14 +468,14 @@ class CollectionBasicTest extends
     public function testCreateGeo1Index()
     {
         $result = $this->collectionHandler->createGeoIndex(
-            'ArangoDB_PHP_TestSuite_IndexTestCollection',
+            'ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp,
             ['combinedGeo'],
             true,
             true,
             true
         );
 
-        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp);
 
         $indicesByIdentifiers = $indices['identifiers'];
 
@@ -485,14 +496,14 @@ class CollectionBasicTest extends
     public function testCreateGeo2Index()
     {
         $result = $this->collectionHandler->createGeoIndex(
-            'ArangoDB_PHP_TestSuite_IndexTestCollection',
+            'ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp,
             ['lat', 'long'],
             false,
             false,
             false
         );
 
-        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp);
 
         $indicesByIdentifiers = $indices['identifiers'];
 
@@ -524,12 +535,12 @@ class CollectionBasicTest extends
     public function testCreateHashIndex()
     {
         $result = $this->collectionHandler->createHashIndex(
-            'ArangoDB_PHP_TestSuite_IndexTestCollection',
+            'ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp,
             ['hashfield1', 'hashfield2'],
             true
         );
 
-        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp);
 
         $indicesByIdentifiers = $indices['identifiers'];
 
@@ -562,13 +573,13 @@ class CollectionBasicTest extends
     public function testCreateSparseHashIndex()
     {
         $result = $this->collectionHandler->createHashIndex(
-            'ArangoDB_PHP_TestSuite_IndexTestCollection',
+            'ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp,
             ['hashfield1', 'hashfield2'],
             false,
             ['sparse' => true]
         );
 
-        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp);
 
         $indicesByIdentifiers = $indices['identifiers'];
 
@@ -601,12 +612,12 @@ class CollectionBasicTest extends
     public function testCreateFulltextIndex()
     {
         $result = $this->collectionHandler->createFulltextIndex(
-            'ArangoDB_PHP_TestSuite_IndexTestCollection',
+            'ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp,
             ['fulltextfield'],
             5
         );
 
-        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp);
 
         $indicesByIdentifiers = $indices['identifiers'];
 
@@ -631,12 +642,12 @@ class CollectionBasicTest extends
     public function testCreateSkipListIndex()
     {
         $result = $this->collectionHandler->createSkipListIndex(
-            'ArangoDB_PHP_TestSuite_IndexTestCollection',
+            'ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp,
             ['skiplistfield1', 'skiplistfield2'],
             true
         );
 
-        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp);
 
         $indicesByIdentifiers = $indices['identifiers'];
 
@@ -665,13 +676,13 @@ class CollectionBasicTest extends
     public function testCreateSparseSkipListIndex()
     {
         $result = $this->collectionHandler->createSkipListIndex(
-            'ArangoDB_PHP_TestSuite_IndexTestCollection',
+            'ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp,
             ['skiplistfield1', 'skiplistfield2'],
             false,
             ['sparse' => true]
         );
 
-        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp);
 
         $indicesByIdentifiers = $indices['identifiers'];
 
@@ -700,12 +711,12 @@ class CollectionBasicTest extends
     public function testCreatePersistentIndex()
     {
         $result = $this->collectionHandler->createPersistentIndex(
-            'ArangoDB_PHP_TestSuite_IndexTestCollection',
+            'ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp,
             ['field1', 'field2'],
             true
         );
 
-        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp);
 
         $indicesByIdentifiers = $indices['identifiers'];
 
@@ -734,13 +745,13 @@ class CollectionBasicTest extends
     public function testCreateSparsePersistentIndex()
     {
         $result = $this->collectionHandler->createPersistentIndex(
-            'ArangoDB_PHP_TestSuite_IndexTestCollection',
+            'ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp,
             ['field1', 'field2'],
             false,
             ['sparse' => true]
         );
 
-        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection');
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp);
 
         $indicesByIdentifiers = $indices['identifiers'];
 
@@ -769,15 +780,15 @@ class CollectionBasicTest extends
     public function testGetIndex()
     {
         $result = $this->collectionHandler->createFulltextIndex(
-            'ArangoDB_PHP_TestSuite_IndexTestCollection',
+            'ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp,
             ['testGetIndexField'],
             100
         );
 
         //Parse for the index's key
-        $key = str_replace('ArangoDB_PHP_TestSuite_IndexTestCollection/', '', $result['id']);
+        $key = str_replace('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp . '/', '', $result['id']);
 
-        $indexInfo = $this->collectionHandler->getIndex('ArangoDB_PHP_TestSuite_IndexTestCollection', $key);
+        $indexInfo = $this->collectionHandler->getIndex('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp, $key);
 
         static::assertEquals(
             CollectionHandler::OPTION_FULLTEXT_INDEX,
@@ -796,13 +807,13 @@ class CollectionBasicTest extends
 
     public function testHasCollectionReturnsTrueIfCollectionExists()
     {
-        static::assertTrue($this->collectionHandler->has('ArangoDB_PHP_TestSuite_IndexTestCollection'));
+        static::assertTrue($this->collectionHandler->has('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp));
     }
 
     public function tearDown()
     {
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_IndexTestCollection');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp);
         } catch (Exception $e) {
             //Silence the exception
         }

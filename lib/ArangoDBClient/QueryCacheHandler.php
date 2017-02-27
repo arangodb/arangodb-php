@@ -10,8 +10,7 @@
 
 namespace ArangoDBClient;
 
-class QueryCacheHandler extends
-    Handler
+class QueryCacheHandler extends Handler
 {
 
     /**

@@ -21,8 +21,7 @@ namespace ArangoDBClient;
  * @package   ArangoDBClient
  * @since     0.2
  */
-class ConnectionOptions implements
-    \ArrayAccess
+class ConnectionOptions implements \ArrayAccess
 {
     /**
      * The current options

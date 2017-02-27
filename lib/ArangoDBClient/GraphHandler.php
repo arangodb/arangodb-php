@@ -20,8 +20,7 @@ namespace ArangoDBClient;
  * @package ArangoDBClient
  * @since   1.2
  */
-class GraphHandler extends
-    Handler
+class GraphHandler extends Handler
 {
     /**
      * documents array index
@@ -251,7 +250,7 @@ class GraphHandler extends
      * @throws Exception
      *
      * @param mixed $graph           - graph name as a string or instance of Graph
-     * @param bool  $dropCollections - if set to false the graphs collections will not be droped.
+     * @param bool  $dropCollections - if set to false the graphs collections will not be dropped.
      *
      * @return bool - always true, will throw if there is an error
      * @since 1.2

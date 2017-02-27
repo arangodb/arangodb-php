@@ -19,6 +19,15 @@ namespace ArangoDBClient;
 class BatchTest extends
     \PHPUnit_Framework_TestCase
 {
+    protected static $testsTimestamp;
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        static::$testsTimestamp = str_replace('.', '_', (string) microtime(true));
+    }
+
+
     public function setUp()
     {
         $this->connection = getConnection();
@@ -27,23 +36,23 @@ class BatchTest extends
         $this->collectionHandler = new CollectionHandler($this->connection);
 
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
-            // don't bother us, if it's already dropd.
+            // don't bother us, if it's already dropped.
         }
 
         $this->collection = new Collection();
-        $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
+        $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         $this->collectionHandler->create($this->collection);
 
         try {
-            $this->collectionHandler->drop('ArangoDBPHPTestSuiteTestEdgeCollection01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
-            #don't bother us, if it's already dropd.
+            //don't bother us, if it's already dropped.
         }
 
         $this->edgeCollection = new Collection();
-        $this->edgeCollection->setName('ArangoDBPHPTestSuiteTestEdgeCollection01');
+        $this->edgeCollection->setName('ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp);
         $this->edgeCollection->set('type', 3);
         $this->collectionHandler->create($this->edgeCollection);
     }
@@ -88,7 +97,7 @@ class BatchTest extends
 
         for ($i = 0; $i < 10; ++$i) {
             $part = $batch->getPart('doc' . $i);
-            static::assertInstanceOf('\ArangoDBClient\BatchPart', $part);
+            static::assertInstanceOf(BatchPart::class, $part);
 
             static::assertEquals('doc' . $i, $part->getId());
             static::assertEquals(202, $part->getHttpCode());
@@ -110,7 +119,7 @@ class BatchTest extends
     {
         try {
             // clean up first
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_02');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_02' . '_' . static::$testsTimestamp);
         } catch (Exception $e) {
         }
 
@@ -118,12 +127,12 @@ class BatchTest extends
         static::assertEquals(0, $batch->countParts());
 
         $collection = new Collection();
-        $name       = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        $name       = 'ArangoDB_PHP_TestSuite_TestCollection_02' . '_' . static::$testsTimestamp;
         $collection->setName($name);
         $this->collectionHandler->create($collection);
 
         $part = $batch->getPart(0);
-        static::assertInstanceOf('\ArangoDBClient\BatchPart', $part);
+        static::assertInstanceOf(BatchPart::class, $part);
         static::assertEquals(202, $part->getHttpCode());
 
         // call process once (this does not clear the batch)
@@ -149,7 +158,7 @@ class BatchTest extends
         // not needed, but just here to test if anything goes wrong if it's called again...
         $batch->startCapture();
 
-        static::assertInstanceOf('\ArangoDBClient\Batch', $batch);
+        static::assertInstanceOf(Batch::class, $batch);
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
@@ -157,7 +166,7 @@ class BatchTest extends
         );
         $documentId = $documentHandler->save($this->collection->getId(), $document);
 
-        static::assertInstanceOf('\ArangoDBClient\BatchPart', $documentId, 'Did not return a BatchPart Object!');
+        static::assertInstanceOf(BatchPart::class, $documentId, 'Did not return a BatchPart Object!');
 
         $batchPartId = $documentId->getId();
 
@@ -166,7 +175,7 @@ class BatchTest extends
         );
         $documentId = $documentHandler->save($this->collection->getId(), $document);
 
-        static::assertInstanceOf('\ArangoDBClient\BatchPart', $documentId, 'Did not return a BatchPart Object!');
+        static::assertInstanceOf(BatchPart::class, $documentId, 'Did not return a BatchPart Object!');
 
         $batch->process();
 
@@ -186,7 +195,7 @@ class BatchTest extends
         // not needed, but just here to test if anything goes wrong if it's called again...
         $batch->startCapture();
 
-        static::assertInstanceOf('\ArangoDBClient\Batch', $batch);
+        static::assertInstanceOf(Batch::class, $batch);
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
@@ -194,16 +203,16 @@ class BatchTest extends
         );
         $documentId = $documentHandler->save($this->collection->getId(), $document);
 
-        static::assertInstanceOf('\ArangoDBClient\BatchPart', $documentId, 'Did not return a BatchPart Object!');
+        static::assertInstanceOf(BatchPart::class, $documentId, 'Did not return a BatchPart Object!');
 
         $document   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
         $documentId = $documentHandler->save($this->collection->getId(), $document);
 
-        static::assertInstanceOf('\ArangoDBClient\BatchPart', $documentId, 'Did not return a BatchPart Object!');
+        static::assertInstanceOf(BatchPart::class, $documentId, 'Did not return a BatchPart Object!');
 
-        static::assertEquals($batch->getConnectionCaptureMode($this->connection), true);
+        static::assertEquals(true, $batch->getConnectionCaptureMode($this->connection));
 
         $batch->stopCapture();
 
@@ -238,7 +247,7 @@ class BatchTest extends
         // not needed, but just here to test if anything goes wrong if it's called again...
         $batch->startCapture();
 
-        static::assertInstanceOf('\ArangoDBClient\Batch', $batch);
+        static::assertInstanceOf(Batch::class, $batch);
         $documentHandler = $this->documentHandler;
 
         $document   = Document::createFromArray(
@@ -246,7 +255,7 @@ class BatchTest extends
         );
         $documentId = $documentHandler->save($this->collection->getId(), $document);
 
-        static::assertInstanceOf('\ArangoDBClient\BatchPart', $documentId, 'Did not return a BatchPart Object!');
+        static::assertInstanceOf(BatchPart::class, $documentId, 'Did not return a BatchPart Object!');
 
         $document = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
@@ -257,7 +266,7 @@ class BatchTest extends
             // don't bother us, just give us the $e
         }
         static::assertInstanceOf(
-            'RuntimeException',
+            \RuntimeException::class,
             $e,
             'Exception thrown was not a RuntimeException!'
         );
@@ -270,14 +279,14 @@ class BatchTest extends
         $edgeCollection = $this->edgeCollection;
 
         $batch = new Batch($this->connection);
-        static::assertInstanceOf('\ArangoDBClient\Batch', $batch);
+        static::assertInstanceOf(Batch::class, $batch);
 
         // Create collection
         $connection        = $this->connection;
         $collection        = new Collection();
         $collectionHandler = new CollectionHandler($connection);
 
-        $name = 'ArangoDB_PHP_TestSuite_TestCollection_02';
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_02' . '_' . static::$testsTimestamp;
         $collection->setName($name);
 
         $batch->nextBatchPartId('testCollection1');
@@ -288,12 +297,12 @@ class BatchTest extends
 
         $resultingCollectionId = $batch->getProcessedPartResponse('testCollection1');
         $testCollection1Part   = $batch->getPart('testCollection1');
-        static::assertEquals($testCollection1Part->getHttpCode(), 200, 'Did not return an HttpCode 200!');
+        static::assertEquals(200, $testCollection1Part->getHttpCode(), 'Did not return an HttpCode 200!');
         $resultingCollection = $collectionHandler->get($batch->getProcessedPartResponse('testCollection1'));
 
         $resultingAttribute = $resultingCollection->getName();
         static::assertSame(
-            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
+            $resultingAttribute, $name, 'The created collection name and resulting collection name do not match!'
         );
 
         static::assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
@@ -309,9 +318,9 @@ class BatchTest extends
         );
         $documentBatchPart = $documentHandler->save($resultingCollectionId, $document);
 
-        static::assertEquals($documentBatchPart->getType(), 'document');
+        static::assertEquals('document', $documentBatchPart->getType());
 
-        static::assertInstanceOf('\ArangoDBClient\BatchPart', $documentBatchPart, 'Did not return a BatchPart Object!');
+        static::assertInstanceOf(BatchPart::class, $documentBatchPart, 'Did not return a BatchPart Object!');
 
         for ($i = 0; $i <= 10; ++$i) {
             $document          = Document::createFromArray(
@@ -322,7 +331,7 @@ class BatchTest extends
             );
             $documentBatchPart = $documentHandler->save($resultingCollectionId, $document);
         }
-        static::assertInstanceOf('\ArangoDBClient\BatchPart', $documentBatchPart, 'Did not return a BatchPart Object!');
+        static::assertInstanceOf(BatchPart::class, $documentBatchPart, 'Did not return a BatchPart Object!');
 
         $batch->process();
 
@@ -363,10 +372,10 @@ class BatchTest extends
 
 
         static::assertFalse(
-            is_a($edge, 'ArangoDBClient\HttpResponse'),
+            is_a($edge, HttpResponse::class),
             'Edge batch creation did return an error: ' . print_r($edge, true)
         );
-        static::assertNotSame($edge, '', 'Edge batch creation did return empty string: ' . print_r($edge, true));
+        static::assertNotSame('', $edge, 'Edge batch creation did return empty string: ' . print_r($edge, true));
 
 
         $batch = new Batch($this->connection);
@@ -397,7 +406,7 @@ class BatchTest extends
             ]
         );
 
-        $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_02` RETURN a');
+        $statement->setQuery('FOR a IN `ArangoDB_PHP_TestSuite_TestCollection_02' . '_' . static::$testsTimestamp . '` RETURN a');
         $statement->execute();
 
         $documentHandler->removeById($resultingCollectionId, $docId1[1]);
@@ -434,19 +443,19 @@ class BatchTest extends
     public function tearDown()
     {
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
-            // don't bother us, if it's already dropd.
+            // don't bother us, if it's already dropped.
         }
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_02');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_02' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
-            // don't bother us, if it's already dropd.
+            // don't bother us, if it's already dropped.
         }
         try {
-            $this->collectionHandler->drop('ArangoDBPHPTestSuiteTestEdgeCollection01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
-            #don't bother us, if it's already dropd.
+            //don't bother us, if it's already dropped.
         }
 
         unset($this->collectionHandlerm, $this->collection, $this->connection);

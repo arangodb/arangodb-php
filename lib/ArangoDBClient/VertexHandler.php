@@ -21,8 +21,7 @@ namespace ArangoDBClient;
  * @package   ArangoDBClient
  * @since     1.2
  */
-class VertexHandler extends
-    DocumentHandler
+class VertexHandler extends DocumentHandler
 {
     /**
      * Intermediate function to call the createFromArray function from the right context

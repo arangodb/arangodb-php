@@ -22,6 +22,14 @@ namespace ArangoDBClient;
 class AqlUserFunctionTest extends
     \PHPUnit_Framework_TestCase
 {
+    protected static $testsTimestamp;
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        static::$testsTimestamp = str_replace('.', '', (string) microtime(true));
+    }
+
     public function setUp()
     {
         $this->connection = getConnection();
@@ -44,7 +52,7 @@ class AqlUserFunctionTest extends
     }
 
     /**
-     * Filters a list of functions. only functions in namespace "phpTestFunctions::" will be returned
+     * Filters a list of functions. only functions in namespace "phpTestFunctions::'.  static::$testsTimestamp.'::" will be returned
      *
      * @param $list
      *
@@ -66,9 +74,9 @@ class AqlUserFunctionTest extends
     /**
      * Test if AqlUserFunctions can be registered, listed and unregistered
      */
-    public function testRegisterListAndUnregisterAqlUserFunctionWithInitialConfig()
+    public function testRegisterListAndUnRegisterAqlUserFunctionWithInitialConfig()
     {
-        $name = 'phpTestFunctions::myFunction';
+        $name = 'phpTestFunctions' . static::$testsTimestamp . '::myFunction';
         $code = 'function (celsius) { return celsius * 1.8 + 32; }';
 
         $array = [
@@ -81,12 +89,12 @@ class AqlUserFunctionTest extends
         $result = $userFunction->register();
 
         static::assertEquals(
-            $result['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+            false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
         $list = $this->filter($userFunction->getRegisteredUserFunctions());
 
 
-        static::assertCount(1, $list, 'List returned did not return expected 1 attribute');
+        static::assertCount(1, $list, 'List returned did not return expected 1 attribute (This might happen, if tests are run in parallel)');
         static::assertTrue(
             $list[0]['name'] === $name && $list[0]['code'] === $code,
             'did not return expected Function. Instead returned: ' . $list[0]['name'] . ' and ' . $list[0]['code']
@@ -95,17 +103,17 @@ class AqlUserFunctionTest extends
         $result = $userFunction->unregister();
 
         static::assertEquals(
-            $result['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+            false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
     }
 
     /**
      * Test if AqlUserFunctions can be registered, listed and unregistered using the register() shortcut method
      */
-    public function testRegisterListAndUnregisterAqlUserFunctionUsingShortcut()
+    public function testRegisterListAndUnRegisterAqlUserFunctionUsingShortcut()
     {
 
-        $name = 'phpTestFunctions::myFunction';
+        $name = 'phpTestFunctions' . static::$testsTimestamp . '::myFunction';
         $code = 'function (celsius) { return celsius * 1.8 + 32; }';
 
         $userFunction = new AqlUserFunction($this->connection);
@@ -113,11 +121,11 @@ class AqlUserFunctionTest extends
         $result = $userFunction->register($name, $code);
 
         static::assertEquals(
-            $result['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+            false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
         $list = $this->filter($userFunction->getRegisteredUserFunctions());
 
-        static::assertCount(1, $list, 'List returned did not return expected 1 attribute');
+        static::assertCount(1, $list, 'List returned did not return expected 1 attribute (This might happen, if tests are run in parallel)');
         static::assertTrue(
             $list[0]['name'] === $name && $list[0]['code'] === $code,
             'did not return expected Function. Instead returned: ' . $list[0]['name'] . ' and ' . $list[0]['code']
@@ -126,7 +134,7 @@ class AqlUserFunctionTest extends
         $result = $userFunction->unregister($name);
 
         static::assertEquals(
-            $result['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+            false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
     }
 
@@ -135,7 +143,7 @@ class AqlUserFunctionTest extends
      */
     public function testRegisterListAndUnRegisterAqlUserFunctionWithGettersAndSetters()
     {
-        $name = 'phpTestFunctions::myFunction';
+        $name = 'phpTestFunctions' . static::$testsTimestamp . '::myFunction';
         $code = 'function (celsius) { return celsius * 1.8 + 32; }';
 
         $userFunction = new AqlUserFunction($this->connection);
@@ -146,28 +154,28 @@ class AqlUserFunctionTest extends
 
         // check if getters work fine
         static::assertEquals(
-            $userFunction->getName(), $name, 'Did not return name, instead returned: ' . $userFunction->getName()
+            $name, $userFunction->getName(), 'Did not return name, instead returned: ' . $userFunction->getName()
         );
         static::assertEquals(
-            $userFunction->getCode(), $code, 'Did not return code, instead returned: ' . $userFunction->getCode()
+            $code, $userFunction->getCode(), 'Did not return code, instead returned: ' . $userFunction->getCode()
         );
 
 
         // also check setters/getters if wrong/no attribute is given
         static::assertEquals(
-            $userFunction->getFakeAttributeName, null, 'Getter with unknown attribute did not return null, instead returned: ' . $userFunction->getFakeAttributeName
+            null, $userFunction->getFakeAttributeName, 'Getter with unknown attribute did not return null, instead returned: ' . $userFunction->getFakeAttributeName
         );
 
         static::assertEquals(
-            $userFunction->setFakeAttributeName, null, 'Setter with unknown attribute did not return chainable object, instead returned..: ' . $userFunction->setFakeAttributeName
+            null, $userFunction->setFakeAttributeName, 'Setter with unknown attribute did not return chainable object, instead returned..: ' . $userFunction->setFakeAttributeName
         );
 
         // Check setting/getting class properties via set/get methods
         static::assertSame(
-            $userFunction->set('FakeAttributeName', 1), $userFunction, 'Set-method did not return chainable object'
+            $userFunction, $userFunction->set('FakeAttributeName', 1), 'Set-method did not return chainable object'
         );
         static::assertSame(
-            $userFunction->get('FakeAttributeName'), 1, 'Get-method did not return previously set property'
+            1, $userFunction->get('FakeAttributeName'), 'Get-method did not return previously set property'
         );
 
         // Check giving the set method a non-string key
@@ -184,7 +192,7 @@ class AqlUserFunctionTest extends
         $result = $userFunction->register();
 
         static::assertEquals(
-            $result['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+            false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
         $list = $this->filter($userFunction->getRegisteredUserFunctions());
         static::assertCount(1, $list, 'List returned did not return expected 1 attribute');
@@ -196,7 +204,7 @@ class AqlUserFunctionTest extends
         $result = $userFunction->unregister();
 
         static::assertEquals(
-            $result['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+            false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
     }
 
@@ -204,10 +212,10 @@ class AqlUserFunctionTest extends
     /**
      * Test if AqlUserFunctions can be registered, listed and unregistered
      */
-    public function testRegisterListAndUnregisterAqlUserFunctionWithWithMagicSettersAndGetters()
+    public function testRegisterListAndUnRegisterAqlUserFunctionWithWithMagicSettersAndGetters()
     {
 
-        $name = 'phpTestFunctions::myFunction';
+        $name = 'phpTestFunctions' . static::$testsTimestamp . '::myFunction';
         $code = 'function (celsius) { return celsius * 1.8 + 32; }';
 
 
@@ -218,16 +226,16 @@ class AqlUserFunctionTest extends
 
         // check if getters work fine
         static::assertEquals(
-            $userFunction->name, $name, 'Did not return name, instead returned: ' . $userFunction->name
+            $name, $userFunction->name, 'Did not return name, instead returned: ' . $userFunction->name
         );
         static::assertEquals(
-            $userFunction->code, $code, 'Did not return code, instead returned: ' . $userFunction->code
+            $code, $userFunction->code, 'Did not return code, instead returned: ' . $userFunction->code
         );
 
         $result = $userFunction->register();
 
         static::assertEquals(
-            $result['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+            false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
         $list = $this->filter($userFunction->getRegisteredUserFunctions());
         static::assertCount(1, $list, 'List returned did not return expected 1 attribute');
@@ -239,7 +247,7 @@ class AqlUserFunctionTest extends
         $result = $userFunction->unregister();
 
         static::assertEquals(
-            $result['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+            false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
     }
 
@@ -248,10 +256,10 @@ class AqlUserFunctionTest extends
      * Test if AqlUserFunctions can be registered, listed and unregistered
      *
      */
-    public function testReRegisterListAndUnregisterAqlUserFunctionTwice()
+    public function testReRegisterListAndUnRegisterAqlUserFunctionTwice()
     {
 
-        $name = 'phpTestFunctions::myFunction';
+        $name = 'phpTestFunctions' . static::$testsTimestamp . '::myFunction';
         $code = 'function (celsius) { return celsius * 1.8 + 32; }';
 
 
@@ -263,13 +271,13 @@ class AqlUserFunctionTest extends
         $result = $userFunction->register();
 
         static::assertEquals(
-            $result['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+            false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
 
         $result = $userFunction->register();
 
         static::assertEquals(
-            $result['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+            false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
 
         $list = $this->filter($userFunction->getRegisteredUserFunctions());
@@ -282,7 +290,7 @@ class AqlUserFunctionTest extends
         $result = $userFunction->unregister();
 
         static::assertEquals(
-            $result['error'], false, 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
+            false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
 
         $e = null;
@@ -292,7 +300,7 @@ class AqlUserFunctionTest extends
         }
 
         static::assertEquals(
-            $e->getCode(), 404, 'Did not return code 404, instead returned: ' . $e->getCode()
+            404, $e->getCode(), 'Did not return code 404, instead returned: ' . $e->getCode()
         );
     }
 
@@ -302,8 +310,8 @@ class AqlUserFunctionTest extends
     public function testGetAQLFunctionsWithNamespaceFilter()
     {
 
-        $name1 = 'phpTestFunctions::myFunction';
-        $name2 = 'phpTestFunctions1::myFunction';
+        $name1 = 'phpTestFunctions' . static::$testsTimestamp . '::myFunction';
+        $name2 = 'phpTestFunctions1' . static::$testsTimestamp . '::myFunction';
         $code  = 'function (celsius) { return celsius * 1.8 + 32; }';
 
         //Setup
@@ -321,11 +329,11 @@ class AqlUserFunctionTest extends
 
         $result = $userFunction->register();
 
-        $functions = $this->filter($userFunction->getRegisteredUserFunctions('phpTestFunctions'));
-        static::assertCount(1, $functions, 'phpTestFunctions namespace should only contain 1 function.');
+        $functions = $this->filter($userFunction->getRegisteredUserFunctions('phpTestFunctions' . static::$testsTimestamp));
+        static::assertCount(1, $functions, 'phpTestFunctions namespace should contain 1 function.');
 
-        $functions = $this->filter($userFunction->getRegisteredUserFunctions('phpTestFunctions1'));
-        static::assertCount(1, $functions, 'phpTestFunctions namespace should only contain 1 function.');
+        $functions = $this->filter($userFunction->getRegisteredUserFunctions('phpTestFunctions1' . static::$testsTimestamp));
+        static::assertCount(1, $functions, 'phpTestFunctions namespace should contain 1 function.');
 
         $userFunction->unregister($name1);
         $userFunction->unregister($name2);
@@ -337,8 +345,8 @@ class AqlUserFunctionTest extends
     public function testUnRegisterAQLFunctionsOnNamespace()
     {
 
-        $name1 = 'phpTestFunctions::myFunction1';
-        $name2 = 'phpTestFunctions::myFunction2';
+        $name1 = 'phpTestFunctions' . static::$testsTimestamp . '::myFunction1';
+        $name2 = 'phpTestFunctions' . static::$testsTimestamp . '::myFunction2';
         $code  = 'function (celsius) { return celsius * 1.8 + 32; }';
 
         //Setup
@@ -356,12 +364,12 @@ class AqlUserFunctionTest extends
 
         $result = $userFunction->register();
 
-        $functions = $this->filter($userFunction->getRegisteredUserFunctions('phpTestFunctions'));
+        $functions = $this->filter($userFunction->getRegisteredUserFunctions('phpTestFunctions' . static::$testsTimestamp));
         static::assertCount(2, $functions, 'phpTestFunctions namespace should only contain 2 functions.');
 
-        $userFunction->unregister('phpTestFunctions', true);
+        $userFunction->unregister('phpTestFunctions' . static::$testsTimestamp, true);
 
-        $functions = $this->filter($userFunction->getRegisteredUserFunctions('phpTestFunctions'));
+        $functions = $this->filter($userFunction->getRegisteredUserFunctions('phpTestFunctions' . static::$testsTimestamp));
         static::assertEmpty($functions, 'phpTestFunctions namespace should only contain no functions.');
     }
 

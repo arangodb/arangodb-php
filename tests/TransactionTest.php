@@ -23,6 +23,15 @@ namespace ArangoDBClient;
 class TransactionTest extends
     \PHPUnit_Framework_TestCase
 {
+    protected static $testsTimestamp;
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        static::$testsTimestamp = str_replace('.', '_', (string) microtime(true));
+    }
+
+
     public function setUp()
     {
         $this->connection        = getConnection();
@@ -30,24 +39,24 @@ class TransactionTest extends
 
         // clean up first
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
 
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_02');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_02' . '_' . static::$testsTimestamp);
         } catch (Exception $e) {
             //Silence the exception
         }
 
 
         $this->collection1 = new Collection();
-        $this->collection1->setName('ArangoDB_PHP_TestSuite_TestCollection_01');
+        $this->collection1->setName('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         $this->collectionHandler->create($this->collection1);
 
         $this->collection2 = new Collection();
-        $this->collection2->setName('ArangoDB_PHP_TestSuite_TestCollection_02');
+        $this->collection2->setName('ArangoDB_PHP_TestSuite_TestCollection_02' . '_' . static::$testsTimestamp);
         $this->collectionHandler->create($this->collection2);
     }
 
@@ -157,19 +166,19 @@ class TransactionTest extends
 
         // check if object was initialized correctly with the array
         static::assertEquals(
-            $transaction->getWriteCollections(), $writeCollections, 'Did not return writeCollections, instead returned: ' . print_r($transaction->getWriteCollections(), 1)
+            $writeCollections, $transaction->getWriteCollections(), 'Did not return writeCollections, instead returned: ' . print_r($transaction->getWriteCollections(), 1)
         );
         static::assertEquals(
-            $transaction->getReadCollections(), $readCollections, 'Did not return readCollections, instead returned: ' . print_r($transaction->getReadCollections(), 1)
+            $readCollections, $transaction->getReadCollections(), 'Did not return readCollections, instead returned: ' . print_r($transaction->getReadCollections(), 1)
         );
         static::assertEquals(
-            $transaction->getAction(), $action, 'Did not return action, instead returned: ' . $transaction->getAction()
+            $action, $transaction->getAction(), 'Did not return action, instead returned: ' . $transaction->getAction()
         );
         static::assertEquals(
-            $transaction->getWaitForSync(), $waitForSync, 'Did not return waitForSync, instead returned: ' . $transaction->getWaitForSync()
+            $waitForSync, $transaction->getWaitForSync(), 'Did not return waitForSync, instead returned: ' . $transaction->getWaitForSync()
         );
         static::assertEquals(
-            $transaction->getLockTimeout(), $lockTimeout, 'Did not return lockTimeout, instead returned: ' . $transaction->getLockTimeout()
+            $lockTimeout, $transaction->getLockTimeout(), 'Did not return lockTimeout, instead returned: ' . $transaction->getLockTimeout()
         );
 
 
@@ -204,19 +213,19 @@ class TransactionTest extends
         // check if getters work fine
 
         static::assertEquals(
-            $transaction->writeCollections, $writeCollections, 'Did not return writeCollections, instead returned: ' . print_r($transaction->writeCollections, 1)
+            $writeCollections, $transaction->writeCollections, 'Did not return writeCollections, instead returned: ' . print_r($transaction->writeCollections, 1)
         );
         static::assertEquals(
-            $transaction->readCollections, $readCollections, 'Did not return readCollections, instead returned: ' . print_r($transaction->readCollections, 1)
+            $readCollections, $transaction->readCollections, 'Did not return readCollections, instead returned: ' . print_r($transaction->readCollections, 1)
         );
         static::assertEquals(
-            $transaction->action, $action, 'Did not return action, instead returned: ' . $transaction->action
+            $action, $transaction->action, 'Did not return action, instead returned: ' . $transaction->action
         );
         static::assertEquals(
-            $transaction->waitForSync, $waitForSync, 'Did not return waitForSync, instead returned: ' . $transaction->waitForSync
+            $waitForSync, $transaction->waitForSync, 'Did not return waitForSync, instead returned: ' . $transaction->waitForSync
         );
         static::assertEquals(
-            $transaction->lockTimeout, $lockTimeout, 'Did not return lockTimeout, instead returned: ' . $transaction->lockTimeout
+            $lockTimeout, $transaction->lockTimeout, 'Did not return lockTimeout, instead returned: ' . $transaction->lockTimeout
         );
 
         $result = $transaction->execute();
@@ -250,19 +259,19 @@ class TransactionTest extends
         // check if getters work fine
 
         static::assertEquals(
-            $transaction->writeCollections, $writeCollections, 'Did not return writeCollections, instead returned: ' . print_r($transaction->writeCollections, 1)
+            $writeCollections, $transaction->writeCollections, 'Did not return writeCollections, instead returned: ' . print_r($transaction->writeCollections, 1)
         );
         static::assertEquals(
-            $transaction->readCollections, $readCollections, 'Did not return readCollections, instead returned: ' . print_r($transaction->readCollections, 1)
+            $readCollections, $transaction->readCollections, 'Did not return readCollections, instead returned: ' . print_r($transaction->readCollections, 1)
         );
         static::assertEquals(
-            $transaction->action, $action, 'Did not return action, instead returned: ' . $transaction->action
+            $action, $transaction->action, 'Did not return action, instead returned: ' . $transaction->action
         );
         static::assertEquals(
-            $transaction->waitForSync, $waitForSync, 'Did not return waitForSync, instead returned: ' . $transaction->waitForSync
+            $waitForSync, $transaction->waitForSync, 'Did not return waitForSync, instead returned: ' . $transaction->waitForSync
         );
         static::assertEquals(
-            $transaction->lockTimeout, $lockTimeout, 'Did not return lockTimeout, instead returned: ' . $transaction->lockTimeout
+            $lockTimeout, $transaction->lockTimeout, 'Did not return lockTimeout, instead returned: ' . $transaction->lockTimeout
         );
 
         $result = $transaction->execute();
@@ -298,19 +307,19 @@ class TransactionTest extends
         // check if getters work fine
 
         static::assertEquals(
-            $transaction->getWriteCollections(), $writeCollections, 'Did not return writeCollections, instead returned: ' . print_r($transaction->getWriteCollections(), 1)
+            $writeCollections, $transaction->getWriteCollections(), 'Did not return writeCollections, instead returned: ' . print_r($transaction->getWriteCollections(), 1)
         );
         static::assertEquals(
-            $transaction->getReadCollections(), $readCollections, 'Did not return readCollections, instead returned: ' . print_r($transaction->getReadCollections(), 1)
+            $readCollections, $transaction->getReadCollections(), 'Did not return readCollections, instead returned: ' . print_r($transaction->getReadCollections(), 1)
         );
         static::assertEquals(
-            $transaction->getAction(), $action, 'Did not return action, instead returned: ' . $transaction->getAction()
+            $action, $transaction->getAction(), 'Did not return action, instead returned: ' . $transaction->getAction()
         );
         static::assertEquals(
-            $transaction->getWaitForSync(), $waitForSync, 'Did not return waitForSync, instead returned: ' . $transaction->getWaitForSync()
+            $waitForSync, $transaction->getWaitForSync(), 'Did not return waitForSync, instead returned: ' . $transaction->getWaitForSync()
         );
         static::assertEquals(
-            $transaction->getLockTimeout(), $lockTimeout, 'Did not return lockTimeout, instead returned: ' . $transaction->getLockTimeout()
+            $lockTimeout, $transaction->getLockTimeout(), 'Did not return lockTimeout, instead returned: ' . $transaction->getLockTimeout()
         );
 
 
@@ -340,7 +349,7 @@ class TransactionTest extends
         $transaction->setAction($action);
 
         $result = $transaction->execute();
-        static::assertEquals($result, 'hello!!!', 'Did not return hello!!!, instead returned: ' . $result);
+        static::assertEquals('hello!!!', $result, 'Did not return hello!!!, instead returned: ' . $result);
     }
 
 
@@ -423,12 +432,12 @@ class TransactionTest extends
     public function tearDown()
     {
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
         try {
-            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_02');
+            $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_02' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }

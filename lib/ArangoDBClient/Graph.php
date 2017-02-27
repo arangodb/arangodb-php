@@ -21,8 +21,7 @@ namespace ArangoDBClient;
  * @package   ArangoDBClient
  * @since     1.2
  */
-class Graph extends
-    Document
+class Graph extends Document
 {
     /**
      * Graph edge definitions

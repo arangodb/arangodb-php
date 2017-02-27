@@ -89,6 +89,14 @@ class HttpResponse
     public function __construct($responseString, $originUrl = null, $originMethod = null, $wasAsync = false)
     {
         $this->_wasAsync = $wasAsync;
+        if ($originUrl !== null && $originMethod !== null) {
+            if ($responseString === '') {
+                throw new ClientException(
+                    'Got no response from the server after request to '
+                    . $originMethod . ' ' . $originUrl . ' - Note: this may be a timeout issue'
+                );
+            }
+        }
 
         list($this->_header, $this->_body) = HttpHelper::parseHttpMessage($responseString, $originUrl, $originMethod);
         list($this->_httpCode, $this->_result, $this->_headers) = HttpHelper::parseHeaders($this->_header);
@@ -98,18 +106,11 @@ class HttpResponse
         ) {
             // got no response body!
             if ($originUrl !== null && $originMethod !== null) {
-                if ($responseString === '') {
-                    throw new ClientException(
-                        'Got no response from the server after request to '
-                        . $originMethod . ' ' . $originUrl . ' - Note: this may be a timeout issue'
-                    );
-                }
                 throw new ClientException(
                     'Got an invalid response from the server after request to '
                     . $originMethod . ' ' . $originUrl
                 );
             }
-
             throw new ClientException('Got an invalid response from the server');
         }
     }
