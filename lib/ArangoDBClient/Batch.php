@@ -361,7 +361,10 @@ class Batch
         $result .= '{"error":false,"_id":"0/0","id":"0","_rev":0,"hasMore":1, "result":[{}], "documents":[{}]}' . $eol . $eol;
 
         $response  = new HttpResponse($result);
-        $batchPart = new BatchPart($this, $batchPartId, $type, $request, $response, ['cursorOptions' => $this->_batchPartCursorOptions]);
+        $batchPart = new BatchPart($this, $batchPartId, $type, $request, $response, [
+            'cursorOptions' => $this->_batchPartCursorOptions,
+            '_documentClass' => $this->_documentClass,
+        ]);
 
         $this->_batchParts[$batchPartId] = $batchPart;
 
@@ -555,6 +558,21 @@ class Batch
     public function getConnection()
     {
         return $this->_connection;
+    }
+    
+    /**
+     * @var string Document class to use
+     */
+    protected $_documentClass = '\ArangoDBClient\Document';
+
+    /**
+     * Sets the document class to use
+     *
+     * @param string $class Document class to use
+     */
+    public function setDocumentClass($class)
+    {
+        $this->_documentClass = $class;
     }
 }
 
