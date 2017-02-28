@@ -258,10 +258,26 @@ class Export
         $result = [
             ExportCursor::ENTRY_FLAT    => (bool) $this->_flat,
             ExportCursor::ENTRY_BASEURL => Urls::URL_EXPORT,
-            ExportCursor::ENTRY_TYPE    => $this->_type
+            ExportCursor::ENTRY_TYPE    => $this->_type,
+            '_documentClass'            => $this->_documentClass,
         ];
 
         return $result;
+    }
+    
+    /**
+     * @var string Document class to use
+     */
+    protected $_documentClass = '\ArangoDBClient\Document';
+
+    /**
+     * Sets the document class to use
+     *
+     * @param string $class Document class to use
+     */
+    public function setDocumentClass($class)
+    {
+        $this->_documentClass = $class;
     }
 }
 

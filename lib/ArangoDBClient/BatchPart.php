@@ -89,6 +89,11 @@ class BatchPart
     {
         $sanitize = false;
         $options  = array_merge($options, $this->getCursorOptions());
+        
+        if (isset($options['_documentClass'])) {
+            $this->setDocumentClass($options['_documentClass']);
+        }
+
         extract($options, EXTR_IF_EXISTS);
         $this->setBatch($batch);
         $this->setId($id);

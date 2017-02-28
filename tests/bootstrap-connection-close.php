@@ -50,7 +50,7 @@ function getConnectionOptions()
         // use basic authorization
         ConnectionOptions::OPTION_AUTH_USER          => 'root',
         // user for basic authorization
-        ConnectionOptions::OPTION_AUTH_PASSWD        => 'test',
+        ConnectionOptions::OPTION_AUTH_PASSWD        => '',
         // password for basic authorization
         ConnectionOptions::OPTION_TIMEOUT            => 12,
         // timeout in seconds

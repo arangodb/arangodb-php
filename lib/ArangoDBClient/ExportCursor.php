@@ -117,6 +117,10 @@ class ExportCursor
         if (isset($data[self::ENTRY_ID])) {
             $this->_id = $data[self::ENTRY_ID];
         }
+        
+        if (isset($options['_documentClass'])) {
+            $this->setDocumentClass($options['_documentClass']);
+        }
 
         // attribute must be there
         assert(isset($data[self::ENTRY_HASMORE]));
