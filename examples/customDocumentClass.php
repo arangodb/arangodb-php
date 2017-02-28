@@ -5,7 +5,7 @@ namespace ArangoDBClient;
 require __DIR__ . '/init.php';
 
 
-abstract class AbstractEntity extends Document implements \JsonSerializable
+abstract class AbstractEntity extends Document
 {
     /**
      * Collection name.
@@ -221,8 +221,8 @@ abstract class AbstractCollection extends CollectionHandler
         $document->set('_dateUpdated', date('Y-m-d H:i:s'));
 
         if ($document->getIsNew()) {
-            if (method_exists($document, 'onCreated')) {
-                $document->onCreated();
+            if (method_exists($document, 'onCreate')) {
+                $document->onCreate();
             }
             return $this->_documentHandler->save($this->_collectionName, $document);
         } else {
@@ -268,9 +268,15 @@ class User extends AbstractEntity
 
     public function onCreate()
     {
-        $this->set('someField', 'this field was created automaticly while saving fresh document');
-
         parent::onCreate();
+
+        $this->set('_dateCreated', date('Y-m-d H:i:s'));
+    }
+
+    public function onUpdate()
+    {
+        parent::onUpdate();
+        $this->set('_dateUpdated', date('Y-m-d H:i:s'));
     }
 }
 
@@ -281,23 +287,9 @@ class Users extends AbstractCollection
     protected $_documentClass  = '\ArangoDBClient\User';
     protected $_collectionName = 'users';
 
-
-    /**
-     * Store a document to a collection
-     *
-     * {@inheritDoc}
-     *
-     * @param AbstractEntity $document
-     * @return mixed
-     */
-    public function store($document)
+    public function getByAge($value)
     {
-        if (is_null($document->get('_dateCreated'))) {
-            $document->set('_dateCreated', date('Y-m-d H:i:s'));
-        }
-        $document->set('_dateUpdated', date('Y-m-d H:i:s'));
-
-        return parent::store($document);
+        return $this->findByExample(['age' => $value])->getAll();
     }
 }
 
@@ -318,17 +310,14 @@ try {
     $user1 = new User();
     $user1->setName('  John  ');
     $user1->setAge(19);
-
     $usersCollection->store($user1);
-
-    var_dump($user);
+    var_dump($user1);
 
     $user2 = new User();
     $user2->setName('Marry');
     $user2->setAge(19);
     $usersCollection->store($user2);
-
-    $id = $user1->getInternalKey();
+    var_dump(json_encode($user2));
 
     // get document by example
     $cursor = $usersCollection->findOneByExample(['age' => 19, 'name' => 'John']);
@@ -337,6 +326,9 @@ try {
     // get cursor by example
     $cursor = $usersCollection->findByExample(['age' => 19]);
     var_dump($cursor->getAll());
+
+    $array = $usersCollection->getByAge(19);
+    var_dump($array);
 
 } catch (ConnectException $e) {
     print $e . PHP_EOL;
