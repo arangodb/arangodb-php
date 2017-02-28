@@ -786,6 +786,9 @@ class CollectionHandler extends Handler
      *                                   <li>'createCollection' - If true, create the collection if it does not exist. Defaults to false </li>
      *                                   </p>
      *
+     *                                   Other options as described in API Documentation*
+     * @see https://docs.arangodb.com/3.1/HTTP/BulkImports/
+     *
      * @return array
      * @throws \ArangoDBClient\Exception
      * @throws \ArangoDBClient\ClientException
@@ -811,9 +814,10 @@ class CollectionHandler extends Handler
 
         $this->createCollectionIfOptions($collection, $options);
 
-        $params = [
-            self::OPTION_COLLECTION => $collection
-        ];
+        $params = array_merge(
+            [self::OPTION_COLLECTION => $collection],
+            $options
+        );
 
         if (array_key_exists('type', $options)) {
             switch ($options['type']) {
