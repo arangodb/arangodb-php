@@ -19,7 +19,7 @@ namespace ArangoDBClient;
  * @package   ArangoDBClient
  * @since     0.2
  */
-class Document implements
+class Document
 {
     /**
      * The document id (might be NULL for new documents)
@@ -772,17 +772,6 @@ class Document implements
         return $this->_rev;
     }
 
-    /**
-     * Specify data which should be serialized to JSON
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
-    function jsonSerialize()
-    {
-        return $this->getAll();
-    }
 }
 
 class_alias(Document::class, '\triagens\ArangoDb\Document');
