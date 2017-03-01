@@ -5,7 +5,7 @@ namespace ArangoDBClient;
 require __DIR__ . '/init.php';
 
 
-abstract class AbstractEntity extends Document
+abstract class AbstractEntity extends Document implements \JsonSerializable
 {
     /**
      * Collection name.
@@ -67,6 +67,18 @@ abstract class AbstractEntity extends Document
     public function onUpdate()
     {
 
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link  http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    function jsonSerialize()
+    {
+        return $this->getAll();
     }
 }
 

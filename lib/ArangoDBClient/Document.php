@@ -19,7 +19,7 @@ namespace ArangoDBClient;
  * @package   ArangoDBClient
  * @since     0.2
  */
-class Document implements \JsonSerializable
+class Document implements
 {
     /**
      * The document id (might be NULL for new documents)
