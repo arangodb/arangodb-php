@@ -609,6 +609,25 @@ drop() just needs the name of the collection name to be dropped:
     $collectionHandler->drop('example');
 ```
 
+# Custom Document class
+
+If you want to use custom document class you can pass it's name to DocumentHandler or CollectionHandler using method `setDocumentClass`.
+Remember that Your class must extend `\ArangoDBClient\Document`.
+
+```php
+$ch = new CollectionHandler($connection);
+$ch->setDocumentClass('\AppBundle\Entity\Product');
+$cursor = $ch->all('product'); 
+// All returned documents will be \AppBundle\Entity\Product instances
+
+
+$dh = new DocumentHandler($connection);
+$dh->setDocumentClass('\AppBundle\Entity\Product');
+$product = $dh->get('products', 11231234);
+// Product will be \AppBundle\Entity\Product instance
+```
+
+See file examples/customDocumentClass.php for more details.
 
 <a name="logging_exceptions"></a>
 ## Logging exceptions
