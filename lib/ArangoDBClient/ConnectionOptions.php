@@ -369,9 +369,13 @@ class ConnectionOptions implements \ArrayAccess
         }
 
         // can use either endpoint or host/port
-        if (isset($this->_values[self::OPTION_HOST]) && !isset($this->_values[self::OPTION_ENDPOINT])) {
-            // upgrade host/port to an endpoint
-            $this->_values[self::OPTION_ENDPOINT] = 'tcp://' . $this->_values[self::OPTION_HOST] . ':' . $this->_values[self::OPTION_PORT];
+        if (isset($this->_values[self::OPTION_HOST], $this->_values[self::OPTION_ENDPOINT])) {
+            throw new ClientException('must not specify both host and endpoint');
+        } else {
+            if (isset($this->_values[self::OPTION_HOST]) && !isset($this->_values[self::OPTION_ENDPOINT])) {
+                // upgrade host/port to an endpoint
+                $this->_values[self::OPTION_ENDPOINT] = 'tcp://' . $this->_values[self::OPTION_HOST] . ':' . $this->_values[self::OPTION_PORT];
+            }
         }
 
         // set up a new endpoint, this will also validate it
