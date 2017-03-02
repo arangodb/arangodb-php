@@ -16,8 +16,7 @@ try {
 
     try {
         $graphHandler->dropGraph($graph);
-    }
-    catch (\Exception $e) {
+    } catch (\Exception $e) {
         // graph may not yet exist. ignore this error for now
     }
 
@@ -45,7 +44,7 @@ try {
     // Save the vertices
     $graphHandler->saveVertex('Graph', $vertex1);
     $graphHandler->saveVertex('Graph', $vertex2);
-    
+
     // Get the vertices
     $graphHandler->getVertex('Graph', 'vertex1');
     $graphHandler->getVertex('Graph', 'vertex2');
@@ -65,7 +64,7 @@ try {
     // Remove vertices and edges
     $graphHandler->removeVertex('Graph', 'vertex1');
     $graphHandler->removeVertex('Graph', 'vertex2');
-    
+
     // the connecting edge will be deleted automatically
 } catch (ConnectException $e) {
     print $e . PHP_EOL;

@@ -13,16 +13,15 @@ try {
     $connection        = new Connection($connectionOptions);
     $collectionHandler = new CollectionHandler($connection);
     $handler           = new DocumentHandler($connection);
-    
+
     // set up a document collection "test"
     // first try to remove it if it already exists
     try {
         $collectionHandler->drop('test');
-    }
-    catch (\Exception $e) {
+    } catch (\Exception $e) {
         // collection may not exist. we don't care here
     }
-    
+
     // now create the collection
     $collection = new Collection('test');
     $collectionHandler->create($collection);
@@ -34,9 +33,9 @@ try {
     // this issues lots of HTTP requests to the server so we
     // can test the HTTP layer
     for ($i = 0; $i < $n; ++$i) {
-      $document = new Document(['value' => 'test' . $i]);
+        $document = new Document(['value' => 'test' . $i]);
 
-      $handler->save('test', $document);
+        $handler->save('test', $document);
     }
 
     echo 'creating documents took ' . (microtime(true) - $time) . ' s' . PHP_EOL;

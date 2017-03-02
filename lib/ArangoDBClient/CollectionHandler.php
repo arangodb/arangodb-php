@@ -787,6 +787,7 @@ class CollectionHandler extends Handler
      *                                   </p>
      *
      *                                   Other options as described in API Documentation*
+     *
      * @see https://docs.arangodb.com/3.1/HTTP/BulkImports/
      *
      * @return array
@@ -1155,6 +1156,7 @@ class CollectionHandler extends Handler
         $response = $this->getConnection()->put(Urls::URL_ALL, $this->json_encode_wrapper($body));
 
         $options = array_merge(['_documentClass' => $this->_documentClass], $options);
+
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
 
@@ -1252,6 +1254,7 @@ class CollectionHandler extends Handler
         $options['isNew'] = false;
 
         $options = array_merge(['_documentClass' => $this->_documentClass], $options);
+
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
 
@@ -1362,6 +1365,7 @@ class CollectionHandler extends Handler
         $options['isNew'] = false;
 
         $options = array_merge(['_documentClass' => $this->_documentClass], $options);
+
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
 
@@ -1708,6 +1712,7 @@ class CollectionHandler extends Handler
         $response = $this->getConnection()->put(Urls::URL_RANGE, $this->json_encode_wrapper($body));
 
         $options = array_merge(['_documentClass' => $this->_documentClass], $options);
+
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
 
@@ -1763,6 +1768,7 @@ class CollectionHandler extends Handler
         $response = $this->getConnection()->put(Urls::URL_NEAR, $this->json_encode_wrapper($body));
 
         $options = array_merge(['_documentClass' => $this->_documentClass], $options);
+
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
 
@@ -1820,6 +1826,7 @@ class CollectionHandler extends Handler
         $response = $this->getConnection()->put(Urls::URL_WITHIN, $this->json_encode_wrapper($body));
 
         $options = array_merge(['_documentClass' => $this->_documentClass], $options);
+
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
 

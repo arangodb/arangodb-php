@@ -8,13 +8,12 @@ try {
     $connection        = new Connection($connectionOptions);
     $collectionHandler = new CollectionHandler($connection);
     $handler           = new DocumentHandler($connection);
-    
+
     // set up a document collection "users"
-    $collection        = new Collection('users');
+    $collection = new Collection('users');
     try {
         $collectionHandler->create($collection);
-    }
-    catch (\Exception $e) {
+    } catch (\Exception $e) {
         // collection may already exist - ignore this error for now
     }
 

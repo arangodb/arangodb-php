@@ -89,7 +89,7 @@ class BatchPart
     {
         $sanitize = false;
         $options  = array_merge($options, $this->getCursorOptions());
-        
+
         if (isset($options['_documentClass'])) {
             $this->setDocumentClass($options['_documentClass']);
         }
@@ -287,8 +287,8 @@ class BatchPart
                 $options          = $this->getCursorOptions();
                 $options['isNew'] = false;
 
-                $options          = array_merge(['_documentClass' => $this->_documentClass], $options);
-                $response         = new Cursor($this->_batch->getConnection(), $response->getJson(), $options);
+                $options  = array_merge(['_documentClass' => $this->_documentClass], $options);
+                $response = new Cursor($this->_batch->getConnection(), $response->getJson(), $options);
                 break;
             default:
                 throw new ClientException('Could not determine response data type.');

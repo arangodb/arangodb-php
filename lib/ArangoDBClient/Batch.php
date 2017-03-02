@@ -362,7 +362,7 @@ class Batch
 
         $response  = new HttpResponse($result);
         $batchPart = new BatchPart($this, $batchPartId, $type, $request, $response, [
-            'cursorOptions' => $this->_batchPartCursorOptions,
+            'cursorOptions'  => $this->_batchPartCursorOptions,
             '_documentClass' => $this->_documentClass,
         ]);
 
@@ -559,7 +559,7 @@ class Batch
     {
         return $this->_connection;
     }
-    
+
     /**
      * @var string Document class to use
      */

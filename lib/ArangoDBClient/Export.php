@@ -264,7 +264,7 @@ class Export
 
         return $result;
     }
-    
+
     /**
      * @var string Document class to use
      */

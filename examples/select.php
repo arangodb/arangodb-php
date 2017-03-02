@@ -6,9 +6,9 @@ require __DIR__ . '/init.php';
 
 /* set up some example statements */
 $statements = [
-	'for u in users return u'                                       => null,
-	'for u in users filter u.id == @id return u'                    => ['id' => 6],
-	'for u in users filter u.id == @id && u.name != @name return u' => ['id' => 1, 'name' => 'fox'],
+    'for u in users return u'                                       => null,
+    'for u in users filter u.id == @id return u'                    => ['id' => 6],
+    'for u in users filter u.id == @id && u.name != @name return u' => ['id' => 1, 'name' => 'fox'],
 ];
 
 
@@ -17,12 +17,12 @@ try {
 
     foreach ($statements as $query => $bindVars) {
         $statement = new Statement($connection, [
-	        'query'     => $query,
-	        'count'     => true,
-	        'batchSize' => 1000,
-	        'bindVars'  => $bindVars,
-	        'sanitize'  => true,
-        ]
+                'query'     => $query,
+                'count'     => true,
+                'batchSize' => 1000,
+                'bindVars'  => $bindVars,
+                'sanitize'  => true,
+            ]
         );
 
         print $statement . "\n\n";

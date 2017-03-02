@@ -9,14 +9,14 @@ try {
 
     // creates an export object for collection 'users'
     $export = new Export($connection, 'users', [
-	    'batchSize' => 5000,
-	    '_flat'     => true,
-	    'flush'     => true,
-	    'restrict'  => [
-	        'type'   => 'include',
-	        'fields' => ['_key', '_rev']
-	    ]
-    ]
+            'batchSize' => 5000,
+            '_flat'     => true,
+            'flush'     => true,
+            'restrict'  => [
+                'type'   => 'include',
+                'fields' => ['_key', '_rev']
+            ]
+        ]
     );
 
     // execute the export. this will return a special, forward-only cursor

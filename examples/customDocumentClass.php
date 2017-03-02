@@ -71,9 +71,10 @@ abstract class AbstractEntity extends Document implements \JsonSerializable
 
     /**
      * Specify data which should be serialized to JSON
+     *
      * @link  http://php.net/manual/en/jsonserializable.jsonserialize.php
      * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
+     *        which is a value of any type other than a resource.
      * @since 5.4.0
      */
     function jsonSerialize()
@@ -100,6 +101,7 @@ abstract class AbstractCollection extends CollectionHandler
      * {@inheritdoc}
      *
      * @param Connection $connection
+     *
      * @throws \Exception
      */
     public function __construct(Connection $connection)
@@ -130,7 +132,7 @@ abstract class AbstractCollection extends CollectionHandler
      *
      * @throws Exception
      *
-     * @param mixed $document          - the example document as a Document object or an array
+     * @param mixed      $document     - the example document as a Document object or an array
      * @param bool|array $options      - optional, prior to v1.0.0 this was a boolean value for sanitize, since v1.0.0 it's an array of options.
      *                                 <p>Options are :<br>
      *                                 <li>'_sanitize'         - True to remove _id and _rev attributes from result documents. Defaults to false.</li>
@@ -159,6 +161,7 @@ abstract class AbstractCollection extends CollectionHandler
      * Find all documents for given keys
      *
      * @param array $ids - array of document keys
+     *
      * @return array of matching entities
      */
     public function findByIds($ids)
@@ -191,6 +194,7 @@ abstract class AbstractCollection extends CollectionHandler
      * Gets one document by given ID
      *
      * @param string|int $id
+     *
      * @return AbstractEntity|null
      * @throws ServerException
      */
@@ -223,6 +227,7 @@ abstract class AbstractCollection extends CollectionHandler
      * {@inheritDoc}
      *
      * @param AbstractEntity $document
+     *
      * @return mixed
      */
     public function store($document)
@@ -236,11 +241,13 @@ abstract class AbstractCollection extends CollectionHandler
             if (method_exists($document, 'onCreate')) {
                 $document->onCreate();
             }
+
             return $this->_documentHandler->save($this->_collectionName, $document);
         } else {
             if (method_exists($document, 'onUpdate')) {
                 $document->onUpdate();
             }
+
             return $this->_documentHandler->replace($document);
         }
     }
@@ -249,7 +256,8 @@ abstract class AbstractCollection extends CollectionHandler
      * Removes specified document from collection
      *
      * @param AbstractEntity $document
-     * @param $options
+     * @param                $options
+     *
      * @return array - an array containing an attribute 'removed' with the number of documents that were deleted, an an array 'ignored' with the number of not removed keys/documents
      */
     public function removeDocument(AbstractEntity $document, $options = [])
@@ -275,7 +283,7 @@ class User extends AbstractEntity
 
     public function setAge($value)
     {
-        $this->set('age', (int)$value);
+        $this->set('age', (int) $value);
     }
 
     public function onCreate()
@@ -296,7 +304,7 @@ class User extends AbstractEntity
 class Users extends AbstractCollection
 {
 
-    protected $_documentClass  = '\ArangoDBClient\User';
+    protected $_documentClass = '\ArangoDBClient\User';
     protected $_collectionName = 'users';
 
     public function getByAge($value)

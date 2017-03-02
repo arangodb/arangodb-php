@@ -207,7 +207,7 @@ class HttpHelper
      *
      * @param resource $socket  - connection socket (must be open)
      * @param string   $request - complete HTTP request as a string
-     * @param string   $method - HTTP method used (e.g. "HEAD")
+     * @param string   $method  - HTTP method used (e.g. "HEAD")
      *
      * @throws ClientException
      * @return string - HTTP response string as provided by the server

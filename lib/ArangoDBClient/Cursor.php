@@ -444,7 +444,7 @@ class Cursor implements \Iterator
      */
     private function addDocumentsFromArray(array $data)
     {
-        $_documentClass =  $this->_documentClass;
+        $_documentClass = $this->_documentClass;
 
         $this->_result[] = $_documentClass::createFromArray($data, $this->_options);
     }
@@ -459,12 +459,12 @@ class Cursor implements \Iterator
      */
     private function addPathsFromArray(array $data)
     {
-        $_documentClass =  $this->_documentClass;
+        $_documentClass = $this->_documentClass;
 
         $entry = [
             'vertices'    => [],
             'edges'       => [],
-            'source' => $_documentClass::createFromArray($data['source'], $this->_options),
+            'source'      => $_documentClass::createFromArray($data['source'], $this->_options),
             'destination' => $_documentClass::createFromArray($data['destination'], $this->_options),
         ];
         foreach ($data['vertices'] as $v) {
@@ -486,7 +486,7 @@ class Cursor implements \Iterator
      */
     private function addShortestPathFromArray(array $data)
     {
-        $_documentClass =  $this->_documentClass;
+        $_documentClass = $this->_documentClass;
 
         if (!isset($data['vertices'])) {
             return;
@@ -498,7 +498,7 @@ class Cursor implements \Iterator
 
         $entry = [
             'paths'       => [],
-            'source' => $_documentClass::createFromArray($startVertex, $this->_options),
+            'source'      => $_documentClass::createFromArray($startVertex, $this->_options),
             'distance'    => $data['distance'],
             'destination' => $_documentClass::createFromArray($destination, $this->_options),
         ];
@@ -547,7 +547,7 @@ class Cursor implements \Iterator
      */
     private function addCommonNeighborsFromArray(array $data)
     {
-        $_documentClass =  $this->_documentClass;
+        $_documentClass = $this->_documentClass;
 
         $left  = $data['left'];
         $right = $data['right'];
@@ -635,7 +635,7 @@ class Cursor implements \Iterator
      */
     private function sanitize(array $rows)
     {
-        $_documentClass =  $this->_documentClass;
+        $_documentClass = $this->_documentClass;
 
         if (isset($this->_options[self::ENTRY_SANITIZE]) && $this->_options[self::ENTRY_SANITIZE]) {
             foreach ($rows as $key => $value) {

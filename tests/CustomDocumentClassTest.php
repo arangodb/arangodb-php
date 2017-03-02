@@ -84,7 +84,7 @@ class CustomDocumentClassTest extends
         static::assertSame(
             'someValue', $resultingAttribute1, 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
         );
-        
+
         $resultingAttribute2 = $resultingDocument2->someAttribute;
         static::assertSame(
             'someValue', $resultingAttribute2, 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
@@ -92,7 +92,7 @@ class CustomDocumentClassTest extends
 
         $documentHandler->remove($document);
     }
-    
+
     /**
      * Try to retrieve a custom document class via Statement.
      */
@@ -157,14 +157,14 @@ class CustomDocumentClassTest extends
         while ($docs = $cursor->getNextBatch()) {
             $found = true;
             static::assertTrue(count($docs) > 0, 'No documents retrieved!');
-            foreach($docs as $doc) {
+            foreach ($docs as $doc) {
                 static::assertInstanceOf(CustomDocumentClass1::class, $doc, 'Retrieved document isn\'t made with provided CustomDocumentClass1!');
                 static::assertSame(
                     'exportValue', $doc->someAttribute, 'Expected value exportValue, found :' . $doc->someAttribute
                 );
             }
         }
-        
+
         static::assertTrue($found, 'No batch results in Export');
 
         $documentHandler->remove($document);
@@ -178,36 +178,36 @@ class CustomDocumentClassTest extends
         $document1       = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $docId1 = $documentHandler->save($this->collection->getId(), $document1);
+        $docId1          = $documentHandler->save($this->collection->getId(), $document1);
         $document2       = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $docId2 = $documentHandler->save($this->collection->getId(), $document2);
+        $docId2          = $documentHandler->save($this->collection->getId(), $document2);
 
         $batch = new Batch($connection);
         $batch->setDocumentClass(CustomDocumentClass1::class);
         $batch->startCapture();
-        
+
         $documentHandler->getById($this->collection->getId(), $docId1);
         $documentHandler->getById($this->collection->getId(), $docId2);
 
         $batch->process();
         $result = $batch->getPart(0)->getProcessedResponse();
-        
+
         static::assertInstanceOf(CustomDocumentClass1::class, $result, 'Retrieved document isn\'t made with provided CustomDocumentClass1!');
         static::assertSame(
             'someValue', $result->someAttribute, 'Expected value someValue, found :' . $result->someAttribute
         );
-        
+
         $batchPart = $batch->getPart(1);
         $batchPart->setDocumentClass(CustomDocumentClass2::class);
         $result = $batchPart->getProcessedResponse();
-        
+
         static::assertInstanceOf(CustomDocumentClass2::class, $result, 'Retrieved document isn\'t made with provided CustomDocumentClass2!');
         static::assertSame(
             'someValue2', $result->someAttribute, 'Expected value someValue2, found :' . $result->someAttribute
         );
-        
+
         $documentHandler->remove($document1);
         $documentHandler->remove($document2);
     }
@@ -229,16 +229,24 @@ class CustomDocumentClassTest extends
 
 /**
  * Class CustomCollectionHandler
+ *
  * @package ArangoDBClient
  */
-class CustomCollectionHandler extends CollectionHandler {
+class CustomCollectionHandler extends CollectionHandler
+{
 
 }
 
 /**
  * Class CustomDocumentClass1 & CustomDocumentClass2
+ *
  * @package ArangoDBClient
  */
-class CustomDocumentClass1 extends Document {}
-class CustomDocumentClass2 extends Document {}
+class CustomDocumentClass1 extends Document
+{
+}
+
+class CustomDocumentClass2 extends Document
+{
+}
 
