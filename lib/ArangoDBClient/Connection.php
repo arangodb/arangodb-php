@@ -713,7 +713,7 @@ class Connection
      * @return string the result of the json_encode
      * @throws \ArangoDBClient\ClientException
      */
-    public function json_encode_wrapper($data, $options = null)
+    public function json_encode_wrapper($data, $options = 0)
     {
         if ($this->_options[ConnectionOptions::OPTION_CHECK_UTF8_CONFORM] === true) {
             self::check_encoding($data);
