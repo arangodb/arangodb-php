@@ -89,6 +89,11 @@ class BatchPart
     {
         $sanitize = false;
         $options  = array_merge($options, $this->getCursorOptions());
+        
+        if (isset($options['_documentClass'])) {
+            $this->setDocumentClass($options['_documentClass']);
+        }
+
         extract($options, EXTR_IF_EXISTS);
         $this->setBatch($batch);
         $this->setId($id);
@@ -237,18 +242,20 @@ class BatchPart
      */
     public function getProcessedResponse()
     {
+        $_documentClass = $this->_documentClass;
+
         $response = $this->getResponse();
         switch ($this->_type) {
             case 'getdocument':
                 $json             = $response->getJson();
                 $options          = $this->getCursorOptions();
                 $options['isNew'] = false;
-                $response         = Document::createFromArray($json, $options);
+                $response         = $_documentClass::createFromArray($json, $options);
                 break;
             case 'document':
                 $json = $response->getJson();
                 if (!isset($json['error']) || $json['error'] === false) {
-                    $id       = $json[Document::ENTRY_ID];
+                    $id       = $json[$_documentClass::ENTRY_ID];
                     $response = $id;
                 }
                 break;
@@ -279,6 +286,8 @@ class BatchPart
             case 'cursor':
                 $options          = $this->getCursorOptions();
                 $options['isNew'] = false;
+
+                $options          = array_merge(['_documentClass' => $this->_documentClass], $options);
                 $response         = new Cursor($this->_batch->getConnection(), $response->getJson(), $options);
                 break;
             default:
@@ -298,6 +307,21 @@ class BatchPart
     private function getCursorOptions()
     {
         return $this->_cursorOptions;
+    }
+
+    /**
+     * @var string Document class to use
+     */
+    protected $_documentClass = '\ArangoDBClient\Document';
+
+    /**
+     * Sets the document class to use
+     *
+     * @param string $class Document class to use
+     */
+    public function setDocumentClass($class)
+    {
+        $this->_documentClass = $class;
     }
 }
 

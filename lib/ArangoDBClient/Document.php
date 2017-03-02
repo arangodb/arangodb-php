@@ -771,6 +771,7 @@ class Document
     {
         return $this->_rev;
     }
+
 }
 
 class_alias(Document::class, '\triagens\ArangoDb\Document');

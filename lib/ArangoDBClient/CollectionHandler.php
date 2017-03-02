@@ -786,6 +786,9 @@ class CollectionHandler extends Handler
      *                                   <li>'createCollection' - If true, create the collection if it does not exist. Defaults to false </li>
      *                                   </p>
      *
+     *                                   Other options as described in API Documentation*
+     * @see https://docs.arangodb.com/3.1/HTTP/BulkImports/
+     *
      * @return array
      * @throws \ArangoDBClient\Exception
      * @throws \ArangoDBClient\ClientException
@@ -811,9 +814,10 @@ class CollectionHandler extends Handler
 
         $this->createCollectionIfOptions($collection, $options);
 
-        $params = [
-            self::OPTION_COLLECTION => $collection
-        ];
+        $params = array_merge(
+            [self::OPTION_COLLECTION => $collection],
+            $options
+        );
 
         if (array_key_exists('type', $options)) {
             switch ($options['type']) {
@@ -1092,6 +1096,7 @@ class CollectionHandler extends Handler
      */
     public function any($collectionId)
     {
+        $_documentClass = $this->_documentClass;
 
         $data = [
             self::OPTION_COLLECTION => $collectionId,
@@ -1101,7 +1106,7 @@ class CollectionHandler extends Handler
         $data     = $response->getJson();
 
         if ($data['document']) {
-            return Document::createFromArray($data['document']);
+            return $_documentClass::createFromArray($data['document']);
         } else {
             return null;
         }
@@ -1149,6 +1154,7 @@ class CollectionHandler extends Handler
 
         $response = $this->getConnection()->put(Urls::URL_ALL, $this->json_encode_wrapper($body));
 
+        $options = array_merge(['_documentClass' => $this->_documentClass], $options);
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
 
@@ -1176,7 +1182,7 @@ class CollectionHandler extends Handler
             throw new ClientException('Got an invalid document list from the server');
         }
 
-        $cursor = new Cursor($this->getConnection(), $response->getJson(), []);
+        $cursor = new Cursor($this->getConnection(), $response->getJson(), ['_documentClass' => $this->_documentClass]);
         $ids    = [];
         foreach ($cursor->getAll() as $location) {
             $ids[] = UrlHelper::getDocumentIdFromLocation($location);
@@ -1214,8 +1220,10 @@ class CollectionHandler extends Handler
      */
     public function byExample($collectionId, $document, array $options = [])
     {
+        $_documentClass = $this->_documentClass;
+
         if (is_array($document)) {
-            $document = Document::createFromArray($document, $options);
+            $document = $_documentClass::createFromArray($document, $options);
         }
 
         if (!($document instanceof Document)) {
@@ -1243,6 +1251,7 @@ class CollectionHandler extends Handler
 
         $options['isNew'] = false;
 
+        $options = array_merge(['_documentClass' => $this->_documentClass], $options);
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
 
@@ -1273,8 +1282,10 @@ class CollectionHandler extends Handler
      */
     public function firstExample($collectionId, $document, array $options = [])
     {
+        $_documentClass = $this->_documentClass;
+
         if (is_array($document)) {
-            $document = Document::createFromArray($document, $options);
+            $document = $_documentClass::createFromArray($document, $options);
         }
 
         if (!($document instanceof Document)) {
@@ -1291,7 +1302,7 @@ class CollectionHandler extends Handler
 
         $options['_isNew'] = false;
 
-        return Document::createFromArray($data['document'], $options);
+        return $_documentClass::createFromArray($data['document'], $options);
     }
 
 
@@ -1350,6 +1361,7 @@ class CollectionHandler extends Handler
 
         $options['isNew'] = false;
 
+        $options = array_merge(['_documentClass' => $this->_documentClass], $options);
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
 
@@ -1378,12 +1390,14 @@ class CollectionHandler extends Handler
      */
     public function updateByExample($collectionId, $example, $newValue, array $options = [])
     {
+        $_documentClass = $this->_documentClass;
+
         if (is_array($example)) {
-            $example = Document::createFromArray($example);
+            $example = $_documentClass::createFromArray($example);
         }
 
         if (is_array($newValue)) {
-            $newValue = Document::createFromArray($newValue);
+            $newValue = $_documentClass::createFromArray($newValue);
         }
 
         $body = [
@@ -1440,12 +1454,14 @@ class CollectionHandler extends Handler
      */
     public function replaceByExample($collectionId, $example, $newValue, array $options = [])
     {
+        $_documentClass = $this->_documentClass;
+
         if (is_array($example)) {
-            $example = Document::createFromArray($example);
+            $example = $_documentClass::createFromArray($example);
         }
 
         if (is_array($newValue)) {
-            $newValue = Document::createFromArray($newValue);
+            $newValue = $_documentClass::createFromArray($newValue);
         }
 
         $body = [
@@ -1502,8 +1518,10 @@ class CollectionHandler extends Handler
      */
     public function removeByExample($collectionId, $document, array $options = [])
     {
+        $_documentClass = $this->_documentClass;
+
         if (is_array($document)) {
-            $document = Document::createFromArray($document, $options);
+            $document = $_documentClass::createFromArray($document, $options);
         }
 
         if (!($document instanceof Document)) {
@@ -1608,6 +1626,8 @@ class CollectionHandler extends Handler
      */
     public function lookupByKeys($collectionId, array $keys, array $options = [])
     {
+        $_documentClass = $this->_documentClass;
+
         $body = [
             self::OPTION_COLLECTION => $collectionId,
             self::OPTION_KEYS       => $keys
@@ -1619,7 +1639,7 @@ class CollectionHandler extends Handler
 
         $result = [];
         foreach ($responseArray['documents'] as $document) {
-            $result[] = Document::createFromArray($document, $options);
+            $result[] = $_documentClass::createFromArray($document, $options);
         }
 
         return $result;
@@ -1687,6 +1707,7 @@ class CollectionHandler extends Handler
 
         $response = $this->getConnection()->put(Urls::URL_RANGE, $this->json_encode_wrapper($body));
 
+        $options = array_merge(['_documentClass' => $this->_documentClass], $options);
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
 
@@ -1741,6 +1762,7 @@ class CollectionHandler extends Handler
 
         $response = $this->getConnection()->put(Urls::URL_NEAR, $this->json_encode_wrapper($body));
 
+        $options = array_merge(['_documentClass' => $this->_documentClass], $options);
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
 
@@ -1797,6 +1819,7 @@ class CollectionHandler extends Handler
 
         $response = $this->getConnection()->put(Urls::URL_WITHIN, $this->json_encode_wrapper($body));
 
+        $options = array_merge(['_documentClass' => $this->_documentClass], $options);
         return new Cursor($this->getConnection(), $response->getJson(), $options);
     }
 
