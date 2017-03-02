@@ -257,7 +257,7 @@ class HttpHelper
                     $contentLength    = (int) substr($result, $pos + 16, 10); // 16 = strlen("content-length: ")
                     $contentLengthPos = $pos + 17; // 17 = 16 + 1 one digit
 
-                    if ($method === "HEAD") {
+                    if ($method === 'HEAD') {
                         // for HTTP HEAD requests, the server will respond
                         // with the proper Content-Length value, but will
                         // NOT return the body.
