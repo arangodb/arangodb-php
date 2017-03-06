@@ -88,7 +88,7 @@ class UserBasicTest extends
         static::assertTrue($result);
 
         $result = $userHandler->getDatabases('testUser42');
-        static::assertEquals(['_system' => 'none'], $result);
+        static::assertEquals([], $result);
     }
 
 
@@ -132,7 +132,7 @@ class UserBasicTest extends
             $this->userHandler->addUser('testUser1', 'testPass1', true, ['level' => 1]);
         } catch (\Exception $e) {
             // Just give us the $e
-            static::assertEquals(400, $e->getCode());
+            static::assertEquals(409, $e->getCode());
         }
         static::assertInstanceOf(ServerException::class, $e, 'should have gotten an exception');
 
