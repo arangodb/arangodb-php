@@ -726,7 +726,6 @@ class Document
      */
     public function getKey()
     {
-
         return $this->getInternalKey();
     }
 

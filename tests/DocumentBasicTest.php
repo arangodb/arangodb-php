@@ -61,6 +61,30 @@ class DocumentBasicTest extends
         static::assertInstanceOf(Document::class, $document);
         unset ($document);
     }
+    
+    
+    /**
+     * Try to create and delete a document with an existing id
+     */
+    public function testCreateAndDeleteDocumentWithId()
+    {
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+        $document        = Document::createFromArray([ "_key" => "me" ]);
+        $documentHandler = new DocumentHandler($connection);
+
+        $documentId = $documentHandler->save($collection->getId(), $document);
+
+        $resultingDocument = $documentHandler->get($collection->getId(), $documentId);
+
+        $key = $resultingDocument->getKey();
+        static::assertSame("me", $key);
+        
+        $id = $resultingDocument->getHandle();
+        static::assertSame($collection->getName() . "/" . $key, $id);
+
+        $documentHandler->remove($document);
+    }
 
 
     /**
