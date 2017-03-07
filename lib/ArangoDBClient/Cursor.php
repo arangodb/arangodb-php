@@ -204,9 +204,9 @@ class Cursor implements \Iterator
             $this->setDocumentClass($options['_documentClass']);
         }
 
-        $options['isNew'] = false;
-        $this->_options   = $options;
-        $this->_result    = [];
+        $options['_isNew'] = false;
+        $this->_options    = $options;
+        $this->_result     = [];
         $this->add((array) $data[self::ENTRY_RESULT]);
         $this->updateLength();
 
