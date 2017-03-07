@@ -56,11 +56,11 @@ class DocumentExtendedTest extends
         $isoValue        = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', 'someWrongEncodedValueü');
 
         $document   = Document::createFromArray([$isoKey => $isoValue, 'someOtherAttribute' => 'someOtherValue']);
-        $documentId = $documentHandler->save($this->collection->getId(), $document);
+        $documentId = $documentHandler->save($this->collection->getName(), $document);
 
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
 
-        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument = $documentHandler->get($this->collection->getName(), $documentId);
 
         static::assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
         static::assertEquals('someValue', $resultingDocument->someAttribute);
@@ -84,11 +84,12 @@ class DocumentExtendedTest extends
 
         static::assertTrue(isset($document->someAttribute), 'Should return true, as the attribute was set, before.');
 
-        $documentId = $documentHandler->save($this->collection->getId(), $document);
+        $documentId = $documentHandler->save($this->collection->getName(), $document);
 
+        @list(, $documentId) = explode('/', $documentId);
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
 
-        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument = $documentHandler->get($this->collection->getName(), $documentId);
 
         static::assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
         static::assertEquals('someValue', $resultingDocument->someAttribute);
@@ -109,11 +110,12 @@ class DocumentExtendedTest extends
         $document   = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($this->collection->getId(), $document);
+        $documentId = $documentHandler->save($this->collection->getName(), $document);
 
+        @list(, $documentId) = explode('/', $documentId);
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
 
-        $cursor = $this->collectionHandler->byExample($this->collection->getId(), $document);
+        $cursor = $this->collectionHandler->byExample($this->collection->getName(), $document);
 
         static::assertInstanceOf(Cursor::class, $cursor);
         $resultingDocument = $cursor->current();
@@ -136,14 +138,16 @@ class DocumentExtendedTest extends
         $document   = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($this->collection->getId(), $document, ['waitForSync' => true]);
+        $documentId = $documentHandler->save($this->collection->getName(), $document, ['waitForSync' => true]);
 
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute2' => 'someOtherValue2']
         );
-        $documentId2 = $documentHandler->save($this->collection->getId(), $document2, ['waitForSync' => true]);
+        $documentId2 = $documentHandler->save($this->collection->getName(), $document2, ['waitForSync' => true]);
 
+        @list(, $documentId) = explode('/', $documentId);
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
+        @list(, $documentId2) = explode('/', $documentId2);
         static::assertTrue(is_numeric($documentId2), 'Did not return an id!');
 
         $exampleDocument = Document::createFromArray(
@@ -151,7 +155,7 @@ class DocumentExtendedTest extends
         );
 
         $cursor = $this->collectionHandler->byExample(
-            $this->collection->getId(),
+            $this->collection->getName(),
             $exampleDocument,
             ['batchSize' => 1, 'skip' => 0, 'limit' => 2]
         );
@@ -173,7 +177,7 @@ class DocumentExtendedTest extends
         static::assertCount(2, $resultingDocument, 'Should be 2, was: ' . count($resultingDocument));
 
         $cursor = $this->collectionHandler->byExample(
-            $this->collection->getId(),
+            $this->collection->getName(),
             $exampleDocument,
             ['batchSize' => 1, 'skip' => 1]
         );
@@ -192,7 +196,7 @@ class DocumentExtendedTest extends
 
 
         $cursor = $this->collectionHandler->byExample(
-            $this->collection->getId(),
+            $this->collection->getName(),
             $exampleDocument,
             ['batchSize' => 1, 'limit' => 1]
         );
@@ -223,11 +227,12 @@ class DocumentExtendedTest extends
         $document   = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($this->collection->getId(), $document);
+        $documentId = $documentHandler->save($this->collection->getName(), $document);
 
+        @list(, $documentId) = explode('/', $documentId);
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
 
-        $resultingDocument = $this->collectionHandler->firstExample($this->collection->getId(), $document);
+        $resultingDocument = $this->collectionHandler->firstExample($this->collection->getName(), $document);
         static::assertInstanceOf(Document::class, $resultingDocument);
 
         static::assertEquals('someValue', $resultingDocument->someAttribute);
@@ -248,7 +253,8 @@ class DocumentExtendedTest extends
         $document   = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($this->collection->getId(), $document);
+        $documentId = $documentHandler->save($this->collection->getName(), $document);
+        @list(, $documentId) = explode('/', $documentId);
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
 
         $patchDocument = new Document();
@@ -259,7 +265,7 @@ class DocumentExtendedTest extends
 
         static::assertTrue($result);
 
-        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument = $documentHandler->get($this->collection->getName(), $documentId);
         static::assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
         static::assertEquals(
@@ -286,8 +292,9 @@ class DocumentExtendedTest extends
         $document   = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($this->collection->getId(), $document);
-        $documentHandler->get($this->collection->getId(), $documentId);
+        $documentId = $documentHandler->save($this->collection->getName(), $document);
+        $documentHandler->get($this->collection->getName(), $documentId);
+        @list(, $documentId) = explode('/', $documentId);
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
 
         $patchDocument = new Document();
@@ -302,7 +309,7 @@ class DocumentExtendedTest extends
 
         static::assertTrue($result);
 
-        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument = $documentHandler->get($this->collection->getName(), $documentId);
         static::assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
         static::assertEquals(
@@ -326,7 +333,8 @@ class DocumentExtendedTest extends
         $document   = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($this->collection->getId(), $document);
+        $documentId = $documentHandler->save($this->collection->getName(), $document);
+        @list(, $documentId) = explode('/', $documentId);
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
 
         $patchDocument = new Document();
@@ -338,7 +346,7 @@ class DocumentExtendedTest extends
 
         static::assertTrue($result);
 
-        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument = $documentHandler->get($this->collection->getName(), $documentId);
         static::assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
         static::assertEquals(
@@ -362,8 +370,9 @@ class DocumentExtendedTest extends
         $document   = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($this->collection->getId(), $document);
+        $documentId = $documentHandler->save($this->collection->getName(), $document);
 
+        @list(, $documentId) = explode('/', $documentId);
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
 
         $document->set('someAttribute', 'someValue2');
@@ -371,7 +380,7 @@ class DocumentExtendedTest extends
         $result = $documentHandler->replace($document);
 
         static::assertTrue($result);
-        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument = $documentHandler->get($this->collection->getName(), $documentId);
 
         static::assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
@@ -400,8 +409,9 @@ class DocumentExtendedTest extends
         $document   = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($this->collection->getId(), $document);
+        $documentId = $documentHandler->save($this->collection->getName(), $document);
 
+        @list(, $documentId) = explode('/', $documentId);
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
 
         // inject wrong encoding
@@ -413,7 +423,7 @@ class DocumentExtendedTest extends
         $result = $documentHandler->replace($document);
 
         static::assertTrue($result);
-        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument = $documentHandler->get($this->collection->getName(), $documentId);
 
         static::assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
@@ -439,8 +449,9 @@ class DocumentExtendedTest extends
         $document   = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($this->collection->getId(), $document);
+        $documentId = $documentHandler->save($this->collection->getName(), $document);
 
+        @list(, $documentId) = explode('/', $documentId);
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
 
         $document->set('someAttribute', 'someValue2');
@@ -448,14 +459,14 @@ class DocumentExtendedTest extends
         $result = $documentHandler->replace($document);
 
         static::assertTrue($result);
-        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument = $documentHandler->get($this->collection->getName(), $documentId);
 
         static::assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
         static::assertEquals('someValue2', $resultingDocument->someAttribute);
         static::assertEquals('someOtherValue2', $resultingDocument->someOtherAttribute);
 
-        $response = $documentHandler->removeById($this->collection->getId(), $documentId);
+        $response = $documentHandler->removeById($this->collection->getName(), $documentId);
         static::assertTrue($response, 'Delete should return true!');
     }
 
@@ -470,18 +481,19 @@ class DocumentExtendedTest extends
         $document   = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($this->collection->getId(), $document);
+        $documentId = $documentHandler->save($this->collection->getName(), $document);
 
+        @list(, $documentId) = explode('/', $documentId);
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
 
         $revision = $document->getRevision();
         try {
-            $documentHandler->removeById($this->collection->getId(), $documentId, '_UOarUR----', ['policy' => 'error']);
+            $documentHandler->removeById($this->collection->getName(), $documentId, '_UOarUR----', ['policy' => 'error']);
         } catch (ServerException $e) {
             static::assertTrue(true);
         }
 
-        $response = $documentHandler->removeById($this->collection->getId(), $documentId, $revision, ['policy' => 'error']);
+        $response = $documentHandler->removeById($this->collection->getName(), $documentId, $revision, ['policy' => 'error']);
         static::assertTrue($response, 'deleteById() should return true! (because correct revision given)');
     }
 
@@ -496,13 +508,14 @@ class DocumentExtendedTest extends
         $document   = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($this->collection->getId(), $document);
+        $documentId = $documentHandler->save($this->collection->getName(), $document);
 
+        @list(, $documentId) = explode('/', $documentId);
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
 
         $revision = $document->getRevision();
 
-        $response = $documentHandler->removeById($this->collection->getId(), $documentId, '_UOarUR----', ['policy' => 'last']);
+        $response = $documentHandler->removeById($this->collection->getName(), $documentId, '_UOarUR----', ['policy' => 'last']);
         static::assertTrue(
             $response,
             'deleteById() should return true! (because policy  is "last write wins")'
@@ -520,11 +533,12 @@ class DocumentExtendedTest extends
         $document   = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($this->collection->getId(), $document);
+        $documentId = $documentHandler->save($this->collection->getName(), $document);
 
+        @list(, $documentId) = explode('/', $documentId);
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
 
-        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument = $documentHandler->get($this->collection->getName(), $documentId);
 
         static::assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
@@ -538,7 +552,7 @@ class DocumentExtendedTest extends
         $result = $documentHandler->update($document, ['policy' => 'error']);
 
         static::assertTrue($result);
-        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument = $documentHandler->get($this->collection->getName(), $documentId);
 
         static::assertEquals('someValue2', $resultingDocument->someAttribute);
         static::assertEquals('someOtherValue2', $resultingDocument->someOtherAttribute);
@@ -556,7 +570,7 @@ class DocumentExtendedTest extends
 
         static::assertInstanceOf(\Exception::class, $e);
         static::assertEquals('precondition failed', $e->getMessage());
-        $resultingDocument1 = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument1 = $documentHandler->get($this->collection->getName(), $documentId);
 
         static::assertEquals(
             'someValue2', $resultingDocument1->someAttribute, 'This value should not have changed using UPDATE() - this is the behavior of REPLACE()'
@@ -565,7 +579,7 @@ class DocumentExtendedTest extends
         unset ($e);
 
         $document = Document::createFromArray(['someOtherAttribute' => 'someOtherValue3']);
-        $document->setInternalId($this->collection->getId() . '/' . $documentId);
+        $document->setInternalId($this->collection->getName() . '/' . $documentId);
         // Set some new values on the attributes and  _rev attribute to NULL
         // This should result in a successful update
         try {
@@ -573,7 +587,7 @@ class DocumentExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        $resultingDocument2 = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument2 = $documentHandler->get($this->collection->getName(), $documentId);
 
         static::assertEquals('someOtherValue3', $resultingDocument2->someOtherAttribute);
 
@@ -587,7 +601,7 @@ class DocumentExtendedTest extends
         $result = $documentHandler->update($document, ['policy' => 'error']);
 
         static::assertTrue($result);
-        $resultingDocument3 = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument3 = $documentHandler->get($this->collection->getName(), $documentId);
 
         static::assertEquals($resultingDocument3->someAttribute, 'someValue');
         static::assertEquals($resultingDocument3->someOtherAttribute, 'someOtherValue2');
@@ -618,11 +632,12 @@ class DocumentExtendedTest extends
         $document   = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($this->collection->getId(), $document);
+        $documentId = $documentHandler->save($this->collection->getName(), $document);
 
+        @list(, $documentId) = explode('/', $documentId);
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
 
-        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument = $documentHandler->get($this->collection->getName(), $documentId);
 
         static::assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
@@ -637,7 +652,7 @@ class DocumentExtendedTest extends
         $result = $documentHandler->update($document, ['keepNull' => false]);
 
         static::assertTrue($result);
-        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument = $documentHandler->get($this->collection->getName(), $documentId);
 
         $resDoc = $resultingDocument->getAll();
         static::assertArrayHasKey('someAttribute', $resDoc);
@@ -659,7 +674,7 @@ class DocumentExtendedTest extends
 
         static::assertInstanceOf(\Exception::class, $e);
         static::assertEquals('precondition failed', $e->getMessage());
-        $resultingDocument1 = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument1 = $documentHandler->get($this->collection->getName(), $documentId);
 
         static::assertEquals($resultingDocument1->someAttribute, 'someValue2');
         unset ($e);
@@ -667,7 +682,7 @@ class DocumentExtendedTest extends
         $document = Document::createFromArray(
             ['someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue3']
         );
-        $document->setInternalId($this->collection->getId() . '/' . $documentId);
+        $document->setInternalId($this->collection->getName() . '/' . $documentId);
         // Set some new values on the attributes and  _rev attribute to NULL
         // This should result in a successful update
         try {
@@ -675,7 +690,7 @@ class DocumentExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        $resultingDocument2 = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument2 = $documentHandler->get($this->collection->getName(), $documentId);
 
         static::assertEquals($resultingDocument2->someAttribute, 'someValue3');
         static::assertEquals('someOtherValue3', $resultingDocument2->someOtherAttribute);
@@ -690,7 +705,7 @@ class DocumentExtendedTest extends
         $result = $documentHandler->update($document, ['policy' => 'error']);
 
         static::assertTrue($result);
-        $resultingDocument3 = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument3 = $documentHandler->get($this->collection->getName(), $documentId);
 
         static::assertEquals($resultingDocument3->someAttribute, 'someValue2');
         static::assertEquals($resultingDocument3->someOtherAttribute, 'someOtherValue2');
@@ -721,11 +736,12 @@ class DocumentExtendedTest extends
         $document   = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId = $documentHandler->save($this->collection->getId(), $document);
+        $documentId = $documentHandler->save($this->collection->getName(), $document);
 
+        @list(, $documentId) = explode('/', $documentId);
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
 
-        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument = $documentHandler->get($this->collection->getName(), $documentId);
 
         static::assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
 
@@ -739,7 +755,7 @@ class DocumentExtendedTest extends
         $result = $documentHandler->update($document);
 
         static::assertTrue($result);
-        $resultingDocument = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument = $documentHandler->get($this->collection->getName(), $documentId);
 
         static::assertEquals('someValue2', $resultingDocument->someAttribute);
         static::assertEquals('someOtherValue2', $resultingDocument->someOtherAttribute);
@@ -754,7 +770,7 @@ class DocumentExtendedTest extends
             // don't bother us... just give us the $e
         }
 
-        $resultingDocument1 = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument1 = $documentHandler->get($this->collection->getName(), $documentId);
 
         static::assertArrayHasKey('someOtherAttribute', $resultingDocument1->getAll());
 
@@ -768,7 +784,7 @@ class DocumentExtendedTest extends
             // don't bother us... just give us the $e
         }
 
-        $resultingDocument1 = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument1 = $documentHandler->get($this->collection->getName(), $documentId);
 
         static::assertArrayHasKey('someOtherAttribute', $resultingDocument1->getAll());
 
@@ -783,7 +799,7 @@ class DocumentExtendedTest extends
             // don't bother us... just give us the $e
         }
 
-        $resultingDocument1 = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument1 = $documentHandler->get($this->collection->getName(), $documentId);
 
         static::assertArrayNotHasKey('someOtherAttribute', $resultingDocument1->getAll());
         //        $this->assertArrayNotHasKey('someAttribute',$resultingDocument1,print_r($resultingDocument1));
@@ -791,7 +807,7 @@ class DocumentExtendedTest extends
         unset ($e);
 
         $document = Document::createFromArray(['someOtherAttribute' => 'someOtherValue3']);
-        $document->setInternalId($this->collection->getId() . '/' . $documentId);
+        $document->setInternalId($this->collection->getName() . '/' . $documentId);
         // Set some new values on the attributes and  _rev attribute to NULL
         // This should result in a successful update
         try {
@@ -799,7 +815,7 @@ class DocumentExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
-        $resultingDocument2 = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument2 = $documentHandler->get($this->collection->getName(), $documentId);
 
         static::assertEquals('someOtherValue3', $resultingDocument2->someOtherAttribute);
 
@@ -813,7 +829,7 @@ class DocumentExtendedTest extends
         $result = $documentHandler->update($document, ['policy' => 'error']);
 
         static::assertTrue($result);
-        $resultingDocument3 = $documentHandler->get($this->collection->getId(), $documentId);
+        $resultingDocument3 = $documentHandler->get($this->collection->getName(), $documentId);
 
         static::assertEquals($resultingDocument3->someAttribute, 'someValue');
         static::assertEquals($resultingDocument3->someOtherAttribute, 'someOtherValue2');
@@ -849,7 +865,7 @@ class DocumentExtendedTest extends
                 'someThirdAttribute' => 'someThirdValue'
             ]
         );
-        $documentHandler->save($this->collection->getId(), $document);
+        $documentHandler->save($this->collection->getName(), $document);
 
         // set hidden fields
         $document->setHiddenAttributes(['someThirdAttribute']);
@@ -883,7 +899,7 @@ class DocumentExtendedTest extends
                 'name'     => 'foo'
             ]
         );
-        $documentHandler->save($this->collection->getId(), $document);
+        $documentHandler->save($this->collection->getName(), $document);
 
         $document = Document::createFromArray(
             [
@@ -893,10 +909,10 @@ class DocumentExtendedTest extends
                 'name'     => 'bar'
             ]
         );
-        $documentHandler->save($this->collection->getId(), $document);
+        $documentHandler->save($this->collection->getName(), $document);
 
 
-        $document = $documentHandler->getById($this->collection->getId(), 'test1');
+        $document = $documentHandler->getById($this->collection->getName(), 'test1');
         $document->setHiddenAttributes(['password']);
         $result = $document->getAll();
 
@@ -905,7 +921,7 @@ class DocumentExtendedTest extends
         static::assertArrayNotHasKey('password', $result);
 
         // test with even more hidden attributes
-        $document = $documentHandler->getById($this->collection->getId(), 'test1');
+        $document = $documentHandler->getById($this->collection->getName(), 'test1');
         $document->setHiddenAttributes(['isActive', 'password', 'foobar']);
         $result = $document->getAll();
 
@@ -914,7 +930,7 @@ class DocumentExtendedTest extends
         static::assertArrayNotHasKey('password', $result);
 
         // fetch again, without hidden fields now
-        $document = $documentHandler->getById($this->collection->getId(), 'test1');
+        $document = $documentHandler->getById($this->collection->getName(), 'test1');
         $result   = $document->getAll();
 
         static::assertTrue($result['isActive']);
@@ -922,7 +938,7 @@ class DocumentExtendedTest extends
         static::assertEquals('secret', $result['password']);
 
 
-        $document = $documentHandler->getById($this->collection->getId(), 'test2');
+        $document = $documentHandler->getById($this->collection->getName(), 'test2');
         $document->setHiddenAttributes(['password']);
         $result = $document->getAll();
 
@@ -931,7 +947,7 @@ class DocumentExtendedTest extends
         static::assertArrayNotHasKey('password', $result);
 
         // test with even more hidden attributes
-        $document = $documentHandler->getById($this->collection->getId(), 'test2');
+        $document = $documentHandler->getById($this->collection->getName(), 'test2');
         $document->setHiddenAttributes(['isActive', 'password', 'foobar']);
         $result = $document->getAll();
 
@@ -940,7 +956,7 @@ class DocumentExtendedTest extends
         static::assertArrayNotHasKey('password', $result);
 
         // fetch again, without hidden fields now
-        $document = $documentHandler->getById($this->collection->getId(), 'test2');
+        $document = $documentHandler->getById($this->collection->getName(), 'test2');
         $result   = $document->getAll();
 
         static::assertFalse($result['isActive']);
@@ -981,7 +997,7 @@ class DocumentExtendedTest extends
         // This should cause an exception with a code of 404
         try {
             $e = null;
-            $documentHandler->get($this->collection->getId(), 'nonexistentId');
+            $documentHandler->get($this->collection->getName(), 'nonexistentId');
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -993,7 +1009,7 @@ class DocumentExtendedTest extends
         // This should cause an exception with a code of 404
         try {
             $e = null;
-            $documentHandler->updateById($this->collection->getId(), 'nonexistentId', $document);
+            $documentHandler->updateById($this->collection->getName(), 'nonexistentId', $document);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -1005,7 +1021,7 @@ class DocumentExtendedTest extends
         // This should cause an exception with a code of 404
         try {
             $e = null;
-            $documentHandler->replaceById($this->collection->getId(), 'nonexistentId', $document);
+            $documentHandler->replaceById($this->collection->getName(), 'nonexistentId', $document);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -1017,7 +1033,7 @@ class DocumentExtendedTest extends
         // This should cause an exception with a code of 404
         try {
             $e = null;
-            $documentHandler->removeById($this->collection->getId(), 'nonexistentId');
+            $documentHandler->removeById($this->collection->getName(), 'nonexistentId');
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
@@ -1040,7 +1056,7 @@ class DocumentExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         //Store the document
-        $id = $documentHandler->store($document, $this->collection->getId());
+        $id = $documentHandler->store($document, $this->collection->getName());
 
         $rev = $document->getRevision();
 
@@ -1061,7 +1077,7 @@ class DocumentExtendedTest extends
         static::assertEquals($document->getId(), $id, 'ID of updated document does not match the initial ID.');
 
         //Retrieve a copy of the document from the server
-        $document = $documentHandler->get($this->collection->getId(), $id);
+        $document = $documentHandler->get($this->collection->getName(), $id);
 
         //Assert that it is not new
         static::assertNotTrue($document->getIsNew(), 'Document is marked as new when it is not.');

@@ -212,7 +212,7 @@ class TraversalTest extends
     public function testTraversalUsingDirectionOutbound()
     {
         $this->createGraph();
-
+$a=1;
         $startVertex    = $this->vertexCollectionName . '/' . $this->vertex1Name;
         $edgeCollection = $this->edgeCollectionName;
         $options        = ['direction' => 'outbound'];

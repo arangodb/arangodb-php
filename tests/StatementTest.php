@@ -69,7 +69,7 @@ class StatementTest extends
 
         $document->someAttribute = 'someValue';
 
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
         $statement = new Statement(
             $connection, [
@@ -152,7 +152,7 @@ class StatementTest extends
         $statement->setQuery('FOR i IN 1..1000 INSERT { _key: CONCAT("test", i) } IN ' . $collection->getName());
         $cursor = $statement->execute();
 
-        static::assertEquals(1000, $this->collectionHandler->count($collection->getId()));
+        static::assertEquals(1000, $this->collectionHandler->count($collection->getName()));
 
         $extra = $cursor->getExtra();
         static::assertEquals([], $extra['warnings']);
@@ -191,7 +191,7 @@ class StatementTest extends
         $statement->setQuery('FOR i IN ' . $collection->getName() . ' FILTER i._key IN [ "test1", "test35", "test99" ] REMOVE i IN ' . $collection->getName());
         $cursor = $statement->execute();
 
-        static::assertEquals(997, $this->collectionHandler->count($collection->getId()));
+        static::assertEquals(997, $this->collectionHandler->count($collection->getName()));
 
         $extra = $cursor->getExtra();
         static::assertEquals([], $extra['warnings']);
@@ -230,7 +230,7 @@ class StatementTest extends
         $statement->setQuery('FOR i IN ' . $collection->getName() . ' FILTER i.value <= 500 RETURN i');
         $cursor = $statement->execute();
 
-        static::assertEquals(1000, $this->collectionHandler->count($collection->getId()));
+        static::assertEquals(1000, $this->collectionHandler->count($collection->getName()));
 
         $extra = $cursor->getExtra();
         static::assertEquals([], $extra['warnings']);
@@ -268,7 +268,7 @@ class StatementTest extends
 
         $document->someAttribute = 'someValue';
 
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
         $statement = new Statement(
             $connection, [
@@ -308,7 +308,7 @@ class StatementTest extends
 
         $document->someAttribute = 'someValue';
 
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
         $statement = new Statement(
             $connection, [
@@ -337,7 +337,7 @@ class StatementTest extends
 
         $document->someAttribute = 'someValue';
 
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
         $statement = new Statement(
             $connection, [
@@ -384,7 +384,7 @@ class StatementTest extends
 
         $document->name = 'john';
 
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
         $statement = new Statement(
             $connection, [
@@ -412,15 +412,15 @@ class StatementTest extends
 
         $document       = new Document();
         $document->name = 'john';
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
         $document       = new Document();
         $document->name = 'peter';
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
         $document       = new Document();
         $document->name = 'jane';
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
         $statement = new Statement(
             $connection, [
@@ -448,7 +448,7 @@ class StatementTest extends
 
         $document       = new Document();
         $document->file = 'testFooBar';
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
         $statement = new Statement(
             $connection, [
@@ -474,7 +474,7 @@ class StatementTest extends
 
         $document       = new Document();
         $document->test = 'file';
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
         $statement = new Statement(
             $connection, [

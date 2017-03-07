@@ -23,6 +23,9 @@ class CustomDocumentClassTest extends
 
     protected static $testsTimestamp;
 
+    protected $collection;
+    protected $collectionHandler;
+
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
@@ -59,18 +62,18 @@ class CustomDocumentClassTest extends
 
         $document->someAttribute = 'someValue';
 
-        $documentId = $documentHandler->save($collection->getId(), $document);
+        $documentId = $documentHandler->save($collection->getName(), $document);
 
         $documentHandler->setDocumentClass(CustomDocumentClass1::class);
-        $resultingDocument1 = $documentHandler->get($collection->getId(), $documentId);
+        $resultingDocument1 = $documentHandler->get($collection->getName(), $documentId);
         static::assertInstanceOf(CustomDocumentClass1::class, $resultingDocument1, 'Retrieved document isn\'t made with provided CustomDocumentClass1!');
 
         $documentHandler->setDocumentClass(CustomDocumentClass2::class);
-        $resultingDocument2 = $documentHandler->get($collection->getId(), $documentId);
+        $resultingDocument2 = $documentHandler->get($collection->getName(), $documentId);
         static::assertInstanceOf(CustomDocumentClass2::class, $resultingDocument2, 'Retrieved document isn\'t made with provided CustomDocumentClass2!');
 
         $documentHandler->setDocumentClass(Document::class);
-        $resultingDocument = $documentHandler->get($collection->getId(), $documentId);
+        $resultingDocument = $documentHandler->get($collection->getName(), $documentId);
         static::assertInstanceOf(Document::class, $resultingDocument, 'Retrieved document isn\'t made with provided Document!');
         static::assertNotInstanceOf(CustomDocumentClass1::class, $resultingDocument, 'Retrieved document is made with CustomDocumentClass1!');
         static::assertNotInstanceOf(CustomDocumentClass2::class, $resultingDocument, 'Retrieved document is made with CustomDocumentClass2!');
@@ -105,7 +108,7 @@ class CustomDocumentClassTest extends
 
         $document->someAttribute = 'anotherValue';
 
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
         $statement = new Statement(
             $connection, [
@@ -141,7 +144,7 @@ class CustomDocumentClassTest extends
 
         $document->someAttribute = 'exportValue';
 
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
         $export = new Export($connection, $collection->getName(), [
             'batchSize' => 5000,
@@ -178,18 +181,18 @@ class CustomDocumentClassTest extends
         $document1       = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $docId1          = $documentHandler->save($this->collection->getId(), $document1);
+        $docId1          = $documentHandler->save($this->collection->getName(), $document1);
         $document2       = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $docId2          = $documentHandler->save($this->collection->getId(), $document2);
+        $docId2          = $documentHandler->save($this->collection->getName(), $document2);
 
         $batch = new Batch($connection);
         $batch->setDocumentClass(CustomDocumentClass1::class);
         $batch->startCapture();
 
-        $documentHandler->getById($this->collection->getId(), $docId1);
-        $documentHandler->getById($this->collection->getId(), $docId2);
+        $documentHandler->getById($this->collection->getName(), $docId1);
+        $documentHandler->getById($this->collection->getName(), $docId2);
 
         $batch->process();
         $result = $batch->getPart(0)->getProcessedResponse();

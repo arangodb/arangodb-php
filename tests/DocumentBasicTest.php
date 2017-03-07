@@ -73,9 +73,9 @@ class DocumentBasicTest extends
         $document        = Document::createFromArray([ "_key" => "me" ]);
         $documentHandler = new DocumentHandler($connection);
 
-        $documentId = $documentHandler->save($collection->getId(), $document);
+        $documentId = $documentHandler->save($collection->getName(), $document);
 
-        $resultingDocument = $documentHandler->get($collection->getId(), $documentId);
+        $resultingDocument = $documentHandler->get($collection->getName(), $documentId);
 
         $key = $resultingDocument->getKey();
         static::assertSame("me", $key);
@@ -99,9 +99,9 @@ class DocumentBasicTest extends
 
         $document->someAttribute = 'someValue';
 
-        $documentId = $documentHandler->save($collection->getId(), $document);
+        $documentId = $documentHandler->save($collection->getName(), $document);
 
-        $resultingDocument = $documentHandler->get($collection->getId(), $documentId);
+        $resultingDocument = $documentHandler->get($collection->getName(), $documentId);
 
         $resultingAttribute = $resultingDocument->someAttribute;
         static::assertSame(
@@ -366,9 +366,9 @@ class DocumentBasicTest extends
 
         $documentArray = ['someAttribute' => 'someValue'];
 
-        $documentId = $documentHandler->save($collection->getId(), $documentArray);
+        $documentId = $documentHandler->save($collection->getName(), $documentArray);
 
-        $resultingDocument = $documentHandler->get($collection->getId(), $documentId);
+        $resultingDocument = $documentHandler->get($collection->getName(), $documentId);
 
         $resultingAttribute = $resultingDocument->someAttribute;
         static::assertSame(
@@ -390,16 +390,16 @@ class DocumentBasicTest extends
 
         $documentArray = ['someAttribute' => 'someValue'];
 
-        $documentId = $documentHandler->save($collection->getId(), $documentArray);
+        $documentId = $documentHandler->save($collection->getName(), $documentArray);
 
-        $document = $documentHandler->get($collection->getId(), $documentId);
+        $document = $documentHandler->get($collection->getName(), $documentId);
 
         /**
          * lets get the document in a wrong revision
          */
         try {
             $documentHandler->get(
-                $collection->getId(), $documentId, [
+                $collection->getName(), $documentId, [
                     'ifMatch'  => true,
                     'revision' => 12345
                 ]
@@ -410,7 +410,7 @@ class DocumentBasicTest extends
 
         try {
             $documentHandler->get(
-                $collection->getId(), $documentId, [
+                $collection->getName(), $documentId, [
                     'ifMatch'  => false,
                     'revision' => $document->getRevision()
                 ]
@@ -419,7 +419,7 @@ class DocumentBasicTest extends
         }
         static::assertEquals('Document has not changed.', $exception304->getMessage());
 
-        $resultingDocument = $documentHandler->get($collection->getId(), $documentId);
+        $resultingDocument = $documentHandler->get($collection->getName(), $documentId);
 
         $resultingAttribute = $resultingDocument->someAttribute;
         static::assertSame(
@@ -431,7 +431,7 @@ class DocumentBasicTest extends
         $documentHandler->replace($resultingDocument);
 
         $oldRevision = $documentHandler->get(
-            $collection->getId(), $documentId,
+            $collection->getName(), $documentId,
             ['revision' => $resultingDocument->getRevision()]
         );
         static::assertEquals($oldRevision->getRevision(), $resultingDocument->getRevision());
@@ -449,30 +449,30 @@ class DocumentBasicTest extends
 
         $documentArray = ['someAttribute' => 'someValue'];
 
-        $documentId = $documentHandler->save($collection->getId(), $documentArray);
-        $document   = $documentHandler->get($collection->getId(), $documentId);
+        $documentId = $documentHandler->save($collection->getName(), $documentArray);
+        $document   = $documentHandler->get($collection->getName(), $documentId);
 
         try {
-            $documentHandler->getHead($collection->getId(), $documentId, '12345', true);
+            $documentHandler->getHead($collection->getName(), $documentId, '12345', true);
         } catch (\Exception $e412) {
         }
 
         static::assertEquals(412, $e412->getCode());
 
         try {
-            $documentHandler->getHead($collection->getId(), 'notExisting');
+            $documentHandler->getHead($collection->getName(), 'notExisting');
         } catch (\Exception $e404) {
         }
 
         static::assertEquals(404, $e404->getCode());
 
 
-        $result304 = $documentHandler->getHead($collection->getId(), $documentId, $document->getRevision(), false);
+        $result304 = $documentHandler->getHead($collection->getName(), $documentId, $document->getRevision(), false);
         static::assertEquals('"' . $document->getRevision() . '"', $result304['etag']);
         static::assertEquals(0, $result304['content-length']);
         static::assertEquals(304, $result304['httpCode']);
 
-        $result200 = $documentHandler->getHead($collection->getId(), $documentId, $document->getRevision(), true);
+        $result200 = $documentHandler->getHead($collection->getName(), $documentId, $document->getRevision(), true);
         static::assertEquals('"' . $document->getRevision() . '"', $result200['etag']);
         static::assertNotEquals(0, $result200['content-length']);
         static::assertEquals(200, $result200['httpCode']);
@@ -530,7 +530,7 @@ class DocumentBasicTest extends
         $connection      = $this->connection;
         $collection      = $this->collection;
         $documentHandler = new DocumentHandler($connection);
-        static::assertFalse($documentHandler->has($collection->getId(), 'just_a_stupid_document_id_which_does_not_exist'));
+        static::assertFalse($documentHandler->has($collection->getName(), 'just_a_stupid_document_id_which_does_not_exist'));
     }
 
 
@@ -544,9 +544,9 @@ class DocumentBasicTest extends
         $document                = new Document();
         $document->someAttribute = 'someValue';
 
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
-        static::assertTrue($this->collectionHandler->has($collection->getId()));
+        static::assertTrue($this->collectionHandler->has($collection->getName()));
     }
 
 
