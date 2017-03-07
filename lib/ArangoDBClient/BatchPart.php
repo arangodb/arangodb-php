@@ -246,6 +246,16 @@ class BatchPart
 
         $response = $this->getResponse();
         switch ($this->_type) {
+            case 'first':
+                $json             = $response->getJson();
+                if (!isset($json['error']) || $json['error'] === false) {
+                    $options          = $this->getCursorOptions();
+                    $options['isNew'] = false;
+                    $response         = $_documentClass::createFromArray($json['document'], $options);
+                } else {
+                    $response         = false;
+                }
+                break;
             case 'getdocument':
                 $json             = $response->getJson();
                 $options          = $this->getCursorOptions();
@@ -284,6 +294,7 @@ class BatchPart
                 }
                 break;
             case 'cursor':
+            case 'by':
                 $options          = $this->getCursorOptions();
                 $options['isNew'] = false;
 

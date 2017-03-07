@@ -1251,6 +1251,10 @@ class CollectionHandler extends Handler
 
         $response = $this->getConnection()->put(Urls::URL_EXAMPLE, $this->json_encode_wrapper($body));
 
+        if ($batchPart = $response->getBatchPart()) {
+            return $batchPart;
+        }
+
         $options['isNew'] = false;
 
         $options = array_merge(['_documentClass' => $this->_documentClass], $options);
@@ -1301,6 +1305,11 @@ class CollectionHandler extends Handler
         ];
 
         $response = $this->getConnection()->put(Urls::URL_FIRST_EXAMPLE, $this->json_encode_wrapper($data));
+        
+        if ($batchPart = $response->getBatchPart()) {
+            return $batchPart;
+        }
+        
         $data     = $response->getJson();
 
         $options['_isNew'] = false;
