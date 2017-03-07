@@ -249,11 +249,11 @@ class BatchPart
             case 'first':
                 $json             = $response->getJson();
                 if (!isset($json['error']) || $json['error'] === false) {
-                    $options          = $this->getCursorOptions();
-                    $options['isNew'] = false;
-                    $response         = $_documentClass::createFromArray($json['document'], $options);
+                    $options           = $this->getCursorOptions();
+                    $options['_isNew'] = false;
+                    $response          = $_documentClass::createFromArray($json['document'], $options);
                 } else {
-                    $response         = false;
+                    $response          = false;
                 }
                 break;
             case 'getdocument':
