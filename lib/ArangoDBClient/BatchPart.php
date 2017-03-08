@@ -247,10 +247,10 @@ class BatchPart
         $response = $this->getResponse();
         switch ($this->_type) {
             case 'getdocument':
-                $json             = $response->getJson();
-                $options          = $this->getCursorOptions();
-                $options['isNew'] = false;
-                $response         = $_documentClass::createFromArray($json, $options);
+                $json              = $response->getJson();
+                $options           = $this->getCursorOptions();
+                $options['_isNew'] = false;
+                $response          = $_documentClass::createFromArray($json, $options);
                 break;
             case 'document':
                 $json = $response->getJson();
@@ -260,10 +260,10 @@ class BatchPart
                 }
                 break;
             case 'getedge':
-                $json             = $response->getJson();
-                $options          = $this->getCursorOptions();
-                $options['isNew'] = false;
-                $response         = Edge::createFromArray($json, $options);
+                $json              = $response->getJson();
+                $options           = $this->getCursorOptions();
+                $options['_isNew'] = false;
+                $response          = Edge::createFromArray($json, $options);
                 break;
             case 'edge':
                 $json = $response->getJson();
@@ -284,8 +284,8 @@ class BatchPart
                 }
                 break;
             case 'cursor':
-                $options          = $this->getCursorOptions();
-                $options['isNew'] = false;
+                $options           = $this->getCursorOptions();
+                $options['_isNew'] = false;
 
                 $options  = array_merge(['_documentClass' => $this->_documentClass], $options);
                 $response = new Cursor($this->_batch->getConnection(), $response->getJson(), $options);

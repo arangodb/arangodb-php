@@ -1251,7 +1251,7 @@ class CollectionHandler extends Handler
 
         $response = $this->getConnection()->put(Urls::URL_EXAMPLE, $this->json_encode_wrapper($body));
 
-        $options['isNew'] = false;
+        $options['_isNew'] = false;
 
         $options = array_merge(['_documentClass' => $this->_documentClass], $options);
 
@@ -1362,7 +1362,7 @@ class CollectionHandler extends Handler
 
         $response = $this->getConnection()->put(Urls::URL_FULLTEXT, $this->json_encode_wrapper($body));
 
-        $options['isNew'] = false;
+        $options['_isNew'] = false;
 
         $options = array_merge(['_documentClass' => $this->_documentClass], $options);
 
