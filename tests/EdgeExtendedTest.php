@@ -175,6 +175,8 @@ class EdgeExtendedTest extends
             $documentHandle2,
             $edgeDocument
         );
+        @list($collectionName, $edgeId) = explode('/', $edgeId);
+        static::assertSame($edgeCollection->getName(), $collectionName, 'Did not return an id!');
         static::assertTrue(is_numeric($edgeId), 'Did not return an id!');
 
         $edgeDocument->set('labels', 'anything');
@@ -273,6 +275,8 @@ class EdgeExtendedTest extends
             $documentHandle2,
             $edgeDocument
         );
+        @list($collectionName, $edgeId) = explode('/', $edgeId);
+        static::assertSame($edgeCollection->getName(), $collectionName, 'Did not return an id!');
         static::assertTrue(is_numeric($edgeId), 'Did not return an id!');
 
         $edgeDocument->set('labels', 'anything');
@@ -329,6 +333,9 @@ class EdgeExtendedTest extends
             $documentHandle2,
             $edgeDocument
         );
+
+        @list($collectionName, $edgeId) = explode('/', $edgeId);
+        static::assertSame($edgeCollection->getName(), $collectionName, 'Did not return an id!');
         static::assertTrue(is_numeric($edgeId), 'Did not return an id!');
 
         $edgePutDocument = new Edge();

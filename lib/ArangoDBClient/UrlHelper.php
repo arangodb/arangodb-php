@@ -34,17 +34,17 @@ abstract class UrlHelper
 
         if (0 === strpos($location, '/_db/')) {
             // /_db/<dbname>/_api/document/<collection>/<key>
-            @list(, , , , , , $id) = explode('/', $location);
+            @list(, , , , , $collectionName, $id) = explode('/', $location);
         } else {
             // /_api/document/<collection>/<key>
-            @list(, , , , $id) = explode('/', $location);
+            @list(, , , $collectionName, $id) = explode('/', $location);
         }
 
         if (is_string($id)) {
             $id = urldecode($id);
         }
 
-        return $id;
+        return $collectionName . '/' . $id;
     }
 
     /**
@@ -62,6 +62,10 @@ abstract class UrlHelper
         $url = $baseUrl;
 
         foreach ($parts as $part) {
+            if (strpos($part, '/') !== false) {
+                @list(,$part) = explode('/', $part);
+            }
+
             $url .= '/' . urlencode($part);
         }
 

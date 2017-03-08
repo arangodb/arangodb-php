@@ -197,15 +197,15 @@ class CollectionExtendedTest extends
         $document = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
         $document2 = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentHandler->save($collection->getId(), $document2);
+        $documentHandler->save($collection->getName(), $document2);
         $document3 = Document::createFromArray(
             ['someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentHandler->save($collection->getId(), $document3);
+        $documentHandler->save($collection->getName(), $document3);
 
         $checksum1 = $collectionHandler->getChecksum($collection->getName(), true, true);
         $checksum2 = $collectionHandler->getChecksum($collection->getName());
@@ -258,7 +258,7 @@ class CollectionExtendedTest extends
         $document = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
         $revision2 = $collectionHandler->getRevision($collection->getName());
 
@@ -476,22 +476,25 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId  = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getName(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentId2 = $documentHandler->save($collection->getId(), $document2);
+        $documentId2 = $documentHandler->save($collection->getName(), $document2);
         $document3   = Document::createFromArray(
             ['someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId3 = $documentHandler->save($collection->getId(), $document3);
+        $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
-        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId2), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId3), 'Did not return an id!');
+        @list($collectionName, $documentId) = explode('/', $documentId);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        @list($collectionName, $documentId2) = explode('/', $documentId2);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        @list($collectionName, $documentId3) = explode('/', $documentId3);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
         $keys   = [$documentId, $documentId2, $documentId3];
-        $result = $collectionHandler->removeByKeys($collection->getId(), $keys);
+        $result = $collectionHandler->removeByKeys($collection->getName(), $keys);
         static::assertEquals(['removed' => 3, 'ignored' => 0], $result);
     }
 
@@ -525,22 +528,25 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId  = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getName(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentId2 = $documentHandler->save($collection->getId(), $document2);
+        $documentId2 = $documentHandler->save($collection->getName(), $document2);
         $document3   = Document::createFromArray(
             ['someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId3 = $documentHandler->save($collection->getId(), $document3);
+        $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
-        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId2), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId3), 'Did not return an id!');
+        @list($collectionName, $documentId) = explode('/', $documentId);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        @list($collectionName, $documentId2) = explode('/', $documentId2);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        @list($collectionName, $documentId3) = explode('/', $documentId3);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
         $keys   = ['foo', 'bar', 'baz'];
-        $result = $collectionHandler->removeByKeys($collection->getId(), $keys);
+        $result = $collectionHandler->removeByKeys($collection->getName(), $keys);
         static::assertEquals(['removed' => 0, 'ignored' => 3], $result);
     }
 
@@ -560,21 +566,24 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId  = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getName(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentId2 = $documentHandler->save($collection->getId(), $document2);
+        $documentId2 = $documentHandler->save($collection->getName(), $document2);
         $document3   = Document::createFromArray(
             ['someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId3 = $documentHandler->save($collection->getId(), $document3);
+        $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
-        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId2), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId3), 'Did not return an id!');
+        @list($collectionName, $documentId) = explode('/', $documentId);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        @list($collectionName, $documentId2) = explode('/', $documentId2);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        @list($collectionName, $documentId3) = explode('/', $documentId3);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
-        $result = $collectionHandler->removeByExample($collection->getId(), []);
+        $result = $collectionHandler->removeByExample($collection->getName(), []);
         static::assertEquals(3, $result);
     }
 
@@ -594,21 +603,24 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId  = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getName(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentId2 = $documentHandler->save($collection->getId(), $document2);
+        $documentId2 = $documentHandler->save($collection->getName(), $document2);
         $document3   = Document::createFromArray(
             ['someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId3 = $documentHandler->save($collection->getId(), $document3);
+        $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
-        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId2), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId3), 'Did not return an id!');
+        @list($collectionName, $documentId) = explode('/', $documentId);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        @list($collectionName, $documentId2) = explode('/', $documentId2);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        @list($collectionName, $documentId3) = explode('/', $documentId3);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
-        $result = $collectionHandler->updateByExample($collection->getId(), [], ['foo' => 'bar']);
+        $result = $collectionHandler->updateByExample($collection->getName(), [], ['foo' => 'bar']);
         static::assertEquals(3, $result);
     }
 
@@ -628,21 +640,24 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId  = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getName(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentId2 = $documentHandler->save($collection->getId(), $document2);
+        $documentId2 = $documentHandler->save($collection->getName(), $document2);
         $document3   = Document::createFromArray(
             ['someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId3 = $documentHandler->save($collection->getId(), $document3);
+        $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
-        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId2), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId3), 'Did not return an id!');
+        @list($collectionName, $documentId) = explode('/', $documentId);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        @list($collectionName, $documentId2) = explode('/', $documentId2);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        @list($collectionName, $documentId3) = explode('/', $documentId3);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
-        $result = $collectionHandler->updateByExample($collection->getId(), [], []);
+        $result = $collectionHandler->updateByExample($collection->getName(), [], []);
         static::assertEquals(3, $result);
     }
 
@@ -662,21 +677,24 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId  = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getName(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentId2 = $documentHandler->save($collection->getId(), $document2);
+        $documentId2 = $documentHandler->save($collection->getName(), $document2);
         $document3   = Document::createFromArray(
             ['someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId3 = $documentHandler->save($collection->getId(), $document3);
+        $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
-        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId2), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId3), 'Did not return an id!');
+        @list($collectionName, $documentId) = explode('/', $documentId);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        @list($collectionName, $documentId2) = explode('/', $documentId2);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        @list($collectionName, $documentId3) = explode('/', $documentId3);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
-        $result = $collectionHandler->replaceByExample($collection->getId(), [], ['foo' => 'bar']);
+        $result = $collectionHandler->replaceByExample($collection->getName(), [], ['foo' => 'bar']);
         static::assertEquals(3, $result);
     }
 
@@ -695,21 +713,24 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId  = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getName(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentId2 = $documentHandler->save($collection->getId(), $document2);
+        $documentId2 = $documentHandler->save($collection->getName(), $document2);
         $document3   = Document::createFromArray(
             ['someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId3 = $documentHandler->save($collection->getId(), $document3);
+        $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
-        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId2), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId3), 'Did not return an id!');
+        @list($collectionName, $documentId) = explode('/', $documentId);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        @list($collectionName, $documentId2) = explode('/', $documentId2);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        @list($collectionName, $documentId3) = explode('/', $documentId3);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
-        $result = $collectionHandler->replaceByExample($collection->getId(), [], []);
+        $result = $collectionHandler->replaceByExample($collection->getName(), [], []);
         static::assertEquals(3, $result);
     }
 
@@ -729,21 +750,24 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId  = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getName(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentId2 = $documentHandler->save($collection->getId(), $document2);
+        $documentId2 = $documentHandler->save($collection->getName(), $document2);
         $document3   = Document::createFromArray(
             ['someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId3 = $documentHandler->save($collection->getId(), $document3);
+        $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
-        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId2), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId3), 'Did not return an id!');
+        @list($collectionName, $documentId) = explode('/', $documentId);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        @list($collectionName, $documentId2) = explode('/', $documentId2);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        @list($collectionName, $documentId3) = explode('/', $documentId3);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
-        $cursor = $collectionHandler->byExample($collection->getId(), []);
+        $cursor = $collectionHandler->byExample($collection->getName(), []);
         static::assertEquals(
             3, $cursor->getCount(), 'should return 3.'
         );
@@ -765,22 +789,25 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId  = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getName(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentId2 = $documentHandler->save($collection->getId(), $document2);
+        $documentId2 = $documentHandler->save($collection->getName(), $document2);
         $document3   = Document::createFromArray(
             ['someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId3 = $documentHandler->save($collection->getId(), $document3);
+        $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
-        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId2), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId3), 'Did not return an id!');
+        @list($collectionName, $documentId) = explode('/', $documentId);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        @list($collectionName, $documentId2) = explode('/', $documentId2);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        @list($collectionName, $documentId3) = explode('/', $documentId3);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
         $exampleDocument = Document::createFromArray(['someOtherAttribute' => 'someOtherValue']);
-        $result          = $collectionHandler->removeByExample($collection->getId(), $exampleDocument);
+        $result          = $collectionHandler->removeByExample($collection->getName(), $exampleDocument);
         static::assertSame(2, $result);
     }
 
@@ -799,11 +826,11 @@ class CollectionExtendedTest extends
         $document      = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId    = $documentHandler->save($collection->getId(), $document);
+        $documentId    = $documentHandler->save($collection->getName(), $document);
         $documentArray = $document->getAll(['_includeInternals' => false]);
 
         $exampleDocument = Document::createFromArray(['someOtherAttribute' => 'someOtherValue']);
-        $cursor          = $collectionHandler->byExample($collection->getId(), $exampleDocument, ['_flat' => true]);
+        $cursor          = $collectionHandler->byExample($collection->getName(), $exampleDocument, ['_flat' => true]);
 
         $array = $cursor->getAll();
 
@@ -833,24 +860,27 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId  = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getName(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentId2 = $documentHandler->save($collection->getId(), $document2);
+        $documentId2 = $documentHandler->save($collection->getName(), $document2);
         $document3   = Document::createFromArray(
             ['someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId3 = $documentHandler->save($collection->getId(), $document3);
+        $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
-        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId2), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId3), 'Did not return an id!');
+        @list($collectionName, $documentId) = explode('/', $documentId);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        @list($collectionName, $documentId2) = explode('/', $documentId2);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        @list($collectionName, $documentId3) = explode('/', $documentId3);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
         $exampleDocument = Document::createFromArray(['someOtherAttribute' => 'someOtherValue']);
         $updateDocument  = Document::createFromArray(['someNewAttribute' => 'someNewValue']);
 
-        $result = $collectionHandler->updateByExample($collection->getId(), $exampleDocument, $updateDocument);
+        $result = $collectionHandler->updateByExample($collection->getName(), $exampleDocument, $updateDocument);
         static::assertSame(2, $result);
 
         $exampleDocument = Document::createFromArray(['someAttribute' => 'someValue2']);
@@ -861,14 +891,14 @@ class CollectionExtendedTest extends
             ]
         );
         $result          = $collectionHandler->replaceByExample(
-            $collection->getId(),
+            $collection->getName(),
             $exampleDocument,
             $replaceDocument
         );
         static::assertSame(1, $result);
 
         $exampleDocument = Document::createFromArray(['someOtherAttribute' => 'someOtherValue']);
-        $result          = $collectionHandler->removeByExample($collection->getId(), $exampleDocument);
+        $result          = $collectionHandler->removeByExample($collection->getName(), $exampleDocument);
         static::assertSame(2, $result);
     }
 
@@ -889,27 +919,27 @@ class CollectionExtendedTest extends
         $collectionHandler->create($collection);
         $document = ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue'];
 
-        $documentId = $documentHandler->save($collection->getId(), $document);
+        $documentId = $documentHandler->save($collection->getName(), $document);
         static::assertTrue(is_numeric($documentId), 'Did not return an id!');
 
 
         $document2 = ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2'];
 
 
-        $documentId2 = $documentHandler->save($collection->getId(), $document2);
+        $documentId2 = $documentHandler->save($collection->getName(), $document2);
         static::assertTrue(is_numeric($documentId2), 'Did not return an id!');
 
 
         $document3 = ['someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue'];
 
-        $documentId3 = $documentHandler->save($collection->getId(), $document3);
+        $documentId3 = $documentHandler->save($collection->getName(), $document3);
         static::assertTrue(is_numeric($documentId3), 'Did not return an id!');
 
 
         $exampleDocument = ['someOtherAttribute' => 'someOtherValue'];
         $updateDocument  = ['someNewAttribute' => 'someNewValue'];
 
-        $result = $collectionHandler->updateByExample($collection->getId(), $exampleDocument, $updateDocument);
+        $result = $collectionHandler->updateByExample($collection->getName(), $exampleDocument, $updateDocument);
         static::assertSame(2, $result);
 
 
@@ -918,7 +948,7 @@ class CollectionExtendedTest extends
             ['someAttribute' => 'someValue2replaced', 'someOtherAttribute' => 'someOtherValue2replaced'];
 
         $result = $collectionHandler->replaceByExample(
-            $collection->getId(),
+            $collection->getName(),
             $exampleDocument,
             $replaceDocument
         );
@@ -926,7 +956,7 @@ class CollectionExtendedTest extends
 
 
         $exampleDocument = ['someOtherAttribute' => 'someOtherValue'];
-        $result          = $collectionHandler->removeByExample($collection->getId(), $exampleDocument);
+        $result          = $collectionHandler->removeByExample($collection->getName(), $exampleDocument);
         static::assertSame(2, $result);
     }
 
@@ -947,25 +977,28 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId  = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getName(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentId2 = $documentHandler->save($collection->getId(), $document2);
+        $documentId2 = $documentHandler->save($collection->getName(), $document2);
         $document3   = Document::createFromArray(
             ['someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId3 = $documentHandler->save($collection->getId(), $document3);
+        $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
-        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId2), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId3), 'Did not return an id!');
+        @list($collectionName, $documentId) = explode('/', $documentId);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        @list($collectionName, $documentId2) = explode('/', $documentId2);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        @list($collectionName, $documentId3) = explode('/', $documentId3);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
         $exampleDocument = Document::createFromArray(['someOtherAttribute' => 'someOtherValue']);
         $updateDocument  = Document::createFromArray(['someNewAttribute' => 'someNewValue']);
 
         $result = $collectionHandler->updateByExample(
-            $collection->getId(),
+            $collection->getName(),
             $exampleDocument,
             $updateDocument,
             ['limit' => 1]
@@ -980,7 +1013,7 @@ class CollectionExtendedTest extends
             ]
         );
         $result          = $collectionHandler->replaceByExample(
-            $collection->getId(),
+            $collection->getName(),
             $exampleDocument,
             $replaceDocument,
             ['limit' => 2]
@@ -989,7 +1022,7 @@ class CollectionExtendedTest extends
 
         $exampleDocument = Document::createFromArray(['someOtherAttribute' => 'someOtherValue']);
         $result          = $collectionHandler->removeByExample(
-            $collection->getId(),
+            $collection->getName(),
             $exampleDocument,
             ['limit' => 1]
         );
@@ -1013,25 +1046,28 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId  = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getName(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentId2 = $documentHandler->save($collection->getId(), $document2);
+        $documentId2 = $documentHandler->save($collection->getName(), $document2);
         $document3   = Document::createFromArray(
             ['someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId3 = $documentHandler->save($collection->getId(), $document3);
+        $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
-        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId2), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId3), 'Did not return an id!');
+        @list($collectionName, $documentId) = explode('/', $documentId);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        @list($collectionName, $documentId2) = explode('/', $documentId2);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        @list($collectionName, $documentId3) = explode('/', $documentId3);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
         $exampleDocument = Document::createFromArray(['someOtherAttribute' => 'someOtherValue']);
         $updateDocument  = Document::createFromArray(['someNewAttribute' => 'someNewValue']);
 
         $result = $collectionHandler->updateByExample(
-            $collection->getId(),
+            $collection->getName(),
             $exampleDocument,
             $updateDocument,
             ['waitForSync' => true]
@@ -1046,7 +1082,7 @@ class CollectionExtendedTest extends
             ]
         );
         $result          = $collectionHandler->replaceByExample(
-            $collection->getId(),
+            $collection->getName(),
             $exampleDocument,
             $replaceDocument,
             ['waitForSync' => true]
@@ -1055,7 +1091,7 @@ class CollectionExtendedTest extends
 
         $exampleDocument = Document::createFromArray(['someOtherAttribute' => 'someOtherValue']);
         $result          = $collectionHandler->removeByExample(
-            $collection->getId(),
+            $collection->getName(),
             $exampleDocument,
             ['waitForSync' => true]
         );
@@ -1079,20 +1115,22 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId  = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getName(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentId2 = $documentHandler->save($collection->getId(), $document2);
+        $documentId2 = $documentHandler->save($collection->getName(), $document2);
         $document3   = Document::createFromArray(
             ['someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId3 = $documentHandler->save($collection->getId(), $document3);
+        $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
-        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId2), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId3), 'Did not return an id!');
-
+        @list($collectionName, $documentId) = explode('/', $documentId);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        @list($collectionName, $documentId2) = explode('/', $documentId2);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        @list($collectionName, $documentId3) = explode('/', $documentId3);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
         $exampleDocument = Document::createFromArray(['someAttribute' => 'someValue2']);
         $updateDocument  = Document::createFromArray(
@@ -1100,7 +1138,7 @@ class CollectionExtendedTest extends
         );
 
         $result = $collectionHandler->updateByExample(
-            $collection->getId(),
+            $collection->getName(),
             $exampleDocument,
             $updateDocument,
             ['keepNull' => false]
@@ -1109,14 +1147,14 @@ class CollectionExtendedTest extends
 
 
         $exampleDocument = Document::createFromArray(['someNewAttribute' => 'someNewValue']);
-        $cursor          = $collectionHandler->byExample($collection->getId(), $exampleDocument);
+        $cursor          = $collectionHandler->byExample($collection->getName(), $exampleDocument);
         static::assertEquals(
             1, $cursor->getCount(), 'should return 1.'
         );
 
         $exampleDocument = Document::createFromArray(['someOtherAttribute' => 'someOtherValue']);
         $result          = $collectionHandler->removeByExample(
-            $collection->getId(),
+            $collection->getName(),
             $exampleDocument,
             ['waitForSync' => true]
         );
@@ -1139,23 +1177,26 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId  = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getName(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentId2 = $documentHandler->save($collection->getId(), $document2);
+        $documentId2 = $documentHandler->save($collection->getName(), $document2);
         $document3   = Document::createFromArray(
             ['someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId3 = $documentHandler->save($collection->getId(), $document3);
+        $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
-        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId2), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId3), 'Did not return an id!');
+        @list($collectionName, $documentId) = explode('/', $documentId);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        @list($collectionName, $documentId2) = explode('/', $documentId2);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        @list($collectionName, $documentId3) = explode('/', $documentId3);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
         $exampleDocument = Document::createFromArray(['someOtherAttribute' => 'someOtherValue']);
         $result          = $collectionHandler->removeByExample(
-            $collection->getId(),
+            $collection->getName(),
             $exampleDocument,
             ['limit' => 1]
         );
@@ -1585,14 +1626,14 @@ class CollectionExtendedTest extends
         $document = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
         $document = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
-        $arrayOfDocuments = $collectionHandler->getAllIds($collection->getId());
+        $arrayOfDocuments = $collectionHandler->getAllIds($collection->getName());
 
         static::assertTrue(
             is_array($arrayOfDocuments) && (count($arrayOfDocuments) === 2),
@@ -1619,14 +1660,14 @@ class CollectionExtendedTest extends
         $document = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
         $document = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
-        $cursor = $collectionHandler->all($collection->getId());
+        $cursor = $collectionHandler->all($collection->getName());
 
         $resultingDocument = null;
 
@@ -1656,15 +1697,15 @@ class CollectionExtendedTest extends
         $document = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
         $document = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
         $cursor = $collectionHandler->all(
-            $collection->getId(), [
+            $collection->getName(), [
                 '_ignoreHiddenAttributes' => false,
                 '_hiddenAttributes'       => ['someOtherAttribute']
             ]
@@ -1679,7 +1720,7 @@ class CollectionExtendedTest extends
         }
 
         $cursor = $collectionHandler->all(
-            $collection->getId(), [
+            $collection->getName(), [
                 '_ignoreHiddenAttributes' => true,
                 '_hiddenAttributes'       => ['someOtherAttribute']
             ]
@@ -1713,15 +1754,15 @@ class CollectionExtendedTest extends
         $document = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
         $document = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
         $cursor = $collectionHandler->all(
-            $collection->getId(), [
+            $collection->getName(), [
                 '_ignoreHiddenAttributes' => false,
                 '_hiddenAttributes'       => ['someOtherAttribute']
             ]
@@ -1736,7 +1777,7 @@ class CollectionExtendedTest extends
         }
 
         $cursor = $collectionHandler->all(
-            $collection->getId(), [
+            $collection->getName(), [
                 '_ignoreHiddenAttributes' => false,
                 '_hiddenAttributes'       => ['someOtherAttribute']
             ]
@@ -1755,7 +1796,7 @@ class CollectionExtendedTest extends
         }
 
         $cursor = $collectionHandler->all(
-            $collection->getId(), [
+            $collection->getName(), [
                 '_ignoreHiddenAttributes' => false,
                 '_hiddenAttributes'       => ['someOtherAttribute']
             ]
@@ -1774,7 +1815,7 @@ class CollectionExtendedTest extends
         }
 
         $cursor = $collectionHandler->all(
-            $collection->getId(), [
+            $collection->getName(), [
                 '_ignoreHiddenAttributes' => true,
                 '_hiddenAttributes'       => ['someOtherAttribute']
             ]
@@ -1789,7 +1830,7 @@ class CollectionExtendedTest extends
         }
 
         $cursor = $collectionHandler->all(
-            $collection->getId(), [
+            $collection->getName(), [
                 '_ignoreHiddenAttributes' => true,
                 '_hiddenAttributes'       => []
             ]
@@ -1809,7 +1850,7 @@ class CollectionExtendedTest extends
         }
 
         $cursor = $collectionHandler->all(
-            $collection->getId(), [
+            $collection->getName(), [
                 '_ignoreHiddenAttributes' => true
             ]
         );
@@ -1849,14 +1890,14 @@ class CollectionExtendedTest extends
         $document = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
         $document = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
-        $cursor = $collectionHandler->all($collection->getId(), ['limit' => 1]);
+        $cursor = $collectionHandler->all($collection->getName(), ['limit' => 1]);
 
         $resultingDocument = null;
 
@@ -1888,10 +1929,10 @@ class CollectionExtendedTest extends
             $document = Document::createFromArray(
                 ['someAttribute' => 'someValue ' . $i, 'someOtherAttribute' => 'someValue ' . $i]
             );
-            $documentHandler->save($collection->getId(), $document);
+            $documentHandler->save($collection->getName(), $document);
         }
 
-        $cursor = $collectionHandler->all($collection->getId(), ['skip' => 1]);
+        $cursor = $collectionHandler->all($collection->getName(), ['skip' => 1]);
 
         $resultingDocument = null;
 
@@ -1922,14 +1963,14 @@ class CollectionExtendedTest extends
         $document = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
         $document = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
-        $arrayOfDocuments = $collectionHandler->getAllIds($collection->getId());
+        $arrayOfDocuments = $collectionHandler->getAllIds($collection->getName());
 
         static::assertTrue(
             is_array($arrayOfDocuments) && (count($arrayOfDocuments) === 2),
@@ -1943,14 +1984,14 @@ class CollectionExtendedTest extends
         $document = Document::createFromArray(
             ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
         $document = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
 
-        $arrayOfDocuments = $collectionHandler->getAllIds($collection->getId());
+        $arrayOfDocuments = $collectionHandler->getAllIds($collection->getName());
 
         static::assertTrue(
             is_array($arrayOfDocuments) && (count($arrayOfDocuments) === 2),
@@ -1958,7 +1999,7 @@ class CollectionExtendedTest extends
         );
 
         //truncate, given the collection id
-        $collectionHandler->truncate($collection->getId());
+        $collectionHandler->truncate($collection->getName());
 
 
         $response = $collectionHandler->drop($collection);
@@ -1996,8 +2037,8 @@ class CollectionExtendedTest extends
         $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]);
         $collectionHandler->create($collection);
 
-        $indexRes       = $collectionHandler->index($collection->getId(), 'skiplist', ['index']);
-        $nestedIndexRes = $collectionHandler->index($collection->getId(), 'skiplist', ['nested.index']);
+        $indexRes       = $collectionHandler->index($collection->getName(), 'skiplist', ['index']);
+        $nestedIndexRes = $collectionHandler->index($collection->getName(), 'skiplist', ['nested.index']);
         static::assertArrayHasKey(
             'isNewlyCreated',
             $indexRes,
@@ -2022,7 +2063,7 @@ class CollectionExtendedTest extends
                 ]
             ]
         );
-        $documentHandler->save($collection->getId(), $document1);
+        $documentHandler->save($collection->getName(), $document1);
         $document2 = Document::createFromArray(
             [
                 'index'              => 1,
@@ -2033,7 +2074,7 @@ class CollectionExtendedTest extends
                 ]
             ]
         );
-        $documentHandler->save($collection->getId(), $document2);
+        $documentHandler->save($collection->getName(), $document2);
 
         $document3 = Document::createFromArray(
             [
@@ -2045,24 +2086,24 @@ class CollectionExtendedTest extends
                 ]
             ]
         );
-        $documentHandler->save($collection->getId(), $document3);
+        $documentHandler->save($collection->getName(), $document3);
 
 
         // first level attribute range test
-        $rangeResult = $collectionHandler->range($collection->getId(), 'index', 1, 2, ['closed' => false]);
+        $rangeResult = $collectionHandler->range($collection->getName(), 'index', 1, 2, ['closed' => false]);
         $resultArray = $rangeResult->getAll();
         static::assertSame(1, $resultArray[0]->index, 'This value should be 1 !');
         static::assertArrayNotHasKey(1, $resultArray, 'Should not have a second key !');
 
 
-        $rangeResult = $collectionHandler->range($collection->getId(), 'index', 2, 3, ['closed' => true]);
+        $rangeResult = $collectionHandler->range($collection->getName(), 'index', 2, 3, ['closed' => true]);
         $resultArray = $rangeResult->getAll();
         static::assertSame(2, $resultArray[0]->index, 'This value should be 2 !');
         static::assertSame(3, $resultArray[1]->index, 'This value should be 3 !');
 
 
         $rangeResult = $collectionHandler->range(
-            $collection->getId(),
+            $collection->getName(),
             'index',
             2,
             3,
@@ -2074,7 +2115,7 @@ class CollectionExtendedTest extends
 
 
         $rangeResult = $collectionHandler->range(
-            $collection->getId(),
+            $collection->getName(),
             'index',
             2,
             3,
@@ -2086,20 +2127,20 @@ class CollectionExtendedTest extends
 
 
         // nested attribute range test
-        $rangeResult = $collectionHandler->range($collection->getId(), 'nested.index', 1, 2, ['closed' => false]);
+        $rangeResult = $collectionHandler->range($collection->getName(), 'nested.index', 1, 2, ['closed' => false]);
         $resultArray = $rangeResult->getAll();
         static::assertSame(1, $resultArray[0]->nested['index'], 'This value should be 1 !');
         static::assertArrayNotHasKey(1, $resultArray, 'Should not have a second key !');
 
 
-        $rangeResult = $collectionHandler->range($collection->getId(), 'nested.index', 2, 3, ['closed' => true]);
+        $rangeResult = $collectionHandler->range($collection->getName(), 'nested.index', 2, 3, ['closed' => true]);
         $resultArray = $rangeResult->getAll();
         static::assertSame(2, $resultArray[0]->nested['index'], 'This value should be 2 !');
         static::assertSame(3, $resultArray[1]->nested['index'], 'This value should be 3 !');
 
 
         $rangeResult = $collectionHandler->range(
-            $collection->getId(),
+            $collection->getName(),
             'nested.index',
             2,
             3,
@@ -2111,7 +2152,7 @@ class CollectionExtendedTest extends
 
 
         $rangeResult = $collectionHandler->range(
-            $collection->getId(),
+            $collection->getName(),
             'nested.index',
             2,
             3,
@@ -2139,7 +2180,7 @@ class CollectionExtendedTest extends
         $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]);
         $collectionHandler->create($collection);
 
-        $indexRes = $collectionHandler->index($collection->getId(), 'geo', ['loc']);
+        $indexRes = $collectionHandler->index($collection->getName(), 'geo', ['loc']);
         static::assertArrayHasKey(
             'isNewlyCreated',
             $indexRes,
@@ -2150,15 +2191,15 @@ class CollectionExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document1 = Document::createFromArray(['loc' => [0, 0], 'someOtherAttribute' => '0 0']);
-        $documentHandler->save($collection->getId(), $document1);
+        $documentHandler->save($collection->getName(), $document1);
         $document2 = Document::createFromArray(['loc' => [1, 1], 'someOtherAttribute' => '1 1']);
-        $documentHandler->save($collection->getId(), $document2);
+        $documentHandler->save($collection->getName(), $document2);
         $document3   = Document::createFromArray(['loc' => [+30, -30], 'someOtherAttribute' => '30 -30']);
-        $documentId3 = $documentHandler->save($collection->getId(), $document3);
-        $documentHandler->getById($collection->getId(), $documentId3);
+        $documentId3 = $documentHandler->save($collection->getName(), $document3);
+        $documentHandler->getById($collection->getName(), $documentId3);
 
 
-        $rangeResult = $collectionHandler->near($collection->getId(), 0, 0);
+        $rangeResult = $collectionHandler->near($collection->getName(), 0, 0);
         $resultArray = $rangeResult->getAll();
         static::assertTrue(
             $resultArray[0]->loc[0] === 0 && $resultArray[0]->loc[1] === 0,
@@ -2170,7 +2211,7 @@ class CollectionExtendedTest extends
         );
 
 
-        $rangeResult = $collectionHandler->near($collection->getId(), 0, 0, ['distance' => 'distance']);
+        $rangeResult = $collectionHandler->near($collection->getName(), 0, 0, ['distance' => 'distance']);
         $resultArray = $rangeResult->getAll();
         static::assertTrue(
             $resultArray[0]->loc[0] === 0 && $resultArray[0]->loc[1] === 0,
@@ -2189,7 +2230,7 @@ class CollectionExtendedTest extends
         );
 
 
-        $rangeResult = $collectionHandler->near($collection->getId(), 0, 0, ['limit' => 1]);
+        $rangeResult = $collectionHandler->near($collection->getName(), 0, 0, ['limit' => 1]);
         $resultArray = $rangeResult->getAll();
         static::assertTrue(
             $resultArray[0]->loc[0] === 0 && $resultArray[0]->loc[1] === 0,
@@ -2198,7 +2239,7 @@ class CollectionExtendedTest extends
         static::assertArrayNotHasKey(1, $resultArray, 'Should not have a second key !');
 
 
-        $rangeResult = $collectionHandler->near($collection->getId(), 0, 0, ['skip' => 1]);
+        $rangeResult = $collectionHandler->near($collection->getName(), 0, 0, ['skip' => 1]);
         $resultArray = $rangeResult->getAll();
         static::assertTrue(
             $resultArray[0]->loc[0] === 1 && $resultArray[0]->loc[1] === 1,
@@ -2211,7 +2252,7 @@ class CollectionExtendedTest extends
         static::assertArrayNotHasKey(2, $resultArray, 'Should not have a third key !');
 
 
-        $rangeResult = $collectionHandler->near($collection->getId(), +30, -30);
+        $rangeResult = $collectionHandler->near($collection->getName(), +30, -30);
         $resultArray = $rangeResult->getAll();
         static::assertTrue(
             $resultArray[0]->loc[0] === 30 && $resultArray[0]->loc[1] === -30,
@@ -2244,7 +2285,7 @@ class CollectionExtendedTest extends
         $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]);
         $collectionHandler->create($collection);
 
-        $indexRes = $collectionHandler->index($collection->getId(), 'geo', ['loc']);
+        $indexRes = $collectionHandler->index($collection->getName(), 'geo', ['loc']);
         static::assertArrayHasKey(
             'isNewlyCreated',
             $indexRes,
@@ -2255,15 +2296,15 @@ class CollectionExtendedTest extends
         $documentHandler = $this->documentHandler;
 
         $document1 = Document::createFromArray(['loc' => [0, 0], 'someOtherAttribute' => '0 0']);
-        $documentHandler->save($collection->getId(), $document1);
+        $documentHandler->save($collection->getName(), $document1);
         $document2 = Document::createFromArray(['loc' => [1, 1], 'someOtherAttribute' => '1 1']);
-        $documentHandler->save($collection->getId(), $document2);
+        $documentHandler->save($collection->getName(), $document2);
         $document3   = Document::createFromArray(['loc' => [+30, -30], 'someOtherAttribute' => '30 -30']);
-        $documentId3 = $documentHandler->save($collection->getId(), $document3);
-        $documentHandler->getById($collection->getId(), $documentId3);
+        $documentId3 = $documentHandler->save($collection->getName(), $document3);
+        $documentHandler->getById($collection->getName(), $documentId3);
 
 
-        $rangeResult = $collectionHandler->within($collection->getId(), 0, 0, 0);
+        $rangeResult = $collectionHandler->within($collection->getName(), 0, 0, 0);
         $resultArray = $rangeResult->getAll();
         static::assertTrue(
             $resultArray[0]->loc[0] === 0 && $resultArray[0]->loc[1] === 0,
@@ -2272,7 +2313,7 @@ class CollectionExtendedTest extends
 
 
         $rangeResult = $collectionHandler->within(
-            $collection->getId(),
+            $collection->getName(),
             0,
             0,
             200 * 1000,
@@ -2293,7 +2334,7 @@ class CollectionExtendedTest extends
         );
 
 
-        $rangeResult = $collectionHandler->within($collection->getId(), 0, 0, 200 * 1000, ['limit' => 1]);
+        $rangeResult = $collectionHandler->within($collection->getName(), 0, 0, 200 * 1000, ['limit' => 1]);
         $resultArray = $rangeResult->getAll();
         static::assertTrue(
             $resultArray[0]->loc[0] === 0 && $resultArray[0]->loc[1] === 0,
@@ -2302,7 +2343,7 @@ class CollectionExtendedTest extends
         static::assertArrayNotHasKey(1, $resultArray, 'Should not have a second key !');
 
 
-        $rangeResult = $collectionHandler->within($collection->getId(), 0, 0, 20000 * 1000, ['skip' => 1]);
+        $rangeResult = $collectionHandler->within($collection->getName(), 0, 0, 20000 * 1000, ['skip' => 1]);
         $resultArray = $rangeResult->getAll();
         static::assertTrue(
             $resultArray[0]->loc[0] === 1 && $resultArray[0]->loc[1] === 1,
@@ -2315,7 +2356,7 @@ class CollectionExtendedTest extends
         static::assertArrayNotHasKey(2, $resultArray, 'Should not have a third key !');
 
 
-        $rangeResult = $collectionHandler->within($collection->getId(), +30, -30, 20000 * 1000);
+        $rangeResult = $collectionHandler->within($collection->getName(), +30, -30, 20000 * 1000);
         $resultArray = $rangeResult->getAll();
         static::assertTrue(
             $resultArray[0]->loc[0] === 30 && $resultArray[0]->loc[1] === -30,
@@ -2437,17 +2478,17 @@ class CollectionExtendedTest extends
         $document1 = new Document();
         $document1->set('message', 'message1');
 
-        $documentHandler->save($collection->getId(), $document1);
+        $documentHandler->save($collection->getName(), $document1);
 
         $document2 = new Document();
         $document2->set('message', 'message2');
 
-        $documentHandler->save($collection->getId(), $document2);
+        $documentHandler->save($collection->getName(), $document2);
 
         $document3 = new Document();
         $document3->set('message', 'message3');
 
-        $documentHandler->save($collection->getId(), $document3);
+        $documentHandler->save($collection->getName(), $document3);
 
         //Now, let's try to query any document
         $document = $collectionHandler->any($collection->getName());
@@ -2538,15 +2579,15 @@ class CollectionExtendedTest extends
         $document = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentHandler->save($collection->getId(), $document);
+        $documentHandler->save($collection->getName(), $document);
         $document2 = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentHandler->save($collection->getId(), $document2);
+        $documentHandler->save($collection->getName(), $document2);
         $document3 = Document::createFromArray(
             ['someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentHandler->save($collection->getId(), $document3);
+        $documentHandler->save($collection->getName(), $document3);
         // First we test without a fulltext index and expect a 400
         try {
             $collectionHandler->fulltext(
@@ -2560,7 +2601,7 @@ class CollectionExtendedTest extends
         static::assertSame(400, $e->getCode());
 
         // Now we create an index
-        $fulltextIndexId = $collectionHandler->createFulltextIndex($collection->getId(), ['someOtherAttribute']);
+        $fulltextIndexId = $collectionHandler->createFulltextIndex($collection->getName(), ['someOtherAttribute']);
         $fulltextIndexId = $fulltextIndexId['id'];
         $cursor          = $collectionHandler->fulltext(
             $collection->getName(),
@@ -2615,22 +2656,25 @@ class CollectionExtendedTest extends
         $document    = Document::createFromArray(
             ['someAttribute' => 'someValue1', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId  = $documentHandler->save($collection->getId(), $document);
+        $documentId  = $documentHandler->save($collection->getName(), $document);
         $document2   = Document::createFromArray(
             ['someAttribute' => 'someValue2', 'someOtherAttribute' => 'someOtherValue2']
         );
-        $documentId2 = $documentHandler->save($collection->getId(), $document2);
+        $documentId2 = $documentHandler->save($collection->getName(), $document2);
         $document3   = Document::createFromArray(
             ['someAttribute' => 'someValue3', 'someOtherAttribute' => 'someOtherValue']
         );
-        $documentId3 = $documentHandler->save($collection->getId(), $document3);
+        $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
-        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId2), 'Did not return an id!');
-        static::assertTrue(is_numeric($documentId3), 'Did not return an id!');
+        @list($collectionName, $documentKey) = explode('/', $documentId);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentKey), 'Did not return an id!');
+        @list($collectionName, $documentKey2) = explode('/', $documentId2);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentKey2), 'Did not return an id!');
+        @list($collectionName, $documentKey3) = explode('/', $documentId3);
+        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentKey3), 'Did not return an id!');
 
         $keys   = [$documentId, $documentId2, $documentId3];
-        $result = $collectionHandler->lookupByKeys($collection->getId(), $keys);
+        $result = $collectionHandler->lookupByKeys($collection->getName(), $keys);
         static::assertCount(3, $result);
 
         $document = $result[0];

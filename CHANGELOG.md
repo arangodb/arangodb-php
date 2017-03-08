@@ -1,5 +1,16 @@
 Release notes for the ArangoDB-PHP driver 3.2.0 (currently in development)
 ==========================================================================
+- Document ID's are now handled correctly. This is a necessary and ___backwards incompatible change___, in order to be consistent with ArangoDB's API.
+
+  Why: It was necessary to fix the document ids to correctly use ArangoDB's _ids instead of only the _key. 
+
+  __Important incompatible changes related to this:__
+  - Document::getId(): Will return the correct id (CollectionName/DocumentID) instead of the key (DocumentID).
+  - UrlHelper::getDocumentIdFromLocation(): Will  now return a "real" _id instead of what was essentially the `_key`
+  
+  __Other changes related to this:__
+  - DocumentHandler::getById(): Will work as before, but it will also accept a "real" document ID in addition to the key. 
+  If a real document ID is given, the collection data will be extracted from that string. That means that the first parameter `$collection` does not need to have a valid value, in that case.
 
 - The namespace `\triagens\ArangoDb` was replaced with `\ArangoDBClient`.
 For each class in the old namespace there is now a class alias that points

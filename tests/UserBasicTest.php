@@ -9,8 +9,6 @@
 
 namespace ArangoDBClient;
 
-use Installer\Exception;
-
 /**
  * Class UserBasicTest
  *
@@ -88,7 +86,7 @@ class UserBasicTest extends
         static::assertTrue($result);
 
         $result = $userHandler->getDatabases('testUser42');
-        static::assertEquals([], $result);
+        static::assertEquals(['_system' => 'none'], $result);
     }
 
 

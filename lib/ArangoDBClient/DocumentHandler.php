@@ -121,6 +121,9 @@ class DocumentHandler extends Handler
      */
     public function getById($collection, $documentId, array $options = [])
     {
+        if (strpos($documentId, '/') !== false) {
+            @list($collection ,$documentId) = explode('/', $documentId);
+        }
         $data              = $this->getDocument(Urls::URL_DOCUMENT, $collection, $documentId, $options);
         $options['_isNew'] = false;
 

@@ -970,11 +970,11 @@ class GraphExtendedTest extends
 
         // Save vertices using VertexHandler
         $result1 = $vertexHandler->save($this->vertexCollectionName, $vertex1);
-        static::assertEquals('vertex1', $result1, 'Did not return vertex1!');
+        static::assertEquals($this->vertexCollectionName.'/vertex1', $result1, 'Did not return vertex1!');
 
 
         $result2 = $vertexHandler->save($this->vertexCollectionName, $vertex2);
-        static::assertEquals('vertex2', $result2, 'Did not return vertex2!');
+        static::assertEquals($this->vertexCollectionName.'/vertex2', $result2, 'Did not return vertex2!');
 
 
         // Get vertices using VertexHandler
@@ -994,7 +994,7 @@ class GraphExtendedTest extends
             $this->vertexCollectionName . '/' . $this->vertex2Name,
             $edge1
         );
-        static::assertEquals('edge1', $result1, 'Did not return edge1!');
+        static::assertEquals($this->edgeCollectionName.'/edge1', $result1, 'Did not return edge1!');
 
 
         // Get edge using EdgeHandler

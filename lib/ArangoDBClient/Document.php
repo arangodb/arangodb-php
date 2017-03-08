@@ -704,18 +704,18 @@ class Document
     }
 
     /**
-     * Get the document id (if already known)
+     * Get the document id (or document handle) if already known.
      *
-     * Document ids are generated on the server only. Document ids are numeric but might be
-     * bigger than PHP_INT_MAX. To reliably store a document id elsewhere, a PHP string should be used
+     * It is a string and consists of the collection's name and the document key (_key attribute) separated by /.
+     * Example: (collectionname/documentId)
      *
-     * @return mixed - document id, might be NULL if document does not yet have an id
+     * The document handle is stored in a document's _id attribute.
+     *
+     * @return mixed - document id, might be NULL if document does not yet have an id.
      */
     public function getId()
     {
-        @list(, $documentId) = explode('/', $this->_id, 2);
-
-        return $documentId;
+        return $this->_id;
     }
 
     /**
