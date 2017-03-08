@@ -134,7 +134,7 @@ class UserBasicTest extends
             $this->userHandler->addUser('testUser1', 'testPass1', true, ['level' => 1]);
         } catch (\Exception $e) {
             // Just give us the $e
-            static::assertEquals(409, $e->getCode());
+            static::assertTrue($e->getCode() === 400 || $e->getCode() === 409);
         }
         static::assertInstanceOf(ServerException::class, $e, 'should have gotten an exception');
 
