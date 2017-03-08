@@ -1598,6 +1598,10 @@ class CollectionHandler extends Handler
         );
 
         $response = $this->getConnection()->put(Urls::URL_REMOVE_BY_KEYS, $this->json_encode_wrapper($body));
+        
+        if ($batchPart = $response->getBatchPart()) {
+            return $batchPart;
+        }
 
         $responseArray = $response->getJson();
 
