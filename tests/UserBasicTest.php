@@ -86,7 +86,11 @@ class UserBasicTest extends
         static::assertTrue($result);
 
         $result = $userHandler->getDatabases('testUser42');
-        static::assertEquals(['_system' => 'none'], $result);
+        // never versions of ArangoDB do not return "none" for 
+        // databases for which there are no permissions
+        if (!empty($result)) {
+          static::assertEquals(['_system' => 'none'], $result);
+        }
     }
 
 
