@@ -290,6 +290,13 @@ class BatchPart
                 $options  = array_merge(['_documentClass' => $this->_documentClass], $options);
                 $response = new Cursor($this->_batch->getConnection(), $response->getJson(), $options);
                 break;
+            case 'remove':
+                $json     = $response->getJson();
+                $response = [
+                    'removed' => $json['removed'],
+                    'ignored' => $json['ignored']
+                ];
+                break;
             default:
                 throw new ClientException('Could not determine response data type.');
                 break;
