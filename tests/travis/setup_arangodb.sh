@@ -1,7 +1,8 @@
 #!/bin/bash
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd $DIR
+echo "cd $DIR"
+cd "$DIR"
 
 VERSION="devel-nightly"
 NAME="ArangoDB-$VERSION"
@@ -29,6 +30,7 @@ fi
 mkdir ${TMP_DIR}
 
 echo "Starting ArangoDB '${ARANGOD}'"
+echo "pwd: `pwd`"
 
 ${ARANGOD} \
     --database.directory ${TMP_DIR} \
