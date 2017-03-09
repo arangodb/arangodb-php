@@ -9,13 +9,12 @@ matrix:
   fast_finish: true
 
 before_script:
-  - composer install --no-interaction --prefer-source --dev
   - chmod 777 ./tests/travis/setup_arangodb.sh
   - ./tests/travis/setup_arangodb.sh
 
 script: 
-  - phpunit --configuration ./tests/phpunit-connection-close.xml
-  - phpunit --configuration ./tests/phpunit-connection-keep-alive.xml
+  - ./phpunit --configuration ./tests/phpunit-connection-close.xml
+  - ./phpunit --configuration ./tests/phpunit-connection-keep-alive.xml
 
 after_script:
   - ./tests/travis/teardown_arangodb.sh

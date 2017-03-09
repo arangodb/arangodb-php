@@ -1,7 +1,31 @@
 #!/bin/bash
 
-echo "phpunit --version"
-phpunit --version
+echo "PHP version: $TRAVIS_PHP_VERSION"
+
+if [[ "$TRAVIS_PHP_VERSION" == "5.6" ]] ; then 
+wget "https://phar.phpunit.de/phpunit-5.7.phar"
+mv phpunit-5.7.phar ./phpunit
+fi
+
+if [[ "$TRAVIS_PHP_VERSION" == "7.0" ]] ; then 
+wget "https://phar.phpunit.de/phpunit-6.0.phar"
+mv phpunit-6.0.phar ./phpunit
+fi
+
+if [[ "$TRAVIS_PHP_VERSION" == "7.1" ]] ; then 
+wget "https://phar.phpunit.de/phpunit-6.0.phar"
+mv phpunit-6.0.phar ./phpunit
+fi
+
+if [[ "$TRAVIS_PHP_VERSION" == "hhvm" ]] ; then 
+wget "https://phar.phpunit.de/phpunit-5.7.phar"
+mv phpunit-5.7.phar ./phpunit
+fi
+
+chmod +x ./phpunit
+
+echo "./phpunit --version"
+./phpunit --version
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo "cd $DIR"
