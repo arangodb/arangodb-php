@@ -668,6 +668,7 @@ class EdgeBasicTest extends
         static::assertCount(3, $edgesQueryResult);
         foreach ($edgesQueryResult as $edge) {
             static::assertInstanceOf(Edge::class, $edge);
+            static::assertFalse($edge->getIsNew());
 
             if ($edge->value === 1) {
                 static::assertEquals($documentHandle1, $edge->getFrom());

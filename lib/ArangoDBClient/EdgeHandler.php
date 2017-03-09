@@ -194,9 +194,10 @@ class EdgeHandler extends DocumentHandler
         ];
         $url      = UrlHelper::appendParamsUrl(Urls::URL_EDGES . '/' . urlencode($collection), $params);
         $response = $this->getConnection()->get($url);
-        $json     = $response->getJson();
-
-        $edges = [];
+        
+        $options['_isNew'] = false;
+        $json              = $response->getJson();
+        $edges             = [];
         foreach ($json[self::ENTRY_EDGES] as $data) {
             $edges[] = $this->createFromArrayWithContext($data, $options);
         }
