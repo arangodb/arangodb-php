@@ -272,6 +272,15 @@ class BatchPart
                     $response = $id;
                 }
                 break;
+            case 'getedges':
+                $json              = $response->getJson();
+                $options           = $this->getCursorOptions();
+                $options['_isNew'] = false;
+                $response          = [];
+                foreach ($json[EdgeHandler::ENTRY_EDGES] as $data) {
+                    $response[] = Edge::createFromArray($data, $options);
+                }
+                break;
             case 'getcollection':
                 $json     = $response->getJson();
                 $response = Collection::createFromArray($json);
@@ -297,6 +306,7 @@ class BatchPart
                     'ignored' => $json['ignored']
                 ];
                 break;
+                
             default:
                 throw new ClientException('Could not determine response data type.');
                 break;

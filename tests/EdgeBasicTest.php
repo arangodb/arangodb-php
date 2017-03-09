@@ -668,6 +668,7 @@ class EdgeBasicTest extends
         static::assertCount(3, $edgesQueryResult);
         foreach ($edgesQueryResult as $edge) {
             static::assertInstanceOf(Edge::class, $edge);
+            static::assertFalse($edge->getIsNew());
 
             if ($edge->value === 1) {
                 static::assertEquals($documentHandle1, $edge->getFrom());
@@ -807,6 +808,85 @@ class EdgeBasicTest extends
 
         // test empty result
         $edgesQueryResult = $edgeDocumentHandler->outEdges($edgeCollection->getName(), 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp . '/foobar');
+        static::assertCount(0, $edgesQueryResult);
+    }
+
+    /**
+     * Test edges method in batch
+     */
+    public function testEdgesBatched()
+    {
+        $connection     = $this->connection;
+        $collection     = $this->collection;
+        $edgeCollection = $this->edgeCollection;
+
+        $document1       = new Document();
+        $document2       = new Document();
+        $documentHandler = new DocumentHandler($connection);
+
+        $edgeDocumentHandler = new EdgeHandler($connection);
+
+        $document1->someAttribute = 'someValue1';
+        $document2->someAttribute = 'someValue2';
+
+        $documentHandler->save($collection->getName(), $document1);
+        $documentHandler->save($collection->getName(), $document2);
+        $documentHandle1 = $document1->getHandle();
+        $documentHandle2 = $document2->getHandle();
+
+        $edgeDocument1 = $edgeDocumentHandler->saveEdge(
+            $edgeCollection->getName(),
+            $documentHandle1,
+            $documentHandle2,
+            ['value' => 1]
+        );
+
+        $edgeDocument2 = $edgeDocumentHandler->saveEdge(
+            $edgeCollection->getName(),
+            $documentHandle2,
+            $documentHandle1,
+            ['value' => 2]
+        );
+
+        $edgeDocument3 = $edgeDocumentHandler->saveEdge(
+            $edgeCollection->getName(),
+            $documentHandle1,
+            $documentHandle2,
+            ['value' => 3]
+        );
+
+        $batch = new Batch($this->connection);
+        $batch->startCapture();
+
+        $part1 = $edgeDocumentHandler->edges($edgeCollection->getName(), $documentHandle1, 'any');
+        $part2 = $edgeDocumentHandler->edges($edgeCollection->getName(), 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp . '/foobar', 'any');
+
+        $batch->process();
+
+        $edgesQueryResult = $part1->getProcessedResponse();
+        
+        static::assertCount(3, $edgesQueryResult);
+        foreach ($edgesQueryResult as $edge) {
+            static::assertInstanceOf(Edge::class, $edge);
+            static::assertFalse($edge->getIsNew());
+
+            if ($edge->value === 1) {
+                static::assertEquals($documentHandle1, $edge->getFrom());
+                static::assertEquals($documentHandle2, $edge->getTo());
+                static::assertEquals($edgeDocument1, $edge->getId());
+            } else if ($edge->value === 2) {
+                static::assertEquals($documentHandle2, $edge->getFrom());
+                static::assertEquals($documentHandle1, $edge->getTo());
+                static::assertEquals($edgeDocument2, $edge->getId());
+            } else {
+                static::assertEquals($documentHandle1, $edge->getFrom());
+                static::assertEquals($documentHandle2, $edge->getTo());
+                static::assertEquals($edgeDocument3, $edge->getId());
+            }
+        }
+
+        // test empty result
+        $edgesQueryResult = $part2->getProcessedResponse();
         static::assertCount(0, $edgesQueryResult);
     }
 
