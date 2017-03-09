@@ -6,8 +6,10 @@ matrix:
     - php: '7.0'
     - php: '7.1'
     - php: hhvm
+  fast_finish: true
 
 before_script:
+  - composer install --no-interaction --prefer-source --dev
   - chmod 777 ./tests/travis/setup_arangodb.sh
   - ./tests/travis/setup_arangodb.sh
 
