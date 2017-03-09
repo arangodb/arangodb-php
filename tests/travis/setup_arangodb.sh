@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "phpunit --version"
+phpunit --version
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo "cd $DIR"
 cd "$DIR"
