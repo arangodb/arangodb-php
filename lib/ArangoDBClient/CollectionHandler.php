@@ -1154,6 +1154,10 @@ class CollectionHandler extends Handler
         );
 
         $response = $this->getConnection()->put(Urls::URL_ALL, $this->json_encode_wrapper($body));
+        
+        if ($batchPart = $response->getBatchPart()) {
+            return $batchPart;
+        }
 
         $options = array_merge(['_documentClass' => $this->_documentClass], $options);
 

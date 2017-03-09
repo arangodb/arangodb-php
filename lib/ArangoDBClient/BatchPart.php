@@ -293,6 +293,7 @@ class BatchPart
                 }
                 break;
             case 'cursor':
+            case 'all':
                 $options           = $this->getCursorOptions();
                 $options['_isNew'] = false;
 
