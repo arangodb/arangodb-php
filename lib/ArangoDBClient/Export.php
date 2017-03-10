@@ -274,10 +274,12 @@ class Export
      * Sets the document class to use
      *
      * @param string $class Document class to use
+     * @return Export
      */
     public function setDocumentClass($class)
     {
         $this->_documentClass = $class;
+        return $this;
     }
 }
 
