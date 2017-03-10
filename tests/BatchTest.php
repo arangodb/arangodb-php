@@ -520,6 +520,100 @@ class BatchTest extends
         }
     }
 
+    public function testfirstExampleBatch()
+    {
+        $connection        = $this->connection;
+        $collection        = $this->collection;
+        $document1         = Document::createFromArray([ "foo" => "bar" ]);
+        $document2         = Document::createFromArray([ "foo" => "baz" ]);
+        $documentHandler   = new DocumentHandler($connection);
+
+        $documentHandler->save($collection->getName(), $document1);
+        $documentHandler->save($collection->getName(), $document2);
+
+        // first verify the standard behaviour of firstExample ...
+        
+        $document = $this->collectionHandler->firstExample($collection->getName(), ['foo'=>'bar']);
+
+        static::assertTrue($document->getHandle() === $document1->getHandle());
+
+        try {
+            $document = $this->collectionHandler->firstExample($collection->getName(), ['foo'=>'bam']);
+            static::assertTrue(false);
+        } catch(ServerException $e) {
+            static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
+        }
+
+        // now do this in Batch
+
+        $batch = new Batch($this->connection);
+        $batch->startCapture();
+
+        $part1 = $this->collectionHandler->firstExample($collection->getName(), ['foo'=>'bar']);
+        $part2 = $this->collectionHandler->firstExample($collection->getName(), ['foo'=>'bam']);
+
+        static::assertInstanceOf(BatchPart::class, $part1);
+        static::assertInstanceOf(BatchPart::class, $part2);
+        
+        $batch->process();
+
+        $document = $part1->getProcessedResponse();
+
+        static::assertTrue($document->getHandle() === $document1->getHandle());
+
+        $document = $part2->getProcessedResponse();
+        static::assertTrue($document === false);
+    }
+
+    public function testByExampleBatch()
+    {
+        $connection        = $this->connection;
+        $collection        = $this->collection;
+        $document1         = Document::createFromArray([ "foo" => "bar", 'you' => 'me'   ]);
+        $document2         = Document::createFromArray([ "foo" => "baz", 'our' => 'own'  ]);
+        $document3         = Document::createFromArray([ "foo" => "baz", 'do'  => 'done' ]);
+        $documentHandler   = new DocumentHandler($connection);
+
+        $documentHandler->save($collection->getName(), $document1);
+        $documentHandler->save($collection->getName(), $document2);
+        $documentHandler->save($collection->getName(), $document3);
+
+        // first verify the standard behaviour of byExample ...
+        
+        $all1 = $this->collectionHandler->byExample($collection->getName(), ['foo'=>'baz'])->getAll();
+        $all2 = $this->collectionHandler->byExample($collection->getName(), ['you'=>'me'])->getAll();
+        $all3 = $this->collectionHandler->byExample($collection->getName(), ['foo'=>'none'])->getAll();
+
+        static::assertTrue(count($all1) == 2);
+        static::assertTrue(count($all2) == 1);
+        static::assertTrue(count($all3) == 0);
+        static::assertTrue(reset($all2)->getHandle() === $document1->getHandle());
+
+        // now do this in Batch
+
+        $batch = new Batch($this->connection);
+        $batch->startCapture();
+
+        $part1 = $this->collectionHandler->byExample($collection->getName(), ['foo'=>'baz']);
+        $part2 = $this->collectionHandler->byExample($collection->getName(), ['you'=>'me']);
+        $part3 = $this->collectionHandler->byExample($collection->getName(), ['foo'=>'none']);
+
+        static::assertInstanceOf(BatchPart::class, $part1);
+        static::assertInstanceOf(BatchPart::class, $part2);
+        static::assertInstanceOf(BatchPart::class, $part3);
+        
+        $batch->process();
+
+        $all1 = $part1->getProcessedResponse()->getAll();
+        $all2 = $part2->getProcessedResponse()->getAll();
+        $all3 = $part3->getProcessedResponse()->getAll();
+
+        static::assertTrue(count($all1) == 2);
+        static::assertTrue(count($all2) == 1);
+        static::assertTrue(count($all3) == 0);
+        static::assertTrue(reset($all2)->getHandle() === $document1->getHandle());
+    }
+
     public function tearDown()
     {
         try {
