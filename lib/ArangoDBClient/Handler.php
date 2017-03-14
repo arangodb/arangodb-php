@@ -166,10 +166,12 @@ abstract class Handler
      * Sets the document class to use
      *
      * @param string $class Document class to use
+     * @return Handler
      */
     public function setDocumentClass($class)
     {
         $this->_documentClass = $class;
+        return $this;
     }
 
 }

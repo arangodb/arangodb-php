@@ -347,10 +347,12 @@ class BatchPart
      * Sets the document class to use
      *
      * @param string $class Document class to use
+     * @return BatchPart
      */
     public function setDocumentClass($class)
     {
         $this->_documentClass = $class;
+        return $this;
     }
 }
 
