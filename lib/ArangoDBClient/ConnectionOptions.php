@@ -375,6 +375,7 @@ class ConnectionOptions implements \ArrayAccess
             if (isset($this->_values[self::OPTION_HOST]) && !isset($this->_values[self::OPTION_ENDPOINT])) {
                 // upgrade host/port to an endpoint
                 $this->_values[self::OPTION_ENDPOINT] = 'tcp://' . $this->_values[self::OPTION_HOST] . ':' . $this->_values[self::OPTION_PORT];
+                unset($this->_values[self::OPTION_HOST]);
             }
         }
 
