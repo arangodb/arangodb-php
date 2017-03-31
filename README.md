@@ -473,8 +473,10 @@ Note that the document must have been fetched from the server before. If you hav
 ## Running an AQL query
 
 
-To run an AQL query, use the *Statement* class:
-
+To run an AQL query, use the *Statement* class.
+    
+The method Statement::execute creates a Cursor object which can be used to iterate over
+the query's result set.
 
 ```php
     // create a statement to insert 1000 test users
@@ -507,6 +509,34 @@ To run an AQL query, use the *Statement* class:
 
     // to get statistics for the query, use Cursor::getExtra();
     var_dump($cursor->getExtra());
+
+```
+
+Note: by default the Statement object will create a Cursor that converts each value into
+a Document object. This is normally the intended behavior for AQL queries that return
+entire documents. However, an AQL query can also return projections or any other data
+that cannot be converted into Document objects.
+
+In order to suppress the conversion into Document objects, the Statement must be given
+the `_flat` attribute. This allows processing the results of arbitrary AQL queries:
+
+
+```php
+    // run an AQL query that does not return documents but scalars
+    // we need to set the _flat attribute of the Statement in order for this to work
+    $statement = new ArangoStatement(
+        $connection, [
+                       'query' => 'FOR i IN 1..1000 RETURN i',
+                       '_flat' => true
+                     ]
+    );
+
+    // executing the statement returns a cursor
+    $cursor = $statement->execute();
+
+    // easiest way to get all results returned by the cursor
+    // note that now the results won't be converted into Document objects
+    var_dump($cursor->getAll());
 
 ```
 
