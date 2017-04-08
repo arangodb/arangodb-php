@@ -19,7 +19,7 @@ namespace ArangoDBClient;
  * @package   ArangoDBClient
  * @since     0.2
  */
-class Document
+class Document implements \JsonSerializable
 {
     /**
      * The document id (might be NULL for new documents)
@@ -231,6 +231,11 @@ class Document
     public function toJson(array $options = [])
     {
         return json_encode($this->getAll($options));
+    }
+
+    public function jsonSerialize()
+    {
+        return $this->getAll([]);
     }
 
     /**
