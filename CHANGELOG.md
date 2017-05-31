@@ -1,5 +1,9 @@
 Release notes for the ArangoDB-PHP driver 3.2.0 (currently in development)
 ==========================================================================
+- the default value for the authentication type of the `Connection` class is now `Basic`
+
+- the default value for the connection type is now `Keep-Alive` and not `Close`
+
 - Document ID's are now handled correctly. This is a necessary and ___backwards incompatible change___, in order to be consistent with ArangoDB's API.
 
   Why: It was necessary to fix the document ids to correctly use ArangoDB's _ids instead of only the _key. 
