@@ -18,8 +18,8 @@ mv phpunit-6.0.phar ./phpunit
 fi
 
 if [[ "$TRAVIS_PHP_VERSION" == "hhvm" ]] ; then 
-wget "https://phar.phpunit.de/phpunit-6.0.phar"
-mv phpunit-6.0.phar ./phpunit
+wget "https://phar.phpunit.de/phpunit-5.7.phar"
+mv phpunit-5.7.phar ./phpunit
 fi
 
 chmod +x ./phpunit
