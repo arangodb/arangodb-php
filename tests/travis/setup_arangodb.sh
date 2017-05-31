@@ -20,6 +20,7 @@ fi
 if [[ "$TRAVIS_PHP_VERSION" == "hhvm" ]] ; then 
 wget "https://phar.phpunit.de/phpunit-5.7.phar"
 mv phpunit-5.7.phar ./phpunit
+cp "`which phpunit`" ./phpunit
 fi
 
 chmod +x ./phpunit
