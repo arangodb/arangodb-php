@@ -323,7 +323,7 @@ class ConnectionOptions implements \ArrayAccess
             self::OPTION_CIPHERS            => DefaultValues::DEFAULT_CIPHERS,
             self::OPTION_AUTH_USER          => null,
             self::OPTION_AUTH_PASSWD        => null,
-            self::OPTION_AUTH_TYPE          => null,
+            self::OPTION_AUTH_TYPE          => DefaultValues::DEFAULT_AUTH_TYPE,
             self::OPTION_RECONNECT          => false,
             self::OPTION_BATCH              => false,
             self::OPTION_BATCHPART          => false,

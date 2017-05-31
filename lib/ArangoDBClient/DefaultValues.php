@@ -29,6 +29,11 @@ abstract class DefaultValues
      * Default timeout value (used if no timeout value specified)
      */
     const DEFAULT_TIMEOUT = 30;
+    
+    /**
+     * Default Authorization type (use HTTP basic authentication)
+     */
+    const DEFAULT_AUTH_TYPE = 'Basic';
 
     /**
      * Default value for waitForSync (fsync all data to disk on document updates/insertions/deletions)
@@ -53,7 +58,7 @@ abstract class DefaultValues
     /**
      * Default value for HTTP Connection header
      */
-    const DEFAULT_CONNECTION = 'Close';
+    const DEFAULT_CONNECTION = 'Keep-Alive';
 
     /**
      * Default value for SSL certificate verification
