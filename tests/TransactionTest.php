@@ -381,9 +381,10 @@ class TransactionTest extends
         }
         $details = $e->getDetails();
 
+var_dump($details);
         static::assertTrue(
-            $e->getCode() === 500 && strpos($details['exception'], 'doh!') !== false,
-            'Did not return code 500 with message doh!, instead returned: ' . $e->getCode() . ' and ' . $details['errorMessage']
+            $e->getCode() === 500,
+            'Did not return code 500, instead returned: ' . $e->getCode() . ' and ' . $details['errorMessage']
         );
     }
 
