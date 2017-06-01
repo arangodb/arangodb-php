@@ -6,7 +6,6 @@ matrix:
     - php: '5.6'
     - php: '7.0'
     - php: '7.1'
-    - php: 'hhvm-3.18'
   fast_finish: true
 
 before_script:
@@ -14,8 +13,8 @@ before_script:
   - ./tests/travis/setup_arangodb.sh
 
 script: 
-  - phpunit --configuration ./tests/phpunit-connection-close.xml
-  - phpunit --configuration ./tests/phpunit-connection-keep-alive.xml
+  - ./phpunit --configuration ./tests/phpunit-connection-close.xml
+  - ./phpunit --configuration ./tests/phpunit-connection-keep-alive.xml
 
 after_script:
   - ./tests/travis/teardown_arangodb.sh
