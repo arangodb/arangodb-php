@@ -18,13 +18,12 @@ mv phpunit-6.0.phar ./phpunit
 fi
 
 if [[ "$TRAVIS_PHP_VERSION" == "hhvm" ]] ; then 
-hhvm -d hhvm.php7.all=1
 wget "https://phar.phpunit.de/phpunit-6.0.phar"
 mv phpunit-6.0.phar ./phpunit
 fi
 
 if [[ "$TRAVIS_PHP_VERSION" == "hhvm-3.18" ]] ; then 
-hhvm -d hhvm.php7.all=1
+echo -e "[hhvm]\nphp7.all=1\n" >> /etc/hhvm/php.ini
 wget "https://phar.phpunit.de/phpunit-6.0.phar"
 mv phpunit-6.0.phar ./phpunit
 fi
