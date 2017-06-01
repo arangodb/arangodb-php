@@ -23,9 +23,8 @@ mv phpunit-6.0.phar ./phpunit
 fi
 
 if [[ "$TRAVIS_PHP_VERSION" == "hhvm-3.18" ]] ; then 
-echo -e "[hhvm]\nphp7.all=1\n" >> /etc/hhvm/php.ini
-wget "https://phar.phpunit.de/phpunit-6.0.phar"
-mv phpunit-6.0.phar ./phpunit
+wget "https://phar.phpunit.de/phpunit-5.7.phar"
+mv phpunit-5.7.phar ./phpunit
 fi
 
 chmod +x ./phpunit
