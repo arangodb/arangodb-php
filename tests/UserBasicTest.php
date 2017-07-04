@@ -132,7 +132,7 @@ class UserBasicTest extends
             $this->userHandler->addUser('testUser1', 'testPass1', true, ['level' => 1]);
         } catch (\Exception $e) {
             // Just give us the $e
-            static::assertEquals($e->getCode(), 400);
+            static::assertTrue($e->getCode() === 400 || $e->getCode() === 409);
         }
         static::assertInstanceOf('triagens\ArangoDb\ServerException', $e, 'should have gotten an exception');
 
