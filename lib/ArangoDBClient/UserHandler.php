@@ -183,8 +183,26 @@ class UserHandler extends Handler
      * @param string $databaseName - name of database as a string
      *
      * @return bool - always true, will throw if there is an error
+     *
+     * @deprecated use UserHandler::grantDatabasePermissions instead
      */
     public function grantPermissions($username, $databaseName)
+    {
+        return $this->grantDatabasePermissions($username,$databaseName);
+    }
+
+
+   /**
+     * Grant R/W permissions to a user, for a specific database
+     *
+     * @throws Exception
+     *
+     * @param string $username     - username as a string
+     * @param string $databaseName - name of database as a string
+     *
+     * @return bool - always true, will throw if there is an error
+     */
+    public function grantDatabasePermissions($username, $databaseName)
     {
         $data = [
             'grant' => 'rw'
@@ -196,6 +214,7 @@ class UserHandler extends Handler
         return true;
     }
 
+
     /**
      * Revoke R/W permissions for a user, for a specific database
      *
@@ -205,8 +224,26 @@ class UserHandler extends Handler
      * @param string $databaseName - name of database as a string
      *
      * @return bool - always true, will throw if there is an error
+     *
+     * @deprecated use UserHandler::revokeDatabasePermissions instead
      */
     public function revokePermissions($username, $databaseName)
+    {
+        return $this->revokeDatabasePermissions($username,$databaseName);
+    }
+
+
+   /**
+     * Revoke R/W permissions for a user, for a specific database
+     *
+     * @throws Exception
+     *
+     * @param string $username     - username as a string
+     * @param string $databaseName - name of database as a string
+     *
+     * @return bool - always true, will throw if there is an error
+     */
+    public function revokeDatabasePermissions($username, $databaseName)
     {
         $data = [
             'grant' => 'none'
