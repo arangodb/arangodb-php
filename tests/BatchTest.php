@@ -443,8 +443,8 @@ class BatchTest extends
     {
         $connection        = $this->connection;
         $collection        = $this->collection;
-        $document1         = Document::createFromArray([ "foo" => "bar" ]);
-        $document2         = Document::createFromArray([ "foo" => "baz" ]);
+        $document1         = Document::createFromArray(['foo' => 'bar']);
+        $document2         = Document::createFromArray(['foo' => 'baz']);
         $documentHandler   = new DocumentHandler($connection);
 
         $documentId1 = $documentHandler->save($collection->getName(), $document1);
@@ -486,8 +486,8 @@ class BatchTest extends
     {
         $connection        = $this->connection;
         $collection        = $this->collection;
-        $document1         = Document::createFromArray([ "foo" => "bar" ]);
-        $document2         = Document::createFromArray([ "foo" => "baz" ]);
+        $document1         = Document::createFromArray(['foo' => 'bar']);
+        $document2         = Document::createFromArray(['foo' => 'baz']);
         $documentHandler   = new DocumentHandler($connection);
 
         $documentId1 = $documentHandler->save($collection->getName(), $document1);
@@ -524,8 +524,8 @@ class BatchTest extends
     {
         $connection        = $this->connection;
         $collection        = $this->collection;
-        $document1         = Document::createFromArray([ "foo" => "bar" ]);
-        $document2         = Document::createFromArray([ "foo" => "baz" ]);
+        $document1         = Document::createFromArray(['foo' => 'bar']);
+        $document2         = Document::createFromArray(['foo' => 'baz']);
         $documentHandler   = new DocumentHandler($connection);
 
         $documentHandler->save($collection->getName(), $document1);
@@ -569,9 +569,9 @@ class BatchTest extends
     {
         $connection        = $this->connection;
         $collection        = $this->collection;
-        $document1         = Document::createFromArray([ "foo" => "bar", 'you' => 'me'   ]);
-        $document2         = Document::createFromArray([ "foo" => "baz", 'our' => 'own'  ]);
-        $document3         = Document::createFromArray([ "foo" => "baz", 'do'  => 'done' ]);
+        $document1         = Document::createFromArray(['foo' => 'bar', 'you' => 'me'   ]);
+        $document2         = Document::createFromArray(['foo' => 'baz', 'our' => 'own'  ]);
+        $document3         = Document::createFromArray(['foo' => 'baz', 'do' => 'done' ]);
         $documentHandler   = new DocumentHandler($connection);
 
         $documentHandler->save($collection->getName(), $document1);

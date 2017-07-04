@@ -70,7 +70,7 @@ class DocumentBasicTest extends
     {
         $connection      = $this->connection;
         $collection      = $this->collection;
-        $document        = Document::createFromArray([ "_key" => "me" ]);
+        $document        = Document::createFromArray(['_key' => 'me']);
         $documentHandler = new DocumentHandler($connection);
 
         $documentId = $documentHandler->save($collection->getName(), $document);
@@ -78,10 +78,10 @@ class DocumentBasicTest extends
         $resultingDocument = $documentHandler->get($collection->getName(), $documentId);
 
         $key = $resultingDocument->getKey();
-        static::assertSame("me", $key);
+        static::assertSame('me', $key);
         
         $id = $resultingDocument->getHandle();
-        static::assertSame($collection->getName() . "/" . $key, $id);
+        static::assertSame($collection->getName() . '/' . $key, $id);
 
         $documentHandler->remove($document);
     }
