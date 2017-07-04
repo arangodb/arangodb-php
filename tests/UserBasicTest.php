@@ -23,6 +23,17 @@ class UserBasicTest extends
     public function setUp()
     {
         $this->connection = getConnection();
+        $this->userHandler = new UserHandler($this->connection);
+
+        try {
+          $this->userHandler->removeUser('testUser1');
+        } catch (\Exception $e) {
+        } 
+        
+        try {
+          $this->userHandler->removeUser('testUser42');
+        } catch (\Exception $e) {
+        } 
     }
 
 
@@ -31,8 +42,6 @@ class UserBasicTest extends
      */
     public function testGrantPermission()
     {
-        $this->userHandler = new UserHandler($this->connection);
-
         $result = $this->userHandler->addUser('testUser42', 'testPasswd', true);
         static::assertTrue($result);
 
@@ -65,8 +74,6 @@ class UserBasicTest extends
      */
     public function testGrantAndRevokePermissions()
     {
-        $this->userHandler = new UserHandler($this->connection);
-
         $result = $this->userHandler->addUser('testUser42', 'testPasswd', true);
         static::assertTrue($result);
 
@@ -95,13 +102,10 @@ class UserBasicTest extends
 
 
     /**
-     * Test if Document and DocumentHandler instances can be initialized
+     * Test if a user can be added, replaced, updated and removed
      */
     public function testAddReplaceUpdateGetAndDeleteUserWithNullValues()
     {
-        $this->userHandler = new UserHandler($this->connection);
-
-
         $result = $this->userHandler->addUser('testUser1', null, null, null);
         static::assertTrue($result);
 
@@ -116,6 +120,14 @@ class UserBasicTest extends
 
         $this->userHandler->removeUser('testUser1');
         static::assertTrue($result);
+        
+        try {
+            $this->userHandler->get('testUser1');
+        } catch (\Exception $e) {
+            // Just give us the $e
+            static::assertEquals(404, $e->getCode(), 'Should get 404, instead got: ' . $e->getCode());
+        }
+        static::assertInstanceOf(ServerException::class, $e, 'should have gotten an exception');
     }
 
 
@@ -124,8 +136,6 @@ class UserBasicTest extends
      */
     public function testAddReplaceUpdateGetAndDeleteUserWithNonNullValues()
     {
-        $this->userHandler = new UserHandler($this->connection);
-
         $result = $this->userHandler->addUser('testUser1', 'testPass1', true, ['level' => 1]);
         static::assertTrue($result);
 
@@ -174,8 +184,6 @@ class UserBasicTest extends
     // test functions on non-existent user
     public function testFunctionsOnNonExistentUser()
     {
-        $this->userHandler = new UserHandler($this->connection);
-
         $e = null;
         try {
             $this->userHandler->removeUser('testUser1');
