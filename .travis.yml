@@ -9,7 +9,7 @@ matrix:
     - php: '7.0'
     - php: '7.1'
   allow_failures:
-    - php: hhvm-nightly
+    - php: hhvm
 
 before_script:
   - chmod 777 ./tests/travis/setup_arangodb.sh
