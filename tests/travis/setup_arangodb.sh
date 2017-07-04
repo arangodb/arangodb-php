@@ -3,7 +3,7 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
-VERSION="3.1-nightly"
+VERSION="3.1.23"
 NAME="ArangoDB-$VERSION"
 
 if [ ! -d "$DIR/$NAME" ]; then
