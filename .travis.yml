@@ -1,5 +1,7 @@
 language: php
 
+dist: trusty
+
 matrix:
   include:
     - php: '5.5'
