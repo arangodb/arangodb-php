@@ -381,9 +381,8 @@ class TransactionTest extends
         }
         $details = $e->getDetails();
 
-        static::assertTrue(
-            $e->getCode() === 500,
-            'Did not return code 500, instead returned: ' . $e->getCode() . ' and ' . $details['errorMessage']
+        static::assertSame(
+            500, $e->getCode(), 'Did not return code 500, instead returned: ' . $e->getCode() . ' and ' . $details['errorMessage']
         );
     }
 

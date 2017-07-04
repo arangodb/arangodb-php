@@ -340,7 +340,7 @@ class AqlUserFunctionTest extends
     }
 
     /**
-     * Unregister all AQL functions on a namespace.
+     * Un-register all AQL functions on a namespace.
      */
     public function testUnRegisterAQLFunctionsOnNamespace()
     {

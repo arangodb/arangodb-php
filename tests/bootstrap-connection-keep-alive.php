@@ -11,7 +11,7 @@ namespace ArangoDBClient;
 
 require __DIR__ . '/../autoload.php';
 
-if (class_exists('\PHPUnit\Framework\TestCase')) {
+if (class_exists(\PHPUnit\Framework\TestCase::class)) {
     @class_alias(\PHPUnit\Framework\TestCase::class, 'PHPUnit_Framework_TestCase');
 }
 

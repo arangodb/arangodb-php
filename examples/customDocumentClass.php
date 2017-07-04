@@ -203,7 +203,7 @@ abstract class AbstractCollection extends CollectionHandler
         try {
             return $this->_documentHandler->getById($this->_collectionName, $id);
         } catch (ServerException $e) {
-            if ($e->getServerMessage() == 'document not found') {
+            if ($e->getServerMessage() === 'document not found') {
                 return null;
             }
             throw $e;

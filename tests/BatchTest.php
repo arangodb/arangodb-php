@@ -479,7 +479,7 @@ class BatchTest extends
             $existing++;
         } catch(Exception $e) {}
         
-        static::assertTrue($existing == 0, 'Batch removeByKeys not removed all documents!');
+        static::assertSame(0, $existing, 'Batch removeByKeys did not remove all documents!');
     }
 
     public function testCollectionHandlerAllInBatch()
@@ -512,7 +512,7 @@ class BatchTest extends
         $results = $cursor->getAll();
         
         static::assertInstanceOf(Cursor::class, $cursor);
-        static::assertTrue(count($documentIds) == count($results));
+        static::assertSame(count($documentIds), count($results));
         
         foreach($results as $result) {
             static::assertTrue(isset($documentIds[$result->getId()]));
@@ -520,7 +520,7 @@ class BatchTest extends
         }
     }
 
-    public function testfirstExampleBatch()
+    public function testFirstExampleBatch()
     {
         $connection        = $this->connection;
         $collection        = $this->collection;
@@ -535,7 +535,7 @@ class BatchTest extends
         
         $document = $this->collectionHandler->firstExample($collection->getName(), ['foo'=>'bar']);
 
-        static::assertTrue($document->getHandle() === $document1->getHandle());
+        static::assertSame($document1->getHandle(), $document->getHandle());
 
         try {
             $document = $this->collectionHandler->firstExample($collection->getName(), ['foo'=>'bam']);
@@ -559,10 +559,10 @@ class BatchTest extends
 
         $document = $part1->getProcessedResponse();
 
-        static::assertTrue($document->getHandle() === $document1->getHandle());
+        static::assertSame($document1->getHandle(), $document->getHandle());
 
         $document = $part2->getProcessedResponse();
-        static::assertTrue($document === false);
+        static::assertFalse($document);
     }
 
     public function testByExampleBatch()
@@ -584,10 +584,10 @@ class BatchTest extends
         $all2 = $this->collectionHandler->byExample($collection->getName(), ['you'=>'me'])->getAll();
         $all3 = $this->collectionHandler->byExample($collection->getName(), ['foo'=>'none'])->getAll();
 
-        static::assertTrue(count($all1) == 2);
-        static::assertTrue(count($all2) == 1);
-        static::assertTrue(count($all3) == 0);
-        static::assertTrue(reset($all2)->getHandle() === $document1->getHandle());
+        static::assertCount(2, $all1);
+        static::assertCount(1, $all2);
+        static::assertCount(0, $all3);
+        static::assertSame(reset($all2)->getHandle(), $document1->getHandle());
 
         // now do this in Batch
 
@@ -608,10 +608,10 @@ class BatchTest extends
         $all2 = $part2->getProcessedResponse()->getAll();
         $all3 = $part3->getProcessedResponse()->getAll();
 
-        static::assertTrue(count($all1) == 2);
-        static::assertTrue(count($all2) == 1);
-        static::assertTrue(count($all3) == 0);
-        static::assertTrue(reset($all2)->getHandle() === $document1->getHandle());
+        static::assertCount(2, $all1);
+        static::assertCount(1, $all2);
+        static::assertCount(0, $all3);
+        static::assertSame(reset($all2)->getHandle(), $document1->getHandle());
     }
 
     public function tearDown()

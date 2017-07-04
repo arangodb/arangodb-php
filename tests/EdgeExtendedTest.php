@@ -383,7 +383,7 @@ class EdgeExtendedTest extends
         static::assertTrue(is_numeric($edgeId), 'Did not return an id!');
 
         // inject wrong encoding
-        $isoKey   = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', 'someWrongEncododedAttribute');
+        $isoKey   = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', 'someWrongEncodedAttribute');
         $isoValue = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', 'someWrongEncodedValueü');
 
         $edge->set($isoKey, $isoValue);

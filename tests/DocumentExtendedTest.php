@@ -52,7 +52,7 @@ class DocumentExtendedTest extends
     public function testCreateDocumentWithWrongEncoding()
     {
         $documentHandler = $this->documentHandler;
-        $isoKey          = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', 'someWrongEncododedAttribute');
+        $isoKey          = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', 'someWrongEncodedAttribute');
         $isoValue        = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', 'someWrongEncodedValueü');
 
         $document   = Document::createFromArray([$isoKey => $isoValue, 'someOtherAttribute' => 'someOtherValue']);

@@ -546,9 +546,9 @@ class EdgeBasicTest extends
 
         static::assertCount(3, $result);
 
-        static::assertTrue(in_array($edgeDocument1, $result));
-        static::assertTrue(in_array($edgeDocument2, $result));
-        static::assertTrue(in_array($edgeDocument3, $result));
+        static::assertTrue(in_array($edgeDocument1, $result, true));
+        static::assertTrue(in_array($edgeDocument2, $result, true));
+        static::assertTrue(in_array($edgeDocument3, $result, true));
     }
 
     /**
