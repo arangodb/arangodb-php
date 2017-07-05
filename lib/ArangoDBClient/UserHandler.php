@@ -285,18 +285,19 @@ class UserHandler extends Handler
      *
      * @throws Exception
      *
-     * @param string $username     - username as a string
-     * @param string $databaseName - name of database as a string
+     * @param string $username       - username as a string
+     * @param string $databaseName   - name of database as a string
+     * @param string $collectionName - name of collection as a string
      *
      * @return bool - always true, will throw if there is an error
      */
-    public function revokeCollectionPermissions($username, $databaseName)
+    public function revokeCollectionPermissions($username, $databaseName, $collectionName)
     {
         $data = [
             'grant' => 'none'
         ];
 
-        $url = UrlHelper::buildUrl(Urls::URL_USER, [$username, 'database', $databaseName]);
+        $url = UrlHelper::buildUrl(Urls::URL_USER, [$username, 'database', $databaseName, $collectionName]);
         $this->getConnection()->put($url, $this->json_encode_wrapper($data));
 
         return true;
@@ -326,14 +327,14 @@ class UserHandler extends Handler
     /**
      * Gets the list of collections a user has access to
      *
-     * @param string $username   - username as a string
-     * @param string $database   - name of the database
+     * @param string $username     - username as a string
+     * @param string $databaseName - name of the database
      *
      * @return string
      */
-    public function getDatabasePermissionLevel($username, $database)
+    public function getDatabasePermissionLevel($username, $databaseName)
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_USER, [$username, 'database', $database]);
+        $url      = UrlHelper::buildUrl(Urls::URL_USER, [$username, 'database', $databaseName]);
         $response = $this->getConnection()->get($url);
 
         $data = $response->getJson();
@@ -345,15 +346,15 @@ class UserHandler extends Handler
     /**
      * Gets the list of collections a user has access to
      *
-     * @param string $username   - username as a string
-     * @param string $database   - name of the database
-     * @param string $collection - name of the collection
+     * @param string $username       - username as a string
+     * @param string $databaseName   - name of the database
+     * @param string $collectionName - name of the collection
      *
      * @return string
      */
-    public function getCollectionPermissionLevel($username, $database, $collection)
+    public function getCollectionPermissionLevel($username, $databaseName, $collectionName)
     {
-        $url      = UrlHelper::buildUrl(Urls::URL_USER, [$username, 'database', $database, $collection]);
+        $url      = UrlHelper::buildUrl(Urls::URL_USER, [$username, 'database', $databaseName, $collectionName]);
         $response = $this->getConnection()->get($url);
 
         $data = $response->getJson();

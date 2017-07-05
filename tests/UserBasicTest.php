@@ -230,11 +230,13 @@ class UserBasicTest extends
 
 
         $this->userHandler->removeUser('testUser42');
-        $result = $userHandler->getCollectionPermissionLevel('testUser42', '_system', $collectionName);
-
-        // newer versions of ArangoDB do not return "none" for
-        // databases for which there are no permissions
-        static::assertEmpty($result);
+        try {
+            $userHandler->getCollectionPermissionLevel('testUser42', '_system', $collectionName);
+        } catch (\Exception $e) {
+            // Just give us the $e
+            static::assertEquals(401, $e->getCode(), 'Should get 401, instead got: ' . $e->getCode());
+        }
+        static::assertInstanceOf(ServerException::class, $e, 'should have gotten an exception');
     }
 
     /**
@@ -258,7 +260,7 @@ class UserBasicTest extends
         $result      = $userHandler->getCollectionPermissionLevel('testUser42', '_system', $collectionName);
         static::assertEquals('rw', $result);
 
-        $result = $this->userHandler->revokeCollectionPermissions('testUser42', $this->connection->getDatabase());
+        $result = $this->userHandler->revokeCollectionPermissions('testUser42', $this->connection->getDatabase(), $collectionName);
         static::assertTrue($result);
 
         $result = $userHandler->getCollectionPermissionLevel('testUser42', '_system', $collectionName);
