@@ -388,7 +388,9 @@ class GraphHandler extends Handler
         if ($_useCache === true) {
             if ($excludeOrphans === true && !empty($this->cache[$graph]['excludeOrphans']['result'])) {
                 return $this->cache[$graph]['excludeOrphans']['vertexCollections'];
-            } else if (!empty($this->cache[$graph]['vertexCollections'])) {
+            }
+
+            if (!empty($this->cache[$graph]['vertexCollections'])) {
                 return $this->cache[$graph]['vertexCollections'];
             }
         }
@@ -646,7 +648,9 @@ class GraphHandler extends Handler
             $vertexCollectionsCount = count($vertexCollections);
             if ($vertexCollectionsCount !== 1) {
                 throw new ClientException('A collection must be provided.');
-            } else if ($vertexCollectionsCount === 1) {
+            }
+
+            if ($vertexCollectionsCount === 1) {
                 $collection = $vertexCollections[0];
             }
         }
@@ -711,7 +715,9 @@ class GraphHandler extends Handler
             $vertexCollectionsCount = count($vertexCollections);
             if ($vertexCollectionsCount !== 1) {
                 throw new ClientException('A collection must be provided.');
-            } else if ($vertexCollectionsCount === 1) {
+            }
+
+            if ($vertexCollectionsCount === 1) {
                 $collection = $vertexCollections[0];
             }
         }
@@ -801,7 +807,9 @@ class GraphHandler extends Handler
             $vertexCollectionsCount = count($vertexCollections);
             if ($vertexCollectionsCount !== 1) {
                 throw new ClientException('A collection must be provided.');
-            } else if ($vertexCollectionsCount === 1) {
+            }
+
+            if ($vertexCollectionsCount === 1) {
                 $collection = $vertexCollections[0];
             }
         }
@@ -887,7 +895,9 @@ class GraphHandler extends Handler
             $vertexCollectionsCount = count($vertexCollections);
             if ($vertexCollectionsCount !== 1) {
                 throw new ClientException('A collection must be provided.');
-            } else if ($vertexCollectionsCount === 1) {
+            }
+
+            if ($vertexCollectionsCount === 1) {
                 $collection = $vertexCollections[0];
             }
         }
@@ -959,7 +969,9 @@ class GraphHandler extends Handler
             $vertexCollectionsCount = count($vertexCollections);
             if ($vertexCollectionsCount !== 1) {
                 throw new ClientException('A collection must be provided.');
-            } else if ($vertexCollectionsCount === 1) {
+            }
+
+            if ($vertexCollectionsCount === 1) {
                 $collection = $vertexCollections[0];
             }
         }
@@ -1016,7 +1028,9 @@ class GraphHandler extends Handler
             $edgeCollectionsCount = count($edgeCollections);
             if ($edgeCollectionsCount !== 1) {
                 throw new ClientException('A collection must be provided.');
-            } else if ($edgeCollectionsCount === 1) {
+            }
+
+            if ($edgeCollectionsCount === 1) {
                 $collection = $edgeCollections[0];
             }
         }
@@ -1083,7 +1097,9 @@ class GraphHandler extends Handler
             $edgeCollectionsCount = count($edgeCollections);
             if ($edgeCollectionsCount !== 1) {
                 throw new ClientException('A collection must be provided.');
-            } else if ($edgeCollectionsCount === 1) {
+            }
+
+            if ($edgeCollectionsCount === 1) {
                 $collection = $edgeCollections[0];
             }
         }
@@ -1174,7 +1190,9 @@ class GraphHandler extends Handler
             $edgeCollectionsCount = count($edgeCollections);
             if ($edgeCollectionsCount !== 1) {
                 throw new ClientException('A collection must be provided.');
-            } else if ($edgeCollectionsCount === 1) {
+            }
+
+            if ($edgeCollectionsCount === 1) {
                 $collection = $edgeCollections[0];
             }
         }
@@ -1268,7 +1286,9 @@ class GraphHandler extends Handler
             $edgeCollectionsCount = count($edgeCollections);
             if ($edgeCollectionsCount !== 1) {
                 throw new ClientException('A collection must be provided.');
-            } else if ($edgeCollectionsCount === 1) {
+            }
+
+            if ($edgeCollectionsCount === 1) {
                 $collection = $edgeCollections[0];
             }
         }
@@ -1343,7 +1363,9 @@ class GraphHandler extends Handler
             $edgeCollectionsCount = count($edgeCollections);
             if ($edgeCollectionsCount !== 1) {
                 throw new ClientException('A collection must be provided.');
-            } else if ($edgeCollectionsCount === 1) {
+            }
+
+            if ($edgeCollectionsCount === 1) {
                 $collection = $edgeCollections[0];
             }
         }

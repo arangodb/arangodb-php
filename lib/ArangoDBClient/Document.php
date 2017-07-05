@@ -499,7 +499,9 @@ class Document
         foreach ($this->_values as $key => $value) {
             if ($key === '_id' || $key === '_rev') {
                 continue;
-            } else if ($key === '_key' && $value === null) {
+            }
+
+            if ($key === '_key' && $value === null) {
                 // key value not yet set
                 continue;
             }

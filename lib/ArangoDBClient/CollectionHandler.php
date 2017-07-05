@@ -692,11 +692,11 @@ class CollectionHandler extends Handler
             $collectionId = $collection->getId();
 
             return $collectionId;
-        } else {
-            $collectionId = $collection;
-
-            return $collectionId;
         }
+
+        $collectionId = $collection;
+
+        return $collectionId;
     }
 
 
@@ -713,11 +713,11 @@ class CollectionHandler extends Handler
             $collectionId = $collection->getName();
 
             return $collectionId;
-        } else {
-            $collectionId = $collection;
-
-            return $collectionId;
         }
+
+        $collectionId = $collection;
+
+        return $collectionId;
     }
 
 
@@ -1108,9 +1108,9 @@ class CollectionHandler extends Handler
 
         if ($data['document']) {
             return $_documentClass::createFromArray($data['document']);
-        } else {
-            return null;
         }
+
+        return null;
     }
 
 

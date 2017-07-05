@@ -654,9 +654,9 @@ class Connection
     {
         if (preg_match('//u', $string)) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
 

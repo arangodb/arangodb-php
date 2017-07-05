@@ -45,12 +45,12 @@ class FoxxHandler extends Handler
                 $response = $this->getConnection()->put(Urls::URL_FOXX_INSTALL, json_encode(['appInfo' => $response->getJson()['filename'], 'mount' => $mountPoint]));
                 if ($response->getHttpCode() < 400) {
                     return $response->getJson();
-                } else {
-                    throw new ClientException('Foxx-Zip install failed');
                 }
-            } else {
-                throw new ClientException('Foxx-Zip upload failed');
+
+                throw new ClientException('Foxx-Zip install failed');
             }
+
+            throw new ClientException('Foxx-Zip upload failed');
         } catch (ServerException $e) {
             throw new ClientException($e->getMessage());
         }
@@ -74,9 +74,9 @@ class FoxxHandler extends Handler
             $response = $this->getConnection()->put(Urls::URL_FOXX_UNINSTALL, json_encode(['mount' => $mountPoint]));
             if ($response->getHttpCode() < 400) {
                 return $response->getJson();
-            } else {
-                throw new ClientException(sprintf('Foxx uninstall failed (Code: %d)', $response->getHttpCode()));
             }
+
+            throw new ClientException(sprintf('Foxx uninstall failed (Code: %d)', $response->getHttpCode()));
         } catch (ServerException $e) {
             if ($e->getMessage() === 'Service not found') {
                 throw new ClientException(sprintf('Mount point %s not present.', $mountPoint));

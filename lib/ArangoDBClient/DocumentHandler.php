@@ -287,14 +287,13 @@ class DocumentHandler extends Handler
             $document->setIsNew(false);
 
             return $result;
-        } else {
-
-            if ($collection) {
-                throw new ClientException('An existing document cannot be stored into a new collection');
-            }
-
-            return $this->replace($document, $options);
         }
+
+        if ($collection) {
+            throw new ClientException('An existing document cannot be stored into a new collection');
+        }
+
+        return $this->replace($document, $options);
     }
 
 

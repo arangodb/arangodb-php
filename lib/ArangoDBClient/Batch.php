@@ -169,9 +169,9 @@ class Batch
             $this->setCapture(false);
 
             return $this;
-        } else {
-            throw new ClientException('Cannot stop capturing with this batch. Batch is not active...');
         }
+
+        throw new ClientException('Cannot stop capturing with this batch. Batch is not active...');
     }
 
 

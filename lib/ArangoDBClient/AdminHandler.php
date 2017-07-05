@@ -53,9 +53,9 @@ class AdminHandler extends Handler
 
         if ($details) {
             return $data;
-        } else {
-            return $data['version'];
         }
+
+        return $data['version'];
     }
 
     /**
