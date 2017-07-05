@@ -329,7 +329,7 @@ class UserHandler extends Handler
      * @param string $username   - username as a string
      * @param string $database   - name of the database
      *
-     * @return array
+     * @return string
      */
     public function getDatabasePermissionLevel($username, $database)
     {
@@ -349,7 +349,7 @@ class UserHandler extends Handler
      * @param string $database   - name of the database
      * @param string $collection - name of the collection
      *
-     * @return array
+     * @return string
      */
     public function getCollectionPermissionLevel($username, $database, $collection)
     {

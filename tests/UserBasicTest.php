@@ -122,7 +122,7 @@ class UserBasicTest extends
         static::assertEquals(['_system' => 'rw'], $result);
 
         $result = $userHandler->getDatabasePermissionLevel('testUser42', '_system');
-        static::assertEquals(['_system' => 'rw'], $result);
+        static::assertEquals('rw', $result);
 
 
         $result = $this->userHandler->grantDatabasePermissions('testUser42', $this->connection->getDatabase(), 'ro');
@@ -138,7 +138,7 @@ class UserBasicTest extends
         static::assertEquals(['_system' => 'ro'], $result);
 
         $result = $userHandler->getDatabasePermissionLevel('testUser42', '_system');
-        static::assertEquals(['_system' => 'ro'], $result);
+        static::assertEquals('ro', $result);
 
 
         $this->userHandler->removeUser('testUser42');
@@ -173,7 +173,7 @@ class UserBasicTest extends
         static::assertEquals(['_system' => 'rw'], $result);
 
         $result = $userHandler->getDatabasePermissionLevel('testUser42', '_system');
-        static::assertEquals(['_system' => 'rw'], $result);
+        static::assertEquals('rw', $result);
 
 
         $result = $this->userHandler->revokeDatabasePermissions('testUser42', $this->connection->getDatabase());
@@ -187,7 +187,7 @@ class UserBasicTest extends
         }
 
         $result = $userHandler->getDatabasePermissionLevel('testUser42', '_system');
-        static::assertEquals(['_system' => 'none'], $result);
+        static::assertEquals('none', $result);
     }
 
 
@@ -213,7 +213,7 @@ class UserBasicTest extends
         $userHandler = new UserHandler($userConnection);
 
         $result = $userHandler->getCollectionPermissionLevel('testUser42', '_system', 'PermissionTestCollection');
-        static::assertEquals(['_system' => 'rw'], $result);
+        static::assertEquals('rw', $result);
 
         $result = $this->userHandler->grantCollectionPermissions('testUser42', $this->connection->getDatabase(), 'ro');
         static::assertTrue($result);
@@ -225,7 +225,7 @@ class UserBasicTest extends
 
         $userHandler = new UserHandler($userConnection);
         $result      = $userHandler->getCollectionPermissionLevel('testUser42', '_system', 'PermissionTestCollection');
-        static::assertEquals(['_system' => 'ro'], $result);
+        static::assertEquals('ro', $result);
 
 
         $this->userHandler->removeUser('testUser42');
