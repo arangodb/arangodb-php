@@ -267,7 +267,7 @@ class UserBasicTest extends
 
         // newer versions of ArangoDB do not return "none" for
         // databases for which there are no permissions
-        static::assertEmpty('none');
+        static::assertEquals('none', $result);
     }
 
 
