@@ -322,6 +322,45 @@ class UserHandler extends Handler
         return $data['result'];
     }
 
+
+    /**
+     * Gets the list of collections a user has access to
+     *
+     * @param string $username   - username as a string
+     * @param string $database   - name of the database
+     *
+     * @return array
+     */
+    public function getDatabasePermissionLevel($username, $database)
+    {
+        $url      = UrlHelper::buildUrl(Urls::URL_USER, [$username, 'database', $database]);
+        $response = $this->getConnection()->get($url);
+
+        $data = $response->getJson();
+
+        return $data['result'];
+    }
+
+
+    /**
+     * Gets the list of collections a user has access to
+     *
+     * @param string $username   - username as a string
+     * @param string $database   - name of the database
+     * @param string $collection - name of the collection
+     *
+     * @return array
+     */
+    public function getCollectionPermissionLevel($username, $database, $collection)
+    {
+        $url      = UrlHelper::buildUrl(Urls::URL_USER, [$username, 'database', $database, $collection]);
+        $response = $this->getConnection()->get($url);
+
+        $data = $response->getJson();
+
+        return $data['result'];
+    }
+
 }
 
 class_alias(UserHandler::class, '\triagens\ArangoDb\UserHandler');

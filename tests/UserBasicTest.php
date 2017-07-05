@@ -22,18 +22,18 @@ class UserBasicTest extends
 {
     public function setUp()
     {
-        $this->connection = getConnection();
+        $this->connection  = getConnection();
         $this->userHandler = new UserHandler($this->connection);
 
         try {
-          $this->userHandler->removeUser('testUser1');
+            $this->userHandler->removeUser('testUser1');
         } catch (\Exception $e) {
-        } 
-        
+        }
+
         try {
-          $this->userHandler->removeUser('testUser42');
+            $this->userHandler->removeUser('testUser42');
         } catch (\Exception $e) {
-        } 
+        }
     }
 
 
@@ -96,7 +96,7 @@ class UserBasicTest extends
         // never versions of ArangoDB do not return "none" for 
         // databases for which there are no permissions
         if (!empty($result)) {
-          static::assertEquals(['_system' => 'none'], $result);
+            static::assertEquals(['_system' => 'none'], $result);
         }
     }
 
@@ -121,7 +121,11 @@ class UserBasicTest extends
         $result      = $userHandler->getDatabases('testUser42');
         static::assertEquals(['_system' => 'rw'], $result);
 
-        $result = $this->userHandler->grantDatabasePermissions('testUser42', $this->connection->getDatabase(),'ro');
+        $result = $userHandler->getDatabasePermissionLevel('testUser42', '_system');
+        static::assertEquals(['_system' => 'rw'], $result);
+
+
+        $result = $this->userHandler->grantDatabasePermissions('testUser42', $this->connection->getDatabase(), 'ro');
         static::assertTrue($result);
 
         $options                                        = $this->connection->getOptions()->getAll();
@@ -131,6 +135,9 @@ class UserBasicTest extends
 
         $userHandler = new UserHandler($userConnection);
         $result      = $userHandler->getDatabases('testUser42');
+        static::assertEquals(['_system' => 'ro'], $result);
+
+        $result = $userHandler->getDatabasePermissionLevel('testUser42', '_system');
         static::assertEquals(['_system' => 'ro'], $result);
 
 
@@ -165,6 +172,10 @@ class UserBasicTest extends
         $result      = $userHandler->getDatabases('testUser42');
         static::assertEquals(['_system' => 'rw'], $result);
 
+        $result = $userHandler->getDatabasePermissionLevel('testUser42', '_system');
+        static::assertEquals(['_system' => 'rw'], $result);
+
+
         $result = $this->userHandler->revokeDatabasePermissions('testUser42', $this->connection->getDatabase());
         static::assertTrue($result);
 
@@ -172,8 +183,87 @@ class UserBasicTest extends
         // never versions of ArangoDB do not return "none" for
         // databases for which there are no permissions
         if (!empty($result)) {
-          static::assertEquals(['_system' => 'none'], $result);
+            static::assertEquals(['_system' => 'none'], $result);
         }
+
+        $result = $userHandler->getDatabasePermissionLevel('testUser42', '_system');
+        static::assertEquals(['_system' => 'none'], $result);
+    }
+
+
+    /**
+     * Test collection permission handling
+     */
+    public function testGrantCollectionPermissions()
+    {
+        $result = $this->userHandler->addUser('testUser42', 'testPasswd', true);
+        static::assertTrue($result);
+
+        $collectionHandler = new CollectionHandler($this->connection);
+        $collectionHandler->create('PermissionTestCollection');
+
+        $result = $this->userHandler->grantCollectionPermissions('testUser42', $this->connection->getDatabase(), 'PermissionTestCollection');
+        static::assertTrue($result);
+
+        $options                                        = $this->connection->getOptions()->getAll();
+        $options[ConnectionOptions::OPTION_AUTH_USER]   = 'testUser42';
+        $options[ConnectionOptions::OPTION_AUTH_PASSWD] = 'testPasswd';
+        $userConnection                                 = new Connection($options);
+
+        $userHandler = new UserHandler($userConnection);
+
+        $result = $userHandler->getCollectionPermissionLevel('testUser42', '_system', 'PermissionTestCollection');
+        static::assertEquals(['_system' => 'rw'], $result);
+
+        $result = $this->userHandler->grantCollectionPermissions('testUser42', $this->connection->getDatabase(), 'ro');
+        static::assertTrue($result);
+
+        $options                                        = $this->connection->getOptions()->getAll();
+        $options[ConnectionOptions::OPTION_AUTH_USER]   = 'testUser42';
+        $options[ConnectionOptions::OPTION_AUTH_PASSWD] = 'testPasswd';
+        $userConnection                                 = new Connection($options);
+
+        $userHandler = new UserHandler($userConnection);
+        $result      = $userHandler->getCollectionPermissionLevel('testUser42', '_system', 'PermissionTestCollection');
+        static::assertEquals(['_system' => 'ro'], $result);
+
+
+        $this->userHandler->removeUser('testUser42');
+        $result = $userHandler->getCollectionPermissionLevel('testUser42', '_system', 'PermissionTestCollection');
+
+        // newer versions of ArangoDB do not return "none" for
+        // databases for which there are no permissions
+        static::assertEmpty($result);
+    }
+
+    /**
+     * Test collection permission handling
+     */
+    public function testGrantAndRevokeCollectionPermissions()
+    {
+        $result = $this->userHandler->addUser('testUser42', 'testPasswd', true);
+        static::assertTrue($result);
+
+        $result = $this->userHandler->grantCollectionPermissions('testUser42', $this->connection->getDatabase(), 'PermissionTestCollection');
+        static::assertTrue($result);
+
+        $options                                        = $this->connection->getOptions()->getAll();
+        $options[ConnectionOptions::OPTION_AUTH_USER]   = 'testUser42';
+        $options[ConnectionOptions::OPTION_AUTH_PASSWD] = 'testPasswd';
+        $userConnection                                 = new Connection($options);
+
+        $userHandler = new UserHandler($userConnection);
+        $result      = $userHandler->getCollectionPermissionLevel('testUser42', '_system', 'PermissionTestCollection');
+        static::assertEquals(['_system' => 'rw'], $result);
+
+        $result = $this->userHandler->revokeCollectionPermissions('testUser42', $this->connection->getDatabase());
+        static::assertTrue($result);
+
+        $result = $userHandler->getCollectionPermissionLevel('testUser42', '_system', 'PermissionTestCollection');
+
+        // newer versions of ArangoDB do not return "none" for
+        // databases for which there are no permissions
+        static::assertEmpty($result);
     }
 
 
@@ -196,7 +286,7 @@ class UserBasicTest extends
 
         $this->userHandler->removeUser('testUser1');
         static::assertTrue($result);
-        
+
         try {
             $this->userHandler->get('testUser1');
         } catch (\Exception $e) {
