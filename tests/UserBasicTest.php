@@ -200,9 +200,10 @@ class UserBasicTest extends
         static::assertTrue($result);
 
         $collectionHandler = new CollectionHandler($this->connection);
-        $collectionHandler->create('PermissionTestCollection');
+        $collectionName    = 'PermissionTestCollection';
+        $collectionHandler->create($collectionName);
 
-        $result = $this->userHandler->grantCollectionPermissions('testUser42', $this->connection->getDatabase(), 'PermissionTestCollection');
+        $result = $this->userHandler->grantCollectionPermissions('testUser42', $this->connection->getDatabase(), $collectionName);
         static::assertTrue($result);
 
         $options                                        = $this->connection->getOptions()->getAll();
@@ -212,10 +213,10 @@ class UserBasicTest extends
 
         $userHandler = new UserHandler($userConnection);
 
-        $result = $userHandler->getCollectionPermissionLevel('testUser42', '_system', 'PermissionTestCollection');
+        $result = $userHandler->getCollectionPermissionLevel('testUser42', '_system', $collectionName);
         static::assertEquals('rw', $result);
 
-        $result = $this->userHandler->grantCollectionPermissions('testUser42', $this->connection->getDatabase(), 'ro');
+        $result = $this->userHandler->grantCollectionPermissions('testUser42', $this->connection->getDatabase(), $collectionName, 'ro');
         static::assertTrue($result);
 
         $options                                        = $this->connection->getOptions()->getAll();
@@ -224,12 +225,12 @@ class UserBasicTest extends
         $userConnection                                 = new Connection($options);
 
         $userHandler = new UserHandler($userConnection);
-        $result      = $userHandler->getCollectionPermissionLevel('testUser42', '_system', 'PermissionTestCollection');
+        $result      = $userHandler->getCollectionPermissionLevel('testUser42', '_system', $collectionName);
         static::assertEquals('ro', $result);
 
 
         $this->userHandler->removeUser('testUser42');
-        $result = $userHandler->getCollectionPermissionLevel('testUser42', '_system', 'PermissionTestCollection');
+        $result = $userHandler->getCollectionPermissionLevel('testUser42', '_system', $collectionName);
 
         // newer versions of ArangoDB do not return "none" for
         // databases for which there are no permissions
@@ -244,7 +245,8 @@ class UserBasicTest extends
         $result = $this->userHandler->addUser('testUser42', 'testPasswd', true);
         static::assertTrue($result);
 
-        $result = $this->userHandler->grantCollectionPermissions('testUser42', $this->connection->getDatabase(), 'PermissionTestCollection');
+        $collectionName = 'PermissionTestCollection';
+        $result         = $this->userHandler->grantCollectionPermissions('testUser42', $this->connection->getDatabase(), $collectionName);
         static::assertTrue($result);
 
         $options                                        = $this->connection->getOptions()->getAll();
@@ -253,13 +255,13 @@ class UserBasicTest extends
         $userConnection                                 = new Connection($options);
 
         $userHandler = new UserHandler($userConnection);
-        $result      = $userHandler->getCollectionPermissionLevel('testUser42', '_system', 'PermissionTestCollection');
-        static::assertEquals(['_system' => 'rw'], $result);
+        $result      = $userHandler->getCollectionPermissionLevel('testUser42', '_system', $collectionName);
+        static::assertEquals('rw', $result);
 
         $result = $this->userHandler->revokeCollectionPermissions('testUser42', $this->connection->getDatabase());
         static::assertTrue($result);
 
-        $result = $userHandler->getCollectionPermissionLevel('testUser42', '_system', 'PermissionTestCollection');
+        $result = $userHandler->getCollectionPermissionLevel('testUser42', '_system', $collectionName);
 
         // newer versions of ArangoDB do not return "none" for
         // databases for which there are no permissions
