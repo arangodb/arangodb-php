@@ -188,24 +188,24 @@ class UserHandler extends Handler
      */
     public function grantPermissions($username, $databaseName)
     {
-        return $this->grantDatabasePermissions($username,$databaseName);
+        return $this->grantDatabasePermissions($username, $databaseName);
     }
 
 
-   /**
+    /**
      * Grant R/W permissions to a user, for a specific database
      *
-     * @throws Exception
      *
      * @param string $username     - username as a string
      * @param string $databaseName - name of database as a string
+     * @param string $permissions  - permissions string `rw` for read-write (default), `ro` for read-only
      *
-     * @return bool - always true, will throw if there is an error
+     * @return bool
      */
-    public function grantDatabasePermissions($username, $databaseName)
+    public function grantDatabasePermissions($username, $databaseName, $permissions = 'rw')
     {
         $data = [
-            'grant' => 'rw'
+            'grant' => $permissions
         ];
 
         $url = UrlHelper::buildUrl(Urls::URL_USER, [$username, 'database', $databaseName]);
@@ -229,11 +229,11 @@ class UserHandler extends Handler
      */
     public function revokePermissions($username, $databaseName)
     {
-        return $this->revokeDatabasePermissions($username,$databaseName);
+        return $this->revokeDatabasePermissions($username, $databaseName);
     }
 
 
-   /**
+    /**
      * Revoke R/W permissions for a user, for a specific database
      *
      * @throws Exception
@@ -244,6 +244,53 @@ class UserHandler extends Handler
      * @return bool - always true, will throw if there is an error
      */
     public function revokeDatabasePermissions($username, $databaseName)
+    {
+        $data = [
+            'grant' => 'none'
+        ];
+
+        $url = UrlHelper::buildUrl(Urls::URL_USER, [$username, 'database', $databaseName]);
+        $this->getConnection()->put($url, $this->json_encode_wrapper($data));
+
+        return true;
+    }
+
+
+    /**
+     * Grant R/W permissions to a user, for a specific collection
+     *
+     *
+     * @param string $username       - username as a string
+     * @param string $databaseName   - name of database as a string
+     * @param string $collectionName - name of collection as a string
+     * @param string $permissions    - permissions string `rw` for read-write (default), `ro` for read-only
+     *
+     * @return bool
+     */
+    public function grantCollectionPermissions($username, $databaseName, $collectionName, $permissions = 'rw')
+    {
+        $data = [
+            'grant' => $permissions
+        ];
+
+        $url = UrlHelper::buildUrl(Urls::URL_USER, [$username, 'database', $databaseName, $collectionName]);
+        $this->getConnection()->put($url, $this->json_encode_wrapper($data));
+
+        return true;
+    }
+
+
+    /**
+     * Revoke R/W permissions for a user, for a specific database
+     *
+     * @throws Exception
+     *
+     * @param string $username     - username as a string
+     * @param string $databaseName - name of database as a string
+     *
+     * @return bool - always true, will throw if there is an error
+     */
+    public function revokeCollectionPermissions($username, $databaseName)
     {
         $data = [
             'grant' => 'none'
