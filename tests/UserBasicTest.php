@@ -102,6 +102,82 @@ class UserBasicTest extends
 
 
     /**
+     * Test permission handling
+     */
+    public function testGrantDatabasePermissions()
+    {
+        $result = $this->userHandler->addUser('testUser42', 'testPasswd', true);
+        static::assertTrue($result);
+
+        $result = $this->userHandler->grantDatabasePermissions('testUser42', $this->connection->getDatabase());
+        static::assertTrue($result);
+
+        $options                                        = $this->connection->getOptions()->getAll();
+        $options[ConnectionOptions::OPTION_AUTH_USER]   = 'testUser42';
+        $options[ConnectionOptions::OPTION_AUTH_PASSWD] = 'testPasswd';
+        $userConnection                                 = new Connection($options);
+
+        $userHandler = new UserHandler($userConnection);
+        $result      = $userHandler->getDatabases('testUser42');
+        static::assertEquals(['_system' => 'rw'], $result);
+
+        $result = $this->userHandler->grantDatabasePermissions('testUser42', $this->connection->getDatabase(),'ro');
+        static::assertTrue($result);
+
+        $options                                        = $this->connection->getOptions()->getAll();
+        $options[ConnectionOptions::OPTION_AUTH_USER]   = 'testUser42';
+        $options[ConnectionOptions::OPTION_AUTH_PASSWD] = 'testPasswd';
+        $userConnection                                 = new Connection($options);
+
+        $userHandler = new UserHandler($userConnection);
+        $result      = $userHandler->getDatabases('testUser42');
+        static::assertEquals(['_system' => 'ro'], $result);
+
+
+        $this->userHandler->removeUser('testUser42');
+
+        try {
+            $userHandler->getDatabases('testUser42');
+        } catch (\Exception $e) {
+            // Just give us the $e
+            static::assertEquals(401, $e->getCode());
+        }
+        static::assertInstanceOf(ServerException::class, $e, 'should have gotten an exception');
+    }
+
+    /**
+     * Test permission handling
+     */
+    public function testGrantAndRevokeDatabasePermissions()
+    {
+        $result = $this->userHandler->addUser('testUser42', 'testPasswd', true);
+        static::assertTrue($result);
+
+        $result = $this->userHandler->grantDatabasePermissions('testUser42', $this->connection->getDatabase());
+        static::assertTrue($result);
+
+        $options                                        = $this->connection->getOptions()->getAll();
+        $options[ConnectionOptions::OPTION_AUTH_USER]   = 'testUser42';
+        $options[ConnectionOptions::OPTION_AUTH_PASSWD] = 'testPasswd';
+        $userConnection                                 = new Connection($options);
+
+        $userHandler = new UserHandler($userConnection);
+        $result      = $userHandler->getDatabases('testUser42');
+        static::assertEquals(['_system' => 'rw'], $result);
+
+        $result = $this->userHandler->revokeDatabasePermissions('testUser42', $this->connection->getDatabase());
+        static::assertTrue($result);
+
+        $result = $userHandler->getDatabases('testUser42');
+        // never versions of ArangoDB do not return "none" for
+        // databases for which there are no permissions
+        if (!empty($result)) {
+          static::assertEquals(['_system' => 'none'], $result);
+        }
+    }
+
+
+    /**
      * Test if a user can be added, replaced, updated and removed
      */
     public function testAddReplaceUpdateGetAndDeleteUserWithNullValues()
