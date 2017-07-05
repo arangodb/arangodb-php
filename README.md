@@ -91,7 +91,7 @@ There are two alternative ways to get the ArangoDB PHP client:
 ## Alternative 1: Using Composer
 
 ```
-composer require triagens/Arango
+composer require triagens/Arangodb
 ```
 
 <a name="cloning_git"></a>
