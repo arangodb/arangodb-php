@@ -38,9 +38,9 @@ class UserBasicTest extends
 
 
     /**
-     * Test permission handling
+     * Test database permission handling
      */
-    public function testGrantPermission()
+    public function testGrantPermissions()
     {
         $result = $this->userHandler->addUser('testUser42', 'testPasswd', true);
         static::assertTrue($result);
@@ -70,7 +70,7 @@ class UserBasicTest extends
     }
 
     /**
-     * Test permission handling
+     * Test database permission handling
      */
     public function testGrantAndRevokePermissions()
     {
@@ -102,7 +102,7 @@ class UserBasicTest extends
 
 
     /**
-     * Test permission handling
+     * Test database permission handling
      */
     public function testGrantDatabasePermissions()
     {
@@ -146,7 +146,7 @@ class UserBasicTest extends
     }
 
     /**
-     * Test permission handling
+     * Test database permission handling
      */
     public function testGrantAndRevokeDatabasePermissions()
     {
