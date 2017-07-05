@@ -61,8 +61,8 @@ class DocumentBasicTest extends
         static::assertInstanceOf(Document::class, $document);
         unset ($document);
     }
-    
-    
+
+
     /**
      * Try to create and delete a document with an existing id
      */
@@ -79,7 +79,7 @@ class DocumentBasicTest extends
 
         $key = $resultingDocument->getKey();
         static::assertSame('me', $key);
-        
+
         $id = $resultingDocument->getHandle();
         static::assertSame($collection->getName() . '/' . $key, $id);
 
@@ -104,9 +104,7 @@ class DocumentBasicTest extends
         $resultingDocument = $documentHandler->get($collection->getName(), $documentId);
 
         $resultingAttribute = $resultingDocument->someAttribute;
-        static::assertSame(
-            'someValue', $resultingAttribute, 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
-        );
+        static::assertSame('someValue', $resultingAttribute, 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute);
 
         $documentHandler->remove($document);
     }
@@ -134,9 +132,7 @@ class DocumentBasicTest extends
         $resultingDocument = $documentHandler->get('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $documentId);
 
         $resultingAttribute = $resultingDocument->someAttribute;
-        static::assertSame(
-            'someValue', $resultingAttribute, 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
-        );
+        static::assertSame('someValue', $resultingAttribute, 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute);
 
         $documentHandler->remove($document);
     }
@@ -160,12 +156,8 @@ class DocumentBasicTest extends
 
         $resultingAttribute = $resultingDocument->someAttribute;
         $resultingKey       = $resultingDocument->getKey();
-        static::assertSame(
-            'someValue', $resultingAttribute, 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
-        );
-        static::assertSame(
-            'somevalue01', $resultingKey, 'Resulting Attribute should be "someValue". It\'s :' . $resultingKey
-        );
+        static::assertSame('someValue', $resultingAttribute, 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute);
+        static::assertSame('somevalue01', $resultingKey, 'Resulting Attribute should be "someValue". It\'s :' . $resultingKey);
 
 
         $documentHandler->remove($document);
@@ -282,12 +274,8 @@ class DocumentBasicTest extends
 
             $resultingAttribute = $resultingDocument->someAttribute;
             $resultingKey       = $resultingDocument->getKey();
-            static::assertSame(
-                'someValue', $resultingAttribute, 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
-            );
-            static::assertSame(
-                $key, $resultingKey, 'Resulting Attribute should be "someValue". It\'s :' . $resultingKey
-            );
+            static::assertSame('someValue', $resultingAttribute, 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute);
+            static::assertSame($key, $resultingKey, 'Resulting Attribute should be "someValue". It\'s :' . $resultingKey);
 
             $documentHandler->remove($document);
         }
@@ -371,9 +359,7 @@ class DocumentBasicTest extends
         $resultingDocument = $documentHandler->get($collection->getName(), $documentId);
 
         $resultingAttribute = $resultingDocument->someAttribute;
-        static::assertSame(
-            'someValue', $resultingAttribute, 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
-        );
+        static::assertSame('someValue', $resultingAttribute, 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute);
 
         $documentHandler->removeById($collection->getName(), $documentId);
     }
@@ -422,9 +408,7 @@ class DocumentBasicTest extends
         $resultingDocument = $documentHandler->get($collection->getName(), $documentId);
 
         $resultingAttribute = $resultingDocument->someAttribute;
-        static::assertSame(
-            'someValue', $resultingAttribute, 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
-        );
+        static::assertSame('someValue', $resultingAttribute, 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute);
 
         $resultingDocument->set('someAttribute', 'someValue2');
         $resultingDocument->set('someOtherAttribute', 'someOtherValue2');
@@ -496,12 +480,8 @@ class DocumentBasicTest extends
         $resultingDocument  = $documentHandler->get($collection->getName(), $documentId);
         $resultingAttribute = $resultingDocument->someAttribute;
         $resultingKey       = $resultingDocument->getKey();
-        static::assertSame(
-            'someValue', $resultingAttribute, 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute
-        );
-        static::assertSame(
-            'somevalue01', $resultingKey, 'Resulting Attribute should be "someValue". It\'s :' . $resultingKey
-        );
+        static::assertSame('someValue', $resultingAttribute, 'Resulting Attribute should be "someValue". It\'s :' . $resultingAttribute);
+        static::assertSame('somevalue01', $resultingKey, 'Resulting Attribute should be "someValue". It\'s :' . $resultingKey);
 
 
         $documentHandler->removeById($collection->getName(), $documentId);

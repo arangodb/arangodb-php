@@ -487,11 +487,11 @@ class CollectionExtendedTest extends
         $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
         @list($collectionName, $documentId) = explode('/', $documentId);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId), 'Did not return an id!');
         @list($collectionName, $documentId2) = explode('/', $documentId2);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId2), 'Did not return an id!');
         @list($collectionName, $documentId3) = explode('/', $documentId3);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
         $keys   = [$documentId, $documentId2, $documentId3];
         $result = $collectionHandler->removeByKeys($collection->getName(), $keys);
@@ -539,11 +539,11 @@ class CollectionExtendedTest extends
         $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
         @list($collectionName, $documentId) = explode('/', $documentId);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId), 'Did not return an id!');
         @list($collectionName, $documentId2) = explode('/', $documentId2);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId2), 'Did not return an id!');
         @list($collectionName, $documentId3) = explode('/', $documentId3);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
         $keys   = ['foo', 'bar', 'baz'];
         $result = $collectionHandler->removeByKeys($collection->getName(), $keys);
@@ -577,11 +577,11 @@ class CollectionExtendedTest extends
         $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
         @list($collectionName, $documentId) = explode('/', $documentId);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId), 'Did not return an id!');
         @list($collectionName, $documentId2) = explode('/', $documentId2);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId2), 'Did not return an id!');
         @list($collectionName, $documentId3) = explode('/', $documentId3);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
         $result = $collectionHandler->removeByExample($collection->getName(), []);
         static::assertEquals(3, $result);
@@ -614,11 +614,11 @@ class CollectionExtendedTest extends
         $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
         @list($collectionName, $documentId) = explode('/', $documentId);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId), 'Did not return an id!');
         @list($collectionName, $documentId2) = explode('/', $documentId2);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId2), 'Did not return an id!');
         @list($collectionName, $documentId3) = explode('/', $documentId3);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
         $result = $collectionHandler->updateByExample($collection->getName(), [], ['foo' => 'bar']);
         static::assertEquals(3, $result);
@@ -651,11 +651,11 @@ class CollectionExtendedTest extends
         $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
         @list($collectionName, $documentId) = explode('/', $documentId);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId), 'Did not return an id!');
         @list($collectionName, $documentId2) = explode('/', $documentId2);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId2), 'Did not return an id!');
         @list($collectionName, $documentId3) = explode('/', $documentId3);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
         $result = $collectionHandler->updateByExample($collection->getName(), [], []);
         static::assertEquals(3, $result);
@@ -688,11 +688,11 @@ class CollectionExtendedTest extends
         $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
         @list($collectionName, $documentId) = explode('/', $documentId);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId), 'Did not return an id!');
         @list($collectionName, $documentId2) = explode('/', $documentId2);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId2), 'Did not return an id!');
         @list($collectionName, $documentId3) = explode('/', $documentId3);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
         $result = $collectionHandler->replaceByExample($collection->getName(), [], ['foo' => 'bar']);
         static::assertEquals(3, $result);
@@ -724,11 +724,11 @@ class CollectionExtendedTest extends
         $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
         @list($collectionName, $documentId) = explode('/', $documentId);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId), 'Did not return an id!');
         @list($collectionName, $documentId2) = explode('/', $documentId2);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId2), 'Did not return an id!');
         @list($collectionName, $documentId3) = explode('/', $documentId3);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
         $result = $collectionHandler->replaceByExample($collection->getName(), [], []);
         static::assertEquals(3, $result);
@@ -761,11 +761,11 @@ class CollectionExtendedTest extends
         $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
         @list($collectionName, $documentId) = explode('/', $documentId);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId), 'Did not return an id!');
         @list($collectionName, $documentId2) = explode('/', $documentId2);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId2), 'Did not return an id!');
         @list($collectionName, $documentId3) = explode('/', $documentId3);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
         $cursor = $collectionHandler->byExample($collection->getName(), []);
         static::assertEquals(
@@ -800,11 +800,11 @@ class CollectionExtendedTest extends
         $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
         @list($collectionName, $documentId) = explode('/', $documentId);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId), 'Did not return an id!');
         @list($collectionName, $documentId2) = explode('/', $documentId2);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId2), 'Did not return an id!');
         @list($collectionName, $documentId3) = explode('/', $documentId3);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
         $exampleDocument = Document::createFromArray(['someOtherAttribute' => 'someOtherValue']);
         $result          = $collectionHandler->removeByExample($collection->getName(), $exampleDocument);
@@ -871,11 +871,11 @@ class CollectionExtendedTest extends
         $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
         @list($collectionName, $documentId) = explode('/', $documentId);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId), 'Did not return an id!');
         @list($collectionName, $documentId2) = explode('/', $documentId2);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId2), 'Did not return an id!');
         @list($collectionName, $documentId3) = explode('/', $documentId3);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
         $exampleDocument = Document::createFromArray(['someOtherAttribute' => 'someOtherValue']);
         $updateDocument  = Document::createFromArray(['someNewAttribute' => 'someNewValue']);
@@ -988,11 +988,11 @@ class CollectionExtendedTest extends
         $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
         @list($collectionName, $documentId) = explode('/', $documentId);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId), 'Did not return an id!');
         @list($collectionName, $documentId2) = explode('/', $documentId2);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId2), 'Did not return an id!');
         @list($collectionName, $documentId3) = explode('/', $documentId3);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
         $exampleDocument = Document::createFromArray(['someOtherAttribute' => 'someOtherValue']);
         $updateDocument  = Document::createFromArray(['someNewAttribute' => 'someNewValue']);
@@ -1057,11 +1057,11 @@ class CollectionExtendedTest extends
         $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
         @list($collectionName, $documentId) = explode('/', $documentId);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId), 'Did not return an id!');
         @list($collectionName, $documentId2) = explode('/', $documentId2);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId2), 'Did not return an id!');
         @list($collectionName, $documentId3) = explode('/', $documentId3);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
         $exampleDocument = Document::createFromArray(['someOtherAttribute' => 'someOtherValue']);
         $updateDocument  = Document::createFromArray(['someNewAttribute' => 'someNewValue']);
@@ -1126,11 +1126,11 @@ class CollectionExtendedTest extends
         $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
         @list($collectionName, $documentId) = explode('/', $documentId);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId), 'Did not return an id!');
         @list($collectionName, $documentId2) = explode('/', $documentId2);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId2), 'Did not return an id!');
         @list($collectionName, $documentId3) = explode('/', $documentId3);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
         $exampleDocument = Document::createFromArray(['someAttribute' => 'someValue2']);
         $updateDocument  = Document::createFromArray(
@@ -1188,11 +1188,11 @@ class CollectionExtendedTest extends
         $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
         @list($collectionName, $documentId) = explode('/', $documentId);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId), 'Did not return an id!');
         @list($collectionName, $documentId2) = explode('/', $documentId2);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId2), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId2), 'Did not return an id!');
         @list($collectionName, $documentId3) = explode('/', $documentId3);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentId3), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentId3), 'Did not return an id!');
 
         $exampleDocument = Document::createFromArray(['someOtherAttribute' => 'someOtherValue']);
         $result          = $collectionHandler->removeByExample(
@@ -2329,9 +2329,7 @@ class CollectionExtendedTest extends
             'This value should be 1 1!, is :' . $resultArray[1]->loc[0] . ' ' . $resultArray[1]->loc[1]
         );
         static::assertArrayNotHasKey(2, $resultArray, 'Should not have a third key !');
-        static::assertSame(
-            0, $resultArray[0]->distance, 'This value should be 0 ! It is :' . $resultArray[0]->distance
-        );
+        static::assertSame(0, $resultArray[0]->distance, 'This value should be 0 ! It is :' . $resultArray[0]->distance);
 
 
         $rangeResult = $collectionHandler->within($collection->getName(), 0, 0, 200 * 1000, ['limit' => 1]);
@@ -2667,11 +2665,11 @@ class CollectionExtendedTest extends
         $documentId3 = $documentHandler->save($collection->getName(), $document3);
 
         @list($collectionName, $documentKey) = explode('/', $documentId);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentKey), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentKey), 'Did not return an id!');
         @list($collectionName, $documentKey2) = explode('/', $documentId2);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentKey2), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentKey2), 'Did not return an id!');
         @list($collectionName, $documentKey3) = explode('/', $documentId3);
-        static::assertTrue($collection->getName()=== $collectionName && is_numeric($documentKey3), 'Did not return an id!');
+        static::assertTrue($collection->getName() === $collectionName && is_numeric($documentKey3), 'Did not return an id!');
 
         $keys   = [$documentId, $documentId2, $documentId3];
         $result = $collectionHandler->lookupByKeys($collection->getName(), $keys);

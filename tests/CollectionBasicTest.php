@@ -120,7 +120,7 @@ class CollectionBasicTest extends
 
         $resultingAttribute = $resultingCollection->getName();
         static::assertSame(
-            $resultingAttribute, $name, 'The created collection name and resulting collection name do not match!'
+            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
         );
 
         static::assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
@@ -322,7 +322,7 @@ class CollectionBasicTest extends
 
         $resultingAttribute = $resultingCollection->getName();
         static::assertSame(
-            $resultingAttribute, $name, 'The created collection name and resulting collection name do not match!'
+            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
         );
 
         static::assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
@@ -356,7 +356,7 @@ class CollectionBasicTest extends
 
         $resultingAttribute = $resultingCollection->getName();
         static::assertSame(
-            $resultingAttribute, $name, 'The created collection name and resulting collection name do not match!'
+            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
         );
 
         static::assertEquals(Collection::TYPE_EDGE, $resultingCollection->getType());
@@ -388,7 +388,7 @@ class CollectionBasicTest extends
 
         $resultingAttribute = $resultingCollection->getName();
         static::assertSame(
-            $resultingAttribute, $name, 'The created collection name and resulting collection name do not match!'
+            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
         );
 
         static::assertEquals(Collection::TYPE_EDGE, $resultingCollection->getType());
@@ -419,7 +419,7 @@ class CollectionBasicTest extends
 
         $resultingAttribute = $resultingCollection->getName();
         static::assertSame(
-            $resultingAttribute, $name, 'The created collection name and resulting collection name do not match!'
+            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
         );
         $resultingCollectionProperties = $collectionHandler->getProperties($name);
         static::assertTrue($resultingCollectionProperties->getIsVolatile());
@@ -451,7 +451,7 @@ class CollectionBasicTest extends
 
         $resultingAttribute = $resultingCollection->getName();
         static::assertSame(
-            $resultingAttribute, $name, 'The created collection name and resulting collection name do not match!'
+            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
         );
         $resultingCollectionProperties = $collectionHandler->getProperties($name);
         static::assertTrue($resultingCollectionProperties->getIsSystem());

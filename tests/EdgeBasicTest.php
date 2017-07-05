@@ -120,9 +120,7 @@ class EdgeBasicTest extends
         static::assertInstanceOf(Edge::class, $resultingEdge);
 
         $resultingAttribute = $resultingEdge->label;
-        static::assertSame(
-            'knows', $resultingAttribute, 'Attribute set on the Edge is different from the one retrieved!'
-        );
+        static::assertSame('knows', $resultingAttribute, 'Attribute set on the Edge is different from the one retrieved!');
 
 
         $edgesQuery1Result = $edgeDocumentHandler->edges($edgeCollection->getName(), $documentHandle1, 'out');
@@ -223,9 +221,7 @@ class EdgeBasicTest extends
         static::assertInstanceOf(Edge::class, $resultingEdge);
 
         $resultingAttribute = $resultingEdge->label;
-        static::assertSame(
-            'knows', $resultingAttribute, 'Attribute set on the Edge is different from the one retrieved!'
-        );
+        static::assertSame('knows', $resultingAttribute, 'Attribute set on the Edge is different from the one retrieved!');
 
 
         $edgesQuery1Result = $edgeDocumentHandler->edges($edgeCollection->getName(), $documentHandle1, 'out');
@@ -316,9 +312,7 @@ class EdgeBasicTest extends
         $resultingEdge = $edgeDocumentHandler->get($edgeCollection->getId(), $edgeDocumentId);
 
         $resultingAttribute = $resultingEdge->label;
-        static::assertSame(
-            'knows', $resultingAttribute, 'Attribute set on the Edge is different from the one retrieved!'
-        );
+        static::assertSame('knows', $resultingAttribute, 'Attribute set on the Edge is different from the one retrieved!');
 
 
         $edgesQuery1Result = $edgeDocumentHandler->edges($edgeCollection->getId(), $documentHandle1, 'out');
@@ -864,7 +858,7 @@ class EdgeBasicTest extends
         $batch->process();
 
         $edgesQueryResult = $part1->getProcessedResponse();
-        
+
         static::assertCount(3, $edgesQueryResult);
         foreach ($edgesQueryResult as $edge) {
             static::assertInstanceOf(Edge::class, $edge);

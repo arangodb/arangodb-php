@@ -264,7 +264,7 @@ class UserBasicTest extends
         static::assertTrue($result);
 
         $result = $userHandler->getCollectionPermissionLevel('testUser42', '_system', $collectionName);
-
+        var_dump($result);
         // newer versions of ArangoDB do not return "none" for
         // databases for which there are no permissions
         static::assertEmpty($result);

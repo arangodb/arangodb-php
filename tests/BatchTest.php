@@ -302,7 +302,7 @@ class BatchTest extends
 
         $resultingAttribute = $resultingCollection->getName();
         static::assertSame(
-            $resultingAttribute, $name, 'The created collection name and resulting collection name do not match!'
+            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
         );
 
         static::assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
@@ -587,7 +587,7 @@ class BatchTest extends
         static::assertCount(2, $all1);
         static::assertCount(1, $all2);
         static::assertCount(0, $all3);
-        static::assertSame(reset($all2)->getHandle(), $document1->getHandle());
+        static::assertSame($document1->getHandle(), reset($all2)->getHandle());
 
         // now do this in Batch
 
@@ -611,7 +611,7 @@ class BatchTest extends
         static::assertCount(2, $all1);
         static::assertCount(1, $all2);
         static::assertCount(0, $all3);
-        static::assertSame(reset($all2)->getHandle(), $document1->getHandle());
+        static::assertSame($document1->getHandle(), reset($all2)->getHandle());
     }
 
     public function tearDown()
