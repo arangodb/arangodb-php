@@ -20,6 +20,14 @@ namespace ArangoDBClient;
 class UserBasicTest extends
     \PHPUnit_Framework_TestCase
 {
+    protected static $testsTimestamp;
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        static::$testsTimestamp = str_replace('.', '_', (string) microtime(true));
+    }
+
     public function setUp()
     {
         $this->connection  = getConnection();
@@ -200,7 +208,7 @@ class UserBasicTest extends
         static::assertTrue($result);
 
         $collectionHandler = new CollectionHandler($this->connection);
-        $collectionName    = 'PermissionTestCollection';
+        $collectionName    = 'PermissionTestCollection'. '_' . static::$testsTimestamp;
         $collectionHandler->create($collectionName);
 
         $result = $this->userHandler->grantCollectionPermissions('testUser42', $this->connection->getDatabase(), $collectionName);
@@ -247,7 +255,7 @@ class UserBasicTest extends
         $result = $this->userHandler->addUser('testUser42', 'testPasswd', true);
         static::assertTrue($result);
 
-        $collectionName = 'PermissionTestCollection';
+        $collectionName    = 'PermissionTestCollection'. '_' . static::$testsTimestamp;
         $result         = $this->userHandler->grantCollectionPermissions('testUser42', $this->connection->getDatabase(), $collectionName);
         static::assertTrue($result);
 
