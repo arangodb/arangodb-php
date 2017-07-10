@@ -68,6 +68,7 @@ class UserBasicTest extends
 
         $this->userHandler->removeUser('testUser42');
 
+        $e = null;
         try {
             $userHandler->getDatabases('testUser42');
         } catch (\Exception $e) {
@@ -151,6 +152,7 @@ class UserBasicTest extends
 
         $this->userHandler->removeUser('testUser42');
 
+        $e = null;
         try {
             $userHandler->getDatabases('testUser42');
         } catch (\Exception $e) {
@@ -238,6 +240,7 @@ class UserBasicTest extends
 
 
         $this->userHandler->removeUser('testUser42');
+        $e = null;
         try {
             $userHandler->getCollectionPermissionLevel('testUser42', '_system', $collectionName);
         } catch (\Exception $e) {

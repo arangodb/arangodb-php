@@ -23,6 +23,12 @@ still use the class names from the `\triagens\ArangoDb` namespace
 
 - Support for PHP 5.5 has been removed.
 
+- added new methods for collection and database level permissions:
+  - `UserHandler::getDatabasePermissionLevel` 
+  - `UserHandler::getCollectionPermissionLevel`
+  - `UserHandler::grantCollectionPermissions`
+  - `UserHandler::revokeCollectionPermissions`
+
 
 Release notes for the ArangoDB-PHP driver 3.1.0
 ===============================================
