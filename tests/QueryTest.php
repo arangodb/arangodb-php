@@ -42,6 +42,15 @@ class QueryTest extends
      */
     public function testCurrentAndKill()
     {
+        try {
+            $result = $this->connection->post('/_admin/execute', 'return 1');
+        } catch (\Exception $e) {
+            // /_admin/execute API disabled on the server. must turn on
+            // --javascript.allow-admin-execute on the server for this to work
+            $this->markTestSkipped("need to start the server with --javascript.allow-admin-execute true to run this test");
+            return;
+        }
+
         $query   = 'RETURN SLEEP(30)';
         $command = 'require("internal").db._query("' . $query . '");';
 
