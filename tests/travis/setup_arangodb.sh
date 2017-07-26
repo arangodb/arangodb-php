@@ -70,6 +70,7 @@ ${ARANGOD} \
     --server.endpoint tcp://127.0.0.1:8529 \
     --javascript.startup-directory ${ARANGODB_DIR}/js \
     --javascript.app-path ${ARANGODB_DIR}/js/apps \
+    --javascript.allow-admin-execute true \
     --database.maximal-journal-size 1048576 \
     --database.force-sync-properties false \
     --server.authentication true &
