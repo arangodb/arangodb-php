@@ -25,6 +25,13 @@ class FoxxBasicTest extends
     {
         $this->connection  = getConnection();
         $this->foxxHandler = new FoxxHandler($this->connection);
+        
+        try {
+            // ignore errors
+            $this->foxxHandler->removeFoxxApp('/hello_world');
+        } catch (ClientException $e) {
+            // ignore
+        }
     }
 
 
