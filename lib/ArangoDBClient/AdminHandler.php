@@ -27,6 +27,22 @@ class AdminHandler extends Handler
      * details for server version
      */
     const OPTION_DETAILS = 'details';
+    
+    /**
+     * Get the server's storage engine
+     *
+     * This will throw if the engine data cannot be retrieved
+     *
+     * @throws Exception
+     *
+     * @return mixed - an object returning the engine information
+     * @since 3.2
+     */
+    public function getEngine() 
+    {
+        $response = $this->getConnection()->get(Urls::URL_ENGINE);
+        return $response->getJson();
+    }
 
     /**
      * Get the server version

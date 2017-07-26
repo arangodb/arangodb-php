@@ -162,6 +162,11 @@ abstract class Urls
      * URL for transactions
      */
     const URL_TRANSACTION = '/_api/transaction';
+    
+    /**
+     * URL for storage engine
+     */
+    const URL_ENGINE = '/_api/engine';
 
     /**
      * URL for admin version
