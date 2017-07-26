@@ -45,6 +45,8 @@ class CollectionBasicTest extends
 
         $this->hasSparseIndexes        = (version_compare($version, '2.5.0') >= 0);
         $this->hasSelectivityEstimates = (version_compare($version, '2.5.0') >= 0);
+
+        $this->isMMFilesEngine         = ($adminHandler->getEngine()["name"] == "mmfiles"); 
     }
 
 
@@ -422,7 +424,7 @@ class CollectionBasicTest extends
             $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
         );
         $resultingCollectionProperties = $collectionHandler->getProperties($name);
-        static::assertTrue($resultingCollectionProperties->getIsVolatile());
+        static::assertTrue((!$this->isMMFilesEngine) || $resultingCollectionProperties->getIsVolatile());
 
         $collectionHandler->drop($name);
     }

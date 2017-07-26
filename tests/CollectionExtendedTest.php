@@ -46,6 +46,9 @@ class CollectionExtendedTest extends
         } catch (\Exception $e) {
             // don't bother us, if it's already deleted.
         }
+
+        $adminHandler = new AdminHandler($this->connection);
+        $this->isMMFilesEngine   = ($adminHandler->getEngine()["name"] == "mmfiles"); 
     }
 
 
@@ -98,7 +101,7 @@ class CollectionExtendedTest extends
         $collectionHandler->get($name);
 
         $properties = $collectionHandler->getProperties($name);
-        static::assertTrue($properties->getIsVolatile(), '"isVolatile" should be true!');
+        static::assertTrue((!$this->isMMFilesEngine) || $properties->getIsVolatile(), '"isVolatile" should be true!');
 
 
         $response = $collectionHandler->drop($collection);

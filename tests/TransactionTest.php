@@ -58,6 +58,9 @@ class TransactionTest extends
         $this->collection2 = new Collection();
         $this->collection2->setName('ArangoDB_PHP_TestSuite_TestCollection_02' . '_' . static::$testsTimestamp);
         $this->collectionHandler->create($this->collection2);
+        
+        $adminHandler = new AdminHandler($this->connection);
+        $this->isMMFilesEngine         = ($adminHandler->getEngine()["name"] == "mmfiles"); 
     }
 
     /**
@@ -65,6 +68,10 @@ class TransactionTest extends
      */
     public function testDeadlockHandling()
     {
+        if (!$this->isMMFilesEngine) {
+            $this->markTestSkipped("test is only meaningful with the mmfiles engine");
+        }
+
         try {
             $result = $this->connection->post('/_admin/execute', 'return 1');
         } catch (\Exception $e) {
