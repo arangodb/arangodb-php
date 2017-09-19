@@ -41,6 +41,11 @@ function getConnectionOptions()
         print 'TRACE FOR ' . $type . PHP_EOL;
     };
 
+    $passwd = getenv("ARANGO_ROOT_PASSWORD");
+    if ($passwd === false) {
+        $passwd = ""; // default root password
+    }
+
     return [
         ConnectionOptions::OPTION_ENDPOINT           => 'tcp://localhost:8529',
         // endpoint to connect to
@@ -50,7 +55,7 @@ function getConnectionOptions()
         // use basic authorization
         ConnectionOptions::OPTION_AUTH_USER          => 'root',
         // user for basic authorization
-        ConnectionOptions::OPTION_AUTH_PASSWD        => '',
+        ConnectionOptions::OPTION_AUTH_PASSWD        => $passwd,
         // password for basic authorization
         ConnectionOptions::OPTION_TIMEOUT            => 12,
         // timeout in seconds
