@@ -361,7 +361,7 @@ class StatementTest extends
 
         $statement = new Statement(
             $connection, [
-                'query'     => 'RETURN UNIQUE([ 1, 1, 2 ])',
+                'query'     => 'RETURN SORTED_UNIQUE([ 1, 1, 2 ])',
                 'count'     => true,
                 '_sanitize' => true,
                 '_flat'     => true

@@ -435,7 +435,7 @@ class TransactionTest extends
         $details                = $e->getDetails();
         $expectedCutDownMessage = 'unique constraint violated';
         static::assertTrue(
-            $e->getCode() === 400 && strpos(
+            $e->getCode() === 409 && strpos(
                 $details['errorMessage'],
                 $expectedCutDownMessage
             ) !== false,
