@@ -404,6 +404,10 @@ class CollectionBasicTest extends
      */
     public function testCreateAndDeleteVolatileCollectionWithoutCreatingObject()
     {
+        if (!$this->isMMFilesEngine) {
+            $this->markTestSkipped("test is only meaningful with the mmfiles engine");
+        }
+
         $connection        = $this->connection;
         $collectionHandler = new CollectionHandler($connection);
 

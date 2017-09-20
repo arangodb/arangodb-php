@@ -83,6 +83,10 @@ class CollectionExtendedTest extends
      */
     public function testCreateGetAndDeleteVolatileCollection()
     {
+        if (!$this->isMMFilesEngine) {
+            $this->markTestSkipped("test is only meaningful with the mmfiles engine");
+        }
+
         $collection        = $this->collection;
         $collectionHandler = $this->collectionHandler;
 
