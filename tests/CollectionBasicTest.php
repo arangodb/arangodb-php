@@ -137,6 +137,7 @@ class CollectionBasicTest extends
     {
         if (isCluster($this->connection)) {
             // don't execute this test in a cluster
+            $this->markTestSkipped("test is only meaningful in single server");
             return;
         }
 
@@ -193,6 +194,7 @@ class CollectionBasicTest extends
     {
         if (!isCluster($this->connection)) {
             // don't execute this test in a non-cluster
+            $this->markTestSkipped("test is only meaningful in cluster");
             return;
         }
 
@@ -229,6 +231,7 @@ class CollectionBasicTest extends
     {
         if (!isCluster($this->connection)) {
             // don't execute this test in a non-cluster
+            $this->markTestSkipped("test is only meaningful in cluster");
             return;
         }
 
@@ -264,6 +267,7 @@ class CollectionBasicTest extends
     {
         if (!isCluster($this->connection)) {
             // don't execute this test in a non-cluster
+            $this->markTestSkipped("test is only meaningful in cluster");
             return;
         }
 
