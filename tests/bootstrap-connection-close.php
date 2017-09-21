@@ -46,13 +46,18 @@ function getConnectionOptions()
         $passwd = ""; // default root password
     }
     
+    $host = getenv("ARANGO_HOST");
+    if ($host === false) {
+      $host = "localhost"; // default host
+    }
+    
     $port = getenv("ARANGO_PORT");
     if ($port === false) {
         $port = "8529"; // default port
     }
 
     return [
-        ConnectionOptions::OPTION_ENDPOINT           => 'tcp://localhost:' . $port,
+        ConnectionOptions::OPTION_ENDPOINT           => 'tcp://' . $host . ':' . $port,
         // endpoint to connect to
         ConnectionOptions::OPTION_CONNECTION         => 'Close',
         // can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)

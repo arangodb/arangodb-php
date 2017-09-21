@@ -54,6 +54,38 @@ class ConnectionTest extends
         static::assertInstanceOf(Connection::class, $connection);
     }
 
+    
+    /**
+     * Test endpoint and port
+     */
+    public function testEndpointAndPort()
+    {
+        $options = [ ConnectionOptions::OPTION_ENDPOINT => 'tcp://127.0.0.10:9242' ];
+        $co   = new ConnectionOptions($options);
+        static::assertEquals('tcp://127.0.0.10:9242', $co[ConnectionOptions::OPTION_ENDPOINT]);
+        static::assertEquals(9242, $co[ConnectionOptions::OPTION_PORT]);
+        
+        $options = [ ConnectionOptions::OPTION_ENDPOINT => 'tcp://192.168.9.9:433' ];
+        $co   = new ConnectionOptions($options);
+        static::assertEquals('tcp://192.168.9.9:433', $co[ConnectionOptions::OPTION_ENDPOINT]);
+        static::assertEquals(433, $co[ConnectionOptions::OPTION_PORT]);
+        
+        $options = [ ConnectionOptions::OPTION_ENDPOINT => 'tcp://myserver.example.com:432' ];
+        $co   = new ConnectionOptions($options);
+        static::assertEquals('tcp://myserver.example.com:432', $co[ConnectionOptions::OPTION_ENDPOINT]);
+        static::assertEquals(432, $co[ConnectionOptions::OPTION_PORT]);
+       
+        $excepted = false;
+        try {
+            $options = [ ConnectionOptions::OPTION_ENDPOINT => 'tcp://server.com' ];
+            $co   = new ConnectionOptions($options);
+        } catch (\Exception $exception) {
+            $excepted = true;
+        }
+
+        static::assertTrue($excepted);
+    }
+
 
     /**
      * This is just a test to really test connectivity with the server before moving on to further tests.
@@ -71,7 +103,6 @@ class ConnectionTest extends
     public function testGetOptions()
     {
         $connection = getConnection();
-
         
         $old = $connection->getOption(ConnectionOptions::OPTION_TIMEOUT);
         $connection->setOption(ConnectionOptions::OPTION_TIMEOUT, 12);
@@ -318,8 +349,8 @@ class ConnectionTest extends
         $adminHandler->getServerVersion();
         static::assertTrue($done);
     }
-
-
+    
+    
     /**
      * Test the authentication
      */

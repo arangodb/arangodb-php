@@ -389,6 +389,12 @@ class ConnectionOptions implements \ArrayAccess
         } elseif ($type === Endpoint::TYPE_SSL) {
             // must set port to 0 for SSL connections
             $this->_values[self::OPTION_PORT] = 0;
+        } else {
+          if (preg_match("/:(\d+)$/", $this->_values[self::OPTION_ENDPOINT], $match)) {
+            // get port number from endpoint, to not confuse developers when dumping
+            // connection details
+            $this->_values[self::OPTION_PORT] = (int) $match[1];
+          }
         }
 
         if (isset($this->_values[self::OPTION_AUTH_TYPE]) && !in_array(
