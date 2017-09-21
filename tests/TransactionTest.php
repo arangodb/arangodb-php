@@ -410,6 +410,7 @@ class TransactionTest extends
     {
         if (isCluster($this->connection)) {
             // don't execute this test in a cluster
+            $this->markTestSkipped("test is only meaningful in a single server");
             return;
         }
 
