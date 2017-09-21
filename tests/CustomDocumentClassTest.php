@@ -129,6 +129,10 @@ class CustomDocumentClassTest extends
      */
     public function testGetCustomDocumentWithExport()
     {
+        if (isCluster($this->connection)) {
+            $this->markTestSkipped("test is only meaningful in single server");
+        }
+
         $connection      = $this->connection;
         $collection      = $this->collection;
         $document        = new Document();

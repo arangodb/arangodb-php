@@ -72,7 +72,11 @@ class ConnectionTest extends
     {
         $connection = getConnection();
 
+        
+        $old = $connection->getOption(ConnectionOptions::OPTION_TIMEOUT);
+        $connection->setOption(ConnectionOptions::OPTION_TIMEOUT, 12);
         $value = $connection->getOption(ConnectionOptions::OPTION_TIMEOUT);
+        $connection->setOption(ConnectionOptions::OPTION_TIMEOUT, $old);
         static::assertEquals(12, $value);
 
         $value = $connection->getOption(ConnectionOptions::OPTION_CONNECTION);

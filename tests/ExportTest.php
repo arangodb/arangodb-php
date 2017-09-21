@@ -50,6 +50,9 @@ class ExportTest extends
         $adminHandler       = new AdminHandler($this->connection);
         $version            = preg_replace('/-[a-z0-9]+$/', '', $adminHandler->getServerVersion());
         $this->hasExportApi = (version_compare($version, '2.6.0') >= 0);
+        if (isCluster($this->connection)) {
+            $this->hasExportApi = false;
+        }
     }
 
     /**
@@ -58,6 +61,7 @@ class ExportTest extends
     public function testExportEmpty()
     {
         if (!$this->hasExportApi) {
+            $this->markTestSkipped("test is only meaningful with export API being present");
             return;
         }
         $connection = $this->connection;
@@ -81,7 +85,7 @@ class ExportTest extends
     public function testExportDocuments()
     {
         if (!$this->hasExportApi) {
-            return;
+            $this->markTestSkipped("test is only meaningful with export API being present");
         }
         $connection = $this->connection;
         for ($i = 0; $i < 100; ++$i) {
@@ -109,7 +113,7 @@ class ExportTest extends
     public function testExportDocumentsTwoFetches()
     {
         if (!$this->hasExportApi) {
-            return;
+            $this->markTestSkipped("test is only meaningful with export API being present");
         }
         $connection = $this->connection;
         $statement  = new Statement(
@@ -143,7 +147,7 @@ class ExportTest extends
     public function testExportDocumentsMultipleFetches()
     {
         if (!$this->hasExportApi) {
-            return;
+            $this->markTestSkipped("test is only meaningful with export API being present");
         }
         $connection = $this->connection;
         $statement  = new Statement(
@@ -176,7 +180,7 @@ class ExportTest extends
     public function testExportDocumentsWithSmallBatchSize()
     {
         if (!$this->hasExportApi) {
-            return;
+            $this->markTestSkipped("test is only meaningful with export API being present");
         }
         $connection = $this->connection;
         $statement  = new Statement(
@@ -209,7 +213,7 @@ class ExportTest extends
     public function testExportDocumentObjects()
     {
         if (!$this->hasExportApi) {
-            return;
+            $this->markTestSkipped("test is only meaningful with export API being present");
         }
         for ($i = 0; $i < 100; ++$i) {
             $this->documentHandler->save($this->collection, ['value' => $i]);
@@ -240,7 +244,7 @@ class ExportTest extends
     public function testExportEdgeObjects()
     {
         if (!$this->hasExportApi) {
-            return;
+            $this->markTestSkipped("test is only meaningful with export API being present");
         }
 
         try {
@@ -289,7 +293,7 @@ class ExportTest extends
     public function testExportFlat()
     {
         if (!$this->hasExportApi) {
-            return;
+            $this->markTestSkipped("test is only meaningful with export API being present");
         }
         for ($i = 0; $i < 200; ++$i) {
             $this->documentHandler->save($this->collection, ['value' => $i]);
@@ -324,7 +328,7 @@ class ExportTest extends
     public function testExportLimit()
     {
         if (!$this->hasExportApi) {
-            return;
+            $this->markTestSkipped("test is only meaningful with export API being present");
         }
         for ($i = 0; $i < 200; ++$i) {
             $this->documentHandler->save($this->collection, ['value' => $i]);
@@ -365,7 +369,7 @@ class ExportTest extends
     public function testExportRestrictInclude()
     {
         if (!$this->hasExportApi) {
-            return;
+            $this->markTestSkipped("test is only meaningful with export API being present");
         }
         for ($i = 0; $i < 200; ++$i) {
             $this->documentHandler->save($this->collection, ['value1' => $i, 'value2' => 'test' . $i]);
@@ -411,7 +415,7 @@ class ExportTest extends
     public function testExportRestrictIncludeNonExisting()
     {
         if (!$this->hasExportApi) {
-            return;
+            $this->markTestSkipped("test is only meaningful with export API being present");
         }
         for ($i = 0; $i < 200; ++$i) {
             $this->documentHandler->save($this->collection, ['value1' => $i, 'value2' => 'test' . $i]);
@@ -452,7 +456,7 @@ class ExportTest extends
     public function testExportRestrictExclude()
     {
         if (!$this->hasExportApi) {
-            return;
+            $this->markTestSkipped("test is only meaningful with export API being present");
         }
         for ($i = 0; $i < 200; ++$i) {
             $this->documentHandler->save($this->collection, ['value1' => $i, 'value2' => 'test' . $i]);
@@ -498,7 +502,7 @@ class ExportTest extends
     public function testExportRestrictExcludeNonExisting()
     {
         if (!$this->hasExportApi) {
-            return;
+            $this->markTestSkipped("test is only meaningful with export API being present");
         }
         for ($i = 0; $i < 200; ++$i) {
             $this->documentHandler->save($this->collection, ['value1' => $i, 'value2' => 'test' . $i]);

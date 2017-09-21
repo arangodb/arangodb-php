@@ -45,9 +45,14 @@ function getConnectionOptions()
     if ($passwd === false) {
         $passwd = ""; // default root password
     }
+    
+    $port = getenv("ARANGO_PORT");
+    if ($port === false) {
+        $port = "8529"; // default port
+    }
 
     return [
-        ConnectionOptions::OPTION_ENDPOINT           => 'tcp://localhost:8529',
+        ConnectionOptions::OPTION_ENDPOINT           => 'tcp://localhost:' . $port,
         // endpoint to connect to
         ConnectionOptions::OPTION_CONNECTION         => 'Keep-Alive',
         // can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
@@ -57,7 +62,7 @@ function getConnectionOptions()
         // user for basic authorization
         ConnectionOptions::OPTION_AUTH_PASSWD        => $passwd,
         // password for basic authorization
-        ConnectionOptions::OPTION_TIMEOUT            => 12,
+        ConnectionOptions::OPTION_TIMEOUT            => 60,
         // timeout in seconds
         //ConnectionOptions::OPTION_TRACE       => $traceFunc,              // tracer function, can be used for debugging
         ConnectionOptions::OPTION_CREATE             => false,

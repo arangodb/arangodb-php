@@ -78,7 +78,9 @@ class QueryCacheTest extends
         $cursor = $statement->execute();
 
         static::assertEquals([1998, 1999, 2000], $cursor->getAll());
-        static::assertTrue($cursor->getCached()); // should be in cache now
+        if (!isCluster($this->connection)) {
+            static::assertTrue($cursor->getCached()); // should be in cache now
+        }
 
         // now clear the cache
         $this->cacheHandler->clear();
@@ -97,7 +99,9 @@ class QueryCacheTest extends
         $cursor = $statement->execute();
 
         static::assertEquals([1998, 1999, 2000], $cursor->getAll());
-        static::assertTrue($cursor->getCached()); // should be in cache again
+        if (!isCluster($this->connection)) {
+            static::assertTrue($cursor->getCached()); // should be in cache again
+        }
     }
 
 
@@ -125,7 +129,9 @@ class QueryCacheTest extends
         $cursor = $statement->execute();
 
         static::assertEquals([1998, 1999, 2000], $cursor->getAll());
-        static::assertTrue($cursor->getCached()); // should be in cache now
+        if (!isCluster($this->connection)) {
+            static::assertTrue($cursor->getCached()); // should be in cache now
+        }
     }
 
 
@@ -150,7 +156,9 @@ class QueryCacheTest extends
         $cursor = $statement->execute();
 
         static::assertEquals([1998, 1999, 2000], $cursor->getAll());
-        static::assertTrue($cursor->getCached()); // should be in cache now
+        if (!isCluster($this->connection)) {
+            static::assertTrue($cursor->getCached()); // should be in cache now
+        }
 
         // re-execute same query, but with cache disabled
         $statement = new Statement($this->connection, ['_flat' => true]);
@@ -217,7 +225,9 @@ class QueryCacheTest extends
         $cursor = $statement->execute();
 
         static::assertEquals([1998, 1999, 2000], $cursor->getAll());
-        static::assertTrue($cursor->getCached()); // now the query should be in the cache, because we set the cache attribute for the query
+        if (!isCluster($this->connection)) {
+            static::assertTrue($cursor->getCached()); // now the query should be in the cache, because we set the cache attribute for the query
+        }
     }
 
 
@@ -256,7 +266,9 @@ class QueryCacheTest extends
         $cursor = $statement->execute();
 
         static::assertEquals([1998, 1999, 2000], $cursor->getAll());
-        static::assertTrue($cursor->getCached()); // we said we want to use the cache
+        if (!isCluster($this->connection)) {
+            static::assertTrue($cursor->getCached()); // we said we want to use the cache
+        }
     }
 
 

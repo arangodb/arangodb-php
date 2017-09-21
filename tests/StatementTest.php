@@ -12,6 +12,7 @@ namespace ArangoDBClient;
 function filtered(array $values)
 {
     unset($values['executionTime']);
+    unset($values['httpRequests']);
 
     return $values;
 }
@@ -163,8 +164,7 @@ class StatementTest extends
                 'writesIgnored'  => 0,
                 'scannedFull'    => 0,
                 'scannedIndex'   => 0,
-                'filtered'       => 0,
-                'httpRequests'   => 0
+                'filtered'       => 0
             ], filtered($extra['stats'])
         );
 
@@ -202,8 +202,7 @@ class StatementTest extends
                 'writesIgnored'  => 0,
                 'scannedFull'    => 0,
                 'scannedIndex'   => 3,
-                'filtered'       => 0,
-                'httpRequests'   => 0
+                'filtered'       => 0
             ], filtered($extra['stats'])
         );
 
@@ -241,8 +240,7 @@ class StatementTest extends
                 'writesIgnored'  => 0,
                 'scannedFull'    => 1000,
                 'scannedIndex'   => 0,
-                'filtered'       => 500,
-                'httpRequests'   => 0
+                'filtered'       => 500
             ], filtered($extra['stats'])
         );
 
