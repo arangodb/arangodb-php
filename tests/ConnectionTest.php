@@ -356,6 +356,10 @@ class ConnectionTest extends
      */
     public function testAuthentication()
     {
+        if (!useAuthentication()) {
+            $this->markTestSkipped("test is only meaningful with authentication enabled");
+        }
+
         $done   = false;
         $tracer = function ($type, $data) use (&$done) {
             if ($type === 'send') {

@@ -50,6 +50,10 @@ class UserBasicTest extends
      */
     public function testGrantPermissions()
     {
+        if (!useAuthentication()) {
+            $this->markTestSkipped("test is only meaningful with authentication enabled");
+        }
+
         $result = $this->userHandler->addUser('testUser42', 'testPasswd', true);
         static::assertTrue($result);
 
@@ -83,6 +87,10 @@ class UserBasicTest extends
      */
     public function testGrantAndRevokePermissions()
     {
+        if (!useAuthentication()) {
+            $this->markTestSkipped("test is only meaningful with authentication enabled");
+        }
+
         $result = $this->userHandler->addUser('testUser42', 'testPasswd', true);
         static::assertTrue($result);
 
@@ -115,6 +123,10 @@ class UserBasicTest extends
      */
     public function testGrantDatabasePermissions()
     {
+        if (!useAuthentication()) {
+            $this->markTestSkipped("test is only meaningful with authentication enabled");
+        }
+
         $result = $this->userHandler->addUser('testUser42', 'testPasswd', true);
         static::assertTrue($result);
 
@@ -167,6 +179,10 @@ class UserBasicTest extends
      */
     public function testGrantAndRevokeDatabasePermissions()
     {
+        if (!useAuthentication()) {
+            $this->markTestSkipped("test is only meaningful with authentication enabled");
+        }
+
         $result = $this->userHandler->addUser('testUser42', 'testPasswd', true);
         static::assertTrue($result);
 
@@ -206,6 +222,10 @@ class UserBasicTest extends
      */
     public function testGrantCollectionPermissions()
     {
+        if (!useAuthentication()) {
+            $this->markTestSkipped("test is only meaningful with authentication enabled");
+        }
+
         $result = $this->userHandler->addUser('testUser42', 'testPasswd', true);
         static::assertTrue($result);
 
@@ -255,6 +275,10 @@ class UserBasicTest extends
      */
     public function testGrantAndRevokeCollectionPermissions()
     {
+        if (!useAuthentication()) {
+            $this->markTestSkipped("test is only meaningful with authentication enabled");
+        }
+
         $result = $this->userHandler->addUser('testUser42', 'testPasswd', true);
         static::assertTrue($result);
 
