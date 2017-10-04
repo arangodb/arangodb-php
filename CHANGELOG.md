@@ -1,5 +1,5 @@
-Release notes for the ArangoDB-PHP driver 3.2.0 (currently in development)
-==========================================================================
+Release notes for the ArangoDB-PHP driver 3.2.0
+===============================================
 - the default value for the authentication type of the `Connection` class is now `Basic`
 
 - the default value for the connection type is now `Keep-Alive` and not `Close`
