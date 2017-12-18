@@ -2637,7 +2637,7 @@ class CollectionExtendedTest extends
         );
 
         $m = $cursor->getMetadata();
-        static::assertEquals(1, $m['count']);
+        static::assertEquals(0, $m['count']);
         static::assertEquals(false, $m['hasMore']);
 
         $cursor = $collectionHandler->fulltext(
