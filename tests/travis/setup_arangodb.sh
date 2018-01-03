@@ -33,18 +33,17 @@ echo "./phpunit --version"
 ./phpunit --version
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-echo "cd $DIR"
-cd "$DIR"
+cd $DIR
 
-VERSION="devel"
-NAME="ArangoDB-$VERSION"
+VERSION=devel
+NAME=ArangoDB-$VERSION
 
 if [ ! -d "$DIR/$NAME" ]; then
   # download ArangoDB
-  echo "wget --no-check-certificate http://www.arangodb.com/repositories/nightly/travisCI/$NAME.tar.gz"
-  wget --no-check-certificate http://www.arangodb.com/repositories/nightly/travisCI/$NAME.tar.gz
+  echo "curl -L -o $NAME.tar.gz https://www.arangodb.org/repositories/travisCI/$NAME.tar.gz"
+  curl -L -o $NAME.tar.gz https://www.arangodb.org/repositories/travisCI/$NAME.tar.gz
   echo "tar zxf $NAME.tar.gz"
-  tar zxf $NAME.tar.gz
+  tar zvxf $NAME.tar.gz
 fi
 
 ARCH=$(arch)
@@ -52,27 +51,20 @@ PID=$(echo $PPID)
 TMP_DIR="/tmp/arangodb.$PID"
 PID_FILE="/tmp/arangodb.$PID.pid"
 ARANGODB_DIR="$DIR/$NAME"
-
-ARANGOD="${ARANGODB_DIR}/bin/arangod"
-if [ "$ARCH" == "x86_64" ]; then
-  ARANGOD="${ARANGOD}_x86_64"
-fi
+ARANGOD="${ARANGODB_DIR}/bin/arangod_x86_64"
 
 # create database directory
 mkdir ${TMP_DIR}
 
 echo "Starting ArangoDB '${ARANGOD}'"
-echo "pwd: `pwd`"
 
 ${ARANGOD} \
     --database.directory ${TMP_DIR} \
     --configuration none \
     --server.endpoint tcp://127.0.0.1:8529 \
-    --javascript.startup-directory ${ARANGODB_DIR}/js \
     --javascript.app-path ${ARANGODB_DIR}/js/apps \
-    --javascript.allow-admin-execute true \
+    --javascript.startup-directory ${ARANGODB_DIR}/js \
     --database.maximal-journal-size 1048576 \
-    --database.force-sync-properties false \
     --server.authentication true &
 
 sleep 2
@@ -89,17 +81,19 @@ fi
 echo "Waiting until ArangoDB is ready on port 8529"
 
 n=0
-timeout=60
+# timeout value for startup
+timeout=60 
 while [[ (-z `curl -H 'Authorization: Basic cm9vdDo=' -s 'http://127.0.0.1:8529/_api/version' `) && (n -lt timeout) ]] ; do
   echo -n "."
   sleep 1s
   n=$[$n+1]
 done
+
 if [[ n -eq timeout ]];
 then
     echo "Could not start ArangoDB. Timeout reached."
     exit 1
 fi
 
-echo "ArangoDB is up"
 
+echo "ArangoDB is up"
