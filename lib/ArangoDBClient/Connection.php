@@ -289,12 +289,13 @@ class Connection
      *
      * @param string $url - DELETE URL
      * @param array  $customHeaders
+     * @param string $data - delete body
      *
      * @return HttpResponse
      */
-    public function delete($url, array $customHeaders = [])
+    public function delete($url, array $customHeaders = [], $data = '')
     {
-        $response = $this->executeRequest(HttpHelper::METHOD_DELETE, $url, '', $customHeaders);
+        $response = $this->executeRequest(HttpHelper::METHOD_DELETE, $url, $data, $customHeaders);
 
         return $this->parseResponse($response);
     }
