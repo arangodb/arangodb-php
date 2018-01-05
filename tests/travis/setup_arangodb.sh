@@ -36,14 +36,14 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
 docker pull arangodb/arangodb-preview:nightly.devel
-docker run -d -e ARANGO_ROOT_PASSWORD="" -p 8529:8529 arangodb/arangodb-preview:nightly.devel
+docker run -d -e ARANGO_ROOT_PASSWORD="test" -p 8529:8529 arangodb/arangodb-preview:nightly.devel
 
 sleep 2
 
 n=0
 # timeout value for startup
 timeout=60 
-while [[ (-z `curl -H 'Authorization: Basic cm9vdDo=' -s 'http://127.0.0.1:8529/_api/version' `) && (n -lt timeout) ]] ; do
+while [[ (-z `curl -H 'Authorization: Basic cm9vdDp0ZXN0' -s 'http://127.0.0.1:8529/_api/version' `) && (n -lt timeout) ]] ; do
   echo -n "."
   sleep 1s
   n=$[$n+1]
