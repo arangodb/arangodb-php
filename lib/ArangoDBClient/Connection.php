@@ -39,7 +39,7 @@ class Connection
      * @var string
      */
     private $_httpHeader = '';
-
+    
     /**
      * Pre-assembled base URL for the current database
      * This is pre-calculated when connection options are set/changed, to avoid
@@ -312,16 +312,51 @@ class Connection
         });
     }
         
-        
-    private function handleFailover($cb) {
-        $tries = 0;
+    /**
+     * Execute the specified callback, and try again if it fails because
+     * the target server is not available. In this case, try again with failing
+     * over to an alternative server (the new leader) until the maximum number
+     * of failover attempts have been made
+     *
+     * @throws Exception
+     *
+     * @param mixed $cb - the callback function to execute
+     *
+     * @return HttpResponse
+     */
+    private function handleFailover($cb) 
+    {
+        if (!$this->_options->haveMultipleEndpoints()) {
+            // the simple case: no failover
+            return $cb();
+        }
 
+        // now with failover
+        $tried = [ ];
         while (true) {
             try {
+                // mark the endpoint as being used
+                $tried[$this->_options->getCurrentEndpoint()] = true;
                 return $cb();
+            } catch (ConnectException $e) {
+                // could not connect. now try again with a different server if possible
+                if (count($tried) > $this->_options[ConnectionOptions::OPTION_FAILOVER_TRIES]) {
+                    throw $e;
+                }
+                $ep = $this->_options->nextEndpoint();
+                if (isset($tried[$ep])) {
+                    // endpoint should have changed by failover procedure
+                    // if not, we can abort now
+                    throw $e;
+                }
             } catch (FailoverException $e) {
-                // got a failover. now try again...
-                if ($tries++ >= $this->_options[ConnectionOptions::OPTION_FAILOVER_TRIES]) {
+                // got a failover. now try again with a different server if possible
+                if (count($tried) > $this->_options[ConnectionOptions::OPTION_FAILOVER_TRIES]) {
+                    throw $e;
+                }
+                if (isset($tried[$this->_options->getCurrentEndpoint()])) {
+                    // endpoint should have changed by failover procedure
+                    // if not, we can abort now
                     throw $e;
                 }
             }
@@ -337,7 +372,7 @@ class Connection
     {
         $this->_httpHeader = HttpHelper::EOL;
 
-        $endpoint = $this->_options[ConnectionOptions::OPTION_ENDPOINT];
+        $endpoint = $this->_options->getCurrentEndpoint();
         if (Endpoint::getType($endpoint) !== Endpoint::TYPE_UNIX) {
             $this->_httpHeader .= sprintf('Host: %s%s', Endpoint::getHost($endpoint), HttpHelper::EOL);
         }
@@ -391,8 +426,7 @@ class Connection
             }
 
             // close handle
-            @fclose($this->_handle);
-            $this->_handle = 0;
+            $this->closeHandle();
 
             if (!$this->_options[ConnectionOptions::OPTION_RECONNECT]) {
                 // if reconnect option not set, this is the end
@@ -409,6 +443,20 @@ class Connection
 
         return $handle;
     }
+    
+    /**
+     * Close an existing connection handle
+     *
+     * @return void 
+     */
+     
+     private function closeHandle() 
+     {
+          if ($this->_handle && is_resource($this->_handle)) {
+              @fclose($this->_handle);
+          }
+          $this->_handle = 0;
+     }
 
     /**
      * Execute an HTTP request and return the results
@@ -497,6 +545,24 @@ class Connection
 
             $status = socket_get_status($handle);
             if ($status['timed_out']) {
+                // can't connect to server because of timeout. 
+                // now check if we have additional servers to connect to
+                if ($this->_options->haveMultipleEndpoints()) {
+                    // connect to next server in list
+                    $currentLeader = $this->_options->getCurrentEndpoint();
+                    $newLeader = $this->_options->nextEndpoint();
+
+                    if ($newLeader && ($newLeader !== $currentLeader)) {
+                        // close existing connection
+                        $this->closeHandle();
+                        $this->updateHttpHeader();
+
+                        $exception = new FailoverException("Got a timeout while waiting for the server's response", 408);
+                        $exception->setLeader($newLeader);
+                        throw $exception;
+                    }
+                }
+
                 throw new ClientException('Got a timeout while waiting for the server\'s response', 408);
             }
 
@@ -554,20 +620,22 @@ class Connection
                         // not a leader. now try to find new leader
                         $leader = $response->getLeaderEndpointHeader();
                         if ($leader) {
-                            // close existing connection
-                            if ($this->_handle && is_resource($this->_handle)) {
-                                @fclose($this->_handle);
-                                $this->_handle = 0;
-                            }
-
                             // have a different leader
-                            $this->_options[ConnectionOptions::OPTION_ENDPOINT] = $leader;
-                            $this->updateHttpHeader();
+                            $leader = Endpoint::normalize($leader);
 
-                            $exception = new FailoverException($details['errorMessage'], $details['code']);
-                            $exception->setLeader($leader);
-                            throw $exception;
+                            $this->_options->addEndpoint($leader);
+                            
+                        } else {
+                            $leader = $this->_options->nextEndpoint();
                         }
+                            
+                        // close existing connection
+                        $this->closeHandle();
+                        $this->updateHttpHeader();
+
+                        $exception = new FailoverException(@$details['errorMessage'], @$details['code']);
+                        $exception->setLeader($leader);
+                        throw $exception;
                     }
                 }
 

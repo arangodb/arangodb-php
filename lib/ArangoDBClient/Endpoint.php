@@ -167,19 +167,31 @@ class Endpoint
     /**
      * check whether an endpoint specification is valid
      *
-     * @param string $value - endpoint specification value
+     * @param string $mixed - endpoint specification value (can be a string or an array of strings)
      *
      * @return bool - true if endpoint specification is valid, false otherwise
      */
     public static function isValid($value)
     {
-        if (!is_string($value)) {
+        if (is_string($value)) {
+            $value = [ $value ];
+        }
+        
+        if (!is_array($value) || count($value) === 0) {
             return false;
         }
 
-        $type = self::getType($value);
+        foreach ($value as $ep) {
+            if (!is_string($ep)) {
+                return false;
+            }
+            $type = self::getType($ep);
 
-        return !($type === null);
+            if ($type === null) {
+                return false;
+            }
+        }
+        return true;
     }
 
 

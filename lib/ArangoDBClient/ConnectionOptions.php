@@ -36,6 +36,18 @@ class ConnectionOptions implements \ArrayAccess
      * @var Endpoint
      */
     private $_endpoint;
+    
+    /**
+     * The index into the endpoints array that we will connect to (or are currently
+     * connected to). This index will be increased in case the currently connected
+     * server tells us there is a different leader. We will then simply connect
+     * to the new leader, adjusting this index. If we don't know the new leader
+     * we will try the next server from the list of endpoints until we find the leader
+     * or have tried to often
+     *
+     * @var int
+     */
+    private $_currentEndpointIndex = 0;
 
     /**
      * Endpoint string index constant
@@ -292,10 +304,80 @@ class ConnectionOptions implements \ArrayAccess
     {
         if ($this->_endpoint === null) {
             // will also validate the endpoint
-            $this->_endpoint = new Endpoint($this->_values[self::OPTION_ENDPOINT]);
+            $this->_endpoint = new Endpoint($this->getCurrentEndpoint());
         }
 
         return $this->_endpoint;
+    }
+    
+    /**
+     * Get the current endpoint to use
+     *
+     * @return string - Endpoint string to connect to
+     */
+    public function getCurrentEndpoint() 
+    {
+        if (!is_array($this->_values[self::OPTION_ENDPOINT])) {
+            return $this->_values[self::OPTION_ENDPOINT];
+        }
+        return $this->_values[self::OPTION_ENDPOINT][$this->_currentEndpointIndex];
+    }
+    
+    /**
+     * Whether or not we have multiple endpoints to connect to
+     *
+     * @return bool - true if we have more than one endpoint to connect to
+     */
+    public function haveMultipleEndpoints() 
+    {
+        return is_array($this->_values[self::OPTION_ENDPOINT]) && (count($this->_values[self::OPTION_ENDPOINT]) > 1);
+    }
+
+    /**
+     * Add a new endpoint to the list of endpoints
+     * if the endpoint is already in the list, it will not be added again
+     * as a side-effect, this method will modify _currentEndpointIndex
+     *
+     * @param string $endpoint - the endpoint to add
+     *
+     * @return void
+     */
+    public function addEndpoint($endpoint) 
+    {
+        // can only add an endpoint here if the list of endpoints is already an array
+        if (!is_array($this->_values[self::OPTION_ENDPOINT])) {
+            // make it an array now
+            $this->_values[self::OPTION_ENDPOINT] = [ $this->_values[self::OPTION_ENDPOINT] ];
+        }
+        $found = array_search($endpoint, $this->_values[self::OPTION_ENDPOINT]);
+        if ($found === false) {
+            // a new endpoint we have not seen before
+            $this->_values[self::OPTION_ENDPOINT][] = $endpoint;
+            $this->_currentEndpointIndex = count($this->_values[self::OPTION_ENDPOINT]) - 1;
+        } else {
+            // we have already got this endpoint
+            $this->_currentEndpointIndex = $found;
+        }
+    }
+                            
+    /**
+     * Return the next endpoint from the list of endpoints
+     *
+     * @return string - the next endpoint
+     */
+    public function nextEndpoint() 
+    {
+        if (!is_array($this->_values[self::OPTION_ENDPOINT])) {
+            return $this->_values[self::OPTION_ENDPOINT];
+        }
+
+        $numberOfEndpoints = count($this->_values[self::OPTION_ENDPOINT]);
+        $this->_currentEndpointIndex++;
+        if ($this->_currentEndpointIndex >= $numberOfEndpoints) {
+            $this->_currentEndpointIndex = 0;
+        }
+
+        return $this->_values[self::OPTION_ENDPOINT][$this->_currentEndpointIndex];
     }
 
     /**
@@ -381,14 +463,15 @@ class ConnectionOptions implements \ArrayAccess
 
         if (isset($this->_values[self::OPTION_HOST]) && !isset($this->_values[self::OPTION_ENDPOINT])) {
             // upgrade host/port to an endpoint
-            $this->_values[self::OPTION_ENDPOINT] = 'tcp://' . $this->_values[self::OPTION_HOST] . ':' . $this->_values[self::OPTION_PORT];
+            $this->_values[self::OPTION_ENDPOINT] = [ 'tcp://' . $this->_values[self::OPTION_HOST] . ':' . $this->_values[self::OPTION_PORT] ];
             unset($this->_values[self::OPTION_HOST]);
         }
 
         // set up a new endpoint, this will also validate it
         $this->getEndpoint();
 
-        $type = Endpoint::getType($this->_values[self::OPTION_ENDPOINT]);
+        $ep = $this->getCurrentEndpoint();
+        $type = Endpoint::getType($ep);
         if ($type === Endpoint::TYPE_UNIX) {
             // must set port to 0 for UNIX domain sockets
             $this->_values[self::OPTION_PORT] = 0;
@@ -396,11 +479,16 @@ class ConnectionOptions implements \ArrayAccess
             // must set port to 0 for SSL connections
             $this->_values[self::OPTION_PORT] = 0;
         } else {
-          if (preg_match("/:(\d+)$/", $this->_values[self::OPTION_ENDPOINT], $match)) {
+          if (preg_match("/:(\d+)$/", $ep, $match)) {
             // get port number from endpoint, to not confuse developers when dumping
             // connection details
             $this->_values[self::OPTION_PORT] = (int) $match[1];
           }
+        }
+        
+        if (is_array($this->_values[self::OPTION_ENDPOINT])) {
+            // the number of endpoints we have determines the number of failover attempts we'll try
+            $this->_values[self::OPTION_FAILOVER_TRIES] = count($this->_values[self::OPTION_ENDPOINT]);
         }
 
         if (isset($this->_values[self::OPTION_AUTH_TYPE]) && !in_array(

@@ -81,7 +81,7 @@ class HttpHelper
      */
     public static function createConnection(ConnectionOptions $options)
     {
-        $endpoint = $options[ConnectionOptions::OPTION_ENDPOINT];
+        $endpoint = $options->getCurrentEndpoint();
 
         $context = stream_context_create();
 
@@ -108,7 +108,7 @@ class HttpHelper
         if (!$fp) {
             throw new ConnectException(
                 'cannot connect to endpoint \'' .
-                $options[ConnectionOptions::OPTION_ENDPOINT] . '\': ' . $message, $errNo
+                $endpoint . '\': ' . $message, $errNo
             );
         }
 
