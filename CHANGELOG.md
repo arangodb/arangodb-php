@@ -1,5 +1,32 @@
+Release notes for the ArangoDB-PHP driver 3.3.x
+===============================================
+
+Starting from release 3.3.1, the PHP driver has support for automatic failover, for
+ArangoDB servers that are started in the "resilient single" or active/passive failover
+mode. This setup requires using ArangoDB 3.3.
+
+In order to use automatic failover from the PHP driver, simply change the "endpoint"
+attribute of the connection options from a simple endpoint string into an array of
+endpoint strings:
+    
+    $connectionOptions = [
+        ConnectionOptions::OPTION_ENDPOINT    => [ 'tcp://localhost:8531', 'tcp://localhost:8532', 'tcp://localhost:8530' ],  // endpoints to connect to
+        ...
+    ];
+    $connection = new Connection($connectionOptions);
+
+instead of just
+    
+    $connectionOptions = [
+        ConnectionOptions::OPTION_ENDPOINT    => 'tcp://localhost:8530',  // endpoint to connect to
+        ...
+    ];
+    $connection = new Connection($connectionOptions);
+
+
 Release notes for the ArangoDB-PHP driver 3.2.0
 ===============================================
+
 - the default value for the authentication type of the `Connection` class is now `Basic`
 
 - the default value for the connection type is now `Keep-Alive` and not `Close`
