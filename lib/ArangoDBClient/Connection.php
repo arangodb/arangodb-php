@@ -265,7 +265,7 @@ class Connection
      */
     public function head($url, array $customHeaders = [])
     {
-        return $this->handleFailover(function() use (&$url, &$data, &$customHeaders) {
+        return $this->handleFailover(function() use (&$url, &$customHeaders) {
             $response = $this->executeRequest(HttpHelper::METHOD_HEAD, $url, '', $customHeaders);
 
             return $this->parseResponse($response);
@@ -305,7 +305,7 @@ class Connection
      */
     public function delete($url, array $customHeaders = [], $data = '')
     {
-        return $this->handleFailover(function() use (&$url, &$data) {
+        return $this->handleFailover(function() use (&$url, &$customHeaders, $data) {
             $response = $this->executeRequest(HttpHelper::METHOD_DELETE, $url, $data, $customHeaders);
 
             return $this->parseResponse($response);
