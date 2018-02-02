@@ -116,6 +116,21 @@ class Statement
      * @var bool
      */
     private $_cache;
+    
+    /**
+     * Whether or not the cache should abort when it encounters a warning
+     *
+     * @var bool
+     */
+    private $_failOnWarning = false;
+
+    /**
+     * Approximate memory limit value (in bytes) that a query can use on the server-side
+     * (a value of 0 or less will mean the memory is not limited)
+     *
+     * @var int
+     */
+    private $_memoryLimit = 0;
 
     /**
      * resultType
@@ -149,6 +164,16 @@ class Statement
      * Bind variables index
      */
     const ENTRY_BINDVARS = 'bindVars';
+    
+    /**
+     * Fail on warning flag
+     */
+    const ENTRY_FAIL_ON_WARNING = 'failOnWarning';
+    
+    /**
+     * Memory limit threshold for query
+     */
+    const ENTRY_MEMORY_LIMIT = 'memoryLimit';
 
     /**
      * Full count option index
@@ -214,6 +239,14 @@ class Statement
 
         if (isset($data[Cursor::ENTRY_CACHE])) {
             $this->_cache = (bool) $data[Cursor::ENTRY_CACHE];
+        }
+        
+        if (isset($data[self::ENTRY_FAIL_ON_WARNING])) {
+            $this->_failOnWarning = (bool) $data[self::ENTRY_FAIL_ON_WARNING];
+        }
+        
+        if (isset($data[self::ENTRY_MEMORY_LIMIT])) {
+            $this->_memoryLimit = (int) $data[self::ENTRY_MEMORY_LIMIT];
         }
     }
 
@@ -430,7 +463,7 @@ class Statement
     {
         $this->_fullCount = (bool) $value;
     }
-
+    
     /**
      * Get the full count option value of the statement
      *
@@ -461,6 +494,51 @@ class Statement
     public function getCache()
     {
         return $this->_cache;
+    }
+     
+    /**
+     * Set whether or not the cache should abort when it encounters a warning
+     *
+     * @param bool $value - value for fail-on-warning
+     *
+     * @return void
+     */
+    public function setFailOnWarning($value = true)
+    {
+        $this->_failOnWarning = (bool) $value;
+    }
+    
+    /**
+     * Get the configured value for fail-on-warning
+     *
+     * @return bool - current value of fail-on-warning option
+     */
+    public function getFailOnWarning()
+    {
+        return $this->_failOnWarning;
+    }
+    
+    /**
+     * Set the approximate memory limit threshold to be used by the query on the server-side
+     * (a value of 0 or less will mean the memory is not limited)
+     *
+     * @param int $value - value for memory limit
+     *
+     * @return void
+     */
+    public function setMemoryLimit($value)
+    {
+        $this->_memoryLimit = (int) $value;
+    }
+    
+    /**
+     * Get the configured memory limit for the statement
+     *
+     * @return int - current value of memory limit option
+     */
+    public function getMemoryLimit()
+    {
+        return $this->_memoryLimit;
     }
 
     /**
@@ -510,7 +588,8 @@ class Statement
             self::ENTRY_QUERY => $this->_query,
             self::ENTRY_COUNT => $this->_doCount,
             'options'         => [
-                self::FULL_COUNT => $this->_fullCount
+                self::FULL_COUNT => $this->_fullCount,
+                self::ENTRY_FAIL_ON_WARNING => $this->_failOnWarning
             ]
         ];
 
@@ -518,6 +597,10 @@ class Statement
             $data[Cursor::ENTRY_CACHE] = $this->_cache;
         }
 
+        if ($this->_memoryLimit > 0) {
+            $data[self::ENTRY_MEMORY_LIMIT] = $this->_memoryLimit;
+        }
+        
         if ($this->_bindVars->getCount() > 0) {
             $data[self::ENTRY_BINDVARS] = $this->_bindVars->getAll();
         }

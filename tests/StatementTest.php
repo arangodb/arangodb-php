@@ -139,6 +139,42 @@ class StatementTest extends
         $warnings = $cursor->getWarnings();
         static::assertEquals(1562, $warnings[0]['code']);
     }
+    
+    /**
+     * Test fail if a warning occurs during querying
+     */
+    public function testStatementFailOnWarning()
+    {
+        $connection = $this->connection;
+
+        $statement = new Statement($connection, ['query' => 'RETURN 1/0']);
+        $statement->setFailOnWarning();
+
+        try {
+            $cursor = $statement->execute();
+            static::assertTrue(false);
+        } catch (ServerException $e) {
+            static::assertEquals(1562, $e->getServerCode());
+        }
+    }
+    
+    /**
+     * Test fail with memory limit hit
+     */
+    public function testStatementFailWithMemoryLimit()
+    {
+        $connection = $this->connection;
+
+        $statement = new Statement($connection, ['query' => 'FOR i IN 1..100000 RETURN CONCAT("test", TO_NUMBER(i))']);
+        $statement->setMemoryLimit(10000);
+
+        try {
+            $cursor = $statement->execute();
+            static::assertTrue(false);
+        } catch (ServerException $e) {
+            static::assertEquals(32, $e->getServerCode());
+        }
+    }
 
 
     /**
