@@ -55,12 +55,12 @@ class Endpoint
     /**
      * Regexp for TCP endpoints
      */
-    const REGEXP_TCP = '/^tcp:\/\/(.+?):(\d+)\/?$/';
+    const REGEXP_TCP = '/^(tcp|http):\/\/(.+?):(\d+)\/?$/';
 
     /**
      * Regexp for SSL endpoints
      */
-    const REGEXP_SSL = '/^ssl:\/\/(.+?):(\d+)\/?$/';
+    const REGEXP_SSL = '/^(ssl|https):\/\/(.+?):(\d+)\/?$/';
 
     /**
      * Regexp for UNIX socket endpoints
@@ -130,6 +130,19 @@ class Endpoint
 
         return null;
     }
+    
+    
+    /**
+     * Return normalize an endpoint string - will convert http: into tcp:, and https: into ssl:
+     *
+     * @param string $value - endpoint string
+     *
+     * @return string - normalized endpoint string
+     */
+    public static function normalize($value)
+    {
+        return preg_replace([ "/http:/", "/https:/" ], [ "tcp:", "ssl:" ], $value);
+    }
 
     /**
      * Return the host name of an endpoint
@@ -141,11 +154,11 @@ class Endpoint
     public static function getHost($value)
     {
         if (preg_match(self::REGEXP_TCP, $value, $matches)) {
-            return $matches[1];
+            return preg_replace("/^http:/", "tcp:", $matches[2]);
         }
 
         if (preg_match(self::REGEXP_SSL, $value, $matches)) {
-            return $matches[1];
+            return preg_replace("/^https:/", "ssl:", $matches[2]);
         }
 
         return null;
@@ -177,7 +190,7 @@ class Endpoint
      *
      * @param Connection $connection - the connection to be used
      *
-     * @link                         https://docs.arangodb.com/HTTP/Endpoints/index.html
+     * @link https://docs.arangodb.com/HTTP/Endpoints/index.html
      * @return array $responseArray - The response array.
      * @throws \ArangoDBClient\Exception
      */

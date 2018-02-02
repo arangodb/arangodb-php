@@ -206,9 +206,11 @@ class Connection
      */
     public function get($url, array $customHeaders = [])
     {
-        $response = $this->executeRequest(HttpHelper::METHOD_GET, $url, '', $customHeaders);
+        return $this->handleFailover(function() use (&$url, &$customHeaders) {
+            $response = $this->executeRequest(HttpHelper::METHOD_GET, $url, '', $customHeaders);
 
-        return $this->parseResponse($response);
+            return $this->parseResponse($response);
+        });
     }
 
     /**
@@ -224,9 +226,11 @@ class Connection
      */
     public function post($url, $data, array $customHeaders = [])
     {
-        $response = $this->executeRequest(HttpHelper::METHOD_POST, $url, $data, $customHeaders);
+        return $this->handleFailover(function() use (&$url, &$data, &$customHeaders) {
+            $response = $this->executeRequest(HttpHelper::METHOD_POST, $url, $data, $customHeaders);
 
-        return $this->parseResponse($response);
+            return $this->parseResponse($response);
+        });
     }
 
     /**
@@ -242,9 +246,11 @@ class Connection
      */
     public function put($url, $data, array $customHeaders = [])
     {
-        $response = $this->executeRequest(HttpHelper::METHOD_PUT, $url, $data, $customHeaders);
+        return $this->handleFailover(function() use (&$url, &$data, &$customHeaders) {
+            $response = $this->executeRequest(HttpHelper::METHOD_PUT, $url, $data, $customHeaders);
 
-        return $this->parseResponse($response);
+            return $this->parseResponse($response);
+        });
     }
 
     /**
@@ -259,9 +265,11 @@ class Connection
      */
     public function head($url, array $customHeaders = [])
     {
-        $response = $this->executeRequest(HttpHelper::METHOD_HEAD, $url, '', $customHeaders);
+        return $this->handleFailover(function() use (&$url, &$data, &$customHeaders) {
+            $response = $this->executeRequest(HttpHelper::METHOD_HEAD, $url, '', $customHeaders);
 
-        return $this->parseResponse($response);
+            return $this->parseResponse($response);
+        });
     }
 
     /**
@@ -276,10 +284,12 @@ class Connection
      * @return HttpResponse
      */
     public function patch($url, $data, array $customHeaders = [])
-    {
-        $response = $this->executeRequest(HttpHelper::METHOD_PATCH, $url, $data, $customHeaders);
+    { 
+        return $this->handleFailover(function() use (&$url, &$data, &$customHeaders) {
+            $response = $this->executeRequest(HttpHelper::METHOD_PATCH, $url, $data, $customHeaders);
 
-        return $this->parseResponse($response);
+            return $this->parseResponse($response);
+        });
     }
 
     /**
@@ -295,9 +305,28 @@ class Connection
      */
     public function delete($url, array $customHeaders = [], $data = '')
     {
-        $response = $this->executeRequest(HttpHelper::METHOD_DELETE, $url, $data, $customHeaders);
+        return $this->handleFailover(function() use (&$url, &$data) {
+            $response = $this->executeRequest(HttpHelper::METHOD_DELETE, $url, $data, $customHeaders);
 
-        return $this->parseResponse($response);
+            return $this->parseResponse($response);
+        });
+    }
+        
+        
+    private function handleFailover($cb) {
+        $tries = 0;
+
+        while (true) {
+            try {
+                return $cb();
+            } catch (FailoverException $e) {
+                // got a failover. now try again...
+                if ($tries++ >= $this->_options[ConnectionOptions::OPTION_FAILOVER_TRIES]) {
+                    throw $e;
+                }
+            }
+            // let all other exception types escape from here
+        }
     }
 
 
@@ -477,7 +506,7 @@ class Connection
             }
 
             $response = new HttpResponse($result, $url, $method, $wasAsync);
-
+            
             if ($traceFunc) {
                 // call tracer func
                 if ($this->_options[ConnectionOptions::OPTION_ENHANCED_TRACE]) {
@@ -518,6 +547,30 @@ class Connection
             if ($body !== '') {
                 // check if we can find details in the response body
                 $details = json_decode($body, true);
+
+                // handle failover
+                if (is_array($details) && isset($details['errorNum'])) {
+                    if ($details['errorNum'] === 1496) { 
+                        // not a leader. now try to find new leader
+                        $leader = $response->getLeaderEndpointHeader();
+                        if ($leader) {
+                            // close existing connection
+                            if ($this->_handle && is_resource($this->_handle)) {
+                                @fclose($this->_handle);
+                                $this->_handle = 0;
+                            }
+
+                            // have a different leader
+                            $this->_options[ConnectionOptions::OPTION_ENDPOINT] = $leader;
+                            $this->updateHttpHeader();
+
+                            $exception = new FailoverException($details['errorMessage'], $details['code']);
+                            $exception->setLeader($leader);
+                            throw $exception;
+                        }
+                    }
+                }
+
                 if (is_array($details) && isset($details['errorMessage'])) {
                     // yes, we got details
                     $exception = new ServerException($details['errorMessage'], $details['code']);

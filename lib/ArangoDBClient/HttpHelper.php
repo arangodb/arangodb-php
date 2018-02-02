@@ -97,7 +97,7 @@ class HttpHelper
         }
 
         $fp = @stream_socket_client(
-            $endpoint,
+            Endpoint::normalize($endpoint),
             $errNo,
             $message,
             $options[ConnectionOptions::OPTION_TIMEOUT],

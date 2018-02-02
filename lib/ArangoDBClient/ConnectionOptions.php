@@ -56,6 +56,11 @@ class ConnectionOptions implements \ArrayAccess
      * Timeout value index constant
      */
     const OPTION_TIMEOUT = 'timeout';
+    
+    /**
+     * Number of tries for failover constant
+     */
+    const OPTION_FAILOVER_TRIES = 'failoverTries';
 
     /**
      * Trace function index constant
@@ -304,6 +309,7 @@ class ConnectionOptions implements \ArrayAccess
             self::OPTION_ENDPOINT           => null,
             self::OPTION_HOST               => null,
             self::OPTION_PORT               => DefaultValues::DEFAULT_PORT,
+            self::OPTION_FAILOVER_TRIES     => DefaultValues::DEFAULT_FAILOVER_TRIES,
             self::OPTION_TIMEOUT            => DefaultValues::DEFAULT_TIMEOUT,
             self::OPTION_CREATE             => DefaultValues::DEFAULT_CREATE,
             self::OPTION_UPDATE_POLICY      => DefaultValues::DEFAULT_UPDATE_POLICY,
