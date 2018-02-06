@@ -31,13 +31,6 @@ class ConnectionOptions implements \ArrayAccess
     private $_values = [];
 
     /**
-     * The connection endpoint object
-     *
-     * @var Endpoint
-     */
-    private $_endpoint;
-    
-    /**
      * The index into the endpoints array that we will connect to (or are currently
      * connected to). This index will be increased in case the currently connected
      * server tells us there is a different leader. We will then simply connect
@@ -48,6 +41,13 @@ class ConnectionOptions implements \ArrayAccess
      * @var int
      */
     private $_currentEndpointIndex = 0;
+
+    /**
+     * Optional Memcached instance for endpoints caching
+     *
+     * @var Memcached
+     */
+    private $_cache = null;
 
     /**
      * Endpoint string index constant
@@ -208,10 +208,34 @@ class ConnectionOptions implements \ArrayAccess
      * UTF-8 CHeck Flag
      */
     const OPTION_CHECK_UTF8_CONFORM = 'CheckUtf8Conform';
+            
+    /**
+     * Entry for memcached servers array
+     */
+    const OPTION_MEMCACHED_SERVERS = 'memcachedServers';
+    
+    /**
+     * Entry for memcached options array
+     */
+    const OPTION_MEMCACHED_OPTIONS = 'memcachedOptions';
+    
+    /**
+     * Entry for memcached endpoints key
+     */
+    const OPTION_MEMCACHED_ENDPOINTS_KEY = 'memcachedEndpointsKey';
+    
+    /**
+     * Entry for memcached persistend id
+     */
+    const OPTION_MEMCACHED_PERSISTENT_ID = 'memcachedPersistentId';
+    
+    /**
+     * Entry for memcached cache ttl
+     */
+    const OPTION_MEMCACHED_TTL = 'memcachedTtl';
 
     /**
      * Set defaults, use options provided by client and validate them
-     *
      *
      * @param array $options - initial options
      *
@@ -220,6 +244,7 @@ class ConnectionOptions implements \ArrayAccess
     public function __construct(array $options)
     {
         $this->_values = array_merge(self::getDefaults(), $options);
+        $this->loadOptionsFromCache();
         $this->validate();
     }
 
@@ -295,22 +320,6 @@ class ConnectionOptions implements \ArrayAccess
     }
 
     /**
-     * Get the endpoint object for the connection
-     *
-     * @throws ClientException
-     * @return Endpoint - endpoint object
-     */
-    public function getEndpoint()
-    {
-        if ($this->_endpoint === null) {
-            // will also validate the endpoint
-            $this->_endpoint = new Endpoint($this->getCurrentEndpoint());
-        }
-
-        return $this->_endpoint;
-    }
-    
-    /**
      * Get the current endpoint to use
      *
      * @return string - Endpoint string to connect to
@@ -344,6 +353,10 @@ class ConnectionOptions implements \ArrayAccess
      */
     public function addEndpoint($endpoint) 
     {
+        if (!is_string($endpoint) || !Endpoint::isValid($endpoint)) {
+            throw new ClientException(sprintf("invalid endpoint specification '%s'", $endpoint));
+        }
+
         // can only add an endpoint here if the list of endpoints is already an array
         if (!is_array($this->_values[self::OPTION_ENDPOINT])) {
             // make it an array now
@@ -358,26 +371,37 @@ class ConnectionOptions implements \ArrayAccess
             // we have already got this endpoint
             $this->_currentEndpointIndex = $found;
         }
+
+        $this->storeOptionsInCache();
     }
                             
     /**
      * Return the next endpoint from the list of endpoints
+     * As a side-effect this function switches to a new endpoint
      *
      * @return string - the next endpoint
      */
     public function nextEndpoint() 
     {
-        if (!is_array($this->_values[self::OPTION_ENDPOINT])) {
-            return $this->_values[self::OPTION_ENDPOINT];
+        $endpoints = $this->_values[self::OPTION_ENDPOINT];
+        if (!is_array($endpoints)) {
+            return $endpoints;
         }
 
-        $numberOfEndpoints = count($this->_values[self::OPTION_ENDPOINT]);
+        $numberOfEndpoints = count($endpoints);
+
         $this->_currentEndpointIndex++;
         if ($this->_currentEndpointIndex >= $numberOfEndpoints) {
             $this->_currentEndpointIndex = 0;
         }
 
-        return $this->_values[self::OPTION_ENDPOINT][$this->_currentEndpointIndex];
+        $endpoint =  $endpoints[$this->_currentEndpointIndex];
+
+        if ($numberOfEndpoints > 1) {
+            $this->storeOptionsInCache();
+        }
+       
+        return $endpoint;
     }
 
     /**
@@ -388,35 +412,39 @@ class ConnectionOptions implements \ArrayAccess
     private static function getDefaults()
     {
         return [
-            self::OPTION_ENDPOINT           => null,
-            self::OPTION_HOST               => null,
-            self::OPTION_PORT               => DefaultValues::DEFAULT_PORT,
-            self::OPTION_FAILOVER_TRIES     => DefaultValues::DEFAULT_FAILOVER_TRIES,
-            self::OPTION_TIMEOUT            => DefaultValues::DEFAULT_TIMEOUT,
-            self::OPTION_CREATE             => DefaultValues::DEFAULT_CREATE,
-            self::OPTION_UPDATE_POLICY      => DefaultValues::DEFAULT_UPDATE_POLICY,
-            self::OPTION_REPLACE_POLICY     => DefaultValues::DEFAULT_REPLACE_POLICY,
-            self::OPTION_DELETE_POLICY      => DefaultValues::DEFAULT_DELETE_POLICY,
-            self::OPTION_REVISION           => null,
-            self::OPTION_WAIT_SYNC          => DefaultValues::DEFAULT_WAIT_SYNC,
-            self::OPTION_BATCHSIZE          => null,
-            self::OPTION_JOURNAL_SIZE       => DefaultValues::DEFAULT_JOURNAL_SIZE,
-            self::OPTION_IS_SYSTEM          => false,
-            self::OPTION_IS_VOLATILE        => DefaultValues::DEFAULT_IS_VOLATILE,
-            self::OPTION_CONNECTION         => DefaultValues::DEFAULT_CONNECTION,
-            self::OPTION_TRACE              => null,
-            self::OPTION_ENHANCED_TRACE     => false,
-            self::OPTION_VERIFY_CERT        => DefaultValues::DEFAULT_VERIFY_CERT,
-            self::OPTION_ALLOW_SELF_SIGNED  => DefaultValues::DEFAULT_ALLOW_SELF_SIGNED,
-            self::OPTION_CIPHERS            => DefaultValues::DEFAULT_CIPHERS,
-            self::OPTION_AUTH_USER          => null,
-            self::OPTION_AUTH_PASSWD        => null,
-            self::OPTION_AUTH_TYPE          => DefaultValues::DEFAULT_AUTH_TYPE,
-            self::OPTION_RECONNECT          => false,
-            self::OPTION_BATCH              => false,
-            self::OPTION_BATCHPART          => false,
-            self::OPTION_DATABASE           => '_system',
-            self::OPTION_CHECK_UTF8_CONFORM => DefaultValues::DEFAULT_CHECK_UTF8_CONFORM
+            self::OPTION_ENDPOINT                => null,
+            self::OPTION_HOST                    => null,
+            self::OPTION_PORT                    => DefaultValues::DEFAULT_PORT,
+            self::OPTION_FAILOVER_TRIES          => DefaultValues::DEFAULT_FAILOVER_TRIES,
+            self::OPTION_TIMEOUT                 => DefaultValues::DEFAULT_TIMEOUT,
+            self::OPTION_MEMCACHED_PERSISTENT_ID => 'arangodb-php-pool',
+            self::OPTION_MEMCACHED_OPTIONS       => [ ],
+            self::OPTION_MEMCACHED_ENDPOINTS_KEY => 'arangodb-php-endpoints',
+            self::OPTION_MEMCACHED_TTL           => 600,
+            self::OPTION_CREATE                  => DefaultValues::DEFAULT_CREATE,
+            self::OPTION_UPDATE_POLICY           => DefaultValues::DEFAULT_UPDATE_POLICY,
+            self::OPTION_REPLACE_POLICY          => DefaultValues::DEFAULT_REPLACE_POLICY,
+            self::OPTION_DELETE_POLICY           => DefaultValues::DEFAULT_DELETE_POLICY,
+            self::OPTION_REVISION                => null,
+            self::OPTION_WAIT_SYNC               => DefaultValues::DEFAULT_WAIT_SYNC,
+            self::OPTION_BATCHSIZE               => null,
+            self::OPTION_JOURNAL_SIZE            => DefaultValues::DEFAULT_JOURNAL_SIZE,
+            self::OPTION_IS_SYSTEM               => false,
+            self::OPTION_IS_VOLATILE             => DefaultValues::DEFAULT_IS_VOLATILE,
+            self::OPTION_CONNECTION              => DefaultValues::DEFAULT_CONNECTION,
+            self::OPTION_TRACE                   => null,
+            self::OPTION_ENHANCED_TRACE          => false,
+            self::OPTION_VERIFY_CERT             => DefaultValues::DEFAULT_VERIFY_CERT,
+            self::OPTION_ALLOW_SELF_SIGNED       => DefaultValues::DEFAULT_ALLOW_SELF_SIGNED,
+            self::OPTION_CIPHERS                 => DefaultValues::DEFAULT_CIPHERS,
+            self::OPTION_AUTH_USER               => null,
+            self::OPTION_AUTH_PASSWD             => null,
+            self::OPTION_AUTH_TYPE               => DefaultValues::DEFAULT_AUTH_TYPE,
+            self::OPTION_RECONNECT               => false,
+            self::OPTION_BATCH                   => false,
+            self::OPTION_BATCHPART               => false,
+            self::OPTION_DATABASE                => '_system',
+            self::OPTION_CHECK_UTF8_CONFORM      => DefaultValues::DEFAULT_CHECK_UTF8_CONFORM
         ];
     }
 
@@ -467,10 +495,12 @@ class ConnectionOptions implements \ArrayAccess
             unset($this->_values[self::OPTION_HOST]);
         }
 
-        // set up a new endpoint, this will also validate it
-        $this->getEndpoint();
-
+        // validate endpoint
         $ep = $this->getCurrentEndpoint();
+        if (!Endpoint::isValid($ep)) {
+            throw new ClientException(sprintf("invalid endpoint specification '%s'", $ep));
+        }
+
         $type = Endpoint::getType($ep);
         if ($type === Endpoint::TYPE_UNIX) {
             // must set port to 0 for UNIX domain sockets
@@ -515,6 +545,98 @@ class ConnectionOptions implements \ArrayAccess
         UpdatePolicy::validate($this->_values[self::OPTION_UPDATE_POLICY]);
         UpdatePolicy::validate($this->_values[self::OPTION_REPLACE_POLICY]);
         UpdatePolicy::validate($this->_values[self::OPTION_DELETE_POLICY]);
+    }
+
+
+    /**
+     * load and merge connection options from optional Memcached cache into
+     * ihe current settings
+     *
+     * @return void
+     */
+    private function loadOptionsFromCache() 
+    {
+        $cache = $this->getEndpointsCache();
+
+        if ($cache === null) {
+            return;
+        }
+
+        $endpoints = $cache->get($this->_values[self::OPTION_MEMCACHED_ENDPOINTS_KEY]);
+        if ($endpoints) {
+            $this->_values[self::OPTION_ENDPOINT] = $endpoints;
+        }
+    }
+    
+    /**
+     * store the updated options in the optional Memcached cache
+     *
+     * @return void
+     */
+    private function storeOptionsInCache() 
+    {
+        $endpoints = $this->_values[self::OPTION_ENDPOINT];
+        $numberOfEndpoints = count($endpoints);
+
+        if ($numberOfEndpoints <= 1) {
+            return;
+        }
+
+        // now try to store the updated values in the cache
+        $cache = $this->getEndpointsCache();
+        if ($cache === null) {
+            return;
+        }
+        
+        $update = [ $endpoints[$this->_currentEndpointIndex] ];
+        for ($i = 0; $i < $numberOfEndpoints; ++$i) {
+            if ($i !== $this->_currentEndpointIndex) {
+                $update[] = $endpoints[$i];
+            }
+        }
+
+        $ttl = (int) $this->_values[self::OPTION_MEMCACHED_TTL];
+        $cache->set($this->_values[self::OPTION_MEMCACHED_ENDPOINTS_KEY], $update, $ttl);
+      }
+
+    /**
+     * Initialize and return a memcached cache instance, 
+     * if option "memcachedServers" is set
+     *
+     * @return Memcached - memcached server instance if configured or null if not
+     */
+    private function getEndpointsCache() 
+    {
+        if ($this->_cache === null) {
+            if (!isset($this->_values[self::OPTION_MEMCACHED_SERVERS])) {
+                return null;
+            }
+            if (!class_exists('Memcached', false)) {
+                return null;
+            }
+
+            $servers = $this->_values[self::OPTION_MEMCACHED_SERVERS];
+            if (!is_array($servers)) {
+                throw new ClientException('Invalid memcached servers list. should be an array of servers');
+            }
+
+            $cache = new \Memcached(self::OPTION_MEMCACHED_PERSISTENT_ID);
+            if (empty($cache->getServerList())) {
+                $cache->addServers($servers);
+            }
+            
+            if (isset($this->_values[self::OPTION_MEMCACHED_OPTIONS])) {
+                $options = $this->_values[self::OPTION_MEMCACHED_OPTIONS];
+                if (!is_array($options)) {
+                    throw new ClientException('Invalid memcached options list. should be an array of options');
+                }
+                $cache->setOptions($options);
+            }
+
+            $this->_cache = $cache;
+        
+        }
+        return $this->_cache;
     }
 }
 

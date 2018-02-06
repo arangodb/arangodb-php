@@ -622,7 +622,6 @@ class Connection
                         if ($leader) {
                             // have a different leader
                             $leader = Endpoint::normalize($leader);
-
                             $this->_options->addEndpoint($leader);
                             
                         } else {

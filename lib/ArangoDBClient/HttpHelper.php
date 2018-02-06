@@ -82,7 +82,6 @@ class HttpHelper
     public static function createConnection(ConnectionOptions $options)
     {
         $endpoint = $options->getCurrentEndpoint();
-
         $context = stream_context_create();
 
         if (Endpoint::getType($endpoint) === Endpoint::TYPE_SSL) {
