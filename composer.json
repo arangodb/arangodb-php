@@ -4,7 +4,7 @@
   "description": "ArangoDb PHP client",
   "keywords": ["database","ArangoDb","Arango","document store","NoSQL"],
   "homepage": "https://github.com/arangodb/arangodb-php",
-  "license": "Apache2",
+  "license": "Apache-2.0",
   "authors": [
     {
       "name": "Jan Steemann",
