@@ -62,18 +62,38 @@ class ConnectionTest extends
     {
         $options = [ ConnectionOptions::OPTION_ENDPOINT => 'tcp://127.0.0.10:9242' ];
         $co   = new ConnectionOptions($options);
-        static::assertEquals('tcp://127.0.0.10:9242', $co[ConnectionOptions::OPTION_ENDPOINT]);
+        static::assertEquals([ 'tcp://127.0.0.10:9242' ], $co[ConnectionOptions::OPTION_ENDPOINT]);
         static::assertEquals(9242, $co[ConnectionOptions::OPTION_PORT]);
         
         $options = [ ConnectionOptions::OPTION_ENDPOINT => 'tcp://192.168.9.9:433' ];
         $co   = new ConnectionOptions($options);
-        static::assertEquals('tcp://192.168.9.9:433', $co[ConnectionOptions::OPTION_ENDPOINT]);
+        static::assertEquals([ 'tcp://192.168.9.9:433' ], $co[ConnectionOptions::OPTION_ENDPOINT]);
         static::assertEquals(433, $co[ConnectionOptions::OPTION_PORT]);
         
         $options = [ ConnectionOptions::OPTION_ENDPOINT => 'tcp://myserver.example.com:432' ];
         $co   = new ConnectionOptions($options);
-        static::assertEquals('tcp://myserver.example.com:432', $co[ConnectionOptions::OPTION_ENDPOINT]);
+        static::assertEquals([ 'tcp://myserver.example.com:432' ], $co[ConnectionOptions::OPTION_ENDPOINT]);
         static::assertEquals(432, $co[ConnectionOptions::OPTION_PORT]);
+        
+        $options = [ ConnectionOptions::OPTION_ENDPOINT => [ 'tcp://master:8529' ] ];
+        $co   = new ConnectionOptions($options);
+        static::assertEquals([ 'tcp://master:8529' ], $co[ConnectionOptions::OPTION_ENDPOINT]);
+        static::assertEquals(8529, $co[ConnectionOptions::OPTION_PORT]);
+        
+        $options = [ ConnectionOptions::OPTION_ENDPOINT => [ 'tcp://master:1234' ] ];
+        $co   = new ConnectionOptions($options);
+        static::assertEquals([ 'tcp://master:1234' ], $co[ConnectionOptions::OPTION_ENDPOINT]);
+        static::assertEquals(1234, $co[ConnectionOptions::OPTION_PORT]);
+        
+        $options = [ ConnectionOptions::OPTION_ENDPOINT => [ 'tcp://master:8529', 'tcp://slave:1235' ] ];
+        $co   = new ConnectionOptions($options);
+        static::assertEquals([ 'tcp://master:8529', 'tcp://slave:1235' ], $co[ConnectionOptions::OPTION_ENDPOINT]);
+        static::assertEquals(8529, $co[ConnectionOptions::OPTION_PORT]);
+        
+        $options = [ ConnectionOptions::OPTION_ENDPOINT => [ 'tcp://master:8529', 'tcp://slave:8529', 'tcp://blackhole:8529' ] ];
+        $co   = new ConnectionOptions($options);
+        static::assertEquals([ 'tcp://master:8529', 'tcp://slave:8529', 'tcp://blackhole:8529' ], $co[ConnectionOptions::OPTION_ENDPOINT]);
+        static::assertEquals(8529, $co[ConnectionOptions::OPTION_PORT]);
        
         $excepted = false;
         try {

@@ -244,6 +244,12 @@ class ConnectionOptions implements \ArrayAccess
     public function __construct(array $options)
     {
         $this->_values = array_merge(self::getDefaults(), $options);
+        
+        if (isset($this->_values[self::OPTION_ENDPOINT]) && 
+            !is_array($this->_values[self::OPTION_ENDPOINT])) {
+            $this->_values[self::OPTION_ENDPOINT] = [ $this->_values[self::OPTION_ENDPOINT] ];
+        }
+
         $this->loadOptionsFromCache();
         $this->validate();
     }
@@ -326,9 +332,7 @@ class ConnectionOptions implements \ArrayAccess
      */
     public function getCurrentEndpoint() 
     {
-        if (!is_array($this->_values[self::OPTION_ENDPOINT])) {
-            return $this->_values[self::OPTION_ENDPOINT];
-        }
+        assert(is_array($this->_values[self::OPTION_ENDPOINT]));
         return $this->_values[self::OPTION_ENDPOINT][$this->_currentEndpointIndex];
     }
     
@@ -339,7 +343,8 @@ class ConnectionOptions implements \ArrayAccess
      */
     public function haveMultipleEndpoints() 
     {
-        return is_array($this->_values[self::OPTION_ENDPOINT]) && (count($this->_values[self::OPTION_ENDPOINT]) > 1);
+        assert(is_array($this->_values[self::OPTION_ENDPOINT]));
+        return count($this->_values[self::OPTION_ENDPOINT]) > 1;
     }
 
     /**
@@ -357,11 +362,7 @@ class ConnectionOptions implements \ArrayAccess
             throw new ClientException(sprintf("invalid endpoint specification '%s'", $endpoint));
         }
 
-        // can only add an endpoint here if the list of endpoints is already an array
-        if (!is_array($this->_values[self::OPTION_ENDPOINT])) {
-            // make it an array now
-            $this->_values[self::OPTION_ENDPOINT] = [ $this->_values[self::OPTION_ENDPOINT] ];
-        }
+        assert(is_array($this->_values[self::OPTION_ENDPOINT]));
         $found = array_search($endpoint, $this->_values[self::OPTION_ENDPOINT]);
         if ($found === false) {
             // a new endpoint we have not seen before
@@ -383,10 +384,8 @@ class ConnectionOptions implements \ArrayAccess
      */
     public function nextEndpoint() 
     {
+        assert(is_array($this->_values[self::OPTION_ENDPOINT]));
         $endpoints = $this->_values[self::OPTION_ENDPOINT];
-        if (!is_array($endpoints)) {
-            return $endpoints;
-        }
 
         $numberOfEndpoints = count($endpoints);
 
@@ -412,7 +411,7 @@ class ConnectionOptions implements \ArrayAccess
     private static function getDefaults()
     {
         return [
-            self::OPTION_ENDPOINT                => null,
+            self::OPTION_ENDPOINT                => [ ],
             self::OPTION_HOST                    => null,
             self::OPTION_PORT                    => DefaultValues::DEFAULT_PORT,
             self::OPTION_FAILOVER_TRIES          => DefaultValues::DEFAULT_FAILOVER_TRIES,
@@ -494,6 +493,13 @@ class ConnectionOptions implements \ArrayAccess
             $this->_values[self::OPTION_ENDPOINT] = [ 'tcp://' . $this->_values[self::OPTION_HOST] . ':' . $this->_values[self::OPTION_PORT] ];
             unset($this->_values[self::OPTION_HOST]);
         }
+        
+        if (!is_array($this->_values[self::OPTION_ENDPOINT])) {
+            // make sure that we always have an array of endpoints
+            $this->_values[self::OPTION_ENDPOINT] = [ $this->_values[self::OPTION_ENDPOINT] ];
+        }
+        
+        assert(is_array($this->_values[self::OPTION_ENDPOINT]));
 
         // validate endpoint
         $ep = $this->getCurrentEndpoint();
@@ -516,11 +522,6 @@ class ConnectionOptions implements \ArrayAccess
           }
         }
         
-        if (is_array($this->_values[self::OPTION_ENDPOINT])) {
-            // the number of endpoints we have determines the number of failover attempts we'll try
-            $this->_values[self::OPTION_FAILOVER_TRIES] = count($this->_values[self::OPTION_ENDPOINT]);
-        }
-
         if (isset($this->_values[self::OPTION_AUTH_TYPE]) && !in_array(
                 $this->_values[self::OPTION_AUTH_TYPE],
                 self::getSupportedAuthTypes(), true
@@ -565,6 +566,9 @@ class ConnectionOptions implements \ArrayAccess
         $endpoints = $cache->get($this->_values[self::OPTION_MEMCACHED_ENDPOINTS_KEY]);
         if ($endpoints) {
             $this->_values[self::OPTION_ENDPOINT] = $endpoints;
+            if (!is_array($this->_values[self::OPTION_ENDPOINT])) {
+                $this->_values[self::OPTION_ENDPOINT] = [ $this->_values[self::OPTION_ENDPOINT] ];
+            }
         }
     }
     

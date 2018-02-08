@@ -206,7 +206,7 @@ class Connection
      */
     public function get($url, array $customHeaders = [])
     {
-        return $this->handleFailover(function() use (&$url, &$customHeaders) {
+        return $this->handleFailover(function() use ($url, $customHeaders) {
             $response = $this->executeRequest(HttpHelper::METHOD_GET, $url, '', $customHeaders);
 
             return $this->parseResponse($response);
@@ -226,7 +226,7 @@ class Connection
      */
     public function post($url, $data, array $customHeaders = [])
     {
-        return $this->handleFailover(function() use (&$url, &$data, &$customHeaders) {
+        return $this->handleFailover(function() use ($url, $data, $customHeaders) {
             $response = $this->executeRequest(HttpHelper::METHOD_POST, $url, $data, $customHeaders);
 
             return $this->parseResponse($response);
@@ -246,7 +246,7 @@ class Connection
      */
     public function put($url, $data, array $customHeaders = [])
     {
-        return $this->handleFailover(function() use (&$url, &$data, &$customHeaders) {
+        return $this->handleFailover(function() use ($url, $data, $customHeaders) {
             $response = $this->executeRequest(HttpHelper::METHOD_PUT, $url, $data, $customHeaders);
 
             return $this->parseResponse($response);
@@ -265,7 +265,7 @@ class Connection
      */
     public function head($url, array $customHeaders = [])
     {
-        return $this->handleFailover(function() use (&$url, &$customHeaders) {
+        return $this->handleFailover(function() use ($url, $customHeaders) {
             $response = $this->executeRequest(HttpHelper::METHOD_HEAD, $url, '', $customHeaders);
 
             return $this->parseResponse($response);
@@ -285,7 +285,7 @@ class Connection
      */
     public function patch($url, $data, array $customHeaders = [])
     { 
-        return $this->handleFailover(function() use (&$url, &$data, &$customHeaders) {
+        return $this->handleFailover(function() use ($url, $data, $customHeaders) {
             $response = $this->executeRequest(HttpHelper::METHOD_PATCH, $url, $data, $customHeaders);
 
             return $this->parseResponse($response);
@@ -305,7 +305,7 @@ class Connection
      */
     public function delete($url, array $customHeaders = [], $data = '')
     {
-        return $this->handleFailover(function() use (&$url, &$customHeaders, $data) {
+        return $this->handleFailover(function() use ($url, $customHeaders, $data) {
             $response = $this->executeRequest(HttpHelper::METHOD_DELETE, $url, $data, $customHeaders);
 
             return $this->parseResponse($response);
@@ -455,7 +455,7 @@ class Connection
           if ($this->_handle && is_resource($this->_handle)) {
               @fclose($this->_handle);
           }
-          $this->_handle = 0;
+          $this->_handle = null;
      }
 
     /**
@@ -528,7 +528,7 @@ class Connection
         // open the socket. note: this might throw if the connection cannot be established
         $handle = $this->getHandle();
 
-        if ($handle) {
+        if ($handle !== null) {
             // send data and get response back
 
             if ($traceFunc) {
