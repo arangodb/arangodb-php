@@ -206,7 +206,7 @@ When updating a document that was previously/concurrently updated by another use
 
 
 <a name="setting_up_failover"></a>
-## Setting up failover
+## Setting up active failover
 
 By default the PHP client will connect to a single endpoint only,
 by specifying a string value for the endpoint in the `ConnectionOptions`, 
@@ -227,7 +227,7 @@ $connectionOptions = [
 ];
 ```
 Using this option requires ArangoDB 3.3 or higher and the database running 
-in active/passive failover mode.
+in active failover mode.
 
 The driver will by default try to connect to the first server endpoint in the
 endpoints array, and only try the following servers if no connection can be
