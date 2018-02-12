@@ -22,6 +22,7 @@
  - [Cloning the git repository](#cloning_git)
 - [How to use the PHP client](#howto_use)
  - [Setting up the connection options](#setting_up_connection_options)
+ - [Setting up failover](#setting_up_failover)
  - [Creating a collection](#creating_collection)
  - [Creating a document](#creating_document)
  - [Adding exception handling](#adding_exception_handling)
@@ -202,6 +203,65 @@ When updating a document that was previously/concurrently updated by another use
 
 * last update wins: if you prefer this, set OPTION_UPDATE_POLICY to last
 * fail with a conflict error: if you prefer that, set OPTION_UPDATE_POLICY to conflict
+
+
+<a name="setting_up_failover"></a>
+## Setting up active failover
+
+By default the PHP client will connect to a single endpoint only,
+by specifying a string value for the endpoint in the `ConnectionOptions`, 
+e.g.
+
+```php
+$connectionOptions = [
+    ArangoConnectionOptions::OPTION_ENDPOINT => 'tcp://127.0.0.1:8529'
+];
+```
+
+To set up multiple servers to connect to, it is also possible to specify 
+an array of servers instead:
+
+```php
+$connectionOptions = [
+    ConnectionOptions::OPTION_ENDPOINT    => [ 'tcp://localhost:8531', 'tcp://localhost:8532', 'tcp://localhost:8530' ]
+];
+```
+Using this option requires ArangoDB 3.3 or higher and the database running 
+in active failover mode.
+
+The driver will by default try to connect to the first server endpoint in the
+endpoints array, and only try the following servers if no connection can be
+established. If no connection can be made to any server, the driver will throw
+an exception.
+
+As it is unknown to the driver which server from the array is the current
+leader, the driver will connect to the specified servers in array order by
+default. However, to spare a few unnecessary connection attempts to failed
+servers, it is possible to set up caching (using Memcached) for the server list.
+The cached value will contain the last working server first, so that as few
+connection attempts as possible will need to be made.
+
+In order to use this caching, it is required to install the Memcached module 
+for PHP, and to set up the following relevant options in the `ConnectionOptions`:
+
+```php
+$connectionOptions = [
+    // memcached persistent id (will be passed to Memcached::__construct)
+    ConnectionOptions::OPTION_MEMCACHED_PERSISTENT_ID => 'arangodb-php-pool',
+
+    // memcached servers to connect to (will be passed to Memcached::addServers)
+    ConnectionOptions::OPTION_MEMCACHED_SERVERS       => [ [ '127.0.0.1', 11211 ] ],
+
+    // memcached options (will be passed to Memcached::setOptions)
+    ConnectionOptions::OPTION_MEMCACHED_OPTIONS       => [ ],
+
+    // key to store the current endpoints array under
+    ConnectionOptions::OPTION_MEMCACHED_ENDPOINTS_KEY => 'arangodb-php-endpoints'
+
+    // time-to-live for the endpoints array stored in memcached
+    ConnectionOptions::OPTION_MEMCACHED_TTL           => 600
+];
+```
 
 
 <a name="creating_collection"></a>

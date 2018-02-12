@@ -31,6 +31,11 @@ abstract class DefaultValues
     const DEFAULT_TIMEOUT = 30;
     
     /**
+     * Default number of failover tries (used in case there is an automatic failover)
+     */
+    const DEFAULT_FAILOVER_TRIES = 2;
+    
+    /**
      * Default Authorization type (use HTTP basic authentication)
      */
     const DEFAULT_AUTH_TYPE = 'Basic';
