@@ -60,4 +60,4 @@ class FailoverException extends Exception
     }
 }
 
-class_alias(FailoverException::class, '\triagens\ArangoDb\Failover');
+class_alias(FailoverException::class, '\triagens\ArangoDb\FailoverException');
