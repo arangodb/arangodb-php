@@ -195,7 +195,11 @@ class AqlUserFunction
         }
         $response = $this->_connection->get($url);
 
-        return $response->getJson();
+        $data = $response->getJson();
+        if (isset($data['result'])) {
+            return $data['result'];
+        }
+        return $data;
     }
 
 

@@ -62,7 +62,7 @@ class AqlUserFunctionTest extends
     {
         $result = [];
         foreach ($list as $value) {
-            if (strpos($value['name'], 'phpTestFunctions') === 0) {
+            if (strpos(@$value['name'], 'phpTestFunctions') === 0) {
                 $result[] = $value;
             }
         }
@@ -92,7 +92,6 @@ class AqlUserFunctionTest extends
             false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
         $list = $this->filter($userFunction->getRegisteredUserFunctions());
-
 
         static::assertCount(1, $list, 'List returned did not return expected 1 attribute (This might happen, if tests are run in parallel)');
         static::assertTrue(
