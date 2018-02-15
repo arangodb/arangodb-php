@@ -73,6 +73,11 @@ class HttpResponse
      * HTTP location header
      */
     const HEADER_LOCATION = 'location';
+    
+    /**
+     * HTTP leader endpoint header, used in failover
+     */
+    const HEADER_LEADER_ENDPOINT = 'x-arango-endpoint';
 
     /**
      * Set up the response
@@ -163,6 +168,16 @@ class HttpResponse
     public function getLocationHeader()
     {
         return $this->getHeader(self::HEADER_LOCATION);
+    }
+    
+    /**
+     * Return the leader location HTTP header of the response
+     *
+     * @return string - header value, NULL is header wasn't set in response
+     */
+    public function getLeaderEndpointHeader()
+    {
+        return $this->getHeader(self::HEADER_LEADER_ENDPOINT);
     }
 
     /**

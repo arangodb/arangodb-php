@@ -1,5 +1,59 @@
-Release notes for the ArangoDB-PHP driver 3.2.0
+Release notes for the ArangoDB-PHP driver 3.3.x
 ===============================================
+
+Starting from release 3.3.1, the PHP driver has support for automatic failover, for
+ArangoDB servers that are started in the active failover mode. This setup requires 
+using ArangoDB 3.3.
+
+In order to use automatic failover from the PHP driver, simply change the "endpoint"
+attribute of the connection options from a simple endpoint string into an array of
+endpoint strings:
+    
+    $connectionOptions = [
+        ConnectionOptions::OPTION_ENDPOINT => [ 'tcp://localhost:8531', 'tcp://localhost:8532', 'tcp://localhost:8530' ],
+        ...
+    ];
+    $connection = new Connection($connectionOptions);
+
+instead of just
+    
+    $connectionOptions = [
+        ConnectionOptions::OPTION_ENDPOINT => 'tcp://localhost:8530',
+        ...
+    ];
+    $connection = new Connection($connectionOptions);
+
+
+Additionally, retrieving the endpoint value of `ConnectionOptions` will now always 
+return an array of endpoints. For the single-server case, the returned value will be
+an array with the specified endpoint. When active failover is used, the result will
+be an array with the specified endpoints or the endpoints found (added) at runtime.
+For example, in
+ 
+    $options = [ ConnectionOptions::OPTION_ENDPOINT => 'tcp://127.0.0.1:8529' ];
+    $co = new ConnectionOptions($options);
+    print_r($co[ConnectionOptions::OPTION_ENDPOINT]);
+
+This will now print an array (`[ 'tcp://127.0.0.1:8529' ]`) and not just the string
+(`tcp://127.0.0.1:8529'). Client applications that retrieve the endpoint value via
+the `ConnectionOptions` object and expect it to be a string should be adjusted to 
+pick the first value from the now-returned result array instead.
+
+Using the port option for setting up `ConnectionOptions` and reading it back is now 
+deprecated and will not be useful when using different endpoints with different port
+numbers.
+
+For example, reading the `port` option here will provide just one of the specified
+ports, so it should be avoided:
+    
+    $options = [ ConnectionOptions::OPTION_ENDPOINT => [ 'tcp://127.0.0.1:8529', 'tcp://127.0.0.1:8530' ] ];
+    $co = new ConnectionOptions($options);
+    print_r($co[ConnectionOptions::OPTION_PORT]);
+
+
+Release notes for the ArangoDB-PHP driver 3.2.x
+===============================================
+
 - the default value for the authentication type of the `Connection` class is now `Basic`
 
 - the default value for the connection type is now `Keep-Alive` and not `Close`

@@ -81,8 +81,7 @@ class HttpHelper
      */
     public static function createConnection(ConnectionOptions $options)
     {
-        $endpoint = $options[ConnectionOptions::OPTION_ENDPOINT];
-
+        $endpoint = $options->getCurrentEndpoint();
         $context = stream_context_create();
 
         if (Endpoint::getType($endpoint) === Endpoint::TYPE_SSL) {
@@ -97,7 +96,7 @@ class HttpHelper
         }
 
         $fp = @stream_socket_client(
-            $endpoint,
+            Endpoint::normalize($endpoint),
             $errNo,
             $message,
             $options[ConnectionOptions::OPTION_TIMEOUT],
@@ -108,7 +107,7 @@ class HttpHelper
         if (!$fp) {
             throw new ConnectException(
                 'cannot connect to endpoint \'' .
-                $options[ConnectionOptions::OPTION_ENDPOINT] . '\': ' . $message, $errNo
+                $endpoint . '\': ' . $message, $errNo
             );
         }
 

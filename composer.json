@@ -1,8 +1,8 @@
 {
   "name": "arangodb/arangodb",
   "type": "library",
-  "description": "ArangoDb PHP client",
-  "keywords": ["database","ArangoDb","Arango","document store","NoSQL","multi-model","graph database"],
+  "description": "ArangoDB PHP client",
+  "keywords": ["database","ArangoDB","Arango","document store","NoSQL","multi-model","graph database","distributed"],
   "homepage": "https://github.com/arangodb/arangodb-php",
   "license": "Apache-2.0",
   "authors": [
