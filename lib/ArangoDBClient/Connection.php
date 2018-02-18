@@ -327,13 +327,25 @@ class Connection
      */
     private function handleFailover($cb) 
     {
+        $start = microtime(true);
         if (!$this->_options->haveMultipleEndpoints()) {
-            // the simple case: no failover
-            return $cb();
+            // the simple case: just one server
+            while (true) {
+                try {
+                    return $cb();
+                } catch (FailoverException $e) {
+                    if (microtime(true) - $start >= $this->_options[ConnectionOptions::OPTION_FAILOVER_TIMEOUT]) {
+                        // timeout reached, we will abort now
+                        $this->notify('servers not reachable after timeout');
+                        throw $e;
+                    }
+                    // continue because we have not yet reached the timeout
+                    usleep(20 * 1000);
+                }
+            }
         }
 
         // here we need to try it with failover
-        $start = microtime(true);
         $tried = [];
         $notReachable = [];
         while (true) {
@@ -643,7 +655,6 @@ class Connection
 
         if ($httpCode < 200 || $httpCode >= 400) {
             // failure on server
-
             $body = $response->getBody();
             if ($body !== '') {
                 // check if we can find details in the response body
@@ -686,6 +697,13 @@ class Connection
                     $exception->setDetails($details);
                     throw $exception;
                 }
+            }
+            
+            // check if server has responded with any other 503 response not handled above
+            if ($httpCode === 503) {
+                // generic service unavailable response
+                $exception = new FailoverException('service unavailable', 503);
+                throw $exception;
             }
 
             // no details found, throw normal exception
