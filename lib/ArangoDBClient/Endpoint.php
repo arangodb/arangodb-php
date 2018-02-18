@@ -223,13 +223,9 @@ class Endpoint
      */
     public static function normalizeHostname($hostname) {
         // replace "localhost" with [::1] as arangod does
-        return preg_replace("/^(tcp|ssl|https?):\/\/localhost:/", "\\1://[::1]:",  $hostname);
+        return preg_replace("/^(tcp|ssl|https?):\/\/(localhost|127\.0\.0\.1):/", "\\1://[::1]:",  $hostname);
     }
     
-    public static function denormalizeHostname($hostname) {
-        // replace "localhost" with [::1] as arangod does
-        return preg_replace("/^(tcp|ssl|https?):\/\/\[::1\]:/", "\\1://localhost:",  $hostname);
-    }
 }
 
 class_alias(Endpoint::class, '\triagens\ArangoDb\Endpoint');

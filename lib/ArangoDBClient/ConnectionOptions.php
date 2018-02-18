@@ -378,15 +378,15 @@ class ConnectionOptions implements \ArrayAccess
             throw new ClientException(sprintf("invalid endpoint specification '%s'", $endpoint));
         }
         $endpoint = Endpoint::normalize($endpoint);
+        $normalized = Endpoint::normalizeHostname($endpoint);
 
         assert(is_array($this->_values[self::OPTION_ENDPOINT]));
-        $found = array_search($endpoint, $this->_values[self::OPTION_ENDPOINT]);
-        if ($found === false) {
-            $normalized = Endpoint::normalizeHostname($endpoint);
-            $found = array_search($normalized, $this->_values[self::OPTION_ENDPOINT]);
-            if ($found === false) {
-                $normalized = Endpoint::denormalizeHostname($endpoint);
-                $found = array_search($normalized, $this->_values[self::OPTION_ENDPOINT]);
+        $found = false;
+        foreach ($this->_values[self::OPTION_ENDPOINT] as $key => $value) {
+            if ($normalized === Endpoint::normalizeHostname($endpoint)) {
+                $this->_currentEndpointIndex = $key;
+                $found = true;
+                break;
             }
         }
         
@@ -394,9 +394,6 @@ class ConnectionOptions implements \ArrayAccess
             // a new endpoint we have not seen before
             $this->_values[self::OPTION_ENDPOINT][] = $endpoint;
             $this->_currentEndpointIndex = count($this->_values[self::OPTION_ENDPOINT]) - 1;
-        } else {
-            // we have already got this endpoint
-            $this->_currentEndpointIndex = $found;
         }
 
         $this->storeOptionsInCache();
