@@ -44,7 +44,7 @@ class ConnectionTest extends
             //Silence the exception
         }
     }
-
+    
     /**
      * Test if Connection instance can be initialized
      */
@@ -52,6 +52,42 @@ class ConnectionTest extends
     {
         $connection = getConnection();
         static::assertInstanceOf(Connection::class, $connection);
+    }
+
+    /**
+     * Test if Connection works
+     */
+    public function testTestUnconnected()
+    {
+        $connection = new Connection([
+            ConnectionOptions::OPTION_ENDPOINT => 'tcp://1.1.1.1:9999',
+            ConnectionOptions::OPTION_TIMEOUT => 1
+        ]);
+        static::assertEquals('tcp://1.1.1.1:9999', $connection->getCurrentEndpoint());
+        static::assertFalse($connection->test());
+        
+        $connection = new Connection([
+            ConnectionOptions::OPTION_ENDPOINT => 'ssl://1.1.1.1:9999',
+            ConnectionOptions::OPTION_TIMEOUT => 1
+        ]);
+        static::assertEquals('ssl://1.1.1.1:9999', $connection->getCurrentEndpoint());
+        static::assertFalse($connection->test());
+    }
+    
+    
+    /**
+     * Test if Connection works
+     */
+    public function testTest()
+    {
+        $connection = getConnection();
+        $ep = $connection->getOption(ConnectionOptions::OPTION_ENDPOINT)[0];
+        static::assertEquals($ep, $connection->getCurrentEndpoint());
+        
+        // test the connection
+        static::assertTrue($connection->test());
+        // endpoint should not change
+        static::assertEquals($ep, $connection->getCurrentEndpoint());
     }
 
     

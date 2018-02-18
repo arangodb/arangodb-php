@@ -31,9 +31,15 @@ abstract class DefaultValues
     const DEFAULT_TIMEOUT = 30;
     
     /**
-     * Default number of failover tries (used in case there is an automatic failover)
+     * Default number of failover servers to try (used in case there is an automatic failover)
+     * if set to 0, then an unlimited amount of servers will be tried
      */
-    const DEFAULT_FAILOVER_TRIES = 2;
+    const DEFAULT_FAILOVER_TRIES = 3;
+    
+    /**
+     * Default max amount of time (in seconds) that is spent waiting on failover
+     */
+    const DEFAULT_FAILOVER_TIMEOUT = 30;
     
     /**
      * Default Authorization type (use HTTP basic authentication)
@@ -69,6 +75,11 @@ abstract class DefaultValues
      * Default value for SSL certificate verification
      */
     const DEFAULT_VERIFY_CERT = false;
+    
+    /**
+     * Default value for SSL certificate host name verification
+     */
+    const DEFAULT_VERIFY_CERT_NAME = false;
 
     /**
      * Default value for accepting self-signed SSL certificates
