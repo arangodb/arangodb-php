@@ -311,14 +311,15 @@ class Connection
             return $this->parseResponse($response);
         });
     }
-        
+
     /**
      * Execute the specified callback, and try again if it fails because
      * the target server is not available. In this case, try again with failing
      * over to an alternative server (the new leader) until the maximum number
      * of failover attempts have been made
      *
-     * @throws Exception
+     * @throws Exception - either a ConnectException or a FailoverException or an
+     *                     Exception produced by the callback function
      *
      * @param mixed $cb - the callback function to execute
      *
@@ -331,39 +332,73 @@ class Connection
             return $cb();
         }
 
-        // now with failover
-        $tried = [ ];
+        // here we need to try it with failover
+        $start = microtime(true);
+        $tried = [];
+        $notReachable = [];
         while (true) {
+            $ep = $this->_options->getCurrentEndpoint();
+            $normalized = Endpoint::normalizeHostname($ep);
+
+            if (isset($notReachable[$normalized])) {
+                $this->notify('no more servers available to try connecting to');
+                throw new ConnectException('no more servers available to try connecting to');
+            }
+                
             try {
-                // mark the endpoint as being used
-                $tried[$this->_options->getCurrentEndpoint()] = true;
+                // mark the endpoint as being tried
+                $tried[$normalized] = true;
                 return $cb();
             } catch (ConnectException $e) {
                 // could not connect. now try again with a different server if possible
-                if (count($tried) > $this->_options[ConnectionOptions::OPTION_FAILOVER_TRIES]) {
+                if ($this->_options[ConnectionOptions::OPTION_FAILOVER_TRIES] > 0 &&
+                    count($tried) > $this->_options[ConnectionOptions::OPTION_FAILOVER_TRIES]) {
+                    $this->notify('tried too many different servers in failover');
                     throw $e;
                 }
+                // mark endpoint as unreachable
+                $notReachable[$normalized] = true;
+
+                // move on to next endpoint
                 $ep = $this->_options->nextEndpoint();
-                if (isset($tried[$ep])) {
-                    // endpoint should have changed by failover procedure
-                    // if not, we can abort now
-                    throw $e;
+                $normalized = Endpoint::normalizeHostname($ep);
+               
+                if (isset($tried[$normalized])) {
+                    if (microtime(true) - $start >= $this->_options[ConnectionOptions::OPTION_FAILOVER_TIMEOUT]) {
+                        // timeout reached, we will abort now
+                        $this->notify('no servers reachable after failover timeout');
+                        throw $e;
+                    }
+                    // continue because we have not yet reached the timeout
+                    usleep(20 * 1000);
                 }
             } catch (FailoverException $e) {
                 // got a failover. now try again with a different server if possible
-                if (count($tried) > $this->_options[ConnectionOptions::OPTION_FAILOVER_TRIES]) {
+                // endpoint should have changed by failover procedure
+                $ep = $this->_options->getCurrentEndpoint(); 
+                $normalized = Endpoint::normalizeHostname($ep);
+
+                if ($this->_options[ConnectionOptions::OPTION_FAILOVER_TRIES] > 0 &&
+                    count($tried) > $this->_options[ConnectionOptions::OPTION_FAILOVER_TRIES]) {
+                    $this->notify('tried too many different servers in failover');
                     throw $e;
                 }
-                if (isset($tried[$this->_options->getCurrentEndpoint()])) {
-                    // endpoint should have changed by failover procedure
-                    // if not, we can abort now
-                    throw $e;
+                if (isset($tried[$normalized])) {
+                    if (microtime(true) - $start >= $this->_options[ConnectionOptions::OPTION_FAILOVER_TIMEOUT]) {
+                        // timeout reached, we can abort now
+                        $this->notify('no servers reachable after failover timeout');
+                        throw $e;
+                    }
+                    // continue because we have not yet reached the timeout
+                    usleep(20 * 1000);
                 }
+            
+                // we need to try the recommended leader again
+                unset($notReachable[$normalized]);
             }
             // let all other exception types escape from here
         }
     }
-
 
     /**
      * Recalculate the static HTTP header string used for all HTTP requests in this connection
@@ -616,7 +651,14 @@ class Connection
 
                 // handle failover
                 if (is_array($details) && isset($details['errorNum'])) {
+                    if ($details['errorNum'] === 1495) { 
+                        // 1495 = leadership challenge is ongoing
+                        $exception = new FailoverException(@$details['errorMessage'], @$details['code']);
+                        throw $exception;
+                    }
+
                     if ($details['errorNum'] === 1496) { 
+                        // 1496 = not a leader
                         // not a leader. now try to find new leader
                         $leader = $response->getLeaderEndpointHeader();
                         if ($leader) {
@@ -866,8 +908,6 @@ class Connection
     }
 
     /**
-     * Get the database that is currently used with this connection
-     *
      * Get the database to use with this connection, for example: 'my_database'
      *
      * @return string
@@ -875,6 +915,49 @@ class Connection
     public function getDatabase()
     {
         return $this->_database;
+    }
+        
+    /**
+     * Test if a connection can be made using the specified connection options,
+     * i.e. endpoint (host/port), username, password
+     *
+     * @return bool - true if the connection succeeds, false if not
+     */
+    public function test() 
+    {
+        try {
+            $this->get(Urls::URL_ADMIN_VERSION);
+        } catch (ConnectException $e) {
+            return false;
+        } catch (ServerException $e) {
+            return false;
+        } catch (ClientException $e) {
+            return false;
+        }
+        return true;
+    }
+                
+    /**
+     * Returns the current endpoint we are currently connected to
+     * (or, if no connection has been established yet, the next endpoint
+     * that we will connect to)
+     *
+     * @return string - the current endpoint that we are connected to
+     */
+    public function getCurrentEndpoint() 
+    {
+        return $this->_options->getCurrentEndpoint();
+    }
+                            
+    /**
+     * Calls the notification callback function to inform to make the
+     * client application aware of some failure so it can do something
+     * appropriate (e.g. logging)
+     *
+     * @return void
+     */
+    private function notify($message) {
+        $this->_options[ConnectionOptions::OPTION_NOTIFY_CALLBACK]($message);
     }
 }
 

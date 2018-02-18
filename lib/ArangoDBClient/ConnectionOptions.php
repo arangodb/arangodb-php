@@ -70,9 +70,15 @@ class ConnectionOptions implements \ArrayAccess
     const OPTION_TIMEOUT = 'timeout';
     
     /**
-     * Number of tries for failover constant
+     * Number of servers tried in case of failover
+     * if set to 0, then an unlimited amount of servers will be tried
      */
     const OPTION_FAILOVER_TRIES = 'failoverTries';
+    
+    /**
+     * Max amount of time (in seconds) that is spent waiting on failover
+     */
+    const OPTION_FAILOVER_TIMEOUT = 'failoverTimeout';
 
     /**
      * Trace function index constant
@@ -83,6 +89,11 @@ class ConnectionOptions implements \ArrayAccess
      * "verify certificates" index constant
      */
     const OPTION_VERIFY_CERT = 'verifyCert';
+    
+    /**
+     * "verify certificate host name" index constant
+     */
+    const OPTION_VERIFY_CERT_NAME = 'verifyCertName';
 
     /**
      * "allow self-signed" index constant
@@ -233,6 +244,11 @@ class ConnectionOptions implements \ArrayAccess
      * Entry for memcached cache ttl
      */
     const OPTION_MEMCACHED_TTL = 'memcachedTtl';
+    
+    /**
+     * Entry for notification callback
+     */
+    const OPTION_NOTIFY_CALLBACK = 'notifyCallback';
 
     /**
      * Set defaults, use options provided by client and validate them
@@ -361,9 +377,19 @@ class ConnectionOptions implements \ArrayAccess
         if (!is_string($endpoint) || !Endpoint::isValid($endpoint)) {
             throw new ClientException(sprintf("invalid endpoint specification '%s'", $endpoint));
         }
+        $endpoint = Endpoint::normalize($endpoint);
 
         assert(is_array($this->_values[self::OPTION_ENDPOINT]));
         $found = array_search($endpoint, $this->_values[self::OPTION_ENDPOINT]);
+        if ($found === false) {
+            $normalized = Endpoint::normalizeHostname($endpoint);
+            $found = array_search($normalized, $this->_values[self::OPTION_ENDPOINT]);
+            if ($found === false) {
+                $normalized = Endpoint::denormalizeHostname($endpoint);
+                $found = array_search($normalized, $this->_values[self::OPTION_ENDPOINT]);
+            }
+        }
+        
         if ($found === false) {
             // a new endpoint we have not seen before
             $this->_values[self::OPTION_ENDPOINT][] = $endpoint;
@@ -399,7 +425,7 @@ class ConnectionOptions implements \ArrayAccess
         if ($numberOfEndpoints > 1) {
             $this->storeOptionsInCache();
         }
-       
+
         return $endpoint;
     }
 
@@ -415,6 +441,7 @@ class ConnectionOptions implements \ArrayAccess
             self::OPTION_HOST                    => null,
             self::OPTION_PORT                    => DefaultValues::DEFAULT_PORT,
             self::OPTION_FAILOVER_TRIES          => DefaultValues::DEFAULT_FAILOVER_TRIES,
+            self::OPTION_FAILOVER_TIMEOUT        => DefaultValues::DEFAULT_FAILOVER_TIMEOUT,
             self::OPTION_TIMEOUT                 => DefaultValues::DEFAULT_TIMEOUT,
             self::OPTION_MEMCACHED_PERSISTENT_ID => 'arangodb-php-pool',
             self::OPTION_MEMCACHED_OPTIONS       => [ ],
@@ -434,6 +461,7 @@ class ConnectionOptions implements \ArrayAccess
             self::OPTION_TRACE                   => null,
             self::OPTION_ENHANCED_TRACE          => false,
             self::OPTION_VERIFY_CERT             => DefaultValues::DEFAULT_VERIFY_CERT,
+            self::OPTION_VERIFY_CERT_NAME        => DefaultValues::DEFAULT_VERIFY_CERT_NAME,
             self::OPTION_ALLOW_SELF_SIGNED       => DefaultValues::DEFAULT_ALLOW_SELF_SIGNED,
             self::OPTION_CIPHERS                 => DefaultValues::DEFAULT_CIPHERS,
             self::OPTION_AUTH_USER               => null,
@@ -443,7 +471,8 @@ class ConnectionOptions implements \ArrayAccess
             self::OPTION_BATCH                   => false,
             self::OPTION_BATCHPART               => false,
             self::OPTION_DATABASE                => '_system',
-            self::OPTION_CHECK_UTF8_CONFORM      => DefaultValues::DEFAULT_CHECK_UTF8_CONFORM
+            self::OPTION_CHECK_UTF8_CONFORM      => DefaultValues::DEFAULT_CHECK_UTF8_CONFORM,
+            self::OPTION_NOTIFY_CALLBACK         => function ($message) {}
         ];
     }
 
@@ -500,6 +529,9 @@ class ConnectionOptions implements \ArrayAccess
         }
         
         assert(is_array($this->_values[self::OPTION_ENDPOINT]));
+        foreach ($this->_values[self::OPTION_ENDPOINT] as $key => $value) {
+            $this->_values[self::OPTION_ENDPOINT][$key] = Endpoint::normalize($value);
+        }
 
         // validate endpoint
         $ep = $this->getCurrentEndpoint();

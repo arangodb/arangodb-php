@@ -87,6 +87,7 @@ class HttpHelper
         if (Endpoint::getType($endpoint) === Endpoint::TYPE_SSL) {
             // set further SSL options for the endpoint
             stream_context_set_option($context, 'ssl', 'verify_peer', $options[ConnectionOptions::OPTION_VERIFY_CERT]);
+            @stream_context_set_option($context, 'ssl', 'verify_peer_name', $options[ConnectionOptions::OPTION_VERIFY_CERT_NAME]);
             stream_context_set_option($context, 'ssl', 'allow_self_signed', $options[ConnectionOptions::OPTION_ALLOW_SELF_SIGNED]);
 
             if ($options[ConnectionOptions::OPTION_CIPHERS] !== null) {

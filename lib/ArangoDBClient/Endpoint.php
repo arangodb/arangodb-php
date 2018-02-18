@@ -212,6 +212,24 @@ class Endpoint
 
         return $response->getJson();
     }
+    
+    /**
+     * Replaces "localhost" in hostname with "[::1]" in order to make these values the same
+     * for later comparisons
+     *
+     * @param string $hostname - hostname 
+     *
+     * @return string - normalized hostname
+     */
+    public static function normalizeHostname($hostname) {
+        // replace "localhost" with [::1] as arangod does
+        return preg_replace("/^(tcp|ssl|https?):\/\/localhost:/", "\\1://[::1]:",  $hostname);
+    }
+    
+    public static function denormalizeHostname($hostname) {
+        // replace "localhost" with [::1] as arangod does
+        return preg_replace("/^(tcp|ssl|https?):\/\/\[::1\]:/", "\\1://localhost:",  $hostname);
+    }
 }
 
 class_alias(Endpoint::class, '\triagens\ArangoDb\Endpoint');
