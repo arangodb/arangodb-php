@@ -171,7 +171,7 @@ abstract class Urls
     /**
      * URL for admin version
      */
-    const URL_ADMIN_VERSION = '/_admin/version';
+    const URL_ADMIN_VERSION = '/_api/version';
 
     /**
      * URL for server role

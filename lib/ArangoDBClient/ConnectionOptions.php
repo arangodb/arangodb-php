@@ -383,7 +383,7 @@ class ConnectionOptions implements \ArrayAccess
         assert(is_array($this->_values[self::OPTION_ENDPOINT]));
         $found = false;
         foreach ($this->_values[self::OPTION_ENDPOINT] as $key => $value) {
-            if ($normalized === Endpoint::normalizeHostname($endpoint)) {
+            if ($normalized === Endpoint::normalizeHostname($value)) {
                 $this->_currentEndpointIndex = $key;
                 $found = true;
                 break;
@@ -529,6 +529,11 @@ class ConnectionOptions implements \ArrayAccess
         foreach ($this->_values[self::OPTION_ENDPOINT] as $key => $value) {
             $this->_values[self::OPTION_ENDPOINT][$key] = Endpoint::normalize($value);
         }
+        
+        if (count($this->_values[self::OPTION_ENDPOINT]) > 1) {
+            // when we have more than a single endpoint, we must always use the reconnect option
+            $this->_values[ConnectionOptions::OPTION_RECONNECT] = true;
+        }
 
         // validate endpoint
         $ep = $this->getCurrentEndpoint();
@@ -591,7 +596,7 @@ class ConnectionOptions implements \ArrayAccess
         if ($cache === null) {
             return;
         }
-
+        
         $endpoints = $cache->get($this->_values[self::OPTION_MEMCACHED_ENDPOINTS_KEY]);
         if ($endpoints) {
             $this->_values[self::OPTION_ENDPOINT] = $endpoints;
