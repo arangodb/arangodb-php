@@ -465,13 +465,87 @@ class StatementTest extends
             ]
         );
 
+        static::assertTrue($statement->getCount());
+        static::assertTrue($statement->getFullcount());
         $cursor = $statement->execute();
 
         static::assertCount(0, $cursor->getWarnings());
         static::assertEquals(2, $cursor->getCount(), 'The number of results in the cursor should be 2');
         static::assertEquals(3, $cursor->getFullCount(), 'The fullCount should be 3');
     }
+    
+    public function testTtl()
+    {
+        $connection = $this->connection;
+        $collection = $this->collection;
 
+        $statement = new Statement(
+            $connection, [
+                'query'     => 'FOR i IN 1..1000 INSERT { value: i } IN ' . $collection->getName()
+            ]
+        );
+        static::assertNull($statement->getTtl());
+
+        $cursor = $statement->execute();
+
+        $statement = new Statement(
+            $connection, [
+                'query'     => 'FOR doc IN ' . $collection->getName() . ' RETURN doc',
+                'ttl'       => 1,
+                'count'     => true,
+                'batchSize' => 100
+            ]
+        );
+
+        static::assertEquals(1, $statement->getTtl());
+        static::assertEquals(100, $statement->getBatchSize());
+        static::assertTrue($statement->getCount());
+
+        $cursor = $statement->execute();
+        static::assertEquals(1000, $cursor->getCount());
+
+        // let the cursor time out
+        sleep(8);
+        
+        $excepted = false;
+        try {
+            $all = $cursor->getAll();
+            static::assertEquals(1000, count($all));
+        } catch (\Exception $e) {
+            $excepted = true;
+        }
+
+        static::assertTrue($excepted);
+    }
+    
+    public function testStatementStreaming()
+    {
+        $connection = $this->connection;
+        $collection = $this->collection;
+
+        $statement = new Statement(
+            $connection, [
+                'query'     => 'FOR i IN 1..5000 INSERT { value: i } IN ' . $collection->getName()
+            ]
+        );
+        static::assertNull($statement->getStream());
+
+        $cursor = $statement->execute();
+
+        $statement = new Statement(
+            $connection, [
+                'query'     => 'FOR doc IN ' . $collection->getName() . ' RETURN doc',
+                'count'     => false,
+                'stream'    => true
+            ]
+        );
+
+        static::assertTrue($statement->getStream());
+
+        $cursor = $statement->execute();
+        static::assertEquals(5000, count($cursor->getAll()));
+        static::assertEquals(5000, $cursor->getCount());
+    }
 
     public function testBindReservedValue()
     {

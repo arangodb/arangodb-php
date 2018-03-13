@@ -116,6 +116,24 @@ class Statement
      * @var bool
      */
     private $_cache;
+
+    /**
+     * Whether or not the query results should be build up dynamically and streamed to the
+     * client application whenever available, or build up entirely on the server first and 
+     * then streamed incrementally (false)
+     *
+     * @var bool
+     */
+    private $_stream;
+    
+    /**
+     * Number of seconds the cursor will be kept on the server if the statement result
+     * is bigger than the initial batch size. The default value is a server-defined
+     * value
+     *
+     * @var double
+     */
+    private $_ttl;
     
     /**
      * Whether or not the cache should abort when it encounters a warning
@@ -179,6 +197,16 @@ class Statement
      * Full count option index
      */
     const FULL_COUNT = 'fullCount';
+    
+    /**
+     * Stream attribute
+     */
+    const ENTRY_STREAM = 'stream';
+    
+    /**
+     * TTL attribute
+     */
+    const ENTRY_TTL = 'ttl';
 
     /**
      * Initialise the statement
@@ -208,6 +236,10 @@ class Statement
         if (isset($data[self::ENTRY_QUERY])) {
             $this->setQuery($data[self::ENTRY_QUERY]);
         }
+        
+        if (isset($data[self::ENTRY_STREAM])) {
+            $this->setStream($data[self::ENTRY_STREAM]);
+        }
 
         if (isset($data[self::ENTRY_COUNT])) {
             $this->setCount($data[self::ENTRY_COUNT]);
@@ -215,6 +247,10 @@ class Statement
 
         if (isset($data[self::ENTRY_BATCHSIZE])) {
             $this->setBatchSize($data[self::ENTRY_BATCHSIZE]);
+        }
+        
+        if (isset($data[self::ENTRY_TTL])) {
+            $this->setTtl($data[self::ENTRY_TTL]);
         }
 
         if (isset($data[self::ENTRY_BINDVARS])) {
@@ -224,11 +260,11 @@ class Statement
         if (isset($data[self::FULL_COUNT])) {
             $this->_fullCount = (bool) $data[Cursor::FULL_COUNT];
         }
-
+        
         if (isset($data[Cursor::ENTRY_SANITIZE])) {
             $this->_sanitize = (bool) $data[Cursor::ENTRY_SANITIZE];
         }
-
+        
         if (isset($data[self::ENTRY_RETRIES])) {
             $this->_retries = (int) $data[self::ENTRY_RETRIES];
         }
@@ -473,6 +509,50 @@ class Statement
     {
         return $this->_fullCount;
     }
+    
+    /**
+     * Set the ttl option for the statement
+     *
+     * @param double $value - value for ttl option
+     *
+     * @return void
+     */
+    public function setTtl($value)
+    {
+        $this->_ttl = (double) $value;
+    }
+
+    /**
+     * Get the ttl option value of the statement
+     *
+     * @return double - current value of ttl option
+     */
+    public function getTtl()
+    {
+        return $this->_ttl;
+    }
+    
+    /**
+     * Set the streaming option for the statement
+     *
+     * @param bool $value - value for stream option
+     *
+     * @return void
+     */
+    public function setStream($value)
+    {
+        $this->_stream = (bool) $value;
+    }
+    
+    /**
+     * Get the streaming option value of the statement
+     *
+     * @return bool - current value of stream option
+     */
+    public function getStream()
+    {
+        return $this->_stream;
+    }
 
     /**
      * Set the caching option for the statement
@@ -592,11 +672,19 @@ class Statement
                 self::ENTRY_FAIL_ON_WARNING => $this->_failOnWarning
             ]
         ];
+        
+        if ($this->_stream !== null) {
+            $data['options'][self::ENTRY_STREAM] = $this->_stream;
+        }
+        
+        if ($this->_ttl !== null) {
+            $data[self::ENTRY_TTL] = $this->_ttl;
+        }
 
         if ($this->_cache !== null) {
             $data[Cursor::ENTRY_CACHE] = $this->_cache;
         }
-
+        
         if ($this->_memoryLimit > 0) {
             $data[self::ENTRY_MEMORY_LIMIT] = $this->_memoryLimit;
         }

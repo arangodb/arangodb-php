@@ -102,6 +102,13 @@ class Cursor implements \Iterator
      * whether or not the query result was served from the AQL query result cache
      */
     private $_cached;
+    
+    /**
+     * precalculated number of documents in the cursor, as returned by the server
+     *
+     * @var int
+     */
+    private $_count;
 
     /**
      * result entry for cursor id
@@ -177,11 +184,16 @@ class Cursor implements \Iterator
         $this->_connection = $connection;
         $this->data        = $data;
         $this->_id         = null;
+        $this->_count      = null;
         $this->_extra      = [];
         $this->_cached     = false;
 
         if (isset($data[self::ENTRY_ID])) {
             $this->_id = $data[self::ENTRY_ID];
+        }
+        
+        if (isset($data[Statement::ENTRY_COUNT])) {
+            $this->_count = $data[Statement::ENTRY_COUNT];
         }
 
         if (isset($data[self::ENTRY_EXTRA])) {
@@ -249,6 +261,10 @@ class Cursor implements \Iterator
      */
     public function getCount()
     {
+        if ($this->_count !== null) {
+            return $this->_count;
+        }
+
         while ($this->_hasMore) {
             $this->fetchOutstanding();
         }
