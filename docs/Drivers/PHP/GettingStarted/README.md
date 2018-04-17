@@ -15,11 +15,6 @@ The ArangoDB PHP client is an API that allows you to send and retrieve documents
 
 The client library provides document and collection classes you can use to work with documents and collections in an OO fashion. When exchanging document data with the server, the library internally will use the [HTTP REST interface of ArangoDB](https://docs.arangodb.com/HttpApi/index.html). The library user does not have to care about this fact as all the details of the REST interface are abstracted by the client library.
 
-<br>
-
-
-
-<a name="requirements"></a>
 ## Requirements
 
 * ArangoDB database server version 3.0 or higher. Detailed info [here](https://github.com/arangodb/arangodb-php/wiki/Important-versioning-information-on-ArangoDB-PHP#arangodb-php-client-to-arangodb-server-interoperability-matrix)
@@ -32,11 +27,6 @@ This driver will cease to support old PHP versions as soon as they have reached 
 
 In general, it is recommended to always use the latest PHP versions (currently those in the PHP 7 line) in order to take advantage of all the improvements (especially in performance).
 
-<br>
-
-
-
-<a name="installing"></a>
 ### Installing the PHP client
 
 To get started you need PHP 5.6 or higher plus an ArangoDB server running on any host that you can access.
@@ -46,14 +36,11 @@ There are two alternative ways to get the ArangoDB PHP client:
  * Using Composer
  * Cloning the git repository
 
-<a name="using_composer"></a>
 ### Alternative 1: Using Composer
 
 ```
 composer require triagens/arangodb
 ```
-
-<a name="cloning_git"></a>
 ### Alternative 2: Cloning the git repository
 
 When preferring this alternative, you need to have a git client installed. To clone the ArangoDB PHP client repository from github, execute the following command in your project directory:
@@ -71,7 +58,6 @@ require 'arangodb-php/autoload.php';
 
 The ArangoDB PHP client's autoloader will only care about its own class files and will not handle any other files. That means it is fully nestable with other autoloaders.
 
-<a name="invoke_autoloader_directly"></a>
 ### Alternative 3: Invoking the autoloader directly
 
 If you do not wish to include autoload.php to load and setup the autoloader, you can invoke the autoloader directly:
