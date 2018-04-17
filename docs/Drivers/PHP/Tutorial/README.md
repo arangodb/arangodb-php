@@ -1,5 +1,4 @@
 # ArangoDB-PHP - Tutorial
-<a name="setting_up_connection_options"></a>
 ## Setting up the connection options
 
 In order to use ArangoDB, you need to specify the connection options. We do so by creating a PHP array $connectionOptions. Put this code into a file named test.php in your current directory:
@@ -76,7 +75,6 @@ When updating a document that was previously/concurrently updated by another use
 * fail with a conflict error: if you prefer that, set OPTION_UPDATE_POLICY to conflict
 
 
-<a name="setting_up_failover"></a>
 ## Setting up active failover
 
 By default the PHP client will connect to a single endpoint only,
@@ -135,10 +133,8 @@ $connectionOptions = [
 ```
 
 
-<a name="creating_collection"></a>
 ## Creating a collection
 *This is just to show how a collection is created.*
-<br>
 *For these examples it is not needed to create a collection prior to inserting a document, as we set ArangoConnectionOptions::OPTION_CREATE to true.*
 
 So, after we get the settings, we can start with creating a collection. We will create a collection named "users".
@@ -168,8 +164,6 @@ The below code will first set up the collection locally in a variable name $user
     var_dump($result);
 
  ```
-
-<a name="creating_document"></a>
 ## Creating a document
 
 After we created the collection, we can start with creating an initial document. We will create a user document in a collection named "users". This collection does not need to exist yet. The first document we'll insert in this collection will create the collection on the fly. This is because we have set OPTION_CREATE to true in $connectionOptions.
@@ -206,7 +200,6 @@ Document properties can be set by using the set() method, or by directly manipul
 
 As you can see, sending a document to the server is achieved by calling the save() method on the client library's *DocumentHandler* class. It needs the collection name ("users" in this case") plus the document object to be saved. save() will return the document id as created by the server. The id is a numeric value that might or might not fit in a PHP integer.
 
-<a name="adding_exception_handling"></a>
 ## Adding exception handling
 
 
@@ -245,7 +238,6 @@ try {
 }
 ```
 
-<a name="retrieving_document"></a>
 ## Retrieving a document
 
 To retrieve a document from the server, the get() method of the *DocumentHandler* class can be used. It needs the collection name plus a document id. There is also the getById() method which is an alias for get().
@@ -297,7 +289,6 @@ Whenever the document id is yet unknown, but you want to fetch a document from t
 This will return all documents from the specified collection (here: "users") with the properties provided in the example (here: that have an attribute "name" with a value of "John"). The result is a cursor which can be iterated sequentially or completely. We have chosen to get the complete result set above by calling the cursor's getAll() method.
 Note that CollectionHandler->byExample() might return multiple documents if the example is ambigious.
 
-<a name="updating_document"></a>
 ## Updating a document
 
 
@@ -374,7 +365,6 @@ The document that is replaced using the previous example must have been fetched 
 
 ```
 
-<a name="deleting_document"></a>
 ## Deleting a document
 
 To remove an existing document on the server, the remove() method of the *DocumentHandler* class will do. remove() just needs the document to be removed as a parameter:
@@ -400,7 +390,6 @@ Note that the document must have been fetched from the server before. If you hav
 ```
 
 
-<a name="running_aql"></a>
 ## Running an AQL query
 
 
@@ -472,7 +461,6 @@ the `_flat` attribute. This allows processing the results of arbitrary AQL queri
 ```
 
 
-<a name="exporting_data"></a>
 ## Exporting data
 
 
@@ -514,8 +502,6 @@ over all documents in a collection.
     }
 ```
 
-
-<a name="bulk_documents"></a>
 ## Bulk document handling
 
 
@@ -553,8 +539,6 @@ of document keys:
 
 
 ```
-
-<a name="dropping_collection"></a>
 ## Dropping a collection
 
 
@@ -590,7 +574,6 @@ $product = $dh->get('products', 11231234);
 
 See file examples/customDocumentClass.php for more details.
 
-<a name="logging_exceptions"></a>
 ## Logging exceptions
 
 
@@ -616,7 +599,6 @@ use ArangoDBClient\Exception as ArangoException;
 ArangoException::disableLogging();
 ```
 
-<a name="alltogether"></a>
 ## Putting it all together
 
 Here's the full code that combines all the pieces outlined above:
@@ -905,11 +887,8 @@ try {
 
 ```
 
-<br>
 
 
-
-<a name="more_info"></a>
 # More information
 
 * More example code, containing some code to create, delete and rename collections, is provided in the **examples** subdirectory that is provided with the library.
