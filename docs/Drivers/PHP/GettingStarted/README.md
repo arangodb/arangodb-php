@@ -27,77 +27,14 @@ In general, it is recommended to always use the latest PHP versions (currently t
 
 ### Important version information on ArangoDB-PHP
 
-Since version 1.0 of this client, it will closely follow the ArangoDB versioning.
-That means that:
+The ArangoDB-PHP driver version has to match with the ArangoDB version:
 
-- ArangoDB-PHP 3.1.x is on par with the functionality of ArangoDB 3.0.y
-- ArangoDB-PHP 3.2.x is on par with the functionality of ArangoDB 3.1.y
+- ArangoDB-PHP 3.1.x is on par with the functionality of ArangoDB 3.1.x
+- ArangoDB-PHP 3.2.x is on par with the functionality of ArangoDB 3.2.x
+- ArangoDB-PHP 3.3.x is on par with the functionality of ArangoDB 3.3.x
+
 etc...
 
-Notice: The third level number of the version is not associated to ArangoDB's third level number, as it states minor updates, bugfixes and patches to the client itself.
-
-
-<br>
-<br>
-
-<a name="interoperability_matrix"></a>
-
-### ArangoDB-PHP Client to ArangoDB Server interoperability matrix ##
-#### Current Versions (3.x)
-
-<table>
-  <tr>
-    <th width="25%">ArangoDB-PHP&nbsp;Version</th><th width="25%">ArangoDB&nbsp;Version</th><th width="50%">Comments</th>
-  </tr>
-  <tr>
-    <td>3.0.x</td><td>3.0.x through 3.0.x</td><td>This version is not backwards compatible due to changes in ArangoDB's API</td>
-  </tr>
-  <tr>
-    <td>3.1.x</td><td>3.1.x through 3.1.x</td><td>This version is not backwards compatible due to changes in ArangoDB's API</td>
-  </tr>
-  <tr>
-    <td>3.2.x</td><td>3.2.x through 3.2.x</td><td>This version is not backwards compatible due to changes in ArangoDB's API</td>
-  </tr>
-  <tr>
-    <td>3.3.x</td><td>3.3.x through 3.3.x</td><td>This version is not backwards compatible due to changes in ArangoDB's API</td>
-  </tr>
-</table>  
-<br>
-
-#### Older Versions
-
-<table>
-  <tr>
-    <th width="25%">ArangoDB-PHP&nbsp;Version</th><th width="25%">ArangoDB&nbsp;Version</th><th width="100%">Comments</th>
-  </tr>
-  <tr>
-    <td>1.0.0</td><td>1.0.0 through 1.0.4</td><td></td>
-  </tr>
-  <tr>
-    <td>1.0.1</td><td>1.0.0 through 1.0.4</td><td></td>
-</tr>
-  <tr>
-    <td>1.1.0</td><td>1.1.0 through 1.1.3</td><td></td>
-  </tr>
-  <tr>
-    <td>1.2.0</td><td>1.2.0 through 1.2.1</td><td></td>
-  </tr>
-  <tr>
-    <td>1.2.1</td><td>1.2.2 through 1.2.3</td><td>This client version provides support for ArangoDB's autoincrement functionality. (ArangoDB Version 1.2.2+)</td>
-  </tr>
-  <tr>
-    <td>1.3.0</td><td>1.3.0 through 1.3.3</td><td>Provides support for Transactions, Auto-Increment, AQL User Functions and the new statistics interface.</td>
-  </tr>
-  <tr>
-    <td>1.3.1</td><td>1.3.0 through 1.3.3</td><td>Added Tracer & simple/all API equvalent. Some Performance fixes. improved docs</td>
-  </tr>
-  <tr>
-    <td>1.4.0</td><td>1.4.0 through 1.4.x</td><td>Multi-Database, Traversal API + others</td>
-  </tr>
-  <tr>
-    <td>2.x.x</td><td>2.0.0 through 2.x.x</td><td></td>
-  </tr>
-</table>
 
 ### Installing the PHP client
 
