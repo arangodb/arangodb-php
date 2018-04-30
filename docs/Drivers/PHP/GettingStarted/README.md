@@ -99,8 +99,6 @@ Notice: The third level number of the version is not associated to ArangoDB's th
   </tr>
 </table>
 
-
-
 ### Installing the PHP client
 
 To get started you need PHP 5.6 or higher plus an ArangoDB server running on any host that you can access.
