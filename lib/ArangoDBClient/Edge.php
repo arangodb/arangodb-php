@@ -168,8 +168,12 @@ class Edge extends Document
     public function getAllForInsertUpdate()
     {
         $data          = parent::getAllForInsertUpdate();
-        $data['_from'] = $this->_from;
-        $data['_to']   = $this->_to;
+        if ($this->_from !== null) {
+            $data['_from'] = $this->_from;
+        }
+        if ($this->_to !== null) {
+            $data['_to']   = $this->_to;
+        }
 
         return $data;
     }
