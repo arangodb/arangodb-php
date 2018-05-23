@@ -92,27 +92,6 @@ class StatementTest extends
 
 
     /**
-     * Test deadlock handling
-     */
-    public function testDeadlock()
-    {
-        $connection = $this->connection;
-        $statement  = new Statement(
-            $connection, [
-                'query'     => 'RETURN TEST_INTERNAL("DEADLOCK", null)',
-                '_sanitize' => true
-            ]
-        );
-        try {
-            $statement->execute();
-        } catch (ServerException $e) {
-        }
-
-        static::assertEquals(500, $e->getCode());
-        static::assertEquals(29, $e->getServerCode());
-    }
-
-    /**
      * Test warnings returned by statement
      */
     public function testStatementReturnNoWarnings()

@@ -491,6 +491,12 @@ class Collection
     {
         assert(is_int($type));
 
+        if ($type === 'document') {
+            $type = self::TYPE_DOCUMENT;
+        } else if ($type === 'edge') {
+            $type = self::TYPE_EDGE;
+        }
+
         if ($this->_type !== null && $this->_type !== $type) {
             throw new ClientException('Should not update the type of an existing collection');
         }

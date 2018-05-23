@@ -2320,7 +2320,7 @@ class CollectionExtendedTest extends
         $documentHandler->getById($collection->getName(), $documentId3);
 
 
-        $rangeResult = $collectionHandler->within($collection->getName(), 0, 0, 0);
+        $rangeResult = $collectionHandler->within($collection->getName(), 0, 0, 0.00001);
         $resultArray = $rangeResult->getAll();
         static::assertTrue(
             $resultArray[0]->loc[0] === 0 && $resultArray[0]->loc[1] === 0,
@@ -2637,7 +2637,7 @@ class CollectionExtendedTest extends
         );
 
         $m = $cursor->getMetadata();
-        static::assertEquals(0, $m['count']);
+        static::assertEquals(1, $m['count']);
         static::assertEquals(false, $m['hasMore']);
 
         $cursor = $collectionHandler->fulltext(

@@ -493,7 +493,7 @@ class CollectionBasicTest extends
 
         $indexInfo = $indicesByIdentifiers[$result['id']];
 
-        static::assertEquals('geo1', $indexInfo[CollectionHandler::OPTION_TYPE], "Index type is not 'geo1'!");
+        static::assertTrue(in_array($indexInfo[CollectionHandler::OPTION_TYPE], ["geo", "geo1"]), "Index type is not 'geo1'!");
         static::assertCount(1, $indexInfo['fields'], 'There should only be 1 indexed field');
         static::assertEquals('combinedGeo', $indexInfo['fields'][0], "The indexed field is not 'combinedGeo'");
         static::assertEquals(true, $indexInfo[CollectionHandler::OPTION_GEOJSON], 'geoJson was not set to true!');
@@ -521,16 +521,11 @@ class CollectionBasicTest extends
 
         $indexInfo = $indicesByIdentifiers[$result['id']];
 
-        static::assertEquals('geo2', $indexInfo[CollectionHandler::OPTION_TYPE], "Index type is not 'geo2'!");
+        static::assertTrue(in_array($indexInfo[CollectionHandler::OPTION_TYPE], ["geo", "geo2"]), "Index type is not 'geo2'!");
         static::assertCount(2, $indexInfo['fields'], 'There should only be 2 indexed fields');
         static::assertEquals('lat', $indexInfo['fields'][0], "The first indexed field is not 'lat'");
         static::assertEquals('long', $indexInfo['fields'][1], "The second indexed field is not 'long'");
-        static::assertArrayNotHasKey(CollectionHandler::OPTION_GEOJSON, $indexInfo, 'geoJson was set!');
-        static::assertEquals(
-            false,
-            $indexInfo[CollectionHandler::OPTION_CONSTRAINT],
-            'constraint was not set to false!'
-        );
+        static::assertArrayHasKey(CollectionHandler::OPTION_GEOJSON, $indexInfo, 'geoJson was set!');
 
         if (!array_key_exists(CollectionHandler::OPTION_IGNORE_NULL, $indexInfo)) {
             // downwards-compatibility
