@@ -19,7 +19,7 @@ namespace ArangoDBClient;
  * @package   ArangoDBClient
  * @since     0.2
  */
-class Document
+class Document implements \JsonSerializable
 {
     /**
      * The document id (might be NULL for new documents)
@@ -773,6 +773,22 @@ class Document
         return $this->_rev;
     }
 
+    /**
+     * Get all document attributes
+     * Alias function for getAll() - it's necessary for implementing JsonSerializable interface
+     *
+     * @param mixed $options - optional, array of options for the getAll function, or the boolean value for $includeInternals
+     *                       <p>Options are :
+     *                       <li>'_includeInternals' - true to include the internal attributes. Defaults to false</li>
+     *                       <li>'_ignoreHiddenAttributes' - true to show hidden attributes. Defaults to false</li>
+     *                       </p>
+     *
+     * @return array - array of all document attributes/values
+     */
+    public function jsonSerialize(array $options = [])
+    {
+        return $this->getAll($options);
+    }
 }
 
 class_alias(Document::class, '\triagens\ArangoDb\Document');
