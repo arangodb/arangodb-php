@@ -101,7 +101,7 @@ class EdgeExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(403, $e->getCode(), 'Should be 403, instead got: ' . $e->getCode());
 
 
         // Try to update a non-existent edge
@@ -113,7 +113,7 @@ class EdgeExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(403, $e->getCode(), 'Should be 403, instead got: ' . $e->getCode());
 
 
         // Try to replace a non-existent edge
@@ -125,7 +125,7 @@ class EdgeExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(403, $e->getCode(), 'Should be 403, instead got: ' . $e->getCode());
 
 
         // Try to remove a non-existent edge
@@ -137,7 +137,7 @@ class EdgeExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(403, $e->getCode(), 'Should be 403, instead got: ' . $e->getCode());
     }
 
 
