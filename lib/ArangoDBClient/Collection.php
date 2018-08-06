@@ -489,8 +489,6 @@ class Collection
      */
     public function setType($type)
     {
-        assert(is_int($type));
-
         if ($type === 'document') {
             $type = self::TYPE_DOCUMENT;
         } else if ($type === 'edge') {
@@ -505,6 +503,7 @@ class Collection
             throw new ClientException('Invalid type used for collection');
         }
 
+        assert(is_int($type));
         $this->_type = $type;
     }
 
