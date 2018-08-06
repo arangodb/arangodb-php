@@ -16,5 +16,4 @@ devel: [![Build Status](https://travis-ci.org/arangodb/arangodb-php.png?branch=d
 
 * [PHPDoc documentation](http://arangodb.github.io/arangodb-php/) for the complete library
 
-
 * [Follow us on Twitter](https://twitter.com/arangodbphp) [@arangodbphp](https://twitter.com/arangodbphp) to receive updates on the PHP driver
