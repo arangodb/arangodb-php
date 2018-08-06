@@ -14,13 +14,16 @@ namespace ArangoDBClient;
 /**
  * Provides batching functionality
  *
- * <br>
- *
  * @package   ArangoDBClient
  * @since     1.1
  */
 class Batch
 {
+    /**
+     * Import $_documentClass functionality
+     */
+    use DocumentClassable;
+
     /**
      * Batch Response Object
      *
@@ -560,22 +563,6 @@ class Batch
         return $this->_connection;
     }
 
-    /**
-     * @var string Document class to use
-     */
-    protected $_documentClass = '\ArangoDBClient\Document';
-
-    /**
-     * Sets the document class to use
-     *
-     * @param string $class Document class to use
-     * @return Batch
-     */
-    public function setDocumentClass($class)
-    {
-        $this->_documentClass = $class;
-        return $this;
-    }
 }
 
 class_alias(Batch::class, '\triagens\ArangoDb\Batch');

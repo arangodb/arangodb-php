@@ -14,8 +14,6 @@ namespace ArangoDBClient;
 /**
  * Provides batch part functionality
  *
- * <br>
- *
  * @package   ArangoDBClient
  * @since     1.1
  */
@@ -23,6 +21,10 @@ namespace ArangoDBClient;
 
 class BatchPart
 {
+    /**
+     * Import $_documentClass functionality
+     */
+    use DocumentClassable;
 
 
     /**
@@ -243,6 +245,7 @@ class BatchPart
     public function getProcessedResponse()
     {
         $_documentClass = $this->_documentClass;
+        $_edgeClass = $this->_edgeClass;
 
         $response = $this->getResponse();
         switch ($this->_type) {
@@ -273,7 +276,7 @@ class BatchPart
                 $json              = $response->getJson();
                 $options           = $this->getCursorOptions();
                 $options['_isNew'] = false;
-                $response          = Edge::createFromArray($json, $options);
+                $response          = $_edgeClass::createFromArray($json, $options);
                 break;
             case 'edge':
                 $json = $response->getJson();
@@ -288,7 +291,7 @@ class BatchPart
                 $options['_isNew'] = false;
                 $response          = [];
                 foreach ($json[EdgeHandler::ENTRY_EDGES] as $data) {
-                    $response[] = Edge::createFromArray($data, $options);
+                    $response[] = $_edgeClass::createFromArray($data, $options);
                 }
                 break;
             case 'getcollection':
@@ -338,22 +341,6 @@ class BatchPart
         return $this->_cursorOptions;
     }
 
-    /**
-     * @var string Document class to use
-     */
-    protected $_documentClass = '\ArangoDBClient\Document';
-
-    /**
-     * Sets the document class to use
-     *
-     * @param string $class Document class to use
-     * @return BatchPart
-     */
-    public function setDocumentClass($class)
-    {
-        $this->_documentClass = $class;
-        return $this;
-    }
 }
 
 class_alias(BatchPart::class, '\triagens\ArangoDb\BatchPart');

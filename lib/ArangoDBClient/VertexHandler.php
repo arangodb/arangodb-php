@@ -34,7 +34,9 @@ class VertexHandler extends DocumentHandler
      */
     public function createFromArrayWithContext($data, $options)
     {
-        return Vertex::createFromArray($data, $options);
+        $_documentClass = $this->_documentClass;
+
+        return $_documentClass::createFromArray($data, $options);
     }
 }
 

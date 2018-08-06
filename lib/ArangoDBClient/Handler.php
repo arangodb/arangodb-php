@@ -19,6 +19,11 @@ namespace ArangoDBClient;
 abstract class Handler
 {
     /**
+     * Import $_documentClass functionality
+     */
+    use DocumentClassable;
+
+    /**
      * Connection object
      *
      * @param Connection
@@ -155,23 +160,6 @@ abstract class Handler
         }
 
         return $value;
-    }
-
-    /**
-     * @var string Document class to use
-     */
-    protected $_documentClass = '\ArangoDBClient\Document';
-
-    /**
-     * Sets the document class to use
-     *
-     * @param string $class Document class to use
-     * @return Handler
-     */
-    public function setDocumentClass($class)
-    {
-        $this->_documentClass = $class;
-        return $this;
     }
 
 }
