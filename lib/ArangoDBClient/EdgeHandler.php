@@ -64,6 +64,19 @@ class EdgeHandler extends DocumentHandler
     const OPTION_DIRECTION = 'direction';
 
     /**
+     * Construct a new handler
+     *
+     * @param Connection $connection - connection to be used
+     *
+     */
+    public function __construct(Connection $connection)
+    {
+        parent::__construct($connection);
+
+        $this->setDocumentClass('\ArangoDBClient\Edge');
+    }
+
+    /**
      * Intermediate function to call the createFromArray function from the right context
      *
      * @param $data
@@ -74,7 +87,9 @@ class EdgeHandler extends DocumentHandler
      */
     public function createFromArrayWithContext($data, $options)
     {
-        return Edge::createFromArray($data, $options);
+        $_edgeClass = $this->_edgeClass;
+
+        return $_edgeClass::createFromArray($data, $options);
     }
 
 
@@ -127,7 +142,8 @@ class EdgeHandler extends DocumentHandler
         $collection = $this->makeCollection($collection);
 
         if (is_array($document)) {
-            $document = Edge::createFromArray($document);
+            $_edgeClass = $this->_edgeClass;
+            $document = $_edgeClass::createFromArray($document);
         }
         $document->setFrom($from);
         $document->setTo($to);

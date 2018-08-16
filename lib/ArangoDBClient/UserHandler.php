@@ -148,7 +148,8 @@ class UserHandler extends Handler
 
         $options = ['_isNew' => false];
 
-        return User::createFromArray($data, $options);
+        $_documentClass = $this->_documentClass;
+        return $_documentClass::createFromArray($data, $options);
     }
 
 

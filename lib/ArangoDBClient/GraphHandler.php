@@ -177,7 +177,7 @@ class GraphHandler extends Handler
         $data = $response->getJson();
 
         $options['_isNew'] = false;
-
+        
         $result = Graph::createFromArray($data['graph'], $options);
         $result->set(Graph::ENTRY_KEY, $data['graph'][self::OPTION_NAME]);
 
@@ -640,7 +640,9 @@ class GraphHandler extends Handler
         }
 
         if (is_array($document)) {
-            $document = Vertex::createFromArray($document);
+            $_documentClass = $this->_documentClass;
+
+            $document = $_documentClass::createFromArray($document);
         }
 
         if ($collection === null) {
@@ -730,7 +732,9 @@ class GraphHandler extends Handler
 
         $options['_isNew'] = false;
 
-        return Vertex::createFromArray($vertex, $options);
+        $_documentClass = $this->_documentClass;
+
+        return $_documentClass::createFromArray($vertex, $options);
     }
 
 
@@ -1036,7 +1040,8 @@ class GraphHandler extends Handler
         }
 
         if (is_array($document)) {
-            $document = Edge::createFromArray($document);
+            $_edgeClass = $this->_edgeClass;
+            $document = $_edgeClass::createFromArray($document);
         }
         if (null !== $label) {
             $document->set('$label', $label);
@@ -1112,7 +1117,8 @@ class GraphHandler extends Handler
 
         $options['_isNew'] = false;
 
-        return Edge::createFromArray($edge, $options);
+        $_edgeClass = $this->_edgeClass;
+        return $_edgeClass::createFromArray($edge, $options);
     }
 
 

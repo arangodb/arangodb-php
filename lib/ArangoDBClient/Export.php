@@ -19,6 +19,11 @@ namespace ArangoDBClient;
 class Export
 {
     /**
+     * Import $_documentClass functionality
+     */
+    use DocumentClassable;
+
+    /**
      * The connection object
      *
      * @var Connection
@@ -263,23 +268,6 @@ class Export
         ];
 
         return $result;
-    }
-
-    /**
-     * @var string Document class to use
-     */
-    protected $_documentClass = '\ArangoDBClient\Document';
-
-    /**
-     * Sets the document class to use
-     *
-     * @param string $class Document class to use
-     * @return Export
-     */
-    public function setDocumentClass($class)
-    {
-        $this->_documentClass = $class;
-        return $this;
     }
 }
 

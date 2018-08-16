@@ -25,6 +25,11 @@ namespace ArangoDBClient;
 class ExportCursor
 {
     /**
+     * Import $_documentClass functionality
+     */
+    use DocumentClassable;
+
+    /**
      * The connection object
      *
      * @var Connection
@@ -204,6 +209,7 @@ class ExportCursor
     private function setData(array $data)
     {
         $_documentClass = $this->_documentClass;
+        $_edgeClass = $this->_edgeClass;
 
         if (isset($this->_options[self::ENTRY_FLAT]) && $this->_options[self::ENTRY_FLAT]) {
             $this->_result = $data;
@@ -212,7 +218,7 @@ class ExportCursor
 
             if ($this->_options[self::ENTRY_TYPE] === Collection::TYPE_EDGE) {
                 foreach ($data as $row) {
-                    $this->_result[] = Edge::createFromArray($row, $this->_options);
+                    $this->_result[] = $_edgeClass::createFromArray($row, $this->_options);
                 }
             } else {
                 foreach ($data as $row) {
@@ -281,22 +287,6 @@ class ExportCursor
         return $this->_id;
     }
 
-    /**
-     * @var string Document class to use
-     */
-    protected $_documentClass = '\ArangoDBClient\Document';
-
-    /**
-     * Sets the document class to use
-     *
-     * @param string $class Document class to use
-     * @return ExportCursor
-     */
-    public function setDocumentClass($class)
-    {
-        $this->_documentClass = $class;
-        return $this;
-    }
 }
 
 class_alias(ExportCursor::class, '\triagens\ArangoDb\ExportCursor');

@@ -25,6 +25,11 @@ namespace ArangoDBClient;
 class Cursor implements \Iterator
 {
     /**
+     * Import $_documentClass functionality
+     */
+    use DocumentClassable;
+
+    /**
      * The connection object
      *
      * @var Connection
@@ -476,6 +481,7 @@ class Cursor implements \Iterator
     private function addPathsFromArray(array $data)
     {
         $_documentClass = $this->_documentClass;
+        $_edgeClass = $this->_edgeClass;
 
         $entry = [
             'vertices'    => [],
@@ -487,7 +493,7 @@ class Cursor implements \Iterator
             $entry['vertices'][] = $_documentClass::createFromArray($v, $this->_options);
         }
         foreach ($data['edges'] as $v) {
-            $entry['edges'][] = Edge::createFromArray($v, $this->_options);
+            $entry['edges'][] = $_edgeClass::createFromArray($v, $this->_options);
         }
         $this->_result[] = $entry;
     }
@@ -503,6 +509,7 @@ class Cursor implements \Iterator
     private function addShortestPathFromArray(array $data)
     {
         $_documentClass = $this->_documentClass;
+        $_edgeClass = $this->_edgeClass;
 
         if (!isset($data['vertices'])) {
             return;
@@ -528,7 +535,7 @@ class Cursor implements \Iterator
             $path['vertices'][] = $v;
         }
         foreach ($data['edges'] as $v) {
-            $path['edges'][] = Edge::createFromArray($v, $this->_options);
+            $path['edges'][] = $_edgeClass::createFromArray($v, $this->_options);
         }
         $entry['paths'][] = $path;
 
@@ -621,7 +628,9 @@ class Cursor implements \Iterator
      */
     private function addEdgesFromArray(array $data)
     {
-        $this->_result[] = Edge::createFromArray($data, $this->_options);
+        $_edgeClass = $this->_edgeClass;
+
+        $this->_result[] = $_edgeClass::createFromArray($data, $this->_options);
     }
 
 
@@ -635,7 +644,9 @@ class Cursor implements \Iterator
      */
     private function addVerticesFromArray(array $data)
     {
-        $this->_result[] = Vertex::createFromArray($data, $this->_options);
+        $_documentClass = $this->_documentClass;
+
+        $this->_result[] = $_documentClass::createFromArray($data, $this->_options);
     }
 
 
@@ -841,23 +852,6 @@ class Cursor implements \Iterator
     public function getId()
     {
         return $this->_id;
-    }
-
-    /**
-     * @var string Document class to use
-     */
-    protected $_documentClass = '\ArangoDBClient\Document';
-
-    /**
-     * Sets the document class to use
-     *
-     * @param string $class Document class to use
-     * @return Cursor
-     */
-    public function setDocumentClass($class)
-    {
-        $this->_documentClass = $class;
-        return $this;
     }
 }
 
