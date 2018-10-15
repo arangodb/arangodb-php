@@ -400,9 +400,7 @@ class DocumentHandler extends Handler
      */
     public function update(Document $document, array $options = [])
     {
-        $documentId = $this->getDocumentId($document);
-
-        return $this->updateById($document, $documentId, $document, $options);
+        return $this->updateById($document->getCollectionId(), $this->getDocumentId($document), $document, $options);
     }
 
 
@@ -485,10 +483,10 @@ class DocumentHandler extends Handler
                 $headers['if-match']  = '"' . $revision . '"';
             }
         }
-
+        
         $url = UrlHelper::buildUrl($url, [$collection, $documentId]);
         $url = UrlHelper::appendParamsUrl($url, $params);
-
+        
         $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAllForInsertUpdate()), $headers);
         $json   = $result->getJson();
         $document->setRevision($json[$_documentClass::ENTRY_REV]);
