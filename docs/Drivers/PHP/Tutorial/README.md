@@ -31,7 +31,7 @@ Finally, put this code into a file named test.php in your current directory:
 require __DIR__ . '/arangodb-php/autoload.php';
 
 // use .env variables for security
-use Dotenv\Dotenv;
+// use Dotenv\Dotenv;
 
 // set up some aliases for less typing later
 use ArangoDBClient\Collection as ArangoCollection;
@@ -49,32 +49,32 @@ use ArangoDBClient\Statement as ArangoStatement;
 use ArangoDBClient\UpdatePolicy as ArangoUpdatePolicy;
 
 // set and load environment variable dir
-    $dotenv = new Dotenv(__DIR__);
-    $dotenv->load();
+    // $dotenv = new Dotenv(__DIR__);
+    // $dotenv->load();
 
 // set up some basic connection options via .env
 $connectionOptions = [
     // database name
-    ArangoConnectionOptions::OPTION_DATABASE => $_ENV['OPTION_DATABASE'],
+    ArangoConnectionOptions::OPTION_DATABASE => '_system', // getenv('OPTION_DATABASE')
     // server endpoint to connect to
-    ArangoConnectionOptions::OPTION_ENDPOINT => $_ENV['OPTION_ENDPOINT'],
+    ArangoConnectionOptions::OPTION_ENDPOINT => 'tcp://127.0.0.1:8529', // getenv('OPTION_ENDPOINT')
     // authorization type to use (currently supported: 'Basic')
-    ArangoConnectionOptions::OPTION_AUTH_TYPE => $_ENV['OPTION_AUTH_TYPE'],
+    ArangoConnectionOptions::OPTION_AUTH_TYPE => 'Basic', // getenv('OPTION_AUTH_TYPE')
     // user for basic authorization
-    ArangoConnectionOptions::OPTION_AUTH_USER => $_ENV['OPTION_AUTH_USER'],
+    ArangoConnectionOptions::OPTION_AUTH_USER => 'root', // getenv('OPTION_AUTH_USER')
     // password for basic authorization
-    ArangoConnectionOptions::OPTION_AUTH_PASSWD => $_ENV['OPTION_AUTH_PASSWD'],
-    // connection persistence on server. can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
-    ArangoConnectionOptions::OPTION_CONNECTION => $_ENV['OPTION_CONNECTION'],
+    ArangoConnectionOptions::OPTION_AUTH_PASSWD => '', // getenv('OPTION_AUTH_PASSWD')
+
+    ArangoConnectionOptions::OPTION_CONNECTION => 'Keep-Alive', // getenv('OPTION_CONNECTION')
     // connect timeout in seconds
-    ArangoConnectionOptions::OPTION_TIMEOUT => $_ENV['OPTION_TIMEOUT'],
+    ArangoConnectionOptions::OPTION_TIMEOUT => 3, // getenv('OPTION_TIMEOUT')
     // whether or not to reconnect when a keep-alive connection has timed out on server
-    ArangoConnectionOptions::OPTION_RECONNECT => $_ENV['OPTION_RECONNECT'],
+    ArangoConnectionOptions::OPTION_RECONNECT => true, // getenv('OPTION_RECONNECT')
     // optionally create new collections when inserting documents
-    ArangoConnectionOptions::OPTION_CREATE => $_ENV['OPTION_CREATE'],
+    ArangoConnectionOptions::OPTION_CREATE => true, // getenv('OPTION_CREATE')
     // optionally create new collections when inserting documents
     ArangoConnectionOptions::OPTION_UPDATE_POLICY => ArangoUpdatePolicy::LAST,
-];
+    ];
 
 
 // turn on exception logging (logs to whatever PHP is configured)
