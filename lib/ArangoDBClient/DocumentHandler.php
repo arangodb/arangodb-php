@@ -363,7 +363,7 @@ class DocumentHandler extends Handler
         $id = UrlHelper::getDocumentIdFromLocation($location);
 
         $document->setInternalId($json[$_documentClass::ENTRY_ID]);
-        $document->setInternalKey($json[Document::ENTRY_KEY]);
+        $document->setInternalKey($json[$_documentClass::ENTRY_KEY]);
         $document->setRevision($json[$_documentClass::ENTRY_REV]);
         
         if ($id !== $document->getId()) {
