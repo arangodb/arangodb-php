@@ -40,6 +40,21 @@ class DocumentHandler extends Handler
      * example parameter
      */
     const OPTION_EXAMPLE = 'example';
+    
+    /**
+     * overwrite option 
+     */
+    const OPTION_OVERWRITE = 'overwrite';
+    
+    /**
+     * option for returning the old document
+     */
+    const OPTION_RETURN_OLD = 'returnOld';
+    
+    /**
+     * option for returning the new document
+     */
+    const OPTION_RETURN_NEW = 'returnNew';
 
 
     /**
@@ -312,6 +327,9 @@ class DocumentHandler extends Handler
      *                                   <p>Options are :<br>
      *                                   <li>'createCollection' - create the collection if it does not yet exist.</li>
      *                                   <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
+     *                                   <li>'overwrite' -  if set to true, will turn the insert into a replace operation if a document with the specified key already exists.</li>
+     *                                   <li>'returnNew' -  if set to true, then the newly created document will be returned.</li>
+     *                                   <li>'returnOld' -  if set to true, then the replaced document will be returned - useful only when using overwrite = true.</li>
      *                                   </p>
      *
      * @return mixed - id of document created
@@ -326,7 +344,10 @@ class DocumentHandler extends Handler
             $options, [
                 'waitForSync'      => null,
                 'silent'           => false,
-                'createCollection' => $this->getConnection()->getOption(ConnectionOptions::OPTION_CREATE)
+                'createCollection' => $this->getConnection()->getOption(ConnectionOptions::OPTION_CREATE),
+                'overwrite'        => (bool) @$options[self::OPTION_OVERWRITE],
+                'returnOld'        => (bool) @$options[self::OPTION_RETURN_OLD],
+                'returnNew'        => (bool) @$options[self::OPTION_RETURN_NEW],
             ]
         );
 
@@ -350,6 +371,10 @@ class DocumentHandler extends Handler
         if ($batchPart = $response->getBatchPart()) {
             return $batchPart;
         }
+                
+        if (@$options[self::OPTION_RETURN_OLD] || @$options[self::OPTION_RETURN_NEW]) {
+            return $json;
+        }
 
         if (is_array($document)) {
             return $json[$_documentClass::ENTRY_KEY];
@@ -372,6 +397,16 @@ class DocumentHandler extends Handler
         $document->setIsNew(false);
 
         return $document->getId();
+    }
+    
+    /**
+     * Insert a document into a collection
+     * 
+     * This is an alias for save().
+     */
+    public function insert($collection, $document, array $options = []) 
+    {
+        return $this->save($collection, $document, $options);
     }
 
     /**
@@ -467,7 +502,9 @@ class DocumentHandler extends Handler
                 'keepNull'    => true,
                 'silent'      => false,
                 'ignoreRevs'  => true,
-                'policy'      => $this->getConnectionOption(ConnectionOptions::OPTION_UPDATE_POLICY)
+                'policy'      => $this->getConnectionOption(ConnectionOptions::OPTION_UPDATE_POLICY),
+                'returnOld'   => (bool) @$options[self::OPTION_RETURN_OLD],
+                'returnNew'   => (bool) @$options[self::OPTION_RETURN_NEW],
             ]
         );
 
@@ -490,6 +527,10 @@ class DocumentHandler extends Handler
         $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAllForInsertUpdate()), $headers);
         $json   = $result->getJson();
         $document->setRevision($json[$_documentClass::ENTRY_REV]);
+        
+        if (@$options[self::OPTION_RETURN_OLD] || @$options[self::OPTION_RETURN_NEW]) {
+            return $json;
+        }
 
         return true;
     }
@@ -585,7 +626,9 @@ class DocumentHandler extends Handler
                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
                 'silent'      => false,
                 'ignoreRevs'  => true,
-                'policy'      => $this->getConnectionOption(ConnectionOptions::OPTION_REPLACE_POLICY)
+                'policy'      => $this->getConnectionOption(ConnectionOptions::OPTION_REPLACE_POLICY),
+                'returnOld'   => (bool) @$options[self::OPTION_RETURN_OLD],
+                'returnNew'   => (bool) @$options[self::OPTION_RETURN_NEW],
             ]
         );
 
@@ -606,6 +649,10 @@ class DocumentHandler extends Handler
         $result = $this->getConnection()->put($url, $this->json_encode_wrapper($data), $headers);
         $json   = $result->getJson();
         $document->setRevision($json[$_documentClass::ENTRY_REV]);
+        
+        if (@$options[self::OPTION_RETURN_OLD] || @$options[self::OPTION_RETURN_NEW]) {
+            return $json;
+        }
 
         return true;
     }
@@ -685,7 +732,8 @@ class DocumentHandler extends Handler
                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
                 'silent'      => false,
                 'ignoreRevs'  => true,
-                'policy'      => $this->getConnectionOption(ConnectionOptions::OPTION_DELETE_POLICY)
+                'policy'      => $this->getConnectionOption(ConnectionOptions::OPTION_DELETE_POLICY),
+                'returnOld'   => (bool) @$options[self::OPTION_RETURN_OLD],
             ]
         );
 
@@ -702,8 +750,14 @@ class DocumentHandler extends Handler
 
         $url = UrlHelper::buildUrl($url, [$collection, $documentId]);
         $url = UrlHelper::appendParamsUrl($url, $params);
-        $this->getConnection()->delete($url, $headers);
+        
+        if (@$options[self::OPTION_RETURN_OLD]) {
+            $result = $this->getConnection()->delete($url, $headers);
+            $json = $result->getJson();
+            return $json;
+        }
 
+        $this->getConnection()->delete($url, $headers);
         return true;
     }
 

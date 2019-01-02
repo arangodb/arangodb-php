@@ -1,3 +1,50 @@
+Release notes for the ArangoDB-PHP driver 3.4.x
+===============================================
+
+Starting with release 3.4.0, the following constants were removed from the 
+`CollectionHandler` class:
+
+* `OPTION_IGNORE_NULL`
+* `OPTION_CONSTRAINT`
+
+These constants were geo-index related, and the geo-index functionality changes in ArangoDB
+3.4 have made these constants obsolete.
+
+For the same reason, the `createGeoIndex` function signature in the same class has
+changed from
+```
+public function createGeoIndex($collectionId, array $fields, $geoJson = null, $constraint = null, $ignoreNull = null)
+```
+to just
+```
+public function createGeoIndex($collectionId, array $fields, $geoJson = null)
+```
+
+Additionally the 3.4 release of the driver adds support for the following collection
+properties:
+
+* replicationFactor: number of replicas to keep per shard in a cluster environment
+  (a replication factor of 1 will be used if this is not specified)
+* shardingStrategy: sharding strategy to be used for the collection
+
+The `Collection` class also got the new methods `setReplicationFactor`, `getReplicationFactor`,
+`setShardingStrategy` and `getShardingStrategy`.
+
+A method `getEntries` was added to the `QueryCacheHandler` class, which allows to
+peek into the contents of the query cache at runtime.
+
+The single-document APIs in class `DocumentHandler` have been augmented so they support
+the attributes `returnOld` and `returnNew`. This allows retrieving the previous version
+of documents on update/replace/remove, and returning the new version of documents after
+insert/update/replace.
+In addition, the `save` method of `DocumentHandler` will now understand the `overwrite`
+option, which will turn an insert into a replace operation in case the insert fails with a 
+unique constraint violation error on the primary key.
+
+The method `insert` was introduced in `DocumentHandler` as an alias for `save` for consistency
+with the server-side naming.
+
+
 Release notes for the ArangoDB-PHP driver 3.3.x
 ===============================================
 

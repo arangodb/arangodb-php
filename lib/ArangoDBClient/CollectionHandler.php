@@ -133,16 +133,6 @@ class CollectionHandler extends Handler
     const OPTION_GEO_INDEX = 'geo';
 
     /**
-     * ignoreNull option
-     */
-    const OPTION_IGNORE_NULL = 'ignoreNull';
-
-    /**
-     * constraint option
-     */
-    const OPTION_CONSTRAINT = 'constraint';
-
-    /**
      * geoJson option
      */
     const OPTION_GEOJSON = 'geoJson';
@@ -224,13 +214,16 @@ class CollectionHandler extends Handler
      * @param mixed $collection - collection object to be created on the server or a string with the name
      * @param array $options    - an array of options.
      *                          <p>Options are :<br>
-     *                          <li>'type'            - 2 -> normal collection, 3 -> edge-collection</li>
-     *                          <li>'waitForSync'     -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
-     *                          <li>'journalSize'     -  journalSize value.</li>
-     *                          <li>'isSystem'        -  false->user collection(default), true->system collection .</li>
-     *                          <li>'isVolatile'      -  false->persistent collection(default), true->volatile (in-memory) collection .</li>
-     *                          <li>'numberOfShards'  -  number of shards for the collection.</li>
-     *                          <li>'shardKeys'       -  list of shard key attributes.</li>
+     *                          <li>'type'              - 2 -> normal collection, 3 -> edge-collection</li>
+     *                          <li>'waitForSync'       - if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
+     *                          <li>'journalSize'       - journalSize value.</li>
+     *                          <li>'isSystem'          - false->user collection(default), true->system collection .</li>
+     *                          <li>'isVolatile'        - false->persistent collection(default), true->volatile (in-memory) collection .</li>
+     *                          <li>'keyOptions'        - key options to use.</li>
+     *                          <li>'numberOfShards'    - number of shards for the collection.</li>
+     *                          <li>'shardKeys'         - array of shard key attributes.</li>
+     *                          <li>'replicationFactor' - number of replicas to keep (default: 1).</li>
+     *                          <li>'shardingStrategy'  - sharding strategy to use in cluster.</li>
      *                          </p>
      *
      * @return mixed - id of collection created
@@ -275,6 +268,14 @@ class CollectionHandler extends Handler
         // set extra cluster attributes
         if ($collection->getNumberOfShards() !== null) {
             $params[Collection::ENTRY_NUMBER_OF_SHARDS] = $collection->getNumberOfShards();
+        }
+        
+        if ($collection->getReplicationFactor() !== null) {
+            $params[Collection::ENTRY_REPLICATION_FACTOR] = $collection->getReplicationFactor();
+        }
+        
+        if ($collection->getShardingStrategy() !== null) {
+            $params[Collection::ENTRY_SHARDING_STRATEGY] = $collection->getShardingStrategy();
         }
 
         if (is_array($collection->getShardKeys())) {
@@ -949,28 +950,18 @@ class CollectionHandler extends Handler
      * @param string  $collectionId - the collection id
      * @param array   $fields       - an array of fields
      * @param boolean $geoJson      - whether to use geoJson or not
-     * @param boolean $constraint   - whether this is a constraint or not
-     * @param boolean $ignoreNull   - whether to ignore null
      *
      * @link https://docs.arangodb.com/HTTP/Indexes/Geo.html
      *
      * @return array - server response of the created index
      * @throws \ArangoDBClient\Exception
      */
-    public function createGeoIndex($collectionId, array $fields, $geoJson = null, $constraint = null, $ignoreNull = null)
+    public function createGeoIndex($collectionId, array $fields, $geoJson = null)
     {
         $indexOptions = [];
 
         if ($geoJson) {
             $indexOptions[self::OPTION_GEOJSON] = (bool) $geoJson;
-        }
-
-        if ($constraint) {
-            $indexOptions[self::OPTION_CONSTRAINT] = (bool) $constraint;
-        }
-
-        if ($ignoreNull) {
-            $indexOptions[self::OPTION_IGNORE_NULL] = $ignoreNull;
         }
 
         return $this->index($collectionId, self::OPTION_GEO_INDEX, $fields, null, $indexOptions);

@@ -87,6 +87,8 @@ class AqlUserFunctionTest extends
         $userFunction = new AqlUserFunction($this->connection, $array);
 
         $result = $userFunction->register();
+        
+        static::assertTrue($result['isNewlyCreated']);
 
         static::assertEquals(
             false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
@@ -118,6 +120,7 @@ class AqlUserFunctionTest extends
         $userFunction = new AqlUserFunction($this->connection);
 
         $result = $userFunction->register($name, $code);
+        static::assertTrue($result['isNewlyCreated']);
 
         static::assertEquals(
             false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
@@ -189,6 +192,7 @@ class AqlUserFunctionTest extends
 
 
         $result = $userFunction->register();
+        static::assertTrue($result['isNewlyCreated']);
 
         static::assertEquals(
             false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
@@ -268,12 +272,14 @@ class AqlUserFunctionTest extends
         $userFunction->code = $code;
 
         $result = $userFunction->register();
+        static::assertTrue($result['isNewlyCreated']);
 
         static::assertEquals(
             false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)
         );
 
         $result = $userFunction->register();
+        static::assertFalse($result['isNewlyCreated']);
 
         static::assertEquals(
             false, $result['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($result, 1)

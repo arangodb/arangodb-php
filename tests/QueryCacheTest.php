@@ -103,6 +103,38 @@ class QueryCacheTest extends
             static::assertTrue($cursor->getCached()); // should be in cache again
         }
     }
+    
+    /**
+     * Test getting entries of query cache
+     */
+    public function testGetEntries()
+    {
+        $this->setupCollection();
+
+        $this->cacheHandler->enable();
+
+        $query = 'FOR i IN ' . $this->collection->getName() . ' FILTER i.value >= 1998 SORT i.value RETURN i.value';
+
+        $statement = new Statement($this->connection, ['_flat' => true]);
+        $statement->setQuery($query);
+        $statement->execute();
+
+        if (!isCluster($this->connection)) {
+            $entries = $this->cacheHandler->getEntries();
+
+            static::assertTrue(sizeof($entries) > 0);
+
+            $found = false;
+            foreach ($entries as $entry) {
+                if ($entry['query'] === $query) {
+                    $found = true;
+                    break;
+                }
+            }
+
+            static::assertTrue($found, "query not found in cache!");
+        }
+    }
 
 
     /**

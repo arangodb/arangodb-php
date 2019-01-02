@@ -62,6 +62,7 @@ class QueryTest extends
 
         $found = 0;
         foreach ($this->queryHandler->getCurrent() as $q) {
+            static::assertFalse($q['stream']);
             if ($q['query'] === $query) {
                 ++$found;
                 $id = $q['id'];
@@ -94,6 +95,7 @@ class QueryTest extends
 
         $found = 0;
         foreach ($this->queryHandler->getSlow() as $q) {
+            static::assertFalse($q['stream']);
             if ($q['query'] === $query) {
                 ++$found;
 

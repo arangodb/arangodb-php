@@ -61,6 +61,65 @@ class DocumentBasicTest extends
         static::assertInstanceOf(Document::class, $document);
         unset ($document);
     }
+    
+    
+    /**
+     * Try to create a document and return it
+     */
+    public function testInsertReturnNew()
+    {
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+        $document        = Document::createFromArray(['_key' => 'me', 'value' => 1]);
+        $documentHandler = new DocumentHandler($connection);
+
+        $document = $documentHandler->insert($collection->getName(), $document, ['returnNew' => true ]);
+
+        static::assertEquals('me', $document['_key']);
+        static::assertEquals('me', $document['new']['_key']);
+        static::assertEquals(1, $document['new']['value']);
+    }
+    
+    
+    /**
+     * Try to create a document and overwrite it
+     */
+    public function testInsertOverwrite()
+    {
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+        $document        = Document::createFromArray(['_key' => 'me', 'value' => 1]);
+        $documentHandler = new DocumentHandler($connection);
+
+        $document = $documentHandler->insert($collection->getName(), $document, ['returnNew' => true ]);
+
+        static::assertEquals('me', $document['_key']);
+        static::assertEquals('me', $document['new']['_key']);
+        static::assertEquals(1, $document['new']['value']);
+        
+        $document        = Document::createFromArray(['_key' => 'other', 'value' => 2]);
+        $document = $documentHandler->insert($collection->getName(), $document, ['overwrite' => false, 'returnOld' => true, 'returnNew' => true ]);
+
+        static::assertEquals('other', $document['_key']);
+        static::assertEquals('other', $document['new']['_key']);
+        static::assertEquals(2, $document['new']['value']);
+        
+        $document        = Document::createFromArray(['_key' => 'other', 'value' => 3]);
+        $document = $documentHandler->insert($collection->getName(), $document, ['overwrite' => true, 'returnOld' => true, 'returnNew' => true ]);
+
+        static::assertEquals('other', $document['_key']);
+        static::assertEquals('other', $document['old']['_key']);
+        static::assertEquals(2, $document['old']['value']);
+        static::assertEquals('other', $document['new']['_key']);
+        static::assertEquals(3, $document['new']['value']);
+        
+        $document        = Document::createFromArray(['_key' => 'foo', 'value' => 4]);
+        $document = $documentHandler->insert($collection->getName(), $document, ['overwrite' => true, 'returnOld' => true, 'returnNew' => true ]);
+
+        static::assertEquals('foo', $document['_key']);
+        static::assertEquals('foo', $document['new']['_key']);
+        static::assertEquals(4, $document['new']['value']);
+    }
 
 
     /**

@@ -58,6 +58,22 @@ class QueryCacheHandler extends Handler
         $url = UrlHelper::buildUrl(Urls::URL_QUERY_CACHE, []);
         $this->getConnection()->delete($url);
     }
+    
+    /**
+     * Returns the entries from the query cache in current database
+     *
+     * @throws Exception
+     *
+     * @return array - entries in query cache
+     */
+    
+    public function getEntries()
+    {
+        $url = UrlHelper::buildUrl(Urls::URL_QUERY_CACHE, ['entries']);
+        $result = $this->getConnection()->get($url);
+
+        return $result->getJson();
+    }
 
     /**
      * Adjusts the global AQL query result cache properties

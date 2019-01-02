@@ -199,6 +199,7 @@ class AqlUserFunction
         if (isset($data['result'])) {
             return $data['result'];
         }
+        // backwards compatibility
         return $data;
     }
 

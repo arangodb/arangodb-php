@@ -96,48 +96,48 @@ class EdgeExtendedTest extends
         // This should cause an exception with a code of 404
         try {
             $e = null;
-            $edgeHandler->get($this->collection->getId(), 'nonexistentId');
+            $edgeHandler->get($this->collection->getName(), 'nonexistentId');
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals(403, $e->getCode(), 'Should be 403, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to update a non-existent edge
         // This should cause an exception with a code of 404
         try {
             $e = null;
-            $edgeHandler->updateById($this->collection->getId(), 'nonexistentId', $edge);
+            $edgeHandler->updateById($this->collection->getName(), 'nonexistentId', $edge);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals(403, $e->getCode(), 'Should be 403, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to replace a non-existent edge
         // This should cause an exception with a code of 404
         try {
             $e = null;
-            $edgeHandler->replaceById($this->collection->getId(), 'nonexistentId', $edge);
+            $edgeHandler->replaceById($this->collection->getName(), 'nonexistentId', $edge);
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals(403, $e->getCode(), 'Should be 403, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
 
 
         // Try to remove a non-existent edge
         // This should cause an exception with a code of 404
         try {
             $e = null;
-            $edgeHandler->removeById($this->collection->getId(), 'nonexistentId');
+            $edgeHandler->removeById($this->collection->getName(), 'nonexistentId');
         } catch (\Exception $e) {
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals(403, $e->getCode(), 'Should be 403, instead got: ' . $e->getCode());
+        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
     }
 
 

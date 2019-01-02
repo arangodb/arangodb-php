@@ -258,6 +258,179 @@ class CollectionBasicTest extends
         static::assertEquals(4, $properties[Collection::ENTRY_NUMBER_OF_SHARDS], 'Number of shards does not match.');
         static::assertEquals(['_key'], $properties[Collection::ENTRY_SHARD_KEYS], 'Shard keys do not match.');
     }
+    
+    /**
+     * Try to create a collection with replication factor 1
+     */
+    public function testCreateCollectionWithReplicationFactor1()
+    {
+        if (!isCluster($this->connection)) {
+            // don't execute this test in a non-cluster
+            $this->markTestSkipped("test is only meaningful in cluster");
+            return;
+        }
+
+        $connection        = $this->connection;
+        $collection        = new Collection();
+        $collectionHandler = new CollectionHandler($connection);
+
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
+
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
+        $collection->setName($name);
+        $collection->setReplicationFactor(1);
+
+        $response = $collectionHandler->create($collection);
+
+        $resultingCollection = $collectionHandler->getProperties($response);
+        $properties          = $resultingCollection->getAll();
+
+        static::assertEquals(1, $properties[Collection::ENTRY_REPLICATION_FACTOR]);
+    }
+    
+    
+    /**
+     * Try to create a collection with replication factor 2
+     */
+    public function testCreateCollectionWithReplicationFactor2()
+    {
+        if (!isCluster($this->connection)) {
+            // don't execute this test in a non-cluster
+            $this->markTestSkipped("test is only meaningful in cluster");
+            return;
+        }
+
+        $connection        = $this->connection;
+        $collection        = new Collection();
+        $collectionHandler = new CollectionHandler($connection);
+
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
+
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
+        $collection->setName($name);
+        $collection->setReplicationFactor(2);
+
+        $response = $collectionHandler->create($collection);
+
+        $resultingCollection = $collectionHandler->getProperties($response);
+        $properties          = $resultingCollection->getAll();
+
+        static::assertEquals(2, $properties[Collection::ENTRY_REPLICATION_FACTOR]);
+    }
+    
+    
+    /**
+     * Try to create a collection with an explicit sharding strategy
+     */
+    public function testCreateCollectionWithShardingStrategyCommunityCompat()
+    {
+        if (!isCluster($this->connection)) {
+            // don't execute this test in a non-cluster
+            $this->markTestSkipped("test is only meaningful in cluster");
+            return;
+        }
+
+        $connection        = $this->connection;
+        $collection        = new Collection();
+        $collectionHandler = new CollectionHandler($connection);
+
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
+
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
+        $collection->setName($name);
+        $collection->setShardingStrategy('community-compat');
+
+        $response = $collectionHandler->create($collection);
+
+        $resultingCollection = $collectionHandler->getProperties($response);
+        $properties          = $resultingCollection->getAll();
+
+        static::assertEquals('community-compat', $properties[Collection::ENTRY_SHARDING_STRATEGY]);
+    }
+    
+    
+    /**
+     * Try to create a collection with an explicit sharding strategy
+     */
+    public function testCreateCollectionWithShardingStrategyHash()
+    {
+        if (!isCluster($this->connection)) {
+            // don't execute this test in a non-cluster
+            $this->markTestSkipped("test is only meaningful in cluster");
+            return;
+        }
+
+        $connection        = $this->connection;
+        $collection        = new Collection();
+        $collectionHandler = new CollectionHandler($connection);
+
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
+
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
+        $collection->setName($name);
+        $collection->setShardingStrategy('hash');
+
+        $response = $collectionHandler->create($collection);
+
+        $resultingCollection = $collectionHandler->getProperties($response);
+        $properties          = $resultingCollection->getAll();
+
+        static::assertEquals('hash', $properties[Collection::ENTRY_SHARDING_STRATEGY]);
+    }
+    
+    
+    /**
+     * Try to create a collection without an explicit sharding strategy
+     */
+    public function testCreateCollectionWithoutShardingStrategy()
+    {
+        if (!isCluster($this->connection)) {
+            // don't execute this test in a non-cluster
+            $this->markTestSkipped("test is only meaningful in cluster");
+            return;
+        }
+
+        $connection        = $this->connection;
+        $collection        = new Collection();
+        $collectionHandler = new CollectionHandler($connection);
+
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
+
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
+        $collection->setName($name);
+
+        $response = $collectionHandler->create($collection);
+
+        $resultingCollection = $collectionHandler->getProperties($response);
+        $properties          = $resultingCollection->getAll();
+
+        static::assertEquals('hash', $properties[Collection::ENTRY_SHARDING_STRATEGY]);
+    }
 
 
     /**
@@ -525,12 +698,6 @@ class CollectionBasicTest extends
         static::assertCount(2, $indexInfo['fields'], 'There should only be 2 indexed fields');
         static::assertEquals('lat', $indexInfo['fields'][0], "The first indexed field is not 'lat'");
         static::assertEquals('long', $indexInfo['fields'][1], "The second indexed field is not 'long'");
-        static::assertArrayHasKey(CollectionHandler::OPTION_GEOJSON, $indexInfo, 'geoJson was set!');
-
-        if (!array_key_exists(CollectionHandler::OPTION_IGNORE_NULL, $indexInfo)) {
-            // downwards-compatibility
-            $indexInfo[CollectionHandler::OPTION_IGNORE_NULL] = false;
-        }
     }
 
 

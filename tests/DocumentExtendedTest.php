@@ -358,6 +358,32 @@ class DocumentExtendedTest extends
         $response = $documentHandler->remove($resultingDocument);
         static::assertTrue($response, 'Delete should return true!');
     }
+    
+    
+    /**
+     * test for updating a document using returnOld/returnNew
+     */
+    public function testUpdateDocumentReturnOldNew()
+    {
+        $documentHandler = $this->documentHandler;
+
+        $document   = Document::createFromArray(
+            ['_key' => 'test', 'value' => 1]
+        );
+        $documentHandler->insert($this->collection->getName(), $document);
+
+        $patchDocument = new Document();
+        $patchDocument->set('_id', $document->getHandle());
+        $patchDocument->set('value', 2);
+        $result = $documentHandler->update($patchDocument, ['returnOld' => true, 'returnNew' => true]);
+
+        static::assertEquals('test', $result['_key']);
+        static::assertEquals('test', $result['old']['_key']);
+        static::assertEquals(1, $result['old']['value']);
+        static::assertEquals('test', $result['new']['_key']);
+        static::assertEquals(2, $result['new']['value']);
+        static::assertNotEquals($result['old']['_rev'], $result['new']['_rev']);
+    }
 
 
     /**
@@ -438,6 +464,30 @@ class DocumentExtendedTest extends
         static::assertTrue($response, 'Delete should return true!');
     }
 
+    /**
+     * test for replacing a document using returnOld/returnNew
+     */
+    public function testReplaceDocumentReturnOldNew()
+    {
+        $documentHandler = $this->documentHandler;
+
+        $document   = Document::createFromArray(
+            ['_key' => 'test', 'value' => 1]
+        );
+        $documentHandler->insert($this->collection->getName(), $document);
+
+        $patchDocument = new Document();
+        $patchDocument->set('_id', $document->getHandle());
+        $patchDocument->set('value', 2);
+        $result = $documentHandler->replace($patchDocument, ['returnOld' => true, 'returnNew' => true]);
+
+        static::assertEquals('test', $result['_key']);
+        static::assertEquals('test', $result['old']['_key']);
+        static::assertEquals(1, $result['old']['value']);
+        static::assertEquals('test', $result['new']['_key']);
+        static::assertEquals(2, $result['new']['value']);
+        static::assertNotEquals($result['old']['_rev'], $result['new']['_rev']);
+    }
 
     /**
      * test for deletion of a document with deleteById() not giving the revision
@@ -520,6 +570,27 @@ class DocumentExtendedTest extends
             $response,
             'deleteById() should return true! (because policy  is "last write wins")'
         );
+    }
+    
+    /**
+     * test for removing a document using returnOld
+     */
+    public function testRemoveDocumentReturnOld()
+    {
+        $documentHandler = $this->documentHandler;
+
+        $document   = Document::createFromArray(
+            ['_key' => 'test', 'value' => 1]
+        );
+        $documentHandler->insert($this->collection->getName(), $document);
+
+        $patchDocument = new Document();
+        $patchDocument->set('_id', $document->getHandle());
+        $result = $documentHandler->update($patchDocument, ['returnOld' => true]);
+
+        static::assertEquals('test', $result['_key']);
+        static::assertEquals('test', $result['old']['_key']);
+        static::assertEquals(1, $result['old']['value']);
     }
 
 

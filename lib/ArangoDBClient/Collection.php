@@ -72,9 +72,23 @@ class Collection
     /**
      * The collection numberOfShards value (might be NULL for new collections)
      *
-     * @var int - numberOfShards value
+     * @var mixed - numberOfShards value
      */
     private $_numberOfShards;
+    
+    /**
+     * The replicationFactor value (might be NULL for new collections)
+     *
+     * @var mixed - replicationFactor value
+     */
+    private $_replicationFactor;
+    
+    /**
+     * The shardingStrategy value (might be NULL for new collections)
+     *
+     * @var mixed - shardingStrategy value
+     */
+    private $_shardingStrategy;
 
     /**
      * The collection shardKeys value (might be NULL for new collections)
@@ -146,6 +160,16 @@ class Collection
      * Collection 'numberOfShards' index
      */
     const ENTRY_NUMBER_OF_SHARDS = 'numberOfShards';
+    
+    /**
+     * Collection 'replicationFactor' index
+     */
+    const ENTRY_REPLICATION_FACTOR = 'replicationFactor';
+    
+    /**
+     * Collection 'shardingStrategy' index
+     */
+    const ENTRY_SHARDING_STRATEGY = 'shardingStrategy';
 
     /**
      * Collection 'shardKeys' index
@@ -247,14 +271,16 @@ class Collection
      */
     public function __clone()
     {
-        $this->_id             = null;
-        $this->_name           = null;
-        $this->_waitForSync    = null;
-        $this->_journalSize    = null;
-        $this->_isSystem       = null;
-        $this->_isVolatile     = null;
-        $this->_numberOfShards = null;
-        $this->_shardKeys      = null;
+        $this->_id                = null;
+        $this->_name              = null;
+        $this->_waitForSync       = null;
+        $this->_journalSize       = null;
+        $this->_isSystem          = null;
+        $this->_isVolatile        = null;
+        $this->_numberOfShards    = null;
+        $this->_replicationFactor = null;
+        $this->_shardingStrategy  = null;
+        $this->_shardKeys         = null;
     }
 
     /**
@@ -312,6 +338,14 @@ class Collection
 
         if (null !== $this->_numberOfShards) {
             $result[self::ENTRY_NUMBER_OF_SHARDS] = $this->_numberOfShards;
+        }
+        
+        if (null !== $this->_replicationFactor) {
+            $result[self::ENTRY_REPLICATION_FACTOR] = $this->_replicationFactor;
+        }
+        
+        if (null !== $this->_shardingStrategy) {
+            $result[self::ENTRY_SHARDING_STRATEGY] = $this->_shardingStrategy;
         }
 
         if (is_array($this->_shardKeys)) {
@@ -398,6 +432,18 @@ class Collection
 
         if ($key === self::ENTRY_NUMBER_OF_SHARDS) {
             $this->setNumberOfShards($value);
+
+            return;
+        }
+        
+        if ($key === self::ENTRY_REPLICATION_FACTOR) {
+            $this->setReplicationFactor($value);
+
+            return;
+        }
+        
+        if ($key === self::ENTRY_SHARDING_STRATEGY) {
+            $this->setShardingStrategy($value);
 
             return;
         }
@@ -697,11 +743,57 @@ class Collection
     /**
      * Get the numberOfShards value (if already known)
      *
-     * @return int - numberOfShards value
+     * @return mixed - numberOfShards value
      */
     public function getNumberOfShards()
     {
         return $this->_numberOfShards;
+    }
+    
+    
+    /**
+     * Set the replicationFactor value
+     *
+     * @param int $value - replicationFactor value
+     *
+     * @return void
+     */
+    public function setReplicationFactor($value)
+    {
+        assert(null === $value || is_numeric($value) || $value === 'satellite');
+        $this->_replicationFactor = $value;
+    }
+
+    /**
+     * Get the replicationFactor value (if already known)
+     *
+     * @return mixed - replicationFactor value
+     */
+    public function getReplicationFactor()
+    {
+        return $this->_replicationFactor;
+    }
+    
+    /**
+     * Set the shardingStragy value
+     *
+     * @param string $value - shardingStrategy value
+     *
+     * @return void
+     */
+    public function setShardingStrategy($value)
+    {
+        $this->_shardingStrategy = $value;
+    }
+
+    /**
+     * Get the sharding strategy value (if already known)
+     *
+     * @return mixed - shardingStrategy value
+     */
+    public function getShardingStrategy()
+    {
+        return $this->_shardingStrategy;
     }
 
     /**
