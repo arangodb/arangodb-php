@@ -919,7 +919,6 @@ class GraphHandler extends Handler
 
         //Include the revision for conditional updates if required
         if ($options[self::OPTION_REVISION] === true) {
-
             $revision = $document->getRevision();
 
             if (null !== $revision) {

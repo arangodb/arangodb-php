@@ -229,7 +229,7 @@ class GraphBasicTest extends
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }
-        static::assertSame('graph not found', $error);
+        static::assertSame('graph \'notExisting\' not found', $error);
 
         $result = $this->graphHandler->dropGraph($this->graph);
         static::assertTrue($result, 'Did not return true!');
@@ -309,7 +309,7 @@ class GraphBasicTest extends
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }
-        static::assertSame('graph not found', $error);
+        static::assertSame('graph \'notExisting\' not found', $error);
 
         $result = $this->graphHandler->dropGraph($this->graph);
         static::assertTrue($result, 'Did not return true!');
@@ -350,14 +350,14 @@ class GraphBasicTest extends
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }
-        static::assertSame('multi use of edge collection in edge def', $error);
+        static::assertContains('multi use of edge collection in edge def', $error);
         $error = null;
         try {
             $this->graph = $this->graphHandler->getEdgeCollections('bla' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }
-        static::assertSame('graph not found', $error);
+        static::assertSame('graph \'bla_' . static::$testsTimestamp . '\' not found', $error);
 
         $this->graph = $this->graphHandler->deleteEdgeDefinition(
             $this->graph,
@@ -377,7 +377,7 @@ class GraphBasicTest extends
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }
-        static::assertSame('graph not found', $error);
+        static::assertSame('graph \'bla_' . static::$testsTimestamp . '\' not found', $error);
 
         $this->graph = $this->graphHandler->replaceEdgeDefinition(
             $this->graph,
