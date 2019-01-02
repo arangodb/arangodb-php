@@ -2040,6 +2040,73 @@ class CollectionExtendedTest extends
         static::assertTrue($result['waitForSync'], 'waitForSync should return true!');
     }
 
+    
+    /**
+     * test for creation of a hash index
+     */
+    public function testCreateHashIndex()
+    {
+        // set up collections, indexes and test-documents
+        $collectionHandler = $this->collectionHandler;
+
+        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]);
+        $collectionHandler->create($collection);
+
+        $documentHandler = $this->documentHandler;
+
+        $document1 = Document::createFromArray([ 'index' => 1 ]);
+        $document2 = Document::createFromArray([ 'index' => 1 ]);
+        $documentHandler->save($collection->getName(), $document1);
+        $documentHandler->save($collection->getName(), $document2);
+
+        $indexRes       = $collectionHandler->index($collection->getName(), 'hash', ['index']);
+        static::assertArrayHasKey(
+            'isNewlyCreated',
+            $indexRes,
+            'index creation result should have the isNewlyCreated key !'
+        );
+
+        // Clean up...
+        $response = $collectionHandler->drop($collection);
+        static::assertTrue($response, 'Delete should return true!');
+    }
+    
+    
+    /**
+     * test for creation of a hash index, uniqueness violation
+     */
+    public function testCreateUniqueHashIndex()
+    {
+        // set up collections, indexes and test-documents
+        $collectionHandler = $this->collectionHandler;
+
+        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]);
+        $collectionHandler->create($collection);
+
+        $documentHandler = $this->documentHandler;
+
+        $document1 = Document::createFromArray([ 'index' => 1 ]);
+        $document2 = Document::createFromArray([ 'index' => 1 ]);
+        $documentHandler->save($collection->getName(), $document1);
+        $documentHandler->save($collection->getName(), $document2);
+
+        try {
+            $collectionHandler->index($collection->getName(), 'hash', ['index'], true);
+        } catch (ServerException $e) {
+            static::assertInstanceOf(
+                ServerException::class,
+                $e,
+                'Exception thrown was not a ServerException!'
+            );
+            static::assertEquals(400, $e->getCode());
+        }
+
+        // Clean up...
+        $response = $collectionHandler->drop($collection);
+        static::assertTrue($response, 'Delete should return true!');
+    }
+
+
 
     /**
      * test for creation of a skip-list indexed collection and querying by range (first level and nested), with closed, skip and limit options

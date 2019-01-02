@@ -993,7 +993,7 @@ class CollectionHandler extends Handler
      *
      * @return array - server response of the created index
      */
-    public function index($collectionId, $type = '', array $attributes = [], $unique = false, array $indexOptions = [])
+    public function index($collectionId, $type, array $attributes = [], $unique = false, array $indexOptions = [])
     {
 
         $urlParams  = [self::OPTION_COLLECTION => $collectionId];
