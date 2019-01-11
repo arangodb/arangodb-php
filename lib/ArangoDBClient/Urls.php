@@ -37,6 +37,11 @@ abstract class Urls
      * URL base part for all graph-related REST calls
      */
     const URL_GRAPH = '/_api/gharial';
+    
+    /**
+     * URL base part for all view-related REST calls
+     */
+    const URL_VIEW = '/_api/view';
 
     /**
      * URL part vertex-related graph REST calls
