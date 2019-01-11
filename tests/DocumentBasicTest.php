@@ -181,7 +181,7 @@ class DocumentBasicTest extends
         try {
             $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         } catch (\Exception $e) {
-            #don't bother us, if it's already deleted.
+            // don't bother us, if it's already deleted.
         }
 
         $document->someAttribute = 'someValue';

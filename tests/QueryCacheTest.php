@@ -109,6 +109,11 @@ class QueryCacheTest extends
      */
     public function testGetEntries()
     {
+        if (isCluster($this->connection)) {
+            // don't execute this test in a cluster
+            $this->markTestSkipped("test is only meaningful in single server");
+            return;
+        }
         $this->setupCollection();
 
         $this->cacheHandler->enable();

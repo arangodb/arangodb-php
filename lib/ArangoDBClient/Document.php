@@ -31,7 +31,7 @@ class Document implements \JsonSerializable
     /**
      * The document key (might be NULL for new documents)
      *
-     * @var string - document id
+     * @var string - document key
      */
     protected $_key;
 
