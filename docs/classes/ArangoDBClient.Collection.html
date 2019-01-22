@@ -31,7 +31,7 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">19</span></a></li>
+                <span class="label label-info">22</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
@@ -74,7 +74,9 @@
 <li class="method public "><a href="#method_getKeyOptions" title="getKeyOptions() :: Get the collection key options (if already known)"><span class="description">Get the collection key options (if already known)</span><pre>getKeyOptions()</pre></a></li>
 <li class="method public "><a href="#method_getName" title="getName() :: Get the collection name (if already known)"><span class="description">Get the collection name (if already known)</span><pre>getName()</pre></a></li>
 <li class="method public "><a href="#method_getNumberOfShards" title="getNumberOfShards() :: Get the numberOfShards value (if already known)"><span class="description">Get the numberOfShards value (if already known)</span><pre>getNumberOfShards()</pre></a></li>
+<li class="method public "><a href="#method_getReplicationFactor" title="getReplicationFactor() :: Get the replicationFactor value (if already known)"><span class="description">Get the replicationFactor value (if already known)</span><pre>getReplicationFactor()</pre></a></li>
 <li class="method public "><a href="#method_getShardKeys" title="getShardKeys() :: Get the shardKeys value (if already known)"><span class="description">Get the shardKeys value (if already known)</span><pre>getShardKeys()</pre></a></li>
+<li class="method public "><a href="#method_getShardingStrategy" title="getShardingStrategy() :: Get the sharding strategy value (if already known)"><span class="description">Get the sharding strategy value (if already known)</span><pre>getShardingStrategy()</pre></a></li>
 <li class="method public "><a href="#method_getStatus" title="getStatus() :: Get the collection status (if already known)"><span class="description">Get the collection status (if already known)</span><pre>getStatus()</pre></a></li>
 <li class="method public "><a href="#method_getType" title="getType() :: Get the collection type (if already known)"><span class="description">Get the collection type (if already known)</span><pre>getType()</pre></a></li>
 <li class="method public "><a href="#method_getWaitForSync" title="getWaitForSync() :: Get the waitForSync value (if already known)"><span class="description">Get the waitForSync value (if already known)</span><pre>getWaitForSync()</pre></a></li>
@@ -86,7 +88,9 @@
 <li class="method public "><a href="#method_setKeyOptions" title="setKeyOptions() :: Set the collection key options."><span class="description">Set the collection key options.</span><pre>setKeyOptions()</pre></a></li>
 <li class="method public "><a href="#method_setName" title="setName() :: Set the collection name"><span class="description">Set the collection name</span><pre>setName()</pre></a></li>
 <li class="method public "><a href="#method_setNumberOfShards" title="setNumberOfShards() :: Set the numberOfShards value"><span class="description">Set the numberOfShards value</span><pre>setNumberOfShards()</pre></a></li>
+<li class="method public "><a href="#method_setReplicationFactor" title="setReplicationFactor() :: Set the replicationFactor value"><span class="description">Set the replicationFactor value</span><pre>setReplicationFactor()</pre></a></li>
 <li class="method public "><a href="#method_setShardKeys" title="setShardKeys() :: Set the shardKeys value"><span class="description">Set the shardKeys value</span><pre>setShardKeys()</pre></a></li>
+<li class="method public "><a href="#method_setShardingStrategy" title="setShardingStrategy() :: Set the shardingStragy value"><span class="description">Set the shardingStragy value</span><pre>setShardingStrategy()</pre></a></li>
 <li class="method public "><a href="#method_setStatus" title="setStatus() :: Set the collection status."><span class="description">Set the collection status.</span><pre>setStatus()</pre></a></li>
 <li class="method public "><a href="#method_setType" title="setType() :: Set the collection type."><span class="description">Set the collection type.</span><pre>setType()</pre></a></li>
 <li class="method public "><a href="#method_setWaitForSync" title="setWaitForSync() :: Set the waitForSync value"><span class="description">Set the waitForSync value</span><pre>setWaitForSync()</pre></a></li>
@@ -107,7 +111,9 @@
 <li class="property private "><a href="#property__keyOptions" title="$_keyOptions() :: The collection keyOptions value"><span class="description"></span><pre>$_keyOptions</pre></a></li>
 <li class="property private "><a href="#property__name" title="$_name() :: The collection name (might be NULL for new collections)"><span class="description"></span><pre>$_name</pre></a></li>
 <li class="property private "><a href="#property__numberOfShards" title="$_numberOfShards() :: The collection numberOfShards value (might be NULL for new collections)"><span class="description"></span><pre>$_numberOfShards</pre></a></li>
+<li class="property private "><a href="#property__replicationFactor" title="$_replicationFactor() :: The replicationFactor value (might be NULL for new collections)"><span class="description"></span><pre>$_replicationFactor</pre></a></li>
 <li class="property private "><a href="#property__shardKeys" title="$_shardKeys() :: The collection shardKeys value (might be NULL for new collections)"><span class="description"></span><pre>$_shardKeys</pre></a></li>
+<li class="property private "><a href="#property__shardingStrategy" title="$_shardingStrategy() :: The shardingStrategy value (might be NULL for new collections)"><span class="description"></span><pre>$_shardingStrategy</pre></a></li>
 <li class="property private "><a href="#property__status" title="$_status() :: The collection status value"><span class="description"></span><pre>$_status</pre></a></li>
 <li class="property private "><a href="#property__type" title="$_type() :: The collection type (might be NULL for new collections)"><span class="description"></span><pre>$_type</pre></a></li>
 <li class="property private "><a href="#property__waitForSync" title="$_waitForSync() :: The collection waitForSync value (might be NULL for new collections)"><span class="description"></span><pre>$_waitForSync</pre></a></li>
@@ -123,6 +129,8 @@
 <li class="constant  "><a href="#constant_ENTRY_KEY_OPTIONS" title="ENTRY_KEY_OPTIONS() :: Collection 'keyOptions' index"><span class="description">Collection 'keyOptions' index</span><pre>ENTRY_KEY_OPTIONS</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_NAME" title="ENTRY_NAME() :: Collection name index"><span class="description">Collection name index</span><pre>ENTRY_NAME</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_NUMBER_OF_SHARDS" title="ENTRY_NUMBER_OF_SHARDS() :: Collection 'numberOfShards' index"><span class="description">Collection 'numberOfShards' index</span><pre>ENTRY_NUMBER_OF_SHARDS</pre></a></li>
+<li class="constant  "><a href="#constant_ENTRY_REPLICATION_FACTOR" title="ENTRY_REPLICATION_FACTOR() :: Collection 'replicationFactor' index"><span class="description">Collection 'replicationFactor' index</span><pre>ENTRY_REPLICATION_FACTOR</pre></a></li>
+<li class="constant  "><a href="#constant_ENTRY_SHARDING_STRATEGY" title="ENTRY_SHARDING_STRATEGY() :: Collection 'shardingStrategy' index"><span class="description">Collection 'shardingStrategy' index</span><pre>ENTRY_SHARDING_STRATEGY</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_SHARD_KEYS" title="ENTRY_SHARD_KEYS() :: Collection 'shardKeys' index"><span class="description">Collection 'shardKeys' index</span><pre>ENTRY_SHARD_KEYS</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_STATUS" title="ENTRY_STATUS() :: Collection 'status' index"><span class="description">Collection 'status' index</span><pre>ENTRY_STATUS</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_TYPE" title="ENTRY_TYPE() :: Collection type index"><span class="description">Collection type index</span><pre>ENTRY_TYPE</pre></a></li>
@@ -324,13 +332,24 @@ To reliably store a collection id elsewhere, a PHP string should be used</p></di
 </div>
 <a id="method_getNumberOfShards"></a><div class="element clickable method public method_getNumberOfShards " data-toggle="collapse" data-target=".method_getNumberOfShards .collapse" title="public">
 <h2>Get the numberOfShards value (if already known)</h2>
-<pre>getNumberOfShards() : integer</pre>
+<pre>getNumberOfShards() : mixed</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Returns</h3>
 <div class="subelement response">
-<code>integer</code>- numberOfShards value</div>
+<code>mixed</code>- numberOfShards value</div>
+</div></div>
+</div>
+<a id="method_getReplicationFactor"></a><div class="element clickable method public method_getReplicationFactor " data-toggle="collapse" data-target=".method_getReplicationFactor .collapse" title="public">
+<h2>Get the replicationFactor value (if already known)</h2>
+<pre>getReplicationFactor() : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>- replicationFactor value</div>
 </div></div>
 </div>
 <a id="method_getShardKeys"></a><div class="element clickable method public method_getShardKeys " data-toggle="collapse" data-target=".method_getShardKeys .collapse" title="public">
@@ -342,6 +361,17 @@ To reliably store a collection id elsewhere, a PHP string should be used</p></di
 <h3>Returns</h3>
 <div class="subelement response">
 <code>array</code>- shardKeys value</div>
+</div></div>
+</div>
+<a id="method_getShardingStrategy"></a><div class="element clickable method public method_getShardingStrategy " data-toggle="collapse" data-target=".method_getShardingStrategy .collapse" title="public">
+<h2>Get the sharding strategy value (if already known)</h2>
+<pre>getShardingStrategy() : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>- shardingStrategy value</div>
 </div></div>
 </div>
 <a id="method_getStatus"></a><div class="element clickable method public method_getStatus " data-toggle="collapse" data-target=".method_getStatus .collapse" title="public">
@@ -518,6 +548,20 @@ exception if the value is invalid.</p></div>
 </ul></div>
 </div></div>
 </div>
+<a id="method_setReplicationFactor"></a><div class="element clickable method public method_setReplicationFactor " data-toggle="collapse" data-target=".method_setReplicationFactor .collapse" title="public">
+<h2>Set the replicationFactor value</h2>
+<pre>setReplicationFactor(integer $value) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>integer</code><ul>
+<li>replicationFactor value</li>
+</ul></div>
+</div></div>
+</div>
 <a id="method_setShardKeys"></a><div class="element clickable method public method_setShardKeys " data-toggle="collapse" data-target=".method_setShardKeys .collapse" title="public">
 <h2>Set the shardKeys value</h2>
 <pre>setShardKeys(array $value) : void</pre>
@@ -529,6 +573,20 @@ exception if the value is invalid.</p></div>
 <h4>$value</h4>
 <code>array</code><ul>
 <li>shardKeys value</li>
+</ul></div>
+</div></div>
+</div>
+<a id="method_setShardingStrategy"></a><div class="element clickable method public method_setShardingStrategy " data-toggle="collapse" data-target=".method_setShardingStrategy .collapse" title="public">
+<h2>Set the shardingStragy value</h2>
+<pre>setShardingStrategy(string $value) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>string</code><ul>
+<li>shardingStrategy value</li>
 </ul></div>
 </div></div>
 </div>
@@ -671,7 +729,17 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 </div>
 <a id="property__numberOfShards"> </a><div class="element clickable property private property__numberOfShards" data-toggle="collapse" data-target=".property__numberOfShards .collapse" title="private">
 <h2>The collection numberOfShards value (might be NULL for new collections)</h2>
-<pre>$_numberOfShards : integer</pre>
+<pre>$_numberOfShards : mixed</pre>
+<div class="row collapse"><div class="detail-description">
+<h3>Default</h3>
+<div class="subelement argument"></div>
+</div></div>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property__replicationFactor"> </a><div class="element clickable property private property__replicationFactor" data-toggle="collapse" data-target=".property__replicationFactor .collapse" title="private">
+<h2>The replicationFactor value (might be NULL for new collections)</h2>
+<pre>$_replicationFactor : mixed</pre>
 <div class="row collapse"><div class="detail-description">
 <h3>Default</h3>
 <div class="subelement argument"></div>
@@ -682,6 +750,16 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 <a id="property__shardKeys"> </a><div class="element clickable property private property__shardKeys" data-toggle="collapse" data-target=".property__shardKeys .collapse" title="private">
 <h2>The collection shardKeys value (might be NULL for new collections)</h2>
 <pre>$_shardKeys : array</pre>
+<div class="row collapse"><div class="detail-description">
+<h3>Default</h3>
+<div class="subelement argument"></div>
+</div></div>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property__shardingStrategy"> </a><div class="element clickable property private property__shardingStrategy" data-toggle="collapse" data-target=".property__shardingStrategy .collapse" title="private">
+<h2>The shardingStrategy value (might be NULL for new collections)</h2>
+<pre>$_shardingStrategy : mixed</pre>
 <div class="row collapse"><div class="detail-description">
 <h3>Default</h3>
 <div class="subelement argument"></div>
@@ -760,6 +838,18 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 <a id="constant_ENTRY_NUMBER_OF_SHARDS"> </a><div class="element clickable constant  constant_ENTRY_NUMBER_OF_SHARDS" data-toggle="collapse" data-target=".constant_ENTRY_NUMBER_OF_SHARDS .collapse" title="">
 <h2>Collection 'numberOfShards' index</h2>
 <pre>ENTRY_NUMBER_OF_SHARDS = 'numberOfShards' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_ENTRY_REPLICATION_FACTOR"> </a><div class="element clickable constant  constant_ENTRY_REPLICATION_FACTOR" data-toggle="collapse" data-target=".constant_ENTRY_REPLICATION_FACTOR .collapse" title="">
+<h2>Collection 'replicationFactor' index</h2>
+<pre>ENTRY_REPLICATION_FACTOR = 'replicationFactor' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_ENTRY_SHARDING_STRATEGY"> </a><div class="element clickable constant  constant_ENTRY_SHARDING_STRATEGY" data-toggle="collapse" data-target=".constant_ENTRY_SHARDING_STRATEGY .collapse" title="">
+<h2>Collection 'shardingStrategy' index</h2>
+<pre>ENTRY_SHARDING_STRATEGY = 'shardingStrategy' </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
@@ -842,7 +932,7 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.9.0</a> and<br>
-            generated on 2018-07-31T14:00:29+02:00.<br></footer></div>
+            generated on 2019-01-22T11:16:23+01:00.<br></footer></div>
 </div>
 </body>
 </html>
