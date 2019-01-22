@@ -31,7 +31,7 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">19</span></a></li>
+                <span class="label label-info">22</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
@@ -66,12 +66,14 @@
 <li class="method public "><a href="#method_getById" title="getById() :: Get a single document from a collection"><span class="description">Get a single document from a collection</span><pre>getById()</pre></a></li>
 <li class="method public "><a href="#method_getHead" title="getHead() :: Gets information about a single documents from a collection"><span class="description">Gets information about a single documents from a collection</span><pre>getHead()</pre></a></li>
 <li class="method public "><a href="#method_has" title="has() :: Check if a document exists"><span class="description">Check if a document exists</span><pre>has()</pre></a></li>
+<li class="method public "><a href="#method_insert" title="insert() :: Insert a document into a collection"><span class="description">Insert a document into a collection</span><pre>insert()</pre></a></li>
 <li class="method public "><a href="#method_remove" title="remove() :: Remove a document from a collection, identified by the document itself"><span class="description">Remove a document from a collection, identified by the document itself</span><pre>remove()</pre></a></li>
 <li class="method public "><a href="#method_removeById" title="removeById() :: Remove a document from a collection, identified by the collection id and document id"><span class="description">Remove a document from a collection, identified by the collection id and document id</span><pre>removeById()</pre></a></li>
 <li class="method public "><a href="#method_replace" title="replace() :: Replace an existing document in a collection, identified by the document itself"><span class="description">Replace an existing document in a collection, identified by the document itself</span><pre>replace()</pre></a></li>
 <li class="method public "><a href="#method_replaceById" title="replaceById() :: Replace an existing document in a collection, identified by collection id and document id"><span class="description">Replace an existing document in a collection, identified by collection id and document id</span><pre>replaceById()</pre></a></li>
 <li class="method public "><a href="#method_save" title="save() :: save a document to a collection"><span class="description">save a document to a collection</span><pre>save()</pre></a></li>
 <li class="method public inherited"><a href="#method_setDocumentClass" title="setDocumentClass() :: Sets the document class to use"><span class="description">Sets the document class to use</span><pre>setDocumentClass()</pre></a></li>
+<li class="method public inherited"><a href="#method_setEdgeClass" title="setEdgeClass() :: Sets the edge class to use"><span class="description">Sets the edge class to use</span><pre>setEdgeClass()</pre></a></li>
 <li class="method public "><a href="#method_store" title="store() :: Store a document to a collection"><span class="description">Store a document to a collection</span><pre>store()</pre></a></li>
 <li class="method public "><a href="#method_update" title="update() :: Update an existing document in a collection, identified by the including _id and optionally _rev in the patch document."><span class="description">Update an existing document in a collection, identified by the including _id and optionally _rev in the patch document.</span><pre>update()</pre></a></li>
 <li class="method public "><a href="#method_updateById" title="updateById() :: Update an existing document in a collection, identified by collection id and document id
@@ -104,7 +106,10 @@ This is a convenience function that calls json_encode_wrapper on the connection<
                     <ul></ul>
 </li>
 <li class="nav-header protected">» Protected
-                    <ul><li class="property protected "><a href="#property__documentClass" title="$_documentClass() :: "><span class="description">Document class to use</span><pre>$_documentClass</pre></a></li></ul>
+                    <ul>
+<li class="property protected "><a href="#property__documentClass" title="$_documentClass() :: "><span class="description">Document class to use</span><pre>$_documentClass</pre></a></li>
+<li class="property protected "><a href="#property__edgeClass" title="$_edgeClass() :: "><span class="description">Edge class to use</span><pre>$_edgeClass</pre></a></li>
+</ul>
 </li>
 <li class="nav-header private">» Private
                     <ul><li class="property private "><a href="#property__connection" title="$_connection() :: Connection object"><span class="description"></span><pre>$_connection</pre></a></li></ul>
@@ -115,6 +120,9 @@ This is a convenience function that calls json_encode_wrapper on the connection<
 <li class="constant  "><a href="#constant_ENTRY_DOCUMENTS" title="ENTRY_DOCUMENTS() :: documents array index"><span class="description">documents array index</span><pre>ENTRY_DOCUMENTS</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_COLLECTION" title="OPTION_COLLECTION() :: collection parameter"><span class="description">collection parameter</span><pre>OPTION_COLLECTION</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_EXAMPLE" title="OPTION_EXAMPLE() :: example parameter"><span class="description">example parameter</span><pre>OPTION_EXAMPLE</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_OVERWRITE" title="OPTION_OVERWRITE() :: overwrite option"><span class="description">overwrite option</span><pre>OPTION_OVERWRITE</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_RETURN_NEW" title="OPTION_RETURN_NEW() :: option for returning the new document"><span class="description">option for returning the new document</span><pre>OPTION_RETURN_NEW</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_RETURN_OLD" title="OPTION_RETURN_OLD() :: option for returning the old document"><span class="description">option for returning the old document</span><pre>OPTION_RETURN_OLD</pre></a></li>
 </ul>
 </li>
 </ul>
@@ -306,6 +314,18 @@ was an exception thrown which represents an 404 request.</p></div>
 <div class="subelement response"><code>boolean</code></div>
 </div></div>
 </div>
+<a id="method_insert"></a><div class="element clickable method public method_insert " data-toggle="collapse" data-target=".method_insert .collapse" title="public">
+<h2>Insert a document into a collection</h2>
+<pre>insert($collection, $document, array $options<code> = array()</code>) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This is an alias for save().</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$collection</h4></div>
+<div class="subelement argument"><h4>$document</h4></div>
+<div class="subelement argument"><h4>$options</h4></div>
+</div></div>
+</div>
 <a id="method_remove"></a><div class="element clickable method public method_remove " data-toggle="collapse" data-target=".method_remove .collapse" title="public">
 <h2>Remove a document from a collection, identified by the document itself</h2>
 <pre>remove(\ArangoDBClient\Document $document, array $options<code> = array()</code>) : boolean</pre>
@@ -487,6 +507,9 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <p>Options are :<br>
                               <li>'createCollection' - create the collection if it does not yet exist.</li>
                               <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
+                              <li>'overwrite' -  if set to true, will turn the insert into a replace operation if a document with the specified key already exists.</li>
+                              <li>'returnNew' -  if set to true, then the newly created document will be returned.</li>
+                              <li>'returnOld' -  if set to true, then the replaced document will be returned - useful only when using overwrite = true.</li>
                               </p></li>
 </ul></div>
 <h3>Exceptions</h3>
@@ -501,7 +524,7 @@ that the revision of the to-be-replaced document is the same as the one given.</
 </div>
 <a id="method_setDocumentClass"></a><div class="element clickable method public method_setDocumentClass inherited" data-toggle="collapse" data-target=".method_setDocumentClass .collapse" title="public">
 <h2>Sets the document class to use</h2>
-<pre>setDocumentClass(string $class) : \ArangoDBClient\Handler</pre>
+<pre>setDocumentClass(string $class) : \ArangoDBClient\DocumentClassable</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -510,7 +533,21 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <h4>$class</h4>
 <code>string</code><p>Document class to use</p></div>
 <h3>Returns</h3>
-<div class="subelement response"><code>\ArangoDBClient\Handler</code></div>
+<div class="subelement response"><code>\ArangoDBClient\DocumentClassable</code></div>
+</div></div>
+</div>
+<a id="method_setEdgeClass"></a><div class="element clickable method public method_setEdgeClass inherited" data-toggle="collapse" data-target=".method_setEdgeClass .collapse" title="public">
+<h2>Sets the edge class to use</h2>
+<pre>setEdgeClass(string $class) : \ArangoDBClient\DocumentClassable</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$class</h4>
+<code>string</code><p>Edge class to use</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>\ArangoDBClient\DocumentClassable</code></div>
 </div></div>
 </div>
 <a id="method_store"></a><div class="element clickable method public method_store " data-toggle="collapse" data-target=".method_store .collapse" title="public">
@@ -840,6 +877,16 @@ This is only for options that are to be sent to the ArangoDB server in a json bo
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="property__edgeClass"> </a><div class="element clickable property protected property__edgeClass" data-toggle="collapse" data-target=".property__edgeClass .collapse" title="protected">
+<h2>Edge class to use</h2>
+<pre>$_edgeClass : string</pre>
+<div class="row collapse"><div class="detail-description">
+<h3>Default</h3>
+<div class="subelement argument"><code>'\ArangoDBClient\Edge'</code></div>
+</div></div>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="property__connection"> </a><div class="element clickable property private property__connection" data-toggle="collapse" data-target=".property__connection .collapse" title="private">
 <h2>Connection object</h2>
 <pre>$_connection </pre>
@@ -876,6 +923,24 @@ This is only for options that are to be sent to the ArangoDB server in a json bo
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="constant_OPTION_OVERWRITE"> </a><div class="element clickable constant  constant_OPTION_OVERWRITE" data-toggle="collapse" data-target=".constant_OPTION_OVERWRITE .collapse" title="">
+<h2>overwrite option</h2>
+<pre>OPTION_OVERWRITE = 'overwrite' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_RETURN_NEW"> </a><div class="element clickable constant  constant_OPTION_RETURN_NEW" data-toggle="collapse" data-target=".constant_OPTION_RETURN_NEW .collapse" title="">
+<h2>option for returning the new document</h2>
+<pre>OPTION_RETURN_NEW = 'returnNew' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_RETURN_OLD"> </a><div class="element clickable constant  constant_OPTION_RETURN_OLD" data-toggle="collapse" data-target=".constant_OPTION_RETURN_OLD .collapse" title="">
+<h2>option for returning the old document</h2>
+<pre>OPTION_RETURN_OLD = 'returnOld' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 </div>
 </div>
 </div>
@@ -883,7 +948,7 @@ This is only for options that are to be sent to the ArangoDB server in a json bo
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.9.0</a> and<br>
-            generated on 2018-07-31T14:00:29+02:00.<br></footer></div>
+            generated on 2019-01-22T11:16:23+01:00.<br></footer></div>
 </div>
 </body>
 </html>
