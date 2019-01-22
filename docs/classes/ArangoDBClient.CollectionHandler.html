@@ -31,7 +31,7 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">19</span></a></li>
+                <span class="label label-info">22</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
@@ -101,6 +101,7 @@
 <li class="method public "><a href="#method_rename" title="rename() :: Rename a collection"><span class="description">Rename a collection</span><pre>rename()</pre></a></li>
 <li class="method public "><a href="#method_replaceByExample" title="replaceByExample() :: Replace document(s) matching a given example"><span class="description">Replace document(s) matching a given example</span><pre>replaceByExample()</pre></a></li>
 <li class="method public inherited"><a href="#method_setDocumentClass" title="setDocumentClass() :: Sets the document class to use"><span class="description">Sets the document class to use</span><pre>setDocumentClass()</pre></a></li>
+<li class="method public inherited"><a href="#method_setEdgeClass" title="setEdgeClass() :: Sets the edge class to use"><span class="description">Sets the edge class to use</span><pre>setEdgeClass()</pre></a></li>
 <li class="method public "><a href="#method_truncate" title="truncate() :: Truncate a collection"><span class="description">Truncate a collection</span><pre>truncate()</pre></a></li>
 <li class="method public "><a href="#method_unload" title="unload() :: Unload a collection from the server's memory"><span class="description">Unload a collection from the server's memory</span><pre>unload()</pre></a></li>
 <li class="method public "><a href="#method_updateByExample" title="updateByExample() :: Update document(s) matching a given example"><span class="description">Update document(s) matching a given example</span><pre>updateByExample()</pre></a></li>
@@ -127,7 +128,10 @@ This is a convenience function that calls json_encode_wrapper on the connection<
                     <ul></ul>
 </li>
 <li class="nav-header protected">» Protected
-                    <ul><li class="property protected "><a href="#property__documentClass" title="$_documentClass() :: "><span class="description">Document class to use</span><pre>$_documentClass</pre></a></li></ul>
+                    <ul>
+<li class="property protected "><a href="#property__documentClass" title="$_documentClass() :: "><span class="description">Document class to use</span><pre>$_documentClass</pre></a></li>
+<li class="property protected "><a href="#property__edgeClass" title="$_edgeClass() :: "><span class="description">Edge class to use</span><pre>$_edgeClass</pre></a></li>
+</ul>
 </li>
 <li class="nav-header private">» Private
                     <ul><li class="property private "><a href="#property__connection" title="$_connection() :: Connection object"><span class="description"></span><pre>$_connection</pre></a></li></ul>
@@ -140,7 +144,6 @@ This is a convenience function that calls json_encode_wrapper on the connection<
 <li class="constant  "><a href="#constant_OPTION_CHECKSUM" title="OPTION_CHECKSUM() :: checksum option"><span class="description">checksum option</span><pre>OPTION_CHECKSUM</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_CLOSED" title="OPTION_CLOSED() :: closed parameter"><span class="description">closed parameter</span><pre>OPTION_CLOSED</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_COLLECTION" title="OPTION_COLLECTION() :: collection parameter"><span class="description">collection parameter</span><pre>OPTION_COLLECTION</pre></a></li>
-<li class="constant  "><a href="#constant_OPTION_CONSTRAINT" title="OPTION_CONSTRAINT() :: constraint option"><span class="description">constraint option</span><pre>OPTION_CONSTRAINT</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_COUNT" title="OPTION_COUNT() :: count option"><span class="description">count option</span><pre>OPTION_COUNT</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_CREATE_COLLECTION" title="OPTION_CREATE_COLLECTION() :: example parameter"><span class="description">example parameter</span><pre>OPTION_CREATE_COLLECTION</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_DISTANCE" title="OPTION_DISTANCE() :: distance parameter"><span class="description">distance parameter</span><pre>OPTION_DISTANCE</pre></a></li>
@@ -152,7 +155,6 @@ This is a convenience function that calls json_encode_wrapper on the connection<
 <li class="constant  "><a href="#constant_OPTION_GEOJSON" title="OPTION_GEOJSON() :: geoJson option"><span class="description">geoJson option</span><pre>OPTION_GEOJSON</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_GEO_INDEX" title="OPTION_GEO_INDEX() :: geo index option"><span class="description">geo index option</span><pre>OPTION_GEO_INDEX</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_HASH_INDEX" title="OPTION_HASH_INDEX() :: hash index option"><span class="description">hash index option</span><pre>OPTION_HASH_INDEX</pre></a></li>
-<li class="constant  "><a href="#constant_OPTION_IGNORE_NULL" title="OPTION_IGNORE_NULL() :: ignoreNull option"><span class="description">ignoreNull option</span><pre>OPTION_IGNORE_NULL</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_INDEX" title="OPTION_INDEX() :: index parameter"><span class="description">index parameter</span><pre>OPTION_INDEX</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_KEYS" title="OPTION_KEYS() :: keys parameter"><span class="description">keys parameter</span><pre>OPTION_KEYS</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_LATITUDE" title="OPTION_LATITUDE() :: latitude parameter"><span class="description">latitude parameter</span><pre>OPTION_LATITUDE</pre></a></li>
@@ -384,13 +386,16 @@ This will throw if the collection cannot be created</p></div>
 <code>array</code><ul>
 <li>an array of options.
 <p>Options are :<br>
-                     <li>'type'            - 2 -> normal collection, 3 -> edge-collection</li>
-                     <li>'waitForSync'     -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
-                     <li>'journalSize'     -  journalSize value.</li>
-                     <li>'isSystem'        -  false->user collection(default), true->system collection .</li>
-                     <li>'isVolatile'      -  false->persistent collection(default), true->volatile (in-memory) collection .</li>
-                     <li>'numberOfShards'  -  number of shards for the collection.</li>
-                     <li>'shardKeys'       -  list of shard key attributes.</li>
+                     <li>'type'              - 2 -> normal collection, 3 -> edge-collection</li>
+                     <li>'waitForSync'       - if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
+                     <li>'journalSize'       - journalSize value.</li>
+                     <li>'isSystem'          - false->user collection(default), true->system collection .</li>
+                     <li>'isVolatile'        - false->persistent collection(default), true->volatile (in-memory) collection .</li>
+                     <li>'keyOptions'        - key options to use.</li>
+                     <li>'numberOfShards'    - number of shards for the collection.</li>
+                     <li>'shardKeys'         - array of shard key attributes.</li>
+                     <li>'replicationFactor' - number of replicas to keep (default: 1).</li>
+                     <li>'shardingStrategy'  - sharding strategy to use in cluster.</li>
                      </p></li>
 </ul></div>
 <h3>Exceptions</h3>
@@ -441,7 +446,7 @@ This will throw if the collection cannot be created</p></div>
 </div>
 <a id="method_createGeoIndex"></a><div class="element clickable method public method_createGeoIndex " data-toggle="collapse" data-target=".method_createGeoIndex .collapse" title="public">
 <h2>Create a geo index</h2>
-<pre>createGeoIndex(string $collectionId, array $fields, boolean $geoJson<code> = null</code>, boolean $constraint<code> = null</code>, boolean $ignoreNull<code> = null</code>) : array</pre>
+<pre>createGeoIndex(string $collectionId, array $fields, boolean $geoJson<code> = null</code>) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -464,16 +469,6 @@ This will throw if the collection cannot be created</p></div>
 <h4>$geoJson</h4>
 <code>boolean</code><ul>
 <li>whether to use geoJson or not</li>
-</ul></div>
-<div class="subelement argument">
-<h4>$constraint</h4>
-<code>boolean</code><ul>
-<li>whether this is a constraint or not</li>
-</ul></div>
-<div class="subelement argument">
-<h4>$ignoreNull</h4>
-<code>boolean</code><ul>
-<li>whether to ignore null</li>
 </ul></div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -1140,7 +1135,7 @@ was an exception thrown which represents an 404 request.</p></div>
 </div>
 <a id="method_index"></a><div class="element clickable method public method_index " data-toggle="collapse" data-target=".method_index .collapse" title="public">
 <h2>Creates an index on a collection on the server</h2>
-<pre>index(mixed $collectionId, string $type<code> = ''</code>, array $attributes<code> = array()</code>, boolean $unique<code> = false</code>, array $indexOptions<code> = array()</code>) : array</pre>
+<pre>index(mixed $collectionId, string $type, array $attributes<code> = array()</code>, boolean $unique<code> = false</code>, array $indexOptions<code> = array()</code>) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will create an index on the collection on the server and return its id</p>
@@ -1530,7 +1525,7 @@ was an exception thrown which represents an 404 request.</p></div>
 </div>
 <a id="method_setDocumentClass"></a><div class="element clickable method public method_setDocumentClass inherited" data-toggle="collapse" data-target=".method_setDocumentClass .collapse" title="public">
 <h2>Sets the document class to use</h2>
-<pre>setDocumentClass(string $class) : \ArangoDBClient\Handler</pre>
+<pre>setDocumentClass(string $class) : \ArangoDBClient\DocumentClassable</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -1539,7 +1534,21 @@ was an exception thrown which represents an 404 request.</p></div>
 <h4>$class</h4>
 <code>string</code><p>Document class to use</p></div>
 <h3>Returns</h3>
-<div class="subelement response"><code>\ArangoDBClient\Handler</code></div>
+<div class="subelement response"><code>\ArangoDBClient\DocumentClassable</code></div>
+</div></div>
+</div>
+<a id="method_setEdgeClass"></a><div class="element clickable method public method_setEdgeClass inherited" data-toggle="collapse" data-target=".method_setEdgeClass .collapse" title="public">
+<h2>Sets the edge class to use</h2>
+<pre>setEdgeClass(string $class) : \ArangoDBClient\DocumentClassable</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$class</h4>
+<code>string</code><p>Edge class to use</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>\ArangoDBClient\DocumentClassable</code></div>
 </div></div>
 </div>
 <a id="method_truncate"></a><div class="element clickable method public method_truncate " data-toggle="collapse" data-target=".method_truncate .collapse" title="public">
@@ -1821,6 +1830,16 @@ This is only for options that are to be sent to the ArangoDB server in a json bo
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="property__edgeClass"> </a><div class="element clickable property protected property__edgeClass" data-toggle="collapse" data-target=".property__edgeClass .collapse" title="protected">
+<h2>Edge class to use</h2>
+<pre>$_edgeClass : string</pre>
+<div class="row collapse"><div class="detail-description">
+<h3>Default</h3>
+<div class="subelement argument"><code>'\ArangoDBClient\Edge'</code></div>
+</div></div>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="property__connection"> </a><div class="element clickable property private property__connection" data-toggle="collapse" data-target=".property__connection .collapse" title="private">
 <h2>Connection object</h2>
 <pre>$_connection </pre>
@@ -1866,12 +1885,6 @@ This is only for options that are to be sent to the ArangoDB server in a json bo
 <a id="constant_OPTION_COLLECTION"> </a><div class="element clickable constant  constant_OPTION_COLLECTION" data-toggle="collapse" data-target=".constant_OPTION_COLLECTION .collapse" title="">
 <h2>collection parameter</h2>
 <pre>OPTION_COLLECTION = 'collection' </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="constant_OPTION_CONSTRAINT"> </a><div class="element clickable constant  constant_OPTION_CONSTRAINT" data-toggle="collapse" data-target=".constant_OPTION_CONSTRAINT .collapse" title="">
-<h2>constraint option</h2>
-<pre>OPTION_CONSTRAINT = 'constraint' </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
@@ -1938,12 +1951,6 @@ This is only for options that are to be sent to the ArangoDB server in a json bo
 <a id="constant_OPTION_HASH_INDEX"> </a><div class="element clickable constant  constant_OPTION_HASH_INDEX" data-toggle="collapse" data-target=".constant_OPTION_HASH_INDEX .collapse" title="">
 <h2>hash index option</h2>
 <pre>OPTION_HASH_INDEX = 'hash' </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="constant_OPTION_IGNORE_NULL"> </a><div class="element clickable constant  constant_OPTION_IGNORE_NULL" data-toggle="collapse" data-target=".constant_OPTION_IGNORE_NULL .collapse" title="">
-<h2>ignoreNull option</h2>
-<pre>OPTION_IGNORE_NULL = 'ignoreNull' </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
@@ -2098,7 +2105,7 @@ This is only for options that are to be sent to the ArangoDB server in a json bo
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.9.0</a> and<br>
-            generated on 2018-07-31T14:00:29+02:00.<br></footer></div>
+            generated on 2019-01-22T11:16:23+01:00.<br></footer></div>
 </div>
 </body>
 </html>

@@ -31,7 +31,7 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">19</span></a></li>
+                <span class="label label-info">22</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
@@ -90,6 +90,7 @@
         </span><pre>setCacheEnabled()</pre></a></li>
 <li class="method public "><a href="#method_setCount" title="setCount() :: Sets the count for any method creating a cursor."><span class="description">Sets the count for any method creating a cursor.</span><pre>setCount()</pre></a></li>
 <li class="method public inherited"><a href="#method_setDocumentClass" title="setDocumentClass() :: Sets the document class to use"><span class="description">Sets the document class to use</span><pre>setDocumentClass()</pre></a></li>
+<li class="method public inherited"><a href="#method_setEdgeClass" title="setEdgeClass() :: Sets the edge class to use"><span class="description">Sets the edge class to use</span><pre>setEdgeClass()</pre></a></li>
 <li class="method public "><a href="#method_setLimit" title="setLimit() :: Sets the limit for any method creating a cursor."><span class="description">Sets the limit for any method creating a cursor.</span><pre>setLimit()</pre></a></li>
 <li class="method public "><a href="#method_updateEdge" title="updateEdge() :: Update an existing edge in a graph, identified by graph name and edge id"><span class="description">Update an existing edge in a graph, identified by graph name and edge id</span><pre>updateEdge()</pre></a></li>
 <li class="method public "><a href="#method_updateVertex" title="updateVertex() :: Update an existing vertex in a graph, identified by graph name and vertex id"><span class="description">Update an existing vertex in a graph, identified by graph name and vertex id</span><pre>updateVertex()</pre></a></li>
@@ -113,6 +114,7 @@ This is a convenience function that calls json_encode_wrapper on the connection<
 <li class="nav-header protected">» Protected
                     <ul>
 <li class="property protected "><a href="#property__documentClass" title="$_documentClass() :: "><span class="description">Document class to use</span><pre>$_documentClass</pre></a></li>
+<li class="property protected "><a href="#property__edgeClass" title="$_edgeClass() :: "><span class="description">Edge class to use</span><pre>$_edgeClass</pre></a></li>
 <li class="property protected "><a href="#property_cache" title="$cache() :: GraphHandler cache store"><span class="description"></span><pre>$cache</pre></a></li>
 <li class="property protected "><a href="#property_cacheEnabled" title="$cacheEnabled() :: "><span class="description">boolean GraphHandler use cache store</span><pre>$cacheEnabled</pre></a></li>
 </ul>
@@ -1031,7 +1033,7 @@ the collection to store the vertex.</li>
 </div>
 <a id="method_setDocumentClass"></a><div class="element clickable method public method_setDocumentClass inherited" data-toggle="collapse" data-target=".method_setDocumentClass .collapse" title="public">
 <h2>Sets the document class to use</h2>
-<pre>setDocumentClass(string $class) : \ArangoDBClient\Handler</pre>
+<pre>setDocumentClass(string $class) : \ArangoDBClient\DocumentClassable</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -1040,7 +1042,21 @@ the collection to store the vertex.</li>
 <h4>$class</h4>
 <code>string</code><p>Document class to use</p></div>
 <h3>Returns</h3>
-<div class="subelement response"><code>\ArangoDBClient\Handler</code></div>
+<div class="subelement response"><code>\ArangoDBClient\DocumentClassable</code></div>
+</div></div>
+</div>
+<a id="method_setEdgeClass"></a><div class="element clickable method public method_setEdgeClass inherited" data-toggle="collapse" data-target=".method_setEdgeClass .collapse" title="public">
+<h2>Sets the edge class to use</h2>
+<pre>setEdgeClass(string $class) : \ArangoDBClient\DocumentClassable</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$class</h4>
+<code>string</code><p>Edge class to use</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>\ArangoDBClient\DocumentClassable</code></div>
 </div></div>
 </div>
 <a id="method_setLimit"></a><div class="element clickable method public method_setLimit " data-toggle="collapse" data-target=".method_setLimit .collapse" title="public">
@@ -1284,6 +1300,16 @@ This is only for options that are to be sent to the ArangoDB server in a json bo
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="property__edgeClass"> </a><div class="element clickable property protected property__edgeClass" data-toggle="collapse" data-target=".property__edgeClass .collapse" title="protected">
+<h2>Edge class to use</h2>
+<pre>$_edgeClass : string</pre>
+<div class="row collapse"><div class="detail-description">
+<h3>Default</h3>
+<div class="subelement argument"><code>'\ArangoDBClient\Edge'</code></div>
+</div></div>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="property_cache"> </a><div class="element clickable property protected property_cache" data-toggle="collapse" data-target=".property_cache .collapse" title="protected">
 <h2>GraphHandler cache store</h2>
 <pre>$cache </pre>
@@ -1443,7 +1469,7 @@ This is only for options that are to be sent to the ArangoDB server in a json bo
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.9.0</a> and<br>
-            generated on 2018-07-31T14:00:29+02:00.<br></footer></div>
+            generated on 2019-01-22T11:16:23+01:00.<br></footer></div>
 </div>
 </body>
 </html>
