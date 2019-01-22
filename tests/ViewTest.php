@@ -52,7 +52,7 @@ class ViewTest extends
     public function testCreateView()
     {
         $this->view = new View('View1' . '_' . static::$testsTimestamp, 'arangosearch');
-        $result = $this->viewHandler->createView($this->view);
+        $result = $this->viewHandler->create($this->view);
         static::assertEquals('View1' . '_' . static::$testsTimestamp, $result['name']);
         static::assertEquals('arangosearch', $result['type']);
     }
@@ -63,9 +63,9 @@ class ViewTest extends
     public function testGetView()
     {
         $this->view = new View('View1' . '_' . static::$testsTimestamp, 'arangosearch');
-        $this->viewHandler->createView($this->view);
+        $this->viewHandler->create($this->view);
 
-        $result = $this->viewHandler->getView('View1' . '_' . static::$testsTimestamp, 'arangosearch');
+        $result = $this->viewHandler->get('View1' . '_' . static::$testsTimestamp, 'arangosearch');
         static::assertEquals('View1' . '_' . static::$testsTimestamp, $result->getName());
         static::assertEquals('arangosearch', $result->getType());
     }
@@ -76,7 +76,7 @@ class ViewTest extends
     public function testGetNonExistingView()
     {
         try {
-            $this->viewHandler->getView('View1' . '_' . static::$testsTimestamp, 'arangosearch');
+            $this->viewHandler->get('View1' . '_' . static::$testsTimestamp, 'arangosearch');
         } catch (\Exception $exception) {
         }
         static::assertEquals(404, $exception->getCode());
@@ -88,7 +88,7 @@ class ViewTest extends
     public function testViewProperties()
     {
         $this->view = new View('View1' . '_' . static::$testsTimestamp, 'arangosearch');
-        $result = $this->viewHandler->createView($this->view);
+        $result = $this->viewHandler->create($this->view);
         static::assertEquals('View1' . '_' . static::$testsTimestamp, $result['name']);
         static::assertEquals('arangosearch', $result['type']);
 
@@ -103,7 +103,7 @@ class ViewTest extends
     public function testViewSetProperties()
     {
         $this->view = new View('View1' . '_' . static::$testsTimestamp, 'arangosearch');
-        $result = $this->viewHandler->createView($this->view);
+        $result = $this->viewHandler->create($this->view);
         static::assertEquals('View1' . '_' . static::$testsTimestamp, $result['name']);
         static::assertEquals('arangosearch', $result['type']);
 
@@ -124,8 +124,8 @@ class ViewTest extends
     public function testDropView()
     {
         $this->view = new View('View1' . '_' . static::$testsTimestamp, 'arangosearch');
-        $this->viewHandler->createView($this->view);
-        $result = $this->viewHandler->dropView('View1' . '_' . static::$testsTimestamp);
+        $this->viewHandler->create($this->view);
+        $result = $this->viewHandler->drop('View1' . '_' . static::$testsTimestamp);
         static::assertTrue($result);
     }
     
@@ -135,7 +135,42 @@ class ViewTest extends
     public function testDropNonExistingView()
     {
         try {
-            $this->viewHandler->dropView('View1' . '_' . static::$testsTimestamp);
+            $this->viewHandler->drop('View1' . '_' . static::$testsTimestamp);
+        } catch (\Exception $exception) {
+        }
+        static::assertEquals(404, $exception->getCode());
+    }
+    
+    /**
+     * Test rename view
+     */
+    public function testRenameView()
+    {
+        if (isCluster($this->connection)) {
+            // don't execute this test in a cluster
+            $this->markTestSkipped("test is only meaningful in a single server");
+            return;
+        }
+        $this->view = new View('View1' . '_' . static::$testsTimestamp, 'arangosearch');
+        $this->viewHandler->create($this->view);
+        $result = $this->viewHandler->rename('View1' . '_' . static::$testsTimestamp, 'View2' . '_' . static::$testsTimestamp);
+        static::assertTrue($result);
+    }
+    
+    /**
+     * Test rename a non-existing view
+     */
+    public function testRenameNonExistingView()
+    {
+        if (isCluster($this->connection)) {
+            // don't execute this test in a cluster
+            $this->markTestSkipped("test is only meaningful in a single server");
+            return;
+        }
+        $this->view = new View('View1' . '_' . static::$testsTimestamp, 'arangosearch');
+        $this->viewHandler->create($this->view);
+        try {
+            $this->viewHandler->rename('View2' . '_' . static::$testsTimestamp, 'View1' . '_' . static::$testsTimestamp);
         } catch (\Exception $exception) {
         }
         static::assertEquals(404, $exception->getCode());
@@ -145,11 +180,11 @@ class ViewTest extends
     {
         $this->viewHandler = new ViewHandler($this->connection);
         try {
-            $this->viewHandler->dropView('View1' . '_' . static::$testsTimestamp);
+            $this->viewHandler->drop('View1' . '_' . static::$testsTimestamp);
         } catch (Exception $e) {
         }
         try {
-            $this->viewHandler->dropView('View2' . '_' . static::$testsTimestamp);
+            $this->viewHandler->drop('View2' . '_' . static::$testsTimestamp);
         } catch (Exception $e) {
         }
     }

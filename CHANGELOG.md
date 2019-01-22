@@ -41,8 +41,11 @@ In addition, the `save` method of `DocumentHandler` will now understand the `ove
 option, which will turn an insert into a replace operation in case the insert fails with a 
 unique constraint violation error on the primary key.
 
-The method `insert` was introduced in `DocumentHandler` as an alias for `save` for consistency
-with the server-side naming.
+The method `insert` was introduced in `DocumentHandler` as an alias for the existing `save`
+method to be consistent with the server-side method naming.
+
+Basic support for arangosearch views was added in 3.4.0, via the `View` and `ViewHandler`
+classes.
 
 
 Release notes for the ArangoDB-PHP driver 3.3.x

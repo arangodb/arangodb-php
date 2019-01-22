@@ -21,6 +21,11 @@ namespace ArangoDBClient;
 class ViewHandler extends Handler
 {
     /**
+     * rename option
+     */
+    const OPTION_RENAME = 'rename';
+
+    /**
      * Create a view
      *
      * This will create a view using the given view object and return an array of the created view object's attributes.<br><br>
@@ -32,7 +37,7 @@ class ViewHandler extends Handler
      * @return array
      * @since   3.4
      */
-    public function createView(View $view)
+    public function create(View $view)
     {
         $params   = [
             View::ENTRY_NAME       => $view->getName(),
@@ -57,7 +62,7 @@ class ViewHandler extends Handler
      * @throws \ArangoDBClient\ClientException
      * @since   3.4
      */
-    public function getView($view)
+    public function get($view)
     {
         $url = UrlHelper::buildUrl(Urls::URL_VIEW, [$view]);
 
@@ -87,7 +92,6 @@ class ViewHandler extends Handler
         }
 
         $url = UrlHelper::buildUrl(Urls::URL_VIEW, [$view, 'properties']);
-
         $result = $this->getConnection()->get($url);
 
         return $result->getJson();
@@ -128,7 +132,7 @@ class ViewHandler extends Handler
      * @return bool - always true, will throw if there is an error
      * @since 3.4
      */
-    public function dropView($view) 
+    public function drop($view) 
     {
         if ($view instanceof View) {
             $view = $view->getName();
@@ -136,6 +140,31 @@ class ViewHandler extends Handler
 
         $url = UrlHelper::buildUrl(Urls::URL_VIEW, [$view]);
         $this->getConnection()->delete($url);
+
+        return true;
+    }
+    
+    /**
+     * Rename a view
+     *
+     * @throws Exception
+     *
+     * @param mixed $view - view name as a string or instance of View
+     * @param string $name       - new name for collection
+     *
+     * @return bool - always true, will throw if there is an error
+     */
+    public function rename($view, $name)
+    {
+        if ($view instanceof View) {
+            $view = $view->getName();
+        }
+
+        $params = [View::ENTRY_NAME => $name];
+        $this->getConnection()->put(
+            UrlHelper::buildUrl(Urls::URL_VIEW, [$view, self::OPTION_RENAME]),
+            $this->json_encode_wrapper($params)
+        );
 
         return true;
     }
