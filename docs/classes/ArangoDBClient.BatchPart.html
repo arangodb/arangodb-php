@@ -31,7 +31,7 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">19</span></a></li>
+                <span class="label label-info">22</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
@@ -69,7 +69,8 @@
 <li class="method public "><a href="#method_getResponse" title="getResponse() :: Gets the response for the current batch part."><span class="description">Gets the response for the current batch part.</span><pre>getResponse()</pre></a></li>
 <li class="method public "><a href="#method_getType" title="getType() :: Gets the type for the current batch part."><span class="description">Gets the type for the current batch part.</span><pre>getType()</pre></a></li>
 <li class="method public "><a href="#method_setBatch" title="setBatch() :: Sets the id for the current batch part."><span class="description">Sets the id for the current batch part.</span><pre>setBatch()</pre></a></li>
-<li class="method public "><a href="#method_setDocumentClass" title="setDocumentClass() :: Sets the document class to use"><span class="description">Sets the document class to use</span><pre>setDocumentClass()</pre></a></li>
+<li class="method public inherited"><a href="#method_setDocumentClass" title="setDocumentClass() :: Sets the document class to use"><span class="description">Sets the document class to use</span><pre>setDocumentClass()</pre></a></li>
+<li class="method public inherited"><a href="#method_setEdgeClass" title="setEdgeClass() :: Sets the edge class to use"><span class="description">Sets the edge class to use</span><pre>setEdgeClass()</pre></a></li>
 <li class="method public "><a href="#method_setId" title="setId() :: Sets the id for the current batch part."><span class="description">Sets the id for the current batch part.</span><pre>setId()</pre></a></li>
 <li class="method public "><a href="#method_setRequest" title="setRequest() :: Sets the request for the current batch part."><span class="description">Sets the request for the current batch part.</span><pre>setRequest()</pre></a></li>
 <li class="method public "><a href="#method_setResponse" title="setResponse() :: Sets the response for the current batch part."><span class="description">Sets the response for the current batch part.</span><pre>setResponse()</pre></a></li>
@@ -84,7 +85,10 @@
                     <ul></ul>
 </li>
 <li class="nav-header protected">» Protected
-                    <ul><li class="property protected "><a href="#property__documentClass" title="$_documentClass() :: "><span class="description">Document class to use</span><pre>$_documentClass</pre></a></li></ul>
+                    <ul>
+<li class="property protected "><a href="#property__documentClass" title="$_documentClass() :: "><span class="description">Document class to use</span><pre>$_documentClass</pre></a></li>
+<li class="property protected "><a href="#property__edgeClass" title="$_edgeClass() :: "><span class="description">Edge class to use</span><pre>$_edgeClass</pre></a></li>
+</ul>
 </li>
 <li class="nav-header private">» Private
                     <ul>
@@ -111,7 +115,7 @@
 <div xmlns:php="http://php.net/xsl" class="element class">
 <p class="short_description">Provides batch part functionality</p>
 <div class="details">
-<div class="long_description"><p><br></p></div>
+<div class="long_description"></div>
 <table class="table table-bordered">
 <tr>
 <th>package</th>
@@ -232,10 +236,10 @@
 <div class="subelement response"><code>\ArangoDBClient\BatchPart</code></div>
 </div></div>
 </div>
-<a id="method_setDocumentClass"></a><div class="element clickable method public method_setDocumentClass " data-toggle="collapse" data-target=".method_setDocumentClass .collapse" title="public">
+<a id="method_setDocumentClass"></a><div class="element clickable method public method_setDocumentClass inherited" data-toggle="collapse" data-target=".method_setDocumentClass .collapse" title="public">
 <h2>Sets the document class to use</h2>
-<pre>setDocumentClass(string $class) : \ArangoDBClient\BatchPart</pre>
-<div class="labels"></div>
+<pre>setDocumentClass(string $class) : \ArangoDBClient\DocumentClassable</pre>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
@@ -243,7 +247,21 @@
 <h4>$class</h4>
 <code>string</code><p>Document class to use</p></div>
 <h3>Returns</h3>
-<div class="subelement response"><code>\ArangoDBClient\BatchPart</code></div>
+<div class="subelement response"><code>\ArangoDBClient\DocumentClassable</code></div>
+</div></div>
+</div>
+<a id="method_setEdgeClass"></a><div class="element clickable method public method_setEdgeClass inherited" data-toggle="collapse" data-target=".method_setEdgeClass .collapse" title="public">
+<h2>Sets the edge class to use</h2>
+<pre>setEdgeClass(string $class) : \ArangoDBClient\DocumentClassable</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$class</h4>
+<code>string</code><p>Edge class to use</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>\ArangoDBClient\DocumentClassable</code></div>
 </div></div>
 </div>
 <a id="method_setId"></a><div class="element clickable method public method_setId " data-toggle="collapse" data-target=".method_setId .collapse" title="public">
@@ -329,6 +347,16 @@
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="property__edgeClass"> </a><div class="element clickable property protected property__edgeClass" data-toggle="collapse" data-target=".property__edgeClass .collapse" title="protected">
+<h2>Edge class to use</h2>
+<pre>$_edgeClass : string</pre>
+<div class="row collapse"><div class="detail-description">
+<h3>Default</h3>
+<div class="subelement argument"><code>'\ArangoDBClient\Edge'</code></div>
+</div></div>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="property__batch"> </a><div class="element clickable property private property__batch" data-toggle="collapse" data-target=".property__batch .collapse" title="private">
 <h2>The batch that this instance is part of</h2>
 <pre>$_batch : \ArangoDBClient\Batch</pre>
@@ -396,7 +424,7 @@
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.9.0</a> and<br>
-            generated on 2018-07-31T14:00:29+02:00.<br></footer></div>
+            generated on 2019-01-22T11:16:22+01:00.<br></footer></div>
 </div>
 </body>
 </html>
