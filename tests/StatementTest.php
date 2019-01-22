@@ -13,6 +13,7 @@ function filtered(array $values)
 {
     unset($values['executionTime']);
     unset($values['httpRequests']);
+    unset($values['peakMemoryUsage']);
 
     return $values;
 }
