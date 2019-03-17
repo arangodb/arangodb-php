@@ -806,6 +806,7 @@ class DocumentHandler extends Handler
         return $revision;
     }
 
+
     /**
      * @param       $collection   mixed collection name or id
      * @param array $options      - optional, array of options
@@ -813,10 +814,12 @@ class DocumentHandler extends Handler
      *                            <li>'createCollection' - true to create the collection if it does not exist</li>
      *                            <li>'createCollectionType' - "document" or 2 for document collection</li>
      *                            <li>                         "edge" or 3 for edge collection</li>
+     *                            <li>'waitForSync'       - if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
      *                            </p>
      */
     protected function createCollectionIfOptions($collection, $options)
     {
+
         if (!array_key_exists(CollectionHandler::OPTION_CREATE_COLLECTION, $options)) {
             return;
         }
@@ -829,18 +832,25 @@ class DocumentHandler extends Handler
 
         $collectionHandler = new CollectionHandler($this->getConnection());
 
+        $params = [];
+
         if (array_key_exists('createCollectionType', $options)) {
-            $options['type'] = $options['createCollectionType'];
-            unset($options['createCollectionType']);
+            $params['type'] = $options['createCollectionType'];
         }
-        unset($options['createCollection']);
+
+        if (array_key_exists('waitForSync', $options)) {
+            $params['waitForSync'] = $options['waitForSync'];
+        }
+
         try {
             // attempt to create the collection
-            $collectionHandler->create($collection, $options);
+            $collectionHandler->create($collection, $params);
         } catch (Exception $e) {
             // collection may have existed already
         }
     }
+}
+
 }
 
 class_alias(DocumentHandler::class, '\triagens\ArangoDb\DocumentHandler');
