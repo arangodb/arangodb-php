@@ -849,7 +849,6 @@ class DocumentHandler extends Handler
             // collection may have existed already
         }
     }
-}
 
 }
 
