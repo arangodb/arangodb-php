@@ -50,7 +50,7 @@ class AdminTest extends
         $details = $result['details'];
         static::assertArrayHasKey('build-date', $details);
         static::assertArrayHasKey('icu-version', $details);
-        static::assertArrayHasKey('openssl-version', $details);
+        static::assertArrayHasKey('openssl-version-compile-time', $details);
         static::assertArrayHasKey('server-version', $details);
         static::assertArrayHasKey('v8-version', $details);
     }
