@@ -111,6 +111,18 @@ abstract class Handler
             }
         }
 
+	foreach ($includeArray as $key => $value) {
+            if (!array_key_exists($key, $options)) {
+                if ($key === ConnectionOptions::OPTION_UPDATE_POLICY) {
+                    UpdatePolicy::validate($value);
+                }
+
+                if ($value !== null) {
+                    $params[$key] = $value;
+                }
+            }
+        }
+
         return $params;
     }
 
