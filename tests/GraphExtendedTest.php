@@ -575,7 +575,7 @@ class GraphExtendedTest extends
 
 
         // Try to replace edge using GraphHandler
-        // This should cause an exception with a code of 404
+        // This should cause an exception with a code of 400
         try {
             $e = null;
             $this->graphHandler->replaceEdge($this->graphName, $this->edge1Name, 'label', $edge1);
@@ -583,7 +583,7 @@ class GraphExtendedTest extends
             // don't bother us... just give us the $e
         }
         static::assertInstanceOf(ServerException::class, $e);
-        static::assertEquals(404, $e->getCode(), 'Should be 404, instead got: ' . $e->getCode());
+        static::assertEquals(400, $e->getCode(), 'Should be 400, instead got: ' . $e->getCode());
 
 
         // Try to remove the edge using GraphHandler
@@ -801,18 +801,18 @@ class GraphExtendedTest extends
         static::assertEquals('vertex2', $result2->getKey(), 'Did not return vertex2!');
 
 
-        $result1 = $this->graphHandler->saveEdge(
+        $result3 = $this->graphHandler->saveEdge(
             $this->graphName,
             $result1->getInternalId(),
             $result2->getInternalId(),
             $this->edgeLabel1,
             $edge1
         );
-        static::assertEquals($this->edgeCollectionName . '/edge1', $result1, 'Did not return edge1!');
+        static::assertEquals($this->edgeCollectionName . '/edge1', $result3, 'Did not return edge1!');
 
 
-        $result1 = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
-        static::assertEquals('edge1', $result1->getKey(), 'Did not return edge1!');
+        $result3 = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
+        static::assertEquals('edge1', $result3->getKey(), 'Did not return edge1!');
 
         $edge1a->setFrom($result1->getInternalId());
         $edge1a->setTo($result2->getInternalId());
@@ -898,18 +898,18 @@ class GraphExtendedTest extends
         static::assertEquals('vertex2', $result2->getKey(), 'Did not return vertex2!');
 
 
-        $result1 = $this->graphHandler->saveEdge(
+        $result3 = $this->graphHandler->saveEdge(
             $this->graphName,
             $result1->getInternalId(),
             $result2->getInternalId(),
             $this->edgeLabel1,
             $edge1
         );
-        static::assertEquals('ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp . '/edge1', $result1, 'Did not return edge1!');
+        static::assertEquals('ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp . '/edge1', $result3, 'Did not return edge1!');
 
 
-        $result1 = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
-        static::assertEquals('edge1', $result1->getKey(), 'Did not return edge1!');
+        $result3 = $this->graphHandler->getEdge($this->graphName, $this->edge1Name);
+        static::assertEquals('edge1', $result3->getKey(), 'Did not return edge1!');
 
         $edge1a->setFrom($result1->getInternalId());
         $edge1a->setTo($result2->getInternalId());
@@ -920,7 +920,7 @@ class GraphExtendedTest extends
             $this->edge1Name,
             $this->edgeLabel1,
             $edge1a,
-            ['revision' => $result1->getRevision()]
+            ['revision' => $result3->getRevision()]
         );
         static::assertTrue($result1a, 'Did not return true!');
 
