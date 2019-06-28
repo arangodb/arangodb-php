@@ -161,6 +161,16 @@ class CollectionHandler extends Handler
      * persistent index option
      */
     const OPTION_PERSISTENT_INDEX = 'persistent';
+    
+    /**
+     * ttl index option
+     */
+    const OPTION_TTL_INDEX = 'ttl';
+    
+    /**
+     * expireAfter option
+     */
+    const OPTION_EXPIRE_AFTER = 'expireAfter';
 
     /**
      * sparse index option
@@ -848,7 +858,7 @@ class CollectionHandler extends Handler
      * @param boolean $unique       - whether the values in the index should be unique or not
      * @param boolean $sparse       - whether the index should be sparse
      *
-     * @link https://docs.arangodb.com/HTTP/Indexes/Hash.html
+     * @link https://www.arangodb.com/docs/devel/indexing-hash.html
      *
      * @return array - server response of the created index
      * @throws \ArangoDBClient\Exception
@@ -874,7 +884,7 @@ class CollectionHandler extends Handler
      * @param array  $fields       - an array of fields
      * @param int    $minLength    - the minimum length of words to index
      *
-     * @link https://docs.arangodb.com/HTTP/Indexes/Fulltext.html
+     * @link https://www.arangodb.com/docs/devel/indexing-fulltext.html
      *
      * @return array - server response of the created index
      * @throws \ArangoDBClient\Exception
@@ -898,7 +908,7 @@ class CollectionHandler extends Handler
      * @param bool   $unique       - whether the index is unique or not
      * @param bool   $sparse       - whether the index should be sparse
      *
-     * @link https://docs.arangodb.com/HTTP/Indexes/Skiplist.html
+     * @link https://www.arangodb.com/docs/devel/indexing-skiplist.html
      *
      * @return array - server response of the created index
      * @throws \ArangoDBClient\Exception
@@ -925,7 +935,7 @@ class CollectionHandler extends Handler
      * @param bool   $unique       - whether the index is unique or not
      * @param bool   $sparse       - whether the index should be sparse
      *
-     * @link https://docs.arangodb.com/HTTP/Indexes/Persistent.html
+     * @link https://www.arangodb.com/docs/devel/indexing-persistent.html
      *
      * @return array - server response of the created index
      * @throws \ArangoDBClient\Exception
@@ -943,6 +953,27 @@ class CollectionHandler extends Handler
 
         return $this->index($collectionId, self::OPTION_PERSISTENT_INDEX, $fields, null, $indexOptions);
     }
+    
+    /**
+     * Create a TTL index
+     *
+     * @param string $collectionId - the collection id
+     * @param array  $fields       - an array of fields (only a single one allowed)
+     * @param number $expireAfter  - number of seconds after index value after which documents expire
+     *
+     * @link https://www.arangodb.com/docs/devel/indexing-ttl.html
+     *
+     * @return array - server response of the created index
+     * @throws \ArangoDBClient\Exception
+     */
+    public function createTtlIndex($collectionId, array $fields, $expireAfter)
+    {
+        $indexOptions = [
+          self::OPTION_EXPIRE_AFTER => (double) $expireAfter
+        ];
+
+        return $this->index($collectionId, self::OPTION_TTL_INDEX, $fields, null, $indexOptions);
+    }
 
     /**
      * Create a geo index
@@ -951,7 +982,7 @@ class CollectionHandler extends Handler
      * @param array   $fields       - an array of fields
      * @param boolean $geoJson      - whether to use geoJson or not
      *
-     * @link https://docs.arangodb.com/HTTP/Indexes/Geo.html
+     * @link https://www.arangodb.com/docs/devel/indexing-geo.html
      *
      * @return array - server response of the created index
      * @throws \ArangoDBClient\Exception
@@ -977,7 +1008,7 @@ class CollectionHandler extends Handler
      * @throws Exception
      *
      * @param mixed  $collectionId - The id of the collection where the index is to be created
-     * @param string $type         - index type: hash, skiplist, geo, fulltext, or persistent
+     * @param string $type         - index type: hash, skiplist, geo, ttl, fulltext, or persistent
      * @param array  $attributes   - an array of attributes that can be defined like array('a') or array('a', 'b.c')
      * @param bool   $unique       - true/false to create a unique index
      * @param array  $indexOptions - an associative array of options for the index like array('geoJson' => true, 'sparse' => false)

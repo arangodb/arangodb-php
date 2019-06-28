@@ -14,8 +14,6 @@ namespace ArangoDBClient;
  * @property Connection        connection
  * @property Collection        collection
  * @property CollectionHandler collectionHandler
- * @property bool              hasSparseIndexes
- * @property bool              hasSelectivityEstimates
  */
 class CollectionBasicTest extends
     \PHPUnit_Framework_TestCase
@@ -42,9 +40,6 @@ class CollectionBasicTest extends
 
         $adminHandler = new AdminHandler($this->connection);
         $version      = preg_replace('/-[a-z0-9]+$/', '', $adminHandler->getServerVersion());
-
-        $this->hasSparseIndexes        = (version_compare($version, '2.5.0') >= 0);
-        $this->hasSelectivityEstimates = (version_compare($version, '2.5.0') >= 0);
 
         $this->isMMFilesEngine         = ($adminHandler->getEngine()["name"] == "mmfiles"); 
     }
@@ -730,12 +725,8 @@ class CollectionBasicTest extends
         static::assertEquals('hashfield2', $indexInfo['fields'][1], "The second indexed field is not 'hashfield2'");
         static::assertTrue($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to true!');
 
-        if ($this->hasSparseIndexes) {
-            static::assertFalse($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to false!');
-        }
-        if ($this->hasSelectivityEstimates) {
-            static::assertTrue(isset($indexInfo['selectivityEstimate']), 'selectivity estimate not present!');
-        }
+        static::assertFalse($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to false!');
+        static::assertTrue(isset($indexInfo['selectivityEstimate']), 'selectivity estimate not present!');
     }
 
 
@@ -769,12 +760,8 @@ class CollectionBasicTest extends
         static::assertEquals('hashfield2', $indexInfo['fields'][1], "The second indexed field is not 'hashfield2'");
         static::assertFalse($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to false!');
 
-        if ($this->hasSparseIndexes) {
-            static::assertTrue($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to true!');
-        }
-        if ($this->hasSelectivityEstimates) {
-            static::assertTrue(isset($indexInfo['selectivityEstimate']), 'selectivity estimate not present!');
-        }
+        static::assertTrue($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to true!');
+        static::assertTrue(isset($indexInfo['selectivityEstimate']), 'selectivity estimate not present!');
     }
 
 
@@ -836,9 +823,7 @@ class CollectionBasicTest extends
         static::assertEquals('skiplistfield1', $indexInfo['fields'][0], "The indexed field is not 'skiplistfield1'");
         static::assertEquals('skiplistfield2', $indexInfo['fields'][1], "The indexed field is not 'skiplistfield2'");
         static::assertTrue($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to true!');
-        if ($this->hasSparseIndexes) {
-            static::assertFalse($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to false!');
-        }
+        static::assertFalse($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to false!');
     }
 
 
@@ -871,9 +856,7 @@ class CollectionBasicTest extends
         static::assertEquals('skiplistfield1', $indexInfo['fields'][0], "The indexed field is not 'skiplistfield1'");
         static::assertEquals('skiplistfield2', $indexInfo['fields'][1], "The indexed field is not 'skiplistfield2'");
         static::assertFalse($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to false!');
-        if ($this->hasSparseIndexes) {
-            static::assertTrue($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to true!');
-        }
+        static::assertTrue($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to true!');
     }
 
 
@@ -905,9 +888,7 @@ class CollectionBasicTest extends
         static::assertEquals('field1', $indexInfo['fields'][0], "The indexed field is not 'field1'");
         static::assertEquals('field2', $indexInfo['fields'][1], "The indexed field is not 'field2'");
         static::assertTrue($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to true!');
-        if ($this->hasSparseIndexes) {
-            static::assertFalse($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to false!');
-        }
+        static::assertFalse($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to false!');
     }
 
 
@@ -940,9 +921,39 @@ class CollectionBasicTest extends
         static::assertEquals('field1', $indexInfo['fields'][0], "The indexed field is not 'field1'");
         static::assertEquals('field2', $indexInfo['fields'][1], "The indexed field is not 'field2'");
         static::assertFalse($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to false!');
-        if ($this->hasSparseIndexes) {
-            static::assertTrue($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to true!');
-        }
+        static::assertTrue($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to true!');
+    }
+    
+    
+    /**
+     * Create a TTL index and verify it by getting information about the index from the server
+     */
+    public function testCreateTtlIndex()
+    {
+        $result = $this->collectionHandler->createTtlIndex(
+            'ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp,
+            ['expireStamp'],
+            60
+        );
+
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp);
+
+        $indicesByIdentifiers = $indices['identifiers'];
+
+        static::assertArrayHasKey($result['id'], $indicesByIdentifiers, 'TTL index was not created!');
+
+        $indexInfo = $indicesByIdentifiers[$result['id']];
+
+        static::assertEquals(
+            CollectionHandler::OPTION_TTL_INDEX,
+            $indexInfo[CollectionHandler::OPTION_TYPE],
+            "Index type is not 'ttl'!"
+        );
+        static::assertCount(1, $indexInfo['fields'], 'There should only be 1 indexed field');
+        static::assertEquals('expireStamp', $indexInfo['fields'][0], "The indexed field is not 'expireStamp'");
+        static::assertEquals(60, $indexInfo[CollectionHandler::OPTION_EXPIRE_AFTER]);
+        static::assertFalse($indexInfo[CollectionHandler::OPTION_UNIQUE], 'unique was not set to false!');
+        static::assertTrue($indexInfo[CollectionHandler::OPTION_SPARSE], 'sparse flag was not set to false!');
     }
 
 
