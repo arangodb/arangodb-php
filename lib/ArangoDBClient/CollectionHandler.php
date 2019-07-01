@@ -171,6 +171,11 @@ class CollectionHandler extends Handler
      * expireAfter option
      */
     const OPTION_EXPIRE_AFTER = 'expireAfter';
+    
+    /**
+     * inBackground option
+     */
+    const OPTION_IN_BACKGROUND = 'inBackground';
 
     /**
      * sparse index option
@@ -224,16 +229,18 @@ class CollectionHandler extends Handler
      * @param mixed $collection - collection object to be created on the server or a string with the name
      * @param array $options    - an array of options.
      *                          <p>Options are :<br>
-     *                          <li>'type'              - 2 -> normal collection, 3 -> edge-collection</li>
-     *                          <li>'waitForSync'       - if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
-     *                          <li>'journalSize'       - journalSize value.</li>
-     *                          <li>'isSystem'          - false->user collection(default), true->system collection .</li>
-     *                          <li>'isVolatile'        - false->persistent collection(default), true->volatile (in-memory) collection .</li>
-     *                          <li>'keyOptions'        - key options to use.</li>
-     *                          <li>'numberOfShards'    - number of shards for the collection.</li>
-     *                          <li>'shardKeys'         - array of shard key attributes.</li>
-     *                          <li>'replicationFactor' - number of replicas to keep (default: 1).</li>
-     *                          <li>'shardingStrategy'  - sharding strategy to use in cluster.</li>
+     *                          <li>'type'                 - 2 -> normal collection, 3 -> edge-collection</li>
+     *                          <li>'waitForSync'          - if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
+     *                          <li>'journalSize'          - journalSize value.</li>
+     *                          <li>'isSystem'             - false->user collection(default), true->system collection .</li>
+     *                          <li>'isVolatile'           - false->persistent collection(default), true->volatile (in-memory) collection .</li>
+     *                          <li>'keyOptions'           - key options to use.</li>
+     *                          <li>'distributeShardsLike' - name of prototype collection for identical sharding.</li>
+     *                          <li>'numberOfShards'       - number of shards for the collection.</li>
+     *                          <li>'replicationFactor'    - number of replicas to keep (default: 1).</li>
+     *                          <li>'shardKeys'            - array of shard key attributes.</li>
+     *                          <li>'shardingStrategy'     - sharding strategy to use in cluster.</li>
+     *                          <li>'smartJoinAttribute'   - attribute name for smart joins (if not shard key).</li>
      *                          </p>
      *
      * @return mixed - id of collection created
@@ -276,6 +283,10 @@ class CollectionHandler extends Handler
         ];
 
         // set extra cluster attributes
+        if ($collection->getDistributeShardsLike() !== null) {
+            $params[Collection::ENTRY_DISTRIBUTE_SHARDS_LIKE] = $collection->getDistributeShardsLike();
+        }
+
         if ($collection->getNumberOfShards() !== null) {
             $params[Collection::ENTRY_NUMBER_OF_SHARDS] = $collection->getNumberOfShards();
         }
@@ -290,6 +301,10 @@ class CollectionHandler extends Handler
 
         if (is_array($collection->getShardKeys())) {
             $params[Collection::ENTRY_SHARD_KEYS] = $collection->getShardKeys();
+        }
+        
+        if ($collection->getSmartJoinAttribute() !== null) {
+            $params[Collection::ENTRY_SMART_JOIN_ATTRIBUTE] = $collection->getSmartJoinAttribute();
         }
 
         $response = $this->getConnection()->post(Urls::URL_COLLECTION, $this->json_encode_wrapper($params));
@@ -855,15 +870,16 @@ class CollectionHandler extends Handler
      *
      * @param string  $collectionId - the collection id
      * @param array   $fields       - an array of fields
-     * @param boolean $unique       - whether the values in the index should be unique or not
-     * @param boolean $sparse       - whether the index should be sparse
+     * @param bool    $unique       - whether the values in the index should be unique or not
+     * @param bool    $sparse       - whether the index should be sparse
+     * @param bool    $inBackground - true if index shall be created in background
      *
      * @link https://www.arangodb.com/docs/devel/indexing-hash.html
      *
      * @return array - server response of the created index
      * @throws \ArangoDBClient\Exception
      */
-    public function createHashIndex($collectionId, array $fields, $unique = null, $sparse = null)
+    public function createHashIndex($collectionId, array $fields, $unique = null, $sparse = null, $inBackground = false)
     {
         $indexOptions = [];
 
@@ -872,6 +888,9 @@ class CollectionHandler extends Handler
         }
         if ($sparse) {
             $indexOptions[self::OPTION_SPARSE] = (bool) $sparse;
+        }
+        if ($inBackground) {
+            $indexOptions[self::OPTION_IN_BACKGROUND] = (bool) $inBackground;
         }
 
         return $this->index($collectionId, self::OPTION_HASH_INDEX, $fields, null, $indexOptions);
@@ -883,18 +902,22 @@ class CollectionHandler extends Handler
      * @param string $collectionId - the collection id
      * @param array  $fields       - an array of fields
      * @param int    $minLength    - the minimum length of words to index
+     * @param bool   $inBackground - true if index shall be created in background
      *
      * @link https://www.arangodb.com/docs/devel/indexing-fulltext.html
      *
      * @return array - server response of the created index
      * @throws \ArangoDBClient\Exception
      */
-    public function createFulltextIndex($collectionId, array $fields, $minLength = null)
+    public function createFulltextIndex($collectionId, array $fields, $minLength = null, $inBackground = false)
     {
         $indexOptions = [];
 
         if ($minLength) {
             $indexOptions[self::OPTION_MIN_LENGTH] = $minLength;
+        }
+        if ($inBackground) {
+            $indexOptions[self::OPTION_IN_BACKGROUND] = (bool) $inBackground;
         }
 
         return $this->index($collectionId, self::OPTION_FULLTEXT_INDEX, $fields, null, $indexOptions);
@@ -907,13 +930,14 @@ class CollectionHandler extends Handler
      * @param array  $fields       - an array of fields
      * @param bool   $unique       - whether the index is unique or not
      * @param bool   $sparse       - whether the index should be sparse
+     * @param bool   $inBackground - true if index shall be created in background
      *
      * @link https://www.arangodb.com/docs/devel/indexing-skiplist.html
      *
      * @return array - server response of the created index
      * @throws \ArangoDBClient\Exception
      */
-    public function createSkipListIndex($collectionId, array $fields, $unique = null, $sparse = null)
+    public function createSkipListIndex($collectionId, array $fields, $unique = null, $sparse = null, $inBackground = false)
     {
         $indexOptions = [];
 
@@ -922,6 +946,9 @@ class CollectionHandler extends Handler
         }
         if ($sparse) {
             $indexOptions[self::OPTION_SPARSE] = (bool) $sparse;
+        }
+        if ($inBackground) {
+            $indexOptions[self::OPTION_IN_BACKGROUND] = (bool) $inBackground;
         }
 
         return $this->index($collectionId, self::OPTION_SKIPLIST_INDEX, $fields, null, $indexOptions);
@@ -934,13 +961,14 @@ class CollectionHandler extends Handler
      * @param array  $fields       - an array of fields
      * @param bool   $unique       - whether the index is unique or not
      * @param bool   $sparse       - whether the index should be sparse
+     * @param bool    $inBackground - true if index shall be created in background
      *
      * @link https://www.arangodb.com/docs/devel/indexing-persistent.html
      *
      * @return array - server response of the created index
      * @throws \ArangoDBClient\Exception
      */
-    public function createPersistentIndex($collectionId, array $fields, $unique = null, $sparse = null)
+    public function createPersistentIndex($collectionId, array $fields, $unique = null, $sparse = null, $inBackground = false)
     {
         $indexOptions = [];
 
@@ -949,6 +977,9 @@ class CollectionHandler extends Handler
         }
         if ($sparse) {
             $indexOptions[self::OPTION_SPARSE] = (bool) $sparse;
+        }
+        if ($inBackground) {
+            $indexOptions[self::OPTION_IN_BACKGROUND] = (bool) $inBackground;
         }
 
         return $this->index($collectionId, self::OPTION_PERSISTENT_INDEX, $fields, null, $indexOptions);
@@ -960,17 +991,21 @@ class CollectionHandler extends Handler
      * @param string $collectionId - the collection id
      * @param array  $fields       - an array of fields (only a single one allowed)
      * @param number $expireAfter  - number of seconds after index value after which documents expire
+     * @param bool    $inBackground - true if index shall be created in background
      *
      * @link https://www.arangodb.com/docs/devel/indexing-ttl.html
      *
      * @return array - server response of the created index
      * @throws \ArangoDBClient\Exception
      */
-    public function createTtlIndex($collectionId, array $fields, $expireAfter)
+    public function createTtlIndex($collectionId, array $fields, $expireAfter, $inBackground = false)
     {
         $indexOptions = [
           self::OPTION_EXPIRE_AFTER => (double) $expireAfter
         ];
+        if ($inBackground) {
+            $indexOptions[self::OPTION_IN_BACKGROUND] = (bool) $inBackground;
+        }
 
         return $this->index($collectionId, self::OPTION_TTL_INDEX, $fields, null, $indexOptions);
     }
@@ -980,19 +1015,23 @@ class CollectionHandler extends Handler
      *
      * @param string  $collectionId - the collection id
      * @param array   $fields       - an array of fields
-     * @param boolean $geoJson      - whether to use geoJson or not
+     * @param bool    $geoJson      - whether to use geoJson or not
+     * @param bool    $inBackground - true if index shall be created in background
      *
      * @link https://www.arangodb.com/docs/devel/indexing-geo.html
      *
      * @return array - server response of the created index
      * @throws \ArangoDBClient\Exception
      */
-    public function createGeoIndex($collectionId, array $fields, $geoJson = null)
+    public function createGeoIndex($collectionId, array $fields, $geoJson = null, $inBackground = false)
     {
         $indexOptions = [];
 
         if ($geoJson) {
             $indexOptions[self::OPTION_GEOJSON] = (bool) $geoJson;
+        }
+        if ($inBackground) {
+            $indexOptions[self::OPTION_IN_BACKGROUND] = (bool) $inBackground;
         }
 
         return $this->index($collectionId, self::OPTION_GEO_INDEX, $fields, null, $indexOptions);

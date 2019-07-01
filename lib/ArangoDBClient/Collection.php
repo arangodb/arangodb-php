@@ -68,6 +68,13 @@ class Collection
      * @var bool - isVolatile value
      */
     private $_isVolatile;
+    
+    /**
+     * The distributeShardsLike value (might be NULL for new collections)
+     *
+     * @var mixed - distributeShardsLike value
+     */
+    private $_distributeShardsLike;
 
     /**
      * The collection numberOfShards value (might be NULL for new collections)
@@ -96,6 +103,13 @@ class Collection
      * @var array - shardKeys value
      */
     private $_shardKeys;
+    
+    /**
+     * The smartJoinAttribute value (might be NULL for new collections)
+     *
+     * @var mixed - smartJoinAttribute value
+     */
+    private $_smartJoinAttribute;
 
     /**
      * The collection status value
@@ -155,6 +169,11 @@ class Collection
      * Collection 'isVolatile' index
      */
     const ENTRY_IS_VOLATILE = 'isVolatile';
+    
+    /**
+     * Collection 'distributeShardsLike' index
+     */
+    const ENTRY_DISTRIBUTE_SHARDS_LIKE = 'distributeShardsLike';
 
     /**
      * Collection 'numberOfShards' index
@@ -170,11 +189,16 @@ class Collection
      * Collection 'shardingStrategy' index
      */
     const ENTRY_SHARDING_STRATEGY = 'shardingStrategy';
-
+    
     /**
      * Collection 'shardKeys' index
      */
     const ENTRY_SHARD_KEYS = 'shardKeys';
+    
+    /**
+     * Collection 'smartJoinAttribute' index
+     */
+    const ENTRY_SMART_JOIN_ATTRIBUTE = 'smartJoinAttribute';
 
     /**
      * properties option
@@ -271,16 +295,18 @@ class Collection
      */
     public function __clone()
     {
-        $this->_id                = null;
-        $this->_name              = null;
-        $this->_waitForSync       = null;
-        $this->_journalSize       = null;
-        $this->_isSystem          = null;
-        $this->_isVolatile        = null;
-        $this->_numberOfShards    = null;
-        $this->_replicationFactor = null;
-        $this->_shardingStrategy  = null;
-        $this->_shardKeys         = null;
+        $this->_id                   = null;
+        $this->_name                 = null;
+        $this->_waitForSync          = null;
+        $this->_journalSize          = null;
+        $this->_isSystem             = null;
+        $this->_isVolatile           = null;
+        $this->_distributeShardsLike = null;
+        $this->_numberOfShards       = null;
+        $this->_replicationFactor    = null;
+        $this->_shardingStrategy     = null;
+        $this->_shardKeys            = null;
+        $this->_smartJoinAttribute   = null;
     }
 
     /**
@@ -335,6 +361,10 @@ class Collection
             self::ENTRY_STATUS       => $this->_status,
             self::ENTRY_KEY_OPTIONS  => $this->_keyOptions
         ];
+        
+        if (null !== $this->_distributeShardsLike) {
+            $result[self::ENTRY_DISTRIBUTE_SHARDS_LIKE] = $this->_distributeShardsLike;
+        }
 
         if (null !== $this->_numberOfShards) {
             $result[self::ENTRY_NUMBER_OF_SHARDS] = $this->_numberOfShards;
@@ -347,9 +377,13 @@ class Collection
         if (null !== $this->_shardingStrategy) {
             $result[self::ENTRY_SHARDING_STRATEGY] = $this->_shardingStrategy;
         }
-
+        
         if (is_array($this->_shardKeys)) {
             $result[self::ENTRY_SHARD_KEYS] = $this->_shardKeys;
+        }
+        
+        if (null !== $this->_smartJoinAttribute) {
+            $result[self::ENTRY_SMART_JOIN_ATTRIBUTE] = $this->_smartJoinAttribute;
         }
 
         return $result;
@@ -378,79 +412,76 @@ class Collection
 
         if ($key === self::ENTRY_ID) {
             $this->setId($value);
-
             return;
         }
 
         if ($key === self::ENTRY_NAME) {
             $this->setName($value);
-
             return;
         }
 
         if ($key === self::ENTRY_WAIT_SYNC) {
             $this->setWaitForSync($value);
-
             return;
         }
 
         if ($key === self::ENTRY_JOURNAL_SIZE) {
             $this->setJournalSize($value);
-
             return;
         }
 
         if ($key === self::ENTRY_IS_SYSTEM) {
             $this->setIsSystem($value);
-
             return;
         }
 
         if ($key === self::ENTRY_IS_VOLATILE) {
             $this->setIsVolatile($value);
-
             return;
         }
 
         if ($key === self::ENTRY_TYPE) {
             $this->setType($value);
-
             return;
         }
 
         if ($key === self::ENTRY_STATUS) {
             $this->setStatus($value);
-
             return;
         }
 
         if ($key === self::ENTRY_KEY_OPTIONS) {
             $this->setKeyOptions($value);
-
+            return;
+        }
+        
+        if ($key === self::ENTRY_DISTRIBUTE_SHARDS_LIKE) {
+            $this->setDistributeShardsLike($value);
             return;
         }
 
         if ($key === self::ENTRY_NUMBER_OF_SHARDS) {
             $this->setNumberOfShards($value);
-
             return;
         }
         
         if ($key === self::ENTRY_REPLICATION_FACTOR) {
             $this->setReplicationFactor($value);
-
             return;
         }
         
         if ($key === self::ENTRY_SHARDING_STRATEGY) {
             $this->setShardingStrategy($value);
-
             return;
         }
-
+        
         if ($key === self::ENTRY_SHARD_KEYS) {
             $this->setShardKeys($value);
-
+            return;
+        }
+        
+        if ($key === self::ENTRY_SMART_JOIN_ATTRIBUTE) {
+            $this->setSmartJoinAttribute($value);
             return;
         }
         // unknown attribute, will be ignored
@@ -726,6 +757,28 @@ class Collection
     {
         return $this->_isVolatile;
     }
+    
+    /**
+     * Set the distribute shards like value
+     *
+     * @param string $value - distributeShardsLike value
+     *
+     * @return void
+     */
+    public function setDistributeShardsLike($value)
+    {
+        $this->_distributeShardsLike = $value;
+    }
+
+    /**
+     * Get the distributeShardsLike (if already known)
+     *
+     * @return mixed - distributeShardsLike value
+     */
+    public function getDistributeShardsLike()
+    {
+        return $this->_distributeShardsLike;
+    }
 
     /**
      * Set the numberOfShards value
@@ -795,7 +848,7 @@ class Collection
     {
         return $this->_shardingStrategy;
     }
-
+    
     /**
      * Set the shardKeys value
      *
@@ -817,6 +870,28 @@ class Collection
     public function getShardKeys()
     {
         return $this->_shardKeys;
+    }
+    
+    /**
+     * Set the smart join attribute value
+     *
+     * @param string $value - smartJoinAttribute value
+     *
+     * @return void
+     */
+    public function setSmartJoinAttribute($value)
+    {
+        $this->_smartJoinAttribute = $value;
+    }
+
+    /**
+     * Get the smart join attribute value (if already known)
+     *
+     * @return mixed - smart join attribute value
+     */
+    public function getSmartJoinAttribute()
+    {
+        return $this->_smartJoinAttribute;
     }
 }
 

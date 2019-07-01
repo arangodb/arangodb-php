@@ -1,3 +1,18 @@
+Release notes for the ArangoDB-PHP driver 3.5.x
+===============================================
+
+The `CollectionHandler` class got a new method `createTtlIndex` for creating time-to-live (TTL)
+indexes on the server.
+
+All methods for index creation also got an extra optional attribute `$inBackground` that enables
+background index creation.
+
+Added support for the following attributes on collection level:
+
+- distributeShardsLike
+- smartJoinAttribute (only effective in ArangoDB enterprise edition)
+
+
 Release notes for the ArangoDB-PHP driver 3.4.x
 ===============================================
 

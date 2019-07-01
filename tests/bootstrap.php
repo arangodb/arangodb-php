@@ -9,6 +9,21 @@
 
 namespace ArangoDBClient;
 
+function isEnterprise(Connection $connection)
+{
+    static $isEnterprise = null;
+
+    if ($isEnterprise === null) {
+        $adminHandler = new AdminHandler($connection);
+        $version      = $adminHandler->getServerVersion(true);
+        if (@$version["details"]["enterprise-version"] === "enterprise") {
+            $isEnterprise = true;
+        }
+    }
+
+    return $isEnterprise;
+}
+
 function isCluster(Connection $connection)
 {
     static $isCluster = null;
