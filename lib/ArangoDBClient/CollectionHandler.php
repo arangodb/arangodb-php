@@ -238,6 +238,7 @@ class CollectionHandler extends Handler
      *                          <li>'distributeShardsLike' - name of prototype collection for identical sharding.</li>
      *                          <li>'numberOfShards'       - number of shards for the collection.</li>
      *                          <li>'replicationFactor'    - number of replicas to keep (default: 1).</li>
+     *                          <li>'minReplicationFactor' - minimum number of replicas to be successful when writing (default: 1).</li>
      *                          <li>'shardKeys'            - array of shard key attributes.</li>
      *                          <li>'shardingStrategy'     - sharding strategy to use in cluster.</li>
      *                          <li>'smartJoinAttribute'   - attribute name for smart joins (if not shard key).</li>
@@ -293,6 +294,10 @@ class CollectionHandler extends Handler
         
         if ($collection->getReplicationFactor() !== null) {
             $params[Collection::ENTRY_REPLICATION_FACTOR] = $collection->getReplicationFactor();
+        }
+        
+        if ($collection->getMinReplicationFactor() !== null) {
+            $params[Collection::ENTRY_MIN_REPLICATION_FACTOR] = $collection->getMinReplicationFactor();
         }
         
         if ($collection->getShardingStrategy() !== null) {

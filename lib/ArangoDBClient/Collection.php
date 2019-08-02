@@ -91,6 +91,13 @@ class Collection
     private $_replicationFactor;
     
     /**
+     * The minimum replicationFactor value for writes to be successful
+     *
+     * @var mixed - minimum replicationFactor value
+     */
+    private $_minReplicationFactor;
+    
+    /**
      * The shardingStrategy value (might be NULL for new collections)
      *
      * @var mixed - shardingStrategy value
@@ -184,6 +191,11 @@ class Collection
      * Collection 'replicationFactor' index
      */
     const ENTRY_REPLICATION_FACTOR = 'replicationFactor';
+    
+    /**
+     * Collection 'minReplicationFactor' index
+     */
+    const ENTRY_MIN_REPLICATION_FACTOR = 'minReplicationFactor';
     
     /**
      * Collection 'shardingStrategy' index
@@ -304,6 +316,7 @@ class Collection
         $this->_distributeShardsLike = null;
         $this->_numberOfShards       = null;
         $this->_replicationFactor    = null;
+        $this->_minReplicationFactor = null;
         $this->_shardingStrategy     = null;
         $this->_shardKeys            = null;
         $this->_smartJoinAttribute   = null;
@@ -372,6 +385,10 @@ class Collection
         
         if (null !== $this->_replicationFactor) {
             $result[self::ENTRY_REPLICATION_FACTOR] = $this->_replicationFactor;
+        }
+        
+        if (null !== $this->_minReplicationFactor) {
+            $result[self::ENTRY_MIN_REPLICATION_FACTOR] = $this->_minReplicationFactor;
         }
         
         if (null !== $this->_shardingStrategy) {
@@ -467,6 +484,11 @@ class Collection
         
         if ($key === self::ENTRY_REPLICATION_FACTOR) {
             $this->setReplicationFactor($value);
+            return;
+        }
+        
+        if ($key === self::ENTRY_MIN_REPLICATION_FACTOR) {
+            $this->setMinReplicationFactor($value);
             return;
         }
         
@@ -807,7 +829,7 @@ class Collection
     /**
      * Set the replicationFactor value
      *
-     * @param int $value - replicationFactor value
+     * @param mixed $value - replicationFactor value (either a number, or "satellite")
      *
      * @return void
      */
@@ -828,7 +850,30 @@ class Collection
     }
     
     /**
-     * Set the shardingStragy value
+     * Set the minReplicationFactor value
+     *
+     * @param int $value - minReplicationFactor value
+     *
+     * @return void
+     */
+    public function setMinReplicationFactor($value)
+    {
+        assert(null === $value || is_numeric($value));
+        $this->_minReplicationFactor = $value;
+    }
+
+    /**
+     * Get the minReplicationFactor value (if already known)
+     *
+     * @return mixed - minReplicationFactor value
+     */
+    public function getMinReplicationFactor()
+    {
+        return $this->_minReplicationFactor;
+    }
+    
+    /**
+     * Set the shardingStrategy value
      *
      * @param string $value - shardingStrategy value
      *

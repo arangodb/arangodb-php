@@ -11,6 +11,7 @@ Added support for the following attributes on collection level:
 
 - distributeShardsLike
 - smartJoinAttribute (only effective in ArangoDB enterprise edition)
+- minReplicationFactor
 
 Removed unused `$_action` member in class `AqlUserFunction`, also 
 removed its `__toString()` method.

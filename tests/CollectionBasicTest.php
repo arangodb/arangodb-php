@@ -314,6 +314,7 @@ class CollectionBasicTest extends
         }
 
         $collection->setName($name);
+        $collection->setMinReplicationFactor(1);
         $collection->setReplicationFactor(1);
 
         $response = $collectionHandler->create($collection);
@@ -322,6 +323,7 @@ class CollectionBasicTest extends
         $properties          = $resultingCollection->getAll();
 
         static::assertEquals(1, $properties[Collection::ENTRY_REPLICATION_FACTOR]);
+        static::assertEquals(1, $properties[Collection::ENTRY_MIN_REPLICATION_FACTOR]);
     }
     
     
@@ -349,6 +351,7 @@ class CollectionBasicTest extends
         }
 
         $collection->setName($name);
+        $collection->setMinReplicationFactor(2);
         $collection->setReplicationFactor(2);
 
         $response = $collectionHandler->create($collection);
@@ -357,6 +360,7 @@ class CollectionBasicTest extends
         $properties          = $resultingCollection->getAll();
 
         static::assertEquals(2, $properties[Collection::ENTRY_REPLICATION_FACTOR]);
+        static::assertEquals(2, $properties[Collection::ENTRY_MIN_REPLICATION_FACTOR]);
     }
     
     /**
@@ -397,6 +401,7 @@ class CollectionBasicTest extends
         $properties          = $resultingCollection->getAll();
 
         static::assertEquals("satellite", $properties[Collection::ENTRY_REPLICATION_FACTOR]);
+        static::assertEquals(0, $properties[Collection::ENTRY_MIN_REPLICATION_FACTOR]);
     }
     
     
