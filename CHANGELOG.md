@@ -12,6 +12,9 @@ Added support for the following attributes on collection level:
 - distributeShardsLike
 - smartJoinAttribute (only effective in ArangoDB enterprise edition)
 
+Removed unused `$_action` member in class `AqlUserFunction`, also 
+removed its `__toString()` method.
+
 
 Release notes for the ArangoDB-PHP driver 3.4.x
 ===============================================

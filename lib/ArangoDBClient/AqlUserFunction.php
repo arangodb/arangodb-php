@@ -43,7 +43,6 @@ namespace ArangoDBClient;
  *
  * @property string $name - The name of the user function
  * @property string $code - The code of the user function
- * @property string _action
  *
  * @package   ArangoDBClient
  * @since     1.3
@@ -58,18 +57,11 @@ class AqlUserFunction
     private $_connection;
 
     /**
-     * The transaction's attributes.
+     * The function's attributes.
      *
      * @var array
      */
     protected $attributes = [];
-
-    /**
-     * The transaction's action.
-     *
-     * @var string
-     */
-    protected $_action = '';
 
     /**
      * Collections index
@@ -366,18 +358,6 @@ class AqlUserFunction
         return $this->get($key);
     }
 
-
-    /**
-     * Returns the action string
-     *
-     * @magic
-     *
-     * @return string - the current action string
-     */
-    public function __toString()
-    {
-        return $this->_action;
-    }
 
     /**
      * Build the object's attributes from a given array
