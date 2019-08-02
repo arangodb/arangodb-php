@@ -51,7 +51,7 @@ $connectionOptions = [
     ConnectionOptions::OPTION_AUTH_PASSWD => '',                      // password for basic authorization
 
     ConnectionOptions::OPTION_TIMEOUT       => 30,                      // timeout in seconds
-    ConnectionOptions::OPTION_TRACE         => $traceFunc,              // tracer function, can be used for debugging
+    // ConnectionOptions::OPTION_TRACE         => $traceFunc,              // tracer function, can be used for debugging
     ConnectionOptions::OPTION_CREATE        => false,                   // do not create unknown collections automatically
     ConnectionOptions::OPTION_UPDATE_POLICY => UpdatePolicy::LAST,      // last update wins
 ];

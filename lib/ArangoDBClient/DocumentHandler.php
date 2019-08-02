@@ -170,19 +170,21 @@ class DocumentHandler extends Handler
      */
     protected function getDocument($url, $collection, $documentId, array $options = [])
     {
-        $collection = $this->makeCollection($collection);
+        $headers        = [];
+        $this->addTransactionHeader($headers, $collection);
+
+        $collection     = $this->makeCollection($collection);
 
         $url            = UrlHelper::buildUrl($url, [$collection, $documentId]);
-        $headerElements = [];
         if (array_key_exists('ifMatch', $options) && array_key_exists('revision', $options)) {
             if ($options['ifMatch'] === true) {
-                $headerElements['If-Match'] = '"' . $options['revision'] . '"';
+                $headers['If-Match'] = '"' . $options['revision'] . '"';
             } else {
-                $headerElements['If-None-Match'] = '"' . $options['revision'] . '"';
+                $headers['If-None-Match'] = '"' . $options['revision'] . '"';
             }
         }
 
-        $response = $this->getConnection()->get($url, $headerElements);
+        $response = $this->getConnection()->get($url, $headers);
 
         if ($response->getHttpCode() === 304) {
             throw new ClientException('Document has not changed.');
@@ -232,19 +234,21 @@ class DocumentHandler extends Handler
      */
     protected function head($url, $collection, $documentId, $revision = null, $ifMatch = null)
     {
-        $collection = $this->makeCollection($collection);
+        $headers        = [];
+        $this->addTransactionHeader($headers, $collection);
+
+        $collection     = $this->makeCollection($collection);
 
         $url            = UrlHelper::buildUrl($url, [$collection, $documentId]);
-        $headerElements = [];
         if ($revision !== null && $ifMatch !== null) {
             if ($ifMatch) {
-                $headerElements['If-Match'] = '"' . $revision . '"';
+                $headers['If-Match'] = '"' . $revision . '"';
             } else {
-                $headerElements['If-None-Match'] = '"' . $revision . '"';
+                $headers['If-None-Match'] = '"' . $revision . '"';
             }
         }
-
-        $response            = $this->getConnection()->head($url, $headerElements);
+        
+        $response            = $this->getConnection()->head($url, $headers);
         $headers             = $response->getHeaders();
         $headers['httpCode'] = $response->getHttpCode();
 
@@ -337,6 +341,9 @@ class DocumentHandler extends Handler
      */
     public function save($collection, $document, array $options = [])
     {
+        $headers = [];
+        $this->addTransactionHeader($headers, $collection);
+
         $collection     = $this->makeCollection($collection);
         $_documentClass = $this->_documentClass;
 
@@ -361,7 +368,7 @@ class DocumentHandler extends Handler
             $data = $document->getAllForInsertUpdate();
         }
 
-        $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data));
+        $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data), $headers);
         $json     = $response->getJson();
 
         // This makes sure that if we're in batch mode, it will not go further and choke on the checks below.
@@ -493,6 +500,9 @@ class DocumentHandler extends Handler
      */
     protected function patch($url, $collection, $documentId, Document $document, array $options = [])
     {
+        $headers = [];
+        $this->addTransactionHeader($headers, $collection);
+
         $collection     = $this->makeCollection($collection);
         $_documentClass = $this->_documentClass;
 
@@ -509,7 +519,6 @@ class DocumentHandler extends Handler
         );
 
 
-        $headers = [];
         if (isset($params[ConnectionOptions::OPTION_UPDATE_POLICY]) &&
             $params[ConnectionOptions::OPTION_UPDATE_POLICY] === UpdatePolicy::ERROR
         ) {
@@ -618,6 +627,9 @@ class DocumentHandler extends Handler
      */
     protected function put($url, $collection, $documentId, Document $document, array $options = [])
     {
+        $headers = [];
+        $this->addTransactionHeader($headers, $collection);
+
         $collection     = $this->makeCollection($collection);
         $_documentClass = $this->_documentClass;
 
@@ -632,7 +644,6 @@ class DocumentHandler extends Handler
             ]
         );
 
-        $headers = [];
         if (isset($params[ConnectionOptions::OPTION_REPLACE_POLICY]) &&
             $params[ConnectionOptions::OPTION_REPLACE_POLICY] === UpdatePolicy::ERROR
         ) {
@@ -641,7 +652,7 @@ class DocumentHandler extends Handler
                 $headers['if-match']  = '"' . $options['revision'] . '"';
             }
         }
-
+        
         $data = $document->getAllForInsertUpdate();
 
         $url    = UrlHelper::buildUrl($url, [$collection, $documentId]);
@@ -725,6 +736,9 @@ class DocumentHandler extends Handler
      */
     protected function erase($url, $collection, $documentId, $revision = null, array $options = [])
     {
+        $headers = [];
+        $this->addTransactionHeader($headers, $collection);
+
         $collection = $this->makeCollection($collection);
 
         $params = $this->includeOptionsInParams(
@@ -737,7 +751,6 @@ class DocumentHandler extends Handler
             ]
         );
 
-        $headers = [];
         if (isset($params[ConnectionOptions::OPTION_DELETE_POLICY]) &&
             $params[ConnectionOptions::OPTION_DELETE_POLICY] === UpdatePolicy::ERROR
         ) {

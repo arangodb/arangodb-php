@@ -45,6 +45,10 @@ class ValueValidator
             return;
         }
 
+        if ($value instanceof Collection) {
+            return;
+        }
+
         // type is invalid
         throw new ClientException('Invalid bind parameter value');
     }

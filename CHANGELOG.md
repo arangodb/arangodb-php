@@ -1,6 +1,61 @@
 Release notes for the ArangoDB-PHP driver 3.5.x
 ===============================================
 
+Added support for streaming transactions (i.e. transactions that can be composed of multiple
+operations on the client side piece-by-piece without specifying the full transaction operations 
+in advance).
+
+Streaming transactions currently support the following operations:
+
+- fetch documents by id, i.e. `DocumentHandler::getById()`
+- update documents by id, i.e. `DocumentHandler::updateById()` 
+- replace documents by id, i.e. `DocumentHandler::replaceById()` 
+- remove documents by id, i.e. `DocumentHandler::removeById()`
+- insert documents, i.e. `DocumentHandler::insert()`
+- counting documents in a collection, i.e. `CollectionHandler::count()`
+- truncating a collection, i.e. `CollectionHandler::truncate()`
+- running AQL queries, i.e. `Statement::execute()`
+
+Streaming transactions are provided by a new class `StreamingTransaction` and a new handler
+`StreamingTransactionHandler`.
+        
+    $document           = new DocumentHandler($connection);
+    $transactionHandler = new StreamingTransactionHandler($connection);
+
+    // creates a transaction object
+    $trx = new StreamingTransaction($connection, [
+         TransactionBase::ENTRY_COLLECTIONS => [
+             TransactionBase::ENTRY_WRITE => [ 'testCollection' ]
+         ]
+    ]);
+
+    // starts the transaction
+    $trx = $transactionHandler->create($trx);
+       
+    // get a StreamingTransactionCollection object. this is used to execute operations
+    // in a transaction context
+    $trxCollection = $trx->getCollection('testCollection');
+        
+    // pass the StreamingTransactionCollection into the document operations instead of
+    // a regular Collection object - this will make the operations execute in the context
+    // of the currently running transaction
+    $result = $documentHandler->insert($trxCollection, [ '_key' => 'test1', 'value' => 'test1' ]);
+    
+    $result = $documentHandler->insert($trxCollection, [ '_key' => 'test2', 'value' => 'test2' ]);
+
+    // commits the transaction
+    $transactionHandler->commit($trx);
+
+Caveat: streaming transactions will normally stay open on the server side until they are explicitly 
+aborted or committed by the client application, or until they time out automatically on the server.
+Therefore by default the PHP driver will automatically keep track of all begun streaming transactions,
+via an instance variable in the `StreamingTransactionHandler`.
+
+Streaming transactions are automatically aborted on shutdown via a shutdown function, and all
+transactions started via `StreamingTransactionHandler` instances that were neither committed nor 
+aborted by the user will be aborted. 
+
+
 The `CollectionHandler` class got a new method `createTtlIndex` for creating time-to-live (TTL)
 indexes on the server.
 

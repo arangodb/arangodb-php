@@ -174,6 +174,19 @@ abstract class Handler
         return $value;
     }
 
+
+    /**
+     * Add a transaction header to the array of headers in case this is a transactional operation 
+     *
+     * @param array $headers - already existing headers
+     * @param mixed $collection - any type of collection (can be StreamingTransactionCollection or other)
+     */
+    protected function addTransactionHeader(array &$headers, $collection)
+    {
+        if ($collection instanceof StreamingTransactionCollection) {
+            $headers['x-arango-trx-id'] = $collection->getTrxId();
+        }
+    }
 }
 
 class_alias(Handler::class, '\triagens\ArangoDb\Handler');

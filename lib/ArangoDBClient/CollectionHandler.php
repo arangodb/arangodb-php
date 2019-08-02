@@ -393,9 +393,12 @@ class CollectionHandler extends Handler
      */
     public function count($collection)
     {
+        $headers    = [];
+        $this->addTransactionHeader($headers, $collection);
+
         $collection = $this->makeCollection($collection);
         $url        = UrlHelper::buildUrl(Urls::URL_COLLECTION, [$collection, self::OPTION_COUNT]);
-        $response   = $this->getConnection()->get($url);
+        $response   = $this->getConnection()->get($url, $headers);
 
         $data  = $response->getJson();
         $count = $data[self::OPTION_COUNT];
@@ -616,15 +619,19 @@ class CollectionHandler extends Handler
      */
     public function truncate($collection)
     {
-        $collectionId = $this->getCollectionId($collection);
-
-        if ($this->isValidCollectionId($collectionId)) {
-            throw new ClientException('Cannot alter a collection without a collection id');
+        $headers      = [];
+        $bodyParams   = [];
+        $this->addTransactionHeader($headers, $collection);
+        if ($collection instanceof StreamingTransactionCollection) {
+            $bodyParams['transactionId'] = $collection->getTrxId();
         }
 
+        $collection   = $this->makeCollection($collection);
+
         $this->getConnection()->put(
-            UrlHelper::buildUrl(Urls::URL_COLLECTION, [$collectionId, self::OPTION_TRUNCATE]),
-            ''
+            UrlHelper::buildUrl(Urls::URL_COLLECTION, [$collection, self::OPTION_TRUNCATE]),
+            $this->json_encode_wrapper($bodyParams),
+            $headers
         );
 
         return true;

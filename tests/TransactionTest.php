@@ -275,10 +275,10 @@ class TransactionTest extends
         // check if getters work fine
 
         static::assertEquals(
-            $writeCollections, $transaction->writeCollections, 'Did not return writeCollections, instead returned: ' . print_r($transaction->writeCollections, 1)
+            [$writeCollections], $transaction->writeCollections, 'Did not return writeCollections, instead returned: ' . print_r($transaction->writeCollections, 1)
         );
         static::assertEquals(
-            $readCollections, $transaction->readCollections, 'Did not return readCollections, instead returned: ' . print_r($transaction->readCollections, 1)
+            [$readCollections], $transaction->readCollections, 'Did not return readCollections, instead returned: ' . print_r($transaction->readCollections, 1)
         );
         static::assertEquals(
             $action, $transaction->action, 'Did not return action, instead returned: ' . $transaction->action
@@ -338,6 +338,34 @@ class TransactionTest extends
             $lockTimeout, $transaction->getLockTimeout(), 'Did not return lockTimeout, instead returned: ' . $transaction->getLockTimeout()
         );
 
+
+        $result = $transaction->execute();
+        static::assertTrue($result, 'Did not return true, instead returned: ' . $result);
+    }
+    
+    
+    /**
+     * Test if we can create and execute a transaction by using getters/setters
+     */
+    public function testCreateAndExecuteTransactionExclusiveWithGettersSetters()
+    {
+        $exclusiveCollections = [$this->collection1->getName(), $this->collection2->getName()];
+        $action           = '
+  function () {
+    var db = require("internal").db;
+    db.' . $this->collection1->getName() . '.save({ test : "hello" });
+  }';
+
+        $transaction = new Transaction($this->connection);
+
+        // check if setters work fine
+        $transaction->setExclusiveCollections($exclusiveCollections);
+        $transaction->setAction($action);
+
+        // check if getters work fine
+
+        static::assertEquals(
+          $exclusiveCollections, $transaction->getExclusiveCollections());
 
         $result = $transaction->execute();
         static::assertTrue($result, 'Did not return true, instead returned: ' . $result);

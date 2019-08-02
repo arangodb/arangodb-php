@@ -149,6 +149,13 @@ class Statement
      * @var int
      */
     private $_memoryLimit = 0;
+    
+    /**
+     * transaction id (used internally)
+     *
+     * @var string
+     */
+    private $_trxId = null;
 
     /**
      * resultType
@@ -156,7 +163,6 @@ class Statement
      * @var string
      */
     private $resultType;
-
 
     /**
      * Query string index
@@ -207,6 +213,11 @@ class Statement
      * TTL attribute
      */
     const ENTRY_TTL = 'ttl';
+
+    /** 
+     * transaction attribute (used internally)
+     */
+    const ENTRY_TRANSACTION = 'transaction';
 
     /**
      * Initialise the statement
@@ -284,6 +295,10 @@ class Statement
         if (isset($data[self::ENTRY_MEMORY_LIMIT])) {
             $this->_memoryLimit = (int) $data[self::ENTRY_MEMORY_LIMIT];
         }
+
+        if (isset($data[self::ENTRY_TRANSACTION]) && $data[self::ENTRY_TRANSACTION] instanceof StreamingTransaction) {
+            $this->_trxId = $data[self::ENTRY_TRANSACTION]->getId();
+        }
     }
 
     /**
@@ -311,12 +326,18 @@ class Statement
             throw new ClientException('Query should be a string');
         }
 
-        $data = $this->buildData();
+        $data    = $this->buildData();
 
-        $tries = 0;
+        $headers = [];
+        if ($this->_trxId) {
+            // inject transaction id
+            $headers['x-arango-trx-id'] = $this->_trxId;
+        }
+
+        $tries   = 0;
         while (true) {
             try {
-                $response = $this->_connection->post(Urls::URL_CURSOR, $this->getConnection()->json_encode_wrapper($data), []);
+                $response = $this->_connection->post(Urls::URL_CURSOR, $this->getConnection()->json_encode_wrapper($data), $headers);
 
                 return new Cursor($this->_connection, $response->getJson(), $this->getCursorOptions());
             } catch (ServerException $e) {

@@ -40,8 +40,9 @@ namespace ArangoDBClient;
  * <br />
  * There are also helper functions to set collections directly, based on their locking:
  * <pre>
- * $this->setWriteCollections($array or $string if single collection)
  * $this->setReadCollections($array or $string if single collection)
+ * $this->setWriteCollections($array or $string if single collection)
+ * $this->setExclusiveCollections($array or $string if single collection)
  * </pre>
  * <br />
  *
@@ -55,56 +56,17 @@ namespace ArangoDBClient;
  * @package ArangoDBClient
  * @since   1.3
  */
-class Transaction
+class Transaction extends TransactionBase
 {
-    /**
-     * The connection object
-     *
-     * @var Connection
-     */
-    private $_connection;
-
-    /**
-     * The transaction's attributes.
-     *
-     * @var array
-     */
-    protected $attributes = [];
-
-    /**
-     * Collections index
-     */
-    const ENTRY_COLLECTIONS = 'collections';
-
     /**
      * Action index
      */
     const ENTRY_ACTION = 'action';
 
     /**
-     * WaitForSync index
-     */
-    const ENTRY_WAIT_FOR_SYNC = 'waitForSync';
-
-    /**
-     * Lock timeout index
-     */
-    const ENTRY_LOCK_TIMEOUT = 'lockTimeout';
-
-    /**
      * Params index
      */
     const ENTRY_PARAMS = 'params';
-
-    /**
-     * Read index
-     */
-    const ENTRY_READ = 'read';
-
-    /**
-     * WRITE index
-     */
-    const ENTRY_WRITE = 'write';
 
     /**
      * @var $_action string The action property of the transaction.
@@ -136,7 +98,8 @@ class Transaction
      */
     public function __construct(Connection $connection, array $transactionArray = null)
     {
-        $this->_connection = $connection;
+        parent::__construct($connection);
+
         if (is_array($transactionArray)) {
             $this->buildTransactionAttributesFromArray($transactionArray);
         }
@@ -154,7 +117,7 @@ class Transaction
      */
     public function execute()
     {
-        $response      = $this->_connection->post(
+        $response      = $this->getConnection()->post(
             Urls::URL_TRANSACTION,
             $this->getConnection()->json_encode_wrapper($this->attributes)
         );
@@ -164,49 +127,6 @@ class Transaction
         }
 
         return true;
-    }
-
-
-    /**
-     * Return the connection object
-     *
-     * @return Connection - the connection object
-     */
-    protected function getConnection()
-    {
-        return $this->_connection;
-    }
-
-
-    /**
-     * Set the collections array.
-     *
-     * The array should have 2 sub-arrays, namely 'read' and 'write' which should hold the respective collections
-     * for the transaction
-     *
-     * @param array $value
-     */
-    public function setCollections(array $value)
-    {
-        if (array_key_exists('read', $value)) {
-            $this->setReadCollections($value['read']);
-        }
-        if (array_key_exists('write', $value)) {
-            $this->setWriteCollections($value['write']);
-        }
-    }
-
-
-    /**
-     * Get collections array
-     *
-     * This holds the read and write collections of the transaction
-     *
-     * @return array $value
-     */
-    public function getCollections()
-    {
-        return $this->get(self::ENTRY_COLLECTIONS);
     }
 
 
@@ -235,54 +155,6 @@ class Transaction
 
 
     /**
-     * set waitForSync value
-     *
-     * @param bool $value
-     *
-     * @throws \ArangoDBClient\ClientException
-     */
-    public function setWaitForSync($value)
-    {
-        $this->set(self::ENTRY_WAIT_FOR_SYNC, (bool) $value);
-    }
-
-
-    /**
-     * get waitForSync value
-     *
-     * @return bool waitForSync
-     */
-    public function getWaitForSync()
-    {
-        return $this->get(self::ENTRY_WAIT_FOR_SYNC);
-    }
-
-
-    /**
-     * Set lockTimeout value
-     *
-     * @param int $value
-     *
-     * @throws \ArangoDBClient\ClientException
-     */
-    public function setLockTimeout($value)
-    {
-        $this->set(self::ENTRY_LOCK_TIMEOUT, (int) $value);
-    }
-
-
-    /**
-     * Get lockTimeout value
-     *
-     * @return int lockTimeout
-     */
-    public function getLockTimeout()
-    {
-        return $this->get(self::ENTRY_LOCK_TIMEOUT);
-    }
-
-
-    /**
      * Set params value
      *
      * @param array $value
@@ -303,56 +175,6 @@ class Transaction
     public function getParams()
     {
         return $this->get(self::ENTRY_PARAMS);
-    }
-
-
-    /**
-     * Convenience function to directly set write-collections without having to access
-     * them from the collections attribute.
-     *
-     * @param array $value
-     */
-    public function setWriteCollections($value)
-    {
-
-        $this->attributes[self::ENTRY_COLLECTIONS][self::ENTRY_WRITE] = $value;
-    }
-
-
-    /**
-     * Convenience function to directly get write-collections without having to access
-     * them from the collections attribute.
-     *
-     * @return array params
-     */
-    public function getWriteCollections()
-    {
-        return $this->attributes[self::ENTRY_COLLECTIONS][self::ENTRY_WRITE];
-    }
-
-
-    /**
-     * Convenience function to directly set read-collections without having to access
-     * them from the collections attribute.
-     *
-     * @param array $value
-     */
-    public function setReadCollections($value)
-    {
-
-        $this->attributes[self::ENTRY_COLLECTIONS][self::ENTRY_READ] = $value;
-    }
-
-
-    /**
-     * Convenience function to directly get read-collections without having to access
-     * them from the collections attribute.
-     *
-     * @return array params
-     */
-    public function getReadCollections()
-    {
-        return $this->attributes[self::ENTRY_COLLECTIONS][self::ENTRY_READ];
     }
 
 
@@ -392,57 +214,16 @@ class Transaction
     public function __set($key, $value)
     {
         switch ($key) {
-            case self::ENTRY_COLLECTIONS :
-                $this->setCollections($value);
-                break;
-            case 'writeCollections' :
-                $this->setWriteCollections($value);
-                break;
-            case 'readCollections' :
-                $this->setReadCollections($value);
-                break;
             case self::ENTRY_ACTION :
                 $this->setAction($value);
-                break;
-            case self::ENTRY_WAIT_FOR_SYNC :
-                $this->setWaitForSync($value);
-                break;
-            case self::ENTRY_LOCK_TIMEOUT :
-                $this->setLockTimeout($value);
                 break;
             case self::ENTRY_PARAMS :
                 $this->setParams($value);
                 break;
             default:
-                $this->set($key, $value);
+                parent::__set($key, $value);
                 break;
         }
-    }
-
-
-    /**
-     * Get an attribute
-     *
-     * @param string $key - name of attribute
-     *
-     * @return mixed - value of attribute, NULL if attribute is not set
-     */
-    public function get($key)
-    {
-        switch ($key) {
-            case 'writeCollections' :
-                return $this->getWriteCollections();
-                break;
-            case 'readCollections' :
-                return $this->getReadCollections();
-                break;
-        }
-
-        if (isset($this->attributes[$key])) {
-            return $this->attributes[$key];
-        }
-
-        return null;
     }
 
 
@@ -502,20 +283,10 @@ class Transaction
      */
     public function buildTransactionAttributesFromArray($options)
     {
-        if (isset($options[self::ENTRY_COLLECTIONS])) {
-            $this->setCollections($options[self::ENTRY_COLLECTIONS]);
-        }
+        parent::buildTransactionAttributesFromArray($options);
 
         if (isset($options[self::ENTRY_ACTION])) {
             $this->setAction($options[self::ENTRY_ACTION]);
-        }
-
-        if (isset($options[self::ENTRY_WAIT_FOR_SYNC])) {
-            $this->setWaitForSync($options[self::ENTRY_WAIT_FOR_SYNC]);
-        }
-
-        if (isset($options[self::ENTRY_LOCK_TIMEOUT])) {
-            $this->setLockTimeout($options[self::ENTRY_LOCK_TIMEOUT]);
         }
 
         if (isset($options[self::ENTRY_PARAMS])) {
