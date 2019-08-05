@@ -762,6 +762,125 @@ class CollectionBasicTest extends
         $collectionHandler->drop($name, ['isSystem' => true]);
     }
 
+    
+    /**
+     * Creates an index using createIndex
+     */
+    public function testCreateIndex()
+    {
+        $result = $this->collectionHandler->createIndex(
+            'ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp, [
+                'type' => 'hash',
+                'name' => 'mr-hash',
+                'fields' => ['a', 'b'],
+                'unique' => true,
+                'sparse' => true,
+                'inBackground' => true
+            ]
+        ); 
+        
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp);
+
+        $indicesByIdentifiers = $indices['identifiers'];
+
+        static::assertArrayHasKey($result['id'], $indicesByIdentifiers);
+
+        $indexInfo = $indicesByIdentifiers[$result['id']];
+
+        static::assertEquals('hash', $indexInfo[CollectionHandler::OPTION_TYPE]);
+        static::assertEquals(['a', 'b'], $indexInfo['fields']);
+        static::assertTrue($indexInfo['unique']);
+        static::assertTrue($indexInfo['sparse']);
+        static::assertEquals('mr-hash', $indexInfo['name']);
+    }
+    
+    
+    /**
+     * Gets an index by id
+     */
+    public function testGetIndexById()
+    {
+        $result = $this->collectionHandler->createIndex(
+            'ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp, [
+                'type' => 'persistent',
+                'name' => 'abc',
+                'fields' => ['b', 'a', 'c'],
+                'unique' => false,
+                'sparse' => true,
+                'inBackground' => false
+            ]
+        ); 
+        
+        $indexInfo = $this->collectionHandler->getIndex('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp, $result['id']);
+
+        static::assertEquals('persistent', $indexInfo[CollectionHandler::OPTION_TYPE]);
+        static::assertEquals(['b', 'a', 'c'], $indexInfo['fields']);
+        static::assertFalse($indexInfo['unique']);
+        static::assertTrue($indexInfo['sparse']);
+        static::assertEquals('abc', $indexInfo['name']);
+    }
+
+    
+    /**
+     * Gets an index by name
+     */
+    public function testGetIndexByName()
+    {
+        $result = $this->collectionHandler->createIndex(
+            'ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp, [
+                'type' => 'fulltext',
+                'name' => 'this-is-an-index',
+                'fields' => ['c'],
+                'minLength' => 4,
+            ]
+        ); 
+        
+        $indexInfo = $this->collectionHandler->getIndex('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp, $result['id']);
+
+        static::assertEquals('fulltext', $indexInfo[CollectionHandler::OPTION_TYPE]);
+        static::assertEquals(['c'], $indexInfo['fields']);
+        static::assertFalse($indexInfo['unique']);
+        static::assertTrue($indexInfo['sparse']);
+        static::assertEquals(4, $indexInfo['minLength']);
+        static::assertEquals('this-is-an-index', $indexInfo['name']);
+    }
+    
+    /**
+     * Drops an index by id
+     */
+    public function testDropIndexById()
+    {
+        $result = $this->collectionHandler->createIndex(
+            'ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp, [
+                'type' => 'fulltext',
+                'name' => 'this-is-an-index',
+                'fields' => ['c'],
+                'minLength' => 4,
+            ]
+        ); 
+        
+        $result = $this->collectionHandler->dropIndex('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp, $result['id']);
+        static::assertTrue($result);
+    }
+
+
+    /**
+     * Drops an index by name
+     */
+    public function testDropIndexByName()
+    {
+        $result = $this->collectionHandler->createIndex(
+            'ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp, [
+                'type' => 'fulltext',
+                'name' => 'this-is-an-index',
+                'fields' => ['c'],
+                'minLength' => 4,
+            ]
+        ); 
+        
+        $result = $this->collectionHandler->dropIndex('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp, 'this-is-an-index');
+        static::assertTrue($result);
+    }
 
     /**
      * Create a geo index with 1 field and verify it by getting information about the index from the server
@@ -1145,6 +1264,85 @@ class CollectionBasicTest extends
     public function testHasCollectionReturnsTrueIfCollectionExists()
     {
         static::assertTrue($this->collectionHandler->has('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp));
+    }
+    
+    
+    /**
+     * get shards
+     */
+    public function testGetShards() 
+    {
+        if (!isCluster($this->connection)) {
+            // don't execute this test in a non-cluster
+            $this->markTestSkipped("test is only meaningful in cluster");
+            return;
+        }
+
+        $connection        = $this->connection;
+        $collection        = new Collection();
+        $collectionHandler = new CollectionHandler($connection);
+
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
+
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
+        $collection->setName($name);
+        $collection->setNumberOfShards(5);
+
+        $collectionHandler->create($collection);
+
+        $shardIds = $collectionHandler->getShards($collection);
+        static::assertEquals(5, count($shardIds));
+
+        foreach ($shardIds as $shardId) {
+            static::assertTrue(is_string($shardId));
+        }
+    }
+    
+    /**
+     * find responsible shard
+     */
+    public function testGetResponsibleShard()
+    {
+        if (!isCluster($this->connection)) {
+            // don't execute this test in a non-cluster
+            $this->markTestSkipped("test is only meaningful in cluster");
+            return;
+        }
+
+        $connection        = $this->connection;
+        $collection        = new Collection();
+        $collectionHandler = new CollectionHandler($connection);
+        $documentHandler   = new DocumentHandler($connection);
+
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
+
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
+        $collection->setName($name);
+        $collection->setNumberOfShards(5);
+
+        $response = $collectionHandler->create($collection);
+        
+        $shardIds = $collectionHandler->getShards($collection);
+
+        for ($i = 0; $i < 100; ++$i) {
+            $doc = new Document();
+            $doc->setInternalKey('test' . $i);
+
+            $documentHandler->save($collection, $doc);
+            
+            $responsible = $collectionHandler->getResponsibleShard($collection, $doc);
+            static::assertTrue(in_array($responsible, $shardIds));
+        }
     }
 
     public function tearDown()

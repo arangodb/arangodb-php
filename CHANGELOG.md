@@ -16,6 +16,8 @@ Streaming transactions currently support the following operations:
 - truncating a collection, i.e. `CollectionHandler::truncate()`
 - running AQL queries, i.e. `Statement::execute()`
 
+Other driver operations than the above are currently not supported within streaming transactions.
+
 Streaming transactions are provided by a new class `StreamingTransaction` and a new handler
 `StreamingTransactionHandler`.
         
@@ -59,13 +61,58 @@ possible to call the handler's `stealTransaction()` method with the transaction'
 make the handler "forget" about auto-aborting this particular transaction.
 
 
+Deprecated several methods in `CollectionHandler`, because they are deprecated in the arangod
+server as well:
+
+- CollectionHandler::fulltext()
+- CollectionHandler::updateByExample()
+- CollectionHandler::replaceByExample()
+- CollectionHandler::range()
+- CollectionHandler::near()
+- CollectionHandler::within()
+
+
+Added method `CollectionHandler::getShards()` to retrieve the list of available shards of a collection.
+
+Added method `CollectionHandler::getResponsibleShard()` to retrieve the shard id of the shard
+responsible for storing a particular document.
+
+
+All index-specific index-creation methods in `CollectionHandler` are now deprecated in favor of
+the much more general method `CollectionHandler::createIndex()`. This new methods replaces the
+following deprecated methods:
+
+- CollectionHandler::createHashIndex()
+- CollectionHandler::createFulltextIndex()
+- CollectionHandler::createSkipListIndex()
+- CollectionHandler::createPersistentIndex()
+- CollectionHandler::createTtlIndex()
+- CollectionHandler::createGeoIndex()
+- CollectionHandler::index()
+
+`CollectionHandler::createIndex()` now also supports named indexes and background indexing via
+setting the respective options on index creation, e.g.
+
+    $collectionHandler->createIndex($collection, [
+        'type'         => 'persistent',
+        'name'         => 'my-index',
+        'fields'       => ['a', 'b'],
+        'unique'       => true,
+        'sparse'       => false,
+        'inBackground' => true
+    ]);
+
+The now deprecated specialized index methods will be removed in a future release of the driver
+in favor of the generic `createIndex` method.
+
+
 The `CollectionHandler` class got a new method `createTtlIndex` for creating time-to-live (TTL)
 indexes on the server.
 
-All methods for index creation also got an extra optional attribute `$inBackground` that enables
-background index creation.
+All specialized methods for index creation also got an extra optional attribute `$inBackground` that 
+enables background index creation.
 
-Added support for the following attributes on collection level:
+Added driver support for the following attributes on collection level:
 
 - distributeShardsLike
 - smartJoinAttribute (only effective in ArangoDB enterprise edition)
