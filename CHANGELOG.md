@@ -54,6 +54,9 @@ via an instance variable in the `StreamingTransactionHandler`.
 Streaming transactions are automatically aborted on shutdown via a shutdown function, and all
 transactions started via `StreamingTransactionHandler` instances that were neither committed nor 
 aborted by the user will be aborted. 
+In order to take over the management of a transaction from the `StreamingTransactionHandler`, it is
+possible to call the handler's `stealTransaction()` method with the transaction's id. This will
+make the handler "forget" about auto-aborting this particular transaction.
 
 
 The `CollectionHandler` class got a new method `createTtlIndex` for creating time-to-live (TTL)

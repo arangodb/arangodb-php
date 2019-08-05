@@ -76,7 +76,20 @@ class StreamingTransactionHandler extends Handler
         }
         $this->_pendingTransactions = [];
     }
-    
+
+
+    /**
+     * Steal the transaction from the handler, so that it is not responsible anymore
+     * for auto-aborting it on shutdown
+     *
+     * @param string $id - transaction id
+     */
+    public function stealTransaction($id)
+    {
+        unset($this->_pendingTransactions[$id]);
+    }
+
+
     /**
      * Retrieves the status of a transaction
      *
@@ -99,7 +112,7 @@ class StreamingTransactionHandler extends Handler
 
         $status = $jsonResponse['result']['status'];
         if ($status === 'aborted' || $status === 'committed') {
-            unset($this->_pendingTransactions[$id]);
+            $this->stealTransaction($id);
         }
 
         return $jsonResponse['result'];
@@ -122,7 +135,7 @@ class StreamingTransactionHandler extends Handler
             $id = (string) $trx;
         }
 
-        unset($this->_pendingTransactions[$id]);
+        $this->stealTransaction($id);
         $this->getConnection()->put(UrlHelper::buildUrl(Urls::URL_TRANSACTION, [$id]), '');
 
         return true;
@@ -145,7 +158,7 @@ class StreamingTransactionHandler extends Handler
             $id = (string) $trx;
         }
 
-        unset($this->_pendingTransactions[$id]);
+        $this->stealTransaction($id);
         $this->getConnection()->delete(UrlHelper::buildUrl(Urls::URL_TRANSACTION, [$id]));
 
         return true;
