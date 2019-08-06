@@ -832,7 +832,10 @@ class CollectionHandler extends Handler
             $options['type'] = 'documents';
         }
 
-        $this->createCollectionIfOptions($collection, $options);
+        if ((isset($options['createCollection']) && $options['createCollection']) ||
+            $this->getConnection()->getOption(ConnectionOptions::OPTION_CREATE)) {
+            $this->lazyCreateCollection($collection, $options);
+        }
 
         $params = array_merge(
             [self::OPTION_COLLECTION => $collection],
@@ -2030,18 +2033,8 @@ class CollectionHandler extends Handler
      * @param $collection
      * @param $options
      */
-    private function createCollectionIfOptions($collection, $options)
+    private function lazyCreateCollection($collection, $options)
     {
-        if (!array_key_exists(CollectionHandler::OPTION_CREATE_COLLECTION, $options)) {
-            return;
-        }
-
-        $value = (bool) $options[CollectionHandler::OPTION_CREATE_COLLECTION];
-
-        if (!$value) {
-            return;
-        }
-
         $collectionOptions = [];
         if (isset($options['createCollectionType'])) {
             if ($options['createCollectionType'] === 'edge' ||

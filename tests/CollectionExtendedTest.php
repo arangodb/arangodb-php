@@ -848,6 +848,7 @@ class CollectionExtendedTest extends
         static::assertArrayHasKey('_rev', $array[0]);
 
         unset($array[0]['_key'], $array[0]['_id'], $array[0]['_rev']);
+        unset($documentArray['_key']);
 
         static::assertSame($documentArray, $array[0]);
     }
