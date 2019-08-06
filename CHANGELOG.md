@@ -1,6 +1,9 @@
 Release notes for the ArangoDB-PHP driver 3.5.x
 ===============================================
 
+Made `DocumentHandler::save()` an alias for `DocumentHandler::insert()`, to more closely
+match the function names used in arangosh/arangod.
+
 Added support for streaming transactions (i.e. transactions that can be composed of multiple
 operations on the client side piece-by-piece without specifying the full transaction operations 
 in advance).

@@ -317,7 +317,7 @@ class DocumentHandler extends Handler
 
 
     /**
-     * save a document to a collection
+     * insert a document into a collection
      *
      * This will add the document to the collection and return the document's id
      *
@@ -339,7 +339,7 @@ class DocumentHandler extends Handler
      * @return mixed - id of document created
      * @since 1.0
      */
-    public function save($collection, $document, array $options = [])
+    public function insert($collection, $document, array $options = [])
     {
         $headers = [];
         $this->addTransactionHeader($headers, $collection);
@@ -409,11 +409,11 @@ class DocumentHandler extends Handler
     /**
      * Insert a document into a collection
      * 
-     * This is an alias for save().
+     * This is an alias for insert().
      */
-    public function insert($collection, $document, array $options = []) 
+    public function save($collection, $document, array $options = []) 
     {
-        return $this->save($collection, $document, $options);
+        return $this->insert($collection, $document, $options);
     }
 
     /**
@@ -548,9 +548,9 @@ class DocumentHandler extends Handler
     /**
      * Replace an existing document in a collection, identified by the document itself
      *
-     * This will update the document on the server
+     * This will replace the document on the server
      *
-     * This will throw if the document cannot be updated
+     * This will throw if the document cannot be replaced
      *
      * If policy is set to error (locally or globally through the ConnectionOptions)
      * and the passed document has a _rev value set, the database will check
@@ -558,10 +558,10 @@ class DocumentHandler extends Handler
      *
      * @throws Exception
      *
-     * @param Document $document - document to be updated
+     * @param Document $document - document to be replaced
      * @param array    $options  - optional, array of options
      *                           <p>Options are :
-     *                           <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+     *                           <li>'policy' - replace policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
      *                           <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
      *                           </p>
      *
@@ -569,9 +569,7 @@ class DocumentHandler extends Handler
      */
     public function replace(Document $document, array $options = [])
     {
-        $documentId = $this->getDocumentId($document);
-
-        return $this->replaceById($document, $documentId, $document, $options);
+        return $this->replaceById($document, $this->getDocumentId($document), $document, $options);
     }
 
 

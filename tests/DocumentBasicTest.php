@@ -206,8 +206,8 @@ class DocumentBasicTest extends
         $document        = new Document();
         $documentHandler = new DocumentHandler($connection);
 
-	$options = $connection->getOptions();
-	$connection->setOption(ConnectionOptions::OPTION_CREATE, true);
+        $options = $connection->getOptions();
+        $connection->setOption(ConnectionOptions::OPTION_CREATE, true);
 
         try {
             $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
