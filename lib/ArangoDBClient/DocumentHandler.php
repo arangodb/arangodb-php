@@ -351,14 +351,16 @@ class DocumentHandler extends Handler
             $options, [
                 'waitForSync'      => null,
                 'silent'           => false,
-                'createCollection' => $this->getConnection()->getOption(ConnectionOptions::OPTION_CREATE),
                 'overwrite'        => (bool) @$options[self::OPTION_OVERWRITE],
                 'returnOld'        => (bool) @$options[self::OPTION_RETURN_OLD],
                 'returnNew'        => (bool) @$options[self::OPTION_RETURN_NEW],
             ]
         );
 
-        $this->createCollectionIfOptions($collection, $params);
+        if ((isset($options['createCollection']) && $options['createCollection']) ||
+            $this->getConnection()->getOption(ConnectionOptions::OPTION_CREATE)) {
+            $this->lazyCreateCollection($collection, $params);
+        }
 
         $url = UrlHelper::appendParamsUrl(Urls::URL_DOCUMENT . '/' . $collection, $params);
 
@@ -394,6 +396,7 @@ class DocumentHandler extends Handler
 
         $id = UrlHelper::getDocumentIdFromLocation($location);
 
+        $document->setInternalKey($json[$_documentClass::ENTRY_KEY]);
         $document->setInternalId($json[$_documentClass::ENTRY_ID]);
         $document->setRevision($json[$_documentClass::ENTRY_REV]);
 
@@ -683,11 +686,7 @@ class DocumentHandler extends Handler
      */
     public function remove(Document $document, array $options = [])
     {
-        $documentId = $this->getDocumentId($document);
-
-        $revision = $this->getRevision($document);
-
-        return $this->removeById($document, $documentId, $revision, $options);
+        return $this->removeById($document, $this->getDocumentId($document), $this->getRevision($document), $options);
     }
 
 
@@ -819,28 +818,16 @@ class DocumentHandler extends Handler
 
 
     /**
-     * @param       $collection   mixed collection name or id
+     * @param mixed $collection   collection name or id
      * @param array $options      - optional, array of options
      *                            <p>Options are :
-     *                            <li>'createCollection' - true to create the collection if it does not exist</li>
      *                            <li>'createCollectionType' - "document" or 2 for document collection</li>
      *                            <li>                         "edge" or 3 for edge collection</li>
      *                            <li>'waitForSync'       - if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
      *                            </p>
      */
-    protected function createCollectionIfOptions($collection, $options)
+    protected function lazyCreateCollection($collection, $options)
     {
-
-        if (!array_key_exists(CollectionHandler::OPTION_CREATE_COLLECTION, $options)) {
-            return;
-        }
-
-        $value = (bool) $options[CollectionHandler::OPTION_CREATE_COLLECTION];
-
-        if (!$value) {
-            return;
-        }
-
         $collectionHandler = new CollectionHandler($this->getConnection());
 
         $params = [];

@@ -151,11 +151,13 @@ class EdgeHandler extends DocumentHandler
         $params = $this->includeOptionsInParams(
             $options, [
                 'waitForSync'      => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
-                'createCollection' => $this->getConnectionOption(ConnectionOptions::OPTION_CREATE)
             ]
         );
 
-        $this->createCollectionIfOptions($collection, $params);
+        if ((isset($options['createCollection']) && $options['createCollection']) ||
+            $this->getConnection()->getOption(ConnectionOptions::OPTION_CREATE)) {
+            $this->lazyCreateCollection($collection, $params);
+        }
 
         $data = $document->getAllForInsertUpdate();
 
@@ -265,10 +267,10 @@ class EdgeHandler extends DocumentHandler
      *                            <li>                         "edge" or 3 for edge collection</li>
      *                            </p>
      */
-    protected function createCollectionIfOptions($collection, $options)
+    protected function lazyCreateCollection($collection, $options)
     {
         $options['createCollectionType'] = 3;
-        parent::createCollectionIfOptions($collection, $options);
+        parent::lazyCreateCollection($collection, $options);
     }
 }
 
