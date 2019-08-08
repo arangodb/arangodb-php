@@ -39,8 +39,6 @@ class CollectionBasicTest extends
         $this->collectionHandler->create('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp);
 
         $adminHandler = new AdminHandler($this->connection);
-        $version      = preg_replace('/-[a-z0-9]+$/', '', $adminHandler->getServerVersion());
-
         $this->isMMFilesEngine         = ($adminHandler->getEngine()["name"] == "mmfiles"); 
     }
 
