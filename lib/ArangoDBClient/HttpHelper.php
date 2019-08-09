@@ -89,6 +89,10 @@ class HttpHelper
             stream_context_set_option($context, 'ssl', 'verify_peer', $options[ConnectionOptions::OPTION_VERIFY_CERT]);
             @stream_context_set_option($context, 'ssl', 'verify_peer_name', $options[ConnectionOptions::OPTION_VERIFY_CERT_NAME]);
             stream_context_set_option($context, 'ssl', 'allow_self_signed', $options[ConnectionOptions::OPTION_ALLOW_SELF_SIGNED]);
+            
+            if (is_string(@$options[ConnectionOptions::OPTION_CA_FILE])) {
+                stream_context_set_option($context, 'ssl', 'cafile', $options[ConnectionOptions::OPTION_CA_FILE]);
+            }
 
             if ($options[ConnectionOptions::OPTION_CIPHERS] !== null) {
                 // SSL ciphers

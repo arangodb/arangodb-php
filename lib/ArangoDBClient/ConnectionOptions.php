@@ -99,6 +99,11 @@ class ConnectionOptions implements \ArrayAccess
      * "allow self-signed" index constant
      */
     const OPTION_ALLOW_SELF_SIGNED = 'allowSelfSigned';
+    
+    /**
+     * "caFile" index constant
+     */
+    const OPTION_CA_FILE = 'caFile';
 
     /**
      * ciphers allowed to be used in SSL
@@ -460,6 +465,7 @@ class ConnectionOptions implements \ArrayAccess
             self::OPTION_VERIFY_CERT             => DefaultValues::DEFAULT_VERIFY_CERT,
             self::OPTION_VERIFY_CERT_NAME        => DefaultValues::DEFAULT_VERIFY_CERT_NAME,
             self::OPTION_ALLOW_SELF_SIGNED       => DefaultValues::DEFAULT_ALLOW_SELF_SIGNED,
+            self::OPTION_CA_FILE                 => null,
             self::OPTION_CIPHERS                 => DefaultValues::DEFAULT_CIPHERS,
             self::OPTION_AUTH_USER               => null,
             self::OPTION_AUTH_PASSWD             => null,
