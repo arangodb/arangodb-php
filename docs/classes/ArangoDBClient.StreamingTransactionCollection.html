@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
 <meta charset="utf-8">
-<title>ArangoDB PHP client API » \ArangoDBClient\Collection</title>
+<title>ArangoDB PHP client API » \ArangoDBClient\StreamingTransactionCollection</title>
 <meta name="author" content="Mike van Riel">
 <meta name="description" content="">
 <link href="../css/template.css" rel="stylesheet" media="all">
@@ -61,47 +61,52 @@
 <li class="nav-header">
 <i title="Methods" class="icon-custom icon-method"></i> Methods
                     <ul>
-<li class="method public "><a href="#method___clone" title="__clone() :: Clone a collection"><span class="description">Clone a collection</span><pre>__clone()</pre></a></li>
-<li class="method public "><a href="#method___construct" title="__construct() :: Constructs an empty collection"><span class="description">Constructs an empty collection</span><pre>__construct()</pre></a></li>
-<li class="method public "><a href="#method___toString" title="__toString() :: Get a string representation of the collection"><span class="description">Get a string representation of the collection</span><pre>__toString()</pre></a></li>
-<li class="method public "><a href="#method_createFromArray" title="createFromArray() :: Factory method to construct a new collection"><span class="description">Factory method to construct a new collection</span><pre>createFromArray()</pre></a></li>
-<li class="method public "><a href="#method_getAll" title="getAll() :: Get all collection attributes"><span class="description">Get all collection attributes</span><pre>getAll()</pre></a></li>
-<li class="method public "><a href="#method_getDefaultType" title="getDefaultType() :: Get the default collection type"><span class="description">Get the default collection type</span><pre>getDefaultType()</pre></a></li>
-<li class="method public "><a href="#method_getDistributeShardsLike" title="getDistributeShardsLike() :: Get the distributeShardsLike (if already known)"><span class="description">Get the distributeShardsLike (if already known)</span><pre>getDistributeShardsLike()</pre></a></li>
-<li class="method public "><a href="#method_getId" title="getId() :: Get the collection id (if already known)"><span class="description">Get the collection id (if already known)</span><pre>getId()</pre></a></li>
-<li class="method public "><a href="#method_getIsSystem" title="getIsSystem() :: Get the isSystem value (if already known)"><span class="description">Get the isSystem value (if already known)</span><pre>getIsSystem()</pre></a></li>
-<li class="method public "><a href="#method_getIsVolatile" title="getIsVolatile() :: Get the isVolatile value (if already known)"><span class="description">Get the isVolatile value (if already known)</span><pre>getIsVolatile()</pre></a></li>
-<li class="method public "><a href="#method_getJournalSize" title="getJournalSize() :: Get the journalSize value (if already known)"><span class="description">Get the journalSize value (if already known)</span><pre>getJournalSize()</pre></a></li>
-<li class="method public "><a href="#method_getKeyOptions" title="getKeyOptions() :: Get the collection key options (if already known)"><span class="description">Get the collection key options (if already known)</span><pre>getKeyOptions()</pre></a></li>
-<li class="method public "><a href="#method_getMinReplicationFactor" title="getMinReplicationFactor() :: Get the minReplicationFactor value (if already known)"><span class="description">Get the minReplicationFactor value (if already known)</span><pre>getMinReplicationFactor()</pre></a></li>
-<li class="method public "><a href="#method_getName" title="getName() :: Get the collection name (if already known)"><span class="description">Get the collection name (if already known)</span><pre>getName()</pre></a></li>
-<li class="method public "><a href="#method_getNumberOfShards" title="getNumberOfShards() :: Get the numberOfShards value (if already known)"><span class="description">Get the numberOfShards value (if already known)</span><pre>getNumberOfShards()</pre></a></li>
-<li class="method public "><a href="#method_getReplicationFactor" title="getReplicationFactor() :: Get the replicationFactor value (if already known)"><span class="description">Get the replicationFactor value (if already known)</span><pre>getReplicationFactor()</pre></a></li>
-<li class="method public "><a href="#method_getShardKeys" title="getShardKeys() :: Get the shardKeys value (if already known)"><span class="description">Get the shardKeys value (if already known)</span><pre>getShardKeys()</pre></a></li>
-<li class="method public "><a href="#method_getShardingStrategy" title="getShardingStrategy() :: Get the sharding strategy value (if already known)"><span class="description">Get the sharding strategy value (if already known)</span><pre>getShardingStrategy()</pre></a></li>
-<li class="method public "><a href="#method_getSmartJoinAttribute" title="getSmartJoinAttribute() :: Get the smart join attribute value (if already known)"><span class="description">Get the smart join attribute value (if already known)</span><pre>getSmartJoinAttribute()</pre></a></li>
-<li class="method public "><a href="#method_getStatus" title="getStatus() :: Get the collection status (if already known)"><span class="description">Get the collection status (if already known)</span><pre>getStatus()</pre></a></li>
-<li class="method public "><a href="#method_getType" title="getType() :: Get the collection type (if already known)"><span class="description">Get the collection type (if already known)</span><pre>getType()</pre></a></li>
-<li class="method public "><a href="#method_getWaitForSync" title="getWaitForSync() :: Get the waitForSync value (if already known)"><span class="description">Get the waitForSync value (if already known)</span><pre>getWaitForSync()</pre></a></li>
-<li class="method public "><a href="#method_set" title="set() :: Set a collection attribute"><span class="description">Set a collection attribute</span><pre>set()</pre></a></li>
-<li class="method public "><a href="#method_setDistributeShardsLike" title="setDistributeShardsLike() :: Set the distribute shards like value"><span class="description">Set the distribute shards like value</span><pre>setDistributeShardsLike()</pre></a></li>
-<li class="method public "><a href="#method_setId" title="setId() :: Set the collection id"><span class="description">Set the collection id</span><pre>setId()</pre></a></li>
-<li class="method public "><a href="#method_setIsSystem" title="setIsSystem() :: Set the isSystem value"><span class="description">Set the isSystem value</span><pre>setIsSystem()</pre></a></li>
-<li class="method public "><a href="#method_setIsVolatile" title="setIsVolatile() :: Set the isVolatile value"><span class="description">Set the isVolatile value</span><pre>setIsVolatile()</pre></a></li>
-<li class="method public "><a href="#method_setJournalSize" title="setJournalSize() :: Set the journalSize value"><span class="description">Set the journalSize value</span><pre>setJournalSize()</pre></a></li>
-<li class="method public "><a href="#method_setKeyOptions" title="setKeyOptions() :: Set the collection key options."><span class="description">Set the collection key options.</span><pre>setKeyOptions()</pre></a></li>
-<li class="method public "><a href="#method_setMinReplicationFactor" title="setMinReplicationFactor() :: Set the minReplicationFactor value"><span class="description">Set the minReplicationFactor value</span><pre>setMinReplicationFactor()</pre></a></li>
-<li class="method public "><a href="#method_setName" title="setName() :: Set the collection name"><span class="description">Set the collection name</span><pre>setName()</pre></a></li>
-<li class="method public "><a href="#method_setNumberOfShards" title="setNumberOfShards() :: Set the numberOfShards value"><span class="description">Set the numberOfShards value</span><pre>setNumberOfShards()</pre></a></li>
-<li class="method public "><a href="#method_setReplicationFactor" title="setReplicationFactor() :: Set the replicationFactor value"><span class="description">Set the replicationFactor value</span><pre>setReplicationFactor()</pre></a></li>
-<li class="method public "><a href="#method_setShardKeys" title="setShardKeys() :: Set the shardKeys value"><span class="description">Set the shardKeys value</span><pre>setShardKeys()</pre></a></li>
-<li class="method public "><a href="#method_setShardingStrategy" title="setShardingStrategy() :: Set the shardingStrategy value"><span class="description">Set the shardingStrategy value</span><pre>setShardingStrategy()</pre></a></li>
-<li class="method public "><a href="#method_setSmartJoinAttribute" title="setSmartJoinAttribute() :: Set the smart join attribute value"><span class="description">Set the smart join attribute value</span><pre>setSmartJoinAttribute()</pre></a></li>
-<li class="method public "><a href="#method_setStatus" title="setStatus() :: Set the collection status."><span class="description">Set the collection status.</span><pre>setStatus()</pre></a></li>
-<li class="method public "><a href="#method_setType" title="setType() :: Set the collection type."><span class="description">Set the collection type.</span><pre>setType()</pre></a></li>
-<li class="method public "><a href="#method_setWaitForSync" title="setWaitForSync() :: Set the waitForSync value"><span class="description">Set the waitForSync value</span><pre>setWaitForSync()</pre></a></li>
-<li class="method public "><a href="#method_toJson" title="toJson() :: Returns the collection as JSON-encoded string"><span class="description">Returns the collection as JSON-encoded string</span><pre>toJson()</pre></a></li>
-<li class="method public "><a href="#method_toSerialized" title="toSerialized() :: Returns the collection as a serialized string"><span class="description">Returns the collection as a serialized string</span><pre>toSerialized()</pre></a></li>
+<li class="method public inherited"><a href="#method___clone" title="__clone() :: Clone a collection"><span class="description">Clone a collection</span><pre>__clone()</pre></a></li>
+<li class="method public "><a href="#method___construct" title="__construct() :: Constructs a streaming transaction collection object"><span class="description">Constructs a streaming transaction collection object</span><pre>__construct()</pre></a></li>
+<li class="method public inherited"><a href="#method___construct" title="__construct() :: Constructs an empty collection"><span class="description">Constructs an empty collection</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#method___toString" title="__toString() :: Return the name of the collection"><span class="description">Return the name of the collection</span><pre>__toString()</pre></a></li>
+<li class="method public inherited"><a href="#method___toString" title="__toString() :: Get a string representation of the collection"><span class="description">Get a string representation of the collection</span><pre>__toString()</pre></a></li>
+<li class="method public inherited"><a href="#method_createFromArray" title="createFromArray() :: Factory method to construct a new collection"><span class="description">Factory method to construct a new collection</span><pre>createFromArray()</pre></a></li>
+<li class="method public inherited"><a href="#method_getAll" title="getAll() :: Get all collection attributes"><span class="description">Get all collection attributes</span><pre>getAll()</pre></a></li>
+<li class="method public inherited"><a href="#method_getDefaultType" title="getDefaultType() :: Get the default collection type"><span class="description">Get the default collection type</span><pre>getDefaultType()</pre></a></li>
+<li class="method public inherited"><a href="#method_getDistributeShardsLike" title="getDistributeShardsLike() :: Get the distributeShardsLike (if already known)"><span class="description">Get the distributeShardsLike (if already known)</span><pre>getDistributeShardsLike()</pre></a></li>
+<li class="method public inherited"><a href="#method_getId" title="getId() :: Get the collection id (if already known)"><span class="description">Get the collection id (if already known)</span><pre>getId()</pre></a></li>
+<li class="method public inherited"><a href="#method_getIsSystem" title="getIsSystem() :: Get the isSystem value (if already known)"><span class="description">Get the isSystem value (if already known)</span><pre>getIsSystem()</pre></a></li>
+<li class="method public inherited"><a href="#method_getIsVolatile" title="getIsVolatile() :: Get the isVolatile value (if already known)"><span class="description">Get the isVolatile value (if already known)</span><pre>getIsVolatile()</pre></a></li>
+<li class="method public inherited"><a href="#method_getJournalSize" title="getJournalSize() :: Get the journalSize value (if already known)"><span class="description">Get the journalSize value (if already known)</span><pre>getJournalSize()</pre></a></li>
+<li class="method public inherited"><a href="#method_getKeyOptions" title="getKeyOptions() :: Get the collection key options (if already known)"><span class="description">Get the collection key options (if already known)</span><pre>getKeyOptions()</pre></a></li>
+<li class="method public inherited"><a href="#method_getMinReplicationFactor" title="getMinReplicationFactor() :: Get the minReplicationFactor value (if already known)"><span class="description">Get the minReplicationFactor value (if already known)</span><pre>getMinReplicationFactor()</pre></a></li>
+<li class="method public "><a href="#method_getMode" title="getMode() :: Return the lock mode of the collection"><span class="description">Return the lock mode of the collection</span><pre>getMode()</pre></a></li>
+<li class="method public "><a href="#method_getName" title="getName() :: Return the name of the collection"><span class="description">Return the name of the collection</span><pre>getName()</pre></a></li>
+<li class="method public inherited"><a href="#method_getName" title="getName() :: Get the collection name (if already known)"><span class="description">Get the collection name (if already known)</span><pre>getName()</pre></a></li>
+<li class="method public inherited"><a href="#method_getNumberOfShards" title="getNumberOfShards() :: Get the numberOfShards value (if already known)"><span class="description">Get the numberOfShards value (if already known)</span><pre>getNumberOfShards()</pre></a></li>
+<li class="method public inherited"><a href="#method_getReplicationFactor" title="getReplicationFactor() :: Get the replicationFactor value (if already known)"><span class="description">Get the replicationFactor value (if already known)</span><pre>getReplicationFactor()</pre></a></li>
+<li class="method public inherited"><a href="#method_getShardKeys" title="getShardKeys() :: Get the shardKeys value (if already known)"><span class="description">Get the shardKeys value (if already known)</span><pre>getShardKeys()</pre></a></li>
+<li class="method public inherited"><a href="#method_getShardingStrategy" title="getShardingStrategy() :: Get the sharding strategy value (if already known)"><span class="description">Get the sharding strategy value (if already known)</span><pre>getShardingStrategy()</pre></a></li>
+<li class="method public inherited"><a href="#method_getSmartJoinAttribute" title="getSmartJoinAttribute() :: Get the smart join attribute value (if already known)"><span class="description">Get the smart join attribute value (if already known)</span><pre>getSmartJoinAttribute()</pre></a></li>
+<li class="method public inherited"><a href="#method_getStatus" title="getStatus() :: Get the collection status (if already known)"><span class="description">Get the collection status (if already known)</span><pre>getStatus()</pre></a></li>
+<li class="method public "><a href="#method_getTrxId" title="getTrxId() :: Return the transaction's id"><span class="description">Return the transaction's id</span><pre>getTrxId()</pre></a></li>
+<li class="method public inherited"><a href="#method_getType" title="getType() :: Get the collection type (if already known)"><span class="description">Get the collection type (if already known)</span><pre>getType()</pre></a></li>
+<li class="method public inherited"><a href="#method_getWaitForSync" title="getWaitForSync() :: Get the waitForSync value (if already known)"><span class="description">Get the waitForSync value (if already known)</span><pre>getWaitForSync()</pre></a></li>
+<li class="method public inherited"><a href="#method_set" title="set() :: Set a collection attribute"><span class="description">Set a collection attribute</span><pre>set()</pre></a></li>
+<li class="method public inherited"><a href="#method_setDistributeShardsLike" title="setDistributeShardsLike() :: Set the distribute shards like value"><span class="description">Set the distribute shards like value</span><pre>setDistributeShardsLike()</pre></a></li>
+<li class="method public inherited"><a href="#method_setId" title="setId() :: Set the collection id"><span class="description">Set the collection id</span><pre>setId()</pre></a></li>
+<li class="method public inherited"><a href="#method_setIsSystem" title="setIsSystem() :: Set the isSystem value"><span class="description">Set the isSystem value</span><pre>setIsSystem()</pre></a></li>
+<li class="method public inherited"><a href="#method_setIsVolatile" title="setIsVolatile() :: Set the isVolatile value"><span class="description">Set the isVolatile value</span><pre>setIsVolatile()</pre></a></li>
+<li class="method public inherited"><a href="#method_setJournalSize" title="setJournalSize() :: Set the journalSize value"><span class="description">Set the journalSize value</span><pre>setJournalSize()</pre></a></li>
+<li class="method public inherited"><a href="#method_setKeyOptions" title="setKeyOptions() :: Set the collection key options."><span class="description">Set the collection key options.</span><pre>setKeyOptions()</pre></a></li>
+<li class="method public inherited"><a href="#method_setMinReplicationFactor" title="setMinReplicationFactor() :: Set the minReplicationFactor value"><span class="description">Set the minReplicationFactor value</span><pre>setMinReplicationFactor()</pre></a></li>
+<li class="method public inherited"><a href="#method_setName" title="setName() :: Set the collection name"><span class="description">Set the collection name</span><pre>setName()</pre></a></li>
+<li class="method public inherited"><a href="#method_setNumberOfShards" title="setNumberOfShards() :: Set the numberOfShards value"><span class="description">Set the numberOfShards value</span><pre>setNumberOfShards()</pre></a></li>
+<li class="method public inherited"><a href="#method_setReplicationFactor" title="setReplicationFactor() :: Set the replicationFactor value"><span class="description">Set the replicationFactor value</span><pre>setReplicationFactor()</pre></a></li>
+<li class="method public inherited"><a href="#method_setShardKeys" title="setShardKeys() :: Set the shardKeys value"><span class="description">Set the shardKeys value</span><pre>setShardKeys()</pre></a></li>
+<li class="method public inherited"><a href="#method_setShardingStrategy" title="setShardingStrategy() :: Set the shardingStrategy value"><span class="description">Set the shardingStrategy value</span><pre>setShardingStrategy()</pre></a></li>
+<li class="method public inherited"><a href="#method_setSmartJoinAttribute" title="setSmartJoinAttribute() :: Set the smart join attribute value"><span class="description">Set the smart join attribute value</span><pre>setSmartJoinAttribute()</pre></a></li>
+<li class="method public inherited"><a href="#method_setStatus" title="setStatus() :: Set the collection status."><span class="description">Set the collection status.</span><pre>setStatus()</pre></a></li>
+<li class="method public inherited"><a href="#method_setType" title="setType() :: Set the collection type."><span class="description">Set the collection type.</span><pre>setType()</pre></a></li>
+<li class="method public inherited"><a href="#method_setWaitForSync" title="setWaitForSync() :: Set the waitForSync value"><span class="description">Set the waitForSync value</span><pre>setWaitForSync()</pre></a></li>
+<li class="method public inherited"><a href="#method_toJson" title="toJson() :: Returns the collection as JSON-encoded string"><span class="description">Returns the collection as JSON-encoded string</span><pre>toJson()</pre></a></li>
+<li class="method public inherited"><a href="#method_toSerialized" title="toSerialized() :: Returns the collection as a serialized string"><span class="description">Returns the collection as a serialized string</span><pre>toSerialized()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header">
@@ -117,6 +122,8 @@
 <li class="property private "><a href="#property__journalSize" title="$_journalSize() :: The collection journalSize value (might be NULL for new collections)"><span class="description"></span><pre>$_journalSize</pre></a></li>
 <li class="property private "><a href="#property__keyOptions" title="$_keyOptions() :: The collection keyOptions value"><span class="description"></span><pre>$_keyOptions</pre></a></li>
 <li class="property private "><a href="#property__minReplicationFactor" title="$_minReplicationFactor() :: The minimum replicationFactor value for writes to be successful"><span class="description"></span><pre>$_minReplicationFactor</pre></a></li>
+<li class="property private "><a href="#property__mode" title="$_mode() :: Lock mode for this collection, i.e. 'read', 'write' or 'exclusive'"><span class="description"></span><pre>$_mode</pre></a></li>
+<li class="property private "><a href="#property__name" title="$_name() :: Collection name - assigned on construction"><span class="description"></span><pre>$_name</pre></a></li>
 <li class="property private "><a href="#property__name" title="$_name() :: The collection name (might be NULL for new collections)"><span class="description"></span><pre>$_name</pre></a></li>
 <li class="property private "><a href="#property__numberOfShards" title="$_numberOfShards() :: The collection numberOfShards value (might be NULL for new collections)"><span class="description"></span><pre>$_numberOfShards</pre></a></li>
 <li class="property private "><a href="#property__replicationFactor" title="$_replicationFactor() :: The replicationFactor value (might be NULL for new collections)"><span class="description"></span><pre>$_replicationFactor</pre></a></li>
@@ -124,6 +131,7 @@
 <li class="property private "><a href="#property__shardingStrategy" title="$_shardingStrategy() :: The shardingStrategy value (might be NULL for new collections)"><span class="description"></span><pre>$_shardingStrategy</pre></a></li>
 <li class="property private "><a href="#property__smartJoinAttribute" title="$_smartJoinAttribute() :: The smartJoinAttribute value (might be NULL for new collections)"><span class="description"></span><pre>$_smartJoinAttribute</pre></a></li>
 <li class="property private "><a href="#property__status" title="$_status() :: The collection status value"><span class="description"></span><pre>$_status</pre></a></li>
+<li class="property private "><a href="#property__trx" title="$_trx() :: The transaction - assigned on construction"><span class="description"></span><pre>$_trx</pre></a></li>
 <li class="property private "><a href="#property__type" title="$_type() :: The collection type (might be NULL for new collections)"><span class="description"></span><pre>$_type</pre></a></li>
 <li class="property private "><a href="#property__waitForSync" title="$_waitForSync() :: The collection waitForSync value (might be NULL for new collections)"><span class="description"></span><pre>$_waitForSync</pre></a></li>
 </ul>
@@ -160,17 +168,17 @@
 </ul>
 </div>
 <div class="span8">
-<a xmlns:php="http://php.net/xsl" id="\ArangoDBClient\Collection"></a><ul xmlns:php="http://php.net/xsl" class="breadcrumb">
+<a xmlns:php="http://php.net/xsl" id="\ArangoDBClient\StreamingTransactionCollection"></a><ul xmlns:php="http://php.net/xsl" class="breadcrumb">
 <li>
 <a href="../index.html"><i title="Classes" class="icon-custom icon-class"></i></a><span class="divider">\</span>
 </li>
 <li><a href="../namespaces/ArangoDBClient.html">ArangoDBClient</a></li>
 <li class="active">
-<span class="divider">\</span><a href="../classes/ArangoDBClient.Collection.html">Collection</a>
+<span class="divider">\</span><a href="../classes/ArangoDBClient.StreamingTransactionCollection.html">StreamingTransactionCollection</a>
 </li>
 </ul>
 <div xmlns:php="http://php.net/xsl" class="element class">
-<p class="short_description">Value object representing a collection</p>
+<p class="short_description">Streaming transaction collection object</p>
 <div class="details">
 <div class="long_description"><p><br></p></div>
 <table class="table table-bordered">
@@ -180,15 +188,19 @@
 </tr>
 <tr>
 <th>since</th>
-<td>0.2</td>
+<td>3.5</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\ArangoDBClient\Collection</td>
 </tr>
 </table>
 <h3>
 <i title="Methods" class="icon-custom icon-method"></i> Methods</h3>
-<a id="method___clone"></a><div class="element clickable method public method___clone " data-toggle="collapse" data-target=".method___clone .collapse" title="public">
+<a id="method___clone"></a><div class="element clickable method public method___clone inherited" data-toggle="collapse" data-target=".method___clone .collapse" title="public">
 <h2>Clone a collection</h2>
 <pre>__clone() : void</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>Returns the clone</p></div>
 <table class="table table-bordered"><tr>
@@ -198,9 +210,37 @@
 </div></div>
 </div>
 <a id="method___construct"></a><div class="element clickable method public method___construct " data-toggle="collapse" data-target=".method___construct .collapse" title="public">
+<h2>Constructs a streaming transaction collection object</h2>
+<pre>__construct(\ArangoDBClient\StreamingTransaction $trx, string $name, string $mode) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\ArangoDBClient\Collection::__construct()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$trx</h4>
+<code>\ArangoDBClient\StreamingTransaction</code><ul>
+<li>the transaction</li>
+</ul></div>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code><ul>
+<li>collection name</li>
+</ul></div>
+<div class="subelement argument">
+<h4>$mode</h4>
+<code>string</code><ul>
+<li>lock mode, i.e. 'read', 'write', 'exclusive'</li>
+</ul></div>
+</div></div>
+</div>
+<a id="method___construct"></a><div class="element clickable method public method___construct inherited" data-toggle="collapse" data-target=".method___construct .collapse" title="public">
 <h2>Constructs an empty collection</h2>
 <pre>__construct(string $name<code> = null</code>) </pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
@@ -217,9 +257,30 @@
 </div></div>
 </div>
 <a id="method___toString"></a><div class="element clickable method public method___toString " data-toggle="collapse" data-target=".method___toString .collapse" title="public">
-<h2>Get a string representation of the collection</h2>
+<h2>Return the name of the collection</h2>
 <pre>__toString() : string</pre>
 <div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Returns the collection as JSON-encoded string</p></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\ArangoDBClient\Collection::__toString()</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>- collection name</div>
+</div></div>
+</div>
+<a id="method___toString"></a><div class="element clickable method public method___toString inherited" data-toggle="collapse" data-target=".method___toString .collapse" title="public">
+<h2>Get a string representation of the collection</h2>
+<pre>__toString() : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>Returns the collection as JSON-encoded string</p></div>
 <table class="table table-bordered"><tr>
@@ -231,10 +292,12 @@
 <code>string</code>- JSON-encoded collection</div>
 </div></div>
 </div>
-<a id="method_createFromArray"></a><div class="element clickable method public method_createFromArray " data-toggle="collapse" data-target=".method_createFromArray .collapse" title="public">
+<a id="method_createFromArray"></a><div class="element clickable method public method_createFromArray inherited" data-toggle="collapse" data-target=".method_createFromArray .collapse" title="public">
 <h2>Factory method to construct a new collection</h2>
 <pre>createFromArray(array $values) : \ArangoDBClient\Collection</pre>
-<div class="labels"><span class="label">Static</span></div>
+<div class="labels">
+<span class="label">Inherited</span><span class="label">Static</span>
+</div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
@@ -252,10 +315,10 @@
 <div class="subelement response"><code>\ArangoDBClient\Collection</code></div>
 </div></div>
 </div>
-<a id="method_getAll"></a><div class="element clickable method public method_getAll " data-toggle="collapse" data-target=".method_getAll .collapse" title="public">
+<a id="method_getAll"></a><div class="element clickable method public method_getAll inherited" data-toggle="collapse" data-target=".method_getAll .collapse" title="public">
 <h2>Get all collection attributes</h2>
 <pre>getAll() : array</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Returns</h3>
@@ -263,10 +326,12 @@
 <code>array</code>- array of all collection attributes</div>
 </div></div>
 </div>
-<a id="method_getDefaultType"></a><div class="element clickable method public method_getDefaultType " data-toggle="collapse" data-target=".method_getDefaultType .collapse" title="public">
+<a id="method_getDefaultType"></a><div class="element clickable method public method_getDefaultType inherited" data-toggle="collapse" data-target=".method_getDefaultType .collapse" title="public">
 <h2>Get the default collection type</h2>
 <pre>getDefaultType() : string</pre>
-<div class="labels"><span class="label">Static</span></div>
+<div class="labels">
+<span class="label">Inherited</span><span class="label">Static</span>
+</div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Returns</h3>
@@ -274,10 +339,10 @@
 <code>string</code>- name</div>
 </div></div>
 </div>
-<a id="method_getDistributeShardsLike"></a><div class="element clickable method public method_getDistributeShardsLike " data-toggle="collapse" data-target=".method_getDistributeShardsLike .collapse" title="public">
+<a id="method_getDistributeShardsLike"></a><div class="element clickable method public method_getDistributeShardsLike inherited" data-toggle="collapse" data-target=".method_getDistributeShardsLike .collapse" title="public">
 <h2>Get the distributeShardsLike (if already known)</h2>
 <pre>getDistributeShardsLike() : mixed</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Returns</h3>
@@ -285,10 +350,10 @@
 <code>mixed</code>- distributeShardsLike value</div>
 </div></div>
 </div>
-<a id="method_getId"></a><div class="element clickable method public method_getId " data-toggle="collapse" data-target=".method_getId .collapse" title="public">
+<a id="method_getId"></a><div class="element clickable method public method_getId inherited" data-toggle="collapse" data-target=".method_getId .collapse" title="public">
 <h2>Get the collection id (if already known)</h2>
 <pre>getId() : mixed</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>Collection ids are generated on the server only.</p>
 <p>Collection ids are numeric but might be bigger than PHP_INT_MAX.
@@ -298,10 +363,10 @@ To reliably store a collection id elsewhere, a PHP string should be used</p></di
 <code>mixed</code>- collection id, might be NULL if collection does not yet have an id</div>
 </div></div>
 </div>
-<a id="method_getIsSystem"></a><div class="element clickable method public method_getIsSystem " data-toggle="collapse" data-target=".method_getIsSystem .collapse" title="public">
+<a id="method_getIsSystem"></a><div class="element clickable method public method_getIsSystem inherited" data-toggle="collapse" data-target=".method_getIsSystem .collapse" title="public">
 <h2>Get the isSystem value (if already known)</h2>
 <pre>getIsSystem() : boolean</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Returns</h3>
@@ -309,10 +374,10 @@ To reliably store a collection id elsewhere, a PHP string should be used</p></di
 <code>boolean</code>- isSystem value</div>
 </div></div>
 </div>
-<a id="method_getIsVolatile"></a><div class="element clickable method public method_getIsVolatile " data-toggle="collapse" data-target=".method_getIsVolatile .collapse" title="public">
+<a id="method_getIsVolatile"></a><div class="element clickable method public method_getIsVolatile inherited" data-toggle="collapse" data-target=".method_getIsVolatile .collapse" title="public">
 <h2>Get the isVolatile value (if already known)</h2>
 <pre>getIsVolatile() : boolean</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Returns</h3>
@@ -320,10 +385,10 @@ To reliably store a collection id elsewhere, a PHP string should be used</p></di
 <code>boolean</code>- isVolatile value</div>
 </div></div>
 </div>
-<a id="method_getJournalSize"></a><div class="element clickable method public method_getJournalSize " data-toggle="collapse" data-target=".method_getJournalSize .collapse" title="public">
+<a id="method_getJournalSize"></a><div class="element clickable method public method_getJournalSize inherited" data-toggle="collapse" data-target=".method_getJournalSize .collapse" title="public">
 <h2>Get the journalSize value (if already known)</h2>
 <pre>getJournalSize() : integer</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Returns</h3>
@@ -331,10 +396,10 @@ To reliably store a collection id elsewhere, a PHP string should be used</p></di
 <code>integer</code>- journalSize value</div>
 </div></div>
 </div>
-<a id="method_getKeyOptions"></a><div class="element clickable method public method_getKeyOptions " data-toggle="collapse" data-target=".method_getKeyOptions .collapse" title="public">
+<a id="method_getKeyOptions"></a><div class="element clickable method public method_getKeyOptions inherited" data-toggle="collapse" data-target=".method_getKeyOptions .collapse" title="public">
 <h2>Get the collection key options (if already known)</h2>
 <pre>getKeyOptions() : array</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Returns</h3>
@@ -342,10 +407,10 @@ To reliably store a collection id elsewhere, a PHP string should be used</p></di
 <code>array</code>- keyOptions</div>
 </div></div>
 </div>
-<a id="method_getMinReplicationFactor"></a><div class="element clickable method public method_getMinReplicationFactor " data-toggle="collapse" data-target=".method_getMinReplicationFactor .collapse" title="public">
+<a id="method_getMinReplicationFactor"></a><div class="element clickable method public method_getMinReplicationFactor inherited" data-toggle="collapse" data-target=".method_getMinReplicationFactor .collapse" title="public">
 <h2>Get the minReplicationFactor value (if already known)</h2>
 <pre>getMinReplicationFactor() : mixed</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Returns</h3>
@@ -353,10 +418,36 @@ To reliably store a collection id elsewhere, a PHP string should be used</p></di
 <code>mixed</code>- minReplicationFactor value</div>
 </div></div>
 </div>
+<a id="method_getMode"></a><div class="element clickable method public method_getMode " data-toggle="collapse" data-target=".method_getMode .collapse" title="public">
+<h2>Return the lock mode of the collection</h2>
+<pre>getMode() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>- lock mode, i.e. 'read', 'write', 'exclusive'</div>
+</div></div>
+</div>
 <a id="method_getName"></a><div class="element clickable method public method_getName " data-toggle="collapse" data-target=".method_getName .collapse" title="public">
-<h2>Get the collection name (if already known)</h2>
+<h2>Return the name of the collection</h2>
 <pre>getName() : string</pre>
 <div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\ArangoDBClient\Collection::getName()</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>- collection name</div>
+</div></div>
+</div>
+<a id="method_getName"></a><div class="element clickable method public method_getName inherited" data-toggle="collapse" data-target=".method_getName .collapse" title="public">
+<h2>Get the collection name (if already known)</h2>
+<pre>getName() : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Returns</h3>
@@ -364,10 +455,10 @@ To reliably store a collection id elsewhere, a PHP string should be used</p></di
 <code>string</code>- name</div>
 </div></div>
 </div>
-<a id="method_getNumberOfShards"></a><div class="element clickable method public method_getNumberOfShards " data-toggle="collapse" data-target=".method_getNumberOfShards .collapse" title="public">
+<a id="method_getNumberOfShards"></a><div class="element clickable method public method_getNumberOfShards inherited" data-toggle="collapse" data-target=".method_getNumberOfShards .collapse" title="public">
 <h2>Get the numberOfShards value (if already known)</h2>
 <pre>getNumberOfShards() : mixed</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Returns</h3>
@@ -375,10 +466,10 @@ To reliably store a collection id elsewhere, a PHP string should be used</p></di
 <code>mixed</code>- numberOfShards value</div>
 </div></div>
 </div>
-<a id="method_getReplicationFactor"></a><div class="element clickable method public method_getReplicationFactor " data-toggle="collapse" data-target=".method_getReplicationFactor .collapse" title="public">
+<a id="method_getReplicationFactor"></a><div class="element clickable method public method_getReplicationFactor inherited" data-toggle="collapse" data-target=".method_getReplicationFactor .collapse" title="public">
 <h2>Get the replicationFactor value (if already known)</h2>
 <pre>getReplicationFactor() : mixed</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Returns</h3>
@@ -386,10 +477,10 @@ To reliably store a collection id elsewhere, a PHP string should be used</p></di
 <code>mixed</code>- replicationFactor value</div>
 </div></div>
 </div>
-<a id="method_getShardKeys"></a><div class="element clickable method public method_getShardKeys " data-toggle="collapse" data-target=".method_getShardKeys .collapse" title="public">
+<a id="method_getShardKeys"></a><div class="element clickable method public method_getShardKeys inherited" data-toggle="collapse" data-target=".method_getShardKeys .collapse" title="public">
 <h2>Get the shardKeys value (if already known)</h2>
 <pre>getShardKeys() : array</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Returns</h3>
@@ -397,10 +488,10 @@ To reliably store a collection id elsewhere, a PHP string should be used</p></di
 <code>array</code>- shardKeys value</div>
 </div></div>
 </div>
-<a id="method_getShardingStrategy"></a><div class="element clickable method public method_getShardingStrategy " data-toggle="collapse" data-target=".method_getShardingStrategy .collapse" title="public">
+<a id="method_getShardingStrategy"></a><div class="element clickable method public method_getShardingStrategy inherited" data-toggle="collapse" data-target=".method_getShardingStrategy .collapse" title="public">
 <h2>Get the sharding strategy value (if already known)</h2>
 <pre>getShardingStrategy() : mixed</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Returns</h3>
@@ -408,10 +499,10 @@ To reliably store a collection id elsewhere, a PHP string should be used</p></di
 <code>mixed</code>- shardingStrategy value</div>
 </div></div>
 </div>
-<a id="method_getSmartJoinAttribute"></a><div class="element clickable method public method_getSmartJoinAttribute " data-toggle="collapse" data-target=".method_getSmartJoinAttribute .collapse" title="public">
+<a id="method_getSmartJoinAttribute"></a><div class="element clickable method public method_getSmartJoinAttribute inherited" data-toggle="collapse" data-target=".method_getSmartJoinAttribute .collapse" title="public">
 <h2>Get the smart join attribute value (if already known)</h2>
 <pre>getSmartJoinAttribute() : mixed</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Returns</h3>
@@ -419,10 +510,10 @@ To reliably store a collection id elsewhere, a PHP string should be used</p></di
 <code>mixed</code>- smart join attribute value</div>
 </div></div>
 </div>
-<a id="method_getStatus"></a><div class="element clickable method public method_getStatus " data-toggle="collapse" data-target=".method_getStatus .collapse" title="public">
+<a id="method_getStatus"></a><div class="element clickable method public method_getStatus inherited" data-toggle="collapse" data-target=".method_getStatus .collapse" title="public">
 <h2>Get the collection status (if already known)</h2>
 <pre>getStatus() : integer</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Returns</h3>
@@ -430,10 +521,21 @@ To reliably store a collection id elsewhere, a PHP string should be used</p></di
 <code>integer</code>- status</div>
 </div></div>
 </div>
-<a id="method_getType"></a><div class="element clickable method public method_getType " data-toggle="collapse" data-target=".method_getType .collapse" title="public">
+<a id="method_getTrxId"></a><div class="element clickable method public method_getTrxId " data-toggle="collapse" data-target=".method_getTrxId .collapse" title="public">
+<h2>Return the transaction's id</h2>
+<pre>getTrxId() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>- transaction id</div>
+</div></div>
+</div>
+<a id="method_getType"></a><div class="element clickable method public method_getType inherited" data-toggle="collapse" data-target=".method_getType .collapse" title="public">
 <h2>Get the collection type (if already known)</h2>
 <pre>getType() : string</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Returns</h3>
@@ -441,10 +543,10 @@ To reliably store a collection id elsewhere, a PHP string should be used</p></di
 <code>string</code>- name</div>
 </div></div>
 </div>
-<a id="method_getWaitForSync"></a><div class="element clickable method public method_getWaitForSync " data-toggle="collapse" data-target=".method_getWaitForSync .collapse" title="public">
+<a id="method_getWaitForSync"></a><div class="element clickable method public method_getWaitForSync inherited" data-toggle="collapse" data-target=".method_getWaitForSync .collapse" title="public">
 <h2>Get the waitForSync value (if already known)</h2>
 <pre>getWaitForSync() : boolean</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Returns</h3>
@@ -452,10 +554,10 @@ To reliably store a collection id elsewhere, a PHP string should be used</p></di
 <code>boolean</code>- waitForSync value</div>
 </div></div>
 </div>
-<a id="method_set"></a><div class="element clickable method public method_set " data-toggle="collapse" data-target=".method_set .collapse" title="public">
+<a id="method_set"></a><div class="element clickable method public method_set inherited" data-toggle="collapse" data-target=".method_set .collapse" title="public">
 <h2>Set a collection attribute</h2>
 <pre>set(string $key, mixed $value) : void</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>The key (attribute name) must be a string.</p>
 <p>This will validate the value of the attribute and might throw an
@@ -478,10 +580,10 @@ exception if the value is invalid.</p></div>
 </tr></table>
 </div></div>
 </div>
-<a id="method_setDistributeShardsLike"></a><div class="element clickable method public method_setDistributeShardsLike " data-toggle="collapse" data-target=".method_setDistributeShardsLike .collapse" title="public">
+<a id="method_setDistributeShardsLike"></a><div class="element clickable method public method_setDistributeShardsLike inherited" data-toggle="collapse" data-target=".method_setDistributeShardsLike .collapse" title="public">
 <h2>Set the distribute shards like value</h2>
 <pre>setDistributeShardsLike(string $value) : void</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
@@ -492,10 +594,10 @@ exception if the value is invalid.</p></div>
 </ul></div>
 </div></div>
 </div>
-<a id="method_setId"></a><div class="element clickable method public method_setId " data-toggle="collapse" data-target=".method_setId .collapse" title="public">
+<a id="method_setId"></a><div class="element clickable method public method_setId inherited" data-toggle="collapse" data-target=".method_setId .collapse" title="public">
 <h2>Set the collection id</h2>
 <pre>setId(mixed $id) : boolean</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw if the id of an existing collection gets updated to some other id</p></div>
 <h3>Parameters</h3>
@@ -513,10 +615,10 @@ exception if the value is invalid.</p></div>
 <div class="subelement response"><code>boolean</code></div>
 </div></div>
 </div>
-<a id="method_setIsSystem"></a><div class="element clickable method public method_setIsSystem " data-toggle="collapse" data-target=".method_setIsSystem .collapse" title="public">
+<a id="method_setIsSystem"></a><div class="element clickable method public method_setIsSystem inherited" data-toggle="collapse" data-target=".method_setIsSystem .collapse" title="public">
 <h2>Set the isSystem value</h2>
 <pre>setIsSystem(boolean $value) : void</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
@@ -527,10 +629,10 @@ exception if the value is invalid.</p></div>
 </ul></div>
 </div></div>
 </div>
-<a id="method_setIsVolatile"></a><div class="element clickable method public method_setIsVolatile " data-toggle="collapse" data-target=".method_setIsVolatile .collapse" title="public">
+<a id="method_setIsVolatile"></a><div class="element clickable method public method_setIsVolatile inherited" data-toggle="collapse" data-target=".method_setIsVolatile .collapse" title="public">
 <h2>Set the isVolatile value</h2>
 <pre>setIsVolatile(boolean $value) : void</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
@@ -541,10 +643,10 @@ exception if the value is invalid.</p></div>
 </ul></div>
 </div></div>
 </div>
-<a id="method_setJournalSize"></a><div class="element clickable method public method_setJournalSize " data-toggle="collapse" data-target=".method_setJournalSize .collapse" title="public">
+<a id="method_setJournalSize"></a><div class="element clickable method public method_setJournalSize inherited" data-toggle="collapse" data-target=".method_setJournalSize .collapse" title="public">
 <h2>Set the journalSize value</h2>
 <pre>setJournalSize(integer $value) : void</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
@@ -555,10 +657,10 @@ exception if the value is invalid.</p></div>
 </ul></div>
 </div></div>
 </div>
-<a id="method_setKeyOptions"></a><div class="element clickable method public method_setKeyOptions " data-toggle="collapse" data-target=".method_setKeyOptions .collapse" title="public">
+<a id="method_setKeyOptions"></a><div class="element clickable method public method_setKeyOptions inherited" data-toggle="collapse" data-target=".method_setKeyOptions .collapse" title="public">
 <h2>Set the collection key options.</h2>
 <pre>setKeyOptions(array $keyOptions) : void</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
@@ -574,10 +676,10 @@ exception if the value is invalid.</p></div>
 </tr></table>
 </div></div>
 </div>
-<a id="method_setMinReplicationFactor"></a><div class="element clickable method public method_setMinReplicationFactor " data-toggle="collapse" data-target=".method_setMinReplicationFactor .collapse" title="public">
+<a id="method_setMinReplicationFactor"></a><div class="element clickable method public method_setMinReplicationFactor inherited" data-toggle="collapse" data-target=".method_setMinReplicationFactor .collapse" title="public">
 <h2>Set the minReplicationFactor value</h2>
 <pre>setMinReplicationFactor(integer $value) : void</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
@@ -588,10 +690,10 @@ exception if the value is invalid.</p></div>
 </ul></div>
 </div></div>
 </div>
-<a id="method_setName"></a><div class="element clickable method public method_setName " data-toggle="collapse" data-target=".method_setName .collapse" title="public">
+<a id="method_setName"></a><div class="element clickable method public method_setName inherited" data-toggle="collapse" data-target=".method_setName .collapse" title="public">
 <h2>Set the collection name</h2>
 <pre>setName(string $name) : void</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
@@ -607,10 +709,10 @@ exception if the value is invalid.</p></div>
 </tr></table>
 </div></div>
 </div>
-<a id="method_setNumberOfShards"></a><div class="element clickable method public method_setNumberOfShards " data-toggle="collapse" data-target=".method_setNumberOfShards .collapse" title="public">
+<a id="method_setNumberOfShards"></a><div class="element clickable method public method_setNumberOfShards inherited" data-toggle="collapse" data-target=".method_setNumberOfShards .collapse" title="public">
 <h2>Set the numberOfShards value</h2>
 <pre>setNumberOfShards(integer $value) : void</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
@@ -621,10 +723,10 @@ exception if the value is invalid.</p></div>
 </ul></div>
 </div></div>
 </div>
-<a id="method_setReplicationFactor"></a><div class="element clickable method public method_setReplicationFactor " data-toggle="collapse" data-target=".method_setReplicationFactor .collapse" title="public">
+<a id="method_setReplicationFactor"></a><div class="element clickable method public method_setReplicationFactor inherited" data-toggle="collapse" data-target=".method_setReplicationFactor .collapse" title="public">
 <h2>Set the replicationFactor value</h2>
 <pre>setReplicationFactor(mixed $value) : void</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
@@ -635,10 +737,10 @@ exception if the value is invalid.</p></div>
 </ul></div>
 </div></div>
 </div>
-<a id="method_setShardKeys"></a><div class="element clickable method public method_setShardKeys " data-toggle="collapse" data-target=".method_setShardKeys .collapse" title="public">
+<a id="method_setShardKeys"></a><div class="element clickable method public method_setShardKeys inherited" data-toggle="collapse" data-target=".method_setShardKeys .collapse" title="public">
 <h2>Set the shardKeys value</h2>
 <pre>setShardKeys(array $value) : void</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
@@ -649,10 +751,10 @@ exception if the value is invalid.</p></div>
 </ul></div>
 </div></div>
 </div>
-<a id="method_setShardingStrategy"></a><div class="element clickable method public method_setShardingStrategy " data-toggle="collapse" data-target=".method_setShardingStrategy .collapse" title="public">
+<a id="method_setShardingStrategy"></a><div class="element clickable method public method_setShardingStrategy inherited" data-toggle="collapse" data-target=".method_setShardingStrategy .collapse" title="public">
 <h2>Set the shardingStrategy value</h2>
 <pre>setShardingStrategy(string $value) : void</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
@@ -663,10 +765,10 @@ exception if the value is invalid.</p></div>
 </ul></div>
 </div></div>
 </div>
-<a id="method_setSmartJoinAttribute"></a><div class="element clickable method public method_setSmartJoinAttribute " data-toggle="collapse" data-target=".method_setSmartJoinAttribute .collapse" title="public">
+<a id="method_setSmartJoinAttribute"></a><div class="element clickable method public method_setSmartJoinAttribute inherited" data-toggle="collapse" data-target=".method_setSmartJoinAttribute .collapse" title="public">
 <h2>Set the smart join attribute value</h2>
 <pre>setSmartJoinAttribute(string $value) : void</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
@@ -677,10 +779,10 @@ exception if the value is invalid.</p></div>
 </ul></div>
 </div></div>
 </div>
-<a id="method_setStatus"></a><div class="element clickable method public method_setStatus " data-toggle="collapse" data-target=".method_setStatus .collapse" title="public">
+<a id="method_setStatus"></a><div class="element clickable method public method_setStatus inherited" data-toggle="collapse" data-target=".method_setStatus .collapse" title="public">
 <h2>Set the collection status.</h2>
 <pre>setStatus(integer $status) : void</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This is useful before a collection is create()'ed in order to set a status.</p></div>
 <h3>Parameters</h3>
@@ -696,10 +798,10 @@ exception if the value is invalid.</p></div>
 </tr></table>
 </div></div>
 </div>
-<a id="method_setType"></a><div class="element clickable method public method_setType " data-toggle="collapse" data-target=".method_setType .collapse" title="public">
+<a id="method_setType"></a><div class="element clickable method public method_setType inherited" data-toggle="collapse" data-target=".method_setType .collapse" title="public">
 <h2>Set the collection type.</h2>
 <pre>setType(integer $type) : void</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This is useful before a collection is create() 'ed in order to set a different type than the normal one.
 For example this must be set to 3 in order to create an edge-collection.</p></div>
@@ -716,10 +818,10 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 </tr></table>
 </div></div>
 </div>
-<a id="method_setWaitForSync"></a><div class="element clickable method public method_setWaitForSync " data-toggle="collapse" data-target=".method_setWaitForSync .collapse" title="public">
+<a id="method_setWaitForSync"></a><div class="element clickable method public method_setWaitForSync inherited" data-toggle="collapse" data-target=".method_setWaitForSync .collapse" title="public">
 <h2>Set the waitForSync value</h2>
 <pre>setWaitForSync(boolean $value) : void</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
@@ -730,10 +832,10 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 </ul></div>
 </div></div>
 </div>
-<a id="method_toJson"></a><div class="element clickable method public method_toJson " data-toggle="collapse" data-target=".method_toJson .collapse" title="public">
+<a id="method_toJson"></a><div class="element clickable method public method_toJson inherited" data-toggle="collapse" data-target=".method_toJson .collapse" title="public">
 <h2>Returns the collection as JSON-encoded string</h2>
 <pre>toJson() : string</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Returns</h3>
@@ -741,10 +843,10 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 <code>string</code>- JSON-encoded collection</div>
 </div></div>
 </div>
-<a id="method_toSerialized"></a><div class="element clickable method public method_toSerialized " data-toggle="collapse" data-target=".method_toSerialized .collapse" title="public">
+<a id="method_toSerialized"></a><div class="element clickable method public method_toSerialized inherited" data-toggle="collapse" data-target=".method_toSerialized .collapse" title="public">
 <h2>Returns the collection as a serialized string</h2>
 <pre>toSerialized() : string</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Returns</h3>
@@ -824,6 +926,32 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="property__mode"> </a><div class="element clickable property private property__mode" data-toggle="collapse" data-target=".property__mode .collapse" title="private">
+<h2>Lock mode for this collection, i.e. 'read', 'write' or 'exclusive'</h2>
+<pre>$_mode : string</pre>
+<div class="row collapse"><div class="detail-description">
+<h3>Default</h3>
+<div class="subelement argument"></div>
+</div></div>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property__name"> </a><div class="element clickable property private property__name" data-toggle="collapse" data-target=".property__name .collapse" title="private">
+<h2>Collection name - assigned on construction</h2>
+<pre>$_name : string</pre>
+<div class="row collapse"><div class="detail-description">
+<h3>Default</h3>
+<div class="subelement argument"></div>
+</div></div>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\ArangoDBClient\Collection::_name</td>
+</tr></table>
+</div></div>
+</div>
 <a id="property__name"> </a><div class="element clickable property private property__name" data-toggle="collapse" data-target=".property__name .collapse" title="private">
 <h2>The collection name (might be NULL for new collections)</h2>
 <pre>$_name : string</pre>
@@ -887,6 +1015,16 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 <a id="property__status"> </a><div class="element clickable property private property__status" data-toggle="collapse" data-target=".property__status .collapse" title="private">
 <h2>The collection status value</h2>
 <pre>$_status : integer</pre>
+<div class="row collapse"><div class="detail-description">
+<h3>Default</h3>
+<div class="subelement argument"></div>
+</div></div>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property__trx"> </a><div class="element clickable property private property__trx" data-toggle="collapse" data-target=".property__trx .collapse" title="private">
+<h2>The transaction - assigned on construction</h2>
+<pre>$_trx : \ArangoDBClient\StreamingTransaction</pre>
 <div class="row collapse"><div class="detail-description">
 <h3>Default</h3>
 <div class="subelement argument"></div>
@@ -1067,7 +1205,7 @@ For example this must be set to 3 in order to create an edge-collection.</p></di
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.9.0</a> and<br>
-            generated on 2019-08-19T13:30:48+02:00.<br></footer></div>
+            generated on 2019-08-19T13:30:49+02:00.<br></footer></div>
 </div>
 </body>
 </html>
