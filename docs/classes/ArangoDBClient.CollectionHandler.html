@@ -31,11 +31,11 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">22</span></a></li>
+                <span class="label label-info">25</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
-                <span class="label label-info">2</span></a></li>
+                <span class="label label-info">15</span></a></li>
 </ul>
 </li>
 </ul></div>
@@ -70,8 +70,10 @@
 <li class="method public "><a href="#method_createFulltextIndex" title="createFulltextIndex() :: Create a fulltext index"><span class="description">Create a fulltext index</span><pre>createFulltextIndex()</pre></a></li>
 <li class="method public "><a href="#method_createGeoIndex" title="createGeoIndex() :: Create a geo index"><span class="description">Create a geo index</span><pre>createGeoIndex()</pre></a></li>
 <li class="method public "><a href="#method_createHashIndex" title="createHashIndex() :: Create a hash index"><span class="description">Create a hash index</span><pre>createHashIndex()</pre></a></li>
+<li class="method public "><a href="#method_createIndex" title="createIndex() :: Creates an index on a collection on the server"><span class="description">Creates an index on a collection on the server</span><pre>createIndex()</pre></a></li>
 <li class="method public "><a href="#method_createPersistentIndex" title="createPersistentIndex() :: Create a persistent index"><span class="description">Create a persistent index</span><pre>createPersistentIndex()</pre></a></li>
 <li class="method public "><a href="#method_createSkipListIndex" title="createSkipListIndex() :: Create a skip-list index"><span class="description">Create a skip-list index</span><pre>createSkipListIndex()</pre></a></li>
+<li class="method public "><a href="#method_createTtlIndex" title="createTtlIndex() :: Create a TTL index"><span class="description">Create a TTL index</span><pre>createTtlIndex()</pre></a></li>
 <li class="method public "><a href="#method_drop" title="drop() :: Drop a collection"><span class="description">Drop a collection</span><pre>drop()</pre></a></li>
 <li class="method public "><a href="#method_dropIndex" title="dropIndex() :: Drop an index"><span class="description">Drop an index</span><pre>dropIndex()</pre></a></li>
 <li class="method public "><a href="#method_figures" title="figures() :: Get figures for a collection"><span class="description">Get figures for a collection</span><pre>figures()</pre></a></li>
@@ -86,7 +88,9 @@
 <li class="method public "><a href="#method_getIndex" title="getIndex() :: Get the information about an index in a collection"><span class="description">Get the information about an index in a collection</span><pre>getIndex()</pre></a></li>
 <li class="method public "><a href="#method_getIndexes" title="getIndexes() :: Get indexes of a collection"><span class="description">Get indexes of a collection</span><pre>getIndexes()</pre></a></li>
 <li class="method public "><a href="#method_getProperties" title="getProperties() :: Get properties of a collection"><span class="description">Get properties of a collection</span><pre>getProperties()</pre></a></li>
+<li class="method public "><a href="#method_getResponsibleShard" title="getResponsibleShard() :: Get the responsible shard for a document"><span class="description">Get the responsible shard for a document</span><pre>getResponsibleShard()</pre></a></li>
 <li class="method public "><a href="#method_getRevision" title="getRevision() :: Returns the Collections revision ID"><span class="description">Returns the Collections revision ID</span><pre>getRevision()</pre></a></li>
+<li class="method public "><a href="#method_getShards" title="getShards() :: Get the shards of a collection"><span class="description">Get the shards of a collection</span><pre>getShards()</pre></a></li>
 <li class="method public "><a href="#method_has" title="has() :: Check if a collection exists"><span class="description">Check if a collection exists</span><pre>has()</pre></a></li>
 <li class="method public "><a href="#method_import" title="import() :: Import documents into a collection"><span class="description">Import documents into a collection</span><pre>import()</pre></a></li>
 <li class="method public "><a href="#method_importFromFile" title="importFromFile() :: Import documents from a file"><span class="description">Import documents from a file</span><pre>importFromFile()</pre></a></li>
@@ -110,6 +114,7 @@
 </li>
 <li class="nav-header protected">» Protected
                     <ul>
+<li class="method protected inherited"><a href="#method_addTransactionHeader" title="addTransactionHeader() :: Add a transaction header to the array of headers in case this is a transactional operation"><span class="description">Add a transaction header to the array of headers in case this is a transactional operation</span><pre>addTransactionHeader()</pre></a></li>
 <li class="method protected inherited"><a href="#method_getConnection" title="getConnection() :: Return the connection object"><span class="description">Return the connection object</span><pre>getConnection()</pre></a></li>
 <li class="method protected inherited"><a href="#method_getConnectionOption" title="getConnectionOption() :: Return a connection option
 This is a convenience function that calls json_encode_wrapper on the connection"><span class="description">Return a connection option
@@ -120,8 +125,8 @@ This is a convenience function that calls json_encode_wrapper on the connection<
 </ul>
 </li>
 <li class="nav-header private">» Private
-                    <ul><li class="method private "><a href="#method_createCollectionIfOptions" title="createCollectionIfOptions() :: "><span class="description">createCollectionIfOptions()
-        </span><pre>createCollectionIfOptions()</pre></a></li></ul>
+                    <ul><li class="method private "><a href="#method_lazyCreateCollection" title="lazyCreateCollection() :: "><span class="description">lazyCreateCollection()
+        </span><pre>lazyCreateCollection()</pre></a></li></ul>
 </li>
 <li class="nav-header">
 <i title="Properties" class="icon-custom icon-property"></i> Properties
@@ -149,6 +154,7 @@ This is a convenience function that calls json_encode_wrapper on the connection<
 <li class="constant  "><a href="#constant_OPTION_DISTANCE" title="OPTION_DISTANCE() :: distance parameter"><span class="description">distance parameter</span><pre>OPTION_DISTANCE</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_EXAMPLE" title="OPTION_EXAMPLE() :: example parameter"><span class="description">example parameter</span><pre>OPTION_EXAMPLE</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_EXCLUDE_SYSTEM" title="OPTION_EXCLUDE_SYSTEM() :: exclude system collections"><span class="description">exclude system collections</span><pre>OPTION_EXCLUDE_SYSTEM</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_EXPIRE_AFTER" title="OPTION_EXPIRE_AFTER() :: expireAfter option"><span class="description">expireAfter option</span><pre>OPTION_EXPIRE_AFTER</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_FIELDS" title="OPTION_FIELDS() :: fields"><span class="description">fields</span><pre>OPTION_FIELDS</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_FIGURES" title="OPTION_FIGURES() :: figures option"><span class="description">figures option</span><pre>OPTION_FIGURES</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_FULLTEXT_INDEX" title="OPTION_FULLTEXT_INDEX() :: fulltext index option"><span class="description">fulltext index option</span><pre>OPTION_FULLTEXT_INDEX</pre></a></li>
@@ -156,6 +162,7 @@ This is a convenience function that calls json_encode_wrapper on the connection<
 <li class="constant  "><a href="#constant_OPTION_GEO_INDEX" title="OPTION_GEO_INDEX() :: geo index option"><span class="description">geo index option</span><pre>OPTION_GEO_INDEX</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_HASH_INDEX" title="OPTION_HASH_INDEX() :: hash index option"><span class="description">hash index option</span><pre>OPTION_HASH_INDEX</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_INDEX" title="OPTION_INDEX() :: index parameter"><span class="description">index parameter</span><pre>OPTION_INDEX</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_IN_BACKGROUND" title="OPTION_IN_BACKGROUND() :: inBackground option"><span class="description">inBackground option</span><pre>OPTION_IN_BACKGROUND</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_KEYS" title="OPTION_KEYS() :: keys parameter"><span class="description">keys parameter</span><pre>OPTION_KEYS</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_LATITUDE" title="OPTION_LATITUDE() :: latitude parameter"><span class="description">latitude parameter</span><pre>OPTION_LATITUDE</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_LEFT" title="OPTION_LEFT() :: left parameter"><span class="description">left parameter</span><pre>OPTION_LEFT</pre></a></li>
@@ -169,13 +176,17 @@ This is a convenience function that calls json_encode_wrapper on the connection<
 <li class="constant  "><a href="#constant_OPTION_QUERY" title="OPTION_QUERY() :: query option"><span class="description">query option</span><pre>OPTION_QUERY</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_RADIUS" title="OPTION_RADIUS() :: radius parameter"><span class="description">radius parameter</span><pre>OPTION_RADIUS</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_RENAME" title="OPTION_RENAME() :: rename option"><span class="description">rename option</span><pre>OPTION_RENAME</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_RESPONSIBLE_SHARD" title="OPTION_RESPONSIBLE_SHARD() :: responsible shard option"><span class="description">responsible shard option</span><pre>OPTION_RESPONSIBLE_SHARD</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_REVISION" title="OPTION_REVISION() :: revision option"><span class="description">revision option</span><pre>OPTION_REVISION</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_RIGHT" title="OPTION_RIGHT() :: right parameter"><span class="description">right parameter</span><pre>OPTION_RIGHT</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_SHARDS" title="OPTION_SHARDS() :: shards option"><span class="description">shards option</span><pre>OPTION_SHARDS</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_SIZE" title="OPTION_SIZE() :: size option"><span class="description">size option</span><pre>OPTION_SIZE</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_SKIP" title="OPTION_SKIP() :: skip parameter"><span class="description">skip parameter</span><pre>OPTION_SKIP</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_SKIPLIST_INDEX" title="OPTION_SKIPLIST_INDEX() :: skiplist index option"><span class="description">skiplist index option</span><pre>OPTION_SKIPLIST_INDEX</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_SPARSE" title="OPTION_SPARSE() :: sparse index option"><span class="description">sparse index option</span><pre>OPTION_SPARSE</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_STREAM" title="OPTION_STREAM() :: stream parameter"><span class="description">stream parameter</span><pre>OPTION_STREAM</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_TRUNCATE" title="OPTION_TRUNCATE() :: truncate option"><span class="description">truncate option</span><pre>OPTION_TRUNCATE</pre></a></li>
+<li class="constant  "><a href="#constant_OPTION_TTL_INDEX" title="OPTION_TTL_INDEX() :: ttl index option"><span class="description">ttl index option</span><pre>OPTION_TTL_INDEX</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_TYPE" title="OPTION_TYPE() :: type"><span class="description">type</span><pre>OPTION_TYPE</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_UNIQUE" title="OPTION_UNIQUE() :: unique"><span class="description">unique</span><pre>OPTION_UNIQUE</pre></a></li>
 <li class="constant  "><a href="#constant_OPTION_UNLOAD" title="OPTION_UNLOAD() :: unload option"><span class="description">unload option</span><pre>OPTION_UNLOAD</pre></a></li>
@@ -230,15 +241,15 @@ creates collections on the server.</p></div>
 </div>
 <a id="method_all"></a><div class="element clickable method public method_all " data-toggle="collapse" data-target=".method_all .collapse" title="public">
 <h2>Returns all documents of a collection</h2>
-<pre>all(mixed $collectionId, array $options<code> = array()</code>) : \ArangoDBClient\Cursor</pre>
+<pre>all(mixed $collection, array $options<code> = array()</code>) : \ArangoDBClient\Cursor</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collectionId</h4>
+<h4>$collection</h4>
 <code>mixed</code><ul>
-<li>collection id as string or number</li>
+<li>collection as string or object</li>
 </ul></div>
 <div class="subelement argument">
 <h4>$options</h4>
@@ -276,7 +287,7 @@ creates collections on the server.</p></div>
 </div>
 <a id="method_any"></a><div class="element clickable method public method_any " data-toggle="collapse" data-target=".method_any .collapse" title="public">
 <h2>Get a random document from the collection.</h2>
-<pre>any(mixed $collectionId) : \ArangoDBClient\Document</pre>
+<pre>any(mixed $collection) : \ArangoDBClient\Document</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw if the document cannot be fetched from the server</p></div>
@@ -286,9 +297,9 @@ creates collections on the server.</p></div>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collectionId</h4>
+<h4>$collection</h4>
 <code>mixed</code><ul>
-<li>collection id as string or number</li>
+<li>collection as string or object</li>
 </ul></div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -302,15 +313,15 @@ creates collections on the server.</p></div>
 </div>
 <a id="method_byExample"></a><div class="element clickable method public method_byExample " data-toggle="collapse" data-target=".method_byExample .collapse" title="public">
 <h2>Get document(s) by specifying an example</h2>
-<pre>byExample(mixed $collectionId, mixed $document, array $options<code> = array()</code>) : \ArangoDBClient\cursor</pre>
+<pre>byExample(mixed $collection, mixed $document, array $options<code> = array()</code>) : \ArangoDBClient\cursor</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw if the list cannot be fetched from the server</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collectionId</h4>
+<h4>$collection</h4>
 <code>mixed</code><ul>
-<li>collection id as string or number</li>
+<li>collection as string or object</li>
 </ul></div>
 <div class="subelement argument">
 <h4>$document</h4>
@@ -386,16 +397,19 @@ This will throw if the collection cannot be created</p></div>
 <code>array</code><ul>
 <li>an array of options.
 <p>Options are :<br>
-                     <li>'type'              - 2 -> normal collection, 3 -> edge-collection</li>
-                     <li>'waitForSync'       - if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
-                     <li>'journalSize'       - journalSize value.</li>
-                     <li>'isSystem'          - false->user collection(default), true->system collection .</li>
-                     <li>'isVolatile'        - false->persistent collection(default), true->volatile (in-memory) collection .</li>
-                     <li>'keyOptions'        - key options to use.</li>
-                     <li>'numberOfShards'    - number of shards for the collection.</li>
-                     <li>'shardKeys'         - array of shard key attributes.</li>
-                     <li>'replicationFactor' - number of replicas to keep (default: 1).</li>
-                     <li>'shardingStrategy'  - sharding strategy to use in cluster.</li>
+                     <li>'type'                 - 2 -> normal collection, 3 -> edge-collection</li>
+                     <li>'waitForSync'          - if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
+                     <li>'journalSize'          - journalSize value.</li>
+                     <li>'isSystem'             - false->user collection(default), true->system collection .</li>
+                     <li>'isVolatile'           - false->persistent collection(default), true->volatile (in-memory) collection .</li>
+                     <li>'keyOptions'           - key options to use.</li>
+                     <li>'distributeShardsLike' - name of prototype collection for identical sharding.</li>
+                     <li>'numberOfShards'       - number of shards for the collection.</li>
+                     <li>'replicationFactor'    - number of replicas to keep (default: 1).</li>
+                     <li>'minReplicationFactor' - minimum number of replicas to be successful when writing (default: 1).</li>
+                     <li>'shardKeys'            - array of shard key attributes.</li>
+                     <li>'shardingStrategy'     - sharding strategy to use in cluster.</li>
+                     <li>'smartJoinAttribute'   - attribute name for smart joins (if not shard key).</li>
                      </p></li>
 </ul></div>
 <h3>Exceptions</h3>
@@ -410,19 +424,19 @@ This will throw if the collection cannot be created</p></div>
 </div>
 <a id="method_createFulltextIndex"></a><div class="element clickable method public method_createFulltextIndex " data-toggle="collapse" data-target=".method_createFulltextIndex .collapse" title="public">
 <h2>Create a fulltext index</h2>
-<pre>createFulltextIndex(string $collectionId, array $fields, integer $minLength<code> = null</code>) : array</pre>
+<pre>createFulltextIndex(mixed $collection, array $fields, integer $minLength<code> = null</code>, boolean $inBackground<code> = false</code>) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
-<th>link</th>
-<td><a href="https://docs.arangodb.com/HTTP/Indexes/Fulltext.html">https://docs.arangodb.com/HTTP/Indexes/Fulltext.html</a></td>
+<th>deprecated</th>
+<td>use CollectionHandler::createIndex instead</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collectionId</h4>
-<code>string</code><ul>
-<li>the collection id</li>
+<h4>$collection</h4>
+<code>mixed</code><ul>
+<li>collection as string or object</li>
 </ul></div>
 <div class="subelement argument">
 <h4>$fields</h4>
@@ -433,6 +447,11 @@ This will throw if the collection cannot be created</p></div>
 <h4>$minLength</h4>
 <code>integer</code><ul>
 <li>the minimum length of words to index</li>
+</ul></div>
+<div class="subelement argument">
+<h4>$inBackground</h4>
+<code>boolean</code><ul>
+<li>true if index shall be created in background</li>
 </ul></div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -446,19 +465,19 @@ This will throw if the collection cannot be created</p></div>
 </div>
 <a id="method_createGeoIndex"></a><div class="element clickable method public method_createGeoIndex " data-toggle="collapse" data-target=".method_createGeoIndex .collapse" title="public">
 <h2>Create a geo index</h2>
-<pre>createGeoIndex(string $collectionId, array $fields, boolean $geoJson<code> = null</code>) : array</pre>
+<pre>createGeoIndex(mixed $collection, array $fields, boolean $geoJson<code> = null</code>, boolean $inBackground<code> = false</code>) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
-<th>link</th>
-<td><a href="https://docs.arangodb.com/HTTP/Indexes/Geo.html">https://docs.arangodb.com/HTTP/Indexes/Geo.html</a></td>
+<th>deprecated</th>
+<td>use CollectionHandler::createIndex instead</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collectionId</h4>
-<code>string</code><ul>
-<li>the collection id</li>
+<h4>$collection</h4>
+<code>mixed</code><ul>
+<li>collection as string or object</li>
 </ul></div>
 <div class="subelement argument">
 <h4>$fields</h4>
@@ -469,6 +488,11 @@ This will throw if the collection cannot be created</p></div>
 <h4>$geoJson</h4>
 <code>boolean</code><ul>
 <li>whether to use geoJson or not</li>
+</ul></div>
+<div class="subelement argument">
+<h4>$inBackground</h4>
+<code>boolean</code><ul>
+<li>true if index shall be created in background</li>
 </ul></div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -482,19 +506,19 @@ This will throw if the collection cannot be created</p></div>
 </div>
 <a id="method_createHashIndex"></a><div class="element clickable method public method_createHashIndex " data-toggle="collapse" data-target=".method_createHashIndex .collapse" title="public">
 <h2>Create a hash index</h2>
-<pre>createHashIndex(string $collectionId, array $fields, boolean $unique<code> = null</code>, boolean $sparse<code> = null</code>) : array</pre>
+<pre>createHashIndex(mixed $collection, array $fields, boolean $unique<code> = null</code>, boolean $sparse<code> = null</code>, boolean $inBackground<code> = false</code>) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
-<th>link</th>
-<td><a href="https://docs.arangodb.com/HTTP/Indexes/Hash.html">https://docs.arangodb.com/HTTP/Indexes/Hash.html</a></td>
+<th>deprecated</th>
+<td>use CollectionHandler::createIndex instead</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collectionId</h4>
-<code>string</code><ul>
-<li>the collection id</li>
+<h4>$collection</h4>
+<code>mixed</code><ul>
+<li>the collection as name or object</li>
 </ul></div>
 <div class="subelement argument">
 <h4>$fields</h4>
@@ -511,6 +535,43 @@ This will throw if the collection cannot be created</p></div>
 <code>boolean</code><ul>
 <li>whether the index should be sparse</li>
 </ul></div>
+<div class="subelement argument">
+<h4>$inBackground</h4>
+<code>boolean</code><ul>
+<li>true if index shall be created in background</li>
+</ul></div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code>\ArangoDBClient\Exception</code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- server response of the created index</div>
+</div></div>
+</div>
+<a id="method_createIndex"></a><div class="element clickable method public method_createIndex " data-toggle="collapse" data-target=".method_createIndex .collapse" title="public">
+<h2>Creates an index on a collection on the server</h2>
+<pre>createIndex(mixed $collection, array $indexOptions) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This will create an index on the collection on the server and return its id</p>
+<p>This will throw if the index cannot be created</p></div>
+<table class="table table-bordered"><tr>
+<th>since</th>
+<td>3.5</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collection</h4>
+<code>mixed</code><ul>
+<li>collection as string or object</li>
+</ul></div>
+<div class="subelement argument">
+<h4>$indexOptions</h4>
+<code>array</code><ul>
+<li>an associative array of options for the index like array('type' => hash, 'fields' => ..., 'sparse' => false)</li>
+</ul></div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
 <th><code>\ArangoDBClient\Exception</code></th>
@@ -523,19 +584,19 @@ This will throw if the collection cannot be created</p></div>
 </div>
 <a id="method_createPersistentIndex"></a><div class="element clickable method public method_createPersistentIndex " data-toggle="collapse" data-target=".method_createPersistentIndex .collapse" title="public">
 <h2>Create a persistent index</h2>
-<pre>createPersistentIndex(string $collectionId, array $fields, boolean $unique<code> = null</code>, boolean $sparse<code> = null</code>) : array</pre>
+<pre>createPersistentIndex(mixed $collection, array $fields, boolean $unique<code> = null</code>, boolean $sparse<code> = null</code>, boolean $inBackground<code> = false</code>) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
-<th>link</th>
-<td><a href="https://docs.arangodb.com/HTTP/Indexes/Persistent.html">https://docs.arangodb.com/HTTP/Indexes/Persistent.html</a></td>
+<th>deprecated</th>
+<td>use CollectionHandler::createIndex instead</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collectionId</h4>
-<code>string</code><ul>
-<li>the collection id</li>
+<h4>$collection</h4>
+<code>mixed</code><ul>
+<li>collection as string or object</li>
 </ul></div>
 <div class="subelement argument">
 <h4>$fields</h4>
@@ -551,6 +612,11 @@ This will throw if the collection cannot be created</p></div>
 <h4>$sparse</h4>
 <code>boolean</code><ul>
 <li>whether the index should be sparse</li>
+</ul></div>
+<div class="subelement argument">
+<h4>$inBackground</h4>
+<code>boolean</code><ul>
+<li>true if index shall be created in background</li>
 </ul></div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -564,19 +630,19 @@ This will throw if the collection cannot be created</p></div>
 </div>
 <a id="method_createSkipListIndex"></a><div class="element clickable method public method_createSkipListIndex " data-toggle="collapse" data-target=".method_createSkipListIndex .collapse" title="public">
 <h2>Create a skip-list index</h2>
-<pre>createSkipListIndex(string $collectionId, array $fields, boolean $unique<code> = null</code>, boolean $sparse<code> = null</code>) : array</pre>
+<pre>createSkipListIndex(mixed $collection, array $fields, boolean $unique<code> = null</code>, boolean $sparse<code> = null</code>, boolean $inBackground<code> = false</code>) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
-<th>link</th>
-<td><a href="https://docs.arangodb.com/HTTP/Indexes/Skiplist.html">https://docs.arangodb.com/HTTP/Indexes/Skiplist.html</a></td>
+<th>deprecated</th>
+<td>use CollectionHandler::createIndex instead</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collectionId</h4>
-<code>string</code><ul>
-<li>the collection id</li>
+<h4>$collection</h4>
+<code>mixed</code><ul>
+<li>collection as string or object</li>
 </ul></div>
 <div class="subelement argument">
 <h4>$fields</h4>
@@ -592,6 +658,52 @@ This will throw if the collection cannot be created</p></div>
 <h4>$sparse</h4>
 <code>boolean</code><ul>
 <li>whether the index should be sparse</li>
+</ul></div>
+<div class="subelement argument">
+<h4>$inBackground</h4>
+<code>boolean</code><ul>
+<li>true if index shall be created in background</li>
+</ul></div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code>\ArangoDBClient\Exception</code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- server response of the created index</div>
+</div></div>
+</div>
+<a id="method_createTtlIndex"></a><div class="element clickable method public method_createTtlIndex " data-toggle="collapse" data-target=".method_createTtlIndex .collapse" title="public">
+<h2>Create a TTL index</h2>
+<pre>createTtlIndex(mixed $collection, array $fields, \ArangoDBClient\number $expireAfter, boolean $inBackground<code> = false</code>) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>deprecated</th>
+<td>use CollectionHandler::createIndex instead</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collection</h4>
+<code>mixed</code><ul>
+<li>collection as string or object</li>
+</ul></div>
+<div class="subelement argument">
+<h4>$fields</h4>
+<code>array</code><ul>
+<li>an array of fields (only a single one allowed)</li>
+</ul></div>
+<div class="subelement argument">
+<h4>$expireAfter</h4>
+<code>\ArangoDBClient\number</code><ul>
+<li>number of seconds after index value after which documents expire</li>
+</ul></div>
+<div class="subelement argument">
+<h4>$inBackground</h4>
+<code>boolean</code><ul>
+<li>true if index shall be created in background</li>
 </ul></div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -632,11 +744,16 @@ This will throw if the collection cannot be created</p></div>
 </div>
 <a id="method_dropIndex"></a><div class="element clickable method public method_dropIndex " data-toggle="collapse" data-target=".method_dropIndex .collapse" title="public">
 <h2>Drop an index</h2>
-<pre>dropIndex(mixed $indexHandle) : boolean</pre>
+<pre>dropIndex(mixed $collection, mixed $indexHandle<code> = null</code>) : boolean</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collection</h4>
+<code>mixed</code><ul>
+<li>collection as string or object</li>
+</ul></div>
 <div class="subelement argument">
 <h4>$indexHandle</h4>
 <code>mixed</code><ul>
@@ -676,7 +793,7 @@ This will throw if the collection cannot be created</p></div>
 </div>
 <a id="method_firstExample"></a><div class="element clickable method public method_firstExample " data-toggle="collapse" data-target=".method_firstExample .collapse" title="public">
 <h2>Get the first document matching a given example.</h2>
-<pre>firstExample(mixed $collectionId, mixed $document, array $options<code> = array()</code>) : \ArangoDBClient\Document</pre>
+<pre>firstExample(mixed $collection, mixed $document, array $options<code> = array()</code>) : \ArangoDBClient\Document</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw if the document cannot be fetched from the server</p></div>
@@ -686,9 +803,9 @@ This will throw if the collection cannot be created</p></div>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collectionId</h4>
+<h4>$collection</h4>
 <code>mixed</code><ul>
-<li>collection id as string or number</li>
+<li>collection as string or object</li>
 </ul></div>
 <div class="subelement argument">
 <h4>$document</h4>
@@ -727,6 +844,10 @@ This will throw if the collection cannot be created</p></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will find all documents from the collection that match the fulltext query specified in query.
 In order to use the fulltext operator, a fulltext index must be defined for the collection and the specified attribute.</p></div>
+<table class="table table-bordered"><tr>
+<th>deprecated</th>
+<td>use AQL queries instead</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$collection</h4>
@@ -850,16 +971,16 @@ In order to use the fulltext operator, a fulltext index must be defined for the 
 </div>
 <a id="method_getChecksum"></a><div class="element clickable method public method_getChecksum " data-toggle="collapse" data-target=".method_getChecksum .collapse" title="public">
 <h2>Calculate a checksum of the collection.</h2>
-<pre>getChecksum(mixed $collectionId, boolean $withRevisions<code> = false</code>, boolean $withData<code> = false</code>) : array</pre>
+<pre>getChecksum(mixed $collection, boolean $withRevisions<code> = false</code>, boolean $withData<code> = false</code>) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>Will calculate a checksum of the meta-data (keys and optionally revision ids)
 and optionally the document data in the collection.</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collectionId</h4>
+<h4>$collection</h4>
 <code>mixed</code><ul>
-<li>collection id as a string or number</li>
+<li>collection as string or object</li>
 </ul></div>
 <div class="subelement argument">
 <h4>$withRevisions</h4>
@@ -947,15 +1068,15 @@ checksum calculation.</li>
 </div>
 <a id="method_getIndexes"></a><div class="element clickable method public method_getIndexes " data-toggle="collapse" data-target=".method_getIndexes .collapse" title="public">
 <h2>Get indexes of a collection</h2>
-<pre>getIndexes(mixed $collectionId) : array</pre>
+<pre>getIndexes(mixed $collection) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw if the collection cannot be fetched from the server</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collectionId</h4>
+<h4>$collection</h4>
 <code>mixed</code><ul>
-<li>collection id as a string or number</li>
+<li>collection as string or object</li>
 </ul></div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -989,18 +1110,49 @@ checksum calculation.</li>
 <code>\ArangoDBClient\Collection</code>- the collection fetched from the server</div>
 </div></div>
 </div>
+<a id="method_getResponsibleShard"></a><div class="element clickable method public method_getResponsibleShard " data-toggle="collapse" data-target=".method_getResponsibleShard .collapse" title="public">
+<h2>Get the responsible shard for a document</h2>
+<pre>getResponsibleShard(mixed $collection, mixed $document) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>since</th>
+<td>3.5</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collection</h4>
+<code>mixed</code><ul>
+<li>collection as string or object</li>
+</ul></div>
+<div class="subelement argument">
+<h4>$document</h4>
+<code>mixed</code><ul>
+<li>document</li>
+</ul></div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code>\ArangoDBClient\Exception</code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>- shard id</div>
+</div></div>
+</div>
 <a id="method_getRevision"></a><div class="element clickable method public method_getRevision " data-toggle="collapse" data-target=".method_getRevision .collapse" title="public">
 <h2>Returns the Collections revision ID</h2>
-<pre>getRevision(mixed $collectionId) : array</pre>
+<pre>getRevision(mixed $collection) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>The revision id is a server-generated string that clients can use to check whether data in a collection has
 changed since the last revision check.</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collectionId</h4>
+<h4>$collection</h4>
 <code>mixed</code><ul>
-<li>collection id as a string or number</li>
+<li>collection as string or object</li>
 </ul></div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -1010,6 +1162,32 @@ changed since the last revision check.</p></div>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>array</code>- containing a key revision</div>
+</div></div>
+</div>
+<a id="method_getShards"></a><div class="element clickable method public method_getShards " data-toggle="collapse" data-target=".method_getShards .collapse" title="public">
+<h2>Get the shards of a collection</h2>
+<pre>getShards(mixed $collection) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>since</th>
+<td>3.5</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collection</h4>
+<code>mixed</code><ul>
+<li>collection as string or object</li>
+</ul></div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code>\ArangoDBClient\Exception</code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>- array with shard ids</div>
 </div></div>
 </div>
 <a id="method_has"></a><div class="element clickable method public method_has " data-toggle="collapse" data-target=".method_has .collapse" title="public">
@@ -1046,7 +1224,7 @@ was an exception thrown which represents an 404 request.</p></div>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collection</h4><p>mixed $collection - collection id as string or number</p></div>
+<h4>$collection</h4><p>mixed $collection - collection as string or object</p></div>
 <div class="subelement argument">
 <h4>$importData</h4>
 <code>string</code><code>array</code><ul>
@@ -1091,16 +1269,12 @@ was an exception thrown which represents an 404 request.</p></div>
 </div>
 <a id="method_importFromFile"></a><div class="element clickable method public method_importFromFile " data-toggle="collapse" data-target=".method_importFromFile .collapse" title="public">
 <h2>Import documents from a file</h2>
-<pre>importFromFile(mixed $collectionId, mixed $importFileName, array $options<code> = array()</code>) : array</pre>
+<pre>importFromFile($collection, mixed $importFileName, array $options<code> = array()</code>) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw on all errors except insertion errors</p></div>
 <h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$collectionId</h4>
-<code>mixed</code><ul>
-<li>collection id as string or number</li>
-</ul></div>
+<div class="subelement argument"><h4>$collection</h4></div>
 <div class="subelement argument">
 <h4>$importFileName</h4>
 <code>mixed</code><ul>
@@ -1135,21 +1309,25 @@ was an exception thrown which represents an 404 request.</p></div>
 </div>
 <a id="method_index"></a><div class="element clickable method public method_index " data-toggle="collapse" data-target=".method_index .collapse" title="public">
 <h2>Creates an index on a collection on the server</h2>
-<pre>index(mixed $collectionId, string $type, array $attributes<code> = array()</code>, boolean $unique<code> = false</code>, array $indexOptions<code> = array()</code>) : array</pre>
+<pre>index(mixed $collection, string $type, array $attributes<code> = array()</code>, boolean $unique<code> = false</code>, array $indexOptions<code> = array()</code>) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will create an index on the collection on the server and return its id</p>
 <p>This will throw if the index cannot be created</p></div>
+<table class="table table-bordered"><tr>
+<th>deprecated</th>
+<td>use CollectionHandler::createIndex instead</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collectionId</h4>
+<h4>$collection</h4>
 <code>mixed</code><ul>
-<li>The id of the collection where the index is to be created</li>
+<li>collection as string or object</li>
 </ul></div>
 <div class="subelement argument">
 <h4>$type</h4>
 <code>string</code><ul>
-<li>index type: hash, skiplist, geo, fulltext, or persistent</li>
+<li>index type: hash, skiplist, geo, ttl, fulltext, or persistent</li>
 </ul></div>
 <div class="subelement argument">
 <h4>$attributes</h4>
@@ -1198,7 +1376,7 @@ was an exception thrown which represents an 404 request.</p></div>
 <div class="subelement argument">
 <h4>$collection</h4>
 <code>mixed</code><ul>
-<li>collection id as string or number or collection object</li>
+<li>collection as string or object</li>
 </ul></div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -1212,7 +1390,7 @@ was an exception thrown which represents an 404 request.</p></div>
 </div>
 <a id="method_lookupByKeys"></a><div class="element clickable method public method_lookupByKeys " data-toggle="collapse" data-target=".method_lookupByKeys .collapse" title="public">
 <h2>Bulk lookup documents by specifying an array of keys</h2>
-<pre>lookupByKeys(mixed $collectionId, array $keys, array $options<code> = array()</code>) : array</pre>
+<pre>lookupByKeys(mixed $collection, array $keys, array $options<code> = array()</code>) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw on any error</p></div>
@@ -1222,9 +1400,9 @@ was an exception thrown which represents an 404 request.</p></div>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collectionId</h4>
+<h4>$collection</h4>
 <code>mixed</code><ul>
-<li>collection id as string or number</li>
+<li>collection as string or object</li>
 </ul></div>
 <div class="subelement argument">
 <h4>$keys</h4>
@@ -1253,15 +1431,19 @@ was an exception thrown which represents an 404 request.</p></div>
 </div>
 <a id="method_near"></a><div class="element clickable method public method_near " data-toggle="collapse" data-target=".method_near .collapse" title="public">
 <h2>Get document(s) by specifying near</h2>
-<pre>near(mixed $collectionId, double $latitude, double $longitude, array $options<code> = array()</code>) : \ArangoDBClient\Cursor</pre>
+<pre>near(mixed $collection, double $latitude, double $longitude, array $options<code> = array()</code>) : \ArangoDBClient\Cursor</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw if the list cannot be fetched from the server</p></div>
+<table class="table table-bordered"><tr>
+<th>deprecated</th>
+<td>use AQL queries instead</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collectionId</h4>
+<h4>$collection</h4>
 <code>mixed</code><ul>
-<li>collection id as string or number</li>
+<li>collection as string or object</li>
 </ul></div>
 <div class="subelement argument">
 <h4>$latitude</h4>
@@ -1307,15 +1489,19 @@ was an exception thrown which represents an 404 request.</p></div>
 </div>
 <a id="method_range"></a><div class="element clickable method public method_range " data-toggle="collapse" data-target=".method_range .collapse" title="public">
 <h2>Get document(s) by specifying range</h2>
-<pre>range(mixed $collectionId, string $attribute, mixed $left, mixed $right, array $options<code> = array()</code>) : \ArangoDBClient\Cursor</pre>
+<pre>range(mixed $collection, string $attribute, mixed $left, mixed $right, array $options<code> = array()</code>) : \ArangoDBClient\Cursor</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw if the list cannot be fetched from the server</p></div>
+<table class="table table-bordered"><tr>
+<th>deprecated</th>
+<td>use AQL queries instead</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collectionId</h4>
+<h4>$collection</h4>
 <code>mixed</code><ul>
-<li>collection id as string or number</li>
+<li>collection as string or object</li>
 </ul></div>
 <div class="subelement argument">
 <h4>$attribute</h4>
@@ -1366,7 +1552,7 @@ was an exception thrown which represents an 404 request.</p></div>
 </div>
 <a id="method_removeByExample"></a><div class="element clickable method public method_removeByExample " data-toggle="collapse" data-target=".method_removeByExample .collapse" title="public">
 <h2>Remove document(s) by specifying an example</h2>
-<pre>removeByExample(mixed $collectionId, mixed $document, array $options<code> = array()</code>) : integer</pre>
+<pre>removeByExample(mixed $collection, mixed $document, array $options<code> = array()</code>) : integer</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw on any error</p></div>
@@ -1376,9 +1562,9 @@ was an exception thrown which represents an 404 request.</p></div>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collectionId</h4>
+<h4>$collection</h4>
 <code>mixed</code><ul>
-<li>collection id as string or number</li>
+<li>collection as string or object</li>
 </ul></div>
 <div class="subelement argument">
 <h4>$document</h4>
@@ -1409,7 +1595,7 @@ was an exception thrown which represents an 404 request.</p></div>
 </div>
 <a id="method_removeByKeys"></a><div class="element clickable method public method_removeByKeys " data-toggle="collapse" data-target=".method_removeByKeys .collapse" title="public">
 <h2>Remove document(s) by specifying an array of keys</h2>
-<pre>removeByKeys(mixed $collectionId, array $keys, array $options<code> = array()</code>) : array</pre>
+<pre>removeByKeys(mixed $collection, array $keys, array $options<code> = array()</code>) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw on any error</p></div>
@@ -1419,9 +1605,9 @@ was an exception thrown which represents an 404 request.</p></div>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collectionId</h4>
+<h4>$collection</h4>
 <code>mixed</code><ul>
-<li>collection id as string or number</li>
+<li>collection as string or object</li>
 </ul></div>
 <div class="subelement argument">
 <h4>$keys</h4>
@@ -1459,7 +1645,7 @@ was an exception thrown which represents an 404 request.</p></div>
 <div class="subelement argument">
 <h4>$collection</h4>
 <code>mixed</code><ul>
-<li>collection id as string or number or collection object</li>
+<li>collection as string or object</li>
 </ul></div>
 <div class="subelement argument">
 <h4>$name</h4>
@@ -1478,20 +1664,26 @@ was an exception thrown which represents an 404 request.</p></div>
 </div>
 <a id="method_replaceByExample"></a><div class="element clickable method public method_replaceByExample " data-toggle="collapse" data-target=".method_replaceByExample .collapse" title="public">
 <h2>Replace document(s) matching a given example</h2>
-<pre>replaceByExample(mixed $collectionId, mixed $example, mixed $newValue, mixed $options<code> = array()</code>) : boolean</pre>
+<pre>replaceByExample(mixed $collection, mixed $example, mixed $newValue, mixed $options<code> = array()</code>) : boolean</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will replace the document(s) on the server</p>
 <p>This will throw if the document cannot be replaced</p></div>
-<table class="table table-bordered"><tr>
+<table class="table table-bordered">
+<tr>
+<th>deprecated</th>
+<td>use AQL queries instead</td>
+</tr>
+<tr>
 <th>since</th>
 <td>1.2</td>
-</tr></table>
+</tr>
+</table>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collectionId</h4>
+<h4>$collection</h4>
 <code>mixed</code><ul>
-<li>collection id as string or number</li>
+<li>collection as string or object</li>
 </ul></div>
 <div class="subelement argument">
 <h4>$example</h4>
@@ -1583,7 +1775,7 @@ was an exception thrown which represents an 404 request.</p></div>
 <div class="subelement argument">
 <h4>$collection</h4>
 <code>mixed</code><ul>
-<li>collection id as string or number or collection object</li>
+<li>collection as string or object</li>
 </ul></div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -1597,20 +1789,26 @@ was an exception thrown which represents an 404 request.</p></div>
 </div>
 <a id="method_updateByExample"></a><div class="element clickable method public method_updateByExample " data-toggle="collapse" data-target=".method_updateByExample .collapse" title="public">
 <h2>Update document(s) matching a given example</h2>
-<pre>updateByExample(mixed $collectionId, mixed $example, mixed $newValue, mixed $options<code> = array()</code>) : boolean</pre>
+<pre>updateByExample(mixed $collection, mixed $example, mixed $newValue, mixed $options<code> = array()</code>) : boolean</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will update the document(s) on the server</p>
 <p>This will throw if the document cannot be updated</p></div>
-<table class="table table-bordered"><tr>
+<table class="table table-bordered">
+<tr>
+<th>deprecated</th>
+<td>use AQL queries instead</td>
+</tr>
+<tr>
 <th>since</th>
 <td>1.2</td>
-</tr></table>
+</tr>
+</table>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collectionId</h4>
+<h4>$collection</h4>
 <code>mixed</code><ul>
-<li>collection id as string or number</li>
+<li>collection as string or number</li>
 </ul></div>
 <div class="subelement argument">
 <h4>$example</h4>
@@ -1644,15 +1842,19 @@ was an exception thrown which represents an 404 request.</p></div>
 </div>
 <a id="method_within"></a><div class="element clickable method public method_within " data-toggle="collapse" data-target=".method_within .collapse" title="public">
 <h2>Get document(s) by specifying within</h2>
-<pre>within(mixed $collectionId, double $latitude, double $longitude, integer $radius, array $options<code> = array()</code>) : \ArangoDBClient\Cursor</pre>
+<pre>within(mixed $collection, double $latitude, double $longitude, integer $radius, array $options<code> = array()</code>) : \ArangoDBClient\Cursor</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This will throw if the list cannot be fetched from the server</p></div>
+<table class="table table-bordered"><tr>
+<th>deprecated</th>
+<td>use AQL queries instead</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collectionId</h4>
+<h4>$collection</h4>
 <code>mixed</code><ul>
-<li>collection id as string or number</li>
+<li>collection as string or object</li>
 </ul></div>
 <div class="subelement argument">
 <h4>$latitude</h4>
@@ -1699,6 +1901,25 @@ was an exception thrown which represents an 404 request.</p></div>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>\ArangoDBClient\Cursor</code>- documents matching the example [0...n]</div>
+</div></div>
+</div>
+<a id="method_addTransactionHeader"></a><div class="element clickable method protected method_addTransactionHeader inherited" data-toggle="collapse" data-target=".method_addTransactionHeader .collapse" title="protected">
+<h2>Add a transaction header to the array of headers in case this is a transactional operation</h2>
+<pre>addTransactionHeader(array $headers, mixed $collection) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$headers</h4>
+<code>array</code><ul>
+<li>already existing headers</li>
+</ul></div>
+<div class="subelement argument">
+<h4>$collection</h4>
+<code>mixed</code><ul>
+<li>any type of collection (can be StreamingTransactionCollection or other)</li>
+</ul></div>
 </div></div>
 </div>
 <a id="method_getConnection"></a><div class="element clickable method protected method_getConnection inherited" data-toggle="collapse" data-target=".method_getConnection .collapse" title="protected">
@@ -1806,10 +2027,10 @@ This is only for options that are to be sent to the ArangoDB server in a json bo
 <code>string</code>- collection name</div>
 </div></div>
 </div>
-<a id="method_createCollectionIfOptions"></a><div class="element clickable method private method_createCollectionIfOptions " data-toggle="collapse" data-target=".method_createCollectionIfOptions .collapse" title="private">
-<h2>createCollectionIfOptions()
+<a id="method_lazyCreateCollection"></a><div class="element clickable method private method_lazyCreateCollection " data-toggle="collapse" data-target=".method_lazyCreateCollection .collapse" title="private">
+<h2>lazyCreateCollection()
         </h2>
-<pre>createCollectionIfOptions($collection, $options) </pre>
+<pre>lazyCreateCollection($collection, $options) </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -1918,6 +2139,12 @@ This is only for options that are to be sent to the ArangoDB server in a json bo
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="constant_OPTION_EXPIRE_AFTER"> </a><div class="element clickable constant  constant_OPTION_EXPIRE_AFTER" data-toggle="collapse" data-target=".constant_OPTION_EXPIRE_AFTER .collapse" title="">
+<h2>expireAfter option</h2>
+<pre>OPTION_EXPIRE_AFTER = 'expireAfter' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="constant_OPTION_FIELDS"> </a><div class="element clickable constant  constant_OPTION_FIELDS" data-toggle="collapse" data-target=".constant_OPTION_FIELDS .collapse" title="">
 <h2>fields</h2>
 <pre>OPTION_FIELDS = 'fields' </pre>
@@ -1957,6 +2184,12 @@ This is only for options that are to be sent to the ArangoDB server in a json bo
 <a id="constant_OPTION_INDEX"> </a><div class="element clickable constant  constant_OPTION_INDEX" data-toggle="collapse" data-target=".constant_OPTION_INDEX .collapse" title="">
 <h2>index parameter</h2>
 <pre>OPTION_INDEX = 'index' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_IN_BACKGROUND"> </a><div class="element clickable constant  constant_OPTION_IN_BACKGROUND" data-toggle="collapse" data-target=".constant_OPTION_IN_BACKGROUND .collapse" title="">
+<h2>inBackground option</h2>
+<pre>OPTION_IN_BACKGROUND = 'inBackground' </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
@@ -2038,6 +2271,12 @@ This is only for options that are to be sent to the ArangoDB server in a json bo
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="constant_OPTION_RESPONSIBLE_SHARD"> </a><div class="element clickable constant  constant_OPTION_RESPONSIBLE_SHARD" data-toggle="collapse" data-target=".constant_OPTION_RESPONSIBLE_SHARD .collapse" title="">
+<h2>responsible shard option</h2>
+<pre>OPTION_RESPONSIBLE_SHARD = 'responsibleShard' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="constant_OPTION_REVISION"> </a><div class="element clickable constant  constant_OPTION_REVISION" data-toggle="collapse" data-target=".constant_OPTION_REVISION .collapse" title="">
 <h2>revision option</h2>
 <pre>OPTION_REVISION = 'revision' </pre>
@@ -2047,6 +2286,12 @@ This is only for options that are to be sent to the ArangoDB server in a json bo
 <a id="constant_OPTION_RIGHT"> </a><div class="element clickable constant  constant_OPTION_RIGHT" data-toggle="collapse" data-target=".constant_OPTION_RIGHT .collapse" title="">
 <h2>right parameter</h2>
 <pre>OPTION_RIGHT = 'right' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_SHARDS"> </a><div class="element clickable constant  constant_OPTION_SHARDS" data-toggle="collapse" data-target=".constant_OPTION_SHARDS .collapse" title="">
+<h2>shards option</h2>
+<pre>OPTION_SHARDS = 'shards' </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
@@ -2074,9 +2319,21 @@ This is only for options that are to be sent to the ArangoDB server in a json bo
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="constant_OPTION_STREAM"> </a><div class="element clickable constant  constant_OPTION_STREAM" data-toggle="collapse" data-target=".constant_OPTION_STREAM .collapse" title="">
+<h2>stream parameter</h2>
+<pre>OPTION_STREAM = 'stream' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="constant_OPTION_TRUNCATE"> </a><div class="element clickable constant  constant_OPTION_TRUNCATE" data-toggle="collapse" data-target=".constant_OPTION_TRUNCATE .collapse" title="">
 <h2>truncate option</h2>
 <pre>OPTION_TRUNCATE = 'truncate' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_OPTION_TTL_INDEX"> </a><div class="element clickable constant  constant_OPTION_TTL_INDEX" data-toggle="collapse" data-target=".constant_OPTION_TTL_INDEX .collapse" title="">
+<h2>ttl index option</h2>
+<pre>OPTION_TTL_INDEX = 'ttl' </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
@@ -2105,7 +2362,7 @@ This is only for options that are to be sent to the ArangoDB server in a json bo
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.9.0</a> and<br>
-            generated on 2019-01-22T11:16:23+01:00.<br></footer></div>
+            generated on 2019-08-19T13:30:48+02:00.<br></footer></div>
 </div>
 </body>
 </html>

@@ -31,11 +31,11 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">22</span></a></li>
+                <span class="label label-info">25</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
-                <span class="label label-info">2</span></a></li>
+                <span class="label label-info">15</span></a></li>
 </ul>
 </li>
 </ul></div>
@@ -128,6 +128,7 @@ Be careful! This option also prevents ArangoDB from using some server side optim
 <li class="property private "><a href="#property__stream" title="$_stream() :: Whether or not the query results should be build up dynamically and streamed to the
 client application whenever available, or build up entirely on the server first and
 then streamed incrementally (false)"><span class="description"></span><pre>$_stream</pre></a></li>
+<li class="property private "><a href="#property__trxId" title="$_trxId() :: transaction id (used internally)"><span class="description"></span><pre>$_trxId</pre></a></li>
 <li class="property private "><a href="#property__ttl" title="$_ttl() :: Number of seconds the cursor will be kept on the server if the statement result
 is bigger than the initial batch size. The default value is a server-defined
 value"><span class="description"></span><pre>$_ttl</pre></a></li>
@@ -145,6 +146,7 @@ value"><span class="description"></span><pre>$_ttl</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_QUERY" title="ENTRY_QUERY() :: Query string index"><span class="description">Query string index</span><pre>ENTRY_QUERY</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_RETRIES" title="ENTRY_RETRIES() :: Retries index"><span class="description">Retries index</span><pre>ENTRY_RETRIES</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_STREAM" title="ENTRY_STREAM() :: Stream attribute"><span class="description">Stream attribute</span><pre>ENTRY_STREAM</pre></a></li>
+<li class="constant  "><a href="#constant_ENTRY_TRANSACTION" title="ENTRY_TRANSACTION() :: transaction attribute (used internally)"><span class="description">transaction attribute (used internally)</span><pre>ENTRY_TRANSACTION</pre></a></li>
 <li class="constant  "><a href="#constant_ENTRY_TTL" title="ENTRY_TTL() :: TTL attribute"><span class="description">TTL attribute</span><pre>ENTRY_TTL</pre></a></li>
 <li class="constant  "><a href="#constant_FULL_COUNT" title="FULL_COUNT() :: Full count option index"><span class="description">Full count option index</span><pre>FULL_COUNT</pre></a></li>
 </ul>
@@ -798,6 +800,16 @@ then streamed incrementally (false)</h2>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="property__trxId"> </a><div class="element clickable property private property__trxId" data-toggle="collapse" data-target=".property__trxId .collapse" title="private">
+<h2>transaction id (used internally)</h2>
+<pre>$_trxId : string</pre>
+<div class="row collapse"><div class="detail-description">
+<h3>Default</h3>
+<div class="subelement argument"><code>null</code></div>
+</div></div>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="property__ttl"> </a><div class="element clickable property private property__ttl" data-toggle="collapse" data-target=".property__ttl .collapse" title="private">
 <h2>Number of seconds the cursor will be kept on the server if the statement result
 is bigger than the initial batch size. The default value is a server-defined
@@ -870,6 +882,12 @@ value</h2>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="constant_ENTRY_TRANSACTION"> </a><div class="element clickable constant  constant_ENTRY_TRANSACTION" data-toggle="collapse" data-target=".constant_ENTRY_TRANSACTION .collapse" title="">
+<h2>transaction attribute (used internally)</h2>
+<pre>ENTRY_TRANSACTION = 'transaction' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 <a id="constant_ENTRY_TTL"> </a><div class="element clickable constant  constant_ENTRY_TTL" data-toggle="collapse" data-target=".constant_ENTRY_TTL .collapse" title="">
 <h2>TTL attribute</h2>
 <pre>ENTRY_TTL = 'ttl' </pre>
@@ -889,7 +907,7 @@ value</h2>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.9.0</a> and<br>
-            generated on 2019-01-22T11:16:23+01:00.<br></footer></div>
+            generated on 2019-08-19T13:30:49+02:00.<br></footer></div>
 </div>
 </body>
 </html>
