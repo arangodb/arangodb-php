@@ -31,11 +31,11 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">22</span></a></li>
+                <span class="label label-info">25</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
-                <span class="label label-info">2</span></a></li>
+                <span class="label label-info">15</span></a></li>
 </ul>
 </li>
 </ul></div>
@@ -63,55 +63,59 @@
 <li><a href="#DocumentClassable" title="Add functionality for $_documentClass">DocumentClassable</a></li>
 <li class="nav-header">
 <i title="Classes" class="icon-custom icon-class"></i> Classes</li>
-<li><a href="#AqlUserFunction" title="Provides management of user-functions">AqlUserFunction</a></li>
-<li><a href="#ViewHandler" title="A handler that manages views.">ViewHandler</a></li>
-<li><a href="#BatchPart" title="Provides batch part functionality">BatchPart</a></li>
-<li><a href="#View" title="Value object representing a view">View</a></li>
-<li><a href="#UserHandler" title="A handler that manages users">UserHandler</a></li>
-<li><a href="#Document" title="Value object representing a single collection-based document">Document</a></li>
-<li><a href="#ConnectionOptions" title="Simple container class for connection options.">ConnectionOptions</a></li>
-<li><a href="#Connection" title="Provides access to the ArangoDB server">Connection</a></li>
-<li><a href="#Transaction" title="Transaction object">Transaction</a></li>
-<li><a href="#ExportCursor" title="Provides access to the results of a collection export">ExportCursor</a></li>
-<li><a href="#UrlHelper" title="Some helper methods to construct and process URLs">UrlHelper</a></li>
-<li><a href="#QueryCacheHandler" title="A base class for REST-based handlers">QueryCacheHandler</a></li>
-<li><a href="#DocumentHandler" title="A handler that manages documents">DocumentHandler</a></li>
 <li><a href="#Edge" title="Value object representing a single collection-based edge document">Edge</a></li>
-<li><a href="#Cursor" title="Provides access to the results of an AQL query or another statement">Cursor</a></li>
-<li><a href="#Database" title="A class for managing ArangoDB Databases">Database</a></li>
-<li><a href="#FailoverException" title="Failover-Exception">FailoverException</a></li>
-<li><a href="#Batch" title="Provides batching functionality">Batch</a></li>
-<li><a href="#TraceRequest" title="Class TraceRequest">TraceRequest</a></li>
-<li><a href="#ConnectException" title="Connect-Exception">ConnectException</a></li>
-<li><a href="#ValueValidator" title="A simple validator for values to be stored in the database">ValueValidator</a></li>
-<li><a href="#Autoloader" title="Handles automatic loading of missing class files.">Autoloader</a></li>
-<li><a href="#ClientException" title="Client-Exception">ClientException</a></li>
-<li><a href="#FoxxHandler" title="A class for uploading Foxx application zips to a database">FoxxHandler</a></li>
-<li><a href="#User" title="Value object representing a single User document">User</a></li>
-<li><a href="#BindVars" title="A simple container for bind variables">BindVars</a></li>
-<li><a href="#CollectionHandler" title="Provides management of collections">CollectionHandler</a></li>
-<li><a href="#Graph" title="Value object representing a graph">Graph</a></li>
-<li><a href="#EdgeDefinition" title="Value object representing an edge Definition.">EdgeDefinition</a></li>
-<li><a href="#Vertex" title="Value object representing a single vertex document">Vertex</a></li>
-<li><a href="#Collection" title="Value object representing a collection">Collection</a></li>
-<li><a href="#HttpResponse" title="Container class for HTTP responses">HttpResponse</a></li>
-<li><a href="#HttpHelper" title="Helper methods for HTTP request/response handling">HttpHelper</a></li>
-<li><a href="#UpdatePolicy" title="Document update policies">UpdatePolicy</a></li>
-<li><a href="#Exception" title="Exception base class used to throw Arango specific exceptions">Exception</a></li>
+<li><a href="#Transaction" title="Transaction object">Transaction</a></li>
+<li><a href="#StreamingTransaction" title="Streaming transaction object">StreamingTransaction</a></li>
+<li><a href="#UrlHelper" title="Some helper methods to construct and process URLs">UrlHelper</a></li>
 <li><a href="#Endpoint" title="Endpoint specification">Endpoint</a></li>
-<li><a href="#QueryHandler" title="A base class for REST-based handlers">QueryHandler</a></li>
-<li><a href="#ServerException" title="Server-Exception">ServerException</a></li>
-<li><a href="#Handler" title="A base class for REST-based handlers">Handler</a></li>
+<li><a href="#Batch" title="Provides batching functionality">Batch</a></li>
+<li><a href="#ExportCursor" title="Provides access to the results of a collection export">ExportCursor</a></li>
+<li><a href="#FailoverException" title="Failover-Exception">FailoverException</a></li>
+<li><a href="#ConnectException" title="Connect-Exception">ConnectException</a></li>
+<li><a href="#Collection" title="Value object representing a collection">Collection</a></li>
+<li><a href="#TraceRequest" title="Class TraceRequest">TraceRequest</a></li>
+<li><a href="#AqlUserFunction" title="Provides management of user-functions">AqlUserFunction</a></li>
 <li><a href="#Traversal" title="Provides graph traversal">Traversal</a></li>
-<li><a href="#VertexHandler" title="A handler that manages vertices.">VertexHandler</a></li>
-<li><a href="#Statement" title="Container for an AQL query">Statement</a></li>
-<li><a href="#Urls" title="Some basic URLs">Urls</a></li>
+<li><a href="#View" title="Value object representing a view">View</a></li>
+<li><a href="#DefaultValues" title="Contains default values used by the client">DefaultValues</a></li>
+<li><a href="#User" title="Value object representing a single User document">User</a></li>
+<li><a href="#CollectionHandler" title="Provides management of collections">CollectionHandler</a></li>
+<li><a href="#Database" title="A class for managing ArangoDB Databases">Database</a></li>
+<li><a href="#StreamingTransactionHandler" title="Provides management of streaming transactions">StreamingTransactionHandler</a></li>
+<li><a href="#BatchPart" title="Provides batch part functionality">BatchPart</a></li>
+<li><a href="#FoxxHandler" title="A class for uploading Foxx application zips to a database">FoxxHandler</a></li>
+<li><a href="#Connection" title="Provides access to the ArangoDB server">Connection</a></li>
 <li><a href="#TraceResponse" title="Class TraceResponse">TraceResponse</a></li>
+<li><a href="#Autoloader" title="Handles automatic loading of missing class files.">Autoloader</a></li>
+<li><a href="#ServerException" title="Server-Exception">ServerException</a></li>
+<li><a href="#UserHandler" title="A handler that manages users">UserHandler</a></li>
+<li><a href="#QueryCacheHandler" title="A base class for REST-based handlers">QueryCacheHandler</a></li>
+<li><a href="#HttpHelper" title="Helper methods for HTTP request/response handling">HttpHelper</a></li>
+<li><a href="#ViewHandler" title="A handler that manages views.">ViewHandler</a></li>
+<li><a href="#Cursor" title="Provides access to the results of an AQL query or another statement">Cursor</a></li>
+<li><a href="#TransactionBase" title="Transaction base class, used by Transaction and StreamingTransaction">TransactionBase</a></li>
+<li><a href="#Graph" title="Value object representing a graph">Graph</a></li>
+<li><a href="#Document" title="Value object representing a single collection-based document">Document</a></li>
+<li><a href="#Vertex" title="Value object representing a single vertex document">Vertex</a></li>
+<li><a href="#QueryHandler" title="A base class for REST-based handlers">QueryHandler</a></li>
+<li><a href="#DocumentHandler" title="A handler that manages documents">DocumentHandler</a></li>
+<li><a href="#Statement" title="Container for an AQL query">Statement</a></li>
+<li><a href="#Exception" title="Exception base class used to throw Arango specific exceptions">Exception</a></li>
+<li><a href="#Handler" title="A base class for REST-based handlers">Handler</a></li>
+<li><a href="#VertexHandler" title="A handler that manages vertices.">VertexHandler</a></li>
+<li><a href="#HttpResponse" title="Container class for HTTP responses">HttpResponse</a></li>
+<li><a href="#BindVars" title="A simple container for bind variables">BindVars</a></li>
+<li><a href="#UpdatePolicy" title="Document update policies">UpdatePolicy</a></li>
+<li><a href="#Urls" title="Some basic URLs">Urls</a></li>
+<li><a href="#EdgeDefinition" title="Value object representing an edge Definition.">EdgeDefinition</a></li>
+<li><a href="#ClientException" title="Client-Exception">ClientException</a></li>
+<li><a href="#Export" title="Collection export">Export</a></li>
+<li><a href="#ValueValidator" title="A simple validator for values to be stored in the database">ValueValidator</a></li>
+<li><a href="#GraphHandler" title="A handler that manages graphs.">GraphHandler</a></li>
+<li><a href="#StreamingTransactionCollection" title="Streaming transaction collection object">StreamingTransactionCollection</a></li>
 <li><a href="#AdminHandler" title="Provides access to ArangoDB's administration interface">AdminHandler</a></li>
 <li><a href="#EdgeHandler" title="A handler that manages edges">EdgeHandler</a></li>
-<li><a href="#Export" title="Collection export">Export</a></li>
-<li><a href="#GraphHandler" title="A handler that manages graphs.">GraphHandler</a></li>
-<li><a href="#DefaultValues" title="Contains default values used by the client">DefaultValues</a></li>
+<li><a href="#ConnectionOptions" title="Simple container class for connection options.">ConnectionOptions</a></li>
 </ul>
 </div>
 <div class="span8 package-contents">
@@ -373,6 +377,27 @@
 <div class="details collapse"></div>
 <a href="../classes/ArangoDBClient.Statement.html" class="more">« More »</a>
 </div>
+<div xmlns:php="http://php.net/xsl" id="StreamingTransaction" class="element ajax clickable class">
+<h1>StreamingTransaction<a href="../classes/ArangoDBClient.StreamingTransaction.html">¶</a>
+</h1>
+<p class="short_description">Streaming transaction object</p>
+<div class="details collapse"></div>
+<a href="../classes/ArangoDBClient.StreamingTransaction.html" class="more">« More »</a>
+</div>
+<div xmlns:php="http://php.net/xsl" id="StreamingTransactionCollection" class="element ajax clickable class">
+<h1>StreamingTransactionCollection<a href="../classes/ArangoDBClient.StreamingTransactionCollection.html">¶</a>
+</h1>
+<p class="short_description">Streaming transaction collection object</p>
+<div class="details collapse"></div>
+<a href="../classes/ArangoDBClient.StreamingTransactionCollection.html" class="more">« More »</a>
+</div>
+<div xmlns:php="http://php.net/xsl" id="StreamingTransactionHandler" class="element ajax clickable class">
+<h1>StreamingTransactionHandler<a href="../classes/ArangoDBClient.StreamingTransactionHandler.html">¶</a>
+</h1>
+<p class="short_description">Provides management of streaming transactions</p>
+<div class="details collapse"></div>
+<a href="../classes/ArangoDBClient.StreamingTransactionHandler.html" class="more">« More »</a>
+</div>
 <div xmlns:php="http://php.net/xsl" id="TraceRequest" class="element ajax clickable class">
 <h1>TraceRequest<a href="../classes/ArangoDBClient.TraceRequest.html">¶</a>
 </h1>
@@ -393,6 +418,13 @@
 <p class="short_description">Transaction object</p>
 <div class="details collapse"></div>
 <a href="../classes/ArangoDBClient.Transaction.html" class="more">« More »</a>
+</div>
+<div xmlns:php="http://php.net/xsl" id="TransactionBase" class="element ajax clickable class">
+<h1>TransactionBase<a href="../classes/ArangoDBClient.TransactionBase.html">¶</a>
+</h1>
+<p class="short_description">Transaction base class, used by Transaction and StreamingTransaction</p>
+<div class="details collapse"></div>
+<a href="../classes/ArangoDBClient.TransactionBase.html" class="more">« More »</a>
 </div>
 <div xmlns:php="http://php.net/xsl" id="Traversal" class="element ajax clickable class">
 <h1>Traversal<a href="../classes/ArangoDBClient.Traversal.html">¶</a>
@@ -477,7 +509,7 @@
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.9.0</a> and<br>
-            generated on 2019-01-22T11:16:22+01:00.<br></footer></div>
+            generated on 2019-08-19T13:30:48+02:00.<br></footer></div>
 </div>
 </body>
 </html>

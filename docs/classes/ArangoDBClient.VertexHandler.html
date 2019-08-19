@@ -31,11 +31,11 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">22</span></a></li>
+                <span class="label label-info">25</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
-                <span class="label label-info">2</span></a></li>
+                <span class="label label-info">15</span></a></li>
 </ul>
 </li>
 </ul></div>
@@ -67,12 +67,12 @@
 <li class="method public inherited"><a href="#method_getById" title="getById() :: Get a single document from a collection"><span class="description">Get a single document from a collection</span><pre>getById()</pre></a></li>
 <li class="method public inherited"><a href="#method_getHead" title="getHead() :: Gets information about a single documents from a collection"><span class="description">Gets information about a single documents from a collection</span><pre>getHead()</pre></a></li>
 <li class="method public inherited"><a href="#method_has" title="has() :: Check if a document exists"><span class="description">Check if a document exists</span><pre>has()</pre></a></li>
-<li class="method public inherited"><a href="#method_insert" title="insert() :: Insert a document into a collection"><span class="description">Insert a document into a collection</span><pre>insert()</pre></a></li>
+<li class="method public inherited"><a href="#method_insert" title="insert() :: insert a document into a collection"><span class="description">insert a document into a collection</span><pre>insert()</pre></a></li>
 <li class="method public inherited"><a href="#method_remove" title="remove() :: Remove a document from a collection, identified by the document itself"><span class="description">Remove a document from a collection, identified by the document itself</span><pre>remove()</pre></a></li>
 <li class="method public inherited"><a href="#method_removeById" title="removeById() :: Remove a document from a collection, identified by the collection id and document id"><span class="description">Remove a document from a collection, identified by the collection id and document id</span><pre>removeById()</pre></a></li>
 <li class="method public inherited"><a href="#method_replace" title="replace() :: Replace an existing document in a collection, identified by the document itself"><span class="description">Replace an existing document in a collection, identified by the document itself</span><pre>replace()</pre></a></li>
 <li class="method public inherited"><a href="#method_replaceById" title="replaceById() :: Replace an existing document in a collection, identified by collection id and document id"><span class="description">Replace an existing document in a collection, identified by collection id and document id</span><pre>replaceById()</pre></a></li>
-<li class="method public inherited"><a href="#method_save" title="save() :: save a document to a collection"><span class="description">save a document to a collection</span><pre>save()</pre></a></li>
+<li class="method public inherited"><a href="#method_save" title="save() :: Insert a document into a collection"><span class="description">Insert a document into a collection</span><pre>save()</pre></a></li>
 <li class="method public inherited"><a href="#method_setDocumentClass" title="setDocumentClass() :: Sets the document class to use"><span class="description">Sets the document class to use</span><pre>setDocumentClass()</pre></a></li>
 <li class="method public inherited"><a href="#method_setEdgeClass" title="setEdgeClass() :: Sets the edge class to use"><span class="description">Sets the edge class to use</span><pre>setEdgeClass()</pre></a></li>
 <li class="method public inherited"><a href="#method_store" title="store() :: Store a document to a collection"><span class="description">Store a document to a collection</span><pre>store()</pre></a></li>
@@ -84,8 +84,7 @@ Attention - The behavior of this method has changed since version 1.1</span><pre
 </li>
 <li class="nav-header protected">» Protected
                     <ul>
-<li class="method protected inherited"><a href="#method_createCollectionIfOptions" title="createCollectionIfOptions() :: "><span class="description">createCollectionIfOptions()
-        </span><pre>createCollectionIfOptions()</pre></a></li>
+<li class="method protected inherited"><a href="#method_addTransactionHeader" title="addTransactionHeader() :: Add a transaction header to the array of headers in case this is a transactional operation"><span class="description">Add a transaction header to the array of headers in case this is a transactional operation</span><pre>addTransactionHeader()</pre></a></li>
 <li class="method protected inherited"><a href="#method_createFromArrayWithContext" title="createFromArrayWithContext() :: Intermediate function to call the createFromArray function from the right context"><span class="description">Intermediate function to call the createFromArray function from the right context</span><pre>createFromArrayWithContext()</pre></a></li>
 <li class="method protected inherited"><a href="#method_getConnection" title="getConnection() :: Return the connection object"><span class="description">Return the connection object</span><pre>getConnection()</pre></a></li>
 <li class="method protected inherited"><a href="#method_getConnectionOption" title="getConnectionOption() :: Return a connection option
@@ -93,6 +92,8 @@ This is a convenience function that calls json_encode_wrapper on the connection"
 This is a convenience function that calls json_encode_wrapper on the connection</span><pre>getConnectionOption()</pre></a></li>
 <li class="method protected inherited"><a href="#method_includeOptionsInBody" title="includeOptionsInBody() :: Helper function that runs through the options given and includes them into the parameters array given."><span class="description">Helper function that runs through the options given and includes them into the parameters array given.</span><pre>includeOptionsInBody()</pre></a></li>
 <li class="method protected inherited"><a href="#method_json_encode_wrapper" title="json_encode_wrapper() :: Return a json encoded string for the array passed."><span class="description">Return a json encoded string for the array passed.</span><pre>json_encode_wrapper()</pre></a></li>
+<li class="method protected inherited"><a href="#method_lazyCreateCollection" title="lazyCreateCollection() :: "><span class="description">lazyCreateCollection()
+        </span><pre>lazyCreateCollection()</pre></a></li>
 <li class="method protected inherited"><a href="#method_makeCollection" title="makeCollection() :: Turn a value into a collection name"><span class="description">Turn a value into a collection name</span><pre>makeCollection()</pre></a></li>
 </ul>
 </li>
@@ -337,15 +338,47 @@ was an exception thrown which represents an 404 request.</p></div>
 </div></div>
 </div>
 <a id="method_insert"></a><div class="element clickable method public method_insert inherited" data-toggle="collapse" data-target=".method_insert .collapse" title="public">
-<h2>Insert a document into a collection</h2>
-<pre>insert($collection, $document, array $options<code> = array()</code>) </pre>
+<h2>insert a document into a collection</h2>
+<pre>insert(mixed $collection, \ArangoDBClient\Document|array $document, array $options<code> = array()</code>) : mixed</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This is an alias for save().</p></div>
+<div class="long_description"><p>This will add the document to the collection and return the document's id</p>
+<p>This will throw if the document cannot be saved</p></div>
+<table class="table table-bordered"><tr>
+<th>since</th>
+<td>1.0</td>
+</tr></table>
 <h3>Parameters</h3>
-<div class="subelement argument"><h4>$collection</h4></div>
-<div class="subelement argument"><h4>$document</h4></div>
-<div class="subelement argument"><h4>$options</h4></div>
+<div class="subelement argument">
+<h4>$collection</h4>
+<code>mixed</code><ul>
+<li>collection id as string or number</li>
+</ul></div>
+<div class="subelement argument">
+<h4>$document</h4>
+<code>\ArangoDBClient\Document</code><code>array</code><ul>
+<li>the document to be added, can be passed as a document or an array</li>
+</ul></div>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><ul>
+<li>optional, array of options
+<p>Options are :<br>
+                              <li>'createCollection' - create the collection if it does not yet exist.</li>
+                              <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
+                              <li>'overwrite' -  if set to true, will turn the insert into a replace operation if a document with the specified key already exists.</li>
+                              <li>'returnNew' -  if set to true, then the newly created document will be returned.</li>
+                              <li>'returnOld' -  if set to true, then the replaced document will be returned - useful only when using overwrite = true.</li>
+                              </p></li>
+</ul></div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code>\ArangoDBClient\Exception</code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>- id of document created</div>
 </div></div>
 </div>
 <a id="method_remove"></a><div class="element clickable method public method_remove inherited" data-toggle="collapse" data-target=".method_remove .collapse" title="public">
@@ -425,8 +458,8 @@ was an exception thrown which represents an 404 request.</p></div>
 <pre>replace(\ArangoDBClient\Document $document, array $options<code> = array()</code>) : boolean</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This will update the document on the server</p>
-<p>This will throw if the document cannot be updated</p>
+<div class="long_description"><p>This will replace the document on the server</p>
+<p>This will throw if the document cannot be replaced</p>
 <p>If policy is set to error (locally or globally through the ConnectionOptions)
 and the passed document has a _rev value set, the database will check
 that the revision of the to-be-replaced document is the same as the one given.</p></div>
@@ -434,14 +467,14 @@ that the revision of the to-be-replaced document is the same as the one given.</
 <div class="subelement argument">
 <h4>$document</h4>
 <code>\ArangoDBClient\Document</code><ul>
-<li>document to be updated</li>
+<li>document to be replaced</li>
 </ul></div>
 <div class="subelement argument">
 <h4>$options</h4>
 <code>array</code><ul>
 <li>optional, array of options
 <p>Options are :
-                      <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
+                      <li>'policy' - replace policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
                       <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
                       </p></li>
 </ul></div>
@@ -501,47 +534,15 @@ that the revision of the to-be-replaced document is the same as the one given.</
 </div></div>
 </div>
 <a id="method_save"></a><div class="element clickable method public method_save inherited" data-toggle="collapse" data-target=".method_save .collapse" title="public">
-<h2>save a document to a collection</h2>
-<pre>save(mixed $collection, \ArangoDBClient\Document|array $document, array $options<code> = array()</code>) : mixed</pre>
+<h2>Insert a document into a collection</h2>
+<pre>save($collection, $document, array $options<code> = array()</code>) </pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>This will add the document to the collection and return the document's id</p>
-<p>This will throw if the document cannot be saved</p></div>
-<table class="table table-bordered"><tr>
-<th>since</th>
-<td>1.0</td>
-</tr></table>
+<div class="long_description"><p>This is an alias for insert().</p></div>
 <h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$collection</h4>
-<code>mixed</code><ul>
-<li>collection id as string or number</li>
-</ul></div>
-<div class="subelement argument">
-<h4>$document</h4>
-<code>\ArangoDBClient\Document</code><code>array</code><ul>
-<li>the document to be added, can be passed as a document or an array</li>
-</ul></div>
-<div class="subelement argument">
-<h4>$options</h4>
-<code>array</code><ul>
-<li>optional, array of options
-<p>Options are :<br>
-                              <li>'createCollection' - create the collection if it does not yet exist.</li>
-                              <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
-                              <li>'overwrite' -  if set to true, will turn the insert into a replace operation if a document with the specified key already exists.</li>
-                              <li>'returnNew' -  if set to true, then the newly created document will be returned.</li>
-                              <li>'returnOld' -  if set to true, then the replaced document will be returned - useful only when using overwrite = true.</li>
-                              </p></li>
-</ul></div>
-<h3>Exceptions</h3>
-<table class="table table-bordered"><tr>
-<th><code>\ArangoDBClient\Exception</code></th>
-<td></td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response">
-<code>mixed</code>- id of document created</div>
+<div class="subelement argument"><h4>$collection</h4></div>
+<div class="subelement argument"><h4>$document</h4></div>
+<div class="subelement argument"><h4>$options</h4></div>
 </div></div>
 </div>
 <a id="method_setDocumentClass"></a><div class="element clickable method public method_setDocumentClass inherited" data-toggle="collapse" data-target=".method_setDocumentClass .collapse" title="public">
@@ -698,25 +699,22 @@ that the revision of the document to-be-updated is the same as the one given.</p
 <code>boolean</code>- always true, will throw if there is an error</div>
 </div></div>
 </div>
-<a id="method_createCollectionIfOptions"></a><div class="element clickable method protected method_createCollectionIfOptions inherited" data-toggle="collapse" data-target=".method_createCollectionIfOptions .collapse" title="protected">
-<h2>createCollectionIfOptions()
-        </h2>
-<pre>createCollectionIfOptions($collection, array $options) </pre>
+<a id="method_addTransactionHeader"></a><div class="element clickable method protected method_addTransactionHeader inherited" data-toggle="collapse" data-target=".method_addTransactionHeader .collapse" title="protected">
+<h2>Add a transaction header to the array of headers in case this is a transactional operation</h2>
+<pre>addTransactionHeader(array $headers, mixed $collection) </pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$collection</h4><p>mixed collection name or id</p></div>
-<div class="subelement argument">
-<h4>$options</h4>
+<h4>$headers</h4>
 <code>array</code><ul>
-<li>optional, array of options
-<p>Options are :
-                       <li>'createCollection' - true to create the collection if it does not exist</li>
-                       <li>'createCollectionType' - "document" or 2 for document collection</li>
-                       <li>                         "edge" or 3 for edge collection</li>
-                       </p></li>
+<li>already existing headers</li>
+</ul></div>
+<div class="subelement argument">
+<h4>$collection</h4>
+<code>mixed</code><ul>
+<li>any type of collection (can be StreamingTransactionCollection or other)</li>
 </ul></div>
 </div></div>
 </div>
@@ -819,6 +817,29 @@ This is only for options that are to be sent to the ArangoDB server in a json bo
 <h3>Returns</h3>
 <div class="subelement response">
 <code>string</code>- json string of the body that was passed</div>
+</div></div>
+</div>
+<a id="method_lazyCreateCollection"></a><div class="element clickable method protected method_lazyCreateCollection inherited" data-toggle="collapse" data-target=".method_lazyCreateCollection .collapse" title="protected">
+<h2>lazyCreateCollection()
+        </h2>
+<pre>lazyCreateCollection(mixed $collection, array $options) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$collection</h4>
+<code>mixed</code><p>collection name or id</p></div>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><ul>
+<li>optional, array of options
+<p>Options are :
+                       <li>'createCollectionType' - "document" or 2 for document collection</li>
+                       <li>                         "edge" or 3 for edge collection</li>
+                       <li>'waitForSync'       - if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
+                       </p></li>
+</ul></div>
 </div></div>
 </div>
 <a id="method_makeCollection"></a><div class="element clickable method protected method_makeCollection inherited" data-toggle="collapse" data-target=".method_makeCollection .collapse" title="protected">
@@ -970,7 +991,7 @@ This is only for options that are to be sent to the ArangoDB server in a json bo
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.9.0</a> and<br>
-            generated on 2019-01-22T11:16:23+01:00.<br></footer></div>
+            generated on 2019-08-19T13:30:49+02:00.<br></footer></div>
 </div>
 </body>
 </html>

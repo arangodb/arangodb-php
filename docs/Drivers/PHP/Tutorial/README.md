@@ -277,7 +277,7 @@ object(ArangoDBClient\Document)##6 (4) {
 */
 ```
 
-Whenever the document id is yet unknown, but you want to fetch a document from the server by any of its other properties, you can use the CollectionHandler->byExample() method. It allows you to provide an example of the document that you are looking for. The example should either be a Document object with the relevant properties set, or, a PHP array with the propeties that you are looking for:
+Whenever the document id is yet unknown, but you want to fetch a document from the server by any of its other properties, you can use the CollectionHandler->byExample() method. It allows you to provide an example of the document that you are looking for. The example should either be a Document object with the relevant properties set, or, a PHP array with the properties that you are looking for:
 
 ```php
     // get a document list back from the server, using a document example
@@ -287,7 +287,7 @@ Whenever the document id is yet unknown, but you want to fetch a document from t
 ```
 
 This will return all documents from the specified collection (here: "users") with the properties provided in the example (here: that have an attribute "name" with a value of "John"). The result is a cursor which can be iterated sequentially or completely. We have chosen to get the complete result set above by calling the cursor's getAll() method.
-Note that CollectionHandler->byExample() might return multiple documents if the example is ambigious.
+Note that CollectionHandler->byExample() might return multiple documents if the example is ambiguous.
 
 ## Updating a document
 
