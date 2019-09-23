@@ -68,8 +68,9 @@ class TransactionTest extends
      */
     public function testDeadlockHandling()
     {
-        if (!$this->isMMFilesEngine) {
-            $this->markTestSkipped("test is only meaningful with the mmfiles engine");
+        if (!$this->isMMFilesEngine || isCluster($this->connection)) {
+            $this->markTestSkipped("test is only meaningful with the mmfiles engine, single server");
+            return;
         }
 
         try {
