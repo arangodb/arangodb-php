@@ -212,7 +212,7 @@ class GraphBasicTest extends
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }
-        static::assertSame('not in orphan collection', $error);
+        static::assertRegExp('/orphan collection/', $error);
 
         $error = null;
         try {
@@ -221,7 +221,7 @@ class GraphBasicTest extends
             $error = $e->getMessage();
         }
 
-        static::assertSame('not a vertex collection', $error);
+        static::assertRegExp('/not a vertex collection/', $error);
 
         $error = null;
         try {
@@ -292,7 +292,7 @@ class GraphBasicTest extends
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }
-        static::assertSame('not in orphan collection', $error);
+        static::assertRegExp('/orphan collection/', $error);
 
         $error = null;
         try {
@@ -300,8 +300,7 @@ class GraphBasicTest extends
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }
-
-        static::assertSame('not a vertex collection', $error);
+        static::assertRegExp('/not a vertex collection/', $error);
 
         $error = null;
         try {
