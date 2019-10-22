@@ -1,4 +1,5 @@
 # ArangoDB-PHP - Tutorial
+
 ## Setting up the connection options
 
 In order to use ArangoDB, you need to specify the connection options. We do so by creating a PHP array $connectionOptions. Put this code into a file named test.php in your current directory:
@@ -60,20 +61,19 @@ ArangoException::enableLogging();
 
 This will make the client connect to ArangoDB
 
-* running on localhost (OPTION_HOST)
-* on the default port 8529 (OPTION_PORT)
-* with a connection timeout of 3 seconds (OPTION_TIMEOUT)
+- running on localhost (OPTION_HOST)
+- on the default port 8529 (OPTION_PORT)
+- with a connection timeout of 3 seconds (OPTION_TIMEOUT)
 
 When creating new documents in a collection that does not yet exist, you have the following choices:
 
-* auto-generate a new collection: if you prefer that, set OPTION_CREATE to true
-* fail with an error: if you prefer this behavior, set OPTION_CREATE to false
+- auto-generate a new collection: if you prefer that, set OPTION_CREATE to true
+- fail with an error: if you prefer this behavior, set OPTION_CREATE to false
 
 When updating a document that was previously/concurrently updated by another user, you can select between the following behaviors:
 
-* last update wins: if you prefer this, set OPTION_UPDATE_POLICY to last
-* fail with a conflict error: if you prefer that, set OPTION_UPDATE_POLICY to conflict
-
+- last update wins: if you prefer this, set OPTION_UPDATE_POLICY to last
+- fail with a conflict error: if you prefer that, set OPTION_UPDATE_POLICY to conflict
 
 ## Setting up active failover
 
@@ -132,7 +132,6 @@ $connectionOptions = [
 ];
 ```
 
-
 ## Creating a collection
 *This is just to show how a collection is created.*
 *For these examples it is not needed to create a collection prior to inserting a document, as we set ArangoConnectionOptions::OPTION_CREATE to true.*
@@ -162,8 +161,8 @@ The below code will first set up the collection locally in a variable name $user
     // check if the collection exists
     $result = $collectionHandler->has('users');
     var_dump($result);
+```
 
- ```
 ## Creating a document
 
 After we created the collection, we can start with creating an initial document. We will create a user document in a collection named "users". This collection does not need to exist yet. The first document we'll insert in this collection will create the collection on the fly. This is because we have set OPTION_CREATE to true in $connectionOptions.
@@ -202,30 +201,29 @@ As you can see, sending a document to the server is achieved by calling the save
 
 ## Adding exception handling
 
-
 The above code will work but it does not check for any errors. To make it work in the face of errors, we'll wrap it into some basic exception handlers
 
 ```php
 try {
      $handler = new ArangoDocumentHandler($connection);
-  
+
       // create a new document
       $user = new ArangoDocument();
-  
+
       // use set method to set document properties
       $user->set('name', 'John');
       $user->set('age', 25);
-  
+
       // use magic methods to set document properties
       $user->likes = ['fishing', 'hiking', 'swimming'];
-  
+
       // send the document to the server
       $id = $handler->save('users', $user);
-  
+
       // check if a document exists
       $result = $handler->has('users', $id);
       var_dump($result);
-  
+
       // print the document id created by the server
       var_dump($id);
       var_dump($user->getId());
@@ -290,7 +288,6 @@ This will return all documents from the specified collection (here: "users") wit
 Note that CollectionHandler->byExample() might return multiple documents if the example is ambiguous.
 
 ## Updating a document
-
 
 To update an existing document, the update() method of the *DocumentHandler* class can be used.
 In this example we want to 
@@ -389,12 +386,10 @@ Note that the document must have been fetched from the server before. If you hav
     }
 ```
 
-
 ## Running an AQL query
 
-
 To run an AQL query, use the *Statement* class.
-    
+
 The method Statement::execute creates a Cursor object which can be used to iterate over
 the query's result set.
 
@@ -440,7 +435,6 @@ that cannot be converted into Document objects.
 In order to suppress the conversion into Document objects, the Statement must be given
 the `_flat` attribute. This allows processing the results of arbitrary AQL queries:
 
-
 ```php
     // run an AQL query that does not return documents but scalars
     // we need to set the _flat attribute of the Statement in order for this to work
@@ -460,16 +454,13 @@ the `_flat` attribute. This allows processing the results of arbitrary AQL queri
 
 ```
 
-
 ## Exporting data
-
 
 To export the contents of a collection to PHP, use the *Export* class.
 The *Export* class will create a light-weight cursor over all documents
 of the specified collection. The results can be transferred to PHP
 in chunks incrementally. This is the most efficient way of iterating
 over all documents in a collection.
-
 
 ```php
    // creates an export object for collection users
@@ -504,11 +495,9 @@ over all documents in a collection.
 
 ## Bulk document handling
 
-
 The ArangoDB-PHP driver provides a mechanism to easily fetch multiple documents from
 the same collection with a single request. All that needs to be provided is an array
 of document keys:
-
 
 ```php
     $exampleCollection = new ArangoCollection();
@@ -536,11 +525,9 @@ of document keys:
     $result = $collectionHandler->removeByKeys('example', $keys);
 
     var_dump($result);
-
-
 ```
-## Dropping a collection
 
+## Dropping a collection
 
 To drop an existing collection on the server, use the drop() method of the *CollectionHandler* class. 
 drop() just needs the name of the collection name to be dropped:
@@ -575,7 +562,6 @@ $product = $dh->get('products', 11231234);
 See file examples/customDocumentClass.php for more details.
 
 ## Logging exceptions
-
 
 The driver provides a simple logging mechanism that is turned off by default. If it is turned on, the driver
 will log all its exceptions using PHP's standard `error_log` mechanism. It will call PHP's `error_log()` 
