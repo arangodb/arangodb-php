@@ -180,7 +180,7 @@ class AdminHandler extends Handler
      * and the distribution list in counts.
      * For more information on the statistics returned, please lookup the statistics interface description at
      *
-     * @link  https://docs.arangodb.com/HTTP/AdministrationAndMonitoring/index.html
+     * @link  https://www.arangodb.com/docs/stable/http/administration-and-monitoring.html
      *
      * This will throw if the statistics cannot be retrieved
      *
@@ -207,7 +207,7 @@ class AdminHandler extends Handler
      * and a list of statistics figures in the attribute figures.
      * For more information on the statistics returned, please lookup the statistics interface description at
      *
-     * @link  https://docs.arangodb.com/HTTP/AdministrationAndMonitoring/index.html
+     * @link  https://www.arangodb.com/docs/stable/http/administration-and-monitoring.html
      *
      * This will throw if the statistics-description cannot be retrieved
      *

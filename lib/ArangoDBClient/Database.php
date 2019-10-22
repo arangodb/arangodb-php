@@ -15,7 +15,7 @@ namespace ArangoDBClient;
  *
  * This class provides functions to manage Databases through ArangoDB's Database API<br>
  *
- * @link      https://docs.arangodb.com/HTTP/Database/index.html
+ * @link      https://www.arangodb.com/docs/stable/http/database.html
  *
  * @package   ArangoDBClient
  * @since     1.4
@@ -40,7 +40,7 @@ class Database
      * @param Connection $connection - the connection to be used
      * @param string     $name       - the database specification, for example 'myDatabase'
      *
-     * @link https://docs.arangodb.com/HTTP/Database/index.html
+     * @link https://www.arangodb.com/docs/stable/http/database.html
      *
      * @return array $responseArray - The response array.
      * @throws \ArangoDBClient\Exception
@@ -72,7 +72,7 @@ class Database
      * @param Connection $connection - the connection to be used
      * @param string     $name       - the database specification, for example 'myDatabase'
      *
-     * @link https://docs.arangodb.com/HTTP/Database/index.html
+     * @link https://www.arangodb.com/docs/stable/http/database.html
      *
      * @return array $responseArray - The response array.
      * @throws \ArangoDBClient\Exception
@@ -95,7 +95,7 @@ class Database
      *
      * @param Connection $connection - the connection to be used
      *
-     * @link https://docs.arangodb.com/HTTP/Database/index.html
+     * @link https://www.arangodb.com/docs/stable/http/database.html
      *
      * @return array $responseArray - The response array.
      * @throws \ArangoDBClient\Exception
@@ -113,7 +113,7 @@ class Database
      *
      * @param Connection $connection - the connection to be used
      *
-     * @link https://docs.arangodb.com/HTTP/Database/index.html
+     * @link https://www.arangodb.com/docs/stable/http/database.html
      *
      * @return array $responseArray - The response array.
      * @throws \ArangoDBClient\Exception
@@ -134,7 +134,7 @@ class Database
      *
      * @param Connection $connection - the connection to be used
      *
-     * @link https://docs.arangodb.com/HTTP/Database/index.html
+     * @link https://www.arangodb.com/docs/stable/http/database.html
      *
      * @return array $responseArray - The response array.
      * @throws \ArangoDBClient\Exception
@@ -158,7 +158,7 @@ class Database
      *
      * @param Connection $connection - the connection to be used
      *
-     * @link https://docs.arangodb.com/HTTP/Database/index.html
+     * @link https://www.arangodb.com/docs/stable/http/database.html
      *
      * @return array $responseArray - The response array.
      * @throws \ArangoDBClient\Exception
