@@ -2810,7 +2810,7 @@ Note: SSL support is added in ArangoDB server 1.1&lt;br&gt;
           <tag name="param" line="209" description="&lt;ul&gt;&#10;&lt;li&gt;the connection to be used&lt;/li&gt;&#10;&lt;/ul&gt;" type="\ArangoDBClient\Connection" variable="$connection">
             <type>\ArangoDBClient\Connection</type>
           </tag>
-          <tag name="link" line="209" description="https://docs.arangodb.com/HTTP/Endpoints/index.html" link="https://docs.arangodb.com/HTTP/Endpoints/index.html"/>
+          <tag name="link" line="209" description="https://www.arangodb.com/docs/stable/http/endpoints.html" link="https://www.arangodb.com/docs/stable/http/endpoints.html"/>
           <tag name="return" line="209" description="$responseArray - The response array." type="array">
             <type>array</type>
           </tag>
@@ -5759,7 +5759,7 @@ declaring all attributes first.</long-description>
 
 The object requires the connection object, the startVertex, the edgeCollection and the optional parameters.&lt;br&gt;
 &lt;br&gt;</long-description>
-        <tag name="link" line="26" description="https://docs.arangodb.com/HTTP/Traversal/index.html" link="https://docs.arangodb.com/HTTP/Traversal/index.html"/>
+        <tag name="link" line="26" description="https://www.arangodb.com/docs/stable/http/traversal.html" link="https://www.arangodb.com/docs/stable/http/traversal.html"/>
         <tag name="package" line="26" description="ArangoDBClient"/>
         <tag name="since" line="26" description="1.4"/>
       </docblock>
@@ -8303,7 +8303,7 @@ changed since the last revision check.</long-description>
           <tag name="param" line="820" description="&lt;ul&gt;&#10;&lt;li&gt;&#10;&lt;p&gt;optional - an array of options.&lt;/p&gt;&#10;&lt;p&gt;Options are :&lt;br&gt;&#10;                              &lt;li&gt;&#10;                              'type' -  if type is not set or it's set to '' or null, the Header-Value format must be provided in the import file.&lt;br&gt;&#10;                              &lt;p&gt;&#10;                              &lt;li&gt;                       if set to 'documents', then the file's content must have its documents line by line. Each line will be interpreted as a document.&lt;/li&gt;&#10;                              &lt;li&gt;                       if set to 'array' then the file's content must provide the documents as a list of documents instead of the above line by line.&lt;/li&gt;&#10;                              &lt;br&gt;&#10;                              More info on how the import functionality works: &lt;a href =&quot;https://github.com/triAGENS/ArangoDB/wiki/HttpImport&quot;&gt;https://github.com/triAGENS/ArangoDB/wiki/HttpImport&lt;/a&gt;&#10;                              &lt;/p&gt;&#10;                              &lt;br&gt;&#10;&#10;                              &lt;/li&gt;&#10;                              &lt;li&gt;'createCollection' - If true, create the collection if it does not exist. Defaults to false &lt;/li&gt;&#10;                              &lt;/p&gt;&#10;&lt;pre&gt;&lt;code&gt;                          Other options as described in API Documentation*&lt;/code&gt;&lt;/pre&gt;&#10;&lt;/li&gt;&#10;&lt;/ul&gt;" type="array" variable="$options">
             <type>array</type>
           </tag>
-          <tag name="see" line="820" description="" link="https://docs.arangodb.com/3.1/HTTP/BulkImports/"/>
+          <tag name="see" line="820" description="" link="https://www.arangodb.com/docs/stable/http/bulk-imports.html"/>
           <tag name="return" line="820" description="" type="array">
             <type>array</type>
           </tag>
@@ -9684,7 +9684,7 @@ This is only for options that are to be sent to the ArangoDB server in a json bo
       <docblock line="23">
         <description>A class for managing ArangoDB Databases</description>
         <long-description>This class provides functions to manage Databases through ArangoDB's Database API&lt;br&gt;</long-description>
-        <tag name="link" line="23" description="https://docs.arangodb.com/HTTP/Database/index.html" link="https://docs.arangodb.com/HTTP/Database/index.html"/>
+        <tag name="link" line="23" description="https://www.arangodb.com/docs/stable/http/database.html" link="https://www.arangodb.com/docs/stable/http/database.html"/>
         <tag name="package" line="23" description="ArangoDBClient"/>
         <tag name="since" line="23" description="1.4"/>
       </docblock>
@@ -9718,7 +9718,7 @@ This is only for options that are to be sent to the ArangoDB server in a json bo
           <tag name="param" line="49" description="&lt;ul&gt;&#10;&lt;li&gt;the database specification, for example 'myDatabase'&lt;/li&gt;&#10;&lt;/ul&gt;" type="string" variable="$name">
             <type>string</type>
           </tag>
-          <tag name="link" line="49" description="https://docs.arangodb.com/HTTP/Database/index.html" link="https://docs.arangodb.com/HTTP/Database/index.html"/>
+          <tag name="link" line="49" description="https://www.arangodb.com/docs/stable/http/database.html" link="https://www.arangodb.com/docs/stable/http/database.html"/>
           <tag name="return" line="49" description="$responseArray - The response array." type="array">
             <type>array</type>
           </tag>
@@ -9752,7 +9752,7 @@ This is only for options that are to be sent to the ArangoDB server in a json bo
           <tag name="param" line="81" description="&lt;ul&gt;&#10;&lt;li&gt;the database specification, for example 'myDatabase'&lt;/li&gt;&#10;&lt;/ul&gt;" type="string" variable="$name">
             <type>string</type>
           </tag>
-          <tag name="link" line="81" description="https://docs.arangodb.com/HTTP/Database/index.html" link="https://docs.arangodb.com/HTTP/Database/index.html"/>
+          <tag name="link" line="81" description="https://www.arangodb.com/docs/stable/http/database.html" link="https://www.arangodb.com/docs/stable/http/database.html"/>
           <tag name="return" line="81" description="$responseArray - The response array." type="array">
             <type>array</type>
           </tag>
@@ -9783,7 +9783,7 @@ This is only for options that are to be sent to the ArangoDB server in a json bo
           <tag name="param" line="104" description="&lt;ul&gt;&#10;&lt;li&gt;the connection to be used&lt;/li&gt;&#10;&lt;/ul&gt;" type="\ArangoDBClient\Connection" variable="$connection">
             <type>\ArangoDBClient\Connection</type>
           </tag>
-          <tag name="link" line="104" description="https://docs.arangodb.com/HTTP/Database/index.html" link="https://docs.arangodb.com/HTTP/Database/index.html"/>
+          <tag name="link" line="104" description="https://www.arangodb.com/docs/stable/http/database.html" link="https://www.arangodb.com/docs/stable/http/database.html"/>
           <tag name="return" line="104" description="$responseArray - The response array." type="array">
             <type>array</type>
           </tag>
@@ -9809,7 +9809,7 @@ This is only for options that are to be sent to the ArangoDB server in a json bo
           <tag name="param" line="122" description="&lt;ul&gt;&#10;&lt;li&gt;the connection to be used&lt;/li&gt;&#10;&lt;/ul&gt;" type="\ArangoDBClient\Connection" variable="$connection">
             <type>\ArangoDBClient\Connection</type>
           </tag>
-          <tag name="link" line="122" description="https://docs.arangodb.com/HTTP/Database/index.html" link="https://docs.arangodb.com/HTTP/Database/index.html"/>
+          <tag name="link" line="122" description="https://www.arangodb.com/docs/stable/http/database.html" link="https://www.arangodb.com/docs/stable/http/database.html"/>
           <tag name="return" line="122" description="$responseArray - The response array." type="array">
             <type>array</type>
           </tag>
@@ -9836,7 +9836,7 @@ specifying a different username or password.</long-description>
           <tag name="param" line="143" description="&lt;ul&gt;&#10;&lt;li&gt;the connection to be used&lt;/li&gt;&#10;&lt;/ul&gt;" type="\ArangoDBClient\Connection" variable="$connection">
             <type>\ArangoDBClient\Connection</type>
           </tag>
-          <tag name="link" line="143" description="https://docs.arangodb.com/HTTP/Database/index.html" link="https://docs.arangodb.com/HTTP/Database/index.html"/>
+          <tag name="link" line="143" description="https://www.arangodb.com/docs/stable/http/database.html" link="https://www.arangodb.com/docs/stable/http/database.html"/>
           <tag name="return" line="143" description="$responseArray - The response array." type="array">
             <type>array</type>
           </tag>
@@ -9862,7 +9862,7 @@ specifying a different username or password.</long-description>
           <tag name="param" line="167" description="&lt;ul&gt;&#10;&lt;li&gt;the connection to be used&lt;/li&gt;&#10;&lt;/ul&gt;" type="\ArangoDBClient\Connection" variable="$connection">
             <type>\ArangoDBClient\Connection</type>
           </tag>
-          <tag name="link" line="167" description="https://docs.arangodb.com/HTTP/Database/index.html" link="https://docs.arangodb.com/HTTP/Database/index.html"/>
+          <tag name="link" line="167" description="https://www.arangodb.com/docs/stable/http/database.html" link="https://www.arangodb.com/docs/stable/http/database.html"/>
           <tag name="return" line="167" description="$responseArray - The response array." type="array">
             <type>array</type>
           </tag>
@@ -26424,7 +26424,7 @@ describing the group stored in system and in that sub-object the value for userT
 attribute of the same name.In case of a distribution, the returned object contains the total count in count
 and the distribution list in counts.
 For more information on the statistics returned, please lookup the statistics interface description at</long-description>
-          <tag name="link" line="195" description="This will throw if the statistics cannot be retrieved" link="https://docs.arangodb.com/HTTP/AdministrationAndMonitoring/index.html"/>
+          <tag name="link" line="195" description="This will throw if the statistics cannot be retrieved" link="https://www.arangodb.com/docs/stable/http/administration-and-monitoring.html"/>
           <tag name="throws" line="195" description="" type="\ArangoDBClient\Exception">
             <type>\ArangoDBClient\Exception</type>
           </tag>
@@ -26443,7 +26443,7 @@ For more information on the statistics returned, please lookup the statistics in
           <long-description>The returned objects contains a list of statistics groups in the attribute groups
 and a list of statistics figures in the attribute figures.
 For more information on the statistics returned, please lookup the statistics interface description at</long-description>
-          <tag name="link" line="229" description="This will throw if the statistics-description cannot be retrieved" link="https://docs.arangodb.com/HTTP/AdministrationAndMonitoring/index.html"/>
+          <tag name="link" line="229" description="This will throw if the statistics-description cannot be retrieved" link="https://www.arangodb.com/docs/stable/http/administration-and-monitoring.html"/>
           <tag name="throws" line="229" description="" type="\ArangoDBClient\Exception">
             <type>\ArangoDBClient\Exception</type>
           </tag>
