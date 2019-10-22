@@ -95,6 +95,7 @@ $connectionOptions = [
     ConnectionOptions::OPTION_ENDPOINT    => [ 'tcp://localhost:8531', 'tcp://localhost:8532', 'tcp://localhost:8530' ]
 ];
 ```
+
 Using this option requires ArangoDB 3.3 or higher and the database running 
 in active failover mode.
 

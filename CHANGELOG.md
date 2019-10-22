@@ -132,21 +132,20 @@ removed its `__toString()` method.
 Starting with release 3.4.0, the following constants were removed from the 
 `CollectionHandler` class:
 
-* `OPTION_IGNORE_NULL`
-* `OPTION_CONSTRAINT`
+- `OPTION_IGNORE_NULL`
+- `OPTION_CONSTRAINT`
 
 These constants were geo-index related, and the geo-index functionality changes in ArangoDB
 3.4 have made these constants obsolete.
 
 For the same reason, the `createGeoIndex` function signature in the same class has
 changed from
-```
-public function createGeoIndex($collectionId, array $fields, $geoJson = null, $constraint = null, $ignoreNull = null)
-```
+
+    public function createGeoIndex($collectionId, array $fields, $geoJson = null, $constraint = null, $ignoreNull = null)
+
 to just
-```
-public function createGeoIndex($collectionId, array $fields, $geoJson = null)
-```
+
+    public function createGeoIndex($collectionId, array $fields, $geoJson = null)
 
 Additionally the 3.4 release of the driver adds support for the following collection
 properties:
