@@ -1,5 +1,6 @@
-Release notes for the ArangoDB-PHP driver 3.5.x
-===============================================
+# Changelog
+
+## Release notes for the ArangoDB-PHP driver 3.5.x
 
 Made `DocumentHandler::save()` an alias for `DocumentHandler::insert()`, to more closely
 match the function names used in arangosh/arangod.
@@ -23,7 +24,7 @@ Other driver operations than the above are currently not supported within stream
 
 Streaming transactions are provided by a new class `StreamingTransaction` and a new handler
 `StreamingTransactionHandler`.
-        
+
     $document           = new DocumentHandler($connection);
     $transactionHandler = new StreamingTransactionHandler($connection);
 
@@ -36,16 +37,16 @@ Streaming transactions are provided by a new class `StreamingTransaction` and a 
 
     // starts the transaction
     $trx = $transactionHandler->create($trx);
-       
+
     // get a StreamingTransactionCollection object. this is used to execute operations
     // in a transaction context
     $trxCollection = $trx->getCollection('testCollection');
-        
+
     // pass the StreamingTransactionCollection into the document operations instead of
     // a regular Collection object - this will make the operations execute in the context
     // of the currently running transaction
     $result = $documentHandler->insert($trxCollection, [ '_key' => 'test1', 'value' => 'test1' ]);
-    
+
     $result = $documentHandler->insert($trxCollection, [ '_key' => 'test2', 'value' => 'test2' ]);
 
     // commits the transaction
@@ -125,8 +126,8 @@ Removed unused `$_action` member in class `AqlUserFunction`, also
 removed its `__toString()` method.
 
 
-Release notes for the ArangoDB-PHP driver 3.4.x
-===============================================
+## Release notes for the ArangoDB-PHP driver 3.4.x
+
 
 Starting with release 3.4.0, the following constants were removed from the 
 `CollectionHandler` class:
@@ -150,9 +151,9 @@ public function createGeoIndex($collectionId, array $fields, $geoJson = null)
 Additionally the 3.4 release of the driver adds support for the following collection
 properties:
 
-* replicationFactor: number of replicas to keep per shard in a cluster environment
+- replicationFactor: number of replicas to keep per shard in a cluster environment
   (a replication factor of 1 will be used if this is not specified)
-* shardingStrategy: sharding strategy to be used for the collection
+- shardingStrategy: sharding strategy to be used for the collection
 
 The `Collection` class also got the new methods `setReplicationFactor`, `getReplicationFactor`,
 `setShardingStrategy` and `getShardingStrategy`.
@@ -175,8 +176,8 @@ Basic support for arangosearch views was added in 3.4.0, via the `View` and `Vie
 classes.
 
 
-Release notes for the ArangoDB-PHP driver 3.3.x
-===============================================
+## Release notes for the ArangoDB-PHP driver 3.3.x
+
 
 Starting from release 3.3.1, the PHP driver has support for automatic failover, for
 ArangoDB servers that are started in the active failover mode. This setup requires 
@@ -185,7 +186,7 @@ using ArangoDB 3.3.
 In order to use automatic failover from the PHP driver, simply change the "endpoint"
 attribute of the connection options from a simple endpoint string into an array of
 endpoint strings:
-    
+
     $connectionOptions = [
         ConnectionOptions::OPTION_ENDPOINT => [ 'tcp://localhost:8531', 'tcp://localhost:8532', 'tcp://localhost:8530' ],
         ...
@@ -193,7 +194,7 @@ endpoint strings:
     $connection = new Connection($connectionOptions);
 
 instead of just
-    
+
     $connectionOptions = [
         ConnectionOptions::OPTION_ENDPOINT => 'tcp://localhost:8530',
         ...
@@ -206,7 +207,7 @@ return an array of endpoints. For the single-server case, the returned value wil
 an array with the specified endpoint. When active failover is used, the result will
 be an array with the specified endpoints or the endpoints found (added) at runtime.
 For example, in
- 
+
     $options = [ ConnectionOptions::OPTION_ENDPOINT => 'tcp://127.0.0.1:8529' ];
     $co = new ConnectionOptions($options);
     print_r($co[ConnectionOptions::OPTION_ENDPOINT]);
@@ -222,14 +223,14 @@ numbers.
 
 For example, reading the `port` option here will provide just one of the specified
 ports, so it should be avoided:
-    
+
     $options = [ ConnectionOptions::OPTION_ENDPOINT => [ 'tcp://127.0.0.1:8529', 'tcp://127.0.0.1:8530' ] ];
     $co = new ConnectionOptions($options);
     print_r($co[ConnectionOptions::OPTION_PORT]);
 
 
-Release notes for the ArangoDB-PHP driver 3.2.x
-===============================================
+## Release notes for the ArangoDB-PHP driver 3.2.x
+
 
 - the default value for the authentication type of the `Connection` class is now `Basic`
 
@@ -242,7 +243,7 @@ Release notes for the ArangoDB-PHP driver 3.2.x
   __Important incompatible changes related to this:__
   - Document::getId(): Will return the correct id (CollectionName/DocumentID) instead of the key (DocumentID).
   - UrlHelper::getDocumentIdFromLocation(): Will  now return a "real" _id instead of what was essentially the `_key`
-  
+
   __Other changes related to this:__
   - DocumentHandler::getById(): Will work as before, but it will also accept a "real" document ID in addition to the key. 
   If a real document ID is given, the collection data will be extracted from that string. That means that the first parameter `$collection` does not need to have a valid value, in that case.
@@ -261,27 +262,22 @@ still use the class names from the `\triagens\ArangoDb` namespace
   - `UserHandler::revokeCollectionPermissions`
 
 
-Release notes for the ArangoDB-PHP driver 3.1.0
-===============================================
+## Release notes for the ArangoDB-PHP driver 3.1.0
+
 
 This version of the driver is compatible with ArangoDB 3.1.x
 It is not compatible to earlier versions of ArangoDB (i.e. 2.x).
 Please use one of the `2.x` branches of the driver for 2.x-compatibility.
 
-
-
-Caution!!!
-==========
+**Caution!**
 
 - Up until the 3.0.x versions of this driver, there were still deprecated methods and parameter compatibility functions in the code, which unfortunately were not removed according to their deprecation annotations.
 That deprecated code was now finally removed with this version (3.1.0) of the driver, in order to clean up the codebase.
 - With this version of the driver, the method signature that used to accept $options either as an array or a non-array type has been removed. The specific compatibility layer was deprecated a long time ago and did not provide any benefits apart from compatibility. Starting with this version of the driver, there is now only one method signature that will require $options to be an array. 
- 
-**Please check and change your code accordingly!**
 
+Please check and change your code accordingly!
 
-Changes
-=======
+### Changes
 
 - Removed old deprecated methods:
   - AdminHandler::flushServerModuleCache()
@@ -300,12 +296,12 @@ Changes
   - Graph::setEdgesCollection()
   - Graph::getEdgesCollection()
   - Handler::getCursorOptions()
-  
+
 - Removed the old-style compatibility layer for parameter-passing in various methods that was used prior to switching to the $options parameter.
   This means, that wherever an $option array is passed to methods and a non-array type was also allowed (bool, string) for $options, the $options parameter **must** now be an array - it will not accept bool values or string values anymore, like for example a policy definition.
-  
+
 - Performance might be a bit better due to the removal of the compatibility layer for $options.
-  
+
 - Cleaned up and enriched annotations
 
 - Applied various smaller bug fixes
@@ -313,48 +309,36 @@ Changes
 - GraphHandler: Optimized code to do less work when not necessary
 - GraphHandler: Implemented optional cache that caches the Vertex/Edge-Collections instead of making expensive calls to the DB.
 - GraphHandler: Is now batch-able. However, if any collections need to be fetched, they will be done out-of-batch.
-				If a lot of calls to the GraphHandler are being made, the use of the new caching functionality is encouraged.
+  If a lot of calls to the GraphHandler are being made, the use of the new caching functionality is encouraged.
 - Batches: Some work has been done, to optimize batches. This is still in development.
 - Switched from phpDocumentor to apigen
 - New Docs were generated
 
 
+## Release notes for the ArangoDB-PHP driver 3.0.8
 
-
-
-============================================================================================================
-
-
-Release notes for the ArangoDB-PHP driver 3.0.8
-===============================================
 
 This version of the driver is compatible with ArangoDB 3.0.x
 It is not compatible to earlier versions of ArangoDB (i.e. 2.x).
 Please use ones of the `2.x` branches of the driver for 2.x-compatibility.
 
-Bug fixes
-=========
+### Bug fixes
 
 Fixed bug related to creating the correct collection type.
 This was no problem for the default, which is 'document', but it was a problem
 when the option 'createCollection'=>true was passed with save_edge().
 
 
-============================================================================================================
+## Release notes for the ArangoDB-PHP driver 3.0.7
 
-
-Release notes for the ArangoDB-PHP driver 3.0.7
-===============================================
 
 This version of the driver is compatible with ArangoDB 3.0.7
 It is not compatible to earlier versions of ArangoDB (i.e. 2.x).
 Please use ones of the `2.x` branches of the driver for 2.x-compatibility.
 
-Changed functionality
-=====================
+### Changed functionality
 
-Batch processing
-----------------
+**Batch processing**
 
 Added an option to pre-define a batch size for a batch.
 This results in the driver using an SplFixedArray for the storage of the batch parts,
@@ -365,30 +349,62 @@ The option is called batchSize and accepts an integer.
 Example:
         $batch = new Batch($this->connection, ['batchSize' => 10000]);
 
-
-Bug fixes
-=========
+### Bug fixes
 
 Do to the many API changes in version 3 of ArangoDB, the driver had to go through a lot of changes too.
 This resulted in some inconsistencies in its functionality. Version 3.0.7 has hopefully dealt with them all.
 If there should be any more left, please create an issue to report it.
 
 
-============================================================================================================
+## Release notes for the ArangoDB-PHP driver 3.0
 
-
-Release notes for the ArangoDB-PHP driver 3.0
-=============================================
 
 This version of the driver is compatible with ArangoDB 3.0. 
 It is not compatible to earlier versions of ArangoDB (i.e. 2.x).
 Please use ones of the `2.x` branches of the driver for 2.x-compatibility.
 
-Changed functionality
-=====================
+### Changed functionality
 
-User management
----------------
+**Graph Management**
+
+When replacing edges via the `EdgeHandler::replace()` method, it is now
+required to specify both the `_from` and `_to` values of the replacing edge.
+If either attribute is missing or invalid, the replace operation will fail
+with an error `invalid edge attribute` on the server-side.
+
+That means the following may not work:
+
+```php
+$edgeHandler = new EdgeHandler($connection);
+
+$edge = new Edge();
+$edge->set("_id", $idOfExistingEdge);
+/* set some other edge attributes */
+...
+
+$result = $edgeHandler->replace($edge);
+```
+
+until at least `_from` and `_to` are also set via the `setFrom()` and `setTo()`
+methods:
+
+```php
+$edgeHandler = new EdgeHandler($connection);
+
+$edge = new Edge();
+$edge->set("_id", $idOfExistingEdge);
+/* set some other edge attributes */
+...
+$edge->setFrom($fromHandle);
+$edge->setTo($toHandle);
+
+$result = $edgeHandler->replace($edge);
+```
+
+Note that this affects only the `replace()` and `replaceById()` methods and
+not `update()` nor `updateById()`.
+
+**User management**
 
 The user management APIs in class `UserHandler` have changed slightly. The methods for adding,
 replacing and updating users had an optional parameter named `$options`, which did nothing.
@@ -412,12 +428,9 @@ User permissions can be adjusted manually by using the following new methods of 
 - UserHandler::grantPermissions($username, $databaseName) 
 - UserHandler::revokePermissions($username, $databaseName) 
 
+### Unsupported functionality
 
-Unsupported functionality
-=========================
-
-Cap constraints
----------------
+**Cap constraints**
 
 Support for cap constraints has been discontinued on the 3.0 version of ArangoDB.
 Therefore, the following methods have also been removed from the PHP driver in
@@ -427,8 +440,7 @@ the 3.0 branch:
 - CollectionHandler::first($collectionId, $count = null)
 - CollectionHandler::last($collectionId, $count = null)
 
-Graph functions
----------------
+**Graph functions**
 
 The ArangoDB PHP driver provided PHP wrapper methods for common graph functions
 that were implemented server-side. When one of these wrapper methods was called,
@@ -467,8 +479,7 @@ not limited to the subset of the functionality that was available in the "old"
 graph functions' interfaces, but can use the full functionality and composability
 of AQL.
 
-Custom queues
--------------
+**Custom queues**
 
 "Custom queues" were an undocumented, experimental feature in later versions
 of the 2.x driver. Its purpose was to send requests to dedicated processing
@@ -483,8 +494,7 @@ PHP driver:
 - Connection::enableCustomQueue($queueName, $count = null) 
 - Connection::disableCustomQueue() 
 
-Client versioning
------------------
+**Client versioning**
 
 The client-side versioning feature was also removed from the driver in version
 3.0. The versioning feature allowed sending the HTTP header `X-Arango-Version`
@@ -498,43 +508,3 @@ been removed from the driver's `Connection` class.
 
 - Connection::getVersion()
 - Connection::getClientVersion()
-
-Changed functionality
-=====================
-
-When replacing edges via the `EdgeHandler::replace()` method, it is now
-required to specify both the `_from` and `_to` values of the replacing edge.
-If either attribute is missing or invalid, the replace operation will fail
-with an error `invalid edge attribute` on the server-side.
-
-That means the following may not work:
-
-```php
-$edgeHandler = new EdgeHandler($connection);
-
-$edge = new Edge();
-$edge->set("_id", $idOfExistingEdge);
-/* set some other edge attributes */
-...
-
-$result = $edgeHandler->replace($edge);
-```
-
-until at least `_from` and `_to` are also set via the `setFrom()` and `setTo()`
-methods:
-
-```php
-$edgeHandler = new EdgeHandler($connection);
-
-$edge = new Edge();
-$edge->set("_id", $idOfExistingEdge);
-/* set some other edge attributes */
-...
-$edge->setFrom($fromHandle);
-$edge->setTo($toHandle);
-
-$result = $edgeHandler->replace($edge);
-```
-
-Note that this affects only the `replace()` and `replaceById()` methods and
-not `update()` nor `updateById()`.
