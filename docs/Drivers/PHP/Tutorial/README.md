@@ -134,6 +134,7 @@ $connectionOptions = [
 ```
 
 ## Creating a collection
+
 *This is just to show how a collection is created.*
 *For these examples it is not needed to create a collection prior to inserting a document, as we set ArangoConnectionOptions::OPTION_CREATE to true.*
 
