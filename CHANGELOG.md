@@ -171,7 +171,7 @@ unique constraint violation error on the primary key.
 The method `insert` was introduced in `DocumentHandler` as an alias for the existing `save`
 method to be consistent with the server-side method naming.
 
-Basic support for arangosearch views was added in 3.4.0, via the `View` and `ViewHandler`
+Basic support for Arangosearch Views was added in 3.4.0, via the `View` and `ViewHandler`
 classes.
 
 
