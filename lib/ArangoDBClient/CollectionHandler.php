@@ -243,7 +243,7 @@ class CollectionHandler extends Handler
      *
      * @param mixed $collection - collection object to be created on the server or a string with the name
      * @param array $options    - an array of options.
-     *                          <p>Options are :<br>
+     *                          <p>Options are:<br>
      *                          <li>'type'                 - 2 -> normal collection, 3 -> edge-collection</li>
      *                          <li>'waitForSync'          - if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
      *                          <li>'journalSize'          - journalSize value.</li>
@@ -253,7 +253,7 @@ class CollectionHandler extends Handler
      *                          <li>'distributeShardsLike' - name of prototype collection for identical sharding.</li>
      *                          <li>'numberOfShards'       - number of shards for the collection.</li>
      *                          <li>'replicationFactor'    - number of replicas to keep (default: 1).</li>
-     *                          <li>'minReplicationFactor' - minimum number of replicas to be successful when writing (default: 1).</li>
+     *                          <li>'writeConcern'         - minimum number of replicas to be successful when writing (default: 1).</li>
      *                          <li>'shardKeys'            - array of shard key attributes.</li>
      *                          <li>'shardingStrategy'     - sharding strategy to use in cluster.</li>
      *                          <li>'smartJoinAttribute'   - attribute name for smart joins (if not shard key).</li>
@@ -311,8 +311,8 @@ class CollectionHandler extends Handler
             $params[Collection::ENTRY_REPLICATION_FACTOR] = $collection->getReplicationFactor();
         }
         
-        if ($collection->getMinReplicationFactor() !== null) {
-            $params[Collection::ENTRY_MIN_REPLICATION_FACTOR] = $collection->getMinReplicationFactor();
+        if ($collection->getWriteConcern() !== null) {
+            $params[Collection::ENTRY_WRITE_CONCERN] = $collection->getWriteConcern();
         }
         
         if ($collection->getShardingStrategy() !== null) {

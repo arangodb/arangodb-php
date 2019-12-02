@@ -1,3 +1,16 @@
+Release notes for the ArangoDB-PHP driver 3.6.x
+===============================================
+
+Deprecated `Collection::setMinReplicationFactor()` and `Collection::getMinReplicationFactor()` 
+in favor of `Collection::setWriteConcern()` and `Collection::getWriteConcern()`.
+
+Added support for per-database default options (`replicationFactor`, `writeConcern` and 
+`sharding`).
+
+Added `maxRuntime` option to `Statement` class for automatically timing out queries on 
+the server-side.
+
+
 Release notes for the ArangoDB-PHP driver 3.5.x
 ===============================================
 

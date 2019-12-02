@@ -32,6 +32,7 @@ class DatabaseTest extends
     public function setUp()
     {
         $this->connection = getConnection();
+        $this->connection->setDatabase('_system');
 
         // remove existing databases to make test repeatable
         $databases = ['ArangoTestSuiteDatabaseTest01' . '_' . static::$testsTimestamp, 'ArangoTestSuiteDatabaseTest02' . '_' . static::$testsTimestamp];
@@ -49,7 +50,6 @@ class DatabaseTest extends
      */
     public function testCreateDatabaseDeleteIt()
     {
-
         $database = 'ArangoTestSuiteDatabaseTest01' . '_' . static::$testsTimestamp;
 
         try {
@@ -85,7 +85,6 @@ class DatabaseTest extends
      */
     public function testCreateDatabaseGetListOfDatabasesAndDeleteItAgain()
     {
-
         $database = 'ArangoTestSuiteDatabaseTest01' . '_' . static::$testsTimestamp;
 
         $response = Database::create($this->connection, $database);
@@ -155,6 +154,109 @@ class DatabaseTest extends
         static::assertEquals(
             false, $response['error'], 'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
         );
+    }
+    
+    
+    /**
+     * Test create database with options
+     */
+    public function testCreateDatabaseWithOptions()
+    {
+        if (!isCluster($this->connection)) {
+            // only execute this test in a cluster
+            $this->markTestSkipped("test is only meaningful in cluster");
+            return;
+        }
+
+        $database = 'ArangoTestSuiteDatabaseTest01' . '_' . static::$testsTimestamp;
+
+        try {
+            $e = null;
+            Database::delete($this->connection, $database);
+        } catch (\Exception $e) {
+            // don't bother us... just give us the $e
+        }
+
+        $options = [ 
+          Collection::ENTRY_REPLICATION_FACTOR => 2,
+          Collection::ENTRY_WRITE_CONCERN => 2
+        ];
+
+        $response = Database::create($this->connection, $database, $options);
+
+        static::assertEquals(
+            false,
+            $response['error'],
+            'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+        );
+        
+        $this->connection->setDatabase($database);
+        
+        $response = Database::getInfo($this->connection);
+        $result = $response['result'];
+
+        static::assertFalse($result['isSystem']);
+        static::assertEquals($database, $result['name']);
+        static::assertEquals("", $result['sharding']);
+        static::assertEquals(2, $result['replicationFactor']);
+        static::assertEquals(2, $result['writeConcern']);
+        
+        $this->connection->setDatabase('_system');
+        Database::delete($this->connection, $database);
+    }
+    
+    /**
+     * Test create database with options
+     */
+    public function testCreateDatabaseWithMoreOptions()
+    {
+        if (!isCluster($this->connection)) {
+            // only execute this test in a cluster
+            $this->markTestSkipped("test is only meaningful in cluster");
+            return;
+        }
+        if (!isEnterprise($this->connection)) {
+          // only execute this test in enterprise edition
+            $this->markTestSkipped("test is only meaningful in enterprise edition");
+            return;
+        }
+
+        $database = 'ArangoTestSuiteDatabaseTest01' . '_' . static::$testsTimestamp;
+
+        try {
+            $e = null;
+            Database::delete($this->connection, $database);
+        } catch (\Exception $e) {
+            // don't bother us... just give us the $e
+        }
+
+        $options = [ 
+          Collection::ENTRY_REPLICATION_FACTOR => 2,
+          Collection::ENTRY_WRITE_CONCERN => 1,
+          Collection::ENTRY_SHARDING => "single"
+        ];
+
+        $response = Database::create($this->connection, $database, $options);
+
+        static::assertEquals(
+            false,
+            $response['error'],
+            'result[\'error\'] Did not return false, instead returned: ' . print_r($response, 1)
+        );
+        
+        $this->connection->setDatabase($database);
+        
+        $response = Database::getInfo($this->connection);
+        $result = $response['result'];
+
+        static::assertFalse($result['isSystem']);
+        static::assertEquals($database, $result['name']);
+        static::assertEquals("single", $result['sharding']);
+        static::assertEquals(2, $result['replicationFactor']);
+        static::assertEquals(1, $result['writeConcern']);
+        
+        $this->connection->setDatabase('_system');
+        Database::delete($this->connection, $database);
     }
 
 
@@ -249,6 +351,8 @@ class DatabaseTest extends
 
     public function tearDown()
     {
+      $this->connection->setDatabase('_system');
+
         // clean up
         $databases = ['ArangoTestSuiteDatabaseTest01' . '_' . static::$testsTimestamp, 'ArangoTestSuiteDatabaseTest02' . '_' . static::$testsTimestamp];
         foreach ($databases as $database) {

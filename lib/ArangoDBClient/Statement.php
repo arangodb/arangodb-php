@@ -136,6 +136,14 @@ class Statement
     private $_ttl;
     
     /**
+     * Number of seconds after which the query will automatically be terminated on the 
+     * server
+     *
+     * @var double
+     */
+    private $_maxRuntime;
+    
+    /**
      * Whether or not the cache should abort when it encounters a warning
      *
      * @var bool
@@ -213,6 +221,11 @@ class Statement
      * TTL attribute
      */
     const ENTRY_TTL = 'ttl';
+    
+    /**
+     * maxRuntime attribute
+     */
+    const ENTRY_MAX_RUNTIME = 'maxRuntime';
 
     /** 
      * transaction attribute (used internally)
@@ -262,6 +275,10 @@ class Statement
         
         if (isset($data[self::ENTRY_TTL])) {
             $this->setTtl($data[self::ENTRY_TTL]);
+        }
+        
+        if (isset($data[self::ENTRY_MAX_RUNTIME])) {
+            $this->setMaxRuntime($data[self::ENTRY_MAX_RUNTIME]);
         }
 
         if (isset($data[self::ENTRY_BINDVARS])) {
@@ -554,6 +571,28 @@ class Statement
     }
     
     /**
+     * Set the max runtime option for the statement
+     *
+     * @param double $value - value for maximum runtime option
+     *
+     * @return void
+     */
+    public function setMaxRuntime($value)
+    {
+        $this->_maxRuntime = (double) $value;
+    }
+
+    /**
+     * Get the max runtime option value of the statement
+     *
+     * @return double - current value of max runtime option
+     */
+    public function getMaxRuntime()
+    {
+        return $this->_maxRuntime;
+    }
+    
+    /**
      * Set the streaming option for the statement
      *
      * @param bool $value - value for stream option
@@ -698,10 +737,14 @@ class Statement
             $data['options'][self::ENTRY_STREAM] = $this->_stream;
         }
         
+        if ($this->_maxRuntime !== null) {
+            $data['options'][self::ENTRY_MAX_RUNTIME] = $this->_maxRuntime;
+        }
+        
         if ($this->_ttl !== null) {
             $data[self::ENTRY_TTL] = $this->_ttl;
         }
-
+        
         if ($this->_cache !== null) {
             $data[Cursor::ENTRY_CACHE] = $this->_cache;
         }
