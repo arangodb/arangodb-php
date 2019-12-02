@@ -10,6 +10,8 @@ Added support for per-database default options (`replicationFactor`, `writeConce
 Added `maxRuntime` option to `Statement` class for automatically timing out queries on 
 the server-side.
 
+Added support for custom analyzers for arangosearch.
+
 
 Release notes for the ArangoDB-PHP driver 3.5.x
 ===============================================

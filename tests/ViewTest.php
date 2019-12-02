@@ -40,10 +40,10 @@ class ViewTest extends
      */
     public function testCreateViewObject()
     {
-        $this->view = new View('View1' . '_' . static::$testsTimestamp, 'arangosearch');
-        static::assertNull($this->view->getId());
-        static::assertEquals('View1' . '_' . static::$testsTimestamp, $this->view->getName());
-        static::assertEquals('arangosearch', $this->view->getType());
+        $view = new View('View1' . '_' . static::$testsTimestamp, 'arangosearch');
+        static::assertNull($view->getId());
+        static::assertEquals('View1' . '_' . static::$testsTimestamp, $view->getName());
+        static::assertEquals('arangosearch', $view->getType());
     }
 
     /**
@@ -51,8 +51,8 @@ class ViewTest extends
      */
     public function testCreateView()
     {
-        $this->view = new View('View1' . '_' . static::$testsTimestamp, 'arangosearch');
-        $result = $this->viewHandler->create($this->view);
+        $view = new View('View1' . '_' . static::$testsTimestamp, 'arangosearch');
+        $result = $this->viewHandler->create($view);
         static::assertEquals('View1' . '_' . static::$testsTimestamp, $result['name']);
         static::assertEquals('arangosearch', $result['type']);
     }
@@ -62,10 +62,10 @@ class ViewTest extends
      */
     public function testGetView()
     {
-        $this->view = new View('View1' . '_' . static::$testsTimestamp, 'arangosearch');
-        $this->viewHandler->create($this->view);
+        $view = new View('View1' . '_' . static::$testsTimestamp, 'arangosearch');
+        $this->viewHandler->create($view);
 
-        $result = $this->viewHandler->get('View1' . '_' . static::$testsTimestamp, 'arangosearch');
+        $result = $this->viewHandler->get('View1' . '_' . static::$testsTimestamp);
         static::assertEquals('View1' . '_' . static::$testsTimestamp, $result->getName());
         static::assertEquals('arangosearch', $result->getType());
     }
@@ -76,7 +76,7 @@ class ViewTest extends
     public function testGetNonExistingView()
     {
         try {
-            $this->viewHandler->get('View1' . '_' . static::$testsTimestamp, 'arangosearch');
+            $this->viewHandler->get('View1' . '_' . static::$testsTimestamp);
         } catch (\Exception $exception) {
         }
         static::assertEquals(404, $exception->getCode());
@@ -87,12 +87,12 @@ class ViewTest extends
      */
     public function testViewProperties()
     {
-        $this->view = new View('View1' . '_' . static::$testsTimestamp, 'arangosearch');
-        $result = $this->viewHandler->create($this->view);
+        $view = new View('View1' . '_' . static::$testsTimestamp, 'arangosearch');
+        $result = $this->viewHandler->create($view);
         static::assertEquals('View1' . '_' . static::$testsTimestamp, $result['name']);
         static::assertEquals('arangosearch', $result['type']);
 
-        $result = $this->viewHandler->properties($this->view);
+        $result = $this->viewHandler->properties($view);
         static::assertEquals([], $result['links']);
     }
     
@@ -102,8 +102,8 @@ class ViewTest extends
      */
     public function testViewSetProperties()
     {
-        $this->view = new View('View1' . '_' . static::$testsTimestamp, 'arangosearch');
-        $result = $this->viewHandler->create($this->view);
+        $view = new View('View1' . '_' . static::$testsTimestamp, 'arangosearch');
+        $result = $this->viewHandler->create($view);
         static::assertEquals('View1' . '_' . static::$testsTimestamp, $result['name']);
         static::assertEquals('arangosearch', $result['type']);
 
@@ -112,7 +112,7 @@ class ViewTest extends
                 '_graphs' => [ 'includeAllFields' => true ]
             ]
         ];
-        $result = $this->viewHandler->setProperties($this->view, $properties);
+        $result = $this->viewHandler->setProperties($view, $properties);
         static::assertEquals('arangosearch', $result['type']);
         static::assertTrue($result['links']['_graphs']['includeAllFields']);
         static::assertEquals([], $result['links']['_graphs']['fields']);
@@ -123,8 +123,8 @@ class ViewTest extends
      */
     public function testDropView()
     {
-        $this->view = new View('View1' . '_' . static::$testsTimestamp, 'arangosearch');
-        $this->viewHandler->create($this->view);
+        $view = new View('View1' . '_' . static::$testsTimestamp, 'arangosearch');
+        $this->viewHandler->create($view);
         $result = $this->viewHandler->drop('View1' . '_' . static::$testsTimestamp);
         static::assertTrue($result);
     }
@@ -151,8 +151,8 @@ class ViewTest extends
             $this->markTestSkipped("test is only meaningful in a single server");
             return;
         }
-        $this->view = new View('View1' . '_' . static::$testsTimestamp, 'arangosearch');
-        $this->viewHandler->create($this->view);
+        $view = new View('View1' . '_' . static::$testsTimestamp, 'arangosearch');
+        $this->viewHandler->create($view);
         $result = $this->viewHandler->rename('View1' . '_' . static::$testsTimestamp, 'View2' . '_' . static::$testsTimestamp);
         static::assertTrue($result);
     }
@@ -167,8 +167,8 @@ class ViewTest extends
             $this->markTestSkipped("test is only meaningful in a single server");
             return;
         }
-        $this->view = new View('View1' . '_' . static::$testsTimestamp, 'arangosearch');
-        $this->viewHandler->create($this->view);
+        $view = new View('View1' . '_' . static::$testsTimestamp, 'arangosearch');
+        $this->viewHandler->create($view);
         try {
             $this->viewHandler->rename('View2' . '_' . static::$testsTimestamp, 'View1' . '_' . static::$testsTimestamp);
         } catch (\Exception $exception) {

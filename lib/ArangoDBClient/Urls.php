@@ -42,6 +42,11 @@ abstract class Urls
      * URL base part for all view-related REST calls
      */
     const URL_VIEW = '/_api/view';
+    
+    /**
+     * URL base part for all analyzer-related REST calls
+     */
+    const URL_ANALYZER = '/_api/analyzer';
 
     /**
      * URL part vertex-related graph REST calls

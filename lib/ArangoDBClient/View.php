@@ -54,7 +54,7 @@ class View
     /**
      * Constructs an empty view
      *
-     * @param array $name       - name for view
+     * @param string $name      - name for view
      * @param string $type      - view type
      *
      * @since     3.4
