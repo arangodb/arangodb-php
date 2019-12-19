@@ -1,7 +1,27 @@
 # ArangoDB-PHP - Tutorial
 ## Setting up the connection options
 
-In order to use ArangoDB, you need to specify the connection options. We do so by creating a PHP array $connectionOptions. Put this code into a file named test.php in your current directory:
+In order to use ArangoDB, you need to specify the connection options. We do so by creating a PHP array $connectionOptions. 
+
+To keep our connection settings secure, we should create a .env file for storing our sensitive data. First, let’s run ‘composer require vlucas/phpdotenv’. Now create a .env file in your root folder with the following variables:
+
+```
+OPTION_DATABASE="_system"
+OPTION_ENDPOINT="tcp://127.0.0.1:8529"
+OPTION_AUTH_TYPE="Basic"
+OPTION_AUTH_USER="root"
+OPTION_AUTH_PASSWD=
+OPTION_CONNECTION="Keep-Alive"
+OPTION_TIMEOUT=3
+OPTION_RECONNECT=true
+OPTION_CREATE=true
+
+OPTION_MEMCACHED_PERSISTENT_ID=
+OPTION_MEMCACHED_SERVERS=
+OPTION_MEMCACHED_ENDPOINTS_KEY=
+OPTION_MEMCACHED_TTL=
+```
+Finally, put this code into a file named test.php in your current directory:
 
 ```php
 // use the following line when using Composer
@@ -9,6 +29,9 @@ In order to use ArangoDB, you need to specify the connection options. We do so b
 
 // use the following line when using git
 require __DIR__ . '/arangodb-php/autoload.php';
+
+// use .env variables for security
+// use Dotenv\Dotenv;
 
 // set up some aliases for less typing later
 use ArangoDBClient\Collection as ArangoCollection;
@@ -25,29 +48,33 @@ use ArangoDBClient\ServerException as ArangoServerException;
 use ArangoDBClient\Statement as ArangoStatement;
 use ArangoDBClient\UpdatePolicy as ArangoUpdatePolicy;
 
-// set up some basic connection options
+// set and load environment variable dir
+    // $dotenv = new Dotenv(__DIR__);
+    // $dotenv->load();
+
+// set up some basic connection options via .env
 $connectionOptions = [
     // database name
-    ArangoConnectionOptions::OPTION_DATABASE => '_system',
+    ArangoConnectionOptions::OPTION_DATABASE => '_system', // getenv('OPTION_DATABASE')
     // server endpoint to connect to
-    ArangoConnectionOptions::OPTION_ENDPOINT => 'tcp://127.0.0.1:8529',
+    ArangoConnectionOptions::OPTION_ENDPOINT => 'tcp://127.0.0.1:8529', // getenv('OPTION_ENDPOINT')
     // authorization type to use (currently supported: 'Basic')
-    ArangoConnectionOptions::OPTION_AUTH_TYPE => 'Basic',
+    ArangoConnectionOptions::OPTION_AUTH_TYPE => 'Basic', // getenv('OPTION_AUTH_TYPE')
     // user for basic authorization
-    ArangoConnectionOptions::OPTION_AUTH_USER => 'root',
+    ArangoConnectionOptions::OPTION_AUTH_USER => 'root', // getenv('OPTION_AUTH_USER')
     // password for basic authorization
-    ArangoConnectionOptions::OPTION_AUTH_PASSWD => '',
-    // connection persistence on server. can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
-    ArangoConnectionOptions::OPTION_CONNECTION => 'Keep-Alive',
+    ArangoConnectionOptions::OPTION_AUTH_PASSWD => '', // getenv('OPTION_AUTH_PASSWD')
+
+    ArangoConnectionOptions::OPTION_CONNECTION => 'Keep-Alive', // getenv('OPTION_CONNECTION')
     // connect timeout in seconds
-    ArangoConnectionOptions::OPTION_TIMEOUT => 3,
+    ArangoConnectionOptions::OPTION_TIMEOUT => 3, // getenv('OPTION_TIMEOUT')
     // whether or not to reconnect when a keep-alive connection has timed out on server
-    ArangoConnectionOptions::OPTION_RECONNECT => true,
+    ArangoConnectionOptions::OPTION_RECONNECT => true, // getenv('OPTION_RECONNECT')
     // optionally create new collections when inserting documents
-    ArangoConnectionOptions::OPTION_CREATE => true,
+    ArangoConnectionOptions::OPTION_CREATE => true, // getenv('OPTION_CREATE')
     // optionally create new collections when inserting documents
     ArangoConnectionOptions::OPTION_UPDATE_POLICY => ArangoUpdatePolicy::LAST,
-];
+    ];
 
 
 // turn on exception logging (logs to whatever PHP is configured)
