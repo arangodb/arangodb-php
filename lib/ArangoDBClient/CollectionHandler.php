@@ -811,7 +811,7 @@ class CollectionHandler extends Handler
      *
      *                                   Other options as described in API Documentation*
      *
-     * @see https://docs.arangodb.com/3.1/HTTP/BulkImports/
+     * @see https://www.arangodb.com/docs/stable/http/bulk-imports.html
      *
      * @return array
      * @throws \ArangoDBClient\Exception

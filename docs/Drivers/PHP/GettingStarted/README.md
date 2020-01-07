@@ -1,4 +1,5 @@
 # ArangoDB-PHP - Getting Started
+
 ## Description
 
 This PHP client allows REST-based access to documents on the server.
@@ -13,11 +14,11 @@ The autoloader will care about loading additionally required classes on the fly.
 
 The ArangoDB PHP client is an API that allows you to send and retrieve documents from ArangoDB from out of your PHP application. The client library itself is written in PHP and has no further dependencies but just plain PHP 5.6 (or higher).
 
-The client library provides document and collection classes you can use to work with documents and collections in an OO fashion. When exchanging document data with the server, the library internally will use the [HTTP REST interface of ArangoDB](../../../HTTP/index.html). The library user does not have to care about this fact as all the details of the REST interface are abstracted by the client library.
+The client library provides document and collection classes you can use to work with documents and collections in an OO fashion. When exchanging document data with the server, the library internally will use the [HTTP REST interface of ArangoDB](https://www.arangodb.com/docs/stable/http/index.html). The library user does not have to care about this fact as all the details of the REST interface are abstracted by the client library.
 
 ## Requirements
 
-* PHP version 5.6 or higher (Travis-tested with PHP 5.6, 7.0, 7.1 and hhvm)
+- PHP version 5.6 or higher (Travis-tested with PHP 5.6, 7.0, 7.1 and hhvm)
 
 Note on PHP version support: 
 
@@ -33,8 +34,7 @@ The ArangoDB-PHP driver version has to match with the ArangoDB version:
 - ArangoDB-PHP 3.2.x is on par with the functionality of ArangoDB 3.2.x
 - ArangoDB-PHP 3.3.x is on par with the functionality of ArangoDB 3.3.x
 
-etc...
-
+etc.
 
 ### Installing the PHP client
 
@@ -50,12 +50,12 @@ There are two alternative ways to get the ArangoDB PHP client:
 ```
 composer require triagens/arangodb
 ```
+
 #### Alternative 2: Cloning the git repository
 
 When preferring this alternative, you need to have a git client installed. To clone the ArangoDB PHP client repository from github, execute the following command in your project directory:
 
     git clone "https://github.com/arangodb/arangodb-php.git"
-
 
 This will create a subdirectory arangodb-php in your current directory. It contains all the files of the client library. It also includes a dedicated autoloader that you can use for autoloading the client libraries class files.
 To invoke this autoloader, add the following line to your PHP files that will use the library:
@@ -63,7 +63,6 @@ To invoke this autoloader, add the following line to your PHP files that will us
 ```php
 require 'arangodb-php/autoload.php';
 ```
-
 
 The ArangoDB PHP client's autoloader will only care about its own class files and will not handle any other files. That means it is fully nestable with other autoloaders.
 

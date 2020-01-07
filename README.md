@@ -1,6 +1,7 @@
-![ArangoDB-Logo](https://docs.arangodb.com/assets/arangodb_logo_2016_inverted.png)
+![ArangoDB-Logo](https://www.arangodb.com/docs/assets/arangodb_logo_2016_inverted.png)
 
 # ArangoDB-PHP - A PHP client for ArangoDB
+
 The official ArangoDB PHP Driver.
 
 3.2: [![Build Status](https://travis-ci.org/arangodb/arangodb-php.png?branch=3.2)](https://travis-ci.org/arangodb/arangodb-php)
@@ -14,8 +15,13 @@ devel: [![Build Status](https://travis-ci.org/arangodb/arangodb-php.png?branch=d
 
 # More information
 
-* More example code, containing some code to create, delete and rename collections, is provided in the [examples](examples) subdirectory that is provided with the library.
+- More example code, containing some code to create, delete and rename
+  collections, is provided in the [examples](examples) subdirectory that is
+  provided with the library.
 
-* [PHPDoc documentation](http://arangodb.github.io/arangodb-php/) for the complete library
+- [PHPDoc documentation](http://arangodb.github.io/arangodb-php/)
+  for the complete library
 
-* [Follow us on Twitter](https://twitter.com/arangodbphp) [@arangodbphp](https://twitter.com/arangodbphp) to receive updates on the PHP driver
+- [Follow us on Twitter](https://twitter.com/arangodbphp)
+  [@arangodbphp](https://twitter.com/arangodbphp)
+  to receive updates on the PHP driver

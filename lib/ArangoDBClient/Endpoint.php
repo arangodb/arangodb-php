@@ -202,7 +202,7 @@ class Endpoint
      *
      * @param Connection $connection - the connection to be used
      *
-     * @link https://docs.arangodb.com/HTTP/Endpoints/index.html
+     * @link https://www.arangodb.com/docs/stable/http/endpoints.html
      * @return array $responseArray - The response array.
      * @throws \ArangoDBClient\Exception
      */

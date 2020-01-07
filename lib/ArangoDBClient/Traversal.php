@@ -18,7 +18,7 @@ namespace ArangoDBClient;
  * The object requires the connection object, the startVertex, the edgeCollection and the optional parameters.<br>
  * <br>
  *
- * @link      https://docs.arangodb.com/HTTP/Traversal/index.html
+ * @link      https://www.arangodb.com/docs/stable/http/traversal.html
  *
  * @package   ArangoDBClient
  * @since     1.4
