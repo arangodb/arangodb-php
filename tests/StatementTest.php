@@ -498,6 +498,37 @@ class StatementTest extends
         static::assertTrue($excepted);
     }
     
+    public function testMaxRuntime()
+    {
+        $connection = $this->connection;
+
+        $statement = new Statement(
+            $connection, [ 'query' => 'FOR i IN 1..1 RETURN SLEEP(0.1)' ]
+        );
+        static::assertNull($statement->getMaxRuntime());
+
+        $cursor = $statement->execute();
+
+        $statement = new Statement(
+            $connection, [ 
+                'query' => 'FOR i IN 1..10 RETURN SLEEP(1)',
+                'maxRuntime' => 2
+            ]
+        );
+
+        static::assertEquals(2, $statement->getMaxRuntime());
+
+        $excepted = false;
+        try {
+            $statement->execute();
+        } catch (ServerException $e) {
+            static::assertEquals(1500, $e->getServerCode());
+            $excepted = true;
+        }
+
+        static::assertTrue($excepted);
+    }
+    
     public function testStatementStreaming()
     {
         $connection = $this->connection;

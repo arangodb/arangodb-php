@@ -91,11 +91,11 @@ class Collection
     private $_replicationFactor;
     
     /**
-     * The minimum replicationFactor value for writes to be successful
+     * The write concern for writes to be considered successful
      *
-     * @var mixed - minimum replicationFactor value
+     * @var mixed - write concern value
      */
-    private $_minReplicationFactor;
+    private $_writeConcern;
     
     /**
      * The shardingStrategy value (might be NULL for new collections)
@@ -193,9 +193,14 @@ class Collection
     const ENTRY_REPLICATION_FACTOR = 'replicationFactor';
     
     /**
-     * Collection 'minReplicationFactor' index
+     * Collection 'writeConcern' index
      */
-    const ENTRY_MIN_REPLICATION_FACTOR = 'minReplicationFactor';
+    const ENTRY_WRITE_CONCERN = 'writeConcern';
+    
+    /**
+     * Collection 'sharding' index
+     */
+    const ENTRY_SHARDING = 'sharding';
     
     /**
      * Collection 'shardingStrategy' index
@@ -316,7 +321,7 @@ class Collection
         $this->_distributeShardsLike = null;
         $this->_numberOfShards       = null;
         $this->_replicationFactor    = null;
-        $this->_minReplicationFactor = null;
+        $this->_writeConcern         = null;
         $this->_shardingStrategy     = null;
         $this->_shardKeys            = null;
         $this->_smartJoinAttribute   = null;
@@ -387,8 +392,8 @@ class Collection
             $result[self::ENTRY_REPLICATION_FACTOR] = $this->_replicationFactor;
         }
         
-        if (null !== $this->_minReplicationFactor) {
-            $result[self::ENTRY_MIN_REPLICATION_FACTOR] = $this->_minReplicationFactor;
+        if (null !== $this->_writeConcern) {
+          $result[self::ENTRY_WRITE_CONCERN] = $this->_writeConcern;
         }
         
         if (null !== $this->_shardingStrategy) {
@@ -487,8 +492,8 @@ class Collection
             return;
         }
         
-        if ($key === self::ENTRY_MIN_REPLICATION_FACTOR) {
-            $this->setMinReplicationFactor($value);
+        if ($key === self::ENTRY_WRITE_CONCERN) {
+            $this->setWriteConcern($value);
             return;
         }
         
@@ -850,26 +855,50 @@ class Collection
     }
     
     /**
-     * Set the minReplicationFactor value
+     * Set the write concern value
      *
-     * @param int $value - minReplicationFactor value
+     * @param int $value - write concern value
      *
+     * @return void
+     */
+    public function setWriteConcern($value)
+    {
+        assert(null === $value || is_numeric($value));
+        $this->_writeConcern = $value;
+    }
+    
+    /**
+     * Set the write concern value
+     *
+     * @param int $value - write concern value
+     *
+     * @deprecated use setWriteConcern instead
      * @return void
      */
     public function setMinReplicationFactor($value)
     {
-        assert(null === $value || is_numeric($value));
-        $this->_minReplicationFactor = $value;
+        $this->setWriteConcern($value);
     }
 
     /**
-     * Get the minReplicationFactor value (if already known)
+     * Get the write concern value (if already known)
      *
-     * @return mixed - minReplicationFactor value
+     * @return mixed - write concern value
      */
-    public function getMinReplicationFactor()
+    public function getWriteConcern()
     {
-        return $this->_minReplicationFactor;
+        return $this->_writeConcern;
+    }
+    
+    /**
+     * Get the write concern value (if already known). this is an alias only
+     *
+     * @deprecated use getWriteConcern instead
+     * @return mixed - write concern value
+     */
+    public function getMinReplicationFactor() 
+    {
+        return $this->getWriteConcern();
     }
     
     /**

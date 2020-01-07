@@ -1,5 +1,19 @@
 # Changelog
 
+## Release notes for the ArangoDB-PHP driver 3.6.x
+
+Deprecated `Collection::setMinReplicationFactor()` and `Collection::getMinReplicationFactor()` 
+in favor of `Collection::setWriteConcern()` and `Collection::getWriteConcern()`.
+
+Added support for per-database default options (`replicationFactor`, `writeConcern` and 
+`sharding`).
+
+Added `maxRuntime` option to `Statement` class for automatically timing out queries on 
+the server-side.
+
+Added support for custom Analyzers for ArangoSearch.
+
+
 ## Release notes for the ArangoDB-PHP driver 3.5.x
 
 Made `DocumentHandler::save()` an alias for `DocumentHandler::insert()`, to more closely
@@ -171,12 +185,11 @@ unique constraint violation error on the primary key.
 The method `insert` was introduced in `DocumentHandler` as an alias for the existing `save`
 method to be consistent with the server-side method naming.
 
-Basic support for Arangosearch Views was added in 3.4.0, via the `View` and `ViewHandler`
+Basic support for ArangoSearch Views was added in 3.4.0, via the `View` and `ViewHandler`
 classes.
 
 
 ## Release notes for the ArangoDB-PHP driver 3.3.x
-
 
 Starting from release 3.3.1, the PHP driver has support for automatic failover, for
 ArangoDB servers that are started in the active failover mode. This setup requires 
@@ -230,7 +243,6 @@ ports, so it should be avoided:
 
 ## Release notes for the ArangoDB-PHP driver 3.2.x
 
-
 - the default value for the authentication type of the `Connection` class is now `Basic`
 
 - the default value for the connection type is now `Keep-Alive` and not `Close`
@@ -262,7 +274,6 @@ still use the class names from the `\triagens\ArangoDb` namespace
 
 
 ## Release notes for the ArangoDB-PHP driver 3.1.0
-
 
 This version of the driver is compatible with ArangoDB 3.1.x
 It is not compatible to earlier versions of ArangoDB (i.e. 2.x).
@@ -316,7 +327,6 @@ Please check and change your code accordingly!
 
 ## Release notes for the ArangoDB-PHP driver 3.0.8
 
-
 This version of the driver is compatible with ArangoDB 3.0.x
 It is not compatible to earlier versions of ArangoDB (i.e. 2.x).
 Please use ones of the `2.x` branches of the driver for 2.x-compatibility.
@@ -329,7 +339,6 @@ when the option 'createCollection'=>true was passed with save_edge().
 
 
 ## Release notes for the ArangoDB-PHP driver 3.0.7
-
 
 This version of the driver is compatible with ArangoDB 3.0.7
 It is not compatible to earlier versions of ArangoDB (i.e. 2.x).
@@ -356,7 +365,6 @@ If there should be any more left, please create an issue to report it.
 
 
 ## Release notes for the ArangoDB-PHP driver 3.0
-
 
 This version of the driver is compatible with ArangoDB 3.0. 
 It is not compatible to earlier versions of ArangoDB (i.e. 2.x).

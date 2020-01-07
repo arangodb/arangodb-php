@@ -31,6 +31,11 @@ class Database
      * Users index
      */
     const ENTRY_DATABASE_USERS = 'users';
+    
+    /**
+     * Options index
+     */
+    const ENTRY_OPTIONS = 'options';
 
     /**
      * creates a database
@@ -38,7 +43,12 @@ class Database
      * This creates a new database<br>
      *
      * @param Connection $connection - the connection to be used
-     * @param string     $name       - the database specification, for example 'myDatabase'
+     * @param string     $name       - database name, for example 'myDatabase'
+     * @param array      $options    - extra options for new collections in this database.
+     *                                 <p>Options are :<br>
+     *                                 <li>'replicationFactor'</li>
+     *                                 <li>'writeConcern'</li>
+     *                                 <li>'sharding'</li>
      *
      * @link https://www.arangodb.com/docs/stable/http/database.html
      *
@@ -46,7 +56,7 @@ class Database
      * @throws \ArangoDBClient\Exception
      * @throws \ArangoDBClient\ClientException
      */
-    public static function create(Connection $connection, $name)
+    public static function create(Connection $connection, $name, array $options = [])
     {
         $payload = [
             self::ENTRY_DATABASE_NAME  => $name,
@@ -55,8 +65,12 @@ class Database
                     'username' => $connection->getOption(ConnectionOptions::OPTION_AUTH_USER),
                     'passwd'   => $connection->getOption(ConnectionOptions::OPTION_AUTH_PASSWD)
                 ]
-            ]
+            ],
         ];
+
+        if (count($options) > 0) {
+            $payload[self::ENTRY_OPTIONS] = $options;
+        }
 
         $response = $connection->post(Urls::URL_DATABASE, $connection->json_encode_wrapper($payload));
 
@@ -142,7 +156,6 @@ class Database
      */
     public static function listUserDatabases(Connection $connection)
     {
-
         $url = UrlHelper::buildUrl(Urls::URL_DATABASE, ['user']);
 
         $response = $connection->get($url);
