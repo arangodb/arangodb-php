@@ -1,5 +1,10 @@
 # Changelog
 
+## Release notes for the ArangoDB-PHP driver 3.7.x
+
+Work in progress.
+
+
 ## Release notes for the ArangoDB-PHP driver 3.6.x
 
 Deprecated `Collection::setMinReplicationFactor()` and `Collection::getMinReplicationFactor()` 
