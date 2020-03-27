@@ -77,7 +77,7 @@ class UserBasicTest extends
             $userHandler->getDatabases('testUser42');
         } catch (\Exception $e) {
             // Just give us the $e
-            static::assertEquals(403, $e->getCode());
+            static::assertEquals(401, $e->getCode());
         }
         static::assertInstanceOf(ServerException::class, $e, 'should have gotten an exception');
     }
@@ -169,7 +169,7 @@ class UserBasicTest extends
             $userHandler->getDatabases('testUser42');
         } catch (\Exception $e) {
             // Just give us the $e
-            static::assertEquals(403, $e->getCode());
+            static::assertEquals(401, $e->getCode());
         }
         static::assertInstanceOf(ServerException::class, $e, 'should have gotten an exception');
     }
@@ -265,7 +265,7 @@ class UserBasicTest extends
             $userHandler->getCollectionPermissionLevel('testUser42', '_system', $collectionName);
         } catch (\Exception $e) {
             // Just give us the $e
-            static::assertEquals(403, $e->getCode(), 'Should get 401, instead got: ' . $e->getCode());
+            static::assertEquals(401, $e->getCode(), 'Should get 401, instead got: ' . $e->getCode());
         }
         static::assertInstanceOf(ServerException::class, $e, 'should have gotten an exception');
     }
