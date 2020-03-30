@@ -35,8 +35,8 @@ echo "./phpunit --version"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
-docker pull arangodb/arangodb-preview:3.7.0-preview.1
-docker run -d -e ARANGO_ROOT_PASSWORD="test" -p 8529:8529 arangodb/arangodb-preview:3.7.0-preview.1
+docker pull arangodb/arangodb-test:3.7-nightly
+docker run -d -e ARANGO_ROOT_PASSWORD="test" -p 8529:8529 arangodb/arangodb-test:3.7-nightly
 
 sleep 2
 
