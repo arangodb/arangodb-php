@@ -17,6 +17,16 @@ wget "https://phar.phpunit.de/phpunit-6.0.phar"
 mv phpunit-6.0.phar ./phpunit
 fi
 
+if [[ "$TRAVIS_PHP_VERSION" == "7.2" ]] ; then 
+wget "https://phar.phpunit.de/phpunit-6.0.phar"
+mv phpunit-6.0.phar ./phpunit
+fi
+
+if [[ "$TRAVIS_PHP_VERSION" == "7.3" ]] ; then 
+wget "https://phar.phpunit.de/phpunit-6.0.phar"
+mv phpunit-6.0.phar ./phpunit
+fi
+
 if [[ "$TRAVIS_PHP_VERSION" == "hhvm" ]] ; then 
 wget "https://phar.phpunit.de/phpunit-6.0.phar"
 mv phpunit-6.0.phar ./phpunit
