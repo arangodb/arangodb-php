@@ -640,7 +640,9 @@ class DocumentExtendedTest extends
         }
 
         static::assertInstanceOf(\Exception::class, $e);
-        static::assertEquals('precondition failed', $e->getMessage());
+        static::assertEquals(412, $e->getCode());
+        static::assertEquals(1200, $e->getServerCode());
+        static::assertEquals('conflict, _rev values do not match', $e->getMessage());
         $resultingDocument1 = $documentHandler->get($this->collection->getName(), $documentId);
 
         static::assertEquals(
@@ -685,7 +687,9 @@ class DocumentExtendedTest extends
         }
 
         static::assertInstanceOf(\Exception::class, $e, 'Delete should have raised an exception here');
-        static::assertEquals('precondition failed', $e->getMessage());
+        static::assertEquals(412, $e->getCode());
+        static::assertEquals(1200, $e->getServerCode());
+        static::assertEquals('conflict, _rev values do not match', $e->getMessage());
         unset ($e);
 
         $response = $documentHandler->remove($resultingDocument3, ['policy' => 'error']);
@@ -744,7 +748,9 @@ class DocumentExtendedTest extends
         }
 
         static::assertInstanceOf(\Exception::class, $e);
-        static::assertEquals('precondition failed', $e->getMessage());
+        static::assertEquals(412, $e->getCode());
+        static::assertEquals(1200, $e->getServerCode());
+        static::assertEquals('conflict, _rev values do not match', $e->getMessage());
         $resultingDocument1 = $documentHandler->get($this->collection->getName(), $documentId);
 
         static::assertEquals($resultingDocument1->someAttribute, 'someValue2');
@@ -789,7 +795,9 @@ class DocumentExtendedTest extends
         }
 
         static::assertInstanceOf(\Exception::class, $e, 'Delete should have raised an exception here');
-        static::assertEquals('precondition failed', $e->getMessage());
+        static::assertEquals(412, $e->getCode());
+        static::assertEquals(1200, $e->getServerCode());
+        static::assertEquals('conflict, _rev values do not match', $e->getMessage());
         unset ($e);
 
         $response = $documentHandler->remove($resultingDocument3, ['policy' => 'error']);
@@ -913,7 +921,9 @@ class DocumentExtendedTest extends
         }
 
         static::assertInstanceOf(\Exception::class, $e, 'Delete should have raised an exception here');
-        static::assertEquals('precondition failed', $e->getMessage());
+        static::assertEquals(412, $e->getCode());
+        static::assertEquals(1200, $e->getServerCode());
+        static::assertEquals('conflict, _rev values do not match', $e->getMessage());
         unset ($e);
 
         $response = $documentHandler->remove($resultingDocument3, ['policy' => 'error']);
