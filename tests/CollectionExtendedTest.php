@@ -48,7 +48,6 @@ class CollectionExtendedTest extends
         }
 
         $adminHandler = new AdminHandler($this->connection);
-        $this->isMMFilesEngine   = ($adminHandler->getEngine()["name"] == "mmfiles"); 
     }
 
 
@@ -72,41 +71,6 @@ class CollectionExtendedTest extends
         static::assertTrue(is_numeric($response), 'Adding collection did not return an id!');
 
         $collectionHandler->get($name);
-
-        $response = $collectionHandler->drop($collection);
-        static::assertTrue($response, 'Delete should return true!');
-    }
-
-
-    /**
-     * test for creation, getProperties, and delete of a volatile (in-memory-only) collection
-     */
-    public function testCreateGetAndDeleteVolatileCollection()
-    {
-        if (!$this->isMMFilesEngine) {
-            $this->markTestSkipped("test is only meaningful with the mmfiles engine");
-        }
-
-        $collection        = $this->collection;
-        $collectionHandler = $this->collectionHandler;
-
-        $resultingAttribute = $collection->getIsVolatile();
-        static::assertNull($resultingAttribute, 'Default waitForSync in API should be NULL!');
-
-        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
-        $collection->setName($name);
-        $collection->setIsVolatile(true);
-
-
-        $response = $collectionHandler->create($collection);
-
-        static::assertTrue(is_numeric($response), 'Adding collection did not return an id!');
-
-        $collectionHandler->get($name);
-
-        $properties = $collectionHandler->getProperties($name);
-        static::assertTrue((!$this->isMMFilesEngine) || $properties->getIsVolatile(), '"isVolatile" should be true!');
-
 
         $response = $collectionHandler->drop($collection);
         static::assertTrue($response, 'Delete should return true!');

@@ -65,7 +65,6 @@ class StreamingTransactionTest extends
         $this->collectionHandler->create($this->collection2);
         
         $adminHandler = new AdminHandler($this->connection);
-        $this->isMMFilesEngine         = ($adminHandler->getEngine()["name"] == "mmfiles"); 
         
         $this->transactionHandler = new StreamingTransactionHandler($this->connection);
     }
@@ -299,9 +298,6 @@ class StreamingTransactionTest extends
     
     public function testInsert()
     {
-        if ($this->isMMFilesEngine) {
-            $this->markTestSkipped("test is only meaningful with the rocksdb engine");
-        }
         $trx = new StreamingTransaction($this->connection, [
             TransactionBase::ENTRY_COLLECTIONS => [
                 TransactionBase::ENTRY_WRITE => [ $this->collection1->getName() ]
@@ -345,9 +341,6 @@ class StreamingTransactionTest extends
     
     public function testRemove()
     {
-        if ($this->isMMFilesEngine) {
-            $this->markTestSkipped("test is only meaningful with the rocksdb engine");
-        }
         // insert a document before the transaction
         $documentHandler = new DocumentHandler($this->connection);
         $result = $documentHandler->save($this->collection1->getName(), [ '_key' => 'test', 'value' => 'test' ]);
@@ -406,9 +399,6 @@ class StreamingTransactionTest extends
     
     public function testUpdate()
     {
-        if ($this->isMMFilesEngine) {
-            $this->markTestSkipped("test is only meaningful with the rocksdb engine");
-        }
         // insert a document before the transaction
         $documentHandler = new DocumentHandler($this->connection);
         $result = $documentHandler->save($this->collection1->getName(), [ '_key' => 'test', 'value' => 'test' ]);
@@ -459,9 +449,6 @@ class StreamingTransactionTest extends
     
     public function testReplace()
     {
-        if ($this->isMMFilesEngine) {
-            $this->markTestSkipped("test is only meaningful with the rocksdb engine");
-        }
         // insert a document before the transaction
         $documentHandler = new DocumentHandler($this->connection);
         $result = $documentHandler->save($this->collection1->getName(), [ '_key' => 'test', 'value' => 'test' ]);
@@ -516,9 +503,6 @@ class StreamingTransactionTest extends
     
     public function testTruncate()
     {
-        if ($this->isMMFilesEngine) {
-            $this->markTestSkipped("test is only meaningful with the rocksdb engine");
-        }
         $stmt = new Statement($this->connection, [
             'query' => 'FOR i IN 1..10 INSERT { _key: CONCAT("test", i), value: i } INTO @@collection',
             'bindVars' => [ '@collection' => $this->collection1->getName() ]
@@ -569,9 +553,6 @@ class StreamingTransactionTest extends
     
     public function testQuery()
     {
-        if ($this->isMMFilesEngine) {
-            $this->markTestSkipped("test is only meaningful with the rocksdb engine");
-        }
         $trx = new StreamingTransaction($this->connection, [
             TransactionBase::ENTRY_COLLECTIONS => [
                 TransactionBase::ENTRY_WRITE => [ $this->collection1->getName() ]
