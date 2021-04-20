@@ -74,11 +74,6 @@ abstract class Urls
     const URL_CURSOR = '/_api/cursor';
 
     /**
-     * URL for export related operations
-     */
-    const URL_EXPORT = '/_api/export';
-
-    /**
      * URL for AQL explain-related operations
      */
     const URL_EXPLAIN = '/_api/explain';

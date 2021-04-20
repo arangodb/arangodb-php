@@ -124,49 +124,6 @@ class CustomDocumentClassTest extends
         $documentHandler->remove($document);
     }
 
-    /**
-     * Try to retrieve a custom document class via Export.
-     */
-    public function testGetCustomDocumentWithExport()
-    {
-        if (isCluster($this->connection)) {
-            $this->markTestSkipped("test is only meaningful in single server");
-        }
-
-        $connection      = $this->connection;
-        $collection      = $this->collection;
-        $document        = new Document();
-        $documentHandler = new DocumentHandler($connection);
-
-        $document->someAttribute = 'exportValue';
-
-        $documentHandler->save($collection->getName(), $document);
-
-        $export = new Export($connection, $collection->getName(), [
-            'batchSize' => 5000,
-            '_flat'     => false,
-            'flush'     => true,
-        ]);
-
-        // execute the export. this will return a special, forward-only cursor
-        $export->setDocumentClass(CustomDocumentClass1::class);
-        $cursor = $export->execute();
-
-        $found = false;
-        while ($docs = $cursor->getNextBatch()) {
-            $found = true;
-            static::assertTrue(count($docs) > 0, 'No documents retrieved!');
-            foreach ($docs as $doc) {
-                static::assertInstanceOf(CustomDocumentClass1::class, $doc, 'Retrieved document isn\'t made with provided CustomDocumentClass1!');
-                static::assertSame('exportValue', $doc->someAttribute, 'Expected value exportValue, found :' . $doc->someAttribute);
-            }
-        }
-
-        static::assertTrue($found, 'No batch results in Export');
-
-        $documentHandler->remove($document);
-    }
-
     public function testGetCustomDocumentWithBatch()
     {
         $connection      = $this->connection;

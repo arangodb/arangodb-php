@@ -1,17 +1,21 @@
 # Changelog
 
+## Release notes for the ArangoDB-PHP driver 3.9.x
+
+This version of the PHP driver removes the following functionality, which was deprecated
+in a previous release and is not available in ArangoDB 3.9 anymore:
+
+- class Export
+- class ExportCursor
+
+
 ## Release notes for the ArangoDB-PHP driver 3.8.x
 
-This version of the PHP driver removes support for the MMFiles storage engine, which was
-deprecated in the arangod server in version 3.6.0, and removed in version 3.7.0..
+In this version of the PHP driver the following classes are deprecated, because their
+corresponding server-side APIs have been deprecated in ArangoDB 3.8:
 
-Updating, replacing or removing documents in the database using a revision id guard value
-may return a different error message in case the revision id value of the found document is
-not as expected.
-Previous versions before 3.7 returned HTTP error 412, an ArangoDB error code 1200 and the 
-error message string "precondition failed". This was changed in version 3.7 to return the 
-same error codes, but an error message string of "conflict". Version 3.8 changes this again
-so the error message string is now "conflict, _rev values do not match".
+- class Export
+- class ExportCursor
 
 
 ## Release notes for the ArangoDB-PHP driver 3.7.x
@@ -24,10 +28,10 @@ But MMFiles support will be dropped from the PHP driver in version 3.8.
 Updating, replacing or removing documents in the database using a revision id guard value
 may return a different error message in case the revision id value of the found document is
 not as expected.
-
-Previous versions returned HTTP error 412, an ArangoDB error code 1200 and an error message
-string "precondition failed". This version now returns the same error codes, but the error
-message string is changed to "conflict".
+Previous versions before 3.7 returned HTTP error 412, an ArangoDB error code 1200 and the 
+error message string "precondition failed". This was changed in version 3.7 to return the 
+same error codes, but an error message string of "conflict". Version 3.8 changes this again
+so the error message string is now "conflict, _rev values do not match".
 
 
 ## Release notes for the ArangoDB-PHP driver 3.6.x
