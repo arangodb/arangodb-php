@@ -17,6 +17,10 @@ corresponding server-side APIs have been deprecated in ArangoDB 3.8:
 - class Export
 - class ExportCursor
 
+The `Cursor` class will now fetch outstanding cursor result data via HTTP POST requests to
+`/_api/cursor/<cursor-id>`. It previously fetched further results via HTTP PUT requests from
+the same address. The change is necessary because fetching further results is not an 
+idempotent operation, but the HTTP standard requires PUT operations to be idempotent.
 
 ## Release notes for the ArangoDB-PHP driver 3.7.x
 

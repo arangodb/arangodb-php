@@ -690,7 +690,7 @@ class Cursor implements \Iterator
     private function fetchOutstanding()
     {
         // continuation
-        $response = $this->_connection->put($this->url() . '/' . $this->_id, '', []);
+        $response = $this->_connection->post($this->url() . '/' . $this->_id, '', []);
         ++$this->_fetches;
 
         $data = $response->getJson();
