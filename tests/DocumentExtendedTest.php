@@ -321,6 +321,66 @@ class DocumentExtendedTest extends
         $response = $documentHandler->remove($resultingDocument);
         static::assertTrue($response, 'Delete should return true!');
     }
+    
+    /**
+     * test for updating a document using update()
+     */
+    public function testUpdateDocumentMergeObjects()
+    {
+        $documentHandler = $this->documentHandler;
+
+        $document   = Document::createFromArray(
+            ['someAttribute' => ['foo' => 'bar', 'bark' => 'qux']]
+        );
+        $documentId = $documentHandler->save($this->collection->getName(), $document);
+        @list(, $documentId) = explode('/', $documentId);
+        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
+
+        $patchDocument = new Document();
+        $patchDocument->set('_id', $document->getHandle());
+        $patchDocument->set('_rev', $document->getRevision());
+        $patchDocument->set('someAttribute', ['piff' => 'paff']);
+        $result = $documentHandler->update($patchDocument, ['mergeObjects' => true]);
+
+        static::assertTrue($result);
+
+        $resultingDocument = $documentHandler->get($this->collection->getName(), $documentId);
+        static::assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
+
+        static::assertEquals(['foo' => 'bar', 'bark' => 'qux', 'piff' => 'paff'], $resultingDocument->someAttribute);
+        $response = $documentHandler->remove($resultingDocument);
+        static::assertTrue($response, 'Delete should return true!');
+    }
+    
+    /**
+     * test for updating a document using update()
+     */
+    public function testUpdateDocumentDoNotMergeObjects()
+    {
+        $documentHandler = $this->documentHandler;
+
+        $document   = Document::createFromArray(
+            ['someAttribute' => ['foo' => 'bar', 'bark' => 'qux']]
+        );
+        $documentId = $documentHandler->save($this->collection->getName(), $document);
+        @list(, $documentId) = explode('/', $documentId);
+        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
+
+        $patchDocument = new Document();
+        $patchDocument->set('_id', $document->getHandle());
+        $patchDocument->set('_rev', $document->getRevision());
+        $patchDocument->set('someAttribute', ['piff' => 'paff']);
+        $result = $documentHandler->update($patchDocument, ['mergeObjects' => false]);
+
+        static::assertTrue($result);
+
+        $resultingDocument = $documentHandler->get($this->collection->getName(), $documentId);
+        static::assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
+
+        static::assertEquals(['piff' => 'paff'], $resultingDocument->someAttribute);
+        $response = $documentHandler->remove($resultingDocument);
+        static::assertTrue($response, 'Delete should return true!');
+    }
 
 
     /**
@@ -383,6 +443,54 @@ class DocumentExtendedTest extends
         static::assertEquals('test', $result['new']['_key']);
         static::assertEquals(2, $result['new']['value']);
         static::assertNotEquals($result['old']['_rev'], $result['new']['_rev']);
+    }
+    
+    
+    /**
+     * test for silently updating a document 
+     */
+    public function testUpdateDocumentSilent()
+    {
+        $documentHandler = $this->documentHandler;
+
+        $document   = Document::createFromArray(
+            ['_key' => 'test', 'value' => 1]
+        );
+        $documentHandler->insert($this->collection->getName(), $document);
+
+        $patchDocument = new Document();
+        $patchDocument->set('_id', $document->getHandle());
+        $patchDocument->set('value', 2);
+        $result = $documentHandler->update($patchDocument, ['silent' => true]);
+        static::assertNull($result);
+        
+        
+        $resultingDocument = $documentHandler->get($this->collection->getName(), 'test');
+        static::assertEquals(2, $resultingDocument->value);
+    }
+    
+    
+    /**
+     * test for silently updating a document 
+     */
+    public function testUpdateDocumentSilentWithError()
+    {
+        $documentHandler = $this->documentHandler;
+
+        $document   = Document::createFromArray(
+            ['_key' => 'test', 'value' => 1]
+        );
+        $documentHandler->insert($this->collection->getName(), $document);
+
+        $patchDocument = Document::createFromArray(
+            ['_id' => $this->collection->getName() . '/test-does-not-exist']
+        );
+
+        try {
+            $documentHandler->update($patchDocument, ['silent' => true]);
+        } catch (\Exception $exception404) {
+        }
+        static::assertEquals(404, $exception404->getCode());
     }
 
 
@@ -488,6 +596,55 @@ class DocumentExtendedTest extends
         static::assertEquals(2, $result['new']['value']);
         static::assertNotEquals($result['old']['_rev'], $result['new']['_rev']);
     }
+    
+    
+    /**
+     * test for silently replacing a document 
+     */
+    public function testReplaceDocumentSilent()
+    {
+        $documentHandler = $this->documentHandler;
+
+        $document   = Document::createFromArray(
+            ['_key' => 'test', 'value' => 1]
+        );
+        $documentHandler->insert($this->collection->getName(), $document);
+
+        $patchDocument = new Document();
+        $patchDocument->set('_id', $document->getHandle());
+        $patchDocument->set('value', 2);
+        $result = $documentHandler->replace($patchDocument, ['silent' => true]);
+        static::assertNull($result);
+        
+        
+        $resultingDocument = $documentHandler->get($this->collection->getName(), 'test');
+        static::assertEquals(2, $resultingDocument->value);
+    }
+    
+    
+    /**
+     * test for silently replacing a document 
+     */
+    public function testReplaceDocumentSilentWithError()
+    {
+        $documentHandler = $this->documentHandler;
+
+        $document   = Document::createFromArray(
+            ['_key' => 'test', 'value' => 1]
+        );
+        $documentHandler->insert($this->collection->getName(), $document);
+
+        $patchDocument = Document::createFromArray(
+            ['_id' => $this->collection->getName() . '/test-does-not-exist']
+        );
+
+        try {
+            $documentHandler->replace($patchDocument, ['silent' => true]);
+        } catch (\Exception $exception404) {
+        }
+        static::assertEquals(404, $exception404->getCode());
+    }
+
 
     /**
      * test for deletion of a document with deleteById() not giving the revision
@@ -540,7 +697,6 @@ class DocumentExtendedTest extends
         try {
             $documentHandler->removeById($this->collection->getName(), $documentId, '_UOarUR----', ['policy' => 'error']);
         } catch (ServerException $e) {
-            static::assertTrue(true);
         }
 
         $response = $documentHandler->removeById($this->collection->getName(), $documentId, $revision, ['policy' => 'error']);
