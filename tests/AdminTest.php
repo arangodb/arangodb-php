@@ -21,6 +21,30 @@ class AdminTest extends
         $this->connection   = getConnection();
         $this->adminHandler = new AdminHandler($this->connection);
     }
+    
+    
+    /**
+     * Test if we can get the storage engine
+     */
+    public function testEngine()
+    {
+        $result = $this->adminHandler->getEngine();
+        static::assertEquals("rocksdb", $result["name"]);
+        static::assertTrue(isset($result["supports"]));
+    }
+    
+    
+    /**
+     * Test if we can get the storage engine statistics
+     */
+    public function testEngineStats()
+    {
+        $result = $this->adminHandler->getEngineStats();
+        static::assertTrue(is_array($result));
+        static::assertTrue(isset($result["cache.limit"]));
+        static::assertTrue(isset($result["cache.allocated"]));
+        static::assertTrue(isset($result["columnFamilies"]));
+    }
 
 
     /**
