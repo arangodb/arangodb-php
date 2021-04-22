@@ -2591,7 +2591,7 @@ class CollectionExtendedTest extends
         $indexRes = $collectionHandler->index(
             $collection->getName(),
             'persistent',
-            ['names[*].first'],
+            ['names[*].first']
         );
 
         static::assertArrayHasKey(
