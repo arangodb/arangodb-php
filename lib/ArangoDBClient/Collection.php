@@ -834,7 +834,7 @@ class Collection
      *
      * @param int $value - write concern value
      *
-     * @deprecated use setWriteConcern instead
+     * @deprecated use setWriteConcern() instead
      * @return void
      */
     public function setMinReplicationFactor($value)
@@ -855,7 +855,7 @@ class Collection
     /**
      * Get the write concern value (if already known). this is an alias only
      *
-     * @deprecated use getWriteConcern instead
+     * @deprecated use getWriteConcern() instead
      * @return mixed - write concern value
      */
     public function getMinReplicationFactor() 

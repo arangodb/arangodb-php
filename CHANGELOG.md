@@ -2,6 +2,27 @@
 
 ## Release notes for the ArangoDB-PHP driver 3.8.x
 
+The driver now supports the following options for document CRUD operations:
+- "overwriteMode"
+- "silent"
+- "keepNull", "mergeObjects" (for insert API if overwriteMode=update)
+
+Extended maximum valid length for collection names to 256, up from 64 before. This follows a
+change in the ArangoDB server.
+
+Indexes can now be created with "deduplicate" and "estimates" attribute set/not set.
+
+The engine stats API is now supported via `AdminHandler::getEngineStats()`.
+
+The metrics API is now supported via `AdminHandler::getMetrics()`.
+
+Collection objects now support schemas via the `getSchema()`, `setSchema()` methods.
+
+The `Cursor` class will now fetch outstanding cursor result data via HTTP POST requests to
+`/_api/cursor/<cursor-id>`. It previously fetched further results via HTTP PUT requests from
+the same address. The change is necessary because fetching further results is not an 
+idempotent operation, but the HTTP standard requires PUT operations to be idempotent.
+
 In this version of the PHP driver the following classes are deprecated, because their
 corresponding server-side APIs have been deprecated in ArangoDB 3.8:
 
@@ -13,19 +34,8 @@ In addition, the following functionality is deprecated:
 
 - CollectionHandler::load()
 - CollectionHandler::unload()
-
-The `Cursor` class will now fetch outstanding cursor result data via HTTP POST requests to
-`/_api/cursor/<cursor-id>`. It previously fetched further results via HTTP PUT requests from
-the same address. The change is necessary because fetching further results is not an 
-idempotent operation, but the HTTP standard requires PUT operations to be idempotent.
-
-Extended maximum valid length for collection names to 256, up from 64 before. This follows a
-change in the ArangoDB server.
-
-The driver now supports the following options for document CRUD operations:
-- "overwriteMode"
-- "silent"
-- "keepNull", "mergeObjects" (for insert API if overwriteMode=update)
+- AdminHandler::getServerStatistics()
+- AdminHandler::getServerStatisticsDescription()
 
 The following options have been removed in class Collection:
 - isVolatile
