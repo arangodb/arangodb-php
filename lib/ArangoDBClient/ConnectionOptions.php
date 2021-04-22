@@ -168,17 +168,7 @@ class ConnectionOptions implements \ArrayAccess
     /**
      * Wait for sync index constant
      */
-    const OPTION_JOURNAL_SIZE = 'journalSize';
-
-    /**
-     * Wait for sync index constant
-     */
     const OPTION_IS_SYSTEM = 'isSystem';
-
-    /**
-     * Wait for sync index constant
-     */
-    const OPTION_IS_VOLATILE = 'isVolatile';
 
     /**
      * Authentication user name
@@ -456,9 +446,7 @@ class ConnectionOptions implements \ArrayAccess
             self::OPTION_REVISION                => null,
             self::OPTION_WAIT_SYNC               => DefaultValues::DEFAULT_WAIT_SYNC,
             self::OPTION_BATCHSIZE               => null,
-            self::OPTION_JOURNAL_SIZE            => DefaultValues::DEFAULT_JOURNAL_SIZE,
             self::OPTION_IS_SYSTEM               => false,
-            self::OPTION_IS_VOLATILE             => DefaultValues::DEFAULT_IS_VOLATILE,
             self::OPTION_CONNECTION              => DefaultValues::DEFAULT_CONNECTION,
             self::OPTION_TRACE                   => null,
             self::OPTION_ENHANCED_TRACE          => false,
@@ -486,7 +474,7 @@ class ConnectionOptions implements \ArrayAccess
      */
     private static function getSupportedAuthTypes()
     {
-        return ['Basic'];
+        return ['Basic', 'Bearer'];
     }
 
     /**
