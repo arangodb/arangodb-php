@@ -20,6 +20,7 @@ namespace ArangoDBClient;
  *
  * @link      https://www.arangodb.com/docs/stable/http/traversal.html
  *
+ * @deprecated use AQL traversals instead
  * @package   ArangoDBClient
  * @since     1.4
  */

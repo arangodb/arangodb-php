@@ -14,8 +14,15 @@ in a previous release and is not available in ArangoDB 3.9 anymore:
 In this version of the PHP driver the following classes are deprecated, because their
 corresponding server-side APIs have been deprecated in ArangoDB 3.8:
 
-- class Export
-- class ExportCursor
+- class Export, class ExportCursor: use AQL streaming queries instead
+- class Traversal: use AQL traversals instead
+- class Batch, and issuing batch requests via them
+
+In addition, the following functionality is deprecated:
+
+- CollectionHandler::load()
+- CollectionHandler::unload()
+- 
 
 The `Cursor` class will now fetch outstanding cursor result data via HTTP POST requests to
 `/_api/cursor/<cursor-id>`. It previously fetched further results via HTTP PUT requests from
@@ -24,6 +31,11 @@ idempotent operation, but the HTTP standard requires PUT operations to be idempo
 
 Extended maximum valid length for collection names to 256, up from 64 before. This follows a
 change in the ArangoDB server.
+
+The driver now supports the following options for document CRUD operations:
+- "overwriteMode"
+- "silent"
+- "keepNull", "mergeObjects" (for insert API if overwriteMode=update)
 
 ## Release notes for the ArangoDB-PHP driver 3.7.x
 
