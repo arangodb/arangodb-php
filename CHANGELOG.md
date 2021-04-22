@@ -13,6 +13,10 @@ error message string "precondition failed". This was changed in version 3.7 to r
 same error codes, but an error message string of "conflict". Version 3.8 changes this again
 so the error message string is now "conflict, _rev values do not match".
 
+The `Cursor` class will now fetch outstanding cursor result data via HTTP POST requests to
+`/_api/cursor/<cursor-id>`. It previously fetched further results via HTTP PUT requests from
+the same address. The change is necessary because fetching further results is not an 
+idempotent operation, but the HTTP standard requires PUT operations to be idempotent.
 
 ## Release notes for the ArangoDB-PHP driver 3.7.x
 
