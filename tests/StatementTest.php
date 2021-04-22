@@ -498,6 +498,42 @@ class StatementTest extends
         static::assertTrue($excepted);
     }
     
+    public function testMemoryLimit()
+    {
+        $connection = $this->connection;
+
+        $statement = new Statement(
+            $connection, [ 
+                'query' => 'RETURN NOOPT(FOR i IN 1..100000 RETURN CONCAT("testisiteisiitit", i))',
+                '_flat' => true
+            ]
+        );
+        static::assertEquals(0, $statement->getMemoryLimit());
+
+        $cursor = $statement->execute();
+
+        $statement = new Statement(
+            $connection, [ 
+                'query' => 'RETURN NOOPT(FOR i IN 1..100000 RETURN CONCAT("testisiteisiitit", i))',
+                'memoryLimit' => 32768,
+                '_flat' => true
+            ]
+        );
+
+        static::assertEquals(32768, $statement->getMemoryLimit());
+
+        $excepted = false;
+        try {
+            $statement->execute();
+        } catch (ServerException $e) {
+            // resource limit exceeded = 32
+            static::assertEquals(32, $e->getServerCode());
+            $excepted = true;
+        }
+
+        static::assertTrue($excepted);
+    }
+    
     public function testMaxRuntime()
     {
         $connection = $this->connection;
