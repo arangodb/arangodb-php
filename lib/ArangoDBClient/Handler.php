@@ -100,19 +100,18 @@ abstract class Handler
     {
         $params = [];
         foreach ($options as $key => $value) {
-            if (array_key_exists($key, $includeArray)) {
-                if ($key === ConnectionOptions::OPTION_UPDATE_POLICY) {
-                    UpdatePolicy::validate($value);
-                }
+            if ($key === ConnectionOptions::OPTION_UPDATE_POLICY) {
+                UpdatePolicy::validate($value);
+            }
+            if ($value === null && isset($includeArray[$key])) {
+                $params[$key] = $includeArray[$key];
+            } else {
                 $params[$key] = $value;
-                if ($value === null) {
-                    $params[$key] = $includeArray[$key];
-                }
             }
         }
 
         foreach ($includeArray as $key => $value) {
-            if (!array_key_exists($key, $options)) {
+            if (!isset($options[$key])) {
                 if ($key === ConnectionOptions::OPTION_UPDATE_POLICY) {
                     UpdatePolicy::validate($value);
                 }

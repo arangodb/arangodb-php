@@ -639,7 +639,7 @@ class Document implements \JsonSerializable
         }
 
 
-        if (!preg_match('/^[a-zA-Z0-9_-]{1,64}\/' . self::KEY_REGEX_PART . '$/', $id)) {
+        if (!preg_match('/^[a-zA-Z0-9_-]{1,256}\/' . self::KEY_REGEX_PART . '$/', $id)) {
             throw new ClientException('Invalid format for document id');
         }
 

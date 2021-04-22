@@ -42,9 +42,14 @@ class DocumentHandler extends Handler
     const OPTION_EXAMPLE = 'example';
     
     /**
-     * overwrite option 
+     * overwrite option (deprecated)
      */
     const OPTION_OVERWRITE = 'overwrite';
+    
+    /**
+     * overwriteMode option
+     */
+    const OPTION_OVERWRITE_MODE = 'overwriteMode';
     
     /**
      * option for returning the old document
@@ -55,6 +60,11 @@ class DocumentHandler extends Handler
      * option for returning the new document
      */
     const OPTION_RETURN_NEW = 'returnNew';
+    
+    /**
+     * silent option 
+     */
+    const OPTION_SILENT = 'silent';
 
 
     /**
@@ -331,9 +341,13 @@ class DocumentHandler extends Handler
      *                                   <p>Options are :<br>
      *                                   <li>'createCollection' - create the collection if it does not yet exist.</li>
      *                                   <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
-     *                                   <li>'overwrite' -  if set to true, will turn the insert into a replace operation if a document with the specified key already exists.</li>
+     *                                   <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes on update instead setting their values to null. Defaults to true (keep attributes when set to null). only useful with overwriteMode = update</li>
+     *                                   <li>'mergeObjects' - if true, updates to object attributes will merge the previous and the new objects. if false, replaces the object attribute with the new value. only useful with overwriteMode = update</li>
+     *                                   <li>'overwriteMode' -  determines overwrite behavior in case a document with the same _key already exists. possible values: 'ignore', 'update', 'replace', 'conflict'.</li>
+     *                                   <li>'overwrite' -  deprecated: if set to true, will turn the insert into a replace operation if a document with the specified key already exists.</li>
      *                                   <li>'returnNew' -  if set to true, then the newly created document will be returned.</li>
-     *                                   <li>'returnOld' -  if set to true, then the replaced document will be returned - useful only when using overwrite = true.</li>
+     *                                   <li>'returnOld' -  if set to true, then the updated/replaced document will be returned - useful only when using overwriteMode = insert/update.</li>
+     *                                   <li>'silent' -  whether or not to return information about the created document (e.g. _key and _rev).</li>
      *                                   </p>
      *
      * @return mixed - id of document created
@@ -346,12 +360,17 @@ class DocumentHandler extends Handler
 
         $collection     = $this->makeCollection($collection);
         $_documentClass = $this->_documentClass;
+        
+        if (!isset($options[self::OPTION_OVERWRITE_MODE]) &&
+            isset($options[self::OPTION_OVERWRITE])) {
+            // map "overwrite" to "overwriteMode"
+            $options[self::OPTION_OVERWRITE_MODE] = $options[self::OPTION_OVERWRITE] ? 'replace' : 'conflict';
+            unset($options[self::OPTION_OVERWRITE]);
+        }
 
         $params = $this->includeOptionsInParams(
             $options, [
-                'waitForSync'      => null,
-                'silent'           => false,
-                'overwrite'        => (bool) @$options[self::OPTION_OVERWRITE],
+                'waitForSync'      => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
                 'returnOld'        => (bool) @$options[self::OPTION_RETURN_OLD],
                 'returnNew'        => (bool) @$options[self::OPTION_RETURN_NEW],
             ]
@@ -380,8 +399,13 @@ class DocumentHandler extends Handler
         if ($batchPart = $response->getBatchPart()) {
             return $batchPart;
         }
+        
+        if (@$params[self::OPTION_SILENT]) {
+          // nothing will be returned here
+          return null;
+        }
                 
-        if (@$options[self::OPTION_RETURN_OLD] || @$options[self::OPTION_RETURN_NEW]) {
+        if ($params[self::OPTION_RETURN_OLD] || $params[self::OPTION_RETURN_NEW]) {
             return $json;
         }
 
@@ -438,7 +462,11 @@ class DocumentHandler extends Handler
      *                           <p>Options are :
      *                           <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
      *                           <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+     *                           <li>'mergeObjects' - if true, updates to object attributes will merge the previous and the new objects. if false, replaces the object attribute with the new value</li>
      *                           <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                           <li>'returnNew' -  if set to true, then the updated document will be returned.</li>
+     *                           <li>'returnOld' -  if set to true, then the previous version of the document will be returned.</li>
+     *                           <li>'silent' -  whether or not to return information about the created document (e.g. _key and _rev).</li>
      *                           </p>
      *
      * @return bool - always true, will throw if there is an error
@@ -470,7 +498,11 @@ class DocumentHandler extends Handler
      *                               <p>Options are :
      *                               <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
      *                               <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
+     *                               <li>'mergeObjects' - if true, updates to object attributes will merge the previous and the new objects. if false, replaces the object attribute with the new value</li>
      *                               <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                               <li>'returnNew' -  if set to true, then the updated document will be returned.</li>
+     *                               <li>'returnOld' -  if set to true, then the previous version of the document will be returned.</li>
+     *                               <li>'silent' -  whether or not to return information about the created document (e.g. _key and _rev).</li>
      *                               </p>
      *
      * @return bool - always true, will throw if there is an error
@@ -491,11 +523,6 @@ class DocumentHandler extends Handler
      * @param mixed    $documentId   - document id as string or number
      * @param Document $document     - patch document which contains the attributes and values to be updated
      * @param array    $options      - optional, array of options
-     *                               <p>Options are :
-     *                               <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     *                               <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes instead setting their values to null. Defaults to true (keep attributes when set to null)</li>
-     *                               <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     *                               </p>
      *
      * @internal
      *
@@ -512,8 +539,6 @@ class DocumentHandler extends Handler
         $params = $this->includeOptionsInParams(
             $options, [
                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
-                'keepNull'    => true,
-                'silent'      => false,
                 'ignoreRevs'  => true,
                 'policy'      => $this->getConnectionOption(ConnectionOptions::OPTION_UPDATE_POLICY),
                 'returnOld'   => (bool) @$options[self::OPTION_RETURN_OLD],
@@ -537,6 +562,12 @@ class DocumentHandler extends Handler
         $url = UrlHelper::appendParamsUrl($url, $params);
         
         $result = $this->getConnection()->patch($url, $this->json_encode_wrapper($document->getAllForInsertUpdate()), $headers);
+        
+        if (@$params[self::OPTION_SILENT]) {
+          // nothing will be returned here
+          return null;
+        }
+
         $json   = $result->getJson();
         $document->setRevision($json[$_documentClass::ENTRY_REV]);
         
@@ -566,6 +597,11 @@ class DocumentHandler extends Handler
      *                           <p>Options are :
      *                           <li>'policy' - replace policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
      *                           <li>'waitForSync' - can be used to force synchronisation of the document update operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                           <li>'silent' -  whether or not to return information about the replaced document (e.g. _key and _rev).</li>
+     *                           <li>'ifMatch' - boolean if given revision should match or not</li>
+     *                           <li>'revision' - The document is returned if it matches/not matches revision.</li></p>
+     *                           <li>'returnNew' -  if set to true, then the replaced document will be returned.</li>
+     *                           <li>'returnOld' -  if set to true, then the previous version of the document will be returned.</li>
      *                           </p>
      *
      * @return bool - always true, will throw if there is an error
@@ -596,6 +632,11 @@ class DocumentHandler extends Handler
      *                               <p>Options are :
      *                               <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
      *                               <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                               <li>'silent' -  whether or not to return information about the replaced document (e.g. _key and _rev).</li>
+     *                               <li>'ifMatch' - boolean if given revision should match or not</li>
+     *                               <li>'revision' - The document is returned if it matches/not matches revision.</li></p>
+     *                               <li>'returnNew' -  if set to true, then the replaced document will be returned.</li>
+     *                               <li>'returnOld' -  if set to true, then the previous version of the document will be returned.</li>
      *                               </p>
      *
      * @return bool - always true, will throw if there is an error
@@ -616,11 +657,6 @@ class DocumentHandler extends Handler
      * @param mixed    $documentId   - document id as string or number
      * @param Document $document     - document to be updated
      * @param array    $options      - optional, array of options
-     *                               <p>Options are :
-     *                               <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     *                               <li>'waitForSync' - can be used to force synchronisation of the document replacement operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     *                               <li>'ifMatch' - boolean if given revision should match or not</li>
-     *                               <li>'revision' - The document is returned if it matches/not matches revision.</li></p>
      *
      * @internal
      *
@@ -637,7 +673,6 @@ class DocumentHandler extends Handler
         $params = $this->includeOptionsInParams(
             $options, [
                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
-                'silent'      => false,
                 'ignoreRevs'  => true,
                 'policy'      => $this->getConnectionOption(ConnectionOptions::OPTION_REPLACE_POLICY),
                 'returnOld'   => (bool) @$options[self::OPTION_RETURN_OLD],
@@ -659,6 +694,12 @@ class DocumentHandler extends Handler
         $url    = UrlHelper::buildUrl($url, [$collection, $documentId]);
         $url    = UrlHelper::appendParamsUrl($url, $params);
         $result = $this->getConnection()->put($url, $this->json_encode_wrapper($data), $headers);
+
+        if (@$params[self::OPTION_SILENT]) {
+          // nothing will be returned here
+          return null;
+        }
+
         $json   = $result->getJson();
         $document->setRevision($json[$_documentClass::ENTRY_REV]);
         
@@ -680,6 +721,10 @@ class DocumentHandler extends Handler
      *                           <p>Options are :
      *                           <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
      *                           <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                           <li>'silent' -  whether or not to return information about the replaced document (e.g. _key and _rev).</li>
+     *                           <li>'ifMatch' - boolean if given revision should match or not</li>
+     *                           <li>'revision' - The document is returned if it matches/not matches revision.</li></p>
+     *                           <li>'returnOld' -  if set to true, then the previous version of the document will be returned.</li>
      *                           </p>
      *
      * @return bool - always true, will throw if there is an error
@@ -702,36 +747,15 @@ class DocumentHandler extends Handler
      *                             <p>Options are :
      *                             <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
      *                             <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
+     *                             <li>'silent' -  whether or not to return information about the replaced document (e.g. _key and _rev).</li>
+     *                             <li>'ifMatch' - boolean if given revision should match or not</li>
+     *                             <li>'revision' - The document is returned if it matches/not matches revision.</li></p>
+     *                             <li>'returnOld' -  if set to true, then the previous version of the document will be returned.</li>
      *                             </p>
      *
      * @return bool - always true, will throw if there is an error
      */
     public function removeById($collection, $documentId, $revision = null, array $options = [])
-    {
-        return $this->erase(Urls::URL_DOCUMENT, $collection, $documentId, $revision, $options);
-    }
-
-
-    /**
-     * Remove a document from a collection (internal method)
-     *
-     * @throws Exception
-     *
-     * @param string $url          - the server-side URL being called
-     * @param string $collection   - collection id as string or number
-     * @param mixed  $documentId   - document id as string or number
-     * @param mixed  $revision     - optional revision of the document to be deleted
-     * @param array  $options      - optional, array of options
-     *                             <p>Options are :
-     *                             <li>'policy' - update policy to be used in case of conflict ('error', 'last' or NULL [use default])</li>
-     *                             <li>'waitForSync' - can be used to force synchronisation of the document removal operation to disk even in case that the waitForSync flag had been disabled for the entire collection</li>
-     *                             </p>
-     *
-     * @internal
-     *
-     * @return bool - always true, will throw if there is an error
-     */
-    protected function erase($url, $collection, $documentId, $revision = null, array $options = [])
     {
         $headers = [];
         $this->addTransactionHeader($headers, $collection);
@@ -741,7 +765,6 @@ class DocumentHandler extends Handler
         $params = $this->includeOptionsInParams(
             $options, [
                 'waitForSync' => $this->getConnectionOption(ConnectionOptions::OPTION_WAIT_SYNC),
-                'silent'      => false,
                 'ignoreRevs'  => true,
                 'policy'      => $this->getConnectionOption(ConnectionOptions::OPTION_DELETE_POLICY),
                 'returnOld'   => (bool) @$options[self::OPTION_RETURN_OLD],
@@ -758,7 +781,7 @@ class DocumentHandler extends Handler
             }
         }
 
-        $url = UrlHelper::buildUrl($url, [$collection, $documentId]);
+        $url = UrlHelper::buildUrl(Urls::URL_DOCUMENT, [$collection, $documentId]);
         $url = UrlHelper::appendParamsUrl($url, $params);
         
         if (@$options[self::OPTION_RETURN_OLD]) {

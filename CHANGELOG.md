@@ -18,6 +18,9 @@ The `Cursor` class will now fetch outstanding cursor result data via HTTP POST r
 the same address. The change is necessary because fetching further results is not an 
 idempotent operation, but the HTTP standard requires PUT operations to be idempotent.
 
+Extended maximum valid length for collection names to 256, up from 64 before. This follows a
+change in the ArangoDB server.
+
 ## Release notes for the ArangoDB-PHP driver 3.7.x
 
 The corresponding ArangoDB version, ArangoDB 3.7 has dropped support for the MMFiles storage

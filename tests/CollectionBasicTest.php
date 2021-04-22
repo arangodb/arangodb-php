@@ -87,6 +87,64 @@ class CollectionBasicTest extends
 
         static::assertEquals(Collection::TYPE_EDGE, $collection->getType());
     }
+    
+    /**
+     * Try to create a collection with a long name
+     */
+    public function testCreateCollectionLongName()
+    {
+        $connection        = $this->connection;
+        $collection        = new Collection();
+        $collectionHandler = new CollectionHandler($connection);
+
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp . '_00000000000000000028477732232578523444444444444444444444444444444444442323232';
+        static::assertTrue(strlen($name) > 64);
+
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
+        $collection->setName($name);
+        $response = $collectionHandler->create($collection);
+
+        static::assertTrue(is_numeric($response), 'Did not return a numeric id!');
+
+        $resultingCollection = $collectionHandler->get($response);
+
+        $resultingAttribute = $resultingCollection->getName();
+        static::assertSame(
+            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
+        );
+
+        static::assertEquals(Collection::getDefaultType(), $resultingCollection->getType());
+
+        $collectionHandler->drop($collection);
+    }
+    
+    
+    /**
+     * Try to create a collection with a too long name
+     */
+    public function testCreateCollectionTooLongName()
+    {
+        $connection        = $this->connection;
+        $collection        = new Collection();
+        $collectionHandler = new CollectionHandler($connection);
+
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp . str_repeat('x', 256);
+        static::assertTrue(strlen($name) > 256);
+
+        $collection->setName($name);
+        try {
+            $collectionHandler->create($collection);
+        } catch (Exception $exception400) {
+            //Silence the exception
+        }
+
+        static::assertEquals(400, $exception400->getCode());
+    }
 
 
     /**
