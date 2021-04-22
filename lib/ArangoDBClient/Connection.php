@@ -425,12 +425,28 @@ class Connection
         }
 
         if (isset($this->_options[ConnectionOptions::OPTION_AUTH_TYPE], $this->_options[ConnectionOptions::OPTION_AUTH_USER])) {
-            // add authorization header
-            $authorizationValue = base64_encode(
-                $this->_options[ConnectionOptions::OPTION_AUTH_USER] . ':' .
-                $this->_options[ConnectionOptions::OPTION_AUTH_PASSWD]
-            );
+            if ($this->_options[ConnectionOptions::OPTION_AUTH_TYPE] == 'Bearer') {
+                // JWT
+                $base = json_encode(['typ' => 'JWT', 'alg' => 'HS256']);
+                $base64UrlHeader = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($base));
+                $payload = json_encode([
+                    'preferred_username' => $this->_options[ConnectionOptions::OPTION_AUTH_USER],
+                    'iss' => 'arangodb',
+                    'iat' => (int) microtime(true),
+                ]);
+                $base64UrlPayload = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($payload));
+                $signature = hash_hmac('sha256', $base64UrlHeader . "." . $base64UrlPayload, $this->_options[ConnectionOptions::OPTION_AUTH_PASSWD], true);
+                $base64UrlSignature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($signature));
+                $authorizationValue = $base64UrlHeader . '.' . $base64UrlPayload . '.' . $base64UrlSignature;
+            } else {
+                // HTTP basic authentication
+                $authorizationValue = base64_encode(
+                    $this->_options[ConnectionOptions::OPTION_AUTH_USER] . ':' .
+                    $this->_options[ConnectionOptions::OPTION_AUTH_PASSWD]
+                );
+            }
 
+            // add authorization header
             $this->_httpHeader .= sprintf(
                 'Authorization: %s %s%s',
                 $this->_options[ConnectionOptions::OPTION_AUTH_TYPE],

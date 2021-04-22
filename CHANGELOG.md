@@ -2,6 +2,18 @@
 
 ## Release notes for the ArangoDB-PHP driver 3.8.x
 
+The driver now supports connecting via JWT if the server's JWT secret is known.
+In order to use a JWT to connect, set the following value in ConnectionOptions:
+```
+$connectionOptions = [
+    ArangoDBClient\ConnectionOptions::OPTION_DATABASE => '_system',              // database name
+    ArangoDBClient\ConnectionOptions::OPTION_ENDPOINT => 'tcp://127.0.0.1:8529', // endpoint to connect to
+    ArangoDBClient\ConnectionOptions::OPTION_AUTH_TYPE => 'Bearer',              // authentication via JWT!
+    ArangoDBClient\ConnectionOptions::OPTION_AUTH_USER => 'root',                // user name
+    ArangoDBClient\ConnectionOptions::OPTION_AUTH_PASSWD => 'jwt-secret-value',  // server's JWT secret value,
+  ];
+```
+
 The driver now supports the following options for document CRUD operations:
 - "overwriteMode"
 - "silent"
