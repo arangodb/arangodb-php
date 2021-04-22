@@ -228,7 +228,7 @@ class CollectionHandler extends Handler
     const OPTION_FIGURES = 'figures';
 
     /**
-     * load option
+     * load option (deprecated)
      */
     const OPTION_LOAD = 'load';
 
@@ -341,7 +341,7 @@ class CollectionHandler extends Handler
     }
 
     /**
-     * unload option
+     * unload option (deprecated)
      */
     const OPTION_UNLOAD = 'unload';
 
@@ -567,6 +567,8 @@ class CollectionHandler extends Handler
      *
      * @param mixed $collection - collection as string or object
      *
+     * @deprecated not necessary anymore
+     *
      * @return HttpResponse - HTTP response object
      */
     public function load($collection)
@@ -587,6 +589,8 @@ class CollectionHandler extends Handler
      * @throws Exception
      *
      * @param mixed $collection - collection as string or object
+     *
+     * @deprecated not necessary anymore
      *
      * @return HttpResponse - HTTP response object
      */

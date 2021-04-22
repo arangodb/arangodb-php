@@ -2,17 +2,6 @@
 
 ## Release notes for the ArangoDB-PHP driver 3.8.x
 
-This version of the PHP driver removes support for the MMFiles storage engine, which was
-deprecated in the arangod server in version 3.6.0, and removed in version 3.7.0..
-
-Updating, replacing or removing documents in the database using a revision id guard value
-may return a different error message in case the revision id value of the found document is
-not as expected.
-Previous versions before 3.7 returned HTTP error 412, an ArangoDB error code 1200 and the 
-error message string "precondition failed". This was changed in version 3.7 to return the 
-same error codes, but an error message string of "conflict". Version 3.8 changes this again
-so the error message string is now "conflict, _rev values do not match".
-
 The `Cursor` class will now fetch outstanding cursor result data via HTTP POST requests to
 `/_api/cursor/<cursor-id>`. It previously fetched further results via HTTP PUT requests from
 the same address. The change is necessary because fetching further results is not an 
@@ -20,6 +9,11 @@ idempotent operation, but the HTTP standard requires PUT operations to be idempo
 
 Extended maximum valid length for collection names to 256, up from 64 before. This follows a
 change in the ArangoDB server.
+
+The driver now supports the following options for document CRUD operations:
+- "overwriteMode"
+- "silent"
+- "keepNull", "mergeObjects" (for insert API if overwriteMode=update)
 
 ## Release notes for the ArangoDB-PHP driver 3.7.x
 
