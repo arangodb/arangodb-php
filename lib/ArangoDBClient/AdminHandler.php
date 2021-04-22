@@ -159,6 +159,8 @@ class AdminHandler extends Handler
      *
      * @throws Exception
      *
+     * @deprecated not necessary anymore
+     *
      * @return bool
      * @since 1.2
      */
@@ -167,6 +169,102 @@ class AdminHandler extends Handler
         $this->getConnection()->post(Urls::URL_ADMIN_ROUTING_RELOAD, '');
 
         return true;
+    }
+    
+    
+    /**
+     * Get the server metrics
+     * Returns the server metrics, as a structured array
+     *
+     * @link  https://www.arangodb.com/docs/stable/http/administration-and-monitoring.html
+     *
+     * This will throw if the metrics cannot be retrieved
+     *
+     * @throws Exception
+     *
+     * @return array
+     *
+     * @since 3.8
+     */
+    public function getServerMetrics()
+    {
+        $url      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_METRICS, []);
+        $response = $this->getConnection()->get($url);
+
+        $metrics = [];
+
+        foreach (explode("\n", $response->getBody()) as $line) {
+            if (trim($line) == "") {
+                continue;
+            }
+            if ($line[0] == "#") {
+                // type or help
+                if (!preg_match("/^#\s*([^\s]+)\s+([^\s]+)\s+(.*)$/", $line, $matches)) {
+                  throw new ClientException('Invalid metrics API output line: "' . $line. '"');
+                }
+
+                $metric = $matches[2];
+                if (!isset($metrics[$metric])) {
+                    $metrics[$metric] = ["name" => $metric];
+                }
+
+                $metrics[$metric][strtolower($matches[1])] = $matches[3];
+            } else {
+                // metric value
+                if (!preg_match("/^([^\s]+?)(\{.*?\})?\s+(.+)$\s*$/", $line, $matches)) {
+                  throw new ClientException('Invalid metrics API output line: "' . $line. '"');
+                }
+                
+                $metric = $matches[1];
+                $sub = null;
+                if (preg_match("/_(sum|count|bucket)$/", $metric, $sub)) {
+                    // sum, count, buckets
+                    $metric = substr($metric, 0, -1 - strlen($sub[1]));
+                }
+                
+                if (!isset($metrics[$metric])) {
+                    $metrics[$metric] = [];
+                }
+
+                $le = null;
+                // labels
+                if ($matches[2] != "") {
+                    $labels = substr($matches[2], 1, strlen($matches[2]) - 2);
+                    foreach (explode(",", $labels) as $label) {
+                        $parts = explode("=", $label);
+                        $key = trim($parts[0]);
+                        $value = trim($parts[1], " \"");
+                        if (!isset($metrics[$metric]["labels"])) {
+                            $metrics[$metric]["labels"] = []; 
+                        }
+                        if ($key != "le") {
+                            $metrics[$metric]["labels"][$key] = $value;
+                        } else {
+                            $le = $value;
+                        }
+                    }
+                }
+                
+                // cast to number
+                $value = $matches[3] + 0;
+                
+                if ($sub == null) {
+                    // counter
+                    $metrics[$metric]["value"] = $value;
+                } else if ($sub[1] == "bucket") {
+                    // bucket value
+                    if (!isset($metrics[$metric]["buckets"])) {
+                        $metrics[$metric]["buckets"] = [];
+                    }
+                    $metrics[$metric]["buckets"][$le] = $value;
+                } else {
+                    // sum, count
+                    $metrics[$metric][$sub[1]] = $value;
+                }
+            }
+        }
+
+        return $metrics;
     }
 
 
@@ -189,6 +287,8 @@ class AdminHandler extends Handler
      * @return array
      *
      * @see   getServerStatisticsDescription()
+     *
+     * @deprecated use metrics API instead
      *
      * @since 1.3
      */
@@ -223,6 +323,8 @@ class AdminHandler extends Handler
      * @return array
      *
      * @see   getServerStatistics()
+     *
+     * @deprecated use metrics API instead
      *
      * @since 1.3
      */

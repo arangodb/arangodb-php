@@ -133,6 +133,35 @@ class AdminTest extends
         static::assertArrayHasKey('text', $result);
         static::assertArrayHasKey('totalAmount', $result);
     }
+    
+    
+    /**
+     * Test if we can get the server metrics
+     */
+    public function testGetServerMetrics()
+    {
+        $result = $this->adminHandler->getServerMetrics();
+
+        static::assertTrue(count($result) > 50, "must have at least 50 metrics");
+
+        static::assertTrue(isset($result["arangodb_server_statistics_server_uptime_total"]));
+        $metric = $result["arangodb_server_statistics_server_uptime_total"];
+        static::assertEquals("arangodb_server_statistics_server_uptime_total", $metric["name"]);
+        static::assertTrue(is_string($metric["help"]));
+        static::assertEquals("counter", $metric["type"]);
+        static::assertTrue(is_numeric($metric["value"]));
+        static::assertTrue($metric["value"] > 0);
+
+        static::assertTrue(isset($result["arangodb_client_connection_statistics_connection_time"]));
+        $metric = $result["arangodb_client_connection_statistics_connection_time"];
+        static::assertEquals("arangodb_client_connection_statistics_connection_time", $metric["name"]);
+        static::assertTrue(is_string($metric["help"]));
+        static::assertEquals("histogram", $metric["type"]);
+        static::assertFalse(isset($metric["value"]));
+        static::assertTrue(is_numeric($metric["count"]));
+        static::assertTrue(is_numeric($metric["sum"]));
+        static::assertTrue(is_array($metric["buckets"]));
+    }
 
 
     /**

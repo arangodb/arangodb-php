@@ -194,22 +194,27 @@ abstract class Urls
     const URL_ADMIN_LOG = '/_admin/log';
 
     /**
-     * base URL part for admin routing reload
+     * base URL part for admin routing reload (deprecated)
      */
     const URL_ADMIN_ROUTING_RELOAD = '/_admin/routing/reload';
-
+    
     /**
      * base URL part for admin statistics
+     */
+    const URL_ADMIN_METRICS = '/_admin/metrics/v2';
+
+    /**
+     * base URL part for admin statistics (deprecated)
      */
     const URL_ADMIN_STATISTICS = '/_admin/statistics';
 
     /**
-     * base URL part for admin statistics-description
+     * base URL part for admin statistics-description (deprecated)
      */
     const URL_ADMIN_STATISTICS_DESCRIPTION = '/_admin/statistics-description';
 
     /**
-     * base URL part for AQL user functions statistics
+     * base URL part for AQL user functions
      */
     const URL_AQL_USER_FUNCTION = '/_api/aqlfunction';
 
