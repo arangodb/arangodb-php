@@ -41,9 +41,18 @@ class AdminTest extends
     {
         $result = $this->adminHandler->getEngineStats();
         static::assertTrue(is_array($result));
-        static::assertTrue(isset($result["cache.limit"]));
-        static::assertTrue(isset($result["cache.allocated"]));
-        static::assertTrue(isset($result["columnFamilies"]));
+
+        if (isCluster($this->connection)) {
+            foreach ($result as $server => $entry) {
+                static::assertTrue(isset($entry["cache.limit"]));
+                static::assertTrue(isset($entry["cache.allocated"]));
+                static::assertTrue(isset($entry["columnFamilies"]));
+            }
+        } else {
+            static::assertTrue(isset($result["cache.limit"]));
+            static::assertTrue(isset($result["cache.allocated"]));
+            static::assertTrue(isset($result["columnFamilies"]));
+        }
     }
 
 
@@ -96,11 +105,11 @@ class AdminTest extends
     public function testGetServerLogEntries()
     {
         $result = $this->adminHandler->getServerLogEntries();
-        static::assertTrue(is_array($result), 'Should be an array');
+        static::assertTrue(is_array($result['messages']), 'Should be an array');
 
-        foreach ($result as $entry) {
+        foreach ($result['messages'] as $entry) {
             static::assertArrayHasKey('id', $entry);
-            static::assertArrayHasKey('topc', $entry);
+            static::assertArrayHasKey('topic', $entry);
             static::assertArrayHasKey('level', $entry);
             static::assertArrayHasKey('date', $entry);
             static::assertArrayHasKey('message', $entry);
