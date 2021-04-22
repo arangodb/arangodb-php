@@ -177,6 +177,11 @@ abstract class Urls
      * URL for storage engine
      */
     const URL_ENGINE = '/_api/engine';
+    
+    /**
+     * URL for storage engine stats
+     */
+    const URL_ENGINE_STATS = '/_api/engine/stats';
 
     /**
      * URL for admin version

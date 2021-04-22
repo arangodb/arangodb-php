@@ -29,7 +29,7 @@ class AdminHandler extends Handler
     const OPTION_DETAILS = 'details';
     
     /**
-     * Get the server's storage engine
+     * Get the server's storage engine 
      *
      * This will throw if the engine data cannot be retrieved
      *
@@ -41,6 +41,22 @@ class AdminHandler extends Handler
     public function getEngine() 
     {
         $response = $this->getConnection()->get(Urls::URL_ENGINE);
+        return $response->getJson();
+    }
+    
+    /**
+     * Get the server's storage engine statistics
+     *
+     * This will throw if the engine data cannot be retrieved
+     *
+     * @throws Exception
+     *
+     * @return mixed - an object returning the engine statistics
+     * @since 3.8
+     */
+    public function getEngineStats() 
+    {
+        $response = $this->getConnection()->get(Urls::URL_ENGINE_STATS);
         return $response->getJson();
     }
 
