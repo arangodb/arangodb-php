@@ -2575,6 +2575,165 @@ class CollectionExtendedTest extends
         $response = $collectionHandler->drop($collection);
         static::assertTrue($response, 'Delete should return true!');
     }
+    
+    
+    /**
+     * Test if we can create an array index
+     */
+    public function testCreateArrayIndex()
+    {
+        // set up collections and index
+        $collectionHandler = $this->collectionHandler;
+
+        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]);
+        $collectionHandler->create($collection);
+
+        $indexRes = $collectionHandler->index(
+            $collection->getName(),
+            'persistent',
+            ['names[*].first'],
+        );
+
+        static::assertArrayHasKey(
+            'isNewlyCreated',
+            $indexRes,
+            'index creation result should have the isNewlyCreated key !'
+        );
+
+        // Check if the index is returned in the indexes of the collection
+        $indexes = $collectionHandler->getIndexes($collection->getName());
+        static::assertSame('names[*].first', $indexes['indexes'][1]['fields'][0]);
+
+        // Drop the index
+        $collectionHandler->dropIndex($indexes['indexes'][1]['id']);
+
+        // Clean up...
+        $response = $collectionHandler->drop($collection);
+        static::assertTrue($response, 'Delete should return true!');
+    }
+    
+    
+    /**
+     * Test if we can create an array index with deduplicate option
+     */
+    public function testCreateArrayIndexWithDeduplicateOption()
+    {
+        // set up collections and index
+        $collectionHandler = $this->collectionHandler;
+
+        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]);
+        $collectionHandler->create($collection);
+
+        $indexRes = $collectionHandler->index(
+            $collection->getName(),
+            'persistent',
+            ['names[*].first'],
+            false,
+            ['deduplicate' => true]
+        );
+
+        static::assertArrayHasKey(
+            'isNewlyCreated',
+            $indexRes,
+            'index creation result should have the isNewlyCreated key !'
+        );
+        
+        static::assertTrue($indexRes['deduplicate']);
+
+        // Check if the index is returned in the indexes of the collection
+        $indexes = $collectionHandler->getIndexes($collection->getName());
+        static::assertSame('names[*].first', $indexes['indexes'][1]['fields'][0]);
+        static::assertTrue($indexes['indexes'][1]['deduplicate']);
+
+        // Drop the index
+        $collectionHandler->dropIndex($indexes['indexes'][1]['id']);
+
+        // Clean up...
+        $response = $collectionHandler->drop($collection);
+        static::assertTrue($response, 'Delete should return true!');
+    }
+    
+    
+    /**
+     * Test if we can create an array index with deduplicate option
+     */
+    public function testCreateIndexWithDisabledEstimates()
+    {
+        // set up collections and index
+        $collectionHandler = $this->collectionHandler;
+
+        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]);
+        $collectionHandler->create($collection);
+
+        $indexRes = $collectionHandler->index(
+            $collection->getName(),
+            'persistent',
+            ['value'],
+            false,
+            ['estimates' => false]
+        );
+
+        static::assertArrayHasKey(
+            'isNewlyCreated',
+            $indexRes,
+            'index creation result should have the isNewlyCreated key !'
+        );
+        
+        static::assertFalse($indexRes['estimates']);
+
+        // Check if the index is returned in the indexes of the collection
+        $indexes = $collectionHandler->getIndexes($collection->getName());
+        static::assertSame('value', $indexes['indexes'][1]['fields'][0]);
+        static::assertFalse($indexes['indexes'][1]['estimates']);
+
+        // Drop the index
+        $collectionHandler->dropIndex($indexes['indexes'][1]['id']);
+
+        // Clean up...
+        $response = $collectionHandler->drop($collection);
+        static::assertTrue($response, 'Delete should return true!');
+    }
+    
+    /**
+     * Test if we can create a ttl index 
+     */
+    public function testCreateTtlIndex()
+    {
+        // set up collections and index
+        $collectionHandler = $this->collectionHandler;
+
+        $collection = Collection::createFromArray(['name' => 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp]);
+        $collectionHandler->create($collection);
+
+        $indexRes = $collectionHandler->index(
+            $collection->getName(),
+            'ttl',
+            ['expiresAt'],
+            false,
+            ['expireAfter' => 10000]
+        );
+
+        static::assertArrayHasKey(
+            'isNewlyCreated',
+            $indexRes,
+            'index creation result should have the isNewlyCreated key !'
+        );
+
+        static::assertArrayHasKey('expireAfter', $indexRes);
+        static::assertEquals(10000, $indexRes['expireAfter']);
+
+        // Check if the index is returned in the indexes of the collection
+        $indexes = $collectionHandler->getIndexes($collection->getName());
+        static::assertSame('expiresAt', $indexes['indexes'][1]['fields'][0]);
+        static::assertSame(10000, $indexes['indexes'][1]['expireAfter']);
+
+        // Drop the index
+        $collectionHandler->dropIndex($indexes['indexes'][1]['id']);
+
+        // Clean up...
+        $response = $collectionHandler->drop($collection);
+        static::assertTrue($response, 'Delete should return true!');
+    }
 
 
     /**
