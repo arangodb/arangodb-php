@@ -48,7 +48,85 @@ class CollectionExtendedTest extends
         }
 
         $adminHandler = new AdminHandler($this->connection);
-        $this->isMMFilesEngine   = ($adminHandler->getEngine()["name"] == "mmfiles"); 
+    }
+    
+    
+    /**
+     * test for creation with a schema
+     */
+    public function testCreateWithNoSchema()
+    {
+        $collection        = $this->collection;
+        $collectionHandler = $this->collectionHandler;
+
+        $resultingAttribute = $collection->getSchema();
+        static::assertNull($resultingAttribute, 'Default schema in collection should be NULL!');
+
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
+        $collection->setName($name);
+
+
+        $response = $collectionHandler->create($collection);
+
+        static::assertTrue(is_numeric($response), 'Adding collection did not return an id!');
+
+        $properties = $collectionHandler->get($name);
+        static::assertNull($properties->getSchema()); 
+    }
+    
+    
+    /**
+     * test for creation with schema
+     */
+    public function testCreateWithSchema()
+    {
+        $collection        = $this->collection;
+        $collectionHandler = $this->collectionHandler;
+
+        $resultingAttribute = $collection->getSchema();
+        static::assertNull($resultingAttribute, 'Default schema in collection should be NULL!');
+
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
+        $collection->setName($name);
+
+        $schema = [
+            "level" => "strict",
+            "rule" => [
+                "type" => "object",
+                "properties" => [
+                    "numArray" => [
+                        "type" => "array",
+                        "items" => [
+                            "type" => "number",
+                            "maximum" => 6
+                        ]
+                    ],
+                    "name" => [
+                        "type" => "string",
+                        "minLength" => 4,
+                        "maxLength" => 10
+                    ],
+                    "number" => [
+                        "type" => "number",
+                        "items" => [
+                            "minimum" => 1000000
+                        ]
+                    ]
+                ],
+                "additionalProperties" => false
+            ],
+            "message" => "Schema validation failed"
+        ];
+
+        $collection->setSchema($schema);
+        static::assertEquals($schema, $collection->getSchema()); 
+
+        $response = $collectionHandler->create($collection);
+
+        static::assertTrue(is_numeric($response), 'Adding collection did not return an id!');
+
+        $collectionWithSchema = $collectionHandler->getProperties($name);
+        static::assertEquals($schema, $collectionWithSchema->getSchema()); 
     }
 
 
@@ -72,41 +150,6 @@ class CollectionExtendedTest extends
         static::assertTrue(is_numeric($response), 'Adding collection did not return an id!');
 
         $collectionHandler->get($name);
-
-        $response = $collectionHandler->drop($collection);
-        static::assertTrue($response, 'Delete should return true!');
-    }
-
-
-    /**
-     * test for creation, getProperties, and delete of a volatile (in-memory-only) collection
-     */
-    public function testCreateGetAndDeleteVolatileCollection()
-    {
-        if (!$this->isMMFilesEngine) {
-            $this->markTestSkipped("test is only meaningful with the mmfiles engine");
-        }
-
-        $collection        = $this->collection;
-        $collectionHandler = $this->collectionHandler;
-
-        $resultingAttribute = $collection->getIsVolatile();
-        static::assertNull($resultingAttribute, 'Default waitForSync in API should be NULL!');
-
-        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
-        $collection->setName($name);
-        $collection->setIsVolatile(true);
-
-
-        $response = $collectionHandler->create($collection);
-
-        static::assertTrue(is_numeric($response), 'Adding collection did not return an id!');
-
-        $collectionHandler->get($name);
-
-        $properties = $collectionHandler->getProperties($name);
-        static::assertTrue((!$this->isMMFilesEngine) || $properties->getIsVolatile(), '"isVolatile" should be true!');
-
 
         $response = $collectionHandler->drop($collection);
         static::assertTrue($response, 'Delete should return true!');
@@ -367,18 +410,14 @@ class CollectionExtendedTest extends
     /**
      * test for creation, get, and delete of a collection with waitForSync set to true
      */
-    public function testCreateGetAndDeleteCollectionWithWaitForSyncTrueAndJournalSizeSet()
+    public function testCreateGetAndDeleteCollectionWithWaitForSyncTrue()
     {
         $collection        = $this->collection;
         $collectionHandler = $this->collectionHandler;
         $collection->setWaitForSync(true);
-        $collection->setJournalSize(1024 * 1024 * 2);
         $resultingWaitForSyncAttribute = $collection->getWaitForSync();
-        $resultingJournalSizeAttribute = $collection->getJournalSize();
-
 
         static::assertTrue($resultingWaitForSyncAttribute, 'WaitForSync should be true!');
-        static::assertEquals(1024 * 1024 * 2, $resultingJournalSizeAttribute, 'JournalSize should be 2MB!');
 
         $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
         $collection->setName($name);
@@ -391,11 +430,6 @@ class CollectionExtendedTest extends
             '_waitForSync',
             $properties,
             'waiForSync field should exist, empty or with an id'
-        );
-        static::assertObjectHasAttribute(
-            '_journalSize',
-            $properties,
-            'journalSize field should exist, empty or with an id'
         );
 
         // here we check the collectionHandler->unload() function
@@ -439,9 +473,7 @@ class CollectionExtendedTest extends
 
 
         $resultingWaitForSyncAttribute = $collection->getWaitForSync();
-        $resultingJournalSizeAttribute = $collection->getJournalSize();
         static::assertTrue($resultingWaitForSyncAttribute, 'Server waitForSync should return true!');
-        static::assertEquals(1024 * 1024 * 2, $resultingJournalSizeAttribute, 'JournalSize should be 2MB!');
 
         $response = $collectionHandler->drop($collection);
         static::assertTrue($response, 'Delete should return true!');

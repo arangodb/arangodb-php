@@ -49,26 +49,12 @@ class Collection
     private $_waitForSync;
 
     /**
-     * The collection journalSize value (might be NULL for new collections)
-     *
-     * @var int - journalSize value
-     */
-    private $_journalSize;
-
-    /**
      * The collection isSystem value (might be NULL for new collections)
      *
      * @var bool - isSystem value
      */
     private $_isSystem;
 
-    /**
-     * The collection isVolatile value (might be NULL for new collections)
-     *
-     * @var bool - isVolatile value
-     */
-    private $_isVolatile;
-    
     /**
      * The distributeShardsLike value (might be NULL for new collections)
      *
@@ -131,6 +117,13 @@ class Collection
      * @var array - keyOptions value
      */
     private $_keyOptions;
+    
+    /**
+     * The collection schema value
+     *
+     * @var mixed - schema
+     */
+    private $_schema;
 
     /**
      * Collection id index
@@ -153,11 +146,6 @@ class Collection
     const ENTRY_WAIT_SYNC = 'waitForSync';
 
     /**
-     * Collection 'journalSize' index
-     */
-    const ENTRY_JOURNAL_SIZE = 'journalSize';
-
-    /**
      * Collection 'status' index
      */
     const ENTRY_STATUS = 'status';
@@ -166,17 +154,17 @@ class Collection
      * Collection 'keyOptions' index
      */
     const ENTRY_KEY_OPTIONS = 'keyOptions';
+    
+    /**
+     * Collection 'schema' index
+     */
+    const ENTRY_SCHEMA = 'schema';
 
     /**
      * Collection 'isSystem' index
      */
     const ENTRY_IS_SYSTEM = 'isSystem';
 
-    /**
-     * Collection 'isVolatile' index
-     */
-    const ENTRY_IS_VOLATILE = 'isVolatile';
-    
     /**
      * Collection 'distributeShardsLike' index
      */
@@ -315,9 +303,7 @@ class Collection
         $this->_id                   = null;
         $this->_name                 = null;
         $this->_waitForSync          = null;
-        $this->_journalSize          = null;
         $this->_isSystem             = null;
-        $this->_isVolatile           = null;
         $this->_distributeShardsLike = null;
         $this->_numberOfShards       = null;
         $this->_replicationFactor    = null;
@@ -325,6 +311,7 @@ class Collection
         $this->_shardingStrategy     = null;
         $this->_shardKeys            = null;
         $this->_smartJoinAttribute   = null;
+        $this->_schema               = null;
     }
 
     /**
@@ -372,12 +359,11 @@ class Collection
             self::ENTRY_ID           => $this->_id,
             self::ENTRY_NAME         => $this->_name,
             self::ENTRY_WAIT_SYNC    => $this->_waitForSync,
-            self::ENTRY_JOURNAL_SIZE => $this->_journalSize,
             self::ENTRY_IS_SYSTEM    => $this->_isSystem,
-            self::ENTRY_IS_VOLATILE  => $this->_isVolatile,
             self::ENTRY_TYPE         => $this->_type,
             self::ENTRY_STATUS       => $this->_status,
-            self::ENTRY_KEY_OPTIONS  => $this->_keyOptions
+            self::ENTRY_KEY_OPTIONS  => $this->_keyOptions,
+            self::ENTRY_SCHEMA       => $this->_schema
         ];
         
         if (null !== $this->_distributeShardsLike) {
@@ -407,6 +393,8 @@ class Collection
         if (null !== $this->_smartJoinAttribute) {
             $result[self::ENTRY_SMART_JOIN_ATTRIBUTE] = $this->_smartJoinAttribute;
         }
+        
+        $result[self::ENTRY_SCHEMA] = $this->_schema;
 
         return $result;
     }
@@ -447,18 +435,8 @@ class Collection
             return;
         }
 
-        if ($key === self::ENTRY_JOURNAL_SIZE) {
-            $this->setJournalSize($value);
-            return;
-        }
-
         if ($key === self::ENTRY_IS_SYSTEM) {
             $this->setIsSystem($value);
-            return;
-        }
-
-        if ($key === self::ENTRY_IS_VOLATILE) {
-            $this->setIsVolatile($value);
             return;
         }
 
@@ -474,6 +452,11 @@ class Collection
 
         if ($key === self::ENTRY_KEY_OPTIONS) {
             $this->setKeyOptions($value);
+            return;
+        }
+        
+        if ($key === self::ENTRY_SCHEMA) {
+            $this->setSchema($value);
             return;
         }
         
@@ -577,6 +560,31 @@ class Collection
     public function getName()
     {
         return $this->_name;
+    }
+
+    
+    /**
+      * Set the collection schema
+     *
+     * @param mixed $schema - schema
+     *
+     * @return void
+     */
+    public function setSchema($schema)
+    {
+        assert(is_null($schema) || is_array($schema));
+
+        $this->_schema = $schema;
+    }
+
+    /**
+     * Get the collection schema (if any)
+     *
+     * @return mixed - schema
+     */
+    public function getSchema()
+    {
+        return $this->_schema;
     }
 
     /**
@@ -717,29 +725,6 @@ class Collection
     }
 
     /**
-     * Set the journalSize value
-     *
-     * @param int $value - journalSize value
-     *
-     * @return void
-     */
-    public function setJournalSize($value)
-    {
-        assert(is_numeric($value));
-        $this->_journalSize = $value;
-    }
-
-    /**
-     * Get the journalSize value (if already known)
-     *
-     * @return int - journalSize value
-     */
-    public function getJournalSize()
-    {
-        return $this->_journalSize;
-    }
-
-    /**
      * Set the isSystem value
      *
      * @param bool $value - isSystem: false->user collection, true->system collection
@@ -762,29 +747,6 @@ class Collection
         return $this->_isSystem;
     }
 
-    /**
-     * Set the isVolatile value
-     *
-     * @param bool $value - isVolatile value
-     *
-     * @return void
-     */
-    public function setIsVolatile($value)
-    {
-        assert(null === $value || is_bool($value));
-        $this->_isVolatile = $value;
-    }
-
-    /**
-     * Get the isVolatile value (if already known)
-     *
-     * @return bool - isVolatile value
-     */
-    public function getIsVolatile()
-    {
-        return $this->_isVolatile;
-    }
-    
     /**
      * Set the distribute shards like value
      *

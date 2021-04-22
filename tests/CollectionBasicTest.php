@@ -39,7 +39,6 @@ class CollectionBasicTest extends
         $this->collectionHandler->create('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp);
 
         $adminHandler = new AdminHandler($this->connection);
-        $this->isMMFilesEngine         = ($adminHandler->getEngine()["name"] == "mmfiles"); 
     }
 
 
@@ -745,41 +744,6 @@ class CollectionBasicTest extends
         );
 
         static::assertEquals(Collection::TYPE_EDGE, $resultingCollection->getType());
-
-        $collectionHandler->drop($name);
-    }
-
-
-    /**
-     * Try to create and delete an edge collection not using an edge object
-     */
-    public function testCreateAndDeleteVolatileCollectionWithoutCreatingObject()
-    {
-        if (!$this->isMMFilesEngine) {
-            $this->markTestSkipped("test is only meaningful with the mmfiles engine");
-        }
-
-        $connection        = $this->connection;
-        $collectionHandler = new CollectionHandler($connection);
-
-        $name = 'ArangoDB_PHP_TestSuite_TestCollection_02' . '_' . static::$testsTimestamp;
-
-        try {
-            $collectionHandler->drop($name);
-        } catch (Exception $e) {
-            //Silence the exception
-        }
-
-        $options = ['isVolatile' => true];
-        $collectionHandler->create($name, $options);
-        $resultingCollection = $collectionHandler->get($name);
-
-        $resultingAttribute = $resultingCollection->getName();
-        static::assertSame(
-            $name, $resultingAttribute, 'The created collection name and resulting collection name do not match!'
-        );
-        $resultingCollectionProperties = $collectionHandler->getProperties($name);
-        static::assertTrue((!$this->isMMFilesEngine) || $resultingCollectionProperties->getIsVolatile());
 
         $collectionHandler->drop($name);
     }

@@ -2,6 +2,18 @@
 
 ## Release notes for the ArangoDB-PHP driver 3.8.x
 
+In this version of the PHP driver the following classes are deprecated, because their
+corresponding server-side APIs have been deprecated in ArangoDB 3.8:
+
+- class Export, class ExportCursor: use AQL streaming queries instead
+- class Traversal: use AQL traversals instead
+- class Batch, and issuing batch requests via them
+
+In addition, the following functionality is deprecated:
+
+- CollectionHandler::load()
+- CollectionHandler::unload()
+
 The `Cursor` class will now fetch outstanding cursor result data via HTTP POST requests to
 `/_api/cursor/<cursor-id>`. It previously fetched further results via HTTP PUT requests from
 the same address. The change is necessary because fetching further results is not an 
@@ -14,6 +26,14 @@ The driver now supports the following options for document CRUD operations:
 - "overwriteMode"
 - "silent"
 - "keepNull", "mergeObjects" (for insert API if overwriteMode=update)
+
+The following options have been removed in class Collection:
+- isVolatile
+- journalSize
+
+The following functions have been removed in class Collection:
+- setJournalSize(), getJournalSize()
+- setIsVolatile(), getIsVolatile()
 
 ## Release notes for the ArangoDB-PHP driver 3.7.x
 
