@@ -87,6 +87,25 @@ class AdminTest extends
         $result = $this->adminHandler->getServerTime();
         static::assertTrue(is_float($result), 'Time must be a double (float)!');
     }
+    
+    
+    /**
+     * Test if we can get the server log
+     * Rather dumb tests just checking that an array is returned
+     */
+    public function testGetServerLogEntries()
+    {
+        $result = $this->adminHandler->getServerLogEntries();
+        static::assertTrue(is_array($result), 'Should be an array');
+
+        foreach ($result as $entry) {
+            static::assertArrayHasKey('id', $entry);
+            static::assertArrayHasKey('topc', $entry);
+            static::assertArrayHasKey('level', $entry);
+            static::assertArrayHasKey('date', $entry);
+            static::assertArrayHasKey('message', $entry);
+        }
+    }
 
 
     /**

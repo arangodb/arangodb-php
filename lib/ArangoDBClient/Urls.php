@@ -194,9 +194,14 @@ abstract class Urls
     const URL_ADMIN_TIME = '/_admin/time';
 
     /**
-     * URL for admin log
+     * URL for admin log (deprecated)
      */
     const URL_ADMIN_LOG = '/_admin/log';
+    
+    /**
+     * URL for admin log entries
+     */
+    const URL_ADMIN_LOG_ENTRIES = '/_admin/log/entries';
 
     /**
      * base URL part for admin routing reload (deprecated)

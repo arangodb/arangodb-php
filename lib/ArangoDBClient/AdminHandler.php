@@ -127,6 +127,44 @@ class AdminHandler extends Handler
 
         return $data['time'];
     }
+    
+    
+    /**
+     * Get the server log entries
+     *
+     * This will throw if the log cannot be retrieved
+     *
+     * @throws Exception
+     *
+     * @param array $options - an array of options that define the result-set:
+     *
+     * <p>Options are :<br>
+     * <li>'upto' - returns all log entries up to a log-level. Note that log-level must be one of:</li>
+     * <p>
+     * <li>fatal / 0</li>
+     * <li>error / 1</li>
+     * <li>warning / 2</li>
+     * <li>info / 3</li>
+     * <li>debug / 4</li>
+     * </p>
+     * <li>'level'  -  limits the log entries to the ones defined in level. Note that `level` and `upto` are mutably exclusive.</li>
+     * <li>'offset' -  skip the first offset entries.</li>
+     * <li>'size'   -  limit the number of returned log-entries to size.</li>
+     * <li>'start'  -  Returns all log entries such that their log-entry identifier is greater or equal to lid.</li>
+     * <li>'sort'   -  Sort the log-entries either ascending if direction is asc, or descending if it is desc according to their lid. Note that the lid imposes a chronological order.</li>
+     * <li>'search' -  Only return the log-entries containing the text string...</li>
+     * </p>
+     *
+     * @return array - an array holding the various attributes of a log: lid, level, timestamp, text and the total amount of log entries before pagination.
+     * @since 1.2
+     */
+    public function getServerLogEntries(array $options = [])
+    {
+        $url      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_LOG_ENTRIES, $options);
+        $response = $this->getConnection()->get($url);
+
+        return $response->getJson();
+    }
 
 
     /**
@@ -154,6 +192,7 @@ class AdminHandler extends Handler
      * <li>'sort'   -  Sort the log-entries either ascending if direction is asc, or descending if it is desc according to their lid. Note that the lid imposes a chronological order.</li>
      * <li>'search' -  Only return the log-entries containing the text string...</li>
      * </p>
+     * @deprecated use getServerLogEntries() instead
      *
      * @return array - an array holding the various attributes of a log: lid, level, timestamp, text and the total amount of log entries before pagination.
      * @since 1.2
