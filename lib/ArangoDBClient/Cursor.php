@@ -833,6 +833,27 @@ class Cursor implements \Iterator
     {
         return $this->getStatValue('filtered');
     }
+    
+    /**
+     * Return the peak memory usage of the query
+     *
+     * @return int
+     */
+    public function getPeakMemoryUsage()
+    {
+        return $this->getStatValue('peakMemoryUsage');
+    }
+    
+    
+    /**
+     * Return the execution time of the query
+     *
+     * @return float
+     */
+    public function getExecutionTime()
+    {
+        return $this->getStatValue('executionTime');
+    }
 
     /**
      * Return the number of HTTP calls that were made to build the cursor result
