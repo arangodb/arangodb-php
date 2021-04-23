@@ -155,6 +155,50 @@ class StatementTest extends
             static::assertEquals(32, $e->getServerCode());
         }
     }
+    
+    
+    /**
+     * Test statistics returned by query
+     */
+    public function testStatisticsPeakMemoryUsage()
+    {
+        $connection = $this->connection;
+        $collection = $this->collection;
+
+        $statement = new Statement($connection, ['_flat' => true]);
+        $statement->setQuery('RETURN (FOR i IN 1..1000 RETURN CONCAT("test", i))');
+        $cursor = $statement->execute();
+
+        $extra = $cursor->getExtra();
+        static::assertEquals([], $extra['warnings']);
+
+        static::assertArrayHasKey('peakMemoryUsage', $extra['stats']);
+        static::assertTrue($extra['stats']['peakMemoryUsage'] > 0);
+        static::assertTrue($cursor->getPeakMemoryUsage() > 0);
+        static::assertEquals($extra['stats']['peakMemoryUsage'], $cursor->getPeakMemoryUsage());
+    }
+    
+    
+    /**
+     * Test statistics returned by query
+     */
+    public function testStatisticsExecutionTime()
+    {
+        $connection = $this->connection;
+        $collection = $this->collection;
+
+        $statement = new Statement($connection, ['_flat' => true]);
+        $statement->setQuery('RETURN SLEEP(3)');
+        $cursor = $statement->execute();
+
+        $extra = $cursor->getExtra();
+        static::assertEquals([], $extra['warnings']);
+
+        static::assertArrayHasKey('executionTime', $extra['stats']);
+        static::assertTrue($extra['stats']['executionTime'] >= 3.0);
+        static::assertTrue($cursor->getExecutionTime() >= 3.0);
+        static::assertEquals($extra['stats']['executionTime'], $cursor->getExecutionTime());
+    }
 
 
     /**
