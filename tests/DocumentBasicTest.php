@@ -321,6 +321,25 @@ class DocumentBasicTest extends
 
         static::assertTrue($documentHandler->remove($document, ['silent' => true]));
     }
+    
+    
+    /**
+     * Try to create and silently delete a document
+     */
+    public function testDeleteDocumentSilentWithError()
+    {
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+        $document        = new Document();
+        $documentHandler = new DocumentHandler($connection);
+
+        $document = Document::createFromArray(['_key' => 'does-not-exist']);
+        try {
+            $documentHandler->removeById($collection, $document, ['silent' => true]);
+        } catch (\Exception $exception404) {
+        }
+        static::assertEquals(404, $exception404->getCode());
+    }
 
 
     /**
