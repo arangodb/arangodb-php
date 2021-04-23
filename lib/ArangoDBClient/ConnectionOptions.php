@@ -169,6 +169,11 @@ class ConnectionOptions implements \ArrayAccess
      * Wait for sync index constant
      */
     const OPTION_IS_SYSTEM = 'isSystem';
+    
+    /**
+     * Authentication JWT
+     */
+    const OPTION_AUTH_JWT = 'Jwt';
 
     /**
      * Authentication user name

@@ -1288,6 +1288,66 @@ class CollectionBasicTest extends
     
     
     /**
+     * count
+     */
+    public function testCollectionCountDetailed()
+    {
+        if (!isCluster($this->connection)) {
+            // don't execute this test in a non-cluster
+            $this->markTestSkipped("test is only meaningful in cluster");
+            return;
+        }
+
+        $connection        = $this->connection;
+        $collectionHandler = new CollectionHandler($connection);
+
+        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
+
+        try {
+            $collectionHandler->drop($name);
+        } catch (Exception $e) {
+            //Silence the exception
+        }
+
+        $collection        = Collection::createFromArray(['name' => $name, 'numberOfShards' => 5]);
+        $collectionHandler->create($collection);
+
+        $count = $collectionHandler->count($collection, false);
+        static::assertEquals(0, $count);
+        
+        $count = $collectionHandler->count($collection, true);
+        static::assertTrue(is_array($count));
+        static::assertEquals(5, count($count));
+
+        foreach ($count as $shard => $value) {
+            static::assertEquals('s', $shard[0]);
+            static::assertEquals(0, $value);
+        }
+        
+        // fill with data 
+        $statement = new Statement($connection, []);
+        $statement->setQuery('FOR i IN 1..1000 INSERT {} IN ' . $collection->getName());
+        $cursor = $statement->execute();
+        
+        $count = $collectionHandler->count($collection, false);
+        static::assertEquals(1000, $count);
+        
+        $count = $collectionHandler->count($collection, true);
+        static::assertTrue(is_array($count));
+        static::assertEquals(5, count($count));
+
+        $sum = 0;
+        foreach ($count as $shard => $value) {
+            static::assertEquals('s', $shard[0]);
+            static::assertTrue($value > 0);
+            $sum += $value;
+        }
+
+        static::assertEquals(1000, $sum);
+    }
+    
+    
+    /**
      * get shards
      */
     public function testGetShards() 
