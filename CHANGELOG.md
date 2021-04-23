@@ -16,11 +16,22 @@ $connectionOptions = [
     ...
     ArangoDBClient\ConnectionOptions::OPTION_AUTH_TYPE => 'Bearer',              // authentication via JWT!
     ArangoDBClient\ConnectionOptions::OPTION_AUTH_USER => 'root',                // user name
-    ArangoDBClient\ConnectionOptions::OPTION_AUTH_PASSWD => 'jwt-secret-value',  // server's JWT secret value,
+    ArangoDBClient\ConnectionOptions::OPTION_AUTH_PASSWD => 'jwt-secret-value',  // server's JWT secret value
   ];
 ```
 Note that the server's JWT _secret_, not a generated JWT, must go into the `OPTION_AUTH_PASSWD` 
 ConnectionOption.
+
+In order to use an already generated JWT without any username, set the ConnectionOptions
+as follows:
+```
+$connectionOptions = [
+    ArangoDBClient\ConnectionOptions::OPTION_DATABASE => '_system',              // database name
+    ArangoDBClient\ConnectionOptions::OPTION_ENDPOINT => 'tcp://127.0.0.1:8529', // endpoint to connect to
+    ...
+    ArangoDBClient\ConnectionOptions::OPTION_AUTH_JWT => '.......',              // full JWT needs to go here
+  ];
+```
 
 The driver now supports the following options for document CRUD operations:
 - "overwriteMode"
