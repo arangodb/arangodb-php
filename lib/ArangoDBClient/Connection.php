@@ -424,9 +424,17 @@ class Connection
             $this->_httpHeader .= sprintf('Host: %s%s', Endpoint::getHost($endpoint), HttpHelper::EOL);
         }
 
-        if (isset($this->_options[ConnectionOptions::OPTION_AUTH_TYPE], $this->_options[ConnectionOptions::OPTION_AUTH_USER])) {
+        if (isset($this->_options[ConnectionOptions::OPTION_AUTH_JWT])) {
+            // JWT, used as is 
+            $this->_httpHeader .= sprintf(
+                'Authorization: Bearer %s%s',
+                $this->_options[ConnectionOptions::OPTION_AUTH_JWT],
+                HttpHelper::EOL
+            );
+        } else if (isset($this->_options[ConnectionOptions::OPTION_AUTH_TYPE], $this->_options[ConnectionOptions::OPTION_AUTH_USER])) {
+            // create a JWT for a given user and server's JWT secret 
             if ($this->_options[ConnectionOptions::OPTION_AUTH_TYPE] == 'Bearer') {
-                // JWT
+                // JWT secret
                 $base = json_encode(['typ' => 'JWT', 'alg' => 'HS256']);
                 $base64UrlHeader = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($base));
                 $payload = json_encode([

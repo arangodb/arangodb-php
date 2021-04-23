@@ -394,22 +394,21 @@ class CollectionHandler extends Handler
      * @throws Exception
      *
      * @param mixed $collection - collection id as a string or number
+     * @param bool  $details    - optional, will provide per-shard counts in a cluster
      *
-     * @return int - the number of documents in the collection
+     * @return mixed - int if details=false, the number of documents in the collection, array if details=true
      */
-    public function count($collection)
+    public function count($collection, $details = false)
     {
         $headers    = [];
         $this->addTransactionHeader($headers, $collection);
 
         $collection = $this->makeCollection($collection);
         $url        = UrlHelper::buildUrl(Urls::URL_COLLECTION, [$collection, self::OPTION_COUNT]);
+        $url        = UrlHelper::appendParamsUrl($url, ['details' => $details]);
         $response   = $this->getConnection()->get($url, $headers);
-
-        $data  = $response->getJson();
-        $count = $data[self::OPTION_COUNT];
-
-        return (int) $count;
+        $data       = $response->getJson();
+        return $data[self::OPTION_COUNT];
     }
 
 
