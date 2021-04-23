@@ -302,6 +302,7 @@ class DocumentHandler extends Handler
      *                                 </p>
      *
      * @return mixed - id of document created
+     * @deprecated use insert with overwriteMode=update or overwriteMode=replace instead
      * @since 1.0
      */
     public function store(Document $document, $collection = null, array $options = [])
@@ -355,11 +356,129 @@ class DocumentHandler extends Handler
      */
     public function insert($collection, $document, array $options = [])
     {
+        if (is_array($document)) {
+            $data = $document;
+        } else {
+            $data = $document->getAllForInsertUpdate();
+        }
+        
+        $response = $this->post($collection, $data, $options);
+
+        // This makes sure that if we're in batch mode, it will not go further and choke on the checks below.
+        // Caution: Instead of a document ID, we are returning the batchpart object
+        // The Id of the BatchPart can be retrieved by calling getId() on it.
+        // We're basically returning an object here, in order not to accidentally use the batch part id as the document id
+        if ($batchPart = $response->getBatchPart()) {
+            return $batchPart;
+        }
+        
+        if (@$options[self::OPTION_SILENT]) {
+          // nothing will be returned here
+          return null;
+        }
+        
+        $json = $response->getJson();
+                
+        if (@$options[self::OPTION_RETURN_OLD] || @$options[self::OPTION_RETURN_NEW]) {
+            return $json;
+        }
+
+        $_documentClass = $this->_documentClass;
+        if (is_array($document)) {
+            return $json[$_documentClass::ENTRY_KEY];
+        }
+
+        $document->setInternalKey($json[$_documentClass::ENTRY_KEY]);
+        $document->setInternalId($json[$_documentClass::ENTRY_ID]);
+        $document->setRevision($json[$_documentClass::ENTRY_REV]);
+
+        $location = $response->getLocationHeader();
+        if (!$location) {
+            throw new ClientException('Did not find location header in server response');
+        }
+
+        $id = UrlHelper::getDocumentIdFromLocation($location);
+        if ($id !== $document->getId()) {
+            throw new ClientException('Got an invalid response from the server');
+        }
+
+        $document->setIsNew(false);
+
+        return $document->getId();
+    }
+    
+    
+    /**
+     * insert multiple document into a collection
+     *
+     * This will add the documents to the collection and return the documents' metadata
+     *
+     * This will throw if the documents cannot be saved
+     *
+     * @throws Exception
+     *
+     * @param mixed          $collection - collection id as string or number
+     * @param array          $documents  - the documents to be added, always an array
+     * @param array          $options    - optional, array of options
+     *                                   <p>Options are :<br>
+     *                                   <li>'createCollection' - create the collection if it does not yet exist.</li>
+     *                                   <li>'waitForSync' -  if set to true, then all removal operations will instantly be synchronised to disk / If this is not specified, then the collection's default sync behavior will be applied.</li>
+     *                                   <li>'keepNull' - can be used to instruct ArangoDB to delete existing attributes on update instead setting their values to null. Defaults to true (keep attributes when set to null). only useful with overwriteMode = update</li>
+     *                                   <li>'mergeObjects' - if true, updates to object attributes will merge the previous and the new objects. if false, replaces the object attribute with the new value. only useful with overwriteMode = update</li>
+     *                                   <li>'overwriteMode' -  determines overwrite behavior in case a document with the same _key already exists. possible values: 'ignore', 'update', 'replace', 'conflict'.</li>
+     *                                   <li>'overwrite' -  deprecated: if set to true, will turn the insert into a replace operation if a document with the specified key already exists.</li>
+     *                                   <li>'returnNew' -  if set to true, then the newly created document will be returned.</li>
+     *                                   <li>'returnOld' -  if set to true, then the updated/replaced document will be returned - useful only when using overwriteMode = insert/update.</li>
+     *                                   <li>'silent' -  whether or not to return information about the created document (e.g. _key and _rev).</li>
+     *                                   </p>
+     *
+     * @return array - array of document metadata (one entry per document)
+     * @since 3.8
+     */
+    public function insertMany($collection, array $documents, array $options = [])
+    {
+        $data = [];
+        foreach ($documents as $document) {
+            if (is_array($document)) {
+                $data[] = $document;
+            } else {
+                $data[] = $document->getAllForInsertUpdate();
+            }
+        }
+
+        $response = $this->post($collection, $data, $options);
+
+        // This makes sure that if we're in batch mode, it will not go further and choke on the checks below.
+        // Caution: Instead of a document ID, we are returning the batchpart object
+        // The Id of the BatchPart can be retrieved by calling getId() on it.
+        // We're basically returning an object here, in order not to accidentally use the batch part id as the document id
+        if ($batchPart = $response->getBatchPart()) {
+            return $batchPart;
+        }
+
+        return $response->getJson();
+    }
+    
+    
+    /**
+     * Insert documents into a collection (internal method)
+     *
+     * @throws Exception
+     *
+     * @param string   $collection   - collection id as string or number
+     * @param mixed    $data         - document data
+     * @param array    $options      - array of options
+     *
+     * @internal
+     *
+     * @return HttpResponse - the insert response
+     */
+    protected function post($collection, $data, array $options)
+    {
         $headers = [];
         $this->addTransactionHeader($headers, $collection);
 
         $collection     = $this->makeCollection($collection);
-        $_documentClass = $this->_documentClass;
         
         if (!isset($options[self::OPTION_OVERWRITE_MODE]) &&
             isset($options[self::OPTION_OVERWRITE])) {
@@ -383,60 +502,16 @@ class DocumentHandler extends Handler
 
         $url = UrlHelper::appendParamsUrl(Urls::URL_DOCUMENT . '/' . $collection, $params);
 
-        if (is_array($document)) {
-            $data = $document;
-        } else {
-            $data = $document->getAllForInsertUpdate();
-        }
-
-        $response = $this->getConnection()->post($url, $this->json_encode_wrapper($data), $headers);
-        $json     = $response->getJson();
-
-        // This makes sure that if we're in batch mode, it will not go further and choke on the checks below.
-        // Caution: Instead of a document ID, we are returning the batchpart object
-        // The Id of the BatchPart can be retrieved by calling getId() on it.
-        // We're basically returning an object here, in order not to accidentally use the batch part id as the document id
-        if ($batchPart = $response->getBatchPart()) {
-            return $batchPart;
-        }
-        
-        if (@$params[self::OPTION_SILENT]) {
-          // nothing will be returned here
-          return null;
-        }
-                
-        if ($params[self::OPTION_RETURN_OLD] || $params[self::OPTION_RETURN_NEW]) {
-            return $json;
-        }
-
-        if (is_array($document)) {
-            return $json[$_documentClass::ENTRY_KEY];
-        }
-
-        $location = $response->getLocationHeader();
-        if (!$location) {
-            throw new ClientException('Did not find location header in server response');
-        }
-
-        $id = UrlHelper::getDocumentIdFromLocation($location);
-
-        $document->setInternalKey($json[$_documentClass::ENTRY_KEY]);
-        $document->setInternalId($json[$_documentClass::ENTRY_ID]);
-        $document->setRevision($json[$_documentClass::ENTRY_REV]);
-
-        if ($id !== $document->getId()) {
-            throw new ClientException('Got an invalid response from the server');
-        }
-
-        $document->setIsNew(false);
-
-        return $document->getId();
+        return $this->getConnection()->post($url, $this->json_encode_wrapper($data, false), $headers);
     }
+
     
     /**
      * Insert a document into a collection
      * 
      * This is an alias for insert().
+     *
+     * * @deprecated use insert instead
      */
     public function save($collection, $document, array $options = []) 
     {
@@ -534,7 +609,6 @@ class DocumentHandler extends Handler
         $this->addTransactionHeader($headers, $collection);
 
         $collection     = $this->makeCollection($collection);
-        $_documentClass = $this->_documentClass;
 
         $params = $this->includeOptionsInParams(
             $options, [
@@ -568,7 +642,8 @@ class DocumentHandler extends Handler
           return null;
         }
 
-        $json   = $result->getJson();
+        $json = $result->getJson();
+        $_documentClass = $this->_documentClass;
         $document->setRevision($json[$_documentClass::ENTRY_REV]);
         
         if (@$options[self::OPTION_RETURN_OLD] || @$options[self::OPTION_RETURN_NEW]) {
@@ -668,7 +743,6 @@ class DocumentHandler extends Handler
         $this->addTransactionHeader($headers, $collection);
 
         $collection     = $this->makeCollection($collection);
-        $_documentClass = $this->_documentClass;
 
         $params = $this->includeOptionsInParams(
             $options, [
@@ -700,7 +774,8 @@ class DocumentHandler extends Handler
           return null;
         }
 
-        $json   = $result->getJson();
+        $json = $result->getJson();
+        $_documentClass = $this->_documentClass;
         $document->setRevision($json[$_documentClass::ENTRY_REV]);
         
         if (@$options[self::OPTION_RETURN_OLD] || @$options[self::OPTION_RETURN_NEW]) {

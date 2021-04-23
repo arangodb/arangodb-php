@@ -72,14 +72,15 @@ abstract class Handler
      * Return a json encoded string for the array passed.
      * This is a convenience function that calls json_encode_wrapper on the connection
      *
-     * @param array $body - The body to encode into json
+     * @param mixed $data          the data to encode
+     * @param bool  $forceObjects  whether or not to force JSON objects on empty data
      *
      * @return string - json string of the body that was passed
      * @throws \ArangoDBClient\ClientException
      */
-    protected function json_encode_wrapper($body)
+    protected function json_encode_wrapper($data, $forceObjects = true)
     {
-        return $this->getConnection()->json_encode_wrapper($body);
+        return $this->getConnection()->json_encode_wrapper($data, $forceObjects);
     }
 
 

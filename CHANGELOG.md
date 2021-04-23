@@ -11,6 +11,11 @@ in a previous release and is not available in ArangoDB 3.9 anymore:
 
 ## Release notes for the ArangoDB-PHP driver 3.8.x
 
+Added CollectionHandler::insertMany() method to simplify insertion of multiple documents
+at once. This is now the preferred way of inserting mutliple documents in a single 
+request, and will perform much better than using the `Batch` functionality, which is
+now deprecated.
+
 The driver now supports connecting via JWT if the server's JWT secret is known.
 In order to use a JWT to connect, set the following values in ConnectionOptions:
 ```
