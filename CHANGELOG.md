@@ -3,16 +3,19 @@
 ## Release notes for the ArangoDB-PHP driver 3.8.x
 
 The driver now supports connecting via JWT if the server's JWT secret is known.
-In order to use a JWT to connect, set the following value in ConnectionOptions:
+In order to use a JWT to connect, set the following values in ConnectionOptions:
 ```
 $connectionOptions = [
     ArangoDBClient\ConnectionOptions::OPTION_DATABASE => '_system',              // database name
     ArangoDBClient\ConnectionOptions::OPTION_ENDPOINT => 'tcp://127.0.0.1:8529', // endpoint to connect to
+    ...
     ArangoDBClient\ConnectionOptions::OPTION_AUTH_TYPE => 'Bearer',              // authentication via JWT!
     ArangoDBClient\ConnectionOptions::OPTION_AUTH_USER => 'root',                // user name
     ArangoDBClient\ConnectionOptions::OPTION_AUTH_PASSWD => 'jwt-secret-value',  // server's JWT secret value,
   ];
 ```
+Note that the server's JWT _secret_, not a generated JWT, must go into the `OPTION_AUTH_PASSWD` 
+ConnectionOption.
 
 The driver now supports the following options for document CRUD operations:
 - "overwriteMode"
@@ -44,18 +47,25 @@ corresponding server-side APIs have been deprecated in ArangoDB 3.8:
 
 In addition, the following functionality is deprecated:
 
-- CollectionHandler::load()
-- CollectionHandler::unload()
-- AdminHandler::getServerStatistics()
-- AdminHandler::getServerStatisticsDescription()
+- DocumentHandler::store(): use DocumentHandeler::insert() with overwriteMode instead
+- DocumentHandler::save(): use DocumentHandeler::insert() instead
+- CollectionHandler::load(): should not be necessary anymore
+- CollectionHandler::unload(): should not be necessary anymore
+- AdminHandler::getServerStatistics(): use getServerMetrics() instead
+- AdminHandler::getServerStatisticsDescription(): use getServerMetrics() instead
 
-The following options have been removed in class Collection:
+The following server-side options have been removed in class Collection:
 - isVolatile
 - journalSize
 
-The following functions have been removed in class Collection:
+This also led to the removal of The following functions in class Collection:
 - setJournalSize(), getJournalSize()
 - setIsVolatile(), getIsVolatile()
+
+The original driver namespace `\triagens\ArangoDb` was replaced with `\ArangoDBClient`
+for driver version 3.2. Each class exposed by the driver is also exposed via an alias
+to the old namespace. Using the old namespace `\triagens\ArangoDb` is deprecated and will
+not be supported in future versions of the driver.
 
 ## Release notes for the ArangoDB-PHP driver 3.7.x
 
