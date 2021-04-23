@@ -198,7 +198,12 @@ class DocumentBasicTest extends
 
         $result = $documentHandler->insertMany($collection->getName(), $documents, ['silent' => true]);
         static::assertTrue(is_array($result));
-        static::assertEquals(0, count($result));
+        
+        if (isCluster($this->connection)) {
+            static::assertEquals(4, count($result));
+        } else {
+            static::assertEquals(0, count($result));
+        }
     }
     
     
@@ -257,14 +262,34 @@ class DocumentBasicTest extends
 
         $result = $documentHandler->insertMany($collection->getName(), $documents, ['silent' => true]);
         static::assertTrue(is_array($result));
-        static::assertEquals(2, count($result));
+        
+        if (isCluster($this->connection)) {
+            static::assertEquals(4, count($result));
 
-        foreach ($result as $i => $doc) {
-            static::assertArrayHasKey('error', $doc);
-            static::assertArrayHasKey('errorNum', $doc);
-            static::assertArrayHasKey('errorMessage', $doc);
-            static::assertTrue($doc['error']);
-            static::assertEquals(1210, $doc['errorNum']);
+            foreach ($result as $i => $doc) {
+              if ($i < 2) {
+                  static::assertArrayHasKey('_id', $doc);
+                  static::assertArrayHasKey('_key', $doc);
+                  static::assertArrayHasKey('_rev', $doc);
+                  static::assertEquals('test' . ($i + 1) , $doc['_key']);
+              } else {
+                  static::assertArrayHasKey('error', $doc);
+                  static::assertArrayHasKey('errorNum', $doc);
+                  static::assertArrayHasKey('errorMessage', $doc);
+                  static::assertTrue($doc['error']);
+                  static::assertEquals(1210, $doc['errorNum']);
+              }
+            }
+        } else {
+            static::assertEquals(2, count($result));
+
+            foreach ($result as $i => $doc) {
+                static::assertArrayHasKey('error', $doc);
+                static::assertArrayHasKey('errorNum', $doc);
+                static::assertArrayHasKey('errorMessage', $doc);
+                static::assertTrue($doc['error']);
+                static::assertEquals(1210, $doc['errorNum']);
+            }
         }
     }
     
