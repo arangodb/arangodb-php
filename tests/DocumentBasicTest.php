@@ -73,7 +73,7 @@ class DocumentBasicTest extends
         $document        = Document::createFromArray(['_key' => 'me', 'value' => 1]);
         $documentHandler = new DocumentHandler($connection);
 
-        $document = $documentHandler->insert($collection->getName(), $document, ['silent' => true ]);
+        $document = $documentHandler->insert($collection->getName(), $document, ['silent' => true]);
         static::assertNull($document);
     }
     
@@ -89,7 +89,7 @@ class DocumentBasicTest extends
         $documentHandler = new DocumentHandler($connection);
 
         // insert the document once 
-        $result = $documentHandler->insert($collection->getName(), $document, ['silent' => true ]);
+        $result = $documentHandler->insert($collection->getName(), $document, ['silent' => true]);
         static::assertNull($result);
 
         // and try to insert it again
@@ -111,11 +111,216 @@ class DocumentBasicTest extends
         $document        = Document::createFromArray(['_key' => 'me', 'value' => 1]);
         $documentHandler = new DocumentHandler($connection);
 
-        $document = $documentHandler->insert($collection->getName(), $document, ['returnNew' => true ]);
+        $document = $documentHandler->insert($collection->getName(), $document, ['returnNew' => true]);
 
         static::assertEquals('me', $document['_key']);
         static::assertEquals('me', $document['new']['_key']);
         static::assertEquals(1, $document['new']['value']);
+    }
+    
+    
+    /**
+     * Try to insert many documents
+     */
+    public function testInsertMany()
+    {
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+
+        $documents       = [];
+        $documents[]     = Document::createFromArray(['_key' => 'test1', 'value' => 1]);
+        $documents[]     = Document::createFromArray(['_key' => 'test2', 'value' => 2]);
+        $documents[]     = Document::createFromArray(['_key' => 'test3', 'value' => 3]);
+        $documents[]     = Document::createFromArray(['_key' => 'test4', 'value' => 4]);
+
+        $documentHandler = new DocumentHandler($connection);
+
+        $result = $documentHandler->insertMany($collection->getName(), $documents); 
+        static::assertTrue(is_array($result));
+        static::assertEquals(4, count($result));
+
+        foreach ($result as $i => $doc) {
+            static::assertArrayHasKey('_id', $doc);
+            static::assertArrayHasKey('_key', $doc);
+            static::assertArrayHasKey('_rev', $doc);
+            static::assertEquals('test' . ($i + 1) , $doc['_key']);
+        }
+    }
+    
+    
+    /**
+     * Try to insert many documents, return new
+     */
+    public function testInsertManyReturnNew()
+    {
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+
+        $documents       = [];
+        $documents[]     = Document::createFromArray(['_key' => 'test1', 'value' => 1]);
+        $documents[]     = Document::createFromArray(['_key' => 'test2', 'value' => 2]);
+        $documents[]     = Document::createFromArray(['_key' => 'test3', 'value' => 3]);
+        $documents[]     = Document::createFromArray(['_key' => 'test4', 'value' => 4]);
+
+        $documentHandler = new DocumentHandler($connection);
+
+        $result = $documentHandler->insertMany($collection->getName(), $documents, ['returnNew' => true]);
+        static::assertTrue(is_array($result));
+        static::assertEquals(4, count($result));
+
+        foreach ($result as $i => $doc) {
+            static::assertArrayHasKey('_id', $doc);
+            static::assertArrayHasKey('_key', $doc);
+            static::assertArrayHasKey('_rev', $doc);
+            static::assertEquals('test' . ($i + 1) , $doc['_key']);
+            static::assertArrayHasKey('new', $doc);
+            static::assertEquals('test' . ($i + 1) , $doc['new']['_key']);
+            static::assertEquals($i + 1 , $doc['new']['value']);
+        }
+    }
+    
+    
+    /**
+     * Try to insert many documents, silent
+     */
+    public function testInsertManySilent()
+    {
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+
+        $documents       = [];
+        $documents[]     = Document::createFromArray(['_key' => 'test1', 'value' => 1]);
+        $documents[]     = Document::createFromArray(['_key' => 'test2', 'value' => 2]);
+        $documents[]     = Document::createFromArray(['_key' => 'test3', 'value' => 3]);
+        $documents[]     = Document::createFromArray(['_key' => 'test4', 'value' => 4]);
+
+        $documentHandler = new DocumentHandler($connection);
+
+        $result = $documentHandler->insertMany($collection->getName(), $documents, ['silent' => true]);
+        static::assertTrue(is_array($result));
+        static::assertEquals(0, count($result));
+    }
+    
+    
+    /**
+     * Try to insert many documents, with errors
+     */
+    public function testInsertManyWithErrors()
+    {
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+
+        $documents       = [];
+        $documents[]     = Document::createFromArray(['_key' => 'test1', 'value' => 1]);
+        $documents[]     = Document::createFromArray(['_key' => 'test2', 'value' => 2]);
+        $documents[]     = Document::createFromArray(['_key' => 'test1', 'value' => 3]);
+        $documents[]     = Document::createFromArray(['_key' => 'test2', 'value' => 4]);
+
+        $documentHandler = new DocumentHandler($connection);
+
+        $result = $documentHandler->insertMany($collection->getName(), $documents);
+        static::assertTrue(is_array($result));
+        static::assertEquals(4, count($result));
+
+        foreach ($result as $i => $doc) {
+            if ($i < 2) {
+                static::assertArrayHasKey('_id', $doc);
+                static::assertArrayHasKey('_key', $doc);
+                static::assertArrayHasKey('_rev', $doc);
+                static::assertEquals('test' . ($i + 1) , $doc['_key']);
+            } else {
+                static::assertArrayHasKey('error', $doc);
+                static::assertArrayHasKey('errorNum', $doc);
+                static::assertArrayHasKey('errorMessage', $doc);
+                static::assertTrue($doc['error']);
+                static::assertEquals(1210, $doc['errorNum']);
+            }
+        }
+    }
+    
+    
+    /**
+     * Try to insert many documents, with errors, silent
+     */
+    public function testInsertManySilentWithErrors()
+    {
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+
+        $documents       = [];
+        $documents[]     = Document::createFromArray(['_key' => 'test1', 'value' => 1]);
+        $documents[]     = Document::createFromArray(['_key' => 'test2', 'value' => 2]);
+        $documents[]     = Document::createFromArray(['_key' => 'test1', 'value' => 3]);
+        $documents[]     = Document::createFromArray(['_key' => 'test2', 'value' => 4]);
+
+        $documentHandler = new DocumentHandler($connection);
+
+        $result = $documentHandler->insertMany($collection->getName(), $documents, ['silent' => true]);
+        static::assertTrue(is_array($result));
+        static::assertEquals(2, count($result));
+
+        foreach ($result as $i => $doc) {
+            static::assertArrayHasKey('error', $doc);
+            static::assertArrayHasKey('errorNum', $doc);
+            static::assertArrayHasKey('errorMessage', $doc);
+            static::assertTrue($doc['error']);
+            static::assertEquals(1210, $doc['errorNum']);
+        }
+    }
+    
+    
+    /**
+     * Try to insert many documents, large request
+     */
+    public function testInsertManyLarge()
+    {
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+
+        $documents       = [];
+        for ($i = 0; $i < 5000; ++$i) {
+            $documents[] = ['_key' => 'test' . $i, 'value' => $i];
+        }
+        $documents[]     = ['_key' => 'test0', 'value' => 2];
+
+        $documentHandler = new DocumentHandler($connection);
+
+        $result = $documentHandler->insertMany($collection->getName(), $documents, ['returnNew' => true]);
+        static::assertTrue(is_array($result));
+        static::assertEquals(5001, count($result));
+
+        foreach ($result as $i => $doc) {
+            if ($i < 5000) {
+                static::assertArrayHasKey('_id', $doc);
+                static::assertArrayHasKey('_key', $doc);
+                static::assertArrayHasKey('_rev', $doc);
+                static::assertEquals('test' . $i , $doc['_key']);
+                static::assertArrayHasKey('new', $doc);
+                static::assertEquals('test' . $i , $doc['new']['_key']);
+                static::assertEquals($i , $doc['new']['value']);
+            } else {
+                static::assertArrayHasKey('error', $doc);
+                static::assertArrayHasKey('errorNum', $doc);
+                static::assertArrayHasKey('errorMessage', $doc);
+                static::assertTrue($doc['error']);
+                static::assertEquals(1210, $doc['errorNum']);
+            }
+        }
+    }
+    
+    /**
+     * Try to call insertMany with 0 documents
+     */
+    public function testInsertManyEmpty()
+    {
+        $connection      = $this->connection;
+        $collection      = $this->collection;
+
+        $documentHandler = new DocumentHandler($connection);
+
+        $result = $documentHandler->insertMany($collection->getName(), []);
+        static::assertTrue(is_array($result));
+        static::assertEquals(0, count($result));
     }
     
     

@@ -904,24 +904,19 @@ class Connection
      * internally it calls the check_encoding() method. If that method does not throw
      * an Exception, this method will happily return the json_encoded data.
      *
-     * @param mixed $data    the data to encode
-     * @param mixed $options the options for the json_encode() call
+     * @param mixed $data          the data to encode
+     * @param bool  $forceObjects  whether or not to force JSON objects on empty data
      *
      * @return string the result of the json_encode
      * @throws \ArangoDBClient\ClientException
      */
-    public function json_encode_wrapper($data, $options = 0)
+    public function json_encode_wrapper($data, $forceObjects = true)
     {
         if ($this->_options[ConnectionOptions::OPTION_CHECK_UTF8_CONFORM] === true) {
             self::check_encoding($data);
         }
-        if (empty($data)) {
-            $response = json_encode($data, $options | JSON_FORCE_OBJECT);
-        } else {
-            $response = json_encode($data, $options);
-        }
 
-        return $response;
+        return json_encode($data, (empty($data) && $forceObjects) ? JSON_FORCE_OBJECT : 0);
     }
 
 
