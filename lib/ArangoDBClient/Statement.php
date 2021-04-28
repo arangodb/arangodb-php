@@ -149,6 +149,13 @@ class Statement
      * @var bool
      */
     private $_failOnWarning = false;
+    
+    /**
+     * Whether or not the query should return profiling information
+     *
+     * @var bool
+     */
+    private $_profile = false;
 
     /**
      * Approximate memory limit value (in bytes) that a query can use on the server-side
@@ -201,6 +208,11 @@ class Statement
      * Fail on warning flag
      */
     const ENTRY_FAIL_ON_WARNING = 'failOnWarning';
+    
+    /**
+     * Profile flag
+     */
+    const ENTRY_PROFILE = 'profile';
     
     /**
      * Memory limit threshold for query
@@ -307,6 +319,10 @@ class Statement
         
         if (isset($data[self::ENTRY_FAIL_ON_WARNING])) {
             $this->_failOnWarning = (bool) $data[self::ENTRY_FAIL_ON_WARNING];
+        }
+        
+        if (isset($data[self::ENTRY_PROFILE])) {
+            $this->_profile = (bool) $data[self::ENTRY_PROFILE];
         }
         
         if (isset($data[self::ENTRY_MEMORY_LIMIT])) {
@@ -659,6 +675,28 @@ class Statement
     }
     
     /**
+     * Set whether or not query profiling should be enabled
+     *
+     * @param bool $value - value for profiling
+     *
+     * @return void
+     */
+    public function setProfile($value = true)
+    {
+        $this->_profile = (bool) $value;
+    }
+    
+    /**
+     * Get the configured value for profiling
+     *
+     * @return bool - current value of profiling option
+     */
+    public function getProfiling()
+    {
+        return $this->_profile;
+    }
+    
+    /**
      * Set the approximate memory limit threshold to be used by the query on the server-side
      * (a value of 0 or less will mean the memory is not limited)
      *
@@ -729,7 +767,8 @@ class Statement
             self::ENTRY_COUNT => $this->_doCount,
             'options'         => [
                 self::FULL_COUNT => $this->_fullCount,
-                self::ENTRY_FAIL_ON_WARNING => $this->_failOnWarning
+                self::ENTRY_FAIL_ON_WARNING => $this->_failOnWarning,
+                self::ENTRY_PROFILE => $this->_profile
             ]
         ];
         
