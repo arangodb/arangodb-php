@@ -43,17 +43,26 @@ try {
 
     foreach ($statements as $query => $bindVars) {
         $statement = new Statement($connection, [
-                'query'     => $query,
-                'count'     => true,
-                'batchSize' => 1000,
-                'bindVars'  => $bindVars,
-                'sanitize'  => true,
+                'query'       => $query,
+                'count'       => true,
+                'batchSize'   => 1000,
+                'bindVars'    => $bindVars,
+                'profile'     => false, // turn this on for query profiling
+                'memoryLimit' => 16 * 1024 * 1024, // optional server-side memory limit for query
+                'maxRuntime'  => 10.0, // optional server-side runtime for query
+                'sanitize'    => true,
+                '_flat'       => false, // set this to true when the query result is not an array of documents
+
             ]
         );
 
         echo 'RUNNING STATEMENT ' . $statement . PHP_EOL;
 
         $cursor = $statement->execute();
+
+        // get information about query runtime, peak memory usage etc.
+        // var_dump($cursor->getExtra());
+
         foreach ($cursor->getAll() as $doc) {
             echo '- RETURN VALUE: ' . json_encode($doc) . PHP_EOL;
         }

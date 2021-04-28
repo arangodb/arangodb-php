@@ -44,11 +44,20 @@ $connectionOptions = [
     // ConnectionOptions::OPTION_ENDPOINT        => 'unix:///tmp/arangodb.sock',  // UNIX domain socket
 
     ConnectionOptions::OPTION_CONNECTION  => 'Keep-Alive',            // can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
-    ConnectionOptions::OPTION_AUTH_TYPE   => 'Basic',                 // use basic authorization
 
-    // authentication parameters (note: must also start server with option `--server.disable-authentication false`)
-    ConnectionOptions::OPTION_AUTH_USER   => 'root',                  // user for basic authorization
-    ConnectionOptions::OPTION_AUTH_PASSWD => '',                      // password for basic authorization
+    // authentication parameters
+    ConnectionOptions::OPTION_AUTH_TYPE   => 'Basic',                 // use HTTP Basic authorization
+    ConnectionOptions::OPTION_AUTH_USER   => 'root',                  // user for Basic authorization
+    ConnectionOptions::OPTION_AUTH_PASSWD => '',                      // password for Basic authorization
+
+    // in order to not send passwords, it is possible to make the driver generate a JWT for an existing user.
+    // this requires knowledge of the server's JWT secret key, however:
+    // ConnectionOptions::OPTION_AUTH_TYPE   => 'Bearer',                // use HTTP Bearer authorization
+    // ConnectionOptions::OPTION_AUTH_USER   => 'root',                  // user name
+    // ConnectionOptions::OPTION_AUTH_PASSWD => '',                      // server's JWT secret needs to go in here
+
+    // in order to use an externally generated JWT, there is no need to specify user and passwd, but just the JWT value:
+    // ConnectionOptions::OPTION_AUTH_JWT => '',                      // use an externally generated JWT for authorization
 
     ConnectionOptions::OPTION_TIMEOUT       => 30,                      // timeout in seconds
     // ConnectionOptions::OPTION_TRACE         => $traceFunc,              // tracer function, can be used for debugging
