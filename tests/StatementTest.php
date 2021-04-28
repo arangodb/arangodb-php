@@ -609,6 +609,35 @@ class StatementTest extends
         static::assertTrue($excepted);
     }
     
+    public function testProfiling()
+    {
+        $connection = $this->connection;
+
+        $statement = new Statement(
+            $connection, [ 
+                'query' => 'FOR i IN 1..10000 RETURN CONCAT("testisiteisiitit", i)',
+                '_flat' => true
+            ]
+        );
+        static::assertFalse($statement->getProfiling());
+
+        $statement = new Statement(
+            $connection, [ 
+                'query' => 'FOR i IN 1..10000 RETURN CONCAT("testisiteisiitit", i)',
+                'profile' => true,
+                '_flat' => true
+            ]
+        );
+
+        static::assertTrue($statement->getProfiling());
+
+        $cursor = $statement->execute();
+        $result = $cursor->getExtra();
+        static::assertArrayHasKey('profile', $result);
+        static::assertTrue(is_array($result['profile']));
+        static::assertArrayHasKey('executing', $result['profile']);
+    }
+    
     public function testStatementStreaming()
     {
         $connection = $this->connection;
