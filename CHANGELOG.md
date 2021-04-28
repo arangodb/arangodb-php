@@ -45,12 +45,20 @@ $connectionOptions = [
 The driver now supports the following options for document CRUD operations:
 - "overwriteMode"
 - "silent"
-- "keepNull", "mergeObjects" (for insert API if overwriteMode=update)
+- "keepNull", "mergeObjects" (for insert/insertMany API if overwriteMode=update)
 
 Extended maximum valid length for collection names to 256, up from 64 before. This follows a
 change in the ArangoDB server.
 
+Additional options for AQL queries are now supported via `Statement`:
+- memoryLimit
+- profile
+- maxRuntime
+
 Indexes can now be created with "deduplicate" and "estimates" attribute set/not set.
+
+The count functionality in `CollectionHandler::count()` now supports returned the detailed 
+shard count by passing an extra boolean parameter.
 
 The engine stats API is now supported via `AdminHandler::getEngineStats()`.
 
