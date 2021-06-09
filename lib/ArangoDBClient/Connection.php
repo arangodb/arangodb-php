@@ -151,7 +151,8 @@ class Connection
         $this->_options[$name] = $value;
 
         // special handling for several options
-        if ($name === ConnectionOptions::OPTION_TIMEOUT) {
+        if ($name === ConnectionOptions::OPTION_TIMEOUT ||
+            $name === ConnectionOptions::OPTION_REQUEST_TIMEOUT) {
             // set the timeout option: patch the stream of an existing connection
             if (is_resource($this->_handle)) {
                 stream_set_timeout($this->_handle, $value);
