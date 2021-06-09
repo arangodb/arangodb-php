@@ -757,9 +757,10 @@ class DocumentHandler extends Handler
         if (isset($params[ConnectionOptions::OPTION_REPLACE_POLICY]) &&
             $params[ConnectionOptions::OPTION_REPLACE_POLICY] === UpdatePolicy::ERROR
         ) {
-            if (null !== $options['revision']) {
+            $revision = $document->getRevision();
+            if (null !== $revision) {
                 $params['ignoreRevs'] = false;
-                $headers['if-match']  = '"' . $options['revision'] . '"';
+                $headers['if-match']  = '"' . $revision . '"';
             }
         }
         
