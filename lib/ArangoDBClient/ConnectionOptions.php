@@ -66,8 +66,19 @@ class ConnectionOptions implements \ArrayAccess
 
     /**
      * Timeout value index constant
+     * @deprecated superseded by OPTION_CONNECT_TIMEOUT and OPTION_REQUEST_TIMEOUT
      */
     const OPTION_TIMEOUT = 'timeout';
+    
+    /**
+     * Connect timeout value index constant
+     */
+    const OPTION_CONNECT_TIMEOUT = 'connectTimeout';
+    
+    /**
+     * Request timeout value index constant
+     */
+    const OPTION_REQUEST_TIMEOUT = 'requestTimeout';
     
     /**
      * Number of servers tried in case of failover
@@ -293,6 +304,11 @@ class ConnectionOptions implements \ArrayAccess
     public function offsetSet($offset, $value)
     {
         $this->_values[$offset] = $value;
+        if ($offset === self::OPTION_CONNECT_TIMEOUT || $offset === self::OPTION_REQUEST_TIMEOUT) {
+            // special handling for OPTION_TIMEOUT: it will be removed once
+            // a more specialized option is used
+            unset($this->_values[self::OPTION_TIMEOUT]);
+        }
         $this->validate();
     }
 
@@ -439,7 +455,8 @@ class ConnectionOptions implements \ArrayAccess
             self::OPTION_PORT                    => DefaultValues::DEFAULT_PORT,
             self::OPTION_FAILOVER_TRIES          => DefaultValues::DEFAULT_FAILOVER_TRIES,
             self::OPTION_FAILOVER_TIMEOUT        => DefaultValues::DEFAULT_FAILOVER_TIMEOUT,
-            self::OPTION_TIMEOUT                 => DefaultValues::DEFAULT_TIMEOUT,
+            self::OPTION_CONNECT_TIMEOUT         => DefaultValues::DEFAULT_CONNECT_TIMEOUT,
+            self::OPTION_REQUEST_TIMEOUT         => DefaultValues::DEFAULT_REQUEST_TIMEOUT,
             self::OPTION_MEMCACHED_PERSISTENT_ID => 'arangodb-php-pool',
             self::OPTION_MEMCACHED_OPTIONS       => [ ],
             self::OPTION_MEMCACHED_ENDPOINTS_KEY => 'arangodb-php-endpoints',
@@ -574,6 +591,12 @@ class ConnectionOptions implements \ArrayAccess
                     $this->_values[self::OPTION_CONNECTION]
                 )
             );
+        }
+        
+        if (isset($this->_values[self::OPTION_TIMEOUT])) {
+            // propagate values from OPTION_TIMOEUT into OPTION_CONNECT_TIMEOUT and OPTION_REQUEST_TIMEOUT
+            $this->_values[self::OPTION_CONNECT_TIMEOUT] = (float) $this->_values[self::OPTION_TIMEOUT];
+            $this->_values[self::OPTION_REQUEST_TIMEOUT] = (float) $this->_values[self::OPTION_TIMEOUT];
         }
 
         UpdatePolicy::validate($this->_values[self::OPTION_UPDATE_POLICY]);

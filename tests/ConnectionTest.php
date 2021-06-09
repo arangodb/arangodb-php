@@ -152,7 +152,7 @@ class ConnectionTest extends
         $response   = $connection->get('/_admin/statistics');
         static::assertEquals(200, $response->getHttpCode(), 'Did not return http code 200');
     }
-
+    
     /**
      * Test get options
      */
@@ -208,6 +208,78 @@ class ConnectionTest extends
         $value = $connection->getOption(ConnectionOptions::OPTION_RECONNECT);
         static::assertFalse($value);
     }
+    
+    /**
+     * Test timeout options handling
+     */
+    public function testTimeoutOptions()
+    {
+        $connection = getConnection();
+        
+        $oldTimeout = $connection->getOption(ConnectionOptions::OPTION_TIMEOUT);
+        $oldConnectTimeout = $connection->getOption(ConnectionOptions::OPTION_CONNECT_TIMEOUT);
+        $oldRequestTimeout = $connection->getOption(ConnectionOptions::OPTION_REQUEST_TIMEOUT);
+
+        static::assertEquals($oldTimeout, $oldConnectTimeout);
+        static::assertEquals($oldTimeout, $oldRequestTimeout);
+
+        $connection->setOption(ConnectionOptions::OPTION_TIMEOUT, 12);
+        $newTimeout = $connection->getOption(ConnectionOptions::OPTION_TIMEOUT);
+        $newConnectTimeout = $connection->getOption(ConnectionOptions::OPTION_CONNECT_TIMEOUT);
+        $newRequestTimeout = $connection->getOption(ConnectionOptions::OPTION_REQUEST_TIMEOUT);
+        
+        static::assertEquals(12, $newTimeout);
+        static::assertEquals(12, $newConnectTimeout);
+        static::assertEquals(12, $newRequestTimeout);
+        
+        $connection->setOption(ConnectionOptions::OPTION_TIMEOUT, 42);
+        $newTimeout = $connection->getOption(ConnectionOptions::OPTION_TIMEOUT);
+        $newConnectTimeout = $connection->getOption(ConnectionOptions::OPTION_CONNECT_TIMEOUT);
+        $newRequestTimeout = $connection->getOption(ConnectionOptions::OPTION_REQUEST_TIMEOUT);
+        
+        static::assertEquals(42, $newTimeout);
+        static::assertEquals(42, $newConnectTimeout);
+        static::assertEquals(42, $newRequestTimeout);
+
+        $connection->setOption(ConnectionOptions::OPTION_CONNECT_TIMEOUT, 1.5);
+        try {
+            $connection->getOption(ConnectionOptions::OPTION_TIMEOUT);
+            static::assertFalse(true);
+        } catch (\Exception $e) {
+            // OPTION_TIMEOUT is gone once OPTION_CONNECT_TIMEOUT is used
+        }
+
+        $newConnectTimeout = $connection->getOption(ConnectionOptions::OPTION_CONNECT_TIMEOUT);
+        $newRequestTimeout = $connection->getOption(ConnectionOptions::OPTION_REQUEST_TIMEOUT);
+        
+        static::assertEquals(1.5, $newConnectTimeout);
+        static::assertEquals(42, $newRequestTimeout);
+        
+        $connection->setOption(ConnectionOptions::OPTION_REQUEST_TIMEOUT, 24.5);
+        $newConnectTimeout = $connection->getOption(ConnectionOptions::OPTION_CONNECT_TIMEOUT);
+        $newRequestTimeout = $connection->getOption(ConnectionOptions::OPTION_REQUEST_TIMEOUT);
+        
+        try {
+            $connection->getOption(ConnectionOptions::OPTION_TIMEOUT);
+            static::assertFalse(true);
+        } catch (\Exception $e) {
+            // OPTION_TIMEOUT is gone once OPTION_REQUEST_TIMEOUT is used
+        }
+        
+        static::assertEquals(1.5, $newConnectTimeout);
+        static::assertEquals(24.5, $newRequestTimeout);
+        
+        
+        $connection->setOption(ConnectionOptions::OPTION_TIMEOUT, 8);
+        $newTimeout = $connection->getOption(ConnectionOptions::OPTION_TIMEOUT);
+        $newConnectTimeout = $connection->getOption(ConnectionOptions::OPTION_CONNECT_TIMEOUT);
+        $newRequestTimeout = $connection->getOption(ConnectionOptions::OPTION_REQUEST_TIMEOUT);
+        
+        static::assertEquals(8, $newTimeout);
+        static::assertEquals(8, $newConnectTimeout);
+        static::assertEquals(8, $newRequestTimeout);
+    }
+
 
     /**
      * Test set invalid options
@@ -340,7 +412,7 @@ class ConnectionTest extends
             throw $exception;
         }
     }
-
+    
     /**
      * Test timeout, no exception
      */
@@ -348,6 +420,62 @@ class ConnectionTest extends
     {
         $connection = getConnection();
         $connection->setOption(ConnectionOptions::OPTION_TIMEOUT, 5);
+        $query = 'RETURN SLEEP(1)';
+
+        $statement = new Statement($connection, ['query' => $query]);
+
+        // should work
+        $cursor = $statement->execute();
+        static::assertCount(1, $cursor->getAll());
+    }
+    
+    /**
+     * Test connect timeout, no exception
+     */
+    public function testSetConnectTimeout()
+    {
+        $connection = getConnection();
+        $connection->setOption(ConnectionOptions::OPTION_CONNECT_TIMEOUT, 5);
+        $query = 'RETURN SLEEP(1)';
+
+        $statement = new Statement($connection, ['query' => $query]);
+
+        // should work
+        $cursor = $statement->execute();
+        static::assertCount(1, $cursor->getAll());
+    }
+    
+    /**
+     * Test request timeout exception
+     *
+     * @expectedException \ArangoDBClient\ClientException
+     */
+    public function testSetRequestTimeoutException()
+    {
+        $connection = getConnection();
+        $connection->setOption(ConnectionOptions::OPTION_CONNECT_TIMEOUT, 3);
+        $connection->setOption(ConnectionOptions::OPTION_REQUEST_TIMEOUT, 2);
+        $query = 'RETURN SLEEP(3)';
+
+        $statement = new Statement($connection, ['query' => $query]);
+
+        try {
+            // this is expected to fail
+            $statement->execute();
+        } catch (ClientException $exception) {
+            static::assertEquals(408, $exception->getCode());
+            throw $exception;
+        }
+    }
+    
+    /**
+     * Test request timeout, no exception
+     */
+    public function testSetRequestTimeout()
+    {
+        $connection = getConnection();
+        $connection->setOption(ConnectionOptions::OPTION_CONNECT_TIMEOUT, 5);
+        $connection->setOption(ConnectionOptions::OPTION_REQUEST_TIMEOUT, 5);
         $query = 'RETURN SLEEP(1)';
 
         $statement = new Statement($connection, ['query' => $query]);

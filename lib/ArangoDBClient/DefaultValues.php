@@ -27,8 +27,19 @@ abstract class DefaultValues
 
     /**
      * Default timeout value (used if no timeout value specified)
+     * @deprecated superseded by DEFAULT_CONNECT_TIMEOUT and DEFAULT_REQUEST_TIMEOUT
      */
     const DEFAULT_TIMEOUT = 30;
+    
+    /**
+     * Default connect timeout value (used if no timeout value specified)
+     */
+    const DEFAULT_CONNECT_TIMEOUT = 30;
+    
+    /**
+     * Default request timeout value (used if no timeout value specified)
+     */
+    const DEFAULT_REQUEST_TIMEOUT = 30;
     
     /**
      * Default number of failover servers to try (used in case there is an automatic failover)
