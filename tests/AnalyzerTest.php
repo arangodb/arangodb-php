@@ -85,6 +85,69 @@ class AnalyzerTest extends
         }
         static::assertEquals(400, $exception->getCode());
     }
+
+    /**
+     * Test creation of stopwords analyzer
+     */
+    /* disabled until 3.8.1
+    public function testCreateStopwordsAnalyzer()
+    {
+        $analyzer = new Analyzer('Analyzer1' . '_' . static::$testsTimestamp, 'stopwords', [ "stopwords" => ["foo", "bar", "baz", "dead"] ]);
+        $result = $this->analyzerHandler->create($analyzer);
+        static::assertEquals('Analyzer1' . '_' . static::$testsTimestamp, $result['name']);
+        static::assertEquals('stopwords', $result['type']);
+        static::assertEquals([ "stopwords" => ["foo", "bar", "baz", "dead"] ],$analyzer->getProperties());
+        static::assertEquals([], $analyzer->getFeatures());
+    }
+     */
+    
+    /**
+     * Test creation of delimiter analyzer
+     */
+    public function testCreateDelimiterAnalyzer()
+    {
+        $analyzer = new Analyzer('Analyzer1' . '_' . static::$testsTimestamp, 'delimiter', [ "delimiter" => " " ]);
+        $result = $this->analyzerHandler->create($analyzer);
+        static::assertEquals('Analyzer1' . '_' . static::$testsTimestamp, $result['name']);
+        static::assertEquals('delimiter', $result['type']);
+        static::assertEquals([ "delimiter" => " " ],$analyzer->getProperties());
+        static::assertEquals([], $analyzer->getFeatures());
+    }
+    
+    /**
+     * Test creation of norm analyzer
+     */
+    public function testCreateNormAnalyzer()
+    {
+        $analyzer = new Analyzer('Analyzer1' . '_' . static::$testsTimestamp, 'norm', [ "locale" => "en.UTF-8", "accent" => false, "case" => "lower" ]);
+        $result = $this->analyzerHandler->create($analyzer);
+        static::assertEquals('Analyzer1' . '_' . static::$testsTimestamp, $result['name']);
+        static::assertEquals('norm', $result['type']);
+        static::assertEquals([ "locale" => "en.UTF-8", "accent" => false, "case" => "lower" ],$analyzer->getProperties());
+        static::assertEquals([], $analyzer->getFeatures());
+    }
+    
+    /**
+     * Test creation of pipeline analyzer
+     */
+    /* disabled until 3.8.1
+    public function testCreatePipelineAnalyzer()
+    {
+        $data = [ "pipeline" => [
+            [ "type" => "delimiter", "properties" => [ "delimiter" => " " ] ],
+            [ "type" => "norm", "properties" => [ "locale" => "en.UTF-8", "accent" => false, "case" => "lower" ] ],
+            [ "type" => "stopwords", "properties" => [ "stopwords" => ["foo", "bar", "baz", "dead"] ] ]
+        ] ];
+
+        $analyzer = new Analyzer('Analyzer1' . '_' . static::$testsTimestamp, 'pipeline', $data);
+        $result = $this->analyzerHandler->create($analyzer);
+
+        static::assertEquals('Analyzer1' . '_' . static::$testsTimestamp, $result['name']);
+        static::assertEquals('pipeline', $result['type']);
+        static::assertEquals($data, $analyzer->getProperties());
+        static::assertEquals([], $analyzer->getFeatures());
+    }
+     */
     
     /**
      * Test getting an analyzer
