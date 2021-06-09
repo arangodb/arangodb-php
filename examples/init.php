@@ -59,8 +59,9 @@ $connectionOptions = [
     // in order to use an externally generated JWT, there is no need to specify user and passwd, but just the JWT value:
     // ConnectionOptions::OPTION_AUTH_JWT => '',                      // use an externally generated JWT for authorization
 
-    ConnectionOptions::OPTION_TIMEOUT       => 30,                      // timeout in seconds
-    // ConnectionOptions::OPTION_TRACE         => $traceFunc,              // tracer function, can be used for debugging
+    ConnectionOptions::OPTION_CONNECT_TIMEOUT => 10,                    // connect timeout in seconds
+    ConnectionOptions::OPTION_REQUEST_TIMEOUT => 30,                    // request timeout in seconds
+    // ConnectionOptions::OPTION_TRACE         => $traceFunc,           // tracer function, can be used for debugging
     ConnectionOptions::OPTION_CREATE        => false,                   // do not create unknown collections automatically
     ConnectionOptions::OPTION_UPDATE_POLICY => UpdatePolicy::LAST,      // last update wins
 ];
