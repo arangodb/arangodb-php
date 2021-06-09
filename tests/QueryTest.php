@@ -124,17 +124,17 @@ class QueryTest extends
      */
     public function testTimeoutException()
     {
-        $old = $this->connection->getOption(ConnectionOptions::OPTION_TIMEOUT);
-        $this->connection->setOption(ConnectionOptions::OPTION_TIMEOUT, 10);
+        $old = $this->connection->getOption(ConnectionOptions::OPTION_REQUEST_TIMEOUT);
+        $this->connection->setOption(ConnectionOptions::OPTION_REQUEST_TIMEOUT, 10);
         $query = 'RETURN SLEEP(13)';
 
         $statement = new Statement($this->connection, ['query' => $query]);
 
         try {
             $statement->execute();
-            $this->connection->setOption(ConnectionOptions::OPTION_TIMEOUT, $old);
+            $this->connection->setOption(ConnectionOptions::OPTION_REQUEST_TIMEOUT, $old);
         } catch (ClientException $exception) {
-            $this->connection->setOption(ConnectionOptions::OPTION_TIMEOUT, $old);
+            $this->connection->setOption(ConnectionOptions::OPTION_REQUEST_TIMEOUT, $old);
             static::assertEquals($exception->getCode(), 408);
             throw $exception;
         }

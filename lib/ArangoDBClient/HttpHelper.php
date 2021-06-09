@@ -104,7 +104,7 @@ class HttpHelper
             Endpoint::normalize($endpoint),
             $errNo,
             $message,
-            $options[ConnectionOptions::OPTION_TIMEOUT],
+            $options[ConnectionOptions::OPTION_CONNECT_TIMEOUT],
             STREAM_CLIENT_CONNECT,
             $context
         );
@@ -116,7 +116,7 @@ class HttpHelper
             );
         }
 
-        stream_set_timeout($fp, $options[ConnectionOptions::OPTION_TIMEOUT]);
+        stream_set_timeout($fp, $options[ConnectionOptions::OPTION_REQUEST_TIMEOUT]);
 
         return $fp;
     }
