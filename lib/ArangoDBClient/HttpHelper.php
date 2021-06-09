@@ -255,7 +255,10 @@ class HttpHelper
 
                 // 12 = minimum offset (i.e. strlen("HTTP/1.1 xxx") -
                 // after that we could see "content-length:"
-                $pos = stripos($result, 'content-length: ', 12);
+                $pos = false;
+                if (strlen($result) > 12) {
+                   $pos = stripos($result, 'content-length: ', 12);
+                }
 
                 if ($pos !== false) {
                     $contentLength    = (int) substr($result, $pos + 16, 10); // 16 = strlen("content-length: ")
