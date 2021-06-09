@@ -115,7 +115,8 @@ class CollectionExtendedTest extends
                 ],
                 "additionalProperties" => false
             ],
-            "message" => "Schema validation failed"
+            "message" => "Schema validation failed",
+            "type" => "json"
         ];
 
         $collection->setSchema($schema);
