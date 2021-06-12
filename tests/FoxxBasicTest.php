@@ -21,7 +21,7 @@ namespace ArangoDBClient;
 class FoxxBasicTest extends
     \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->connection  = getConnection();
         $this->foxxHandler = new FoxxHandler($this->connection);
@@ -49,18 +49,17 @@ class FoxxBasicTest extends
 
     /**
      * Try to upload and install a non-existing app
-     *
-     * @expectedException \ArangoDBClient\ClientException
      */
     public function testUploadAndInstallNonExistingFoxxApp()
     {
+        $this->expectException(\ArangoDBClient\ClientException::class);
         $foxxHandler = $this->foxxHandler;
         $zip         = __DIR__ . '/files_for_tests/move_along.zip';
         $foxxHandler->installFoxxZip($zip, '/move_along');
     }
 
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $foxxHandler = $this->foxxHandler;
         try {

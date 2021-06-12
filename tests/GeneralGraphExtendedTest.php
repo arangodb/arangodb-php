@@ -29,7 +29,7 @@ class GeneralGraphExtendedTest extends
         static::$testsTimestamp = str_replace('.', '_', (string) microtime(true));
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->connection = getConnection();
         $v                = time();
@@ -383,7 +383,7 @@ class GeneralGraphExtendedTest extends
 
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         try {
             $result = $this->graphHandler->dropGraph($this->graphName);

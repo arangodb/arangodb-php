@@ -30,7 +30,7 @@ class AqlUserFunctionTest extends
         static::$testsTimestamp = str_replace('.', '', (string) microtime(true));
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->connection = getConnection();
 
@@ -378,7 +378,7 @@ class AqlUserFunctionTest extends
         static::assertEmpty($functions, 'phpTestFunctions namespace should only contain no functions.');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->cleanup();
         unset($this->connection);

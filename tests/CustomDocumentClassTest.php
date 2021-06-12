@@ -33,7 +33,7 @@ class CustomDocumentClassTest extends
     }
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->connection        = getConnection();
         $this->collectionHandler = new CollectionHandler($this->connection);
@@ -163,7 +163,7 @@ class CustomDocumentClassTest extends
     }
 
 
-    public function tearDown()
+    public function tearDown(): void
     {
         try {
             $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);

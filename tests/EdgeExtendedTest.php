@@ -33,7 +33,7 @@ class EdgeExtendedTest extends
     }
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->connection        = getConnection();
         $this->collectionHandler = new CollectionHandler($this->connection);
@@ -199,49 +199,6 @@ class EdgeExtendedTest extends
 
 
     /**
-     * test for updating a edge using update() with wrong encoding
-     * We expect an exception here:
-     *
-     * @expectedException \ArangoDBClient\ClientException
-     */
-    public function testUpdateEdgeWithWrongEncoding()
-    {
-        $edgeHandler = $this->edgeHandler;
-
-        $edge   = Edge::createFromArray(
-            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
-        );
-        $edgeId = $edgeHandler->save($this->collection->getId(), $edge);
-        $edgeHandler->get($this->collection->getId(), $edgeId);
-        static::assertTrue(is_numeric($edgeId), 'Did not return an id!');
-
-        $patchEdge = new Edge();
-        $patchEdge->set('_id', $edge->getHandle());
-        $patchEdge->set('_rev', $edge->getRevision());
-
-        // inject wrong encoding
-        $isoValue = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', 'someWrongEncodedValueü');
-
-        $patchEdge->set('someOtherAttribute', $isoValue);
-        $result = $edgeHandler->update($patchEdge);
-
-        static::assertTrue($result);
-
-        $resultingEdge = $edgeHandler->get($this->collection->getId(), $edgeId);
-        static::assertObjectHasAttribute('_id', $resultingEdge, '_id field should exist, empty or with an id');
-
-        static::assertEquals(
-            'someValue', $resultingEdge->someAttribute, 'Should be :someValue, is: ' . $resultingEdge->someAttribute
-        );
-        static::assertEquals(
-            'someOtherValue2', $resultingEdge->someOtherAttribute, 'Should be :someOtherValue2, is: ' . $resultingEdge->someOtherAttribute
-        );
-        $response = $edgeHandler->remove($resultingEdge);
-        static::assertTrue($response, 'Delete should return true!');
-    }
-
-
-    /**
      * test for updating a edge using update()
      */
     public function testUpdateEdgeDoNotKeepNull()
@@ -365,49 +322,7 @@ class EdgeExtendedTest extends
     }
 
 
-    /**
-     * test for replacing a edge using replace() with wrong encoding
-     * We expect an exception here:
-     *
-     * @expectedException \ArangoDBClient\ClientException
-     */
-    public function testReplaceEdgeWithWrongEncoding()
-    {
-        $edgeHandler = $this->edgeHandler;
-
-        $edge   = Edge::createFromArray(
-            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
-        );
-        $edgeId = $edgeHandler->save($this->collection->getId(), $edge);
-
-        static::assertTrue(is_numeric($edgeId), 'Did not return an id!');
-
-        // inject wrong encoding
-        $isoKey   = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', 'someWrongEncodedAttribute');
-        $isoValue = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', 'someWrongEncodedValueü');
-
-        $edge->set($isoKey, $isoValue);
-        $edge->set('someOtherAttribute', 'someOtherValue2');
-        $result = $edgeHandler->replace($edge);
-
-        static::assertTrue($result);
-        $resultingEdge = $edgeHandler->get($this->collection->getId(), $edgeId);
-
-        static::assertObjectHasAttribute('_id', $resultingEdge, '_id field should exist, empty or with an id');
-
-        static::assertEquals(
-            'someValue2', $resultingEdge->someAttribute, 'Should be :someValue2, is: ' . $resultingEdge->someAttribute
-        );
-        static::assertEquals(
-            'someOtherValue2', $resultingEdge->someOtherAttribute, 'Should be :someOtherValue2, is: ' . $resultingEdge->someOtherAttribute
-        );
-
-        $response = $edgeHandler->remove($resultingEdge);
-        static::assertTrue($response, 'Delete should return true!');
-    }
-
-
-    public function tearDown()
+    public function tearDown(): void
     {
         try {
             $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp);

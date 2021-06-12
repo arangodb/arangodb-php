@@ -32,7 +32,7 @@ class DocumentExtendedTest extends
     }
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->connection        = getConnection();
         $this->collectionHandler = new CollectionHandler($this->connection);
@@ -40,34 +40,6 @@ class DocumentExtendedTest extends
         $this->collection->setName('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);
         $this->collectionHandler->create($this->collection);
         $this->documentHandler = new DocumentHandler($this->connection);
-    }
-
-
-    /**
-     * test for creation of document with non utf encoding. This tests for failure of such an action.
-     * We expect an exception here:
-     *
-     * @expectedException \ArangoDBClient\ClientException
-     */
-    public function testCreateDocumentWithWrongEncoding()
-    {
-        $documentHandler = $this->documentHandler;
-        $isoKey          = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', 'someWrongEncodedAttribute');
-        $isoValue        = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', 'someWrongEncodedValueü');
-
-        $document   = Document::createFromArray([$isoKey => $isoValue, 'someOtherAttribute' => 'someOtherValue']);
-        $documentId = $documentHandler->save($this->collection->getName(), $document);
-
-        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
-
-        $resultingDocument = $documentHandler->get($this->collection->getName(), $documentId);
-
-        static::assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
-        static::assertEquals('someValue', $resultingDocument->someAttribute);
-        static::assertEquals('someOtherValue', $resultingDocument->someOtherAttribute);
-
-        $response = $documentHandler->remove($document);
-        static::assertTrue($response, 'Delete should return true!');
     }
 
 
@@ -280,49 +252,6 @@ class DocumentExtendedTest extends
 
 
     /**
-     * test for updating a document using update() with wrong encoding
-     * We expect an exception here:
-     *
-     * @expectedException \ArangoDBClient\ClientException
-     */
-    public function testUpdateDocumentWithWrongEncoding()
-    {
-        $documentHandler = $this->documentHandler;
-
-        $document   = Document::createFromArray(
-            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
-        );
-        $documentId = $documentHandler->save($this->collection->getName(), $document);
-        $documentHandler->get($this->collection->getName(), $documentId);
-        @list(, $documentId) = explode('/', $documentId);
-        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
-
-        $patchDocument = new Document();
-        $patchDocument->set('_id', $document->getHandle());
-        $patchDocument->set('_rev', $document->getRevision());
-
-        // inject wrong encoding
-        $isoValue = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', 'someWrongEncodedValueü');
-
-        $patchDocument->set('someOtherAttribute', $isoValue);
-        $result = $documentHandler->update($patchDocument);
-
-        static::assertTrue($result);
-
-        $resultingDocument = $documentHandler->get($this->collection->getName(), $documentId);
-        static::assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
-
-        static::assertEquals(
-            'someValue', $resultingDocument->someAttribute, 'Should be :someValue, is: ' . $resultingDocument->someAttribute
-        );
-        static::assertEquals(
-            'someOtherValue2', $resultingDocument->someOtherAttribute, 'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
-        );
-        $response = $documentHandler->remove($resultingDocument);
-        static::assertTrue($response, 'Delete should return true!');
-    }
-    
-    /**
      * test for updating a document using update()
      */
     public function testUpdateDocumentMergeObjects()
@@ -529,48 +458,6 @@ class DocumentExtendedTest extends
         static::assertTrue($response, 'Delete should return true!');
     }
 
-
-    /**
-     * test for replacing a document using replace() with wrong encoding
-     * We expect an exception here:
-     *
-     * @expectedException \ArangoDBClient\ClientException
-     */
-    public function testReplaceDocumentWithWrongEncoding()
-    {
-        $documentHandler = $this->documentHandler;
-
-        $document   = Document::createFromArray(
-            ['someAttribute' => 'someValue', 'someOtherAttribute' => 'someOtherValue']
-        );
-        $documentId = $documentHandler->save($this->collection->getName(), $document);
-
-        @list(, $documentId) = explode('/', $documentId);
-        static::assertTrue(is_numeric($documentId), 'Did not return an id!');
-
-        // inject wrong encoding
-        $isoKey   = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', 'someWrongEncododedAttribute');
-        $isoValue = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', 'someWrongEncodedValueü');
-
-        $document->set($isoKey, $isoValue);
-        $document->set('someOtherAttribute', 'someOtherValue2');
-        $result = $documentHandler->replace($document);
-
-        static::assertTrue($result);
-        $resultingDocument = $documentHandler->get($this->collection->getName(), $documentId);
-
-        static::assertObjectHasAttribute('_id', $resultingDocument, '_id field should exist, empty or with an id');
-
-        static::assertEquals(
-            'someValue2', $resultingDocument->someAttribute, 'Should be :someValue2, is: ' . $resultingDocument->someAttribute
-        );
-        static::assertEquals(
-            'someOtherValue2', $resultingDocument->someOtherAttribute, 'Should be :someOtherValue2, is: ' . $resultingDocument->someOtherAttribute
-        );
-
-        $response = $documentHandler->remove($resultingDocument);
-        static::assertTrue($response, 'Delete should return true!');
-    }
 
     /**
      * test for replacing a document using returnOld/returnNew
@@ -1328,7 +1215,7 @@ class DocumentExtendedTest extends
         static::assertNotEquals($rev, $document->getRevision(), 'Revision matches when it is not suppose to.');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         try {
             $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);

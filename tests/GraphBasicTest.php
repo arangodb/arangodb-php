@@ -35,7 +35,7 @@ class GraphBasicTest extends
     }
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->connection        = getConnection();
         $this->collectionHandler = new CollectionHandler($this->connection);
@@ -212,7 +212,7 @@ class GraphBasicTest extends
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }
-        static::assertRegExp('/orphan collection/', $error);
+        static::assertMatchesRegularExpression('/orphan collection/', $error);
 
         $error = null;
         try {
@@ -221,7 +221,7 @@ class GraphBasicTest extends
             $error = $e->getMessage();
         }
 
-        static::assertRegExp('/not a vertex collection/', $error);
+        static::assertMatchesRegularExpression('/not a vertex collection/', $error);
 
         $error = null;
         try {
@@ -292,7 +292,7 @@ class GraphBasicTest extends
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }
-        static::assertRegExp('/orphan collection/', $error);
+        static::assertMatchesRegularExpression('/orphan collection/', $error);
 
         $error = null;
         try {
@@ -300,7 +300,7 @@ class GraphBasicTest extends
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }
-        static::assertRegExp('/not a vertex collection/', $error);
+        static::assertMatchesRegularExpression('/not a vertex collection/', $error);
 
         $error = null;
         try {
@@ -349,7 +349,7 @@ class GraphBasicTest extends
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }
-        static::assertContains('multi use of edge collection in edge def', $error);
+        static::assertStringContainsString('multi use of edge collection in edge def', $error);
         $error = null;
         try {
             $this->graph = $this->graphHandler->getEdgeCollections('bla' . '_' . static::$testsTimestamp);
@@ -402,7 +402,7 @@ class GraphBasicTest extends
     }
 
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->graphHandler = new GraphHandler($this->connection);
         try {

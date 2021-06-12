@@ -29,7 +29,7 @@ class AnalyzerTest extends
     }
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->connection  = getConnection();
         $this->analyzerHandler = new AnalyzerHandler($this->connection);
@@ -285,7 +285,7 @@ class AnalyzerTest extends
         static::assertEquals(404, $exception->getCode());
     }
     
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->analyzerHandler = new AnalyzerHandler($this->connection);
         try {

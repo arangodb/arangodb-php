@@ -29,7 +29,7 @@ class ViewTest extends
     }
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->connection  = getConnection();
         $this->viewHandler = new ViewHandler($this->connection);
@@ -176,7 +176,7 @@ class ViewTest extends
         static::assertEquals(404, $exception->getCode());
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->viewHandler = new ViewHandler($this->connection);
         try {

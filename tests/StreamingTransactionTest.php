@@ -34,7 +34,7 @@ class StreamingTransactionTest extends
     }
 
 
-    public function setUp()
+    public function setUp(): void
     {
         // transactions to shut down later
         $this->_shutdown         = [];
@@ -658,7 +658,7 @@ class StreamingTransactionTest extends
         static::assertFalse($success);
     }
     
-    public function tearDown()
+    public function tearDown(): void
     {
         foreach ($this->_shutdown as $trx) {
             try {

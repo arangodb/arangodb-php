@@ -59,7 +59,7 @@ class GraphExtendedTest extends
     }
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->vertex1Name  = 'vertex1';
         $this->vertex2Name  = 'vertex2';
@@ -1207,7 +1207,7 @@ class GraphExtendedTest extends
         static::assertTrue($result);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         try {
             $result = $this->graphHandler->dropGraph($this->graphName);

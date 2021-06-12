@@ -16,7 +16,7 @@ namespace ArangoDBClient;
 class AdminTest extends
     \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->connection   = getConnection();
         $this->adminHandler = new AdminHandler($this->connection);
@@ -71,10 +71,10 @@ class AdminTest extends
     public function testGetServerVersionWithDetails()
     {
         $result = $this->adminHandler->getServerVersion(true);
-        static::assertInternalType('array', $result, 'The server version details must be an array!');
-        static::assertInternalType(
+        static::assertEquals('array', gettype($result), 'The server version details must be an array!');
+        static::assertEquals(
             'array',
-            $result['details'],
+            gettype($result['details']),
             'The server version details must have a `details` array!'
         );
 
@@ -262,7 +262,7 @@ class AdminTest extends
     }
 
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->adminHandler, $this->connection);
     }

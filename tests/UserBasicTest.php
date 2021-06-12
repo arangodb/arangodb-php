@@ -28,7 +28,7 @@ class UserBasicTest extends
         static::$testsTimestamp = str_replace('.', '_', (string) microtime(true));
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->connection  = getConnection();
         $this->userHandler = new UserHandler($this->connection);
@@ -429,7 +429,7 @@ class UserBasicTest extends
         static::assertInstanceOf(ServerException::class, $e, 'should have gotten an exception');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         try {
             $this->userHandler->removeUser('testUser1');

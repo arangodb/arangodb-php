@@ -33,7 +33,7 @@ class ConnectionTest extends
     }
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->connection        = getConnection();
         $this->collectionHandler = new CollectionHandler($this->connection);
@@ -283,11 +283,10 @@ class ConnectionTest extends
 
     /**
      * Test set invalid options
-     *
-     * @expectedException \ArangoDBClient\ClientException
      */
     public function testSetEndpointOption()
     {
+        $this->expectException(\ArangoDBClient\ClientException::class);
         $connection = getConnection();
 
         // will fail!
@@ -296,11 +295,10 @@ class ConnectionTest extends
 
     /**
      * Test set invalid options
-     *
-     * @expectedException \ArangoDBClient\ClientException
      */
     public function testSetAllowSelfSignedOption()
     {
+        $this->expectException(\ArangoDBClient\ClientException::class);
         $connection = getConnection();
 
         // will fail!
@@ -309,11 +307,10 @@ class ConnectionTest extends
 
     /**
      * Test set invalid options
-     *
-     * @expectedException \ArangoDBClient\ClientException
      */
     public function testSetVerifyCert()
     {
+        $this->expectException(\ArangoDBClient\ClientException::class);
         $connection = getConnection();
 
         // will fail!
@@ -322,11 +319,10 @@ class ConnectionTest extends
 
     /**
      * Test set invalid options
-     *
-     * @expectedException \ArangoDBClient\ClientException
      */
     public function testSetCiphers()
     {
+        $this->expectException(\ArangoDBClient\ClientException::class);
         $connection = getConnection();
 
         // will fail!
@@ -335,11 +331,10 @@ class ConnectionTest extends
 
     /**
      * Test set invalid options
-     *
-     * @expectedException \ArangoDBClient\ClientException
      */
     public function testSetHostOption()
     {
+        $this->expectException(\ArangoDBClient\ClientException::class);
         $connection = getConnection();
 
         // will fail!
@@ -348,11 +343,10 @@ class ConnectionTest extends
 
     /**
      * Test set invalid options
-     *
-     * @expectedException \ArangoDBClient\ClientException
      */
     public function testSetPortOption()
     {
+        $this->expectException(\ArangoDBClient\ClientException::class);
         $connection = getConnection();
 
         // will fail!
@@ -393,11 +387,10 @@ class ConnectionTest extends
 
     /**
      * Test timeout exception
-     *
-     * @expectedException \ArangoDBClient\ClientException
      */
     public function testSetTimeoutException()
     {
+        $this->expectException(\ArangoDBClient\ClientException::class);
         $connection = getConnection();
         $connection->setOption(ConnectionOptions::OPTION_TIMEOUT, 3);
         $query = 'RETURN SLEEP(6)';
@@ -447,11 +440,10 @@ class ConnectionTest extends
     
     /**
      * Test request timeout exception
-     *
-     * @expectedException \ArangoDBClient\ClientException
      */
     public function testSetRequestTimeoutException()
     {
+        $this->expectException(\ArangoDBClient\ClientException::class);
         $connection = getConnection();
         $connection->setOption(ConnectionOptions::OPTION_CONNECT_TIMEOUT, 3);
         $connection->setOption(ConnectionOptions::OPTION_REQUEST_TIMEOUT, 2);
@@ -583,7 +575,7 @@ class ConnectionTest extends
                 ['send', 'receive'],
                 'Basic tracer\'s type should only be \'send\' or \'receive\''
             );
-            static::assertInternalType('string', $data, 'Basic tracer data is not a string!.');
+            static::assertEquals('string', gettype($data), 'Basic tracer data is not a string!.');
         };
 
         $options                                  = getConnectionOptions();
@@ -614,9 +606,9 @@ class ConnectionTest extends
                 '$data must be instance of TraceRequest or TraceResponse.'
             );
 
-            static::assertInternalType('array', $data->getHeaders(), 'Headers should be an array!');
+            static::assertEquals('array', gettype($data->getHeaders()), 'Headers should be an array!');
             static::assertNotEmpty($data->getHeaders(), 'Headers should not be an empty array!');
-            static::assertInternalType('string', $data->getBody(), 'Body must be a string!');
+            static::assertEquals('string', gettype($data->getBody()), 'Body must be a string!');
 
             if ($data instanceof TraceRequest) {
                 static::assertContains(
@@ -632,22 +624,22 @@ class ConnectionTest extends
                     'Invalid http method!'
                 );
 
-                static::assertInternalType('string', $data->getRequestUrl(), 'Request url must be a string!');
+                static::assertEquals('string', gettype($data->getRequestUrl()), 'Request url must be a string!');
                 static::assertEquals('request', $data->getType());
 
                 foreach ($data->getHeaders() as $header => $value) {
-                    static::assertInternalType('string', $value, 'The header value should be a string');
-                    static::assertInternalType('string', $header, 'The header should be a string');
+                    static::assertEquals('string', gettype($value), 'The header value should be a string');
+                    static::assertEquals('string', gettype($header), 'The header should be a string');
                 }
             } else {
-                static::assertInternalType('integer', $data->getHttpCode(), 'Http code must be an integer!');
-                static::assertInternalType(
+                static::assertEquals('integer', gettype($data->getHttpCode()), 'Http code must be an integer!');
+                static::assertEquals(
                     'string',
-                    $data->getHttpCodeDefinition(),
+                    gettype($data->getHttpCodeDefinition()),
                     'Http code definition must be a string!'
                 );
                 static::assertEquals('response', $data->getType());
-                static::assertInternalType('float', $data->getTimeTaken());
+                static::assertIsFloat($data->getTimeTaken());
             }
         };
 
@@ -668,7 +660,7 @@ class ConnectionTest extends
         }
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->connection);
 

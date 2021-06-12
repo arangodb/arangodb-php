@@ -41,7 +41,7 @@ class StatementTest extends
     }
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->connection        = getConnection();
         $this->collectionHandler = new CollectionHandler($this->connection);
@@ -309,48 +309,6 @@ class StatementTest extends
         static::assertEquals(1000, $cursor->getScannedFull());
         static::assertEquals(0, $cursor->getScannedIndex());
         static::assertEquals(500, $cursor->getFiltered());
-    }
-
-    /**
-     * This is just a test to really test connectivity with the server before moving on to further tests.
-     * We expect an exception here:
-     *
-     * @expectedException \ArangoDBClient\ClientException
-     */
-    public function testExecuteStatementWithWrongEncoding()
-    {
-        $connection      = $this->connection;
-        $collection      = $this->collection;
-        $document        = new Document();
-        $documentHandler = new DocumentHandler($connection);
-
-        $document->someAttribute = 'someValue';
-
-        $documentHandler->save($collection->getName(), $document);
-
-        $statement = new Statement(
-            $connection, [
-                'query'     => '',
-                'count'     => true,
-                'batchSize' => 1000,
-                '_sanitize' => true,
-            ]
-        );
-        // inject wrong encoding
-        $isoValue = iconv(
-            'UTF-8',
-            'ISO-8859-1//TRANSLIT',
-            '\'FOR ü IN `ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp . '` RETURN ü'
-        );
-
-        $statement->setQuery($isoValue);
-        $cursor = $statement->execute();
-
-        $result = $cursor->current();
-
-        static::assertSame(
-            'someValue', $result->someAttribute, 'Expected value someValue, found :' . $result->someAttribute
-        );
     }
 
 
@@ -767,7 +725,7 @@ class StatementTest extends
     }
 
 
-    public function tearDown()
+    public function tearDown(): void
     {
         try {
             $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);

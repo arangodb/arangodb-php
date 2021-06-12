@@ -29,7 +29,7 @@ class QueryTest extends
     }
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->connection   = getConnection();
         $this->queryHandler = new QueryHandler($this->connection);
@@ -119,11 +119,10 @@ class QueryTest extends
 
     /**
      * Test getting correct Timeout Exception
-     *
-     * @expectedException \ArangoDBClient\ClientException
      */
     public function testTimeoutException()
     {
+        $this->expectException(\ArangoDBClient\ClientException::class);
         $old = $this->connection->getOption(ConnectionOptions::OPTION_REQUEST_TIMEOUT);
         $this->connection->setOption(ConnectionOptions::OPTION_REQUEST_TIMEOUT, 10);
         $query = 'RETURN SLEEP(13)';
@@ -141,7 +140,7 @@ class QueryTest extends
         
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->queryHandler, $this->connection);
     }

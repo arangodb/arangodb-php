@@ -28,7 +28,7 @@ class BatchTest extends
     }
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->connection = getConnection();
 
@@ -614,7 +614,7 @@ class BatchTest extends
         static::assertSame($document1->getHandle(), reset($all2)->getHandle());
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         try {
             $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);

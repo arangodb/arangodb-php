@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<phpunit bootstrap="bootstrap-connection-close.php" colors="true" verbose="true" backupGlobals="false">
-    <testsuites>
-        <testsuite name="ArangoDB-PHP-Connection-Close">
-            <directory>.</directory>
-        </testsuite>
-    </testsuites>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">../lib</directory>
-        </whitelist>
-    </filter>
-    <php>
-        <env name="ArangoDB-PHP-Connection" value="Close"/>
-    </php>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="bootstrap-connection-close.php" colors="true" verbose="true" backupGlobals="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">../lib</directory>
+    </include>
+  </coverage>
+  <testsuites>
+    <testsuite name="ArangoDB-PHP-Connection-Close">
+      <directory>.</directory>
+    </testsuite>
+  </testsuites>
+  <php>
+    <env name="ArangoDB-PHP-Connection" value="Close"/>
+  </php>
 </phpunit>

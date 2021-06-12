@@ -65,7 +65,7 @@ class TraversalTest extends
     }
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->vertex1Name = 'vertex_alice';
         $this->vertex2Name = 'vertex_bob';
@@ -640,7 +640,7 @@ $a=1;
     }
 
 
-    public function tearDown()
+    public function tearDown(): void
     {
         try {
             $result = $this->graphHandler->dropGraph($this->graphName);

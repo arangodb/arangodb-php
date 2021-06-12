@@ -29,7 +29,7 @@ class DatabaseTest extends
     }
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->connection = getConnection();
         $this->connection->setDatabase('_system');
@@ -349,7 +349,7 @@ class DatabaseTest extends
         );
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
       $this->connection->setDatabase('_system');
 

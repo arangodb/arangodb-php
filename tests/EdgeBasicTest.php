@@ -32,7 +32,7 @@ class EdgeBasicTest extends
     }
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->connection        = getConnection();
         $this->collectionHandler = new CollectionHandler($this->connection);
@@ -267,95 +267,6 @@ class EdgeBasicTest extends
         $edgeDocumentHandler->remove($resultingEdge);
     }
 
-
-    /**
-     * Try to create and delete an edge with wrong encoding
-     * We expect an exception here:
-     *
-     * @expectedException \ArangoDBClient\ClientException
-     */
-    public function testCreateAndDeleteEdgeWithWrongEncoding()
-    {
-        $connection = $this->connection;
-        $this->collection;
-        $edgeCollection = $this->edgeCollection;
-        $this->collectionHandler;
-
-        $document1       = new Document();
-        $document2       = new Document();
-        $documentHandler = new DocumentHandler($connection);
-
-        $edgeDocument        = new Edge();
-        $edgeDocumentHandler = new EdgeHandler($connection);
-
-        $document1->someAttribute = 'someValue1';
-        $document2->someAttribute = 'someValue2';
-
-
-        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document1);
-        $documentHandler->save('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp, $document2);
-        $documentHandle1 = $document1->getHandle();
-        $documentHandle2 = $document2->getHandle();
-
-        $isoValue = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', 'knowsü');
-        $edgeDocument->set('label', $isoValue);
-
-        $edgeDocumentId = $edgeDocumentHandler->saveEdge(
-            $edgeCollection->getId(),
-            $documentHandle1,
-            $documentHandle2,
-            $edgeDocument
-        );
-
-        //        $resultingDocument = $documentHandler->get($edgeCollection->getId(), $edgeDocumentId);
-
-        $resultingEdge = $edgeDocumentHandler->get($edgeCollection->getId(), $edgeDocumentId);
-
-        $resultingAttribute = $resultingEdge->label;
-        static::assertSame('knows', $resultingAttribute, 'Attribute set on the Edge is different from the one retrieved!');
-
-
-        $edgesQuery1Result = $edgeDocumentHandler->edges($edgeCollection->getId(), $documentHandle1, 'out');
-
-        static::assertCount(2, $edgesQuery1Result);
-
-        $statement = new Statement(
-            $connection, [
-                'query'     => '',
-                'count'     => true,
-                'batchSize' => 1000,
-                'sanitize'  => true,
-            ]
-        );
-        $statement->setQuery(
-            'FOR p IN PATHS(ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp . ', ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp . ', "outbound")  RETURN p'
-        );
-        $cursor = $statement->execute();
-
-        $result = $cursor->current();
-        static::assertInstanceOf(
-            Document::class,
-            $result,
-            'IN PATHS statement did not return a document object!'
-        );
-        $resultingEdge->set('label', 'knows not');
-
-        $documentHandler->update($resultingEdge);
-
-
-        $resultingEdge      = $edgeDocumentHandler->get($edgeCollection->getId(), $edgeDocumentId);
-        $resultingAttribute = $resultingEdge->label;
-        static::assertSame(
-            'knows not', $resultingAttribute, 'Attribute "knows not" set on the Edge is different from the one retrieved (' . $resultingAttribute . ')!'
-        );
-
-
-        $documentHandler->remove($document1);
-        $documentHandler->remove($document2);
-
-        // On ArangoDB 1.0 deleting a vertex doesn't delete the associated edge. Caution!
-        $edgeDocumentHandler->remove($resultingEdge);
-    }
 
     /**
      * Try to create, get and delete a edge using the revision-
@@ -884,7 +795,7 @@ class EdgeBasicTest extends
         static::assertCount(0, $edgesQueryResult);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         try {
             $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestEdgeCollection_01' . '_' . static::$testsTimestamp);

@@ -34,7 +34,7 @@ class CollectionExtendedTest extends
     /**
      * Test set-up
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->connection        = getConnection();
         $this->collection        = new Collection();
@@ -375,40 +375,6 @@ class CollectionExtendedTest extends
 
 
     /**
-     * test for creation, rename, and delete of a collection with wrong encoding
-     *
-     * We expect an exception here:
-     *
-     * @expectedException \ArangoDBClient\ClientException
-     *
-     */
-    public function testCreateRenameAndDeleteCollectionWithWrongEncoding()
-    {
-        $collection        = $this->collection;
-        $collectionHandler = $this->collectionHandler;
-
-
-        $name = 'ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp;
-        $collection->setName($name);
-
-        $response = $collectionHandler->create($collection);
-
-        static::assertTrue(is_numeric($response), 'Adding collection did not return an id!');
-
-        $resultingCollection = $collectionHandler->get($name);
-
-        // inject wrong encoding
-        $isoValue = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', 'ArangoDB_PHP_TestSuite_TestCollection_01_renamedü');
-
-        static::assertTrue($collectionHandler->rename($resultingCollection, $isoValue));
-
-
-        $response = $collectionHandler->drop($resultingCollection);
-        static::assertTrue($response, 'Delete should return true!');
-    }
-
-
-    /**
      * test for creation, get, and delete of a collection with waitForSync set to true
      */
     public function testCreateGetAndDeleteCollectionWithWaitForSyncTrue()
@@ -543,11 +509,10 @@ class CollectionExtendedTest extends
 
     /**
      * test for removal by keys with unknown collection
-     *
-     * @expectedException \ArangoDBClient\ServerException
      */
     public function testRemoveByKeysCollectionNotFound()
     {
+        $this->expectException(\ArangoDBClient\ServerException::class);
         $collectionHandler = $this->collectionHandler;
 
         $keys = ['foo'];
@@ -2990,11 +2955,10 @@ class CollectionExtendedTest extends
 
     /**
      * test for lookup by keys with unknown collection
-     *
-     * @expectedException \ArangoDBClient\ServerException
      */
     public function testLookupByCollectionNotFound()
     {
+        $this->expectException(\ArangoDBClient\ServerException::class);
         $collectionHandler = $this->collectionHandler;
 
         $keys = ['foo'];
@@ -3004,7 +2968,7 @@ class CollectionExtendedTest extends
     /**
      * Test tear-down
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         try {
             $this->collectionHandler->drop('ArangoDB_PHP_TestSuite_TestCollection_01' . '_' . static::$testsTimestamp);

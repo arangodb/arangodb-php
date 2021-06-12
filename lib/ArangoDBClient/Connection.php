@@ -145,7 +145,7 @@ class Connection
             $name === ConnectionOptions::OPTION_CIPHERS ||
             $name === ConnectionOptions::OPTION_ALLOW_SELF_SIGNED
         ) {
-            throw new ClientException('Must not set option ' . $value . ' after connection is created.');
+            throw new ClientException('Must not set option ' . $name . ' after connection is created.');
         }
 
         $this->_options[$name] = $value;
