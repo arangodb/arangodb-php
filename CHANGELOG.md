@@ -11,6 +11,15 @@ in a previous release and is not available in ArangoDB 3.9 anymore:
 
 ## Release notes for the ArangoDB-PHP driver 3.8.x
 
+OPTION_TIMEOUT of the Connection class is now superseded by the more specialized options
+- OPTION_CONNECT_TIMEOUT
+- OPTION_REQUEST_TIMEOUT
+
+The existing OPTION_TIMEOUT value can still be used as before. When used, it will 
+automatically clobber values set in OPTION_CONNECT_TIMEOUT and OPTION_REQUEST_TIMEOUT.
+Using one of the more specialized options will remove OPTION_TIMEOUT from the connection's 
+options.
+
 Added CollectionHandler::insertMany() method to simplify insertion of multiple documents
 at once. This is now the preferred way of inserting mutliple documents in a single 
 request, and will perform much better than using the `Batch` functionality, which is
