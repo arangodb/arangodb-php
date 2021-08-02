@@ -458,11 +458,7 @@ class CollectionExtendedTest extends
         $unloadResult = $collectionHandler->unload($collection->getName());
         $unloadResult = $unloadResult->getJson();
         static::assertArrayHasKey('status', $unloadResult, 'status field should exist');
-        static::assertTrue(
-            $unloadResult['status'] === 4 || $unloadResult['status'] === 2,
-            'Collection status should be 4 (in the process of being unloaded) or 2 (unloaded). Found: ' . $unloadResult['status'] . '!'
-        );
-
+        static::assertEquals($unloadResult['status'], 3);
 
         // here we check the collectionHandler->load() function
         $loadResult = $collectionHandler->load($collection->getName());
