@@ -2,12 +2,20 @@
 
 ## Release notes for the ArangoDB-PHP driver 3.9.x
 
+This version of the PHP driver is compatible with PHP versions 7.4 and 8.0.
+Older versions of PHP are not supported.
+
 This version of the PHP driver removes the following functionality, which was deprecated
 in a previous release and is not available in ArangoDB 3.9 anymore:
 
 - class Export
 - class ExportCursor
 
+In addition, as the equivalent functionality has been deprecated on the
+server side, the following driver methods have been deprecated as well:
+
+- CollectionHandler::load()
+- CollectionHandler::unload()
 
 ## Release notes for the ArangoDB-PHP driver 3.8.x
 
