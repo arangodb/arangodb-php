@@ -2,49 +2,14 @@
 
 echo "PHP version: $TRAVIS_PHP_VERSION"
 
-if [[ "$TRAVIS_PHP_VERSION" == "5.6" ]] ; then 
-wget "https://phar.phpunit.de/phpunit-5.7.phar"
-mv phpunit-5.7.phar ./phpunit
-fi
-
-if [[ "$TRAVIS_PHP_VERSION" == "7.0" ]] ; then 
-wget "https://phar.phpunit.de/phpunit-6.0.phar"
-mv phpunit-6.0.phar ./phpunit
-fi
-
-if [[ "$TRAVIS_PHP_VERSION" == "7.1" ]] ; then 
-wget "https://phar.phpunit.de/phpunit-6.0.phar"
-mv phpunit-6.0.phar ./phpunit
-fi
-
-if [[ "$TRAVIS_PHP_VERSION" == "7.2" ]] ; then 
-wget "https://phar.phpunit.de/phpunit-6.0.phar"
-mv phpunit-6.0.phar ./phpunit
-fi
-
-if [[ "$TRAVIS_PHP_VERSION" == "7.3" ]] ; then 
-wget "https://phar.phpunit.de/phpunit-6.0.phar"
-mv phpunit-6.0.phar ./phpunit
-fi
-
 if [[ "$TRAVIS_PHP_VERSION" == "7.4" ]] ; then 
-wget "https://phar.phpunit.de/phpunit-6.0.phar"
+wget "https://phar.phpunit.de/phpunit-9.5.phar"
 mv phpunit-6.0.phar ./phpunit
 fi
 
 if [[ "$TRAVIS_PHP_VERSION" == "8.0" ]] ; then 
 wget "https://phar.phpunit.de/phpunit-9.5.phar"
 mv phpunit-9.5.phar ./phpunit
-fi
-
-if [[ "$TRAVIS_PHP_VERSION" == "hhvm" ]] ; then 
-wget "https://phar.phpunit.de/phpunit-6.0.phar"
-mv phpunit-6.0.phar ./phpunit
-fi
-
-if [[ "$TRAVIS_PHP_VERSION" == "hhvm-3.18" ]] ; then 
-wget "https://phar.phpunit.de/phpunit-5.7.phar"
-mv phpunit-5.7.phar ./phpunit
 fi
 
 chmod +x ./phpunit
