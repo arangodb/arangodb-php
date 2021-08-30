@@ -9,8 +9,6 @@ matrix:
   include:
     - php: '7.4'
     - php: '8.0'
-  allow_failures:
-    - php: hhvm
 
 before_script:
   - chmod 777 ./tests/travis/setup_arangodb.sh

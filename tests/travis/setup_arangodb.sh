@@ -4,7 +4,7 @@ echo "PHP version: $TRAVIS_PHP_VERSION"
 
 if [[ "$TRAVIS_PHP_VERSION" == "7.4" ]] ; then 
 wget "https://phar.phpunit.de/phpunit-9.5.phar"
-mv phpunit-6.0.phar ./phpunit
+mv phpunit-9.5.phar ./phpunit
 fi
 
 if [[ "$TRAVIS_PHP_VERSION" == "8.0" ]] ; then 
