@@ -1020,7 +1020,7 @@ class GraphHandler extends Handler
      * @return mixed - id of edge created
      * @since 1.2
      */
-    public function saveEdge($graph, $from, $to, $label = null, $document, $collection = null)
+    public function saveEdge($graph, $from, $to, $label = null, $document = null, $collection = null)
     {
         if ($graph instanceof Graph) {
             $graph = $graph->getKey();
@@ -1036,6 +1036,9 @@ class GraphHandler extends Handler
             if ($edgeCollectionsCount === 1) {
                 $collection = $edgeCollections[0];
             }
+        }
+        if (!is_array($document) && !is_object($document)) {
+            throw new ClientException('Invalid document type.');
         }
 
         if (is_array($document)) {
