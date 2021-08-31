@@ -58,6 +58,14 @@ class Database
      */
     public static function create(Connection $connection, $name, array $options = [])
     {
+        try {
+            // NFC-normalize the database name, as this is required
+            // by the server
+            $name = \Normalizer::normalize($name, \Normalizer::FORM_C);
+        } catch (\Exception $e) {
+            // don't fail if Unicode normalization doesn't work.
+            // probably it is not installed.
+        }
         $payload = [
             self::ENTRY_DATABASE_NAME  => $name,
             self::ENTRY_DATABASE_USERS => [

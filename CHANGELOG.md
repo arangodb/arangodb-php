@@ -5,6 +5,10 @@
 This version of the PHP driver is compatible with PHP versions 7.4 and 8.0.
 Older versions of PHP are not supported.
 
+It is recommended to install the `php-intl` module so the PHP driver can access
+the `Normalizer` class of that module. This is needed to create databases with
+the extended database naming convention that can be enabled in ArangoDB 3.9.
+
 This version of the PHP driver removes the following functionality, which was deprecated
 in a previous release and is not available in ArangoDB 3.9 anymore:
 
