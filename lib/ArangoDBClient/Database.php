@@ -61,7 +61,9 @@ class Database
         try {
             // NFC-normalize the database name, as this is required
             // by the server
-            $name = \Normalizer::normalize($name, \Normalizer::FORM_C);
+            if (class_exists("\Normalizer", false)) {
+                $name = \Normalizer::normalize($name, \Normalizer::FORM_C);
+            }
         } catch (\Exception $e) {
             // don't fail if Unicode normalization doesn't work.
             // probably it is not installed.
