@@ -43,7 +43,7 @@ class AnalyzerTest extends
         $analyzer = new Analyzer('Analyzer1' . '_' . static::$testsTimestamp, 'text', [ "locale" => "en.UTF-8", "stopwords" => [] ]);
         static::assertEquals('Analyzer1' . '_' . static::$testsTimestamp, $analyzer->getName());
         static::assertEquals('text', $analyzer->getType());
-        static::assertEquals([ "locale" => "en.UTF-8", "stopwords" => [] ],$analyzer->getProperties());
+        static::assertEquals([ "locale" => "en.UTF-8", "stopwords" => [] ], $analyzer->getProperties());
         static::assertEquals([], $analyzer->getFeatures());
     }
 
@@ -69,7 +69,7 @@ class AnalyzerTest extends
         $result = $this->analyzerHandler->create($analyzer);
         static::assertEquals('Analyzer1' . '_' . static::$testsTimestamp, $result['name']);
         static::assertEquals('text', $result['type']);
-        static::assertEquals([ "locale" => "en.UTF-8", "stopwords" => [] ],$analyzer->getProperties());
+        static::assertEquals([ "locale" => "en.UTF-8", "stopwords" => [] ], $analyzer->getProperties());
         static::assertEquals([], $analyzer->getFeatures());
     }
     
@@ -89,17 +89,15 @@ class AnalyzerTest extends
     /**
      * Test creation of stopwords analyzer
      */
-    /* disabled until 3.8.1
     public function testCreateStopwordsAnalyzer()
     {
         $analyzer = new Analyzer('Analyzer1' . '_' . static::$testsTimestamp, 'stopwords', [ "stopwords" => ["foo", "bar", "baz", "dead"] ]);
         $result = $this->analyzerHandler->create($analyzer);
         static::assertEquals('Analyzer1' . '_' . static::$testsTimestamp, $result['name']);
         static::assertEquals('stopwords', $result['type']);
-        static::assertEquals([ "stopwords" => ["foo", "bar", "baz", "dead"] ],$analyzer->getProperties());
+        static::assertEquals([ "stopwords" => ["foo", "bar", "baz", "dead"] ], $analyzer->getProperties());
         static::assertEquals([], $analyzer->getFeatures());
     }
-     */
     
     /**
      * Test creation of delimiter analyzer
@@ -110,7 +108,7 @@ class AnalyzerTest extends
         $result = $this->analyzerHandler->create($analyzer);
         static::assertEquals('Analyzer1' . '_' . static::$testsTimestamp, $result['name']);
         static::assertEquals('delimiter', $result['type']);
-        static::assertEquals([ "delimiter" => " " ],$analyzer->getProperties());
+        static::assertEquals([ "delimiter" => " " ], $analyzer->getProperties());
         static::assertEquals([], $analyzer->getFeatures());
     }
     
@@ -123,14 +121,13 @@ class AnalyzerTest extends
         $result = $this->analyzerHandler->create($analyzer);
         static::assertEquals('Analyzer1' . '_' . static::$testsTimestamp, $result['name']);
         static::assertEquals('norm', $result['type']);
-        static::assertEquals([ "locale" => "en.UTF-8", "accent" => false, "case" => "lower" ],$analyzer->getProperties());
+        static::assertEquals([ "locale" => "en.UTF-8", "accent" => false, "case" => "lower" ], $analyzer->getProperties());
         static::assertEquals([], $analyzer->getFeatures());
     }
     
     /**
      * Test creation of pipeline analyzer
      */
-    /* disabled until 3.8.1
     public function testCreatePipelineAnalyzer()
     {
         $data = [ "pipeline" => [
@@ -147,7 +144,6 @@ class AnalyzerTest extends
         static::assertEquals($data, $analyzer->getProperties());
         static::assertEquals([], $analyzer->getFeatures());
     }
-     */
     
     /**
      * Test getting an analyzer
@@ -160,7 +156,7 @@ class AnalyzerTest extends
         $result = $this->analyzerHandler->get('Analyzer1' . '_' . static::$testsTimestamp);
         static::assertEquals('_system::Analyzer1' . '_' . static::$testsTimestamp, $result->getName());
         static::assertEquals('text', $result->getType());
-        static::assertEquals([ "locale" => "en.UTF-8", "stopwords" => [] ],$analyzer->getProperties());
+        static::assertEquals([ "locale" => "en.UTF-8", "stopwords" => [] ], $analyzer->getProperties());
         static::assertEquals([], $analyzer->getFeatures());
     }
     
@@ -252,13 +248,13 @@ class AnalyzerTest extends
         $result = $this->analyzerHandler->create($analyzer);
         static::assertEquals('Analyzer2' . '_' . static::$testsTimestamp, $result['name']);
         static::assertEquals('text', $result['type']);
-        static::assertEquals([ "locale" => "en.UTF-8", "stopwords" => [] ],$analyzer->getProperties());
+        static::assertEquals([ "locale" => "en.UTF-8", "stopwords" => [] ], $analyzer->getProperties());
         static::assertEquals([], $analyzer->getFeatures());
         
         $result = $this->analyzerHandler->properties($analyzer);
         static::assertEquals('_system::Analyzer2' . '_' . static::$testsTimestamp, $result['name']);
         static::assertEquals('text', $result['type']);
-        static::assertEquals([ "locale" => "en.UTF-8", "stopwords" => [] ],$analyzer->getProperties());
+        static::assertEquals([ "locale" => "en.UTF-8", "stopwords" => [] ], $analyzer->getProperties());
         static::assertEquals([], $analyzer->getFeatures());
     }
     
