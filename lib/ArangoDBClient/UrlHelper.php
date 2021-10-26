@@ -66,7 +66,7 @@ abstract class UrlHelper
                 @list(,$part) = explode('/', $part);
             }
 
-            $url .= '/' . urlencode($part);
+            $url .= '/' . rawurlencode($part);
         }
 
         return $url;

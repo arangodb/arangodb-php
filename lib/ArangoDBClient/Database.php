@@ -43,7 +43,7 @@ class Database
      * This creates a new database<br>
      *
      * @param Connection $connection - the connection to be used
-     * @param string     $name       - database name, for example 'myDatabase'
+     * @param string     $name       - database name, for example 'myDatabase' - must be NFC-normalized!
      * @param array      $options    - extra options for new collections in this database.
      *                                 <p>Options are :<br>
      *                                 <li>'replicationFactor'</li>
@@ -58,8 +58,6 @@ class Database
      */
     public static function create(Connection $connection, $name, array $options = [])
     {
-        // NFC-normalize the database name if required
-        $name = self::normalizeName($name);
         $payload = [
             self::ENTRY_DATABASE_NAME  => $name,
             self::ENTRY_DATABASE_USERS => [
