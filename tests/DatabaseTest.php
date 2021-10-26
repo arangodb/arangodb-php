@@ -45,6 +45,31 @@ class DatabaseTest extends
         }
     }
 
+
+    public function testCreateDatabaseWithUnicodeName() 
+    {
+        if (!class_exists("\Normalizer", false)) {
+            $this->markTestSkipped("unable to find Normalizer class. maybe php-intl is not installed?");
+        }
+
+        // try to create a database with Unicode name.
+        // this may fail if the server side is not configured to allow
+        // Unicode database names
+        $database = "tröt tröt tröt_" . static::$testsTimestamp;
+        try {
+            $response = Database::create($this->connection, $database);
+        } catch (ServerException $exception) {
+            // ERROR_ARANGO_DATABASE_NAME_INVALID,1229,"database name invalid","Will be raised when an invalid database name is used."
+            if ($exception->getServerCode() === 1229) {
+                $this->markTestSkipped("server was not started with extended database naming scheme");
+            }
+            throw $exception;
+        }
+        
+        $response = Database::listDatabases($this->connection);
+        static::assertArrayHasKey($database, array_flip($response['result']));
+    }
+
     /**
      * Test if Databases can be created and deleted
      */
@@ -354,7 +379,11 @@ class DatabaseTest extends
       $this->connection->setDatabase('_system');
 
         // clean up
-        $databases = ['ArangoTestSuiteDatabaseTest01' . '_' . static::$testsTimestamp, 'ArangoTestSuiteDatabaseTest02' . '_' . static::$testsTimestamp];
+        $databases = [
+            'ArangoTestSuiteDatabaseTest01' . '_' . static::$testsTimestamp, 
+            'ArangoTestSuiteDatabaseTest02' . '_' . static::$testsTimestamp,
+            'tröt tröt tröt_' . static::$testsTimestamp,
+        ];
         foreach ($databases as $database) {
 
             try {

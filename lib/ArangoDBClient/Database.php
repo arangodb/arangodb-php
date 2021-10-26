@@ -58,16 +58,8 @@ class Database
      */
     public static function create(Connection $connection, $name, array $options = [])
     {
-        try {
-            // NFC-normalize the database name, as this is required
-            // by the server
-            if (class_exists("\Normalizer", false)) {
-                $name = \Normalizer::normalize($name, \Normalizer::FORM_C);
-            }
-        } catch (\Exception $e) {
-            // don't fail if Unicode normalization doesn't work.
-            // probably it is not installed.
-        }
+        // NFC-normalize the database name if required
+        $name = self::normalizeName($name);
         $payload = [
             self::ENTRY_DATABASE_NAME  => $name,
             self::ENTRY_DATABASE_USERS => [
@@ -194,6 +186,33 @@ class Database
         $response = $connection->get($url);
 
         return $response->getJson();
+    }
+    
+    
+    /**
+     * normalizes a database name
+     *
+     * UTF-8 NFC Normalization is required for database names in case
+     * the extended naming scheme for databases is used. This has to
+     * be enabled on the server side and is present since server version
+     * 3.9.
+     * If the name needs normalization but no normalizer is installed,
+     * this function can fail and abort the program with a PHP fatal error.
+     *
+     * @param string $name   - database name to normalize.
+     *
+     * @return string $name - The normalized name
+     */
+    public static function normalizeName($name)
+    {
+        // first check if the database name follows the traditional
+        // naming scheme. if so, there is no need to normalize it.
+        if (!preg_match("/^[a-zA-Z0-9_\-]+$/", $name)) {
+            // extended database naming scheme. now NFC-normalize 
+            // the database name, as this is required by the server
+            $name =  \Normalizer::normalize($name, \Normalizer::FORM_C);
+        }
+        return $name;
     }
 }
 
