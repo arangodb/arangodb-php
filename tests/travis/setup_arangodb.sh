@@ -3,12 +3,12 @@
 echo "PHP version: $TRAVIS_PHP_VERSION"
 
 if [[ "$TRAVIS_PHP_VERSION" == "7.4" ]] ; then 
-wget "https://phar.phpunit.de/phpunit-9.5.phar"
+wget --no-check-certificate "https://phar.phpunit.de/phpunit-9.5.phar"
 mv phpunit-9.5.phar ./phpunit
 fi
 
 if [[ "$TRAVIS_PHP_VERSION" == "8.0" ]] ; then 
-wget "https://phar.phpunit.de/phpunit-9.5.phar"
+wget --no-check-certificate "https://phar.phpunit.de/phpunit-9.5.phar"
 mv phpunit-9.5.phar ./phpunit
 fi
 
@@ -21,7 +21,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
 docker pull arangodb/arangodb-preview:3.9.0-nightly
-docker run -d -e ARANGO_ROOT_PASSWORD="test" -p 8529:8529 arangodb/arangodb-preview:3.9.0-nightly --server.extended-names-databases true
+docker run -d -e ARANGO_ROOT_PASSWORD="test" -p 8529:8529 arangodb/arangodb-preview:3.9.0-nightly arangod --server.endpoint tcp://127.0.0.1:8529 --server.extended-names-databases true
 
 sleep 2
 
