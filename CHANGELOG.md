@@ -1,5 +1,15 @@
 # Changelog
 
+## Release notes for the ArangoDB-PHP driver 3.10.x
+
+Using the index types "hash", "skiplist" or "fulltext" is deprecated. 
+With the RocksDB storage engine, "hash" and "skiplist" indexes are mere aliases of
+the "persistent" index type. Thus the "persistent" index is the preferred type to
+use from the PHP driver as well.
+
+ArangoDB 3.10 also deprecates the usage of fulltext indexes, so using the "fulltext"
+index type from the PHP driver is also deprecated.
+
 ## Release notes for the ArangoDB-PHP driver 3.9.x
 
 This version of the PHP driver is compatible with PHP versions 7.4 and 8.0.

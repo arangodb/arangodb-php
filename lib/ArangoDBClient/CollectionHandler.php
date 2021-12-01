@@ -144,11 +144,13 @@ class CollectionHandler extends Handler
 
     /**
      * hash index option
+     * @deprecated "hash" is now an alias for "persistent". use "persistent" instead
      */
     const OPTION_HASH_INDEX = 'hash';
 
     /**
      * fulltext index option
+     * @deprecated fulltext indexes are deprecated from ArangoDB 3.10 onwards
      */
     const OPTION_FULLTEXT_INDEX = 'fulltext';
 
@@ -159,6 +161,7 @@ class CollectionHandler extends Handler
 
     /**
      * skiplist index option
+     * @deprecated "skiplist" is now an alias for "persistent". use "persistent" instead
      */
     const OPTION_SKIPLIST_INDEX = 'skiplist';
 
@@ -897,7 +900,7 @@ class CollectionHandler extends Handler
      * @param int    $minLength    - the minimum length of words to index
      * @param bool   $inBackground - true if index shall be created in background
      *
-     * @deprecated use CollectionHandler::createIndex instead
+     * @deprecated use CollectionHandler::createIndex instead. additionally, fulltext indexes are deprecated from ArangoDB 3.10 onwards
      *
      * @return array - server response of the created index
      * @throws \ArangoDBClient\Exception

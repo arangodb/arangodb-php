@@ -2038,6 +2038,7 @@ class CollectionExtendedTest extends
     
     /**
      * test for creation of a hash index
+     * @deprecated the "hash" index type is deprecated on the server side
      */
     public function testCreateHashIndex()
     {
@@ -2070,7 +2071,7 @@ class CollectionExtendedTest extends
     /**
      * test for creation of a hash index, uniqueness violation
      */
-    public function testCreateUniqueHashIndex()
+    public function testCreateUniquePersistentIndex()
     {
         // set up collections, indexes and test-documents
         $collectionHandler = $this->collectionHandler;
@@ -2086,7 +2087,7 @@ class CollectionExtendedTest extends
         $documentHandler->save($collection->getName(), $document2);
 
         try {
-            $collectionHandler->index($collection->getName(), 'hash', ['index'], true);
+            $collectionHandler->index($collection->getName(), 'persistent', ['index'], true);
         } catch (ServerException $e) {
             static::assertInstanceOf(
                 ServerException::class,
@@ -2105,6 +2106,7 @@ class CollectionExtendedTest extends
 
     /**
      * test for creation of a skip-list indexed collection and querying by range (first level and nested), with closed, skip and limit options
+     * @deprecated the functionality is deprecated on the server side
      */
 
     public function testCreateSkipListIndexedCollectionAddDocumentsAndQueryRange()
@@ -2456,6 +2458,7 @@ class CollectionExtendedTest extends
 
     /**
      * test for creation of a fulltext indexed collection and querying by within, with distance, skip and limit options
+     * @deprecated the "fulltext" index type is deprecated from ArangoDB 3.10 onwards
      */
     public function testCreateFulltextIndexedCollectionAddDocumentsAndQuery()
     {
@@ -2491,6 +2494,7 @@ class CollectionExtendedTest extends
 
     /**
      * Test if we can create a full text index with options, on a collection
+     * @deprecated the "fulltext" index type is deprecated from ArangoDB 3.10 onwards
      */
     public function testCreateFulltextIndexedCollectionWithOptions()
     {

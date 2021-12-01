@@ -790,8 +790,8 @@ class CollectionBasicTest extends
     {
         $result = $this->collectionHandler->createIndex(
             'ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp, [
-                'type' => 'hash',
-                'name' => 'mr-hash',
+                'type' => 'persistent',
+                'name' => 'mr-persistent',
                 'fields' => ['a', 'b'],
                 'unique' => true,
                 'sparse' => true,
@@ -807,11 +807,11 @@ class CollectionBasicTest extends
 
         $indexInfo = $indicesByIdentifiers[$result['id']];
 
-        static::assertEquals('hash', $indexInfo[CollectionHandler::OPTION_TYPE]);
+        static::assertEquals('persistent', $indexInfo[CollectionHandler::OPTION_TYPE]);
         static::assertEquals(['a', 'b'], $indexInfo['fields']);
         static::assertTrue($indexInfo['unique']);
         static::assertTrue($indexInfo['sparse']);
-        static::assertEquals('mr-hash', $indexInfo['name']);
+        static::assertEquals('mr-persistent', $indexInfo['name']);
     }
     
     
@@ -848,20 +848,18 @@ class CollectionBasicTest extends
     {
         $result = $this->collectionHandler->createIndex(
             'ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp, [
-                'type' => 'fulltext',
+                'type' => 'persistent',
                 'name' => 'this-is-an-index',
                 'fields' => ['c'],
-                'minLength' => 4,
             ]
         ); 
         
         $indexInfo = $this->collectionHandler->getIndex('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp, $result['id']);
 
-        static::assertEquals('fulltext', $indexInfo[CollectionHandler::OPTION_TYPE]);
+        static::assertEquals('persistent', $indexInfo[CollectionHandler::OPTION_TYPE]);
         static::assertEquals(['c'], $indexInfo['fields']);
         static::assertFalse($indexInfo['unique']);
-        static::assertTrue($indexInfo['sparse']);
-        static::assertEquals(4, $indexInfo['minLength']);
+        static::assertFalse($indexInfo['sparse']);
         static::assertEquals('this-is-an-index', $indexInfo['name']);
     }
     
@@ -872,10 +870,9 @@ class CollectionBasicTest extends
     {
         $result = $this->collectionHandler->createIndex(
             'ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp, [
-                'type' => 'fulltext',
+                'type' => 'persistent',
                 'name' => 'this-is-an-index',
                 'fields' => ['c'],
-                'minLength' => 4,
             ]
         ); 
         
@@ -891,10 +888,9 @@ class CollectionBasicTest extends
     {
         $result = $this->collectionHandler->createIndex(
             'ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp, [
-                'type' => 'fulltext',
+                'type' => 'persistent',
                 'name' => 'this-is-an-index',
                 'fields' => ['c'],
-                'minLength' => 4,
             ]
         ); 
         
@@ -960,6 +956,7 @@ class CollectionBasicTest extends
 
     /**
      * Create a hash index and verify it by getting information about the index from the server
+     * @deprecated the "hash" index type is deprecated on the server side
      */
     public function testCreateHashIndex()
     {
@@ -994,6 +991,7 @@ class CollectionBasicTest extends
 
     /**
      * Create a sparse hash index and verify it by getting information about the index from the server
+     * @deprecated the "hash" index type is deprecated on the server side
      */
     public function testCreateSparseHashIndex()
     {
@@ -1029,6 +1027,7 @@ class CollectionBasicTest extends
 
     /**
      * Create a fulltext index and verify it by getting information about the index from the server
+     * @deprecated the "fulltext" index type is deprecated from ArangoDB 3.10 onwards
      */
     public function testCreateFulltextIndex()
     {
@@ -1059,6 +1058,7 @@ class CollectionBasicTest extends
 
     /**
      * Create a skiplist index and verify it by getting information about the index from the server
+     * @deprecated the "skiplist" index type is deprecated on the server side
      */
     public function testCreateSkipListIndex()
     {
@@ -1091,6 +1091,7 @@ class CollectionBasicTest extends
 
     /**
      * Create a sparse skiplist index and verify it by getting information about the index from the server
+     * @deprecated the "skiplist" index type is deprecated on the server side
      */
     public function testCreateSparseSkipListIndex()
     {
@@ -1221,6 +1222,7 @@ class CollectionBasicTest extends
 
     /**
      * Test creating an index and getting it to verify.
+     * @deprecated the "fulltext" index type is deprecated from ArangoDB 3.10 onwards
      */
     public function testGetIndex()
     {
@@ -1251,12 +1253,14 @@ class CollectionBasicTest extends
      */
     public function testCreateIndexInBackground()
     {
-        $result = $this->collectionHandler->createHashIndex(
-            'ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp,
-            ['test'],
-            false, 
-            false, 
-            true
+        $result = $this->collectionHandler->createIndex(
+            'ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp, [
+                'type' => 'persistent',
+                'fields' => ['test'],
+                'unique' => false,
+                'sparse' => false,
+                'inBackground' => true
+            ]
         );
 
         $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp);
@@ -1268,7 +1272,7 @@ class CollectionBasicTest extends
         $indexInfo = $indicesByIdentifiers[$result['id']];
 
         static::assertEquals(
-            CollectionHandler::OPTION_HASH_INDEX,
+            CollectionHandler::OPTION_PERSISTENT_INDEX,
             $indexInfo[CollectionHandler::OPTION_TYPE]
         );
         static::assertEquals(['test'], $indexInfo['fields']);
