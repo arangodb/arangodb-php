@@ -99,6 +99,68 @@ class AdminTest extends
     
     
     /**
+     * Test if we can get the server log levels
+     */
+    public function testGetServerLogLevels()
+    {
+        $result = $this->adminHandler->getServerLogLevels();
+        static::assertTrue(is_array($result));
+
+        $levels = ["TRACE", "DEBUG", "INFO", "WARNING", "ERROR", "FATAL", "DEFAULT"];
+        static::assertGreaterThan(0, count($result));
+        foreach ($result as $topic => $level) {
+            static::assertContains($level, $levels);
+        }
+        // check a few well-known log topics
+        static::assertArrayHasKey('aql', $result);
+        static::assertArrayHasKey('threads', $result);
+    }
+    
+    
+    /**
+     * Test if we can set the server log levels
+     */
+    public function testSetServerLogLevels()
+    {
+        $old = $this->adminHandler->getServerLogLevels();
+
+        $levels = ["TRACE", "DEBUG", "INFO", "WARNING", "ERROR", "FATAL", "DEFAULT"];
+        try {
+            $new = ["aql" => "TRACE", "threads" => "debug"];
+
+            $result = $this->adminHandler->setServerLogLevels($new);
+            static::assertTrue(is_array($result));
+            static::assertGreaterThan(0, count($result));
+            foreach ($result as $topic => $level) {
+                static::assertContains($level, $levels);
+            }
+            static::assertEquals("TRACE", $result["aql"]);
+            static::assertEquals("DEBUG", $result["threads"]);
+            
+            $new = ["all" => "INFO"];
+            $result = $this->adminHandler->setServerLogLevels($new);
+            static::assertTrue(is_array($result));
+            static::assertGreaterThan(0, count($result));
+            foreach ($result as $topic => $level) {
+                // everything must be INFO now
+                static::assertEquals("INFO", $level);
+            }
+            
+            $result = $this->adminHandler->setServerLogLevels($old);
+            static::assertTrue(is_array($result));
+            static::assertGreaterThan(0, count($result));
+            foreach ($result as $topic => $level) {
+                static::assertEquals($old[$topic], $level);
+            }
+        } catch (\Exception $e) {
+            $this->adminHandler->setServerLogLevels($old);
+            static::assertTrue(false, "should not end up here");
+        }
+
+    }
+    
+    
+    /**
      * Test if we can get the server log
      * Rather dumb tests just checking that an array is returned
      */
