@@ -116,6 +116,11 @@ class CollectionHandler extends Handler
      * fields
      */
     const OPTION_FIELDS = 'fields';
+    
+    /**
+     * fieldValueTypes (zkd index only)
+     */
+    const OPTION_FIELD_VALUE_TYPES = 'fieldValueTypes';
 
     /**
      * unique
@@ -156,6 +161,11 @@ class CollectionHandler extends Handler
      * minLength option
      */
     const OPTION_MIN_LENGTH = 'minLength';
+    
+    /**
+     * zkd index option
+     */
+    const OPTION_ZKD_INDEX = 'zkd';
 
     /**
      * skiplist index option
@@ -911,6 +921,39 @@ class CollectionHandler extends Handler
 
         if ($minLength) {
             $indexOptions[self::OPTION_MIN_LENGTH] = $minLength;
+        }
+        if ($inBackground) {
+            $indexOptions[self::OPTION_IN_BACKGROUND] = (bool) $inBackground;
+        }
+
+        return $this->createIndex($collection, $indexOptions);
+    }
+    
+    
+    /**
+     * Create a zkd index
+     *
+     * @param mixed  $collection      - collection as string or object
+     * @param array  $fields          - an array of fields
+     * @param bool   $unique          - whether the index is unique or not
+     * @param string $fieldValueTypes - data type of index values
+     * @param bool   $inBackground    - true if index shall be created in background
+     *
+     * @deprecated use CollectionHandler::createIndex instead
+     *
+     * @return array - server response of the created index
+     * @throws \ArangoDBClient\Exception
+     */
+    public function createZkdIndex($collection, array $fields, $unique = null, $fieldValueTypes = "double", $inBackground = false)
+    {
+        $indexOptions = [
+            self::OPTION_TYPE   => 'zkd',
+            self::OPTION_FIELDS => $fields,
+            self::OPTION_FIELD_VALUE_TYPES => $fieldValueTypes,
+        ];
+
+        if ($unique) {
+            $indexOptions[self::OPTION_UNIQUE] = (bool) $unique;
         }
         if ($inBackground) {
             $indexOptions[self::OPTION_IN_BACKGROUND] = (bool) $inBackground;
