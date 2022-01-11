@@ -35,7 +35,7 @@ class Autoloader
     const EXTENSION = '.php';
 
     /**
-     * Initialise the autoloader
+     * Initialize the autoloader
      *
      * @throws Exception
      * @return void

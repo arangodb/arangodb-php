@@ -61,11 +61,11 @@ class Traversal
     protected $_action;
 
     /**
-     * Initialise the Traversal object
+     * Initialize the Traversal object
      *
      * @param Connection $connection     - the connection to be used
-     * @param string     $startVertex    - user function initialization data
-     * @param string     $edgeCollection - user function initialization data
+     * @param string     $startVertex    - start vertex id for query
+     * @param string     $edgeCollection - name of the underlying edge collection
      * @param array      $options
      *
      * @throws \ArangoDBClient\ClientException

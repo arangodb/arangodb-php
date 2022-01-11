@@ -176,7 +176,7 @@ class Cursor implements \Iterator
     const ENTRY_BASEURL = 'baseurl';
 
     /**
-     * Initialise the cursor with the first results and some metadata
+     * Initialize the cursor with the first results and some metadata
      *
      * @param Connection $connection - connection to be used
      * @param array      $data       - initial result data as returned by the server

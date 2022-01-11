@@ -257,7 +257,7 @@ class Statement
     const ENTRY_TRANSACTION = 'transaction';
 
     /**
-     * Initialise the statement
+     * Initialize the statement
      *
      * The $data property can be used to specify the query text and further
      * options for the query.

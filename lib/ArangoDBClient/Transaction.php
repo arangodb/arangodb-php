@@ -74,7 +74,7 @@ class Transaction extends TransactionBase
     protected $_action;
 
     /**
-     * Initialise the transaction object
+     * Initialize the transaction object
      *
      * The $transaction array can be used to specify the collections, action and further
      * options for the transaction in form of an array.
