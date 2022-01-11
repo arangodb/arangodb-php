@@ -112,10 +112,24 @@ class GraphHandler extends Handler
         }
 
         $params   = [
-            self::OPTION_NAME               => $graph->getKey(),
-            self::OPTION_EDGE_DEFINITIONS   => $edgeDefinitions,
-            self::OPTION_ORPHAN_COLLECTIONS => $graph->getOrphanCollections()
+            self::OPTION_NAME                  => $graph->getKey(),
+            self::OPTION_EDGE_DEFINITIONS      => $edgeDefinitions,
+            self::OPTION_ORPHAN_COLLECTIONS    => $graph->getOrphanCollections(),
         ];
+
+        if ($graph->isSmart()) {
+            $params[Graph::ENTRY_IS_SMART]                         = $graph->isSmart();
+            $params["options"][Graph::ENTRY_IS_DISJOINT]           = $graph->isDisjoint();
+            $params["options"][Graph::ENTRY_SMART_GRAPH_ATTRIBUTE] = $graph->getSmartGraphAttribute();
+        }
+
+        if ($graph->getReplicationFactor() !== null) {
+            $params["options"][Graph::ENTRY_REPLICATION_FACTOR]    = $graph->getReplicationFactor();
+        }
+        if ($graph->getNumberOfShards() !== null) {
+            $params["options"][Graph::ENTRY_NUMBER_OF_SHARDS]      = $graph->getNumberOfShards();
+        }
+
         $url      = Urls::URL_GRAPH;
         $response = $this->getConnection()->post($url, $this->json_encode_wrapper($params));
         $json     = $response->getJson();

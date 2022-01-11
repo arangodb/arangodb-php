@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ArangoDB PHP client: single document
+ * ArangoDB PHP client: graphs
  *
  * @package   ArangoDBClient
  * @author    Jan Steemann
@@ -47,6 +47,37 @@ class Graph extends Document
      * Graph orphan collections
      */
     const ENTRY_ORPHAN_COLLECTIONS = 'orphanCollections';
+    
+    /**
+     * Smart graph flag
+     */
+    const ENTRY_IS_SMART = 'isSmart';
+    
+    /**
+     * Disjoint Smart graph flag
+     */
+    const ENTRY_IS_DISJOINT = 'isDisjoint';
+    
+    /**
+     * SmartGraph attribute name
+     */
+    const ENTRY_SMART_GRAPH_ATTRIBUTE = 'smartGraphAttribute';
+    
+    /**
+     * SmartGraph satellites entry
+     */
+    const ENTRY_SATELLITES = 'satellites';
+    
+    /**
+     * Entry for number of shards (cluster-only)
+     */
+    const ENTRY_NUMBER_OF_SHARDS = 'numberOfShards';
+    
+    /**
+     * Entry for replication factor (cluster-only)
+     */
+    const ENTRY_REPLICATION_FACTOR = 'replicationFactor';
+    
 
     /**
      * The list of edge definitions defining the graph.
@@ -62,7 +93,48 @@ class Graph extends Document
      * @var array list of orphan collections.
      */
     protected $_orphanCollections = [];
+    
+    /**
+      * The list of satellite collections (SmartGraph only)
+     *
+     * @var array list of satellite collections.
+     */
+    protected $_satellites = [];
 
+    /**
+     * SmartGraph flag
+     *
+     * @var bool whether or not the graph is a SmartGraph
+     */
+    protected $_isSmart = false;
+    
+    /**
+     * Disjoint SmartGraph flag
+     *
+     * @var bool whether or not the graph is a disjoint SmartGraph
+     */
+    protected $_isDisjoint = false;
+
+    /**
+     * SmartGraph attribute name
+     *
+     * @var string smart graph attribute name
+     */
+    protected $_smartGraphAttribute = null;
+    
+    /**
+     * Cluster-graph number of shards
+     *
+     * @var mixed number of shards (either null or a number)
+     */
+    protected $_numberOfShards = 1;
+    
+    /**
+     * Cluster-graph replication factor
+     *
+     * @var mixed replication factor (either null, a number or "satellite")
+     */
+    protected $_replicationFactor = null;
 
     /**
      * Constructs an empty graph
@@ -76,14 +148,14 @@ class Graph extends Document
      */
     public function __construct($name = null, array $options = [])
     {
-
         // prevent backwards compatibility break where the first parameter is the $options array
         if (!is_array($name) && $name !== null) {
             $this->set('_key', $name);
         }
 
-        // pass the $options to the parent constructor to do the actual work
-        parent::__construct($options);
+        foreach ($options as $key => $value) {
+            $this->set($key, $value);
+        }
     }
 
 
@@ -139,7 +211,156 @@ class Graph extends Document
     {
         return $this->_orphanCollections;
     }
+    
+    
+    /**
+     * Adds a satellite collection to the graph.
+     *
+     * @param string $name - name of satellite collection
+     *
+     * @return Graph
+     */
+    public function addSatellite($name)
+    {
+        $this->_satellites[] = $name;
+        return $this;
+    }
 
+    /**
+     * Get the satellite collections of the graph.
+     *
+     * @return string[]
+     */
+    public function getSatellites()
+    {
+      return $this->_satellites;
+    }
+    
+    /**
+     * Set the smart graph attribute
+     *
+     * @param string $name - smart graph attribute name
+     *
+     * @return Graph
+     * @since 3.9
+     */
+    public function setSmartGraphAttribute($name)
+    {
+        $this->set(self::ENTRY_IS_SMART_GRAPH_ATTRIBUTE, $name);
+        return $this;
+    }
+
+    /**
+     * Get the smart graph attribute
+     *
+     * @return string
+     * @since 3.9
+     */
+    public function getSmartGraphAttribute()
+    {
+        return $this->_smartGraphAttribute;
+    }
+    
+    /**
+     * Set the smartness of the graph.
+     *
+     * @param bool $value - smartness value
+     *
+     * @return Graph
+     * @since 3.9
+     */
+    public function setIsSmart($value)
+    {
+        $this->set(self::ENTRY_IS_SMART, $value);
+        return $this;
+    }
+
+    /**
+     * Get the smartness of the graph.
+     *
+     * @return bool
+     * @since 3.9
+     */
+    public function isSmart()
+    {
+        return $this->_isSmart;
+    }
+    
+    /**
+     * Set the disjointness of the graph.
+     *
+     * @param bool $value - disjointness value
+     *
+     * @return Graph
+     * @since 3.9
+     */
+    public function setIsDisjoint($value)
+    {
+        $this->set(self::ENTRY_IS_DISJOINT, $value);
+        return $this;
+    }
+
+    /**
+     * Get the disjointness of the graph.
+     *
+     * @return bool
+     * @since 3.9
+     */
+    public function isDisjoint()
+    {
+        return $this->_isDisjoint;
+    }
+    
+    /**
+     * Set the number of shards
+     *
+     * @param int $shards - number of shards
+     *
+     * @return Graph
+     * @since 3.9
+     */
+    public function setNumberOfShards($shards)
+    {
+        $this->set(self::ENTRY_NUMBER_OF_SHARDS, $shards);
+        return $this;
+    }
+
+    /**
+     * Get the number of shards
+     *
+     * @return mixed
+     * @since 3.9
+     */
+    public function getNumberOfShards()
+    {
+        return $this->_numberOfShards;
+    }
+    
+    
+    /**
+     * Set the replication factor
+     *
+     * @param mixed $replicationFactor - replication factor (either a number or "satellite")
+     *
+     * @return Graph
+     * @since 3.9
+     */
+    public function setReplicationFactor($value)
+    {
+        $this->set(self::ENTRY_REPLICATION_FACTOR, $value);
+        return $this;
+    }
+
+    /**
+     * Get the replication factor
+     *
+     * @return mixed
+     * @since 3.9
+     */
+    public function getReplicationFactor()
+    {
+        return $this->_replicationFactor;
+    }
 
     /**
      * Set a graph attribute
@@ -184,6 +405,26 @@ class Graph extends Document
             foreach ($value as $o) {
                 $this->addOrphanCollection($o);
             }
+        } else if ($key === self::ENTRY_SATELLITES) {
+            foreach ($value as $o) {
+                $this->addSatellite($o);
+            }
+        } else if ($key === self::ENTRY_NUMBER_OF_SHARDS) {
+            $this->_numberOfShards = (int) $value;
+        } else if ($key === self::ENTRY_REPLICATION_FACTOR) {
+            $this->_replicationFactor = $value;
+        } else if ($key === self::ENTRY_IS_SMART) {
+          if (!$value && ($this instanceof SmartGraph)) {
+                throw new ClientException('Cannot unset isSmart attribute of a SmartGraph');
+            }
+            $this->_isSmart = $value;
+        } else if ($key === self::ENTRY_IS_DISJOINT) {
+            if (!($this instanceof SmartGraph)) {
+                throw new ClientException('Cannot set isDisjoint attribute on non-SmartGraph');
+            }
+            $this->_isDisjoint = $value;
+        } else if ($key === self::ENTRY_SMART_GRAPH_ATTRIBUTE) {
+            $this->_smartGraphAttribute = $value;
         } else {
             parent::set($key, $value);
         }
