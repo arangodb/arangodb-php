@@ -202,6 +202,11 @@ abstract class Urls
      * URL for admin log entries
      */
     const URL_ADMIN_LOG_ENTRIES = '/_admin/log/entries';
+    
+    /**
+     * URL for admin log levels
+     */
+    const URL_ADMIN_LOG_LEVEL = '/_admin/log/level';
 
     /**
      * base URL part for admin routing reload (deprecated)

@@ -130,6 +130,46 @@ class AdminHandler extends Handler
     
     
     /**
+     * Get the server's current log levels
+     *
+     * This will throw if the log levels cannot be retrieved
+     *
+     * @throws Exception
+     *
+     * @return array - an array holding the various log levels
+     * @since 3.9
+     */
+    public function getServerLogLevels()
+    {
+        $url      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_LOG_LEVEL, []);
+        $response = $this->getConnection()->get($url);
+
+        return $response->getJson();
+    }
+    
+    
+    /**
+     * Set the server's current log levels
+     *
+     * This will throw if the log levels cannot be adjusted
+     *
+     * @throws Exception
+     *
+     * @param array $levels - an array of topic => level settings
+     *
+     * @return array - an array holding the various log levels
+     * @since 3.9
+     */
+    public function setServerLogLevels(array $levels)
+    {
+        $url      = UrlHelper::appendParamsUrl(Urls::URL_ADMIN_LOG_LEVEL, []);
+        $response = $this->getConnection()->put($url, $this->json_encode_wrapper($levels));
+
+        return $response->getJson();
+    }
+    
+    
+    /**
      * Get the server log entries
      *
      * This will throw if the log cannot be retrieved
