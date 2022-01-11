@@ -85,6 +85,63 @@ class AnalyzerTest extends
         }
         static::assertEquals(400, $exception->getCode());
     }
+    
+    
+    /**
+     * Test creation of segmentation analyzer
+     */
+    public function testCreateSegmentationAnalyzer()
+    {
+        $analyzer = new Analyzer('Analyzer1' . '_' . static::$testsTimestamp, 'segmentation', [ "break" => "alpha" ]);
+        $result = $this->analyzerHandler->create($analyzer);
+        static::assertEquals('Analyzer1' . '_' . static::$testsTimestamp, $result['name']);
+        static::assertEquals('segmentation', $result['type']);
+        static::assertEquals('alpha', $result['properties']['break']);
+        static::assertEquals([], $analyzer->getFeatures());
+    }
+    
+    
+    /**
+     * Test creation of collation analyzer
+     */
+    public function testCreateCollationAnalyzer()
+    {
+        $analyzer = new Analyzer('Analyzer1' . '_' . static::$testsTimestamp, 'collation', [ "locale" => "en.utf-8" ]);
+        $result = $this->analyzerHandler->create($analyzer);
+        static::assertEquals('Analyzer1' . '_' . static::$testsTimestamp, $result['name']);
+        static::assertEquals('collation', $result['type']);
+        static::assertEquals('en.utf-8', $result['properties']['locale']);
+        static::assertEquals([], $analyzer->getFeatures());
+    }
+    
+    
+    /**
+     * Test creation of geopoint analyzer
+     */
+    public function testCreateGeoPointAnalyzer()
+    {
+        $options = [ ]; //"maxCells" => 20, "minLevel" => 4, "maxLevel" => 40 ];
+        $analyzer = new Analyzer('Analyzer1' . '_' . static::$testsTimestamp, 'geopoint', [ "latitude" => ["lat"], "longitude" => ["lng"] ]);
+        $result = $this->analyzerHandler->create($analyzer);
+        static::assertEquals('Analyzer1' . '_' . static::$testsTimestamp, $result['name']);
+        static::assertEquals('geopoint', $result['type']);
+        static::assertEquals(['lat'], $result['properties']['latitude']);
+        static::assertEquals(['lng'], $result['properties']['longitude']);
+        static::assertEquals([], $analyzer->getFeatures());
+    }
+    
+    /**
+     * Test creation of geojson analyzer
+     */
+    public function testCreateGeoJsonAnalyzer()
+    {
+        $analyzer = new Analyzer('Analyzer1' . '_' . static::$testsTimestamp, 'geojson', [ "type" => "point" ]);
+        $result = $this->analyzerHandler->create($analyzer);
+        static::assertEquals('Analyzer1' . '_' . static::$testsTimestamp, $result['name']);
+        static::assertEquals('geojson', $result['type']);
+        static::assertEquals('point', $result['properties']['type']);
+        static::assertEquals([], $analyzer->getFeatures());
+    }
 
     /**
      * Test creation of stopwords analyzer
