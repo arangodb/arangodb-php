@@ -75,7 +75,7 @@ class AqlUserFunction
 
 
     /**
-     * Initialise the AqlUserFunction object
+     * Initialize the AqlUserFunction object
      *
      * The $attributesArray array can be used to specify the name and code for the user function in form of an array.
      *

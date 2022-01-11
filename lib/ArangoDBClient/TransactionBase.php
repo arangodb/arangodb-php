@@ -63,7 +63,7 @@ class TransactionBase
     const ENTRY_EXCLUSIVE = 'exclusive';
 
     /**
-     * Initialise the transaction object
+     * Initialize the transaction object
      *
      * @param Connection $connection       - the connection to be used
      *
