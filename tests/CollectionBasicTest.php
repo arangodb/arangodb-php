@@ -1055,6 +1055,69 @@ class CollectionBasicTest extends
         static::assertEquals('fulltextfield', $indexInfo['fields'][0], "The indexed field is not 'fulltextfield'");
         static::assertEquals(5, $indexInfo[CollectionHandler::OPTION_MIN_LENGTH], 'minLength was not set to 5!');
     }
+    
+    
+    /**
+     * Create a zkd index and verify it by getting information about the index from the server
+     */
+    public function testCreateZkdIndex()
+    {
+        $result = $this->collectionHandler->createZkdIndex(
+            'ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp,
+            ['zkdfield1', 'zkdfield2'],
+            true
+        );
+
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp);
+
+        $indicesByIdentifiers = $indices['identifiers'];
+
+        static::assertArrayHasKey($result['id'], $indicesByIdentifiers);
+
+        $indexInfo = $indicesByIdentifiers[$result['id']];
+
+        static::assertEquals(
+            CollectionHandler::OPTION_ZKD_INDEX,
+            $indexInfo[CollectionHandler::OPTION_TYPE]
+        );
+        static::assertCount(2, $indexInfo['fields']);
+        static::assertEquals('zkdfield1', $indexInfo['fields'][0]);
+        static::assertEquals('zkdfield2', $indexInfo['fields'][1]);
+        static::assertTrue($indexInfo[CollectionHandler::OPTION_UNIQUE]);
+        static::assertFalse($indexInfo[CollectionHandler::OPTION_SPARSE]);
+    }
+    
+    /**
+     * Create a zkd index and verify it by getting information about the index from the server
+     */
+    public function testCreateZkdIndexGeneric()
+    {
+        $result = $this->collectionHandler->createIndex(
+            'ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp, [
+                'type' => 'zkd',
+                'fields' => ['zkdfield1', 'zkdfield2'],
+                'fieldValueTypes' => 'double',
+            ]
+        );
+
+        $indices = $this->collectionHandler->getIndexes('ArangoDB_PHP_TestSuite_IndexTestCollection' . '_' . static::$testsTimestamp);
+
+        $indicesByIdentifiers = $indices['identifiers'];
+
+        static::assertArrayHasKey($result['id'], $indicesByIdentifiers);
+
+        $indexInfo = $indicesByIdentifiers[$result['id']];
+
+        static::assertEquals(
+            CollectionHandler::OPTION_ZKD_INDEX,
+            $indexInfo[CollectionHandler::OPTION_TYPE]
+        );
+        static::assertCount(2, $indexInfo['fields']);
+        static::assertEquals('zkdfield1', $indexInfo['fields'][0]);
+        static::assertEquals('zkdfield2', $indexInfo['fields'][1]);
+        static::assertFalse($indexInfo[CollectionHandler::OPTION_UNIQUE]);
+        static::assertFalse($indexInfo[CollectionHandler::OPTION_SPARSE]);
+    }
 
 
     /**
