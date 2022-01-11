@@ -40,8 +40,248 @@ class GraphBasicTest extends
         $this->connection        = getConnection();
         $this->collectionHandler = new CollectionHandler($this->connection);
     }
+    
+    
+    public function testInstantiateSmartGraphWithoutSmartGraphAttribute()
+    {
+        try {
+            new SmartGraph('Graph1' . '_' . static::$testsTimestamp);
+            static::assertTrue(false, "should not get here");
+        } catch (\Exception $e) {
+            static::assertInstanceOf(ClientException::class, $e);
+        } 
+    }
+    
+    
+    public function testInstantiateRegularSmartGraphWithSmartGraphAttribute()
+    {
+        $graph = new SmartGraph('Graph1' . '_' . static::$testsTimestamp, [ "smartGraphAttribute" => "testi" ]);
+        static::assertEquals("testi", $graph->getSmartGraphAttribute());
+        static::assertTrue($graph->isSmart());
+        static::assertFalse($graph->isDisjoint());
+    }
+    
+    
+    public function testUnsetSmartnessOfSmartGraph()
+    {
+        $graph = new SmartGraph('Graph1' . '_' . static::$testsTimestamp, [ "smartGraphAttribute" => "testi" ]);
+        try {
+            $graph->setIsSmart(false);
+            static::assertTrue(false, "should not get here");
+        } catch (\Exception $e) {
+            static::assertInstanceOf(ClientException::class, $e);
+        } 
+    }
+    
+    
+    public function testInstantiateDisjointSmartGraph()
+    {
+        $graph = new SmartGraph('Graph1' . '_' . static::$testsTimestamp, [ "smartGraphAttribute" => "testi", "isDisjoint" => true ]);
+        static::assertEquals("testi", $graph->getSmartGraphAttribute());
+        static::assertTrue($graph->isSmart());
+        static::assertTrue($graph->isDisjoint());
+    }
+    
+    
+    public function testCreateAndDeleteSmartRegularGraph()
+    {
+        if (!isCluster($this->connection)) {
+            // don't execute this test in a non-cluster
+            $this->markTestSkipped("test is only meaningful in cluster");
+            return;
+        }
+        
+        if (!isEnterprise($this->connection)) {
+            // don't execute this test in community version
+            $this->markTestSkipped("test is only meaningful in enterprise version");
+            return;
+        }
+        
+        $param1      = [];
+        $param1[]    = 'lba' . '_' . static::$testsTimestamp;
+        $param1[]    = 'blub' . '_' . static::$testsTimestamp;
+        $param2      = [];
+        $param2[]    = 'bla' . '_' . static::$testsTimestamp;
+        $param2[]    = 'blob' . '_' . static::$testsTimestamp;
+        $ed1         = EdgeDefinition::createDirectedRelation('directed' . '_' . static::$testsTimestamp, $param1, $param2);
+        $ed2         = EdgeDefinition::createUndirectedRelation('undirected' . '_' . static::$testsTimestamp, 'singleV' . '_' . static::$testsTimestamp);
+        $this->graph = new SmartGraph('Graph1' . '_' . static::$testsTimestamp, [ "smartGraphAttribute" => "testi" ]);
+        $this->graph->addEdgeDefinition($ed1);
+        $this->graph->addEdgeDefinition($ed2);
+        static::assertEquals("testi", $this->graph->getSmartGraphAttribute());
+        static::assertTrue($this->graph->isSmart());
+        static::assertFalse($this->graph->isDisjoint());
+        $this->graphHandler = new GraphHandler($this->connection);
+        $result             = $this->graphHandler->createGraph($this->graph);
+        static::assertEquals('Graph1' . '_' . static::$testsTimestamp, $result['_key'], 'Did not return Graph1!');
+        $properties = $this->graphHandler->properties('Graph1' . '_' . static::$testsTimestamp);
+        static::assertEquals('Graph1' . '_' . static::$testsTimestamp, $properties['_key'], 'Did not return Graph1!');
+        static::assertTrue($properties['isSmart']);
+        static::assertFalse($properties['isDisjoint']);
+        static::assertEquals('testi', $properties['smartGraphAttribute']);
+    }
+    
+    
+    public function testCreateAndDeleteDisjointSmartGraph()
+    {
+        if (!isCluster($this->connection)) {
+            // don't execute this test in a non-cluster
+            $this->markTestSkipped("test is only meaningful in cluster");
+            return;
+        }
+        
+        if (!isEnterprise($this->connection)) {
+            // don't execute this test in community version
+            $this->markTestSkipped("test is only meaningful in enterprise version");
+            return;
+        }
+        
+        $param1      = [];
+        $param1[]    = 'lba' . '_' . static::$testsTimestamp;
+        $param1[]    = 'blub' . '_' . static::$testsTimestamp;
+        $param2      = [];
+        $param2[]    = 'bla' . '_' . static::$testsTimestamp;
+        $param2[]    = 'blob' . '_' . static::$testsTimestamp;
+        $ed1         = EdgeDefinition::createDirectedRelation('directed' . '_' . static::$testsTimestamp, $param1, $param2);
+        $ed2         = EdgeDefinition::createUndirectedRelation('undirected' . '_' . static::$testsTimestamp, 'singleV' . '_' . static::$testsTimestamp);
+        $this->graph = new SmartGraph('Graph1' . '_' . static::$testsTimestamp, [ "smartGraphAttribute" => "testi", "isDisjoint" => true ]);
+        $this->graph->addEdgeDefinition($ed1);
+        $this->graph->addEdgeDefinition($ed2);
+        static::assertEquals("testi", $this->graph->getSmartGraphAttribute());
+        static::assertTrue($this->graph->isSmart());
+        static::assertTrue($this->graph->isDisjoint());
+        $this->graphHandler = new GraphHandler($this->connection);
+        $result             = $this->graphHandler->createGraph($this->graph);
+        static::assertEquals('Graph1' . '_' . static::$testsTimestamp, $result['_key'], 'Did not return Graph1!');
+        $properties = $this->graphHandler->properties('Graph1' . '_' . static::$testsTimestamp);
+        static::assertEquals('Graph1' . '_' . static::$testsTimestamp, $properties['_key'], 'Did not return Graph1!');
+        static::assertTrue($properties['isSmart']);
+        static::assertTrue($properties['isDisjoint']);
+        static::assertEquals('testi', $properties['smartGraphAttribute']);
+    }
 
 
+    public function testCreateAndDeleteHybridSmartGraph()
+    {
+        if (!isCluster($this->connection)) {
+            // don't execute this test in a non-cluster
+            $this->markTestSkipped("test is only meaningful in cluster");
+            return;
+        }
+        
+        if (!isEnterprise($this->connection)) {
+            // don't execute this test in community version
+            $this->markTestSkipped("test is only meaningful in enterprise version");
+            return;
+        }
+        
+        $param1      = [];
+        $param1[]    = 'lba' . '_' . static::$testsTimestamp;
+        $param1[]    = 'blub' . '_' . static::$testsTimestamp;
+        $param2      = [];
+        $param2[]    = 'bla' . '_' . static::$testsTimestamp;
+        $param2[]    = 'blob' . '_' . static::$testsTimestamp;
+        $ed1         = EdgeDefinition::createDirectedRelation('directed' . '_' . static::$testsTimestamp, $param1, $param2, ['directed_' . static::$testsTimestamp]);
+        $ed2         = EdgeDefinition::createUndirectedRelation('undirected' . '_' . static::$testsTimestamp, 'singleV' . '_' . static::$testsTimestamp);
+        $this->graph = new SmartGraph('Graph1' . '_' . static::$testsTimestamp, [ "smartGraphAttribute" => "testi" ]);
+        $this->graph->addEdgeDefinition($ed1);
+        $this->graph->addEdgeDefinition($ed2);
+
+        static::assertEquals("testi", $this->graph->getSmartGraphAttribute());
+        static::assertTrue($this->graph->isSmart());
+        static::assertFalse($this->graph->isDisjoint());
+        $this->graphHandler = new GraphHandler($this->connection);
+        $result             = $this->graphHandler->createGraph($this->graph);
+        static::assertEquals('Graph1' . '_' . static::$testsTimestamp, $result['_key'], 'Did not return Graph1!');
+        $properties = $this->graphHandler->properties('Graph1' . '_' . static::$testsTimestamp);
+        static::assertEquals('Graph1' . '_' . static::$testsTimestamp, $properties['_key'], 'Did not return Graph1!');
+        static::assertTrue($properties['isSmart']);
+        static::assertFalse($properties['isDisjoint']);
+        static::assertEquals('testi', $properties['smartGraphAttribute']);
+    }
+    
+    
+    public function testCreateAndDeleteSatelliteGraph()
+    {
+        if (!isCluster($this->connection)) {
+            // don't execute this test in a non-cluster
+            $this->markTestSkipped("test is only meaningful in cluster");
+            return;
+        }
+        
+        if (!isEnterprise($this->connection)) {
+            // don't execute this test in community version
+            $this->markTestSkipped("test is only meaningful in enterprise version");
+            return;
+        }
+        
+        $param1      = [];
+        $param1[]    = 'lba' . '_' . static::$testsTimestamp;
+        $param1[]    = 'blub' . '_' . static::$testsTimestamp;
+        $param2      = [];
+        $param2[]    = 'bla' . '_' . static::$testsTimestamp;
+        $param2[]    = 'blob' . '_' . static::$testsTimestamp;
+        $ed1         = EdgeDefinition::createDirectedRelation('directed' . '_' . static::$testsTimestamp, $param1, $param2);
+        $ed2         = EdgeDefinition::createUndirectedRelation('undirected' . '_' . static::$testsTimestamp, 'singleV' . '_' . static::$testsTimestamp);
+        $this->graph = new Graph('Graph1' . '_' . static::$testsTimestamp, [ "replicationFactor" => "satellite" ]);
+        $this->graph->addEdgeDefinition($ed1);
+        $this->graph->addEdgeDefinition($ed2);
+        static::assertFalse($this->graph->isSmart());
+        static::assertFalse($this->graph->isDisjoint());
+        static::assertEquals(1, $this->graph->getNumberOfShards());
+        static::assertEquals("satellite", $this->graph->getReplicationFactor());
+        $this->graphHandler = new GraphHandler($this->connection);
+        $result             = $this->graphHandler->createGraph($this->graph);
+        static::assertEquals('Graph1' . '_' . static::$testsTimestamp, $result['_key'], 'Did not return Graph1!');
+        $properties = $this->graphHandler->properties('Graph1' . '_' . static::$testsTimestamp);
+        static::assertEquals('Graph1' . '_' . static::$testsTimestamp, $properties['_key'], 'Did not return Graph1!');
+        static::assertFalse($properties['isSmart']);
+        static::assertTrue($properties['isSatellite']);
+        static::assertEquals("satellite", $properties['replicationFactor']);
+        static::assertEquals(1, $properties['numberOfShards']);
+    }
+    
+    
+    public function testCreateAndDeleteGraphWithClusterOptions()
+    {
+        if (!isCluster($this->connection)) {
+            // don't execute this test in a non-cluster
+            $this->markTestSkipped("test is only meaningful in cluster");
+            return;
+        }
+        
+        if (!isEnterprise($this->connection)) {
+            // don't execute this test in community version
+            $this->markTestSkipped("test is only meaningful in enterprise version");
+            return;
+        }
+        
+        $param1      = [];
+        $param1[]    = 'lba' . '_' . static::$testsTimestamp;
+        $param1[]    = 'blub' . '_' . static::$testsTimestamp;
+        $param2      = [];
+        $param2[]    = 'bla' . '_' . static::$testsTimestamp;
+        $param2[]    = 'blob' . '_' . static::$testsTimestamp;
+        $ed1         = EdgeDefinition::createDirectedRelation('directed' . '_' . static::$testsTimestamp, $param1, $param2);
+        $ed2         = EdgeDefinition::createUndirectedRelation('undirected' . '_' . static::$testsTimestamp, 'singleV' . '_' . static::$testsTimestamp);
+        $this->graph = new Graph('Graph1' . '_' . static::$testsTimestamp, [ "replicationFactor" => 2, "numberOfShards" => 4 ]);
+        $this->graph->addEdgeDefinition($ed1);
+        $this->graph->addEdgeDefinition($ed2);
+        static::assertFalse($this->graph->isSmart());
+        static::assertFalse($this->graph->isDisjoint());
+        static::assertEquals(2, $this->graph->getReplicationFactor());
+        static::assertEquals(4, $this->graph->getNumberOfShards());
+        $this->graphHandler = new GraphHandler($this->connection);
+        $result             = $this->graphHandler->createGraph($this->graph);
+        static::assertEquals('Graph1' . '_' . static::$testsTimestamp, $result['_key'], 'Did not return Graph1!');
+        $properties = $this->graphHandler->properties('Graph1' . '_' . static::$testsTimestamp);
+        static::assertEquals('Graph1' . '_' . static::$testsTimestamp, $properties['_key'], 'Did not return Graph1!');
+        static::assertFalse($properties['isSmart']);
+        static::assertEquals(2, $properties['replicationFactor']);
+        static::assertEquals(4, $properties['numberOfShards']);
+    }
+    
+    
     /**
      * Test creation of graph with definitions
      */

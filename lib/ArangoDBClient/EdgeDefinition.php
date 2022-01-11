@@ -44,6 +44,13 @@ class EdgeDefinition
      * @var array names of the end vertices collection
      */
     protected $_toCollections = [];
+    
+    /**
+     * An array containing satellite collections in Hybrid SmartGraphs
+     *
+     * @var array satellite collections
+     */
+    protected $_satellites = [];
 
     /**
      * Constructs an new edge definition
@@ -51,19 +58,18 @@ class EdgeDefinition
      * @param string       $relation        - name of the relation (the underlying edge collection).
      * @param array|string $fromCollections - a list of collections providing the edges start vertices or a string holding a single collection name.
      * @param array|string $toCollections   - a list of collections providing the edges end vertices or a string holding a single collection name.
+     * @param array|string $satellites      - a list of satellite collections (SmartGraph only).
      *
      * @since     2.2
      *
      */
-    public function __construct($relation = null, $fromCollections = [], $toCollections = [])
+    public function __construct($relation = null, $fromCollections = [], $toCollections = [], $satellites = [])
     {
         $this->_relation = $relation;
 
-        $fromCollections = (array) $fromCollections;
-        $toCollections   = (array) $toCollections;
-
-        $this->_fromCollections = $fromCollections;
-        $this->_toCollections   = $toCollections;
+        $this->_fromCollections = (array) $fromCollections;
+        $this->_toCollections   = (array) $toCollections;
+        $this->_satellites      = (array) $satellites;
     }
 
     /**
@@ -111,6 +117,17 @@ class EdgeDefinition
     {
         return $this->_fromCollections;
     }
+    
+    /**
+     * Get the 'satellites' collections of the graph.
+     *
+     * @return array
+     * @since     3.9
+     */
+    public function getSatellites()
+    {
+        return $this->_satellites;
+    }
 
     /**
      * Add a 'to' collections of the graph.
@@ -135,6 +152,18 @@ class EdgeDefinition
     {
         $this->_fromCollections[] = $fromCollection;
     }
+    
+    /**
+     * Add a 'satellite' collection of the graph.
+     *
+     * @param string $toCollection - the name of the added collection.
+     *
+     * @since 3.9
+     */
+    public function addSatelliteCollection($collection)
+    {
+        $this->_satellites[] = $collection;
+    }
 
     /**
      * Resets the 'to' collections of the graph.
@@ -155,6 +184,16 @@ class EdgeDefinition
     {
         return $this->_fromCollections = [];
     }
+    
+    /**
+     * Resets the 'satellites' collections of the graph.
+     *
+     * @since    3.9
+     */
+    public function clearSatellites()
+    {
+        return $this->_satellites = [];
+    }
 
     /**
      * Transforms an edge definition to an array.
@@ -168,6 +207,7 @@ class EdgeDefinition
         $transformedEd['collection'] = $this->getRelation();
         $transformedEd['from']       = $this->getFromCollections();
         $transformedEd['to']         = $this->getToCollections();
+        $transformedEd['satellites'] = $this->getSatellites();
 
         return $transformedEd;
     }
@@ -179,13 +219,14 @@ class EdgeDefinition
      *
      * @param string $relation          - name of the relation (the underlying edge collection).
      * @param array  $vertexCollections - a list of collections providing the edges start and end vertices.
+     * @param array  $satellites        - a list of satellite collections (for Hybrid SmartGraphs).
      *
      * @return EdgeDefinition
      * @since     2.2
      */
-    public static function createUndirectedRelation($relation, $vertexCollections)
+    public static function createUndirectedRelation($relation, $vertexCollections, array $satellites = [])
     {
-        return new EdgeDefinition($relation, $vertexCollections, $vertexCollections);
+        return new EdgeDefinition($relation, $vertexCollections, $vertexCollections, $satellites);
     }
 
 
@@ -196,13 +237,14 @@ class EdgeDefinition
      * @param string       $relation        - name of the relation (the underlying edge collection).
      * @param array|string $fromCollections - a list of collections providing the edges start vertices or a string holding a single collection name.
      * @param array|string $toCollections   - a list of collections providing the edges end vertices or a string holding a single collection name.
+     * @param array|string $satellites      - a list of satellite collections (for Hybrid SmartGraphs).
      *
      * @return EdgeDefinition
      * @since     2.2
      */
-    public static function createDirectedRelation($relation, $fromCollections, $toCollections)
+    public static function createDirectedRelation($relation, $fromCollections, $toCollections, array $satellites = [])
     {
-        return new EdgeDefinition($relation, $fromCollections, $toCollections);
+        return new EdgeDefinition($relation, $fromCollections, $toCollections, $satellites);
     }
 
 }
