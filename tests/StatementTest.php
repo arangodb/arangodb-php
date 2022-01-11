@@ -178,6 +178,56 @@ class StatementTest extends
         static::assertEquals($extra['stats']['peakMemoryUsage'], $cursor->getPeakMemoryUsage());
     }
     
+    /**
+     * Test block cache settings
+     */
+    public function testStatementBlockCacheGetterSetter()
+    {
+        $connection = $this->connection;
+
+        $statement = new Statement($connection, ['query' => 'RETURN 1']);
+        static::assertNull($statement->getFillBlockCache());
+        $statement->setFillBlockCache();
+        static::assertTrue($statement->getFillBlockCache());
+        $statement->setFillBlockCache(false);
+        static::assertFalse($statement->getFillBlockCache());
+    }
+    
+    
+    /**
+     * Test block cache query
+     */
+    public function testStatementBlockCacheEnabled()
+    {
+        $connection = $this->connection;
+
+        $statement = new Statement($connection, ['query' => 'RETURN 1', 'fillBlockCache' => true]);
+        static::assertTrue($statement->getFillBlockCache());
+        
+        // cannot really test the population of the block cache from here, as the value is only
+        // exposed via a server-global API and may be influenced by any other ongoing operation.
+        $cursor = $statement->execute();
+        $extra = $cursor->getExtra();
+        static::assertEquals([], $extra['warnings']);
+    }
+    
+    
+    /**
+     * Test block cache query
+     */
+    public function testStatementBlockCacheDisabled()
+    {
+        $connection = $this->connection;
+
+        $statement = new Statement($connection, ['query' => 'RETURN 1', 'fillBlockCache' => false]);
+        static::assertFalse($statement->getFillBlockCache());
+
+        // cannot really test the population of the block cache from here, as the value is only
+        // exposed via a server-global API and may be influenced by any other ongoing operation.
+        $cursor = $statement->execute();
+        $extra = $cursor->getExtra();
+        static::assertEquals([], $extra['warnings']);
+    }
     
     /**
      * Test statistics returned by query
