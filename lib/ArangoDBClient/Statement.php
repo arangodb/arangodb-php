@@ -166,6 +166,13 @@ class Statement
     private $_memoryLimit = 0;
     
     /**
+      * Whether or not the query should populate the RocksDB block cache while reading data
+     *
+     * @var bool
+     */
+    private $_fillBlockCache = null;
+    
+    /**
      * transaction id (used internally)
      *
      * @var string
@@ -218,6 +225,11 @@ class Statement
      * Memory limit threshold for query
      */
     const ENTRY_MEMORY_LIMIT = 'memoryLimit';
+    
+    /**
+     * Whether or not the query should fill the block cache while reading
+     */
+    const ENTRY_FILL_BLOCK_CACHE = 'fillBlockCache';
 
     /**
      * Full count option index
@@ -327,6 +339,10 @@ class Statement
         
         if (isset($data[self::ENTRY_MEMORY_LIMIT])) {
             $this->_memoryLimit = (int) $data[self::ENTRY_MEMORY_LIMIT];
+        }
+        
+        if (isset($data[self::ENTRY_FILL_BLOCK_CACHE])) {
+            $this->_fillBlockCache = (bool) $data[self::ENTRY_FILL_BLOCK_CACHE];
         }
 
         if (isset($data[self::ENTRY_TRANSACTION]) && $data[self::ENTRY_TRANSACTION] instanceof StreamingTransaction) {
@@ -718,6 +734,29 @@ class Statement
     {
         return $this->_memoryLimit;
     }
+    
+    
+    /**
+     * Set whether or not the query should populate the block cache while reading data
+     *
+     * @param bool $value - value for block cache filling option
+     *
+     * @return void
+     */
+    public function setFillBlockCache($value = true)
+    {
+        $this->_fillBlockCache = (bool) $value;
+    }
+    
+    /**
+     * Get the configured value for block cache filling
+     *
+     * @return bool - current value of block cache filling option
+     */
+    public function getFillBlockCache()
+    {
+        return $this->_fillBlockCache;
+    }
 
     /**
      * Set the batch size for the statement
@@ -778,6 +817,10 @@ class Statement
         
         if ($this->_maxRuntime !== null) {
             $data['options'][self::ENTRY_MAX_RUNTIME] = $this->_maxRuntime;
+        }
+        
+        if ($this->_fillBlockCache !== null) {
+            $data['options'][self::ENTRY_FILL_BLOCK_CACHE] = $this->_fillBlockCache;
         }
         
         if ($this->_ttl !== null) {
