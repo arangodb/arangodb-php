@@ -301,6 +301,7 @@ class ConnectionOptions implements \ArrayAccess
      *
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         $this->_values[$offset] = $value;
@@ -319,6 +320,7 @@ class ConnectionOptions implements \ArrayAccess
      *
      * @return bool - true if option exists, false otherwise
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return isset($this->_values[$offset]);
@@ -333,6 +335,7 @@ class ConnectionOptions implements \ArrayAccess
      *
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         unset($this->_values[$offset]);
@@ -348,6 +351,7 @@ class ConnectionOptions implements \ArrayAccess
      *
      * @return mixed - value of option, will throw if option is not set
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         if (!array_key_exists($offset, $this->_values)) {
