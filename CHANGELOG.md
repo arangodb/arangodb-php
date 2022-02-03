@@ -21,6 +21,13 @@ server side, the following driver methods have been deprecated as well:
 - CollectionHandler::load()
 - CollectionHandler::unload()
 
+It is also deprecated to create indexes of type `hash` or `skiplist` using the
+`CollectionHandler::createIndex()` method. Instead, the generic index type `persistent` 
+should be used when calling this method. 
+Please also note that the dedicated methods `CollectionHandler::createHashIndex()` and
+`CollectionHandler::createSkipListIndex()` for creating hash or skiplist indexes are
+deprecated since 3.5 already.
+
 ## Release notes for the ArangoDB-PHP driver 3.8.x
 
 OPTION_TIMEOUT of the Connection class is now superseded by the more specialized options
