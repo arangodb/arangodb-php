@@ -292,6 +292,7 @@ class AdminHandler extends Handler
             if (trim($line) == "") {
                 continue;
             }
+
             if ($line[0] == "#") {
                 // type or help
                 if (!preg_match("/^#\s*([^\s]+)\s+([^\s]+)\s+(.*)$/", $line, $matches)) {
@@ -306,10 +307,10 @@ class AdminHandler extends Handler
                 $metrics[$metric][strtolower($matches[1])] = $matches[3];
             } else {
                 // metric value
-                if (!preg_match("/^([^\s]+?)(\{.*?\})?\s+(.+)$\s*$/", $line, $matches)) {
+                if (!preg_match("/^([^\s\{]+)(\{.*?\})?\s*(.+)$\s*$/", $line, $matches)) {
                   throw new ClientException('Invalid metrics API output line: "' . $line. '"');
                 }
-                
+
                 $metric = $matches[1];
                 $sub = null;
                 if (preg_match("/_(sum|count|bucket)$/", $metric, $sub)) {
@@ -325,23 +326,25 @@ class AdminHandler extends Handler
                 // labels
                 if ($matches[2] != "") {
                     $labels = substr($matches[2], 1, strlen($matches[2]) - 2);
-                    foreach (explode(",", $labels) as $label) {
-                        $parts = explode("=", $label);
-                        $key = trim($parts[0]);
-                        $value = trim($parts[1], " \"");
-                        if (!isset($metrics[$metric]["labels"])) {
-                            $metrics[$metric]["labels"] = []; 
-                        }
-                        if ($key != "le") {
-                            $metrics[$metric]["labels"][$key] = $value;
-                        } else {
-                            $le = $value;
+                    if ($labels != "") {
+                        foreach (explode(",", $labels) as $label) {
+                            $parts = explode("=", $label);
+                            $key = trim($parts[0]);
+                            $value = trim($parts[1], " \"");
+                            if (!isset($metrics[$metric]["labels"])) {
+                                $metrics[$metric]["labels"] = []; 
+                            }
+                            if ($key != "le") {
+                                $metrics[$metric]["labels"][$key] = $value;
+                            } else {
+                                $le = $value;
+                            }
                         }
                     }
                 }
                 
                 // cast to number
-                $value = $matches[3] + 0;
+                $value = $matches[3];
                 
                 if ($sub == null) {
                     // counter

@@ -216,7 +216,7 @@ abstract class Urls
     /**
      * base URL part for admin statistics
      */
-    const URL_ADMIN_METRICS = '/_admin/metrics/v2';
+    const URL_ADMIN_METRICS = '/_admin/metrics';
 
     /**
      * base URL part for admin statistics (deprecated)
