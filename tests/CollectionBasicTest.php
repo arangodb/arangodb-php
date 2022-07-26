@@ -265,12 +265,13 @@ class CollectionBasicTest extends
             ['type' => 'autoincrement', 'allowUserKeys' => false, 'increment' => 5, 'offset' => 10]
         );
 
-        try {
-            $collectionHandler->create($collection);
-        } catch (\Exception $e) {
-        }
+        $response = $collectionHandler->create($collection);
+        $resultingCollection = $collectionHandler->getProperties($response);
+        $properties          = $resultingCollection->getAll();
 
-        static::assertEquals(501, $e->getCode());
+        static::assertEquals("autoincrement", $properties["keyOptions"]["type"]);
+        static::assertEquals(10, $properties["keyOptions"]["offset"]);
+        static::assertEquals(5, $properties["keyOptions"]["increment"]);
     }
     
     
