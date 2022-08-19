@@ -1,5 +1,8 @@
 # Changelog
 
+## Release notes for the ArangoDB-PHP driver 3.10.x
+
+
 ## Release notes for the ArangoDB-PHP driver 3.9.x
 
 This version of the PHP driver is compatible with PHP versions 7.4 and 8.0.
