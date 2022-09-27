@@ -2,6 +2,9 @@
 
 ## Release notes for the ArangoDB-PHP driver 3.10.x
 
+This version of the PHP driver is compatible with PHP version 8.1.
+Older versions of PHP are not supported.
+
 
 ## Release notes for the ArangoDB-PHP driver 3.9.x
 

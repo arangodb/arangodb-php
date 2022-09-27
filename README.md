@@ -4,11 +4,6 @@
 
 The official ArangoDB PHP Driver.
 
-3.6: [![Build Status](https://api.travis-ci.com/arangodb/arangodb-php.svg?branch=3.6)](https://travis-ci.com/arangodb/arangodb-php)
-3.7: [![Build Status](https://api.travis-ci.com/arangodb/arangodb-php.svg?branch=3.7)](https://travis-ci.com/arangodb/arangodb-php)
-3.8: [![Build Status](https://api.travis-ci.com/arangodb/arangodb-php.svg?branch=3.8)](https://travis-ci.com/arangodb/arangodb-php)
-devel: [![Build Status](https://api.travis-ci.com/arangodb/arangodb-php.svg?branch=devel)](https://travis-ci.com/arangodb/arangodb-php)
-
 - [Getting Started](https://www.arangodb.com/docs/stable/drivers/php-getting-started.html)
 - [Tutorial](https://www.arangodb.com/docs/stable/drivers/php-tutorial.html)
 
