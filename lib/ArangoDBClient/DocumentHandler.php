@@ -950,12 +950,20 @@ class DocumentHandler extends Handler
             $params['waitForSync'] = $options['waitForSync'];
         }
 
+        // get current exception logging status, and then turn it off
+        // temporarily
+        $old = Exception::getLogging();
+        Exception::setLogging(false);
+
         try {
             // attempt to create the collection
             $collectionHandler->create($collection, $params);
         } catch (Exception $e) {
             // collection may have existed already
         }
+        
+        // restore previous Exception logging status
+        Exception::setLogging($old);
     }
 
 }
