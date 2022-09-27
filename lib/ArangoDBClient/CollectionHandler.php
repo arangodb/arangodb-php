@@ -379,12 +379,23 @@ class CollectionHandler extends Handler
     {
         $collection = $this->makeCollection($collection);
 
+        // get current exception logging status, and then turn it off
+        // temporarily
+        $old = Exception::getLogging();
+        Exception::setLogging(false);
+
         try {
             // will throw ServerException if entry could not be retrieved
             $this->get($collection);
+            
+            // restore previous Exception logging status
+            Exception::setLogging($old);
 
             return true;
         } catch (ServerException $e) {
+            // restore previous Exception logging status
+            Exception::setLogging($old);
+
             // we are expecting a 404 to return boolean false
             if ($e->getCode() === 404) {
                 return false;

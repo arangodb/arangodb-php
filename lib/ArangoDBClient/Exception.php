@@ -41,11 +41,31 @@ class Exception extends \Exception
     }
 
     /**
+     * Get the current exception logging status
+     *
+     * @return boolean - current exception logging status
+     */
+    public static function getLogging()
+    {
+        return self::$enableLogging;
+    }
+    
+    
+    /**
+     * Set the current exception logging status
+     * @param bool  $enable - whether or not to enable logging
+     */
+    public static function setLogging($enable)
+    {
+        self::$enableLogging = $enable;
+    }
+
+    /**
      * Turn on exception logging
      */
     public static function enableLogging()
     {
-        self::$enableLogging = true;
+        self::setLogging(true);
     }
 
     /**
@@ -53,7 +73,7 @@ class Exception extends \Exception
      */
     public static function disableLogging()
     {
-        self::$enableLogging = false;
+        self::setLogging(false);
     }
 
     private static $enableLogging = false;

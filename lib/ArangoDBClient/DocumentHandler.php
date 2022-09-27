@@ -107,12 +107,23 @@ class DocumentHandler extends Handler
      */
     public function has($collection, $documentId)
     {
+        // get current exception logging status, and then turn it off
+        // temporarily
+        $old = Exception::getLogging();
+        Exception::setLogging(false);
+
         try {
             // will throw ServerException if entry could not be retrieved
             $this->get($collection, $documentId);
 
+            // restore previous Exception logging status
+            Exception::setLogging($old);
+
             return true;
         } catch (ServerException $e) {
+            // restore previous Exception logging status
+            Exception::setLogging($old);
+
             // we are expecting a 404 to return boolean false
             if ($e->getCode() === 404) {
                 return false;
