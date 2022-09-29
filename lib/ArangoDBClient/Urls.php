@@ -266,12 +266,17 @@ abstract class Urls
     /**
      * URL for foxx-app installations
      */
-    const URL_FOXX_INSTALL = '/_admin/foxx/install';
+    const URL_FOXX_INSTALL = '/_api/foxx';
+
+    /**
+     * URL for foxx-app installations
+     */
+    const URL_FOXX_REPLACE = '/_api/foxx/service';
 
     /**
      * URL for foxx-app deinstallation
      */
-    const URL_FOXX_UNINSTALL = '/_admin/foxx/uninstall';
+    const URL_FOXX_UNINSTALL = '/_api/foxx/service';
 }
 
 class_alias(Urls::class, '\triagens\ArangoDb\Urls');
