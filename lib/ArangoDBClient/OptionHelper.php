@@ -35,7 +35,7 @@ abstract class OptionHelper implements \ArrayAccess
     protected function init(array $options) : void
     {
         foreach ($options as $name => $value) {
-            $this[$name] = $value;
+            $this->values[$name] = $value;
         }
     }
 
