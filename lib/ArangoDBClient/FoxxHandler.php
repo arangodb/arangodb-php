@@ -197,7 +197,7 @@ class FoxxHandler extends Handler
             if (isset($options[$param])) {
                 $params[$param] = $options[$param];
                 unset($options[$param]);
-            } elseif (array_key_exists(static::FOXX_APP_DEFAULT_PARAMS, $param)) {
+            } elseif (array_key_exists($param, static::FOXX_APP_DEFAULT_PARAMS)) {
                 $params[$param] = self::FOXX_APP_DEFAULT_PARAMS[$param];
             } else {
                 throw new ClientException("Unknown option '{$param}'.");
