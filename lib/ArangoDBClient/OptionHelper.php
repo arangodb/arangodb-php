@@ -1,8 +1,9 @@
 <?php
 /**
- * ArangoDB PHP client: Represent parts of a Multipart request
+ * ArangoDB PHP client: Options handling utility class
  *
  * @package   ArangoDBClient
+ * @author    Jan Steemann
  * @author    Tom Regner <tom.regner@fb-research.de>
  * @copyright Copyright 2022, ArangoDB GmbH, Cologne, Germany
  */
