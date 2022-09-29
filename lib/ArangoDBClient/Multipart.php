@@ -8,7 +8,8 @@ namespace ArangoDBClient;
  * @author    Tom Regner <tom.regner@fb-research.de>
  * @copyright Copyright 2022, ArangoDB GmbH, Cologne, Germany
  */
-class Multipart extends OptionHelper {
+class Multipart extends OptionHelper
+{
     /**
      * Multipart prefix
      */
