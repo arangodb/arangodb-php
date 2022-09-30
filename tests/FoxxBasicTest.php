@@ -43,7 +43,6 @@ class FoxxBasicTest extends
         $foxxHandler = $this->foxxHandler;
         $zip         = __DIR__ . '/files_for_tests/demo-hello-foxx-master.zip';
         $response    = $foxxHandler->installFoxxZip($zip, '/hello_world');
-        static::assertEquals(200, (int) $response['code'], 'Status not 200');
         static::assertEquals('/hello_world', $response['mount'], 'Wrong mountpoint');
     }
 
