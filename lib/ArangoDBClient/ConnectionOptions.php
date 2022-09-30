@@ -261,7 +261,7 @@ class ConnectionOptions extends OptionHelper
      *
      * @throws \ArangoDBClient\ClientException
      */
-    final protected function init(array $options) : void {
+    final protected function init(array $options) {
         $this->values = array_merge(self::getDefaults(), $options);
 
         if (isset($this->values[self::OPTION_ENDPOINT]) &&
@@ -292,7 +292,8 @@ class ConnectionOptions extends OptionHelper
      *
      * @return void
      */
-    public function offsetSet($offset, $value):void
+    #[\ReturnTypeWillChange]
+    public function offsetSet($offset, $value)
     {
         parent::offsetSet($offset, $value);
         if ($offset === self::OPTION_CONNECT_TIMEOUT || $offset === self::OPTION_REQUEST_TIMEOUT) {
@@ -461,7 +462,7 @@ class ConnectionOptions extends OptionHelper
      * @throws ClientException
      * @return void - will throw if an invalid option value is found
      */
-    final protected function validate() : void
+    final protected function validate()
     {
         if (isset($this->values[self::OPTION_HOST]) && !is_string($this->values[self::OPTION_HOST])) {
             throw new ClientException('host should be a string');

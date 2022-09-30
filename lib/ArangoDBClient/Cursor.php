@@ -323,6 +323,7 @@ class Cursor implements \Iterator
      *
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         $this->_position = 0;
@@ -334,6 +335,7 @@ class Cursor implements \Iterator
      *
      * @return array - the current result row as an assoc array
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->_result[$this->_position];
@@ -345,6 +347,7 @@ class Cursor implements \Iterator
      *
      * @return int - the current result row index
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->_position;
@@ -356,6 +359,7 @@ class Cursor implements \Iterator
      *
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function next()
     {
         ++$this->_position;
@@ -371,6 +375,7 @@ class Cursor implements \Iterator
      * @throws Exception
      * @return bool - true if the cursor can be advanced further, false if cursor is at end
      */
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         if ($this->_position <= $this->_length - 1) {

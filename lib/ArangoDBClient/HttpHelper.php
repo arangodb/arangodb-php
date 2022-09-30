@@ -363,7 +363,7 @@ class HttpHelper
     /**
      * Process an array of multipart descriptions into the complete request body
      *
-     * $parts must contain Multipart objects.
+     * $parts Multipart objects.
      *
      * @param string    $boundary
      * @param Multipart ...$parts

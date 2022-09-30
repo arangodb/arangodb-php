@@ -27,13 +27,13 @@ abstract class OptionHelper implements \ArrayAccess
      * Implement it not empty to ensure consistency if necessary, implement it
      * empty otherwise.
      */
-    abstract protected function validate() : void;
+    abstract protected function validate();
 
     /**
      * Set defaults, use options provided by client and validate them
      * @param array $options
      */
-    protected function init(array $options) : void
+    protected function init(array $options)
     {
         foreach ($options as $name => $value) {
             $this->values[$name] = $value;
@@ -61,7 +61,8 @@ abstract class OptionHelper implements \ArrayAccess
      *
      * @return void
      */
-    public function offsetSet($offset, $value) : void
+    #[\ReturnTypeWillChange]
+    public function offsetSet($offset, $value)
     {
         $this->values[$offset] = $value;
         $this->validate();
@@ -74,7 +75,8 @@ abstract class OptionHelper implements \ArrayAccess
      *
      * @return bool - true if option exists, false otherwise
      */
-    public function offsetExists($offset) : bool
+    #[\ReturnTypeWillChange]
+    public function offsetExists($offset)
     {
         return isset($this->values[$offset]);
     }
@@ -88,7 +90,8 @@ abstract class OptionHelper implements \ArrayAccess
      *
      * @return void
      */
-    public function offsetUnset($offset) : void
+    #[\ReturnTypeWillChange]
+    public function offsetUnset($offset)
     {
         unset($this->values[$offset]);
         $this->validate();
@@ -103,7 +106,8 @@ abstract class OptionHelper implements \ArrayAccess
      *
      * @return mixed - value of option, will throw if option is not set
      */
-    public function offsetGet($offset) : mixed
+    #[\ReturnTypeWillChange]
+    public function offsetGet($offset)
     {
         if (!array_key_exists($offset, $this->values)) {
             throw new ClientException('Invalid option ' . $offset);
