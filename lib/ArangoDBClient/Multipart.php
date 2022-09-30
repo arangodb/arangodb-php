@@ -72,10 +72,10 @@ class Multipart extends OptionHelper
      */
     final protected function validate()
     {
-        if ($this->values[self::MULTIPART_MIMETYPE] && empty($this->values[self::MULTIPART_FILENAME])) {
+        if (!empty($this->values[self::MULTIPART_MIMETYPE]) && empty($this->values[self::MULTIPART_FILENAME])) {
             throw new ClientException("Mimetype must only be set for file-type fields; '". self::MULTIPART_FILENAME . "' missing.");
         }
-        if ($this->values[self::MULTIPART_TRANSFER_ENCODING] && empty($this->values[self::MULTIPART_FILENAME])) {
+        if (!empty($this->values[self::MULTIPART_TRANSFER_ENCODING]) && empty($this->values[self::MULTIPART_FILENAME])) {
             throw new ClientException("Transfer encoding must only be set for file-type fields; '". self::MULTIPART_FILENAME . "' missing.");
         }
     }
