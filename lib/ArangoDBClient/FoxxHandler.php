@@ -56,6 +56,16 @@ class FoxxHandler extends Handler
      */
     const FOXX_APP_DEVELOPMENT = 'development';
 
+    /**
+     * Name of the force parameter
+     */
+    const FOXX_APP_FORCE = 'force';
+
+    /**
+     * Name of the exclude system parameter
+     */
+    const FOXX_APP_EXCLUDE_SYSTEM = 'excludeSystem';
+
     /* Default values and custom consts */
 
     /**
@@ -66,6 +76,8 @@ class FoxxHandler extends Handler
         self::FOXX_APP_LEGACY => false,
         self::FOXX_APP_SETUP => true,
         self::FOXX_APP_TEARDOWN => true,
+        self::FOXX_APP_FORCE => false,
+        self::FOXX_APP_EXCLUDE_SYSTEM => true,
     ];
 
     /**
@@ -90,8 +102,32 @@ class FoxxHandler extends Handler
      * @return array - the server response
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @deprecated Use installService()
      */
     public function installFoxxZip($localZip, $mountPoint, array $options = [])
+    {
+        $this->installService($localZip, $mountPoint, $options);
+    }
+
+    /**
+     * Upload and install a foxx app.
+     *
+     * @throws ClientException
+     *
+     * @param string $localZip   - the path to the local foxx-app zip-archive to upload/install
+     * @param string $mountPoint - the mount-point for the app, must begin with a '/'
+     * @param array  $options    - You can pass configuration (array), dependencies (array) and control options
+     *                             (bool) legacy, development, setup, teardown
+     *                             Defaults are
+     *                             - configuration empty
+     *                             - dependencies empty
+     *                             - control options: see FoxxHandler::FOXX_APP_DEFAULT_PARAMS
+     *
+     * @return array - the server response
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function installService($localZip, $mountPoint, array $options = [])
     {
         if (!file_exists($localZip)) {
             throw new ClientException("Foxx-Zip {$localZip} does not exist (or file is unreadable).");
@@ -147,6 +183,23 @@ class FoxxHandler extends Handler
         }
     }
 
+    /**
+     * Remove a foxx-app.
+     *
+     * @throws ClientException
+     *
+     * @param string $mountPoint - the mount-point for the app, must begin with a '/'
+     * @param array  $options    - you can pass the control option teardown (bool)
+     *
+     * @return array - the server response
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @deprecated use uninstallService()
+     */
+    public function removeFoxxApp($mountPoint, array $options = [])
+    {
+        return $this->uninstallService($mountPoint, $options);
+    }
 
     /**
      * Remove a foxx-app.
@@ -160,8 +213,9 @@ class FoxxHandler extends Handler
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function removeFoxxApp($mountPoint, array $options = [])
+    public function uninstallService($mountPoint, array $options = [])
     {
+
         try {
             $params = static::buildParameterArray([self::FOXX_APP_TEARDOWN], $mountPoint, $options);
             $url = UrlHelper::appendParamsUrl(Urls::URL_FOXX_UNINSTALL, $params);
@@ -171,6 +225,73 @@ class FoxxHandler extends Handler
             }
 
             throw new ClientException(sprintf('Foxx uninstall failed (Code: %d)', $response->getHttpCode()));
+        } catch (ServerException $e) {
+            if ($e->getMessage() === 'Service not found') {
+                throw new ClientException(sprintf('Mount point %s not present.', $mountPoint));
+            }
+            throw new ClientException($e->getMessage());
+        }
+    }
+
+    /**
+     * Retrieve a list of meta data for all installed services
+     *
+     * @throws ClientException
+     *
+     * @param array  $options    - you cann pass the option excludeSystem (bool)
+     *
+     * @return array - the server response
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function services(array $options = [])
+    {
+
+        try {
+            $params = static::buildParameterArray([self::FOXX_APP_EXCLUDE_SYSTEM], '', $options);
+            $url = UrlHelper::appendParamsUrl(Urls::URL_FOXX, $params);
+            $response = $this->getConnection()->get($url);
+            $code = $response->getHttpCode();
+            if (200 === $code) {
+                return $response->getJson();
+            }
+
+            throw new ClientException(sprintf('Error when fetching services meta data (Code: %d)', $response->getHttpCode()), $response->getJson());
+        } catch (ServerException $e) {
+            if ($e->getMessage() === 'Service not found') {
+                throw new ClientException(sprintf('Mount point %s not present.', $mountPoint));
+            }
+            throw new ClientException($e->getMessage());
+        }
+    }
+
+    /**
+     * Retrieve service meta data
+     *
+     * @throws ClientException
+     *
+     * @param string $mountPoint - the mount-point for the app, must begin with a '/'
+     * @param array  $options    - for future use
+     *
+     * @return array - the server response
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function serviceInfo($mountPoint, array $options = [])
+    {
+
+        try {
+            $params = static::buildParameterArray([], $mountPoint, $options);
+            $url = UrlHelper::appendParamsUrl(Urls::URL_FOXX_SERVICE, $params);
+            $response = $this->getConnection()->get($url);
+            $code = $response->getHttpCode();
+            if (200 === $code) {
+                return $response->getJson();
+            } elseif (400 === $code) {
+                throw new ClientException("Service unknown: {$mountPoint}");
+            }
+
+            throw new ClientException(sprintf('Error when fetching service meta data (Code: %d)', $response->getHttpCode()), $response->getJson());
         } catch (ServerException $e) {
             if ($e->getMessage() === 'Service not found') {
                 throw new ClientException(sprintf('Mount point %s not present.', $mountPoint));
@@ -192,7 +313,7 @@ class FoxxHandler extends Handler
      */
     protected static function buildParameterArray(array $names, string $mountPoint, array &$options)
     {
-        $params = ['mount' => $mountPoint];
+        $params = !empty($mountPoint) ? ['mount' => $mountPoint] : [];
         foreach ($names as $param) {
             if (isset($options[$param])) {
                 $params[$param] = $options[$param];
