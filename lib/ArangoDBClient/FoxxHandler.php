@@ -129,6 +129,68 @@ class FoxxHandler extends Handler
      */
     public function installService($localZip, $mountPoint, array $options = [])
     {
+        return $this->zipAction($localZip, $mountPoint, $options, false, false);
+    }
+
+    /**
+     * Upload a zip amd upgrade an existing service.
+     *
+     * @throws ClientException
+     *
+     * @param string $localZip   - the path to the local foxx-app zip-archive to upload/install
+     * @param string $mountPoint - the mount-point for the app, must begin with a '/'
+     * @param array  $options    - You can pass configuration (array), dependencies (array) and control options
+     *                             (bool) legacy, development, setup, teardown, force
+     *                             Defaults are
+     *                             - configuration empty
+     *                             - dependencies empty
+     *                             - control options: see FoxxHandler::FOXX_APP_DEFAULT_PARAMS
+     *
+     * @return array - the server response
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function upgradeService($localZip, $mountPoint, array $options = [])
+    {
+        return $this->zipAction($localZip, $mountPoint, $options, true, false);
+    }
+
+    /**
+     * Upload a zip amd replace an existing service.
+     *
+     * @throws ClientException
+     *
+     * @param string $localZip   - the path to the local foxx-app zip-archive to upload/install
+     * @param string $mountPoint - the mount-point for the app, must begin with a '/'
+     * @param array  $options    - You can pass configuration (array), dependencies (array) and control options
+     *                             (bool) legacy, development, setup, teardown, force
+     *                             Defaults are
+     *                             - configuration empty
+     *                             - dependencies empty
+     *                             - control options: see FoxxHandler::FOXX_APP_DEFAULT_PARAMS
+     *
+     * @return array - the server response
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function replaceService($localZip, $mountPoint, array $options = [])
+    {
+        return $this->zipAction($localZip, $mountPoint, $options, false, true);
+    }
+
+    /**
+     * Install/Upgrade/Replace a foxx service via zip-bundle
+     *
+     * @throws ClientException
+     *
+     * @param string $localZip   - the path to the local foxx-app zip-archive to upload/install
+     * @param string $mountPoint - the mount-point for the app, must begin with a '/'
+     * @param array  $options    - You can pass configuration (array), dependencies (array) and control options
+     * @param bool $upgrade      - If true, try to upgrade an existing service, if this is true, $replace will be ignored
+     * @param bool $replace      - if true replace an existing service; if $upgrade is true, this will be ignored
+     */
+    protected function zipAction($localZip, $mountPoint, array $options, bool $upgrade = false, bool $replace = false)
+    {
         if (!file_exists($localZip)) {
             throw new ClientException("Foxx-Zip {$localZip} does not exist (or file is unreadable).");
         }
@@ -164,17 +226,40 @@ class FoxxHandler extends Handler
                 ]),
             ];
             $bodyStr = HttpHelper::buildMultiPartFormDataBody(self::FOXX_APP_MIME_BOUNDARY, ...$bodyParts);
-            $params = static::buildParameterArray([self::FOXX_APP_LEGACY, self::FOXX_APP_DEVELOPMENT, self::FOXX_APP_SETUP], $mountPoint, $options);
-            $url = UrlHelper::appendParamsUrl(Urls::URL_FOXX_INSTALL, $params);
-            $response = $this->getConnection()->post(
-                $url,
-                $bodyStr,
-                ["Content-Type" => "multipart/form-data; boundary=" . self::FOXX_APP_MIME_BOUNDARY]
-            );
+            $optionNames = [self::FOXX_APP_LEGACY, self::FOXX_APP_DEVELOPMENT, self::FOXX_APP_SETUP];
+            if (true === $upgrade|| true === $replace) {
+                $optionNames[] = self::FOXX_APP_FORCE;
+            }
+            $params = static::buildParameterArray($optionNames, $mountPoint, $options);
+            if (true === $upgrade) {
+                $response = $this->getConnection()->patch(
+                   UrlHelper::appendParamsUrl(Urls::URL_FOXX_UPGRADE, $params),
+                    $bodyStr,
+                    ["Content-Type" => "multipart/form-data; boundary=" . self::FOXX_APP_MIME_BOUNDARY]
+                );
+            } elseif (true === $replace) {
+                $response = $this->getConnection()->put(
+                    UrlHelper::appendParamsUrl(Urls::URL_FOXX_REPLACE, $params),
+                    $bodyStr,
+                    ["Content-Type" => "multipart/form-data; boundary=" . self::FOXX_APP_MIME_BOUNDARY]
+                );
+            } else {
+                $response = $this->getConnection()->post(
+                    UrlHelper::appendParamsUrl(Urls::URL_FOXX_INSTALL, $params),
+                    $bodyStr,
+                    ["Content-Type" => "multipart/form-data; boundary=" . self::FOXX_APP_MIME_BOUNDARY]
+                );
+            }
             $code = $response->getHttpCode();
             $response = $response->getJson();
-            if (201 !== $code) {
-                throw new ClientException("Foxx-Zip install failed: {$response['errorMessage']} (errno {$response['errorNum']})");
+            if (true === $upgrade || true === $replace) {
+                if (200 !== $code) {
+                    throw new ClientException("Foxx-Zip replace/upgrade failed: {$response['errorMessage']} (errno {$response['errorNum']})");
+                }
+            } else {
+                if (201 !== $code) {
+                    throw new ClientException("Foxx-Zip install failed: {$response['errorMessage']} (errno {$response['errorNum']})");
+                }
             }
 
             return $response;

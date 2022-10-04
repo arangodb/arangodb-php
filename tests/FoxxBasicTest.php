@@ -46,6 +46,10 @@ class FoxxBasicTest extends
         $zip         = __DIR__ . '/files_for_tests/demo-hello-foxx-master.zip';
         $response    = $foxxHandler->installService($zip, '/hello_world');
         static::assertEquals('/hello_world', $response['mount'], 'Wrong mountpoint');
+        $response    = $foxxHandler->replaceService($zip, '/hello_world');
+        static::assertEquals('/hello_world', $response['mount'], 'Wrong mountpoint');
+        $response    = $foxxHandler->upgradeService($zip, '/hello_world');
+        static::assertEquals('/hello_world', $response['mount'], 'Wrong mountpoint');
     }
 
     /**
