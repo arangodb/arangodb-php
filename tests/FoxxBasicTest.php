@@ -44,12 +44,16 @@ class FoxxBasicTest extends
     {
         $foxxHandler = $this->foxxHandler;
         $zip         = __DIR__ . '/files_for_tests/demo-hello-foxx-master.zip';
+        $upgradeZip  = __DIR__ . '/files_for_tests/demo-hello-foxx-upgrade.zip';
         $response    = $foxxHandler->installService($zip, '/hello_world');
+        static::assertEquals('2.0.0', $response['version'], 'Wrong version');
         static::assertEquals('/hello_world', $response['mount'], 'Wrong mountpoint');
         $response    = $foxxHandler->replaceService($zip, '/hello_world');
+        static::assertEquals('2.0.0', $response['version'], 'Wrong version');
         static::assertEquals('/hello_world', $response['mount'], 'Wrong mountpoint');
-        $response    = $foxxHandler->upgradeService($zip, '/hello_world');
+        $response    = $foxxHandler->upgradeService($upgradeZip, '/hello_world');
         static::assertEquals('/hello_world', $response['mount'], 'Wrong mountpoint');
+        static::assertEquals('2.0.1', $response['version'], 'Wrong version');
     }
 
     /**
