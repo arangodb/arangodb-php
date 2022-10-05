@@ -12,6 +12,10 @@ wget --no-check-certificate "https://phar.phpunit.de/phpunit-9.5.phar"
 mv phpunit-9.5.phar ./phpunit
 fi
 
+if [[ "$TRAVIS_PHP_VERSION" == "8.1" ]] ; then
+wget --no-check-certificate "https://phar.phpunit.de/phpunit-9.5.phar"
+mv phpunit-9.5.phar ./phpunit
+fi
 chmod +x ./phpunit
 
 echo "./phpunit --version"
