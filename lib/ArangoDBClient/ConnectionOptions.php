@@ -283,28 +283,6 @@ class ConnectionOptions extends OptionHelper
     }
 
     /**
-     * Set and validate a specific option, necessary for ArrayAccess
-     *
-     * @throws Exception
-     *
-     * @param string $offset - name of option
-     * @param mixed  $value  - value for option
-     *
-     * @return void
-     */
-    #[\ReturnTypeWillChange]
-    public function offsetSet($offset, $value)
-    {
-        parent::offsetSet($offset, $value);
-        if ($offset === self::OPTION_CONNECT_TIMEOUT || $offset === self::OPTION_REQUEST_TIMEOUT) {
-            // special handling for OPTION_TIMEOUT: it will be removed once
-            // a more specialized option is used
-            $this->offsetUnset(self::OPTION_TIMEOUT);
-        }
-        $this->validate();
-    }
-
-    /**
      * Get the current endpoint to use
      *
      * @return string - Endpoint string to connect to
@@ -464,6 +442,11 @@ class ConnectionOptions extends OptionHelper
      */
     final protected function validate()
     {
+
+        if (isset($this->values[self::OPTION_REQUEST_TIMEOUT]) || isset($this->values[self::OPTION_CONNECT_TIMEOUT])) {
+            unset($this->values[self::OPTION_TIMEOUT]);
+        }
+
         if (isset($this->values[self::OPTION_HOST]) && !is_string($this->values[self::OPTION_HOST])) {
             throw new ClientException('host should be a string');
         }
