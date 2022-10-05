@@ -171,16 +171,16 @@ class HttpHelper
         $length = strlen($body);
 
         if ($options[ConnectionOptions::OPTION_BATCH] === true) {
-            $contentType = 'Content-Type: multipart/form-data; boundary=' . self::MIME_BOUNDARY . self::EOL;
+            $contentType = self::HEADER_CONTENT_TYPE . ': multipart/form-data; boundary=' . self::MIME_BOUNDARY . self::EOL;
         } else {
             $contentType = '';
 
-            if (!empty($customHeaders['Content-Type'])) {
-                $contentType = 'Content-Type: ' . $customHeaders['Content-Type'] . self::EOL;
-                unset($customHeaders['Content-Type']);
+            if (!empty($customHeaders[self::HEADER_CONTENT_TYPE])) {
+                $contentType = self::HEADER_CONTENT_TYPE . ': ' . $customHeaders[self::HEADER_CONTENT_TYPE] . self::EOL;
+                unset($customHeaders[self::HEADER_CONTENT_TYPE]);
             } elseif ($length > 0 && $options[ConnectionOptions::OPTION_BATCHPART] === false) {
                 // if body is set, we should set a content-type header
-                $contentType = 'Content-Type: application/json' . self::EOL;
+                $contentType = self::HEADER_CONTENT_TYPE . ': application/json' . self::EOL;
             }
         }
 
