@@ -10,6 +10,8 @@
 
 namespace ArangoDBClient;
 
+use ArangoDBClient\Multipart;
+
 /**
  * Helper methods for HTTP request/response handling
  *
@@ -18,6 +20,21 @@ namespace ArangoDBClient;
  */
 class HttpHelper
 {
+    /**
+     * Content-Disposition Handler
+     */
+    const HEADER_CONTENT_DISPOSITION = 'Content-Disposition';
+
+    /**
+     * Content-Type Handler
+     */
+    const HEADER_CONTENT_TYPE = 'Content-Type';
+
+    /**
+     * Content-Transfer-Encoding Handler
+     */
+    const HEADER_CONTENT_TRANSFER_ENCODING = 'Content-Transfer-Encoding';
+
     /**
      * HTTP POST string constant
      */
@@ -154,13 +171,16 @@ class HttpHelper
         $length = strlen($body);
 
         if ($options[ConnectionOptions::OPTION_BATCH] === true) {
-            $contentType = 'Content-Type: multipart/form-data; boundary=' . self::MIME_BOUNDARY . self::EOL;
+            $contentType = self::HEADER_CONTENT_TYPE . ': multipart/form-data; boundary=' . self::MIME_BOUNDARY . self::EOL;
         } else {
             $contentType = '';
 
-            if ($length > 0 && $options[ConnectionOptions::OPTION_BATCHPART] === false) {
+            if (!empty($customHeaders[self::HEADER_CONTENT_TYPE])) {
+                $contentType = self::HEADER_CONTENT_TYPE . ': ' . $customHeaders[self::HEADER_CONTENT_TYPE] . self::EOL;
+                unset($customHeaders[self::HEADER_CONTENT_TYPE]);
+            } elseif ($length > 0 && $options[ConnectionOptions::OPTION_BATCHPART] === false) {
                 // if body is set, we should set a content-type header
-                $contentType = 'Content-Type: application/json' . self::EOL;
+                $contentType = self::HEADER_CONTENT_TYPE . ': application/json' . self::EOL;
             }
         }
 
@@ -338,6 +358,31 @@ class HttpHelper
         }
 
         return [$httpCode, $result, $processed];
+    }
+
+    /**
+     * Process an array of multipart descriptions into the complete request body
+     *
+     * $parts Multipart objects.
+     *
+     * @param string    $boundary
+     * @param Multipart ...$parts
+     *
+     * @return string
+     */
+    public static function buildMultiPartFormDataBody(string $boundary = self::MIME_BOUNDARY, Multipart ...$parts)
+    {
+        $bodyStr = "";
+        foreach ($parts as $data) {
+            $name = $data[Multipart::MULTIPART_NAME];
+            $bodyStr .= Multipart::MULTIPART_PREFIX . "{$boundary}" . self::EOL . self::HEADER_CONTENT_DISPOSITION . ":" . Multipart::MULTIPART_FORMDATA . "; " . Multipart::MULTIPART_NAME . "=\"{$name}\"";
+            $bodyStr .= !empty($data[Multipart::MULTIPART_FILENAME]) ? "; ". Multipart::MULTIPART_FILENAME . "=\"{$data[Multipart::MULTIPART_FILENAME]}\"" : '';
+            $bodyStr .= !empty($data[Multipart::MULTIPART_MIMETYPE]) ? self::EOL . self::HEADER_CONTENT_TYPE . ": {$data[Multipart::MULTIPART_MIMETYPE]}" : '';
+            $bodyStr .= !empty($data[Multipart::MULTIPART_TRANSFER_ENCODING]) ? self::EOL . self::HEADER_CONTENT_TRANSFER_ENCODING . ": {$data[Multipart::MULTIPART_TRANSFER_ENCODING]}" : '';
+            $bodyStr .= self::EOL . self::EOL . $data[Multipart::MULTIPART_VALUE] . self::EOL;
+        }
+
+        return $bodyStr . Multipart::MULTIPART_PREFIX . $boundary . Multipart::MULTIPART_SUFFIX . self::EOL;
     }
 }
 

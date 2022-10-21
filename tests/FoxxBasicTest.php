@@ -21,6 +21,8 @@ namespace ArangoDBClient;
 class FoxxBasicTest extends
     \PHPUnit_Framework_TestCase
 {
+    private FoxxHandler $foxxHandler;
+
     public function setUp(): void
     {
         $this->connection  = getConnection();
@@ -28,7 +30,7 @@ class FoxxBasicTest extends
         
         try {
             // ignore errors
-            $this->foxxHandler->removeFoxxApp('/hello_world');
+            $this->foxxHandler->uninstallService('/hello_world');
         } catch (ClientException $e) {
             // ignore
         }
@@ -42,11 +44,38 @@ class FoxxBasicTest extends
     {
         $foxxHandler = $this->foxxHandler;
         $zip         = __DIR__ . '/files_for_tests/demo-hello-foxx-master.zip';
-        $response    = $foxxHandler->installFoxxZip($zip, '/hello_world');
-        static::assertEquals(200, (int) $response['code'], 'Status not 200');
+        $upgradeZip  = __DIR__ . '/files_for_tests/demo-hello-foxx-upgrade.zip';
+        $response    = $foxxHandler->installService($zip, '/hello_world');
+        static::assertEquals('2.0.0', $response['version'], 'Wrong version');
         static::assertEquals('/hello_world', $response['mount'], 'Wrong mountpoint');
+        $response    = $foxxHandler->replaceService($zip, '/hello_world');
+        static::assertEquals('2.0.0', $response['version'], 'Wrong version');
+        static::assertEquals('/hello_world', $response['mount'], 'Wrong mountpoint');
+        $response    = $foxxHandler->upgradeService($upgradeZip, '/hello_world');
+        static::assertEquals('/hello_world', $response['mount'], 'Wrong mountpoint');
+        static::assertEquals('2.0.1', $response['version'], 'Wrong version');
     }
 
+    /**
+     * Fetch service meta data two ways
+     */
+    public function testServiceInfo()
+    {
+        $foxxHandler = $this->foxxHandler;
+        $zip         = __DIR__ . '/files_for_tests/demo-hello-foxx-master.zip';
+        $expected = [
+            'mount' => '/hello_world',
+            'name'  => 'hello-foxx',
+            'version' => '2.0.0',
+            'development' => false,
+            'legacy' => false,
+        ];
+        $foxxHandler->installService($zip, '/hello_world');
+        $response = $foxxHandler->serviceInfo("/hello_world");
+        static::assertEquals(array_intersect_assoc($response, $expected), $expected);
+        $response = $foxxHandler->services();
+        static::assertEquals(array_intersect_assoc($response[0], $expected), $expected);
+    }
     /**
      * Try to upload and install a non-existing app
      */
@@ -55,16 +84,18 @@ class FoxxBasicTest extends
         $this->expectException(\ArangoDBClient\ClientException::class);
         $foxxHandler = $this->foxxHandler;
         $zip         = __DIR__ . '/files_for_tests/move_along.zip';
-        $foxxHandler->installFoxxZip($zip, '/move_along');
+        $foxxHandler->installService($zip, '/move_along');
     }
 
-
+    /**
+     * cleanup and remove the service
+     */
     public function tearDown(): void
     {
         $foxxHandler = $this->foxxHandler;
         try {
             // ignore errors
-            $foxxHandler->removeFoxxApp('/hello_world');
+            $foxxHandler->uninstallService('/hello_world');
         } catch (ClientException $e) {
             // ignore
         }

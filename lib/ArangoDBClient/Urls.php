@@ -264,14 +264,39 @@ abstract class Urls
     const URL_UPLOAD = '/_api/upload';
 
     /**
+     * foxx base URL
+     */
+    const URL_FOXX = '/_api/foxx';
+
+    /**
      * URL for foxx-app installations
      */
-    const URL_FOXX_INSTALL = '/_admin/foxx/install';
+    const URL_FOXX_INSTALL = self::URL_FOXX;
+
+    /**
+     * foxx service url
+     */
+    const URL_FOXX_SERVICE = '/_api/foxx/service';
+
+    /**
+     * URL for foxx-app installations
+     */
+    const URL_FOXX_UNINSTALL = self::URL_FOXX_SERVICE;
+
+    /**
+     * URL for foxx-app installations
+     */
+    const URL_FOXX_REPLACE = self::URL_FOXX_SERVICE;
 
     /**
      * URL for foxx-app deinstallation
      */
-    const URL_FOXX_UNINSTALL = '/_admin/foxx/uninstall';
+    const URL_FOXX_UPGRADE = self::URL_FOXX_SERVICE;
+
+    /**
+     * foxx service configuration URL
+     */
+    const URL_FOXX_CONFIGURATION = '/_api/foxx/configuration';
 }
 
 class_alias(Urls::class, '\triagens\ArangoDb\Urls');
