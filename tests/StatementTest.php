@@ -275,6 +275,11 @@ class StatementTest extends
                 'scannedFull'         => 0,
                 'scannedIndex'        => 0,
                 'filtered'            => 0,
+                'cursorsCreated'      => 0,
+                'cursorsRearmed'      => 0,
+                'cacheHits'           => 0,
+                'cacheMisses'         => 0,
+                'intermediateCommits' => 0,
             ], filtered($extra['stats'])
         );
 
@@ -313,6 +318,11 @@ class StatementTest extends
                 'scannedFull'         => 0,
                 'scannedIndex'        => 3,
                 'filtered'            => 0,
+                'cursorsCreated'      => 1,
+                'cursorsRearmed'      => 0,
+                'cacheHits'           => 0,
+                'cacheMisses'         => 0,
+                'intermediateCommits' => 0,
             ], filtered($extra['stats'])
         );
 
@@ -351,6 +361,11 @@ class StatementTest extends
                 'scannedFull'         => 1000,
                 'scannedIndex'        => 0,
                 'filtered'            => 500,
+                'cursorsCreated'      => 0,
+                'cursorsRearmed'      => 0,
+                'cacheHits'           => 0,
+                'cacheMisses'         => 0,
+                'intermediateCommits' => 0,
             ], filtered($extra['stats'])
         );
 
