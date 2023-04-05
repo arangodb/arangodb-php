@@ -1,3 +1,6 @@
+> **Warning**
+> This repository is no longer maintained. While it fundamentally seems to work with the current ArangoDB version (3.9.2), there's no guarantee or estimated timeline for any bugfixes or feature additions.
+
 # ArangoDB-PHP - A PHP client for ArangoDB
 
 This driver for ArangoDB, called the ArangoDB-PHP client,
